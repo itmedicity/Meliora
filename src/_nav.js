@@ -22,28 +22,13 @@ const _nav = [
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
     badge: {
       color: 'info',
-      text: 'NEW',
+      // text: 'NEW',
     },
   },
+  //Complaint Management System Menu Start from Here
   {
     component: CNavTitle,
-    name: 'Theme',
-  },
-  {
-    component: CNavItem,
-    name: 'Colors',
-    to: '/theme/colors',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Typography',
-    to: '/theme/typography',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavTitle,
-    name: 'Components',
+    name: 'Complaint Management',
   },
   {
     component: CNavGroup,
@@ -192,6 +177,10 @@ const _nav = [
         to: '/forms/validation',
       },
     ],
+  },
+  {
+    component: CNavTitle,
+    name: 'Central Request management',
   },
   {
     component: CNavItem,
