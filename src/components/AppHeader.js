@@ -29,16 +29,18 @@ import {
   iconSettings,
 } from 'src/color/Color'
 
+import { ActionTyps } from 'src/redux/constants/action.type'
+
 const AppHeader = () => {
   const dispatch = useDispatch()
-  const sidebarShow = useSelector((state) => state.sidebarShow)
+  const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
 
   return (
     <CHeader position="sticky" className="mb-0" style={{ padding: 0 }}>
       <CContainer fluid>
         <CHeaderToggler
           className="ps-1"
-          onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
+          onClick={() => dispatch({ type: ActionTyps.APP_SIDEBAR_SHOW, sidebarShow: !sidebarShow })}
         >
           <CIcon icon={cilMenu} size="lg" style={{ color: iconSettings }} />
         </CHeaderToggler>

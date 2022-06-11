@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -13,45 +12,57 @@ import {
   CInputGroupText,
   CRow,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
 
 const Login = () => {
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-      <CContainer>
+    <div className=" min-vh-100 d-flex flex-row align-items-center" style={{ backgroundColor: "#e3f2fd" }}>
+      {/* <ToastContainer /> */}
+      <CContainer >
         <CRow className="justify-content-center">
-          <CCol md={8}>
+          <CCol md={8} sm={12} >
             <CCardGroup>
-              <CCard className="p-4">
-                <CCardBody>
-                  <CForm>
-                    <h1>Login</h1>
-                    <p className="text-medium-emphasis">Sign In to your account</p>
+              <CCard className="p-4" style={{ borderTopLeftRadius: 15, borderBottomLeftRadius: 15 }} >
+                <CCardBody >
+                  <CForm  >
+                    <h1 style={{ fontFamily: "cursive" }}>Login</h1>
+                    <p className="text-medium-emphasis" style={{ fontFamily: "monospace" }}>Sign In to your account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
-                        <CIcon icon={cilUser} />
+                        <PersonOutlineOutlinedIcon style={{ color: "#673ab7" }} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput
+                        placeholder="Username"
+                        autoComplete="username"
+                        name="username"
+                        // onChange={(e) => { setUsername(e.target.value) }}
+                        style={{ fontFamily: "cursive" }}
+                      />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
-                        <CIcon icon={cilLockLocked} />
+                        <LockOutlinedIcon style={{ color: "#673ab7" }} />
                       </CInputGroupText>
                       <CFormInput
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
+                        name="password"
+                        // onChange={(e) => { setPassword(e.target.value) }}
+                        style={{ fontFamily: "cursive" }}
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton className="px-4" type="submit" style={{ backgroundColor: "#673ab7", fontFamily: "cursive" }}>
                           Login
                         </CButton>
                       </CCol>
                       <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0">
+                        <CButton color="link" className="px-0" style={{ color: "#673ab7", fontFamily: "cursive" }}>
                           Forgot password?
                         </CButton>
                       </CCol>
@@ -59,19 +70,15 @@ const Login = () => {
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
+              <CCard className="text-white py-5" style={{ width: '100%', backgroundColor: "#673ab7", borderTopRightRadius: 15, borderBottomRightRadius: 15 }}  >
                 <CCardBody className="text-center">
-                  <div>
-                    <h2>Sign up</h2>
+                  <div style={{ fontFamily: "monospace" }} >
+                    <h2>Meliora</h2>
+                    <h6>Hospital Administration Management System </h6>
+                    <h6>Hi, Welcome Back</h6>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua.
+                      Enter your credentials to continue
                     </p>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                        Register Now!
-                      </CButton>
-                    </Link>
                   </div>
                 </CCardBody>
               </CCard>

@@ -4,7 +4,8 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Home'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/Home', name: 'Home', component: Dashboard },
+  // { path: '/dashboard', name: 'Dashboard', component: Dashboard },
 ]
 
 export default routes
