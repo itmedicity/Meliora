@@ -41,6 +41,7 @@
     "@mui/icons-material": "^5.6.2",
     "@mui/material": "^5.6.3",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
+    "axios": "^0.27.2",
     "chart.js": "^3.6.0",
     "classnames": "^2.3.1",
     "core-js": "^3.19.1",
