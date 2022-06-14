@@ -27,6 +27,7 @@ const AppSidebar = () => {
         console.log(visible)
         dispatch({ type: ActionTyps.APP_SIDEBAR_SHOW, sidebarShow: visible })
       }}
+      style={{ backgroundColor: "#282b33" }}
     >
       <CSidebarBrand className="d-none d-md-flex" to="/">
         {/* <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} /> */}
