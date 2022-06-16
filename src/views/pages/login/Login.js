@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -12,12 +13,65 @@ import {
   CInputGroupText,
   CRow,
 } from '@coreui/react'
-
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-
+import { axioslogin } from 'src/views/Axios/Axios'
+import { errorNotify, infoNotify } from 'src/views/Common/CommonCode';
+import { useDispatch } from 'react-redux'
+import { ActionTyps } from 'src/redux/constants/action.type'
 
 const Login = () => {
+
+  const { FETCH_LOGIN } = ActionTyps;
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const [emp_username, setUsername] = useState("");
+  const [emp_password, setPassword] = useState("");
+
+  const useLoginDetl = {
+    emp_username: emp_username,
+    emp_password: emp_password
+  }
+
+  const submitLoginDetl = async (e) => {
+    e.preventDefault()
+    if (emp_username === "") {
+      infoNotify("Username Feild Is Blank")
+    } else if (emp_password === "") {
+      infoNotify("Password Feild Is Blank")
+    } else {
+      const result = await axioslogin.post("/employee/login", useLoginDetl)
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          return error;
+        })
+      const data = result.data;
+
+      if (data.success === 0) {
+
+        errorNotify("User does not exsit");
+      } else {
+
+        const loggedDetl = {
+          user: data.user,
+          token: data.token,
+          empno: data.emp_no,
+          empid: data.emp_id
+        }
+        console.log(loggedDetl);
+        dispatch({ type: FETCH_LOGIN, payload: loggedDetl })
+        const loggedCredential = sessionStorage.setItem('userDetl', JSON.stringify(loggedDetl));
+        console.log(loggedCredential);
+        if (loggedCredential !== null) {
+          history.push("/Home")
+        }
+      }
+    }
+  }
+
+
   return (
     <div className=" min-vh-100 d-flex flex-row align-items-center" style={{ backgroundColor: "#e0f2f1" }}>
       {/* <ToastContainer /> */}
@@ -27,7 +81,7 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4" style={{ borderTopLeftRadius: 15, borderBottomLeftRadius: 15 }} >
                 <CCardBody >
-                  <CForm  >
+                  <CForm onSubmit={submitLoginDetl} >
                     <h1 style={{ fontFamily: "cursive", color: "#71c142" }}>Login</h1>
                     <p className="text-medium-emphasis" style={{ fontFamily: "monospace" }}>Sign In to your account</p>
                     <CInputGroup className="mb-3" style={{ borderColor: "#71c142" }}>
@@ -38,7 +92,7 @@ const Login = () => {
                         placeholder="Username"
                         autoComplete="username"
                         name="username"
-                        // onChange={(e) => { setUsername(e.target.value) }}
+                        onChange={(e) => { setUsername(e.target.value) }}
                         style={{ fontFamily: "cursive", borderColor: "#71c142" }}
                       />
                     </CInputGroup>
@@ -51,7 +105,7 @@ const Login = () => {
                         placeholder="Password"
                         autoComplete="current-password"
                         name="password"
-                        // onChange={(e) => { setPassword(e.target.value) }}
+                        onChange={(e) => { setPassword(e.target.value) }}
                         style={{ fontFamily: "cursive", borderColor: "#71c142" }}
                       />
                     </CInputGroup>

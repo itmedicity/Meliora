@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import './scss/style.scss'
-
+import Protected from './views/Protected/Protected'
+require('dotenv').config()
 const loading = (
   <div className="pt-3 text-center">
     <div className="sk-spinner sk-spinner-pulse"></div>
@@ -21,10 +22,15 @@ class App extends Component {
         <React.Suspense fallback={loading}>
           <Switch>
             <Route exact path="/" name="Login Page" render={(props) => <Login {...props} />} />
-            <Route path="/Home" name="Home" render={(props) => <DefaultLayout {...props} />} />
+            <Route path="/Home">
+              <Protected cmp={DefaultLayout} />
+            </Route>
           </Switch>
         </React.Suspense>
       </BrowserRouter>
+
+
+
     )
   }
 }
