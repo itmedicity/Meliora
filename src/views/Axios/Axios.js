@@ -1,4 +1,4 @@
-import { Axios } from "axios";
+import Axios from 'axios';
 import { API_URL } from "../Constant/Constrant";
 
 export const axioslogin = Axios.create({
@@ -11,10 +11,10 @@ export const axioslogin = Axios.create({
 });
 
 axioslogin.interceptors.request.use(function (config) {
-    // const userinfo = sessionStorage.getItem('userDetl');
-    // const accessToken = userinfo ? JSON.parse(sessionStorage.getItem('userDetl')).token : 0;
-    // config.headers.Authorization = `Bearer ${accessToken}`;
-    // return config;
+    const userinfo = sessionStorage.getItem('userDetl');
+    const accessToken = userinfo ? JSON.parse(sessionStorage.getItem('userDetl')).token : 0;
+    config.headers.Authorization = `Bearer ${accessToken}`;
+    return config;
 }, function (err) {
     console.log(err);
 })
