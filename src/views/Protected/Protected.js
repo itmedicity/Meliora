@@ -1,5 +1,8 @@
-import React, { useEffect } from 'react'
+import { CircularProgress } from '@mui/material';
+import React, { Suspense, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
+import BackDrop from '../Components/BackDrop';
+import Spinner from '../Components/Spinner';
 
 const Protected = (props) => {
 
@@ -13,8 +16,10 @@ const Protected = (props) => {
         }
     }, [history]);
     return (
-        <div>
-            <Component />
+        <div style={{ backgroundColor: "#e0f2f1", height: "100vh" }}  >
+            <Suspense fallback={<Spinner />} >
+                <Component />
+            </Suspense>
         </div>
     )
 }
