@@ -3,14 +3,17 @@ import React from 'react'
 
 const Spinner = () => {
     return (
-        <CircularProgress
-            sx={{
-                flex: 1,
-                flexDirection: "column",
+        <div
+            style={{
+                backgroundColor: "#f2f2f2",
+                height: "100vh",
+                display: "flex",
                 justifyContent: "center",
-                marginTop: 30
+                alignItems: "center"
             }}
-        />
+        >
+            <CircularProgress sx={{ color: "#2b2d42", animationDuration: '550ms', }} />
+        </div>
     )
 }
 
