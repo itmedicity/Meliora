@@ -24,7 +24,6 @@ const AppSidebar = () => {
       unfoldable={unfoldable}
       visible={sidebarShow}
       onVisibleChange={(visible) => {
-        console.log(visible)
         dispatch({ type: ActionTyps.APP_SIDEBAR_SHOW, sidebarShow: visible })
       }}
       style={{ backgroundColor: "#282b33" }}

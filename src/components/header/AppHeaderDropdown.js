@@ -23,8 +23,17 @@ import EmailIcon from '@mui/icons-material/Email'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import SettingsIcon from '@mui/icons-material/Settings'
 import LogoutIcon from '@mui/icons-material/Logout'
+import { infoNotify } from 'src/views/Common/CommonCode'
+import { useHistory } from 'react-router-dom'
 
 const AppHeaderDropdown = () => {
+  const history = useHistory()
+  const hrmLogout = () => {
+    sessionStorage.clear();
+    infoNotify('You Are Logged Out Successfully');
+    history.push('/')
+  }
+
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
@@ -59,7 +68,7 @@ const AppHeaderDropdown = () => {
         </CDropdownItem>
         <CDropdownDivider />
         <CDropdownItem href="#">
-          <LogoutIcon className="me-2" sx={{ color: iconPowerOff }} />
+          <LogoutIcon className="me-2" sx={{ color: iconPowerOff }} onClick={hrmLogout} />
           Log Out
         </CDropdownItem>
       </CDropdownMenu>
