@@ -9,8 +9,7 @@ const Protected = (props) => {
         const loginDetl = sessionStorage.getItem('userDetl');
         // const login = JSON.parse(loginDetl)
         if (!loginDetl) {
-            history.push('/Home');
-
+            history.push('/');
         }
     }, [history]);
     return (
