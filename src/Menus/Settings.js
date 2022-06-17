@@ -9,7 +9,7 @@ const Settings = () => {
     const [pyrol_secTwo, setpyrol_secTwo] = useState();
     const [pyrol_secThree, setpyrol_secThree] = useState();
     // const [user_secOne, setuser_secOne] = useState();
-    const [count, setCount] = useState(0)
+
 
     useEffect(() => {
         getMenuSlno().then((val) => {
@@ -24,9 +24,9 @@ const Settings = () => {
             setpyrol_secThree(setting_section_three)
             // const setting_section_usermngt = userManagement_one.filter(val => menuSlnoArray.includes(val.slno));
             // setuser_secOne(setting_section_usermngt)
-            setCount(1)
+
         })
-    }, [count])
+    }, [])
     return (
 
         <div>

@@ -1,5 +1,5 @@
 export const py_setting_one = [
-    // { to: '/Home/DepartmentMaster', name: 'Department Name', slno: 1 },
+    { to: '/Home/DepartmentMaster', name: 'Department Name', slno: 1 },
 
 
 
