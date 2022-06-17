@@ -1,8 +1,10 @@
 import Axios from 'axios';
-import { API_URL } from "../Constant/Constrant";
+// import { API_URL } from "../Constant/Constrant";
+
+const SERVER_API_URL = 'http://192.168.11.42:5000/api/';
 
 export const axioslogin = Axios.create({
-    baseURL: API_URL,
+    baseURL: SERVER_API_URL,
     headers: {
         "Content-Type": 'application/json',
         "Accept": 'application/json',

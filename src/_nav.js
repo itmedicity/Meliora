@@ -31,13 +31,13 @@ const _nav = [
   {
     component: CNavGroup,
     name: 'Base',
-    to: '/base',
+    to: '/Home',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'Accordion',
-        to: '/Home/One',
+        to: '/Home/Administration',
       },
       {
         component: CNavItem,

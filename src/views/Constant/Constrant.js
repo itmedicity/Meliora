@@ -1,7 +1,5 @@
 import { axioslogin } from "../Axios/Axios"
 
-
-
 // ----------- Api Address ---------------
 export const API_URL = 'http://192.168.11.42:5000/api';
 // ----------- Nas Folder --------------
