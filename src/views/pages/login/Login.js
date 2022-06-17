@@ -16,9 +16,10 @@ import {
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { axioslogin } from 'src/views/Axios/Axios'
-import { errorNotify, infoNotify } from 'src/views/Common/CommonCode';
+import { errorNotify, infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 import { useDispatch } from 'react-redux'
 import { ActionTyps } from 'src/redux/constants/action.type'
+import { ToastContainer } from 'react-toastify';
 
 const Login = () => {
 
@@ -53,17 +54,17 @@ const Login = () => {
 
         errorNotify("User does not exsit");
       } else {
-
+        succesNotify("Loggined successfully")
         const loggedDetl = {
           user: data.user,
           token: data.token,
           empno: data.emp_no,
           empid: data.emp_id
         }
-        console.log(loggedDetl);
+
         dispatch({ type: FETCH_LOGIN, payload: loggedDetl })
         const loggedCredential = sessionStorage.setItem('userDetl', JSON.stringify(loggedDetl));
-        console.log(loggedCredential);
+
         if (loggedCredential !== null) {
           history.push("/Home")
         }
@@ -74,7 +75,7 @@ const Login = () => {
 
   return (
     <div className=" min-vh-100 d-flex flex-row align-items-center" style={{ backgroundColor: "#e0f2f1" }}>
-      {/* <ToastContainer /> */}
+      <ToastContainer />
       <CContainer >
         <CRow className="justify-content-center">
           <CCol md={8} sm={12} >
