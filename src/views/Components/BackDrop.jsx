@@ -1,5 +1,5 @@
-import { Backdrop, CircularProgress } from '@mui/material'
-import React from 'react'
+import { CircularProgress } from '@mui/material'
+import React, { memo } from 'react'
 
 const BackDrop = () => {
     return (
@@ -7,4 +7,4 @@ const BackDrop = () => {
     )
 }
 
-export default BackDrop
+export default memo(BackDrop)

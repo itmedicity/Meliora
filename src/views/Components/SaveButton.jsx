@@ -1,5 +1,5 @@
 import { IconButton, Tooltip } from '@mui/material'
-import React from 'react'
+import React, { memo } from 'react'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 const SaveButton = () => {
@@ -16,4 +16,4 @@ const SaveButton = () => {
     )
 }
 
-export default SaveButton
+export default memo(SaveButton)

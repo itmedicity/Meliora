@@ -1,5 +1,5 @@
 import { Card, CardActions, CardContent } from '@mui/material';
-import React, { Fragment } from 'react';
+import React, { Fragment, memo } from 'react';
 import { ToastContainer } from 'react-toastify';
 import ValidateSession from '../Axios/ValidateSession';
 import CustomCardHeader from './CustomCardHeader';
@@ -13,7 +13,7 @@ const CardTwo = (props) => {
             <ToastContainer />
             <ValidateSession />
             <Card>
-                <CustomCardHeader title={"Card Two"} />
+                <CustomCardHeader title={props.heading} />
                 <CardContent>
                     {props.children}
                 </CardContent>
@@ -27,4 +27,4 @@ const CardTwo = (props) => {
     )
 }
 
-export default CardTwo
+export default memo(CardTwo)

@@ -29,7 +29,7 @@ export const getMenuSlno = async () => {
 
     const results = await axioslogin.get(`/common/menuname`)
     const { data } = results.data;
-    console.log(data);
+
     return data;
 }
 
