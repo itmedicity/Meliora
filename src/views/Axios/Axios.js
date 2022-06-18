@@ -1,5 +1,5 @@
 import Axios from 'axios';
-// import { API_URL } from "../Constant/Constrant";
+// import { API_URL } fro../Constant/Constantant";
 
 const SERVER_API_URL = 'http://192.168.11.42:5000/api/';
 

@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { CardHeader, IconButton, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-
+import { bgcolrheading, titleTypography, bgbottom } from 'src/color/Color';
 const CustomCardHeader = ({ title }) => {
     return (
         <CardHeader
@@ -13,15 +13,15 @@ const CustomCardHeader = ({ title }) => {
                     </IconButton>
                 </Tooltip>
             }
-            titleTypographyProps={{ variant: "subtitle1", color: "#5d5d5d" }}
+            titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
             sx={{
-                backgroundColor: "#f2f2f2",
+                backgroundColor: bgcolrheading,
                 paddingY: 0.5,
                 borderBottom: 0.1,
-                borderBottomColor: "#c5cae9"
+                borderBottomColor: bgbottom
             }}
         />
     )
 }
 
-export default CustomCardHeader
+export default memo(CustomCardHeader)

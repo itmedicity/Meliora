@@ -1,5 +1,5 @@
 import { IconButton, Tooltip } from '@mui/material'
-import React from 'react'
+import React, { memo } from 'react'
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 const RefreshButton = () => {
@@ -16,4 +16,4 @@ const RefreshButton = () => {
     )
 }
 
-export default RefreshButton
+export default memo(RefreshButton)

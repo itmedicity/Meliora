@@ -1,5 +1,5 @@
 import { IconButton, Tooltip } from '@mui/material'
-import React from 'react'
+import React, { memo } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel';
 
 const CancelButton = () => {
@@ -16,4 +16,4 @@ const CancelButton = () => {
     )
 }
 
-export default CancelButton
+export default memo(CancelButton)
