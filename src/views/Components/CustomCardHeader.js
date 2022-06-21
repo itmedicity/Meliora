@@ -1,24 +1,29 @@
 import React from 'react'
 import { CardHeader, IconButton, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { cardHeaderColor, cardHeaderFont } from 'src/color/Color';
 
 const CustomCardHeader = ({ title }) => {
     return (
         <CardHeader
             title={title}
             action={
-                <Tooltip title="Back To Home" arrow >
-                    <IconButton aria-label="settings">
-                        <CloseIcon />
+                <Tooltip title="Close" arrow >
+                    <IconButton aria-label="settings" size="small" sx={{ paddingTop: 2 }} >
+                        <CloseIcon sx={{ paddingTop: 0.3, color: "#fdfdfd" }} />
                     </IconButton>
                 </Tooltip>
             }
-            titleTypographyProps={{ variant: "subtitle1", color: "#5d5d5d" }}
+            titleTypographyProps={{ variant: "subtitle2" }}
+            disableTypography
             sx={{
-                backgroundColor: "#f2f2f2",
-                paddingY: 0.5,
+                backgroundColor: cardHeaderColor,
+                paddingY: 0,
                 borderBottom: 0.1,
-                borderBottomColor: "#c5cae9"
+                borderBottomColor: cardHeaderColor,
+                // fontWeight: "bold",
+                fontSize: 14,
+                color: cardHeaderFont
             }}
         />
     )

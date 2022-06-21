@@ -19,10 +19,10 @@ const CardOne = (props) => {
                     {props.children}
                 </CardContent>
                 <CardActions disableSpacing sx={{ paddingY: 0 }}>
-                    <SaveButton />
-                    <EditButton />
-                    <RefreshButton />
-                    <CancelButton />
+                    {/* <SaveButton /> */}
+                    {/* <EditButton /> */}
+                    {/* <RefreshButton /> */}
+                    {/* <CancelButton /> */}
                 </CardActions>
             </Card>
         </Fragment>

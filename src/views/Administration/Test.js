@@ -1,8 +1,9 @@
 import React from 'react'
+import CustomMaterialTable from '../Components/CustomMaterialTable'
 
 const Test = () => {
     return (
-        <div> This is the Test Page </div>
+        <CustomMaterialTable />
     )
 }
 
