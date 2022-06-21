@@ -1,5 +1,5 @@
 import { IconButton, Tooltip } from '@mui/material'
-import React from 'react'
+import React, { memo } from 'react'
 import EditOffIcon from '@mui/icons-material/EditOff';
 
 const EditButton = () => {
@@ -16,4 +16,4 @@ const EditButton = () => {
     )
 }
 
-export default EditButton
+export default memo(EditButton)
