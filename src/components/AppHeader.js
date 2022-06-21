@@ -56,23 +56,17 @@ const AppHeader = () => {
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
             <CNavLink to="/Home" component={NavLink} activeClassName="active">
-              <IconButton disableRipple sx={{ paddingX: 0, color: iconHome }}>
-                <HomeRoundedIcon />
-              </IconButton>
+              <HomeRoundedIcon sx={{ color: iconHome }} />
             </CNavLink>
           </CNavItem>
           <CNavItem>
             <CNavLink to="/Home/Settings" component={NavLink}>
-              <IconButton disableRipple sx={{ paddingX: 0, color: iconSettings }}>
-                <SettingsIcon />
-              </IconButton>
+              <SettingsIcon sx={{ color: iconSettings }} />
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink to="#">
-              <IconButton disableRipple sx={{ paddingX: 0, color: iconPowerOff }} onClick={hrmLogout}>
-                <PowerSettingsNewIcon />
-              </IconButton>
+            <CNavLink to="#" onClick={hrmLogout} >
+              <PowerSettingsNewIcon sx={{ color: iconPowerOff }} />
             </CNavLink>
           </CNavItem>
         </CHeaderNav>

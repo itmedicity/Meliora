@@ -1,5 +1,5 @@
 import 'react-toastify/dist/ReactToastify.css';
-import { Flip, toast } from 'react-toastify';
+import { Flip, toast, Bounce } from 'react-toastify';
 
 
 export const succesNotify = (message) => toast.success(message, {
@@ -10,8 +10,8 @@ export const succesNotify = (message) => toast.success(message, {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    transition: Flip,
-    theme: "colored"
+    transition: Bounce,
+    theme: "light"
 });
 
 export const errorNotify = (message) => toast.error(message, {
@@ -22,8 +22,8 @@ export const errorNotify = (message) => toast.error(message, {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    transition: Flip,
-    theme: "colored"
+    transition: Bounce,
+    theme: "light"
 });
 
 export const warningNotify = (message) => toast.warning(message, {
@@ -34,8 +34,8 @@ export const warningNotify = (message) => toast.warning(message, {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    transition: Flip,
-    theme: "colored"
+    transition: Bounce,
+    theme: "light"
 });
 export const infoNotify = (message) => toast.info(message, {
     position: "top-center",
@@ -45,6 +45,6 @@ export const infoNotify = (message) => toast.info(message, {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    transition: Flip,
-    theme: "colored"
+    transition: Bounce,
+    theme: "light"
 });
