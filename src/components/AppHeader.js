@@ -15,7 +15,7 @@ import { cilMenu } from '@coreui/icons'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import SettingsIcon from '@mui/icons-material/Settings'
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
-
+import { useHistory } from 'react-router-dom'
 import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
 import { Badge, IconButton } from '@mui/material'
@@ -29,16 +29,24 @@ import {
   iconSettings,
 } from 'src/color/Color'
 
-const AppHeader = () => {
-  const dispatch = useDispatch()
-  const sidebarShow = useSelector((state) => state.sidebarShow)
+import { ActionTyps } from 'src/redux/constants/action.type'
+import { infoNotify } from 'src/views/Common/CommonCode'
 
+const AppHeader = () => {
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
+  const hrmLogout = () => {
+    sessionStorage.clear();
+    infoNotify('You Are Logged Out Successfully');
+    history.push('/')
+  }
   return (
-    <CHeader position="sticky" className="mb-0" style={{ padding: 0 }}>
+    <CHeader position="sticky" className="mb-0" style={{ padding: 0, backgroundColor: "#474b4f" }}>
       <CContainer fluid>
         <CHeaderToggler
           className="ps-1"
-          onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
+          onClick={() => dispatch({ type: ActionTyps.APP_SIDEBAR_SHOW, sidebarShow: !sidebarShow })}
         >
           <CIcon icon={cilMenu} size="lg" style={{ color: iconSettings }} />
         </CHeaderToggler>
@@ -47,37 +55,31 @@ const AppHeader = () => {
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
-            <CNavLink to="/dashboard" component={NavLink} activeClassName="active">
-              <IconButton disableRipple sx={{ paddingX: 0, color: iconHome }}>
-                <HomeRoundedIcon />
-              </IconButton>
+            <CNavLink to="/Home" component={NavLink} activeClassName="active">
+              <HomeRoundedIcon sx={{ color: iconHome }} />
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink to="/dashboard">
-              <IconButton disableRipple sx={{ paddingX: 0, color: iconSettings }}>
-                <SettingsIcon />
-              </IconButton>
+            <CNavLink to="/Home/Settings" component={NavLink}>
+              <SettingsIcon sx={{ color: iconSettings }} />
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink to="/dashboard">
-              <IconButton disableRipple sx={{ paddingX: 0, color: iconPowerOff }}>
-                <PowerSettingsNewIcon />
-              </IconButton>
+            <CNavLink to="#" onClick={hrmLogout} >
+              <PowerSettingsNewIcon sx={{ color: iconPowerOff }} />
             </CNavLink>
           </CNavItem>
         </CHeaderNav>
         <CHeaderNav>
           <CNavItem>
-            <CNavLink to="/dashboard">
+            <CNavLink to="/Home">
               <Badge badgeContent={4} color="error">
                 <EmailIcon sx={{ color: iconMessage }} />
               </Badge>
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink to="/dashboard">
+            <CNavLink to="/Home">
               <Badge badgeContent={4} color="error">
                 <NotificationsIcon sx={{ color: iconNotification }} />
               </Badge>

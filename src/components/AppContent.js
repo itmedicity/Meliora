@@ -1,14 +1,15 @@
 import React, { Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import { CContainer, CSpinner } from '@coreui/react'
+import { CContainer } from '@coreui/react'
 
 // routes config
 import routes from '../routes'
+import BackDrop from 'src/views/Components/BackDrop'
 
 const AppContent = () => {
   return (
-    <CContainer lg>
-      <Suspense fallback={<CSpinner color="primary" />}>
+    <CContainer fluid  >
+      <Suspense fallback={<BackDrop />}>
         <Switch>
           {routes.map((route, idx) => {
             return (
@@ -27,7 +28,7 @@ const AppContent = () => {
               )
             )
           })}
-          <Redirect from="/" to="/dashboard" />
+          <Redirect from="/" to="/Home" />
         </Switch>
       </Suspense>
     </CContainer>
