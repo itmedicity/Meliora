@@ -9,22 +9,22 @@ import EditButton from './EditButton'
 import RefreshButton from './RefreshButton'
 
 const CardOne = (props) => {
-  return (
-    <Fragment>
-      <ToastContainer />
-      <ValidateSession />
-      <Card>
-        <CustomCardHeader title={'Card One'} />
-        <CardContent>{props.children}</CardContent>
-        <CardActions disableSpacing sx={{ paddingY: 0 }}>
-          <SaveButton />
-          <EditButton />
-          <RefreshButton />
-          <CancelButton />
-        </CardActions>
-      </Card>
-    </Fragment>
-  )
+    return (
+        <Fragment>
+            <ToastContainer />
+            <ValidateSession />
+            <Card>
+                <CustomCardHeader title={'CARD MENU NAME'} />
+                <CardContent>{props.children}</CardContent>
+                <CardActions disableSpacing sx={{ paddingY: 0 }}>
+                    <SaveButton />
+                    <EditButton />
+                    <RefreshButton />
+                    <CancelButton />
+                </CardActions>
+            </Card>
+        </Fragment>
+    )
 }
 
 export default memo(CardOne)
