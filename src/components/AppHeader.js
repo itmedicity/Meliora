@@ -37,12 +37,12 @@ const AppHeader = () => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
   const hrmLogout = () => {
-    sessionStorage.clear();
-    infoNotify('You Are Logged Out Successfully');
+    sessionStorage.clear()
+    infoNotify('You Are Logged Out Successfully')
     history.push('/')
   }
   return (
-    <CHeader position="sticky" className="mb-0" style={{ padding: 0, backgroundColor: "#474b4f" }}>
+    <CHeader position="sticky" className="mb-0" style={{ padding: 0, backgroundColor: '#474b4f' }}>
       <CContainer fluid>
         <CHeaderToggler
           className="ps-1"
@@ -65,7 +65,7 @@ const AppHeader = () => {
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink to="#" onClick={hrmLogout} >
+            <CNavLink to="#" onClick={hrmLogout}>
               <PowerSettingsNewIcon sx={{ color: iconPowerOff }} />
             </CNavLink>
           </CNavItem>
