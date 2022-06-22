@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import CardOne from '../Components/CardOne'
 import CardThree from '../Components/CardThree'
 import CardTwo from '../Components/CardTwo'
+import CustomAgGrid from '../Components/CustomAgGrid';
 import CustomMaterialTable from '../Components/CustomMaterialTable';
 
 const Home = () => {
@@ -17,7 +18,10 @@ const Home = () => {
                 <CardThree />
             </div>
             <div style={{ paddingTop: 5 }}>
-                <CustomMaterialTable />
+                {/* <CustomMaterialTable /> */}
+            </div>
+            <div style={{ paddingTop: 5 }}>
+                <CustomAgGrid />
             </div>
         </Fragment>
     )
