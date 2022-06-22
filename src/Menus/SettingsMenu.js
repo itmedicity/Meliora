@@ -1,5 +1,4 @@
-
-//Common master menus
+//Common Master Menu
 export const co_setting_one = [
     { to: '/Home/Department', name: 'Department', slno: 1 },
 
@@ -41,6 +40,19 @@ export const cm_setting_three = [
 //User Management Menu
 
 export const userManagement_one = [
+    { to: '/Home/Group', name: 'Group Master', slno: 7 },
+
+
+
+]
+export const userManagement_two = [
+
+
+
+
+]
+export const userManagement_three = [
+
 
 
 ]
