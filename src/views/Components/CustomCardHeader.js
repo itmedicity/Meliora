@@ -9,7 +9,7 @@ const CustomCardHeader = ({ title }) => {
       title={title}
       action={
         <Tooltip title="Close" arrow>
-          <IconButton aria-label="settings" size="small" sx={{ paddingTop: 2 }}>
+          <IconButton aria-label="settings" size="small" sx={{ paddingTop: 0 }}>
             <CloseIcon sx={{ paddingTop: 0.3, color: cardHeaderFont }} />
           </IconButton>
         </Tooltip>

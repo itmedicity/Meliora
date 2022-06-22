@@ -16,7 +16,7 @@ const CardOne = (props) => {
       <Card>
         <CustomCardHeader title={'Card One'} />
         <CardContent>{props.children}</CardContent>
-        <CardActions disableSpacing sx={{ paddingY: 0, backgroundColor: 'lightgreen' }}>
+        <CardActions disableSpacing sx={{ paddingY: 0 }}>
           <SaveButton />
           <EditButton />
           <RefreshButton />
