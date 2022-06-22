@@ -1,19 +1,21 @@
 import { IconButton, Tooltip } from '@mui/material'
-import React from 'react'
-import AutorenewIcon from '@mui/icons-material/Autorenew';
+import React, { memo } from 'react'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
+import { iconColor } from 'src/color/Color'
 
 const RefreshButton = () => {
-    return (
-        <Tooltip title="Refresh" arrow >
-            <IconButton
-                aria-label="add to favorites"
-                disableRipple={true}
-                sx={{ color: "#7ac143", paddingY: 0.5, }}
-            >
-                <AutorenewIcon sx={{ fontSize: 25 }} />
-            </IconButton>
-        </Tooltip>
-    )
+  return (
+    <Tooltip title="Refresh" arrow>
+      <IconButton
+        aria-label="add to favorites"
+        disableRipple={true}
+        sx={{ color: iconColor, paddingY: 0.5 }}
+        size="small"
+      >
+        <AutorenewIcon sx={{ fontSize: 25, color: iconColor }} />
+      </IconButton>
+    </Tooltip>
+  )
 }
 
-export default RefreshButton
+export default memo(RefreshButton)

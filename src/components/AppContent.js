@@ -1,14 +1,15 @@
 import React, { Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import { CContainer, CSpinner } from '@coreui/react'
+import { CContainer } from '@coreui/react'
 
 // routes config
 import routes from '../routes'
+import BackDrop from 'src/views/Components/BackDrop'
 
 const AppContent = () => {
   return (
     <CContainer fluid  >
-      <Suspense fallback={<CSpinner color="primary" />}>
+      <Suspense fallback={<BackDrop />}>
         <Switch>
           {routes.map((route, idx) => {
             return (

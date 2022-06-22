@@ -1,27 +1,45 @@
 import React from 'react'
-import { CardHeader, IconButton, Tooltip } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { CardHeader, IconButton, Tooltip } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
+import { cardHeaderColor, cardHeaderFont } from 'src/color/Color'
 
 const CustomCardHeader = ({ title }) => {
-    return (
-        <CardHeader
-            title={title}
-            action={
-                <Tooltip title="Back To Home" arrow >
-                    <IconButton aria-label="settings">
-                        <CloseIcon />
-                    </IconButton>
-                </Tooltip>
-            }
-            titleTypographyProps={{ variant: "subtitle1", color: "#5d5d5d" }}
-            sx={{
-                backgroundColor: "#f2f2f2",
-                paddingY: 0.5,
-                borderBottom: 0.1,
-                borderBottomColor: "#c5cae9"
-            }}
-        />
-    )
+  return (
+    <CardHeader
+      title={title}
+      action={
+        <Tooltip title="Close" arrow>
+          <IconButton aria-label="settings" size="small" sx={{ paddingTop: 2 }}>
+            <CloseIcon sx={{ paddingTop: 0.3, color: cardHeaderFont }} />
+          </IconButton>
+        </Tooltip>
+      }
+      titleTypographyProps={{ variant: 'subtitle2' }}
+      //   disableTypography
+      sx={{
+        backgroundColor: cardHeaderColor,
+        paddingY: 0.5,
+        borderBottom: 0.1,
+        borderBottomColor: cardHeaderColor,
+        fontSize: 14,
+        color: cardHeaderFont,
+        border: 0.1,
+        borderColor: '#66bb6a',
+        fontFamily: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ].join(','),
+      }}
+    />
+  )
 }
 
 export default CustomCardHeader
