@@ -6,7 +6,7 @@ import {
     userManagement_one, userManagement_two, userManagement_three, cm_setting_three
 } from './SettingsMenu';
 import { Card, CardContent, CardHeader } from '@mui/material';
-import { bgcolrheading, cardHeader, bgbottom } from 'src/color/Color';
+import { bgcolrheading, bgbottom, titleTypography } from 'src/color/Color';
 
 
 const Settings = () => {
@@ -47,15 +47,12 @@ const Settings = () => {
             const user_setting_section_three = userManagement_three.filter(val => menuSlnoArray.includes(val.slno));
             setUserManag_secThree(user_setting_section_three)
 
-
-
-
         })
     }, [])
     return (
         <Card>
             <CardHeader title={"Common Master"}
-                titleTypographyProps={{ variant: "subtitle1", color: cardHeader }}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
                     backgroundColor: bgcolrheading,
                     paddingY: 0.5,
@@ -92,12 +89,10 @@ const Settings = () => {
                         </ul>
                     </div>
                 </div>
-
             </CardContent>
 
-
             <CardHeader title={"Compliant Master"}
-                titleTypographyProps={{ variant: "subtitle1", color: "#5d5d5d" }}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
                     backgroundColor: bgcolrheading,
                     paddingY: 0.5,
@@ -135,14 +130,10 @@ const Settings = () => {
                         </ul>
                     </div>
                 </div>
-
             </CardContent>
 
-
-
-
             <CardHeader title={"Request Master"}
-                titleTypographyProps={{ variant: "subtitle1", color: "#5d5d5d" }}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
                     backgroundColor: bgcolrheading,
                     paddingY: 0.5,
@@ -150,7 +141,7 @@ const Settings = () => {
                     borderBottomColor: bgbottom
                 }} />
             <CardHeader title={"User Settings"}
-                titleTypographyProps={{ variant: "subtitle1", color: "#5d5d5d" }}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
                     backgroundColor: bgcolrheading,
                     paddingY: 0.5,
@@ -187,11 +178,8 @@ const Settings = () => {
                         </ul>
                     </div>
                 </div>
-
             </CardContent>
         </Card>
-
-
     )
 }
 

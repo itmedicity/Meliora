@@ -18,9 +18,9 @@ const CardTwo = (props) => {
                     {props.children}
                 </CardContent>
                 <CardActions disableSpacing sx={{ paddingY: 0 }}>
-                    <SaveButton />
+                    <SaveButton submit={props.submit} />
                     <RefreshButton />
-                    <CancelButton />
+                    <CancelButton close={props.close} />
                 </CardActions>
             </Card>
         </Fragment>
