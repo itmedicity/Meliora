@@ -18,7 +18,6 @@ const CheckBox = (props) => {
                 }
                 label={label}
             />
-
         </div>
     )
 }

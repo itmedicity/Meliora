@@ -1,5 +1,5 @@
 import 'react-toastify/dist/ReactToastify.css';
-import { Flip, toast, Bounce } from 'react-toastify';
+import { toast, Bounce } from 'react-toastify';
 
 
 export const succesNotify = (message) => toast.success(message, {

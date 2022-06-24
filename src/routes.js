@@ -7,8 +7,11 @@ const DepartmentMast = React.lazy(() => import('./views/Master/Department/Depart
 const DepartmentSectionMast = React.lazy(() => import('./views/Master/DepartmentSectionMast/DeptSectionMast'))
 const ComplaintDepartment = React.lazy(() => import('./views/Master/ComplaintDepartment/ComplaintDeptMast'))
 const ComplaintRegister = React.lazy(() => import('./views/ComManagement/ComplaintRegister/ComplaintRegistrMast'))
-
-
+const UserGroupMast = React.lazy(() => import('./views/Master/UserGroupMaster/UserGroupMast'))
+const UserGroupMastEdit = React.lazy(() => import('./views/Master/UserGroupMaster/UserGroupEdit'))
+const ModuleMast = React.lazy(() => import('./views/Master/ModuleMaster/ModuleMaster'))
+const ModuleMastEdit = React.lazy(() => import('./views/Master/ModuleMaster/ModuleMastEdit'))
+const UserGroupRights = React.lazy(() => import('./views/Master/UserGroupRight/UserGroupRight'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/Home', exact: true, name: 'Home', component: Home },
@@ -17,8 +20,12 @@ const routes = [
   { path: '/Home/Department', exact: true, name: 'Department Mast', component: DepartmentMast },
   { path: '/Home/DepartmentSection', exact: true, name: 'Department Mast', component: DepartmentSectionMast },
   { path: '/Home/ComplaintDepartment', exact: true, name: 'Complaint Department', component: ComplaintDepartment },
-  { path: '/Home/ComplaintRegister', exact: true, name: 'Complaint Register', component: ComplaintRegister }
-
+  { path: '/Home/ComplaintRegister', exact: true, name: 'Complaint Register', component: ComplaintRegister },
+  { path: '/Home/Group', exact: true, name: 'User Group Master', component: UserGroupMast },
+  { path: '/Home/GroupMastEdit/:id', exact: true, name: 'User Group Master Edit', component: UserGroupMastEdit },
+  { path: '/Home/ModuleMast', name: 'Module Master', component: ModuleMast },
+  { path: '/Home/ModuleMastEdit/:id', exact: true, name: 'Module Master Edit', component: ModuleMastEdit },
+  { path: '/Home/UserGroupRight', exact: true, name: 'User Group Rights', component: UserGroupRights }
 ]
 
 export default routes

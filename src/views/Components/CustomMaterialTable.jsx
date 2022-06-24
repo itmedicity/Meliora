@@ -1,31 +1,34 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, memo } from 'react'
 import MaterialTable from 'material-table';
-import { tableIcons } from '../Common/MaterialiCon';
 
-const CustomMaterialTable = () => {
+const CustomMaterialTable = (props) => {
+    const { title, columns, data, actions, icons } = props
     return (
         <Fragment>
             <MaterialTable
-                title="Test Table"
-                icons={tableIcons}
+                title={title}
+                columns={columns}
+                icons={icons}
+                data={data}
+                actions={actions}
                 options={{
                     paginationType: "stepped",
                     showFirstLastPageButtons: false,
                     padding: "dense",
-                    actionsColumnIndex: -1,
+                    actionsColumnIndex: 0,
                     exportButton: true,
-                    rowStyle: {
-                        backgroundColor: '#EEE',
-                    },
-                    headerStyle: {
-                        backgroundColor: '#01579b',
-                        color: '#FFF'
-                    },
-                    filtering: true
+                    // rowStyle: {
+                    //     backgroundColor: '#EEE',
+                    // },
+                    // headerStyle: {
+                    //     backgroundColor: bgcolrheading,
+                    //     color: '#FFF'
+                    // },
+                    // filtering: true
                 }}
             />
         </Fragment>
     )
 }
 
-export default CustomMaterialTable
+export default memo(CustomMaterialTable)
