@@ -24,13 +24,13 @@ const CustomCardHeader = ({ title }) => {
                 fontSize: 14,
                 color: cardHeaderFont,
                 borderColor: '#66bb6a',
-                backgroundColor: {
-                    xs: 'red',
-                    sm: 'green',
-                    md: 'yellow',
-                    lg: 'brown',
-                    xl: 'lightgreen'
-                },
+                // backgroundColor: {
+                //     xs: 'red',
+                //     sm: 'green',
+                //     md: 'yellow',
+                //     lg: 'brown',
+                //     xl: 'lightgreen'
+                // },
             }}
         />
     )

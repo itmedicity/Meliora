@@ -1,8 +1,15 @@
+import { createTheme, ThemeProvider } from '@mui/material';
 import React, { Suspense, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
 import Spinner from '../Components/Spinner';
 
 const Protected = (props) => {
+
+    const theme = createTheme({
+        palette: {
+            mode: 'light'
+        }
+    })
 
     let Component = props.cmp;
     let history = useHistory();
@@ -15,7 +22,9 @@ const Protected = (props) => {
     }, [history]);
     return (
         <Suspense fallback={<Spinner />} >
-            <Component />
+            <ThemeProvider theme={theme} >
+                <Component />
+            </ThemeProvider>
         </Suspense>
     )
 }
