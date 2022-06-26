@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { getMenuSlno } from 'src/views/Constant/Constant';
 import { Link } from 'react-router-dom'
-import { co_setting_one, co_setting_two, co_setting_three, cm_setting_one, cm_setting_two, cm_setting_three } from './SettingsMenu';
+import {
+    co_setting_one, co_setting_two, co_setting_three, cm_setting_one, cm_setting_two,
+    userManagement_one, userManagement_two, userManagement_three, cm_setting_three
+} from './SettingsMenu';
 import { Card, CardContent, CardHeader } from '@mui/material';
-import { bgcolrheading, cardHeader, bgbottom } from 'src/color/Color';
+import { bgcolrheading, bgbottom, titleTypography } from 'src/color/Color';
 
 
 const Settings = () => {
@@ -13,7 +16,9 @@ const Settings = () => {
     const [coMast_secOne, setcoMast_secOne] = useState();
     const [coMast_secTwo, setcoMast_secTwo] = useState();
     const [coMast_secThree, setcoMast_secThree] = useState();
-
+    const [userManagment_secOne, setUserManag_secOne] = useState();
+    const [userManagment_secTwo, setUserManag_secTwo] = useState();
+    const [userManagment_secThree, setUserManag_secThree] = useState();
 
     useEffect(() => {
         getMenuSlno().then((val) => {
@@ -35,15 +40,19 @@ const Settings = () => {
             const cm_setting_section_three = cm_setting_three.filter(val => menuSlnoArray.includes(val.slno));
             setcoMast_secThree(cm_setting_section_three)
 
-
-
+            const user_setting_section_one = userManagement_one.filter(val => menuSlnoArray.includes(val.slno));
+            setUserManag_secOne(user_setting_section_one)
+            const user_setting_section_two = userManagement_two.filter(val => menuSlnoArray.includes(val.slno));
+            setUserManag_secTwo(user_setting_section_two)
+            const user_setting_section_three = userManagement_three.filter(val => menuSlnoArray.includes(val.slno));
+            setUserManag_secThree(user_setting_section_three)
 
         })
     }, [])
     return (
         <Card>
             <CardHeader title={"Common Master"}
-                titleTypographyProps={{ variant: "subtitle1", color: cardHeader }}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
                     backgroundColor: bgcolrheading,
                     paddingY: 0.5,
@@ -80,12 +89,10 @@ const Settings = () => {
                         </ul>
                     </div>
                 </div>
-
             </CardContent>
 
-
             <CardHeader title={"Compliant Master"}
-                titleTypographyProps={{ variant: "subtitle1", color: "#5d5d5d" }}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
                     backgroundColor: bgcolrheading,
                     paddingY: 0.5,
@@ -123,14 +130,10 @@ const Settings = () => {
                         </ul>
                     </div>
                 </div>
-
             </CardContent>
 
-
-
-
             <CardHeader title={"Request Master"}
-                titleTypographyProps={{ variant: "subtitle1", color: "#5d5d5d" }}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
                     backgroundColor: bgcolrheading,
                     paddingY: 0.5,
@@ -138,16 +141,45 @@ const Settings = () => {
                     borderBottomColor: bgbottom
                 }} />
             <CardHeader title={"User Settings"}
-                titleTypographyProps={{ variant: "subtitle1", color: "#5d5d5d" }}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
                     backgroundColor: bgcolrheading,
                     paddingY: 0.5,
                     borderBottom: 0.1,
                     borderBottomColor: bgbottom
                 }} />
+            <CardContent>
+                <div className="row" >
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                userManagment_secOne && userManagment_secOne.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                userManagment_secTwo && userManagment_secTwo.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                userManagment_secThree && userManagment_secThree.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </CardContent>
         </Card>
-
-
     )
 }
 

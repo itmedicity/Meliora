@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -31,6 +31,7 @@ import {
 
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { infoNotify } from 'src/views/Common/CommonCode'
+import { ToastContainer } from 'react-toastify'
 
 const AppHeader = () => {
   const history = useHistory()
@@ -42,55 +43,58 @@ const AppHeader = () => {
     history.push('/')
   }
   return (
-    <CHeader position="sticky" className="mb-0" style={{ padding: 0, backgroundColor: '#474b4f' }}>
-      <CContainer fluid>
-        <CHeaderToggler
-          className="ps-1"
-          onClick={() => dispatch({ type: ActionTyps.APP_SIDEBAR_SHOW, sidebarShow: !sidebarShow })}
-        >
-          <CIcon icon={cilMenu} size="lg" style={{ color: iconSettings }} />
-        </CHeaderToggler>
-        <CHeaderBrand className="mx-auto d-md-none" to="/">
-          <CIcon icon={logo} height={48} alt="Logo" />
-        </CHeaderBrand>
-        <CHeaderNav className="d-none d-md-flex me-auto">
-          <CNavItem>
-            <CNavLink to="/Home" component={NavLink} activeClassName="active">
-              <HomeRoundedIcon sx={{ color: iconHome }} />
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink to="/Home/Settings" component={NavLink}>
-              <SettingsIcon sx={{ color: iconSettings }} />
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink to="#" onClick={hrmLogout}>
-              <PowerSettingsNewIcon sx={{ color: iconPowerOff }} />
-            </CNavLink>
-          </CNavItem>
-        </CHeaderNav>
-        <CHeaderNav>
-          <CNavItem>
-            <CNavLink to="/Home">
-              <Badge badgeContent={4} color="error">
-                <EmailIcon sx={{ color: iconMessage }} />
-              </Badge>
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink to="/Home">
-              <Badge badgeContent={4} color="error">
-                <NotificationsIcon sx={{ color: iconNotification }} />
-              </Badge>
-            </CNavLink>
-          </CNavItem>
-        </CHeaderNav>
-        <CHeaderNav className="ms-3">
-          <AppHeaderDropdown sx={{ paddingX: 0 }} />
-        </CHeaderNav>
-      </CContainer>
-    </CHeader>
+    <Fragment>
+      <ToastContainer />
+      <CHeader position="sticky" className="mb-0" style={{ padding: 0, backgroundColor: '#474b4f' }}>
+        <CContainer fluid>
+          <CHeaderToggler
+            className="ps-1"
+            onClick={() => dispatch({ type: ActionTyps.APP_SIDEBAR_SHOW, sidebarShow: !sidebarShow })}
+          >
+            <CIcon icon={cilMenu} size="lg" style={{ color: iconSettings }} />
+          </CHeaderToggler>
+          <CHeaderBrand className="mx-auto d-md-none" to="/">
+            <CIcon icon={logo} height={48} alt="Logo" />
+          </CHeaderBrand>
+          <CHeaderNav className="d-none d-md-flex me-auto">
+            <CNavItem>
+              <CNavLink to="/Home" component={NavLink} activeClassName="active">
+                <HomeRoundedIcon sx={{ color: iconHome }} />
+              </CNavLink>
+            </CNavItem>
+            <CNavItem>
+              <CNavLink to="/Home/Settings" component={NavLink}>
+                <SettingsIcon sx={{ color: iconSettings }} />
+              </CNavLink>
+            </CNavItem>
+            <CNavItem>
+              <CNavLink to="#" onClick={hrmLogout}>
+                <PowerSettingsNewIcon sx={{ color: iconPowerOff }} />
+              </CNavLink>
+            </CNavItem>
+          </CHeaderNav>
+          <CHeaderNav>
+            <CNavItem>
+              <CNavLink to="/Home">
+                <Badge badgeContent={4} color="error">
+                  <EmailIcon sx={{ color: iconMessage }} />
+                </Badge>
+              </CNavLink>
+            </CNavItem>
+            <CNavItem>
+              <CNavLink to="/Home">
+                <Badge badgeContent={4} color="error">
+                  <NotificationsIcon sx={{ color: iconNotification }} />
+                </Badge>
+              </CNavLink>
+            </CNavItem>
+          </CHeaderNav>
+          <CHeaderNav className="ms-3">
+            <AppHeaderDropdown sx={{ paddingX: 0 }} />
+          </CHeaderNav>
+        </CContainer>
+      </CHeader>
+    </Fragment>
   )
 }
 
