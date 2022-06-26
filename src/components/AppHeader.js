@@ -18,7 +18,7 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 import { useHistory } from 'react-router-dom'
 import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
-import { Badge, IconButton } from '@mui/material'
+import { Badge } from '@mui/material'
 import EmailIcon from '@mui/icons-material/Email'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import {
