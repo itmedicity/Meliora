@@ -11,12 +11,12 @@ import CustomMaterialTable from '../Components/CustomMaterialTable'
 const Home = () => {
   return (
     <Fragment>
-      <CommonReport />
+      {/* <CommonReport /> */}
       {/* <CommonReportFormOne /> */}
-
+      <CusCard />
       {/* <div>
                 <CustomAgGrid />
-                <CardOne />
+                // <CardOne />
                 <CusCard />
             </div>
             <div style={{ paddingTop: 5 }}>
