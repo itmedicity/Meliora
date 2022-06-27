@@ -73,9 +73,10 @@ const Input = styled(InputUnstyled)(
 const TextFieldCustom = () => {
   return (
     <Fragment>
-      {/* <Box sx={{ width: 300 }}>
+      <Box sx={{ width: 300 }}>
         <CssVarsProvider>
           <InputText
+            size="sm"
             sx={{
               borderRadius: 20,
               borderColor: 'red',
@@ -84,18 +85,19 @@ const TextFieldCustom = () => {
             placeholder="saadasdasdad"
           />
         </CssVarsProvider>
-      </Box> */}
+      </Box>
       {/* <Box sx={{ width: 300 }}> */}
-      <FormControlUnstyled defaultValue="" required>
+      {/* <FormControlUnstyled defaultValue="" required>
         {({ filled, focused }: FormControlUnstyledState) => (
-          <React.Fragment>
+          <Fragment>
             <Input className={filled ? 'filled' : ''} />
-            {/* {filled && !focused && <OkMark>✔</OkMark>} */}
-          </React.Fragment>
-        )}
-      </FormControlUnstyled>
+            {filled && !focused && <OkMark>✔</OkMark>}
+          </Fragment>
+        )
+        }
+      </FormControlUnstyled > */}
       {/* </Box> */}
-    </Fragment>
+    </Fragment >
   )
 }
 
