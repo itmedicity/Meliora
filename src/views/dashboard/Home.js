@@ -3,7 +3,6 @@ import CardOne from '../Components/CardOne'
 import CardThree from '../Components/CardThree'
 import CardTwo from '../Components/CardTwo'
 import CustomAgGrid from '../Components/CustomAgGrid';
-import CustomMaterialTable from '../Components/CustomMaterialTable';
 
 const Home = () => {
     return (
