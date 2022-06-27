@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { CssVarsProvider } from '@mui/joy/styles';
-import Checkbox, { checkboxClasses } from '@mui/joy/Checkbox';
+import Checkbox from '@mui/joy/Checkbox';
 import Sheet from '@mui/joy/Sheet';
 
 const OverRelayCheckBox = ({
@@ -20,7 +20,10 @@ const OverRelayCheckBox = ({
     return (
         <Fragment>
             <CssVarsProvider>
-                <Sheet variant='outlined' sx={{ p: 0.2, boxShadow: 'sm', borderRadius: 'xs', display: 'flex' }}  >
+                <Sheet
+                    variant='outlined'
+                    sx={{ p: 0.2, borderRadius: 'xs', display: 'flex' }}
+                >
                     <Checkbox
                         overlay
                         variant={variant}
