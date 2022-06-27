@@ -1,9 +1,9 @@
-import 'react-toastify/dist/ReactToastify.css';
-import { toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
+import { toast, Bounce } from 'react-toastify'
 
-
-export const succesNotify = (message) => toast.success(message, {
-    position: "top-center",
+export const succesNotify = (message) =>
+  toast.success(message, {
+    position: 'top-center',
     autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -11,11 +11,12 @@ export const succesNotify = (message) => toast.success(message, {
     draggable: true,
     progress: undefined,
     transition: Bounce,
-    theme: "light"
-});
+    theme: 'light',
+  })
 
-export const errorNotify = (message) => toast.error(message, {
-    position: "top-center",
+export const errorNotify = (message) =>
+  toast.error(message, {
+    position: 'top-center',
     autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -23,11 +24,12 @@ export const errorNotify = (message) => toast.error(message, {
     draggable: true,
     progress: undefined,
     transition: Bounce,
-    theme: "light"
-});
+    theme: 'light',
+  })
 
-export const warningNotify = (message) => toast.warning(message, {
-    position: "top-center",
+export const warningNotify = (message) =>
+  toast.warning(message, {
+    position: 'top-center',
     autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -35,10 +37,11 @@ export const warningNotify = (message) => toast.warning(message, {
     draggable: true,
     progress: undefined,
     transition: Bounce,
-    theme: "light"
-});
-export const infoNotify = (message) => toast.info(message, {
-    position: "top-center",
+    theme: 'light',
+  })
+export const infoNotify = (message) =>
+  toast.info(message, {
+    position: 'top-center',
     autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -46,5 +49,5 @@ export const infoNotify = (message) => toast.info(message, {
     draggable: true,
     progress: undefined,
     transition: Bounce,
-    theme: "light"
-});
+    theme: 'light',
+  })
