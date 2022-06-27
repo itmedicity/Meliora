@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import CusCard from 'src/views/Components/CusCard'
 
 const ComplaintRegistrMast = () => {
     return (
-        <div>ComplaintRegisterMast</div>
+        <Fragment>
+            <CusCard />
+        </Fragment >
     )
 }
 
