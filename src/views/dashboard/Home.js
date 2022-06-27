@@ -9,12 +9,12 @@ import CustomAgGridMenuSelection from '../Components/CustomAgGridMenuSelection'
 import CustomMaterialTable from '../Components/CustomMaterialTable'
 
 const Home = () => {
-  return (
-    <Fragment>
-      {/* <CommonReport /> */}
-      {/* <CommonReportFormOne /> */}
-      <CusCard />
-      {/* <div>
+    return (
+        <Fragment>
+            {/* <CommonReport /> */}
+            {/* <CommonReportFormOne /> */}
+            <CusCard />
+            {/* <div>
                 <CustomAgGrid />
                 // <CardOne />
                 <CusCard />
@@ -31,8 +31,8 @@ const Home = () => {
             <div style={{ paddingTop: 5 }}>
                 <CustomAgGrid />
             </div> */}
-    </Fragment>
-  )
+        </Fragment>
+    )
 }
 
 export default Home
