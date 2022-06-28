@@ -17,10 +17,10 @@ const CustomCardHeader = ({ title }) => {
       titleTypographyProps={{ variant: 'subtitle2' }}
       // disableTypography
       sx={{
-        backgroundColor: cardHeaderColor,
+        backgroundColor: bgcolrheading,
         paddingY: 0.5,
         borderBottom: 0.1,
-        borderBottomColor: cardHeaderColor,
+        borderBottomColor: bgbottom,
         fontSize: 14,
         color: cardHeaderFont,
         borderColor: '#66bb6a',

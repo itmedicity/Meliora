@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import {
   CAvatar,
   CBadge,
@@ -23,21 +23,21 @@ import EmailIcon from '@mui/icons-material/Email'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import SettingsIcon from '@mui/icons-material/Settings'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { infoNotify } from 'src/views/Common/CommonCode'
-import { useHistory } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
+import ModelMessage from 'src/views/Components/ModelMessage'
 
 const AppHeaderDropdown = () => {
-  const history = useHistory()
-  const hrmLogout = () => {
-    sessionStorage.clear();
-    infoNotify('You Are Logged Out Successfully');
-    history.push('/')
+  const [open, setOpen] = useState(false);
+
+  const cmsLogout = () => {
+    setOpen(true)
   }
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Fragment>
-      <ToastContainer />
+      <ModelMessage open={open} handleClose={handleClose} />
       <CDropdown variant="nav-item">
         <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
           <CAvatar src={avatar8} size="md" />
@@ -71,7 +71,7 @@ const AppHeaderDropdown = () => {
           </CDropdownItem>
           <CDropdownDivider />
           <CDropdownItem href="#">
-            <LogoutIcon className="me-2" sx={{ color: iconPowerOff }} onClick={hrmLogout} />
+            <LogoutIcon className="me-2" sx={{ color: iconPowerOff }} onClick={cmsLogout} />
             Log Out
           </CDropdownItem>
         </CDropdownMenu>
