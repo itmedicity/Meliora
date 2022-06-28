@@ -17,6 +17,7 @@ import KeyRoundedIcon from '@mui/icons-material/KeyRounded';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import { Button } from '@mui/joy'
 import TextFeildPrimary from '../Components/TextFeildPrimary'
+import SelectBasic from '../Components/SelectBasic'
 
 const Home = () => {
     return (
@@ -133,7 +134,8 @@ const Home = () => {
                                 <TextFieldCustom
                                     style={{ mx: 0 }}
                                     size="md"
-                                    placeholder="-- md size Text Feild"
+                                    placeholder="-- md size Text Feild with number"
+                                    type="number"
                                 />
                             </Grid>
                             <Grid item lg={12} xl={12} >
@@ -266,7 +268,16 @@ const Home = () => {
                                 />
                             </Grid>
                         </Grid>
+                    </CardTertiary>
+                </Grid>
+                <Grid item xl={6} lg={6}>
+                    <CardTertiary title={`TextFeild Examples`} >
+                        <Grid container spacing={0.500} >
+                            <Grid item lg={12} xl={12} >
+                                <SelectBasic />
+                            </Grid>
 
+                        </Grid>
                     </CardTertiary>
                 </Grid>
             </Grid>
