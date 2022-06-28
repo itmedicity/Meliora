@@ -1,13 +1,8 @@
 import React, { Fragment, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
-import { useCallback } from 'react'
-import { IconButton, Paper } from '@mui/material'
+import { Paper } from '@mui/material'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css'
-import CusIconButton from './CusIconButton'
-import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch'
-import CloseIcon from '@mui/icons-material/Close'
 import { Box } from '@mui/system'
 
 const CustomAgGridRptFormatOne = () => {
@@ -360,7 +355,7 @@ const CustomAgGridRptFormatOne = () => {
             rowGroupPanelShow={'always'}
             pivotPanelShow={'always'}
             enableRangeSelection={true}
-            // pagination={true}
+          // pagination={true}
           ></AgGridReact>
         </Box>
       </Paper>
