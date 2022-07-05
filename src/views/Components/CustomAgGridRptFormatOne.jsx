@@ -3,6 +3,7 @@ import { AgGridReact } from 'ag-grid-react'
 import { Paper } from '@mui/material'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css'
+
 import { Box } from '@mui/system'
 
 const CustomAgGridRptFormatOne = () => {
