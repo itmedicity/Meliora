@@ -4,11 +4,9 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import CustomMaterialTable from 'src/views/Components/CustomMaterialTable'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import { tableIcons } from 'src/views/Common/MaterialiCon';
-import { useHistory } from 'react-router-dom'
 
-const ModuleTable = ({ count }) => {
+const ModuleTable = ({ count, geteditdata }) => {
     const [tabledata, setTabledata] = useState([])
-    const history = useHistory()
     const colums = [
         {
             title: "SlNo", field: "module_slno",
@@ -32,11 +30,6 @@ const ModuleTable = ({ count }) => {
         }
         getmodule();
     }, [count])
-
-    const geteditdata = (data) => {
-        const { module_slno } = data
-        history.push(`/Home/ModuleMastEdit/${module_slno}`)
-    }
 
     return (
         <CustomMaterialTable

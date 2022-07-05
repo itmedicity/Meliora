@@ -4,11 +4,9 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import CustomMaterialTable from 'src/views/Components/CustomMaterialTable'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import { tableIcons } from 'src/views/Common/MaterialiCon';
-import { useHistory } from 'react-router-dom'
 
-const UserGroupTable = ({ count }) => {
+const UserGroupTable = ({ count, geteditdata }) => {
     const [tabledata, setTabledata] = useState([])
-    const history = useHistory()
     const colums = [
         {
             title: "SlNo", field: "user_grp_slno",
@@ -32,11 +30,6 @@ const UserGroupTable = ({ count }) => {
         }
         getUserGroup();
     }, [count])
-
-    const geteditdata = (data) => {
-        const { user_grp_slno } = data
-        history.push(`/Home/GroupMastEdit/${user_grp_slno}`)
-    }
 
     return (
         <CustomMaterialTable
