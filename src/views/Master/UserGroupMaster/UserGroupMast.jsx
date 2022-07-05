@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
@@ -18,55 +18,55 @@ const UserGroupMast = () => {
         usergrp_name: '',
         usergrp_status: false,
         user_grp_slno: ''
-
     })
 
     //Destructuring
     const { usergrp_name, usergrp_status, user_grp_slno } = usergrp;
-    const updateUsergrp = (e) => {
+    const updateUsergrp = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setUsergrp({ ...usergrp, [e.target.name]: value })
-    }
+    }, [usergrp])
 
-    //submitt data
-    const postdata = {
-        user_grp_name: usergrp_name,
-        user_grp_status: usergrp_status === true ? 1 : 0
-    }
+    //data for insert
+    const postdata = useMemo(() => {
+        return {
+            user_grp_name: usergrp_name,
+            user_grp_status: usergrp_status === true ? 1 : 0
+        }
+    }, [usergrp_name, usergrp_status])
 
-    //submitt update data
-    const patchdata = {
-        user_grp_name: usergrp_name,
-        user_grp_status: usergrp_status === true ? 1 : 0,
-        user_grp_slno: user_grp_slno
-    }
-    //reset from
-    const formreset = {
-        usergrp_name: '',
-        usergrp_status: false,
-        user_grp_slno: ''
-    }
+    //data for update
+    const patchdata = useMemo(() => {
+        return {
+            user_grp_name: usergrp_name,
+            user_grp_status: usergrp_status === true ? 1 : 0,
+            user_grp_slno: user_grp_slno
+        }
+    }, [usergrp_name, usergrp_status, user_grp_slno])
 
     //Data set for edit
-    const geteditdata = async (dataa) => {
+    const geteditdata = async (data) => {
         setvalue(1)
-        const { user_grp_slno } = dataa
-        const result = await axioslogin.get(`/usergroup/${user_grp_slno}`)
-        const { success, data } = result.data
-        if (success === 1) {
-            const { user_grp_name, user_grp_status, user_grp_slno } = data[0]
-            const frmdata = {
-                usergrp_name: user_grp_name,
-                usergrp_status: user_grp_status === 1 ? true : false,
-                user_grp_slno: user_grp_slno
-            }
-            setUsergrp(frmdata)
+        const { user_grp_name, user_grp_status, user_grp_slno } = data[0]
+        const frmdata = {
+            usergrp_name: user_grp_name,
+            usergrp_status: user_grp_status === 1 ? true : false,
+            user_grp_slno: user_grp_slno
         }
+        setUsergrp(frmdata)
     }
-    //Form Submitting
-    const submitUserGroup = async (e) => {
+
+    /*** usecallback function for form submitting */
+    const submitUserGroup = useCallback((e) => {
         e.preventDefault();
-        if (value === 0) {
+        /*** reset from */
+        const formreset = {
+            usergrp_name: '',
+            usergrp_status: false,
+            user_grp_slno: ''
+        }
+        /***     * insert function for use call back     */
+        const InsertFun = async (postdata) => {
             const result = await axioslogin.post('/usergroup', postdata)
             const { message, success } = result.data;
             if (success === 1) {
@@ -79,7 +79,8 @@ const UserGroupMast = () => {
                 infoNotify(message)
             }
         }
-        else {
+        /***  * update function for use call back     */
+        const updateFun = async (patchdata) => {
             const result = await axioslogin.patch('/usergroup', patchdata)
             const { message, success } = result.data;
             if (success === 2) {
@@ -92,7 +93,16 @@ const UserGroupMast = () => {
                 infoNotify(message)
             }
         }
-    }
+        /*** value=0 insert api call work else update call
+          * value initialy '0' when edit button click value changes to '1'
+          */
+        if (value === 0) {
+            InsertFun(postdata)
+        }
+        else {
+            updateFun(patchdata)
+        }
+    }, [value, postdata, patchdata, count])
 
     //back to home
     const backtoSetting = () => {
@@ -100,7 +110,6 @@ const UserGroupMast = () => {
     }
 
     return (
-
         <CardMaster
             title="User Group Master"
             submit={submitUserGroup}

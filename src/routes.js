@@ -21,7 +21,6 @@ const routes = [
   { path: '/Home/ComplaintRegister', exact: true, name: 'Complaint Register', component: ComplaintRegister },
   { path: '/Home/Group', exact: true, name: 'User Group Master', component: UserGroupMast },
   { path: '/Home/ModuleMast', name: 'Module Master', component: ModuleMast },
-
   { path: '/Home/UserGroupRight', exact: true, name: 'User Group Rights', component: UserGroupRights }
 ]
 

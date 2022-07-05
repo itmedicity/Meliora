@@ -8,6 +8,7 @@ import CustomeToolTip from './CustomeToolTip';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
 import CustomCardHeaderOne from './CustomCardHeaderOne';
+import { cardActionBgClr } from 'src/color/Color';
 
 const CardMaster = ({ children, title, close, submit }) => {
     return (
@@ -22,7 +23,7 @@ const CardMaster = ({ children, title, close, submit }) => {
                     <CardContent >
                         {children}
                     </CardContent>
-                    <CardActions sx={{ backgroundColor: '#f0f3f5', py: 0.300, pt: 0.500 }} disableSpacing={false} >
+                    <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.300, pt: 0.500 }} disableSpacing={false} >
                         {/* Save button */}
                         <CustomeToolTip title="Save" placement="left" >
                             <Box>

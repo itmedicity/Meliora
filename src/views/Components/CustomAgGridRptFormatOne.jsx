@@ -298,7 +298,7 @@ const CustomAgGridRptFormatOne = () => {
     sortable: true,
     filter: true,
     // floatingFilter: true
-    filter: 'agTextColumnFilter',
+    // filter: 'agTextColumnFilter',
   }
 
   let gridApi

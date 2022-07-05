@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
@@ -23,50 +23,50 @@ const ModuleMaster = () => {
 
     //Destructuring
     const { module_name, module_status, module_slno } = module;
-    const updateModule = (e) => {
+    const updateModule = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setModule({ ...module, [e.target.name]: value })
-    }
+    }, [module])
 
-    //Insert data
-    const postdata = {
-        module_name: module_name,
-        module_status: module_status === true ? 1 : 0
-    }
-    //Update data
-    const patchdata = {
-        module_name: module_name,
-        module_status: module_status === true ? 1 : 0,
-        module_slno: module_slno
-    }
-    //reset from
-    const formreset = {
-        module_name: '',
-        module_status: false,
-        module_slno: ''
-    }
+    // data for insert
+    const postdata = useMemo(() => {
+        return {
+            module_name: module_name,
+            module_status: module_status === true ? 1 : 0
+        }
+    }, [module_name, module_status])
+
+    //data for update
+    const patchdata = useMemo(() => {
+        return {
+            module_name: module_name,
+            module_status: module_status === true ? 1 : 0,
+            module_slno: module_slno
+        }
+    }, [module_name, module_status, module_slno])
 
     //Data set for edit
-    const geteditdata = async (dataa) => {
+    const geteditdata = async (data) => {
         setvalue(1)
-        const { module_slno } = dataa
-        const result = await axioslogin.get(`/modulemaster/${module_slno}`)
-        const { success, data } = result.data
-        if (success === 1) {
-            const { module_name, module_status, module_slno } = data[0]
-            const frmdata = {
-                module_name: module_name,
-                module_status: module_status === 1 ? true : false,
-                module_slno: module_slno
-            }
-            setModule(frmdata)
+        const { module_name, module_status, module_slno } = data
+        const frmdata = {
+            module_name: module_name,
+            module_status: module_status === 1 ? true : false,
+            module_slno: module_slno
         }
+        setModule(frmdata)
     }
 
-    //Form Submitting
-    const submitModule = async (e) => {
+    /*** usecallback function for form submitting form */
+    const submitModule = useCallback((e) => {
         e.preventDefault();
-        if (value === 0) {
+        //reset from
+        const formreset = {
+            module_name: '',
+            module_status: false,
+            module_slno: ''
+        }
+        const InsertFun = async (postdata) => {
             const result = await axioslogin.post('/modulemaster', postdata)
             const { message, success } = result.data;
             if (success === 1) {
@@ -79,7 +79,7 @@ const ModuleMaster = () => {
                 infoNotify(message)
             }
         }
-        else {
+        const updateFun = async (patchdata) => {
             const result = await axioslogin.patch('/modulemaster', patchdata)
             const { message, success } = result.data;
             if (success === 2) {
@@ -92,7 +92,16 @@ const ModuleMaster = () => {
                 infoNotify(message)
             }
         }
-    }
+        /*** value=0 insert api call work else update call
+         * value initialy '0' when edit button click value changes to '1'
+         */
+        if (value === 0) {
+            InsertFun(postdata)
+        }
+        else {
+            updateFun(patchdata)
+        }
+    }, [value, postdata, patchdata, count])
 
     //back to home
     const backtoSetting = () => {
