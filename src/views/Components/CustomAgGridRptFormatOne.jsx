@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, memo } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import { Paper } from '@mui/material'
 import 'ag-grid-community/dist/styles/ag-grid.css'
@@ -304,11 +304,11 @@ const CustomAgGridRptFormatOne = () => {
   let gridApi
   const onGridReady = (params) => {
     gridApi = params.api
-    // gridApi.sizeColumnsToFit()
+    gridApi.sizeColumnsToFit()
   }
   //--- For Get the Selected Row Values
   const onSelectionChanged = (event) => {
-    console.log(event.api.getSelectedRows())
+    event.api.getSelectedRows()
   }
 
   const rowStyle = {
@@ -364,4 +364,4 @@ const CustomAgGridRptFormatOne = () => {
   )
 }
 
-export default CustomAgGridRptFormatOne
+export default memo(CustomAgGridRptFormatOne)

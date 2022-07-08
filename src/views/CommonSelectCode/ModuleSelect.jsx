@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from 'react'
+import React, { useEffect, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getmodule } from "src/redux/actions/Module.action";
 import Box from "@mui/material/Box";
@@ -6,8 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const ModuleSelect = () => {
-    const [module, setModule] = useState('0');
+const ModuleSelect = ({ value, setValue }) => {
     const dispatch = useDispatch()
     /*** getModuleName -state update function of reducer 
      * moduleNameSelect- initial state of reducer function
@@ -27,8 +26,8 @@ const ModuleSelect = () => {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={module}
-                    onChange={(e) => setModule(e.target.value)}
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
                     size="small"
                     fullWidth
                     variant="outlined"

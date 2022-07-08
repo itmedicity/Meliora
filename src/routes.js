@@ -10,6 +10,9 @@ const ComplaintRegister = React.lazy(() => import('./views/ComManagement/Complai
 const UserGroupMast = React.lazy(() => import('./views/Master/UserGroupMaster/UserGroupMast'))
 const ModuleMast = React.lazy(() => import('./views/Master/ModuleMaster/ModuleMaster'))
 const UserGroupRights = React.lazy(() => import('./views/Master/UserGroupRight/UserGroupRight'))
+const ModuleGroupMast = React.lazy(() => import('./views/Master/ModuleGroupMaster/ModuleGroupMast'))
+
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/Home', exact: true, name: 'Home', component: Home },
@@ -21,7 +24,8 @@ const routes = [
   { path: '/Home/ComplaintRegister', exact: true, name: 'Complaint Register', component: ComplaintRegister },
   { path: '/Home/Group', exact: true, name: 'User Group Master', component: UserGroupMast },
   { path: '/Home/ModuleMast', name: 'Module Master', component: ModuleMast },
-  { path: '/Home/UserGroupRight', exact: true, name: 'User Group Rights', component: UserGroupRights }
+  { path: '/Home/UserGroupRight', exact: true, name: 'User Group Rights', component: UserGroupRights },
+  { path: '/Home/ModuleGroupMast', exact: true, name: 'Module group Master', component: ModuleGroupMast }
 ]
 
 export default routes
