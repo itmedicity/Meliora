@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, memo } from 'react'
+import React, { useEffect, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserGroup } from "src/redux/actions/UserGroup.action";
 import Box from "@mui/material/Box";
@@ -7,8 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const UserGroupSelect = () => {
-    const [userGroup, setUsergroup] = useState('0');
+const UserGroupSelect = ({ value, setValue }) => {
     const dispatch = useDispatch()
     /*** getUserGroup -state update function of reducer 
      * userGroupnameList- initial state of reducer function
@@ -28,8 +27,8 @@ const UserGroupSelect = () => {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={userGroup}
-                    onChange={(e) => setUsergroup(e.target.value)}
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
                     size="small"
                     fullWidth
                     variant="outlined"

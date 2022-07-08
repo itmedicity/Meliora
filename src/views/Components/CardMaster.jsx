@@ -20,7 +20,7 @@ const CardMaster = ({ children, title, close, submit }) => {
                         onClickClose={close}
                         cardStyle={{}}
                     />
-                    <CardContent >
+                    <CardContent sx={{ p: 0 }} >
                         {children}
                     </CardContent>
                     <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.300, pt: 0.500 }} disableSpacing={false} >

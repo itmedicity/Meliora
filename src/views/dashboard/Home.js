@@ -1,16 +1,10 @@
 
+
 import React, { Fragment } from 'react'
-
-
 
 const Home = () => {
     return (
         <Fragment>
-            {/* <CardMaster>
-                <ModuleSelect />
-
-
-            </CardMaster> */}
 
 
             {/* <CommonReport /> */}
