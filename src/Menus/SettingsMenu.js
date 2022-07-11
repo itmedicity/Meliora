@@ -47,6 +47,7 @@ export const userManagement_one = [
 ]
 export const userManagement_two = [
     { to: '/Home/ModuleMast', name: 'Module Master', slno: 9 },
+    { to: '/Home/ModuleUserRight', name: 'Module User Right', slno: 15 },
 
 
 

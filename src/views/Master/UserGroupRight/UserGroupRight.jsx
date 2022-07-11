@@ -1,5 +1,5 @@
 import { Box, Grid } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import CustomeToolTip from 'src/views/Components/CustomeToolTip'
 import SearchOffIcon from '@mui/icons-material/SearchOff';
@@ -11,10 +11,13 @@ import ModuleSelect from 'src/views/CommonSelectCode/ModuleSelect';
 import { useCallback } from 'react';
 import { axioslogin } from 'src/views/Axios/Axios'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
-import EditButton from 'src/views/Components/EditButton';
+import CheckIcon from 'src/views/Components/CheckIcon';
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 
 const UserGroupRight = () => {
+    //Initializing
     const history = useHistory();
+    const [count, setCount] = useState(0)
     const [usergp, setUsergrp] = useState(0)
     const [modulename, setModule] = useState(0)
     const [tabledis, setTabledis] = useState(0)
@@ -22,10 +25,13 @@ const UserGroupRight = () => {
     const [column] = useState([
         { headerName: 'slno', field: 'menu_slno' },
         { headerName: 'Menu Name', field: 'menu_name' },
-        { headerName: 'Action', cellRenderer: EditButton },
-
+        { headerName: 'Action', cellRenderer: CheckIcon, width: 2 }
     ])
+    const columnTypes = {
+        nonEditableColumn: { editable: false },
 
+    };
+    /*** get menus from table its under selected module */
     const search = useCallback(() => {
         setTabledis(1)
         const getmeus = async (modulename) => {
@@ -34,33 +40,55 @@ const UserGroupRight = () => {
             if (success === 1) {
                 setTabledata(data)
             }
-
+            else {
+                setTabledata(data)
+                warningNotify("No Menus are under selected module")
+            }
         }
         getmeus(modulename)
     }, [modulename])
 
+    const [menudata, setMenudata] = useState([])
+    const [mnslno, setMnslno] = useState(0)
+    useEffect(() => {
+        if (menudata.length !== 0) {
+            const { menu_slno } = menudata[0]
+            setMnslno(menu_slno)
+        }
 
-    // const [gcg, setss] = useState([])
-    // const [mnslno, setMnslno] = useState(0)
-    // const getdata = (event) => {
-    //     setss(event.api.getSelectedRows())
-    // }
-    // useEffect(() => {
-    //     const slno = gcg && gcg.map((val, index) => {
-    //         return val.menu_slno
-    //     })
-    //     setMnslno(slno)
-    // }, [gcg])
+    }, [menudata])
+    /*** when proceess button click data insert to user right table */
+    const getdata = async (event) => {
+        setMenudata(event.api.getSelectedRows())
+        const result = await axioslogin.post('/usergrouprights', postdata)
+        const { message, success } = result.data;
+        if (success === 1) {
+            succesNotify(message)
+            setCount(count + 1);
+        } else if (success === 0) {
+            infoNotify(message.sqlMessage);
+        } else {
+            infoNotify(message)
+        }
+    }
+    /*** Insertdata */
+    const postdata = useMemo(() => {
+        return {
+            user_group_slno: usergp,
+            module_slno: modulename,
+            menu_slno: mnslno,
+            menu_view: 1
+        }
+    }, [usergp, modulename, mnslno])
 
     //back to home
-    const backtoSetting = () => {
+    const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
-    }
+    }, [history])
 
     return (
         <CardMaster
             title="User Group Master"
-            //submit={submitUserGroup}
             close={backtoSetting}
         >
             <Box sx={{ pl: 2, pt: 2, pb: 1 }}>
@@ -101,7 +129,8 @@ const UserGroupRight = () => {
                     <CusAgGridMast
                         columnDefs={column}
                         tableData={tabledata}
-                    //  onSelectionChanged={getdata}
+                        onSelectionChanged={getdata}
+                        columnTypes={columnTypes}
                     /> : null}
             </Box>
         </CardMaster >
