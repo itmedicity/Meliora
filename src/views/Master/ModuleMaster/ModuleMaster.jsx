@@ -102,6 +102,7 @@ const ModuleMaster = () => {
                 succesNotify(message)
                 setCount(count + 1);
                 setModule(formreset);
+                setvalue(0)
             } else if (success === 0) {
                 infoNotify(message.sqlMessage);
             } else {
@@ -115,6 +116,7 @@ const ModuleMaster = () => {
                 succesNotify(message)
                 setCount(count + 1)
                 setModule(formreset);
+                setvalue(0)
             } else if (success === 0) {
                 infoNotify(message.sqlMessage);
             } else {
@@ -133,9 +135,9 @@ const ModuleMaster = () => {
     }, [value, postdata, patchdata, count])
 
     //back to home
-    const backtoSetting = () => {
+    const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
-    }
+    }, [history])
 
     return (
         <CardMaster

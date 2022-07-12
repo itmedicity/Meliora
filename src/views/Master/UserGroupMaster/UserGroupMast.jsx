@@ -133,10 +133,9 @@ const UserGroupMast = () => {
     }, [value, postdata, patchdata, count])
 
     //back to home
-    const backtoSetting = () => {
+    const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
-    }
-
+    }, [history])
     return (
         <CardMaster
             title="User Group Master"
