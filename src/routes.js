@@ -31,7 +31,7 @@ const routes = [
   { path: '/Home/ModuleGroupMast', exact: true, name: 'Module group Master', component: ModuleGroupMast },
   { path: '/Home/RequestType', exact: true, name: 'Request Type', component: RequestType },
   { path: '/Home/ComplaintType', exact: true, name: 'Complaint Type', component: ComplaintType },
-  { path: '/Home/HicPolicy', exact: true, name: 'Hic Policy', component: HicPolicy }
+  { path: '/Home/HicPolicy', exact: true, name: 'Hic Policy', component: HicPolicy },
   { path: '/Home/ModuleUserRight', exact: true, name: 'Module User Right', component: moduleuserRight }
 
 ]
