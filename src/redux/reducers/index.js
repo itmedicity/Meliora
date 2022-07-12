@@ -10,6 +10,9 @@ import { getHicpolicy } from './HicPolicy.Reducer'
 import { getRequesttype } from './RequestType.reducer'
 import { getDeptsection } from './DeptSection.Reducer'
 import { getComplainttype } from './ComplaintType.Reducer'
+import { getEmployeeName } from '../reducers/EmpName.Reducer'
+import { getModuleGroup } from '../reducers/ModuleGroup.Reducer'
+
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -22,6 +25,8 @@ const reducer = combineReducers({
     getRequesttype,
     getDeptsection,
     getComplainttype
+    getEmployeeName,
+    getModuleGroup
 
 })
 export default reducer;
