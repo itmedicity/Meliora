@@ -1,10 +1,11 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, memo } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
 import { useCallback } from 'react'
 import { IconButton } from '@mui/material'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
+import EditButton from './EditButton'
 
 const CustomAgGrid = () => {
   //Table
@@ -12,7 +13,7 @@ const CustomAgGrid = () => {
     { headerName: 'slno', field: 'slno', checkboxSelection: true, rowDrag: true },
     { headerName: 'Name', field: 'name' },
     { headerName: 'Mobile', field: 'mobile' },
-    { headerName: 'Gender ', field: 'gender' },
+    { headerName: 'Gender ', field: 'gender', cellRenderer: EditButton },
   ])
 
   const tableData = [
@@ -45,6 +46,10 @@ const CustomAgGrid = () => {
     gridApi.exportDataAsCsv()
   }, [gridApi])
 
+  const onSelectionChanged = (event) => {
+    console.log(event.api.getSelectedRows())
+  }
+
   return (
     <Fragment>
       <div
@@ -67,10 +72,11 @@ const CustomAgGrid = () => {
           animateRows={true}
           onGridReady={onGridReady}
           rowSelection="multiple"
+          onSelectionChanged={onSelectionChanged}
         ></AgGridReact>
       </div>
     </Fragment>
   )
 }
 
-export default CustomAgGrid
+export default memo(CustomAgGrid)

@@ -1,25 +1,19 @@
 import React, { memo, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
-import CustomMaterialTable from 'src/views/Components/CustomMaterialTable'
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import { tableIcons } from 'src/views/Common/MaterialiCon';
-import { useHistory } from 'react-router-dom'
+import CusAgGridMast from 'src/views/Components/CusAgGridMast';
+import EditButton from 'src/views/Components/EditButton';
 
-const UserGroupTable = ({ count }) => {
+const UserGroupTable = ({ count, geteditdata }) => {
     const [tabledata, setTabledata] = useState([])
-    const history = useHistory()
-    const colums = [
-        {
-            title: "SlNo", field: "user_grp_slno",
-        },
-        {
-            title: "Group Name", field: "user_grp_name",
-        },
-        {
-            title: "Status", field: "status",
-        },
-    ]
+    const [column] = useState([
+        { headerName: 'SlNo', field: 'user_grp_slno' },
+        { headerName: 'Group Name', field: 'user_grp_name' },
+        { headerName: 'Status', field: 'status' },
+        { headerName: 'Action', cellRenderer: EditButton },
+    ])
+
+    /*** get data from table for display */
     useEffect(() => {
         const getUserGroup = async () => {
             const result = await axioslogin.get('/usergroup')
@@ -33,24 +27,11 @@ const UserGroupTable = ({ count }) => {
         getUserGroup();
     }, [count])
 
-    const geteditdata = (data) => {
-        const { user_grp_slno } = data
-        history.push(`/Home/GroupMastEdit/${user_grp_slno}`)
-    }
-
     return (
-        <CustomMaterialTable
-            title="User Group Table"
-            columns={colums}
-            data={tabledata}
-            icons={tableIcons}
-            actions={[
-                {
-                    icon: () => <EditOutlinedIcon />,
-                    tooltip: " Click here to Edit",
-                    onClick: (e, data) => geteditdata(data)
-                }
-            ]}
+        <CusAgGridMast
+            columnDefs={column}
+            tableData={tabledata}
+            onSelectionChanged={geteditdata}
         />
     )
 }

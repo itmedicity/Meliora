@@ -1,7 +1,7 @@
 import React from 'react'
 import { CardHeader, IconButton, Tooltip } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import { cardHeaderFont, cardHeaderColor, bgcolrheading, bgbottom } from 'src/color/Color'
+import { cardHeaderFont, bgcolrheading, bgbottom } from 'src/color/Color'
 
 const CustomCardHeader = ({ title }) => {
     return (

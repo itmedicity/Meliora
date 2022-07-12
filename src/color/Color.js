@@ -12,3 +12,5 @@ export const bgbottom = '#c5cae9'
 export const cardHeader = '#424242'
 export const titleTypography = '#5d5d5d'
 export const iconColor = '#7ac143'
+export const cardActionBgClr = '#f0f3f5'
+export const editicon = "#0D47A1"

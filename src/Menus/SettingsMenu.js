@@ -41,7 +41,7 @@ export const cm_setting_three = [
 
 export const userManagement_one = [
     { to: '/Home/Group', name: 'Group Master', slno: 7 },
-
+    { to: '/Home/ModuleGroupMast', name: 'Module Group Master', slno: 8 },
 
 
 ]

@@ -1,8 +1,9 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, memo } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import { Paper } from '@mui/material'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css'
+
 import { Box } from '@mui/system'
 
 const CustomAgGridRptFormatOne = () => {
@@ -297,17 +298,17 @@ const CustomAgGridRptFormatOne = () => {
     sortable: true,
     filter: true,
     // floatingFilter: true
-    filter: 'agTextColumnFilter',
+    // filter: 'agTextColumnFilter',
   }
 
   let gridApi
   const onGridReady = (params) => {
     gridApi = params.api
-    // gridApi.sizeColumnsToFit()
+    gridApi.sizeColumnsToFit()
   }
   //--- For Get the Selected Row Values
   const onSelectionChanged = (event) => {
-    console.log(event.api.getSelectedRows())
+    event.api.getSelectedRows()
   }
 
   const rowStyle = {
@@ -363,4 +364,4 @@ const CustomAgGridRptFormatOne = () => {
   )
 }
 
-export default CustomAgGridRptFormatOne
+export default memo(CustomAgGridRptFormatOne)
