@@ -8,19 +8,18 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 const UserGroupSelect = ({ value, setValue }) => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     /*** getUserGroup -state update function of reducer 
      * userGroupnameList- initial state of reducer function
      * usergroup is used to list select box items by using map
     */
     const usergroup = useSelector((state) => {
-        return state.getUserGroup.userGroupnameList
+        return state.getUserGroup.userGroupnameList || 0
     })
     // getUserGroup function is used to update data in usergroup redux
     useEffect(() => {
         dispatch(getUserGroup())
     }, [dispatch])
-
     return (
         <Box>
             <FormControl fullWidth size="small">
@@ -36,7 +35,7 @@ const UserGroupSelect = ({ value, setValue }) => {
                 >
                     <MenuItem value={0} disabled >Select User Group</MenuItem>
                     {
-                        usergroup.map((val, index) => {
+                        usergroup && usergroup.map((val, index) => {
                             return <MenuItem key={index} value={val.user_grp_slno}>{val.user_grp_name}</MenuItem>
                         })
                     }
@@ -45,5 +44,4 @@ const UserGroupSelect = ({ value, setValue }) => {
         </Box >
     )
 }
-
 export default memo(UserGroupSelect)

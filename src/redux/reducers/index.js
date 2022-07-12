@@ -4,6 +4,12 @@ import { LoginUserData } from '../reducers/LoginReducer'
 import { getModuleName } from '../reducers/Module.Reducer'
 import { getUserGroup } from '../reducers/UserGroup.Reducer'
 import { setMenuName } from '../reducers/MenuName.Reducer'
+import { getDepartment } from './Department.Reducer';
+import { getComplaintDept } from './ComplaintDepartment.Reducer'
+import { getHicpolicy } from './HicPolicy.Reducer'
+import { getRequesttype } from './RequestType.reducer'
+import { getDeptsection } from './DeptSection.Reducer'
+import { getComplainttype } from './ComplaintType.Reducer'
 import { getEmployeeName } from '../reducers/EmpName.Reducer'
 import { getModuleGroup } from '../reducers/ModuleGroup.Reducer'
 
@@ -13,9 +19,14 @@ const reducer = combineReducers({
     getModuleName,
     getUserGroup,
     setMenuName,
+    getDepartment,
+    getComplaintDept,
+    getHicpolicy,
+    getRequesttype,
+    getDeptsection,
+    getComplainttype
     getEmployeeName,
     getModuleGroup
 
 })
-
 export default reducer;

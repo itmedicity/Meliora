@@ -5,8 +5,8 @@ const departmentName = {
     departmentList: [],
     loadingStatus: false
 }
-/*** User group action type check then payload set to the state and loading status set as true */
-export const setDepartment = (state = departmentName, { type, payload }) => {
+/*** Department action type check then payload set to the state and loading status set as true */
+export const getDepartment = (state = departmentName, { type, payload }) => {
     switch (type) {
         case FETCH_DEPARTMENT:
             return { ...state, departmentList: payload, loadingStatus: true }

@@ -1,0 +1,38 @@
+import React, { useEffect, useState, memo } from 'react'
+import { axioslogin } from 'src/views/Axios/Axios';
+import { warningNotify } from 'src/views/Common/CommonCode';
+import CusAgGridMast from 'src/views/Components/CusAgGridMast';
+import EditButton from 'src/views/Components/EditButton';
+const DepartmentMastTable = ({ count, geteditdata }) => {
+    //state for table data set
+    const [tabledata, setTabledata] = useState([])
+    //column title setting
+    const [column] = useState([
+        { headerName: "SlNo", field: "dept_slno" },
+        { headerName: "Department Name", field: "dept_name" },
+        { headerName: " Deaprtment Alias", field: "dept_alias" },
+        { headerName: "Status", field: "status" },
+        { headerName: 'Action', cellRenderer: EditButton },
+    ])
+    //get all data
+    useEffect(() => {
+        const getDepartment = async () => {
+            const result = await axioslogin.get('/deptmaster')
+            const { success, data } = result.data
+            if (success === 1) {
+                setTabledata(data)
+            } else {
+                warningNotify("Error occured contact EDP")
+            }
+        }
+        getDepartment();
+    }, [count])
+    return (
+        <CusAgGridMast
+            columnDefs={column}
+            tableData={tabledata}
+            onSelectionChanged={geteditdata}
+        />
+    )
+}
+export default memo(DepartmentMastTable)

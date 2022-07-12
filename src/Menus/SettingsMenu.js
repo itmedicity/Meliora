@@ -14,20 +14,21 @@ export const co_setting_two = [
 
 
 export const co_setting_three = [
-
+    { to: '/Home/RequestType', name: 'Request Type', slno: 12 }
 ]
 
 
 //Compliant Master Menu
 export const cm_setting_one = [
     { to: '/Home/ComplaintDepartment', name: 'Complaint Department', slno: 3 },
+    { to: '/Home/HicPolicy', name: 'Hicy Policy', slno: 14 }
 
 
 
 ]
 
 export const cm_setting_two = [
-
+    { to: '/Home/ComplaintType', name: 'Complaint Type', slno: 13 }
 
 ]
 

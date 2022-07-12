@@ -56,11 +56,15 @@ const ModuleMaster = () => {
     }
     //For get slno from selected row  
     useEffect(() => {
-        const slno = editData && editData.map((val, index) => {
-            return val.module_slno
-        })
-        setModuleslno(slno)
+        if (editData.length !== 0) {
+            const slno = editData && editData.map((val, index) => {
+                return val.module_slno
+            })
+            setModuleslno(slno)
+        }
     }, [editData])
+
+
 
 
     /*** get data from module_master where selected slno for edit and also data set to corresponding feilds*/

@@ -1,103 +1,102 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
-import ComplaintDeptMastTable from './ComplaintDeptMastTable';
 import { Box } from '@mui/system'
-import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { Grid } from '@mui/material'
+import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-import { axioslogin } from 'src/views/Axios/Axios';
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
-const ComplaintDeptMast = () => {
-    //for routing to settings
+import { axioslogin } from 'src/views/Axios/Axios'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import HicPolicyTable from './HicPolicyTable'
+const HicPolicyMast = () => {
     const history = useHistory();
-    //state for table render
+    //state for table rendering
     const [count, setCount] = useState(0);
     //state for edit
-    const [edit, setEdit] = useState(0);
+    const [edit, setEdit] = useState(0)
     //data setting when clicken on row table
     const [editData, setEditdata] = useState([]);
     //for setting id from each row and get data by id
-    const [compslno, setCompslno] = useState([]);
+    const [hicslno, setHicslno] = useState([]);
     //intializing
-    const [complaint, setComplaint] = useState({
-        complaint_dept_name: '',
-        complaint_dept_status: false,
-        complaint_dept_slno: ''
+    const [hic, setHic] = useState({
+        hic_policy_name: '',
+        hic_policy_status: false,
+        hic_policy_slno: ''
     })
-    //Destructuring
-    const { complaint_dept_name, complaint_dept_status, complaint_dept_slno } = complaint
-    const updateDepartment = useCallback((e) => {
+    //destructuring
+    const { hic_policy_name, hic_policy_status, hic_policy_slno } = hic
+    const updatehicPolicy = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setComplaint({ ...complaint, [e.target.name]: value })
-    }, [complaint])
+        setHic({ ...hic, [e.target.name]: value })
+    }, [hic])
     //data set for edit
     const geteditdata = async (event) => {
-        setEdit(1)
+        setEdit(1);
         setEditdata(event.api.getSelectedRows());
     }
     //For get slno from selected row  
     useEffect(() => {
         if (editData.length !== 0) {
             const slno = editData && editData.map((val, index) => {
-                return val.complaint_dept_slno
+                return val.hic_policy_slno
             })
-            setCompslno(slno)
+            setHicslno(slno)
         }
     }, [editData])
-    /*** get data from complaintdept_master where selected slno for edit and also data set to corresponding fields*/
+    /*** get data from hicpolicy_master where selected slno for edit and also data set to corresponding fields*/
     useEffect(() => {
-        if (compslno.length !== 0) {
-            const getCompdept = async () => {
-                const result = await axioslogin.post('/complaintdept/byid', compslno)
+        if (hicslno.length !== 0) {
+            const getHic = async () => {
+                const result = await axioslogin.post('/hicpolicy/byid', hicslno)
                 const { success, data } = result.data
                 if (success === 1) {
-                    const { complaint_dept_name, complaint_dept_status, complaint_dept_slno } = data[0];
+                    const { hic_policy_name, hic_policy_status, hic_policy_slno } = data[0];
                     const frmdata = {
-                        complaint_dept_name: complaint_dept_name,
-                        complaint_dept_status: complaint_dept_status === 1 ? true : false,
-                        complaint_dept_slno: complaint_dept_slno
+                        hic_policy_name: hic_policy_name,
+                        hic_policy_status: hic_policy_status === 1 ? true : false,
+                        hic_policy_slno: hic_policy_slno
                     }
-                    setComplaint(frmdata)
+                    setHic(frmdata)
                 }
                 else {
                     warningNotify("Error occured please contact EDP")
                 }
             }
-            getCompdept();
+            getHic();
         }
-    }, [compslno])
+    }, [hicslno])
     //data for insert
     const postdata = useMemo(() => {
         return {
-            complaint_dept_name: complaint_dept_name,
-            complaint_dept_status: complaint_dept_status === true ? 1 : 0
+            hic_policy_name: hic_policy_name,
+            hic_policy_status: hic_policy_status === true ? 1 : 0
         }
-    }, [complaint_dept_name, complaint_dept_status])
-    //data for update
+    }, [hic_policy_name, hic_policy_status])
+    //data for edit
     const patchdata = useMemo(() => {
         return {
-            complaint_dept_name: complaint_dept_name,
-            complaint_dept_status: complaint_dept_status === true ? 1 : 0,
-            complaint_dept_slno: complaint_dept_slno
+            hic_policy_name: hic_policy_name,
+            hic_policy_status: hic_policy_status === true ? 1 : 0,
+            hic_policy_slno: hic_policy_slno
         }
-    }, [complaint_dept_name, complaint_dept_status, complaint_dept_slno])
+    }, [hic_policy_name, hic_policy_status, hic_policy_slno])
     /*** usecallback function for form submitting */
-    const submitComplaintdept = useCallback((e) => {
+    const submitHicpolicy = useCallback((e) => {
         e.preventDefault();
         const formreset = {
-            complaint_dept_name: '',
-            complaint_dept_status: false,
-            complaint_dept_slno: ''
+            hic_policy_name: '',
+            hic_policy_status: false,
+            hic_policy_slno: ''
         }
-        /***     * insert function for use call back     */
+        /*** * insert function for use call back     */
         const InsertFun = async (postdata) => {
-            const result = await axioslogin.post('/complaintdept', postdata)
+            const result = await axioslogin.post('/hicpolicy', postdata)
             const { message, success } = result.data;
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1);
-                setComplaint(formreset);
+                setHic(formreset);
             } else if (success === 0) {
                 infoNotify(message.sqlMessage);
             }
@@ -107,13 +106,13 @@ const ComplaintDeptMast = () => {
         }
         /***  * update function for use call back     */
         const updateFun = async (patchdata) => {
-            const result = await axioslogin.patch('/complaintdept', patchdata);
+            const result = await axioslogin.patch('/hicpolicy', patchdata);
             const { message, success } = result.data;
             if (success === 2) {
                 succesNotify(message)
                 setCount(count + 1);
                 setEdit(0)
-                setComplaint(formreset);
+                setHic(formreset);
             } else if (success === 0) {
                 infoNotify(message.sqlMessage);
             }
@@ -122,8 +121,8 @@ const ComplaintDeptMast = () => {
             }
         }
         /*** edit=0 insert api call work else update call
-    * value initialy '0' when edit button click value changes to '1'
-    */
+      * edit initialy '0' when edit button click value changes to '1'
+      */
         if (edit === 0) {
             InsertFun(postdata)
         } else {
@@ -136,9 +135,9 @@ const ComplaintDeptMast = () => {
     }, [history])
     return (
         <CardMaster
-            title='Complaint Department Master'
+            title="Hic Policy Master"
             close={backtoSetting}
-            submit={submitComplaintdept}
+            submit={submitHicpolicy}
         >
             <Box sx={{ p: 1 }}>
                 <Grid container spacing={1} >
@@ -146,12 +145,12 @@ const ComplaintDeptMast = () => {
                         <Grid container spacing={1} >
                             <Grid item xl={12} lg={12} >
                                 <TextFieldCustom
-                                    placeholder=" Complaint Department Name"
+                                    placeholder="Hic Ploicy Name"
                                     type="text"
                                     size="sm"
-                                    name="complaint_dept_name"
-                                    value={complaint_dept_name}
-                                    onchange={updateDepartment}
+                                    name="hic_policy_name"
+                                    value={hic_policy_name}
+                                    onchange={updatehicPolicy}
                                 />
                             </Grid>
                             <Grid item lg={2} xl={2}>
@@ -159,21 +158,20 @@ const ComplaintDeptMast = () => {
                                     label="Status"
                                     color="primary"
                                     size="md"
-                                    name="complaint_dept_status"
-                                    value={complaint_dept_status}
-                                    checked={complaint_dept_status}
-                                    onCheked={updateDepartment}
+                                    name="hic_policy_status"
+                                    value={hic_policy_status}
+                                    checked={hic_policy_status}
+                                    onCheked={updatehicPolicy}
                                 />
                             </Grid>
                         </Grid>
                     </Grid>
                     <Grid item lg={8} xl={8} >
-                        <ComplaintDeptMastTable count={count} geteditdata={geteditdata} />
+                        <HicPolicyTable geteditdata={geteditdata} count={count} />
                     </Grid>
                 </Grid>
             </Box>
         </CardMaster>
     )
 }
-
-export default ComplaintDeptMast
+export default HicPolicyMast

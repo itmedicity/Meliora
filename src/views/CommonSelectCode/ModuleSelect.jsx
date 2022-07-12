@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-
 const ModuleSelect = ({ value, setValue }) => {
     const dispatch = useDispatch()
     /*** getModuleName -state update function of reducer 
@@ -13,13 +12,12 @@ const ModuleSelect = ({ value, setValue }) => {
      * moduledata is used to list select box items by using map
     */
     const moduledata = useSelector((state) => {
-        return state.getModuleName.moduleNameSelect
+        return state.getModuleName.moduleNameSelect || 0
     })
-    // getUserGroup function is used to update data in usergroup redux
+    // getModuleName function is used to update data in usergroup redux
     useEffect(() => {
         dispatch(getmodule())
     }, [dispatch])
-
     return (
         <Box>
             <FormControl fullWidth size="small">
@@ -44,5 +42,4 @@ const ModuleSelect = ({ value, setValue }) => {
         </Box >
     )
 }
-
 export default memo(ModuleSelect)

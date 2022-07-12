@@ -11,6 +11,9 @@ const UserGroupMast = React.lazy(() => import('./views/Master/UserGroupMaster/Us
 const ModuleMast = React.lazy(() => import('./views/Master/ModuleMaster/ModuleMaster'))
 const UserGroupRights = React.lazy(() => import('./views/Master/UserGroupRight/UserGroupRight'))
 const ModuleGroupMast = React.lazy(() => import('./views/Master/ModuleGroupMaster/ModuleGroupMast'))
+const RequestType = React.lazy(() => import('./views/Master/RequestType/RequestTypeMast'))
+const ComplaintType = React.lazy(() => import('./views/Master/ComplaintType/ComplaintTypeMast'))
+const HicPolicy = React.lazy(() => import('./views/Master/HicPolicy/HicPolicyMast'));
 const moduleuserRight = React.lazy(() => import('./views/Master/ModuleUserRight/ModuleUserRight'))
 
 const routes = [
@@ -26,7 +29,11 @@ const routes = [
   { path: '/Home/ModuleMast', name: 'Module Master', component: ModuleMast },
   { path: '/Home/UserGroupRight', exact: true, name: 'User Group Rights', component: UserGroupRights },
   { path: '/Home/ModuleGroupMast', exact: true, name: 'Module group Master', component: ModuleGroupMast },
+  { path: '/Home/RequestType', exact: true, name: 'Request Type', component: RequestType },
+  { path: '/Home/ComplaintType', exact: true, name: 'Complaint Type', component: ComplaintType },
+  { path: '/Home/HicPolicy', exact: true, name: 'Hic Policy', component: HicPolicy }
   { path: '/Home/ModuleUserRight', exact: true, name: 'Module User Right', component: moduleuserRight }
+
 ]
 
 export default routes

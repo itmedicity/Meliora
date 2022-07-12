@@ -19,7 +19,6 @@ const UserGroupMast = () => {
         usergrp_status: false,
         user_grp_slno: ''
     })
-
     //Destructuring
     const { usergrp_name, usergrp_status, user_grp_slno } = usergrp;
     const updateUsergrp = useCallback((e) => {
@@ -55,10 +54,12 @@ const UserGroupMast = () => {
     }
     //For get slno from selected row  
     useEffect(() => {
-        const slno = editData && editData.map((val, index) => {
-            return val.user_grp_slno
-        })
-        setGrpslno(slno)
+        if (editData.length !== 0) {
+            const slno = editData && editData.map((val, index) => {
+                return val.user_grp_slno
+            })
+            setGrpslno(slno)
+        }
     }, [editData])
 
     /*** get data from user_group_mast where selected slno for edit and also data set to corresponding feilds*/
@@ -102,7 +103,7 @@ const UserGroupMast = () => {
                 setCount(count + 1);
                 setUsergrp(formreset);
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             } else {
                 infoNotify(message)
             }
@@ -116,7 +117,7 @@ const UserGroupMast = () => {
                 setCount(count + 1);
                 setUsergrp(formreset);
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             } else {
                 infoNotify(message)
             }
@@ -131,11 +132,11 @@ const UserGroupMast = () => {
             updateFun(patchdata)
         }
     }, [value, postdata, patchdata, count])
-
     //back to home
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
+    
     return (
         <CardMaster
             title="User Group Master"
@@ -177,5 +178,4 @@ const UserGroupMast = () => {
         </CardMaster >
     )
 }
-
 export default UserGroupMast

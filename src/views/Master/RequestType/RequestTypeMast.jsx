@@ -1,103 +1,103 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
-import ComplaintDeptMastTable from './ComplaintDeptMastTable';
 import { Box } from '@mui/system'
-import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { Grid } from '@mui/material'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-import { axioslogin } from 'src/views/Axios/Axios';
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
-const ComplaintDeptMast = () => {
-    //for routing to settings
+import TextFieldCustom from 'src/views/Components/TextFieldCustom'
+import RequestTypeMastTable from './RequestTypeMastTable'
+import { axioslogin } from 'src/views/Axios/Axios'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+const RequestTypeMast = () => {
+    //for routing
     const history = useHistory();
-    //state for table render
+    //state for tavle render
     const [count, setCount] = useState(0);
     //state for edit
-    const [edit, setEdit] = useState(0);
+    const [edit, setEdit] = useState(0)
     //data setting when clicken on row table
     const [editData, setEditdata] = useState([]);
     //for setting id from each row and get data by id
-    const [compslno, setCompslno] = useState([]);
+    const [reqslno, setReqslno] = useState([])
     //intializing
-    const [complaint, setComplaint] = useState({
-        complaint_dept_name: '',
-        complaint_dept_status: false,
-        complaint_dept_slno: ''
+    const [request, setRequest] = useState({
+        req_type_name: '',
+        req_type_status: false,
+        req_type_slno: ''
     })
-    //Destructuring
-    const { complaint_dept_name, complaint_dept_status, complaint_dept_slno } = complaint
-    const updateDepartment = useCallback((e) => {
+    //destructuring
+    const { req_type_name, req_type_status, req_type_slno } = request
+    const updateRequesttype = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setComplaint({ ...complaint, [e.target.name]: value })
-    }, [complaint])
+        setRequest({ ...request, [e.target.name]: value })
+    }, [request])
     //data set for edit
     const geteditdata = async (event) => {
-        setEdit(1)
+        setEdit(1);
         setEditdata(event.api.getSelectedRows());
     }
     //For get slno from selected row  
     useEffect(() => {
         if (editData.length !== 0) {
             const slno = editData && editData.map((val, index) => {
-                return val.complaint_dept_slno
+                return val.req_type_slno
             })
-            setCompslno(slno)
+            setReqslno(slno)
         }
     }, [editData])
-    /*** get data from complaintdept_master where selected slno for edit and also data set to corresponding fields*/
+    /*** get data from requesttype_master where selected slno for edit and also data set to corresponding fields*/
     useEffect(() => {
-        if (compslno.length !== 0) {
-            const getCompdept = async () => {
-                const result = await axioslogin.post('/complaintdept/byid', compslno)
+        if (reqslno.length !== 0) {
+            const getReq = async () => {
+                const result = await axioslogin.post('/requesttype/byid', reqslno)
                 const { success, data } = result.data
                 if (success === 1) {
-                    const { complaint_dept_name, complaint_dept_status, complaint_dept_slno } = data[0];
+                    const { req_type_name, req_type_status, req_type_slno } = data[0];
                     const frmdata = {
-                        complaint_dept_name: complaint_dept_name,
-                        complaint_dept_status: complaint_dept_status === 1 ? true : false,
-                        complaint_dept_slno: complaint_dept_slno
+                        req_type_name: req_type_name,
+                        req_type_status: req_type_status === 1 ? true : false,
+                        req_type_slno: req_type_slno
                     }
-                    setComplaint(frmdata)
+                    setRequest(frmdata)
                 }
                 else {
                     warningNotify("Error occured please contact EDP")
                 }
             }
-            getCompdept();
+            getReq();
         }
-    }, [compslno])
+    }, [reqslno])
     //data for insert
     const postdata = useMemo(() => {
         return {
-            complaint_dept_name: complaint_dept_name,
-            complaint_dept_status: complaint_dept_status === true ? 1 : 0
+            req_type_name: req_type_name,
+            req_type_status: req_type_status === true ? 1 : 0
         }
-    }, [complaint_dept_name, complaint_dept_status])
+    }, [req_type_name, req_type_status])
     //data for update
     const patchdata = useMemo(() => {
         return {
-            complaint_dept_name: complaint_dept_name,
-            complaint_dept_status: complaint_dept_status === true ? 1 : 0,
-            complaint_dept_slno: complaint_dept_slno
+            req_type_name: req_type_name,
+            req_type_status: req_type_status === true ? 1 : 0,
+            req_type_slno: req_type_slno
         }
-    }, [complaint_dept_name, complaint_dept_status, complaint_dept_slno])
+    }, [req_type_name, req_type_status, req_type_slno])
     /*** usecallback function for form submitting */
-    const submitComplaintdept = useCallback((e) => {
+    const submitRequestType = useCallback((e) => {
         e.preventDefault();
         const formreset = {
-            complaint_dept_name: '',
-            complaint_dept_status: false,
-            complaint_dept_slno: ''
+            req_type_name: '',
+            req_type_status: false,
+            req_type_slno: ''
         }
-        /***     * insert function for use call back     */
+        /***  * insert function for use call back     */
         const InsertFun = async (postdata) => {
-            const result = await axioslogin.post('/complaintdept', postdata)
+            const result = await axioslogin.post('/requesttype', postdata)
             const { message, success } = result.data;
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1);
-                setComplaint(formreset);
+                setRequest(formreset);
             } else if (success === 0) {
                 infoNotify(message.sqlMessage);
             }
@@ -107,13 +107,13 @@ const ComplaintDeptMast = () => {
         }
         /***  * update function for use call back     */
         const updateFun = async (patchdata) => {
-            const result = await axioslogin.patch('/complaintdept', patchdata);
+            const result = await axioslogin.patch('/requesttype', patchdata)
             const { message, success } = result.data;
             if (success === 2) {
                 succesNotify(message)
                 setCount(count + 1);
-                setEdit(0)
-                setComplaint(formreset);
+                setRequest(formreset);
+                setEdit(0);
             } else if (success === 0) {
                 infoNotify(message.sqlMessage);
             }
@@ -122,36 +122,36 @@ const ComplaintDeptMast = () => {
             }
         }
         /*** edit=0 insert api call work else update call
-    * value initialy '0' when edit button click value changes to '1'
-    */
+  * edit initialy '0' when edit button click value changes to '1'
+  */
         if (edit === 0) {
             InsertFun(postdata)
         } else {
             updateFun(patchdata)
         }
     }, [edit, postdata, patchdata, count])
-    //close button function
+    // close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
     return (
         <CardMaster
-            title='Complaint Department Master'
+            title="Request Type Master"
             close={backtoSetting}
-            submit={submitComplaintdept}
+            submit={submitRequestType}
         >
-            <Box sx={{ p: 1 }}>
+            <Box sx={{ p: 1 }} >
                 <Grid container spacing={1} >
                     <Grid item xl={4} lg={4}  >
                         <Grid container spacing={1} >
                             <Grid item xl={12} lg={12} >
                                 <TextFieldCustom
-                                    placeholder=" Complaint Department Name"
+                                    placeholder="Request Type Name"
                                     type="text"
                                     size="sm"
-                                    name="complaint_dept_name"
-                                    value={complaint_dept_name}
-                                    onchange={updateDepartment}
+                                    name="req_type_name"
+                                    value={req_type_name}
+                                    onchange={updateRequesttype}
                                 />
                             </Grid>
                             <Grid item lg={2} xl={2}>
@@ -159,21 +159,20 @@ const ComplaintDeptMast = () => {
                                     label="Status"
                                     color="primary"
                                     size="md"
-                                    name="complaint_dept_status"
-                                    value={complaint_dept_status}
-                                    checked={complaint_dept_status}
-                                    onCheked={updateDepartment}
+                                    name="req_type_status"
+                                    value={req_type_status}
+                                    checked={req_type_status}
+                                    onCheked={updateRequesttype}
                                 />
                             </Grid>
                         </Grid>
                     </Grid>
                     <Grid item lg={8} xl={8} >
-                        <ComplaintDeptMastTable count={count} geteditdata={geteditdata} />
+                        <RequestTypeMastTable geteditdata={geteditdata} count={count} />
                     </Grid>
                 </Grid>
             </Box>
         </CardMaster>
     )
 }
-
-export default ComplaintDeptMast
+export default RequestTypeMast
