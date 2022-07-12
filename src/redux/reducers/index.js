@@ -24,7 +24,7 @@ const reducer = combineReducers({
     getHicpolicy,
     getRequesttype,
     getDeptsection,
-    getComplainttype
+    getComplainttype,
     getEmployeeName,
     getModuleGroup
 
