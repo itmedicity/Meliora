@@ -12,7 +12,7 @@ const RequestTypeSelect = () => {
 *requesttypedata is used to list select box items by using map
 */
     const requesttypedata = useSelector((state) => {
-        return state.getRequesttype.requesttypeList
+        return state.getRequesttype.requesttypeList || 0
     })
     //getRequesttype function is used to update data in requesttype redux
     useEffect(() => {
@@ -33,7 +33,7 @@ const RequestTypeSelect = () => {
                 >
                     <MenuItem value={0} disabled  >Select Requesttype</MenuItem>
                     {
-                        requesttypedata.map((val, index) => {
+                        requesttypedata && requesttypedata.map((val, index) => {
                             return <MenuItem key={index} value={val.req_type_slno}>{val.req_type_name}</MenuItem>
                         })
                     }

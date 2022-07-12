@@ -12,7 +12,7 @@ const ModuleSelect = ({ value, setValue }) => {
      * moduledata is used to list select box items by using map
     */
     const moduledata = useSelector((state) => {
-        return state.getModuleName.moduleNameSelect
+        return state.getModuleName.moduleNameSelect || 0
     })
     // getModuleName function is used to update data in usergroup redux
     useEffect(() => {

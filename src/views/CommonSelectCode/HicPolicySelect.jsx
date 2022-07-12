@@ -12,7 +12,7 @@ const HicPolicySelect = () => {
    *hicpolicydata is used to list select box items by using map
    */
     const hicpolicydata = useSelector((state) => {
-        return state.getHicpolicy.hicpolicyList
+        return state.getHicpolicy.hicpolicyList || 0
     })
     //getHicpolicy function is used to update data in hicpolicy redux
     useEffect(() => {
@@ -33,7 +33,7 @@ const HicPolicySelect = () => {
                 >
                     <MenuItem value={0} disabled  >Select Hicpolicy</MenuItem>
                     {
-                        hicpolicydata.map((val, index) => {
+                        hicpolicydata && hicpolicydata.map((val, index) => {
                             return <MenuItem key={index} value={val.hic_policy_slno}>{val.hic_policy_name}</MenuItem>
                         })
                     }

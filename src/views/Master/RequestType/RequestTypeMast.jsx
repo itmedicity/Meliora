@@ -38,10 +38,12 @@ const RequestTypeMast = () => {
     }
     //For get slno from selected row  
     useEffect(() => {
-        const slno = editData && editData.map((val, index) => {
-            return val.req_type_slno
-        })
-        setReqslno(slno)
+        if (editData.length !== 0) {
+            const slno = editData && editData.map((val, index) => {
+                return val.req_type_slno
+            })
+            setReqslno(slno)
+        }
     }, [editData])
     /*** get data from requesttype_master where selected slno for edit and also data set to corresponding fields*/
     useEffect(() => {

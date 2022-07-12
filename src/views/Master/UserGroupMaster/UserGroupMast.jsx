@@ -54,10 +54,12 @@ const UserGroupMast = () => {
     }
     //For get slno from selected row  
     useEffect(() => {
-        const slno = editData && editData.map((val, index) => {
-            return val.user_grp_slno
-        })
-        setGrpslno(slno)
+        if (editData.length !== 0) {
+            const slno = editData && editData.map((val, index) => {
+                return val.user_grp_slno
+            })
+            setGrpslno(slno)
+        }
     }, [editData])
 
     /*** get data from user_group_mast where selected slno for edit and also data set to corresponding feilds*/
@@ -101,7 +103,7 @@ const UserGroupMast = () => {
                 setCount(count + 1);
                 setUsergrp(formreset);
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             } else {
                 infoNotify(message)
             }
@@ -115,7 +117,7 @@ const UserGroupMast = () => {
                 setCount(count + 1);
                 setUsergrp(formreset);
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             } else {
                 infoNotify(message)
             }

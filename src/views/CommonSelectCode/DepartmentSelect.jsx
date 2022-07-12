@@ -12,7 +12,7 @@ const DepartmentSelect = ({ value, setValue }) => {
      *departmentdata is used to list select box items by using map
      */
     const departmentdata = useSelector((state) => {
-        return state.getDepartment.departmentList
+        return state.getDepartment.departmentList || 0
     })
     //getDepartment function is used to update data in department redux
     useEffect(() => {
@@ -33,7 +33,7 @@ const DepartmentSelect = ({ value, setValue }) => {
                 >
                     <MenuItem value={0} disabled >Select Department</MenuItem>
                     {
-                        departmentdata.map((val, index) => {
+                        departmentdata && departmentdata.map((val, index) => {
                             return <MenuItem key={index} value={val.dept_slno}>{val.dept_name}</MenuItem>
                         })
                     }

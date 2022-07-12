@@ -56,10 +56,12 @@ const DepartmentMast = () => {
     }
     //For get slno  from selected row  
     useEffect(() => {
-        const slno = editData && editData.map((val, index) => {
-            return val.dept_slno
-        })
-        setDeptslno(slno)
+        if (editData.length !== 0) {
+            const slno = editData && editData.map((val, index) => {
+                return val.dept_slno
+            })
+            setDeptslno(slno)
+        }
     }, [editData])
     /*** get data from department_master where selected slno for edit and also data set to corresponding fields*/
     useEffect(() => {

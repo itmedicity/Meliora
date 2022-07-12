@@ -23,7 +23,7 @@ const Settings = () => {
     useEffect(() => {
         getMenuSlno().then((val) => {
             const menuSlnoArray = val.map((value) => {
-                return value.menu_slno;
+                return value.menu_slno || 0;
             })
             //Common Master Setting
             const setting_section_one = co_setting_one.filter(val => menuSlnoArray.includes(val.slno));

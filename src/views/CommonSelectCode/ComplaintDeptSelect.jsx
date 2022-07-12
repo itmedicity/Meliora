@@ -12,7 +12,7 @@ const ComplaintDeptSelect = ({ value, setValue }) => {
       *complaintdeptdata is used to list select box items by using map
       */
     const complaintdeptdata = useSelector((state) => {
-        return state.getComplaintDept.complaintdeptList
+        return state.getComplaintDept.complaintdeptList || 0
     })
     //getComplaintdept function is used to update data in complaintdepartment redux
     useEffect(() => {
@@ -33,7 +33,7 @@ const ComplaintDeptSelect = ({ value, setValue }) => {
                 >
                     <MenuItem value={0} disabled  >Select Complaint Department</MenuItem>
                     {
-                        complaintdeptdata.map((val, index) => {
+                        complaintdeptdata && complaintdeptdata.map((val, index) => {
                             return <MenuItem key={index} value={val.complaint_dept_slno}>{val.complaint_dept_name}</MenuItem>
                         })
                     }

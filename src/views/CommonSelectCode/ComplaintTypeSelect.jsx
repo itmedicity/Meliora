@@ -12,7 +12,7 @@ const ComplaintTypeSelect = () => {
 *complainttypedata is used to list select box items by using map
 */
     const complainttypedata = useSelector((state) => {
-        return state.getComplainttype.complainttypeList
+        return state.getComplainttype.complainttypeList || 0
     })
     //getComplainttype function is used to update data in complainttype redux
     useEffect(() => {
@@ -33,7 +33,7 @@ const ComplaintTypeSelect = () => {
                 >
                     <MenuItem value={0} disabled  >Select Complainttype</MenuItem>
                     {
-                        complainttypedata.map((val, index) => {
+                        complainttypedata && complainttypedata.map((val, index) => {
                             return <MenuItem key={index} value={val.complaint_type_slno}>{val.complaint_type_name}</MenuItem>
                         })
                     }

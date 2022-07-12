@@ -37,10 +37,12 @@ const HicPolicyMast = () => {
     }
     //For get slno from selected row  
     useEffect(() => {
-        const slno = editData && editData.map((val, index) => {
-            return val.hic_policy_slno
-        })
-        setHicslno(slno)
+        if (editData.length !== 0) {
+            const slno = editData && editData.map((val, index) => {
+                return val.hic_policy_slno
+            })
+            setHicslno(slno)
+        }
     }, [editData])
     /*** get data from hicpolicy_master where selected slno for edit and also data set to corresponding fields*/
     useEffect(() => {
