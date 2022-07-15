@@ -11,7 +11,7 @@ const CheckIcon = (props) => {
                 disableRipple={true}
                 sx={{ color: editicon, paddingY: 0.5 }}
                 size="small"
-                type="submit" className="p-1" clickable="true" onClick={props.submit}
+                className="p-1" clickable="true" onClick={(e) => { props.submit(e) }}
             >
                 <CheckCircleOutlinedIcon size="small" />
             </IconButton>
