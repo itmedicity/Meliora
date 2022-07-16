@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -15,7 +15,6 @@ import { cilMenu } from '@coreui/icons'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import SettingsIcon from '@mui/icons-material/Settings'
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
-import { useHistory } from 'react-router-dom'
 import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
 import { Badge } from '@mui/material'
@@ -28,22 +27,24 @@ import {
   iconPowerOff,
   iconSettings,
 } from 'src/color/Color'
-
 import { ActionTyps } from 'src/redux/constants/action.type'
-import { infoNotify } from 'src/views/Common/CommonCode'
 import { ToastContainer } from 'react-toastify'
+import ModelMessage from 'src/views/Components/ModelMessage'
 
 const AppHeader = () => {
-  const history = useHistory()
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
-  const hrmLogout = () => {
-    sessionStorage.clear()
-    infoNotify('You Are Logged Out Successfully')
-    history.push('/')
+  const [open, setOpen] = useState(false);
+  const cmsLogout = () => {
+    setOpen(true)
   }
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <Fragment>
+    < Fragment >
+      <ModelMessage open={open} handleClose={handleClose} />
       <ToastContainer />
       <CHeader position="sticky" className="mb-0" style={{ padding: 0, backgroundColor: '#474b4f' }}>
         <CContainer fluid>
@@ -68,7 +69,7 @@ const AppHeader = () => {
               </CNavLink>
             </CNavItem>
             <CNavItem>
-              <CNavLink to="#" onClick={hrmLogout}>
+              <CNavLink to="#" onClick={cmsLogout}>
                 <PowerSettingsNewIcon sx={{ color: iconPowerOff }} />
               </CNavLink>
             </CNavItem>
@@ -94,7 +95,7 @@ const AppHeader = () => {
           </CHeaderNav>
         </CContainer>
       </CHeader>
-    </Fragment>
+    </Fragment >
   )
 }
 
