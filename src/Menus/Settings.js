@@ -8,7 +8,6 @@ import {
 import { Card, CardContent, CardHeader } from '@mui/material';
 import { bgcolrheading, bgbottom, titleTypography } from 'src/color/Color';
 
-
 const Settings = () => {
     const [commonMast_secOne, setcommonMast_secOne] = useState();
     const [commonMast_secTwo, setcommonMast_secTwo] = useState();
@@ -19,11 +18,11 @@ const Settings = () => {
     const [userManagment_secOne, setUserManag_secOne] = useState();
     const [userManagment_secTwo, setUserManag_secTwo] = useState();
     const [userManagment_secThree, setUserManag_secThree] = useState();
-
+    const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
-            const menuSlnoArray = val.map((value) => {
-                return value.menu_slno || 0;
+            const menuSlnoArray = val[0].map((value) => {
+                return value.menu_slno;
             })
             //Common Master Setting
             const setting_section_one = co_setting_one.filter(val => menuSlnoArray.includes(val.slno));
@@ -46,9 +45,10 @@ const Settings = () => {
             setUserManag_secTwo(user_setting_section_two)
             const user_setting_section_three = userManagement_three.filter(val => menuSlnoArray.includes(val.slno));
             setUserManag_secThree(user_setting_section_three)
-
+            setCount(1)
         })
-    }, [])
+    }, [count])
+
     return (
         <Card>
             <CardHeader title={"Common Master"}
@@ -131,7 +131,6 @@ const Settings = () => {
                     </div>
                 </div>
             </CardContent>
-
             <CardHeader title={"Request Master"}
                 titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{

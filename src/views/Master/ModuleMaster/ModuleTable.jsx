@@ -2,8 +2,6 @@ import React, { memo, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
-
-
 import EditButton from 'src/views/Components/EditButton';
 
 const ModuleTable = ({ count, geteditdata }) => {

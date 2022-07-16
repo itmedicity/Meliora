@@ -34,7 +34,7 @@ const ModuleGroupSelect = ({ value, setValue }) => {
                     variant="outlined"
                     sx={{ height: 25, p: 0, m: 0, lineHeight: 1.200 }}
                 >
-                    <MenuItem value={0} disabled >Select Employee Name</MenuItem>
+                    <MenuItem value={0} disabled >Select Module Group Name</MenuItem>
                     {
                         moduleGroupName && moduleGroupName.map((val, index) => {
                             return <MenuItem key={index} value={val.mod_grp_slno}>{val.mod_grp_name}</MenuItem>
