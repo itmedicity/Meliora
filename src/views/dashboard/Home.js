@@ -29,6 +29,16 @@ const Home = () => {
             </div> */}
             {/* <Grid container spacing={1} >
                 <Grid item xl={6} lg={6}>
+                    <CardTertiary title={`TextFeild Examples`} >
+                        <Grid container spacing={1} >
+                            <Grid item lg={6} xl={6} >
+                                <SelectBasic />
+                            </Grid>
+                        </Grid>
+                    </CardTertiary>
+                </Grid>
+
+                <Grid item xl={6} lg={6}>
                     <CardPrimary title="Check Box Samples" >
                         <Box sx={{
                             display: 'flex',
@@ -255,17 +265,12 @@ const Home = () => {
                         </Grid>
                     </CardTertiary>
                 </Grid>
-                <Grid item xl={6} lg={6}>
-                    <CardTertiary title={`TextFeild Examples`} >
-                        <Grid container spacing={0.500} >
-                            <Grid item lg={12} xl={12} >
-                                <SelectBasic />
-                            </Grid>
 
                         </Grid>
                     </CardTertiary>
                 </Grid>
             </Grid> */}
+
         </Fragment>
     )
 }
