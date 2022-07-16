@@ -14,7 +14,7 @@ export const co_setting_two = [
 
 
 export const co_setting_three = [
-
+    { to: '/Home/RequestType', name: 'Request Type', slno: 12 }
 ]
 
 
@@ -24,16 +24,17 @@ export const cm_setting_one = [
 
 
 
+
 ]
 
 export const cm_setting_two = [
-
+    { to: '/Home/ComplaintType', name: 'Complaint Type', slno: 13 }
 
 ]
 
 
 export const cm_setting_three = [
-
+    { to: '/Home/HicPolicy', name: 'Hicy Policy', slno: 14 }
 ]
 
 
@@ -41,12 +42,13 @@ export const cm_setting_three = [
 
 export const userManagement_one = [
     { to: '/Home/Group', name: 'Group Master', slno: 7 },
-
+    { to: '/Home/ModuleGroupMast', name: 'Module Group Master', slno: 8 },
 
 
 ]
 export const userManagement_two = [
     { to: '/Home/ModuleMast', name: 'Module Master', slno: 9 },
+    { to: '/Home/ModuleUserRight', name: 'Module User Right', slno: 15 },
 
 
 

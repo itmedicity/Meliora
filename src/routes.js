@@ -8,10 +8,14 @@ const DepartmentSectionMast = React.lazy(() => import('./views/Master/Department
 const ComplaintDepartment = React.lazy(() => import('./views/Master/ComplaintDepartment/ComplaintDeptMast'))
 const ComplaintRegister = React.lazy(() => import('./views/ComManagement/ComplaintRegister/ComplaintRegistrMast'))
 const UserGroupMast = React.lazy(() => import('./views/Master/UserGroupMaster/UserGroupMast'))
-const UserGroupMastEdit = React.lazy(() => import('./views/Master/UserGroupMaster/UserGroupEdit'))
 const ModuleMast = React.lazy(() => import('./views/Master/ModuleMaster/ModuleMaster'))
-const ModuleMastEdit = React.lazy(() => import('./views/Master/ModuleMaster/ModuleMastEdit'))
 const UserGroupRights = React.lazy(() => import('./views/Master/UserGroupRight/UserGroupRight'))
+const ModuleGroupMast = React.lazy(() => import('./views/Master/ModuleGroupMaster/ModuleGroupMast'))
+const RequestType = React.lazy(() => import('./views/Master/RequestType/RequestTypeMast'))
+const ComplaintType = React.lazy(() => import('./views/Master/ComplaintType/ComplaintTypeMast'))
+const HicPolicy = React.lazy(() => import('./views/Master/HicPolicy/HicPolicyMast'));
+const moduleuserRight = React.lazy(() => import('./views/Master/ModuleUserRight/ModuleUserRight'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/Home', exact: true, name: 'Home', component: Home },
@@ -22,10 +26,14 @@ const routes = [
   { path: '/Home/ComplaintDepartment', exact: true, name: 'Complaint Department', component: ComplaintDepartment },
   { path: '/Home/ComplaintRegister', exact: true, name: 'Complaint Register', component: ComplaintRegister },
   { path: '/Home/Group', exact: true, name: 'User Group Master', component: UserGroupMast },
-  { path: '/Home/GroupMastEdit/:id', exact: true, name: 'User Group Master Edit', component: UserGroupMastEdit },
   { path: '/Home/ModuleMast', name: 'Module Master', component: ModuleMast },
-  { path: '/Home/ModuleMastEdit/:id', exact: true, name: 'Module Master Edit', component: ModuleMastEdit },
-  { path: '/Home/UserGroupRight', exact: true, name: 'User Group Rights', component: UserGroupRights }
+  { path: '/Home/UserGroupRight', exact: true, name: 'User Group Rights', component: UserGroupRights },
+  { path: '/Home/ModuleGroupMast', exact: true, name: 'Module group Master', component: ModuleGroupMast },
+  { path: '/Home/RequestType', exact: true, name: 'Request Type', component: RequestType },
+  { path: '/Home/ComplaintType', exact: true, name: 'Complaint Type', component: ComplaintType },
+  { path: '/Home/HicPolicy', exact: true, name: 'Hic Policy', component: HicPolicy },
+  { path: '/Home/ModuleUserRight', exact: true, name: 'Module User Right', component: moduleuserRight }
+
 ]
 
 export default routes

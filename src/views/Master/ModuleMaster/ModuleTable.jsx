@@ -1,25 +1,19 @@
 import React, { memo, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
-import CustomMaterialTable from 'src/views/Components/CustomMaterialTable'
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import { tableIcons } from 'src/views/Common/MaterialiCon';
-import { useHistory } from 'react-router-dom'
+import CusAgGridMast from 'src/views/Components/CusAgGridMast';
+import EditButton from 'src/views/Components/EditButton';
 
-const ModuleTable = ({ count }) => {
+const ModuleTable = ({ count, geteditdata }) => {
     const [tabledata, setTabledata] = useState([])
-    const history = useHistory()
-    const colums = [
-        {
-            title: "SlNo", field: "module_slno",
-        },
-        {
-            title: "Module Name", field: "module_name",
-        },
-        {
-            title: "Status", field: "status",
-        },
-    ]
+    const [column] = useState([
+        { headerName: 'SlNo', field: 'module_slno' },
+        { headerName: 'Module Name', field: 'module_name' },
+        { headerName: 'Status', field: 'status' },
+        { headerName: 'Action', cellRenderer: EditButton },
+    ])
+
+    /*** get data from module_master table for display */
     useEffect(() => {
         const getmodule = async () => {
             const result = await axioslogin.get('/modulemaster')
@@ -33,24 +27,11 @@ const ModuleTable = ({ count }) => {
         getmodule();
     }, [count])
 
-    const geteditdata = (data) => {
-        const { module_slno } = data
-        history.push(`/Home/ModuleMastEdit/${module_slno}`)
-    }
-
     return (
-        <CustomMaterialTable
-            title="Module Table"
-            columns={colums}
-            data={tabledata}
-            icons={tableIcons}
-            actions={[
-                {
-                    icon: () => <EditOutlinedIcon />,
-                    tooltip: " Click here to Edit",
-                    onClick: (e, data) => geteditdata(data)
-                }
-            ]}
+        <CusAgGridMast
+            columnDefs={column}
+            tableData={tabledata}
+            onSelectionChanged={geteditdata}
         />
     )
 }
