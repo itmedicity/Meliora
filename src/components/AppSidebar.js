@@ -23,44 +23,46 @@ const AppSidebar = () => {
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
 
-  useEffect(() => {
-    //Side bar menus array
-    const navigation = [
-      {
-        slno: 1,
-        component: CNavItem,
-        name: 'Home',
-        to: '/Home',
-        icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />
+  //Side bar menus array
+  const navigation = [
+    {
+      slno: 1,
+      component: CNavItem,
+      name: 'Home',
+      to: '/Home',
+      icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />
 
-      },
-      //Complaint Management System Menu Start from Here
-      {
-        slno: 2,
-        component: CNavTitle,
-        name: 'Complaint Management',
-      },
-      {
-        slno: 1,
-        component: CNavGroup,
-        name: 'Transaction',
-        icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-        items: cmtransact
-      },
-      {
-        slno: 2,
-        component: CNavGroup,
-        name: 'Utilities',
-        icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-        items: cmutilities
-      },
-      //Request Management System Menu Start from Here
-      {
-        slno: 3,
-        component: CNavTitle,
-        name: 'Central Request management',
-      },
-    ]
+    },
+    //Complaint Management System Menu Start from Here
+    {
+      slno: 2,
+      component: CNavTitle,
+      name: 'Complaint Management',
+    },
+    {
+      slno: 1,
+      component: CNavGroup,
+      name: 'Transaction',
+      icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+      items: cmtransact
+    },
+    {
+      slno: 2,
+      component: CNavGroup,
+      name: 'Utilities',
+      icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+      items: cmutilities
+    },
+    //Request Management System Menu Start from Here
+    {
+      slno: 3,
+      component: CNavTitle,
+      name: 'Central Request management',
+    },
+  ]
+
+
+  useEffect(() => {
     /*** get menus based on user rights */
     getMenuSlno().then((val) => {
       const resultLength = Object.keys(val[0])?.length ?? 0
@@ -110,7 +112,7 @@ const AppSidebar = () => {
       }
     }
     getModuleUserRight()
-  }, [count, cmutilities, cmtransact])
+  }, [count])
 
   return (
     <CSidebar

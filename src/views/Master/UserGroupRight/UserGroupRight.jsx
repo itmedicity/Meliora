@@ -23,6 +23,7 @@ const UserGroupRight = () => {
     const [subModule, setSubModule] = useState(0)
     const [tabledata, setTabledata] = useState([])
     const [render, setRender] = useState(0)
+    const [update,setupdate]=useState(0)
     const [frmdata, setFrmdaat] = useState({
         group_right_slno: 0,
         menu_view: 0,
@@ -45,6 +46,7 @@ const UserGroupRight = () => {
             }
         }
     ])
+    
     /***When icon click the corresponding feild data get in click function and then destructure it for further update */
     const onclickk = (e) => {
         const { menu_slno, group_right_slno, menu_view } = e
@@ -55,6 +57,7 @@ const UserGroupRight = () => {
             user_group_slno: user_group_slno
         }
         setFrmdaat(frm)
+       setupdate(1)
     }
     //Enable edit
     const columnTypes = {
@@ -114,6 +117,7 @@ const UserGroupRight = () => {
 
     /*** when proceess button click data insert to user right table */
     const getdata = useCallback(() => {
+        if(update!==0){
         const frmreset = {
             group_right_slno: 0,
             menu_view: 0,
@@ -126,6 +130,7 @@ const UserGroupRight = () => {
                 succesNotify(message)
                 setRender(render + 1)
                 setFrmdaat(frmreset)
+                setupdate(0)
             } else if (success === 0) {
                 infoNotify(message.sqlMessage);
             } else {
@@ -133,7 +138,8 @@ const UserGroupRight = () => {
             }
         }
         updatefunc(patchdata)
-    }, [patchdata, render])
+    }
+    }, [patchdata, render,update])
 
     //back to home
     const backtoSetting = useCallback(() => {
