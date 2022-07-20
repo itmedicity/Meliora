@@ -13,12 +13,14 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
+import SubModuleGroup from 'src/views/CommonSelectCode/SubModuleGroup';
 
 const UserGroupRight = () => {
     //Initializing
     const history = useHistory();
     const [usergp, setUsergrp] = useState(0)
     const [modulename, setModule] = useState(0)
+    const [subModule, setSubModule] = useState(0)
     const [tabledata, setTabledata] = useState([])
     const [render, setRender] = useState(0)
     const [frmdata, setFrmdaat] = useState({
@@ -62,10 +64,10 @@ const UserGroupRight = () => {
     const postdata = useMemo(() => {
         return {
             user_group_slno: usergp,
-            module_slno: modulename
+            module_slno: modulename,
+            sub_module_slno: subModule
         }
-    }, [usergp, modulename])
-
+    }, [usergp, modulename, subModule])
 
     useEffect(() => {
         if (render !== 0) {
@@ -93,21 +95,22 @@ const UserGroupRight = () => {
     /*** get menus from table its under selected module */
     const search = useCallback((e) => {
         e.preventDefault();
-        if ((usergp !== 0) && (modulename !== 0)) {
+        if ((usergp !== 0) && (modulename !== 0) && (subModule !== 0)) {
             setRender(1)
         } else {
             warningNotify("Please Select User Group And Module")
         }
-    }, [usergp, modulename])
+    }, [usergp, modulename, subModule])
     // update data
     const patchdata = useMemo(() => {
         return {
             group_right_slno: group_right_slno,
             menu_view: menu_view === 0 ? 1 : 0,
             user_group_slno: usergp,
+            sub_module_slno: subModule,
             module_slno: modulename
         }
-    }, [group_right_slno, menu_view, usergp, modulename])
+    }, [group_right_slno, menu_view, usergp, modulename, subModule])
 
     /*** when proceess button click data insert to user right table */
     const getdata = useCallback(() => {
@@ -150,7 +153,10 @@ const UserGroupRight = () => {
                     <Grid item xl={3} lg={3} >
                         <ModuleSelect value={modulename} setValue={setModule} />
                     </Grid>
-                    <Box sx={{ pt: 0, pl: 2 }}  >
+                    <Grid item xl={3} lg={3} >
+                        <SubModuleGroup value={subModule} setValue={setSubModule} module={modulename} />
+                    </Grid>
+                    <Box sx={{ pt: 0.4, pl: 2 }}  >
                         <Grid container spacing={5} >
                             <Grid item lg={1} xl={1} >
                                 <CustomeToolTip title="Search" placement="left" >
@@ -175,12 +181,16 @@ const UserGroupRight = () => {
                 </Grid>
             </Box>
             <Box sx={{ pl: 2, pr: 2, pb: 2 }}>
-                <CusAgGridMast
-                    columnDefs={column}
-                    tableData={tabledata}
-                    onSelectionChanged={getdata}
-                    columnTypes={columnTypes}
-                />
+                {
+                    render !== 0 ?
+                        <CusAgGridMast
+                            columnDefs={column}
+                            tableData={tabledata}
+                            onSelectionChanged={getdata}
+                            columnTypes={columnTypes}
+                        /> : null
+                }
+
             </Box>
         </CardMaster >
     )
