@@ -8,7 +8,6 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import ModuleGroupTable from './ModuleGroupTable'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
-
 const ModuleGroupMast = () => {
     const history = useHistory()
     const [count, setCount] = useState(0)
@@ -26,7 +25,6 @@ const ModuleGroupMast = () => {
         sfanfa: false,
         mod_grp_slno: 0
     })
-
     /*** Destructuring */
     const { modulegrp_name, complaintManagement, requestmanag, assetmanag, wework,
         diet, feedback, nabh, sfanfa, mod_grp_slno } = moduleGroup
@@ -73,11 +71,11 @@ const ModuleGroupMast = () => {
             mod_grp_slno: mod_grp_slno
         }
     }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, wework, diet, feedback, nabh, sfanfa, mod_grp_slno])
-
-    //Data set for edit
-    const geteditdata = async (data) => {
+    // data setting for edit
+    const rowSelect = useCallback((data) => {
         setvalue(1)
-        const { mod_grp_slno, mod_grp_name, module_slno } = data
+        const datas = data.api.getSelectedRows();
+        const { mod_grp_slno, mod_grp_name, module_slno } = datas[0]
         const module_status = JSON.parse(module_slno);
         const formdata = {
             modulegrp_name: mod_grp_name,
@@ -92,8 +90,7 @@ const ModuleGroupMast = () => {
             mod_grp_slno: mod_grp_slno
         }
         setModuleGroup(formdata)
-    }
-
+    }, [])
     /*** usecallback function for form submitting */
     const submitModuleGroup = useCallback((e) => {
         e.preventDefault();
@@ -124,7 +121,7 @@ const ModuleGroupMast = () => {
                 infoNotify(message)
             }
         }
-        /***  * update function for use call back     */
+        /*** * update function for use call back     */
         const updateFun = async (patchdata) => {
             const result = await axioslogin.patch('/modulegroup', patchdata)
             const { message, success } = result.data;
@@ -149,16 +146,33 @@ const ModuleGroupMast = () => {
             updateFun(patchdata)
         }
     }, [postdata, patchdata, value, count])
-
     //back to home
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
+    //refresh textfields
+    const refereshWindow = useCallback(() => {
+        const frmreset = {
+            modulegrp_name: '',
+            complaintManagement: false,
+            requestmanag: false,
+            assetmanag: false,
+            wework: false,
+            diet: false,
+            feedback: false,
+            nabh: false,
+            sfanfa: false
+        }
+        setModuleGroup(frmreset)
+        setvalue(0);
+    }, [setModuleGroup])
+
     return (
         < CardMaster
             title="Module Group Master"
             submit={submitModuleGroup}
             close={backtoSetting}
+            refresh={refereshWindow}
         >
             <Box sx={{ p: 1 }}>
                 <Grid container spacing={1}  >
@@ -270,7 +284,7 @@ const ModuleGroupMast = () => {
                         </Box>
                     </Grid>
                     <Grid item xl={8} lg={8}  >
-                        <ModuleGroupTable count={count} geteditdata={geteditdata} />
+                        <ModuleGroupTable count={count} rowSelect={rowSelect} />
                     </Grid>
                 </Grid>
             </Box>

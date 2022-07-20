@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
 import { Box } from '@mui/system'
@@ -7,20 +7,16 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import ComplaintDeptSelect from 'src/views/CommonSelectCode/ComplaintDeptSelect'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import ComplaintTypeTable from './ComplaintTypeTable'
 const ComplaintTypeMast = () => {
     const history = useHistory();
-    //for select box updation
+    //for edit
     const [edit, setEdit] = useState(0);
     //state for table rendering
     const [count, setCount] = useState(0);
     //state for select box
     const [value, setValue] = useState(0)
-    //data setting when clicked on edit button table
-    const [editData, setEditdata] = useState([]);
-    //for setting id from each row and get data by id
-    const [comptypeslno, setComptypeslno] = useState([]);
     //intializing
     const [complainttype, SetType] = useState({
         complaint_type_name: '',
@@ -34,43 +30,6 @@ const ComplaintTypeMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         SetType({ ...complainttype, [e.target.name]: value })
     }, [complainttype])
-    //fun for edit table
-    const geteditdata = async (event) => {
-        setEdit(1);
-        setEditdata(event.api.getSelectedRows())
-    }
-    //For get slno from selected row  
-    useEffect(() => {
-        if (editData.length !== 0) {
-            const slno = editData && editData.map((val, index) => {
-                return val.complaint_type_slno
-            })
-            setComptypeslno(slno)
-        }
-    }, [editData])
-    /*** get data from complainttype_master where selected slno for edit and also data set to corresponding fields*/
-    useEffect(() => {
-        if (comptypeslno.length !== 0) {
-            const getComplaint = async () => {
-                const result = await axioslogin.post('/complainttype/byid', comptypeslno)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const { complaint_type_name, complaint_type_status, complaint_type_slno, complaint_dept_slno } = data[0];
-                    const frmdata = {
-                        complaint_type_name: complaint_type_name,
-                        complaint_type_status: complaint_type_status === 1 ? true : false,
-                        complaint_type_slno: complaint_type_slno
-                    }
-                    SetType(frmdata)
-                    setValue(complaint_dept_slno)
-                }
-                else {
-                    warningNotify("Error occured please contact EDP")
-                }
-            }
-            getComplaint();
-        }
-    }, [comptypeslno])
     //data for insert 
     const postdata = useMemo(() => {
         return {
@@ -79,6 +38,19 @@ const ComplaintTypeMast = () => {
             complaint_type_status: complaint_type_status === true ? 1 : 0
         }
     }, [complaint_type_name, complaint_type_status, value])
+    //data set for edit
+    const rowSelect = useCallback((params) => {
+        setEdit(1);
+        const data = params.api.getSelectedRows();
+        const { complaint_type_name, complaint_dept_slno, status, complaint_type_slno } = data[0]
+        const frmdata = {
+            complaint_type_name: complaint_type_name,
+            complaint_type_status: status === 'Yes' ? true : false,
+            complaint_type_slno: complaint_type_slno
+        }
+        SetType(frmdata)
+        setValue(complaint_dept_slno)
+    }, [])
     //data for update
     const patchdata = useMemo(() => {
         return {
@@ -110,7 +82,7 @@ const ComplaintTypeMast = () => {
                 SetType(formreset);
                 reset();
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             }
             else {
                 infoNotify(message)
@@ -126,7 +98,7 @@ const ComplaintTypeMast = () => {
                 SetType(formreset);
                 reset();
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             }
             else {
                 infoNotify(message)
@@ -145,11 +117,23 @@ const ComplaintTypeMast = () => {
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
+    //refreshWindow
+    const refreshWindow = useCallback(() => {
+        const formreset = {
+            complaint_type_name: '',
+            complaint_type_status: false,
+            complaint_type_slno: ''
+        }
+        SetType(formreset);
+        setEdit(0)
+        setValue(0)
+    }, [SetType])
     return (
         <CardMaster
             title='Complaint Type Master'
             close={backtoSetting}
             submit={submitComplaintType}
+            refresh={refreshWindow}
         >
             <Box sx={{ p: 1 }}>
                 <Grid container spacing={1} >
@@ -182,7 +166,7 @@ const ComplaintTypeMast = () => {
                         </Grid>
                     </Grid>
                     <Grid item lg={8} xl={8} >
-                        <ComplaintTypeTable geteditdata={geteditdata} count={count} />
+                        <ComplaintTypeTable count={count} rowSelect={rowSelect} />
                     </Grid>
                 </Grid>
             </Box>

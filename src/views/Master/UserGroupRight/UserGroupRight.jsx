@@ -29,7 +29,6 @@ const UserGroupRight = () => {
     ])
     const columnTypes = {
         nonEditableColumn: { editable: false },
-
     };
     /*** get menus from table its under selected module */
     const search = useCallback(() => {
@@ -55,7 +54,6 @@ const UserGroupRight = () => {
             const { menu_slno } = menudata[0]
             setMnslno(menu_slno)
         }
-
     }, [menudata])
     /*** when proceess button click data insert to user right table */
     const getdata = async (event) => {

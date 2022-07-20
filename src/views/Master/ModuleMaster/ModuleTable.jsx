@@ -2,17 +2,14 @@ import React, { memo, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
-
-
 import EditButton from 'src/views/Components/EditButton';
-
-const ModuleTable = ({ count, geteditdata }) => {
+const ModuleTable = ({ count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
     const [column] = useState([
         { headerName: 'SlNo', field: 'module_slno' },
         { headerName: 'Module Name', field: 'module_name' },
         { headerName: 'Status', field: 'status' },
-        { headerName: 'Action', cellRenderer: EditButton },
+        { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])
 
     /*** get data from module_master table for display */
@@ -33,7 +30,7 @@ const ModuleTable = ({ count, geteditdata }) => {
         <CusAgGridMast
             columnDefs={column}
             tableData={tabledata}
-            onSelectionChanged={geteditdata}
+            onClick={rowSelect}
         />
     )
 }

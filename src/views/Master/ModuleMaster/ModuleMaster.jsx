@@ -1,33 +1,29 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import ModuleTable from './ModuleTable'
 import { Box } from '@mui/system'
 import { Grid } from '@mui/material'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-
 const ModuleMaster = () => {
     const [value, setvalue] = useState(0)
     const [count, setCount] = useState(0)
     const history = useHistory()
-
     //Initializing
     const [module, setModule] = useState({
         module_name: '',
         module_status: false,
         module_slno: ''
     })
-
     //Destructuring
     const { module_name, module_status, module_slno } = module;
     const updateModule = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setModule({ ...module, [e.target.name]: value })
     }, [module])
-
     // data for insert
     const postdata = useMemo(() => {
         return {
@@ -36,6 +32,19 @@ const ModuleMaster = () => {
         }
     }, [module_name, module_status])
 
+
+    //data for edit 
+    const rowSelect = useCallback((params) => {
+        setvalue(1)
+        const data = params.api.getSelectedRows()
+        const { module_name, module_slno, status } = data[0]
+        const frmdata = {
+            module_name: module_name,
+            module_status: status === 'Yes' ? true : false,
+            module_slno: module_slno
+        }
+        setModule(frmdata)
+    }, [])
     //data for update
     const patchdata = useMemo(() => {
         return {
@@ -44,52 +53,6 @@ const ModuleMaster = () => {
             module_slno: module_slno
         }
     }, [module_name, module_status, module_slno])
-
-    const [moduleslno, setModuleslno] = useState([])
-    const [editData, SetEditdata] = useState([])
-
-    /***get row data from agGrid when edit button click
-     * value set 1 for edit     */
-    const geteditdata = (event) => {
-        setvalue(1)
-        SetEditdata(event.api.getSelectedRows())
-    }
-    //For get slno from selected row  
-    useEffect(() => {
-        if (editData.length !== 0) {
-            const slno = editData && editData.map((val, index) => {
-                return val.module_slno
-            })
-            setModuleslno(slno)
-        }
-    }, [editData])
-
-
-
-
-    /*** get data from module_master where selected slno for edit and also data set to corresponding feilds*/
-    useEffect(() => {
-        if (moduleslno.length !== 0) {
-            const getdataaa = async () => {
-                const result = await axioslogin.post('/modulemaster/getById', moduleslno)
-                const { success, data } = result.data;
-                if (success === 1) {
-                    const { module_name, module_status, module_slno } = data[0]
-                    const frmdata = {
-                        module_name: module_name,
-                        module_status: module_status === 1 ? true : false,
-                        module_slno: module_slno
-                    }
-                    setModule(frmdata)
-                }
-                else {
-                    warningNotify("Error occured please contact EDP")
-                }
-            }
-            getdataaa()
-        }
-    }, [moduleslno])
-
     /*** usecallback function for form submitting form */
     const submitModule = useCallback((e) => {
         e.preventDefault();
@@ -142,12 +105,23 @@ const ModuleMaster = () => {
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
+    //referesh func
+    const refreshWindow = useCallback(() => {
+        const formreset = {
+            module_name: '',
+            module_status: false,
+            module_slno: ''
+        }
+        setModule(formreset)
+        setvalue(0);
+    }, [setModule])
 
     return (
         <CardMaster
             title="Module Master"
             submit={submitModule}
             close={backtoSetting}
+            refresh={refreshWindow}
         >
             <Box sx={{ p: 1 }}>
                 <Grid container spacing={1}  >
@@ -155,7 +129,7 @@ const ModuleMaster = () => {
                         <Grid container spacing={1} >
                             <Grid item xl={12} lg={12}  >
                                 <TextFieldCustom
-                                    placeholder="User Group Name"
+                                    placeholder="Module Name"
                                     type="text"
                                     size="sm"
                                     name="module_name"
@@ -177,7 +151,7 @@ const ModuleMaster = () => {
                         </Grid>
                     </Grid>
                     <Grid item lg={8} xl={8} >
-                        <ModuleTable count={count} geteditdata={geteditdata} />
+                        <ModuleTable count={count} rowSelect={rowSelect} />
                     </Grid>
                 </Grid>
             </Box>

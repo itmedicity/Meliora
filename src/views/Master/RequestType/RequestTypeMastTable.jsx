@@ -3,7 +3,7 @@ import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 import EditButton from 'src/views/Components/EditButton';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { axioslogin } from 'src/views/Axios/Axios';
-const RequestTypeMastTable = ({ geteditdata, count }) => {
+const RequestTypeMastTable = ({ count, rowSelect }) => {
     //state for setting table data
     const [tabledata, setTabledata] = useState([]);
     //column title name setting
@@ -11,7 +11,7 @@ const RequestTypeMastTable = ({ geteditdata, count }) => {
         { headerName: "SlNo", field: "req_type_slno" },
         { headerName: "Request Type Name", field: "req_type_name" },
         { headerName: "Status", field: "status" },
-        { headerName: 'Action', cellRenderer: EditButton },
+        { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])
     //get all data 
     useEffect(() => {
@@ -30,7 +30,7 @@ const RequestTypeMastTable = ({ geteditdata, count }) => {
         <CusAgGridMast
             columnDefs={column}
             tableData={tabledata}
-            onSelectionChanged={geteditdata}
+            onClick={rowSelect}
         />
     )
 }

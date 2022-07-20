@@ -3,7 +3,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 import EditButton from 'src/views/Components/EditButton';
-const DepartmentMastTable = ({ count, geteditdata }) => {
+const DepartmentMastTable = ({ count, rowSelect }) => {
     //state for table data set
     const [tabledata, setTabledata] = useState([])
     //column title setting
@@ -12,7 +12,7 @@ const DepartmentMastTable = ({ count, geteditdata }) => {
         { headerName: "Department Name", field: "dept_name" },
         { headerName: " Deaprtment Alias", field: "dept_alias" },
         { headerName: "Status", field: "status" },
-        { headerName: 'Action', cellRenderer: EditButton },
+        { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])
     //get all data
     useEffect(() => {
@@ -31,7 +31,7 @@ const DepartmentMastTable = ({ count, geteditdata }) => {
         <CusAgGridMast
             columnDefs={column}
             tableData={tabledata}
-            onSelectionChanged={geteditdata}
+            onClick={rowSelect}
         />
     )
 }

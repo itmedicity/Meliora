@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
 import { Box } from '@mui/system'
@@ -6,7 +6,7 @@ import { Grid } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import HicPolicyTable from './HicPolicyTable'
 const HicPolicyMast = () => {
     const history = useHistory();
@@ -14,10 +14,6 @@ const HicPolicyMast = () => {
     const [count, setCount] = useState(0);
     //state for edit
     const [edit, setEdit] = useState(0)
-    //data setting when clicken on row table
-    const [editData, setEditdata] = useState([]);
-    //for setting id from each row and get data by id
-    const [hicslno, setHicslno] = useState([]);
     //intializing
     const [hic, setHic] = useState({
         hic_policy_name: '',
@@ -30,42 +26,6 @@ const HicPolicyMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setHic({ ...hic, [e.target.name]: value })
     }, [hic])
-    //data set for edit
-    const geteditdata = async (event) => {
-        setEdit(1);
-        setEditdata(event.api.getSelectedRows());
-    }
-    //For get slno from selected row  
-    useEffect(() => {
-        if (editData.length !== 0) {
-            const slno = editData && editData.map((val, index) => {
-                return val.hic_policy_slno
-            })
-            setHicslno(slno)
-        }
-    }, [editData])
-    /*** get data from hicpolicy_master where selected slno for edit and also data set to corresponding fields*/
-    useEffect(() => {
-        if (hicslno.length !== 0) {
-            const getHic = async () => {
-                const result = await axioslogin.post('/hicpolicy/byid', hicslno)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const { hic_policy_name, hic_policy_status, hic_policy_slno } = data[0];
-                    const frmdata = {
-                        hic_policy_name: hic_policy_name,
-                        hic_policy_status: hic_policy_status === 1 ? true : false,
-                        hic_policy_slno: hic_policy_slno
-                    }
-                    setHic(frmdata)
-                }
-                else {
-                    warningNotify("Error occured please contact EDP")
-                }
-            }
-            getHic();
-        }
-    }, [hicslno])
     //data for insert
     const postdata = useMemo(() => {
         return {
@@ -73,6 +33,18 @@ const HicPolicyMast = () => {
             hic_policy_status: hic_policy_status === true ? 1 : 0
         }
     }, [hic_policy_name, hic_policy_status])
+    //data set for edit  
+    const rowSelect = useCallback((params) => {
+        setEdit(1);
+        const data = params.api.getSelectedRows()
+        const { hic_policy_name, status, hic_policy_slno } = data[0]
+        const frmdata = {
+            hic_policy_name: hic_policy_name,
+            hic_policy_status: status === 'Yes' ? true : false,
+            hic_policy_slno: hic_policy_slno,
+        }
+        setHic(frmdata)
+    }, [])
     //data for edit
     const patchdata = useMemo(() => {
         return {
@@ -98,7 +70,7 @@ const HicPolicyMast = () => {
                 setCount(count + 1);
                 setHic(formreset);
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             }
             else {
                 infoNotify(message)
@@ -114,7 +86,7 @@ const HicPolicyMast = () => {
                 setEdit(0)
                 setHic(formreset);
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             }
             else {
                 infoNotify(message)
@@ -133,11 +105,21 @@ const HicPolicyMast = () => {
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
+    //refresh func
+    const refreshWindow = useCallback(() => {
+        const formreset = {
+            hic_policy_name: '',
+            hic_policy_status: false,
+        }
+        setHic(formreset);
+        setEdit(0)
+    }, [setHic])
     return (
         <CardMaster
             title="Hic Policy Master"
             close={backtoSetting}
             submit={submitHicpolicy}
+            refresh={refreshWindow}
         >
             <Box sx={{ p: 1 }}>
                 <Grid container spacing={1} >
@@ -167,7 +149,7 @@ const HicPolicyMast = () => {
                         </Grid>
                     </Grid>
                     <Grid item lg={8} xl={8} >
-                        <HicPolicyTable geteditdata={geteditdata} count={count} />
+                        <HicPolicyTable count={count} rowSelect={rowSelect} />
                     </Grid>
                 </Grid>
             </Box>
@@ -175,3 +157,19 @@ const HicPolicyMast = () => {
     )
 }
 export default HicPolicyMast
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

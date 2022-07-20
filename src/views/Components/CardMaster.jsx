@@ -9,8 +9,7 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
 import CustomCardHeaderOne from './CustomCardHeaderOne';
 import { cardActionBgClr } from 'src/color/Color';
-
-const CardMaster = ({ children, title, close, submit }) => {
+const CardMaster = ({ children, title, close, submit, refresh }) => {
     return (
         <Fragment>
             <ThemeProvider theme={theme} >
@@ -35,7 +34,7 @@ const CardMaster = ({ children, title, close, submit }) => {
                         {/* Refresh Button */}
                         <CustomeToolTip title="Refresh" placement="left" >
                             <Box>
-                                <CusIconButton size="sm" variant="outlined" color="primary">
+                                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={refresh} >
                                     <RefreshIcon fontSize='small' />
                                 </CusIconButton>
                             </Box>
@@ -54,5 +53,4 @@ const CardMaster = ({ children, title, close, submit }) => {
         </Fragment>
     )
 }
-
 export default memo(CardMaster)
