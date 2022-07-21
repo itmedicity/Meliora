@@ -14,6 +14,7 @@ const DepartmentSelect = ({ value, setValue }) => {
     const departmentdata = useSelector((state) => {
         return state.getDepartment.departmentList || 0
     })
+
     //getDepartment function is used to update data in department redux
     useEffect(() => {
         dispatch(getDepartment())

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
 import ComplaintDeptMastTable from './ComplaintDeptMastTable';
@@ -7,7 +7,7 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { Grid } from '@mui/material'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios';
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 const ComplaintDeptMast = () => {
     //for routing to settings
     const history = useHistory();
@@ -15,10 +15,6 @@ const ComplaintDeptMast = () => {
     const [count, setCount] = useState(0);
     //state for edit
     const [edit, setEdit] = useState(0);
-    //data setting when clicken on row table
-    const [editData, setEditdata] = useState([]);
-    //for setting id from each row and get data by id
-    const [compslno, setCompslno] = useState([]);
     //intializing
     const [complaint, setComplaint] = useState({
         complaint_dept_name: '',
@@ -31,42 +27,6 @@ const ComplaintDeptMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setComplaint({ ...complaint, [e.target.name]: value })
     }, [complaint])
-    //data set for edit
-    const geteditdata = async (event) => {
-        setEdit(1)
-        setEditdata(event.api.getSelectedRows());
-    }
-    //For get slno from selected row  
-    useEffect(() => {
-        if (editData.length !== 0) {
-            const slno = editData && editData.map((val, index) => {
-                return val.complaint_dept_slno
-            })
-            setCompslno(slno)
-        }
-    }, [editData])
-    /*** get data from complaintdept_master where selected slno for edit and also data set to corresponding fields*/
-    useEffect(() => {
-        if (compslno.length !== 0) {
-            const getCompdept = async () => {
-                const result = await axioslogin.post('/complaintdept/byid', compslno)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const { complaint_dept_name, complaint_dept_status, complaint_dept_slno } = data[0];
-                    const frmdata = {
-                        complaint_dept_name: complaint_dept_name,
-                        complaint_dept_status: complaint_dept_status === 1 ? true : false,
-                        complaint_dept_slno: complaint_dept_slno
-                    }
-                    setComplaint(frmdata)
-                }
-                else {
-                    warningNotify("Error occured please contact EDP")
-                }
-            }
-            getCompdept();
-        }
-    }, [compslno])
     //data for insert
     const postdata = useMemo(() => {
         return {
@@ -74,6 +34,18 @@ const ComplaintDeptMast = () => {
             complaint_dept_status: complaint_dept_status === true ? 1 : 0
         }
     }, [complaint_dept_name, complaint_dept_status])
+    //data setting  for edit
+    const rowSelect = useCallback((params) => {
+        setEdit(1)
+        const data = params.api.getSelectedRows()
+        const { complaint_dept_name, status, complaint_dept_slno } = data[0]
+        const frmdata = {
+            complaint_dept_name: complaint_dept_name,
+            complaint_dept_status: status === 'Yes' ? true : false,
+            complaint_dept_slno: complaint_dept_slno
+        }
+        setComplaint(frmdata)
+    }, [])
     //data for update
     const patchdata = useMemo(() => {
         return {
@@ -99,7 +71,7 @@ const ComplaintDeptMast = () => {
                 setCount(count + 1);
                 setComplaint(formreset);
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             }
             else {
                 infoNotify(message)
@@ -115,7 +87,7 @@ const ComplaintDeptMast = () => {
                 setEdit(0)
                 setComplaint(formreset);
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             }
             else {
                 infoNotify(message)
@@ -134,11 +106,22 @@ const ComplaintDeptMast = () => {
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
+    //refresh window
+    const refreshWindow = useCallback(() => {
+        const formreset = {
+            complaint_dept_name: '',
+            complaint_dept_status: false,
+            complaint_dept_slno: ''
+        }
+        setComplaint(formreset);
+        setEdit(0);
+    }, [setComplaint])
     return (
         <CardMaster
             title='Complaint Department Master'
             close={backtoSetting}
             submit={submitComplaintdept}
+            refresh={refreshWindow}
         >
             <Box sx={{ p: 1 }}>
                 <Grid container spacing={1} >
@@ -168,7 +151,7 @@ const ComplaintDeptMast = () => {
                         </Grid>
                     </Grid>
                     <Grid item lg={8} xl={8} >
-                        <ComplaintDeptMastTable count={count} geteditdata={geteditdata} />
+                        <ComplaintDeptMastTable count={count} rowSelect={rowSelect} />
                     </Grid>
                 </Grid>
             </Box>

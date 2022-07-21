@@ -10,7 +10,7 @@ import Utilities from './Menus/CmUtilities'
 
 const _nav = [
   {
-    slno: 1,
+    slno: 17,
     component: CNavItem,
     name: 'Home',
     to: '/Home',
@@ -18,18 +18,20 @@ const _nav = [
   },
   //Complaint Management System Menu Start from Here
   {
+    slno: 16,
+
     component: CNavTitle,
     name: 'Complaint Management',
   },
   {
-    slno: 2,
+    slno: 19,
     component: CNavGroup,
     name: 'Transaction',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: Transactions
   },
   {
-    slno: 3,
+    slno: 20,
     component: CNavGroup,
     name: 'Utilities',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
@@ -39,6 +41,7 @@ const _nav = [
 
   //Request Management System Menu Start from Here
   {
+    slno: 17,
     component: CNavTitle,
     name: 'Central Request management',
   },

@@ -4,7 +4,7 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 import EditButton from 'src/views/Components/EditButton';
 
-const ModuleGroupRightTable = ({ count, geteditdata }) => {
+const ModuleGroupRightTable = ({ count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
     const [column] = useState([
         { headerName: 'SlNo', field: 'mod_grp_user_slno' },
@@ -12,7 +12,7 @@ const ModuleGroupRightTable = ({ count, geteditdata }) => {
         { headerName: 'Module Group', field: 'mod_grp_name' },
         { headerName: 'User Group', field: 'user_grp_name' },
         { headerName: 'Status', field: 'mod_grp_user_status' },
-        { headerName: 'Action', cellRenderer: EditButton },
+        { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])
 
     /*** get data from module_master table for display */
@@ -33,7 +33,7 @@ const ModuleGroupRightTable = ({ count, geteditdata }) => {
         <CusAgGridMast
             columnDefs={column}
             tableData={tabledata}
-            onSelectionChanged={geteditdata}
+            onClick={rowSelect}
         />
     )
 }

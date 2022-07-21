@@ -3,7 +3,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 import EditButton from 'src/views/Components/EditButton';
-const ComplaintDeptMastTable = ({ geteditdata, count }) => {
+const ComplaintDeptMastTable = ({ count, rowSelect }) => {
     //state for setting table data
     const [tabledata, setTabledata] = useState([])
     //column title setting
@@ -11,8 +11,9 @@ const ComplaintDeptMastTable = ({ geteditdata, count }) => {
         { headerName: "SlNo", field: "complaint_dept_slno" },
         { headerName: "Complaint Department Name", field: "complaint_dept_name" },
         { headerName: "Status", field: "status" },
-        { headerName: 'Action', cellRenderer: EditButton },
+        { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])
+    //get all data
     useEffect(() => {
         const getComplaintDept = async () => {
             const result = await axioslogin.get('/complaintdept')
@@ -29,7 +30,7 @@ const ComplaintDeptMastTable = ({ geteditdata, count }) => {
         <CusAgGridMast
             columnDefs={column}
             tableData={tabledata}
-            onSelectionChanged={geteditdata}
+            onClick={rowSelect}
         />
     )
 }

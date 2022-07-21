@@ -1,14 +1,13 @@
 import { Grid } from '@mui/material'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import UserGroupTable from './UserGroupTable'
 import { Box } from '@mui/system'
-
 const UserGroupMast = () => {
     const [count, setCount] = useState(0)
     const [value, setvalue] = useState(0)
@@ -25,7 +24,6 @@ const UserGroupMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setUsergrp({ ...usergrp, [e.target.name]: value })
     }, [usergrp])
-
     //data for insert
     const postdata = useMemo(() => {
         return {
@@ -33,7 +31,18 @@ const UserGroupMast = () => {
             user_grp_status: usergrp_status === true ? 1 : 0
         }
     }, [usergrp_name, usergrp_status])
-
+    //data set for edit 
+    const rowSelect = useCallback((params) => {
+        setvalue(1);
+        const data = params.api.getSelectedRows();
+        const { user_grp_name, status, user_grp_slno } = data[0]
+        const frmdata = {
+            usergrp_name: user_grp_name,
+            usergrp_status: status === 'Yes' ? true : false,
+            user_grp_slno: user_grp_slno
+        }
+        setUsergrp(frmdata)
+    }, [])
     //data for update
     const patchdata = useMemo(() => {
         return {
@@ -42,49 +51,6 @@ const UserGroupMast = () => {
             user_grp_slno: user_grp_slno
         }
     }, [usergrp_name, usergrp_status, user_grp_slno])
-
-    const [gropslno, setGrpslno] = useState([])
-    const [editData, SetEditdata] = useState([])
-
-    /***get row data from agGrid when edit button click
-     * value set 1 for edit     */
-    const geteditdata = (event) => {
-        setvalue(1)
-        SetEditdata(event.api.getSelectedRows())
-    }
-    //For get slno from selected row  
-    useEffect(() => {
-        if (editData.length !== 0) {
-            const slno = editData && editData.map((val, index) => {
-                return val.user_grp_slno
-            })
-            setGrpslno(slno)
-        }
-    }, [editData])
-
-    /*** get data from user_group_mast where selected slno for edit and also data set to corresponding feilds*/
-    useEffect(() => {
-        if (gropslno.length !== 0) {
-            const getdataaa = async () => {
-                const result = await axioslogin.post('/usergroup/getById', gropslno)
-                const { success, data } = result.data;
-                if (success === 1) {
-                    const { user_grp_name, user_grp_status, user_grp_slno } = data[0]
-                    const frmdata = {
-                        usergrp_name: user_grp_name,
-                        usergrp_status: user_grp_status === 1 ? true : false,
-                        user_grp_slno: user_grp_slno
-                    }
-                    setUsergrp(frmdata)
-                }
-                else {
-                    warningNotify("Error occured please contact EDP")
-                }
-            }
-            getdataaa()
-        }
-    }, [gropslno])
-
     /*** usecallback function for form submitting */
     const submitUserGroup = useCallback((e) => {
         e.preventDefault();
@@ -116,12 +82,14 @@ const UserGroupMast = () => {
                 succesNotify(message)
                 setCount(count + 1);
                 setUsergrp(formreset);
+                setvalue(0);
             } else if (success === 0) {
                 infoNotify(message);
             } else {
                 infoNotify(message)
             }
         }
+
         /*** value=0 insert api call work else update call
           * value initialy '0' when edit button click value changes to '1'
           */
@@ -136,12 +104,22 @@ const UserGroupMast = () => {
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
-    
+    //refresh 
+    const refreshWindow = useCallback(() => {
+        const formreset = {
+            usergrp_name: '',
+            usergrp_status: false,
+            user_grp_slno: ''
+        }
+        setUsergrp(formreset)
+        setvalue(0);
+    }, [setUsergrp])
     return (
         <CardMaster
             title="User Group Master"
             submit={submitUserGroup}
             close={backtoSetting}
+            refresh={refreshWindow}
         >
             <Box sx={{ p: 1 }}>
                 <Grid container spacing={1}  >
@@ -171,7 +149,7 @@ const UserGroupMast = () => {
                         </Grid>
                     </Grid>
                     <Grid item lg={8} xl={8} >
-                        <UserGroupTable count={count} geteditdata={geteditdata} />
+                        <UserGroupTable count={count} rowSelect={rowSelect} />
                     </Grid>
                 </Grid>
             </Box>

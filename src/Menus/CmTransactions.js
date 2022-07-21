@@ -8,7 +8,7 @@ const CmTransactions = [
         to: '/Home/ComplaintRegister',
     },
     {
-        men_slno: 5,
+        men_slno: 6,
         component: CNavItem,
         name: 'Assign Complaint ',
         to: '/Home',
