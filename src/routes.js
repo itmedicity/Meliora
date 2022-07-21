@@ -16,6 +16,8 @@ const ComplaintType = React.lazy(() => import('./views/Master/ComplaintType/Comp
 const HicPolicy = React.lazy(() => import('./views/Master/HicPolicy/HicPolicyMast'));
 const moduleuserRight = React.lazy(() => import('./views/Master/ModuleUserRight/ModuleUserRight'))
 
+
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/Home', exact: true, name: 'Home', component: Home },
@@ -32,7 +34,8 @@ const routes = [
   { path: '/Home/RequestType', exact: true, name: 'Request Type', component: RequestType },
   { path: '/Home/ComplaintType', exact: true, name: 'Complaint Type', component: ComplaintType },
   { path: '/Home/HicPolicy', exact: true, name: 'Hic Policy', component: HicPolicy },
-  { path: '/Home/ModuleUserRight', exact: true, name: 'Module User Right', component: moduleuserRight }
+  { path: '/Home/ModuleUserRight', exact: true, name: 'Module User Right', component: moduleuserRight },
+
 
 ]
 

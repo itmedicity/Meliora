@@ -6,8 +6,7 @@ import {
     userManagement_one, userManagement_two, userManagement_three, cm_setting_three
 } from './SettingsMenu';
 import { Card, CardContent, CardHeader } from '@mui/material';
-import { bgcolrheading, bgbottom, titleTypography } from 'src/color/Color';
-
+import { titleTypography, cardActionBgClr } from 'src/color/Color';
 
 const Settings = () => {
     const [commonMast_secOne, setcommonMast_secOne] = useState();
@@ -19,11 +18,11 @@ const Settings = () => {
     const [userManagment_secOne, setUserManag_secOne] = useState();
     const [userManagment_secTwo, setUserManag_secTwo] = useState();
     const [userManagment_secThree, setUserManag_secThree] = useState();
-
+    const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
-            const menuSlnoArray = val.map((value) => {
-                return value.menu_slno || 0;
+            const menuSlnoArray = val[0].map((value) => {
+                return value.menu_slno;
             })
             //Common Master Setting
             const setting_section_one = co_setting_one.filter(val => menuSlnoArray.includes(val.slno));
@@ -32,32 +31,31 @@ const Settings = () => {
             setcommonMast_secTwo(setting_section_two)
             const setting_section_three = co_setting_three.filter(val => menuSlnoArray.includes(val.slno));
             setcommonMast_secThree(setting_section_three)
-
+            //Complaint Management Master
             const cm_setting_section_one = cm_setting_one.filter(val => menuSlnoArray.includes(val.slno));
             setcoMast_secOne(cm_setting_section_one)
             const cm_setting_section_two = cm_setting_two.filter(val => menuSlnoArray.includes(val.slno));
             setcoMast_secTwo(cm_setting_section_two)
             const cm_setting_section_three = cm_setting_three.filter(val => menuSlnoArray.includes(val.slno));
             setcoMast_secThree(cm_setting_section_three)
-
+            //User Rights 
             const user_setting_section_one = userManagement_one.filter(val => menuSlnoArray.includes(val.slno));
             setUserManag_secOne(user_setting_section_one)
             const user_setting_section_two = userManagement_two.filter(val => menuSlnoArray.includes(val.slno));
             setUserManag_secTwo(user_setting_section_two)
             const user_setting_section_three = userManagement_three.filter(val => menuSlnoArray.includes(val.slno));
             setUserManag_secThree(user_setting_section_three)
-
+            setCount(1)
         })
-    }, [])
+    }, [count])
+
     return (
         <Card>
             <CardHeader title={"Common Master"}
                 titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
-                    backgroundColor: bgcolrheading,
+                    backgroundColor: cardActionBgClr,
                     paddingY: 0.5,
-                    borderBottom: 0.1,
-                    borderBottomColor: bgbottom
                 }} />
             <CardContent>
                 <div className="row" >
@@ -94,12 +92,9 @@ const Settings = () => {
             <CardHeader title={"Compliant Master"}
                 titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
-                    backgroundColor: bgcolrheading,
+                    backgroundColor: cardActionBgClr,
                     paddingY: 0.5,
-                    borderBottom: 0.1,
-                    borderBottomColor: bgbottom
                 }} />
-
             <CardContent>
                 <div className="row" >
                     <div className="col-4">
@@ -131,22 +126,17 @@ const Settings = () => {
                     </div>
                 </div>
             </CardContent>
-
             <CardHeader title={"Request Master"}
                 titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
-                    backgroundColor: bgcolrheading,
+                    backgroundColor: cardActionBgClr,
                     paddingY: 0.5,
-                    borderBottom: 0.1,
-                    borderBottomColor: bgbottom
                 }} />
             <CardHeader title={"User Settings"}
                 titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
-                    backgroundColor: bgcolrheading,
+                    backgroundColor: cardActionBgClr,
                     paddingY: 0.5,
-                    borderBottom: 0.1,
-                    borderBottomColor: bgbottom
                 }} />
             <CardContent>
                 <div className="row" >

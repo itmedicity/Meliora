@@ -13,6 +13,7 @@ import { getComplainttype } from './ComplaintType.Reducer'
 import { getEmployeeName } from '../reducers/EmpName.Reducer'
 import { getModuleGroup } from '../reducers/ModuleGroup.Reducer'
 import { getAssetType } from '../reducers/AssetType.Reducer'
+import { getSubModuleGroup } from './SubModuleGroup.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -28,7 +29,7 @@ const reducer = combineReducers({
     getComplainttype,
     getEmployeeName,
     getModuleGroup,
-    getAssetType
-
+    getAssetType,
+    getSubModuleGroup,
 })
 export default reducer;
