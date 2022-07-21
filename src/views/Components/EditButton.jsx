@@ -2,7 +2,7 @@ import { IconButton, Tooltip } from '@mui/material'
 import React, { memo } from 'react'
 import { editicon } from 'src/color/Color'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-const EditButton = () => {
+const EditButton = ({ onClick }) => {
   return (
     <Tooltip title="Edit" arrow>
       <IconButton
@@ -10,6 +10,7 @@ const EditButton = () => {
         disableRipple={true}
         sx={{ color: editicon, paddingY: 0.5 }}
         size="small"
+        onClick={onClick}
       >
         <EditOutlinedIcon size="small" />
       </IconButton>

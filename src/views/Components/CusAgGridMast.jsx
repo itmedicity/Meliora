@@ -4,7 +4,6 @@ import React, { Fragment, memo } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
-
 const CusAgGridMast = ({ columnDefs, tableData, onSelectionChanged, columnTypes }) => {
     const rowHeight = 30
     const headerHeight = 30

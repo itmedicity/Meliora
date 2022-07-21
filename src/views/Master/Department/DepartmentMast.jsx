@@ -1,5 +1,5 @@
 import { Box } from '@mui/system'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -7,7 +7,7 @@ import { Grid } from '@mui/material'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import DepartmentMastTable from './DepartmentMastTable'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 const DepartmentMast = () => {
     //for routing
     const history = useHistory();
@@ -15,10 +15,6 @@ const DepartmentMast = () => {
     const [count, setCount] = useState(0);
     //state for edit
     const [value, setValue] = useState(0)
-    //data setting when clicken on row table
-    const [editData, setEditdata] = useState([]);
-    //for setting id from each row and get data by id
-    const [deptslno, setDeptslno] = useState([])
     //intilizing
     const [department, setDepartment] = useState({
         dept_name: '',
@@ -40,6 +36,19 @@ const DepartmentMast = () => {
             dept_status: dept_status === true ? 1 : 0
         }
     }, [dept_name, dept_alias, dept_status])
+    //edit data setting on textfields
+    const rowSelect = useCallback((params) => {
+        setValue(1)
+        const data = params.api.getSelectedRows()
+        const { dept_name, dept_alias, status, dept_slno } = data[0]
+        const frmdata = {
+            dept_name: dept_name,
+            dept_alias: dept_alias,
+            dept_status: status === 'Yes' ? true : false,
+            dept_slno: dept_slno
+        }
+        setDepartment(frmdata)
+    }, [])
     //data for update
     const patchdata = useMemo(() => {
         return {
@@ -49,43 +58,6 @@ const DepartmentMast = () => {
             dept_slno: dept_slno
         }
     }, [dept_name, dept_alias, dept_status, dept_slno])
-    //Data set for edit
-    const geteditdata = async (event) => {
-        setValue(1)
-        setEditdata(event.api.getSelectedRows());
-    }
-    //For get slno  from selected row  
-    useEffect(() => {
-        if (editData.length !== 0) {
-            const slno = editData && editData.map((val, index) => {
-                return val.dept_slno
-            })
-            setDeptslno(slno)
-        }
-    }, [editData])
-    /*** get data from department_master where selected slno for edit and also data set to corresponding fields*/
-    useEffect(() => {
-        if (deptslno.length !== 0) {
-            const getDept = async () => {
-                const result = await axioslogin.post('/deptmaster/byid', deptslno)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const { dept_name, dept_alias, dept_status, dept_slno } = data[0];
-                    const frmdata = {
-                        dept_name: dept_name,
-                        dept_alias: dept_alias,
-                        dept_status: dept_status === 1 ? true : false,
-                        dept_slno: dept_slno
-                    }
-                    setDepartment(frmdata)
-                }
-                else {
-                    warningNotify("Error occured please contact EDP")
-                }
-            }
-            getDept();
-        }
-    }, [deptslno])
     /*** usecallback function for form submitting */
     const submitDepartment = useCallback((e) => {
         e.preventDefault();
@@ -104,7 +76,7 @@ const DepartmentMast = () => {
                 setCount(count + 1);
                 setDepartment(formreset);
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             }
             else {
                 infoNotify(message)
@@ -120,7 +92,7 @@ const DepartmentMast = () => {
                 setValue(0)
                 setDepartment(formreset);
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             }
             else {
                 infoNotify(message)
@@ -139,11 +111,23 @@ const DepartmentMast = () => {
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
+    //referesh func
+    const refreshWindow = useCallback(() => {
+        const formreset = {
+            dept_name: '',
+            dept_alias: "",
+            dept_status: false,
+            dept_slno: ''
+        }
+        setDepartment(formreset)
+        setValue(0);
+    }, [setDepartment])
     return (
         <CardMaster
             title="Department Master"
             submit={submitDepartment}
             close={backtoSetting}
+            refresh={refreshWindow}
         >
             <Box sx={{ p: 1 }}>
                 <Grid container spacing={1} >
@@ -183,7 +167,7 @@ const DepartmentMast = () => {
                         </Grid>
                     </Grid>
                     <Grid item lg={8} xl={8} >
-                        <DepartmentMastTable count={count} geteditdata={geteditdata} />
+                        <DepartmentMastTable count={count} rowSelect={rowSelect} />
                     </Grid>
                 </Grid>
             </Box>

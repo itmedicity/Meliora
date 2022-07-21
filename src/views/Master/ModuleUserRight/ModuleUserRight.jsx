@@ -1,5 +1,5 @@
 import { Box, Grid } from '@mui/material'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import EmpNameSelect from 'src/views/CommonSelectCode/EmpNameSelect'
 import CardMaster from 'src/views/Components/CardMaster'
 import { useHistory } from 'react-router-dom'
@@ -7,9 +7,8 @@ import ModuleGroupSelect from 'src/views/CommonSelectCode/ModuleGroupSelect'
 import UserGroupSelect from 'src/views/CommonSelectCode/UserGroupSelect'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import ModuleGroupRightTable from './ModuleGroupRightTable'
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
-
 const ModuleUserRight = () => {
     const history = useHistory();
     //Initializing
@@ -28,7 +27,6 @@ const ModuleUserRight = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setModRightStatus({ ...ModRightStatus, [e.target.name]: value })
     }, [ModRightStatus])
-
     // data for insert
     const postdata = useMemo(() => {
         return {
@@ -38,7 +36,20 @@ const ModuleUserRight = () => {
             mod_grp_user_status: status === true ? 1 : 0
         }
     }, [empname, modulegroup, usergroup, status])
-
+    //data set for edit 
+    const rowSelect = useCallback((params) => {
+        setValue(1)
+        const data = params.api.getSelectedRows();
+        const { mod_grp_user_slno, mod_grp_user_status, emp_slno, mod_grp_slno, user_group_slno } = data[0]
+        const frmdata = {
+            status: mod_grp_user_status === 'Yes' ? true : false,
+            mod_grp_user_slno: mod_grp_user_slno
+        }
+        setModRightStatus(frmdata)
+        setEmpname(emp_slno)
+        setmodulegroup(mod_grp_slno)
+        setUsergroup(user_group_slno)
+    }, [])
     // data for updaate
     const patchdata = useMemo(() => {
         return {
@@ -49,7 +60,6 @@ const ModuleUserRight = () => {
             mod_grp_user_slno: mod_grp_user_slno
         }
     }, [empname, modulegroup, usergroup, status, mod_grp_user_slno])
-
     //Reset Function 
     const reset = () => {
         setEmpname(0)
@@ -57,48 +67,6 @@ const ModuleUserRight = () => {
         setUsergroup(0)
         setValue(0)
     }
-
-    const [moduleGrpslno, setModuleGrpslno] = useState([])
-    const [editData, SetEditdata] = useState([])
-    /***get row data from agGrid when edit button click
-     * value set 1 for edit     */
-    const geteditdata = (event) => {
-        setValue(1)
-        SetEditdata(event.api.getSelectedRows())
-    }
-    //For get slno from selected row  
-    useEffect(() => {
-        const slno = editData && editData.map((val, index) => {
-            return val.mod_grp_user_slno
-        })
-        setModuleGrpslno(slno)
-    }, [editData])
-
-    /*** get data from module_master where selected slno for edit and also data set to corresponding feilds*/
-    useEffect(() => {
-        if (moduleGrpslno.length !== 0) {
-            const getdataaa = async () => {
-                const result = await axioslogin.post('/modulegroupright/getById', moduleGrpslno)
-                const { success, data } = result.data;
-                if (success === 1) {
-                    const { emp_slno, mod_grp_slno, user_group_slno, mod_grp_user_status, mod_grp_user_slno } = data[0]
-                    const frmdata = {
-                        status: mod_grp_user_status === 1 ? true : false,
-                        mod_grp_user_slno: mod_grp_user_slno
-                    }
-                    setModRightStatus(frmdata)
-                    setEmpname(emp_slno)
-                    setmodulegroup(mod_grp_slno)
-                    setUsergroup(user_group_slno)
-                }
-                else {
-                    warningNotify("Error occured please contact EDP")
-                }
-            }
-            getdataaa()
-        }
-    }, [moduleGrpslno])
-
     /*** usecallback function for form submitting form */
     const submitModuleUserGroupRight = useCallback((e) => {
         e.preventDefault();
@@ -117,7 +85,7 @@ const ModuleUserRight = () => {
                 reset()
                 setModRightStatus(resetfrm)
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             } else {
                 infoNotify(message)
             }
@@ -131,7 +99,7 @@ const ModuleUserRight = () => {
                 reset()
                 setModRightStatus(resetfrm)
             } else if (success === 0) {
-                infoNotify(message.sqlMessage);
+                infoNotify(message);
             } else {
                 infoNotify(message)
             }
@@ -145,20 +113,26 @@ const ModuleUserRight = () => {
         else {
             updateFun(patchdata)
         }
-
     }, [postdata, count, patchdata, value])
-
     //back to home
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
-
-
+    //referesh func
+    const refreshWindow = useCallback(() => {
+        const resetfrm = {
+            status: false,
+            mod_grp_user_slno: 0
+        }
+        setModRightStatus(resetfrm);
+        reset();
+    }, [setModRightStatus])
     return (
         <CardMaster
-            title="User Group Master"
+            title="Module User Right Master"
             submit={submitModuleUserGroupRight}
             close={backtoSetting}
+            refresh={refreshWindow}
         >
             <Box sx={{ pl: 2, pt: 2, pb: 1, pr: 1 }}>
                 <Grid container spacing={1}  >
@@ -186,15 +160,13 @@ const ModuleUserRight = () => {
                                 />
                             </Grid>
                         </Grid>
-
                     </Grid>
                     <Grid item xl={9} lg={9}  >
-                        <ModuleGroupRightTable count={count} geteditdata={geteditdata} />
+                        <ModuleGroupRightTable count={count} rowSelect={rowSelect} />
                     </Grid>
                 </Grid>
             </Box>
         </CardMaster>
     )
 }
-
 export default ModuleUserRight
