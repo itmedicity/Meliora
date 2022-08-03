@@ -70,7 +70,7 @@ const AppHeaderDropdown = () => {
             </CBadge>
           </CDropdownItem>
           <CDropdownDivider />
-          <CDropdownItem href="#">
+          <CDropdownItem href="#" onClick={cmsLogout} >
             <LogoutIcon className="me-2" sx={{ color: iconPowerOff }} onClick={cmsLogout} />
             Log Out
           </CDropdownItem>

@@ -8,10 +8,16 @@ const CmTransactions = [
         to: '/Home/ComplaintRegister',
     },
     {
+        men_slno: 7,
+        component: CNavItem,
+        name: 'Complaint List ',
+        to: '/Home/ComplaintList',
+    },
+    {
         men_slno: 6,
         component: CNavItem,
         name: 'Assign Complaint ',
-        to: '/Home',
+        to: '/Home/AssignComplaint',
     },
 ]
 
