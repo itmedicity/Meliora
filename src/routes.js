@@ -28,14 +28,13 @@ const Building = React.lazy(() => import('./views/dashboard/Home'))
 const Floor = React.lazy(() => import('./views/dashboard/Home'))
 const RoomType = React.lazy(() => import('./views/dashboard/Home'))
 const RoomCategory = React.lazy(() => import('./views/dashboard/Home'))
-const NursingStation = React.lazy(() => import('./views/dashboard/Home'))
-const Dietition = React.lazy(() => import('./views/dashboard/Home'))
-const DietCategory = React.lazy(() => import('./views/dashboard/Home'))
-const TimeSlamb = React.lazy(() => import('./views/dashboard/Home'))
-const DietIssue = React.lazy(() => import('./views/dashboard/Home'))
-const DietType = React.lazy(() => import('./views/dashboard/Home'))
-const RateList = React.lazy(() => import('./views/dashboard/Home'))
-
+const NursingStation = React.lazy(() => import('./views/Master/NursingStation/NursingStationMast'))
+const Dietition = React.lazy(() => import('./views/Master/DietMasters/DietionMaster/DietitionMaster'))
+const DietCategory = React.lazy(() => import('./views/Master/DietMasters/DietCategory/DietCategoryMaster'))
+const TimeSlamb = React.lazy(() => import('./views/Master/DietMasters/TimeSlamb/TimeSlampMast'))
+const DietType = React.lazy(() => import('./views/Master/DietMasters/DietType/DietTypeMast'))
+const RateList = React.lazy(() => import('./views/Master/DietMasters/RateList/RateListMast'))
+const DietIssue = React.lazy(() => import('./views/Master/DietMasters/DietIssueSchedule/DietIssueScheduleMast'))
 
 
 const routes = [
