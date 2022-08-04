@@ -6,8 +6,10 @@ const { FETCH_REQUEST_TYPE } = ActionTyps
  */
 
 export const getRequesttype = () => async (dispatch) => {
+    console.log("hdudfgv");
     const result = await axioslogin.get('/requesttype/status');
     const { success, data } = result.data
+    console.log(data);
     if (success === 1) {
         dispatch({ type: FETCH_REQUEST_TYPE, payload: data, loadingStatus: true })
     }

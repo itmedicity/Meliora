@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-const DeptSectionSelect = () => {
+const DeptSectionSelect = ({ value, setValue }) => {
     const dispatch = useDispatch();
     /**getDeptsection -state update function of reducer 
 * deptsectionList- initial state of reducer function
@@ -24,8 +24,8 @@ const DeptSectionSelect = () => {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    // value={value}
-                    // onChange={(e) => setValue(e.target.value)}
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
                     size="small"
                     fullWidth
                     variant='outlined'

@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { getRequesttype } from 'src/redux/actions/RequestType.action';
-const RequestTypeSelect = () => {
+const RequestTypeSelect = ({ value, setValue }) => {
     const dispatch = useDispatch();
     /**getRequesttype -state update function of reducer 
 * requesttypeList- initial state of reducer function
@@ -24,8 +24,8 @@ const RequestTypeSelect = () => {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    // value={value}
-                    // onChange={(e) => setValue(e.target.value)}
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
                     size="small"
                     fullWidth
                     variant='outlined'

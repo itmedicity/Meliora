@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { getComplainttype } from 'src/redux/actions/ComplaintType.action';
-const ComplaintTypeSelect = () => {
+const ComplaintTypeSelect = ({ value, setValue, comdept }) => {
     const dispatch = useDispatch();
     /**getComplainttype -state update function of reducer 
 * complainttypeList- initial state of reducer function
@@ -16,16 +16,16 @@ const ComplaintTypeSelect = () => {
     })
     //getComplainttype function is used to update data in complainttype redux
     useEffect(() => {
-        dispatch(getComplainttype());
-    }, [dispatch])
+        dispatch(getComplainttype(comdept));
+    }, [dispatch, comdept])
     return (
         <Box sx={{ mt: 1 }} >
             <FormControl fullWidth size="small"  >
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    // value={value}
-                    // onChange={(e) => setValue(e.target.value)}
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
                     size="small"
                     fullWidth
                     variant='outlined'

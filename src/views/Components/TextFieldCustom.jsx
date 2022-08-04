@@ -16,7 +16,7 @@ const TextFieldCustom = ({
   // --- size --> sm,lg,md Default medium Size
 
   // Text Feild Custome Style 
-  const textStyle = {}
+  const textStyle = { width: "100%", height: "100%" }
 
 
 

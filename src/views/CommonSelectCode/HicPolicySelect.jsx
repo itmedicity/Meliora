@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-const HicPolicySelect = () => {
+const HicPolicySelect = ({ value, setValue, disabled }) => {
     const dispatch = useDispatch();
     /**getHicpolicy -state update function of reducer 
    * hicypolicyList- initial state of reducer function
@@ -24,8 +24,9 @@ const HicPolicySelect = () => {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    // value={value}
-                    // onChange={(e) => setValue(e.target.value)}
+                    disabled={disabled}
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
                     size="small"
                     fullWidth
                     variant='outlined'
