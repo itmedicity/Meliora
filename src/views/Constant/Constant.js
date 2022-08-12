@@ -24,5 +24,15 @@ export const getMenuSlno = async () => {
     }
 }
 
+export const getemp_id = async () => {
+    const result = await axioslogin.get('/common/getempId')
+    const { success } = result.data;
+    const [serial_current] = result.data.data
+    if (success === 1) {
+        return serial_current.serial_current
+    }
+}
+
+
 
 

@@ -9,10 +9,15 @@ const ComplaintRegistrMast = () => {
 export default ComplaintRegistrMast
 
 
+
+
 // import { Box, Grid, Paper, TextareaAutosize } from '@mui/material'
 // import React, { useCallback, useEffect, useState, useMemo } from 'react'
 // import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect'
 // import CardMaster from 'src/views/Components/CardMaster'
+// import { CssVarsProvider } from '@mui/joy'
+// import Typography from '@mui/joy/Typography';
+
 // import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 // import { useHistory } from 'react-router-dom'
 // import RequestTypeSelect from 'src/views/CommonSelectCode/RequestTypeSelect'
@@ -25,13 +30,8 @@ export default ComplaintRegistrMast
 // import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 // import ComplaintRegTable from './ComplaintRegTable'
 // import { getRequesttype } from 'src/redux/actions/RequestType.action';
-// import { CssVarsProvider } from '@mui/joy'
-// import Typography from '@mui/joy/Typography';
 // import { fontWeight } from '@mui/joy/styles/styleFunctionSx'
 // import { getComplainttype } from 'src/redux/actions/ComplaintType.action';
-// import List from '@mui/joy/List';
-// import ListItem from '@mui/joy/ListItem';
-
 // const ComplaintRegistrMast = () => {
 //     /*** Initializing */
 //     const history = useHistory();
@@ -385,317 +385,204 @@ export default ComplaintRegistrMast
 
 //     })
 //     console.log(complainttypedata);
+
+
 //     return (
 //         <CardMaster
 //             title="Complaint Registration"
 //             submit={submitComplaint}
 //             close={backtoSetting}
 //         >
-
-//             <Box sx={{ width: "100%" }} >
-//                 <Paper variant="outlined" square   >
-//                     <Box sx={{ flex: 2, pl: 2, pt: 1, pr: 2, pb: 1 }} >
-//                         <Box sx={{ flex: 1 }} >
-//                             <CssVarsProvider>
-//                                 <Typography sx={{ textAlign: "center" }}>
-//                                     Request Type
-//                                 </Typography>
-//                             </CssVarsProvider>
-//                         </Box>
+//             <Box sx={{ width: "100%", pl: 2, pt: 1, pr: 2, pb: 2 }}>
+//                 <Paper square elevation={3} sx={{
+//                     pl: 2, pt: 1, pr: 2, pb: 2,
+//                 }}>
+//                     <Box sx={{
+//                         width: "100%",
+//                         pl: 1, pt: 1, pr: 1, pb: 1,
+//                         // background: "blue",
+//                         display: "flex",
+//                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+//                     }}>
 //                         <Paper variant="outlined" square sx={{
-//                             px: 0.5,
+//                             width: "40%",
+//                             px: 2, pr: 2,
 //                             display: "flex",
 //                             flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
 //                             justifyContent: "space-around",
-//                             //  alignItems: "space-between",
-//                             //backgroundColor: "red",
+
 //                         }}  >
-//                             <Box sx={{
-//                                 width: "50%", pt: 1,
-//                                 //backgroundColor: "red",
-//                                 display: "flex",
-//                                 flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-//                                 justifyContent: 'space-evenly',
-//                                 pb: 1
-//                             }} >
-//                                 {requesttypedata && requesttypedata.map((value, index) => {
-//                                     return <Box sx={{
-//                                         display: 'flex',
-//                                         //justifyContent: 'space-evenly',
-//                                     }}
-//                                         key={value.req_type_slno}
-//                                     >
-//                                         <CusCheckBox
-//                                             variant="outlined"
-//                                             color="primary"
-//                                             size="md"
-//                                             name={value.req_type_name}
-//                                             label={value.req_type_name}
-//                                             value={value.req_type_slno}
-//                                             checked={
-//                                                 value.req_type_name === 'COMPLAINT' ? COMPLAINT :
-//                                                     value.req_type_name === 'NEW REQUIREMENT' ? NEW_REQUIREMENT :
-//                                                         value.req_type_name === 'MODIFICATION' ? MODIFICATION : false
-//                                             }
-//                                             onCheked={getReqType}
-//                                         // getchekval={checkedslno}
-//                                         // sss={nnn(value)}
-//                                         />
-//                                     </Box>
-//                                 })
-//                                 }
-//                             </Box>
+//                             {requesttypedata && requesttypedata.map((value, index) => {
+//                                 return <Box sx={{
+//                                     pt: 1, pb: 1,
+//                                     display: 'flex',
+//                                     flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+//                                     justifyContent: 'space-evenly',
+//                                 }}
+//                                     key={value.req_type_slno}
+//                                 >
+//                                     <CusCheckBox
+//                                         variant="outlined"
+//                                         color="primary"
+//                                         size="md"
+//                                         name={value.req_type_name}
+//                                         label={value.req_type_name}
+//                                         value={value.req_type_slno}
+//                                         checked={
+//                                             value.req_type_name === 'COMPLAINT' ? COMPLAINT :
+//                                                 value.req_type_name === 'NEW REQUIREMENT' ? NEW_REQUIREMENT :
+//                                                     value.req_type_name === 'MODIFICATION' ? MODIFICATION : false
+//                                         }
+//                                         onCheked={getReqType}
+
+//                                     />
+//                                 </Box>
+//                             })
+//                             }
 //                         </Paper>
-//                     </Box>
-//                     <Box sx={{ flex: 1 }} >
-//                         <CssVarsProvider>
-//                             <Typography sx={{ textAlign: "center" }}>
-//                                 Complaint Department
-//                             </Typography>
-//                         </CssVarsProvider>
-//                     </Box>
-//                     <Box sx={{ flex: 2, pl: 2, pr: 2, pb: 1 }} >
 //                         <Paper variant="outlined" square sx={{
-//                             px: 0.2,
+//                             width: "60%",
+//                             px: 2, pl: 1, pb: 0,
 //                             display: "flex",
 //                             flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
 //                             justifyContent: "space-around",
-//                             //  alignItems: "space-between",
-//                             //backgroundColor: "red",
-
+//                             //  background: "red"
 //                         }}  >
-//                             <Box sx={{
-//                                 width: "50%", pt: 1,
-//                                 //backgroundColor: "red",
-//                                 display: "flex",
-//                                 flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-//                                 justifyContent: 'space-evenly',
-//                                 pb: 1
-//                             }} >
-//                                 {complaintdeptdata && complaintdeptdata.map((val) => {
-//                                     return <Box sx={{
-//                                         display: 'flex',
-//                                         //justifyContent: 'space-evenly',
-//                                     }}
-//                                         key={val.complaint_dept_slno}
-//                                     >
-//                                         <CusCheckBox
-//                                             variant="outlined"
-//                                             color="primary"
-//                                             size="md"
-//                                             name={val.complaint_dept_name}
-//                                             label={val.complaint_dept_name}
-//                                             value={val.complaint_dept_slno}
-//                                             checked={val.complaint_dept_name === 'BIOMEDICAL' ? BIOMEDICAL :
-//                                                 val.complaint_dept_name === 'MAINTENANCE' ? MAINTENANCE :
-//                                                     val.complaint_dept_name === 'IT' ? IT :
-//                                                         val.complaint_dept_name === 'HOUSEKEEPING' ? HOUSEKEEPING :
-//                                                             val.complaint_dept_name === 'COMMON' ? COMMON : false
+//                             {complaintdeptdata && complaintdeptdata.map((val) => {
+//                                 return <Box sx={{
+//                                     pt: 1,
+//                                     display: 'flex',
+//                                     flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+//                                     justifyContent: 'space-evenly',
+//                                 }}
+//                                     key={val.complaint_dept_slno}
+//                                 >
+//                                     <CusCheckBox
+//                                         variant="outlined"
+//                                         color="primary"
+//                                         size="md"
+//                                         name={val.complaint_dept_name}
+//                                         label={val.complaint_dept_name}
+//                                         value={val.complaint_dept_slno}
+//                                         checked={val.complaint_dept_name === 'BIOMEDICAL' ? BIOMEDICAL :
+//                                             val.complaint_dept_name === 'MAINTENANCE' ? MAINTENANCE :
+//                                                 val.complaint_dept_name === 'IT' ? IT :
+//                                                     val.complaint_dept_name === 'HOUSEKEEPING' ? HOUSEKEEPING :
+//                                                         val.complaint_dept_name === 'COMMON' ? COMMON : false
 
-//                                             }
-//                                             onCheked={getValue}
-//                                         />
-//                                     </Box>
-//                                 })
-//                                 }
-//                             </Box>
+//                                         }
+//                                         onCheked={getValue}
+//                                     />
+//                                 </Box>
+//                             })
+//                             }
+
 //                         </Paper>
-//                     </Box>
 
+//                     </Box>
 
 //                     {comdept !== 0 ?
-//                         <Box>
-//                             <Box sx={{ flex: 1 }} >
-//                                 <CssVarsProvider>
-//                                     <Typography sx={{ textAlign: "center" }}>
-//                                         Complaint Type
-//                                     </Typography>
-//                                 </CssVarsProvider>
-//                             </Box>
-//                             <Box sx={{ flex: 2, pl: 2, pr: 2, pb: 1 }} >
-//                                 <Paper variant="outlined" square sx={{
-//                                     px: 0.2,
-//                                     display: "flex",
-//                                     flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-//                                     justifyContent: "space-around",
-//                                 }}  >
-//                                     <Box sx={{
-//                                         width: "100%", pt: 1,
-//                                         //backgroundColor: "red",
-//                                         display: "flex",
+//                         <Box sx={{
+//                             width: "100%",
+//                             pl: 1, pr: 1, pb: 0,
+//                             // background: "blue",
+//                             display: "flex",
+//                             flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+//                         }}>
+//                             <Paper variant="outlined" square sx={{
+//                                 width: "100%",
+//                                 px: 2, pr: 2,
+//                                 display: "flex",
+//                                 flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+//                                 justifyContent: "space-around",
+
+//                             }}  >
+//                                 {complainttypedata && complainttypedata.map((val) => {
+//                                     return <Box sx={{
+//                                         pt: 1, pb: 1,
+//                                         display: 'flex',
 //                                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
 //                                         justifyContent: 'space-evenly',
-//                                         pb: 1
-//                                     }} >
-//                                         {complainttypedata && complainttypedata.map((val) => {
-//                                             return <Box sx={{
-//                                                 display: 'flex',
-//                                                 //justifyContent: 'space-evenly',
-//                                             }}
-//                                                 key={val.complaint_type_slno}
-//                                             >
-//                                                 <CusCheckBox
-//                                                     variant="outlined"
-//                                                     color="primary"
-//                                                     size="md"
-//                                                     name={val.complaint_type_name}
-//                                                     label={val.complaint_type_name}
-//                                                     value={val.complaint_type_slno}
-//                                                     checked={val.complaint_type_name === 'BIOMEDICAL' ? BIOMEDICAL :
-//                                                         val.complaint_type_name === 'MAINTENANCE' ? MAINTENANCE :
-//                                                             val.complaint_type_name === 'IT' ? IT :
-//                                                                 val.complaint_type_name === 'HOUSEKEEPING' ? HOUSEKEEPING :
-//                                                                     val.complaint_type_name === 'COMMON' ? COMMON : false
+//                                     }}
+//                                         key={val.complaint_type_slno}
+//                                     >
+//                                         <CusCheckBox
+//                                             variant="outlined"
+//                                             color="primary"
+//                                             size="md"
+//                                             name={val.complaint_type_name}
+//                                             label={val.complaint_type_name}
+//                                             value={val.complaint_type_slno}
+//                                             checked={val.complaint_type_name === 'BIOMEDICAL' ? BIOMEDICAL :
+//                                                 val.complaint_type_name === 'MAINTENANCE' ? MAINTENANCE :
+//                                                     val.complaint_type_name === 'IT' ? IT :
+//                                                         val.complaint_type_name === 'HOUSEKEEPING' ? HOUSEKEEPING :
+//                                                             val.complaint_type_name === 'COMMON' ? COMMON : false
 
-//                                                     }
-//                                                     onCheked={getCompType}
-//                                                 />
-//                                             </Box>
-//                                         })
-//                                         }
+//                                             }
+//                                             onCheked={getCompType}
+//                                         />
 //                                     </Box>
-//                                 </Paper>
-//                             </Box>
-//                         </Box> : null}
-
-
-
-
-
-//                     <Box sx={{
-//                         flex: 1,
-//                         display: "flex",
-//                         width: "100%",
-//                         // backgroundColor: "red",
-//                         pl: 1, pt: 2, pr: 2, pb: 1,
-//                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" }
-//                     }} >
-
-
-//                         <Box sx={{
-
-//                             //   backgroundColor: "blue",
-//                             pt: 2, pr: 2, pb: 1, pl: 1
-//                         }} >
-
-//                             <Paper variant="outlined" square sx={{
-//                                 height: 80,
-//                                 width: 1000,
-//                                 px: 0.2,
-//                                 display: "flex",
-//                                 flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-
-//                             }}  >
-//                                 {/* <TextareaAutosize
-//                             aria-label="minimum height"
-//                             minRows={3}
-//                             placeholder="Complaint Description"
-//                             name="compalint_desc"
-//                             value={compalint_desc}
-//                             sx={{
-//                                 height: 200,
-//                                 width: 50000
-//                             }}
-//                             //style={{ width: 910 }}
-
-//                             onChange={(e) => updateCompReg(e)}
-//                         /> */}
-//                                 {/* <TextFieldCustom
-//                             style={{ width: "100%", height: "100%" }}
-//                             placeholder="Complaint Description"
-//                             type="text"
-//                             size="sm"
-//                             name="compalint_desc"
-//                             value={compalint_desc}
-//                             onchange={updateCompReg}
-//                         /> */}
+//                                 })
+//                                 }
 //                             </Paper>
-
 //                         </Box>
-//                         <Box sx={{
-//                             width: "20%",
-//                             //backgroundColor: "green",
-//                             pt: 2, pr: 2, pb: 1, pl: 1
-//                         }} >
-//                             <Paper variant="outlined" square sx={{
-//                                 px: 0.2,
-//                                 display: "flex",
-//                                 flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-
-//                             }}  >
-
-//                                 <CssVarsProvider>
-//                                     <List>
-
-//                                     </List>
-//                                 </CssVarsProvider>
-
-//                                 {/* <List>
-
-//                         </List> */}
+//                         : null}
 
 
 
 
-
-//                                 {/* <List>
-//                             <ListItem variant="soft" color="danger"> */}
-//                                 {/* <CusCheckBox
-//                                     variant="outlined"
-//                                     color="primary"
-//                                     size="md"
-//                                     //name={val.complaint_type_name}
-//                                     label="Critical"
-//                                 // value={val.complaint_type_slno}
-//                                 // checked={ }
-//                                 // onCheked={getCompType}
-//                                 /> */}
-
-//                                 {/* </ListItem> */}
-//                                 {/* <ListItem variant="soft" color="danger">
-//                                 <CusCheckBox
-//                                     variant="outlined"
-//                                     color="primary"
-//                                     size="md"
-//                                     //name={val.complaint_type_name}
-//                                     label="High"
-//                                 // value={val.complaint_type_slno}
-//                                 // checked={ }
-//                                 // onCheked={getCompType}
-//                                 />
-
-//                             </ListItem>
-//                             <ListItem variant="soft" color="danger">
-//                                 <CusCheckBox
-//                                     variant="outlined"
-//                                     color="primary"
-//                                     size="md"
-//                                     //name={val.complaint_type_name}
-//                                     label="Medium"
-//                                 // value={val.complaint_type_slno}
-//                                 // checked={ }
-//                                 // onCheked={getCompType}
-//                                 />
-
-//                             </ListItem> */}
-
-//                                 {/* </List> */}
-
-
-
-
-
-
-//                             </Paper>
-
-//                         </Box>
-
-
-//                     </Box>
 //                 </Paper>
 //             </Box>
+
+
+
 //         </CardMaster >
 //     )
 // }
 
 // export default ComplaintRegistrMast
+
+
+// //                             }}  >
+// //                                 {/* <TextareaAutosize
+// //                             aria-label="minimum height"
+// //                             minRows={3}
+// //                             placeholder="Complaint Description"
+// //                             name="compalint_desc"
+// //                             value={compalint_desc}
+// //                             sx={{
+// //                                 height: 200,
+// //                                 width: 50000
+// //                             }}
+// //                             //style={{ width: 910 }}
+
+// //                             onChange={(e) => updateCompReg(e)}
+// //                         /> */}
+// //                                 {/* <TextFieldCustom
+// //                             style={{ width: "100%", height: "100%" }}
+// //                             placeholder="Complaint Description"
+// //                             type="text"
+// //                             size="sm"
+// //                             name="compalint_desc"
+// //                             value={compalint_desc}
+// //                             onchange={updateCompReg}
+// //                         /> */}
+// //                             </Paper>
+
+// //                         </Box>
+// //                         <Box sx={{
+// //                             width: "20%",
+// //                             //backgroundColor: "green",
+// //                             pt: 2, pr: 2, pb: 1, pl: 1
+// //                         }} >
+// //                             <Paper variant="outlined" square sx={{
+// //                                 px: 0.2,
+// //                                 display: "flex",
+// //                                 flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+
+// //                             }}  >
+
+
+
+

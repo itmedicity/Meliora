@@ -13,13 +13,23 @@ import { cilPuzzle, cilSpeedometer } from '@coreui/icons'
 import CmUtilities from '../Menus/CmUtilities'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { apsideBgclor } from 'src/color/Color'
+import DietTransactions from '../Menus/DietTransactions'
+import DietUtilities from '../Menus/DietUtilities'
+import RmTransactions from '../Menus/RmTransaction'
+import RmUtilities from '../Menus/RmUtilities'
+import NurseStation from '../Menus/NurseStation'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.changeState.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
-  const [cmtransact, setCmTransact] = useState();
+  const [nurseStation, setNurseStation] = useState()
+  const [cmtransact, setCmTransact] = useState()
   const [cmutilities, setUtilities] = useState()
+  const [diettransact, setDietTransact] = useState()
+  const [dietutilities, setDietUtilities] = useState()
+  const [rmtransact, setRmTransact] = useState()
+  const [rmutilities, setRmUtilities] = useState()
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
 
@@ -32,6 +42,13 @@ const AppSidebar = () => {
       to: '/Home',
       icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />
 
+    },
+    {
+      slno: 11,
+      component: CNavGroup,
+      name: 'Nursing Station',
+      // icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+      items: nurseStation
     },
     //Complaint Management System Menu Start from Here
     {
@@ -59,6 +76,53 @@ const AppSidebar = () => {
       component: CNavTitle,
       name: 'Central Request management',
     },
+    //Room Management System Menu Start from Here
+    {
+      slno: 4,
+      component: CNavTitle,
+      name: 'Asset Management',
+    },
+    //Request Management System Menu Start from Here
+    {
+      slno: 5,
+      component: CNavTitle,
+      name: 'Room Management',
+    },
+    {
+      slno: 1,
+      component: CNavGroup,
+      name: 'Transaction',
+      icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+      items: rmtransact
+    },
+    {
+      slno: 2,
+      component: CNavGroup,
+      name: 'Utilities',
+      icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+      items: rmutilities
+    },
+    //Request Management System Menu Start from Here
+    {
+      slno: 7,
+      component: CNavTitle,
+      name: 'Diet management',
+    },
+    {
+      slno: 1,
+      component: CNavGroup,
+      name: 'Transaction',
+      icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+      items: diettransact
+    },
+    {
+      slno: 2,
+      component: CNavGroup,
+      name: 'Utilities',
+      icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+      items: dietutilities
+    },
+
   ]
 
 
@@ -72,10 +136,20 @@ const AppSidebar = () => {
           return menu.menu_slno;
         })
         /*** check menus array and getMenuSlno array and returnuser rights given menus */
+        const newNurseStation = NurseStation.filter(val => menuSlnoAry.includes(val.men_slno));
+        setNurseStation(newNurseStation)
         const newCmTransaction = CmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setCmTransact(newCmTransaction)
         const newCmUtilities = CmUtilities.filter(val => menuSlnoAry.includes(val.men_slno));
         setUtilities(newCmUtilities)
+        const newDietTransaction = DietTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        setDietTransact(newDietTransaction)
+        const newDietUtilities = DietUtilities.filter(val => menuSlnoAry.includes(val.men_slno));
+        setDietUtilities(newDietUtilities)
+        const newRmTransaction = RmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        setRmTransact(newRmTransaction)
+        const newRmUtilities = RmUtilities.filter(val => menuSlnoAry.includes(val.men_slno));
+        setRmUtilities(newRmUtilities)
         setCount(1)
 
       }

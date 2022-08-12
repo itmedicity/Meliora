@@ -35,8 +35,11 @@ const TimeSlamb = React.lazy(() => import('./views/Master/DietMasters/TimeSlamb/
 const DietType = React.lazy(() => import('./views/Master/DietMasters/DietType/DietTypeMast'))
 const RateList = React.lazy(() => import('./views/Master/DietMasters/RateList/RateListMast'))
 const DietIssue = React.lazy(() => import('./views/Master/DietMasters/DietIssueSchedule/DietIssueScheduleMast'))
-
-
+const InpatientList = React.lazy(() => import('./views/NursingStation/InPatientList'))
+const DietProcess = React.lazy(() => import('./views/Diet/DietProcess'))
+const DietProcessList = React.lazy(() => import('./views/Diet/DietProcessList'))
+const UserCreation = React.lazy(() => import('./views/Master/UserCreation/UserCreation'))
+const UserCreationTable = React.lazy(() => import('./views/Master/UserCreation/UserCreationTable'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/Home', exact: true, name: 'Home', component: Home },
@@ -74,8 +77,11 @@ const routes = [
   { path: '/Home/DietIssue', exact: true, name: 'DietIssue', component: DietIssue },
   { path: '/Home/DietType', exact: true, name: 'DietType', component: DietType },
   { path: '/Home/RateList', exact: true, name: 'RateList', component: RateList },
-
-
+  { path: '/Home/InpatientList', exact: true, name: 'In-Patient List', component: InpatientList },
+  { path: '/Home/DietProcess', exact: true, name: 'Diet Process', component: DietProcess },
+  { path: '/Home/DietProcessList', exact: true, name: 'Diet Process List', component: DietProcessList },
+  { path: '/Home/UserCreation', exact: true, name: 'User Creation', component: UserCreation },
+  { path: '/Home/UserCreationTable', exact: true, name: 'User Creation Table', component: UserCreationTable }
 
 
 ]
