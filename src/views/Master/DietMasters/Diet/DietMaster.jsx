@@ -1,53 +1,47 @@
-import { Box, Grid } from '@mui/material'
+import { Grid, Paper } from '@mui/material'
+import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import React from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import RateListMastTable from './RateListMastTable'
-import { useHistory } from 'react-router-dom'
+import DietMasterTable from './DietMasterTable'
+import { useHistory } from 'react-router-dom';
 import { useCallback } from 'react'
-const RateListMast = () => {
+const DietMaster = () => {
     const history = useHistory();
-    const backToSettings = useCallback(() => {
-        history.push(`/Home/Settings`);
+    const backToSetting = useCallback(() => {
+        history.push(`/Home/settings`)
     }, [history])
     return (
-        <CardMaster title="Rate List master"
-            close={backToSettings}>
-            <Box sx={{ padding: 1 }}>
+        <CardMaster
+            title='Diet Master'
+            close={backToSetting}
+        >
+            <Paper sx={{ padding: 1 }}>
                 <Grid container spacing={1}>
                     <Grid item xl={4} lg={4}>
                         <Grid container spacing={1}>
                             <Grid item xl={12} lg={12}>
                                 <TextFieldCustom
-                                    placeholder="Item Name"
-                                    type="text"
-                                    size="sm"
-                                />
-                            </Grid>
-                            <Grid item xl={12} lg={12}>
-                                <TextFieldCustom
-                                    placeholder="Price"
+                                    placeholder="Diet name"
                                     type="text"
                                     size="sm"
                                 />
                             </Grid>
                             <Grid item xl={2} lg={2}>
                                 <CusCheckBox
-                                    label="Status"
+                                    label="status"
+                                    color="primary"
                                     size="md"
                                 />
                             </Grid>
-
                         </Grid>
                     </Grid>
                     <Grid item xl={8} lg={8}>
-                        <RateListMastTable />
+                        <DietMasterTable />
                     </Grid>
                 </Grid>
-
-            </Box>
+            </Paper>
         </CardMaster>
     )
 }
-export default RateListMast
+export default DietMaster
