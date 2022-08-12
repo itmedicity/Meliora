@@ -17,17 +17,17 @@ const HicPolicy = React.lazy(() => import('./views/Master/HicPolicy/HicPolicyMas
 const moduleuserRight = React.lazy(() => import('./views/Master/ModuleUserRight/ModuleUserRight'))
 const assignComplaint = React.lazy(() => import('./views/ComManagement/AssignComplaint/AssignComplaintTable'))
 const ComplaintList = React.lazy(() => import('./views/ComManagement/ComplaintList'))
-const AssetType = React.lazy(() => import('./views/dashboard/Home'))
-const ItemType = React.lazy(() => import('./views/dashboard/Home'))
-const ItemCategory = React.lazy(() => import('./views/dashboard/Home'))
-const SubCategory = React.lazy(() => import('./views/dashboard/Home'))
-const Group = React.lazy(() => import('./views/dashboard/Home'))
-const SubGroup = React.lazy(() => import('./views/dashboard/Home'))
-const Manufacture = React.lazy(() => import('./views/dashboard/Home'))
-const Building = React.lazy(() => import('./views/dashboard/Home'))
-const Floor = React.lazy(() => import('./views/dashboard/Home'))
-const RoomType = React.lazy(() => import('./views/dashboard/Home'))
-const RoomCategory = React.lazy(() => import('./views/dashboard/Home'))
+const AssetType = React.lazy(() => import('./views/Master/AssetMasters/AssetType/AssetTypeMaster'))
+const ItemType = React.lazy(() => import('./views/Master/AssetMasters/ItemType/ItemTypeMast'))
+const ItemCategory = React.lazy(() => import('./views/Master/AssetMasters/Category/CategoryMaster'))
+const SubCategory = React.lazy(() => import('./views/Master/AssetMasters/SubCategory/SubCategoryMast'))
+const AssetGroup = React.lazy(() => import('./views/Master/AssetMasters/Group/GroupMast'))
+const SubGroup = React.lazy(() => import('./views/Master/AssetMasters/SubGroup/SubGroupMast'))
+const Manufacture = React.lazy(() => import('./views/Master/AssetMasters/Manufacture/ManufactureMast'))
+const Building = React.lazy(() => import('./views/Master/RoomMasters/BuildingMaster/BuildingMaster'))
+const Floor = React.lazy(() => import('./views/Master/RoomMasters/FloorMaster/FloorMaster'))
+const RoomType = React.lazy(() => import('./views/Master/RoomMasters/RoomType/RoomTypeMast'))
+const RoomCategory = React.lazy(() => import('./views/Master/RoomMasters/RoomCategory/RoomCategoryMast'))
 const NursingStation = React.lazy(() => import('./views/Master/NursingStation/NursingStationMast'))
 const Dietition = React.lazy(() => import('./views/Master/DietMasters/DietionMaster/DietitionMaster'))
 const DietCategory = React.lazy(() => import('./views/Master/DietMasters/DietCategory/DietCategoryMaster'))
@@ -60,7 +60,7 @@ const routes = [
   { path: '/Home/ItemType', exact: true, name: 'Item Type', component: ItemType },
   { path: '/Home/ItemCategory', exact: true, name: 'Item Category', component: ItemCategory },
   { path: '/Home/SubCategory', exact: true, name: 'Sub Category', component: SubCategory },
-  { path: '/Home/Group', exact: true, name: 'Group', component: Group },
+  { path: '/Home/AssetGroup', exact: true, name: 'Group', component: AssetGroup },
   { path: '/Home/SubGroup', exact: true, name: 'SubGroup', component: SubGroup },
   { path: '/Home/Manufacture', exact: true, name: 'Manufacture', component: Manufacture },
   { path: '/Home/Building', exact: true, name: 'Building', component: Building },

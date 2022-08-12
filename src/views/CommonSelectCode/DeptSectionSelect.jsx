@@ -34,7 +34,7 @@ const DeptSectionSelect = ({ value, setValue }) => {
                     <MenuItem value={0} disabled  >Select Department Section</MenuItem>
                     {
                         deptsectiondata && deptsectiondata.map((val, index) => {
-                            return <MenuItem key={index} value={val.sec_slno}>{val.sec_name}</MenuItem>
+                            return <MenuItem key={index} value={val.sec_id}>{val.sec_name}</MenuItem>
                         })
                     }
                 </Select>
