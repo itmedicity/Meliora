@@ -11,7 +11,7 @@ const TextFieldCustom = ({
   style,
   onchange,
   value,
-  defaultValue, name
+  defaultValue, name, disabled
 }) => {
   // --- size --> sm,lg,md Default medium Size
 
@@ -35,6 +35,7 @@ const TextFieldCustom = ({
           defaultValue={defaultValue}
           name={name}
           autoComplete="off"
+          disabled={disabled}
         />
       </CssVarsProvider>
     </Fragment >

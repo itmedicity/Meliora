@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { axioslogin } from 'src/views/Axios/Axios';
-import { warningNotify } from 'src/views/Common/CommonCode';
+import React, { useState } from 'react'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 import EditButton from 'src/views/Components/EditButton';
 
 const ComplaintList = () => {
     //state for setting table data
-    const [tabledata, setTabledata] = useState([])
+    //   const [tabledata, setTabledata] = useState([])
     //column title setting
     const [column] = useState([
         { headerName: "SlNo", field: "complaint_slno" },
@@ -21,23 +19,10 @@ const ComplaintList = () => {
         { headerName: 'Action', cellRenderer: EditButton },
     ])
 
-    useEffect(() => {
-        const getComplaintDept = async () => {
-            const result = await axioslogin.get('/complaintreg')
-            const { success, data } = result.data
-            if (success === 1) {
-                setTabledata(data)
-            } else {
-                warningNotify("Error occured contact EDP")
-            }
-        }
-        getComplaintDept();
-    }, [])
-
     return (
         <CusAgGridMast
             columnDefs={column}
-            tableData={tabledata}
+        // tableData={tabledata}
         //  onSelectionChanged={geteditdata}
         />
     )

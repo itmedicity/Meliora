@@ -100,5 +100,5 @@ export const userManagement_two = [
 ]
 export const userManagement_three = [
     { to: '/Home/UserGroupRight', name: 'User Group Rights', slno: 10 },
-
+    { to: '/Home/UserCreation', name: 'User Creation', slno: 44 },
 ]
