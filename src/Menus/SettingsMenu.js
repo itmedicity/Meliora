@@ -64,7 +64,7 @@ export const rm_setting_three = [
 
 //Room Master Menu
 export const dm_setting_one = [
-    { to: '/Home/Dietition', name: 'Dietion', slno: 35 },
+    { to: '/Home/Dietition', name: 'Dietition', slno: 35 },
     { to: '/Home/RateList', name: 'Rate List', slno: 40 }
 ]
 
@@ -74,7 +74,7 @@ export const dm_setting_two = [
 ]
 
 export const dm_setting_three = [
-    { to: '/Home/DietCategory', name: 'Diet Category', slno: 36 },
+    { to: '/Home/Diet', name: 'Diet ', slno: 36 },
     { to: '/Home/DietType', name: 'Diet Type', slno: 39 }
 ]
 
