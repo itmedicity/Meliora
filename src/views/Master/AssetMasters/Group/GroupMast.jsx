@@ -1,31 +1,31 @@
-import { Grid } from '@mui/material'
-import { Box } from '@mui/system'
+import { Grid } from '@mui/material';
+import { Box } from '@mui/system';
 import React, { useCallback, useState } from 'react'
-import CardMaster from 'src/views/Components/CardMaster'
-import AssetTypeTable from './AssetTypeTable'
-import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { useHistory } from 'react-router-dom'
-const AssetTypeMaster = () => {
+import CardMaster from 'src/views/Components/CardMaster'
+import CusCheckBox from 'src/views/Components/CusCheckBox';
+import TextFieldCustom from 'src/views/Components/TextFieldCustom';
+import GroupTable from './GroupTable';
 
+const GroupMast = () => {
     const history = useHistory();
-
-    const [asset, setAsset] = useState({
-        assetname: '',
+    const [group, setGroup] = useState({
+        gpname: '',
         status: false
     })
-    const { assetname, status } = asset
-    const updateAssettype = useCallback((e) => {
+    const { gpname, status } = group
+    const updateGroup = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setAsset({ ...asset, [e.target.name]: value })
-    }, [asset])
+        setGroup({ ...group, [e.target.name]: value })
+    }, [group])
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
+
     return (
         <CardMaster
-            title="Asset Type Master"
+            title="Group Master"
             close={backtoSetting}
         >
             <Box sx={{ p: 1 }}>
@@ -34,12 +34,12 @@ const AssetTypeMaster = () => {
                         <Grid container spacing={1} >
                             <Grid item xl={12} lg={12} >
                                 <TextFieldCustom
-                                    placeholder="Asset Type Name"
+                                    placeholder="Group Name"
                                     type="text"
                                     size="sm"
-                                    name="assetname"
-                                    value={assetname}
-                                    onchange={updateAssettype}
+                                    name="gpname"
+                                    value={gpname}
+                                    onchange={updateGroup}
                                 />
                             </Grid>
                             <Grid item lg={2} xl={2}>
@@ -50,19 +50,18 @@ const AssetTypeMaster = () => {
                                     name="status"
                                     value={status}
                                     checked={status}
-                                    onCheked={updateAssettype}
+                                    onCheked={updateGroup}
                                 />
                             </Grid>
                         </Grid>
                     </Grid>
                     <Grid item lg={8} xl={8} >
-                        <AssetTypeTable />
+                        <GroupTable />
                     </Grid>
                 </Grid>
             </Box>
-
         </CardMaster>
     )
 }
 
-export default AssetTypeMaster
+export default GroupMast

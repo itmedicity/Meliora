@@ -35,7 +35,7 @@ const DepartmentSelect = ({ value, setValue }) => {
                     <MenuItem value={0} disabled >Select Department</MenuItem>
                     {
                         departmentdata && departmentdata.map((val, index) => {
-                            return <MenuItem key={index} value={val.dept_slno}>{val.dept_name}</MenuItem>
+                            return <MenuItem key={index} value={val.dept_id}>{val.dept_name}</MenuItem>
                         })
                     }
                 </Select>

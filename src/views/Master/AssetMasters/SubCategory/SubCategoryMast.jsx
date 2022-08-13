@@ -1,31 +1,31 @@
-import { Grid } from '@mui/material'
-import { Box } from '@mui/system'
+import { Grid } from '@mui/material';
+import { Box } from '@mui/system';
 import React, { useCallback, useState } from 'react'
-import CardMaster from 'src/views/Components/CardMaster'
-import AssetTypeTable from './AssetTypeTable'
-import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { useHistory } from 'react-router-dom'
-const AssetTypeMaster = () => {
-
+import CardMaster from 'src/views/Components/CardMaster'
+import CusCheckBox from 'src/views/Components/CusCheckBox';
+import TextFieldCustom from 'src/views/Components/TextFieldCustom';
+import SubCategoryTable from './SubCategoryTable';
+const SubCategoryMast = () => {
     const history = useHistory();
-
-    const [asset, setAsset] = useState({
-        assetname: '',
+    //intializing
+    const [subcategory, setsubCategory] = useState({
+        subcat: '',
         status: false
     })
-    const { assetname, status } = asset
-    const updateAssettype = useCallback((e) => {
+    //destructuring
+    const { subcat, status } = subcategory
+    const updatesubCategory = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setAsset({ ...asset, [e.target.name]: value })
-    }, [asset])
+        setsubCategory({ ...subcategory, [e.target.name]: value })
+    }, [subcategory])
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
     return (
         <CardMaster
-            title="Asset Type Master"
+            title="Sub Category Master"
             close={backtoSetting}
         >
             <Box sx={{ p: 1 }}>
@@ -34,12 +34,12 @@ const AssetTypeMaster = () => {
                         <Grid container spacing={1} >
                             <Grid item xl={12} lg={12} >
                                 <TextFieldCustom
-                                    placeholder="Asset Type Name"
+                                    placeholder="Sub Category Name"
                                     type="text"
                                     size="sm"
-                                    name="assetname"
-                                    value={assetname}
-                                    onchange={updateAssettype}
+                                    name="subcat"
+                                    value={subcat}
+                                    onchange={updatesubCategory}
                                 />
                             </Grid>
                             <Grid item lg={2} xl={2}>
@@ -50,19 +50,17 @@ const AssetTypeMaster = () => {
                                     name="status"
                                     value={status}
                                     checked={status}
-                                    onCheked={updateAssettype}
+                                    onCheked={updatesubCategory}
                                 />
                             </Grid>
                         </Grid>
                     </Grid>
                     <Grid item lg={8} xl={8} >
-                        <AssetTypeTable />
+                        <SubCategoryTable />
                     </Grid>
                 </Grid>
             </Box>
-
         </CardMaster>
     )
 }
-
-export default AssetTypeMaster
+export default SubCategoryMast

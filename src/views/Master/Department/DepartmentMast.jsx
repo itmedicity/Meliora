@@ -20,10 +20,10 @@ const DepartmentMast = () => {
         dept_name: '',
         dept_alias: "",
         dept_status: false,
-        dept_slno: ''
+        dept_id: ''
     })
     //Destructuring
-    const { dept_name, dept_alias, dept_status, dept_slno } = department
+    const { dept_name, dept_alias, dept_status, dept_id } = department
     const updateDepartment = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setDepartment({ ...department, [e.target.name]: value })
@@ -40,24 +40,25 @@ const DepartmentMast = () => {
     const rowSelect = useCallback((params) => {
         setValue(1)
         const data = params.api.getSelectedRows()
-        const { dept_name, dept_alias, status, dept_slno } = data[0]
+        const { dept_name, dept_alias, status, dept_id } = data[0]
         const frmdata = {
             dept_name: dept_name,
             dept_alias: dept_alias,
             dept_status: status === 'Yes' ? true : false,
-            dept_slno: dept_slno
+            dept_id: dept_id
         }
         setDepartment(frmdata)
     }, [])
+
     //data for update
     const patchdata = useMemo(() => {
         return {
             dept_name: dept_name,
             dept_alias: dept_alias,
             dept_status: dept_status === true ? 1 : 0,
-            dept_slno: dept_slno
+            dept_id: dept_id
         }
-    }, [dept_name, dept_alias, dept_status, dept_slno])
+    }, [dept_name, dept_alias, dept_status, dept_id])
     /*** usecallback function for form submitting */
     const submitDepartment = useCallback((e) => {
         e.preventDefault();
@@ -65,7 +66,7 @@ const DepartmentMast = () => {
             dept_name: '',
             dept_alias: "",
             dept_status: false,
-            dept_slno: ''
+            dept_id: ''
         }
         /***    * insert function for use call back     */
         const InsertFun = async (postdata) => {
@@ -117,7 +118,7 @@ const DepartmentMast = () => {
             dept_name: '',
             dept_alias: "",
             dept_status: false,
-            dept_slno: ''
+            dept_id: ''
         }
         setDepartment(formreset)
         setValue(0);

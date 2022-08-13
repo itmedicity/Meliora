@@ -8,7 +8,7 @@ const DepartmentMastTable = ({ count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
     //column title setting
     const [column] = useState([
-        { headerName: "SlNo", field: "dept_slno" },
+        { headerName: "SlNo", field: "dept_id" },
         { headerName: "Department Name", field: "dept_name" },
         { headerName: " Deaprtment Alias", field: "dept_alias" },
         { headerName: "Status", field: "status" },

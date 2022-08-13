@@ -5,27 +5,28 @@ import { useHistory } from 'react-router-dom';
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
-import FloorTable from './FloorTable';
-const FloorMaster = () => {
+import RoomCategoryTable from './RoomCategoryTable';
+const RoomCategoryMast = () => {
     const history = useHistory();
     //intializing
-    const [floor, setFloor] = useState({
-        name: '',
+    const [roomcat, setRoomcat] = useState({
+        rmname: '',
+        rmshort: '',
         status: false
     })
     //destructuring
-    const { name, status } = floor
-    const updateFloor = useCallback((e) => {
+    const { rmname, rmshort, status } = roomcat
+    const updatehicRoomcategory = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setFloor({ ...floor, [e.target.name]: value })
-    }, [floor])
-    //close button function
+        setRoomcat({ ...roomcat, [e.target.name]: value })
+    }, [roomcat])
+    //close button function 
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
     return (
         <CardMaster
-            title="Floor Master"
+            title="Room Category Master"
             close={backtoSetting}
         >
             <Box sx={{ p: 1 }}>
@@ -34,12 +35,22 @@ const FloorMaster = () => {
                         <Grid container spacing={1} >
                             <Grid item xl={12} lg={12} >
                                 <TextFieldCustom
-                                    placeholder="Floor Name"
+                                    placeholder="Description"
                                     type="text"
                                     size="sm"
-                                    name="name"
-                                    value={name}
-                                    onchange={updateFloor}
+                                    name="rmname"
+                                    value={rmname}
+                                    onchange={updatehicRoomcategory}
+                                />
+                            </Grid>
+                            <Grid item xl={12} lg={12}>
+                                <TextFieldCustom
+                                    placeholder="Short Name"
+                                    type="text"
+                                    size="sm"
+                                    name="rmshort"
+                                    value={rmshort}
+                                    onchange={updatehicRoomcategory}
                                 />
                             </Grid>
                             <Grid item lg={2} xl={2}>
@@ -50,17 +61,17 @@ const FloorMaster = () => {
                                     name="status"
                                     value={status}
                                     checked={status}
-                                    onCheked={updateFloor}
+                                    onCheked={updatehicRoomcategory}
                                 />
                             </Grid>
                         </Grid>
                     </Grid>
                     <Grid item lg={8} xl={8} >
-                        <FloorTable />
+                        <RoomCategoryTable />
                     </Grid>
                 </Grid>
             </Box>
         </CardMaster>
     )
 }
-export default FloorMaster
+export default RoomCategoryMast

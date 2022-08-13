@@ -37,7 +37,7 @@ export const am_setting_one = [
 
 export const am_setting_two = [
     { to: '/Home/ItemType', name: 'Item Type', slno: 24 },
-    { to: '/Home/Group', name: 'Group ', slno: 27 }
+    { to: '/Home/AssetGroup', name: 'Group ', slno: 27 }
 
 ]
 
