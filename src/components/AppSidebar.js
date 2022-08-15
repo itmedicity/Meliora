@@ -125,7 +125,6 @@ const AppSidebar = () => {
 
   ]
 
-
   useEffect(() => {
     /*** get menus based on user rights */
     getMenuSlno().then((val) => {
@@ -151,7 +150,6 @@ const AppSidebar = () => {
         const newRmUtilities = RmUtilities.filter(val => menuSlnoAry.includes(val.men_slno));
         setRmUtilities(newRmUtilities)
         setCount(1)
-
       }
     })
 
@@ -163,9 +161,9 @@ const AppSidebar = () => {
       const result = await axioslogin.get(`/common/getempid/${emp_no}`)
       const { success, data } = result.data
       if (success === 1) {
-        const { emp_id } = data[0]
+        const { em_id } = data[0]
         const postdata = {
-          emp_slno: emp_id
+          emp_slno: em_id
         }
         try {
           const result = await axioslogin.post('/common/getModlRight', postdata)
@@ -180,7 +178,6 @@ const AppSidebar = () => {
             setMenu(menus)
           }
         } catch (err) {
-          console.log(err)
         }
 
       }

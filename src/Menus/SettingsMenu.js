@@ -49,44 +49,27 @@ export const am_setting_three = [
 //Room Master Menu
 export const rm_setting_one = [
     { to: '/Home/Building', name: 'Building', slno: 30 },
-    { to: '/Home/RoomCategory', name: 'Room Category', slno: 33 }
-
 ]
 
 export const rm_setting_two = [
     { to: '/Home/Floor', name: 'Floor', slno: 31 }
-
 ]
-
 export const rm_setting_three = [
     { to: '/Home/RoomType', name: 'Room Type', slno: 32 }
 ]
 
 //Room Master Menu
 export const dm_setting_one = [
-    { to: '/Home/Dietition', name: 'Dietition', slno: 35 },
-    { to: '/Home/RateList', name: 'Rate List', slno: 40 }
+    { to: '/Home/Diet', name: 'Diet ', slno: 36 },
 ]
 
 export const dm_setting_two = [
-    { to: '/Home/TimeSlamb', name: 'Time Slamb', slno: 37 },
-    { to: '/Home/DietIssue', name: 'Diet Issue Schedule', slno: 38 }
+    { to: '/Home/DietType', name: 'Diet Type', slno: 39 },
 ]
 
 export const dm_setting_three = [
-    { to: '/Home/Diet', name: 'Diet ', slno: 36 },
-    { to: '/Home/DietType', name: 'Diet Type', slno: 39 }
+    { to: '/Home/RateList', name: 'Rate List', slno: 40 }
 ]
-
-
-
-
-
-
-
-
-
-
 
 //User Management Menu
 
