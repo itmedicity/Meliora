@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Box, Paper } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -6,11 +6,32 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import Test from 'src/views/CommonSelectCode/Test'
 import TextFeildPrimary from 'src/views/Components/TextFeildPrimary'
 import CardMasterView from 'src/views/Components/CardMasterView'
+import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect'
+import BranchSelectHr from 'src/views/CommonSelectCode/BranchSelectHr'
+import DesignationSelect from 'src/views/CommonSelectCode/DesignationSelect'
 
 const UserCreation = () => {
     //*** Initializing */
     const history = useHistory();
+    const [dept, setDept] = useState(0)
+    const [branch, setBranch] = useState(0)
+    const [designation, setDesignation] = useState(0)
+    const [dob, setdob] = useState(new Date())
+    const [doj, setdoj] = useState(new Date())
+    const [userdata, setUserdata] = useState({
+        em_name: '',
+        em_no: '',
+        em_mobile: '',
+        em_email: '',
+        em_status: false
+    })
 
+    //Destructuring
+    const { em_name, em_no, em_mobile, em_email, em_status } = userdata
+    const updateUserCreation = useCallback((e) => {
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        setUserdata({ ...userdata, [e.target.name]: value })
+    }, [userdata])
     //View Table
     const viewTable = useCallback(() => {
         history.push('/Home/UserCreationTable')
@@ -20,6 +41,13 @@ const UserCreation = () => {
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
+
+    const getdob = (e) => {
+        setdob(e.target.value)
+    }
+    const getdoj = (e) => {
+        setdoj(e.target.value)
+    }
 
     return (
         < CardMasterView
@@ -46,8 +74,6 @@ const UserCreation = () => {
                                 type="text"
                                 size="sm"
                                 disabled={true}
-                            //  name="complaint_dept_name"
-                            // value={complaint_dept_name}
                             // onchange={updateDepartment}
                             />
                         </Box>
@@ -59,10 +85,9 @@ const UserCreation = () => {
                                 placeholder="Name"
                                 type="text"
                                 size="sm"
-
-                            //  name="complaint_dept_name"
-                            // value={complaint_dept_name}
-                            // onchange={updateDepartment}
+                                name="em_name"
+                                value={em_name}
+                                onchange={updateUserCreation}
                             />
                         </Box>
                         <Box sx={{ width: "20%", pr: 1 }}>
@@ -70,10 +95,9 @@ const UserCreation = () => {
                                 placeholder="Employee No"
                                 type="text"
                                 size="sm"
-
-                            //  name="complaint_dept_name"
-                            // value={complaint_dept_name}
-                            // onchange={updateDepartment}
+                                name="em_no"
+                                value={em_no}
+                                onchange={updateUserCreation}
                             />
                         </Box>
                         <Box sx={{ width: "20%", pr: 1 }}>
@@ -95,10 +119,9 @@ const UserCreation = () => {
                                 placeholder="Mobile No"
                                 type="text"
                                 size="sm"
-
-                            //  name="complaint_dept_name"
-                            // value={complaint_dept_name}
-                            // onchange={updateDepartment}
+                                name="em_mobile"
+                                value={em_mobile}
+                                onchange={updateUserCreation}
                             />
                         </Box>
                         <Box sx={{ width: "30%", pr: 1 }}>
@@ -106,10 +129,9 @@ const UserCreation = () => {
                                 placeholder="Email Id"
                                 type="text"
                                 size="sm"
-
-                            //  name="complaint_dept_name"
-                            // value={complaint_dept_name}
-                            // onchange={updateDepartment}
+                                name="em_email"
+                                value={em_email}
+                                onchange={updateUserCreation}
                             />
                         </Box>
                         <Box sx={{ width: "10%", pr: 1 }}>
@@ -117,10 +139,9 @@ const UserCreation = () => {
                                 placeholder="DOB"
                                 type="date"
                                 size="sm"
-
-                            //  name="complaint_dept_name"
-                            // value={complaint_dept_name}
-                            // onchange={updateDepartment}
+                                name="dob"
+                                value={dob}
+                                onchange={getdob}
                             />
                         </Box>
                         <Box sx={{ width: "10%", pr: 1 }}>
@@ -128,10 +149,9 @@ const UserCreation = () => {
                                 placeholder="DOJ"
                                 type="date"
                                 size="sm"
-
-                            //  name="complaint_dept_name"
-                            // value={complaint_dept_name}
-                            // onchange={updateDepartment}
+                                name="doj"
+                                value={doj}
+                                onchange={getdoj}
                             />
                         </Box>
                         <Box sx={{ width: "10%", pr: 1 }}>
@@ -150,16 +170,16 @@ const UserCreation = () => {
                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                     }}>
                         <Box sx={{ width: "20%", pr: 1 }}>
-                            <Test />
+                            <BranchSelectHr value={branch} setValue={setBranch} />
+                        </Box>
+                        <Box sx={{ width: "20%", pr: 1 }}>
+                            <DepartmentSelect value={dept} setValue={setDept} />
                         </Box>
                         <Box sx={{ width: "20%", pr: 1 }}>
                             <Test />
                         </Box>
                         <Box sx={{ width: "20%", pr: 1 }}>
-                            <Test />
-                        </Box>
-                        <Box sx={{ width: "20%", pr: 1 }}>
-                            <Test />
+                            <DesignationSelect value={designation} setValue={setDesignation} />
                         </Box>
                         <Box sx={{ width: "20%", pr: 1 }}>
                             <Test />
@@ -218,10 +238,10 @@ const UserCreation = () => {
                             label="Status"
                             color="primary"
                             size="md"
-                        //  name="dept_status"
-                        // value={dept_status}
-                        //checked={dept_status}
-                        // onCheked={updateDepartment}
+                            name="em_status"
+                            value={em_status}
+                            checked={em_status}
+                            onCheked={updateUserCreation}
                         />
                     </Box>
                 </Paper>

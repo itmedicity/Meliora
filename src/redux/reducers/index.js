@@ -14,7 +14,8 @@ import { getEmployeeName } from '../reducers/EmpName.Reducer'
 import { getModuleGroup } from '../reducers/ModuleGroup.Reducer'
 import { getAssetType } from '../reducers/AssetType.Reducer'
 import { getSubModuleGroup } from './SubModuleGroup.Reducer'
-
+import { getBranch } from './Branch.Reducer'
+import { getDesignation } from './Designation.Reducer'
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -31,5 +32,7 @@ const reducer = combineReducers({
     getModuleGroup,
     getAssetType,
     getSubModuleGroup,
+    getBranch,
+    getDesignation
 })
 export default reducer;
