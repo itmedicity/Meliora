@@ -16,6 +16,8 @@ import { getAssetType } from '../reducers/AssetType.Reducer'
 import { getSubModuleGroup } from './SubModuleGroup.Reducer'
 import { getBranch } from './Branch.Reducer'
 import { getDesignation } from './Designation.Reducer'
+import { getBuilding } from './Building.Reducer'
+import { getoraRoomtype } from './Roomtype.Reducer'
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -33,6 +35,8 @@ const reducer = combineReducers({
     getAssetType,
     getSubModuleGroup,
     getBranch,
-    getDesignation
+    getDesignation,
+    getBuilding,
+    getoraRoomtype
 })
 export default reducer;
