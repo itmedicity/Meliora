@@ -18,6 +18,9 @@ import { getBranch } from './Branch.Reducer'
 import { getDesignation } from './Designation.Reducer'
 import { getBuilding } from './Building.Reducer'
 import { getoraRoomtype } from './Roomtype.Reducer'
+import { getRoomtypemeli } from './Roomtypemeliora.Reducer'
+import { getRmmasteroracle } from './RmmasterOra.Reducer'
+import { getRmmastermeliora } from './Rmmastermeliora.Reducer'
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -37,6 +40,9 @@ const reducer = combineReducers({
     getBranch,
     getDesignation,
     getBuilding,
-    getoraRoomtype
+    getoraRoomtype,
+    getRoomtypemeli,
+    getRmmasteroracle,
+    getRmmastermeliora
 })
 export default reducer;
