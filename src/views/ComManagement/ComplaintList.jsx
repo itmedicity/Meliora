@@ -19,6 +19,7 @@ const ComplaintList = () => {
         { headerName: 'Action', cellRenderer: EditButton },
     ])
 
+
     return (
         <CusAgGridMast
             columnDefs={column}
