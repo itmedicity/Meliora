@@ -16,6 +16,8 @@ import { getAssetType } from '../reducers/AssetType.Reducer'
 import { getSubModuleGroup } from './SubModuleGroup.Reducer'
 import { getBranch } from './Branch.Reducer'
 import { getDesignation } from './Designation.Reducer'
+import { getSalutation } from './Salutation.Reducer'
+import { getDeptsectionDept } from './DeptSecDept.Reducer'
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -33,6 +35,8 @@ const reducer = combineReducers({
     getAssetType,
     getSubModuleGroup,
     getBranch,
-    getDesignation
+    getDesignation,
+    getSalutation,
+    getDeptsectionDept,
 })
 export default reducer;
