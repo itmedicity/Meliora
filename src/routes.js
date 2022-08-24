@@ -29,9 +29,7 @@ const Floor = React.lazy(() => import('./views/Master/RoomMasters/FloorMaster/Fl
 const RoomType = React.lazy(() => import('./views/Master/RoomMasters/RoomType/RoomTypeMast'))
 const RoomCategory = React.lazy(() => import('./views/Master/RoomMasters/RoomCategory/RoomCategoryMast'))
 const NursingStation = React.lazy(() => import('./views/Master/NursingStation/NursingStationMast'))
-const Dietition = React.lazy(() => import('./views/Master/DietMasters/DietionMaster/DietitionMaster'))
 const DietCategory = React.lazy(() => import('./views/Master/DietMasters/Diet/DietMaster'))
-const TimeSlamb = React.lazy(() => import('./views/Master/DietMasters/TimeSlamb/TimeSlampMast'))
 const DietType = React.lazy(() => import('./views/Master/DietMasters/DietType/DietTypeMast'))
 const RateList = React.lazy(() => import('./views/Master/DietMasters/RateList/RateListMast'))
 const DietIssue = React.lazy(() => import('./views/Master/DietMasters/DietIssueSchedule/DietIssueScheduleMast'))
@@ -78,9 +76,7 @@ const routes = [
   { path: '/Home/RoomType', exact: true, name: 'RoomType', component: RoomType },
   { path: '/Home/RoomCategory', exact: true, name: 'RoomCategory', component: RoomCategory },
   { path: '/Home/NursingStation', exact: true, name: 'NursingStation', component: NursingStation },
-  { path: '/Home/Dietition', exact: true, name: 'Dietition', component: Dietition },
   { path: '/Home/Diet', exact: true, name: 'DietCategory', component: DietCategory },
-  { path: '/Home/TimeSlamb', exact: true, name: 'TimeSlamb', component: TimeSlamb },
   { path: '/Home/DietIssue', exact: true, name: 'DietIssue', component: DietIssue },
   { path: '/Home/DietType', exact: true, name: 'DietType', component: DietType },
   { path: '/Home/RateList', exact: true, name: 'RateList', component: RateList },

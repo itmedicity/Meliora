@@ -16,6 +16,8 @@ import { getAssetType } from '../reducers/AssetType.Reducer'
 import { getSubModuleGroup } from './SubModuleGroup.Reducer'
 import { getBranch } from './Branch.Reducer'
 import { getDesignation } from './Designation.Reducer'
+import { getSalutation } from './Salutation.Reducer'
+import { getDeptsectionDept } from './DeptSecDept.Reducer'
 import { getBuilding } from './Building.Reducer'
 import { getoraRoomtype } from './Roomtype.Reducer'
 import { getRoomtypemeli } from './Roomtypemeliora.Reducer'
@@ -46,6 +48,8 @@ const reducer = combineReducers({
     getSubModuleGroup,
     getBranch,
     getDesignation,
+    getSalutation,
+    getDeptsectionDept,
     getBuilding,
     getoraRoomtype,
     getRoomtypemeli,
