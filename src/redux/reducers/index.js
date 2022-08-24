@@ -18,6 +18,18 @@ import { getBranch } from './Branch.Reducer'
 import { getDesignation } from './Designation.Reducer'
 import { getSalutation } from './Salutation.Reducer'
 import { getDeptsectionDept } from './DeptSecDept.Reducer'
+import { getBuilding } from './Building.Reducer'
+import { getoraRoomtype } from './Roomtype.Reducer'
+import { getRoomtypemeli } from './Roomtypemeliora.Reducer'
+import { getRmmasteroracle } from './RmmasterOra.Reducer'
+import { getRmmastermeliora } from './Rmmastermeliora.Reducer'
+import { getRoomcatora } from './RoomCatOra.Reducer'
+import { getDiet } from './Diet.Reducer'
+import { getDiettype } from './DietType.Reducer'
+import { getOutlet } from './OutletOra.Reducer'
+import { getItem } from './ItemMaster.Reducer'
+import { getitemGrpName } from './Itemgroup.Reducer'
+
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -38,5 +50,16 @@ const reducer = combineReducers({
     getDesignation,
     getSalutation,
     getDeptsectionDept,
+    getBuilding,
+    getoraRoomtype,
+    getRoomtypemeli,
+    getRmmasteroracle,
+    getRmmastermeliora,
+    getRoomcatora,
+    getDiet,
+    getDiettype,
+    getOutlet,
+    getItem,
+    getitemGrpName
 })
 export default reducer;

@@ -8,6 +8,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import DepartmentMastTable from './DepartmentMastTable'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+// import { useSelector } from 'react-redux'
 const DepartmentMast = () => {
     //for routing
     const history = useHistory();
@@ -15,6 +16,11 @@ const DepartmentMast = () => {
     const [count, setCount] = useState(0);
     //state for edit
     const [value, setValue] = useState(0)
+    // const id = useSelector((state) => {
+    //     return state.LoginUserData.empid
+    // })
+    // console.log(id);
+
     //intilizing
     const [department, setDepartment] = useState({
         dept_name: '',
@@ -33,7 +39,8 @@ const DepartmentMast = () => {
         return {
             dept_name: dept_name,
             dept_alias: dept_alias,
-            dept_status: dept_status === true ? 1 : 0
+            dept_status: dept_status === true ? 1 : 0,
+            create_user: 1
         }
     }, [dept_name, dept_alias, dept_status])
     //edit data setting on textfields
