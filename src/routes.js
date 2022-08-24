@@ -42,7 +42,8 @@ const UserCreation = React.lazy(() => import('./views/Master/UserCreation/UserCr
 const UserCreationTable = React.lazy(() => import('./views/Master/UserCreation/UserCreationTable'))
 const RoomCreation = React.lazy(() => import('./views/RoomManagement/Roomcreation/RoomCreation'))
 const SubRoomCreation = React.lazy(() => import('./views/RoomManagement/SubRoomCreation/SubRoomCreation'))
-
+const ItemGroup = React.lazy(() => import('./views/Master/DietMasters/ItemGroup/ItemGroupMast'))
+const ItemMaster = React.lazy(() => import('./views/Master/DietMasters/ItemMaster/ItemMaster'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -88,7 +89,8 @@ const routes = [
   { path: '/Home/UserCreationTable', exact: true, name: 'User Creation Table', component: UserCreationTable },
   { path: '/Home/RoomCreation', exact: true, name: 'Room Creation', component: RoomCreation },
   { path: '/Home/SubRoomCreation', exact: true, name: ' Sub Room Creation', component: SubRoomCreation },
-
+  { path: '/Home/ItemGroup', exact: true, name: 'Item Group', component: ItemGroup },
+  { path: '/Home/ItemMaster', exact: true, name: ' Item Master', component: ItemMaster },
 
 ]
 
