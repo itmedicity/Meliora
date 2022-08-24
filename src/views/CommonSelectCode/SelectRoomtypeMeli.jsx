@@ -30,7 +30,7 @@ const SelectRoomtypeMeli = ({ value, setValue }) => {
                     variant='outlined'
                     sx={{ height: 24, p: 0, m: 0, lineHeight: 1.200 }}
                 >
-                    <MenuItem value={0} disabled  >Select Room Type Meli</MenuItem>
+                    <MenuItem value={0} disabled  >Select Room Type</MenuItem>
                     {
                         roomtypemelidata && roomtypemelidata.map((val, index) => {
                             return <MenuItem key={index} value={val.rmc_type}>{val.rmc_desc}</MenuItem>

@@ -43,7 +43,7 @@ const UserCreationTable = React.lazy(() => import('./views/Master/UserCreation/U
 const RoomCreation = React.lazy(() => import('./views/RoomManagement/Roomcreation/RoomCreation'))
 const SubRoomCreation = React.lazy(() => import('./views/RoomManagement/SubRoomCreation/SubRoomCreation'))
 const DietPlan = React.lazy(() => import('./views/Diet/DietPlan'))
-
+const DietMenuSetting = React.lazy(() => import('./views/Master/DietMasters/DietMenuSetting/DietMenuSetting'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -89,7 +89,8 @@ const routes = [
   { path: '/Home/UserCreationTable', exact: true, name: 'User Creation Table', component: UserCreationTable },
   { path: '/Home/RoomCreation', exact: true, name: 'Room Creation', component: RoomCreation },
   { path: '/Home/SubRoomCreation', exact: true, name: ' Sub Room Creation', component: SubRoomCreation },
-  { path: '/Home/DietPlan', exact: true, name: 'Diet Plan', component: DietPlan }
+  { path: '/Home/DietPlan', exact: true, name: 'Diet Plan', component: DietPlan },
+  { path: '/Home/DietMenuSetting', exact: true, name: 'Diet Plan', component: DietMenuSetting }
 
 
 ]

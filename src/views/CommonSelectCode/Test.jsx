@@ -6,7 +6,7 @@ import FormControl from "@mui/material/FormControl";
 
 function Test() {
     return (
-        <Box sx={{ mt: 1 }} >
+        <Box sx={{}} >
             <FormControl fullWidth size="small"  >
                 <Select
                     labelId="demo-simple-select-label"

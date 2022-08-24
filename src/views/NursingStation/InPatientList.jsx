@@ -16,6 +16,7 @@ const InPatientList = () => {
         { headerName: "OP No", field: "pt_no" },
         { headerName: "Name", field: "ptc_ptname" },
         { headerName: "Doctor", field: "doc_name" },
+        { headerName: "Bed", field: "bdc_no" },
         { headerName: "Room", field: "rcc_desc" },
         {
             headerName: 'Diet Plan', cellRenderer: params => <IconButton

@@ -65,7 +65,6 @@ const DietMaster = () => {
             diet_slno: diet_slno
         }
     }, [diet_name, diet_status, order_req, diet_type_choose, diet_slno])
-    console.log(patchdata)
     const submitDiet = useCallback((e) => {
         e.preventDefault();
         const formReset = {
@@ -74,7 +73,6 @@ const DietMaster = () => {
             order_req: false,
             diet_type_choose: false
         }
-
         const InsertData = async (postData) => {
             const result = await axioslogin.post(`/diet`, postData)
             const { message, success } = result.data;
@@ -126,7 +124,6 @@ const DietMaster = () => {
         }
         setDiet(formReset)
     }, [setDiet])
-
     return (
         <CardMaster
             title='Diet Master'
@@ -146,7 +143,6 @@ const DietMaster = () => {
                                     name="diet_name"
                                     value={diet_name}
                                     onchange={updateDiet}
-
                                 />
                             </Grid>
                             <Grid item lg={12} xl={12}>
@@ -158,7 +154,6 @@ const DietMaster = () => {
                                     value={diet_status}
                                     checked={diet_status}
                                     onCheked={updateDiet}
-
                                 />
                             </Grid>
                             <Grid item lg={12} xl={12}>
@@ -181,7 +176,6 @@ const DietMaster = () => {
                                     value={diet_type_choose}
                                     checked={diet_type_choose}
                                     onCheked={updateDiet}
-
                                 />
                             </Grid>
                         </Grid>

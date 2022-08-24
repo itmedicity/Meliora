@@ -3,9 +3,10 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 import EditButton from 'src/views/Components/EditButton'
-
-function DietTypeMastTable({ count, rowSelect }) {
+const DietTypeMastTable = ({ count, rowSelect }) => {
+    //state for setting table data
     const [tabledata, setTabledata] = useState([])
+    //column title setting
     const [column] = useState([{
         headerName: "slno", field: "type_slno"
     },
@@ -13,21 +14,20 @@ function DietTypeMastTable({ count, rowSelect }) {
         headerName: "Diet Type Name", field: "type_desc"
     },
     {
-        headerName: "Start Time", field: "start_time"
+        headerName: "Start Time", field: "start_time1"
     },
     {
-        headerName: "End Time", field: "end_time"
+        headerName: "End Time", field: "end_time2"
     },
-
     {
-        headerName: "status", field: "status"
+        headerName: "status", field: "status1"
     },
     { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> }
 
     ])
     useEffect(() => {
         const getDietType = async () => {
-            const result = await axioslogin.get(`/diettype/`)
+            const result = await axioslogin.get(`/diettype`)
             const { success, data } = result.data
             if (success === 1) {
                 setTabledata(data)
@@ -43,7 +43,6 @@ function DietTypeMastTable({ count, rowSelect }) {
         <CusAgGridMast
             columnDefs={column}
             tableData={tabledata}
-            onClick={rowSelect}
         />
     )
 }

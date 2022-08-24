@@ -11,8 +11,11 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import moment from 'moment'
 const DietTypeMast = () => {
     const history = useHistory();
+    //state for table rendering
     const [count, setCount] = useState(0);
+    //state for edit
     const [value, setValue] = useState(0)
+    //intializing
     const [diettype, setDiettype] = useState({
         type_slno: '',
         type_desc: '',
@@ -20,68 +23,60 @@ const DietTypeMast = () => {
         end_time: '',
         status: false
     })
+    //destructuring
     const { type_slno, type_desc, start_time, end_time, status } = diettype
-    // const [date, setDate] = useState("2019/10/09")
-    // console.log(date)
     const updateDiettype = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setDiettype({ ...diettype, [e.target.name]: value })
-
     }, [diettype])
-
-    // const dateTime = moment().startOf(start_time).add(date)
-    // console.log(dateTime)
-
+    //insert data
     const postData = useMemo(() => {
         return {
             type_desc: type_desc,
-            start_time: start_time,
-            end_time: end_time,
+            start_time: moment(start_time).format('YYYY-MM-DD HH:mm:ss'),
+            end_time: moment(end_time).format('YYYY-MM-DD HH:mm:ss'),
             status: status === true ? 1 : 0,
             em_id: 1
         }
     }, [type_desc, start_time, end_time, status])
+    //data set for edit  
     const rowSelect = useCallback((params) => {
         setValue(1)
         const data = params.api.getSelectedRows()
-        console.log(data)
         const { type_slno, type_desc, start_time, end_time, status } = data[0];
         const frmdata = {
             type_desc: type_desc,
-            start_time: start_time,
-            end_time: end_time,
+            // start_time: start_time,
+            // end_time: end_time,
+            start_time: moment(start_time).format('YYYY-MM-DD HH:MM:SS'),
+            end_time: moment(end_time).format('YYYY-MM-DD HH:SS'),
             status: status === 1 ? true : false,
             type_slno: type_slno
         }
-
         setDiettype(frmdata)
     }, [])
-    // console.log(diettype)
-
+    //update data
     const patchdata = useMemo(() => {
         return {
-
             type_desc: type_desc,
-            start_time: moment(start_time).format('yyyy-dd-mm hh.mm.ss'),
-            end_time: moment(end_time).format('yyyy-dd-mm hh.mm.ss'),
+            // start_time: moment(start_time).format('yyyy-dd-mm hh.mm.ss'),
+            // end_time: moment(end_time).format('yyyy-dd-mm hh.mm.ss'),
+            start_time: start_time,
+            end_time: end_time,
             status: status === true ? 1 : 0,
             type_slno: type_slno
-
-
         }
     }, [type_desc, start_time, end_time, status, type_slno])
-
-
+    /*** usecallback function for form submitting */
     const submitDiettype = useCallback((e) => {
         e.preventDefault();
-        console.log(postData)
         const formReset = {
             type_desc: '',
             start_time: '',
             end_time: '',
             status: false
         }
-
+        /*** * insert function for use call back     */
         const InsertData = async (postData) => {
             const result = await axioslogin.post(`/diettype`, postData)
             const { message, success } = result.data;
@@ -96,10 +91,9 @@ const DietTypeMast = () => {
                 infoNotify(message)
             }
         }
+        /***  * update function for use call back     */
         const updateData = async (patchdata) => {
-            // console.log(patchdata)
-
-            const result = await axioslogin.patch('/diettype/update', patchdata)
+            const result = await axioslogin.patch('/diettype', patchdata)
             const { message, success } = result.data;
             if (success === 1) {
                 succesNotify(message)
@@ -113,22 +107,17 @@ const DietTypeMast = () => {
                 infoNotify(message)
             }
         }
-
         if (value === 0) {
             InsertData(postData)
         }
         else {
             updateData(patchdata)
         }
-
-
     }, [value, postData, count, patchdata])
-
     //Close function
     const backToSettings = useCallback(() => {
         history.push(`/Home/Settings`)
     }, [history])
-
     //Refresh function
     const refreshWindow = useCallback(() => {
         const formReset = {
@@ -138,12 +127,9 @@ const DietTypeMast = () => {
             status: false
         }
         setDiettype(formReset)
-
+        setValue(0)
     }, [setDiettype])
-
-
     return (
-
         <CardMaster title="Diet Type Master"
             submit={submitDiettype}
             refresh={refreshWindow}
@@ -159,11 +145,13 @@ const DietTypeMast = () => {
                                     size="sm"
                                     name="type_desc"
                                     value={type_desc}
-                                    onchange={updateDiettype} />
+                                    onchange={updateDiettype}
+                                />
                             </Grid>
                             <Grid item xl={12} lg={12}>
                                 <Grid container spacing={1}>
                                     <Grid item xl={6} lg={6}>
+                                        {/* <CustomeToolTip title="Start Date" placement="left" > */}
                                         <TextFieldCustom
                                             placeholder="Start time"
                                             type="datetime-local"
@@ -171,6 +159,7 @@ const DietTypeMast = () => {
                                             name="start_time"
                                             value={start_time}
                                             onchange={updateDiettype} />
+                                        {/* </CustomeToolTip> */}
                                     </Grid>
                                     <Grid item xl={6} lg={6}>
                                         <TextFieldCustom
@@ -183,9 +172,6 @@ const DietTypeMast = () => {
                                     </Grid>
                                 </Grid>
                             </Grid>
-
-
-
                             <Grid item xl={12} lg={12}>
                                 <CusCheckBox
                                     label="Status"

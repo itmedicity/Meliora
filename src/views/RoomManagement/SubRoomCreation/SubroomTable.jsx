@@ -9,8 +9,8 @@ const SubroomTable = ({ count, rowSelect }) => {
     const [column] = useState([
         { headerName: "SlNo", field: "subrm_slno" },
         { headerName: "Subroom Name", field: "subrm_desc" },
-        { headerName: "Room type", field: "rmc_name" },
-        { headerName: "Room Oracle", field: "rmc_desc" },
+        { headerName: "Room", field: "rmc_name" },
+        { headerName: "Room Type", field: "rmc_desc" },
         { headerName: "Status", field: "status" },
         { headerName: 'Actions', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> }
     ])

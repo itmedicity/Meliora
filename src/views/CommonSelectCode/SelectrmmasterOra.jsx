@@ -30,7 +30,7 @@ const SelectrmmasterOra = ({ value, setValue }) => {
                     variant='outlined'
                     sx={{ height: 24, p: 0, m: 0, lineHeight: 1.200 }}
                 >
-                    <MenuItem value={0} disabled  >Select Room Ora</MenuItem>
+                    <MenuItem value={0} disabled  >Select Room Oracle</MenuItem>
                     {
                         roommasteroradata && roommasteroradata.map((val, index) => {
                             return <MenuItem key={index} value={val.rm_code}>{val.rmc_desc}</MenuItem>

@@ -1,23 +1,21 @@
 import React, { useEffect, memo } from 'react'
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { useDispatch, useSelector } from 'react-redux';
-import { getDepartment } from 'src/redux/actions/Department.action';
-import MenuItem from "@mui/material/MenuItem";
-const DepartmentSelect = ({ value, setValue }) => {
+import { getRoomcatora } from 'src/redux/actions/RoomCatora.action'
+const SelectRoomcatOra = ({ value, setValue }) => {
     const dispatch = useDispatch();
-    /**getDepartment -state update function of reducer 
-     * departmentList- initial state of reducer function
-     *departmentdata is used to list select box items by using map
-     */
-    const departmentdata = useSelector((state) => {
-        return state.getDepartment.departmentList || 0
+    /**getRoomcatora -state update function of reducer 
+*   roomcatList- initial state of reducer function
+*roomcatoradata is used to list select box items by using map
+*/
+    const roomcatoradata = useSelector((state) => {
+        return state.getRoomcatora.roomcatList || 0
     })
-
-    //getDepartment function is used to update data in department redux
     useEffect(() => {
-        dispatch(getDepartment())
+        dispatch(getRoomcatora());
     }, [dispatch])
     return (
         <Box >
@@ -32,10 +30,10 @@ const DepartmentSelect = ({ value, setValue }) => {
                     variant='outlined'
                     sx={{ height: 24, p: 0, m: 0, lineHeight: 1.200 }}
                 >
-                    <MenuItem value={0} disabled >Select Department</MenuItem>
+                    <MenuItem value={0} disabled  >Select Room Category</MenuItem>
                     {
-                        departmentdata && departmentdata.map((val, index) => {
-                            return <MenuItem key={index} value={val.dept_id}>{val.dept_name}</MenuItem>
+                        roomcatoradata && roomcatoradata.map((val, index) => {
+                            return <MenuItem key={index} value={val.rc_code}>{val.rcc_desc}</MenuItem>
                         })
                     }
                 </Select>
@@ -43,4 +41,5 @@ const DepartmentSelect = ({ value, setValue }) => {
         </Box >
     )
 }
-export default memo(DepartmentSelect);
+
+export default memo(SelectRoomcatOra)

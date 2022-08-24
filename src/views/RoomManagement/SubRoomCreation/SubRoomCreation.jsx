@@ -45,7 +45,6 @@ const SubRoomCreation = () => {
     const rowSelect = useCallback((params) => {
         setEdit(1);
         const data = params.api.getSelectedRows()
-        console.log(data);
         const { subrm_desc, rmc_slno, status, rmc_type, subrm_slno } = data[0]
         const frmdata = {
             subrm_desc: subrm_desc,
@@ -56,6 +55,7 @@ const SubRoomCreation = () => {
         setValue1(rmc_type)
         setValue2(rmc_slno)
     }, [])
+    //update data
     const patchdata = useMemo(() => {
         return {
             subrm_desc: subrm_desc,
