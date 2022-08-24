@@ -9,6 +9,7 @@ import DeptSectionMastTable from './DeptSectionMastTable'
 import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import SelectOraOutlet from 'src/views/CommonSelectCode/SelectOraOutlet'
 const DeptSectionMast = () => {
     const history = useHistory();
     //state for table rendering
@@ -17,6 +18,7 @@ const DeptSectionMast = () => {
     const [edit, setEdit] = useState(0);
     //state for select box
     const [value, setValue] = useState(0)
+    const [value1, setValue1] = useState(0)
     //state for name
     const [secname, updatesecName] = useState('');
     //state for status
@@ -56,23 +58,26 @@ const DeptSectionMast = () => {
             sec_name: secname,
             dept_id: value,
             dept_sub_sect: general === true ? 1 : ot === true ? 2 : icu === true ? 3 : er === true ? 4 : 0,
-            sec_status: secstatus === true ? 1 : 0
+            sec_status: secstatus === true ? 1 : 0,
+            create_user: 1,
+            ou_code: value1
         }
-    }, [secname, value, secstatus, general, ot, icu, er])
+    }, [secname, value, secstatus, general, ot, icu, er, value1])
     const patchdata = useMemo(() => {
         return {
             sec_name: secname,
             dept_id: value,
             dept_sub_sect: general === true ? 1 : ot === true ? 2 : icu === true ? 3 : er === true ? 4 : 0,
             sec_status: secstatus === true ? 1 : 0,
+            ou_code: value1,
             sec_id: id
         }
-    }, [secname, value, general, ot, icu, er, secstatus, id])
+    }, [secname, value, general, ot, icu, er, secstatus, id, value1])
     //data set for edit 
     const rowSelect = useCallback((params) => {
         setEdit(1);
         const data = params.api.getSelectedRows();
-        const { sec_name, dept_id, status, sec_id, dept_sub_sect } = data[0]
+        const { sec_name, dept_id, status, sec_id, dept_sub_sect, ou_code } = data[0]
         const checkboxdata = {
             general: dept_sub_sect === 1 ? true : false,
             ot: dept_sub_sect === 2 ? true : false,
@@ -84,6 +89,7 @@ const DeptSectionMast = () => {
         setsecStatus(status === 'Yes' ? true : false)
         setdeptsubtype(checkboxdata)
         setId(sec_id)
+        setValue1(ou_code)
     }, [])
     //reseting 
     const reset = useCallback(() => {
@@ -94,6 +100,7 @@ const DeptSectionMast = () => {
             er: false,
         }
         setValue(0)
+        setValue1(0)
         setdeptsubtype(resetcheckbox)
         setsecStatus(false)
         updatesecName('')
@@ -155,6 +162,7 @@ const DeptSectionMast = () => {
             er: false
         }
         setValue(0)
+        setValue1(0)
         setEdit(0)
         setdeptsubtype(resetcheckbox)
         updatesecName('')
@@ -184,6 +192,9 @@ const DeptSectionMast = () => {
                             </Grid>
                             <Grid item xl={12} lg={12}  >
                                 <DepartmentSelect value={value} setValue={setValue} />
+                            </Grid>
+                            <Grid item xl={12} lg={12}>
+                                <SelectOraOutlet value={value1} setValue={setValue1} />
                             </Grid>
                             <Grid item lg={2} xl={2}>
                                 <CusCheckBox

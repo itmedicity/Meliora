@@ -70,7 +70,8 @@ export const dm_setting_two = [
 ]
 
 export const dm_setting_three = [
-    { to: '/Home/RateList', name: 'Rate List', slno: 40 }
+    { to: '/Home/RateList', name: 'Rate List', slno: 40 },
+    { to: '/Home/DietMenuSetting', name: 'Diet Menu Setting', slno: 55 }
 ]
 
 //User Management Menu

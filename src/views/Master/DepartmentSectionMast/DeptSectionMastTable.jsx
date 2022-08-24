@@ -12,6 +12,7 @@ const DeptSectionMastTable = ({ count, rowSelect }) => {
         { headerName: "Department Section Name", field: "sec_name" },
         { headerName: "Department Name", field: "dept_name" },
         { headerName: "Department Sub Section Name", field: "dept_sub_sect1" },
+        { headerName: "Outlet", field: "ouc_desc" },
         { headerName: "Status", field: "status" },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])
