@@ -125,6 +125,8 @@ const ItemMaster = () => {
                 setCount(count + 1);
                 setValue(0)
                 setItem(formreset);
+                setgrpslno(0)
+
             } else if (success === 0) {
                 infoNotify(message);
             }

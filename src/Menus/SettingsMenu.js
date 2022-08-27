@@ -62,11 +62,13 @@ export const rm_setting_three = [
 export const dm_setting_one = [
     { to: '/Home/Diet', name: 'Diet ', slno: 36 },
     { to: '/Home/ItemGroup', name: 'Item Group ', slno: 53 },
+    { to: '/Home/DietDetail', name: 'Diet Detail ', slno: 56 },
 ]
 
 export const dm_setting_two = [
     { to: '/Home/DietType', name: 'Diet Type', slno: 39 },
     { to: '/Home/ItemMaster', name: 'Item Master ', slno: 54 },
+
 ]
 
 export const dm_setting_three = [

@@ -44,6 +44,8 @@ const DietPlan = React.lazy(() => import('./views/Diet/DietPlan'))
 const DietMenuSetting = React.lazy(() => import('./views/Master/DietMasters/DietMenuSetting/DietMenuSetting'))
 const ItemGroup = React.lazy(() => import('./views/Master/DietMasters/ItemGroup/ItemGroupMast'))
 const ItemMaster = React.lazy(() => import('./views/Master/DietMasters/ItemMaster/ItemMaster'))
+const DietDetail = React.lazy(() => import('./views/Master/DietMasters/DietDetail/DietDetailMast'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -91,6 +93,7 @@ const routes = [
   { path: '/Home/DietMenuSetting', exact: true, name: 'Diet Plan', component: DietMenuSetting },
   { path: '/Home/ItemGroup', exact: true, name: 'Item Group', component: ItemGroup },
   { path: '/Home/ItemMaster', exact: true, name: ' Item Master', component: ItemMaster },
+  { path: '/Home/DietDetail', exact: true, name: 'Diet Detail', component: DietDetail }
 
 ]
 
