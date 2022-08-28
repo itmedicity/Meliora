@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { useCallback } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { useSelector } from 'react-redux'
 const DietMaster = () => {
     //for routing...
     const history = useHistory();
@@ -31,7 +32,10 @@ const DietMaster = () => {
         setDiet({ ...diet, [e.target.name]: value })
 
     }, [diet])
-
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     //Assigning data to postData for insertion
     const postData = useMemo(() => {
         return {
@@ -39,9 +43,10 @@ const DietMaster = () => {
             diet_status: diet_status === true ? 1 : 0,
             order_req: order_req === true ? 1 : 0,
             diet_type_choose: diet_type_choose === true ? 1 : 0,
-            em_id: 1
+            em_id: id
         }
-    }, [diet_name, diet_status, order_req, diet_type_choose])
+    }, [diet_name, diet_status, order_req, diet_type_choose, id])
+    console.log(postData);
     //Data set to textfields for editing
     const rowSelect = useCallback((params) => {
         setValue(1)

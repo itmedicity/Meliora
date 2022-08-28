@@ -1,34 +1,179 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Box, Grid } from '@mui/material'
 import { useHistory } from 'react-router-dom';
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import SelectDiet from 'src/views/CommonSelectCode/SelectDiet';
 import DietMenuSettingTable from './DietMenuSettingTable';
-import Test from 'src/views/CommonSelectCode/Test';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import SelectItemmaster from 'src/views/CommonSelectCode/SelectItemmaster';
+import ItemgrpSelect from 'src/views/CommonSelectCode/ItemgrpSelect'
+import SelectDietType from 'src/views/CommonSelectCode/SelectDietType';
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+import { axioslogin } from 'src/views/Axios/Axios';
 const DietMenuSetting = () => {
     const history = useHistory();
     // const [count, setCount] = useState(0);
-    const [value, setValue] = useState(0);
+    // const [value, setValue] = useState(0);
+    const [edit, setEdit] = useState(0)
+    //state for select boxes 
+    const [diet, setDiet] = useState(0);
+    const [item, setItem] = useState(0);
+    const [group, setGroup] = useState(0);
+    const [type, setType] = useState(0);
+    const [day, setDay] = useState(0);
+    const [count, setCount] = useState(0);
+
     const [dietmenu, setDietmenu] = useState({
         order_req: false,
         status: false,
         qty: '',
         unit: '',
         rate_hos: '',
-        rate_cant: ''
+        rate_cant: '',
+        dmenu_slno: ''
     })
     //destructuring
-    const { order_req, status, qty, unit, rate_hos, rate_cant } = dietmenu
+    const { order_req, status, qty, unit, rate_hos, rate_cant, dmenu_slno } = dietmenu
     const updateDietmenu = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setDietmenu({ ...dietmenu, [e.target.name]: value })
     }, [dietmenu])
+    //data for insert
+    const postdata = useMemo(() => {
+        return {
+            diet_slno: diet,
+            grp_slno: group,
+            item_slno: item,
+            type_slno: type,
+            days: day,
+            qty: qty,
+            unit: unit,
+            rate_hos: rate_hos,
+            rate_cant: rate_cant,
+            em_id: 1,
+            status: status === true ? 1 : 0,
+            order_req: order_req === true ? 1 : 0
+        }
+    }, [diet, group, item, type, day, qty, unit, rate_hos, rate_cant, status, order_req])
+    console.log(postdata);
+    const rowSelect = useCallback((params) => {
+        setEdit(1);
+        const data = params.api.getSelectedRows();
+        console.log(data);
+        const { grp_slno, item_slno, type_slno, days, qty, unit, rate_hos, rate_cant, status, diet_slno, order_req, dmenu_slno } = data[0]
+        const frmdata = {
+            dmenu_slno: dmenu_slno,
+            qty: qty,
+            unit: unit,
+            rate_hos: rate_hos,
+            rate_cant: rate_cant,
+            status: status === 1 ? true : false,
+            order_req: order_req === 1 ? true : false
+        }
+        console.log(dmenu_slno);
+        setDietmenu(frmdata)
+        setGroup(grp_slno)
+        setItem(item_slno)
+        setType(type_slno)
+        setDay(days)
+        setDiet(diet_slno)
+    }, [])
+    const patchdata = useMemo(() => {
+        return {
+            diet_slno: diet,
+            grp_slno: group,
+            item_slno: item,
+            type_slno: type,
+            days: day,
+            qty: qty,
+            unit: unit,
+            rate_hos: rate_hos,
+            rate_cant: rate_cant,
+            em_id: 1,
+            status: status === true ? 1 : 0,
+            order_req: order_req === true ? 1 : 0,
+            dmenu_slno: dmenu_slno
+        }
+    }, [diet, group, item, type, day, qty, unit, rate_hos, rate_cant, status, order_req, dmenu_slno])
+    console.log(patchdata);
+    const reset = () => {
+        setDiet(0);
+        setItem(0);
+        setGroup(0);
+        setType(0);
+        setDay(0)
+    }
+    /*** usecallback function for form submitting */
+    const submitDiettype = useCallback((e) => {
+        e.preventDefault();
+        const formReset = {
+            order_req: false,
+            status: false,
+            qty: '',
+            unit: '',
+            rate_hos: '',
+            rate_cant: '',
+            dmenu_slno: ''
+        }
+        /*** * insert function for use call back     */
+        const InsertData = async (postdata) => {
+            const result = await axioslogin.post(`/dietmenudtl`, postdata)
+            const { message, success } = result.data;
+            if (success === 1) {
+                succesNotify(message)
+                setCount(count + 1)
+                setDietmenu(formReset)
+                reset();
+            } else if (success === 0) {
+                infoNotify(message)
+            }
+            else {
+                infoNotify(message)
+            }
+        }
+        // /***  * update function for use call back     */
+        const updateData = async (patchdata) => {
+            const result = await axioslogin.patch('/dietmenudtl', patchdata)
+            const { message, success } = result.data;
+            if (success === 1) {
+                succesNotify(message)
+                setCount(count + 1)
+                setEdit(0)
+                setDietmenu(formReset);
+            } else if (success === 0) {
+                infoNotify(message)
+
+            } else {
+                infoNotify(message)
+            }
+        }
+        if (edit === 0) {
+            InsertData(postdata)
+        }
+        else {
+            updateData(patchdata)
+        }
+    }, [postdata, count, edit, patchdata])
+    //Refresh function
+    const refreshWindow = useCallback(() => {
+        const formReset = {
+            order_req: false,
+            status: false,
+            qty: '',
+            unit: '',
+            rate_hos: '',
+            rate_cant: '',
+            dmenu_slno: ''
+        }
+        setDietmenu(formReset)
+        setEdit(0)
+        reset()
+    }, [])
+
     //Close function
     const backToSettings = useCallback(() => {
         history.push(`/Home/Settings`)
@@ -37,22 +182,24 @@ const DietMenuSetting = () => {
         <CardMaster
             title="Diet Menu Setting"
             close={backToSettings}
+            submit={submitDiettype}
+            refresh={refreshWindow}
         >
             <Box sx={{ pl: 2, pt: 2, pb: 1, pr: 1 }}>
                 <Grid container spacing={1}>
                     <Grid item xl={3} lg={3}>
                         <Grid container spacing={1}>
                             <Grid item xl={12} lg={12}>
-                                <SelectDiet value={value} setValue={setValue} />
+                                <SelectDiet value={diet} setValue={setDiet} />
                             </Grid>
                             <Grid item xl={12} lg={12} >
-                                <Test />
+                                <ItemgrpSelect value={group} setValue={setGroup} />
                             </Grid>
                             <Grid item xl={12} lg={12} >
-                                <SelectItemmaster value={value} setValue={setValue} />
+                                <SelectItemmaster value={item} setValue={setItem} />
                             </Grid>
                             <Grid item xl={12} lg={12} >
-                                <Test />
+                                <SelectDietType value={type} setValue={setType} />
                             </Grid>
                             {/* <Grid item xl={12} lg={12} >
                                 <Test />
@@ -63,8 +210,8 @@ const DietMenuSetting = () => {
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
-                                            value={value}
-                                            onChange={(e) => setValue(e.target.value)}
+                                            value={day}
+                                            onChange={(e) => setDay(e.target.value)}
                                             size="small"
                                             fullWidth
                                             variant='outlined'
@@ -148,7 +295,7 @@ const DietMenuSetting = () => {
                         </Grid>
                     </Grid>
                     <Grid item xl={9} lg={9}>
-                        <DietMenuSettingTable />
+                        <DietMenuSettingTable rowSelect={rowSelect} count={count} />
                     </Grid>
                 </Grid>
             </Box>

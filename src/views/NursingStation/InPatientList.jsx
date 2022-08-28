@@ -1,17 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 import LocalDiningSharpIcon from '@mui/icons-material/LocalDiningSharp';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color'
-import { useHistory } from 'react-router-dom';
+import DietPlan from '../Diet/DietPlan';
 const InPatientList = () => {
-    const history = useHistory();
     //state for setting table data
     const [tabledata, setTabledata] = useState([])
+    const [ab, setAb] = useState(0);
+    const [data, setData] = useState([])
+    const [open, setOpen] = useState(false)
     //column title setting
     const [column] = useState([
+        { headerName: "Diet Patient No", field: "dietpt_slno" },
         { headerName: "IP No", field: "ip_no" },
         { headerName: "OP No", field: "pt_no" },
         { headerName: "Name", field: "ptc_ptname" },
@@ -21,15 +24,17 @@ const InPatientList = () => {
         {
             headerName: 'Diet Plan', cellRenderer: params => <IconButton
                 sx={{ color: editicon, paddingY: 0.5 }}
-                onClick={() => dietPlan()}>
+                onClick={() => dietPlan(params)}>
                 <LocalDiningSharpIcon />
             </IconButton>
         }
     ])
-    //redirect to diet plan on button click
-    const dietPlan = useCallback(() => {
-        history.push('/Home/DietPlan')
-    }, [history])
+    const dietPlan = useCallback((params) => {
+        const data = params.api.getSelectedRows()
+        setAb(1);
+        setOpen(true)
+        setData(data)
+    }, [])
     useEffect(() => {
         const getPatientList = async () => {
             const result = await axioslogin.get('/common/inpatientList')
@@ -41,15 +46,19 @@ const InPatientList = () => {
             }
         }
         getPatientList();
-
     }, [])
-
     return (
-        <CusAgGridMast
-            columnDefs={column}
-            tableData={tabledata}
-        //  onSelectionChanged={geteditdata}
-        />
+        <Fragment>
+            <CusAgGridMast
+                columnDefs={column}
+                tableData={tabledata}
+            />
+            {
+                ab === 1 ? <DietPlan open={open} setOpen={setOpen} data={data} /> : null
+            }
+        </Fragment>
+
+
     )
 }
 

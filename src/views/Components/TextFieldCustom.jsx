@@ -11,6 +11,7 @@ const TextFieldCustom = ({
   style,
   onchange,
   value,
+  min,
   defaultValue, name, disabled
 }) => {
   // --- size --> sm,lg,md Default medium Size
@@ -31,6 +32,7 @@ const TextFieldCustom = ({
           endDecorator={endDecorator}
           sx={{ ...textStyle, ...style }}
           onChange={(e) => onchange(e)}
+          min={min}
           value={value}
           defaultValue={defaultValue}
           name={name}

@@ -18,7 +18,7 @@ const SelectDiet = ({ value, setValue }) => {
         dispatch(getDiet());
     }, [dispatch])
     return (
-        <Box  >
+        <Box   >
             <FormControl fullWidth size="small"  >
                 <Select
                     labelId="demo-simple-select-label"
