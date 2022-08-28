@@ -43,7 +43,9 @@ const SubRoomCreation = React.lazy(() => import('./views/RoomManagement/SubRoomC
 const DietMenuSetting = React.lazy(() => import('./views/Master/DietMasters/DietMenuSetting/DietMenuSetting'))
 const ItemGroup = React.lazy(() => import('./views/Master/DietMasters/ItemGroup/ItemGroupMast'))
 const ItemMaster = React.lazy(() => import('./views/Master/DietMasters/ItemMaster/ItemMaster'))
+const DietDetail = React.lazy(() => import('./views/Master/DietMasters/DietDetail/DietDetailMast'))
 const DietApproval = React.lazy(() => import('./views/NursingStation/DietApprovalList'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/Home', exact: true, name: 'Home', component: Home },
@@ -89,8 +91,8 @@ const routes = [
   { path: '/Home/DietMenuSetting', exact: true, name: 'Diet Plan', component: DietMenuSetting },
   { path: '/Home/ItemGroup', exact: true, name: 'Item Group', component: ItemGroup },
   { path: '/Home/ItemMaster', exact: true, name: ' Item Master', component: ItemMaster },
+  { path: '/Home/DietDetail', exact: true, name: 'Diet Detail', component: DietDetail },
   { path: '/Home/DietApproval', exact: true, name: ' Diet Approval', component: DietApproval },
-
 
 ]
 
