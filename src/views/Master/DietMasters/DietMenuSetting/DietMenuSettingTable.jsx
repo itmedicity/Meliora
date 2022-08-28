@@ -1,40 +1,42 @@
-import React, { useState, memo } from 'react'
+import React, { useState, memo, useEffect } from 'react'
+import { axioslogin } from 'src/views/Axios/Axios';
+import { warningNotify } from 'src/views/Common/CommonCode';
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 import EditButton from 'src/views/Components/EditButton';
-const DietMenuSettingTable = () => {
+const DietMenuSettingTable = ({ count, rowSelect }) => {
     //state for setting table data
-    // const [tabledata, setTabledata] = useState([])
+    const [tabledata, setTabledata] = useState([])
     const [column] = useState([
-        { headerName: "SlNo", field: "sec_id" },
-        { headerName: "Diet", field: "sec_name" },
-        { headerName: "Group Name", field: "dept_name" },
-        { headerName: "Item Name", field: "dept_sub_sect1" },
-        { headerName: "Days", field: "ouc_desc" },
-        { headerName: "Quantity", field: "status" },
-        { headerName: "Unit", field: "status" },
-        { headerName: "Hospital Rate", field: "status" },
-        { headerName: "Canteen Rate", field: "status" },
-        { headerName: "Order req", field: "status" },
+        { headerName: "SlNo", field: "dmenu_slno" },
+        { headerName: "Diet", field: "diet_name" },
+        { headerName: "Group Name", field: "group_name" },
+        { headerName: "Item Name", field: "item_name" },
+        { headerName: "Days", field: "days1" },
+        { headerName: "Quantity", field: "qty" },
+        { headerName: "Unit", field: "unit" },
+        { headerName: "Hospital Rate", field: "rate_hos" },
+        { headerName: "Canteen Rate", field: "rate_cant" },
+        { headerName: "Order req", field: "order_req" },
         { headerName: "Status", field: "status" },
-        { headerName: 'Action', cellRenderer: params => <EditButton /> },
+        { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])
-    // useEffect(() => {
-    //     const getDietType = async () => {
-    //         const result = await axioslogin.get(`/ratelist`)
-    //         const { success, data } = result.data
-    //         if (success === 1) {
-    //             setTabledata(data)
-    //         }
-    //         else {
-    //             warningNotify("Error occured in EDp")
-    //         }
-    //     }
-    //     getDietType();
-    // }, [count])
+    useEffect(() => {
+        const getDietType = async () => {
+            const result = await axioslogin.get(`/dietmenudtl`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setTabledata(data)
+            }
+            else {
+                warningNotify("Error occured in EDp")
+            }
+        }
+        getDietType();
+    }, [count])
     return (
         <CusAgGridMast
             columnDefs={column}
-        // tableData={tabledata}
+            tableData={tabledata}
         />
     )
 }

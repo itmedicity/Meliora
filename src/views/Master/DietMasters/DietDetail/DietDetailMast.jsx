@@ -10,7 +10,7 @@ import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import DietdetlTable from './DietdetlTable'
-
+import { useSelector } from 'react-redux'
 const DietDetailMast = () => {
     const history = useHistory();
     //state for table rendering
@@ -28,17 +28,21 @@ const DietDetailMast = () => {
         diet_dtslno: 0
     })
     //destructuring
-    const { status, em_id, diet_dtslno } = dietdetl
+    const { status, diet_dtslno } = dietdetl
     const updateDiettype = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setdietdetl({ ...dietdetl, [e.target.name]: value })
     }, [dietdetl])
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     useEffect(() => {
         if (diettype !== 0) {
             const getdate = async (diettype) => {
                 const result = await axioslogin.get(`/dietdetl/date/${diettype}`,)
                 const { data, success } = result.data;
-                if (success == 1) {
+                if (success === 1) {
                     const { start_time, end_time } = data[0]
 
                     setstatrt(moment(start_time).format(' HH: mm: ss'))
@@ -55,10 +59,10 @@ const DietDetailMast = () => {
             diet_slno: diet,
             type_slno: diettype,
             status: status === true ? 1 : 0,
-            em_id: 1,
+            em_id: id,
             diet_dtslno: diet_dtslno
         }
-    }, [diet, diettype, starttime, endtime, status, em_id, diet_dtslno])
+    }, [diet, diettype, status, diet_dtslno, id])
 
     //data set for edit  
     const rowSelect = useCallback((params) => {
@@ -85,10 +89,10 @@ const DietDetailMast = () => {
             diet_slno: diet,
             type_slno: diettype,
             status: status === true ? 1 : 0,
-            em_id: em_id,
+            em_id: id,
             diet_dtslno: diet_dtslno
         }
-    }, [diet, diettype, status, em_id, diet_dtslno])
+    }, [diet, diettype, status, diet_dtslno, id])
 
     /*** usecallback function for form submitting */
     const submitDiettype = useCallback((e) => {

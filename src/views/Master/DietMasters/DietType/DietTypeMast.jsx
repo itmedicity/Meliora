@@ -156,6 +156,7 @@ const DietTypeMast = () => {
                                             placeholder="Start time"
                                             type="datetime-local"
                                             size="sm"
+                                            //   min={new Date()}
                                             name="start_time"
                                             value={start_time}
                                             onchange={updateDiettype} />
@@ -166,6 +167,7 @@ const DietTypeMast = () => {
                                             placeholder="End time"
                                             type="datetime-local"
                                             size="sm"
+                                            min={start_time}
                                             name="end_time"
                                             value={end_time}
                                             onchange={updateDiettype} />

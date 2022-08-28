@@ -40,12 +40,11 @@ const UserCreation = React.lazy(() => import('./views/Master/UserCreation/UserCr
 const UserCreationTable = React.lazy(() => import('./views/Master/UserCreation/UserCreationTable'))
 const RoomCreation = React.lazy(() => import('./views/RoomManagement/Roomcreation/RoomCreation'))
 const SubRoomCreation = React.lazy(() => import('./views/RoomManagement/SubRoomCreation/SubRoomCreation'))
-const DietPlan = React.lazy(() => import('./views/Diet/DietPlan'))
 const DietMenuSetting = React.lazy(() => import('./views/Master/DietMasters/DietMenuSetting/DietMenuSetting'))
 const ItemGroup = React.lazy(() => import('./views/Master/DietMasters/ItemGroup/ItemGroupMast'))
 const ItemMaster = React.lazy(() => import('./views/Master/DietMasters/ItemMaster/ItemMaster'))
 const DietDetail = React.lazy(() => import('./views/Master/DietMasters/DietDetail/DietDetailMast'))
-
+const DietApproval = React.lazy(() => import('./views/NursingStation/DietApprovalList'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -89,11 +88,11 @@ const routes = [
   { path: '/Home/UserCreationTable', exact: true, name: 'User Creation Table', component: UserCreationTable },
   { path: '/Home/RoomCreation', exact: true, name: 'Room Creation', component: RoomCreation },
   { path: '/Home/SubRoomCreation', exact: true, name: ' Sub Room Creation', component: SubRoomCreation },
-  { path: '/Home/DietPlan', exact: true, name: 'Diet Plan', component: DietPlan },
   { path: '/Home/DietMenuSetting', exact: true, name: 'Diet Plan', component: DietMenuSetting },
   { path: '/Home/ItemGroup', exact: true, name: 'Item Group', component: ItemGroup },
   { path: '/Home/ItemMaster', exact: true, name: ' Item Master', component: ItemMaster },
-  { path: '/Home/DietDetail', exact: true, name: 'Diet Detail', component: DietDetail }
+  { path: '/Home/DietDetail', exact: true, name: 'Diet Detail', component: DietDetail },
+  { path: '/Home/DietApproval', exact: true, name: ' Diet Approval', component: DietApproval },
 
 ]
 

@@ -1,0 +1,212 @@
+import React, { Fragment, memo, useEffect, useState } from 'react'
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import { ToastContainer } from 'react-toastify';
+import { Box, Paper } from '@mui/material'
+import { Typography } from "@material-ui/core";
+import { useCallback } from 'react';
+import { useMemo } from 'react';
+import { axioslogin } from 'src/views/Axios/Axios'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { format } from 'date-fns'
+import { useSelector } from 'react-redux'
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="left" ref={ref} {...props} />;
+});
+
+const DietProcessModel = ({ open, handleClose, detail }) => {
+    const [count, setCount] = useState(0);
+    const [proces, setprocess] = useState({
+        plan_slno: 0,
+        pt_no: 0,
+        ptc_ptname: '',
+        diet_name: '',
+        plan_remark: '',
+        bd_code: 0,
+        discharge: '',
+        diet_slno: 0,
+        ip_no: 0
+    })
+    const { plan_slno, pt_no, ptc_ptname, diet_name, plan_remark, bd_code, discharge, diet_slno, ip_no } = proces
+
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
+    // const [menus, setmenus] = useState([])
+    useEffect(() => {
+        const destrufunction = () => {
+            const { plan_slno, pt_no, ptc_ptname, diet_name, plan_remark, diet_slno, discharge, bd_code, ip_no } = detail[0]
+            const frmdata = {
+                plan_slno: plan_slno,
+                pt_no: pt_no,
+                ptc_ptname: ptc_ptname,
+                diet_name: diet_name,
+                plan_remark: plan_remark,
+                discharge: discharge,
+                bd_code: bd_code,
+                diet_slno: diet_slno,
+                ip_no: ip_no
+            }
+            setprocess(frmdata)
+        }
+        destrufunction()
+        // if (diet_slno !== 0) {
+        //     const getdmenu = async () => {
+        //         const result = await axioslogin.get(`/dietprocess/dmenubyId/${diet_slno}`)
+        //         const { success, data } = result.data
+        //         if (success === 1) {
+        //             setmenus(data)
+        //         } else {
+        //             warningNotify("Error occured contact EDP")
+        //         }
+        //     }
+        //     getdmenu()
+        // }
+
+    }, [detail, diet_slno])
+
+    const postdata = useMemo(() => {
+        return {
+            plan_slno: plan_slno,
+            dmenu_slno: plan_slno,
+            ip_no: ip_no,
+            pt_no: pt_no,
+            diet_slno: diet_slno,
+            bd_code: bd_code,
+            process_date: format(new Date(), "yyyy-MM-dd hh-mm-ss"),
+            process_status: 1,
+            discharge_status: discharge === 'N' ? 1 : 0,
+            process: 1,
+            em_id: id
+        }
+    }, [plan_slno, ip_no, pt_no, diet_slno, bd_code, discharge, id])
+
+
+    const Process = useCallback((e) => {
+        e.preventDefault();
+        const InsertFun = async (postdata) => {
+            const result = await axioslogin.post('/dietprocess/insert', postdata);
+            const { message, success } = result.data;
+            if (success === 1) {
+                succesNotify(message)
+                setCount(count + 1);
+
+            } else if (success === 0) {
+                infoNotify(message);
+            }
+            else {
+                infoNotify(message)
+            }
+        }
+        InsertFun(postdata)
+
+    }, [postdata, count])
+
+    return (
+        <Fragment>
+            <ToastContainer />
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                TransitionComponent={Transition}
+                keepMounted
+                aria-describedby="alert-dialog-slide-descriptiona"
+            >
+                <DialogTitle>
+                    {"Diet Plan Process"}
+                </DialogTitle>
+                <DialogContent sx={{
+                    minWidth: 300,
+                    maxWidth: 600,
+                    width: 400,
+                }}>
+
+                    <Box sx={{ width: "100%" }}>
+                        <Paper square elevation={3}
+                            sx={{
+                                width: "100%", pr: 1,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-evenly",
+                                flexDirection: { xl: "column", lg: "column", md: "column", sm: 'column', xs: "column" },
+
+                            }}
+                        >
+
+                            <Box sx={{ display: "flex", width: "100%" }}>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography>Plan SlNo</Typography>
+                                </Box>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography>:</Typography>
+                                </Box>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography> {plan_slno}</Typography>
+                                </Box>
+                            </Box>
+
+                            <Box sx={{ display: "flex", width: "100%" }}>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography>  Patient Id</Typography>
+                                </Box>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography>:</Typography>
+                                </Box>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography>  {pt_no}</Typography>
+                                </Box>
+                            </Box>
+
+                            <Box sx={{ display: "flex", width: "100%" }}>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography >Patient Name</Typography>
+                                </Box>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography>:</Typography>
+                                </Box>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography> {ptc_ptname}</Typography>
+                                </Box>
+                            </Box>
+                            <Box sx={{ display: "flex", width: "100%" }}>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography >Diet</Typography>
+                                </Box>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography>:</Typography>
+                                </Box>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography> {diet_name}</Typography>
+                                </Box>
+                            </Box>
+                            <Box sx={{ display: "flex", width: "100%" }}>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography >Remarks</Typography>
+                                </Box>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography>:</Typography>
+                                </Box>
+                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
+                                    <Typography> {plan_remark}</Typography>
+                                </Box>
+                            </Box>
+                        </Paper>
+                    </Box>
+
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={Process} color="secondary" >Process</Button>
+                    <Button onClick={handleClose} color="secondary" >Cancel</Button>
+                </DialogActions>
+            </Dialog>
+
+        </Fragment>
+    )
+}
+
+export default memo(DietProcessModel)
