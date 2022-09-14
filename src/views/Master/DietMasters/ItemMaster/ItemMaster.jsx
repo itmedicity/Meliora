@@ -109,6 +109,7 @@ const ItemMaster = () => {
                 succesNotify(message)
                 setCount(count + 1);
                 setItem(formreset);
+                setgrpslno(0)
             } else if (success === 0) {
                 infoNotify(message);
             }
