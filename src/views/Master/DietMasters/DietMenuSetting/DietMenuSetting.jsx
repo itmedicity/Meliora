@@ -1,10 +1,9 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { Box, Grid } from '@mui/material'
+import { Box, Grid, IconButton } from '@mui/material'
 import { useHistory } from 'react-router-dom';
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import SelectDiet from 'src/views/CommonSelectCode/SelectDiet';
-import DietMenuSettingTable from './DietMenuSettingTable';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -12,12 +11,14 @@ import MenuItem from "@mui/material/MenuItem";
 import SelectItemmaster from 'src/views/CommonSelectCode/SelectItemmaster';
 import ItemgrpSelect from 'src/views/CommonSelectCode/ItemgrpSelect'
 import SelectDietType from 'src/views/CommonSelectCode/SelectDietType';
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { axioslogin } from 'src/views/Axios/Axios';
+import { MdOutlineAddCircleOutline } from 'react-icons/md';
+import DietMenuSettCmp from './DietMenuSettCmp';
 import { useSelector } from 'react-redux'
+
 const DietMenuSetting = () => {
     const history = useHistory();
-    const [edit, setEdit] = useState(0)
     //state for select boxes 
     const [diet, setDiet] = useState(0);
     const [item, setItem] = useState(0);
@@ -25,6 +26,7 @@ const DietMenuSetting = () => {
     const [type, setType] = useState(0);
     const [day, setDay] = useState(0);
     const [count, setCount] = useState(0);
+    const [dataPost, setdataPost] = useState([])
     const [dietmenu, setDietmenu] = useState({
         order_req: false,
         status: false,
@@ -32,10 +34,9 @@ const DietMenuSetting = () => {
         unit: '',
         rate_hos: '',
         rate_cant: '',
-        dmenu_slno: ''
     })
     //destructuring
-    const { order_req, status, qty, unit, rate_hos, rate_cant, dmenu_slno } = dietmenu
+    const { order_req, status, qty, unit, rate_hos, rate_cant } = dietmenu
     const updateDietmenu = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setDietmenu({ ...dietmenu, [e.target.name]: value })
@@ -44,60 +45,7 @@ const DietMenuSetting = () => {
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
-    //data for insert
-    const postdata = useMemo(() => {
-        return {
-            diet_slno: diet,
-            grp_slno: group,
-            item_slno: item,
-            type_slno: type,
-            days: day,
-            qty: qty,
-            unit: unit,
-            rate_hos: rate_hos,
-            rate_cant: rate_cant,
-            em_id: id,
-            status: status === true ? 1 : 0,
-            order_req: order_req === true ? 1 : 0
-        }
-    }, [diet, group, item, type, day, qty, unit, rate_hos, rate_cant, status, order_req, id])
-    const rowSelect = useCallback((params) => {
-        setEdit(1);
-        const data = params.api.getSelectedRows();
-        const { grp_slno, item_slno, type_slno, days, qty, unit, rate_hos, rate_cant, status, diet_slno, order_req, dmenu_slno } = data[0]
-        const frmdata = {
-            dmenu_slno: dmenu_slno,
-            qty: qty,
-            unit: unit,
-            rate_hos: rate_hos,
-            rate_cant: rate_cant,
-            status: status === 1 ? true : false,
-            order_req: order_req === 1 ? true : false
-        }
-        setDietmenu(frmdata)
-        setGroup(grp_slno)
-        setItem(item_slno)
-        setType(type_slno)
-        setDay(days)
-        setDiet(diet_slno)
-    }, [])
-    const patchdata = useMemo(() => {
-        return {
-            diet_slno: diet,
-            grp_slno: group,
-            item_slno: item,
-            type_slno: type,
-            days: day,
-            qty: qty,
-            unit: unit,
-            rate_hos: rate_hos,
-            rate_cant: rate_cant,
-            em_id: id,
-            status: status === true ? 1 : 0,
-            order_req: order_req === true ? 1 : 0,
-            dmenu_slno: dmenu_slno
-        }
-    }, [diet, group, item, type, day, qty, unit, rate_hos, rate_cant, status, order_req, dmenu_slno, id])
+
     const reset = () => {
         setDiet(0);
         setItem(0);
@@ -105,6 +53,69 @@ const DietMenuSetting = () => {
         setType(0);
         setDay(0)
     }
+    //Refresh function
+    const refreshWindow = useCallback(() => {
+        const formReset = {
+            order_req: false,
+            status: false,
+            qty: '',
+            unit: '',
+            rate_hos: '',
+            rate_cant: '',
+            dmenu_slno: ''
+        }
+        setDietmenu(formReset)
+        reset()
+    }, [])
+    //Click add button data store in an array and then insert to dmenu setting detail table
+    const AddMenu = () => {
+        if ((diet !== 0) && (group !== 0) && (item !== 0) && (type !== 0) && (day !== 0)) {
+            const newdata = {
+                id: Math.ceil(Math.random() * 1000),
+                diet_slno: diet,
+                grp_slno: group,
+                item_slno: item,
+                type_slno: type,
+                days: day,
+                qty: qty,
+                unit: unit,
+                rate_hos: rate_hos,
+                rate_cant: rate_cant,
+                em_id: id,
+                status: status === true ? 1 : 0,
+                order_req: order_req === true ? 1 : 0
+            }
+            const datass = [...dataPost, newdata]
+            if (dataPost.length !== 0) {
+                if ((dataPost[0].diet_slno === diet) && (dataPost[0].order_req === newdata.order_req) && (dataPost[0].status === 1)) {
+                    setdataPost(datass)
+                }
+                else {
+                    warningNotify("Please Select Same Diet")
+                }
+            }
+            else {
+                setdataPost(datass)
+            }
+            refreshWindow()
+        }
+        else {
+            warningNotify("Please Select All datas")
+        }
+    }
+    //Insert data for dmenu setting table
+    const dmenuPost = useMemo(() => {
+        if (dataPost.length !== 0) {
+            const { diet_slno, order_req, status } = dataPost[0]
+            return {
+                diet_slno: diet_slno,
+                order_req: order_req,
+                status: status,
+                em_id: id
+            }
+        }
+    }, [dataPost, id])
+
     /*** usecallback function for form submitting */
     const submitDiettype = useCallback((e) => {
         e.preventDefault();
@@ -118,63 +129,49 @@ const DietMenuSetting = () => {
             dmenu_slno: ''
         }
         /*** * insert function for use call back     */
-        const InsertData = async (postdata) => {
-            const result = await axioslogin.post(`/dietmenudtl`, postdata)
-            const { message, success } = result.data;
+        const InsertData = async (dmenuPost) => {
+            const result = await axioslogin.post(`/dietmenudtl/dmenu`, dmenuPost)
+            const { success, insetid } = result.data;
             if (success === 1) {
-                succesNotify(message)
-                setCount(count + 1)
-                setDietmenu(formReset)
-                reset();
-            } else if (success === 0) {
-                infoNotify(message)
+                const postMenuDetal = dataPost && dataPost.map((val) => {
+                    return {
+                        dmenu_slno: insetid,
+                        grp_slno: val.grp_slno,
+                        item_slno: val.item_slno,
+                        type_slno: val.type_slno,
+                        days: val.days,
+                        qty: val.qty,
+                        unit: val.unit,
+                        rate_hos: val.rate_hos,
+                        rate_cant: val.rate_cant,
+                        em_id: id,
+                        status: val.status
+                    }
+                })
+                const result = await axioslogin.post(`/dietmenudtl/detailInsert`, postMenuDetal)
+                const { message, success } = result.data;
+                if (success === 1) {
+                    succesNotify(message)
+                    setCount(count + 1)
+                    setDietmenu(formReset)
+                    reset();
+                }
+                else if (success === 0) {
+                    infoNotify(message)
+                }
+                else {
+                    infoNotify(message)
+                }
             }
-            else {
-                infoNotify(message)
-            }
         }
-        // /***  * update function for use call back     */
-        const updateData = async (patchdata) => {
-            const result = await axioslogin.patch('/dietmenudtl/update', patchdata)
-            const { message, success } = result.data;
-            if (success === 1) {
-                succesNotify(message)
-                setCount(count + 1)
-                setEdit(0)
-                setDietmenu(formReset);
-                reset();
-            } else if (success === 0) {
-                infoNotify(message)
-            } else {
-                infoNotify(message)
-            }
-        }
-        if (edit === 0) {
-            InsertData(postdata)
-        }
-        else {
-            updateData(patchdata)
-        }
-    }, [postdata, count, edit, patchdata])
-    //Refresh function
-    const refreshWindow = useCallback(() => {
-        const formReset = {
-            order_req: false,
-            status: false,
-            qty: '',
-            unit: '',
-            rate_hos: '',
-            rate_cant: '',
-            dmenu_slno: ''
-        }
-        setDietmenu(formReset)
-        setEdit(0)
-        reset()
-    }, [])
+        InsertData(dmenuPost)
+    }, [count, dmenuPost, dataPost, id])
+
     //Close function
     const backToSettings = useCallback(() => {
         history.push(`/Home/Settings`)
     }, [history])
+
     return (
         <CardMaster
             title="Diet Menu Setting"
@@ -191,12 +188,6 @@ const DietMenuSetting = () => {
                             </Grid>
                             <Grid item xl={12} lg={12} >
                                 <SelectDietType value={type} setValue={setType} />
-                            </Grid>
-                            <Grid item xl={12} lg={12} >
-                                <ItemgrpSelect value={group} setValue={setGroup} />
-                            </Grid>
-                            <Grid item xl={12} lg={12} >
-                                <SelectItemmaster value={item} setValue={setItem} />
                             </Grid>
                             <Grid item xl={12} lg={12}>
                                 <Box sx={{}} >
@@ -222,6 +213,12 @@ const DietMenuSetting = () => {
                                         </Select>
                                     </FormControl>
                                 </Box >
+                            </Grid>
+                            <Grid item xl={12} lg={12} >
+                                <ItemgrpSelect value={group} setValue={setGroup} />
+                            </Grid>
+                            <Grid item xl={12} lg={12} >
+                                <SelectItemmaster value={item} setValue={setItem} />
                             </Grid>
                             <Grid item xl={6} lg={6}>
                                 <TextFieldCustom
@@ -265,15 +262,25 @@ const DietMenuSetting = () => {
                                 />
                             </Grid>
                             <Grid item xl={12} lg={12}>
-                                <CusCheckBox
-                                    label="Order request"
-                                    color="primary"
-                                    size="md"
-                                    name="order_req"
-                                    value={order_req}
-                                    checked={order_req}
-                                    onCheked={updateDietmenu}
-                                />
+                                <Grid container spacing={1}>
+                                    <Grid item xl={6} lg={6}>
+                                        <CusCheckBox
+                                            label="Order request"
+                                            color="primary"
+                                            size="md"
+                                            name="order_req"
+                                            value={order_req}
+                                            checked={order_req}
+                                            onCheked={updateDietmenu}
+                                        />
+                                    </Grid>
+                                    <Grid item xl={6} lg={6}>
+
+                                        <IconButton variant="outlined" size='sm' color="primary" onClick={AddMenu}>
+                                            <MdOutlineAddCircleOutline />
+                                        </IconButton>
+                                    </Grid>
+                                </Grid>
                             </Grid>
                             <Grid item xl={12} lg={12}>
                                 <CusCheckBox
@@ -289,11 +296,12 @@ const DietMenuSetting = () => {
                         </Grid>
                     </Grid>
                     <Grid item xl={9} lg={9}>
-                        <DietMenuSettingTable rowSelect={rowSelect} count={count} />
+                        <DietMenuSettCmp dataPost={dataPost} />
                     </Grid>
                 </Grid>
             </Box>
-        </CardMaster>
+        </CardMaster >
     )
 }
+
 export default DietMenuSetting

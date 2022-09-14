@@ -100,6 +100,7 @@ const routes = [
   { path: '/Home/DietOrderList', exact: true, name: ' Diet Order List', component: DietOrderList },
   { path: '/Home/DietExtraOrder', exact: true, name: ' Diet Extra Order', component: DietExtraOrder }
 
+
 ]
 
 export default routes
