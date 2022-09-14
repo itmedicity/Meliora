@@ -14,10 +14,9 @@ import ItemgrpSelect from 'src/views/CommonSelectCode/ItemgrpSelect'
 import SelectDietType from 'src/views/CommonSelectCode/SelectDietType';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 import { axioslogin } from 'src/views/Axios/Axios';
+import { useSelector } from 'react-redux'
 const DietMenuSetting = () => {
     const history = useHistory();
-    // const [count, setCount] = useState(0);
-    // const [value, setValue] = useState(0);
     const [edit, setEdit] = useState(0)
     //state for select boxes 
     const [diet, setDiet] = useState(0);
@@ -26,7 +25,6 @@ const DietMenuSetting = () => {
     const [type, setType] = useState(0);
     const [day, setDay] = useState(0);
     const [count, setCount] = useState(0);
-
     const [dietmenu, setDietmenu] = useState({
         order_req: false,
         status: false,
@@ -42,6 +40,10 @@ const DietMenuSetting = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setDietmenu({ ...dietmenu, [e.target.name]: value })
     }, [dietmenu])
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     //data for insert
     const postdata = useMemo(() => {
         return {
@@ -54,16 +56,14 @@ const DietMenuSetting = () => {
             unit: unit,
             rate_hos: rate_hos,
             rate_cant: rate_cant,
-            em_id: 1,
+            em_id: id,
             status: status === true ? 1 : 0,
             order_req: order_req === true ? 1 : 0
         }
-    }, [diet, group, item, type, day, qty, unit, rate_hos, rate_cant, status, order_req])
-    console.log(postdata);
+    }, [diet, group, item, type, day, qty, unit, rate_hos, rate_cant, status, order_req, id])
     const rowSelect = useCallback((params) => {
         setEdit(1);
         const data = params.api.getSelectedRows();
-        console.log(data);
         const { grp_slno, item_slno, type_slno, days, qty, unit, rate_hos, rate_cant, status, diet_slno, order_req, dmenu_slno } = data[0]
         const frmdata = {
             dmenu_slno: dmenu_slno,
@@ -74,7 +74,6 @@ const DietMenuSetting = () => {
             status: status === 1 ? true : false,
             order_req: order_req === 1 ? true : false
         }
-        console.log(dmenu_slno);
         setDietmenu(frmdata)
         setGroup(grp_slno)
         setItem(item_slno)
@@ -93,13 +92,12 @@ const DietMenuSetting = () => {
             unit: unit,
             rate_hos: rate_hos,
             rate_cant: rate_cant,
-            em_id: 1,
+            em_id: id,
             status: status === true ? 1 : 0,
             order_req: order_req === true ? 1 : 0,
             dmenu_slno: dmenu_slno
         }
-    }, [diet, group, item, type, day, qty, unit, rate_hos, rate_cant, status, order_req, dmenu_slno])
-    console.log(patchdata);
+    }, [diet, group, item, type, day, qty, unit, rate_hos, rate_cant, status, order_req, dmenu_slno, id])
     const reset = () => {
         setDiet(0);
         setItem(0);
@@ -137,16 +135,16 @@ const DietMenuSetting = () => {
         }
         // /***  * update function for use call back     */
         const updateData = async (patchdata) => {
-            const result = await axioslogin.patch('/dietmenudtl', patchdata)
+            const result = await axioslogin.patch('/dietmenudtl/update', patchdata)
             const { message, success } = result.data;
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1)
                 setEdit(0)
                 setDietmenu(formReset);
+                reset();
             } else if (success === 0) {
                 infoNotify(message)
-
             } else {
                 infoNotify(message)
             }
@@ -173,7 +171,6 @@ const DietMenuSetting = () => {
         setEdit(0)
         reset()
     }, [])
-
     //Close function
     const backToSettings = useCallback(() => {
         history.push(`/Home/Settings`)
@@ -193,17 +190,14 @@ const DietMenuSetting = () => {
                                 <SelectDiet value={diet} setValue={setDiet} />
                             </Grid>
                             <Grid item xl={12} lg={12} >
+                                <SelectDietType value={type} setValue={setType} />
+                            </Grid>
+                            <Grid item xl={12} lg={12} >
                                 <ItemgrpSelect value={group} setValue={setGroup} />
                             </Grid>
                             <Grid item xl={12} lg={12} >
                                 <SelectItemmaster value={item} setValue={setItem} />
                             </Grid>
-                            <Grid item xl={12} lg={12} >
-                                <SelectDietType value={type} setValue={setType} />
-                            </Grid>
-                            {/* <Grid item xl={12} lg={12} >
-                                <Test />
-                            </Grid> */}
                             <Grid item xl={12} lg={12}>
                                 <Box sx={{}} >
                                     <FormControl fullWidth size="small"  >
@@ -218,13 +212,13 @@ const DietMenuSetting = () => {
                                             sx={{ height: 24, p: 0, m: 0, lineHeight: 1.200 }}
                                         >
                                             <MenuItem value={0} disabled  >Select Days</MenuItem>
-                                            <MenuItem value={1}  >Sunday</MenuItem>
-                                            <MenuItem value={2}  >Monday</MenuItem>
-                                            <MenuItem value={3}  >Tuesday</MenuItem>
-                                            <MenuItem value={4}  >Wednesday</MenuItem>
-                                            <MenuItem value={5}  >Thursday</MenuItem>
-                                            <MenuItem value={6}  >Friday</MenuItem>
-                                            <MenuItem value={7}  >Saturday</MenuItem>
+                                            <MenuItem value={1}  >Monday</MenuItem>
+                                            <MenuItem value={2}  >Tuesday</MenuItem>
+                                            <MenuItem value={3}  >Wednesday</MenuItem>
+                                            <MenuItem value={4}  >Thursday</MenuItem>
+                                            <MenuItem value={5}  >Friday</MenuItem>
+                                            <MenuItem value={6}  >Saturday</MenuItem>
+                                            <MenuItem value={7}  >Sunday</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Box >
@@ -299,9 +293,7 @@ const DietMenuSetting = () => {
                     </Grid>
                 </Grid>
             </Box>
-
         </CardMaster>
     )
 }
-
 export default DietMenuSetting

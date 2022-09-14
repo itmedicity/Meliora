@@ -9,6 +9,7 @@ const DietMenuSettingTable = ({ count, rowSelect }) => {
     const [column] = useState([
         { headerName: "SlNo", field: "dmenu_slno" },
         { headerName: "Diet", field: "diet_name" },
+        { headerName: "Diet Type", field: "type_desc" },
         { headerName: "Group Name", field: "group_name" },
         { headerName: "Item Name", field: "item_name" },
         { headerName: "Days", field: "days1" },
@@ -16,8 +17,8 @@ const DietMenuSettingTable = ({ count, rowSelect }) => {
         { headerName: "Unit", field: "unit" },
         { headerName: "Hospital Rate", field: "rate_hos" },
         { headerName: "Canteen Rate", field: "rate_cant" },
-        { headerName: "Order req", field: "order_req" },
-        { headerName: "Status", field: "status" },
+        { headerName: "Order req", field: "order_req1" },
+        { headerName: "Status", field: "status1" },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])
     useEffect(() => {
