@@ -15,21 +15,23 @@ const DietProcessDashCmp = () => {
     const [depand, setDepand] = useState(0)
 
     useEffect(() => {
+        //Get dashboard process list count
         const getprocesscount = async () => {
             const result = await axioslogin.get('/common/getproceedcount')
             const { succes, dataa } = result.data
             if (succes === 1) {
-                const { dietprocess } = dataa[0]
-                setProcess(dietprocess)
+                const { processcount } = dataa[0]
+                setProcess(processcount)
             }
             else {
                 warningNotify("Error occured contact EDP")
             }
+            //Get dashboard new order list count
             const result1 = await axioslogin.get('/common/getNewOrderCount')
             const { success, data } = result1.data
             if (success === 1) {
-                const { dietprocess } = data[0]
-                setNewOrder(dietprocess)
+                const { neworder } = data[0]
+                setNewOrder(neworder)
             }
             else {
                 warningNotify("Error occured contact EDP")
@@ -55,7 +57,6 @@ const DietProcessDashCmp = () => {
             gap: 2,
             flexWrap: 'wrap',
             width: "100%",
-            backgroundColor: "red"
         }}>
             <Paper elevation={3} sx={{
                 width: "100%",
@@ -160,8 +161,8 @@ const DietProcessDashCmp = () => {
                 flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                 justifyContent: 'space-evenly',
             }} >
-                {proTable === 1 ? <DietprocessTable depand={depand} /> : null}
-                {newordrTable === 1 ? <DietprocessTable depand={depand} /> : null}
+                {proTable === 1 ? <DietprocessTable depand={depand} setDepand={setDepand} /> : null}
+                {newordrTable === 1 ? <DietprocessTable depand={depand} setDepand={setDepand} /> : null}
             </Paper>
 
 
