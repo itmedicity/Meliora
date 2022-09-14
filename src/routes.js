@@ -94,6 +94,7 @@ const routes = [
   { path: '/Home/DietDetail', exact: true, name: 'Diet Detail', component: DietDetail },
   { path: '/Home/DietApproval', exact: true, name: ' Diet Approval', component: DietApproval },
 
+
 ]
 
 export default routes
