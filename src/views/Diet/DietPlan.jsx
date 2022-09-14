@@ -51,22 +51,12 @@ const DietPlan = ({ open, data, setOpen }) => {
     /*** usecallback function for form submitting */
     const submitDietplan = useCallback((e) => {
         e.preventDefault();
-        // const formReset = {
-        //     order_req: false,
-        //     status: false,
-        //     qty: '',
-        //     unit: '',
-        //     rate_hos: '',
-        //     rate_cant: '',
-        //     dmenu_slno: ''
-        // }
         /*** * insert function for use call back     */
         const InsertData = async (postdata) => {
             const result = await axioslogin.post(`/dietplan/insert`, postdata)
             const { message, success } = result.data;
             if (success === 1) {
                 succesNotify(message)
-                // setCount(count + 1)
                 reset();
             } else if (success === 0) {
                 infoNotify(message)
@@ -75,32 +65,10 @@ const DietPlan = ({ open, data, setOpen }) => {
                 infoNotify(message)
             }
         }
-        // /***  * update function for use call back     */
-        // const updateData = async (patchdata) => {
-        //     const result = await axioslogin.patch('/dietmenudtl', patchdata)
-        //     const { message, success } = result.data;
-        //     if (success === 1) {
-        //         succesNotify(message)
-        //         setCount(count + 1)
-        //         setEdit(0)
-        //         setDietmenu(formReset);
-        //     } else if (success === 0) {
-        //         infoNotify(message)
-
-        //     } else {
-        //         infoNotify(message)
-        //     }
-        // }
-        // if (edit === 0) {
-        //     InsertData(postdata)
-        // }
-        // else {
-        //     updateData(patchdata)
-        // }
-        if (diet === !0) {
-            InsertData(postdata)
-        } else {
+        if (diet === 0) {
             infoNotify("Please Choose Diet")
+        } else {
+            InsertData(postdata)
         }
     }, [postdata, diet, reset])
     return (
