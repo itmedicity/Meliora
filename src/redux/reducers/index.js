@@ -29,7 +29,7 @@ import { getDiettype } from './DietType.Reducer'
 import { getOutlet } from './OutletOra.Reducer'
 import { getItem } from './ItemMaster.Reducer'
 import { getitemGrpName } from './Itemgroup.Reducer'
-
+import { getNusringStation } from './NursingStation.Reducer'
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -60,6 +60,7 @@ const reducer = combineReducers({
     getDiettype,
     getOutlet,
     getItem,
-    getitemGrpName
+    getitemGrpName,
+    getNusringStation
 })
 export default reducer;

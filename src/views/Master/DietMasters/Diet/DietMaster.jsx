@@ -26,7 +26,6 @@ const DietMaster = () => {
     })
     //object Destructuring  
     const { diet_name, diet_status, order_req, diet_type_choose, diet_slno } = diet;
-
     const updateDiet = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setDiet({ ...diet, [e.target.name]: value })
@@ -46,7 +45,6 @@ const DietMaster = () => {
             em_id: id
         }
     }, [diet_name, diet_status, order_req, diet_type_choose, id])
-    console.log(postData);
     //Data set to textfields for editing
     const rowSelect = useCallback((params) => {
         setValue(1)

@@ -44,7 +44,10 @@ const DietMenuSetting = React.lazy(() => import('./views/Master/DietMasters/Diet
 const ItemGroup = React.lazy(() => import('./views/Master/DietMasters/ItemGroup/ItemGroupMast'))
 const ItemMaster = React.lazy(() => import('./views/Master/DietMasters/ItemMaster/ItemMaster'))
 const DietDetail = React.lazy(() => import('./views/Master/DietMasters/DietDetail/DietDetailMast'))
-const DietApproval = React.lazy(() => import('./views/NursingStation/DietApprovalList'))
+const DietApproval = React.lazy(() => import('./views/NursingStation/DietApprovalList'));
+const DietPlanList = React.lazy(() => import('./views/NursingStation/DietPlanList'));
+const DietOrderList = React.lazy(() => import('./views/Diet/DietOrderList'));
+const DietExtraOrder = React.lazy(() => import('./views/Diet/ExtraOrder'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -93,6 +96,9 @@ const routes = [
   { path: '/Home/ItemMaster', exact: true, name: ' Item Master', component: ItemMaster },
   { path: '/Home/DietDetail', exact: true, name: 'Diet Detail', component: DietDetail },
   { path: '/Home/DietApproval', exact: true, name: ' Diet Approval', component: DietApproval },
+  { path: '/Home/DietPlanList', exact: true, name: ' Diet Approval', component: DietPlanList },
+  { path: '/Home/DietOrderList', exact: true, name: ' Diet Order List', component: DietOrderList },
+  { path: '/Home/DietExtraOrder', exact: true, name: ' Diet Extra Order', component: DietExtraOrder }
 
 
 ]

@@ -13,6 +13,12 @@ const NurseStation = [
         name: 'Diet Approval',
         to: '/Home/DietApproval',
     },
+    {
+        men_slno: 58,
+        component: CNavItem,
+        name: 'Diet Plan List',
+        to: '/Home/DietPlanList',
+    },
 
 ]
 

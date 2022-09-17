@@ -1,64 +1,94 @@
-import React, { Fragment, useCallback, useState, memo } from 'react'
+import React, { Fragment, useCallback, useState, memo, useMemo } from 'react'
 import Slide from '@mui/material/Slide';
 import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { Box, Grid, Paper } from '@mui/material'
+import { Box, Grid, Paper, Typography } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import TextFieldCustom from '../Components/TextFieldCustom';
+// import TextFieldCustom from '../Components/TextFieldCustom';
 import CusCheckBox from '../Components/CusCheckBox';
 import SelectDiet from '../CommonSelectCode/SelectDiet';
-import CustomTextarea from '../Components/CustomTextarea';
+import { format } from 'date-fns'
+import { infoNotify, succesNotify } from '../Common/CommonCode';
+import { axioslogin } from '../Axios/Axios';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
-const DietApprovalModel = ({ open, setOpen, data }) => {
-    const { pt_no, ptc_ptname, dietpt_slno, plan_remark } = data
-    const [approve, updateaproves] = useState(false)
-    const [dietplan, updateDietplan] = useState(false)
-    const [ab, setAb] = useState(0);
+const DietApprovalModel = ({ open, setOpen, data, count, setCount }) => {
+    // destructuring props and set in typography
+    const { pt_no, ptc_ptname, dietpt_slno, plan_remark, plan_slno, bdc_no, diet_name, diet_slno } = data
+    //state for check boxes
+    const [approve, updateaproves] = useState(false);
+    const [dietplan, updateDietplan] = useState(false);
+    //state for diet select box display
     const [bc, setBc] = useState(0);
+    //state for diet select box
     const [value, setValue] = useState(0);
-    const [remark, setRemark] = useState("");
-    const updateremark = useCallback((e) => {
-        const value = e.target.value;
-        setRemark(value)
-    }, [])
+    //function for checkboxes
     const checkapprove = useCallback((e) => {
         if (e.target.checked === true) {
             updateaproves(true)
-            setAb(1)
             setBc(0)
             updateDietplan(false)
         } else {
             updateaproves(false)
-            setAb(0)
             setBc(0)
         }
     }, [])
+    //function for checkboxes
     const checkdietplan = useCallback((e) => {
         if (e.target.checked === true) {
             updateDietplan(true)
             updateaproves(false)
             setBc(1)
-            setAb(0)
         } else {
             updateDietplan(false)
             setBc(0)
-            setAb(0)
         }
     }, [])
-    const Close = () => {
+    // reset 
+    const Close = useCallback(() => {
         setOpen(false)
-    }
-    // const postdata = useMemo(() => {
-    //     return {
-    //         plan_status: 1,
-    //         plan_appr_time: format(new Date(), 'yyy-MM-dd hh:mm:ss')
-    //     }
-    // }, [])
+        updateDietplan(false)
+        updateaproves(false)
+        setBc(0)
+        setValue(0)
+    }, [setOpen])
+    //data setting
+    const postdata = useMemo(() => {
+        return {
+            diet_slno: approve === true ? diet_slno : value, // on approve click set current diet if any change in diet  set new value
+            plan_appr_time: format(new Date(), 'yyy-MM-dd hh:mm:ss'),
+            plan_status: 1,
+            process: 1,
+            plan_slno: plan_slno
+        }
+    }, [value, plan_slno, diet_slno, approve])
+    //by saving it will update  paln status 1
+    const submit = useCallback((e) => {
+        e.preventDefault();
+        const InsertFun = async (postdata) => {
+            const result = await axioslogin.patch('/dietplan/approval', postdata)
+            const { message, success } = result.data;
+            if (success === 1) {
+                succesNotify(message);
+                setCount(count + 1)
+                Close();
+            } else if (success === 0) {
+                infoNotify(message);
+            }
+            else {
+                infoNotify(message)
+            }
+        }
+        if (approve === true || dietplan === true) {
+            InsertFun(postdata)
+        } else {
+            infoNotify("Please Approve")
+        }
+    }, [postdata, count, setCount, Close, approve, dietplan])
     return (
         <Fragment>
             <ToastContainer />
@@ -73,56 +103,52 @@ const DietApprovalModel = ({ open, setOpen, data }) => {
                     < DialogContent id="alert-dialog-slide-descriptiona"
                         sx={{
                             width: 600,
-                            height: 400
+                            height: 470
                         }}
                     >
                         < DialogContentText id="alert-dialog-slide-descriptiona">
                             Diet Approval
                         </DialogContentText>
-                        <Box sx={{ width: "100%", display: "flex", height: 340, p: 1 }} >
-                            <Paper square elevation={3} sx={{ width: "100%" }}  >
-                                <Box sx={{ width: "100%", display: "flex", flexDirection: 'row', justifyContent: "space-between", p: 1, height: "100%" }}>
-
+                        <Box sx={{ width: "100%", height: "100%", display: "flex", p: 1 }}>
+                            <Paper square elevation={3} sx={{ width: "100%", height: "100%" }}>
+                                <Box sx={{ p: 4 }}>
                                     <Grid item xl={12} lg={12}>
                                         <Grid container spacing={2}>
-                                            <Grid item xl={4} lg={4}>
-                                                <TextFieldCustom
-                                                    type="text"
-                                                    size="sm"
-                                                    value={dietpt_slno}
-                                                    disabled
-                                                />
+                                            <Grid item xl={6} lg={6} >
+                                                <Typography>Diet Number:</Typography>
                                             </Grid>
-                                            <Grid item xl={4} lg={4}>
-                                                <TextFieldCustom
-                                                    type="text"
-                                                    size="sm"
-                                                    value={pt_no}
-                                                    disabled
-                                                />
+                                            <Grid item xl={6} lg={6} >
+                                                <Typography>{dietpt_slno}</Typography>
                                             </Grid>
-                                            <Grid item xl={4} lg={4}>
-                                                <TextFieldCustom
-                                                    type="text"
-                                                    size="sm"
-                                                    value={ptc_ptname}
-                                                    disabled
-                                                />
+                                            <Grid item xl={6} lg={6} >
+                                                <Typography>Patient No:</Typography>
                                             </Grid>
-                                            <Grid item xl={12} lg={12}>
-                                                <TextFieldCustom
-                                                    placeholder="Remarks"
-                                                    type="text"
-                                                    size="sm"
-                                                    value={plan_remark}
-                                                    disabled
-                                                />
-                                                {/* <CustomTextarea
-                                                    minRows={3}
-                                                    placeholder="Remarks"
-                                                    style={{ width: 500, mt: 2 }}
-                                                /> */}
-
+                                            <Grid item xl={6} lg={6} >
+                                                <Typography>{pt_no}</Typography>
+                                            </Grid>
+                                            <Grid item xl={6} lg={6} >
+                                                <Typography>Patient Name:</Typography>
+                                            </Grid>
+                                            <Grid item xl={6} lg={6} >
+                                                <Typography>{ptc_ptname}</Typography>
+                                            </Grid>
+                                            <Grid item xl={6} lg={6} >
+                                                <Typography>Bed</Typography>
+                                            </Grid>
+                                            <Grid item xl={6} lg={6} >
+                                                <Typography>{bdc_no}</Typography>
+                                            </Grid>
+                                            <Grid item xl={6} lg={6} >
+                                                <Typography>Diet</Typography>
+                                            </Grid>
+                                            <Grid item xl={6} lg={6} >
+                                                <Typography>{diet_name}</Typography>
+                                            </Grid>
+                                            <Grid item xl={6} lg={6} >
+                                                <Typography>Remarks</Typography>
+                                            </Grid>
+                                            <Grid item xl={6} lg={6} >
+                                                <Typography>{plan_remark}</Typography>
                                             </Grid>
                                             <Grid item xl={6} lg={6}>
                                                 <CusCheckBox
@@ -148,32 +174,9 @@ const DietApprovalModel = ({ open, setOpen, data }) => {
                                             </Grid>
                                             <Grid item xl={6} lg={6}>
                                                 {
-                                                    ab === 1 ?
-                                                        <CustomTextarea
-                                                            minRows={4}
-                                                            placeholder="Remarks"
-                                                            style={{ width: 520 }}
-                                                            onchange={updateremark}
-                                                            value={remark}
-                                                        />
-                                                        : null
-                                                }
-                                                {
                                                     bc === 1 ?
                                                         <SelectDiet value={value} setValue={setValue} /> : null
                                                 }
-                                                < Box sx={{ mt: 1.2 }}>
-                                                    {
-                                                        bc === 1 ?
-                                                            <CustomTextarea
-                                                                minRows={4}
-                                                                placeholder="Remarks"
-                                                                style={{ width: 520, mt: 1 }}
-                                                            />
-
-                                                            : null
-                                                    }
-                                                </Box>
                                             </Grid>
                                         </Grid>
                                     </Grid>
@@ -182,7 +185,7 @@ const DietApprovalModel = ({ open, setOpen, data }) => {
                         </Box>
                     </DialogContent>
                     <DialogActions>
-                        <Button color="secondary" >Save</Button>
+                        <Button color="secondary" onClick={submit} >Save</Button>
                         <Button onClick={Close} color="secondary" >Cancel</Button>
                     </DialogActions>
                 </Dialog>
@@ -191,5 +194,4 @@ const DietApprovalModel = ({ open, setOpen, data }) => {
 
     )
 }
-
 export default memo(DietApprovalModel)

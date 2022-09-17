@@ -20,7 +20,7 @@ const DepartmentSelect = ({ value, setValue }) => {
         dispatch(getDepartment())
     }, [dispatch])
     return (
-        <Box >
+        <Box sx={{ mt: 1 }}>
             <FormControl fullWidth size="small"  >
                 <Select
                     labelId="demo-simple-select-label"
