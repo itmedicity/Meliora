@@ -35,7 +35,6 @@ const RateList = React.lazy(() => import('./views/Master/DietMasters/RateList/Ra
 const DietIssue = React.lazy(() => import('./views/Master/DietMasters/DietIssueSchedule/DietIssueScheduleMast'))
 const InpatientList = React.lazy(() => import('./views/NursingStation/InPatientList'))
 const DietProcess = React.lazy(() => import('./views/Diet/DietProcess'))
-const DietProcessList = React.lazy(() => import('./views/Diet/DietProcessList'))
 const UserCreation = React.lazy(() => import('./views/Master/UserCreation/UserCreation'))
 const UserCreationTable = React.lazy(() => import('./views/Master/UserCreation/UserCreationTable'))
 const RoomCreation = React.lazy(() => import('./views/RoomManagement/Roomcreation/RoomCreation'))
@@ -48,6 +47,8 @@ const DietApproval = React.lazy(() => import('./views/NursingStation/DietApprova
 const DietPlanList = React.lazy(() => import('./views/NursingStation/DietPlanList'));
 const DietOrderList = React.lazy(() => import('./views/Diet/DietOrderList'));
 const DietExtraOrder = React.lazy(() => import('./views/Diet/ExtraOrder'));
+const DietDelivery = React.lazy(() => import('./views/Diet/DietDeliveryMark'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -86,7 +87,6 @@ const routes = [
   { path: '/Home/RateList', exact: true, name: 'RateList', component: RateList },
   { path: '/Home/InpatientList', exact: true, name: 'In-Patient List', component: InpatientList },
   { path: '/Home/DietProcess', exact: true, name: 'Diet Process', component: DietProcess },
-  { path: '/Home/DietProcessList', exact: true, name: 'Diet Process List', component: DietProcessList },
   { path: '/Home/UserCreation', exact: true, name: 'User Creation', component: UserCreation },
   { path: '/Home/UserCreationTable', exact: true, name: 'User Creation Table', component: UserCreationTable },
   { path: '/Home/RoomCreation', exact: true, name: 'Room Creation', component: RoomCreation },
@@ -98,8 +98,8 @@ const routes = [
   { path: '/Home/DietApproval', exact: true, name: ' Diet Approval', component: DietApproval },
   { path: '/Home/DietPlanList', exact: true, name: ' Diet Approval', component: DietPlanList },
   { path: '/Home/DietOrderList', exact: true, name: ' Diet Order List', component: DietOrderList },
-  { path: '/Home/DietExtraOrder', exact: true, name: ' Diet Extra Order', component: DietExtraOrder }
-
+  { path: '/Home/DietExtraOrder', exact: true, name: ' Diet Extra Order', component: DietExtraOrder },
+  { path: '/Home/DietDelivery', exact: true, name: ' Diet Delivery', component: DietDelivery }
 
 ]
 

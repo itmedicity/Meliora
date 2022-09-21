@@ -13,7 +13,7 @@ const DietProcessDashCmp = () => {
     const [proTable, setProTable] = useState(0)
     const [newordrTable, setNewOrdrTable] = useState(0)
     const [depand, setDepand] = useState(0)
-
+    const [count, setCount] = useState(0);
     useEffect(() => {
         //Get dashboard process list count
         const getprocesscount = async () => {
@@ -38,7 +38,7 @@ const DietProcessDashCmp = () => {
             }
         }
         getprocesscount()
-    }, [])
+    }, [count])
 
     const getProcessList = useCallback(() => {
         setProTable(1)
@@ -85,7 +85,6 @@ const DietProcessDashCmp = () => {
                                     onClick={getProcessList}
                                 >
                                     {process}
-                                    {/* {process !== 0 ? <CircularProgress sx={{ color: 'pink' }} /> : process} */}
                                 </IconButton>
                             </CssVarsProvider>
                             <Box sx={{
@@ -153,7 +152,6 @@ const DietProcessDashCmp = () => {
                     </Paper>
                 </Box>
             </Paper>
-
             <Paper elevation={3} sx={{
                 width: "100%",
                 p: 0.5, pt: 2,
@@ -161,12 +159,9 @@ const DietProcessDashCmp = () => {
                 flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                 justifyContent: 'space-evenly',
             }} >
-                {proTable === 1 ? <DietprocessTable depand={depand} setDepand={setDepand} /> : null}
-                {newordrTable === 1 ? <DietprocessTable depand={depand} setDepand={setDepand} /> : null}
+                {proTable === 1 ? <DietprocessTable depand={depand} setDepand={setDepand} setCount={setCount} count={count} /> : null}
+                {newordrTable === 1 ? <DietprocessTable depand={depand} setDepand={setDepand} setCount={setCount} count={count} /> : null}
             </Paper>
-
-
-
         </Box>
     )
 }

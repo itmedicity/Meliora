@@ -131,7 +131,7 @@ const DietMenuSetting = () => {
         /*** * insert function for use call back     */
         const InsertData = async (dmenuPost) => {
             const result = await axioslogin.post(`/dietmenudtl/dmenu`, dmenuPost)
-            const { success, insetid } = result.data;
+            const { success, insetid, data } = result.data;
             if (success === 1) {
                 const postMenuDetal = dataPost && dataPost.map((val) => {
                     return {
@@ -148,20 +148,46 @@ const DietMenuSetting = () => {
                         status: val.status
                     }
                 })
-                const result = await axioslogin.post(`/dietmenudtl/detailInsert`, postMenuDetal)
-                const { message, success } = result.data;
-                if (success === 1) {
-                    succesNotify(message)
-                    setCount(count + 1)
-                    setDietmenu(formReset)
-                    reset();
-                }
-                else if (success === 0) {
-                    infoNotify(message)
-                }
-                else {
-                    infoNotify(message)
-                }
+                menudetailInsert(postMenuDetal)
+
+            } else if (success === 5) {
+                const { dmenu_slno } = data[0]
+                const postMenuDetal = dataPost && dataPost.map((val) => {
+                    return {
+                        dmenu_slno: dmenu_slno,
+                        grp_slno: val.grp_slno,
+                        item_slno: val.item_slno,
+                        type_slno: val.type_slno,
+                        days: val.days,
+                        qty: val.qty,
+                        unit: val.unit,
+                        rate_hos: val.rate_hos,
+                        rate_cant: val.rate_cant,
+                        em_id: id,
+                        status: val.status
+                    }
+                })
+                menudetailInsert(postMenuDetal)
+            }
+        }
+
+        /*** * insert function for use call back     */
+        const menudetailInsert = async (postMenuDetal) => {
+
+            const result = await axioslogin.post(`/dietmenudtl/detailInsert`, postMenuDetal)
+            const { message, success } = result.data;
+            if (success === 1) {
+                succesNotify(message)
+                setCount(count + 1)
+                setDietmenu(formReset)
+                reset();
+                setdataPost([])
+            }
+            else if (success === 0) {
+                infoNotify(message)
+            }
+            else {
+                infoNotify(message)
             }
         }
         InsertData(dmenuPost)
@@ -296,7 +322,7 @@ const DietMenuSetting = () => {
                         </Grid>
                     </Grid>
                     <Grid item xl={9} lg={9}>
-                        <DietMenuSettCmp dataPost={dataPost} />
+                        <DietMenuSettCmp dataPost={dataPost} setdataPost={setdataPost} />
                     </Grid>
                 </Grid>
             </Box>

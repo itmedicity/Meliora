@@ -5,14 +5,18 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color'
-import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
+import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
 import DietProcessModel from './DietProcessModel';
 import Button from '@mui/material/Button';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import NursingStationSelect from '../CommonSelectCode/NursingStationSelect';
 import CusIconButton from '../Components/CusIconButton';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-const DietprocessTable = ({ depand, setDepand }) => {
+import { format } from 'date-fns'
+import { useSelector } from 'react-redux'
+import { succesNotify } from 'src/views/Common/CommonCode'
+
+const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
     const [tabledata, setTabledata] = useState([])
     const [nurse, setNurse] = useState(0)
     const [startdate, newStartDate] = useState(new Date())
@@ -20,7 +24,7 @@ const DietprocessTable = ({ depand, setDepand }) => {
     const [sercha, setSearch] = useState(0)
     const [detail, setdeatial] = useState([])
     const [mdopen, setmdopen] = useState(0)
-    const [count, setCount] = useState(0);
+    const [allpros, setAllpros] = useState(0)
     //column title setting
     const [column] = useState([
         { headerName: "Plan Slno", field: "plan_slno" },
@@ -33,7 +37,7 @@ const DietprocessTable = ({ depand, setDepand }) => {
             headerName: 'Diet Process', cellRenderer: params => <IconButton
                 sx={{ color: editicon, paddingY: 0.5 }}
                 onClick={() => dietProcess(params)}>
-                <TaskAltRoundedIcon />
+                <PublishedWithChangesOutlinedIcon />
             </IconButton>
         }
     ])
@@ -48,7 +52,10 @@ const DietprocessTable = ({ depand, setDepand }) => {
         { headerName: "Remarks", field: "plan_remark" },
     ])
 
-
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     const [dayselect, setdayselect] = useState(0)
     //month format
     const updatedate = (e) => {
@@ -125,40 +132,82 @@ const DietprocessTable = ({ depand, setDepand }) => {
         setSearch(1)
         setDepand(2)
     }
-
-    const [allpros, setAllpros] = useState(0)
-    const [menus, setmenus] = useState([])
-
+    const [msgshow, setMsg] = useState(0)
     const allProcess = () => {
         setAllpros(allpros + 1)
-
     }
-    useEffect(() => {
-        if (allpros !== 0) {
-            const d = new Date(startdate);
-            let day = d.getDay();
-            const planNo = tabledata && tabledata.map((val) => {
-                return val.plan_slno
-            })
-            const dmenuslno = tabledata && tabledata.map((val) => {
-                return val.diet_slno
-            })
-            const getmenu = {
-                diet_slno: dmenuslno,
-                plan_slno: planNo,
-                days: day
-            }
-            const getdmenu = async () => {
-                const result = await axioslogin.post('/dietprocess/dmenubyday/allprocess', getmenu);
-                const { success, data } = result.data
-                if (success === 1) {
-                    setmenus(data)
-                }
-            }
-            getdmenu()
-        }
-    }, [allpros, tabledata, startdate])
 
+    useEffect(() => {
+        if (allpros !== 0 && msgshow === 0) {
+            tabledata && tabledata.map((val) => {
+                const getdmenu = async () => {
+                    const result = await axioslogin.get(`/common/dMenu/${val.diet_slno}`,)
+                    const { data, success, message } = result.data;
+                    if (success === 1) {
+                        const { dmenu_slno } = data[0]
+                        const d = new Date(startdate);
+                        let day = d.getDay();
+                        const getmenu = {
+                            bd_code: val.bd_code,
+                            dmenu_slno: dmenu_slno,
+                            days: day
+                        }
+                        const result1 = await axioslogin.post('/dietprocess/dmenubyday', getmenu);
+                        const { succes, dataa } = result1.data
+                        if (succes === 1) {
+                            const postdata = {
+                                plan_slno: val.plan_slno,
+                                dmenu_slno: dmenu_slno,
+                                ip_no: val.ip_no,
+                                pt_no: val.pt_no,
+                                diet_slno: val.diet_slno,
+                                bd_code: val.bd_code,
+                                process_date: dayselect === 0 ? format(new Date(), "yyyy-MM-dd hh-mm-ss") : format(new Date(startdate), "yyyy-MM-dd hh-mm-ss"),
+                                process_status: 1,
+                                discharge_status: val.discharge === 'N' ? 1 : 0,
+                                em_id: id
+                            }
+                            const result = await axioslogin.post('/dietprocess', postdata);
+                            const { success, message, insetid } = result.data;
+                            if (success === 1) {
+                                const postdetaildata = dataa && dataa.map((val) => {
+                                    return {
+                                        proc_slno: insetid,
+                                        type_slno: val.type_slno,
+                                        rate_hos: val.hosp_rate,
+                                        rate_cant: val.cant_rate
+                                    }
+                                })
+                                const result1 = await axioslogin.post('/dietprocess/processDetailInsert', postdetaildata);
+                                const { suces, messag } = result1.data;
+                                if (suces === 1) {
+                                    setMsg(1)
+                                    setCount(count + 1);
+                                }
+                                else {
+                                    setMsg(0)
+                                    warningNotify(messag)
+                                }
+                            }
+                            else {
+                                warningNotify(message)
+                            }
+                        }
+                        else {
+                            warningNotify(message)
+                        }
+                    }
+                    else {
+                        warningNotify(message)
+                    }
+                }
+                getdmenu()
+            })
+        }
+        if (msgshow === 1) {
+            succesNotify("Process Completed")
+        }
+    }, [allpros, tabledata, startdate, dayselect, msgshow, id, setCount, count])
 
     const handleClose = () => {
         setOpen(false);
@@ -178,13 +227,13 @@ const DietprocessTable = ({ depand, setDepand }) => {
                     }}>
                         <Box sx={{
                             width: "100%",
-                            pl: 1, pt: 0.5, pr: 1, pb: 0.5,
+                            pl: 1, pt: 0.5, pb: 0.5,
                             display: "flex",
-                            flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" },
-                            alignItems: "center"
+                            flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "row" },
+                            alignItems: "center",
                         }}>
                             <Box sx={{
-                                width: "10%", pr: 1
+                                flex: 0, pt: 0.5, pr: 1
                             }}>
                                 <TextFieldCustom
                                     placeholder="Select Date"
@@ -197,19 +246,21 @@ const DietprocessTable = ({ depand, setDepand }) => {
                                 />
                             </Box>
                             <Box sx={{
-                                width: "20%",
+                                display: "flex",
+                                justifyContent: "space-evenly ",
+                                pt: 1, flex: 0, pr: 1
                             }}>
                                 <NursingStationSelect value={nurse} setValue={setNurse} />
                             </Box>
                             <Box sx={{
-                                width: "20%",
+                                flex: 0, pt: 0.5, pr: 2
                             }}>
                                 <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={search} >
                                     <SearchOutlinedIcon fontSize='small' />
                                 </CusIconButton>
                             </Box>
                             <Box sx={{
-                                width: "30%", pl: 1, pr: 1, pb: 1,
+                                flex: 1, pr: 1, pt: 0.5
                             }}>
                                 <Button onClick={allProcess} variant="contained" size="small" color="primary">All Process</Button>
                             </Box>

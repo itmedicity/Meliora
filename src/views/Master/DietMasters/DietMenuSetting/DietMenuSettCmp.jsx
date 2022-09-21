@@ -1,31 +1,43 @@
 import React, { useState, memo, Fragment } from 'react'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
-import { MdDeleteSweep } from 'react-icons/md';
-
-const DietMenuSettCmp = ({ dataPost }) => {
+import { IconButton } from '@mui/material';
+import { editicon } from 'src/color/Color'
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useEffect } from 'react';
+const DietMenuSettCmp = ({ dataPost, setdataPost }) => {
+    const [deleteId, setDelId] = useState(0)
     //Array listing component
     const [column] = useState([
+        { headerName: "Diet", field: "diet_slno" },
+        { headerName: "Diet Type ", field: "type_slno" },
+        { headerName: "Day", field: "days" },
+        { headerName: "Item Group", field: "grp_slno" },
+        { headerName: "Item", field: "item_slno" },
         {
-            headerName: "Diet", field: "diet_slno"
+            headerName: 'Delete',
+            cellRenderer: params =>
+                <IconButton
+                    sx={{ color: editicon, paddingY: 0.5 }}
+                    onClick={() => rowSelect(params)} >
+                    <DeleteIcon size={25} />
+                </IconButton >
         },
-        {
-            headerName: "Diet Type ", field: "type_slno"
-        },
-        {
-            headerName: "Day", field: "days"
-        },
-        {
-            headerName: "Item Group", field: "grp_slno"
-        },
-        {
-            headerName: "Item", field: "item_slno"
-        },
-        { headerName: 'Action', cellRenderer: params => <MdDeleteSweep size={25} onClick={() => rowSelect(params)} /> }
-
     ])
-    const rowSelect = () => {
-
+    //array data delete
+    const rowSelect = (params) => {
+        const data = params.api.getSelectedRows()
+        const { id } = data[0]
+        setDelId(id);
     }
+    useEffect(() => {
+        if (deleteId !== 0) {
+            const newdata = [...dataPost]
+            const index = dataPost.findIndex((arraid) => arraid.id === deleteId)
+            newdata.splice(index, 1);
+            setdataPost(newdata)
+        }
+    }, [deleteId, dataPost, setdataPost])
+
     return (
         <Fragment>
             <CusAgGridMast
