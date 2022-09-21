@@ -229,7 +229,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
                             width: "100%",
                             pl: 1, pt: 0.5, pb: 0.5,
                             display: "flex",
-                            flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "row" },
+                            flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                             alignItems: "center",
                         }}>
                             <Box sx={{

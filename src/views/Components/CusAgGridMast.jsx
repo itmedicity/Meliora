@@ -43,46 +43,44 @@ const CusAgGridMast = ({ columnDefs, tableData, onSelectionChanged, columnTypes 
 
     return (
         <Fragment>
-            <Paper elevation={0}
+
+
+            <Box
+                className="ag-theme-alpine ListItemScrol"
                 sx={{
-                    width: 1200
+                    height: 300,
+                    width: "100%"
+
                 }}
             >
-                <Box
-                    className="ag-theme-alpine ListItemScrol"
-                    sx={{
-                        height: 300,
-                        width: 1200
+                <AgGridReact
 
-                    }}
-                >
-                    <AgGridReact
+                    ref={apiRef}
+                    columnDefs={columnDefs}
+                    rowData={tableData}
+                    defaultColDef={defaultColDef}
+                    rowHeight={rowHeight}
+                    headerHeight={headerHeight}
+                    rowDragManaged={true}
+                    animateRows={true}
+                    onGridReady={onGridReady}
+                    rowSelection="multiple"
+                    rowStyle={rowStyle}
+                    suppressColumnVirtualisation={true}
+                    suppressRowVirtualisation={true}
+                    suppressRowClickSelection={true}
+                    groupSelectsChildren={true}
+                    rowGroupPanelShow={'always'}
+                    pivotPanelShow={'always'}
+                    enableRangeSelection={true}
+                    columnTypes={columnTypes}
+                    onSelectionChanged={onSelectionChanged}
+                    alwaysShowHorizontalScroll={true}
+                // debounceVerticalScrollbar={true}
+                ></AgGridReact>
+            </Box>
 
-                        ref={apiRef}
-                        columnDefs={columnDefs}
-                        rowData={tableData}
-                        defaultColDef={defaultColDef}
-                        rowHeight={rowHeight}
-                        headerHeight={headerHeight}
-                        rowDragManaged={true}
-                        animateRows={true}
-                        onGridReady={onGridReady}
-                        rowSelection="multiple"
-                        rowStyle={rowStyle}
-                        suppressColumnVirtualisation={true}
-                        suppressRowVirtualisation={true}
-                        suppressRowClickSelection={true}
-                        groupSelectsChildren={true}
-                        rowGroupPanelShow={'always'}
-                        pivotPanelShow={'always'}
-                        enableRangeSelection={true}
-                        columnTypes={columnTypes}
-                        onSelectionChanged={onSelectionChanged}
-                        alwaysShowHorizontalScroll={true}
-                    // debounceVerticalScrollbar={true}
-                    ></AgGridReact>
-                </Box>
-            </Paper>
+
         </Fragment>
     )
 }
