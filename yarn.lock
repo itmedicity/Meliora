@@ -2837,6 +2837,11 @@
   "resolved" "https://registry.npmjs.org/ag-grid-community/-/ag-grid-community-27.3.0.tgz"
   "version" "27.3.0"
 
+"ag-grid-enterprise@^27.3.0":
+  "integrity" "sha512-l95eH5cT1D/iOf0ROEpQ8G7RINg2UQ4E1rve4OGveN33Cg0/FFAyja0sraJ4DKgwLBPbPXtFksKq4nSlw0CEeA=="
+  "resolved" "https://registry.npmjs.org/ag-grid-enterprise/-/ag-grid-enterprise-27.3.0.tgz"
+  "version" "27.3.0"
+
 "ag-grid-react@^27.3.0":
   "integrity" "sha512-2bs9YfJ/shvBZQLLjny4NFvht+ic6VtpTPO0r3bHHOhlL3Fjx2rGvS6AHSwfvu+kJacHCta30PjaEbX8T3UDyw=="
   "resolved" "https://registry.npmjs.org/ag-grid-react/-/ag-grid-react-27.3.0.tgz"
