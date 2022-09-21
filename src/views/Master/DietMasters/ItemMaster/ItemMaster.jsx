@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import ItemMasterTable from './ItemMasterTable'
-
+import { useSelector } from 'react-redux'
 const ItemMaster = () => {
     const history = useHistory();
     //state for table render
@@ -25,14 +25,17 @@ const ItemMaster = () => {
         unit: '',
         diet_item: false,
         status: false,
-        em_id: '',
     })
     //Destructuring
-    const { item_name, rate, rate_hosp, qty, unit, diet_item, status, em_id, item_slno } = item
+    const { item_name, rate, rate_hosp, qty, unit, diet_item, status, item_slno } = item
     const updateitem = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setItem({ ...item, [e.target.name]: value })
     }, [item])
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     //data for insert
     const postdata = useMemo(() => {
         return {
@@ -44,16 +47,15 @@ const ItemMaster = () => {
             unit: unit,
             diet_item: diet_item === true ? 1 : 0,
             status: status === true ? 1 : 0,
-            em_id: 1
-
+            em_id: id
         }
-    }, [item_name, rate, rate_hosp, qty, unit, diet_item, status, grpslno,])
+    }, [item_name, rate, rate_hosp, qty, unit, diet_item, status, grpslno, id])
 
     //edit data setting on textfields
     const rowSelect = useCallback((params) => {
         setValue(1)
         const data = params.api.getSelectedRows()
-        const { item_name, grp_slno, rate, rate_hosp, qty, unit, diet_item, status, em_id, item_slno } = data[0]
+        const { item_name, grp_slno, rate, rate_hosp, qty, unit, diet_item, status, item_slno } = data[0]
         const frmdata = {
             item_name: item_name,
             rate: rate,
@@ -62,7 +64,6 @@ const ItemMaster = () => {
             unit: unit,
             diet_item: diet_item === 1 ? true : false,
             status: status === 1 ? true : false,
-            em_id: em_id,
             item_slno: item_slno
         }
         setItem(frmdata)
@@ -80,10 +81,10 @@ const ItemMaster = () => {
             unit: unit,
             diet_item: diet_item === true ? 1 : 0,
             status: status === true ? 1 : 0,
-            em_id: em_id,
+            em_id: id,
             item_slno: item_slno
         }
-    }, [item_name, grpslno, rate, rate_hosp, qty, unit, diet_item, status, em_id, item_slno])
+    }, [item_name, grpslno, rate, rate_hosp, qty, unit, diet_item, status, id, item_slno])
 
     /*** usecallback function for form submitting */
     const submititem = useCallback((e) => {

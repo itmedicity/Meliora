@@ -29,7 +29,6 @@ const RateListMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setRatelist({ ...ratelist, [e.target.name]: value })
     }, [ratelist])
-
     const postData = useMemo(() => {
         return {
             diet_slno: value1,
@@ -38,7 +37,6 @@ const RateListMast = () => {
             hosp_rate: hosp_rate,
             cant_rate: cant_rate,
             status: status
-
         }
     }, [hosp_rate, cant_rate, status, value1, value2, value3])
     const rowSelect = useCallback((params) => {

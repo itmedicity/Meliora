@@ -52,7 +52,6 @@ const DietDetailMast = () => {
             getdate(diettype)
         }
     }, [diettype])
-
     //insert data
     const postData = useMemo(() => {
         return {
@@ -63,7 +62,6 @@ const DietDetailMast = () => {
             diet_dtslno: diet_dtslno
         }
     }, [diet, diettype, status, diet_dtslno, id])
-
     //data set for edit  
     const rowSelect = useCallback((params) => {
         setValue(1)

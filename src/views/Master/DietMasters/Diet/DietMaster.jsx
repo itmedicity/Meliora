@@ -65,9 +65,10 @@ const DietMaster = () => {
             diet_status: diet_status === true ? 1 : 0,
             order_req: order_req === true ? 1 : 0,
             diet_type_choose: diet_type_choose === true ? 1 : 0,
+            em_id: id,
             diet_slno: diet_slno
         }
-    }, [diet_name, diet_status, order_req, diet_type_choose, diet_slno])
+    }, [diet_name, diet_status, order_req, diet_type_choose, diet_slno, id])
     const submitDiet = useCallback((e) => {
         e.preventDefault();
         const formReset = {

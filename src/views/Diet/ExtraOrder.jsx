@@ -1,5 +1,6 @@
-import { Box, IconButton, Paper } from '@mui/material';
-import React, { useCallback, useMemo, useState } from 'react'
+import { IconButton, Paper, Typography } from '@mui/material';
+import Box from "@mui/material/Box";
+import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import SelectItemmaster from '../CommonSelectCode/SelectItemmaster';
 import SelectrmmasterOra from '../CommonSelectCode/SelectrmmasterOra';
@@ -7,160 +8,481 @@ import CardMaster from '../Components/CardMaster'
 import TextFieldCustom from '../Components/TextFieldCustom';
 import { editicon } from 'src/color/Color'
 import { MdOutlineAddCircleOutline } from 'react-icons/md';
-import SearchIcon from '@mui/icons-material/Search';
 import moment from 'moment'
 import SelectDietType from '../CommonSelectCode/SelectDietType';
 import ExtraOrderTable from './ExtraOrderTable';
 import { axioslogin } from '../Axios/Axios';
-import { infoNotify, succesNotify } from '../Common/CommonCode';
+import { infoNotify, succesNotify, warningNotify } from '../Common/CommonCode';
 const ExtraOrder = () => {
     const history = useHistory();
     const [room, setRoom] = useState(0)
-    const [value, setValue] = useState(0)
-    // const [date, setDate] = useState(moment(new Date).format('YYYY-MM-DD'))
+    const [diet, setDiet] = useState(0)
+    const [dietold, setDietold] = useState(0)
+    const [item, setItem] = useState(0)
     const [add, setAdd] = useState(0);
+    const [food, setFood] = useState({
+        item_slno: "",
+        rate_hos: "",
+        rate_cant: ""
+    })
+    const { rate_hos, rate_cant } = food
     const [order, setOrder] = useState({
         pt_no: "",
         process_date: moment(new Date).format('YYYY-MM-DD')
     })
     const { pt_no, process_date } = order
+    const [process, setProcess] = useState('')
     const updateOrder = useCallback((e) => {
         const value = e.target.value
         setOrder({ ...order, [e.target.name]: value })
     }, [order])
-    const addnew = useCallback(() => {
-        setAdd(1)
-    }, [])
+    const post = useMemo(() => {
+        return {
+            item_slno: item
+        }
+    }, [item])
+    useEffect(() => {
+        const getRate = async () => {
+            const result = await axioslogin.post(`/extraorder/rate`, post);
+            const { message, success, data } = result.data;
+            if (success === 1) {
+                const { item_slno, rate_hos, rate_cant } = data[0]
+                const frmdata = {
+                    item_slno: item_slno,
+                    rate_hos: rate_hos,
+                    rate_cant: rate_cant
+                }
+                setFood(frmdata)
+            } else {
+                infoNotify(message)
+            }
+        }
+        if (item !== 0) {
+            getRate();
+        }
+    }, [item, post])
+    const frmreset = {
+        item_slno: "",
+        rate_hos: "",
+        rate_cant: ""
+    }
+    const [newfood, setNewdata] = useState([]);
+    const [sumCanteen, setCanteen] = useState(0);
+    const [sumHosptial, setHospital] = useState(0);
+    const addnew = () => {
+        if (item !== 0) {
+            setAdd(1)
+            const newdata = {
+                item_slno: item,
+                type_slno: diet,
+                rate_hos: rate_hos,
+                rate_cant: rate_cant,
+            }
+            setNewdata([...newfood, newdata])
+            setCanteen(sumCanteen + rate_cant)
+            setHospital(sumHosptial + rate_hos)
+            setItem(0)
+            setFood(frmreset)
+        } else {
+            warningNotify("Please Select Item")
+        }
+    }
     const postData = useMemo(() => {
         return {
-            rm_code: room,
             pt_no: pt_no,
+            rm_code: room,
+            process_date: process_date
         }
-    }, [pt_no, room])
-    const Search = useCallback(() => {
-        const searchdata = async (postData) => {
+    }, [pt_no, room, process_date])
+    useEffect(() => {
+        const getProcessno = async () => {
             const result = await axioslogin.post('/extraorder', postData);
-            const { message, success } = result.data;
+            const { message, success, data } = result.data;
             if (success === 1) {
+                const { diet_slno, proc_slno } = data[0]
+                setProcess(proc_slno)
+                setDiet(diet_slno)
+                setDietold(diet_slno)
                 succesNotify(message)
-                // setCount(count + 1);
-                // setDepartment(formreset);
-            } else if (success === 0) {
+            }
+            else if (success === 0) {
+                setProcess("");
                 infoNotify(message);
             }
             else {
                 infoNotify(message)
             }
         }
-        searchdata(postData)
-    }, [postData])
+        if (room !== 0) {
+            getProcessno()
+        }
+    }, [room, postData])
+    const Insert = useMemo(() => {
+        return {
+            proc_slno: process,
+            type_slno: diet !== 0 ? diet : dietold,
+            rate_hos: sumHosptial,
+            rate_cant: sumCanteen,
+            is_extra_billed: 1
+        }
+    }, [process, sumHosptial, sumCanteen, diet, dietold])
+    const reset = useCallback(() => {
+        setRoom(0);
+        setDiet(0);
+        setProcess("");
+        setNewdata([]);
+    }, [])
+    const submitDiettype = useCallback((e) => {
+        e.preventDefault();
+        /***    * insert function for use call back     */
+        const InsertFunc = async (Insert) => {
+            setAdd(0)
+            if (process === '') {
+                infoNotify("Please Choose the Room")
+            } else {
+                const result = await axioslogin.post('/extraorder/insert', Insert);
+                const { success, insertId } = result.data;
+                if (success === 1) {
+                    const extraOrder = newfood && newfood.map((val) => {
+                        return {
+                            prod_slno: insertId,
+                            item_slno: val.item_slno,
+                            hos_rate: val.rate_hos,
+                            cant_rate: val.rate_cant,
+                            type_slno: val.type_slno,
+                            extra_status: 1
+                        }
+                    })
+                    const result = await axioslogin.post('/extraorder/insertextra', extraOrder);
+                    const { message, success, } = result.data;
+                    if (success === 1) {
+                        succesNotify(message)
+                        reset();
+                    } else if (success === 0) {
+                        infoNotify(message)
+                    }
+                    else {
+                        infoNotify(message)
+                    }
+                }
+            }
+        }
+        InsertFunc(Insert)
+    }, [Insert, process, newfood, reset])
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
+    const refreshWindow = useCallback(() => {
+        const frmreset = {
+            item_slno: "",
+            rate_hos: "",
+            rate_cant: ""
+        }
+        setRoom(0)
+        setDiet(0)
+        setItem(0)
+        setFood(frmreset)
+        setProcess("")
+    }, [])
     return (
-
         <CardMaster
             title='Extra Order'
             close={backtoSetting}
+            submit={submitDiettype}
+            refresh={refreshWindow}
+
         >
-            <Box sx={{ width: "100%", pl: 1, pt: 1, pr: 1, pb: 1 }}>
-                <Paper square elevation={3} sx={{ pl: 1, pt: 1, pr: 1, pb: 1 }} >
+            <Box sx={{ width: "100%", p: 1 }}>
+                <Paper square elevation={3} sx={{ p: 2 }} >
                     <Box sx={{
                         width: "100%",
-                        pl: 1, pt: 0.5, pr: 1, pb: 0.5,
                         display: "flex",
-                        flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                        // bgcolor: "cyan",
+
                     }}>
-                        <Box sx={{ width: "15%", pr: 1 }}>
-                            <SelectrmmasterOra value={room} setValue={setRoom} />
+                        <Box sx={{
+                            display: 'flex',
+                            width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                            // p: 0.5,
+                            // bgcolor: "cyan",
+                        }} >
+                            <Box sx={{
+                                width: '100%',
+                                // pl: 1
+                            }}>
+                                <Typography   >Date</Typography>
+                            </Box>
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <TextFieldCustom
+                                    type="date"
+                                    size="sm"
+                                    name="process_date"
+                                    value={process_date}
+                                    onchange={updateOrder}
+                                />
+                            </Box>
                         </Box>
-                        <Box sx={{ width: "10%", pr: 1 }}>
-                            <TextFieldCustom
-                                placeholder="Patient Id"
-                                type="text"
-                                size="sm"
-                                name="pt_no"
-                                value={pt_no}
-                                onchange={updateOrder}
-                            />
+                        <Box sx={{
+                            display: 'flex',
+                            width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                            // p: 0.5,
+                            // backgroundColor: { xs: 'green', sm: 'red', md: 'yellow', lg: 'orange', xl: 'gray', },
+                            // pl: { sm: 1, xs: 1 }
+
+                        }}>
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <Typography >Patient Id</Typography>
+                            </Box>
+                            <Box sx={{
+                                // display: 'flex',
+                                width: '100%',
+                            }}>
+                                <TextFieldCustom
+                                    placeholder="Patient Id"
+                                    type="text"
+                                    size="sm"
+                                    name="pt_no"
+                                    value={pt_no}
+                                    onchange={updateOrder}
+                                    disabled
+                                />
+                            </Box>
                         </Box>
-                        <Box sx={{ width: "10%", pr: 1 }}>
-                            <TextFieldCustom
-                                type="date"
-                                size="sm"
-                                name="process_date"
-                                value={process_date}
-                                onchange={updateOrder}
-                            />
+                    </Box>
+                    {/* 
+                    2nd section */}
+                    <Box sx={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                        // p: 0.5
+                        // pl: 1
+                    }}>
+                        <Box sx={{
+                            display: 'flex',
+                            width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                            // p: 0.5,
+                        }} >
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <Typography>Room No</Typography>
+                            </Box>
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <SelectrmmasterOra value={room} setValue={setRoom} />
+                            </Box>
                         </Box>
-                        <Box sx={{ width: "15%", pr: 1 }}>
-                            <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={Search}>
-                                < SearchIcon />
-                            </IconButton>
+                        <Box sx={{
+                            display: 'flex',
+                            width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                            // p: 0.5
+                            // pl: { sm: 1, xs: 1 }
+                        }}>
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <Typography>Process No</Typography>
+                            </Box>
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <TextFieldCustom
+                                    placeholder="Process Slno"
+                                    type="text"
+                                    size="sm"
+                                    name="em_no"
+                                    value={process}
+                                    disabled
+                                />
+                            </Box>
                         </Box>
-                        <Box sx={{ width: "50%", pr: 1 }}>
-                            {
-                                add === 1 ? <ExtraOrderTable /> : null
-                            }
+                    </Box>
+                    {/* 3rd section */}
+                    <Box sx={{
+                        width: "100%",
+                        display: "flex",
+                        // p: 0.5,
+                        // p: 0.5,
+                        // pl: 1,
+                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
+                    }}>
+                        <Box sx={{
+                            display: 'flex',
+                            width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                            // p: 0.5,
+                        }}>
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <Typography>Diet Type</Typography>
+                            </Box>
+                            <Box sx={{
+                                width: '100%',
+                                // mt: 1
+                            }}>
+                                <SelectDietType value={diet} setValue={setDiet} />
+                            </Box>
+                        </Box>
+                        <Box sx={{
+                            display: 'flex',
+                            width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                            // p: 0.5
+                            // pl: { sm: 1, xs: 0 }
+                        }}>
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <Typography>Items</Typography>
+                            </Box>
+                            <Box sx={{
+                                width: '100%',
+                                // mt: 1
+                            }}>
+                                <SelectItemmaster value={item} setValue={setItem} />
+                            </Box>
+                        </Box>
+                    </Box>
+                    {/* 4th section */}
+                    <Box sx={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                        // p: 1,
+                        // bgcolor: "gray"
+                        // p: 0.5
+                    }}>
+                        <Box sx={{
+                            display: 'flex',
+                            width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                            // p: 0.5,
+                        }}>
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <Typography>Hospital Rate</Typography>
+                            </Box>
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <TextFieldCustom
+                                    placeholder="Hospital Rate"
+                                    type="text"
+                                    size="sm"
+                                    name="em_no"
+                                    value={rate_hos}
+                                />
+                            </Box>
+                        </Box>
+                        <Box sx={{
+                            display: 'flex',
+                            width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                            // p: 0.5
+                            // pl: { sm: 1, xs: 0 },
+                            // bgcolor: "cyan"
+                        }}>
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <Typography>Canteen Rate</Typography>
+                            </Box>
+                            <Box sx={{
+                                width: '100%',
+                                // pl: 1
+                            }}>
+                                <TextFieldCustom
+                                    placeholder="Canteen Rate"
+                                    type="text"
+                                    size="sm"
+                                    name="rate_cant"
+                                    value={rate_cant}
+                                />
+                            </Box>
                         </Box>
                     </Box>
                     <Box sx={{
                         width: "100%",
-                        pl: 1, pt: 0.5, pr: 1, pb: 0.5,
                         display: "flex",
-                        flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                        // p: 1,
+                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
                     }}>
-                        <Box sx={{ width: "10%", pr: 1, mt: 0.5 }} >
-                            <TextFieldCustom
-                                placeholder="Process Slno"
-                                type="text"
-                                size="sm"
-                                name="em_no"
-                            />
-                        </Box>
-                        <Box sx={{ width: "15%", pr: 1, mt: 1.2 }}>
-                            <SelectDietType value={value} setValue={setValue} />
+                        <Box sx={{
+                            width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                        }}>
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={addnew}>
+                                    < MdOutlineAddCircleOutline />
+                                </IconButton>
+                            </Box>
                         </Box>
                     </Box>
                     <Box sx={{
                         width: "100%",
-                        pl: 1, pt: 0.5, pr: 1, pb: 0.5,
                         display: "flex",
-                        flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-                    }}>
-                        <Box sx={{ width: "15%", pr: 1, mt: 0.8 }} >
-                            <SelectItemmaster value={value} setValue={setValue} />
-                        </Box>
-                        <Box sx={{ width: "10%", pr: 1 }}  >
-                            <TextFieldCustom
-                                placeholder="Hospital Rate"
-                                type="text"
-                                size="sm"
-                                name="em_no"
-                            />
-                        </Box>
-                        <Box sx={{ width: "10%", pr: 1 }}>
-                            <TextFieldCustom
-                                placeholder="Canteen Rate"
-                                type="text"
-                                size="sm"
-                                name="em_no"
-                            />
-                        </Box>
-                        <Box sx={{ width: "15%", pr: 1 }}>
-                            <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={addnew}>
-                                < MdOutlineAddCircleOutline />
-                            </IconButton>
-                        </Box>
-                        <Box >
-                        </Box>
+                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
+                    }}
+                    >   {
+                            add === 1 ? <Fragment>
+                                <Box sx={{
+                                    display: 'flex',
+                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                }}>
+                                    <Box sx={{
+                                        // display: 'flex',
+                                        width: '100%',
+                                        // backgroundColor: 'green'
+                                    }}>
+                                        <Typography>Sum Hospital Rate</Typography>
+                                    </Box>
+                                    <Box sx={{
+                                        // display: 'flex',
+                                        width: '100%',
+                                        // backgroundColor: 'red'
+                                    }}>
+                                        <Typography>{sumHosptial}</Typography>
+                                    </Box>
+                                </Box>
+                                <Box sx={{
+                                    display: 'flex',
+                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                }}>
+                                    <Box sx={{
+                                        // display: 'flex',
+                                        width: '100%',
+                                        // backgroundColor: 'green'
+                                    }}>
+                                        <Typography> Sum Canteen Rate</Typography>
+                                    </Box>
+                                    <Box sx={{
+                                        // display: 'flex',
+                                        width: '100%',
+                                        // backgroundColor: 'green'
+                                    }}>
+                                        <Typography>{sumCanteen}</Typography>
+                                    </Box>
+                                </Box>
+                            </Fragment> : null
+                        }
                     </Box>
-                    <Box >
+                    <Box sx={{
+                        mt: 1
+                    }}>
+                        {
+                            add === 1 ? <ExtraOrderTable newfood={newfood} /> : null
+                        }
                     </Box>
                 </Paper>
             </Box>
-        </CardMaster>
+        </CardMaster >
     )
 }
 export default ExtraOrder
