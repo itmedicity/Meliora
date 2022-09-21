@@ -8,12 +8,6 @@ const DietTransactions = [
         to: '/Home/DietProcess',
     },
     {
-        men_slno: 43,
-        component: CNavItem,
-        name: 'Diet Process List',
-        to: '/Home/DietProcessList',
-    },
-    {
         men_slno: 57,
         component: CNavItem,
         name: 'Diet Order List',
@@ -24,6 +18,12 @@ const DietTransactions = [
         component: CNavItem,
         name: 'Diet Extra Order',
         to: '/Home/DietExtraOrder',
+    },
+    {
+        men_slno: 60,
+        component: CNavItem,
+        name: 'Diet Delivery',
+        to: '/Home/DietDelivery',
     },
 ]
 

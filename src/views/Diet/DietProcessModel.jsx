@@ -60,7 +60,7 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
         if (diet !== 0) {
             const getDietMenu = async () => {
                 const result = await axioslogin.get(`/common/dMenu/${diet}`,)
-                const { data, success } = result.data;
+                const { data, success, message } = result.data;
                 if (success === 1) {
                     const { dmenu_slno } = data[0]
                     setDietMenu(dmenu_slno)
@@ -76,6 +76,9 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
                     if (succes === 1) {
                         setmenus(dataa)
                     }
+                }
+                else {
+                    infoNotify(message);
                 }
             }
             getDietMenu()
@@ -96,7 +99,6 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
             em_id: id
         }
     }, [plan_slno, DietMenu, ip_no, pt_no, diet_slno, bd_code, dayselect, discharge, id, startdate])
-
     const Process = useCallback((e) => {
         e.preventDefault();
         const InsertFun = async (postdata) => {
@@ -128,7 +130,12 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
                 errorNotify(message)
             }
         }
-        InsertFun(postdata)
+        if (menus.length !== 0) {
+            InsertFun(postdata)
+        }
+        else {
+            infoNotify("No Menus are present in selected day under planed Diet")
+        }
     }, [postdata, menus, count, setCount, setOpen])
 
     return (
