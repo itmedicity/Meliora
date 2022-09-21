@@ -9,6 +9,7 @@ import DeptSectionMastTable from './DeptSectionMastTable'
 import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import SelectOraOutlet from 'src/views/CommonSelectCode/SelectOraOutlet'
 const DeptSectionMast = () => {
     const history = useHistory();
     //state for table rendering
@@ -17,62 +18,96 @@ const DeptSectionMast = () => {
     const [edit, setEdit] = useState(0);
     //state for select box
     const [value, setValue] = useState(0)
-    //intializing
-    const [deptsection, setDeptsection] = useState({
-        sec_name: '',
-        dept_slno: '',
-        sec_status: false,
-        sec_slno: ''
+    const [value1, setValue1] = useState(0)
+    //state for name
+    const [secname, updatesecName] = useState('');
+    //state for status
+    const [secstatus, setsecStatus] = useState(false);
+    //state for setting id
+    const [id, setId] = useState(0);
+    //state for intializing checkboxes
+    const [deptsubtype, setdeptsubtype] = useState({
+        general: true,
+        ot: false,
+        icu: false,
+        er: false,
     })
-    //Destructuring
-    const { sec_name, sec_status, sec_slno } = deptsection
-    const updateDeptsection = useCallback((e) => {
+    //destructuring
+    const { general, ot, icu, er } = deptsubtype
+    const updateSectionStatus = async (e) => {
+        const ob1 = {
+            general: false,
+            ot: false,
+            icu: false,
+            er: false,
+        }
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setDeptsection({ ...deptsection, [e.target.name]: value })
-    }, [deptsection])
-    //data for insert
+        setdeptsubtype({ ...ob1, [e.target.name]: value })
+    }
+    const updatesecNames = useCallback((e) => {
+        const value = e.target.value
+        updatesecName(value)
+    }, [])
+    const updatesecStatus = useCallback((e) => {
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        setsecStatus(value)
+    }, [])
+    //general-1,ot-2,icu-3,er-4
     const postdata = useMemo(() => {
         return {
-            sec_name: sec_name,
-            dept_slno: value,
-            sec_status: sec_status === true ? 1 : 0
+            sec_name: secname,
+            dept_id: value,
+            dept_sub_sect: general === true ? 1 : ot === true ? 2 : icu === true ? 3 : er === true ? 4 : 0,
+            sec_status: secstatus === true ? 1 : 0,
+            create_user: 1,
+            ou_code: value1
         }
-    }, [sec_name, value, sec_status])
+    }, [secname, value, secstatus, general, ot, icu, er, value1])
+    const patchdata = useMemo(() => {
+        return {
+            sec_name: secname,
+            dept_id: value,
+            dept_sub_sect: general === true ? 1 : ot === true ? 2 : icu === true ? 3 : er === true ? 4 : 0,
+            sec_status: secstatus === true ? 1 : 0,
+            ou_code: value1,
+            sec_id: id
+        }
+    }, [secname, value, general, ot, icu, er, secstatus, id, value1])
     //data set for edit 
     const rowSelect = useCallback((params) => {
         setEdit(1);
         const data = params.api.getSelectedRows();
-        const { sec_name, dept_slno, status, sec_slno } = data[0]
-        const frmdata = {
-            sec_name: sec_name,
-            sec_status: status === 'Yes' ? true : false,
-            sec_slno: sec_slno
+        const { sec_name, dept_id, status, sec_id, dept_sub_sect, ou_code } = data[0]
+        const checkboxdata = {
+            general: dept_sub_sect === 1 ? true : false,
+            ot: dept_sub_sect === 2 ? true : false,
+            icu: dept_sub_sect === 3 ? true : false,
+            er: dept_sub_sect === 4 ? true : false,
         }
-        setDeptsection(frmdata)
-        setValue(dept_slno)
+        setValue(dept_id)
+        updatesecName(sec_name)
+        setsecStatus(status === 'Yes' ? true : false)
+        setdeptsubtype(checkboxdata)
+        setId(sec_id)
+        setValue1(ou_code)
     }, [])
-    //data for update
-    const patchdata = useMemo(() => {
-        return {
-            sec_name: sec_name,
-            dept_slno: value,
-            sec_status: sec_status === true ? 1 : 0,
-            sec_slno: sec_slno
+    //reseting 
+    const reset = useCallback(() => {
+        const resetcheckbox = {
+            general: true,
+            ot: false,
+            icu: false,
+            er: false,
         }
-    }, [sec_name, sec_status, value, sec_slno])
-    //reseting selectbox
-    const reset = async () => {
         setValue(0)
-    }
+        setValue1(0)
+        setdeptsubtype(resetcheckbox)
+        setsecStatus(false)
+        updatesecName('')
+    }, [setdeptsubtype])
     /*** usecallback function for form submitting */
     const submitDepartsection = useCallback((e) => {
         e.preventDefault();
-        const formreset = {
-            sec_name: '',
-            dept_slno: '',
-            sec_status: false,
-            sec_slno: '',
-        }
         /*** * insert function for use call back     */
         const InsertFun = async (postdata) => {
             const result = await axioslogin.post('/deptsecmaster', postdata)
@@ -80,7 +115,6 @@ const DeptSectionMast = () => {
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1);
-                setDeptsection(formreset);
                 reset();
             } else if (success === 0) {
                 infoNotify(message);
@@ -98,7 +132,6 @@ const DeptSectionMast = () => {
                 setCount(count + 1);
                 setEdit(0)
                 reset();
-                setDeptsection(formreset);
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -115,22 +148,26 @@ const DeptSectionMast = () => {
             updateFun(patchdata)
         }
 
-    }, [edit, postdata, patchdata, count])
+    }, [edit, postdata, patchdata, count, reset])
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
     //refreshWindow
     const refreshWindow = useCallback(() => {
-        const formreset = {
-            sec_name: '',
-            dept_slno: '',
-            sec_status: false,
-            sec_slno: '',
+        const resetcheckbox = {
+            general: true,
+            ot: false,
+            icu: false,
+            er: false
         }
-        setDeptsection(formreset);
         setValue(0)
-    }, [setDeptsection])
+        setValue1(0)
+        setEdit(0)
+        setdeptsubtype(resetcheckbox)
+        updatesecName('')
+        setsecStatus(false)
+    }, [])
     return (
         <CardMaster
             title="Department Section Master"
@@ -145,25 +182,73 @@ const DeptSectionMast = () => {
                             <Grid item xl={12} lg={12} >
                                 <TextFieldCustom
                                     placeholder="Department Section Name"
+                                    required
                                     type="text"
                                     size="sm"
-                                    name="sec_name"
-                                    value={sec_name}
-                                    onchange={updateDeptsection}
+                                    name="secname"
+                                    value={secname}
+                                    onchange={updatesecNames}
                                 />
                             </Grid>
                             <Grid item xl={12} lg={12}  >
                                 <DepartmentSelect value={value} setValue={setValue} />
                             </Grid>
+                            <Grid item xl={12} lg={12}>
+                                <SelectOraOutlet value={value1} setValue={setValue1} />
+                            </Grid>
                             <Grid item lg={2} xl={2}>
+                                <CusCheckBox
+                                    label="ICU"
+                                    color="primary"
+                                    size="md"
+                                    name="icu"
+                                    value={icu}
+                                    checked={icu}
+                                    onCheked={updateSectionStatus}
+                                />
+                            </Grid>
+                            <Grid item lg={2} xl={2}>
+                                <CusCheckBox
+                                    label="ER"
+                                    color="primary"
+                                    size="md"
+                                    name="er"
+                                    value={er}
+                                    checked={er}
+                                    onCheked={updateSectionStatus}
+                                />
+                            </Grid>
+                            <Grid item lg={2} xl={2}>
+                                <CusCheckBox
+                                    label="OT"
+                                    color="primary"
+                                    size="md"
+                                    name="ot"
+                                    value={ot}
+                                    checked={ot}
+                                    onCheked={updateSectionStatus}
+                                />
+                            </Grid>
+                            <Grid item lg={2} xl={2}>
+                                <CusCheckBox
+                                    label="General"
+                                    color="primary"
+                                    size="md"
+                                    name="general"
+                                    value={general}
+                                    checked={general}
+                                    onCheked={updateSectionStatus}
+                                />
+                            </Grid>
+                            <Grid item lg={8} xl={8}>
                                 <CusCheckBox
                                     label="Status"
                                     color="primary"
                                     size="md"
-                                    name="sec_status"
-                                    value={sec_status}
-                                    checked={sec_status}
-                                    onCheked={updateDeptsection}
+                                    name="secstatus"
+                                    value={secstatus}
+                                    checked={secstatus}
+                                    onCheked={updatesecStatus}
                                 />
                             </Grid>
                         </Grid>

@@ -1,6 +1,7 @@
 //Common Master Menu
 export const co_setting_one = [
     { to: '/Home/Department', name: 'Department', slno: 1 },
+    { to: '/Home/NursingStation', name: 'Nursing Station', slno: 34 },
 
 ]
 
@@ -24,7 +25,55 @@ export const cm_setting_two = [
 ]
 
 export const cm_setting_three = [
-    { to: '/Home/HicPolicy', name: 'Hicy Policy', slno: 14 }
+    { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 14 }
+]
+
+//Asset Master Menu
+export const am_setting_one = [
+    { to: '/Home/AssetType', name: 'Asset Type', slno: 23 },
+    { to: '/Home/SubCategory', name: 'Sub Category', slno: 26 },
+    { to: '/Home/Manufacture', name: 'Manufacture', slno: 29 },
+]
+
+export const am_setting_two = [
+    { to: '/Home/ItemType', name: 'Item Type', slno: 24 },
+    { to: '/Home/AssetGroup', name: 'Group ', slno: 27 }
+
+]
+
+export const am_setting_three = [
+    { to: '/Home/ItemCategory', name: 'Category ', slno: 25 },
+    { to: '/Home/SubGroup', name: 'Sub Group', slno: 28 }
+]
+
+//Room Master Menu
+export const rm_setting_one = [
+    { to: '/Home/Building', name: 'Building', slno: 30 },
+]
+
+export const rm_setting_two = [
+    { to: '/Home/Floor', name: 'Floor', slno: 31 }
+]
+export const rm_setting_three = [
+    { to: '/Home/RoomType', name: 'Room Type', slno: 32 }
+]
+
+//Room Master Menu
+export const dm_setting_one = [
+    { to: '/Home/Diet', name: 'Diet ', slno: 36 },
+    { to: '/Home/ItemGroup', name: 'Item Group ', slno: 53 },
+    { to: '/Home/DietDetail', name: 'Diet Detail ', slno: 56 },
+]
+
+export const dm_setting_two = [
+    { to: '/Home/DietType', name: 'Diet Type', slno: 39 },
+    { to: '/Home/ItemMaster', name: 'Item Master ', slno: 54 },
+
+]
+
+export const dm_setting_three = [
+    { to: '/Home/RateList', name: 'Rate List', slno: 40 },
+    { to: '/Home/DietMenuSetting', name: 'Diet Menu Setting', slno: 55 }
 ]
 
 //User Management Menu
@@ -39,5 +88,5 @@ export const userManagement_two = [
 ]
 export const userManagement_three = [
     { to: '/Home/UserGroupRight', name: 'User Group Rights', slno: 10 },
-
+    { to: '/Home/UserCreation', name: 'User Creation', slno: 44 },
 ]

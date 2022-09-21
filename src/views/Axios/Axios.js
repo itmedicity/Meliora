@@ -1,5 +1,4 @@
 import Axios from 'axios';
-// import { API_URL } fro../Constant/Constantant";
 
 const SERVER_API_URL = 'http://192.168.11.42:5000/api/';
 
@@ -20,3 +19,4 @@ axioslogin.interceptors.request.use(function (config) {
 }, function (err) {
     console.log(err);
 })
+

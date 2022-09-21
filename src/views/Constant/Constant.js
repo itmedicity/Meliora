@@ -12,17 +12,22 @@ export const employeeNumber = () => {
 };
 
 //GET ASSINED MENU LIST
-
 export const getMenuSlno = async () => {
     const result = await axioslogin.get(`/common/getempid/${employeeNumber()}`)
     const { success, data } = result.data
     if (success === 1) {
-        const { emp_id } = data[0]
-        const results = await axioslogin.get(`/common/getMenu/${emp_id}`)
+        const { em_id } = data[0]
+        const results = await axioslogin.get(`/common/getMenu/${em_id}`)
         const { resdata } = results.data;
         return resdata;
     }
 }
 
-
-
+export const getempid = async () => {
+    const result = await axioslogin.get('/common/getSerialno')
+    const { success } = result.data;
+    if (success === 1) {
+        const [serial_current] = result.data.data
+        return serial_current.serial_current
+    }
+}

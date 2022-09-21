@@ -18,16 +18,18 @@ const ModuleGroupMast = () => {
         complaintManagement: false,
         requestmanag: false,
         assetmanag: false,
+        roommanag: false,
         wework: false,
         diet: false,
         feedback: false,
         nabh: false,
         sfanfa: false,
+        nurseStation: false,
         mod_grp_slno: 0
     })
     /*** Destructuring */
-    const { modulegrp_name, complaintManagement, requestmanag, assetmanag, wework,
-        diet, feedback, nabh, sfanfa, mod_grp_slno } = moduleGroup
+    const { modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework,
+        diet, feedback, nabh, sfanfa, nurseStation, mod_grp_slno } = moduleGroup
 
     /***Get values from the component */
     const updateModuleGroup = useCallback((e) => {
@@ -44,14 +46,16 @@ const ModuleGroupMast = () => {
                 module_complaint: complaintManagement === true ? 2 : 0,
                 module_request: requestmanag === true ? 3 : 0,
                 module_asset: assetmanag === true ? 4 : 0,
-                module_wework: wework === true ? 5 : 0,
-                module_diet: diet === true ? 6 : 0,
-                module_feedback: feedback === true ? 7 : 0,
-                module_nabh: nabh === true ? 8 : 0,
-                module_sfanfa: sfanfa === true ? 9 : 0,
+                module_room: roommanag === true ? 5 : 0,
+                module_wework: wework === true ? 6 : 0,
+                module_diet: diet === true ? 7 : 0,
+                module_feedback: feedback === true ? 8 : 0,
+                module_nabh: nabh === true ? 9 : 0,
+                module_sfanfa: sfanfa === true ? 10 : 0,
+                module_nursestation: nurseStation === true ? 11 : 0
             }
         }
-    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, wework, diet, feedback, nabh, sfanfa])
+    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework, diet, feedback, nabh, sfanfa, nurseStation])
 
     /*** data for  update to module_group_mast table */
     const patchdata = useMemo(() => {
@@ -62,15 +66,17 @@ const ModuleGroupMast = () => {
                 module_complaint: complaintManagement === true ? 2 : 0,
                 module_request: requestmanag === true ? 3 : 0,
                 module_asset: assetmanag === true ? 4 : 0,
-                module_wework: wework === true ? 5 : 0,
-                module_diet: diet === true ? 6 : 0,
-                module_feedback: feedback === true ? 7 : 0,
-                module_nabh: nabh === true ? 8 : 0,
-                module_sfanfa: sfanfa === true ? 9 : 0,
+                module_room: roommanag === true ? 5 : 0,
+                module_wework: wework === true ? 6 : 0,
+                module_diet: diet === true ? 7 : 0,
+                module_feedback: feedback === true ? 8 : 0,
+                module_nabh: nabh === true ? 9 : 0,
+                module_sfanfa: sfanfa === true ? 10 : 0,
+                module_nursestation: nurseStation === true ? 11 : 0
             },
             mod_grp_slno: mod_grp_slno
         }
-    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, wework, diet, feedback, nabh, sfanfa, mod_grp_slno])
+    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework, diet, feedback, nabh, sfanfa, mod_grp_slno, nurseStation])
     // data setting for edit
     const rowSelect = useCallback((data) => {
         setvalue(1)
@@ -82,11 +88,13 @@ const ModuleGroupMast = () => {
             complaintManagement: module_status.module_complaint === 0 ? false : true,
             requestmanag: module_status.module_request === 0 ? false : true,
             assetmanag: module_status.module_asset === 0 ? false : true,
+            roommanag: module_status.module_room === 0 ? false : true,
             wework: module_status.module_wework === 0 ? false : true,
             diet: module_status.module_diet === 0 ? false : true,
             feedback: module_status.module_feedback === 0 ? false : true,
             nabh: module_status.module_nabh === 0 ? false : true,
             sfanfa: module_status.module_sfanfa === 0 ? false : true,
+            nurseStation: module_status.module_nursestation === 0 ? false : true,
             mod_grp_slno: mod_grp_slno
         }
         setModuleGroup(formdata)
@@ -100,11 +108,13 @@ const ModuleGroupMast = () => {
             complaintManagement: false,
             requestmanag: false,
             assetmanag: false,
+            roommanag: false,
             wework: false,
             diet: false,
             feedback: false,
             nabh: false,
-            sfanfa: false
+            sfanfa: false,
+            nurseStation: false
         }
         /***     * insert function for use call back     */
         const InsertFun = async (postdata) => {
@@ -157,11 +167,13 @@ const ModuleGroupMast = () => {
             complaintManagement: false,
             requestmanag: false,
             assetmanag: false,
+            roommanag: false,
             wework: false,
             diet: false,
             feedback: false,
             nabh: false,
-            sfanfa: false
+            sfanfa: false,
+            nurseStation: false
         }
         setModuleGroup(frmreset)
         setvalue(0);
@@ -177,117 +189,161 @@ const ModuleGroupMast = () => {
             <Box sx={{ p: 1 }}>
                 <Grid container spacing={1}  >
                     <Grid item xl={4} lg={4}  >
-                        <TextFieldCustom
-                            placeholder="Module Group Name"
-                            type="text"
-                            size="sm"
-                            name="modulegrp_name"
-                            value={modulegrp_name}
-                            onchange={updateModuleGroup}
-                        />
                         <Box sx={{ p: 1 }}>
-                            <Grid item xl={12} lg={12}>
-                                <CusCheckBox
-                                    label="Complaint Management"
-                                    color="primary"
-                                    size="md"
-                                    name="complaintManagement"
-                                    variant="outlined"
-                                    value={complaintManagement}
-                                    checked={complaintManagement}
-                                    onCheked={updateModuleGroup}
-                                />
-                            </Grid>
-                            <Grid item xl={12} lg={12}>
-                                <CusCheckBox
-                                    label="Central Request Management"
-                                    color="primary"
-                                    size="md"
-                                    name="requestmanag"
-                                    variant="outlined"
-                                    value={requestmanag}
-                                    checked={requestmanag}
-                                    onCheked={updateModuleGroup}
-                                />
-                            </Grid>
-                            <Grid item xl={12} lg={12}>
-                                <CusCheckBox
-                                    label="Asset Management"
-                                    color="primary"
-                                    size="md"
-                                    name="assetmanag"
-                                    variant="outlined"
-                                    value={assetmanag}
-                                    checked={assetmanag}
-                                    onCheked={updateModuleGroup}
-                                />
-                            </Grid>
-                            <Grid item xl={12} lg={12}>
-                                <CusCheckBox
-                                    label="We Work"
-                                    color="primary"
-                                    size="md"
-                                    name="wework"
-                                    variant="outlined"
-                                    value={wework}
-                                    checked={wework}
-                                    onCheked={updateModuleGroup}
-                                />
-                            </Grid>
-                            <Grid item xl={12} lg={12}>
-                                <CusCheckBox
-                                    label="Diet"
-                                    color="primary"
-                                    size="md"
-                                    name="diet"
-                                    variant="outlined"
-                                    value={diet}
-                                    checked={diet}
-                                    onCheked={updateModuleGroup}
-                                />
-                            </Grid>  <Grid item xl={12} lg={12}>
-                                <CusCheckBox
-                                    label="Feed Back"
-                                    color="primary"
-                                    size="md"
-                                    name="feedback"
-                                    variant="outlined"
-                                    value={feedback}
-                                    checked={feedback}
-                                    onCheked={updateModuleGroup}
-                                />
-                            </Grid>
-                            <Grid item xl={12} lg={12}>
-                                <CusCheckBox
-                                    label="NABH"
-                                    color="primary"
-                                    size="md"
-                                    name="nabh"
-                                    variant="outlined"
-                                    value={nabh}
-                                    checked={nabh}
-                                    onCheked={updateModuleGroup}
-                                />
-                            </Grid>
-                            <Grid item xl={12} lg={12}>
-                                <CusCheckBox
-                                    label="SFANFA"
-                                    color="primary"
-                                    size="md"
-                                    name="sfanfa"
-                                    variant="outlined"
-                                    value={sfanfa}
-                                    checked={sfanfa}
-                                    onCheked={updateModuleGroup}
-                                />
+                            <TextFieldCustom
+                                placeholder="Module Group Name"
+                                type="text"
+                                size="sm"
+                                name="modulegrp_name"
+                                value={modulegrp_name}
+                                onchange={updateModuleGroup}
+                            />
+                        </Box>
+                        <Box sx={{ p: 1 }}>
+                            <Grid container spacing={1}  >
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
+                                        label="Complaint Management"
+                                        color="primary"
+                                        size="md"
+                                        name="complaintManagement"
+                                        variant="outlined"
+                                        value={complaintManagement}
+                                        checked={complaintManagement}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
+                                        label="Central Request Management"
+                                        color="primary"
+                                        size="md"
+                                        name="requestmanag"
+                                        variant="outlined"
+                                        value={requestmanag}
+                                        checked={requestmanag}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
+                                        label="Asset Management"
+                                        color="primary"
+                                        size="md"
+                                        name="assetmanag"
+                                        variant="outlined"
+                                        value={assetmanag}
+                                        checked={assetmanag}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
+                                        label="Room Management"
+                                        color="primary"
+                                        size="md"
+                                        name="roommanag"
+                                        variant="outlined"
+                                        value={roommanag}
+                                        checked={roommanag}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
+                                        label="We Work"
+                                        color="primary"
+                                        size="md"
+                                        name="wework"
+                                        variant="outlined"
+                                        value={wework}
+                                        checked={wework}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
+                                        label="Diet"
+                                        color="primary"
+                                        size="md"
+                                        name="diet"
+                                        variant="outlined"
+                                        value={diet}
+                                        checked={diet}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
+                                        label="Feed Back"
+                                        color="primary"
+                                        size="md"
+                                        name="feedback"
+                                        variant="outlined"
+                                        value={feedback}
+                                        checked={feedback}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
+                                        label="NABH"
+                                        color="primary"
+                                        size="md"
+                                        name="nabh"
+                                        variant="outlined"
+                                        value={nabh}
+                                        checked={nabh}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
+                                        label="SFANFA"
+                                        color="primary"
+                                        size="md"
+                                        name="sfanfa"
+                                        variant="outlined"
+                                        value={sfanfa}
+                                        checked={sfanfa}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
+                                        label="Nursing Station"
+                                        color="primary"
+                                        size="md"
+                                        name="nurseStation"
+                                        variant="outlined"
+                                        value={nurseStation}
+                                        checked={nurseStation}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
                             </Grid>
                         </Box>
+
                     </Grid>
                     <Grid item xl={8} lg={8}  >
                         <ModuleGroupTable count={count} rowSelect={rowSelect} />
                     </Grid>
                 </Grid>
             </Box>
+
+
+            {/* 
+               
+                       
+                        
+                           
+                        </Box>
+                    </Grid>
+                    <Grid item xl={8} lg={8}  >
+                        <ModuleGroupTable count={count} rowSelect={rowSelect} />
+                    </Grid>
+                </Grid>
+            </Box> */}
         </CardMaster >
     )
 }

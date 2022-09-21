@@ -20,7 +20,7 @@ const DepartmentSelect = ({ value, setValue }) => {
         dispatch(getDepartment())
     }, [dispatch])
     return (
-        <Box sx={{ mt: 1 }} >
+        <Box sx={{ mt: 1 }}>
             <FormControl fullWidth size="small"  >
                 <Select
                     labelId="demo-simple-select-label"
@@ -35,7 +35,7 @@ const DepartmentSelect = ({ value, setValue }) => {
                     <MenuItem value={0} disabled >Select Department</MenuItem>
                     {
                         departmentdata && departmentdata.map((val, index) => {
-                            return <MenuItem key={index} value={val.dept_slno}>{val.dept_name}</MenuItem>
+                            return <MenuItem key={index} value={val.dept_id}>{val.dept_name}</MenuItem>
                         })
                     }
                 </Select>

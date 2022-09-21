@@ -11,12 +11,13 @@ const TextFieldCustom = ({
   style,
   onchange,
   value,
-  defaultValue, name
+  min,
+  defaultValue, name, disabled
 }) => {
   // --- size --> sm,lg,md Default medium Size
 
   // Text Feild Custome Style 
-  const textStyle = {}
+  const textStyle = { width: "100%", height: "100%" }
 
 
 
@@ -31,10 +32,12 @@ const TextFieldCustom = ({
           endDecorator={endDecorator}
           sx={{ ...textStyle, ...style }}
           onChange={(e) => onchange(e)}
+          min={min}
           value={value}
           defaultValue={defaultValue}
           name={name}
           autoComplete="off"
+          disabled={disabled}
         />
       </CssVarsProvider>
     </Fragment >
