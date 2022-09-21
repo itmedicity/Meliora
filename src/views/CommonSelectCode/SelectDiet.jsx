@@ -6,12 +6,14 @@ import Select from "@mui/material/Select";
 import { useDispatch, useSelector } from 'react-redux';
 import { getDiet } from 'src/redux/actions/Diet.action'
 import { useRef } from 'react';
+import { useState } from 'react';
 const SelectDiet = ({ value, setValue, setDietName }) => {
+    const [selectName, setSelectName] = useState("");
     const dispatch = useDispatch();
     /**getDiet -state update function of reducer 
-*   dietList- initial state of reducer function
-*dietdata is used to list select box items by using map
-*/
+    *dietList- initial state of reducer function
+    *dietdata is used to list select box items by using map
+    */
     const dietdata = useSelector((state) => {
         return state.getDiet.dietList || 0
     })
@@ -19,23 +21,8 @@ const SelectDiet = ({ value, setValue, setDietName }) => {
         dispatch(getDiet());
     }, [dispatch])
 
-    const getNameSelct = (e) => {
-        //    console.log(e);
-        // const selectedDiet = e.nativeEvent.target.textContent
-        // setDietName(selectedDiet)
+    console.log(selectName)
 
-    }
-
-    const a = useRef()
-    //   console.log(a);
-    if (a.current !== undefined) {
-        // console.log(a.current.textContent);
-        // console.log(a.current.outerText);
-        // console.log(a.current.innerText);
-    }
-
-    // const val = (a.current !== undefined) && (a.current !== 0) ? a.current.textContent : '';
-    // console.log(val)
     return (
         <Box   >
             <FormControl fullWidth size="small"  >
@@ -43,12 +30,10 @@ const SelectDiet = ({ value, setValue, setDietName }) => {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={value}
-                    ref={a}
-                    onChange={(e) => {
-                        setValue(e.target.value)
-                        getNameSelct(e)
+                    onChange={(e, { props }) => {
+                        setValue(e.target.value);
+                        setSelectName(props.children)
                     }}
-
                     size="small"
                     fullWidth
                     variant='outlined'
@@ -57,7 +42,7 @@ const SelectDiet = ({ value, setValue, setDietName }) => {
                     <MenuItem value={0} disabled  >Select Diet</MenuItem>
                     {
                         dietdata && dietdata.map((val, index) => {
-                            return <MenuItem key={index} value={val.diet_slno}>{val.diet_name}</MenuItem>
+                            return <MenuItem key={index} value={val.diet_slno} >{val.diet_name}</MenuItem>
                         })
                     }
                 </Select>
