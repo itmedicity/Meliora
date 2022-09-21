@@ -18,7 +18,7 @@ const SelectrmmasterOra = ({ value, setValue }) => {
         dispatch(getRmmasteroracle());
     }, [dispatch])
     return (
-        <Box sx={{ mt: 1 }} >
+        <Box >
             <FormControl fullWidth size="small"  >
                 <Select
                     labelId="demo-simple-select-label"

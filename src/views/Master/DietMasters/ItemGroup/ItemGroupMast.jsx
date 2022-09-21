@@ -7,7 +7,7 @@ import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import ItemGroupTable from './ItemGroupTable'
-
+import { useSelector } from 'react-redux'
 const ItemGroupMast = () => {
     const history = useHistory();
     //state for table render
@@ -19,47 +19,46 @@ const ItemGroupMast = () => {
         group_name: '',
         status: false,
         grp_slno: '',
-        em_id: ''
     })
     //Destructuring
-    const { group_name, status, grp_slno, em_id } = itemgroup
+    const { group_name, status, grp_slno } = itemgroup
     const updateitemgroup = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setItemgrp({ ...itemgroup, [e.target.name]: value })
     }, [itemgroup])
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     //data for insert
     const postdata = useMemo(() => {
         return {
             group_name: group_name,
-            em_id: 1,
-            status: status === true ? 1 : 0
-
+            status: status === true ? 1 : 0,
+            em_id: id,
         }
-    }, [group_name, status])
-
+    }, [group_name, status, id])
     //edit data setting on textfields
     const rowSelect = useCallback((params) => {
         setValue(1)
         const data = params.api.getSelectedRows()
-        const { group_name, status, em_id, grp_slno } = data[0]
+        const { group_name, status, grp_slno } = data[0]
         const frmdata = {
             group_name: group_name,
-            em_id: em_id,
             status: status === 1 ? true : false,
             grp_slno: grp_slno
         }
         setItemgrp(frmdata)
     }, [])
-
     //data for update
     const patchdata = useMemo(() => {
         return {
             group_name: group_name,
-            em_id: em_id,
             status: status === true ? 1 : 0,
+            em_id: id,
             grp_slno: grp_slno
         }
-    }, [group_name, status, grp_slno, em_id])
+    }, [group_name, status, grp_slno, id])
     /*** usecallback function for form submitting */
     const submititemgrp = useCallback((e) => {
         e.preventDefault();
@@ -67,7 +66,6 @@ const ItemGroupMast = () => {
             group_name: '',
             status: false,
             grp_slno: '',
-            em_id: ''
         }
         /***    * insert function for use call back     */
         const Insertitemgroup = async (postdata) => {

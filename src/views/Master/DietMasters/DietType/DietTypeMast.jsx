@@ -9,6 +9,7 @@ import { useCallback } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import moment from 'moment'
+import { useSelector } from 'react-redux'
 const DietTypeMast = () => {
     const history = useHistory();
     //state for table rendering
@@ -29,6 +30,10 @@ const DietTypeMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setDiettype({ ...diettype, [e.target.name]: value })
     }, [diettype])
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     //insert data
     const postData = useMemo(() => {
         return {
@@ -36,9 +41,9 @@ const DietTypeMast = () => {
             start_time: moment(start_time).format('YYYY-MM-DD HH:mm:ss'),
             end_time: moment(end_time).format('YYYY-MM-DD HH:mm:ss'),
             status: status === true ? 1 : 0,
-            em_id: 1
+            em_id: id
         }
-    }, [type_desc, start_time, end_time, status])
+    }, [type_desc, start_time, end_time, status, id])
     //data set for edit  
     const rowSelect = useCallback((params) => {
         setValue(1)
@@ -64,9 +69,10 @@ const DietTypeMast = () => {
             start_time: start_time,
             end_time: end_time,
             status: status === true ? 1 : 0,
+            em_id: id,
             type_slno: type_slno
         }
-    }, [type_desc, start_time, end_time, status, type_slno])
+    }, [type_desc, start_time, end_time, status, type_slno, id])
     /*** usecallback function for form submitting */
     const submitDiettype = useCallback((e) => {
         e.preventDefault();

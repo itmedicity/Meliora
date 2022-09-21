@@ -1,16 +1,20 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState, memo } from 'react'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
-const ExtraOrderTable = () => {
+const ExtraOrderTable = ({ newfood }) => {
     const [column] = useState([
-        { headerName: "slno", field: "type_slno" },
-        { headerName: "slno", field: "type_slno" }
+        { headerName: "Item", field: "item_slno" },
+        { headerName: "Hospital Rate", field: "rate_hos" },
+        { headerName: "Canteen Rate", field: "rate_cant" }
     ])
     return (
-        <CusAgGridMast
-            columnDefs={column}
-        // tableData={tabledata}
-        />
+        <Fragment>
+            <CusAgGridMast
+                columnDefs={column}
+                tableData={newfood}
+            />
+        </Fragment>
+
     )
 }
 
-export default ExtraOrderTable
+export default memo(ExtraOrderTable)

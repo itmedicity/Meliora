@@ -4,12 +4,12 @@ import LocalDiningSharpIcon from '@mui/icons-material/LocalDiningSharp';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { IconButton } from '@mui/material';
-import { editicon } from 'src/color/Color'
+import { editicon } from 'src/color/Color';
 import DietPlan from '../Diet/DietPlan';
 import { Box, Paper } from '@mui/material'
-import Test from '../CommonSelectCode/Test';
 import CardMaster from '../Components/CardMaster';
 import { useHistory } from 'react-router-dom';
+import NursingStationSelect from '../CommonSelectCode/NursingStationSelect';
 const InPatientList = () => {
     const history = useHistory();
     //state for setting table data
@@ -96,10 +96,10 @@ const InPatientList = () => {
                             justifyContent: 'center',
                             flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                         }}>
-                            <Box sx={{ width: "15%", pr: 1, mt: 1 }}
+                            <Box sx={{ width: "18%", pr: 1, mt: 1 }}
                             >
                                 <Paper >
-                                    <Test value={nurse} setValue={setNurse} ></Test>
+                                    <NursingStationSelect value={nurse} setValue={setNurse} />
                                 </Paper>
                             </Box>
                         </Box>
