@@ -1,12 +1,16 @@
 import { IconButton } from '@mui/material'
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import { axioslogin } from '../Axios/Axios'
 import { warningNotify } from '../Common/CommonCode'
 import CusAgGridMast from '../Components/CusAgGridMast'
 import { editicon } from 'src/color/Color'
+import { Box } from '@mui/material'
 import DietApprovalModel from './DietApprovalModel'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CardCloseOnly from '../Components/CardCloseOnly'
+import { useHistory } from 'react-router-dom'
 const DietApprovalList = () => {
+    const history = useHistory();
     //state for setting table data
     const [tabledata, setTabledata] = useState([])
     //for opening diet approval 
@@ -53,16 +57,27 @@ const DietApprovalList = () => {
         }
         getDietplan();
     }, [count])
+    //close button function
+    const backtoSetting = useCallback(() => {
+        history.push('/Home/Settings')
+    }, [history])
     return (
         <Fragment>
-            <CusAgGridMast
-                columnDefs={column}
-                tableData={tabledata}
-            />
-            {
-                approval === 1 ? <DietApprovalModel open={open} setOpen={setOpen} data={approvaldata} count={count} setCount={setCount} /> : null
-            }
-        </Fragment>
+            <CardCloseOnly
+                title="Diet Approval"
+                close={backtoSetting}
+            >
+                <Box sx={{ width: "100%", p: 1 }} >
+                    <CusAgGridMast
+                        columnDefs={column}
+                        tableData={tabledata}
+                    />
+                    {
+                        approval === 1 ? <DietApprovalModel open={open} setOpen={setOpen} data={approvaldata} count={count} setCount={setCount} /> : null
+                    }
+                </Box>
+            </CardCloseOnly>
+        </Fragment >
     )
 }
 export default DietApprovalList
