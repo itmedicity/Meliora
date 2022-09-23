@@ -22,7 +22,7 @@ const CustomCardHeaderOne = ({ cardStyle, title, onClickClose }) => {
                 action={
                     <CustomeToolTip title="Close" placement="left" >
                         <Box>
-                            <CusIconButton size="sm" variant="outlined" color="danger" onClick={onClickClose} >
+                            <CusIconButton size="sm" variant="outlined" color="primary" onClick={onClickClose} >
                                 <CloseIcon fontSize='small' />
                             </CusIconButton>
                         </Box>

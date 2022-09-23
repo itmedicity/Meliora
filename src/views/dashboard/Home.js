@@ -1,8 +1,7 @@
 import { MenuItem, Select } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useState } from 'react'
-import { useEffect } from 'react'
-import { useRef } from 'react'
+
 import SelectDiet from '../CommonSelectCode/SelectDiet'
 
 const Home = () => {

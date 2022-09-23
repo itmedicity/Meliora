@@ -8,11 +8,11 @@ const DietMenuSettCmp = ({ dataPost, setdataPost }) => {
     const [deleteId, setDelId] = useState(0)
     //Array listing component
     const [column] = useState([
-        { headerName: "Diet", field: "diet_slno" },
-        { headerName: "Diet Type ", field: "type_slno" },
-        { headerName: "Day", field: "days" },
-        { headerName: "Item Group", field: "grp_slno" },
-        { headerName: "Item", field: "item_slno" },
+        { headerName: "Diet", field: "dietname" },
+        { headerName: "Diet Type ", field: "typename" },
+        { headerName: "Day", field: "dayname" },
+        { headerName: "Item Group", field: "groupname" },
+        { headerName: "Item", field: "itemname" },
         {
             headerName: 'Delete',
             cellRenderer: params =>

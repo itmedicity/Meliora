@@ -6,7 +6,7 @@ import Select from "@mui/material/Select";
 import { useDispatch, useSelector } from 'react-redux';
 import { getDiet } from 'src/redux/actions/Diet.action'
 
-const SelectDiet = ({ value, setValue }) => {
+const SelectDietName = ({ value, setValue, setName }) => {
     const dispatch = useDispatch();
     /**getDiet -state update function of reducer 
     *dietList- initial state of reducer function
@@ -18,7 +18,6 @@ const SelectDiet = ({ value, setValue }) => {
     useEffect(() => {
         dispatch(getDiet());
     }, [dispatch])
-
     return (
         <Box   >
             <FormControl fullWidth size="small"  >
@@ -26,7 +25,10 @@ const SelectDiet = ({ value, setValue }) => {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    onChange={(e, { props }) => {
+                        setValue(e.target.value);
+                        setName(props.children)
+                    }}
                     size="small"
                     fullWidth
                     variant='outlined'
@@ -44,4 +46,4 @@ const SelectDiet = ({ value, setValue }) => {
     )
 }
 
-export default memo(SelectDiet)
+export default memo(SelectDietName)

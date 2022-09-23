@@ -3,19 +3,19 @@ import { Box, Grid, IconButton } from '@mui/material'
 import { useHistory } from 'react-router-dom';
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-import SelectDiet from 'src/views/CommonSelectCode/SelectDiet';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import SelectItemmaster from 'src/views/CommonSelectCode/SelectItemmaster';
-import ItemgrpSelect from 'src/views/CommonSelectCode/ItemgrpSelect'
-import SelectDietType from 'src/views/CommonSelectCode/SelectDietType';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { MdOutlineAddCircleOutline } from 'react-icons/md';
 import DietMenuSettCmp from './DietMenuSettCmp';
 import { useSelector } from 'react-redux'
+import SelectDietName from 'src/views/CommonSelectCode/SelectDietName';
+import SelectDietTypeName from 'src/views/CommonSelectCode/SelectDietTypeName';
+import ItemGroupName from 'src/views/CommonSelectCode/ItemGroupName';
+import SelectItemName from 'src/views/CommonSelectCode/SelectItemName';
 
 const DietMenuSetting = () => {
     const history = useHistory();
@@ -25,6 +25,12 @@ const DietMenuSetting = () => {
     const [group, setGroup] = useState(0);
     const [type, setType] = useState(0);
     const [day, setDay] = useState(0);
+    const [dietName, setdietName] = useState("");
+    const [typeName, setTypeName] = useState("");
+    const [dayName, setDayName] = useState("");
+    const [itemName, setItemName] = useState("");
+    const [itemgroupName, setItemGroupName] = useState("");
+
     const [count, setCount] = useState(0);
     const [dataPost, setdataPost] = useState([])
     const [dietmenu, setDietmenu] = useState({
@@ -35,6 +41,8 @@ const DietMenuSetting = () => {
         rate_hos: '',
         rate_cant: '',
     })
+
+    //console.log(selectName);
     //destructuring
     const { order_req, status, qty, unit, rate_hos, rate_cant } = dietmenu
     const updateDietmenu = useCallback((e) => {
@@ -73,6 +81,11 @@ const DietMenuSetting = () => {
             const newdata = {
                 id: Math.ceil(Math.random() * 1000),
                 diet_slno: diet,
+                dietname: dietName,
+                typename: typeName,
+                dayname: dayName,
+                groupname: itemgroupName,
+                itemname: itemName,
                 grp_slno: group,
                 item_slno: item,
                 type_slno: type,
@@ -91,7 +104,7 @@ const DietMenuSetting = () => {
                     setdataPost(datass)
                 }
                 else {
-                    warningNotify("Please Select Same Diet")
+                    warningNotify("Please Select Same Diet Or order request or status are not matching")
                 }
             }
             else {
@@ -210,10 +223,10 @@ const DietMenuSetting = () => {
                     <Grid item xl={3} lg={3}>
                         <Grid container spacing={1}>
                             <Grid item xl={12} lg={12}>
-                                <SelectDiet value={diet} setValue={setDiet} />
+                                <SelectDietName value={diet} setValue={setDiet} setName={setdietName} />
                             </Grid>
                             <Grid item xl={12} lg={12} >
-                                <SelectDietType value={type} setValue={setType} />
+                                <SelectDietTypeName value={type} setValue={setType} setName={setTypeName} />
                             </Grid>
                             <Grid item xl={12} lg={12}>
                                 <Box sx={{}} >
@@ -222,7 +235,11 @@ const DietMenuSetting = () => {
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
                                             value={day}
-                                            onChange={(e) => setDay(e.target.value)}
+                                            onChange={(e, { props }) => {
+                                                setDay(e.target.value)
+                                                setDayName(props.children)
+                                            }}
+                                            //onChange={(e) => setDay(e.target.value)}
                                             size="small"
                                             fullWidth
                                             variant='outlined'
@@ -241,10 +258,10 @@ const DietMenuSetting = () => {
                                 </Box >
                             </Grid>
                             <Grid item xl={12} lg={12} >
-                                <ItemgrpSelect value={group} setValue={setGroup} />
+                                <ItemGroupName value={group} setValue={setGroup} setName={setItemGroupName} />
                             </Grid>
                             <Grid item xl={12} lg={12} >
-                                <SelectItemmaster value={item} setValue={setItem} />
+                                <SelectItemName value={item} setValue={setItem} setName={setItemName} />
                             </Grid>
                             <Grid item xl={6} lg={6}>
                                 <TextFieldCustom
