@@ -57,18 +57,21 @@ const DietProcessDashCmp = () => {
             gap: 2,
             flexWrap: 'wrap',
             width: "100%",
+
         }}>
             <Paper elevation={3} sx={{
                 width: "100%",
                 p: 0.5, pb: 2,
                 display: "flex",
                 flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-                justifyContent: 'space-evenly',
+                justifyContent: 'space-evenly'
             }} >
                 <Box sx={{
                     gap: 2,
                     flexWrap: 'wrap',
-                    width: 300
+                    width: { xs: '100%', sm: '100%', md: '50%', lg: '30%', xl: '30%', },
+                    mt: { xs: 1, sm: 1, lg: 1, xl: 1 },
+
                 }}>
                     <Paper elevation={3} sx={{
                         width: "100%",
@@ -111,7 +114,9 @@ const DietProcessDashCmp = () => {
                 <Box sx={{
                     gap: 2,
                     flexWrap: 'wrap',
-                    width: 300
+                    width: { xs: '100%', sm: '100%', md: '50%', lg: '30%', xl: '30%', },
+                    mt: { xs: 1, sm: 1, lg: 1, xl: 1 },
+                    pl: { xs: 0, sm: 0, xl: 1, lg: 1, md: 1 }
                 }}>
                     <Paper elevation={3} sx={{
                         width: "100%",
@@ -152,7 +157,31 @@ const DietProcessDashCmp = () => {
                     </Paper>
                 </Box>
             </Paper>
-            <Paper elevation={3} sx={{
+            {
+                proTable === 1 ? <Paper elevation={3} sx={{
+                    width: "100%",
+                    p: 0.5, pt: 2, mt: 0.5,
+                    display: "flex",
+                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                    justifyContent: 'space-evenly',
+                }} >
+                    <DietprocessTable depand={depand} setDepand={setDepand} setCount={setCount} count={count} />
+                </Paper> : null
+            }
+            {
+                newordrTable === 1 ? <Paper elevation={3} sx={{
+                    width: "100%",
+                    p: 0.5, pt: 2, mt: 0.5,
+                    display: "flex",
+                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                    justifyContent: 'space-evenly',
+                }} >
+                    <DietprocessTable depand={depand} setDepand={setDepand} setCount={setCount} count={count} />
+                </Paper> : null
+            }
+
+
+            {/* <Paper elevation={3} sx={{
                 width: "100%",
                 p: 0.5, pt: 2,
                 display: "flex",
@@ -161,7 +190,7 @@ const DietProcessDashCmp = () => {
             }} >
                 {proTable === 1 ? <DietprocessTable depand={depand} setDepand={setDepand} setCount={setCount} count={count} /> : null}
                 {newordrTable === 1 ? <DietprocessTable depand={depand} setDepand={setDepand} setCount={setCount} count={count} /> : null}
-            </Paper>
+            </Paper> */}
         </Box>
     )
 }

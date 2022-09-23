@@ -35,7 +35,42 @@ const ExtraOrder = () => {
     const updateOrder = useCallback((e) => {
         const value = e.target.value
         setOrder({ ...order, [e.target.name]: value })
+        // if (pt_no.length > 10) {
+        //     infoNotify("The id must be 10 characters")
+        // } else {
+        //     infoNotify("continue")
+        // }
+
     }, [order])
+
+    // let hai = "asdfgopljh"
+    // let data = hai.length
+    // console.log(data);
+    // let data2 = pt_no;
+    // const data3 = pt_no.length;
+    // console.log(data3);
+
+    const [patient, setPt] = useState('');
+    const [patient1, setPt1] = useState("")
+    const [pt, setPts] = useState(false);
+    const updatePatient = async (e) => {
+        setPt(e.target.value)
+        // console.log(patient);
+        if (patient.length === 10) {
+            setPt1(patient)
+            setPts(true)
+            // infoNotify("dfvsv")
+            // console.log("running");
+            // setPt(e.target.value)
+        }
+        // else {
+        //     infoNotify("patient id 10 characters long")
+        // }
+    }
+    // console.log(patient);
+    // console.log(patient.length === 10);
+    // console.log(patient1);
+    // console.log(pt);
     const post = useMemo(() => {
         return {
             item_slno: item
@@ -89,15 +124,17 @@ const ExtraOrder = () => {
     }
     const postData = useMemo(() => {
         return {
-            pt_no: pt_no,
+            pt_no: patient1,
             rm_code: room,
             process_date: process_date
         }
-    }, [pt_no, room, process_date])
+    }, [patient1, room, process_date])
+
     useEffect(() => {
         const getProcessno = async () => {
             const result = await axioslogin.post('/extraorder', postData);
             const { message, success, data } = result.data;
+            // console.log(data);
             if (success === 1) {
                 const { diet_slno, proc_slno } = data[0]
                 setProcess(proc_slno)
@@ -113,10 +150,10 @@ const ExtraOrder = () => {
                 infoNotify(message)
             }
         }
-        if (room !== 0) {
+        if (room !== 0 || pt === true) {
             getProcessno()
         }
-    }, [room, postData])
+    }, [room, postData, pt])
     const Insert = useMemo(() => {
         return {
             proc_slno: process,
@@ -184,6 +221,10 @@ const ExtraOrder = () => {
         setItem(0)
         setFood(frmreset)
         setProcess("")
+        setAdd(0)
+        setNewdata([]);
+        setCanteen(0);
+        setHospital(0);
     }, [])
     return (
         <CardMaster
@@ -191,7 +232,6 @@ const ExtraOrder = () => {
             close={backtoSetting}
             submit={submitDiettype}
             refresh={refreshWindow}
-
         >
             <Box sx={{ width: "100%", p: 1 }}>
                 <Paper square elevation={3} sx={{ p: 2 }} >
@@ -199,23 +239,22 @@ const ExtraOrder = () => {
                         width: "100%",
                         display: "flex",
                         flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                        // bgcolor: "cyan",
-
                     }}>
                         <Box sx={{
                             display: 'flex',
                             width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                            // p: 0.5,
-                            // bgcolor: "cyan",
+                            mt: 1
                         }} >
                             <Box sx={{
                                 width: '100%',
-                                // pl: 1
+                                mt: 0.8
                             }}>
                                 <Typography   >Date</Typography>
                             </Box>
                             <Box sx={{
                                 width: '100%',
+                                height: 15,
+                                mb: 1
                             }}>
                                 <TextFieldCustom
                                     type="date"
@@ -229,28 +268,30 @@ const ExtraOrder = () => {
                         <Box sx={{
                             display: 'flex',
                             width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                            // p: 0.5,
-                            // backgroundColor: { xs: 'green', sm: 'red', md: 'yellow', lg: 'orange', xl: 'gray', },
-                            // pl: { sm: 1, xs: 1 }
-
+                            mt: 1
                         }}>
                             <Box sx={{
                                 width: '100%',
+                                pl: { xl: 1, md: 1 }
                             }}>
                                 <Typography >Patient Id</Typography>
                             </Box>
                             <Box sx={{
-                                // display: 'flex',
+                                height: 15,
+                                mb: 2,
                                 width: '100%',
                             }}>
                                 <TextFieldCustom
                                     placeholder="Patient Id"
                                     type="text"
                                     size="sm"
-                                    name="pt_no"
-                                    value={pt_no}
-                                    onchange={updateOrder}
-                                    disabled
+                                    // name="pt_no"
+                                    // value={pt_no}
+                                    // onchange={updateOrder}
+                                    name="patient"
+                                    value={patient}
+                                    onchange={updatePatient}
+                                // disabled
                                 />
                             </Box>
                         </Box>
@@ -261,21 +302,21 @@ const ExtraOrder = () => {
                         width: "100%",
                         display: "flex",
                         flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                        // p: 0.5
-                        // pl: 1
                     }}>
                         <Box sx={{
                             display: 'flex',
                             width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                            // p: 0.5,
+                            mt: 0.8
                         }} >
                             <Box sx={{
+                                display: "flex",
                                 width: '100%',
                             }}>
                                 <Typography>Room No</Typography>
                             </Box>
                             <Box sx={{
                                 width: '100%',
+                                mt: { xs: 0.8, sm: 0.8, md: 0.5, xl: 0.5 },
                             }}>
                                 <SelectrmmasterOra value={room} setValue={setRoom} />
                             </Box>
@@ -283,11 +324,12 @@ const ExtraOrder = () => {
                         <Box sx={{
                             display: 'flex',
                             width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                            // p: 0.5
-                            // pl: { sm: 1, xs: 1 }
+                            mt: 0.5
                         }}>
                             <Box sx={{
                                 width: '100%',
+                                mb: 1.2,
+                                pl: { xl: 1, md: 1 }
                             }}>
                                 <Typography>Process No</Typography>
                             </Box>
@@ -300,7 +342,7 @@ const ExtraOrder = () => {
                                     size="sm"
                                     name="em_no"
                                     value={process}
-                                    disabled
+                                // disabled
                                 />
                             </Box>
                         </Box>
@@ -309,15 +351,11 @@ const ExtraOrder = () => {
                     <Box sx={{
                         width: "100%",
                         display: "flex",
-                        // p: 0.5,
-                        // p: 0.5,
-                        // pl: 1,
                         flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
                     }}>
                         <Box sx={{
                             display: 'flex',
                             width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                            // p: 0.5,
                         }}>
                             <Box sx={{
                                 width: '100%',
@@ -326,7 +364,7 @@ const ExtraOrder = () => {
                             </Box>
                             <Box sx={{
                                 width: '100%',
-                                // mt: 1
+                                mt: { xs: 0.8, sm: 0.8, xl: 0.6, md: 0.6 }
                             }}>
                                 <SelectDietType value={diet} setValue={setDiet} />
                             </Box>
@@ -334,17 +372,17 @@ const ExtraOrder = () => {
                         <Box sx={{
                             display: 'flex',
                             width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                            // p: 0.5
-                            // pl: { sm: 1, xs: 0 }
                         }}>
                             <Box sx={{
                                 width: '100%',
+                                pl: { xl: 1, md: 1 }
                             }}>
                                 <Typography>Items</Typography>
                             </Box>
                             <Box sx={{
                                 width: '100%',
                                 // mt: 1
+                                mt: 1
                             }}>
                                 <SelectItemmaster value={item} setValue={setItem} />
                             </Box>
@@ -355,22 +393,20 @@ const ExtraOrder = () => {
                         width: "100%",
                         display: "flex",
                         flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                        // p: 1,
-                        // bgcolor: "gray"
-                        // p: 0.5
                     }}>
                         <Box sx={{
                             display: 'flex',
                             width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                            // p: 0.5,
                         }}>
                             <Box sx={{
                                 width: '100%',
                             }}>
-                                <Typography>Hospital Rate</Typography>
+                                <Typography sx={{ mt: 0.4 }}>Hospital Rate</Typography>
                             </Box>
                             <Box sx={{
                                 width: '100%',
+                                // mt: { xs: 0.8, sm: 0.8, md: 0.5, xl: 0.5 },
+                                mt: { sm: 0.5, xs: 0.5, xl: 0, lg: 0.5, md: 0.2 }
                             }}>
                                 <TextFieldCustom
                                     placeholder="Hospital Rate"
@@ -384,18 +420,16 @@ const ExtraOrder = () => {
                         <Box sx={{
                             display: 'flex',
                             width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                            // p: 0.5
-                            // pl: { sm: 1, xs: 0 },
-                            // bgcolor: "cyan"
                         }}>
                             <Box sx={{
                                 width: '100%',
+                                pl: { xl: 1, md: 1 }
                             }}>
-                                <Typography>Canteen Rate</Typography>
+                                <Typography sx={{ mt: 0.4 }}>Canteen Rate</Typography>
                             </Box>
                             <Box sx={{
                                 width: '100%',
-                                // pl: 1
+                                mt: 0.5
                             }}>
                                 <TextFieldCustom
                                     placeholder="Canteen Rate"
@@ -410,8 +444,8 @@ const ExtraOrder = () => {
                     <Box sx={{
                         width: "100%",
                         display: "flex",
-                        // p: 1,
-                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
+                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                        mt: 1
                     }}>
                         <Box sx={{
                             width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
