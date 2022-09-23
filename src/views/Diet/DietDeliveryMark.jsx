@@ -54,6 +54,7 @@ const DietDeliveryMark = () => {
                 }
                 else {
                     warningNotify(message)
+                    setTabledata();
                 }
             }
             getDietType()
@@ -105,25 +106,24 @@ const DietDeliveryMark = () => {
             refresh={refreshWindow}
             close={backtoSetting}
         >
-            <Box sx={{ width: "100%", pl: 1, pt: 1, pr: 1, pb: 1 }}>
-                <Paper square elevation={3} sx={{ pl: 1, pt: 1, pr: 1, pb: 1 }} >
+            <Box sx={{ width: "100%", p: 1 }}>
+                <Paper square elevation={3} sx={{ p: 1 }} >
                     <Box sx={{
                         width: "100%",
                         pl: 1, pt: 0.5, pr: 1, pb: 0.5,
                         display: "flex",
                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                         justifyContent: "center",
-                        flex: 1
+                        flex: 1,
 
-                    }}> <Box
-                        sx={{ width: "8%", pt: 0.5 }}>
+                    }}> <Box sx={{ pt: 0.1, pr: 1 }}>
                             <CssVarsProvider>
                                 <Typography>
                                     Room No
                                 </Typography>
                             </CssVarsProvider>
                         </Box>
-                        <Box                        >
+                        <Box sx={{ pt: 0.3, }}>
                             <SelectrmmasterOra value={room} setValue={setRoom} />
                         </Box>
                     </Box>
