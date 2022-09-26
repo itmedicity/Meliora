@@ -8,8 +8,8 @@ const RoomTypeTable = ({ count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
     const [column] = useState([
         { headerName: "SlNo", field: "rmc_type" },
-        { headerName: "Description", field: "rmc_desc" },
-        { headerName: "Room", field: "rtc_desc" },
+        { headerName: "Description", field: "rmc_desc", minWidth: 200 },
+        { headerName: "Room", field: "rtc_desc", minWidth: 200 },
         { headerName: "Status", field: "status" },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> }
     ])

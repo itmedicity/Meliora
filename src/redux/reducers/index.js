@@ -30,6 +30,9 @@ import { getOutlet } from './OutletOra.Reducer'
 import { getItem } from './ItemMaster.Reducer'
 import { getitemGrpName } from './Itemgroup.Reducer'
 import { getNusringStation } from './NursingStation.Reducer'
+import { getLoginProfileData } from './LoginProfile.Reducer'
+import { getOraRoomByRoomType } from './OraRoomByType.Reducer'
+
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -61,6 +64,8 @@ const reducer = combineReducers({
     getOutlet,
     getItem,
     getitemGrpName,
-    getNusringStation
+    getNusringStation,
+    getLoginProfileData,
+    getOraRoomByRoomType
 })
 export default reducer;

@@ -153,7 +153,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
                             days: day
                         }
                         const result1 = await axioslogin.post('/dietprocess/dmenubyday', getmenu);
-                        const { succes, dataa } = result1.data
+                        const { succes, dataa, messagee } = result1.data
                         if (succes === 1) {
                             const postdata = {
                                 plan_slno: val.plan_slno,
@@ -194,7 +194,8 @@ const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
                             }
                         }
                         else {
-                            warningNotify(message)
+                            setMsg(2)
+                            warningNotify(messagee)
                         }
                     }
                     else {
@@ -204,8 +205,16 @@ const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
                 getdmenu()
             })
         }
-        if (msgshow === 1) {
-            succesNotify("Process Completed")
+
+        if (msgshow !== 0) {
+            if (msgshow === 1) {
+                succesNotify("Process Completed")
+            }
+            else if (msgshow === 2) {
+                warningNotify("No Menu items under planned diet Process not Completed")
+            } else {
+                warningNotify("Process not Completed")
+            }
         }
     }, [allpros, tabledata, startdate, dayselect, msgshow, id, setCount, count])
 
