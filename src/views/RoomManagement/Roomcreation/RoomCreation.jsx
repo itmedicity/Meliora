@@ -4,7 +4,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
-import SelectrmmasterOra from 'src/views/CommonSelectCode/SelectrmmasterOra';
+import RoomMastSelectOra from 'src/views/CommonSelectCode/RoomMastSelectOra';
 import SelectRoomtypeMeli from 'src/views/CommonSelectCode/SelectRoomtypeMeli';
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox';
@@ -17,8 +17,8 @@ const RoomCreation = () => {
     //state for edit
     const [edit, setEdit] = useState(0)
     //state for select box
-    const [value1, setValue1] = useState(0)
-    const [value2, setValue2] = useState(0);
+    const [roomType, setRoomType] = useState(0)
+    const [oracleRoom, setOracleRoom] = useState(0);
     //intializing
     const [rmcreation, setRmcreation] = useState({
         rmc_name: '',
@@ -35,12 +35,12 @@ const RoomCreation = () => {
     const postdata = useMemo(() => {
         return {
             rmc_name: rmc_name,
-            rmc_type: value1,
-            rm_code: value2,
+            rmc_type: roomType,
+            rm_code: oracleRoom,
             rmc_status: rmc_status === true ? 1 : 0,
             em_id: 1
         }
-    }, [rmc_name, value1, value2, rmc_status])
+    }, [rmc_name, roomType, oracleRoom, rmc_status])
     //data set for edit  
     const rowSelect = useCallback((params) => {
         setEdit(1);
@@ -52,23 +52,23 @@ const RoomCreation = () => {
             rmc_slno: rmc_slno
         }
         setRmcreation(frmdata)
-        setValue1(rmc_type)
-        setValue2(rm_code)
+        setRoomType(rmc_type)
+        setOracleRoom(rm_code)
     }, [])
     //update data
     const patchdata = useMemo(() => {
         return {
             rmc_name: rmc_name,
-            rmc_type: value1,
-            rm_code: value2,
+            rmc_type: roomType,
+            rm_code: oracleRoom,
             rmc_status: rmc_status === true ? 1 : 0,
             rmc_slno: rmc_slno
         }
-    }, [rmc_name, value1, value2, rmc_status, rmc_slno])
+    }, [rmc_name, roomType, oracleRoom, rmc_status, rmc_slno])
     //reset select box
     const reset = async () => {
-        setValue1(0)
-        setValue2(0)
+        setRoomType(0)
+        setOracleRoom(0)
     }
     /*** usecallback function for form submitting */
     const submitRoomcreation = useCallback((e) => {
@@ -135,6 +135,7 @@ const RoomCreation = () => {
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
+
     return (
         <CardMaster
             title='Room Creation'
@@ -157,10 +158,10 @@ const RoomCreation = () => {
                                 />
                             </Grid>
                             <Grid item xl={12} lg={12} >
-                                <SelectRoomtypeMeli value={value1} setValue={setValue1} />
+                                <SelectRoomtypeMeli value={roomType} setValue={setRoomType} />
                             </Grid>
                             <Grid item xl={12} lg={12} >
-                                <SelectrmmasterOra value={value2} setValue={setValue2} />
+                                <RoomMastSelectOra value={oracleRoom} setValue={setOracleRoom} Type={roomType} />
                             </Grid>
                             <Grid item lg={2} xl={2}>
                                 <CusCheckBox
