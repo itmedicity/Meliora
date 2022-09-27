@@ -1,8 +1,12 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom';
 import { axioslogin } from '../Axios/Axios';
 import { warningNotify } from '../Common/CommonCode';
+import CardCloseOnly from '../Components/CardCloseOnly';
 import CusAgGridMast from '../Components/CusAgGridMast'
+import { Box } from '@mui/material'
 const DietPlanList = () => {
+    const history = useHistory();
     //state for setting table data
     const [tabledata, setTabledata] = useState([]);
     //column title setting
@@ -27,12 +31,23 @@ const DietPlanList = () => {
         }
         getDietpatientList();
     }, [])
+    //close button function
+    const backtoSetting = useCallback(() => {
+        history.push('/Home/Settings')
+    }, [history])
     return (
         <Fragment>
-            <CusAgGridMast
-                columnDefs={column}
-                tableData={tabledata}
-            />
+            <CardCloseOnly
+                title="Diet Plan List"
+                close={backtoSetting}
+            >
+                <Box sx={{ width: "100%", p: 1 }} >
+                    <CusAgGridMast
+                        columnDefs={column}
+                        tableData={tabledata}
+                    />
+                </Box>
+            </CardCloseOnly>
         </Fragment>
     )
 }

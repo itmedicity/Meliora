@@ -9,6 +9,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import ModuleGroupRightTable from './ModuleGroupRightTable'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
+import { useSelector } from 'react-redux'
 const ModuleUserRight = () => {
     const history = useHistory();
     //Initializing
@@ -21,6 +22,12 @@ const ModuleUserRight = () => {
     })
     const [value, setValue] = useState(0)
     const [count, setCount] = useState(0)
+
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
+
     //Destructuring
     const { status, mod_grp_user_slno } = ModRightStatus
     const updateModule = useCallback((e) => {
@@ -33,9 +40,10 @@ const ModuleUserRight = () => {
             emp_slno: empname,
             mod_grp_slno: modulegroup,
             user_group_slno: usergroup,
-            mod_grp_user_status: status === true ? 1 : 0
+            mod_grp_user_status: status === true ? 1 : 0,
+            create_user: id
         }
-    }, [empname, modulegroup, usergroup, status])
+    }, [empname, modulegroup, usergroup, status, id])
     //data set for edit 
     const rowSelect = useCallback((params) => {
         setValue(1)

@@ -3,7 +3,6 @@ import CardMaster from 'src/views/Components/CardMaster'
 import { Box, Paper } from '@mui/material'
 import { CssVarsProvider } from '@mui/joy'
 import Typography from '@mui/joy/Typography';
-import SelectrmmasterOra from '../CommonSelectCode/SelectrmmasterOra';
 import { useEffect } from 'react';
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
@@ -11,6 +10,7 @@ import { useHistory } from 'react-router-dom'
 import CustomAGSelect from '../Components/CustomAGSelect';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { format } from 'date-fns'
+import RmmasterMeliSelect from '../CommonSelectCode/RmmasterMeliSelect';
 const DietDeliveryMark = () => {
     const [room, setRoom] = useState(0)
     const [detail, setDetail] = useState(0)
@@ -54,6 +54,7 @@ const DietDeliveryMark = () => {
                 }
                 else {
                     warningNotify(message)
+                    setTabledata();
                 }
             }
             getDietType()
@@ -105,26 +106,25 @@ const DietDeliveryMark = () => {
             refresh={refreshWindow}
             close={backtoSetting}
         >
-            <Box sx={{ width: "100%", pl: 1, pt: 1, pr: 1, pb: 1 }}>
-                <Paper square elevation={3} sx={{ pl: 1, pt: 1, pr: 1, pb: 1 }} >
+            <Box sx={{ width: "100%", p: 1 }}>
+                <Paper square elevation={3} sx={{ p: 1 }} >
                     <Box sx={{
                         width: "100%",
                         pl: 1, pt: 0.5, pr: 1, pb: 0.5,
                         display: "flex",
                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                         justifyContent: "center",
-                        flex: 1
+                        flex: 1,
 
-                    }}> <Box
-                        sx={{ width: "8%", pt: 0.5 }}>
+                    }}> <Box sx={{ pt: 0.3, pr: 1 }}>
                             <CssVarsProvider>
                                 <Typography>
                                     Room No
                                 </Typography>
                             </CssVarsProvider>
                         </Box>
-                        <Box                        >
-                            <SelectrmmasterOra value={room} setValue={setRoom} />
+                        <Box >
+                            <RmmasterMeliSelect value={room} setValue={setRoom} />
                         </Box>
                     </Box>
                 </Paper>

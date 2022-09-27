@@ -57,6 +57,11 @@ const Home = () => {
 
     // console.log(checkedValueName)
 
+    // const xx = useSelector((state) => {
+    //     console.log(state.getLoginProfileData.loginProfiledata[0].em_dept_section);
+    // })
+
+
     return (
         <Box>
             <Box>Home Page</Box>

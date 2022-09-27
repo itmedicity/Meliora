@@ -14,7 +14,6 @@ import CmUtilities from '../Menus/CmUtilities'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { apsideBgclor } from 'src/color/Color'
 import DietTransactions from '../Menus/DietTransactions'
-import DietUtilities from '../Menus/DietUtilities'
 import RmTransactions from '../Menus/RmTransaction'
 import RmUtilities from '../Menus/RmUtilities'
 import NurseStation from '../Menus/NurseStation'
@@ -27,7 +26,6 @@ const AppSidebar = () => {
   const [cmtransact, setCmTransact] = useState()
   const [cmutilities, setUtilities] = useState()
   const [diettransact, setDietTransact] = useState()
-  const [dietutilities, setDietUtilities] = useState()
   const [rmtransact, setRmTransact] = useState()
   const [rmutilities, setRmUtilities] = useState()
   const [count, setCount] = useState(0)
@@ -57,7 +55,7 @@ const AppSidebar = () => {
       name: 'Complaint Management',
     },
     {
-      slno: 1,
+      slno: 2,
       component: CNavGroup,
       name: 'Transaction',
       icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
@@ -82,21 +80,21 @@ const AppSidebar = () => {
       component: CNavTitle,
       name: 'Asset Management',
     },
-    //Request Management System Menu Start from Here
+    //Room Management System Menu Start from Here
     {
       slno: 5,
       component: CNavTitle,
       name: 'Room Management',
     },
     {
-      slno: 1,
+      slno: 5,
       component: CNavGroup,
       name: 'Transaction',
       icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
       items: rmtransact
     },
     {
-      slno: 2,
+      slno: 5,
       component: CNavGroup,
       name: 'Utilities',
       icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
@@ -105,24 +103,10 @@ const AppSidebar = () => {
     //Request Management System Menu Start from Here
     {
       slno: 7,
-      component: CNavTitle,
-      name: 'Diet management',
-    },
-    {
-      slno: 1,
       component: CNavGroup,
-      name: 'Transaction',
-      icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+      name: 'Diet Management',
       items: diettransact
     },
-    {
-      slno: 2,
-      component: CNavGroup,
-      name: 'Utilities',
-      icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-      items: dietutilities
-    },
-
   ]
 
   useEffect(() => {
@@ -143,8 +127,6 @@ const AppSidebar = () => {
         setUtilities(newCmUtilities)
         const newDietTransaction = DietTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setDietTransact(newDietTransaction)
-        const newDietUtilities = DietUtilities.filter(val => menuSlnoAry.includes(val.men_slno));
-        setDietUtilities(newDietUtilities)
         const newRmTransaction = RmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setRmTransact(newRmTransaction)
         const newRmUtilities = RmUtilities.filter(val => menuSlnoAry.includes(val.men_slno));

@@ -4,20 +4,20 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { useDispatch, useSelector } from 'react-redux';
-import { getDiet } from 'src/redux/actions/Diet.action'
+import { setOraRoomByRoomType } from 'src/redux/actions/OraRoomByType.action'
 
-const SelectDiet = ({ value, setValue }) => {
+const RoomMastSelectOra = ({ value, setValue, Type }) => {
     const dispatch = useDispatch();
-    /**getDiet -state update function of reducer 
-    *dietList- initial state of reducer function
-    *dietdata is used to list select box items by using map
+    /**getOraRoomByRoomType -state update function of reducer 
+    *roomByRoomTypeList- initial state of reducer function
+    *oraRoom is used to list select box items by using map
     */
-    const dietdata = useSelector((state) => {
-        return state.getDiet.dietList || 0
+    const oraRoom = useSelector((state) => {
+        return state.getOraRoomByRoomType.roomByRoomTypeList || 0
     })
     useEffect(() => {
-        dispatch(getDiet());
-    }, [dispatch])
+        dispatch(setOraRoomByRoomType(Type));
+    }, [dispatch, Type])
 
     return (
         <Box   >
@@ -32,10 +32,10 @@ const SelectDiet = ({ value, setValue }) => {
                     variant='outlined'
                     sx={{ height: 24, p: 0, m: 0, lineHeight: 1.200 }}
                 >
-                    <MenuItem value={0} disabled  >Select Diet</MenuItem>
+                    <MenuItem value={0} disabled  >Select Ora Room</MenuItem>
                     {
-                        dietdata && dietdata.map((val, index) => {
-                            return <MenuItem key={index} value={val.diet_slno} >{val.diet_name}</MenuItem>
+                        oraRoom && oraRoom.map((val, index) => {
+                            return <MenuItem key={index} value={val.rm_code} >{val.rmc_desc}</MenuItem>
                         })
                     }
                 </Select>
@@ -44,4 +44,4 @@ const SelectDiet = ({ value, setValue }) => {
     )
 }
 
-export default memo(SelectDiet)
+export default memo(RoomMastSelectOra)

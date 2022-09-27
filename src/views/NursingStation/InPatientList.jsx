@@ -2,7 +2,7 @@ import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 import LocalDiningSharpIcon from '@mui/icons-material/LocalDiningSharp';
 import { axioslogin } from 'src/views/Axios/Axios';
-import { warningNotify } from 'src/views/Common/CommonCode';
+import { infoNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color';
 import DietPlan from '../Diet/DietPlan';
@@ -64,11 +64,15 @@ const InPatientList = () => {
         const getPatientList = async () => {
             if (nurse !== 0) {
                 const result = await axioslogin.get(`/common/inpatientList/${nurse}`)
-                const { success, data } = result.data
+                const { success, data, message } = result.data
                 if (success === 1) {
                     setTabledata(data)
                     setTable(1)
-                } else {
+                } else if (success === 2) {
+                    setTabledata([])
+                    infoNotify(message)
+                }
+                else {
                     warningNotify("Error occured contact EDP")
                 }
             }

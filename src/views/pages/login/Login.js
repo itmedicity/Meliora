@@ -20,9 +20,9 @@ import { errorNotify, infoNotify, succesNotify } from 'src/views/Common/CommonCo
 import { useDispatch } from 'react-redux'
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { ToastContainer } from 'react-toastify';
+import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action';
 
 const Login = () => {
-
   const { FETCH_LOGIN } = ActionTyps;
   const history = useHistory()
   const dispatch = useDispatch()
@@ -33,7 +33,6 @@ const Login = () => {
     emp_username: emp_username,
     emp_password: emp_password
   }
-
   const submitLoginDetl = async (e) => {
     e.preventDefault()
     if (emp_username === "") {
@@ -61,17 +60,15 @@ const Login = () => {
           empno: data.emp_no,
           empid: data.emp_id
         }
-
         dispatch({ type: FETCH_LOGIN, payload: loggedDetl })
         const loggedCredential = sessionStorage.setItem('userDetl', JSON.stringify(loggedDetl));
-
+        dispatch(setLoginProfileData(data.emp_id))
         if (loggedCredential !== null) {
           history.push("/Home")
         }
       }
     }
   }
-
 
   return (
     <div className=" min-vh-100 d-flex flex-row align-items-center" style={{ backgroundColor: "#e0f2f1" }}>
