@@ -18,7 +18,7 @@ const CusCheckBox = ({
         // --- color --- primary,neutral,danger,info,success,warning
         // --- size --- sm , md, lg
     */
-
+    // console.log(checked)
     return (
         <Fragment>
             <CssVarsProvider>
