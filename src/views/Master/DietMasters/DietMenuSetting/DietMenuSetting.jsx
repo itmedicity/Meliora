@@ -30,7 +30,6 @@ const DietMenuSetting = () => {
     const [dayName, setDayName] = useState("");
     const [itemName, setItemName] = useState("");
     const [itemgroupName, setItemGroupName] = useState("");
-
     const [count, setCount] = useState(0);
     const [dataPost, setdataPost] = useState([])
     const [dietmenu, setDietmenu] = useState({

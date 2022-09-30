@@ -2,7 +2,6 @@ import { IconButton, Paper, Typography } from '@mui/material';
 import Box from "@mui/material/Box";
 import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom';
-import SelectItemmaster from '../CommonSelectCode/SelectItemmaster';
 import SelectrmmasterOra from '../CommonSelectCode/SelectrmmasterOra';
 import CardMaster from '../Components/CardMaster'
 import TextFieldCustom from '../Components/TextFieldCustom';
@@ -12,6 +11,7 @@ import moment from 'moment'
 import SelectDietType from '../CommonSelectCode/SelectDietType';
 import ExtraOrderTable from './ExtraOrderTable';
 import { axioslogin } from '../Axios/Axios';
+import SelectItemName from 'src/views/CommonSelectCode/SelectItemName';
 import { infoNotify, succesNotify, warningNotify } from '../Common/CommonCode';
 const ExtraOrder = () => {
     const history = useHistory();
@@ -20,6 +20,7 @@ const ExtraOrder = () => {
     const [dietold, setDietold] = useState(0)
     const [item, setItem] = useState(0)
     const [add, setAdd] = useState(0);
+    const [itemName, setItemName] = useState("");
     const [food, setFood] = useState({
         item_slno: "",
         rate_hos: "",
@@ -42,7 +43,7 @@ const ExtraOrder = () => {
         // }
 
     }, [order])
-
+    console.log(process_date);
     // let hai = "asdfgopljh"
     // let data = hai.length
     // console.log(data);
@@ -53,10 +54,15 @@ const ExtraOrder = () => {
     const [patient, setPt] = useState('');
     const [patient1, setPt1] = useState("")
     const [pt, setPts] = useState(false);
+    const [hh, sethh] = useState(0)
     const updatePatient = async (e) => {
+        // console.log(e);
         setPt(e.target.value)
         // console.log(patient);
-        if (patient.length === 10) {
+        const data = patient.length
+        sethh(data)
+
+        if (patient.length <= 10) {
             setPt1(patient)
             setPts(true)
             // infoNotify("dfvsv")
@@ -66,11 +72,14 @@ const ExtraOrder = () => {
         // else {
         //     infoNotify("patient id 10 characters long")
         // }
+
     }
-    // console.log(patient);
-    // console.log(patient.length === 10);
-    // console.log(patient1);
-    // console.log(pt);
+    console.log(patient);
+    console.log(patient.length === 10);
+    console.log(patient1);
+    console.log(pt);
+    console.log(hh);
+
     const post = useMemo(() => {
         return {
             item_slno: item
@@ -112,6 +121,7 @@ const ExtraOrder = () => {
                 type_slno: diet,
                 rate_hos: rate_hos,
                 rate_cant: rate_cant,
+                item_name: itemName
             }
             setNewdata([...newfood, newdata])
             setCanteen(sumCanteen + rate_cant)
@@ -124,11 +134,13 @@ const ExtraOrder = () => {
     }
     const postData = useMemo(() => {
         return {
-            pt_no: patient1,
+            // pt_no: patient1,
             rm_code: room,
             process_date: process_date
         }
     }, [patient1, room, process_date])
+
+    console.log(postData);
 
     useEffect(() => {
         const getProcessno = async () => {
@@ -384,7 +396,7 @@ const ExtraOrder = () => {
                                 // mt: 1
                                 mt: 1
                             }}>
-                                <SelectItemmaster value={item} setValue={setItem} />
+                                <SelectItemName value={item} setValue={setItem} setName={setItemName} />
                             </Box>
                         </Box>
                     </Box>
