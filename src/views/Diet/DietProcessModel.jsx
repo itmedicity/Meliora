@@ -17,7 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count, setCount, dayselect }) => {
+const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count, setCount, dayselect, setSearch }) => {
     const [proces, setprocess] = useState({
         plan_slno: 0,
         pt_no: 0,
@@ -37,7 +37,7 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
     })
     const [menus, setmenus] = useState([])
     const [DietMenu, setDietMenu] = useState(0)
-    const [diet, setDiet] = useState(0)
+
     useEffect(() => {
         const destrufunction = () => {
             const { plan_slno, pt_no, ptc_ptname, diet_name, plan_remark, diet_slno, discharge, bd_code, ip_no } = detail[0]
@@ -53,13 +53,8 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
                 ip_no: ip_no
             }
             setprocess(frmdata)
-            setDiet(diet_slno)
-        }
-        destrufunction()
-
-        if (diet !== 0) {
             const getDietMenu = async () => {
-                const result = await axioslogin.get(`/common/dMenu/${diet}`,)
+                const result = await axioslogin.get(`/common/dMenu/${diet_slno}`,)
                 const { data, success, message } = result.data;
                 if (success === 1) {
                     const { dmenu_slno } = data[0]
@@ -83,7 +78,9 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
             }
             getDietMenu()
         }
-    }, [detail, diet_slno, diet, startdate, bd_code, plan_slno])
+        destrufunction()
+
+    }, [detail, startdate])
 
     const postdata = useMemo(() => {
         return {
@@ -119,6 +116,7 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
                     succesNotify(messag)
                     setCount(count + 1);
                     setOpen(false)
+                    setSearch(0)
                 }
                 else if (suces === 0) {
                     infoNotify(messag);
@@ -136,7 +134,7 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
         else {
             infoNotify("No Menus are present in selected day under planed Diet")
         }
-    }, [postdata, menus, count, setCount, setOpen])
+    }, [postdata, menus, count, setCount, setOpen, setSearch])
 
     return (
         <Fragment>

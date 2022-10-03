@@ -2,8 +2,6 @@ import { IconButton, Paper, Typography } from '@mui/material';
 import Box from "@mui/material/Box";
 import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom';
-import SelectItemmaster from '../CommonSelectCode/SelectItemmaster';
-import SelectrmmasterOra from '../CommonSelectCode/SelectrmmasterOra';
 import CardMaster from '../Components/CardMaster'
 import TextFieldCustom from '../Components/TextFieldCustom';
 import { editicon } from 'src/color/Color'
@@ -12,7 +10,9 @@ import moment from 'moment'
 import SelectDietType from '../CommonSelectCode/SelectDietType';
 import ExtraOrderTable from './ExtraOrderTable';
 import { axioslogin } from '../Axios/Axios';
+import SelectItemName from 'src/views/CommonSelectCode/SelectItemName';
 import { infoNotify, succesNotify, warningNotify } from '../Common/CommonCode';
+import RmmasterMeliSelect from '../CommonSelectCode/RmmasterMeliSelect';
 const ExtraOrder = () => {
     const history = useHistory();
     const [room, setRoom] = useState(0)
@@ -20,6 +20,7 @@ const ExtraOrder = () => {
     const [dietold, setDietold] = useState(0)
     const [item, setItem] = useState(0)
     const [add, setAdd] = useState(0);
+    const [itemName, setItemName] = useState("");
     const [food, setFood] = useState({
         item_slno: "",
         rate_hos: "",
@@ -30,47 +31,21 @@ const ExtraOrder = () => {
         pt_no: "",
         process_date: moment(new Date).format('YYYY-MM-DD')
     })
-    const { pt_no, process_date } = order
+    const { process_date } = order
     const [process, setProcess] = useState('')
     const updateOrder = useCallback((e) => {
         const value = e.target.value
         setOrder({ ...order, [e.target.name]: value })
-        // if (pt_no.length > 10) {
-        //     infoNotify("The id must be 10 characters")
-        // } else {
-        //     infoNotify("continue")
-        // }
-
     }, [order])
 
-    // let hai = "asdfgopljh"
-    // let data = hai.length
-    // console.log(data);
-    // let data2 = pt_no;
-    // const data3 = pt_no.length;
-    // console.log(data3);
-
     const [patient, setPt] = useState('');
-    const [patient1, setPt1] = useState("")
     const [pt, setPts] = useState(false);
     const updatePatient = async (e) => {
         setPt(e.target.value)
-        // console.log(patient);
-        if (patient.length === 10) {
-            setPt1(patient)
+        if (patient.length <= 10) {
             setPts(true)
-            // infoNotify("dfvsv")
-            // console.log("running");
-            // setPt(e.target.value)
         }
-        // else {
-        //     infoNotify("patient id 10 characters long")
-        // }
     }
-    // console.log(patient);
-    // console.log(patient.length === 10);
-    // console.log(patient1);
-    // console.log(pt);
     const post = useMemo(() => {
         return {
             item_slno: item
@@ -112,6 +87,7 @@ const ExtraOrder = () => {
                 type_slno: diet,
                 rate_hos: rate_hos,
                 rate_cant: rate_cant,
+                item_name: itemName
             }
             setNewdata([...newfood, newdata])
             setCanteen(sumCanteen + rate_cant)
@@ -124,17 +100,15 @@ const ExtraOrder = () => {
     }
     const postData = useMemo(() => {
         return {
-            pt_no: patient1,
             rm_code: room,
             process_date: process_date
         }
-    }, [patient1, room, process_date])
+    }, [room, process_date])
 
     useEffect(() => {
         const getProcessno = async () => {
             const result = await axioslogin.post('/extraorder', postData);
             const { message, success, data } = result.data;
-            // console.log(data);
             if (success === 1) {
                 const { diet_slno, proc_slno } = data[0]
                 setProcess(proc_slno)
@@ -285,13 +259,9 @@ const ExtraOrder = () => {
                                     placeholder="Patient Id"
                                     type="text"
                                     size="sm"
-                                    // name="pt_no"
-                                    // value={pt_no}
-                                    // onchange={updateOrder}
                                     name="patient"
                                     value={patient}
                                     onchange={updatePatient}
-                                // disabled
                                 />
                             </Box>
                         </Box>
@@ -318,7 +288,7 @@ const ExtraOrder = () => {
                                 width: '100%',
                                 mt: { xs: 0.8, sm: 0.8, md: 0.5, xl: 0.5 },
                             }}>
-                                <SelectrmmasterOra value={room} setValue={setRoom} />
+                                <RmmasterMeliSelect value={room} setValue={setRoom} />
                             </Box>
                         </Box>
                         <Box sx={{
@@ -381,10 +351,9 @@ const ExtraOrder = () => {
                             </Box>
                             <Box sx={{
                                 width: '100%',
-                                // mt: 1
                                 mt: 1
                             }}>
-                                <SelectItemmaster value={item} setValue={setItem} />
+                                <SelectItemName value={item} setValue={setItem} setName={setItemName} />
                             </Box>
                         </Box>
                     </Box>
@@ -471,16 +440,12 @@ const ExtraOrder = () => {
                                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                                 }}>
                                     <Box sx={{
-                                        // display: 'flex',
                                         width: '100%',
-                                        // backgroundColor: 'green'
                                     }}>
                                         <Typography>Sum Hospital Rate</Typography>
                                     </Box>
                                     <Box sx={{
-                                        // display: 'flex',
                                         width: '100%',
-                                        // backgroundColor: 'red'
                                     }}>
                                         <Typography>{sumHosptial}</Typography>
                                     </Box>
@@ -490,16 +455,12 @@ const ExtraOrder = () => {
                                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                                 }}>
                                     <Box sx={{
-                                        // display: 'flex',
                                         width: '100%',
-                                        // backgroundColor: 'green'
                                     }}>
                                         <Typography> Sum Canteen Rate</Typography>
                                     </Box>
                                     <Box sx={{
-                                        // display: 'flex',
                                         width: '100%',
-                                        // backgroundColor: 'green'
                                     }}>
                                         <Typography>{sumCanteen}</Typography>
                                     </Box>

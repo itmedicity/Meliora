@@ -16,10 +16,9 @@ import { format } from 'date-fns'
 import { useSelector } from 'react-redux'
 import { succesNotify } from 'src/views/Common/CommonCode'
 
-const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
+const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, startdate, dayselect, setdayselect }) => {
     const [tabledata, setTabledata] = useState([])
     const [nurse, setNurse] = useState(0)
-    const [startdate, newStartDate] = useState(new Date())
     const [open, setOpen] = useState(false);
     const [sercha, setSearch] = useState(0)
     const [detail, setdeatial] = useState([])
@@ -56,7 +55,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
-    const [dayselect, setdayselect] = useState(0)
+
     //month format
     const updatedate = (e) => {
         setdayselect(1)
@@ -94,7 +93,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
             }
         }
         getUserTable();
-    }, [depand, count])
+    }, [depand, count, sercha])
 
     useEffect(() => {
         const serchdatass = async () => {
@@ -136,6 +135,12 @@ const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
     const allProcess = () => {
         setAllpros(allpros + 1)
     }
+
+    useEffect(() => {
+        if (msgshow === 1) {
+            succesNotify("Process Completed")
+        }
+    }, [msgshow])
 
     useEffect(() => {
         if (allpros !== 0 && msgshow === 0) {
@@ -183,6 +188,8 @@ const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
                                 if (suces === 1) {
                                     setMsg(1)
                                     setCount(count + 1);
+                                    setAllpros(0)
+
                                 }
                                 else {
                                     setMsg(0)
@@ -194,7 +201,6 @@ const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
                             }
                         }
                         else {
-                            setMsg(2)
                             warningNotify(messagee)
                         }
                     }
@@ -202,19 +208,11 @@ const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
                         warningNotify(message)
                     }
                 }
-                getdmenu()
-            })
-        }
+                getdmenu(val.plan_slno)
 
-        if (msgshow !== 0) {
-            if (msgshow === 1) {
-                succesNotify("Process Completed")
-            }
-            else if (msgshow === 2) {
-                warningNotify("No Menu items under planned diet Process not Completed")
-            } else {
-                warningNotify("Process not Completed")
-            }
+                return 0
+
+            })
         }
     }, [allpros, tabledata, startdate, dayselect, msgshow, id, setCount, count])
 
@@ -225,9 +223,12 @@ const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
     return (
         < Fragment >
             {mdopen !== 0 ? <DietProcessModel open={open} handleClose={handleClose} detail={detail}
-                setCount={setCount} count={count} setOpen={setOpen} startdate={startdate} dayselect={dayselect} /> : null}
+                setCount={setCount} count={count} setOpen={setOpen} startdate={startdate} dayselect={dayselect}
+                setSearch={setSearch}
+
+            /> : null}
             <Box sx={{ width: "100%" }}>
-                {depand === 1 || sercha === 1 ?
+                {depand === 1 ?
                     <Box sx={{
                         width: "100%",
                         pl: 1, pt: 0.5, pr: 1, pb: 0.5,
@@ -287,6 +288,61 @@ const DietprocessTable = ({ depand, setDepand, count, setCount }) => {
                         columnDefs={columnprocess}
                         tableData={tabledata}
                     /> : null
+                }
+                {depand === 2 ?
+                    <Box sx={{
+                        width: "100%",
+                        pl: 1, pt: 0.5, pr: 1, pb: 0.5,
+                        display: "flex",
+                        flexDirection: { xl: "column", lg: "column", md: "column", sm: 'column', xs: "column" },
+                    }}>
+                        <Box sx={{
+                            // width: "100%",
+                            pl: 1, pt: 0.5, pb: 0.5,
+                            display: "flex",
+                            // width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                            flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                            alignItems: "center",
+                        }}>
+                            <Box sx={{
+                                flex: 0, pt: 0.5, pr: 1
+                            }}>
+                                <TextFieldCustom
+                                    placeholder="Select Date"
+                                    type="date"
+                                    size="sm"
+                                    min={new Date()}
+                                    name="startdate"
+                                    value={startdate}
+                                    onchange={updatedate}
+                                />
+                            </Box>
+                            <Box sx={{
+                                display: "flex",
+                                justifyContent: "space-evenly ",
+                                pt: 1, flex: 0, pr: 1
+                            }}>
+                                <NursingStationSelect value={nurse} setValue={setNurse} />
+                            </Box>
+                            <Box sx={{
+                                flex: 0, pt: 0.5, pr: 2
+                            }}>
+                                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={search} >
+                                    <SearchOutlinedIcon fontSize='small' />
+                                </CusIconButton>
+                            </Box>
+                            <Box sx={{
+                                flex: 1, pr: 1, pt: 0.5
+                            }}>
+                                <Button onClick={allProcess} variant="contained" size="small" color="primary">All Process</Button>
+                            </Box>
+                        </Box>
+                        <CusAgGridMast
+                            columnDefs={column}
+                            tableData={tabledata}
+                        />
+                    </Box>
+                    : null
                 }
             </Box>
         </Fragment >
