@@ -358,7 +358,7 @@ const UserCreation = () => {
                         <Box sx={{ width: "20%", pr: 1 }}>
                             <BranchSelectHr value={branch} setValue={setBranch} />
                         </Box>
-                        <Box sx={{ width: "20%", pr: 1 }}>
+                        <Box sx={{ width: "20%", pr: 1, mt: 1 }}>
                             <DepartmentSelect value={dept} setValue={setDept} />
                         </Box>
                         <Box sx={{ width: "20%", pr: 1 }}>

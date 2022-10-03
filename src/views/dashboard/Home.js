@@ -1,8 +1,6 @@
 import { MenuItem, Select } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useState } from 'react'
-//import { useSelector } from 'react-redux'
-
 import SelectDiet from '../CommonSelectCode/SelectDiet'
 
 const Home = () => {
@@ -13,11 +11,6 @@ const Home = () => {
         setSelectName(props.children)
         setValue(e.target.value)
     }
-
-    // const xx = useSelector((state) => {
-    //     console.log(state.getLoginProfileData.loginProfiledata[0].em_dept_section);
-    // })
-
 
     return (
         <Box>

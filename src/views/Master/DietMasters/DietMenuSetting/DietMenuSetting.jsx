@@ -30,7 +30,6 @@ const DietMenuSetting = () => {
     const [dayName, setDayName] = useState("");
     const [itemName, setItemName] = useState("");
     const [itemgroupName, setItemGroupName] = useState("");
-
     const [count, setCount] = useState(0);
     const [dataPost, setdataPost] = useState([])
     const [dietmenu, setDietmenu] = useState({
@@ -41,8 +40,6 @@ const DietMenuSetting = () => {
         rate_hos: '',
         rate_cant: '',
     })
-
-    //console.log(selectName);
     //destructuring
     const { order_req, status, qty, unit, rate_hos, rate_cant } = dietmenu
     const updateDietmenu = useCallback((e) => {
@@ -186,7 +183,6 @@ const DietMenuSetting = () => {
 
         /*** * insert function for use call back     */
         const menudetailInsert = async (postMenuDetal) => {
-
             const result = await axioslogin.post(`/dietmenudtl/detailInsert`, postMenuDetal)
             const { message, success } = result.data;
             if (success === 1) {
