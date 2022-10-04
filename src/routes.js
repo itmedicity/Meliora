@@ -48,7 +48,7 @@ const DietPlanList = React.lazy(() => import('./views/NursingStation/DietPlanLis
 const DietOrderList = React.lazy(() => import('./views/Diet/DietOrderList'));
 const DietExtraOrder = React.lazy(() => import('./views/Diet/ExtraOrder'));
 const DietDelivery = React.lazy(() => import('./views/Diet/DietDeliveryMark'))
-
+const RectifyComplaint = React.lazy(() => import('./views/ComManagement/RectifyComplaint/RectifyCompalint'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -99,7 +99,8 @@ const routes = [
   { path: '/Home/DietPlanList', exact: true, name: ' Diet Approval', component: DietPlanList },
   { path: '/Home/DietOrderList', exact: true, name: ' Diet Order List', component: DietOrderList },
   { path: '/Home/DietExtraOrder', exact: true, name: ' Diet Extra Order', component: DietExtraOrder },
-  { path: '/Home/DietDelivery', exact: true, name: ' Diet Delivery', component: DietDelivery }
+  { path: '/Home/DietDelivery', exact: true, name: ' Diet Delivery', component: DietDelivery },
+  { path: '/Home/RectifyComplaint', exact: true, name: 'Rectify Complaint', component: RectifyComplaint },
 
 ]
 
