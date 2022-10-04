@@ -6,28 +6,26 @@ import { axioslogin } from 'src/views/Axios/Axios';
 
 
 
-const ComplaintRegTable = ({ count, rowSelect }) => {
+const ComplaintRegTable = ({ count, rowSelect, sec }) => {
+
     //state for setting table data
     const [tabledata, setTabledata] = useState([])
     //column title setting
     const [column] = useState([
-        { headerName: "SlNo", field: "complaint_slno" },
-        { headerName: "Complaint Description", field: "complaint_desc" },
+        { headerName: "SlNo", field: "complaint_slno", minWidth: 10 },
+        { headerName: "Date", field: "compalint_date" },
         { headerName: "DepartmentSec", field: "sec_name" },
         { headerName: "Request Type", field: "req_type_name" },
-        { headerName: "Complaint Dept", field: "complaint_dept_name" },
         { headerName: "Complaint Type", field: "complaint_type_name" },
-        { headerName: "Priority", field: "priority" },
-        { headerName: "Hic Policy", field: "hic_policy_name" },
-        { headerName: "Date", field: "compalint_date" },
-        //     {
-        //         headerName: 'Action',
-        //         cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
-        //     }
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
+        {
+            headerName: 'Action',
+            cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+        }
     ])
     useEffect(() => {
         const getcomplinttable = async () => {
-            const result = await axioslogin.get(`/complaintreg/complit`)
+            const result = await axioslogin.get(`/complaintreg/loginbysec/${sec}`)
             const { success, data } = result.data
             if (success === 1) {
                 setTabledata(data)
@@ -37,7 +35,7 @@ const ComplaintRegTable = ({ count, rowSelect }) => {
             }
         }
         getcomplinttable();
-    }, [count])
+    }, [count, sec])
 
 
     return (

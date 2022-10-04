@@ -1,38 +1,30 @@
-import { MenuItem, Select } from '@mui/material'
+
 import { Box } from '@mui/system'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react'
-import { useRef } from 'react'
-import Complanit_checkbox from '../ComManagement/ComplaintRegister/Complanit_checkbox'
-import SelectDiet from '../CommonSelectCode/SelectDiet'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { getRequesttype } from 'src/redux/actions/RequestType.action';
 import { Checkbox, CssVarsProvider } from '@mui/joy'
 
 const Home = () => {
     const dispatch = useDispatch();
-    const [value, setValue] = useState(0)
-    const [selectName, setSelectName] = useState("");
-    const onChangeValue = (e, { props }) => {
-        setSelectName(props.children)
-        setValue(e.target.value)
-    }
-
-    const requset_type = useSelector((state) => {
-        return state.getRequesttype.requesttypeList
+    // const [value, setValue] = useState(0)
+    // const [selectName, setSelectName] = useState("");
+    // const onChangeValue = (e, { props }) => {
+    //     setSelectName(props.children)
+    //     setValue(e.target.value)
+    // }
 
 
-
-    })
     // console.log(requset_type);
     useEffect(() => {
         dispatch(getRequesttype());
     }, [dispatch])
 
 
-    const updateValue = useCallback(() => {
-        console.log("select");
-    })
+    // const updateValue = useCallback(() => {
+    //     console.log("select");
+    // })
 
 
     // const onCheck = (e, val) => {
@@ -50,7 +42,7 @@ const Home = () => {
 
     const [checkedValue, setCheckedValue] = useState(false)
     //const [checkedValueName, setCheckedValueName] = useState({ name: '', value: 0 })
-    console.log(checkedValue)
+
 
 
 

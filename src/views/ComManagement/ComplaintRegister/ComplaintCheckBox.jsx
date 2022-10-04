@@ -1,21 +1,20 @@
 import { Checkbox, CssVarsProvider } from '@mui/joy'
-import React, { Fragment } from 'react'
-import { useState } from 'react'
+import React, { Fragment, memo } from 'react'
 
-const Complanit_checkbox = ({ value, onChange, name, label, checkedValue }) => {
-
+const ComplaintCheckBox = ({ value, onChange, name, label, checkedValue, onClick }) => {
     return (
         <Fragment>
             <CssVarsProvider>
                 <Checkbox
                     variant="outlined"
                     color="success"
-                    label={label}
+                    label={label.toLowerCase()}
                     checked={checkedValue !== undefined && checkedValue !== value ? false : true}
                     onChange={(e) => {
                         onChange(e.target.checked === true ? value : null)
 
                     }}
+                    onClick={onClick}
                     // checked={100}
                     name={name}
                 //disabled={checkedValue !== undefined && checkedValue !== val.value ? true : false}
@@ -26,4 +25,4 @@ const Complanit_checkbox = ({ value, onChange, name, label, checkedValue }) => {
     )
 }
 
-export default Complanit_checkbox
+export default memo(ComplaintCheckBox)
