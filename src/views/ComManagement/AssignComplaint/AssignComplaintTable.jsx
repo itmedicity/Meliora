@@ -1,6 +1,5 @@
-import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
-import QuickreplyIcon from '@mui/icons-material/Quickreply';
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import { IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color';
@@ -10,7 +9,9 @@ import { Box } from '@mui/material'
 import { useHistory } from 'react-router-dom';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action'
+import AssignmentTurnedInRoundedIcon from '@mui/icons-material/AssignmentTurnedInRounded';
 const AssignComplaintTable = () => {
     const history = useHistory();
     //state for setting table data
@@ -23,66 +24,56 @@ const AssignComplaintTable = () => {
     const [count, setCount] = useState(0)
     // Get login user emp_id
     const id = useSelector((state) => {
-        console.log(state.LoginUserData);
         return state.LoginUserData.empid
     })
-
     //column title setting
     const [column] = useState([
         { headerName: "SlNo", field: "complaint_slno" },
-        {
-            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 500
-
-        },
-        { headerName: "Department Section", field: "sec_name", width: 300 },
-        { headerName: "Request Type", field: "req_type_name" },
-        { headerName: "Complaint Dept", field: "complaint_dept_name", width: 250 },
-        { headerName: "Complaint Type", field: "complaint_type_name" },
-        { headerName: "Priority", field: "priority" },
-        { headerName: "Hic Policy", field: "hic_policy_name" },
-        { headerName: "Date", field: "complaint_date" },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 250 },
+        { headerName: "Department Section", field: "sec_name", autoHeight: true, wrapText: true, width: 250 },
+        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true },
+        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, width: 250 },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
+        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
+        { headerName: "Date", field: "date", autoHeight: true, wrapText: true },
+        { headerName: "Time", field: "Time", autoHeight: true, wrapText: true },
         {
             headerName: 'Action', cellRenderer: params => <Fragment>
-                <IconButton sx={{ color: editicon, paddingY: 0.5, fontSize: 2 }}
+                <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                     onClick={() => quickAssign(params)}>
-                    <AccessibilityNewIcon />
+                    <AssignmentTurnedInRoundedIcon />
                 </IconButton>
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                     onClick={() => Assign(params)}>
-                    <QuickreplyIcon />
+                    < AccessibilityNewIcon />
                 </IconButton>
             </Fragment>
         }
     ])
-    // const data = [{
-    //     complaint_slno: 1,
-    //     complaint_desc: "Mouse Complaint toner ink finished ifhnvkdshodghedshvksdhvsgfukgsifgvujsgfuishfvsgfkgujfhksfvsifgjgjdfyhdyhdfhuyufdhdfhfchcfhcfhfdfhdffdhdfhfdhdf ",
-    //     // complaint_desc: "Mouse Complaint",
-    //     sec_name: "Information Technology",
-    //     req_type_name: "Complaint",
-    //     complaint_dept_name: "Information Technology",
-    //     complaint_type_name: "Hardware",
-    // }]
-
+    const dispatch = useDispatch();
     useEffect(() => {
-        const getComplaintAssign = async () => {
-            const result = await axioslogin.get("/complaintassign");
-            const { success, message, data } = result.data;
-            console.log(data);
-            if (success === 1) {
-                setTabledata(data)
-            } else {
-                infoNotify(message)
+        dispatch(setLoginProfileData(id))
+    }, [dispatch, id])
+    const xx = useSelector((state) => {
+        return state.getLoginProfileData.loginProfiledata
+    })
+    //displaying complaints against the login users department
+    useEffect(() => {
+        if (xx.length !== 0) {
+            const { em_department } = xx[0]
+            const getComplaintAssign = async () => {
+                const result = await axioslogin.get(`/complaintassign/${em_department}`);
+                const { success, message, data } = result.data;
+                if (success === 1) {
+                    setTabledata(data)
+                } else {
+                    infoNotify(message)
+                }
             }
+            getComplaintAssign();
         }
-        getComplaintAssign();
-    }, [count])
-    const postData = useMemo(() => {
-        return {
-            complaint_assign_emp: id
-        }
-    }, [id])
-    console.log(postData);
+    }, [xx, count])
+    //quick assign function
     const quickAssign = useCallback((params) => {
         const { complaint_slno } = params.data
         const postData = {
@@ -103,14 +94,13 @@ const AssignComplaintTable = () => {
         }
         getData(postData);
     }, [count, id])
-
+    //detailed assign modal open
     const Assign = useCallback((params) => {
         setAb(1)
         setOpen(true)
         const data = params.api.getSelectedRows()
         setComplaint(data)
     }, [])
-
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
@@ -127,14 +117,11 @@ const AssignComplaintTable = () => {
                         tableData={tabledata}
                     />
                 </Box>
-
                 {
-                    ab === 1 ? <ModalAssignComplaint open={open} setOpen={setOpen} complaint={complaint} /> : null
+                    ab === 1 ? <ModalAssignComplaint open={open} setOpen={setOpen} complaint={complaint} empdept={xx} count={count} setCount={setCount} /> : null
                 }
             </CardCloseOnly>
         </Fragment>
-
     )
 }
-
 export default AssignComplaintTable

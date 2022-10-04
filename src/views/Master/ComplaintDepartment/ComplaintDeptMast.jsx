@@ -8,6 +8,7 @@ import { Grid } from '@mui/material'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect';
 const ComplaintDeptMast = () => {
     //for routing to settings
     const history = useHistory();
@@ -15,6 +16,8 @@ const ComplaintDeptMast = () => {
     const [count, setCount] = useState(0);
     //state for edit
     const [edit, setEdit] = useState(0);
+    //state for department select
+    const [department, setDepartment] = useState(0)
     //intializing
     const [complaint, setComplaint] = useState({
         complaint_dept_name: '',
@@ -31,29 +34,32 @@ const ComplaintDeptMast = () => {
     const postdata = useMemo(() => {
         return {
             complaint_dept_name: complaint_dept_name,
+            department_slno: department,
             complaint_dept_status: complaint_dept_status === true ? 1 : 0
         }
-    }, [complaint_dept_name, complaint_dept_status])
+    }, [complaint_dept_name, complaint_dept_status, department])
     //data setting  for edit
     const rowSelect = useCallback((params) => {
         setEdit(1)
         const data = params.api.getSelectedRows()
-        const { complaint_dept_name, status, complaint_dept_slno } = data[0]
+        const { complaint_dept_name, status, complaint_dept_slno, department_slno } = data[0]
         const frmdata = {
             complaint_dept_name: complaint_dept_name,
             complaint_dept_status: status === 'Yes' ? true : false,
             complaint_dept_slno: complaint_dept_slno
         }
         setComplaint(frmdata)
+        setDepartment(department_slno === null ? 0 : department_slno)
     }, [])
     //data for update
     const patchdata = useMemo(() => {
         return {
             complaint_dept_name: complaint_dept_name,
+            department_slno: department,
             complaint_dept_status: complaint_dept_status === true ? 1 : 0,
             complaint_dept_slno: complaint_dept_slno
         }
-    }, [complaint_dept_name, complaint_dept_status, complaint_dept_slno])
+    }, [complaint_dept_name, complaint_dept_status, complaint_dept_slno, department])
     /*** usecallback function for form submitting */
     const submitComplaintdept = useCallback((e) => {
         e.preventDefault();
@@ -70,6 +76,7 @@ const ComplaintDeptMast = () => {
                 succesNotify(message)
                 setCount(count + 1);
                 setComplaint(formreset);
+                setDepartment(0);
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -86,6 +93,7 @@ const ComplaintDeptMast = () => {
                 setCount(count + 1);
                 setEdit(0)
                 setComplaint(formreset);
+                setDepartment(0);
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -115,6 +123,7 @@ const ComplaintDeptMast = () => {
         }
         setComplaint(formreset);
         setEdit(0);
+        setDepartment(0);
     }, [setComplaint])
     return (
         <CardMaster
@@ -136,6 +145,9 @@ const ComplaintDeptMast = () => {
                                     value={complaint_dept_name}
                                     onchange={updateDepartment}
                                 />
+                            </Grid>
+                            <Grid item xl={12} lg={12} sx={{ mt: 0 }}>
+                                <DepartmentSelect value={department} setValue={setDepartment} />
                             </Grid>
                             <Grid item lg={2} xl={2}>
                                 <CusCheckBox
