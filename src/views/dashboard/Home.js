@@ -5,6 +5,8 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { getRequesttype } from 'src/redux/actions/RequestType.action';
 import { Checkbox, CssVarsProvider } from '@mui/joy'
+import SelectDiet from '../CommonSelectCode/SelectDiet'
+
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -48,11 +50,6 @@ const Home = () => {
 
 
     // console.log(checkedValueName)
-
-    // const xx = useSelector((state) => {
-    //     console.log(state.getLoginProfileData.loginProfiledata[0].em_dept_section);
-    // })
-
 
     return (
         <Box>

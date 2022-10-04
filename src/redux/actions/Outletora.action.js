@@ -6,7 +6,7 @@ const { FETCH_OUTLET_ORA } = ActionTyps
  */
 /*** Outlet action type check then payload set to the state and loading status set as true */
 export const getOutlet = () => async (dispatch) => {
-    const result = await axioslogin.get('/deptsecmaster/outlet');
+    const result = await axioslogin.get('/deptsecmaster/outlet/select');
     const { success, data } = result.data
     if (success === 1) {
         dispatch({ type: FETCH_OUTLET_ORA, payload: data, loadingStatus: true })

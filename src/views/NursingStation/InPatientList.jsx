@@ -9,7 +9,7 @@ import DietPlan from '../Diet/DietPlan';
 import { Box, Paper } from '@mui/material'
 import CardMaster from '../Components/CardMaster';
 import { useHistory } from 'react-router-dom';
-import NursingStationSelect from '../CommonSelectCode/NursingStationSelect';
+import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect';
 const InPatientList = () => {
     const history = useHistory();
     //state for setting table data
@@ -32,9 +32,9 @@ const InPatientList = () => {
         { headerName: "Name", field: "ptc_ptname" },
         { headerName: "Doctor", field: "doc_name" },
         { headerName: "Bed", field: "bdc_no" },
-        {
-            headerName: "Room", field: "rcc_desc"
-        },
+        { headerName: "Room Type", field: "rtc_desc" },
+        { headerName: "Room", field: "rmc_desc" },
+
         {
             headerName: 'Diet Plan', cellRenderer: params => {
                 if (params.data.plan_status === 1) {
@@ -79,6 +79,7 @@ const InPatientList = () => {
         }
         getPatientList();
     }, [nurse])
+
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
@@ -100,10 +101,9 @@ const InPatientList = () => {
                             justifyContent: 'center',
                             flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                         }}>
-                            <Box sx={{ width: "18%", pr: 1, mt: 1 }}
-                            >
+                            <Box sx={{ width: "25%", pr: 1, mt: 1 }}                            >
                                 <Paper >
-                                    <NursingStationSelect value={nurse} setValue={setNurse} />
+                                    <NursingStationMeliSelect value={nurse} setValue={setNurse} />
                                 </Paper>
                             </Box>
                         </Box>
@@ -116,9 +116,7 @@ const InPatientList = () => {
                             /> : null
                         }
                     </Box>
-                    {
-                        ab === 1 ? <DietPlan open={open} setOpen={setOpen} data={data} /> : null
-                    }
+                    {ab === 1 ? <DietPlan open={open} setOpen={setOpen} data={data} /> : null}
                 </Box>
             </CardMaster>
         </Fragment>

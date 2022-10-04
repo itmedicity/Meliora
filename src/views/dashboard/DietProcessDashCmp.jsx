@@ -1,12 +1,11 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo, useEffect, useState } from 'react'
 import { Box, Paper } from '@mui/material'
 import { CssVarsProvider, Typography } from '@mui/joy';
 import IconButton from '@mui/joy/IconButton';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import DietprocessTable from '../Diet/DietprocessTable';
+import { format } from 'date-fns'
 const DietProcessDashCmp = () => {
     const [process, setProcess] = useState(0)
     const [newOrder, setNewOrder] = useState(0)
@@ -14,23 +13,32 @@ const DietProcessDashCmp = () => {
     const [newordrTable, setNewOrdrTable] = useState(0)
     const [depand, setDepand] = useState(0)
     const [count, setCount] = useState(0);
+    const [startdate, newStartDate] = useState(new Date())
+    const [dayselect, setdayselect] = useState(0)
+
+    const postdata = useMemo(() => {
+        return {
+            process_date: dayselect === 0 ? format(new Date(), "yyyy-MM-dd ") : format(new Date(startdate), "yyyy-MM-dd "),
+        }
+    }, [startdate, dayselect])
+
     useEffect(() => {
         //Get dashboard process list count
         const getprocesscount = async () => {
-            const result = await axioslogin.get('/common/getproceedcount')
-            const { succes, dataa } = result.data
-            if (succes === 1) {
-                const { processcount } = dataa[0]
+            const result = await axioslogin.post('/dietprocess/getproceedcount', postdata)
+            const { success, data } = result.data
+            if (success === 1) {
+                const { processcount } = data[0]
                 setProcess(processcount)
             }
             else {
                 warningNotify("Error occured contact EDP")
             }
             //Get dashboard new order list count
-            const result1 = await axioslogin.get('/common/getNewOrderCount')
-            const { success, data } = result1.data
-            if (success === 1) {
-                const { neworder } = data[0]
+            const result1 = await axioslogin.post('/dietprocess/getNewOrderCount', postdata)
+            const { succes, dataa } = result1.data
+            if (succes === 1) {
+                const { neworder } = dataa[0]
                 setNewOrder(neworder)
             }
             else {
@@ -38,7 +46,7 @@ const DietProcessDashCmp = () => {
             }
         }
         getprocesscount()
-    }, [count])
+    }, [count, postdata])
 
     const getProcessList = useCallback(() => {
         setProTable(1)
@@ -50,7 +58,6 @@ const DietProcessDashCmp = () => {
         setProTable(0)
         setDepand(1)
     }, [])
-
 
     return (
         <Box sx={{
@@ -165,7 +172,9 @@ const DietProcessDashCmp = () => {
                     flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                     justifyContent: 'space-evenly',
                 }} >
-                    <DietprocessTable depand={depand} setDepand={setDepand} setCount={setCount} count={count} />
+                    <DietprocessTable depand={depand} setDepand={setDepand} setCount={setCount} count={count}
+                        startdate={startdate} newStartDate={newStartDate} dayselect={dayselect} setdayselect={setdayselect}
+                    />
                 </Paper> : null
             }
             {
@@ -176,21 +185,11 @@ const DietProcessDashCmp = () => {
                     flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                     justifyContent: 'space-evenly',
                 }} >
-                    <DietprocessTable depand={depand} setDepand={setDepand} setCount={setCount} count={count} />
+                    <DietprocessTable depand={depand} setDepand={setDepand} setCount={setCount} count={count}
+                        startdate={startdate} newStartDate={newStartDate} dayselect={dayselect} setdayselect={setdayselect}
+                    />
                 </Paper> : null
             }
-
-
-            {/* <Paper elevation={3} sx={{
-                width: "100%",
-                p: 0.5, pt: 2,
-                display: "flex",
-                flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-                justifyContent: 'space-evenly',
-            }} >
-                {proTable === 1 ? <DietprocessTable depand={depand} setDepand={setDepand} setCount={setCount} count={count} /> : null}
-                {newordrTable === 1 ? <DietprocessTable depand={depand} setDepand={setDepand} setCount={setCount} count={count} /> : null}
-            </Paper> */}
         </Box>
     )
 }

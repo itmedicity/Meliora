@@ -3,6 +3,7 @@ import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 const ExtraOrderTable = ({ newfood }) => {
     const [column] = useState([
         { headerName: "Item", field: "item_slno" },
+        { headerName: "Item Name", field: "item_name" },
         { headerName: "Hospital Rate", field: "rate_hos" },
         { headerName: "Canteen Rate", field: "rate_cant" }
     ])
