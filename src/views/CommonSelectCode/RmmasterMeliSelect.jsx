@@ -18,7 +18,7 @@ const RmmasterMeliSelect = ({ value, setValue }) => {
         dispatch(getRmmastermeliora());
     }, [dispatch])
     return (
-        <Box sx={{ mt: 1 }} >
+        <Box  >
             <FormControl fullWidth size="small"  >
                 <Select
                     labelId="demo-simple-select-label"
@@ -33,7 +33,7 @@ const RmmasterMeliSelect = ({ value, setValue }) => {
                     <MenuItem value={0} disabled  >Select Room</MenuItem>
                     {
                         roommastermelidata && roommastermelidata.map((val, index) => {
-                            return <MenuItem key={index} value={val.rmc_slno}>{val.rmc_name}</MenuItem>
+                            return <MenuItem key={index} value={val.rm_code}>{val.rmc_name}</MenuItem>
                         })
                     }
                 </Select>

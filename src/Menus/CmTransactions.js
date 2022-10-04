@@ -19,6 +19,12 @@ const CmTransactions = [
         name: 'Assign Complaint ',
         to: '/Home/AssignComplaint',
     },
+    {
+        men_slno: 61,
+        component: CNavItem,
+        name: 'Rectify Complaint ',
+        to: '/Home/RectifyComplaint',
+    },
 ]
 
 export default CmTransactions;

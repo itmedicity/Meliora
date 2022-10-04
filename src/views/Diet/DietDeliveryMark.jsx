@@ -116,14 +116,14 @@ const DietDeliveryMark = () => {
                         justifyContent: "center",
                         flex: 1,
 
-                    }}> <Box sx={{ pt: 0.3, pr: 1 }}>
+                    }}> <Box sx={{ pt: 0.1, pr: 1 }}>
                             <CssVarsProvider>
                                 <Typography>
                                     Room No
                                 </Typography>
                             </CssVarsProvider>
                         </Box>
-                        <Box >
+                        <Box sx={{ pt: 0.2, pr: 1 }}>
                             <RmmasterMeliSelect value={room} setValue={setRoom} />
                         </Box>
                     </Box>

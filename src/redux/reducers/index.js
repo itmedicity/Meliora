@@ -32,7 +32,9 @@ import { getitemGrpName } from './Itemgroup.Reducer'
 import { getNusringStation } from './NursingStation.Reducer'
 import { getLoginProfileData } from './LoginProfile.Reducer'
 import { getOraRoomByRoomType } from './OraRoomByType.Reducer'
+import { getNusringStationMeli } from './NurseStatnMeli.Reducer'
 import { getDepartemployee } from './Departwiseemployee.Reducer'
+
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -67,6 +69,7 @@ const reducer = combineReducers({
     getNusringStation,
     getLoginProfileData,
     getOraRoomByRoomType,
+    getNusringStationMeli,
     getDepartemployee
 })
 export default reducer;
