@@ -1,14 +1,16 @@
 import { IconButton } from '@mui/material'
 import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import { axioslogin } from '../Axios/Axios'
-import { warningNotify } from '../Common/CommonCode'
+import { warningNotify, infoNotify } from '../Common/CommonCode'
 import CusAgGridMast from '../Components/CusAgGridMast'
 import { editicon } from 'src/color/Color'
-import { Box } from '@mui/material'
+import { Box, Paper } from '@mui/material'
 import DietApprovalModel from './DietApprovalModel'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CardCloseOnly from '../Components/CardCloseOnly'
 import { useHistory } from 'react-router-dom'
+import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect';
+import CusCheckBox from 'src/views/Components/CusCheckBox'
 const DietApprovalList = () => {
     const history = useHistory();
     //state for setting table data
@@ -21,6 +23,30 @@ const DietApprovalList = () => {
     const [open, setOpen] = useState(false);
     //for table rendering
     const [count, setCount] = useState(0)
+    const [nurse, setNurse] = useState(0);
+    const [checkDis, setDisCheck] = useState(0)
+    const [appro, setApprov] = useState(false)
+    const [notappro, setNotApprov] = useState(false)
+    const updateApprove = useCallback((e) => {
+        if (e.target.checked === true) {
+            setApprov(true)
+            setNotApprov(false)
+        }
+        else {
+            setApprov(false)
+            setNotApprov(false)
+        }
+    }, [])
+    const updateNotApprov = useCallback((e) => {
+        if (e.target.checked === true) {
+            setNotApprov(true)
+            setApprov(false)
+        }
+        else {
+            setApprov(false)
+            setNotApprov(false)
+        }
+    }, [])
     //column title setting
     const [column] = useState([
         { headerName: "Patient  No", field: "pt_no" },
@@ -29,6 +55,7 @@ const DietApprovalList = () => {
         { headerName: "Bed", field: "bdc_no" },
         { headerName: "Diet", field: "diet_name" },
         { headerName: "Remarks", field: "plan_remark" },
+        { headerName: "Diet Approval", field: "plan status" },
         {
             headerName: "Diet Approval", cellRenderer: params => <IconButton
                 sx={{ color: editicon, paddingY: 0.5 }}
@@ -37,8 +64,13 @@ const DietApprovalList = () => {
             </IconButton>
         }
     ])
+
+    useEffect(() => {
+        if (nurse !== 0) {
+            setDisCheck(1)
+        } else { setDisCheck(0) }
+    }, [nurse])
     const dietApproval = (params) => {
-        //taking the object and set to a state
         const data = params.data
         setData(data)
         setApproval(1);
@@ -46,17 +78,56 @@ const DietApprovalList = () => {
     }
     // geting diet planned patient details
     useEffect(() => {
-        const getDietplan = async () => {
-            const result = await axioslogin.get('/dietplan/getdietplan')
-            const { success, data } = result.data
-            if (success === 1) {
-                setTabledata(data)
-            } else {
-                warningNotify("Error occured contact EDP")
+        const getPatientList = async () => {
+            if (nurse !== 0) {
+                if (notappro === true) {
+                    const result = await axioslogin.get(`/dietplan/pendingApproval/${nurse}`)
+                    const { success, data, message } = result.data
+                    if (success === 1) {
+                        setTabledata(data)
+                    } else if (success === 2) {
+                        setTabledata([])
+                        infoNotify(message)
+                    }
+                    else {
+                        warningNotify("Error occured contact EDP")
+                    }
+                }
+                else if (appro === true) {
+                    const result = await axioslogin.get(`/dietplan/ApprovedList/${nurse}`)
+                    const { success, data, message } = result.data
+                    if (success === 1) {
+                        setTabledata(data)
+                    } else if (success === 2) {
+                        setTabledata([])
+                        infoNotify(message)
+                    }
+                    else {
+                        warningNotify("Error occured contact EDP")
+                    }
+                }
+                else {
+                    const result = await axioslogin.get(`/dietplan/AllList/${nurse}`)
+                    const { success, data, message } = result.data
+                    if (success === 1) {
+                        setTabledata(data)
+                    } else if (success === 2) {
+                        setTabledata([])
+                        infoNotify(message)
+                    }
+                    else {
+                        warningNotify("Error occured contact EDP")
+                    }
+                }
+            }
+            else {
+                setTabledata([])
+
             }
         }
-        getDietplan();
-    }, [count])
+        getPatientList();
+    }, [nurse, count, notappro, appro])
+
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
@@ -67,15 +138,73 @@ const DietApprovalList = () => {
                 title="Diet Approval"
                 close={backtoSetting}
             >
-                <Box sx={{ width: "100%", p: 1 }} >
-                    <CusAgGridMast
-                        columnDefs={column}
-                        tableData={tabledata}
-                    />
-                    {
-                        approval === 1 ? <DietApprovalModel open={open} setOpen={setOpen} data={approvaldata} count={count} setCount={setCount} /> : null
-                    }
+                <Box sx={{ width: "100%", pl: 1, pt: 1, pr: 1, pb: 1 }}>
+                    <Paper square elevation={3} sx={{
+                        pl: 1, pt: 1, pr: 1, pb: 1
+                    }}>
+                        <Box sx={{
+                            width: "100%",
+                            pl: 1, pt: 0.5, pr: 1, pb: 0.5,
+                            display: "flex",
+                            justifyContent: 'center',
+                            flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                        }}>
+                            <Box sx={{ width: "25%", pr: 1, mt: 1 }}                            >
+                                <Paper >
+                                    <NursingStationMeliSelect value={nurse} setValue={setNurse} />
+                                </Paper>
+                            </Box>
+                        </Box>
+                    </Paper>
                 </Box>
+                {checkDis !== 0 ?
+                    <Box sx={{ width: "100%", pl: 1, pt: 1, pr: 1, pb: 1 }}>
+                        <Paper square elevation={3} sx={{
+                            pl: 1, pt: 1, pr: 1, pb: 1
+                        }}>
+                            <Box sx={{
+                                width: "100%",
+                                pl: 1, pt: 0.5, pr: 1, pb: 0.5, flex: 1,
+                                display: "flex",
+                                flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                                justifyContent: 'center',
+                            }}>
+                                <Box sx={{ width: "13%", pr: 1, mt: 1 }}>
+                                    <CusCheckBox
+                                        label="Approved"
+                                        color="primary"
+                                        size="md"
+                                        name="appro"
+                                        value={appro}
+                                        checked={appro}
+                                        onCheked={updateApprove}
+                                    />
+                                </Box>
+                                <Box sx={{ width: "13%", mt: 1 }}>
+                                    <CusCheckBox
+                                        label="Approval Pending"
+                                        color="primary"
+                                        size="md"
+                                        name="notappro"
+                                        value={notappro}
+                                        checked={notappro}
+                                        onCheked={updateNotApprov}
+                                    />
+                                </Box>
+                            </Box>
+                            <Box sx={{ width: "100%", p: 1 }} >
+                                <CusAgGridMast
+                                    columnDefs={column}
+                                    tableData={tabledata}
+                                />
+                                {
+                                    approval === 1 ? <DietApprovalModel open={open} setOpen={setOpen} data={approvaldata} count={count} setCount={setCount} /> : null
+                                }
+                            </Box>
+                        </Paper>
+                    </Box>
+                    : null
+                }
             </CardCloseOnly>
         </Fragment >
     )
