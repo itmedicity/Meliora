@@ -110,7 +110,13 @@ const ExtraOrder = () => {
             const result = await axioslogin.post('/extraorder', postData);
             const { message, success, data } = result.data;
             if (success === 1) {
-                const { diet_slno, proc_slno } = data[0]
+                const { diet_slno, proc_slno, pt_no, process_date } = data[0]
+
+                const frmdata = {
+                    pt_no: pt_no,
+                    process_date: process_date
+                }
+                setOrder(frmdata)
                 setProcess(proc_slno)
                 setDiet(diet_slno)
                 setDietold(diet_slno)
