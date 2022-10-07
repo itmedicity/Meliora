@@ -9,7 +9,7 @@ import { Box, Paper } from '@mui/material'
 import { Button, Typography } from "@material-ui/core";
 import { Fragment } from 'react';
 import { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 import { useMemo } from 'react';
 import { useCallback } from 'react';
 import { errorNotify, infoNotify, succesNotify } from 'src/views/Common/CommonCode';
@@ -204,4 +204,4 @@ const Rectifymodel = ({ open, handleClose, setOpen, detail, count, setCount }) =
     )
 }
 
-export default Rectifymodel
+export default memo(Rectifymodel)

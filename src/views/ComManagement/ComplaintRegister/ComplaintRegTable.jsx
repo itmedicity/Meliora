@@ -14,10 +14,12 @@ const ComplaintRegTable = ({ count, rowSelect, sec }) => {
     const [column] = useState([
         { headerName: "SlNo", field: "complaint_slno", minWidth: 10 },
         { headerName: "Date", field: "compalint_date" },
-        { headerName: "DepartmentSec", field: "sec_name" },
+        { headerName: "complaint dept", field: "dept_name", filter: "true", autoHeight: true, wrapText: true, },
         { headerName: "Request Type", field: "req_type_name" },
         { headerName: "Complaint Type", field: "complaint_type_name" },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
+        { headerName: "Priority", field: "priority" },
+        { headerName: "Status", field: "compalint_status", filter: "true" },
         {
             headerName: 'Action',
             cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
