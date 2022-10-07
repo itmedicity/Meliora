@@ -11,6 +11,8 @@ import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import { IconButton } from '@mui/material';
 import { Fragment } from 'react'
 import Rectifymodel from './Rectifymodel'
+import { useSelector } from 'react-redux'
+import { Box } from '@mui/system'
 
 const RectifyCompalint = () => {
     const history = useHistory()
@@ -20,18 +22,23 @@ const RectifyCompalint = () => {
     const [open, setOpen] = useState(false);
     const [count, setCount] = useState(0)
 
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
+
+    console.log(id);
 
     const [column] = useState([
         { headerName: "SlNo", field: "complaint_slno", minWidth: 10 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
-        { headerName: "complaint Dept", field: "complaint_dept_name" },
+        { headerName: "complaint Dept", field: "complaint_dept_name", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Request Type", field: "req_type_name" },
         { headerName: "Complaint Type", field: "complaint_type_name" },
         { headerName: "Hic Policy", field: "hic_policy_name" },
         { headerName: "Assign emp", field: "em_name" },
         { headerName: "complaint status", field: "compalint_status" },
 
-        { headerName: "Date", field: "compalint_date" },
+        { headerName: "Date", field: "compalint_date", minWidth: 100 },
         {
             headerName: 'Rectify ', cellRenderer: params => <IconButton
                 sx={{ color: editicon, paddingY: 0.5 }}
@@ -53,7 +60,7 @@ const RectifyCompalint = () => {
 
     useEffect(() => {
         const getRectifycomplit = async () => {
-            const result = await axioslogin.get(`/Rectifycomplit/getRectifycomplit`)
+            const result = await axioslogin.get(`Rectifycomplit/getRectifycomplit/${id}`)
             const { success, data } = result.data
             if (success === 1) {
                 setTabledata(data)
@@ -61,10 +68,9 @@ const RectifyCompalint = () => {
             else {
                 setTabledata(data)
             }
-
         }
         getRectifycomplit();
-    }, [count])
+    }, [count, id])
 
 
 
@@ -87,10 +93,13 @@ const RectifyCompalint = () => {
                 close={backtoSetting}
                 title="Rectify complaint"
             >
-                <ComplistAgGridcmp
-                    columnDefs={column}
-                    tableData={tabledata} count={count}
-                />
+                <Box sx={{ p: 1 }}>
+                    <ComplistAgGridcmp
+                        columnDefs={column}
+                        tableData={tabledata}
+                        count={count}
+                    />
+                </Box>
 
             </CardMaster>
         </Fragment>
