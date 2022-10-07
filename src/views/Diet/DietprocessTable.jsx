@@ -15,10 +15,12 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { format } from 'date-fns'
 import { useSelector } from 'react-redux'
 import { succesNotify } from 'src/views/Common/CommonCode'
+import SelectDiet from '../CommonSelectCode/SelectDiet';
 
 const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, startdate, dayselect, setdayselect }) => {
     const [tabledata, setTabledata] = useState([])
     const [nurse, setNurse] = useState(0)
+    const [diet, setdiet] = useState(0)
     const [open, setOpen] = useState(false);
     const [sercha, setSearch] = useState(0)
     const [detail, setdeatial] = useState([])
@@ -46,7 +48,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
         { headerName: "Patient Id", field: "pt_no" },
         { headerName: "Patient Name", field: "ptc_ptname" },
         { headerName: "Room/Ward", field: "bd_code" },
-        { headerName: "Plan Date", field: "pdate" },
+        { headerName: "Plan Date", field: "plan_date" },
         { headerName: "Diet", field: "diet_name" },
         { headerName: "Remarks", field: "plan_remark" },
     ])
@@ -64,9 +66,10 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
     const postdata = useMemo(() => {
         return {
             process_date: startdate,
-            ns_code: nurse
+            ns_code: nurse,
+            diet_slno: diet
         }
-    }, [startdate, nurse])
+    }, [startdate, nurse, diet])
 
     //get all data
     useEffect(() => {
@@ -97,28 +100,41 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
 
     useEffect(() => {
         const serchdatass = async () => {
-            if (sercha === 1 && nurse !== 0 && dayselect === 1) {
-                const result = await axioslogin.post('/dietplan/newbydateNS', postdata)
-                const { success, data, message } = result.data
-                if (success === 1) {
-                    setTabledata(data)
-                } else {
-                    setTabledata()
-                    warningNotify(message)
+            if (sercha === 1) {
+                if (nurse !== 0 && dayselect === 1 && diet === 0) {
+                    const result = await axioslogin.post('/dietplan/newbydateNS', postdata)
+                    const { success, data, message } = result.data
+                    if (success === 1) {
+                        setTabledata(data)
+                    } else {
+                        setTabledata()
+                        warningNotify(message)
+                    }
                 }
-            } else if (nurse === 0 && sercha === 1) {
-                const result = await axioslogin.post('/dietplan/newbydate', postdata)
-                const { success, data } = result.data
-                if (success === 1) {
-                    setTabledata(data)
-                } else {
-                    setTabledata()
-                    warningNotify("Error occured contact EDP")
+                else if (nurse === 0 && diet === 0) {
+                    const result = await axioslogin.post('/dietplan/newbydate', postdata)
+                    const { success, data } = result.data
+                    if (success === 1) {
+                        setTabledata(data)
+                    } else {
+                        setTabledata()
+                        warningNotify("Error occured contact EDP")
+                    }
+                }
+                else if (nurse !== 0 && dayselect === 1 && diet !== 0) {
+                    const result = await axioslogin.post('/dietplan/newByDiet', postdata)
+                    const { success, data } = result.data
+                    if (success === 1) {
+                        setTabledata(data)
+                    } else {
+                        setTabledata()
+                        warningNotify("Error occured contact EDP")
+                    }
                 }
             }
         }
         serchdatass()
-    }, [sercha, postdata, nurse, count, dayselect])
+    }, [sercha, postdata, nurse, count, dayselect, diet])
 
     const dietProcess = useCallback((params) => {
         const data = params.api.getSelectedRows()
@@ -135,10 +151,18 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
     const allProcess = () => {
         setAllpros(allpros + 1)
     }
+    const cleardata = useCallback(() => {
+        newStartDate(new Date())
+        setdiet(0)
+        setNurse(0)
+        setDepand(1)
 
+    }, [newStartDate, setDepand])
     useEffect(() => {
         if (msgshow === 1) {
             succesNotify("Process Completed")
+        } else if (msgshow === 2) {
+            warningNotify("Process Not Completed")
         }
     }, [msgshow])
 
@@ -147,7 +171,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
             tabledata && tabledata.map((val) => {
                 const getdmenu = async () => {
                     const result = await axioslogin.get(`/common/dMenu/${val.diet_slno}`,)
-                    const { data, success, message } = result.data;
+                    const { data, success } = result.data;
                     if (success === 1) {
                         const { dmenu_slno } = data[0]
                         const d = new Date(startdate);
@@ -158,7 +182,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                             days: day
                         }
                         const result1 = await axioslogin.post('/dietprocess/dmenubyday', getmenu);
-                        const { succes, dataa, messagee } = result1.data
+                        const { succes, dataa } = result1.data
                         if (succes === 1) {
                             const postdata = {
                                 plan_slno: val.plan_slno,
@@ -173,7 +197,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                                 em_id: id
                             }
                             const result = await axioslogin.post('/dietprocess', postdata);
-                            const { success, message, insetid } = result.data;
+                            const { success, insetid } = result.data;
                             if (success === 1) {
                                 const postdetaildata = dataa && dataa.map((val) => {
                                     return {
@@ -184,37 +208,34 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                                     }
                                 })
                                 const result1 = await axioslogin.post('/dietprocess/processDetailInsert', postdetaildata);
-                                const { suces, messag } = result1.data;
+                                const { suces } = result1.data;
                                 if (suces === 1) {
                                     setMsg(1)
                                     setCount(count + 1);
+                                    setDepand(1)
                                     setAllpros(0)
-
                                 }
                                 else {
-                                    setMsg(0)
-                                    warningNotify(messag)
+                                    setMsg(2)
                                 }
                             }
                             else {
-                                warningNotify(message)
+                                setMsg(2)
                             }
                         }
                         else {
-                            warningNotify(messagee)
+                            setMsg(2)
                         }
                     }
                     else {
-                        warningNotify(message)
+                        setMsg(2)
                     }
                 }
                 getdmenu(val.plan_slno)
-
                 return 0
-
             })
         }
-    }, [allpros, tabledata, startdate, dayselect, msgshow, id, setCount, count])
+    }, [allpros, tabledata, startdate, dayselect, msgshow, id, setCount, count, setDepand])
 
     const handleClose = () => {
         setOpen(false);
@@ -236,15 +257,13 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                         flexDirection: { xl: "column", lg: "column", md: "column", sm: 'column', xs: "column" },
                     }}>
                         <Box sx={{
-                            // width: "100%",
                             pl: 1, pt: 0.5, pb: 0.5,
                             display: "flex",
-                            // width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                             flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                             alignItems: "center",
                         }}>
                             <Box sx={{
-                                flex: 0, pt: 0.5, pr: 1
+                                pt: 0.5, pr: 1
                             }}>
                                 <TextFieldCustom
                                     placeholder="Select Date"
@@ -257,21 +276,31 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                                 />
                             </Box>
                             <Box sx={{
-                                display: "flex",
-                                justifyContent: "space-evenly ",
-                                pt: 1, flex: 0, pr: 1
+                                pt: 1, pr: 1, width: "20%"
                             }}>
                                 <NursingStationSelect value={nurse} setValue={setNurse} />
                             </Box>
                             <Box sx={{
-                                flex: 0, pt: 0.5, pr: 2
+                                pt: 1, pr: 1, width: "15%"
+                            }}>
+                                <SelectDiet value={diet} setValue={setdiet} />
+                            </Box>
+
+
+                            <Box sx={{
+                                pt: 0.5, pr: 2
                             }}>
                                 <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={search} >
                                     <SearchOutlinedIcon fontSize='small' />
                                 </CusIconButton>
                             </Box>
                             <Box sx={{
-                                flex: 1, pr: 1, pt: 0.5
+                                pr: 1, pt: 0.5, widh: "25%"
+                            }}>
+                                <Button onClick={cleardata} variant="contained" size="small" color="primary">Clear</Button>
+                            </Box>
+                            <Box sx={{
+                                pr: 1, pt: 0.5
                             }}>
                                 <Button onClick={allProcess} variant="contained" size="small" color="primary">All Process</Button>
                             </Box>
@@ -297,15 +326,13 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                         flexDirection: { xl: "column", lg: "column", md: "column", sm: 'column', xs: "column" },
                     }}>
                         <Box sx={{
-                            // width: "100%",
                             pl: 1, pt: 0.5, pb: 0.5,
                             display: "flex",
-                            // width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                             flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                             alignItems: "center",
                         }}>
                             <Box sx={{
-                                flex: 0, pt: 0.5, pr: 1
+                                pt: 0.5, pr: 1
                             }}>
                                 <TextFieldCustom
                                     placeholder="Select Date"
@@ -318,21 +345,31 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                                 />
                             </Box>
                             <Box sx={{
-                                display: "flex",
-                                justifyContent: "space-evenly ",
-                                pt: 1, flex: 0, pr: 1
+                                pt: 1, pr: 1, width: "20%"
                             }}>
                                 <NursingStationSelect value={nurse} setValue={setNurse} />
                             </Box>
                             <Box sx={{
-                                flex: 0, pt: 0.5, pr: 2
+                                pt: 1, pr: 1, width: "20%"
+                            }}>
+                                <SelectDiet value={diet} setValue={setdiet} />
+                            </Box>
+
+
+                            <Box sx={{
+                                pt: 0.5, pr: 2
                             }}>
                                 <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={search} >
                                     <SearchOutlinedIcon fontSize='small' />
                                 </CusIconButton>
                             </Box>
                             <Box sx={{
-                                flex: 1, pr: 1, pt: 0.5
+                                pr: 1, pt: 0.5, widh: "25%"
+                            }}>
+                                <Button onClick={cleardata} variant="contained" size="small" color="primary">Clear</Button>
+                            </Box>
+                            <Box sx={{
+                                pr: 1, pt: 0.5
                             }}>
                                 <Button onClick={allProcess} variant="contained" size="small" color="primary">All Process</Button>
                             </Box>

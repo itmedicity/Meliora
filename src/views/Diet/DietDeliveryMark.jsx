@@ -11,8 +11,16 @@ import CustomAGSelect from '../Components/CustomAGSelect';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { format } from 'date-fns'
 import RmmasterMeliSelect from '../CommonSelectCode/RmmasterMeliSelect';
+import SelectDiet from '../CommonSelectCode/SelectDiet';
+import NursingStationSelect from '../CommonSelectCode/NursingStationSelect';
+import CusIconButton from '../Components/CusIconButton';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import Button from '@mui/material/Button';
+import RoomSelectDelivery from './RoomSelectDelivery';
 const DietDeliveryMark = () => {
     const [room, setRoom] = useState(0)
+    const [nurse, setNurse] = useState(0)
+    const [diet, setdiet] = useState(0)
     const [detail, setDetail] = useState(0)
     const [count, setCount] = useState(0)
     const history = useHistory();
@@ -93,7 +101,15 @@ const DietDeliveryMark = () => {
     const refreshWindow = useCallback(() => {
         setRoom(0);
     }, [])
-
+    const [rmdata, setrmdata] = useState(0)
+    const clicksearch = () => {
+        setrmdata(1)
+    }
+    const cleardata = useCallback(() => {
+        setdiet(0)
+        setNurse(0)
+        setrmdata(0)
+    }, [])
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
@@ -116,16 +132,62 @@ const DietDeliveryMark = () => {
                         justifyContent: "center",
                         flex: 1,
 
-                    }}> <Box sx={{ pt: 0.1, pr: 1 }}>
+                    }}>  <Box sx={{
+                        // display: "flex",
+                        // justifyContent: "space-evenly ",
+                        pt: 1, pr: 1, width: "20%"
+                    }}>
+                            <NursingStationSelect value={nurse} setValue={setNurse} />
+                        </Box>
+                        <Box sx={{
+                            // display: "flex",
+                            // justifyContent: "space-evenly ",
+                            pt: 1, pr: 1, width: "15%"
+                        }}>
+                            <SelectDiet value={diet} setValue={setdiet} />
+                        </Box>
+                        <Box sx={{
+                            pt: 0.53, pr: 2
+                        }}>
+                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={clicksearch} >
+                                <SearchOutlinedIcon fontSize='small' />
+                            </CusIconButton>
+                        </Box>
+                        <Box sx={{
+                            pr: 1, pt: 0.5, widh: "25%"
+                        }}>
+                            <Button onClick={cleardata} variant="contained" size="small" color="primary">Clear</Button>
+                        </Box>
+                        <Box sx={{ pt: 0.5, pr: 1 }}>
                             <CssVarsProvider>
                                 <Typography>
                                     Room No
                                 </Typography>
                             </CssVarsProvider>
                         </Box>
-                        <Box sx={{ pt: 0.2, pr: 1 }}>
-                            <RmmasterMeliSelect value={room} setValue={setRoom} />
-                        </Box>
+
+                        {
+                            rmdata === 1 ?
+                                <Box sx={{ pt: 1, pr: 1, width: "20%" }}>
+                                    <RoomSelectDelivery value={room} setValue={setRoom} nurse={nurse} diet={diet} />
+                                </Box> :
+                                <Box sx={{ pt: 1, pr: 1, width: "20%" }}>
+                                    <RmmasterMeliSelect value={room} setValue={setRoom} />
+                                </Box>
+
+                        }
+
+
+
+                        {/* {
+                            rmdata === 0 ?
+                                <Box sx={{ pt: 1, pr: 1, width: "20%" }}>
+                                    <RmmasterMeliSelect value={room} setValue={setRoom} />
+                                </Box> : <Box sx={{ pt: 1, pr: 1, width: "20%" }}>
+                                    <NursingStationSelect value={room} setValue={setRoom} />
+                                </Box>
+                        } */}
+
                     </Box>
                 </Paper>
                 {
