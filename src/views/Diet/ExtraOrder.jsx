@@ -1,5 +1,4 @@
-import { IconButton, Paper, Typography } from '@mui/material';
-import Box from "@mui/material/Box";
+import { IconButton, Paper, Typography, Box } from '@mui/material';
 import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import CardMaster from '../Components/CardMaster'
@@ -7,19 +6,22 @@ import TextFieldCustom from '../Components/TextFieldCustom';
 import { editicon } from 'src/color/Color'
 import { MdOutlineAddCircleOutline } from 'react-icons/md';
 import moment from 'moment'
-import SelectDietType from '../CommonSelectCode/SelectDietType';
 import ExtraOrderTable from './ExtraOrderTable';
 import { axioslogin } from '../Axios/Axios';
 import SelectItemName from 'src/views/CommonSelectCode/SelectItemName';
 import { infoNotify, succesNotify, warningNotify } from '../Common/CommonCode';
-import RmmasterMeliSelect from '../CommonSelectCode/RmmasterMeliSelect';
+import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect';
+import ExtraRoomMeliSelect from './ExtraRoomMeliSelect';
+import ExtraDietTypeSelect from './ExtraDietTypeSelect';
 const ExtraOrder = () => {
     const history = useHistory();
     const [room, setRoom] = useState(0)
     const [diet, setDiet] = useState(0)
+    const [dietslno, setDietslno] = useState(0)
     const [dietold, setDietold] = useState(0)
     const [item, setItem] = useState(0)
     const [add, setAdd] = useState(0);
+    const [nurse, setNurse] = useState(0)
     const [itemName, setItemName] = useState("");
     const [food, setFood] = useState({
         item_slno: "",
@@ -29,9 +31,10 @@ const ExtraOrder = () => {
     const { rate_hos, rate_cant } = food
     const [order, setOrder] = useState({
         pt_no: "",
+        ptc_ptname: "",
         process_date: moment(new Date).format('YYYY-MM-DD')
     })
-    const { process_date } = order
+    const { process_date, pt_no, ptc_ptname } = order
     const [process, setProcess] = useState('')
     const updateOrder = useCallback((e) => {
         const value = e.target.value
@@ -110,16 +113,18 @@ const ExtraOrder = () => {
             const result = await axioslogin.post('/extraorder', postData);
             const { message, success, data } = result.data;
             if (success === 1) {
-                const { diet_slno, proc_slno, pt_no, process_date } = data[0]
+                const { diet_slno, proc_slno, pt_no, process_date, ptc_ptname } = data[0]
 
                 const frmdata = {
                     pt_no: pt_no,
+                    ptc_ptname: ptc_ptname,
                     process_date: process_date
                 }
                 setOrder(frmdata)
                 setProcess(proc_slno)
                 setDiet(diet_slno)
                 setDietold(diet_slno)
+                setDietslno(diet_slno)
                 succesNotify(message)
             }
             else if (success === 0) {
@@ -265,8 +270,8 @@ const ExtraOrder = () => {
                                     placeholder="Patient Id"
                                     type="text"
                                     size="sm"
-                                    name="patient"
-                                    value={patient}
+                                    name="pt_no"
+                                    value={pt_no}
                                     onchange={updatePatient}
                                 />
                             </Box>
@@ -274,6 +279,7 @@ const ExtraOrder = () => {
                     </Box>
                     {/* 
                     2nd section */}
+
                     <Box sx={{
                         width: "100%",
                         display: "flex",
@@ -288,13 +294,63 @@ const ExtraOrder = () => {
                                 display: "flex",
                                 width: '100%',
                             }}>
+                                <Typography>Nursing Station</Typography>
+                            </Box>
+                            <Box sx={{
+                                width: '100%',
+                                mt: { xs: 0.8, sm: 0.8, md: 0.5, xl: 0.5 },
+                            }}>
+                                <NursingStationMeliSelect value={nurse} setValue={setNurse} />
+                            </Box>
+                        </Box>
+                        <Box sx={{
+                            display: 'flex',
+                            width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                            mt: 0.5
+                        }}>
+                            <Box sx={{
+                                width: '100%',
+                                mb: 1.2,
+                                pl: { xl: 1, md: 1 }
+                            }}>
+                                <Typography>Patient Name</Typography>
+                            </Box>
+                            <Box sx={{
+                                width: '100%',
+                            }}>
+                                <TextFieldCustom
+                                    placeholder="Process Slno"
+                                    type="text"
+                                    size="sm"
+                                    name="ptc_ptname"
+                                    value={ptc_ptname}
+                                // disabled="true"
+                                />
+                            </Box>
+                        </Box>
+                    </Box>
+
+                    <Box sx={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                    }}>
+                        <Box sx={{
+                            display: 'flex',
+                            width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                            mt: 0.4
+                        }} >
+                            <Box sx={{
+                                display: "flex",
+                                width: '100%',
+                            }}>
                                 <Typography>Room No</Typography>
                             </Box>
                             <Box sx={{
                                 width: '100%',
                                 mt: { xs: 0.8, sm: 0.8, md: 0.5, xl: 0.5 },
                             }}>
-                                <RmmasterMeliSelect value={room} setValue={setRoom} />
+                                <ExtraRoomMeliSelect value={room} setValue={setRoom} nurse={nurse} />
                             </Box>
                         </Box>
                         <Box sx={{
@@ -342,7 +398,7 @@ const ExtraOrder = () => {
                                 width: '100%',
                                 mt: { xs: 0.8, sm: 0.8, xl: 0.6, md: 0.6 }
                             }}>
-                                <SelectDietType value={diet} setValue={setDiet} />
+                                <ExtraDietTypeSelect value={diet} setValue={setDiet} proc_slno={process} process_date={process_date} />
                             </Box>
                         </Box>
                         <Box sx={{

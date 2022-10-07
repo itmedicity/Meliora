@@ -11,10 +11,10 @@ const RateListMastTable = ({ rowSelect, count }) => {
         headerName: "slno", field: "drate_slno"
     },
     {
-        headerName: "Diet", field: "diet_name"
+        headerName: "Diet", field: "diet_name", minWidth: 150, wrapText: true,
     },
     {
-        headerName: "Room", field: "rcc_desc"
+        headerName: "Room", field: "rcc_desc", filter: "true", autoHeight: true, wrapText: true, minWidth: 150,
     },
     {
         headerName: "type", field: "type_desc"

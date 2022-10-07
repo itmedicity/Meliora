@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import CustomTextarea from '../Components/CustomTextarea';
 import { format } from 'date-fns'
+import CusCheckBox from 'src/views/Components/CusCheckBox'
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -27,6 +28,15 @@ const DietPlan = ({ open, data, setOpen }) => {
     const updateRemarks = useCallback((e) => {
         setRemark(e.target.value)
     }, [])
+    const [appRrquired, setappRequ] = useState(false)
+    const updaterequiredt = useCallback((e) => {
+        if (e.target.checked === true) {
+            setappRequ(true)
+        } else {
+            setappRequ(false)
+        }
+    }, [])
+
     const v = 1;
     const postdata = useMemo(() => {
         return {
@@ -40,13 +50,15 @@ const DietPlan = ({ open, data, setOpen }) => {
             plan_status: 0,
             em_id: Id,
             process: 0,
-            discharge: v === 1 ? 'N' : 'Y'
+            discharge: v === 1 ? 'N' : 'Y',
+            approve_reqired: appRrquired === true ? 1 : 0
         }
-    }, [ip_no, pt_no, diet, bd_code, remark, Id, v, dietpt_slno])
+    }, [ip_no, pt_no, diet, bd_code, remark, Id, v, dietpt_slno, appRrquired])
     const reset = useCallback(() => {
         setDiet(0);
         setRemark('');
         setOpen(false)
+        setappRequ(false)
     }, [setOpen])
     /*** usecallback function for form submitting */
     const submitDietplan = useCallback((e) => {
@@ -58,8 +70,9 @@ const DietPlan = ({ open, data, setOpen }) => {
             if (success === 1) {
                 succesNotify(message)
                 reset();
-            } else if (success === 0) {
+            } else if (success === 7) {
                 infoNotify(message)
+                reset();
             }
             else {
                 infoNotify(message)
@@ -74,87 +87,92 @@ const DietPlan = ({ open, data, setOpen }) => {
     return (
         <Fragment>
             <ToastContainer />
-            <div>
-                <Dialog
-                    open={open}
-                    onClose={reset}
-                    TransitionComponent={Transition}
-                    keepMounted
-                    aria-describedby="alert-dialog-slide-descriptiona"
+            <Dialog
+                open={open}
+                onClose={reset}
+                TransitionComponent={Transition}
+                keepMounted
+                aria-describedby="alert-dialog-slide-descriptiona"
+            >
+                < DialogContent id="alert-dialog-slide-descriptiona"
+                    sx={{
+                        width: 500,
+                        height: 480
+                    }}
                 >
-                    < DialogContent id="alert-dialog-slide-descriptiona"
-                        sx={{
-                            width: 500,
-                            height: 480
-                        }}
-                    >
-                        < DialogContentText id="alert-dialog-slide-descriptiona">
-                            Diet Plan
-                        </DialogContentText>
-                        {/* <Box sx={{ width: "100%", display: "flex", height: 340, p: 1 }}> */}
-                        {/* <Paper square elevation={3} sx={{ width: "100%" }}> */}
-                        <Box sx={{ p: 2, height: "100%" }}>
-                            <Paper square elevation={3} >
-                                <Box sx={{ p: 3 }}>
-                                    <Grid item xl={12} lg={12}>
-                                        <Grid container spacing={2}>
-                                            <Grid item xl={5} lg={5}  >
-                                                <Typography>Diet Number:</Typography>
-                                            </Grid>
-                                            <Grid item xl={5} lg={5}>
-                                                <Typography >{dietpt_slno}</Typography>
-                                            </Grid>
-                                            <Grid item xl={5} lg={5}>
-                                                <Typography>Patient Number:</Typography>
-                                            </Grid>
-                                            <Grid item xl={5} lg={5}>
-                                                <Typography>{pt_no}</Typography>
-                                            </Grid>
-                                            <Grid item xl={5} lg={5}>
-                                                <Typography>Patient Name</Typography>
-                                            </Grid>
-                                            <Grid item xl={5} lg={5}>
-                                                <Typography>{ptc_ptname}</Typography>
-                                            </Grid>
-                                            <Grid item xl={5} lg={5}>
-                                                <Typography>Bed</Typography>
-                                            </Grid>
-                                            <Grid item xl={5} lg={5}>
-                                                <Typography>{bdc_no}</Typography>
-                                            </Grid>
-                                            <Grid item xl={5} lg={5}>
-                                                <Typography>Doctor</Typography>
-                                            </Grid>
-                                            <Grid item xl={5} lg={5}>
-                                                <Typography>{doc_name}</Typography>
-                                            </Grid>
-                                            <Grid item xl={12} lg={12}>
-                                                <SelectDiet value={diet} setValue={setDiet} />
-                                            </Grid>
-                                            <Grid item xl={12} lg={12}>
-                                                <CustomTextarea
-                                                    style={{ width: 375 }}
-                                                    minRows={4}
-                                                    placeholder="Remarks"
-                                                    onchange={updateRemarks}
-                                                    value={remark}
-                                                />
-                                            </Grid>
+                    < DialogContentText id="alert-dialog-slide-descriptiona">
+                        Diet Plan
+                    </DialogContentText>
+                    <Box sx={{ p: 2, height: "100%" }}>
+                        <Paper square elevation={3} >
+                            <Box sx={{ p: 2 }}>
+                                <Grid item xl={12} lg={12}>
+                                    <Grid container spacing={2} sx={{ pt: 0.1 }}>
+                                        <Grid item xl={5} lg={5}  >
+                                            <Typography>Diet Number:</Typography>
+                                        </Grid>
+                                        <Grid item xl={5} lg={5}>
+                                            <Typography >{dietpt_slno}</Typography>
+                                        </Grid>
+                                        <Grid item xl={5} lg={5}>
+                                            <Typography>Patient Number:</Typography>
+                                        </Grid>
+                                        <Grid item xl={5} lg={5}>
+                                            <Typography>{pt_no}</Typography>
+                                        </Grid>
+                                        <Grid item xl={5} lg={5}>
+                                            <Typography>Patient Name</Typography>
+                                        </Grid>
+                                        <Grid item xl={5} lg={5}>
+                                            <Typography>{ptc_ptname}</Typography>
+                                        </Grid>
+                                        <Grid item xl={5} lg={5}>
+                                            <Typography>Bed</Typography>
+                                        </Grid>
+                                        <Grid item xl={5} lg={5}>
+                                            <Typography>{bdc_no}</Typography>
+                                        </Grid>
+                                        <Grid item xl={5} lg={5}>
+                                            <Typography>Doctor</Typography>
+                                        </Grid>
+                                        <Grid item xl={5} lg={5}>
+                                            <Typography>{doc_name}</Typography>
+                                        </Grid>
+                                        <Grid item xl={12} lg={12}>
+                                            <SelectDiet value={diet} setValue={setDiet} />
+                                        </Grid>
+                                        <Grid item xl={12} lg={12}>
+                                            <CustomTextarea
+                                                style={{ width: 375 }}
+                                                minRows={4}
+                                                placeholder="Remarks"
+                                                onchange={updateRemarks}
+                                                value={remark}
+                                            />
+                                        </Grid>
+                                        <Grid item xl={12} lg={12}>
+                                            <CusCheckBox
+                                                label="Consultation Required"
+                                                color="primary"
+                                                size="md"
+                                                name="appRrquired"
+                                                value={appRrquired}
+                                                checked={appRrquired}
+                                                onCheked={updaterequiredt}
+                                            />
                                         </Grid>
                                     </Grid>
-                                </Box>
-                            </Paper>
-                        </Box>
-                        {/* </Paper> */}
-                        {/* </Box> */}
-                    </DialogContent>
-                    <DialogActions>
-                        <Button color="secondary" onClick={submitDietplan} >Save</Button>
-                        <Button onClick={reset} color="secondary" >Cancel</Button>
-                    </DialogActions>
-                </Dialog>
-            </div>
-        </Fragment>
+                                </Grid>
+                            </Box>
+                        </Paper>
+                    </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="secondary" onClick={submitDietplan} >Save</Button>
+                    <Button onClick={reset} color="secondary" >Cancel</Button>
+                </DialogActions>
+            </Dialog>
+        </Fragment >
     )
 }
 export default memo(DietPlan)
