@@ -34,6 +34,7 @@ import { getLoginProfileData } from './LoginProfile.Reducer'
 import { getOraRoomByRoomType } from './OraRoomByType.Reducer'
 import { getNusringStationMeli } from './NurseStatnMeli.Reducer'
 import { getDepartemployee } from './Departwiseemployee.Reducer'
+import { getAssistantemployee } from './AssistantEmp.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -70,6 +71,7 @@ const reducer = combineReducers({
     getLoginProfileData,
     getOraRoomByRoomType,
     getNusringStationMeli,
-    getDepartemployee
+    getDepartemployee,
+    getAssistantemployee
 })
 export default reducer;
