@@ -34,6 +34,8 @@ import { getLoginProfileData } from './LoginProfile.Reducer'
 import { getOraRoomByRoomType } from './OraRoomByType.Reducer'
 import { getNusringStationMeli } from './NurseStatnMeli.Reducer'
 import { getDepartemployee } from './Departwiseemployee.Reducer'
+import { changeStateAggrid } from '../reducers/StatechangeAgGrid';
+
 
 const reducer = combineReducers({
     changeState,
@@ -70,6 +72,7 @@ const reducer = combineReducers({
     getLoginProfileData,
     getOraRoomByRoomType,
     getNusringStationMeli,
-    getDepartemployee
+    getDepartemployee,
+    changeStateAggrid
 })
 export default reducer;

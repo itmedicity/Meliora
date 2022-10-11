@@ -14,6 +14,7 @@ import CIcon from '@coreui/icons-react'
 import { cilMenu } from '@coreui/icons'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import SettingsIcon from '@mui/icons-material/Settings'
+import SummarizeIcon from '@mui/icons-material/Summarize';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
@@ -25,7 +26,7 @@ import {
   iconMessage,
   iconNotification,
   iconPowerOff,
-  iconSettings,
+  iconSettings, iconReport
 } from 'src/color/Color'
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { ToastContainer } from 'react-toastify'
@@ -66,6 +67,11 @@ const AppHeader = () => {
             <CNavItem>
               <CNavLink to="/Home/Settings" component={NavLink}>
                 <SettingsIcon sx={{ color: iconSettings }} />
+              </CNavLink>
+            </CNavItem>
+            <CNavItem>
+              <CNavLink to="/Home/Reports" component={NavLink}>
+                <SummarizeIcon sx={{ color: iconReport }} />
               </CNavLink>
             </CNavItem>
             <CNavItem>

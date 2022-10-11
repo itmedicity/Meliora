@@ -9,7 +9,7 @@ const RoomCreationTable = ({ count, rowSelect }) => {
     //column title setting
     const [column] = useState([
         { headerName: "SlNo", field: "rmc_slno" },
-        { headerName: " Room Name", field: "rmc_name" },
+        { headerName: " Room Name", field: "rmc_name", filter: true },
         { headerName: "Room type", field: "rm_desc1" },
         { headerName: "Room Oracle", field: "rmc_desc" },
         { headerName: "Status", field: "status" },
