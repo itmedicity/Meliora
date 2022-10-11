@@ -12,11 +12,11 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import { format } from 'date-fns'
 import RmmasterMeliSelect from '../CommonSelectCode/RmmasterMeliSelect';
 import SelectDiet from '../CommonSelectCode/SelectDiet';
-import NursingStationSelect from '../CommonSelectCode/NursingStationSelect';
 import CusIconButton from '../Components/CusIconButton';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import Button from '@mui/material/Button';
 import RoomSelectDelivery from './RoomSelectDelivery';
+import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect';
 const DietDeliveryMark = () => {
     const [room, setRoom] = useState(0)
     const [nurse, setNurse] = useState(0)
@@ -137,7 +137,7 @@ const DietDeliveryMark = () => {
                         // justifyContent: "space-evenly ",
                         pt: 1, pr: 1, width: "20%"
                     }}>
-                            <NursingStationSelect value={nurse} setValue={setNurse} />
+                            <NursingStationMeliSelect value={nurse} setValue={setNurse} />
                         </Box>
                         <Box sx={{
                             // display: "flex",

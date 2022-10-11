@@ -25,11 +25,12 @@ const ModuleGroupMast = () => {
         nabh: false,
         sfanfa: false,
         nurseStation: false,
+        reports: false,
         mod_grp_slno: 0
     })
     /*** Destructuring */
     const { modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework,
-        diet, feedback, nabh, sfanfa, nurseStation, mod_grp_slno } = moduleGroup
+        diet, feedback, nabh, sfanfa, nurseStation, reports, mod_grp_slno } = moduleGroup
 
     /***Get values from the component */
     const updateModuleGroup = useCallback((e) => {
@@ -52,10 +53,11 @@ const ModuleGroupMast = () => {
                 module_feedback: feedback === true ? 8 : 0,
                 module_nabh: nabh === true ? 9 : 0,
                 module_sfanfa: sfanfa === true ? 10 : 0,
-                module_nursestation: nurseStation === true ? 11 : 0
+                module_nursestation: nurseStation === true ? 11 : 0,
+                module_reports: reports === true ? 13 : 0
             }
         }
-    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework, diet, feedback, nabh, sfanfa, nurseStation])
+    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework, diet, feedback, nabh, sfanfa, nurseStation, reports])
 
     /*** data for  update to module_group_mast table */
     const patchdata = useMemo(() => {
@@ -72,11 +74,12 @@ const ModuleGroupMast = () => {
                 module_feedback: feedback === true ? 8 : 0,
                 module_nabh: nabh === true ? 9 : 0,
                 module_sfanfa: sfanfa === true ? 10 : 0,
-                module_nursestation: nurseStation === true ? 11 : 0
+                module_nursestation: nurseStation === true ? 11 : 0,
+                module_reports: reports === true ? 13 : 0
             },
             mod_grp_slno: mod_grp_slno
         }
-    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework, diet, feedback, nabh, sfanfa, mod_grp_slno, nurseStation])
+    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework, diet, feedback, nabh, sfanfa, mod_grp_slno, nurseStation, reports])
     // data setting for edit
     const rowSelect = useCallback((data) => {
         setvalue(1)
@@ -95,6 +98,7 @@ const ModuleGroupMast = () => {
             nabh: module_status.module_nabh === 0 ? false : true,
             sfanfa: module_status.module_sfanfa === 0 ? false : true,
             nurseStation: module_status.module_nursestation === 0 ? false : true,
+            reports: module_status.module_reports === 0 ? false : true,
             mod_grp_slno: mod_grp_slno
         }
         setModuleGroup(formdata)
@@ -114,7 +118,8 @@ const ModuleGroupMast = () => {
             feedback: false,
             nabh: false,
             sfanfa: false,
-            nurseStation: false
+            nurseStation: false,
+            reports: false
         }
         /***     * insert function for use call back     */
         const InsertFun = async (postdata) => {
@@ -173,7 +178,8 @@ const ModuleGroupMast = () => {
             feedback: false,
             nabh: false,
             sfanfa: false,
-            nurseStation: false
+            nurseStation: false,
+            reports: false
         }
         setModuleGroup(frmreset)
         setvalue(0);
@@ -318,6 +324,18 @@ const ModuleGroupMast = () => {
                                         variant="outlined"
                                         value={nurseStation}
                                         checked={nurseStation}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
+                                        label="Reports"
+                                        color="primary"
+                                        size="md"
+                                        name="reports"
+                                        variant="outlined"
+                                        value={reports}
+                                        checked={reports}
                                         onCheked={updateModuleGroup}
                                     />
                                 </Grid>

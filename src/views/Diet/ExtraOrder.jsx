@@ -17,7 +17,6 @@ const ExtraOrder = () => {
     const history = useHistory();
     const [room, setRoom] = useState(0)
     const [diet, setDiet] = useState(0)
-    const [dietslno, setDietslno] = useState(0)
     const [dietold, setDietold] = useState(0)
     const [item, setItem] = useState(0)
     const [add, setAdd] = useState(0);
@@ -124,7 +123,6 @@ const ExtraOrder = () => {
                 setProcess(proc_slno)
                 setDiet(diet_slno)
                 setDietold(diet_slno)
-                setDietslno(diet_slno)
                 succesNotify(message)
             }
             else if (success === 0) {
@@ -319,7 +317,7 @@ const ExtraOrder = () => {
                                 width: '100%',
                             }}>
                                 <TextFieldCustom
-                                    placeholder="Process Slno"
+                                    placeholder="Pateint Name"
                                     type="text"
                                     size="sm"
                                     name="ptc_ptname"
