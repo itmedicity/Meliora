@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { diet_report_one } from './ReportsMenu'
+import { diet_one, diet_two, diet_three } from './ReportsMenu'
 import { getMenuSlno } from '../views/Constant/Constant'
 import { Link } from 'react-router-dom'
 import { Card, CardContent, CardHeader } from '@mui/material'
 import { titleTypography, cardActionBgClr } from 'src/color/Color';
 const Reports = () => {
-    const [report_one, setreport_one] = useState();
+    const [diet_report_one, setdiet_report_one] = useState();
+    const [diet_report_two, setdiet_report_two] = useState();
+    const [diet_report_three, setdiet_report_three] = useState();
     const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
             const menuSlnoArray = val[0].map((value) => {
                 return value.menu_slno;
             })
-            const Diet_report_one = diet_report_one.filter(val => menuSlnoArray.includes(val.slno));
-            setreport_one(Diet_report_one)
+            const Diet_report_one = diet_one.filter(val => menuSlnoArray.includes(val.slno));
+            setdiet_report_one(Diet_report_one)
+            const Diet_report_two = diet_two.filter(val => menuSlnoArray.includes(val.slno));
+            setdiet_report_two(Diet_report_two)
+            const Diet_report_three = diet_three.filter(val => menuSlnoArray.includes(val.slno));
+            setdiet_report_three(Diet_report_three)
             setCount(1)
         })
     }, [count])
@@ -31,7 +37,25 @@ const Reports = () => {
                     <div className="col-4">
                         <ul className="list-group list-group-flush">
                             {
-                                report_one && report_one.map((val) => {
+                                diet_report_one && diet_report_one.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                diet_report_two && diet_report_two.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                diet_report_three && diet_report_three.map((val) => {
                                     return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
                                 })
                             }
@@ -41,27 +65,7 @@ const Reports = () => {
             </CardContent>
         </Card>
 
-        // <Fragment>
-        //     <div className="card"  >
-        //         <div className="card-header bg-dark pb-0 border border-secondary text-white" >
-        //             <h5 >Employee Record Reports</h5>
-        //         </div>
-        //         <div className="card-body">
-        //             <div className="row" >
-        //                 <div className="col-4">
-        //                     <ul className="list-group list-group-flush">
-        //                         {
-        //                             report_one && report_one.map((val) => {
-        //                                 return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
-        //                             })
-        //                         }
-        //                     </ul>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     </div>
 
-        // </Fragment>
     )
 }
 

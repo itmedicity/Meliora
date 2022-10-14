@@ -36,21 +36,25 @@ const NurseStationWise = () => {
     ])
 
     const [columnDefMain] = useState([
-        {
-            headerName: '#',
-            filterParams: {
-                buttons: ['reset', 'apply'],
-                debounceMs: 200,
-            },
-            width: 30,
-        },
-        { headerName: 'Process Slno ', field: 'proc_slno', minWidth: 5 },
-        { headerName: 'Process Date ', field: 'process_date', minWidth: 20 },
-        { headerName: 'IP No', field: 'ip_no', minWidth: 60 },
-        { headerName: 'Patient Id ', field: 'pt_no', minWidth: 60 },
-        { headerName: 'Patient Name ', field: 'ptc_ptname', minWidth: 150 },
-        { headerName: 'Room No', field: 'rmc_desc', minWidth: 100 },
-        { headerName: 'Diet Name', field: 'diet_name', minWidth: 100 },
+        // {
+        //     headerName: '#',
+        //     filterParams: {
+        //         buttons: ['reset', 'apply'],
+        //         debounceMs: 200,
+        //     },
+        //     width: 10,
+        // },
+        { headerName: 'Sl No ', field: 'slno', wrapText: true, minWidth: 1 },
+        { headerName: 'Room No', field: 'rmc_desc', wrapText: true, minWidth: 10 },
+        { headerName: 'Admission Date ', field: 'ipd_date', wrapText: true, minWidth: 20 },
+        { headerName: 'IP No', field: 'ip_no', wrapText: true, minWidth: 60 },
+        { headerName: 'Patient Id ', field: 'pt_no', wrapText: true, minWidth: 60 },
+        { headerName: 'Patient Name ', field: 'ptc_ptname', wrapText: true, minWidth: 150 },
+        { headerName: 'Diet Name', field: 'diet_name', wrapText: true, minWidth: 100 },
+        { headerName: 'Remarks', field: 'plan_remark', wrapText: true, minWidth: 100 },
+        { headerName: 'Breakfast', minWidth: 100 },
+        { headerName: 'Lunch', minWidth: 100 },
+        { headerName: 'Dinner', minWidth: 100 },
     ])
 
     const FilterSelect = useCallback((event) => {

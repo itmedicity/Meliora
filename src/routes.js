@@ -52,6 +52,9 @@ const RectifyComplaint = React.lazy(() => import('./views/ComManagement/RectifyC
 const Reports = React.lazy(() => import('./Menus/Reports'))
 const DietReport = React.lazy(() => import('./views/Report/DietReport/DietTypeWise'))
 const NusrseStationReport = React.lazy(() => import('./views/Report/DietReport/NurseStationWise'))
+const PatientReport = React.lazy(() => import('./views/Report/DietReport/PatientWise'))
+
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -105,9 +108,9 @@ const routes = [
   { path: '/Home/DietDelivery', exact: true, name: ' Diet Delivery', component: DietDelivery },
   { path: '/Home/RectifyComplaint', exact: true, name: 'Rectify Complaint', component: RectifyComplaint },
   { path: '/Home/Reports', exact: true, name: 'Reports', component: Reports },
-  { path: '/Home/ProcessList/Diet', exact: true, name: 'Diet Report', component: DietReport },
-  { path: '/Home/ProcessList/NurseStation', exact: true, name: 'Nuse Station Wise Report', component: NusrseStationReport }
-
+  { path: '/Home/Report/Diet', exact: true, name: 'Diet Report', component: DietReport },
+  { path: '/Home/Report/NurseStation', exact: true, name: 'Nuse Station Wise Report', component: NusrseStationReport },
+  { path: '/Home/Report/Pateintwise', exact: true, name: 'Pateint wise Report', component: PatientReport },
 ]
 
 export default routes
