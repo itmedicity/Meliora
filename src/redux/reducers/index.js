@@ -35,6 +35,7 @@ import { getOraRoomByRoomType } from './OraRoomByType.Reducer'
 import { getNusringStationMeli } from './NurseStatnMeli.Reducer'
 import { getDepartemployee } from './Departwiseemployee.Reducer'
 import { getAssistantemployee } from './AssistantEmp.Reducer'
+import { changeStateAggrid } from '../reducers/StatechangeAgGrid';
 
 const reducer = combineReducers({
     changeState,
@@ -72,6 +73,8 @@ const reducer = combineReducers({
     getOraRoomByRoomType,
     getNusringStationMeli,
     getDepartemployee,
-    getAssistantemployee
+    getAssistantemployee,
+    changeStateAggrid
+
 })
 export default reducer;

@@ -49,6 +49,14 @@ const DietOrderList = React.lazy(() => import('./views/Diet/DietOrderList'));
 const DietExtraOrder = React.lazy(() => import('./views/Diet/ExtraOrder'));
 const DietDelivery = React.lazy(() => import('./views/Diet/DietDeliveryMark'))
 const RectifyComplaint = React.lazy(() => import('./views/ComManagement/RectifyComplaint/RectifyCompalint'))
+const WeWorkInpatient = React.lazy(() => import('./views/WeWork/InPatientList'))
+const WeWorkForm = React.lazy(() => import('./views/WeWork/WeWorkForm'))
+const Reports = React.lazy(() => import('./Menus/Reports'))
+const DietReport = React.lazy(() => import('./views/Report/DietReport/DietTypeWise'))
+const NusrseStationReport = React.lazy(() => import('./views/Report/DietReport/NurseStationWise'))
+const PatientReport = React.lazy(() => import('./views/Report/DietReport/PatientWise'))
+
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -101,6 +109,12 @@ const routes = [
   { path: '/Home/DietExtraOrder', exact: true, name: ' Diet Extra Order', component: DietExtraOrder },
   { path: '/Home/DietDelivery', exact: true, name: ' Diet Delivery', component: DietDelivery },
   { path: '/Home/RectifyComplaint', exact: true, name: 'Rectify Complaint', component: RectifyComplaint },
+  { path: '/Home/WeWork/InpatientList', exact: true, name: 'WeWork Inpatient', component: WeWorkInpatient },
+  { path: '/Home/WeWork/WeWorkForm', exact: true, name: 'WeWork Form', component: WeWorkForm },
+  { path: '/Home/Reports', exact: true, name: 'Reports', component: Reports },
+  { path: '/Home/Report/Diet', exact: true, name: 'Diet Report', component: DietReport },
+  { path: '/Home/Report/NurseStation', exact: true, name: 'Nuse Station Wise Report', component: NusrseStationReport },
+  { path: '/Home/Report/Pateintwise', exact: true, name: 'Pateint wise Report', component: PatientReport },
 
 ]
 

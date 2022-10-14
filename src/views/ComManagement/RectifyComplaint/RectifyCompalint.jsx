@@ -74,6 +74,7 @@ const RectifyCompalint = () => {
         }
         getRectifycomplit();
     }, [count, id])
+
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
