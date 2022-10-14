@@ -49,6 +49,10 @@ const DietOrderList = React.lazy(() => import('./views/Diet/DietOrderList'));
 const DietExtraOrder = React.lazy(() => import('./views/Diet/ExtraOrder'));
 const DietDelivery = React.lazy(() => import('./views/Diet/DietDeliveryMark'))
 const RectifyComplaint = React.lazy(() => import('./views/ComManagement/RectifyComplaint/RectifyCompalint'))
+const WeWorkInpatient = React.lazy(() => import('./views/WeWork/InPatientList'))
+const WeWorkForm = React.lazy(() => import('./views/WeWork/WeWorkForm'))
+
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -101,7 +105,8 @@ const routes = [
   { path: '/Home/DietExtraOrder', exact: true, name: ' Diet Extra Order', component: DietExtraOrder },
   { path: '/Home/DietDelivery', exact: true, name: ' Diet Delivery', component: DietDelivery },
   { path: '/Home/RectifyComplaint', exact: true, name: 'Rectify Complaint', component: RectifyComplaint },
-
+  { path: '/Home/WeWork/InpatientList', exact: true, name: 'WeWork Inpatient', component: WeWorkInpatient },
+  { path: '/Home/WeWork/WeWorkForm', exact: true, name: 'WeWork Form', component: WeWorkForm }
 ]
 
 export default routes
