@@ -10,13 +10,13 @@ import CmTransactions from '../Menus/CmTransactions'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilPuzzle, cilSpeedometer } from '@coreui/icons'
-import CmUtilities from '../Menus/CmUtilities'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { apsideBgclor } from 'src/color/Color'
 import DietTransactions from '../Menus/DietTransactions'
 import RmTransactions from '../Menus/RmTransaction'
 import RmUtilities from '../Menus/RmUtilities'
 import NurseStation from '../Menus/NurseStation'
+import WeWorkTransact from '../Menus/WeWorkTransact'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
@@ -24,10 +24,10 @@ const AppSidebar = () => {
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
   const [nurseStation, setNurseStation] = useState()
   const [cmtransact, setCmTransact] = useState()
-  const [cmutilities, setUtilities] = useState()
   const [diettransact, setDietTransact] = useState()
   const [rmtransact, setRmTransact] = useState()
   const [rmutilities, setRmUtilities] = useState()
+  const [weworktransact, setweworktransact] = useState()
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
 
@@ -51,22 +51,9 @@ const AppSidebar = () => {
     //Complaint Management System Menu Start from Here
     {
       slno: 2,
-      component: CNavTitle,
+      component: CNavGroup,
       name: 'Complaint Management',
-    },
-    {
-      slno: 2,
-      component: CNavGroup,
-      name: 'Transaction',
-      icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
       items: cmtransact
-    },
-    {
-      slno: 2,
-      component: CNavGroup,
-      name: 'Utilities',
-      icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-      items: cmutilities
     },
     //Request Management System Menu Start from Here
     {
@@ -107,6 +94,12 @@ const AppSidebar = () => {
       name: 'Diet Management',
       items: diettransact
     },
+    {
+      slno: 7,
+      component: CNavGroup,
+      name: 'We Work',
+      items: weworktransact
+    },
   ]
 
   useEffect(() => {
@@ -123,14 +116,14 @@ const AppSidebar = () => {
         setNurseStation(newNurseStation)
         const newCmTransaction = CmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setCmTransact(newCmTransaction)
-        const newCmUtilities = CmUtilities.filter(val => menuSlnoAry.includes(val.men_slno));
-        setUtilities(newCmUtilities)
         const newDietTransaction = DietTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setDietTransact(newDietTransaction)
         const newRmTransaction = RmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setRmTransact(newRmTransaction)
         const newRmUtilities = RmUtilities.filter(val => menuSlnoAry.includes(val.men_slno));
         setRmUtilities(newRmUtilities)
+        const weworkTransact = WeWorkTransact.filter(val => menuSlnoAry.includes(val.men_slno));
+        setweworktransact(weworkTransact)
         setCount(1)
       }
     })
