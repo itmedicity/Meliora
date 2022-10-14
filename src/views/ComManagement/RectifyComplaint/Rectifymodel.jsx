@@ -14,12 +14,15 @@ import { useMemo } from 'react';
 import { useCallback } from 'react';
 import { errorNotify, infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 import { axioslogin } from 'src/views/Axios/Axios';
+import CustomTextarea from 'src/views/Components/CustomTextarea';
+import { format } from 'date-fns'
+import CusCheckBox from 'src/views/Components/CusCheckBox';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
 
-const Rectifymodel = ({ open, handleClose, setOpen, detail, count, setCount }) => {
+const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
 
     const [rectify, setrectify] = useState({
         complaint_slno: 0,
@@ -31,14 +34,15 @@ const Rectifymodel = ({ open, handleClose, setOpen, detail, count, setCount }) =
         compalint_date: ''
 
     })
-    const { complaint_slno, complaint_desc, req_type_name, complaint_dept_name, complaint_type_name, compalint_date } = rectify
-
-
-    // const [slno, setslno] = useState(0)
+    const { complaint_slno, complaint_desc,
+        sec_name, em_name, date, Time, compalint_status
+    } = rectify
 
     useEffect(() => {
         const rectifyfunction = () => {
-            const { complaint_slno, complaint_desc, req_type_name, complaint_dept_name, complaint_type_name, hic_policy_name, compalint_date } = detail[0]
+            const { complaint_slno, complaint_desc, req_type_name, complaint_dept_name, complaint_type_name, hic_policy_name, compalint_date, sec_name, em_name,
+                date, Time, compalint_status
+            } = detail[0]
             const frmdata = {
                 complaint_slno: complaint_slno,
                 complaint_desc: complaint_desc,
@@ -46,28 +50,73 @@ const Rectifymodel = ({ open, handleClose, setOpen, detail, count, setCount }) =
                 complaint_dept_name: complaint_dept_name,
                 complaint_type_name: complaint_type_name,
                 hic_policy_name: hic_policy_name,
-                compalint_date: compalint_date
+                compalint_date: compalint_date,
+                sec_name: sec_name,
+                em_name: em_name,
+                date: date,
+                Time: Time,
+                compalint_status: compalint_status
+
+
+
             }
             setrectify(frmdata)
             // setslno(complaint_slno)
         }
         rectifyfunction()
-
-
     }, [detail])
 
+    const [pending, setPending] = useState(false);
+    const [hold, setHold] = useState(false);
+    const [rectified, setRectify] = useState(false);
+    const [flag, setFlag] = useState(0);
 
-
-
+    const updatePending = useCallback((e) => {
+        if (e.target.checked === true) {
+            setPending(true)
+            setHold(false)
+            setRectify(false)
+            setFlag(1)
+        } else {
+            setFlag(0)
+            setPending(false)
+        }
+    }, [])
+    const updateHold = useCallback((e) => {
+        if (e.target.checked === true) {
+            setHold(true)
+            setPending(false)
+            setRectify(false)
+            setFlag(2)
+        } else {
+            setFlag(0)
+            setHold(false)
+        }
+    }, [])
+    const updateRectified = useCallback((e) => {
+        if (e.target.checked === true) {
+            setRectify(true)
+            setHold(false)
+            setPending(false)
+            setFlag(0)
+        } else {
+            setFlag(0)
+            setRectify(false)
+        }
+    }, [])
+    const [pendholdreason, setPendhold] = useState("")
+    const updatePendhold = useCallback((e) => {
+        setPendhold(e.target.value)
+    }, [])
     const patchData = useMemo(() => {
         return {
-            compalint_status: 2,
+            compalint_status: rectified === true ? 2 : compalint_status,
+            cm_rectify_status: pending === true ? 'P' : hold === true ? 'O' : rectified === true ? 'R' : null,
+            cm_rectify_time: rectified === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+            rectify_pending_hold_remarks: pending === true ? pendholdreason : hold === true ? pendholdreason : null,
             complaint_slno: complaint_slno
         }
-    }, [complaint_slno])
-
-
-
+    }, [complaint_slno, pending, hold, rectified, compalint_status, pendholdreason])
     const rectifycmplt = useCallback((e) => {
         e.preventDefault();
         const updateFun = async (patchData) => {
@@ -82,17 +131,21 @@ const Rectifymodel = ({ open, handleClose, setOpen, detail, count, setCount }) =
                 errorNotify(message)
             }
         }
-        if (patchData !== 0) {
+        if (pending === true || hold === true || rectified === true) {
             updateFun(patchData)
         }
         else {
-            infoNotify("error occured contact EDP")
+            infoNotify("Please Choose Any")
         }
-    }, [patchData, count, setCount, setOpen])
-
-
-
-
+    }, [patchData, count, setCount, setOpen, hold, pending, rectified])
+    const handleClose = () => {
+        setOpen(false);
+        setFlag(0);
+        setRectify(false);
+        setPending(false);
+        setHold(false);
+        setPendhold('');
+    };
     return (
         <Fragment>
             <ToastContainer />
@@ -104,100 +157,198 @@ const Rectifymodel = ({ open, handleClose, setOpen, detail, count, setCount }) =
                 aria-describedby="alert-dialog-slide-descriptiona"
             >
                 <DialogTitle>
-                    {"complaint rectification"}
+                    {"Complaint Rectification"}
                 </DialogTitle>
                 <DialogContent sx={{
-                    minWidth: 300,
-                    maxWidth: 600,
-                    width: 1000,
+                    width: "100%",
+                    height: "100%"
                 }}>
-                    <Box sx={{ width: "100%" }}>
-                        <Paper square elevation={3}
-                            sx={{
-                                width: "100%", pr: 1,
-                                display: "flex",
-                                alignItems: "left",
-                                textAlign: "left",
-                                justifyContent: "space-evenly",
-                                flexDirection: { xl: "column", lg: "column", md: "column", sm: 'column', xs: "column" },
-                            }}
-                        >
-                            <Box sx={{ display: "flex", width: "100%" }}>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>comp slno</Typography>
+                    <Box sx={{ width: "100%", mt: 0 }}>
+                        <Box>
+                            <Paper square elevation={3} sx={{ p: 2, mt: 1 }} >
+                                {/* 2nd section */}
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                    p: 0.5,
+                                    mt: 1
+                                }}>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+                                        <Typography>Complaint Department</Typography>
+                                    </Box>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+                                        <Typography>{sec_name}</Typography>
+                                    </Box>
+                                    <Box>
+                                    </Box>
                                 </Box>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>:</Typography>
+                                {/* 3rd section */}
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                    p: 0.5,
+                                    mt: 1
+                                }}>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+                                        <Typography>Assigned Employee</Typography>
+                                    </Box>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+                                        <Typography>{em_name}</Typography>
+                                    </Box>
+                                    <Box>
+                                    </Box>
                                 </Box>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>{complaint_slno}</Typography>
+                                {/* 4th section */}
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                    p: 0.5,
+                                    mt: 1
+                                }}>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+                                        <Typography>Date & Time</Typography>
+                                    </Box>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+                                        <Typography>{date} & {Time}</Typography>
+                                    </Box>
+                                    <Box>
+                                    </Box>
                                 </Box>
-                            </Box>
-                            <Box sx={{ display: "flex", width: "100%" }}>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>Comp.desc</Typography>
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                    // p: 1
+                                    p: 0.5,
+                                }}>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: "100%"
+                                    }} >
+                                        <Typography sx={{ textAlign: "center" }}>Complaint Description</Typography>
+                                    </Box>
                                 </Box>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>:</Typography>
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                    // p: 1
+                                    p: 0.5,
+                                }}>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                        mt: 0
+                                    }} >
+                                        <CustomTextarea
+                                            style={{ width: 390 }}
+                                            minRows={4}
+                                            value={complaint_desc}
+                                            disabled
+                                        />
+                                    </Box>
                                 </Box>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>{complaint_desc} </Typography>
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                    p: 0.5,
+                                    mt: 1, mb: 1
+                                }}>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: "30%"
+                                    }} >
+                                        <CusCheckBox
+                                            label="Pending"
+                                            color="primary"
+                                            size="md"
+                                            name="pending"
+                                            value={pending}
+                                            checked={pending}
+                                            onCheked={updatePending}
+                                        />
+                                    </Box>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: "30%"
+                                    }} >
+                                        <CusCheckBox
+                                            label="On Hold"
+                                            color="primary"
+                                            size="md"
+                                            name="hold"
+                                            value={hold}
+                                            checked={hold}
+                                            onCheked={updateHold}
+                                        />
+                                    </Box>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: "30%"
+                                    }} >
+                                        <CusCheckBox
+                                            label="Rectify"
+                                            color="primary"
+                                            size="md"
+                                            name="rectified"
+                                            value={rectified}
+                                            checked={rectified}
+                                            onCheked={updateRectified}
+                                        />
+                                    </Box>
                                 </Box>
-                            </Box>
-                            <Box sx={{ display: "flex", width: "100%" }}>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography >Comp. dept</Typography>
-                                </Box>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>:</Typography>
-                                </Box>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>{complaint_dept_name}</Typography>
-                                </Box>
-                            </Box>
-                            <Box sx={{ display: "flex", width: "100%" }}>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography >Request type</Typography>
-                                </Box>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>:</Typography>
-                                </Box>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>{req_type_name}</Typography>
-                                </Box>
-                            </Box>
-                            <Box sx={{ display: "flex", width: "100%" }}>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography >Comp.type</Typography>
-                                </Box>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>:</Typography>
-                                </Box>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>
-                                        {complaint_type_name}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                            <Box sx={{ display: "flex", width: "100%" }}>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography >Date</Typography>
-                                </Box>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>:</Typography>
-                                </Box>
-                                <Box sx={{ display: "flex", justifyContent: 'space-evenly', flex: 1 }}>
-                                    <Typography>
-                                        {compalint_date}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                        </Paper>
+                                {
+                                    flag === 1 ? <Box sx={{ p: 0.5 }}>
+                                        <CustomTextarea
+                                            style={{ width: 390 }}
+                                            minRows={4}
+                                            placeholder=" Pending Remarks"
+                                            onchange={updatePendhold}
+                                            value={pendholdreason}
+                                        />
+                                    </Box> : null
+                                }
+                                {
+                                    flag === 2 ? <Box sx={{ p: 0.5 }}>
+                                        <CustomTextarea
+                                            style={{ width: 390 }}
+                                            minRows={4}
+                                            placeholder=" On Hold Remarks"
+                                            onchange={updatePendhold}
+                                            value={pendholdreason}
+                                        />
+                                    </Box> : null
+                                }
+
+                            </Paper>
+                        </Box>
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={rectifycmplt} color="secondary" >Rectify</Button>
-                    <Button onClick={handleClose} color="secondary" >Cancel</Button>
+                    <Button onClick={rectifycmplt} color="secondary" >Ok</Button>
+                    <Button onClick={handleClose} color="secondary" >Close</Button>
                 </DialogActions>
             </Dialog>
         </Fragment>

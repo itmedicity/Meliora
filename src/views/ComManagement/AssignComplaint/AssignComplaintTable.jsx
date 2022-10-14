@@ -15,6 +15,7 @@ import AssignmentTurnedInRoundedIcon from '@mui/icons-material/AssignmentTurnedI
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { format } from 'date-fns'
 import AssistantNeedmodal from './AssistantNeedmodal';
+import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 const AssignComplaintTable = () => {
     const history = useHistory();
     //state for setting table data
@@ -84,6 +85,46 @@ const AssignComplaintTable = () => {
         { headerName: "Date", field: "date", autoHeight: true, wrapText: true },
         { headerName: "Time", field: "Time", autoHeight: true, wrapText: true }
     ])
+    const [assitantaccept] = useState([
+        { headerName: "SlNo", field: "complaint_slno" },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 280 },
+        { headerName: "Department Section", field: "sec_name", autoHeight: true, wrapText: true, width: 250 },
+        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true },
+        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, width: 200 },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
+        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
+        { headerName: "Employee Name", field: "em_name", autoHeight: true, wrapText: true },
+        { headerName: "Date", field: "date", autoHeight: true, wrapText: true },
+        { headerName: "Time", field: "Time", autoHeight: true, wrapText: true },
+        {
+            headerName: 'Assisted',
+            cellRenderer: params => {
+                if (params.data.assist_receive === 1) {
+                    return <IconButton disabled
+                        sx={{ color: editicon, paddingY: 0.5 }}>
+                        < DoneOutlinedIcon />
+                    </IconButton>
+                } else {
+                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                        onClick={() => AssistantAccepted(params)}>
+                        < DoneOutlinedIcon />
+                    </IconButton>
+                }
+            }
+
+        }
+    ])
+
+    //     assist_receive
+
+    //     cellRenderer: params => <Fragment>
+    //     <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+    //         onClick={() => AssistantAccepted(params)}>
+    //         < DoneOutlinedIcon />
+    //     </IconButton>
+    // </Fragment>
+
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setLoginProfileData(id))
@@ -105,15 +146,22 @@ const AssignComplaintTable = () => {
                     setTabledata(data)
                 } else {
                     infoNotify(message)
+                    setTabledata([])
                 }
             }
-            getComplaintAssign();
             if (flag === 2) {
                 getComplaintAssign()
             } else {
-                getComplaintAssign()
+                setTabledata([])
             }
-            // getComplaintAssign()
+            if (flag === 0) {
+                getComplaintAssign()
+            } else {
+                setTabledata([])
+            }
+
+
+
             const getAssigned = async () => {
                 const result = await axioslogin.get(`/complaintassign/user/${id}`);
                 const { success, message, data } = result.data;
@@ -121,6 +169,7 @@ const AssignComplaintTable = () => {
                     setTabledata(data)
                 } else {
                     infoNotify(message)
+                    setTabledata([])
                 }
             }
             if (flag === 1) {
@@ -135,10 +184,26 @@ const AssignComplaintTable = () => {
                     setTabledata(data)
                 } else {
                     infoNotify(message)
+                    setTabledata([])
                 }
             }
             if (flag === 3) {
                 getAllcompalintbyemp();
+            } else {
+                setTabledata([])
+            }
+            const getInvidualassistcomplaint = async () => {
+                const result = await axioslogin.get(`/complaintassign/individual/assist/${id}`);
+                const { success, message, data } = result.data;
+                if (success === 1) {
+                    setTabledata(data)
+                } else {
+                    infoNotify(message)
+                    setTabledata([])
+                }
+            }
+            if (flag === 4) {
+                getInvidualassistcomplaint();
             } else {
                 setTabledata([])
             }
@@ -190,6 +255,7 @@ const AssignComplaintTable = () => {
             setAssigned(true)
             setPending(false)
             setAll(false)
+            setAssist(false)
         } else {
             setFlag(0);
             setAssigned(false)
@@ -201,6 +267,7 @@ const AssignComplaintTable = () => {
             setPending(true)
             setAssigned(false)
             setAll(false)
+            setAssist(false)
         } else {
             setFlag(0)
             // setFlag(2)
@@ -214,11 +281,52 @@ const AssignComplaintTable = () => {
             setAll(true)
             setAssigned(false)
             setPending(false)
+            setAssist(false)
         } else {
             setFlag(0)
             setAll(false)
         }
     }, [])
+    const [assist, setAssist] = useState(false)
+    const updateAssistant = useCallback((e) => {
+        if (e.target.checked === true) {
+            setFlag(4)
+            setAssist(true)
+            setAll(false)
+            setAssigned(false)
+            setPending(false)
+        } else {
+            setAssist(false)
+            setFlag(0)
+        }
+    }, [])
+
+
+    const AssistantAccepted = useCallback((params) => {
+        const { complaint_slno } = params.data
+        const postData = {
+            assist_assign_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+            assist_receive: 1,
+            complaint_slno: complaint_slno
+        }
+        const assistant = async (postData) => {
+            const result = await axioslogin.patch('/complaintassign/assistant/recieved', postData);
+            const { message, success } = result.data;
+            if (success === 1) {
+                succesNotify(message)
+                // setCount(count + 1)
+            } else if (success === 0) {
+                infoNotify(message)
+            } else {
+                infoNotify(message)
+            }
+        }
+        assistant(postData)
+
+    }, [])
+
+
+
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
@@ -277,6 +385,22 @@ const AssignComplaintTable = () => {
 
                             }} >
                                 <CusCheckBox
+                                    label="Assist"
+                                    color="primary"
+                                    size="md"
+                                    name="assist"
+                                    value={assist}
+                                    checked={assist}
+                                    onCheked={updateAssistant}
+                                />
+                            </Box>
+                            <Box sx={{
+                                display: 'flex',
+                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                mt: 1,
+
+                            }} >
+                                <CusCheckBox
                                     label="All Complaint"
                                     color="primary"
                                     size="md"
@@ -287,15 +411,19 @@ const AssignComplaintTable = () => {
                                 />
                             </Box>
 
+
                         </Box>
                     </Paper>
                 </Box>
-                {/* <Box sx={{ p: 1 }}>
-                    <CusAgGridMast
-                        columnDefs={column}
-                        tableData={tabledata}
-                    />
-                </Box> */}
+                {
+                    flag === 0 ?
+                        <Box sx={{ p: 1 }}>
+                            <CusAgGridMast
+                                columnDefs={column}
+                                tableData={tabledata}
+                            />
+                        </Box> : null
+                }
                 {
                     flag === 2 ? <Box sx={{ p: 1 }}>
                         <CusAgGridMast
@@ -316,6 +444,14 @@ const AssignComplaintTable = () => {
                     flag === 3 ? <Box sx={{ p: 1 }}>
                         <CusAgGridMast
                             columnDefs={alldata}
+                            tableData={tabledata}
+                        />
+                    </Box> : null
+                }
+                {
+                    flag === 4 ? <Box sx={{ p: 1 }}>
+                        <CusAgGridMast
+                            columnDefs={assitantaccept}
                             tableData={tabledata}
                         />
                     </Box> : null
