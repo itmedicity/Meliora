@@ -9,13 +9,13 @@ import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithC
 import DietProcessModel from './DietProcessModel';
 import Button from '@mui/material/Button';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import NursingStationSelect from '../CommonSelectCode/NursingStationSelect';
 import CusIconButton from '../Components/CusIconButton';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { format } from 'date-fns'
 import { useSelector } from 'react-redux'
 import { succesNotify } from 'src/views/Common/CommonCode'
 import SelectDiet from '../CommonSelectCode/SelectDiet';
+import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect';
 
 const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, startdate, dayselect, setdayselect }) => {
     const [tabledata, setTabledata] = useState([])
@@ -196,6 +196,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                                 discharge_status: val.discharge === 'N' ? 1 : 0,
                                 em_id: id
                             }
+
                             const result = await axioslogin.post('/dietprocess', postdata);
                             const { success, insetid } = result.data;
                             if (success === 1) {
@@ -278,7 +279,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                             <Box sx={{
                                 pt: 1, pr: 1, width: "20%"
                             }}>
-                                <NursingStationSelect value={nurse} setValue={setNurse} />
+                                <NursingStationMeliSelect value={nurse} setValue={setNurse} />
                             </Box>
                             <Box sx={{
                                 pt: 1, pr: 1, width: "15%"
@@ -305,6 +306,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                                 <Button onClick={allProcess} variant="contained" size="small" color="primary">All Process</Button>
                             </Box>
                         </Box>
+
                         <CusAgGridMast
                             columnDefs={column}
                             tableData={tabledata}
@@ -347,7 +349,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                             <Box sx={{
                                 pt: 1, pr: 1, width: "20%"
                             }}>
-                                <NursingStationSelect value={nurse} setValue={setNurse} />
+                                <NursingStationMeliSelect value={nurse} setValue={setNurse} />
                             </Box>
                             <Box sx={{
                                 pt: 1, pr: 1, width: "20%"

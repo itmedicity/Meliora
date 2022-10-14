@@ -51,11 +51,11 @@ const DietApprovalList = () => {
     const [column] = useState([
         { headerName: "Patient  No", field: "pt_no" },
         { headerName: "Diet  No", field: "dietpt_slno" },
-        { headerName: "Name", field: "ptc_ptname" },
+        { headerName: "Name", field: "ptc_ptname", filter: "true", },
         { headerName: "Bed", field: "bdc_no" },
         { headerName: "Diet", field: "diet_name" },
         { headerName: "Remarks", field: "plan_remark" },
-        { headerName: "Diet Approval", field: "plan status" },
+        { headerName: "Diet Approval", field: "plan status", filter: "true", },
         {
             headerName: "Diet Approval", cellRenderer: params => <IconButton
                 sx={{ color: editicon, paddingY: 0.5 }}
