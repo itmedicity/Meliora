@@ -7,7 +7,7 @@ const ComplaintCheckBox = ({ value, onChange, name, label, checkedValue, onClick
             <CssVarsProvider>
                 <Checkbox
                     variant="outlined"
-                    color="success"
+                    color='primary'
                     label={label.toLowerCase()}
                     checked={checkedValue !== undefined && checkedValue !== value ? false : true}
                     onChange={(e) => {

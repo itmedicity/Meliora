@@ -30,13 +30,13 @@ const ComplaintList = (count) => {
     const [column] = useState([
         { headerName: "SlNo", field: "complaint_slno", minWidth: 10 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
-        { headerName: "User dept", field: "sec_name", wrapText: true, autoHeight: true, minWidth: 70 },
+        { headerName: "Department", field: "complaint_dept_name", wrapText: true, autoHeight: true, minWidth: 70 },
         { headerName: "Request Type", field: "req_type_name" },
         { headerName: "Complaint Type", field: "complaint_type_name" },
         { headerName: "Hic Policy", field: "hic_policy_name" },
-        { headerName: "Emp dept", field: "sec_name" },
+        // { headerName: "Emp dept", field: "complaint_dept_name" },
         { headerName: "Date", field: "compalint_date" },
-        { headerName: "status", field: "compalint_status" }
+        { headerName: "status", field: "compalint_status1" }
 
         // { headerName: 'Action', cellRenderer: EditButton },
     ])
@@ -107,6 +107,7 @@ const ComplaintList = (count) => {
 
 
     useEffect(() => {
+
         const getcomplintlisttotal = async () => {
             const result = await axioslogin.get(`/complaintreg/complit`)
             const { success, data, message } = result.data
@@ -115,6 +116,7 @@ const ComplaintList = (count) => {
                 settable(1)
             }
             else if (success === 2) {
+                setTabledata([])
                 warningNotify(message)
             }
 
@@ -123,6 +125,7 @@ const ComplaintList = (count) => {
             }
 
         }
+        getcomplintlisttotal();
         const getcomplintassignList = async () => {
             const result = await axioslogin.get(`/complaintreg/assigncmpl`)
             const { success, data, message } = result.data
@@ -131,6 +134,7 @@ const ComplaintList = (count) => {
                 settable(1)
             }
             else if (success === 2) {
+                setTabledata([])
                 warningNotify(message)
             }
             else {
@@ -145,6 +149,7 @@ const ComplaintList = (count) => {
                 settable(1)
             }
             else if (success === 2) {
+                setTabledata([])
                 warningNotify(message)
             }
             else {
@@ -154,18 +159,18 @@ const ComplaintList = (count) => {
         }
         const getcomplintlistrectify = async () => {
             const result = await axioslogin.get(`/complaintreg/getreccmp`)
-
             const { success, data, message } = result.data
             if (success === 1) {
                 setTabledata(data)
                 settable(1)
             }
             else if (success === 2) {
+                setTabledata([])
                 warningNotify(message)
             }
-            else {
-                setTabledata(data)
-            }
+            // else {
+            //     setTabledata(data)
+            // }
 
         }
 
@@ -209,7 +214,7 @@ const ComplaintList = (count) => {
                 <Box sx={{ p: 2 }}>
                     <CusCheckBox
                         variant="outlined"
-                        color="success"
+                        color="primary"
                         size="md"
                         name="total"
                         label="Total complaint"
@@ -221,7 +226,7 @@ const ComplaintList = (count) => {
                 <Box sx={{ p: 2 }}>
                     <CusCheckBox
                         variant="outlined"
-                        color="success"
+                        color="primary"
                         size="md"
                         name="total"
                         label="Assigned complaints"
@@ -233,7 +238,7 @@ const ComplaintList = (count) => {
                 <Box sx={{ p: 2 }}>
                     <CusCheckBox
                         variant="outlined"
-                        color="success"
+                        color="primary"
                         size="md"
                         name="total"
                         label="Rectified complaints"
@@ -245,7 +250,7 @@ const ComplaintList = (count) => {
                 <Box sx={{ p: 2 }}>
                     <CusCheckBox
                         variant="outlined"
-                        color="success"
+                        color="primary"
                         size="md"
                         name="total"
                         label="Verified complaints"
@@ -254,8 +259,6 @@ const ComplaintList = (count) => {
                         checked={verify}
                     />
                 </Box>
-
-
             </Box>
             <Box sx={{ p: 1 }}>
                 {

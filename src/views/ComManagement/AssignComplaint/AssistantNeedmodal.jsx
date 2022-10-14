@@ -1,72 +1,62 @@
-import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useMemo, useState, memo } from 'react'
 import { ToastContainer } from 'react-toastify'
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
 import { Box } from '@mui/system';
 import { Paper, Typography } from '@mui/material';
 import CustomTextarea from 'src/views/Components/CustomTextarea';
-import DeptWiseEmpSelect from 'src/views/CommonSelectCode/DeptWiseEmpSelect';
-import { axioslogin } from 'src/views/Axios/Axios';
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+import Button from '@mui/material/Button';
+import DialogActions from '@mui/material/DialogActions';
+import { useSelector } from 'react-redux';
+import AssistantEmpSelect from 'src/views/CommonSelectCode/AssistantEmpSelect';
 import { format } from 'date-fns'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+import { axioslogin } from 'src/views/Axios/Axios';
+import CusCheckBox from 'src/views/Components/CusCheckBox';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
-const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCount }) => {
-    //props data for modal
-    const { complaint_slno, complaint_desc, sec_name, req_type_name, complaint_type_name } = complaint[0]
-    //state for employee select box
-    // const [emp, setEmp] = useState(0)
-    // sate for getting emp dept
-    const [empdeptwise, setEmpdept] = useState(0)
-    // state for remarks
-    const [remark, setRemark] = useState('');
-    //setting emp dept
+const AssistantNeedmodal = ({ open, setOpen, assistant, empdept, count, setCount }) => {
+    const { complaint_slno, complaint_desc, sec_name, complaint_type_name } = assistant[0]
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
+    const [userdept, setUser] = useState(0);
     useEffect(() => {
         if (empdept.length !== 0) {
             const { em_department } = empdept[0]
-            setEmpdept(em_department)
+            setUser(em_department)
         }
     }, [empdept])
-    //updating remark state
-    const updateRemark = useCallback((e) => {
-        setRemark(e.target.value)
-    }, [setRemark])
-    //reset to intial
+    const postdata = {
+        em_department: userdept,
+        em_id: id
+    }
+    const [assistemp, setAssistemp] = useState(0)
+    const [assistuser, setAssist] = useState(false);
+    const updateAssistuser = useCallback((e) => {
+        setAssist(e.target.checked)
+    }, [])
+    const assistentData = useMemo(() => {
+        return {
+            complaint_slno: complaint_slno,
+            assigned_emp: assistemp,
+            assigned_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+            assist_flag: assistuser === true ? 1 : 0
+        }
+    }, [complaint_slno, assistemp, assistuser]);
     const reset = useCallback(() => {
         setOpen(false)
-        // setEmp(0)
-        setRemark('')
-        setPersonName([])
-    }, [setOpen, setRemark])
-    //setting data to detailed assign
-    const [personName, setPersonName] = useState([]);
-    const postData = personName && personName.map((val) => {
-        return {
-            complaint_remark: remark,
-            complaint_slno: complaint_slno,
-            assigned_emp: val,
-            assigned_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
-        }
-    })
-    const compremark = useMemo(() => {
-        return {
-            complaint_remark: remark,
-            complaint_slno: complaint_slno
-        }
-    }, [remark, complaint_slno])
-    //inserting detailed assign
-    const detailAssign = useCallback(() => {
-        const Assignemp = async (postData) => {
-            const result = await axioslogin.post(`/complaintassign/detailassign`, postData);
+        setAssistemp(0)
+    }, [setOpen])
+    const Assistent = useCallback(() => {
+        const AssistentEmp = async () => {
+            const result = await axioslogin.post(`/complaintassign/assistant/emp`, assistentData);
             const { message, success } = result.data;
             if (success === 1) {
-                const result = await axioslogin.patch(`/complaintassign/remark`, compremark);
-                const { message } = result.data;
                 succesNotify(message)
                 setCount(count + 1)
                 reset();
@@ -76,17 +66,14 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
                 infoNotify(message)
             }
         }
-        Assignemp(postData);
-        // if (emp !== 0) {
-        //     Assignemp(postData);
-        // }
-        // else if (remark === '') {
-        //     infoNotify("Please Enter Any Remark")
-        // }  
-        // else {
-        //     infoNotify("Please Select Employee")
-        // }
-    }, [postData, count, reset, setCount, compremark])
+        if (assistemp === 0) {
+            infoNotify("Please Select Employee")
+        } else if (assistuser === false) {
+            infoNotify("Please Click Assistant Needed")
+        } else {
+            AssistentEmp(assistentData)
+        }
+    }, [assistentData, assistuser, count, reset, setCount, assistemp])
     return (
         <Fragment>
             <ToastContainer />
@@ -104,28 +91,29 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
-                        Complaint Assign
+                        Assistant Needed
                     </DialogContentText>
+
                     <Box sx={{ width: "100%", p: 1 }}>
                         <Paper square elevation={3} sx={{ p: 2, mt: 1 }} >
                             <Box sx={{
                                 width: "100%",
                                 display: "flex",
                                 flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                p: 0.5,
+                                p: 1,
                                 mt: 1
                             }}>
                                 <Box sx={{
                                     display: 'flex',
                                     width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
                                 }} >
-                                    <Typography>Request Type</Typography>
+                                    <Typography>Complaint Type</Typography>
                                 </Box>
                                 <Box sx={{
                                     display: 'flex',
                                     width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
                                 }} >
-                                    <Typography>{req_type_name}</Typography>
+                                    <Typography>{complaint_type_name}</Typography>
                                 </Box>
                                 <Box>
                                 </Box>
@@ -135,8 +123,7 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
                                 width: "100%",
                                 display: "flex",
                                 flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                // p: 1
-                                p: 0.5,
+                                p: 1
                             }}>
                                 <Box sx={{
                                     display: 'flex',
@@ -156,29 +143,7 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
                                 width: "100%",
                                 display: "flex",
                                 flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                // p: 1
-                                p: 0.5,
-                            }}>
-                                <Box sx={{
-                                    display: 'flex',
-                                    width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
-                                }} >
-                                    <Typography>Complaint Type</Typography>
-                                </Box>
-                                <Box sx={{
-                                    display: 'flex',
-                                    width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
-                                }} >
-                                    <Typography>{complaint_type_name}</Typography>
-                                </Box>
-                            </Box>
-                            {/* 4th section */}
-                            <Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                // p: 1
-                                p: 0.5,
+                                p: 1
                             }}>
                                 <Box sx={{
                                     display: 'flex',
@@ -191,8 +156,7 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
                                 width: "100%",
                                 display: "flex",
                                 flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                // p: 1
-                                p: 0.5,
+                                p: 1
                             }}>
                                 <Box sx={{
                                     display: 'flex',
@@ -210,49 +174,51 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
                             {/* 5th section */}
                             <Box sx={{
                                 width: "100%",
-                                // display: "flex",
-                                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                // p: 1
-                                p: 0.5,
-                            }}>
-                                <Box sx={{
-                                    width: "100%",
-                                    // bgcolor: "cyan"
-                                    // width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
-                                }} >
-                                    <DeptWiseEmpSelect personName={personName} setPersonName={setPersonName} empdeptwise={empdeptwise} />
-                                </Box>
-                            </Box>
-                            {/* 6th section */}
-                            <Box sx={{
-                                width: "100%",
                                 display: "flex",
                                 flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                // p: 1
-                                p: 0.5,
+                                p: 1
                             }}>
                                 <Box sx={{
                                     width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                                 }} >
-                                    <CustomTextarea
-                                        style={{ width: 390 }}
-                                        minRows={4}
-                                        placeholder="Remarks"
-                                        name='remark'
-                                        value={remark}
-                                        onchange={updateRemark}
+                                    <CusCheckBox
+                                        label="Assistant Needed"
+                                        color="primary"
+                                        size="md"
+                                        name="assistuser"
+                                        value={assistuser}
+                                        checked={assistuser}
+                                        onCheked={updateAssistuser}
                                     />
                                 </Box>
                             </Box>
+
+
+
+
+                            <Box sx={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                p: 1
+                            }}>
+                                <Box sx={{
+                                    width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
+                                }} >
+                                    <AssistantEmpSelect postdata={postdata} value={assistemp} setValue={setAssistemp} />
+                                </Box>
+                            </Box>
+
                         </Paper>
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="secondary" onClick={detailAssign} >Save</Button>
+                    <Button color="secondary" onClick={Assistent} >Save</Button>
                     <Button color="secondary" onClick={reset}>Cancel</Button>
                 </DialogActions>
             </Dialog>
         </Fragment>
     )
 }
-export default memo(ModalAssignComplaint)
+
+export default memo(AssistantNeedmodal)
