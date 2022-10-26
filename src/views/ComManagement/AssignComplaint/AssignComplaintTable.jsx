@@ -16,10 +16,15 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { format } from 'date-fns'
 import AssistantNeedmodal from './AssistantNeedmodal';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
+import CustomeToolTip from 'src/views/Components/CustomeToolTip';
+import { getComplaintLists } from 'src/redux/actions/ComplaintLists.action';
+import { getAssignedComplaintLists } from 'src/redux/actions/AssignedcmLists.action';
+import { getAssistComplaintLists } from 'src/redux/actions/AssistcmLists.action';
+import { getAllComplaintLists } from 'src/redux/actions/AllcomplaintsLists.action';
 const AssignComplaintTable = () => {
     const history = useHistory();
     //state for setting table data
-    const [tabledata, setTabledata] = useState([])
+    // const [tabledata, setTabledata] = useState([])
     //state for modal open
     const [open, setOpen] = useState(false)
     // state for modal rendering
@@ -31,60 +36,138 @@ const AssignComplaintTable = () => {
         return state.LoginUserData.empid
     })
     //column title setting
+    //this will show the pending complaints data
+
+    // const changeColor = (params) => {
+    //     if (params.data.cm_rectify_status === 'Z') {
+    //         return { backGround: '#red' };
+    //     }
+    // }
     const [column] = useState([
         { headerName: "SlNo", field: "complaint_slno" },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 230 },
+        {
+            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 230,
+            cellStyle: function (params) {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
         { headerName: "Department Section", field: "sec_name", autoHeight: true, wrapText: true, width: 220 },
         { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true },
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, width: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
         { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
-        { headerName: "Date", field: "date", autoHeight: true, wrapText: true },
-        { headerName: "Time", field: "Time", autoHeight: true, wrapText: true },
+        // {
+        //     headerName: "Verification", field: "cm_rectify_status1", autoHeight: true, wrapText: true, cellStyle: function (params) {
+        //         if (params.data.cm_rectify_status === 'Z') {
+        //             return { color: 'red' };
+        //         } else {
+        //             return null;
+        //         }
+        //     }
+        // },
+        {
+            headerName: "Verification Remark", field: "verify_remarks1", autoHeight: true, wrapText: true, width: 250,
+            cellStyle: function (params) {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
+        // { headerName: "Verification Time", field: "", autoHeight: true, wrapText: true },
+        // { headerName: "Not Verification Time", field: "cm_not_verify_time", autoHeight: true, wrapText: true, width: 300 },
+        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true },
+        // { headerName: "Time", field: "Time", autoHeight: true, wrapText: true },
         {
             headerName: 'Action', cellRenderer: params => <Fragment>
+
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                     onClick={() => quickAssign(params)}>
-                    <AssignmentTurnedInRoundedIcon />
+                    <CustomeToolTip title="Quick Assign" >
+                        <AssignmentTurnedInRoundedIcon />
+                    </CustomeToolTip>
                 </IconButton>
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                     onClick={() => Assign(params)}>
-                    < AccessibilityNewIcon />
+                    <CustomeToolTip title="Detailed Assign" >
+                        < AccessibilityNewIcon />
+                    </CustomeToolTip>
                 </IconButton>
+
             </Fragment>
-        }
+        },
     ])
+    // when we click on assign this wil show assigned each inviduals employess complaint
     const [assign] = useState([
         { headerName: "SlNo", field: "complaint_slno" },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 230 },
+        {
+            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 250,
+            cellStyle: (params) => {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
         { headerName: "Department Section", field: "sec_name", autoHeight: true, wrapText: true, width: 220 },
         { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true },
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, width: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
         { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
+        { headerName: "Remark", field: "complaint_remark", autoHeight: true, wrapText: true },
         { headerName: "Date", field: "date", autoHeight: true, wrapText: true },
         { headerName: "Time", field: "Time", autoHeight: true, wrapText: true },
         {
             headerName: 'Action', cellRenderer: params => <Fragment>
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                     onClick={() => AssistantNeeded(params)}>
-                    < AccessibilityNewIcon />
+                    <CustomeToolTip title="Assistant Needed" >
+                        < AccessibilityNewIcon />
+                    </CustomeToolTip>
                 </IconButton>
             </Fragment>
         }
     ])
+    //when we click on all compalint this table  will show  
+    // cm_rectify_status
+
     const [alldata] = useState([
         { headerName: "SlNo", field: "complaint_slno" },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 230 },
+        {
+            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 230,
+            cellStyle: (params) => {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
         { headerName: "Department Section", field: "sec_name", autoHeight: true, wrapText: true, width: 220 },
         { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true },
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, width: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
         { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
-        { headerName: "Employee Name", field: "em_name", autoHeight: true, wrapText: true },
+        {
+            headerName: "Employee Name", field: "em_name", autoHeight: true, wrapText: true,
+            cellStyle: (params) => {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
         { headerName: "Date", field: "date", autoHeight: true, wrapText: true },
         { headerName: "Time", field: "Time", autoHeight: true, wrapText: true }
     ])
+    //When we click on assist this table  will show
     const [assitantaccept] = useState([
         { headerName: "SlNo", field: "complaint_slno" },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 280 },
@@ -102,114 +185,65 @@ const AssignComplaintTable = () => {
                 if (params.data.assist_receive === 1) {
                     return <IconButton disabled
                         sx={{ color: editicon, paddingY: 0.5 }}>
-                        < DoneOutlinedIcon />
+                        <CustomeToolTip title="Assistant Accept" >
+                            < DoneOutlinedIcon />
+                        </CustomeToolTip>
                     </IconButton>
                 } else {
                     return <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                         onClick={() => AssistantAccepted(params)}>
-                        < DoneOutlinedIcon />
+                        <CustomeToolTip title="Assistant Accept" >
+                            < DoneOutlinedIcon />
+                        </CustomeToolTip>
                     </IconButton>
                 }
             }
 
         }
     ])
-
-    //     assist_receive
-
-    //     cellRenderer: params => <Fragment>
-    //     <IconButton sx={{ color: editicon, paddingY: 0.5 }}
-    //         onClick={() => AssistantAccepted(params)}>
-    //         < DoneOutlinedIcon />
-    //     </IconButton>
-    // </Fragment>
-
-
     const dispatch = useDispatch();
+    //getting id
     useEffect(() => {
         dispatch(setLoginProfileData(id))
     }, [dispatch, id])
+    //getting employees data
     const xx = useSelector((state) => {
         return state.getLoginProfileData.loginProfiledata
     })
+    //state for assigned check box
     const [assigned, setAssigned] = useState(false);
+    //state for pending list check box
     const [pending, setPending] = useState(false);
+    //flag for table rendering
     const [flag, setFlag] = useState(0)
+    //state for assist checkbox
+    const [assist, setAssist] = useState(false)
     //displaying complaints against the login users department
     useEffect(() => {
         if (xx.length !== 0) {
             const { em_department } = xx[0]
-            const getComplaintAssign = async () => {
-                const result = await axioslogin.get(`/complaintassign/${em_department}`);
-                const { success, message, data } = result.data;
-                if (success === 1) {
-                    setTabledata(data)
-                } else {
-                    infoNotify(message)
-                    setTabledata([])
-                }
-            }
-            if (flag === 2) {
-                getComplaintAssign()
-            } else {
-                setTabledata([])
-            }
-            if (flag === 0) {
-                getComplaintAssign()
-            } else {
-                setTabledata([])
-            }
-
-
-
-            const getAssigned = async () => {
-                const result = await axioslogin.get(`/complaintassign/user/${id}`);
-                const { success, message, data } = result.data;
-                if (success === 1) {
-                    setTabledata(data)
-                } else {
-                    infoNotify(message)
-                    setTabledata([])
-                }
-            }
-            if (flag === 1) {
-                getAssigned();
-            } else {
-                setTabledata([])
-            }
-            const getAllcompalintbyemp = async () => {
-                const result = await axioslogin.get(`/complaintassign/allcomplaint/${em_department}`);
-                const { success, message, data } = result.data;
-                if (success === 1) {
-                    setTabledata(data)
-                } else {
-                    infoNotify(message)
-                    setTabledata([])
-                }
-            }
-            if (flag === 3) {
-                getAllcompalintbyemp();
-            } else {
-                setTabledata([])
-            }
-            const getInvidualassistcomplaint = async () => {
-                const result = await axioslogin.get(`/complaintassign/individual/assist/${id}`);
-                const { success, message, data } = result.data;
-                if (success === 1) {
-                    setTabledata(data)
-                } else {
-                    infoNotify(message)
-                    setTabledata([])
-                }
-            }
-            if (flag === 4) {
-                getInvidualassistcomplaint();
-            } else {
-                setTabledata([])
-            }
+            dispatch(getComplaintLists(em_department))
+            dispatch(getAssignedComplaintLists(id))
+            dispatch(getAssistComplaintLists(id))
+            dispatch(getAllComplaintLists(em_department))
         }
-    }, [xx, count, id, flag])
-    //quick assign function
+    }, [dispatch, xx, id, count])
+    const state = useSelector((state) => {
+        return {
+            pendingcomplaints: state.getComplaintLists.complaintLists || 0,
+            assignedcomplaints: state.getAssignedComplaintLists.assignedcmpLists || 0,
+            assistcomplaints: state.getAssistComplaintLists.assistcmpLists || 0,
+            allcomplaints: state.getAllComplaintLists.allcmpLists || 0
+        }
+    })
+    const { pendingcomplaints, assignedcomplaints, assistcomplaints, allcomplaints } = state
+    useEffect(() => {
+        const { pendingcomplaints, assignedcomplaints, assistcomplaints, allcomplaints } = state
+        return assist === true && assistcomplaints.length === 0 ? infoNotify("No Results Found") : assigned === true && assignedcomplaints.length === 0
+            ? infoNotify("No Results Found") : pending === true && pendingcomplaints.length === 0
+                ? infoNotify("No Results Found") : allcomplaints === true && allcomplaints.length === 0 ? infoNotify("No Results Found") : null
+    }, [flag, assist, assigned, pending, state])
+    // when we click on quick assign function
     const quickAssign = useCallback((params) => {
         const { complaint_slno } = params.data
         const postData = {
@@ -231,7 +265,7 @@ const AssignComplaintTable = () => {
         }
         getData(postData);
     }, [count, id])
-    //detailed assign modal open
+    //when we click on detailed assign button a modal will open
     const Assign = useCallback((params) => {
         setAb(1)
         setBc(0)
@@ -239,9 +273,11 @@ const AssignComplaintTable = () => {
         const data = params.api.getSelectedRows()
         setComplaint(data)
     }, [])
+    //state for data passing to assistant modal
     const [assistant, setAssistant] = useState([]);
+    //flag for rendering assistant need modal
     const [bc, setBc] = useState(0);
-    //assistant needed
+    //assistant needed icon fun
     const AssistantNeeded = useCallback((params) => {
         setBc(1)
         setAb(0)
@@ -249,6 +285,7 @@ const AssignComplaintTable = () => {
         const data = params.api.getSelectedRows()
         setAssistant(data);
     }, [])
+    //assigned list check box updation
     const updateAssigned = useCallback((e) => {
         if (e.target.checked === true) {
             setFlag(1);
@@ -261,6 +298,7 @@ const AssignComplaintTable = () => {
             setAssigned(false)
         }
     }, [])
+    //pending list check box updation
     const updatePending = useCallback((e) => {
         if (e.target.checked === true) {
             setFlag(2)
@@ -275,6 +313,7 @@ const AssignComplaintTable = () => {
         }
     }, [])
     const [all, setAll] = useState(false);
+    //all complaint check box updation
     const updateCompall = useCallback((e) => {
         if (e.target.checked === true) {
             setFlag(3)
@@ -287,7 +326,8 @@ const AssignComplaintTable = () => {
             setAll(false)
         }
     }, [])
-    const [assist, setAssist] = useState(false)
+
+    //individual assit check box function
     const updateAssistant = useCallback((e) => {
         if (e.target.checked === true) {
             setFlag(4)
@@ -300,21 +340,21 @@ const AssignComplaintTable = () => {
             setFlag(0)
         }
     }, [])
-
-
+    //function for assistant acception
     const AssistantAccepted = useCallback((params) => {
-        const { complaint_slno } = params.data
+        const { complaint_slno, } = params.data
         const postData = {
             assist_assign_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             assist_receive: 1,
-            complaint_slno: complaint_slno
+            complaint_slno: complaint_slno,
+            assigned_emp: id
         }
         const assistant = async (postData) => {
             const result = await axioslogin.patch('/complaintassign/assistant/recieved', postData);
             const { message, success } = result.data;
             if (success === 1) {
                 succesNotify(message)
-                // setCount(count + 1)
+                setCount(count + 1)
             } else if (success === 0) {
                 infoNotify(message)
             } else {
@@ -322,11 +362,7 @@ const AssignComplaintTable = () => {
             }
         }
         assistant(postData)
-
-    }, [])
-
-
-
+    }, [id, count])
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
@@ -366,7 +402,6 @@ const AssignComplaintTable = () => {
                                 display: 'flex',
                                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                                 mt: 1,
-
                             }} >
                                 <CusCheckBox
                                     label="Pending List"
@@ -382,7 +417,6 @@ const AssignComplaintTable = () => {
                                 display: 'flex',
                                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                                 mt: 1,
-
                             }} >
                                 <CusCheckBox
                                     label="Assist"
@@ -398,7 +432,6 @@ const AssignComplaintTable = () => {
                                 display: 'flex',
                                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                                 mt: 1,
-
                             }} >
                                 <CusCheckBox
                                     label="All Complaint"
@@ -410,8 +443,6 @@ const AssignComplaintTable = () => {
                                     onCheked={updateCompall}
                                 />
                             </Box>
-
-
                         </Box>
                     </Paper>
                 </Box>
@@ -420,7 +451,7 @@ const AssignComplaintTable = () => {
                         <Box sx={{ p: 1 }}>
                             <CusAgGridMast
                                 columnDefs={column}
-                                tableData={tabledata}
+                                tableData={pendingcomplaints}
                             />
                         </Box> : null
                 }
@@ -428,7 +459,7 @@ const AssignComplaintTable = () => {
                     flag === 2 ? <Box sx={{ p: 1 }}>
                         <CusAgGridMast
                             columnDefs={column}
-                            tableData={tabledata}
+                            tableData={pendingcomplaints}
                         />
                     </Box> : null
                 }
@@ -436,7 +467,7 @@ const AssignComplaintTable = () => {
                     flag === 1 ? <Box sx={{ p: 1 }}>
                         <CusAgGridMast
                             columnDefs={assign}
-                            tableData={tabledata}
+                            tableData={assignedcomplaints}
                         />
                     </Box> : null
                 }
@@ -444,7 +475,7 @@ const AssignComplaintTable = () => {
                     flag === 3 ? <Box sx={{ p: 1 }}>
                         <CusAgGridMast
                             columnDefs={alldata}
-                            tableData={tabledata}
+                            tableData={allcomplaints}
                         />
                     </Box> : null
                 }
@@ -452,15 +483,15 @@ const AssignComplaintTable = () => {
                     flag === 4 ? <Box sx={{ p: 1 }}>
                         <CusAgGridMast
                             columnDefs={assitantaccept}
-                            tableData={tabledata}
+                            tableData={assistcomplaints}
                         />
                     </Box> : null
                 }
                 {
-                    ab === 1 ? <ModalAssignComplaint open={open} setOpen={setOpen} complaint={complaint} empdept={xx} count={count} setCount={setCount} /> : null
+                    ab === 1 ? <ModalAssignComplaint open={open} setOpen={setOpen} complaint={complaint} empdept={xx} count={count} setCount={setCount} /> : null //detailed assign modal
                 }
                 {
-                    bc === 1 ? <AssistantNeedmodal open={open} setOpen={setOpen} assistant={assistant} empdept={xx} count={count} setCount={setCount} /> : null
+                    bc === 1 ? <AssistantNeedmodal open={open} setOpen={setOpen} assistant={assistant} empdept={xx} count={count} setCount={setCount} /> : null //assistant needed modal
                 }
             </CardCloseOnly>
         </Fragment>

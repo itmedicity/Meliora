@@ -33,7 +33,7 @@ const ComplaintList = (count) => {
         { headerName: "Department", field: "complaint_dept_name", wrapText: true, autoHeight: true, minWidth: 70 },
         { headerName: "Request Type", field: "req_type_name" },
         { headerName: "Complaint Type", field: "complaint_type_name" },
-        { headerName: "Hic Policy", field: "hic_policy_name" },
+        { headerName: "Complaint Department", field: "sec_name" },
         // { headerName: "Emp dept", field: "complaint_dept_name" },
         { headerName: "Date", field: "compalint_date" },
         { headerName: "status", field: "compalint_status1" }
@@ -104,10 +104,7 @@ const ComplaintList = (count) => {
             setrectify(false)
         }
     }, [])
-
-
     useEffect(() => {
-
         const getcomplintlisttotal = async () => {
             const result = await axioslogin.get(`/complaintreg/complit`)
             const { success, data, message } = result.data
@@ -119,11 +116,9 @@ const ComplaintList = (count) => {
                 setTabledata([])
                 warningNotify(message)
             }
-
             else {
                 setTabledata(data)
             }
-
         }
         getcomplintlisttotal();
         const getcomplintassignList = async () => {
@@ -191,24 +186,18 @@ const ComplaintList = (count) => {
         }
 
     }, [total, assign, verify, rectify, count])
-
-
     const refreshWindow = useCallback(() => {
-
         settotal(true)
         setassign(false)
         setverify(false)
         setrectify(false)
     }, [])
-
-
     return (
 
         <CardMaster
             title="Complaint List"
             close={backtoSetting}
             refreshWindow={refreshWindow}
-
         >
             <Box sx={{ display: "flex", width: "100%" }}>
                 <Box sx={{ p: 2 }}>
@@ -273,5 +262,4 @@ const ComplaintList = (count) => {
         </CardMaster>
     )
 }
-
 export default ComplaintList

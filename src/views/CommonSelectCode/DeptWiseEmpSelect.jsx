@@ -5,8 +5,7 @@ import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
-
-import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
 const DeptWiseEmpSelect = ({ personName, setPersonName, empdeptwise }) => {
     const dispatch = useDispatch();
     /**getDepartemployee -state update function of reducer 
@@ -29,22 +28,27 @@ const DeptWiseEmpSelect = ({ personName, setPersonName, empdeptwise }) => {
             typeof value === "string" ? value.split(",") : value
         );
     };
+
     return (
         <Box >
-            <FormControl sx={{ m: 1, width: 300 }}>
-                {/* <InputLabel id="demo-multiple-name-label">Name</InputLabel> */}
+            <FormControl fullWidth >
+                <InputLabel id="demo-multiple-name-label"
+                    sx={{ height: 30, p: 0, m: 0, lineHeight: 1.200 }}
+                >Select Employee</InputLabel>
                 <Select
                     labelId="demo-multiple-name-label"
                     id="demo-multiple-name"
-                    fullWidth
+                    size="small"
+                    // fullWidth
                     multiple
                     value={personName}
                     onChange={handleChange}
-                    input={<OutlinedInput label="Name" />}
-                    sx={{ height: 30, p: 0, m: 0, lineHeight: 1.200 }}
+                    variant='outlined'
+                // input={<OutlinedInput label="Name" />}
+                // sx={{ height: 25, p: 0, m: 0, lineHeight: 1.200 }}
                 //   MenuProps={MenuProps}
                 >
-                    <MenuItem value={personName} disabled  >Select Employee</MenuItem>
+                    <MenuItem value={[]} disabled  >Select Employee</MenuItem>
                     {
                         deptwiseemp && deptwiseemp.map((name) => {
                             return (
@@ -59,25 +63,6 @@ const DeptWiseEmpSelect = ({ personName, setPersonName, empdeptwise }) => {
                         })}
                 </Select>
             </FormControl>
-            {/* <FormControl fullWidth size="small"  >
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    size="small"
-                    fullWidth
-                    variant='outlined'
-                    sx={{ height: 30, p: 0, m: 0, lineHeight: 1.200 }}
-                >
-                    <MenuItem value={0} disabled  >Select Employee</MenuItem>
-                    {
-                        deptwiseemp && deptwiseemp.map((val, index) => {
-                            return <MenuItem key={index} value={val.em_id}>{val.em_name}</MenuItem>
-                        })
-                    }
-                </Select>
-            </FormControl> */}
         </Box >
     )
 }

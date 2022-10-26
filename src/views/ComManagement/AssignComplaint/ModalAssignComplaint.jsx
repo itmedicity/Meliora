@@ -45,6 +45,7 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
     }, [setOpen, setRemark])
     //setting data to detailed assign
     const [personName, setPersonName] = useState([]);
+    //data setting to indert to db
     const postData = personName && personName.map((val) => {
         return {
             complaint_remark: remark,
@@ -53,6 +54,7 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
             assigned_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
         }
     })
+    //data set for complaint remark
     const compremark = useMemo(() => {
         return {
             complaint_remark: remark,
@@ -214,6 +216,7 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
                                 flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
                                 // p: 1
                                 p: 0.5,
+                                mt: 0.5
                             }}>
                                 <Box sx={{
                                     width: "100%",
@@ -227,11 +230,13 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
                             <Box sx={{
                                 width: "100%",
                                 display: "flex",
+                                // bgcolor: "cyan",
                                 flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
                                 // p: 1
                                 p: 0.5,
                             }}>
                                 <Box sx={{
+                                    // mt: 3,
                                     width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                                 }} >
                                     <CustomTextarea

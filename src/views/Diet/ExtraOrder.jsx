@@ -532,7 +532,7 @@ const ExtraOrder = () => {
                         mt: 1
                     }}>
                         {
-                            add === 1 ? <ExtraOrderTable newfood={newfood} /> : null
+                            add === 1 ? <ExtraOrderTable newfood={newfood} setNewdata={setNewdata} /> : null
                         }
                     </Box>
                 </Paper>
