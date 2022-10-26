@@ -1,8 +1,7 @@
-
-import { Box, Grid, Paper, } from '@mui/material'
-import React, { useCallback, useEffect, useState, useMemo, Fragment } from 'react'
+import { Box, Paper, Grid } from '@mui/material';
+import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
+import { useHistory } from 'react-router-dom';
 import CardMaster from 'src/views/Components/CardMaster'
-import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getComplaintDept } from 'src/redux/actions/ComplaintDept.action'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
@@ -12,9 +11,8 @@ import { getRequesttype } from 'src/redux/actions/RequestType.action';
 import { getComplainttype } from 'src/redux/actions/ComplaintType.action';
 import CustomTextarea from 'src/views/Components/CustomTextarea'
 import { getHicpolicy } from 'src/redux/actions/HicPolicy.action'
-import ComplaintRegTable from './ComplaintRegTable'
-import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action'
-import ComplaintCheckBox from './ComplaintCheckBox'
+// import ComplaintRegTable from './ComplaintRegTable'
+import ComplaintCheckBox from '../ComplaintRegister/ComplaintCheckBox'
 import RequestTypeTitle from 'src/views/Components/RequestTypeTitle'
 import ComplaintDeptTitle from 'src/views/Components/ComplaintDeptTitle'
 import PrioritycmpTitle from 'src/views/Components/PrioritycmpTitle'
@@ -22,9 +20,9 @@ import ComplaintTypeTitle from 'src/views/Components/ComplaintTypeTitle'
 import ComplaintDescriptionTitle from 'src/views/Components/ComplaintDescriptionTitle'
 import HicpolicyTitle from 'src/views/Components/HicpolicyTitle'
 import HicypolicygrpsTitle from 'src/views/Components/HicypolicygrpsTitle'
-// import {getLoginProfileData} from '../../../redux/reducers/1'
-const ComplaintRegistrMast = () => {
-    /*** Initializing */
+import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect';
+import DirectComplaintTable from './DirectComplaintTable';
+const DirectComplaintReg = () => {
     const history = useHistory();
     const [hic, setHic] = useState(0)
     const [crical, setCritical] = useState(false)
@@ -32,15 +30,14 @@ const ComplaintRegistrMast = () => {
     const [medium, setMedium] = useState(false)
     const [priority, setpriority] = useState(0)
     const [count, setCount] = useState(0)
-    const [value, setValue] = useState(0)
+    // const [value, setValue] = useState(0)
     const [desc, setdesc] = useState('')
     const [ReqType, setReqType] = useState(false)
     const [cotype, setcotype] = useState(false)
     const [codept, setcodept] = useState(null)
-    const [sec, setsec] = useState(0)
+    const [depsec, setDepsec] = useState(0)
     const [complaint, setComplaint] = useState({
         complaint_slno: 0
-
     })
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -51,17 +48,8 @@ const ComplaintRegistrMast = () => {
         dispatch(getComplaintDept());
         dispatch(getRequesttype());
         dispatch(getComplainttype(codept));
-        dispatch(setLoginProfileData(id))
-    }, [dispatch, id, codept,])
-    const deptsec = useSelector((state) => {
-        return state.getLoginProfileData.loginProfiledata
-    })
-    useEffect(() => {
-        if (deptsec.length !== 0) {
-
-            setsec(deptsec[0].em_dept_section);
-        }
-    }, [deptsec])
+        // dispatch(setLoginProfileData(id))
+    }, [dispatch, codept])
     const state = useSelector((state) => {
         return {
             complaintdeptdata: state.getComplaintDept.complaintdeptList || 0,
@@ -70,11 +58,8 @@ const ComplaintRegistrMast = () => {
             hicpolicy: state.getHicpolicy.hicpolicyList || 0,
         }
     })
-
     const { complaintdeptdata, requesttypedata, complainttype, hicpolicy, } = state
-    /*** Destructuring */
     const { complaint_slno } = complaint
-
     const complintdesc = useCallback((e) => {
         setdesc(e.target.value)
     }, [])
@@ -130,23 +115,23 @@ const ComplaintRegistrMast = () => {
             setChechHic(false)
         }
     }, [])
-
-    const postdata = useMemo(() => {
-        return {
-            complaint_desc: desc,
-            complaint_dept_secslno: sec,
-            complaint_request_slno: ReqType,
-            complaint_deptslno: codept,
-            complaint_typeslno: cotype,
-            compalint_priority: priority,
-            complaint_hicslno: hic !== 0 ? hic : null,
-            compalint_status: 0,
-            create_user: id
-        }
-    }, [desc, sec, ReqType, cotype, hic, priority, codept, id])
-    //Data set for edit
+    const reset = () => {
+        setDepsec(0)
+        setReqType(false)
+        setcotype(false)
+        setHic(0)
+        setChechHic(false)
+        setpriority(false)
+        setcodept(false)
+        setCritical(false)
+        setHigh(false)
+        setMedium(false)
+        setdesc('')
+        setcodept(null)
+    }
+    const [edit, setEdit] = useState(0);
     const rowSelect = useCallback((params) => {
-        setValue(1);
+        setEdit(1)
         const data = params.api.getSelectedRows()
         const { complaint_typeslno, complaint_dept_secslno, complaint_hicslno, hic_policy_status,
             compalint_priority,
@@ -156,7 +141,8 @@ const ComplaintRegistrMast = () => {
             complaint_slno: complaint_slno
         }
         setComplaint(frmdata)
-        setsec(complaint_dept_secslno)
+        setDepsec(complaint_dept_secslno)
+        // setsec(complaint_dept_secslno)
         setReqType(complaint_request_slno)
         setcotype(complaint_typeslno)
         setHic(complaint_hicslno)
@@ -183,11 +169,10 @@ const ComplaintRegistrMast = () => {
             setMedium(false)
         }
     }, [])
-
     const patchdata = useMemo(() => {
         return {
             complaint_desc: desc,
-            complaint_dept_secslno: sec,
+            complaint_dept_secslno: depsec,
             complaint_request_slno: ReqType,
             complaint_deptslno: codept,
             complaint_typeslno: cotype,
@@ -197,38 +182,31 @@ const ComplaintRegistrMast = () => {
             edit_user: id,
             complaint_slno: complaint_slno
         }
-    }, [desc, sec, ReqType, codept, cotype, priority, hic, complaint_slno, id])
+    }, [desc, depsec, ReqType, codept, cotype, priority, hic, complaint_slno, id])
+    const postdata = useMemo(() => {
+        return {
+            complaint_desc: desc,
+            complaint_dept_secslno: depsec,
+            complaint_request_slno: ReqType,
+            complaint_deptslno: codept,
+            complaint_typeslno: cotype,
+            compalint_priority: priority,
+            complaint_hicslno: hic !== 0 ? hic : null,
+            compalint_status: 0,
+            create_user: id
+        }
+    }, [desc, depsec, ReqType, cotype, hic, priority, codept, id])
     /*** usecallback function for form submitting */
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
-        const resetFrorm = {
-
-            complaint_slno: 0,
-        }
-        const reset = () => {
-
-            setsec(false)
-            setReqType(false)
-            setcotype(false)
-            setHic(0)
-            setChechHic(false)
-            setpriority(false)
-            setcodept(false)
-            setCritical(false)
-            setHigh(false)
-            setMedium(false)
-            setdesc('')
-            setcodept(null)
-        }
-        /***    * insert function for use call back     */
         const InsertFun = async (postdata) => {
-            const result = await axioslogin.post('/complaintreg', postdata);
+            const result = await axioslogin.post('/directcmreg', postdata);
             const { message, success } = result.data;
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1);
-                setComplaint(resetFrorm);
-                reset()
+                // setComplaint(resetFrorm);
+                reset();
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -236,15 +214,15 @@ const ComplaintRegistrMast = () => {
                 infoNotify(message)
             }
         }
-
         /***  * update function for use call back     */
         const updateFun = async (patchdata) => {
-            const result = await axioslogin.patch('/complaintreg', patchdata);
+            const result = await axioslogin.patch('/directcmreg', patchdata);
             const { message, success } = result.data;
             if (success === 2) {
                 succesNotify(message)
                 setCount(count + 1);
-                setComplaint(resetFrorm);
+                setEdit(0);
+                // setComplaint(resetFrorm);
                 reset()
 
             } else if (success === 0) {
@@ -254,52 +232,52 @@ const ComplaintRegistrMast = () => {
                 infoNotify(message)
             }
         }
-
-        if (value === 0) {
+        if (edit === 0) {
             InsertFun(postdata)
-        }
-        else {
-
+        } else {
             updateFun(patchdata)
         }
-
-
-    }, [postdata, value, patchdata, count])
-
-    //close button function
-    const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
-    }, [history])
+    }, [postdata, patchdata, edit, count])
 
     const refreshWindow = useCallback(() => {
         const formreset = {
             complaint_slno: ''
         }
         setComplaint(formreset)
-        setValue(0);
-        setsec(false)
+        // setValue(0);
+        setDepsec(0)
         setReqType(false)
         setcotype(false)
         setHic(0)
         setChechHic(false)
         setpriority(false)
-        setcodept(false)
+        setcodept(null)
         setdesc(false)
         setCritical(false)
         setHigh(false)
         setMedium(false)
         setdesc('')
     }, [])
+    //close button function
+    const backtoSetting = useCallback(() => {
+        history.push('/Home/Settings')
+    }, [history])
     return (
         <CardMaster
-            title="Complaint Registration"
-            submit={submitComplaint}
+            title="Direct Complaint Registration"
             close={backtoSetting}
+            submit={submitComplaint}
             refresh={refreshWindow}
         >
             <Box sx={{ width: "100%" }}>
                 <Paper square elevation={3} sx={{ p: 1 }} >
-
+                    <Paper sx={{
+                        p: 1,
+                        // bgcolor: { xs: 'cyan', sm: 'orange', md: 'yellow', lg: 'pink', xl: 'red', },
+                        width: { xs: '100%', sm: '100%', md: '40%', lg: '30%', xl: '20%' }
+                    }} >
+                        <DeptSectionSelect value={depsec} setValue={setDepsec} />
+                    </Paper>
                     {/* 1st section starts */}
                     <Box sx={{
                         width: "100%",
@@ -312,7 +290,6 @@ const ComplaintRegistrMast = () => {
                             width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                             // bgcolor: "cyan"
                         }} >
-
                             <Paper sx={{
                                 width: '100%',
                                 mt: 0.8,
@@ -347,7 +324,7 @@ const ComplaintRegistrMast = () => {
                                     display: 'flex',
                                 }}>
                                     <Grid container
-                                        // spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
+                                        //  spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
                                         columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
                                         sx={{ width: '100%', textTransform: "capitalize", p: 1 }} >
                                         {
@@ -400,7 +377,7 @@ const ComplaintRegistrMast = () => {
                                         width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                                     }}>
                                         <Grid container
-                                            // spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
+                                            //   spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
                                             columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
                                             sx={{ width: '100%', textTransform: "capitalize", p: 1 }} >
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
@@ -456,13 +433,12 @@ const ComplaintRegistrMast = () => {
                                             // bgcolor: "pink"
                                         }}>
                                             <ComplaintTypeTitle />
-
                                             <Box sx={{
                                                 display: 'flex',
                                                 width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                                             }} >
                                                 <Grid container
-                                                    // spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
+                                                    //  spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
                                                     columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
                                                     sx={{ width: '100%', textTransform: "capitalize", p: 1 }} >
                                                     {/* <ComplaintTypeTitle /> */}
@@ -481,8 +457,6 @@ const ComplaintRegistrMast = () => {
                                                 </Grid>
                                             </Box>
                                         </Box>
-
-
                                     </Fragment> : null
                                 }
                             </Box>
@@ -519,7 +493,7 @@ const ComplaintRegistrMast = () => {
                                         width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                                     }}>
                                         <Grid container
-                                            // spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
+                                            //  spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
                                             columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
                                             sx={{ width: '100%', textTransform: "capitalize", p: 1 }} >
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
@@ -558,7 +532,7 @@ const ComplaintRegistrMast = () => {
                                                 width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                                             }} >
                                                 <Grid container
-                                                    // spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
+                                                    //  spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
                                                     columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
                                                     sx={{ width: '100%', textTransform: "capitalize", p: 1 }} >
                                                     {/* <ComplaintTypeTitle /> */}
@@ -633,48 +607,9 @@ const ComplaintRegistrMast = () => {
             < Paper square elevation={0} sx={{
                 p: 2,
             }} >
-                <ComplaintRegTable
-                    rowSelect={rowSelect} sec={sec} count={count} setCount={setCount} />
+                <DirectComplaintTable rowSelect={rowSelect} count={count} />
             </Paper >
         </CardMaster>
     )
 }
-export default ComplaintRegistrMast
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default DirectComplaintReg

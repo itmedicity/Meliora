@@ -20,10 +20,8 @@ import CusCheckBox from 'src/views/Components/CusCheckBox';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
-
-
 const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
-
+    //intialisation
     const [rectify, setrectify] = useState({
         complaint_slno: 0,
         complaint_desc: '',
@@ -32,12 +30,12 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
         complaint_type_name: '',
         hic_policy_name: '',
         compalint_date: ''
-
     })
+    //destrucutring
     const { complaint_slno, complaint_desc,
         sec_name, em_name, date, Time, compalint_status
     } = rectify
-
+    //setting data to be displayed in modal
     useEffect(() => {
         const rectifyfunction = () => {
             const { complaint_slno, complaint_desc, req_type_name, complaint_dept_name, complaint_type_name, hic_policy_name, compalint_date, sec_name, em_name,
@@ -56,21 +54,21 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
                 date: date,
                 Time: Time,
                 compalint_status: compalint_status
-
-
-
             }
             setrectify(frmdata)
             // setslno(complaint_slno)
         }
         rectifyfunction()
     }, [detail])
-
+    //pending checkbox
     const [pending, setPending] = useState(false);
+    //hold check box
     const [hold, setHold] = useState(false);
+    //rectified check box
     const [rectified, setRectify] = useState(false);
+    //flag for remark description
     const [flag, setFlag] = useState(0);
-
+    //pending check box function
     const updatePending = useCallback((e) => {
         if (e.target.checked === true) {
             setPending(true)
@@ -82,6 +80,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
             setPending(false)
         }
     }, [])
+    //hold check box function
     const updateHold = useCallback((e) => {
         if (e.target.checked === true) {
             setHold(true)
@@ -93,6 +92,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
             setHold(false)
         }
     }, [])
+    //rectified check box function
     const updateRectified = useCallback((e) => {
         if (e.target.checked === true) {
             setRectify(true)
@@ -104,19 +104,22 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
             setRectify(false)
         }
     }, [])
+    //state for  holdinpending reason
     const [pendholdreason, setPendhold] = useState("")
     const updatePendhold = useCallback((e) => {
         setPendhold(e.target.value)
     }, [])
+    // data setting to update the complaint mast table
     const patchData = useMemo(() => {
         return {
-            compalint_status: rectified === true ? 2 : compalint_status,
-            cm_rectify_status: pending === true ? 'P' : hold === true ? 'O' : rectified === true ? 'R' : null,
+            compalint_status: rectified === true ? 2 : compalint_status, // when we click on rectifi status becom 2 other wise status is 1
+            cm_rectify_status: pending === true ? 'P' : hold === true ? 'O' : rectified === true ? 'R' : null, //we click pending rectify status becom P so onn
             cm_rectify_time: rectified === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
             rectify_pending_hold_remarks: pending === true ? pendholdreason : hold === true ? pendholdreason : null,
             complaint_slno: complaint_slno
         }
     }, [complaint_slno, pending, hold, rectified, compalint_status, pendholdreason])
+    // function to database update
     const rectifycmplt = useCallback((e) => {
         e.preventDefault();
         const updateFun = async (patchData) => {
@@ -138,6 +141,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
             infoNotify("Please Choose Any")
         }
     }, [patchData, count, setCount, setOpen, hold, pending, rectified])
+    //modal close function
     const handleClose = () => {
         setOpen(false);
         setFlag(0);
@@ -354,5 +358,4 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
         </Fragment>
     )
 }
-
 export default memo(Rectifymodel)
