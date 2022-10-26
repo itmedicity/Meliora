@@ -25,7 +25,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
     const [sercha, setSearch] = useState(0)
     const [detail, setdeatial] = useState([])
     const [mdopen, setmdopen] = useState(0)
-    const [allpros, setAllpros] = useState(0)
+
     //column title setting
     const [column] = useState([
         { headerName: "Plan Slno", field: "plan_slno" },
@@ -149,7 +149,81 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
     }
     const [msgshow, setMsg] = useState(0)
     const allProcess = () => {
-        setAllpros(allpros + 1)
+
+        const detail = async (postdetaildata) => {
+            const result1 = await axioslogin.post('/dietprocess/processDetailInsert', postdetaildata);
+            const { suces } = result1.data;
+            if (suces === 1) {
+                setMsg(1)
+                setCount(count + 1);
+                setDepand(1)
+            }
+            else {
+                setMsg(2)
+            }
+        }
+
+        tabledata && tabledata.map((val) => {
+            const getdmenu = async () => {
+                const result = await axioslogin.get(`/common/dMenu/${val.diet_slno}`,)
+                const { data, success } = result.data;
+                if (success === 1) {
+                    const { dmenu_slno } = data[0]
+                    const d = new Date(startdate);
+                    let day = d.getDay();
+                    const getmenu = {
+                        bd_code: val.bd_code,
+                        dmenu_slno: dmenu_slno,
+                        days: day
+                    }
+                    const result1 = await axioslogin.post('/dietprocess/dmenubyday', getmenu);
+                    const { succes, dataa } = result1.data
+                    if (succes === 1) {
+                        const postdata = {
+                            plan_slno: val.plan_slno,
+                            dmenu_slno: dmenu_slno,
+                            ip_no: val.ip_no,
+                            pt_no: val.pt_no,
+                            diet_slno: val.diet_slno,
+                            bd_code: val.bd_code,
+                            process_date: dayselect === 0 ? format(new Date(), "yyyy-MM-dd hh-mm-ss") : format(new Date(startdate), "yyyy-MM-dd hh-mm-ss"),
+                            process_status: 1,
+                            discharge_status: val.discharge === 'N' ? 1 : 0,
+                            em_id: id
+                        }
+
+                        const result = await axioslogin.post('/dietprocess', postdata);
+                        const { success, insetid } = result.data;
+                        if (success === 1) {
+                            const postdetaildata = dataa && dataa.map((val) => {
+                                return {
+                                    proc_slno: insetid,
+                                    type_slno: val.type_slno,
+                                    rate_hos: val.hosp_rate,
+                                    rate_cant: val.cant_rate
+                                }
+                            })
+
+                            const timeout = setTimeout(() => {
+                                detail(postdetaildata)
+                            }, 1000)
+                            return () => clearTimeout(timeout)
+                        }
+                        else {
+                            setMsg(2)
+                        }
+                    }
+                    else {
+                        setMsg(2)
+                    }
+                }
+                else {
+                    setMsg(2)
+                }
+            }
+            getdmenu(val.plan_slno)
+            return 0
+        })
     }
     const cleardata = useCallback(() => {
         newStartDate(new Date())
@@ -165,78 +239,6 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
             warningNotify("Process Not Completed")
         }
     }, [msgshow])
-
-    useEffect(() => {
-        if (allpros !== 0 && msgshow === 0) {
-            tabledata && tabledata.map((val) => {
-                const getdmenu = async () => {
-                    const result = await axioslogin.get(`/common/dMenu/${val.diet_slno}`,)
-                    const { data, success } = result.data;
-                    if (success === 1) {
-                        const { dmenu_slno } = data[0]
-                        const d = new Date(startdate);
-                        let day = d.getDay();
-                        const getmenu = {
-                            bd_code: val.bd_code,
-                            dmenu_slno: dmenu_slno,
-                            days: day
-                        }
-                        const result1 = await axioslogin.post('/dietprocess/dmenubyday', getmenu);
-                        const { succes, dataa } = result1.data
-                        if (succes === 1) {
-                            const postdata = {
-                                plan_slno: val.plan_slno,
-                                dmenu_slno: dmenu_slno,
-                                ip_no: val.ip_no,
-                                pt_no: val.pt_no,
-                                diet_slno: val.diet_slno,
-                                bd_code: val.bd_code,
-                                process_date: dayselect === 0 ? format(new Date(), "yyyy-MM-dd hh-mm-ss") : format(new Date(startdate), "yyyy-MM-dd hh-mm-ss"),
-                                process_status: 1,
-                                discharge_status: val.discharge === 'N' ? 1 : 0,
-                                em_id: id
-                            }
-
-                            const result = await axioslogin.post('/dietprocess', postdata);
-                            const { success, insetid } = result.data;
-                            if (success === 1) {
-                                const postdetaildata = dataa && dataa.map((val) => {
-                                    return {
-                                        proc_slno: insetid,
-                                        type_slno: val.type_slno,
-                                        rate_hos: val.hosp_rate,
-                                        rate_cant: val.cant_rate
-                                    }
-                                })
-                                const result1 = await axioslogin.post('/dietprocess/processDetailInsert', postdetaildata);
-                                const { suces } = result1.data;
-                                if (suces === 1) {
-                                    setMsg(1)
-                                    setCount(count + 1);
-                                    setDepand(1)
-                                    setAllpros(0)
-                                }
-                                else {
-                                    setMsg(2)
-                                }
-                            }
-                            else {
-                                setMsg(2)
-                            }
-                        }
-                        else {
-                            setMsg(2)
-                        }
-                    }
-                    else {
-                        setMsg(2)
-                    }
-                }
-                getdmenu(val.plan_slno)
-                return 0
-            })
-        }
-    }, [allpros, tabledata, startdate, dayselect, msgshow, id, setCount, count, setDepand])
 
     const handleClose = () => {
         setOpen(false);

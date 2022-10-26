@@ -12,10 +12,13 @@ import CustomeToolTip from '../../Components/CustomeToolTip'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css'
-import { useSelector } from 'react-redux'
+import { ActionTyps } from 'src/redux/constants/action.type'
+import { useDispatch, useSelector } from 'react-redux';
+import { warningNotify } from '../../Common/CommonCode';
 
 
 const PatientWise = () => {
+    const dispatch = useDispatch();
     const history = useHistory();
     const [TableData, setTableData] = useState([]);
     const [ptname, setPtname] = useState({
@@ -61,12 +64,12 @@ const PatientWise = () => {
     }, [])
 
     const onExportClick = () => {
-        // if (tableDataForTable.length === 0) {
-        //     warningNotify("Please Click The Search Button")
-        // }
-        // else {
-        //     dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 1 })
-        // }
+        if (TableData.length === 0) {
+            warningNotify("Please Click The Search Button")
+        }
+        else {
+            dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 1 })
+        }
 
     }
 
@@ -80,6 +83,7 @@ const PatientWise = () => {
 
     const clicksearch = useCallback((e) => {
         e.preventDefault();
+        dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 0 })
         const getdatareport = async (postdata) => {
             const result = await axioslogin.post('/dietReport/getPatientReport', postdata)
             const { success, data } = result.data;
@@ -89,7 +93,7 @@ const PatientWise = () => {
             }
         }
         getdatareport(postdata)
-    }, [postdata])
+    }, [postdata, dispatch])
 
     const backToSetting = useCallback(() => {
         history.push(`/Home/Reports`)
