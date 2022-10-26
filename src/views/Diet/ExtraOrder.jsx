@@ -1,5 +1,5 @@
 import { IconButton, Paper, Typography, Box } from '@mui/material';
-import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import CardMaster from '../Components/CardMaster'
 import TextFieldCustom from '../Components/TextFieldCustom';
@@ -13,6 +13,7 @@ import { infoNotify, succesNotify, warningNotify } from '../Common/CommonCode';
 import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect';
 import ExtraRoomMeliSelect from './ExtraRoomMeliSelect';
 import ExtraDietTypeSelect from './ExtraDietTypeSelect';
+import CusModelMessage from '../Components/CusModelMessage';
 const ExtraOrder = () => {
     const history = useHistory();
     const [room, setRoom] = useState(0)
@@ -40,14 +41,6 @@ const ExtraOrder = () => {
         setOrder({ ...order, [e.target.name]: value })
     }, [order])
 
-    const [patient, setPt] = useState('');
-    const [pt, setPts] = useState(false);
-    const updatePatient = async (e) => {
-        setPt(e.target.value)
-        if (patient.length <= 10) {
-            setPts(true)
-        }
-    }
     const post = useMemo(() => {
         return {
             item_slno: item
@@ -85,6 +78,7 @@ const ExtraOrder = () => {
         if (item !== 0) {
             setAdd(1)
             const newdata = {
+                id: Math.ceil(Math.random() * 1000),
                 item_slno: item,
                 type_slno: diet,
                 rate_hos: rate_hos,
@@ -133,10 +127,10 @@ const ExtraOrder = () => {
                 infoNotify(message)
             }
         }
-        if (room !== 0 || pt === true) {
+        if (room !== 0) {
             getProcessno()
         }
-    }, [room, postData, pt])
+    }, [room, postData])
     const Insert = useMemo(() => {
         return {
             proc_slno: process,
@@ -152,6 +146,14 @@ const ExtraOrder = () => {
         setProcess("");
         setNewdata([]);
     }, [])
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const submitExtraorder = useCallback((e) => {
+        setOpen(true)
+    }, [])
+
     const submitDiettype = useCallback((e) => {
         e.preventDefault();
         /***    * insert function for use call back     */
@@ -178,6 +180,7 @@ const ExtraOrder = () => {
                     if (success === 1) {
                         succesNotify(message)
                         reset();
+                        setOpen(false);
                     } else if (success === 0) {
                         infoNotify(message)
                     }
@@ -189,6 +192,8 @@ const ExtraOrder = () => {
         }
         InsertFunc(Insert)
     }, [Insert, process, newfood, reset])
+
+
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
@@ -213,9 +218,14 @@ const ExtraOrder = () => {
         <CardMaster
             title='Extra Order'
             close={backtoSetting}
-            submit={submitDiettype}
+            submit={submitExtraorder}
             refresh={refreshWindow}
         >
+            <CusModelMessage open={open}
+                handleClose={handleClose}
+                message="Are you sure  Place The order"
+                submitDiettype={submitDiettype} />
+
             <Box sx={{ width: "100%", p: 1 }}>
                 <Paper square elevation={3} sx={{ p: 2 }} >
                     <Box sx={{
@@ -270,7 +280,7 @@ const ExtraOrder = () => {
                                     size="sm"
                                     name="pt_no"
                                     value={pt_no}
-                                    onchange={updatePatient}
+                                    disabled={true}
                                 />
                             </Box>
                         </Box>
@@ -322,7 +332,7 @@ const ExtraOrder = () => {
                                     size="sm"
                                     name="ptc_ptname"
                                     value={ptc_ptname}
-                                // disabled="true"
+                                    disabled={true}
                                 />
                             </Box>
                         </Box>
@@ -372,7 +382,7 @@ const ExtraOrder = () => {
                                     size="sm"
                                     name="em_no"
                                     value={process}
-                                // disabled
+                                    disabled={true}
                                 />
                             </Box>
                         </Box>
@@ -443,6 +453,7 @@ const ExtraOrder = () => {
                                     size="sm"
                                     name="em_no"
                                     value={rate_hos}
+                                    disabled={true}
                                 />
                             </Box>
                         </Box>
@@ -466,21 +477,53 @@ const ExtraOrder = () => {
                                     size="sm"
                                     name="rate_cant"
                                     value={rate_cant}
+                                    disabled={true}
                                 />
                             </Box>
                         </Box>
                     </Box>
+                    {/* 5 th */}
                     <Box sx={{
                         width: "100%",
                         display: "flex",
                         flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                        mt: 1
                     }}>
                         <Box sx={{
+                            display: 'flex',
                             width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                         }}>
                             <Box sx={{
                                 width: '100%',
+                            }}>
+                                <Typography sx={{ mt: 0.4 }}>Total Rate</Typography>
+                            </Box>
+                            <Box sx={{
+                                width: '100%',
+                                // mt: { xs: 0.8, sm: 0.8, md: 0.5, xl: 0.5 },
+                                mt: { sm: 0.5, xs: 0.5, xl: 0, lg: 0.5, md: 0.2 }
+                            }}>
+                                <TextFieldCustom
+                                    placeholder="Total Rate"
+                                    type="text"
+                                    size="sm"
+                                    name="sumHosptial"
+                                    value={sumHosptial}
+                                    disabled={true}
+                                />
+                            </Box>
+                        </Box>
+                        <Box sx={{
+                            display: 'flex',
+                            width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                        }}>
+                            <Box sx={{
+                                width: '100%',
+                                pl: { xl: 1, md: 1 }
+                            }}>
+                            </Box>
+                            <Box sx={{
+                                width: '100%',
+                                mt: 0.5
                             }}>
                                 <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={addnew}>
                                     < MdOutlineAddCircleOutline />
@@ -489,50 +532,10 @@ const ExtraOrder = () => {
                         </Box>
                     </Box>
                     <Box sx={{
-                        width: "100%",
-                        display: "flex",
-                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
-                    }}
-                    >   {
-                            add === 1 ? <Fragment>
-                                <Box sx={{
-                                    display: 'flex',
-                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                }}>
-                                    <Box sx={{
-                                        width: '100%',
-                                    }}>
-                                        <Typography>Sum Hospital Rate</Typography>
-                                    </Box>
-                                    <Box sx={{
-                                        width: '100%',
-                                    }}>
-                                        <Typography>{sumHosptial}</Typography>
-                                    </Box>
-                                </Box>
-                                <Box sx={{
-                                    display: 'flex',
-                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                }}>
-                                    <Box sx={{
-                                        width: '100%',
-                                    }}>
-                                        <Typography> Sum Canteen Rate</Typography>
-                                    </Box>
-                                    <Box sx={{
-                                        width: '100%',
-                                    }}>
-                                        <Typography>{sumCanteen}</Typography>
-                                    </Box>
-                                </Box>
-                            </Fragment> : null
-                        }
-                    </Box>
-                    <Box sx={{
                         mt: 1
                     }}>
                         {
-                            add === 1 ? <ExtraOrderTable newfood={newfood} /> : null
+                            add === 1 ? <ExtraOrderTable newfood={newfood} setNewdata={setNewdata} /> : null
                         }
                     </Box>
                 </Paper>

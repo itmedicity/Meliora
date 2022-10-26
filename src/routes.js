@@ -45,7 +45,7 @@ const ItemMaster = React.lazy(() => import('./views/Master/DietMasters/ItemMaste
 const DietDetail = React.lazy(() => import('./views/Master/DietMasters/DietDetail/DietDetailMast'))
 const DietApproval = React.lazy(() => import('./views/NursingStation/DietApprovalList'));
 const DietPlanList = React.lazy(() => import('./views/NursingStation/DietPlanList'));
-const DietOrderList = React.lazy(() => import('./views/Diet/DietOrderList'));
+const DietOrderList = React.lazy(() => import('./views/Diet/DietOrder/DietOderTaking'));
 const DietExtraOrder = React.lazy(() => import('./views/Diet/ExtraOrder'));
 const DietDelivery = React.lazy(() => import('./views/Diet/DietDeliveryMark'))
 const RectifyComplaint = React.lazy(() => import('./views/ComManagement/RectifyComplaint/RectifyCompalint'))

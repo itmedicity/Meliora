@@ -1,49 +1,57 @@
-import React, { useState, memo, Fragment } from 'react'
-import CusAgGridMast from 'src/views/Components/CusAgGridMast'
-import { IconButton } from '@mui/material';
+import React, { memo, Fragment } from 'react'
 import { editicon } from 'src/color/Color'
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useEffect } from 'react';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@mui/material';
+
 const DietMenuSettCmp = ({ dataPost, setdataPost }) => {
-    const [deleteId, setDelId] = useState(0)
-    //Array listing component
-    const [column] = useState([
-        { headerName: "Diet", field: "dietname" },
-        { headerName: "Diet Type ", field: "typename" },
-        { headerName: "Day", field: "dayname" },
-        { headerName: "Item Group", field: "groupname" },
-        { headerName: "Item", field: "itemname" },
-        {
-            headerName: 'Delete',
-            cellRenderer: params =>
-                <IconButton
-                    sx={{ color: editicon, paddingY: 0.5 }}
-                    onClick={() => rowSelect(params)} >
-                    <DeleteIcon size={25} />
-                </IconButton >
-        },
-    ])
     //array data delete
-    const rowSelect = (params) => {
-        const data = params.api.getSelectedRows()
-        const { id } = data[0]
-        setDelId(id);
+    const rowSelect = (id) => {
+        const newdata = dataPost.filter((val) => {
+            return val.id !== id
+        })
+        setdataPost(newdata)
     }
-    useEffect(() => {
-        if (deleteId !== 0) {
-            const newdata = [...dataPost]
-            const index = dataPost.findIndex((arraid) => arraid.id === deleteId)
-            newdata.splice(index, 1);
-            setdataPost(newdata)
-        }
-    }, [deleteId, dataPost, setdataPost])
 
     return (
         <Fragment>
-            <CusAgGridMast
-                columnDefs={column}
-                tableData={dataPost}
-            />
+            <TableContainer sx={{ maxHeight: 250 }}>
+                <Table size="small"
+                    stickyHeader aria-label="sticky table"
+
+                    sx={{ border: "0.5px solid" }}>
+                    <TableHead sx={{ border: "1px " }}>
+                        <TableRow >
+                            <TableCell align="center">Diet</TableCell>
+                            <TableCell align="center">Diet Type</TableCell>
+                            <TableCell align="center">Day</TableCell>
+                            <TableCell align="center">Item Group</TableCell>
+                            <TableCell align="center">Item </TableCell>
+                            <TableCell align="center">Action</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {dataPost && dataPost.map((val, index) => {
+                            return <TableRow
+                                key={val.id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell align="center">{val.dietname}</TableCell>
+                                <TableCell align="center">{val.typename}</TableCell>
+                                <TableCell align="center">{val.dayname}</TableCell>
+                                <TableCell align="center">{val.groupname}</TableCell>
+                                <TableCell align="center">{val.itemname}</TableCell>
+                                <TableCell align="center">
+                                    <IconButton
+                                        sx={{ color: editicon, paddingY: 0.5 }}
+                                        onClick={() => rowSelect(val.id)} >
+                                        <DeleteIcon size={25} />
+                                    </IconButton >
+                                </TableCell>
+                            </TableRow>
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Fragment>
     )
 }
