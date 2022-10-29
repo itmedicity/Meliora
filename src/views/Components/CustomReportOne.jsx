@@ -54,18 +54,15 @@ const CustomReportOne = ({ columnDefs,
                     sx={{
                         display: 'flex',
                         flexDirection: 'row',
-                        // backgroundColor: 'blue',
                     }}
                 >
                     <Paper
                         square
                         sx={{
-                            //backgroundColor: 'blue',
                             width: { md: '20%', lg: '20%', xl: '15%' },
                             height: { xs: 540, sm: 540, md: 400, lg: 400, xl: 840 },
                         }}
                     >
-
                         <Paper
                             square
                             sx={{
@@ -81,9 +78,7 @@ const CustomReportOne = ({ columnDefs,
                             <CusIconButton variant="outlined" size="sm" color="success" onClick={onClick}>
                                 <SearchIcon />
                             </CusIconButton>
-
                         </Paper>
-
                         <Paper
                             square
                             sx={{
@@ -113,9 +108,6 @@ const CustomReportOne = ({ columnDefs,
                                 height: { xs: 350, sm: 350, md: 350, lg: 350, xl: 350 },
                             }}
                         >
-
-
-
                             <CustomReportMenuSelect
                                 columnDefs={columnDefs}
                                 SelectFilter={SelectFilter}
@@ -126,20 +118,12 @@ const CustomReportOne = ({ columnDefs,
                                     pt: 3
                                 }}
                             />
-
                         </Paper>
-                        {/* </Box>
-
-                        </Box> */}
-
-
                     </Paper>
-
                     <Paper
                         square
                         sx={{
                             backgroundColor: 'black',
-                            //  backgroundColor: 'lightGrey',
                             width: { md: '80%', lg: '80%', xl: '85%' },
                             height: { xs: 540, sm: 540, md: 540, lg: 548, xl: 840 },
                         }}
@@ -166,7 +150,6 @@ const CustomReportOne = ({ columnDefs,
                                     </CusIconButton>
                                 </Box>
                             </CustomeToolTip>
-
                             <CustomeToolTip title="Download" placement="bottom">
                                 <Box>
                                     <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick}>
@@ -185,12 +168,10 @@ const CustomReportOne = ({ columnDefs,
                             <CustomAGReportDispaly
                                 columnDefForTable={columnDefForTable}
                                 tableDataForTable={tableDataForTable}
-
                             />
                         </Box>
                         {/* Rigth Side Menu  */}
                     </Paper>
-
                 </Box>
             </Paper>
         </Box>
