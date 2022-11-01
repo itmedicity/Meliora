@@ -22,46 +22,62 @@ import ComplaintTypeTitle from 'src/views/Components/ComplaintTypeTitle'
 import ComplaintDescriptionTitle from 'src/views/Components/ComplaintDescriptionTitle'
 import HicpolicyTitle from 'src/views/Components/HicpolicyTitle'
 import HicypolicygrpsTitle from 'src/views/Components/HicypolicygrpsTitle'
-// import {getLoginProfileData} from '../../../redux/reducers/1'
 const ComplaintRegistrMast = () => {
     /*** Initializing */
     const history = useHistory();
+    //state for hic checkbox
     const [hic, setHic] = useState(0)
+    //state for critical checkbox
     const [crical, setCritical] = useState(false)
+    //state for high checkbox
     const [high, setHigh] = useState(false)
+    //state for medium checkbox
     const [medium, setMedium] = useState(false)
+    //state for complaint priority
     const [priority, setpriority] = useState(0)
+    //state for table rendering
     const [count, setCount] = useState(0)
+    //state for knowing insert or edit to database
     const [value, setValue] = useState(0)
+    //state for complaintdescription
     const [desc, setdesc] = useState('')
+    //state for request type
     const [ReqType, setReqType] = useState(false)
+    //state for complaint type
     const [cotype, setcotype] = useState(false)
+    //state for complaint department
     const [codept, setcodept] = useState(null)
+    //state for getting depsection of employee
     const [sec, setsec] = useState(0)
     const [complaint, setComplaint] = useState({
         complaint_slno: 0
-
     })
+    //redux for geting login id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
     const dispatch = useDispatch();
+    //dispatching redux data hic,complaintype,requestype,complaintdept
     useEffect(() => {
         dispatch(getHicpolicy());
         dispatch(getComplaintDept());
         dispatch(getRequesttype());
-        dispatch(getComplainttype(codept));
+        if (codept !== null) {
+            dispatch(getComplainttype(codept));
+        }
         dispatch(setLoginProfileData(id))
     }, [dispatch, id, codept,])
+    //getting deptsection
     const deptsec = useSelector((state) => {
         return state.getLoginProfileData.loginProfiledata
     })
+    //setting employee dept sec in a state
     useEffect(() => {
         if (deptsec.length !== 0) {
-
             setsec(deptsec[0].em_dept_section);
         }
     }, [deptsec])
+    // getting redux data state
     const state = useSelector((state) => {
         return {
             complaintdeptdata: state.getComplaintDept.complaintdeptList || 0,
@@ -70,15 +86,15 @@ const ComplaintRegistrMast = () => {
             hicpolicy: state.getHicpolicy.hicpolicyList || 0,
         }
     })
-
+    //destructuring redux data
     const { complaintdeptdata, requesttypedata, complainttype, hicpolicy, } = state
-    /*** Destructuring */
     const { complaint_slno } = complaint
-
+    //function for complaint description state updation
     const complintdesc = useCallback((e) => {
         setdesc(e.target.value)
     }, [])
     /*** Priority seting Check box */
+    //fn for critical state updation
     const getCritical = useCallback((e) => {
         if (e.target.checked === true) {
             setCritical(true)
@@ -93,6 +109,7 @@ const ComplaintRegistrMast = () => {
             setpriority(0)
         }
     }, [])
+    //fn for critical state updation
     const getHigh = useCallback((e) => {
         if (e.target.checked === true) {
             setHigh(true)
@@ -107,6 +124,7 @@ const ComplaintRegistrMast = () => {
             setpriority(0)
         }
     }, [])
+    //fn for medium state updation
     const getMedium = useCallback((e) => {
         if (e.target.checked === true) {
             setMedium(true)
@@ -130,7 +148,7 @@ const ComplaintRegistrMast = () => {
             setChechHic(false)
         }
     }, [])
-
+    //insert data
     const postdata = useMemo(() => {
         return {
             complaint_desc: desc,
@@ -183,7 +201,7 @@ const ComplaintRegistrMast = () => {
             setMedium(false)
         }
     }, [])
-
+    //update data
     const patchdata = useMemo(() => {
         return {
             complaint_desc: desc,
@@ -202,11 +220,9 @@ const ComplaintRegistrMast = () => {
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
         const resetFrorm = {
-
             complaint_slno: 0,
         }
         const reset = () => {
-
             setsec(false)
             setReqType(false)
             setcotype(false)
@@ -236,7 +252,6 @@ const ComplaintRegistrMast = () => {
                 infoNotify(message)
             }
         }
-
         /***  * update function for use call back     */
         const updateFun = async (patchdata) => {
             const result = await axioslogin.patch('/complaintreg', patchdata);
@@ -246,7 +261,6 @@ const ComplaintRegistrMast = () => {
                 setCount(count + 1);
                 setComplaint(resetFrorm);
                 reset()
-
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -254,23 +268,18 @@ const ComplaintRegistrMast = () => {
                 infoNotify(message)
             }
         }
-
         if (value === 0) {
             InsertFun(postdata)
         }
         else {
-
             updateFun(patchdata)
         }
-
-
     }, [postdata, value, patchdata, count])
-
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
-
+    //fn for entire state referesh
     const refreshWindow = useCallback(() => {
         const formreset = {
             complaint_slno: ''
@@ -299,20 +308,16 @@ const ComplaintRegistrMast = () => {
         >
             <Box sx={{ width: "100%" }}>
                 <Paper square elevation={3} sx={{ p: 1 }} >
-
                     {/* 1st section starts */}
                     <Box sx={{
                         width: "100%",
                         display: "flex",
-                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                        // background: { xs: 'green', sm: 'blue', md: 'yellow', lg: 'cyan', xl: 'orange', }
+                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
                     }}>
                         <Box sx={{
                             display: 'flex',
                             width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
-                            // bgcolor: "cyan"
                         }} >
-
                             <Paper sx={{
                                 width: '100%',
                                 mt: 0.8,
@@ -375,17 +380,14 @@ const ComplaintRegistrMast = () => {
                         // width: "100%",
                         width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                         mt: 1,
-                        // bgcolor: "GrayText"
                     }}>
                         <Box sx={{
                             width: "100%",
                             display: "flex",
-                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                            // bgcolor: "cyan"
+                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
                         }}>
                             <Box sx={{
                                 display: 'flex',
-                                // width: '100%'
                                 width: { xs: '100%', sm: '100%', md: '30%', lg: '100%', xl: '100%', },
                             }} >
                                 <Paper sx={{
@@ -451,9 +453,7 @@ const ComplaintRegistrMast = () => {
                                 {
                                     codept !== null ? <Fragment>
                                         <Box sx={{
-                                            // display: 'flex',
                                             width: "100%",
-                                            // bgcolor: "pink"
                                         }}>
                                             <ComplaintTypeTitle />
 
@@ -465,7 +465,6 @@ const ComplaintRegistrMast = () => {
                                                     // spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
                                                     columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
                                                     sx={{ width: '100%', textTransform: "capitalize", p: 1 }} >
-                                                    {/* <ComplaintTypeTitle /> */}
                                                     {complainttype && complainttype.map((val) => {
                                                         return <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={val.complaint_type_slno}>
                                                             <ComplaintCheckBox
@@ -481,8 +480,6 @@ const ComplaintRegistrMast = () => {
                                                 </Grid>
                                             </Box>
                                         </Box>
-
-
                                     </Fragment> : null
                                 }
                             </Box>
@@ -494,17 +491,14 @@ const ComplaintRegistrMast = () => {
                         display: "flex",
                         width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                         mt: 1,
-                        // bgcolor: "GrayText"
                     }}>
                         <Box sx={{
                             width: "100%",
                             display: "flex",
-                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                            // bgcolor: "cyan"
+                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
                         }}>
                             <Box sx={{
                                 display: 'flex',
-                                // width: '100%'
                                 width: { xs: '100%', sm: '100%', md: '30%', lg: '100%', xl: '100%', },
                             }} >
                                 <Paper sx={{
@@ -514,7 +508,6 @@ const ComplaintRegistrMast = () => {
                                     <HicpolicyTitle />
                                     <Box sx={{
                                         display: 'flex',
-                                        // p: 1.5,
                                         justifyContent: 'space-between',
                                         width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                                     }}>
@@ -542,14 +535,11 @@ const ComplaintRegistrMast = () => {
                             <Box sx={{
                                 display: 'flex',
                                 width: '100%'
-                                // width: { xs: '100%', sm: '100%', md: '50%', lg: '100%', xl: '100%', },
                             }} >
                                 {
                                     checkHic === false ? null : <Fragment>
                                         <Box sx={{
-                                            // display: 'flex',
                                             width: "100%",
-                                            // bgcolor: "pink"
                                         }}>
                                             <HicypolicygrpsTitle />
 
@@ -561,7 +551,6 @@ const ComplaintRegistrMast = () => {
                                                     // spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
                                                     columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
                                                     sx={{ width: '100%', textTransform: "capitalize", p: 1 }} >
-                                                    {/* <ComplaintTypeTitle /> */}
                                                     {
                                                         hicpolicy && hicpolicy.map((val) => {
                                                             return <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={val.hic_policy_slno}>
@@ -588,12 +577,10 @@ const ComplaintRegistrMast = () => {
                     <Box sx={{
                         width: "100%",
                         display: "flex",
-                        // bgcolor: "cyan",
                         flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
                     }}>
                         <Box sx={{
                             display: 'flex',
-                            // width: '100%'
                             width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                         }} >
                             <Box sx={{
@@ -602,7 +589,6 @@ const ComplaintRegistrMast = () => {
                             }}>
                                 <Paper square elevation={1} sx={{
                                     mt: 1,
-                                    // bgcolor: "gray"
                                 }}>
                                     <ComplaintDescriptionTitle />
                                     <Box sx={{

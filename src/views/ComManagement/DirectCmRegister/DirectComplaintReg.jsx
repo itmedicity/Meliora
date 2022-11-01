@@ -23,33 +23,51 @@ import HicypolicygrpsTitle from 'src/views/Components/HicypolicygrpsTitle'
 import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect';
 import DirectComplaintTable from './DirectComplaintTable';
 const DirectComplaintReg = () => {
+    /*** Initializing */
     const history = useHistory();
+    //state for hic checkbox
     const [hic, setHic] = useState(0)
+    //state for critical checkbox
     const [crical, setCritical] = useState(false)
+    //state for high checkbox
     const [high, setHigh] = useState(false)
+    //state for medium checkbox
     const [medium, setMedium] = useState(false)
+    //state for complaint priority
     const [priority, setpriority] = useState(0)
+    //state for table rendering
     const [count, setCount] = useState(0)
-    // const [value, setValue] = useState(0)
+    //state for knowing insert or edit to database
+    const [edit, setEdit] = useState(0);
+    //state for complaintdescription
     const [desc, setdesc] = useState('')
+    //state for request type
     const [ReqType, setReqType] = useState(false)
+    //state for complaint type
     const [cotype, setcotype] = useState(false)
+    //state for complaint department
     const [codept, setcodept] = useState(null)
+    //state for dep section select box
     const [depsec, setDepsec] = useState(0)
     const [complaint, setComplaint] = useState({
         complaint_slno: 0
     })
+    //redux for geting login id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
     const dispatch = useDispatch();
+    //dispatching redux data hic,complaintype,requestype,complaintdept
     useEffect(() => {
         dispatch(getHicpolicy());
         dispatch(getComplaintDept());
         dispatch(getRequesttype());
-        dispatch(getComplainttype(codept));
+        if (codept !== null) {
+            dispatch(getComplainttype(codept));
+        }
         // dispatch(setLoginProfileData(id))
     }, [dispatch, codept])
+    // getting redux data state
     const state = useSelector((state) => {
         return {
             complaintdeptdata: state.getComplaintDept.complaintdeptList || 0,
@@ -58,12 +76,15 @@ const DirectComplaintReg = () => {
             hicpolicy: state.getHicpolicy.hicpolicyList || 0,
         }
     })
+    //destructuring redux data
     const { complaintdeptdata, requesttypedata, complainttype, hicpolicy, } = state
     const { complaint_slno } = complaint
+    //function for complaint description state updation
     const complintdesc = useCallback((e) => {
         setdesc(e.target.value)
     }, [])
     /*** Priority seting Check box */
+    //fn for critical state updation
     const getCritical = useCallback((e) => {
         if (e.target.checked === true) {
             setCritical(true)
@@ -78,6 +99,7 @@ const DirectComplaintReg = () => {
             setpriority(0)
         }
     }, [])
+    //fn for critical state updation
     const getHigh = useCallback((e) => {
         if (e.target.checked === true) {
             setHigh(true)
@@ -92,6 +114,7 @@ const DirectComplaintReg = () => {
             setpriority(0)
         }
     }, [])
+    //fn for medium state updation
     const getMedium = useCallback((e) => {
         if (e.target.checked === true) {
             setMedium(true)
@@ -106,7 +129,9 @@ const DirectComplaintReg = () => {
             setpriority(0)
         }
     }, [])
+    //state for hic
     const [checkHic, setChechHic] = useState(false)
+    //fn for hic state updation
     const getHicCheck = useCallback((e) => {
         if (e.target.checked === true) {
             setChechHic(true)
@@ -115,6 +140,7 @@ const DirectComplaintReg = () => {
             setChechHic(false)
         }
     }, [])
+    //function for reseting states to intial state
     const reset = () => {
         setDepsec(0)
         setReqType(false)
@@ -129,7 +155,7 @@ const DirectComplaintReg = () => {
         setdesc('')
         setcodept(null)
     }
-    const [edit, setEdit] = useState(0);
+    //Data set for edit
     const rowSelect = useCallback((params) => {
         setEdit(1)
         const data = params.api.getSelectedRows()
@@ -169,6 +195,7 @@ const DirectComplaintReg = () => {
             setMedium(false)
         }
     }, [])
+    //update data
     const patchdata = useMemo(() => {
         return {
             complaint_desc: desc,
@@ -183,6 +210,7 @@ const DirectComplaintReg = () => {
             complaint_slno: complaint_slno
         }
     }, [desc, depsec, ReqType, codept, cotype, priority, hic, complaint_slno, id])
+    //insert data
     const postdata = useMemo(() => {
         return {
             complaint_desc: desc,
@@ -224,7 +252,6 @@ const DirectComplaintReg = () => {
                 setEdit(0);
                 // setComplaint(resetFrorm);
                 reset()
-
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -238,7 +265,7 @@ const DirectComplaintReg = () => {
             updateFun(patchdata)
         }
     }, [postdata, patchdata, edit, count])
-
+    //refersh function
     const refreshWindow = useCallback(() => {
         const formreset = {
             complaint_slno: ''
@@ -273,7 +300,6 @@ const DirectComplaintReg = () => {
                 <Paper square elevation={3} sx={{ p: 1 }} >
                     <Paper sx={{
                         p: 1,
-                        // bgcolor: { xs: 'cyan', sm: 'orange', md: 'yellow', lg: 'pink', xl: 'red', },
                         width: { xs: '100%', sm: '100%', md: '40%', lg: '30%', xl: '20%' }
                     }} >
                         <DeptSectionSelect value={depsec} setValue={setDepsec} />
@@ -283,12 +309,10 @@ const DirectComplaintReg = () => {
                         width: "100%",
                         display: "flex",
                         flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                        // background: { xs: 'green', sm: 'blue', md: 'yellow', lg: 'cyan', xl: 'orange', }
                     }}>
                         <Box sx={{
                             display: 'flex',
                             width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
-                            // bgcolor: "cyan"
                         }} >
                             <Paper sx={{
                                 width: '100%',
@@ -349,20 +373,16 @@ const DirectComplaintReg = () => {
                     {/* 2nd section */}
                     <Paper square elevation={1} sx={{
                         display: "flex",
-                        // width: "100%",
                         width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                         mt: 1,
-                        // bgcolor: "GrayText"
                     }}>
                         <Box sx={{
                             width: "100%",
                             display: "flex",
                             flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                            // bgcolor: "cyan"
                         }}>
                             <Box sx={{
                                 display: 'flex',
-                                // width: '100%'
                                 width: { xs: '100%', sm: '100%', md: '30%', lg: '100%', xl: '100%', },
                             }} >
                                 <Paper sx={{
@@ -372,7 +392,6 @@ const DirectComplaintReg = () => {
                                     <PrioritycmpTitle />
                                     <Box sx={{
                                         display: 'flex',
-                                        // p: 1.5,
                                         justifyContent: 'space-between',
                                         width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                                     }}>
@@ -428,9 +447,7 @@ const DirectComplaintReg = () => {
                                 {
                                     codept !== null ? <Fragment>
                                         <Box sx={{
-                                            // display: 'flex',
                                             width: "100%",
-                                            // bgcolor: "pink"
                                         }}>
                                             <ComplaintTypeTitle />
                                             <Box sx={{
@@ -441,7 +458,6 @@ const DirectComplaintReg = () => {
                                                     //  spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
                                                     columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
                                                     sx={{ width: '100%', textTransform: "capitalize", p: 1 }} >
-                                                    {/* <ComplaintTypeTitle /> */}
                                                     {complainttype && complainttype.map((val) => {
                                                         return <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={val.complaint_type_slno}>
                                                             <ComplaintCheckBox
@@ -468,17 +484,14 @@ const DirectComplaintReg = () => {
                         display: "flex",
                         width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                         mt: 1,
-                        // bgcolor: "GrayText"
                     }}>
                         <Box sx={{
                             width: "100%",
                             display: "flex",
                             flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                            // bgcolor: "cyan"
                         }}>
                             <Box sx={{
                                 display: 'flex',
-                                // width: '100%'
                                 width: { xs: '100%', sm: '100%', md: '30%', lg: '100%', xl: '100%', },
                             }} >
                                 <Paper sx={{
@@ -488,7 +501,6 @@ const DirectComplaintReg = () => {
                                     <HicpolicyTitle />
                                     <Box sx={{
                                         display: 'flex',
-                                        // p: 1.5,
                                         justifyContent: 'space-between',
                                         width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                                     }}>
@@ -516,7 +528,6 @@ const DirectComplaintReg = () => {
                             <Box sx={{
                                 display: 'flex',
                                 width: '100%'
-                                // width: { xs: '100%', sm: '100%', md: '50%', lg: '100%', xl: '100%', },
                             }} >
                                 {
                                     checkHic === false ? null : <Fragment>
@@ -526,7 +537,6 @@ const DirectComplaintReg = () => {
                                             // bgcolor: "pink"
                                         }}>
                                             <HicypolicygrpsTitle />
-
                                             <Box sx={{
                                                 display: 'flex',
                                                 width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
@@ -535,7 +545,6 @@ const DirectComplaintReg = () => {
                                                     //  spacing={{ xs: 1, md: 1, md: 1, lg: 0.8, xl: 0.8 }}
                                                     columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
                                                     sx={{ width: '100%', textTransform: "capitalize", p: 1 }} >
-                                                    {/* <ComplaintTypeTitle /> */}
                                                     {
                                                         hicpolicy && hicpolicy.map((val) => {
                                                             return <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={val.hic_policy_slno}>
@@ -562,12 +571,10 @@ const DirectComplaintReg = () => {
                     <Box sx={{
                         width: "100%",
                         display: "flex",
-                        // bgcolor: "cyan",
                         flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
                     }}>
                         <Box sx={{
                             display: 'flex',
-                            // width: '100%'
                             width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
                         }} >
                             <Box sx={{
@@ -576,7 +583,6 @@ const DirectComplaintReg = () => {
                             }}>
                                 <Paper square elevation={1} sx={{
                                     mt: 1,
-                                    // bgcolor: "gray"
                                 }}>
                                     <ComplaintDescriptionTitle />
                                     <Box sx={{

@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
+import CustomeToolTip from '../Components/CustomeToolTip';
 const DeptWiseEmpSelect = ({ personName, setPersonName, empdeptwise }) => {
     const dispatch = useDispatch();
     /**getDepartemployee -state update function of reducer 
@@ -31,38 +31,40 @@ const DeptWiseEmpSelect = ({ personName, setPersonName, empdeptwise }) => {
 
     return (
         <Box >
-            <FormControl fullWidth >
-                <InputLabel id="demo-multiple-name-label"
+            <CustomeToolTip title="Select Employee">
+                <FormControl fullWidth >
+                    {/* <InputLabel id="demo-multiple-name-label"
                     sx={{ height: 30, p: 0, m: 0, lineHeight: 1.200 }}
-                >Select Employee</InputLabel>
-                <Select
-                    labelId="demo-multiple-name-label"
-                    id="demo-multiple-name"
-                    size="small"
-                    // fullWidth
-                    multiple
-                    value={personName}
-                    onChange={handleChange}
-                    variant='outlined'
-                // input={<OutlinedInput label="Name" />}
-                // sx={{ height: 25, p: 0, m: 0, lineHeight: 1.200 }}
-                //   MenuProps={MenuProps}
-                >
-                    <MenuItem value={[]} disabled  >Select Employee</MenuItem>
-                    {
-                        deptwiseemp && deptwiseemp.map((name) => {
-                            return (
-                                <MenuItem
-                                    key={name.em_id}
-                                    value={name.em_id}
-                                // style={getStyles(name, personName, theme)}
-                                >
-                                    {name.em_name}
-                                </MenuItem>
-                            );
-                        })}
-                </Select>
-            </FormControl>
+                >Select Employee</InputLabel> */}
+                    <Select
+                        labelId="demo-multiple-name-label"
+                        id="demo-multiple-name"
+                        size="small"
+                        // fullWidth
+                        multiple
+                        value={personName}
+                        onChange={handleChange}
+                        variant='outlined'
+                        // input={<OutlinedInput label="Name" />}
+                        sx={{ height: 30, p: 0, m: 0, lineHeight: 1.200 }}
+                    //   MenuProps={MenuProps}
+                    >
+                        <MenuItem value={[]} disabled  >Select Employee</MenuItem>
+                        {
+                            deptwiseemp && deptwiseemp.map((name) => {
+                                return (
+                                    <MenuItem
+                                        key={name.em_id}
+                                        value={name.em_id}
+                                    // style={getStyles(name, personName, theme)}
+                                    >
+                                        {name.em_name}
+                                    </MenuItem>
+                                );
+                            })}
+                    </Select>
+                </FormControl>
+            </CustomeToolTip>
         </Box >
     )
 }

@@ -78,17 +78,14 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
                 infoNotify(message)
             }
         }
-        Assignemp(postData);
-        // if (emp !== 0) {
-        //     Assignemp(postData);
-        // }
-        // else if (remark === '') {
-        //     infoNotify("Please Enter Any Remark")
-        // }  
-        // else {
-        //     infoNotify("Please Select Employee")
-        // }
-    }, [postData, count, reset, setCount, compremark])
+        if (personName.length === 0) {
+            infoNotify("Please Select Employee")
+        } else if (remark === '') {
+            infoNotify("Please Enter Any Remark")
+        } else {
+            Assignemp(postData);
+        }
+    }, [postData, count, reset, setCount, compremark, remark, personName])
     return (
         <Fragment>
             <ToastContainer />
@@ -218,6 +215,13 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
                                 p: 0.5,
                                 mt: 0.5
                             }}>
+                                <Box sx={{
+                                    display: 'flex',
+                                    width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    mb: 1
+                                }} >
+                                    <Typography>Select Employee</Typography>
+                                </Box>
                                 <Box sx={{
                                     width: "100%",
                                     // bgcolor: "cyan"

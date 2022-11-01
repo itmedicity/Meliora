@@ -7,7 +7,6 @@ import EditButton from 'src/views/Components/EditButton'
 const DirectComplaintTable = ({ count, rowSelect }) => {
     //state for setting table data
     const [tabledata, setTabledata] = useState([])
-    // const [count, setCount] = useState(0)
     //column title setting
     const [column] = useState([
         { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, width: 330 },
@@ -20,10 +19,11 @@ const DirectComplaintTable = ({ count, rowSelect }) => {
         { headerName: "Hic Policy", field: "hic_policy_name", width: 250 },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> }
     ])
+    //for getting login user id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
-
+    //dispaly data in table against the login user
     useEffect(() => {
         const getDirectcomplaint = async () => {
             const result = await axioslogin.get(`/directcmreg/${id}`)
