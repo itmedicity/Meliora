@@ -7,12 +7,12 @@ const DietTransactions = [
         name: 'Diet Process',
         to: '/Home/DietProcess',
     },
-    // {
-    //     men_slno: 57,
-    //     component: CNavItem,
-    //     name: 'Diet Order List',
-    //     to: '/Home/DietOrderList',
-    // },
+    {
+        men_slno: 57,
+        component: CNavItem,
+        name: 'Diet Order List',
+        to: '/Home/DietOrderList',
+    },
     {
         men_slno: 59,
         component: CNavItem,

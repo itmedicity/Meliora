@@ -13,6 +13,7 @@ import { infoNotify } from 'src/views/Common/CommonCode';
 import DietOrderItems from './DietOrderItems';
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle';
 import { Fragment } from 'react';
+import { useEffect } from 'react';
 
 const DietOderTaking = () => {
     const history = useHistory();
@@ -44,6 +45,39 @@ const DietOderTaking = () => {
         }
         gettypeDmenu(postdata)
     }, [selectDate, room])
+
+
+    useEffect(() => {
+        const getSearch = async () => {
+            if (tabledis !== 0) {
+                const d = new Date(selectDate)
+                let day = d.getDay();
+                const typeslno = dietType && dietType.map((val) => {
+                    return val.type_slno
+                })
+                const dmenuslno = dietType && dietType.map((val) => {
+                    return val.dmenu_slno
+                })
+
+                const postdata = {
+                    days: day,
+                    dmenu_slno: dmenuslno,
+                    type_slno: typeslno
+                }
+                console.log(postdata);
+
+
+
+
+            }
+        }
+
+        getSearch()
+
+    }, [tabledis, dietType, selectDate])
+
+
+
 
 
 

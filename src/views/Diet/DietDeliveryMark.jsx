@@ -10,13 +10,13 @@ import { useHistory } from 'react-router-dom'
 import CustomAGSelect from '../Components/CustomAGSelect';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { format } from 'date-fns'
-import RmmasterMeliSelect from '../CommonSelectCode/RmmasterMeliSelect';
 import SelectDiet from '../CommonSelectCode/SelectDiet';
 import CusIconButton from '../Components/CusIconButton';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import Button from '@mui/material/Button';
 import RoomSelectDelivery from './RoomSelectDelivery';
 import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect';
+import ExtraRoomMeliSelect from './ExtraRoomMeliSelect';
 const DietDeliveryMark = () => {
     const [room, setRoom] = useState(0)
     const [nurse, setNurse] = useState(0)
@@ -69,6 +69,12 @@ const DietDeliveryMark = () => {
         }
     }, [room, count])
 
+    const cleardata = useCallback(() => {
+        setdiet(0)
+        setNurse(0)
+        setrmdata(0)
+    }, [])
+
     const onSelectionChanged = (event) => {
         setFinal(event.api.getSelectedRows())
     }
@@ -90,12 +96,13 @@ const DietDeliveryMark = () => {
             if (success === 2) {
                 succesNotify(message)
                 setCount(count + 1)
+                cleardata()
             } else {
                 infoNotify(message)
             }
         }
         deliveryUpdate(patchdata)
-    }, [patchdata, count])
+    }, [patchdata, count, cleardata])
 
     //Refresh function
     const refreshWindow = useCallback(() => {
@@ -105,11 +112,7 @@ const DietDeliveryMark = () => {
     const clicksearch = () => {
         setrmdata(1)
     }
-    const cleardata = useCallback(() => {
-        setdiet(0)
-        setNurse(0)
-        setrmdata(0)
-    }, [])
+
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
@@ -172,21 +175,10 @@ const DietDeliveryMark = () => {
                                     <RoomSelectDelivery value={room} setValue={setRoom} nurse={nurse} diet={diet} />
                                 </Box> :
                                 <Box sx={{ pt: 1, pr: 1, width: "20%" }}>
-                                    <RmmasterMeliSelect value={room} setValue={setRoom} />
+                                    <ExtraRoomMeliSelect value={room} setValue={setRoom} nurse={nurse} />
                                 </Box>
 
                         }
-
-
-
-                        {/* {
-                            rmdata === 0 ?
-                                <Box sx={{ pt: 1, pr: 1, width: "20%" }}>
-                                    <RmmasterMeliSelect value={room} setValue={setRoom} />
-                                </Box> : <Box sx={{ pt: 1, pr: 1, width: "20%" }}>
-                                    <NursingStationSelect value={room} setValue={setRoom} />
-                                </Box>
-                        } */}
 
                     </Box>
                 </Paper>
