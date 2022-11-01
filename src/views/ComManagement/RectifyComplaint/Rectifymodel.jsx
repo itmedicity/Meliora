@@ -5,8 +5,9 @@ import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import { ToastContainer } from 'react-toastify';
-import { Box, Paper } from '@mui/material'
-import { Button, Typography } from "@material-ui/core";
+import { Box, Paper, Typography } from '@mui/material'
+import Button from '@mui/material/Button';
+
 import { Fragment } from 'react';
 import { useState } from 'react';
 import { useEffect, memo } from 'react';
@@ -243,7 +244,6 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
                                     width: "100%",
                                     display: "flex",
                                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                    // p: 1
                                     p: 0.5,
                                 }}>
                                     <Box sx={{
@@ -257,7 +257,6 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
                                     width: "100%",
                                     display: "flex",
                                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                    // p: 1
                                     p: 0.5,
                                 }}>
                                     <Box sx={{

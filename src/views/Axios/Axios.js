@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-import { API_URL } from '../Constant/Static';
+import { API_URL } from '../Constant/Static'
 
 export const axioslogin = Axios.create({
     baseURL: API_URL,
