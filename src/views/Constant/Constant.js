@@ -1,9 +1,5 @@
 import { axioslogin } from "../Axios/Axios"
 
-// ----------- Api Address ---------------
-export const API_URL = 'http://192.168.11.42:5000/api';
-// ----------- Nas Folder --------------
-export const PUBLIC_NAS_FOLDER = "http://*.*.*.*/NAS/";
 //Get login employee No
 export const employeeNumber = () => {
     const userinfo = sessionStorage.getItem('userDetl');
