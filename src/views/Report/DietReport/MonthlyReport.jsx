@@ -1,11 +1,10 @@
 import React, { useCallback, useMemo, useState, useRef, useEffect } from 'react'
 import { Paper, Typography, Box } from '@mui/material';
-import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import { useHistory } from 'react-router-dom';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import CusIconButton from '../../Components/CusIconButton';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import Button from '@mui/material/Button';
+import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import { axioslogin } from 'src/views/Axios/Axios'
 import DownloadIcon from '@mui/icons-material/Download'
 import CustomeToolTip from '../../Components/CustomeToolTip'
@@ -15,82 +14,111 @@ import 'ag-grid-community/dist/styles/ag-theme-material.css'
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { useDispatch, useSelector } from 'react-redux';
 import { warningNotify } from '../../Common/CommonCode';
+import CusCheckBox from 'src/views/Components/CusCheckBox';
 
 
-const PatientWise = () => {
+const MonthlyReport = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [TableData, setTableData] = useState([]);
     const [total, setTotal] = useState([]);
     const [extra, setExtra] = useState([]);
-    const [ptname, setPtname] = useState({
-        pname: '',
+    const [dataset, setdataa] = useState([])
+    const [add, Setadd] = useState(false)
+    const [Discharge, setDischarged] = useState(false)
+    const [dateset, SetDate] = useState({
         start_date: new Date(),
         end_date: new Date()
     })
 
-    const { pname, start_date, end_date } = ptname;
-    const getPtname = useCallback((e) => {
+    const { start_date, end_date } = dateset;
+    const getDate = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setPtname({ ...ptname, [e.target.name]: value })
+        SetDate({ ...dateset, [e.target.name]: value })
 
-    }, [ptname])
+    }, [dateset])
 
     const [columnDefForTable] = useState([
-        { headerName: 'Sl No ', field: 'slno', wrapText: true, minWidth: 1 },
-        { headerName: 'Date', field: 'process_date', wrapText: true, minWidth: 100 },
-        { headerName: 'Patient Id', field: 'pt_no', wrapText: true, minWidth: 60 },
-        { headerName: 'Diet Name', field: 'diet_name', wrapText: true, minWidth: 100 },
-        { headerName: 'Room Category', field: 'roomtype', wrapText: true, minWidth: 60 },
-        { headerName: 'Room/Bed No', field: 'roonno', wrapText: true, minWidth: 100 },
-        { headerName: 'Order rate', field: 'hossum', wrapText: true, minWidth: 100 },
-        { headerName: 'Extra Order Rate', field: 'extra', wrapText: true, minWidth: 100 },
-        { headerName: 'Total Rate', field: 'totalsum', wrapText: true, minWidth: 100 },
+        { headerName: 'Sl No ', field: 'slno', minWidth: 10 },
+        { headerName: 'Date', field: 'process_date', minWidth: 100 },
+        { headerName: 'Patient Id', field: 'pt_no', minWidth: 150 },
+        { headerName: 'Room Category', field: 'roomtype', minWidth: 150 },
+        { headerName: 'Room/Bed No', field: 'roonno', minWidth: 150 },
+        { headerName: 'Rate hospital', field: 'hossum', minWidth: 150 },
+        { headerName: 'Extra Rate(hos)', field: 'extra', minWidth: 100 },
+        { headerName: 'Total Rate', field: 'totalsum', minWidth: 100 },
+        { headerName: 'Rate Canteen', field: 'cantsum', minWidth: 100 },
+        { headerName: 'Extra Rate Canteen', field: 'extracant', minWidth: 100 },
+        { headerName: 'Total Rate Canteen', field: 'totalsumcant', minWidth: 100 },
     ])
 
-    const cleardata = useCallback(() => {
-        const reset = {
-            pname: '',
-            start_date: new Date(),
-            end_date: new Date()
+    const [checking, setchecking] = useState(0)
+    const updateaddm = (e) => {
+        if (e.target.checked === true) {
+            Setadd(true)
+            setchecking(1)
+            setDischarged(false)
+        } else {
+            Setadd(false)
+            setchecking(0)
+            setDischarged(false)
+            setTableData([])
         }
-        setPtname(reset)
-        setTableData([])
-    }, [])
-
-    const onExportClick = () => {
-        if (TableData.length === 0) {
-            warningNotify("Please Click The Search Button")
-        }
-        else {
-            dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 1 })
+    }
+    const updateDisc = (e) => {
+        if (e.target.checked === true) {
+            setDischarged(true)
+            setchecking(2)
+            Setadd(false)
+        } else {
+            Setadd(false)
+            setchecking(0)
+            setDischarged(false)
+            setTableData([])
         }
     }
 
+    useEffect(() => {
+        if (checking === 1) {
+            const arry = dataset && dataset.filter((val) => {
+                return val.discharge === 'N' ? val : null
+            })
+            setTableData(arry)
+        }
+        else if (checking === 2) {
+            const arrys = dataset && dataset.filter((val) => {
+                return val.discharge === 'Y' ? val : null
+            })
+            setTableData(arrys)
+        }
+        else {
+            const arrys = dataset && dataset.filter((val) => {
+                return val
+            })
+            setTableData(arrys)
+        }
+    }, [checking, dataset])
+
     const postdata = useMemo(() => {
         return {
-            pt_no: pname,
             start_date: start_date,
             end_date: end_date,
         }
-    }, [pname, start_date, end_date])
+    }, [start_date, end_date])
 
     const clicksearch = useCallback((e) => {
         e.preventDefault();
         dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 0 })
         const getdatareport = async (postdata) => {
-            const result = await axioslogin.post('/dietReport/getPatientReport', postdata)
+            const result = await axioslogin.post('/dietReport/getPatientReport/Monthly', postdata)
             const { success, data } = result.data;
             if (success === 1) {
                 setTotal(data)
             }
-            else {
-
-            }
         }
         getdatareport(postdata)
         const getExtraOrder = async (postdata) => {
-            const result = await axioslogin.post('/dietReport/getPatientReport/ExtraOrder', postdata)
+            const result = await axioslogin.post('/dietReport/getPatientReport/Monthly/Extra', postdata)
             const { success, data } = result.data;
             if (success === 1) {
                 setExtra(data)
@@ -98,6 +126,29 @@ const PatientWise = () => {
         }
         getExtraOrder(postdata)
     }, [postdata, dispatch])
+
+
+    const [exports, setexport] = useState(0)
+
+    const onExportClick = () => {
+        if (TableData.length === 0) {
+            warningNotify("Please Click The Search Button")
+            setexport(0)
+        }
+        else {
+            setexport(1)
+        }
+    }
+
+    useEffect(() => {
+        if (exports === 1) {
+            dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 1 })
+            setexport(0)
+        }
+        else {
+            dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 0 })
+        }
+    }, [exports, setexport, dispatch])
 
     useEffect(() => {
         if ((total.length !== 0) && (extra.length !== 0)) {
@@ -110,14 +161,29 @@ const PatientWise = () => {
                 })
             })
             const newarry = newarrt.flat()
-            const ne = newarry.map((val) => {
+            const cantsum = newarry && newarry.map((val) => {
+                return extra.map((value) => {
+                    const obj = {
+                        ...val, extracant: value.process_date === val.process_date ? value.excantsum : 0
+                    }
+                    return obj
+                })
+            })
+            const newarrycant = cantsum.flat()
+            const newhos = newarrycant.map((val) => {
                 const obj = {
                     ...val, totalsum: val.hossum + val.extra
-
                 }
                 return obj
             })
-            setTableData(ne);
+            const necant = newhos.map((val) => {
+                const obj = {
+                    ...val, totalsumcant: val.cantsum + val.extracant
+                }
+                return obj
+            })
+            setTableData(necant);
+            setdataa(necant)
         }
     }, [total, extra])
 
@@ -164,7 +230,7 @@ const PatientWise = () => {
 
     return (
         <CardCloseOnly
-            title='Patient Wise Report'
+            title='Monthly patient Wise Report'
             close={backToSetting}
         >
             <Box sx={{ width: "100%", p: 1 }}>
@@ -197,31 +263,6 @@ const PatientWise = () => {
                                         width: '100%',
                                         ml: 0.5, mt: 0.5
                                     }}>
-                                        <Typography>Pateint Id</Typography>
-                                    </Box>
-                                    <Box sx={{
-                                        width: '100%',
-                                        height: 15,
-                                        mb: 1
-                                    }}>
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="pname"
-                                            value={pname}
-                                            onchange={getPtname}
-                                        />
-                                    </Box>
-                                </Box>
-                                <Box sx={{
-                                    display: 'flex',
-                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                    mt: 1
-                                }} >
-                                    <Box sx={{
-                                        width: '100%',
-                                        ml: 0.5, mt: 0.5
-                                    }}>
                                         <Typography>Start Date</Typography>
                                     </Box>
                                     <Box sx={{
@@ -234,7 +275,7 @@ const PatientWise = () => {
                                             size="sm"
                                             name="start_date"
                                             value={start_date}
-                                            onchange={getPtname}
+                                            onchange={getDate}
                                         />
                                     </Box>
                                 </Box>
@@ -259,14 +300,15 @@ const PatientWise = () => {
                                             size="sm"
                                             name="end_date"
                                             value={end_date}
-                                            onchange={getPtname}
+                                            onchange={getDate}
                                         />
                                     </Box>
                                 </Box>
                                 <Box sx={{
                                     display: 'flex',
                                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                    ml: 1, mt: 0.5
+                                    ml: 1, mt: 0.5,
+                                    //  backgroundColor: "Red"
                                 }} >
                                     <Box sx={{
                                         width: '20%',
@@ -276,13 +318,41 @@ const PatientWise = () => {
                                             <SearchOutlinedIcon fontSize='small' />
                                         </CusIconButton>
                                     </Box>
+
                                     <Box sx={{
                                         width: '100%',
-                                        height: 15,
-                                        mb: 1, mt: 0.6
+                                        pt: 1.5, pl: 2
                                     }}>
-                                        <Button onClick={cleardata} variant="contained" size="small" color="primary">Clear</Button>
+                                        <CusCheckBox
+                                            label="Addmitted"
+                                            color="primary"
+                                            size="md"
+                                            name="add"
+                                            value={add}
+                                            checked={add}
+                                            onCheked={updateaddm}
+                                        />
                                     </Box>
+                                    <Box sx={{
+                                        width: '100%',
+                                        pt: 1.5, pl: 2
+                                    }}>
+                                        <CusCheckBox
+                                            label="Discharged"
+                                            color="primary"
+                                            size="md"
+                                            name="Discharge"
+                                            value={Discharge}
+                                            checked={Discharge}
+                                            onCheked={updateDisc}
+                                        />
+                                    </Box>
+                                </Box>
+                                <Box sx={{
+                                    display: 'flex',
+                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                    mt: 1
+                                }} >
                                 </Box>
                             </Box>
                         </Paper>
@@ -301,7 +371,6 @@ const PatientWise = () => {
                                     display: 'flex',
                                     flexWrap: 'wrap',
                                     flexDirection: 'row-reverse',
-                                    // alignItems: "",
                                     gap: 0.1,
                                     p: 0.3,
                                     borderLeft: 2,
@@ -348,8 +417,8 @@ const PatientWise = () => {
                     </Box>
                 </Paper>
             </Box>
-        </CardCloseOnly >
+        </CardCloseOnly>
     )
 }
 
-export default PatientWise
+export default MonthlyReport

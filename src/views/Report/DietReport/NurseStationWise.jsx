@@ -36,14 +36,6 @@ const NurseStationWise = () => {
     ])
 
     const [columnDefMain] = useState([
-        // {
-        //     headerName: '#',
-        //     filterParams: {
-        //         buttons: ['reset', 'apply'],
-        //         debounceMs: 200,
-        //     },
-        //     width: 10,
-        // },
         { headerName: 'Sl No ', field: 'slno', wrapText: true, minWidth: 1 },
         { headerName: 'Room No', field: 'rmc_desc', wrapText: true, minWidth: 10 },
         { headerName: 'Admission Date ', field: 'ipd_date', wrapText: true, minWidth: 20 },
@@ -89,6 +81,9 @@ const NurseStationWise = () => {
             const { success, data } = result.data;
             if (success === 1) {
                 setTableData(data)
+            } else {
+                warningNotify("No Patient Under Slelected Nursing Station ")
+                setTableData([])
             }
         }
         if (nurseslno.length !== 0) {
