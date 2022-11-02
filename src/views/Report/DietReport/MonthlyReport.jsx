@@ -79,6 +79,8 @@ const MonthlyReport = () => {
     }
 
     useEffect(() => {
+        /*** checking 1 id addmitted patients list
+        2 is discharge patient list*/
         if (checking === 1) {
             const arry = dataset && dataset.filter((val) => {
                 return val.discharge === 'N' ? val : null
