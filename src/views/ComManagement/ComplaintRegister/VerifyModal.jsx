@@ -5,9 +5,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-import { Button } from "@material-ui/core";
 import { Box } from '@mui/system';
-import { Paper } from '@mui/material';
+import { Button, Paper } from '@mui/material';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import CustomTextarea from 'src/views/Components/CustomTextarea';
 import { format } from 'date-fns'
@@ -52,13 +51,6 @@ const VerifyModal = ({ open, setOpen, mddata, count, setCount }) => {
         }
     }
     //function for state to intial state
-    // const handleClose = () => {
-    //     setOpen(false)
-    //     setVerify(false)
-    //     setNotrectify(false)
-    //     setFlag(0)
-    //     setRemark('')
-    // }
     const handleClose = useCallback(() => {
         setOpen(false)
         setVerify(false)
@@ -71,7 +63,7 @@ const VerifyModal = ({ open, setOpen, mddata, count, setCount }) => {
         return {
             compalint_status: verify === true ? 3 : notrectify === true ? 0 : compalint_status,
             cm_verfy_time: verify === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
-            cm_rectify_status: notrectify === true ? 'Z' : null,
+            cm_rectify_status: notrectify === true ? 'Z' : verify === true ? 'V' : null,
             verify_remarks: notrectify === true ? remark : null,
             cm_not_verify_time: notrectify === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
             complaint_slno: complaint_slno
@@ -127,7 +119,6 @@ const VerifyModal = ({ open, setOpen, mddata, count, setCount }) => {
                             }}>
                                 <Box sx={{
                                     display: 'flex',
-                                    // width: "50%"
                                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                                     p: 1
                                 }} >

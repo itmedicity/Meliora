@@ -18,11 +18,14 @@ const RectifyCompalint = () => {
     const history = useHistory()
     //state for table
     const [tabledata, setTabledata] = useState([])
-
     const [detail, setdeatial] = useState([])
+    //state for modal dispaly
     const [mdopen, setmdopen] = useState(0)
+    //state for modal open
     const [open, setOpen] = useState(false);
+    //state for table render
     const [count, setCount] = useState(0)
+    //for getting login id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
