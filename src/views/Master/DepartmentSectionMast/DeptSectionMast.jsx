@@ -10,6 +10,7 @@ import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import SelectOraOutlet from 'src/views/CommonSelectCode/SelectOraOutlet'
+import { useSelector } from 'react-redux'
 const DeptSectionMast = () => {
     const history = useHistory();
     //state for table rendering
@@ -17,8 +18,8 @@ const DeptSectionMast = () => {
     //state for edit
     const [edit, setEdit] = useState(0);
     //state for select box
-    const [value, setValue] = useState(0)
-    const [value1, setValue1] = useState(0)
+    const [department, setDepartment] = useState(0)
+    const [outlet, setOutlet] = useState(0)
     //state for name
     const [secname, updatesecName] = useState('');
     //state for status
@@ -52,27 +53,32 @@ const DeptSectionMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setsecStatus(value)
     }, [])
+    // Get login user emp_id
+    const loginid = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     //general-1,ot-2,icu-3,er-4
     const postdata = useMemo(() => {
         return {
             sec_name: secname,
-            dept_id: value,
+            dept_id: department,
             dept_sub_sect: general === true ? 1 : ot === true ? 2 : icu === true ? 3 : er === true ? 4 : 0,
             sec_status: secstatus === true ? 1 : 0,
-            create_user: 1,
-            ou_code: value1
+            create_user: loginid,
+            ou_code: outlet !== 0 ? outlet : null
         }
-    }, [secname, value, secstatus, general, ot, icu, er, value1])
+    }, [secname, department, secstatus, general, ot, icu, er, outlet, loginid])
     const patchdata = useMemo(() => {
         return {
             sec_name: secname,
-            dept_id: value,
+            dept_id: department,
             dept_sub_sect: general === true ? 1 : ot === true ? 2 : icu === true ? 3 : er === true ? 4 : 0,
             sec_status: secstatus === true ? 1 : 0,
-            ou_code: value1,
+            ou_code: outlet !== 0 ? outlet : null,
+            edit_user: loginid,
             sec_id: id
         }
-    }, [secname, value, general, ot, icu, er, secstatus, id, value1])
+    }, [secname, department, general, ot, icu, er, secstatus, id, outlet, loginid])
     //data set for edit 
     const rowSelect = useCallback((params) => {
         setEdit(1);
@@ -84,12 +90,12 @@ const DeptSectionMast = () => {
             icu: dept_sub_sect === 3 ? true : false,
             er: dept_sub_sect === 4 ? true : false,
         }
-        setValue(dept_id)
+        setDepartment(dept_id)
         updatesecName(sec_name)
         setsecStatus(status === 'Yes' ? true : false)
         setdeptsubtype(checkboxdata)
         setId(sec_id)
-        setValue1(ou_code)
+        setOutlet(ou_code)
     }, [])
     //reseting 
     const reset = useCallback(() => {
@@ -99,8 +105,8 @@ const DeptSectionMast = () => {
             icu: false,
             er: false,
         }
-        setValue(0)
-        setValue1(0)
+        setDepartment(0)
+        setOutlet(0)
         setdeptsubtype(resetcheckbox)
         setsecStatus(false)
         updatesecName('')
@@ -161,8 +167,8 @@ const DeptSectionMast = () => {
             icu: false,
             er: false
         }
-        setValue(0)
-        setValue1(0)
+        setDepartment(0)
+        setOutlet(0)
         setEdit(0)
         setdeptsubtype(resetcheckbox)
         updatesecName('')
@@ -191,10 +197,10 @@ const DeptSectionMast = () => {
                                 />
                             </Grid>
                             <Grid item xl={12} lg={12}  >
-                                <DepartmentSelect value={value} setValue={setValue} />
+                                <DepartmentSelect value={department} setValue={setDepartment} />
                             </Grid>
                             <Grid item xl={12} lg={12}>
-                                <SelectOraOutlet value={value1} setValue={setValue1} />
+                                <SelectOraOutlet value={outlet} setValue={setOutlet} />
                             </Grid>
                             <Grid item lg={2} xl={2}>
                                 <CusCheckBox
