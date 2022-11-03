@@ -39,17 +39,17 @@ const MonthlyReport = () => {
     }, [dateset])
 
     const [columnDefForTable] = useState([
-        { headerName: 'Sl No ', field: 'slno', minWidth: 10 },
-        { headerName: 'Date', field: 'process_date', minWidth: 100 },
-        { headerName: 'Patient Id', field: 'pt_no', minWidth: 150 },
-        { headerName: 'Room Category', field: 'roomtype', minWidth: 150 },
-        { headerName: 'Room/Bed No', field: 'roonno', minWidth: 150 },
-        { headerName: 'Rate hospital', field: 'hossum', minWidth: 150 },
-        { headerName: 'Extra Rate(hos)', field: 'extra', minWidth: 100 },
-        { headerName: 'Total Rate', field: 'totalsum', minWidth: 100 },
-        { headerName: 'Rate Canteen', field: 'cantsum', minWidth: 100 },
-        { headerName: 'Extra Rate Canteen', field: 'extracant', minWidth: 100 },
-        { headerName: 'Total Rate Canteen', field: 'totalsumcant', minWidth: 100 },
+        { headerName: 'Sl No ', field: 'slno' },
+        { headerName: 'Date', field: 'process_date' },
+        { headerName: 'Patient Id', field: 'pt_no' },
+        { headerName: 'Room Category', field: 'roomtype' },
+        { headerName: 'Room/Bed No', field: 'roonno' },
+        { headerName: 'Rate hospital', field: 'hossum' },
+        { headerName: 'Extra Rate(hos)', field: 'extraAmnt' },
+        { headerName: 'Total Rate', field: 'totalsum' },
+        { headerName: 'Rate Canteen', field: 'cantsum' },
+        { headerName: 'Extra Rate Canteen', field: 'extracantAmt' },
+        { headerName: 'Total Rate Canteen', field: 'totalextrasum' },
     ])
 
     const [checking, setchecking] = useState(0)
@@ -79,6 +79,8 @@ const MonthlyReport = () => {
     }
 
     useEffect(() => {
+        /*** checking 1 id addmitted patients list
+        2 is discharge patient list*/
         if (checking === 1) {
             const arry = dataset && dataset.filter((val) => {
                 return val.discharge === 'N' ? val : null
@@ -153,38 +155,23 @@ const MonthlyReport = () => {
     useEffect(() => {
         if ((total.length !== 0) && (extra.length !== 0)) {
             const newarrt = total && total.map((val) => {
-                return extra.map((value) => {
-                    const obj = {
-                        ...val, extra: value.process_date === val.process_date ? value.exhossum : 0
-                    }
-                    return obj
-                })
+                const a1 = extra.find((ele) => ele.proc_slno === val.proc_slno)
+                return {
+                    ...val, extraAmnt: a1?.exhossum ?? 0,
+                    extracantAmt: a1?.excantsum ?? 0
+                }
             })
-            const newarry = newarrt.flat()
-            const cantsum = newarry && newarry.map((val) => {
-                return extra.map((value) => {
-                    const obj = {
-                        ...val, extracant: value.process_date === val.process_date ? value.excantsum : 0
-                    }
-                    return obj
-                })
-            })
-            const newarrycant = cantsum.flat()
-            const newhos = newarrycant.map((val) => {
+            const newhos = newarrt.map((val) => {
                 const obj = {
-                    ...val, totalsum: val.hossum + val.extra
+                    ...val, totalsum: val.hossum + val.extraAmnt,
+                    totalextrasum: val.cantsum + val.extracantAmt
                 }
                 return obj
             })
-            const necant = newhos.map((val) => {
-                const obj = {
-                    ...val, totalsumcant: val.cantsum + val.extracant
-                }
-                return obj
-            })
-            setTableData(necant);
-            setdataa(necant)
+            setTableData(newhos);
+            setdataa(newhos)
         }
+
     }, [total, extra])
 
     const backToSetting = useCallback(() => {
@@ -308,7 +295,6 @@ const MonthlyReport = () => {
                                     display: 'flex',
                                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                                     ml: 1, mt: 0.5,
-                                    //  backgroundColor: "Red"
                                 }} >
                                     <Box sx={{
                                         width: '20%',

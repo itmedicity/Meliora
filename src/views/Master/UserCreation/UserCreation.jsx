@@ -179,7 +179,7 @@ const UserCreation = () => {
         const UpdateFun = async (patchdata) => {
             const result = await axioslogin.patch('/employee/update', patchdata);
             const { message, success } = result.data;
-            if (success === 1) {
+            if (success === 2) {
                 succesNotify(message)
                 setCount(count + 1);
                 setUserdata(formreset);

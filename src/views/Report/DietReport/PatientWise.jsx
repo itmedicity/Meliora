@@ -37,15 +37,15 @@ const PatientWise = () => {
     }, [ptname])
 
     const [columnDefForTable] = useState([
-        { headerName: 'Sl No ', field: 'slno', wrapText: true, minWidth: 1 },
-        { headerName: 'Date', field: 'process_date', wrapText: true, minWidth: 100 },
-        { headerName: 'Patient Id', field: 'pt_no', wrapText: true, minWidth: 60 },
-        { headerName: 'Diet Name', field: 'diet_name', wrapText: true, minWidth: 100 },
-        { headerName: 'Room Category', field: 'roomtype', wrapText: true, minWidth: 60 },
-        { headerName: 'Room/Bed No', field: 'roonno', wrapText: true, minWidth: 100 },
-        { headerName: 'Order rate', field: 'hossum', wrapText: true, minWidth: 100 },
-        { headerName: 'Extra Order Rate', field: 'extra', wrapText: true, minWidth: 100 },
-        { headerName: 'Total Rate', field: 'totalsum', wrapText: true, minWidth: 100 },
+        { headerName: 'Sl No ', field: 'slno', },
+        { headerName: 'Date', field: 'process_date', },
+        { headerName: 'Patient Id', field: 'pt_no', },
+        { headerName: 'Diet Name', field: 'diet_name', },
+        { headerName: 'Room Category', field: 'roomtype', },
+        { headerName: 'Room/Bed No', field: 'roonno', },
+        { headerName: 'Order rate', field: 'hossum', },
+        { headerName: 'Extra Order Rate', field: 'extraAmnt', },
+        { headerName: 'Total Rate', field: 'totalsum', },
     ])
 
     const cleardata = useCallback(() => {
@@ -100,25 +100,42 @@ const PatientWise = () => {
     }, [postdata, dispatch])
 
     useEffect(() => {
+        //adding extra field on total resultant array
         if ((total.length !== 0) && (extra.length !== 0)) {
             const newarrt = total && total.map((val) => {
-                return extra.map((value) => {
-                    const obj = {
-                        ...val, extra: value.process_date === val.process_date ? value.exhossum : 0
-                    }
-                    return obj
-                })
+                const a1 = extra.find((ele) => ele.proc_slno === val.proc_slno)
+                return {
+                    ...val, extraAmnt: a1?.exhossum ?? 0
+                }
             })
-            const newarry = newarrt.flat()
-            const ne = newarry.map((val) => {
+            // actual and extra amount are added and assign in aa field
+            const newhos = newarrt.map((val) => {
                 const obj = {
-                    ...val, totalsum: val.hossum + val.extra
-
+                    ...val, totalsum: val.hossum + val.extraAmnt
                 }
                 return obj
             })
-            setTableData(ne);
+            setTableData(newhos);
         }
+        else if ((total.length !== 0) && (extra.length === 0)) {
+            const newarrt2 = total && total.map((val) => {
+                const obj = {
+                    ...val, extraAmnt: 0
+                }
+                return obj
+            })
+            const newhos2 = newarrt2.map((val) => {
+                const obj = {
+                    ...val, totalsum: val.hossum + val.extraAmnt
+                }
+                return obj
+            })
+            setTableData(newhos2);
+
+        }
+
+
+
     }, [total, extra])
 
     const backToSetting = useCallback(() => {
