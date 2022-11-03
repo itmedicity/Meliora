@@ -9,6 +9,7 @@ import ComplaintDeptSelect from 'src/views/CommonSelectCode/ComplaintDeptSelect'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import ComplaintTypeTable from './ComplaintTypeTable'
+import { useSelector } from 'react-redux'
 const ComplaintTypeMast = () => {
     const history = useHistory();
     //for edit
@@ -16,7 +17,7 @@ const ComplaintTypeMast = () => {
     //state for table rendering
     const [count, setCount] = useState(0);
     //state for select box
-    const [value, setValue] = useState(0)
+    const [compdept, setCompdept] = useState(0)
     //intializing
     const [complainttype, SetType] = useState({
         complaint_type_name: '',
@@ -30,14 +31,19 @@ const ComplaintTypeMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         SetType({ ...complainttype, [e.target.name]: value })
     }, [complainttype])
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     //data for insert 
     const postdata = useMemo(() => {
         return {
             complaint_type_name: complaint_type_name,
-            complaint_dept_slno: value,
-            complaint_type_status: complaint_type_status === true ? 1 : 0
+            complaint_dept_slno: compdept,
+            complaint_type_status: complaint_type_status === true ? 1 : 0,
+            create_user: id,
         }
-    }, [complaint_type_name, complaint_type_status, value])
+    }, [complaint_type_name, complaint_type_status, compdept, id])
     //data set for edit
     const rowSelect = useCallback((params) => {
         setEdit(1);
@@ -49,20 +55,21 @@ const ComplaintTypeMast = () => {
             complaint_type_slno: complaint_type_slno
         }
         SetType(frmdata)
-        setValue(complaint_dept_slno)
+        setCompdept(complaint_dept_slno)
     }, [])
     //data for update
     const patchdata = useMemo(() => {
         return {
             complaint_type_name: complaint_type_name,
-            complaint_dept_slno: value,
+            complaint_dept_slno: compdept,
             complaint_type_status: complaint_type_status === true ? 1 : 0,
+            edit_user: id,
             complaint_type_slno: complaint_type_slno
         }
-    }, [complaint_type_name, complaint_type_status, value, complaint_type_slno])
+    }, [complaint_type_name, complaint_type_status, compdept, complaint_type_slno, id])
     //reset select box
     const reset = async () => {
-        setValue(0)
+        setCompdept(0)
     }
     /*** usecallback function for form submitting */
     const submitComplaintType = useCallback((e) => {
@@ -126,7 +133,7 @@ const ComplaintTypeMast = () => {
         }
         SetType(formreset);
         setEdit(0)
-        setValue(0)
+        setCompdept(0)
     }, [SetType])
     return (
         <CardMaster
@@ -150,7 +157,7 @@ const ComplaintTypeMast = () => {
                                 />
                             </Grid>
                             <Grid item xl={12} lg={12}>
-                                <ComplaintDeptSelect value={value} setValue={setValue} />
+                                <ComplaintDeptSelect value={compdept} setValue={setCompdept} />
                             </Grid>
                             <Grid item lg={2} xl={2}>
                                 <CusCheckBox

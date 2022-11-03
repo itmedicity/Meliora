@@ -9,6 +9,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect';
+import { useSelector } from 'react-redux'
 const ComplaintDeptMast = () => {
     //for routing to settings
     const history = useHistory();
@@ -30,14 +31,19 @@ const ComplaintDeptMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setComplaint({ ...complaint, [e.target.name]: value })
     }, [complaint])
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     //data for insert
     const postdata = useMemo(() => {
         return {
             complaint_dept_name: complaint_dept_name,
             department_slno: department,
-            complaint_dept_status: complaint_dept_status === true ? 1 : 0
+            complaint_dept_status: complaint_dept_status === true ? 1 : 0,
+            create_user: id
         }
-    }, [complaint_dept_name, complaint_dept_status, department])
+    }, [complaint_dept_name, complaint_dept_status, department, id])
     //data setting  for edit
     const rowSelect = useCallback((params) => {
         setEdit(1)
@@ -57,9 +63,10 @@ const ComplaintDeptMast = () => {
             complaint_dept_name: complaint_dept_name,
             department_slno: department,
             complaint_dept_status: complaint_dept_status === true ? 1 : 0,
+            edit_user: id,
             complaint_dept_slno: complaint_dept_slno
         }
-    }, [complaint_dept_name, complaint_dept_status, complaint_dept_slno, department])
+    }, [complaint_dept_name, complaint_dept_status, complaint_dept_slno, department, id])
     /*** usecallback function for form submitting */
     const submitComplaintdept = useCallback((e) => {
         e.preventDefault();
@@ -170,5 +177,4 @@ const ComplaintDeptMast = () => {
         </CardMaster>
     )
 }
-
 export default ComplaintDeptMast
