@@ -27,6 +27,9 @@ const DietApprovalList = () => {
     const [checkDis, setDisCheck] = useState(0)
     const [appro, setApprov] = useState(false)
     const [notappro, setNotApprov] = useState(false)
+    const [consulRequ, setConsulRequ] = useState(false)
+    const [consul, setCounsult] = useState(0)
+    const [counsultData, setCousultData] = useState([])
     const updateApprove = useCallback((e) => {
         if (e.target.checked === true) {
             setApprov(true)
@@ -47,12 +50,40 @@ const DietApprovalList = () => {
             setNotApprov(false)
         }
     }, [])
+    const updateConsult = useCallback((e) => {
+        if (e.target.checked === true) {
+            setConsulRequ(true)
+            setCounsult(1)
+        }
+        else {
+            setConsulRequ(false)
+            setCounsult(0)
+        }
+    }, [])
     //column title setting
     const [column] = useState([
         { headerName: "Patient  No", field: "pt_no" },
         { headerName: "Diet  No", field: "dietpt_slno" },
         { headerName: "Name", field: "ptc_ptname", filter: "true", },
         { headerName: "Bed", field: "bdc_no" },
+        { headerName: "Diet", field: "diet_name" },
+        { headerName: "Remarks", field: "plan_remark" },
+        { headerName: "Diet Approval", field: "plan status", filter: "true", },
+        {
+            headerName: "Diet Approval", cellRenderer: params => <IconButton
+                sx={{ color: editicon, paddingY: 0.5 }}
+                onClick={() => dietApproval(params)}>
+                <CheckCircleOutlineIcon />
+            </IconButton>
+        }
+    ])
+
+    const [columns] = useState([
+        { headerName: "Patient  No", field: "pt_no" },
+        { headerName: "Diet  No", field: "dietpt_slno" },
+        { headerName: "Name", field: "ptc_ptname", filter: "true", },
+        { headerName: "Bed", field: "bdc_no" },
+        { headerName: "Nursing Station", field: "nsc_desc" },
         { headerName: "Diet", field: "diet_name" },
         { headerName: "Remarks", field: "plan_remark" },
         { headerName: "Diet Approval", field: "plan status", filter: "true", },
@@ -76,6 +107,25 @@ const DietApprovalList = () => {
         setApproval(1);
         setOpen(true)
     }
+
+    useEffect(() => {
+        if (consul === 1) {
+            const counstrequired = async () => {
+                const result = await axioslogin.get('/dietplan/consult/approvsl/pending')
+                const { success, data } = result.data;
+                if (success === 1) {
+                    setCousultData(data)
+                }
+                else if (success === 2) {
+                    setCousultData([])
+                    infoNotify("No Ptient under approval pending")
+                }
+            }
+            counstrequired()
+        }
+
+    }, [consul, count])
+
     // geting diet planned patient details
     useEffect(() => {
         const getPatientList = async () => {
@@ -149,10 +199,21 @@ const DietApprovalList = () => {
                             justifyContent: 'center',
                             flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                         }}>
-                            <Box sx={{ width: "25%", pr: 1, mt: 1 }}                            >
-                                <Paper >
-                                    <NursingStationMeliSelect value={nurse} setValue={setNurse} />
-                                </Paper>
+                            <Box sx={{ width: "25%", pr: 1, mt: 1 }}>
+                                <NursingStationMeliSelect value={nurse} setValue={setNurse} />
+
+                            </Box>
+                            <Box sx={{ width: "25%", pr: 1, mt: 1 }}>
+                                <CusCheckBox
+                                    label="Consultation Required"
+                                    color="primary"
+                                    size="md"
+                                    name="consulRequ"
+                                    value={consulRequ}
+                                    checked={consulRequ}
+                                    onCheked={updateConsult}
+                                />
+
                             </Box>
                         </Box>
                     </Paper>
@@ -204,6 +265,22 @@ const DietApprovalList = () => {
                         </Paper>
                     </Box>
                     : null
+                }
+                {
+                    consul === 1 ?
+                        <Box sx={{ width: "100%", pl: 1, pt: 1, pr: 1, pb: 1 }}>
+                            <Paper square elevation={3} sx={{
+                                pl: 1, pt: 1, pr: 1, pb: 1
+                            }}>
+                                <CusAgGridMast
+                                    columnDefs={columns}
+                                    tableData={counsultData}
+                                />
+                                {
+                                    approval === 1 ? <DietApprovalModel open={open} setOpen={setOpen} data={approvaldata} count={count} setCount={setCount} /> : null
+                                }
+                            </Paper>
+                        </Box> : null
                 }
             </CardCloseOnly>
         </Fragment >
