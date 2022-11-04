@@ -27,3 +27,23 @@ export const getempid = async () => {
         return serial_current.serial_current
     }
 }
+
+//get department id
+export const getDepartmentId = async () => {
+    const result = await axioslogin.get('/deptmaster/deptid')
+    const { success } = result.data
+    if (success === 1) {
+        const [serial_current] = result.data.data
+        return serial_current.serial_current
+    }
+}
+//get department section id
+export const getDepartmentsectionId = async () => {
+    const result = await axioslogin.get('/deptsecmaster/deptsecid/id')
+    const { success, data } = result.data
+    if (success === 1) {
+        const { serial_current } = data[0]
+        return serial_current;
+    }
+}
+

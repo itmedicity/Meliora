@@ -1,5 +1,5 @@
 import { Box } from '@mui/system'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -9,6 +9,7 @@ import DepartmentMastTable from './DepartmentMastTable'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
+import { getDepartmentId } from 'src/views/Constant/Constant'
 const DepartmentMast = () => {
     //for routing
     const history = useHistory();
@@ -16,6 +17,8 @@ const DepartmentMast = () => {
     const [count, setCount] = useState(0);
     //state for edit
     const [value, setValue] = useState(0)
+
+    const [departmentId, setDepartmentId] = useState(0)
     // Get login user emp_id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -33,15 +36,21 @@ const DepartmentMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setDepartment({ ...department, [e.target.name]: value })
     }, [department])
+    useEffect(() => {
+        getDepartmentId().then((val) => {
+            setDepartmentId(val)
+        })
+    }, [count])
     //data for insert
     const postdata = useMemo(() => {
         return {
+            dept_id: departmentId,
             dept_name: dept_name,
             dept_alias: dept_alias,
             dept_status: dept_status === true ? 1 : 0,
             create_user: id
         }
-    }, [dept_name, dept_alias, dept_status, id])
+    }, [dept_name, dept_alias, dept_status, id, departmentId])
     //edit data setting on textfields
     const rowSelect = useCallback((params) => {
         setValue(1)
@@ -61,7 +70,7 @@ const DepartmentMast = () => {
             dept_name: dept_name,
             dept_alias: dept_alias,
             dept_status: dept_status === true ? 1 : 0,
-            create_user: id,
+            edit_user: id,
             dept_id: dept_id
         }
     }, [dept_name, dept_alias, dept_status, dept_id, id])
