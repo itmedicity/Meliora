@@ -9,8 +9,8 @@ const ComplaintTypeTable = ({ count, rowSelect }) => {
     //column title setting
     const [column] = useState([
         { headerName: "SlNo", field: "complaint_type_slno" },
-        { headerName: "Department Name", field: "complaint_type_name" },
-        { headerName: " Complaint Department Name", field: "complaint_dept_name" },
+        { headerName: "Department Name", field: "complaint_type_name", filter: "true" },
+        { headerName: " Complaint Department", field: "complaint_dept_name", filter: "true" },
         { headerName: "Status", field: "status" },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])

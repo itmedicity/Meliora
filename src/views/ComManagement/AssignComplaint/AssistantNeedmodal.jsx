@@ -61,6 +61,7 @@ const AssistantNeedmodal = ({ open, setOpen, assistant, empdept, count, setCount
     const reset = useCallback(() => {
         setOpen(false)
         setAssistemp(0)
+        setAssist(false)
     }, [setOpen])
     //assitant need function inserting to db
     const Assistent = useCallback(() => {

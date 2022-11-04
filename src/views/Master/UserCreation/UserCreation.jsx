@@ -53,7 +53,7 @@ const UserCreation = () => {
             const empid = val
             setemId(empid)
         })
-    }, [])
+    }, [count])
 
     // Get login user emp_id
     const id = useSelector((state) => {

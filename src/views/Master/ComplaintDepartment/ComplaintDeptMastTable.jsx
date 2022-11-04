@@ -9,8 +9,8 @@ const ComplaintDeptMastTable = ({ count, rowSelect }) => {
     //column title setting
     const [column] = useState([
         { headerName: "SlNo", field: "complaint_dept_slno" },
-        { headerName: "Complaint Department Name", field: "complaint_dept_name" },
-        { headerName: "Department Name", field: "dept_name" },
+        { headerName: "Complaint Department", field: "complaint_dept_name", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+        { headerName: "Department Name", field: "dept_name", autoHeight: true, wrapText: true, width: 250, filter: "true" },
         { headerName: "Status", field: "status" },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])

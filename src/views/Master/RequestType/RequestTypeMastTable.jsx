@@ -9,7 +9,7 @@ const RequestTypeMastTable = ({ count, rowSelect }) => {
     //column title name setting
     const [column] = useState([
         { headerName: "SlNo", field: "req_type_slno" },
-        { headerName: "Request Type Name", field: "req_type_name" },
+        { headerName: "Request Type Name", field: "req_type_name", filter: "true" },
         { headerName: "Status", field: "status" },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])

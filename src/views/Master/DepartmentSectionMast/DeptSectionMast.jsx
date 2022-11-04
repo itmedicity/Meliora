@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import CardMaster from 'src/views/Components/CardMaster'
 import { Grid } from '@mui/material'
@@ -11,6 +11,7 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import SelectOraOutlet from 'src/views/CommonSelectCode/SelectOraOutlet'
 import { useSelector } from 'react-redux'
+import { getDepartmentsectionId } from 'src/views/Constant/Constant'
 const DeptSectionMast = () => {
     const history = useHistory();
     //state for table rendering
@@ -53,6 +54,12 @@ const DeptSectionMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setsecStatus(value)
     }, [])
+    const [departmentsectionId, setDeptsectionId] = useState(0);
+    useEffect(() => {
+        getDepartmentsectionId().then((val) => {
+            setDeptsectionId(val)
+        })
+    }, [count])
     // Get login user emp_id
     const loginid = useSelector((state) => {
         return state.LoginUserData.empid
@@ -60,6 +67,7 @@ const DeptSectionMast = () => {
     //general-1,ot-2,icu-3,er-4
     const postdata = useMemo(() => {
         return {
+            sec_id: departmentsectionId,
             sec_name: secname,
             dept_id: department,
             dept_sub_sect: general === true ? 1 : ot === true ? 2 : icu === true ? 3 : er === true ? 4 : 0,
@@ -67,7 +75,7 @@ const DeptSectionMast = () => {
             create_user: loginid,
             ou_code: outlet !== 0 ? outlet : null
         }
-    }, [secname, department, secstatus, general, ot, icu, er, outlet, loginid])
+    }, [secname, department, secstatus, general, ot, icu, er, outlet, loginid, departmentsectionId])
     const patchdata = useMemo(() => {
         return {
             sec_name: secname,
