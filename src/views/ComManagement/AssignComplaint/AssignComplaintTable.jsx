@@ -142,7 +142,6 @@ const AssignComplaintTable = () => {
         },
         { headerName: "Date & Time", field: "assigned_date", autoHeight: true, wrapText: true, width: 200 },
         { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, wrapText: true }
-
     ])
     //When we click on assist this table  will show
     const [assitantaccept] = useState([
@@ -153,9 +152,8 @@ const AssignComplaintTable = () => {
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, width: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
         { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
-        { headerName: "Employee Name", field: "em_name", autoHeight: true, wrapText: true },
-        { headerName: "Date", field: "date", autoHeight: true, wrapText: true },
-        { headerName: "Time", field: "Time", autoHeight: true, wrapText: true },
+        { headerName: "Requested Employee", field: "em_name", autoHeight: true, wrapText: true, width: 250 },
+        { headerName: "Date & Time", field: "assist_assign_date", autoHeight: true, wrapText: true },
         {
             headerName: 'Assisted',
             cellRenderer: params => {
@@ -324,7 +322,7 @@ const AssignComplaintTable = () => {
     const AssistantAccepted = useCallback((params) => {
         const { complaint_slno, } = params.data
         const postData = {
-            assist_assign_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+            assigned_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             assist_receive: 1,
             complaint_slno: complaint_slno,
             assigned_emp: id
