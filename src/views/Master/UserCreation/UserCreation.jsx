@@ -19,6 +19,8 @@ import { format } from 'date-fns'
 import { useSelector } from 'react-redux'
 import CustomeToolTip from '../../Components/CustomeToolTip';
 import CardMaster from 'src/views/Components/CardMaster'
+import ModuleGroupSelect from 'src/views/CommonSelectCode/ModuleGroupSelect'
+import UserGroupSelect from 'src/views/CommonSelectCode/UserGroupSelect'
 const UserCreation = () => {
     //*** Initializing */
     const history = useHistory();
@@ -34,16 +36,19 @@ const UserCreation = () => {
     //state for table render
     const [count, setCount] = useState(0);
     const [value, setValue] = useState(0)
+    const [modulegroup, setmodulegroup] = useState(0)
+    const [usergroup, setUsergroup] = useState(0)
     const [userdata, setUserdata] = useState({
         em_name: '',
         em_no: '',
         em_mobile: '',
         em_email: '',
         em_status: false,
+        mod_grp_user_slno: ''
     })
 
     //Destructuring
-    const { em_name, em_no, em_mobile, em_email, em_status } = userdata
+    const { em_name, em_no, em_mobile, em_email, em_status, mod_grp_user_slno } = userdata
     const updateUserCreation = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setUserdata({ ...userdata, [e.target.name]: value })
@@ -72,14 +77,18 @@ const UserCreation = () => {
         setemId(0)
         const data = params.api.getSelectedRows();
         const { em_id, em_no, em_name, em_salutation, em_gender, em_dob, em_doj, em_mobile, em_email, em_branch,
-            em_department, em_dept_section, em_designation, em_status } = data[0]
+            em_department, em_dept_section, em_designation, em_status, mod_grp_slno, user_group_slno,
+            mod_grp_user_slno } = data[0]
         const frmdata = {
             em_name: em_name,
             em_no: em_no,
             em_mobile: em_mobile,
             em_email: em_email,
+            mod_grp_user_slno: mod_grp_user_slno,
             em_status: em_status === 1 ? true : false
         }
+        setmodulegroup(mod_grp_slno)
+        setUsergroup(user_group_slno)
         setUserdata(frmdata)
         setemId(em_id)
         setSalut(em_salutation)
@@ -112,10 +121,16 @@ const UserCreation = () => {
             emp_username: em_no,
             emp_password: em_no,
             emp_email: em_email,
+            mod_grp_slno: modulegroup,
+            user_group_slno: usergroup,
+            mod_grp_user_status: em_status === true ? 1 : 0,
+            emp_slno: em_id,
+            dept_slno: dept,
+            deptsec_slno: deptsec,
             emp_status: em_status === true ? 1 : 0,
             create_user: id
         }
-    }, [em_id, em_no, salut, em_name, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
+    }, [em_id, em_no, salut, em_name, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
 
     //Update data
     const patchdata = useMemo(() => {
@@ -139,9 +154,16 @@ const UserCreation = () => {
             emp_password: em_no,
             emp_email: em_email,
             emp_status: em_status === true ? 1 : 0,
+            mod_grp_slno: modulegroup,
+            user_group_slno: usergroup,
+            mod_grp_user_status: em_status === true ? 1 : 0,
+            emp_slno: em_id,
+            dept_slno: dept,
+            deptsec_slno: deptsec,
+            mod_grp_user_slno: mod_grp_user_slno,
             edit_user: id
         }
-    }, [em_id, em_no, salut, em_name, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
+    }, [em_id, em_no, salut, em_name, mod_grp_user_slno, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
 
     const submitUserCreation = useCallback((e) => {
         e.preventDefault();
@@ -151,6 +173,7 @@ const UserCreation = () => {
             em_mobile: '',
             em_email: '',
             em_status: false,
+            mod_grp_user_slno: ''
         }
         /***    * insert function for use call back   */
         const InsertFun = async (postdata) => {
@@ -166,6 +189,8 @@ const UserCreation = () => {
                 setDeptsec(0)
                 setBranch(0)
                 setDesignation(0)
+                setmodulegroup(0)
+                setUsergroup(0)
                 setCount(0)
                 setdob(new Date())
                 setdoj(new Date())
@@ -189,6 +214,8 @@ const UserCreation = () => {
                 setDeptsec(0)
                 setBranch(0)
                 setDesignation(0)
+                setmodulegroup(0)
+                setUsergroup(0)
                 setCount(0)
                 setdob(new Date())
                 setdoj(new Date())
@@ -380,7 +407,7 @@ const UserCreation = () => {
                             </Box>
                         </CustomeToolTip>
                         <CustomeToolTip title="Department Section " placement="top-start">
-                            <Box sx={{ width: "20%", pr: 1 }}>
+                            <Box sx={{ width: "20%", pr: 1, mt: 1 }}>
                                 <DeptSecUnderDept value={deptsec} setValue={setDeptsec} dept={dept} />
                             </Box>
                         </CustomeToolTip>
@@ -396,15 +423,27 @@ const UserCreation = () => {
                         display: "flex",
                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                     }}>
-                        <CusCheckBox
-                            label="Status"
-                            color="primary"
-                            size="md"
-                            name="em_status"
-                            value={em_status}
-                            checked={em_status}
-                            onCheked={updateUserCreation}
-                        />
+                        <CustomeToolTip title="Designation" placement="top-start">
+                            <Box sx={{ width: "20%", pr: 1, pt: 1 }}>
+                                <ModuleGroupSelect value={modulegroup} setValue={setmodulegroup} />
+                            </Box>
+                        </CustomeToolTip>
+                        <CustomeToolTip title="Designation" placement="top-start">
+                            <Box sx={{ width: "20%", pr: 1, pt: 1 }}>
+                                <UserGroupSelect value={usergroup} setValue={setUsergroup} />
+                            </Box>
+                        </CustomeToolTip>
+                        <Box sx={{ width: "20%", pr: 1, pt: 1 }}>
+                            <CusCheckBox
+                                label="Status"
+                                color="primary"
+                                size="md"
+                                name="em_status"
+                                value={em_status}
+                                checked={em_status}
+                                onCheked={updateUserCreation}
+                            />
+                        </Box>
                     </Box>
                 </Paper>
             </Box >
