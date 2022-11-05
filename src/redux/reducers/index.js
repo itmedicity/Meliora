@@ -42,6 +42,7 @@ import { getAssignedComplaintLists } from '../reducers/AssignedcmLists.Reducer'
 import { getAssistComplaintLists } from '../reducers/AssistcmLists.Reducer'
 import { getAllComplaintLists } from '../reducers/AllcomplaintsLists.Reducer'
 import { getComplaintRights } from '../reducers/CmpRightsDashboard.Reducer'
+import { getDepartSecemployee } from '../reducers/EmpNameDeptSec.Reducer'
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -85,6 +86,7 @@ const reducer = combineReducers({
     getAssignedComplaintLists,
     getAssistComplaintLists,
     getAllComplaintLists,
-    getComplaintRights
+    getComplaintRights,
+    getDepartSecemployee
 })
 export default reducer;

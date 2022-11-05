@@ -1,6 +1,5 @@
 import { Box, Grid } from '@mui/material'
 import React, { useCallback, useMemo, useState } from 'react'
-import EmpNameSelect from 'src/views/CommonSelectCode/EmpNameSelect'
 import CardMaster from 'src/views/Components/CardMaster'
 import { useHistory } from 'react-router-dom'
 import ModuleGroupSelect from 'src/views/CommonSelectCode/ModuleGroupSelect'
@@ -10,9 +9,14 @@ import ModuleGroupRightTable from './ModuleGroupRightTable'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useSelector } from 'react-redux'
+import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect'
+import DeptSecUnderDept from 'src/views/CommonSelectCode/DeptSecUnderDept'
+import EmpNameDeptSecSelect from 'src/views/CommonSelectCode/EmpNameDeptSecSelect'
 const ModuleUserRight = () => {
     const history = useHistory();
     //Initializing
+    const [dept, setDept] = useState(0)
+    const [deptsec, setDeptsec] = useState(0)
     const [empname, setEmpname] = useState(0)
     const [modulegroup, setmodulegroup] = useState(0)
     const [usergroup, setUsergroup] = useState(0)
@@ -41,18 +45,23 @@ const ModuleUserRight = () => {
             mod_grp_slno: modulegroup,
             user_group_slno: usergroup,
             mod_grp_user_status: status === true ? 1 : 0,
+            dept_slno: dept,
+            deptsec_slno: deptsec,
             create_user: id
         }
-    }, [empname, modulegroup, usergroup, status, id])
+    }, [empname, modulegroup, usergroup, status, id, deptsec, dept])
     //data set for edit 
     const rowSelect = useCallback((params) => {
         setValue(1)
         const data = params.api.getSelectedRows();
-        const { mod_grp_user_slno, mod_grp_user_status, emp_slno, mod_grp_slno, user_group_slno } = data[0]
+        const { mod_grp_user_slno, mod_grp_user_status, emp_slno, mod_grp_slno, user_group_slno,
+            dept_slno, deptsec_slno } = data[0]
         const frmdata = {
             status: mod_grp_user_status === 'Yes' ? true : false,
             mod_grp_user_slno: mod_grp_user_slno
         }
+        setDept(dept_slno)
+        setDeptsec(deptsec_slno)
         setModRightStatus(frmdata)
         setEmpname(emp_slno)
         setmodulegroup(mod_grp_slno)
@@ -65,15 +74,19 @@ const ModuleUserRight = () => {
             mod_grp_slno: modulegroup,
             user_group_slno: usergroup,
             mod_grp_user_status: status === true ? 1 : 0,
+            dept_slno: dept,
+            deptsec_slno: deptsec,
             mod_grp_user_slno: mod_grp_user_slno
         }
-    }, [empname, modulegroup, usergroup, status, mod_grp_user_slno])
+    }, [empname, modulegroup, usergroup, status, mod_grp_user_slno, deptsec, dept])
     //Reset Function 
     const reset = () => {
         setEmpname(0)
         setmodulegroup(0)
         setUsergroup(0)
         setValue(0)
+        setDept(0)
+        setDeptsec(0)
     }
     /*** usecallback function for form submitting form */
     const submitModuleUserGroupRight = useCallback((e) => {
@@ -147,7 +160,13 @@ const ModuleUserRight = () => {
                     <Grid item xl={3} lg={3}  >
                         <Grid container spacing={1} sx={{ pb: 1 }}>
                             <Grid item xl={12} lg={12}  >
-                                <EmpNameSelect value={empname} setValue={setEmpname} />
+                                <DepartmentSelect value={dept} setValue={setDept} />
+                            </Grid>
+                            <Grid item xl={12} lg={12}  >
+                                <DeptSecUnderDept value={deptsec} setValue={setDeptsec} dept={dept} />
+                            </Grid>
+                            <Grid item xl={12} lg={12}  >
+                                <EmpNameDeptSecSelect value={empname} setValue={setEmpname} deptsec={deptsec} />
                             </Grid>
                             <Grid item xl={12} lg={12}  >
                                 <ModuleGroupSelect value={modulegroup} setValue={setmodulegroup} />
