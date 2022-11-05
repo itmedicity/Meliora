@@ -53,10 +53,11 @@ const AssistantNeedmodal = ({ open, setOpen, assistant, empdept, count, setCount
         return {
             complaint_slno: complaint_slno,
             assigned_emp: assistemp,  //assit employee
-            assigned_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'), //assist accepted time
-            assist_flag: assistuser === true ? 1 : 0
+            assist_assign_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'), //assist accepted time
+            assist_flag: assistuser === true ? 1 : 0,
+            assist_requested_emp: id
         }
-    }, [complaint_slno, assistemp, assistuser]);
+    }, [complaint_slno, assistemp, assistuser, id]);
     // reset states to intial
     const reset = useCallback(() => {
         setOpen(false)
