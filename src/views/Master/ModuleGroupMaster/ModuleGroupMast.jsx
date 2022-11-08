@@ -23,15 +23,17 @@ const ModuleGroupMast = () => {
         diet: false,
         feedback: false,
         nabh: false,
-        sfanfa: false,
+        settings: false,
         nurseStation: false,
+        sfanfa: false,
         reports: false,
-        mod_grp_slno: 0,
-        dashboard: false
+        dashboard: false,
+        mod_grp_slno: 0
+
     })
     /*** Destructuring */
     const { modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework,
-        diet, feedback, nabh, sfanfa, nurseStation, reports, mod_grp_slno, dashboard } = moduleGroup
+        diet, feedback, nabh, settings, sfanfa, nurseStation, reports, mod_grp_slno, dashboard } = moduleGroup
 
     /***Get values from the component */
     const updateModuleGroup = useCallback((e) => {
@@ -53,13 +55,14 @@ const ModuleGroupMast = () => {
                 module_diet: diet === true ? 7 : 0,
                 module_feedback: feedback === true ? 8 : 0,
                 module_nabh: nabh === true ? 9 : 0,
-                module_sfanfa: sfanfa === true ? 10 : 0,
+                module_settings: settings === true ? 10 : 0,
                 module_nursestation: nurseStation === true ? 11 : 0,
+                module_sfanfa: sfanfa === true ? 12 : 0,
                 module_reports: reports === true ? 13 : 0,
                 module_dashboard: dashboard === true ? 14 : 0
             }
         }
-    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework, diet, feedback, nabh, sfanfa, nurseStation, reports, dashboard])
+    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework, diet, feedback, settings, nabh, sfanfa, nurseStation, reports, dashboard])
 
     /*** data for  update to module_group_mast table */
     const patchdata = useMemo(() => {
@@ -75,14 +78,15 @@ const ModuleGroupMast = () => {
                 module_diet: diet === true ? 7 : 0,
                 module_feedback: feedback === true ? 8 : 0,
                 module_nabh: nabh === true ? 9 : 0,
-                module_sfanfa: sfanfa === true ? 10 : 0,
+                module_settings: settings === true ? 10 : 0,
                 module_nursestation: nurseStation === true ? 11 : 0,
+                module_sfanfa: sfanfa === true ? 12 : 0,
                 module_reports: reports === true ? 13 : 0,
                 module_dashboard: dashboard === true ? 14 : 0
             },
             mod_grp_slno: mod_grp_slno
         }
-    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework, diet, feedback, nabh, sfanfa, mod_grp_slno, nurseStation, reports, dashboard])
+    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework, diet, feedback, nabh, settings, sfanfa, mod_grp_slno, nurseStation, reports, dashboard])
     // data setting for edit
     const rowSelect = useCallback((data) => {
         setvalue(1)
@@ -102,6 +106,7 @@ const ModuleGroupMast = () => {
             sfanfa: module_status.module_sfanfa === 0 ? false : true,
             nurseStation: module_status.module_nursestation === 0 ? false : true,
             reports: module_status.module_reports === 0 ? false : true,
+            settings: module_status.module_settings === 0 ? false : true,
             mod_grp_slno: mod_grp_slno,
             dashboard: module_status.module_dashboard === 0 ? false : true
         }
@@ -121,6 +126,7 @@ const ModuleGroupMast = () => {
             diet: false,
             feedback: false,
             nabh: false,
+            settings: false,
             sfanfa: false,
             nurseStation: false,
             reports: false
@@ -182,6 +188,7 @@ const ModuleGroupMast = () => {
             feedback: false,
             nabh: false,
             sfanfa: false,
+            settings: false,
             nurseStation: false,
             reports: false,
             dashboard: false
@@ -310,6 +317,18 @@ const ModuleGroupMast = () => {
                                 </Grid>
                                 <Grid item xl={12} lg={12}>
                                     <CusCheckBox
+                                        label="Settings"
+                                        color="primary"
+                                        size="md"
+                                        name="settings"
+                                        variant="outlined"
+                                        value={settings}
+                                        checked={settings}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
                                         label="SFANFA"
                                         color="primary"
                                         size="md"
@@ -365,20 +384,6 @@ const ModuleGroupMast = () => {
                     </Grid>
                 </Grid>
             </Box>
-
-
-            {/* 
-               
-                       
-                        
-                           
-                        </Box>
-                    </Grid>
-                    <Grid item xl={8} lg={8}  >
-                        <ModuleGroupTable count={count} rowSelect={rowSelect} />
-                    </Grid>
-                </Grid>
-            </Box> */}
         </CardMaster >
     )
 }

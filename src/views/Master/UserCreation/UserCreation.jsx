@@ -25,14 +25,15 @@ const UserCreation = () => {
     //*** Initializing */
     const history = useHistory();
     const [em_id, setemId] = useState(0)
+    const [em_no, setemno] = useState('')
     const [salut, setSalut] = useState(0)
     const [dept, setDept] = useState(0)
     const [deptsec, setDeptsec] = useState(0)
     const [branch, setBranch] = useState(0)
     const [gender, setGender] = useState(0)
     const [designation, setDesignation] = useState(0)
-    const [dob, setdob] = useState(new Date())
-    const [doj, setdoj] = useState(new Date())
+    const [dob, setdob] = useState()
+    const [doj, setdoj] = useState()
     //state for table render
     const [count, setCount] = useState(0);
     const [value, setValue] = useState(0)
@@ -40,7 +41,6 @@ const UserCreation = () => {
     const [usergroup, setUsergroup] = useState(0)
     const [userdata, setUserdata] = useState({
         em_name: '',
-        em_no: '',
         em_mobile: '',
         em_email: '',
         em_status: false,
@@ -48,7 +48,7 @@ const UserCreation = () => {
     })
 
     //Destructuring
-    const { em_name, em_no, em_mobile, em_email, em_status, mod_grp_user_slno } = userdata
+    const { em_name, em_mobile, em_email, em_status, mod_grp_user_slno } = userdata
     const updateUserCreation = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setUserdata({ ...userdata, [e.target.name]: value })
@@ -57,6 +57,7 @@ const UserCreation = () => {
         getempid().then((val) => {
             const empid = val
             setemId(empid)
+            setemno(empid.toString())
         })
     }, [count])
 
@@ -314,9 +315,10 @@ const UserCreation = () => {
                                     placeholder="Employee No"
                                     type="text"
                                     size="sm"
+                                    disabled={true}
                                     name="em_no"
                                     value={em_no}
-                                    onchange={updateUserCreation}
+                                //onchange={updateUserCreation}
                                 />
                             </Box>
                         </CustomeToolTip>
