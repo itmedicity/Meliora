@@ -36,6 +36,7 @@ import { getNusringStationMeli } from './NurseStatnMeli.Reducer'
 import { getDepartemployee } from './Departwiseemployee.Reducer'
 import { getAssistantemployee } from './AssistantEmp.Reducer'
 import { changeStateAggrid } from '../reducers/StatechangeAgGrid';
+import { getAsignedstaffnurse } from '../reducers/Asignrdstaff.reducer';
 
 const reducer = combineReducers({
     changeState,
@@ -74,7 +75,8 @@ const reducer = combineReducers({
     getNusringStationMeli,
     getDepartemployee,
     getAssistantemployee,
-    changeStateAggrid
+    changeStateAggrid,
+    getAsignedstaffnurse
 
 })
 export default reducer;

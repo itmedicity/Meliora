@@ -6,16 +6,20 @@ import { infoNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color';
 import { Box, Paper } from '@mui/material'
-import CardMaster from '../Components/CardMaster';
-import { useHistory } from 'react-router-dom';
 import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect';
-import Patientsurvillence from './Patientsurvillence';
-import Button from '@mui/material/Button';
+import Patientsurvillence from './Patienntsurvillence/Patientsurvillence';
+import Dailyactivity from './DailyActivity/Dailyactivity';
+import PatientIntraction from './PatirntIntraction/PatientIntraction';
+import { Tooltip } from '@material-ui/core';
+import NaturePeopleSharpIcon from '@mui/icons-material/NaturePeopleSharp';
+import CoPresentTwoToneIcon from '@mui/icons-material/CoPresentTwoTone';
+import DifferenceTwoToneIcon from '@mui/icons-material/DifferenceTwoTone';
+import { Card, CardContent, ThemeProvider } from '@mui/material';
+import CustomCardHeaderOne from '../Components/CustomCardHeaderOne';
+import theme from '../Components/MuiTheme';
 
-
-const InPatientList = () => {
-    const [aa, setaa] = useState(0)
-    const history = useHistory();
+const InPatientList = ({ close, refresh, submit }) => {
+    const [flag, setflag] = useState(0)
     const [tabledata, setTabledata] = useState([])
     const [nurse, setNurse] = useState(0);
     const [table, setTable] = useState(0);
@@ -26,9 +30,9 @@ const InPatientList = () => {
     const [doa, setdoa] = useState(0)
     const [docname, setdocname] = useState(0)
     const [rmno, setrmno] = useState(0)
-
     const [mf, setmf] = useState(0)
-
+    const [checkIcon, setcheckIcon] = useState(0)
+    const [bedcode, setbedcode] = useState([])
 
 
     const [column] = useState([
@@ -49,21 +53,10 @@ const InPatientList = () => {
         }
     ])
 
-    // const yy = {
-    //     ip_no: ipno,
-    //     pt_no: ptno,
-    //     ptc_ptname: name,
-    //     DOA: doa,
-    //     doc_name: docname,
-    //     rmc_desc: rmno,
-    //     age: age,
-    //     DOD: dod,
-    //     ptc_sex: mf
-    // }
     const gotoform = useCallback((params) => {
-        setaa(1)
+        setflag(1)
         const dataa = params.api.getSelectedRows()
-        const { ip_no, pt_no, ptc_ptname, doc_name, DOA, rmc_desc, age, ptc_sex } = dataa[0]
+        const { ip_no, pt_no, ptc_ptname, doc_name, DOA, rmc_desc, age, ptc_sex, bd_code } = dataa[0]
         setname(ptc_ptname)
         setipno(ip_no)
         setptno(pt_no)
@@ -73,9 +66,9 @@ const InPatientList = () => {
         setage(age)
         // setdod(DOD)
         setmf(ptc_sex)
+        setbedcode(bd_code)
 
     }, [])
-
 
     useEffect(() => {
         const getPatientList = async () => {
@@ -99,111 +92,124 @@ const InPatientList = () => {
 
     //close button function
     const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
-    }, [history])
+        console.log("close");
+        setflag(0)
+    }, [])
 
 
-    const [cc, setcc] = useState(0)
     const patient = (e) => {
-
-        setcc(1)
-
+        setcheckIcon(1)
     }
 
     const Activity = (e) => {
-
-        setcc(2)
-
+        setcheckIcon(2)
     }
 
     const Interaction = (e) => {
-
-        setcc(3)
-
+        setcheckIcon(3)
     }
+
+    const submited = useCallback((insertdata) => {
+        const insert = (insertdata) => {
+
+        }
+        if ((checkIcon === 1) || (checkIcon === 0)) {
+
+            insert(insertdata)
+        }
+    }, [checkIcon])
 
 
     return (
         <Fragment>
-            <CardMaster
-                title="In Patient List"
-                close={backtoSetting}
-            >
-                {
-                    aa === 0 ?
-                        <Box sx={{ width: "100%", pl: 1, pt: 1, pr: 1, pb: 1 }}>
-                            <Paper square elevation={3} sx={{
-                                pl: 1, pt: 1, pr: 1, pb: 1
-                            }}>
+            <ThemeProvider theme={theme} >
+                <Card sx={{ borderRadius: 0, boxShadow: 1 }}>
+                    <CustomCardHeaderOne
+                        title="In Pateint List"
+                        onClickClose={backtoSetting}
+                        cardStyle={{}}
+                    />
+                    <CardContent sx={{ p: 0 }} >
+
+                        {
+                            flag === 0 ?
+                                <Box sx={{ width: "100%", pl: 1, pt: 1, pr: 1, pb: 1 }}>
+                                    <Paper square elevation={3} sx={{
+                                        pl: 1, pt: 1, pr: 1, pb: 1
+                                    }}>
+                                        <Box sx={{
+                                            width: "100%",
+                                            pl: 1, pt: 0.5, pr: 1, pb: 0.5,
+                                            display: "flex",
+                                            justifyContent: 'center',
+                                            flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                                        }}>
+                                            <Box sx={{ width: { xl: "25%", lg: "25%", md: "30%", sm: "40%" }, pr: 1, mt: 1 }}                            >
+                                                <Paper >
+                                                    <NursingStationMeliSelect value={nurse} setValue={setNurse} />
+                                                </Paper>
+                                            </Box>
+                                        </Box>
+                                    </Paper>
+                                    <Box sx={{ mt: 1, width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" } }}>
+                                        {
+                                            table === 1 ? <CusAgGridMast
+                                                columnDefs={column}
+                                                tableData={tabledata}
+                                            /> : null
+                                        }
+                                    </Box>
+
+                                </Box>
+                                :
                                 <Box sx={{
-                                    width: "100%",
-                                    pl: 1, pt: 0.5, pr: 1, pb: 0.5,
-                                    display: "flex",
-                                    justifyContent: 'center',
+                                    pt: 1,
                                     flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+
                                 }}>
-                                    <Box sx={{ width: "25%", pr: 1, mt: 1 }}                            >
-                                        <Paper >
-                                            <NursingStationMeliSelect value={nurse} setValue={setNurse} />
-                                        </Paper>
+                                    <Box sx={{
+                                        display: "flex",
+                                        width: "100%",
+                                        alignContent: "center",
+                                        justifyContent: "right"
+                                    }}>
+                                        <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "5%", sm: "5%" } }}>
+                                            <Tooltip title="Patient Survillance" >
+                                                <CoPresentTwoToneIcon onClick={patient} variant="contained" size="small" color="primary"></CoPresentTwoToneIcon>
+                                            </Tooltip>
+                                        </Box>
+                                        <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "5%", sm: "5%" } }}>
+                                            <Tooltip title="Dialy Activity" >
+                                                <NaturePeopleSharpIcon onClick={Activity} variant="contained" size="small" color="primary"></NaturePeopleSharpIcon>
+                                            </Tooltip>
+                                        </Box>
+                                        <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "5%", sm: "5%" } }}>
+                                            <Tooltip title="Interaction" >
+                                                <DifferenceTwoToneIcon onClick={Interaction} variant="contained" size="small" color="primary"></DifferenceTwoToneIcon>
+                                            </Tooltip>
+                                        </Box>
+                                    </Box>
+                                    <Box>
+                                        {
+                                            checkIcon === 2 ?
+                                                <Dailyactivity ipno={ipno} />
+
+                                                :
+                                                checkIcon === 3 ?
+                                                    <PatientIntraction ipno={ipno} doa={doa} />
+                                                    :
+                                                    <Patientsurvillence
+                                                        ipno={ipno} ptno={ptno} name={name} doa={doa} docname={docname}
+                                                        age={age} mf={mf} rmno={rmno} submited={submited} bedcode={bedcode} />
+
+                                        }
                                     </Box>
                                 </Box>
-                            </Paper>
-                            <Box sx={{ mt: 1 }}>
-                                {
-                                    table === 1 ? <CusAgGridMast
-                                        columnDefs={column}
-                                        tableData={tabledata}
-                                    /> : null
-                                }
-                            </Box>
+                        }
+                    </CardContent>
 
-                        </Box>
-                        :
-
-
-                        <Box sx={{
-                            px: 1, pt: 1,
-                            flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-
-                        }}>
-                            <Box sx={{
-                                display: "flex",
-                                width: "100%",
-                                alignContent: "center",
-
-                                // justifyContent: "space-evenly"
-                                justifyContent: "right"
-                            }}>
-                                <Box sx={{ dispaly: "flex", width: { xl: '13%', lg: "20%", md: "20%", sm: "25%" } }}>
-                                    <Button onClick={patient} variant="contained" size="small" color="primary">Patient Survillance</Button>
-                                </Box>
-                                <Box sx={{ dispaly: "flex", width: { xl: '10%', lg: "20%", md: "15%", sm: "19%" } }}>
-                                    <Button onClick={Activity} variant="contained" size="small" color="primary">Dialy Activity</Button>
-                                </Box>
-                                <Box sx={{ dispaly: "flex", width: { xl: '13%', lg: "20%", md: "15%", sm: "20%" } }}>
-                                    <Button onClick={Interaction} variant="contained" size="small" color="primary">Interaction</Button>
-                                </Box>
-                                {/* <Patientsurvillence
-                                    ipno={ipno} ptno={ptno} name={name} doa={doa} docname={docname}
-                                    age={age} mf={mf} rmno={rmno} /> */}
-                            </Box>
-
-
-
-                            <Box>
-                                {
-                                    cc === 1 ? <Patientsurvillence
-                                        ipno={ipno} ptno={ptno} name={name} doa={doa} docname={docname}
-                                        age={age} mf={mf} rmno={rmno} /> : null
-
-
-                                    // <Dailyactivity />
-                                }
-                            </Box>
-                        </Box>
-                }
-            </CardMaster >
+                </Card>
+            </ThemeProvider>
         </Fragment >
     )
 }
