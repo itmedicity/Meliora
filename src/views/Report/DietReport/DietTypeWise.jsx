@@ -36,21 +36,14 @@ const DietTypeWise = () => {
     ])
 
     const [columnDefMain] = useState([
-        {
-            headerName: '#',
-            filterParams: {
-                buttons: ['reset', 'apply'],
-                debounceMs: 200,
-            },
-            width: 30,
-        },
-        { headerName: 'Sl No ', field: 'slno', wrapText: true, minWidth: 1 },
-        { headerName: 'Room No', field: 'rmc_desc', wrapText: true, minWidth: 100 },
-        { headerName: 'Admission Date ', field: 'ipd_date', wrapText: true, minWidth: 20 },
-        { headerName: 'IP No', field: 'ip_no', wrapText: true, minWidth: 60 },
-        { headerName: 'Patient Id ', field: 'pt_no', wrapText: true, minWidth: 60 },
-        { headerName: 'Patient Name ', field: 'ptc_ptname', wrapText: true, minWidth: 150 },
-        { headerName: 'Diet Name', field: 'diet_name', wrapText: true, minWidth: 100 },
+        { headerName: 'Sl No ', field: 'slno' },
+        { headerName: 'Room No', field: 'rmc_desc' },
+        { headerName: 'Admission Date ', field: 'ipd_date' },
+        { headerName: 'IP No', field: 'ip_no' },
+        { headerName: 'Patient Id ', field: 'pt_no' },
+        { headerName: 'Patient Name ', field: 'ptc_ptname' },
+        { headerName: 'Diet Name', field: 'diet_name' },
+        { headerName: 'Remarks', field: 'plan_remark', wrapText: true },
         { headerName: 'Breakfast', minWidth: 100 },
         { headerName: 'Lunch', minWidth: 100 },
         { headerName: 'Dinner', minWidth: 100 },
@@ -89,6 +82,9 @@ const DietTypeWise = () => {
             const { success, data } = result.data;
             if (success === 1) {
                 setTableData(data)
+            } else {
+                warningNotify("No Patient Under Slelected Diet ")
+                setTableData([])
             }
         }
         if (dietslno.length !== 0) {

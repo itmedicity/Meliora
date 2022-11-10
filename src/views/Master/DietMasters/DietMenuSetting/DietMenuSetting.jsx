@@ -72,6 +72,7 @@ const DietMenuSetting = () => {
         setDietmenu(formReset)
         reset()
     }, [])
+
     //Click add button data store in an array and then insert to dmenu setting detail table
     const AddMenu = () => {
         if ((diet !== 0) && (group !== 0) && (item !== 0) && (type !== 0) && (day !== 0)) {
@@ -97,7 +98,7 @@ const DietMenuSetting = () => {
             }
             const datass = [...dataPost, newdata]
             if (dataPost.length !== 0) {
-                if ((dataPost[0].diet_slno === diet) && (dataPost[0].order_req === newdata.order_req) && (dataPost[0].status === 1)) {
+                if ((dataPost[0].diet_slno === diet) && (dataPost[0].order_req === newdata.order_req) && (dataPost[0].status === newdata.status)) {
                     setdataPost(datass)
                 }
                 else {
@@ -235,7 +236,6 @@ const DietMenuSetting = () => {
                                                 setDay(e.target.value)
                                                 setDayName(props.children)
                                             }}
-                                            //onChange={(e) => setDay(e.target.value)}
                                             size="small"
                                             fullWidth
                                             variant='outlined'

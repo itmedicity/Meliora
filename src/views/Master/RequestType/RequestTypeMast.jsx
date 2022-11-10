@@ -8,6 +8,7 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import RequestTypeMastTable from './RequestTypeMastTable'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { useSelector } from 'react-redux'
 const RequestTypeMast = () => {
     //for routing
     const history = useHistory();
@@ -27,13 +28,18 @@ const RequestTypeMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setRequest({ ...request, [e.target.name]: value })
     }, [request])
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     //data for insert
     const postdata = useMemo(() => {
         return {
             req_type_name: req_type_name,
-            req_type_status: req_type_status === true ? 1 : 0
+            req_type_status: req_type_status === true ? 1 : 0,
+            create_user: id
         }
-    }, [req_type_name, req_type_status])
+    }, [req_type_name, req_type_status, id])
     //data set for edit 
     const rowSelect = useCallback((params) => {
         setEdit(1);
@@ -51,9 +57,10 @@ const RequestTypeMast = () => {
         return {
             req_type_name: req_type_name,
             req_type_status: req_type_status === true ? 1 : 0,
+            edit_user: id,
             req_type_slno: req_type_slno
         }
-    }, [req_type_name, req_type_status, req_type_slno])
+    }, [req_type_name, req_type_status, req_type_slno, id])
     /*** usecallback function for form submitting */
     const submitRequestType = useCallback((e) => {
         e.preventDefault();

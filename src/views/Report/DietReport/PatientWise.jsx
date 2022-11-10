@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useRef } from 'react'
+import React, { useCallback, useMemo, useState, useRef, useEffect } from 'react'
 import { Paper, Typography, Box } from '@mui/material';
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import { useHistory } from 'react-router-dom';
@@ -12,12 +12,17 @@ import CustomeToolTip from '../../Components/CustomeToolTip'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css'
-import { useSelector } from 'react-redux'
+import { ActionTyps } from 'src/redux/constants/action.type'
+import { useDispatch, useSelector } from 'react-redux';
+import { warningNotify } from '../../Common/CommonCode';
 
 
 const PatientWise = () => {
+    const dispatch = useDispatch();
     const history = useHistory();
     const [TableData, setTableData] = useState([]);
+    const [total, setTotal] = useState([]);
+    const [extra, setExtra] = useState([]);
     const [ptname, setPtname] = useState({
         pname: '',
         start_date: new Date(),
@@ -32,21 +37,15 @@ const PatientWise = () => {
     }, [ptname])
 
     const [columnDefForTable] = useState([
-        {
-            headerName: '#',
-            filterParams: {
-                buttons: ['reset', 'apply'],
-                debounceMs: 200,
-            },
-            width: 30,
-        },
-        { headerName: 'Sl No ', field: 'slno', wrapText: true, minWidth: 1 },
-        { headerName: 'Date', field: 'process_date', wrapText: true, minWidth: 100 },
-        { headerName: 'Patient Id', field: 'pt_no', wrapText: true, minWidth: 60 },
-        { headerName: 'Diet Name', field: 'diet_name', wrapText: true, minWidth: 100 },
-        { headerName: 'Breakfast', minWidth: 100 },
-        { headerName: 'Lunch', minWidth: 100 },
-        { headerName: 'Dinner', minWidth: 100 },
+        { headerName: 'Sl No ', field: 'slno', },
+        { headerName: 'Date', field: 'process_date', },
+        { headerName: 'Patient Id', field: 'pt_no', },
+        { headerName: 'Diet Name', field: 'diet_name', },
+        { headerName: 'Room Category', field: 'roomtype', },
+        { headerName: 'Room/Bed No', field: 'roonno', },
+        { headerName: 'Order rate', field: 'hossum', },
+        { headerName: 'Extra Order Rate', field: 'extraAmnt', },
+        { headerName: 'Total Rate', field: 'totalsum', },
     ])
 
     const cleardata = useCallback(() => {
@@ -56,18 +55,16 @@ const PatientWise = () => {
             end_date: new Date()
         }
         setPtname(reset)
-
         setTableData([])
     }, [])
 
     const onExportClick = () => {
-        // if (tableDataForTable.length === 0) {
-        //     warningNotify("Please Click The Search Button")
-        // }
-        // else {
-        //     dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 1 })
-        // }
-
+        if (TableData.length === 0) {
+            warningNotify("Please Click The Search Button")
+        }
+        else {
+            dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 1 })
+        }
     }
 
     const postdata = useMemo(() => {
@@ -80,21 +77,70 @@ const PatientWise = () => {
 
     const clicksearch = useCallback((e) => {
         e.preventDefault();
+        dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 0 })
         const getdatareport = async (postdata) => {
             const result = await axioslogin.post('/dietReport/getPatientReport', postdata)
             const { success, data } = result.data;
             if (success === 1) {
+                setTotal(data)
+            }
+            else {
 
-                setTableData(data)
             }
         }
         getdatareport(postdata)
-    }, [postdata])
+        const getExtraOrder = async (postdata) => {
+            const result = await axioslogin.post('/dietReport/getPatientReport/ExtraOrder', postdata)
+            const { success, data } = result.data;
+            if (success === 1) {
+                setExtra(data)
+            }
+        }
+        getExtraOrder(postdata)
+    }, [postdata, dispatch])
+
+    useEffect(() => {
+        //adding extra field on total resultant array
+        if ((total.length !== 0) && (extra.length !== 0)) {
+            const newarrt = total && total.map((val) => {
+                const a1 = extra.find((ele) => ele.proc_slno === val.proc_slno)
+                return {
+                    ...val, extraAmnt: a1?.exhossum ?? 0
+                }
+            })
+            // actual and extra amount are added and assign in aa field
+            const newhos = newarrt.map((val) => {
+                const obj = {
+                    ...val, totalsum: val.hossum + val.extraAmnt
+                }
+                return obj
+            })
+            setTableData(newhos);
+        }
+        else if ((total.length !== 0) && (extra.length === 0)) {
+            const newarrt2 = total && total.map((val) => {
+                const obj = {
+                    ...val, extraAmnt: 0
+                }
+                return obj
+            })
+            const newhos2 = newarrt2.map((val) => {
+                const obj = {
+                    ...val, totalsum: val.hossum + val.extraAmnt
+                }
+                return obj
+            })
+            setTableData(newhos2);
+
+        }
+
+
+
+    }, [total, extra])
 
     const backToSetting = useCallback(() => {
         history.push(`/Home/Reports`)
     }, [history])
-
 
     const apiRef = useRef();
     /** useSelector is used for get aggrid download button state */
@@ -129,9 +175,11 @@ const PatientWise = () => {
             '"Segoe UI Symbol"',
         ].join(','),
     }
+    const onGridReady = params => {
+        params.columnApi.autoSizeAllColumns();
+    };
 
     return (
-
         <CardCloseOnly
             title='Patient Wise Report'
             close={backToSetting}
@@ -149,10 +197,8 @@ const PatientWise = () => {
                         sx={{
                             display: 'flex',
                             flexDirection: 'column',
-                            // backgroundColor: 'blue',
                         }}
                     >
-
                         <Paper square elevation={2} sx={{ p: 2 }} >
                             <Box sx={{
                                 width: "100%",
@@ -164,7 +210,6 @@ const PatientWise = () => {
                                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                                     mt: 1
                                 }} >
-
                                     <Box sx={{
                                         width: '100%',
                                         ml: 0.5, mt: 0.5
@@ -184,16 +229,12 @@ const PatientWise = () => {
                                             onchange={getPtname}
                                         />
                                     </Box>
-
-
                                 </Box>
-
                                 <Box sx={{
                                     display: 'flex',
                                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                                     mt: 1
                                 }} >
-
                                     <Box sx={{
                                         width: '100%',
                                         ml: 0.5, mt: 0.5
@@ -213,17 +254,12 @@ const PatientWise = () => {
                                             onchange={getPtname}
                                         />
                                     </Box>
-
-
                                 </Box>
-
-
                                 <Box sx={{
                                     display: 'flex',
                                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                                     mt: 1
                                 }} >
-
                                     <Box sx={{
                                         width: '100%',
                                         ml: 0.5, mt: 0.5
@@ -243,17 +279,12 @@ const PatientWise = () => {
                                             onchange={getPtname}
                                         />
                                     </Box>
-
-
                                 </Box>
-
-
                                 <Box sx={{
                                     display: 'flex',
                                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                                     ml: 1, mt: 0.5
                                 }} >
-
                                     <Box sx={{
                                         width: '20%',
                                         mt: 0.8
@@ -269,24 +300,14 @@ const PatientWise = () => {
                                     }}>
                                         <Button onClick={cleardata} variant="contained" size="small" color="primary">Clear</Button>
                                     </Box>
-
-
                                 </Box>
                             </Box>
                         </Paper>
-
-
-
-
-
-
                         <Paper
                             square
                             sx={{
                                 backgroundColor: 'black',
-                                //  backgroundColor: 'lightGrey',
                                 width: { md: '100%', lg: '100%', xl: '100%' },
-                                // height: { xs: 200, sm: 200, md: 200, lg: 200, xl: 200 },
                             }}
                         >
                             {/* Rigth Side Menu  */}
@@ -312,35 +333,6 @@ const PatientWise = () => {
                                     </Box>
                                 </CustomeToolTip>
                             </Paper>
-                            {/* <Box
-                                sx={{
-                                    borderLeft: 2,
-                                    borderColor: '#d3d3d3',
-                                }}
-                            > */}
-                            {/* Table Component */}
-                            {/* <CustomAGReportDispaly
-                                    columnDefForTable={columnDefForTable}
-                                    tableDataForTable={TableData}
-
-                                />
-                            </Box> */}
-                            {/* Rigth Side Menu  */}
-
-
-
-
-
-
-
-
-
-
-                            {/* AG Grid */}
-
-
-
-
                             <Box
                                 className="ag-theme-material ListItemScrol"
                                 sx={{
@@ -357,6 +349,7 @@ const PatientWise = () => {
                                     headerHeight={headerHeight}
                                     rowDragManaged={true}
                                     animateRows={true}
+                                    onGridReady={onGridReady}
                                     rowSelection="multiple"
                                     rowStyle={rowStyle}
                                     suppressColumnVirtualisation={true}
@@ -368,34 +361,10 @@ const PatientWise = () => {
                                     enableRangeSelection={true}
                                 ></AgGridReact>
                             </Box>
-
-
-
-
-
-
-
-
-
                         </Paper>
-
-
-
-
                     </Box>
                 </Paper>
-
-                {/* <CustomAGReportDispaly
-                    columnDefForTable={columnDefForTable}
-                    tableDataForTable={TableData}
-
-                />
-
- */}
-
             </Box>
-
-
         </CardCloseOnly >
     )
 }

@@ -9,7 +9,7 @@ const HicPolicyTable = ({ count, rowSelect }) => {
     //column title setting
     const [column] = useState([
         { headerName: "SlNo", field: "hic_policy_slno" },
-        { headerName: "Hic Policy Name", field: "hic_policy_name" },
+        { headerName: "Hic Policy Name", field: "hic_policy_name", filter: "true" },
         { headerName: "Status", field: "status" },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> }
     ])

@@ -27,6 +27,10 @@ const CustomAGReportDispaly = ({ columnDefForTable, tableDataForTable }) => {
         filter: 'agTextColumnFilter',
     }
 
+    const onGridReady = params => {
+        params.columnApi.autoSizeAllColumns();
+    };
+
     const rowStyle = {
         fontFamily: [
             '-apple-system',
@@ -60,6 +64,7 @@ const CustomAGReportDispaly = ({ columnDefForTable, tableDataForTable }) => {
                         rowHeight={rowHeight}
                         headerHeight={headerHeight}
                         rowDragManaged={true}
+                        onGridReady={onGridReady}
                         animateRows={true}
                         rowSelection="multiple"
                         rowStyle={rowStyle}

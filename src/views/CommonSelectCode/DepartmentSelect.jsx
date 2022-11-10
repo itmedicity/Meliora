@@ -19,6 +19,7 @@ const DepartmentSelect = ({ value, setValue }) => {
     useEffect(() => {
         dispatch(getDepartment())
     }, [dispatch])
+
     return (
         <Box >
             <FormControl fullWidth size="small"  >

@@ -19,39 +19,52 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 const AssistantNeedmodal = ({ open, setOpen, assistant, empdept, count, setCount }) => {
+    //propsed data
     const { complaint_slno, complaint_desc, sec_name, complaint_type_name } = assistant[0]
     // Get login user emp_id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
     const [userdept, setUser] = useState(0);
+    //getting department of the user
     useEffect(() => {
         if (empdept.length !== 0) {
             const { em_department } = empdept[0]
             setUser(em_department)
         }
     }, [empdept])
+    // data for getting employes against the department and this data will pass to assistempselect
+    //against this constraint the data will show in select box
     const postdata = {
         em_department: userdept,
         em_id: id
     }
+    //state for select box
     const [assistemp, setAssistemp] = useState(0)
+    //check box for assistant needed
     const [assistuser, setAssist] = useState(false);
+    //assist check box updation
     const updateAssistuser = useCallback((e) => {
         setAssist(e.target.checked)
     }, [])
+    // data setting to db and when we clickon assistant need check box true
+    //there is flag assist_flag updated to 1
     const assistentData = useMemo(() => {
         return {
             complaint_slno: complaint_slno,
-            assigned_emp: assistemp,
-            assigned_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-            assist_flag: assistuser === true ? 1 : 0
+            assigned_emp: assistemp,  //assit employee
+            assist_assign_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'), //assist accepted time
+            assist_flag: assistuser === true ? 1 : 0,
+            assist_requested_emp: id
         }
-    }, [complaint_slno, assistemp, assistuser]);
+    }, [complaint_slno, assistemp, assistuser, id]);
+    // reset states to intial
     const reset = useCallback(() => {
         setOpen(false)
         setAssistemp(0)
+        setAssist(false)
     }, [setOpen])
+    //assitant need function inserting to db
     const Assistent = useCallback(() => {
         const AssistentEmp = async () => {
             const result = await axioslogin.post(`/complaintassign/assistant/emp`, assistentData);
@@ -93,7 +106,6 @@ const AssistantNeedmodal = ({ open, setOpen, assistant, empdept, count, setCount
                     < DialogContentText id="alert-dialog-slide-descriptiona">
                         Assistant Needed
                     </DialogContentText>
-
                     <Box sx={{ width: "100%", p: 1 }}>
                         <Paper square elevation={3} sx={{ p: 2, mt: 1 }} >
                             <Box sx={{
@@ -192,10 +204,6 @@ const AssistantNeedmodal = ({ open, setOpen, assistant, empdept, count, setCount
                                     />
                                 </Box>
                             </Box>
-
-
-
-
                             <Box sx={{
                                 width: "100%",
                                 display: "flex",
@@ -208,7 +216,6 @@ const AssistantNeedmodal = ({ open, setOpen, assistant, empdept, count, setCount
                                     <AssistantEmpSelect postdata={postdata} value={assistemp} setValue={setAssistemp} />
                                 </Box>
                             </Box>
-
                         </Paper>
                     </Box>
                 </DialogContent>
@@ -220,5 +227,4 @@ const AssistantNeedmodal = ({ open, setOpen, assistant, empdept, count, setCount
         </Fragment>
     )
 }
-
 export default memo(AssistantNeedmodal)

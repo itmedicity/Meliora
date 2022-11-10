@@ -5,9 +5,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-import { Button } from "@material-ui/core";
 import { Box } from '@mui/system';
-import { Paper } from '@mui/material';
+import { Button, Paper } from '@mui/material';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import CustomTextarea from 'src/views/Components/CustomTextarea';
 import { format } from 'date-fns'
@@ -17,21 +16,20 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 const VerifyModal = ({ open, setOpen, mddata, count, setCount }) => {
-    const { complaint_slno } = mddata
-    const handleClose = () => {
-        setOpen(false)
-        setVerify(false)
-        setNotrectify(false)
-        setFlag(0)
-        setRemark('')
-    }
+    const { complaint_slno, compalint_status } = mddata
+    //state for verified checkbox
     const [verify, setVerify] = useState(false);
+    //state for notrectified
     const [notrectify, setNotrectify,] = useState(false);
+    // flag for remark textarea opening
     const [flag, setFlag] = useState(0)
+    //state for remarks
     const [remark, setRemark] = useState('');
+    // function for update remark
     const updateRemarks = useCallback((e) => {
         setRemark(e.target.value);
     }, [])
+    //function for update verify checkbox
     const updateVerify = (e) => {
         if (e.target.checked === true) {
             setVerify(true)
@@ -41,6 +39,7 @@ const VerifyModal = ({ open, setOpen, mddata, count, setCount }) => {
             setVerify(false)
         }
     }
+    //function for update not rectify check box
     const updateNotrectify = (e) => {
         if (e.target.checked === true) {
             setNotrectify(true)
@@ -51,17 +50,26 @@ const VerifyModal = ({ open, setOpen, mddata, count, setCount }) => {
             setNotrectify(false)
         }
     }
-
+    //function for state to intial state
+    const handleClose = useCallback(() => {
+        setOpen(false)
+        setVerify(false)
+        setNotrectify(false)
+        setFlag(0)
+        setRemark('')
+    }, [setOpen])
+    //data setting for verification
     const verifyData = useMemo(() => {
         return {
-            // compalint_status: verify === true ? 3 : compalint_status,
+            compalint_status: verify === true ? 3 : notrectify === true ? 0 : compalint_status,
             cm_verfy_time: verify === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
-            cm_rectify_status: notrectify === true ? 'Z' : null,
+            cm_rectify_status: notrectify === true ? 'Z' : verify === true ? 'V' : null,
             verify_remarks: notrectify === true ? remark : null,
             cm_not_verify_time: notrectify === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
             complaint_slno: complaint_slno
         }
-    }, [verify, notrectify, remark, complaint_slno])
+    }, [verify, notrectify, remark, complaint_slno, compalint_status])
+    // updating function to db
     const Verify = useCallback((e) => {
         e.preventDefault();
         const verified = async (verifyData) => {
@@ -70,6 +78,7 @@ const VerifyModal = ({ open, setOpen, mddata, count, setCount }) => {
             if (success === 2) {
                 succesNotify(message)
                 setCount(count + 1)
+                handleClose();
             } else if (success === 0) {
                 infoNotify(message)
             } else {
@@ -81,13 +90,13 @@ const VerifyModal = ({ open, setOpen, mddata, count, setCount }) => {
         } else {
             infoNotify("Please Choose Any")
         }
-    }, [verifyData, verify, notrectify, setCount, count])
+    }, [verifyData, verify, notrectify, setCount, count, handleClose])
     return (
         <Fragment>
             <ToastContainer />
             <Dialog
                 open={open}
-                // onClose={handleClose}
+                onClose={handleClose}
                 TransitionComponent={Transition}
                 keepMounted
                 aria-describedby="alert-dialog-slide-descriptiona"
@@ -110,7 +119,6 @@ const VerifyModal = ({ open, setOpen, mddata, count, setCount }) => {
                             }}>
                                 <Box sx={{
                                     display: 'flex',
-                                    // width: "50%"
                                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
                                     p: 1
                                 }} >
@@ -131,7 +139,7 @@ const VerifyModal = ({ open, setOpen, mddata, count, setCount }) => {
                                     // width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', }
                                 }} >
                                     <CusCheckBox
-                                        label="Not Rectified"
+                                        label="Not Verified"
                                         color="primary"
                                         size="md"
                                         name="notrectify"

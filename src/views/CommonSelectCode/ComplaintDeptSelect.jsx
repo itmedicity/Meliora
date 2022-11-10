@@ -19,7 +19,7 @@ const ComplaintDeptSelect = ({ value, setValue }) => {
         dispatch(getComplaintDept())
     }, [dispatch])
     return (
-        <Box sx={{ mt: 1 }} >
+        <Box >
             <FormControl fullWidth size="small"  >
                 <Select
                     labelId="demo-simple-select-label"

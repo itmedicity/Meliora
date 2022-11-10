@@ -8,6 +8,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import HicPolicyTable from './HicPolicyTable'
+import { useSelector } from 'react-redux'
 const HicPolicyMast = () => {
     const history = useHistory();
     //state for table rendering
@@ -26,13 +27,18 @@ const HicPolicyMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setHic({ ...hic, [e.target.name]: value })
     }, [hic])
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     //data for insert
     const postdata = useMemo(() => {
         return {
             hic_policy_name: hic_policy_name,
-            hic_policy_status: hic_policy_status === true ? 1 : 0
+            hic_policy_status: hic_policy_status === true ? 1 : 0,
+            create_user: id
         }
-    }, [hic_policy_name, hic_policy_status])
+    }, [hic_policy_name, hic_policy_status, id])
     //data set for edit  
     const rowSelect = useCallback((params) => {
         setEdit(1);
@@ -50,9 +56,10 @@ const HicPolicyMast = () => {
         return {
             hic_policy_name: hic_policy_name,
             hic_policy_status: hic_policy_status === true ? 1 : 0,
+            edit_user: id,
             hic_policy_slno: hic_policy_slno
         }
-    }, [hic_policy_name, hic_policy_status, hic_policy_slno])
+    }, [hic_policy_name, hic_policy_status, hic_policy_slno, id])
     /*** usecallback function for form submitting */
     const submitHicpolicy = useCallback((e) => {
         e.preventDefault();

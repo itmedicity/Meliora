@@ -9,11 +9,14 @@ const UserCreationTable = ({ count, rowSelect }) => {
     //column title setting
     const [column] = useState([
         { headerName: "Sl No", field: "emp_no" },
-        { headerName: "Name", field: "em_name" },
-        { headerName: "User Name", field: "emp_username" },
-        { headerName: "Department Section", field: "sec_name" },
-        { headerName: "Designation", field: "em_designation" },
-        { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
+        { headerName: "Name", field: "em_name", filter: "true" },
+        { headerName: "User Name", field: "emp_username", filter: "true" },
+        { headerName: "Department Section", field: "sec_name", filter: "true" },
+        { headerName: "Designation", field: "em_designation", filter: "true" },
+        {
+            headerName: 'Action', cellRenderer: params =>
+                <EditButton onClick={() => rowSelect(params)} />
+        },
     ])
 
     //get all data

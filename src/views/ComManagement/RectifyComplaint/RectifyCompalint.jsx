@@ -13,54 +13,66 @@ import { Fragment } from 'react'
 import Rectifymodel from './Rectifymodel'
 import { useSelector } from 'react-redux'
 import { Box } from '@mui/system'
+import CustomeToolTip from 'src/views/Components/CustomeToolTip'
 const RectifyCompalint = () => {
     const history = useHistory()
+    //state for table
     const [tabledata, setTabledata] = useState([])
     const [detail, setdeatial] = useState([])
+    //state for modal dispaly
     const [mdopen, setmdopen] = useState(0)
+    //state for modal open
     const [open, setOpen] = useState(false);
+    //state for table render
     const [count, setCount] = useState(0)
+    //for getting login id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
+    //data setting in table
     const [column] = useState([
         { headerName: "SlNo", field: "complaint_slno" },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 300 },
-        { headerName: "complaint Dept", field: "sec_name", autoHeight: true, wrapText: true, width: 280 },
-        { headerName: "Request Type", field: "req_type_name" },
-        { headerName: "Complaint Type", field: "complaint_type_name" },
-        { headerName: "Hic Policy", field: "hic_policy_name" },
-        { headerName: "Assign emp", field: "em_name" },
-        { headerName: "complaint status", field: "compalint_status1", width: 150 },
-        { headerName: "Date", field: "date" },
-        { headerName: "Time", field: "Time" },
-        { headerName: "Rectified Status", field: "cm_rectify_status1", width: 240 },
+        { headerName: "Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 350 },
+        { headerName: "Department", field: "sec_name", autoHeight: true, wrapText: true, width: 280 },
+        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, width: 280 },
+        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, width: 280 },
+        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true, width: 280 },
+        { headerName: "Assign emp", field: "em_name", autoHeight: true, wrapText: true, width: 280 },
+        { headerName: "complaint status", field: "compalint_status1", autoHeight: true, wrapText: true, width: 300 },
+        { headerName: "Date&Time", field: "assigned_date", autoHeight: true, wrapText: true, width: 300 },
+        // { headerName: "Time", field: "Time", autoHeight: true, wrapText: true, },
+        { headerName: "Rectified Status", field: "cm_rectify_status1", autoHeight: true, wrapText: true, width: 290 },
         { headerName: "Reason", field: "rectify_pending_hold_remarks1", autoHeight: true, wrapText: true, width: 280 },
         // { headerName: "User Verification", field: "verify_remarks1", autoHeight: true, wrapText: true, width: 280 },
         {
             headerName: 'Rectify',
             cellRenderer: params => {
-
                 if (params.data.compalint_status === 2 || params.data.compalint_status === 3) {
                     return <IconButton disabled
                         sx={{ color: editicon, paddingY: 0.5 }}>
-                        < AssignmentTurnedInIcon />
+                        <CustomeToolTip title="Rectify Complaint ">
+                            < AssignmentTurnedInIcon />
+                        </CustomeToolTip>
                     </IconButton>
                 } else {
                     return <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                         onClick={() => Rectifycomplaintdept(params)}>
-                        < AssignmentTurnedInIcon />
+                        <CustomeToolTip title="Rectify Complaint ">
+                            < AssignmentTurnedInIcon />
+                        </CustomeToolTip>
                     </IconButton>
                 }
             }
         },
     ])
+    //rectify complaint  click function on click model open and pass data
     const Rectifycomplaintdept = useCallback((params) => {
         const data = params.api.getSelectedRows()
         setdeatial(data)
         setmdopen(1)
         setOpen(true)
     }, [])
+    //get assigned complaint
     useEffect(() => {
         const getRectifycomplit = async () => {
             const result = await axioslogin.get(`Rectifycomplit/getRectifycomplit/${id}`)
@@ -74,7 +86,7 @@ const RectifyCompalint = () => {
         }
         getRectifycomplit();
     }, [count, id])
-
+    //close function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])

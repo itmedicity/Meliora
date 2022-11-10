@@ -45,7 +45,7 @@ const ItemMaster = React.lazy(() => import('./views/Master/DietMasters/ItemMaste
 const DietDetail = React.lazy(() => import('./views/Master/DietMasters/DietDetail/DietDetailMast'))
 const DietApproval = React.lazy(() => import('./views/NursingStation/DietApprovalList'));
 const DietPlanList = React.lazy(() => import('./views/NursingStation/DietPlanList'));
-const DietOrderList = React.lazy(() => import('./views/Diet/DietOrderList'));
+const DietOrderList = React.lazy(() => import('./views/Diet/DietOrder/DietOderTaking'));
 const DietExtraOrder = React.lazy(() => import('./views/Diet/ExtraOrder'));
 const DietDelivery = React.lazy(() => import('./views/Diet/DietDeliveryMark'))
 const RectifyComplaint = React.lazy(() => import('./views/ComManagement/RectifyComplaint/RectifyCompalint'))
@@ -55,7 +55,8 @@ const Reports = React.lazy(() => import('./Menus/Reports'))
 const DietReport = React.lazy(() => import('./views/Report/DietReport/DietTypeWise'))
 const NusrseStationReport = React.lazy(() => import('./views/Report/DietReport/NurseStationWise'))
 const PatientReport = React.lazy(() => import('./views/Report/DietReport/PatientWise'))
-
+const DirectComplaintReg = React.lazy(() => import('./views/ComManagement/DirectCmRegister/DirectComplaintReg'))
+const MonthlyReport = React.lazy(() => import('./views/Report/DietReport/MonthlyReport'))
 
 
 const routes = [
@@ -115,6 +116,8 @@ const routes = [
   { path: '/Home/Report/Diet', exact: true, name: 'Diet Report', component: DietReport },
   { path: '/Home/Report/NurseStation', exact: true, name: 'Nuse Station Wise Report', component: NusrseStationReport },
   { path: '/Home/Report/Pateintwise', exact: true, name: 'Pateint wise Report', component: PatientReport },
+  { path: '/Home/DirectComplaint', exact: true, name: 'Direct Complaint Register', component: DirectComplaintReg },
+  { path: '/Home/Report/Monthly', exact: true, name: 'Monthly Report', component: MonthlyReport }
 
 ]
 

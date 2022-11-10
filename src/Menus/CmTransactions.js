@@ -8,6 +8,12 @@ const CmTransactions = [
         to: '/Home/ComplaintRegister',
     },
     {
+        men_slno: 66,
+        component: CNavItem,
+        name: ' Direct Complaint',
+        to: '/Home/DirectComplaint',
+    },
+    {
         men_slno: 7,
         component: CNavItem,
         name: 'Complaint List All ',

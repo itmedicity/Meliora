@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom'
 import { Box, Paper } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-import CardMasterView from 'src/views/Components/CardMasterView'
 import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect'
 import BranchSelectHr from 'src/views/CommonSelectCode/BranchSelectHr'
 import DesignationSelect from 'src/views/CommonSelectCode/DesignationSelect'
@@ -18,31 +17,38 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import UserCreationTable from './UserCreationTable'
 import { format } from 'date-fns'
 import { useSelector } from 'react-redux'
+import CustomeToolTip from '../../Components/CustomeToolTip';
+import CardMaster from 'src/views/Components/CardMaster'
+import ModuleGroupSelect from 'src/views/CommonSelectCode/ModuleGroupSelect'
+import UserGroupSelect from 'src/views/CommonSelectCode/UserGroupSelect'
 const UserCreation = () => {
     //*** Initializing */
     const history = useHistory();
     const [em_id, setemId] = useState(0)
+    const [em_no, setemno] = useState('')
     const [salut, setSalut] = useState(0)
     const [dept, setDept] = useState(0)
     const [deptsec, setDeptsec] = useState(0)
     const [branch, setBranch] = useState(0)
     const [gender, setGender] = useState(0)
     const [designation, setDesignation] = useState(0)
-    const [dob, setdob] = useState(new Date())
-    const [doj, setdoj] = useState(new Date())
+    const [dob, setdob] = useState()
+    const [doj, setdoj] = useState()
     //state for table render
     const [count, setCount] = useState(0);
     const [value, setValue] = useState(0)
+    const [modulegroup, setmodulegroup] = useState(0)
+    const [usergroup, setUsergroup] = useState(0)
     const [userdata, setUserdata] = useState({
         em_name: '',
-        em_no: '',
         em_mobile: '',
         em_email: '',
         em_status: false,
+        mod_grp_user_slno: ''
     })
 
     //Destructuring
-    const { em_name, em_no, em_mobile, em_email, em_status } = userdata
+    const { em_name, em_mobile, em_email, em_status, mod_grp_user_slno } = userdata
     const updateUserCreation = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setUserdata({ ...userdata, [e.target.name]: value })
@@ -51,8 +57,9 @@ const UserCreation = () => {
         getempid().then((val) => {
             const empid = val
             setemId(empid)
+            setemno(empid.toString())
         })
-    }, [])
+    }, [count])
 
     // Get login user emp_id
     const id = useSelector((state) => {
@@ -71,14 +78,18 @@ const UserCreation = () => {
         setemId(0)
         const data = params.api.getSelectedRows();
         const { em_id, em_no, em_name, em_salutation, em_gender, em_dob, em_doj, em_mobile, em_email, em_branch,
-            em_department, em_dept_section, em_designation, em_status } = data[0]
+            em_department, em_dept_section, em_designation, em_status, mod_grp_slno, user_group_slno,
+            mod_grp_user_slno } = data[0]
         const frmdata = {
             em_name: em_name,
             em_no: em_no,
             em_mobile: em_mobile,
             em_email: em_email,
+            mod_grp_user_slno: mod_grp_user_slno,
             em_status: em_status === 1 ? true : false
         }
+        setmodulegroup(mod_grp_slno)
+        setUsergroup(user_group_slno)
         setUserdata(frmdata)
         setemId(em_id)
         setSalut(em_salutation)
@@ -111,10 +122,16 @@ const UserCreation = () => {
             emp_username: em_no,
             emp_password: em_no,
             emp_email: em_email,
+            mod_grp_slno: modulegroup,
+            user_group_slno: usergroup,
+            mod_grp_user_status: em_status === true ? 1 : 0,
+            emp_slno: em_id,
+            dept_slno: dept,
+            deptsec_slno: deptsec,
             emp_status: em_status === true ? 1 : 0,
             create_user: id
         }
-    }, [em_id, em_no, salut, em_name, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
+    }, [em_id, em_no, salut, em_name, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
 
     //Update data
     const patchdata = useMemo(() => {
@@ -138,9 +155,16 @@ const UserCreation = () => {
             emp_password: em_no,
             emp_email: em_email,
             emp_status: em_status === true ? 1 : 0,
+            mod_grp_slno: modulegroup,
+            user_group_slno: usergroup,
+            mod_grp_user_status: em_status === true ? 1 : 0,
+            emp_slno: em_id,
+            dept_slno: dept,
+            deptsec_slno: deptsec,
+            mod_grp_user_slno: mod_grp_user_slno,
             edit_user: id
         }
-    }, [em_id, em_no, salut, em_name, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
+    }, [em_id, em_no, salut, em_name, mod_grp_user_slno, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
 
     const submitUserCreation = useCallback((e) => {
         e.preventDefault();
@@ -150,6 +174,7 @@ const UserCreation = () => {
             em_mobile: '',
             em_email: '',
             em_status: false,
+            mod_grp_user_slno: ''
         }
         /***    * insert function for use call back   */
         const InsertFun = async (postdata) => {
@@ -165,6 +190,8 @@ const UserCreation = () => {
                 setDeptsec(0)
                 setBranch(0)
                 setDesignation(0)
+                setmodulegroup(0)
+                setUsergroup(0)
                 setCount(0)
                 setdob(new Date())
                 setdoj(new Date())
@@ -178,7 +205,7 @@ const UserCreation = () => {
         const UpdateFun = async (patchdata) => {
             const result = await axioslogin.patch('/employee/update', patchdata);
             const { message, success } = result.data;
-            if (success === 1) {
+            if (success === 2) {
                 succesNotify(message)
                 setCount(count + 1);
                 setUserdata(formreset);
@@ -188,6 +215,8 @@ const UserCreation = () => {
                 setDeptsec(0)
                 setBranch(0)
                 setDesignation(0)
+                setmodulegroup(0)
+                setUsergroup(0)
                 setCount(0)
                 setdob(new Date())
                 setdoj(new Date())
@@ -226,21 +255,15 @@ const UserCreation = () => {
         setCount(0)
     }, [setUserdata])
 
-    //View Table
-    const viewTable = useCallback(() => {
-        history.push('/Home/UserCreationTable')
-    }, [history])
-
     //back to home
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
 
     return (
-        < CardMasterView
+        <CardMaster
             title="User Creation"
             submit={submitUserCreation}
-            view={viewTable}
             close={backtoSetting}
             refresh={refreshWindow}
         >
@@ -255,79 +278,95 @@ const UserCreation = () => {
                         display: "flex",
                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                     }}>
-                        <Box sx={{ width: "10%", pr: 1 }}>
-                            <TextFieldCustom
-                                placeholder="Emp_id"
-                                type="text"
-                                size="sm"
-                                disabled={true}
-                                name="em_id"
-                                value={em_id}
-                                onchange={updateUserCreation}
-                            />
-                        </Box>
-                        <Box sx={{ width: "15%", pr: 1 }}>
-                            <SalutationSelect value={salut} setValue={setSalut} />
-                        </Box>
-                        <Box sx={{ width: "30%", pr: 1 }}>
-                            <TextFieldCustom
-                                placeholder="Name"
-                                type="text"
-                                size="sm"
-                                name="em_name"
-                                value={em_name}
-                                onchange={updateUserCreation}
-                            />
-                        </Box>
-                        <Box sx={{ width: "10%", pr: 1 }}>
-                            <TextFieldCustom
-                                placeholder="Employee No"
-                                type="text"
-                                size="sm"
-                                name="em_no"
-                                value={em_no}
-                                onchange={updateUserCreation}
-                            />
-                        </Box>
-                        <Box sx={{ width: "15%", pr: 1, pt: 1 }}>
-                            <FormControl fullWidth size="small"  >
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    name="gender"
-                                    value={gender}
-                                    onChange={(e) => setGender(e.target.value)}
-                                    size="small"
-                                    fullWidth
-                                    variant='outlined'
-                                    sx={{ height: 24, p: 0, m: 0, lineHeight: 1.200 }}
-                                >
-                                    <MenuItem value='0' disabled >Select Gender</MenuItem>
-                                    <MenuItem value='1' >Male</MenuItem>
-                                    <MenuItem value='2' >Female</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Box>
-                        <Box sx={{ width: "10%", pr: 1 }}>
-                            <TextFieldCustom
-                                placeholder="DOB"
-                                type="date"
-                                size="sm"
-                                name="dob"
-                                value={dob}
-                                onchange={getdob}
-                            />
-                        </Box>
-                        <Box sx={{ width: "10%", pr: 1 }}>
-                            <TextFieldCustom
-                                placeholder="DOJ"
-                                type="date"
-                                size="sm"
-                                name="doj"
-                                value={doj}
-                                onchange={getdoj}
-                            />
-                        </Box>
+                        <CustomeToolTip title="em id" placement="top-start">
+                            <Box sx={{ width: "10%", pr: 1 }}>
+                                <TextFieldCustom
+                                    placeholder="Emp_id"
+                                    type="text"
+                                    size="sm"
+                                    disabled={true}
+                                    name="em_id"
+                                    value={em_id}
+                                    onchange={updateUserCreation}
+                                />
+
+                            </Box>
+                        </CustomeToolTip>
+                        <CustomeToolTip title="Salutation" placement="top-start">
+                            <Box sx={{ width: "15%", pr: 1 }}>
+                                <SalutationSelect value={salut} setValue={setSalut} />
+                            </Box>
+                        </CustomeToolTip>
+                        <CustomeToolTip title="Name" placement="top-start">
+                            <Box sx={{ width: "30%", pr: 1 }}>
+                                <TextFieldCustom
+                                    placeholder="Name"
+                                    type="text"
+                                    size="sm"
+                                    name="em_name"
+                                    value={em_name}
+                                    onchange={updateUserCreation}
+                                />
+                            </Box>
+                        </CustomeToolTip>
+                        <CustomeToolTip title="Emp No" placement="top-start">
+                            <Box sx={{ width: "10%", pr: 1 }}>
+                                <TextFieldCustom
+                                    placeholder="Employee No"
+                                    type="text"
+                                    size="sm"
+                                    disabled={true}
+                                    name="em_no"
+                                    value={em_no}
+                                //onchange={updateUserCreation}
+                                />
+                            </Box>
+                        </CustomeToolTip>
+                        <CustomeToolTip title="Gender" placement="top-start">
+                            <Box sx={{ width: "15%", pr: 1, pt: 1 }}>
+                                <FormControl fullWidth size="small"  >
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        name="gender"
+                                        value={gender}
+                                        onChange={(e) => setGender(e.target.value)}
+                                        size="small"
+                                        fullWidth
+                                        variant='outlined'
+                                        sx={{ height: 24, p: 0, m: 0, lineHeight: 1.200 }}
+                                    >
+                                        <MenuItem value='0' disabled >Select Gender</MenuItem>
+                                        <MenuItem value='1' >Male</MenuItem>
+                                        <MenuItem value='2' >Female</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                        </CustomeToolTip>
+                        <CustomeToolTip title="DOB" placement="top-start" >
+                            <Box sx={{ width: "10%", pr: 1 }}>
+                                <TextFieldCustom
+                                    placeholder="DOB"
+                                    type="date"
+                                    size="sm"
+                                    name="dob"
+                                    value={dob}
+                                    onchange={getdob}
+                                />
+                            </Box>
+                        </CustomeToolTip>
+                        <CustomeToolTip title="DOJ" placement="top-start">
+                            <Box sx={{ width: "10%", pr: 1 }}>
+                                <TextFieldCustom
+                                    placeholder="DOJ"
+                                    type="date"
+                                    size="sm"
+                                    name="doj"
+                                    value={doj}
+                                    onchange={getdoj}
+                                />
+                            </Box>
+                        </CustomeToolTip>
                     </Box>
                     <Box sx={{
                         width: "100%",
@@ -335,38 +374,50 @@ const UserCreation = () => {
                         display: "flex",
                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                     }}>
-                        <Box sx={{ width: "25%", pr: 1 }}>
-                            <TextFieldCustom
-                                placeholder="Mobile No"
-                                type="text"
-                                size="sm"
-                                name="em_mobile"
-                                value={em_mobile}
-                                onchange={updateUserCreation}
-                            />
-                        </Box>
-                        <Box sx={{ width: "30%", pr: 1 }}>
-                            <TextFieldCustom
-                                placeholder="Email Id"
-                                type="text"
-                                size="sm"
-                                name="em_email"
-                                value={em_email}
-                                onchange={updateUserCreation}
-                            />
-                        </Box>
-                        <Box sx={{ width: "20%", pr: 1 }}>
-                            <BranchSelectHr value={branch} setValue={setBranch} />
-                        </Box>
-                        <Box sx={{ width: "20%", pr: 1, mt: 1 }}>
-                            <DepartmentSelect value={dept} setValue={setDept} />
-                        </Box>
-                        <Box sx={{ width: "20%", pr: 1 }}>
-                            <DeptSecUnderDept value={deptsec} setValue={setDeptsec} dept={dept} />
-                        </Box>
-                        <Box sx={{ width: "20%", pr: 1 }}>
-                            <DesignationSelect value={designation} setValue={setDesignation} />
-                        </Box>
+                        <CustomeToolTip title="Mobile No" placement="top-start">
+                            <Box sx={{ width: "25%", pr: 1 }}>
+                                <TextFieldCustom
+                                    placeholder="Mobile No"
+                                    type="text"
+                                    size="sm"
+                                    name="em_mobile"
+                                    value={em_mobile}
+                                    onchange={updateUserCreation}
+                                />
+                            </Box>
+                        </CustomeToolTip>
+                        <CustomeToolTip title="Email Id" placement="top-start">
+                            <Box sx={{ width: "30%", pr: 1 }}>
+                                <TextFieldCustom
+                                    placeholder="Email Id"
+                                    type="text"
+                                    size="sm"
+                                    name="em_email"
+                                    value={em_email}
+                                    onchange={updateUserCreation}
+                                />
+                            </Box>
+                        </CustomeToolTip>
+                        <CustomeToolTip title="Branch" placement="top-start">
+                            <Box sx={{ width: "20%", pr: 1 }}>
+                                <BranchSelectHr value={branch} setValue={setBranch} />
+                            </Box>
+                        </CustomeToolTip>
+                        <CustomeToolTip title="Department " placement="top-start">
+                            <Box sx={{ width: "20%", pr: 1, mt: 1 }}>
+                                <DepartmentSelect value={dept} setValue={setDept} />
+                            </Box>
+                        </CustomeToolTip>
+                        <CustomeToolTip title="Department Section " placement="top-start">
+                            <Box sx={{ width: "20%", pr: 1, mt: 1 }}>
+                                <DeptSecUnderDept value={deptsec} setValue={setDeptsec} dept={dept} />
+                            </Box>
+                        </CustomeToolTip>
+                        <CustomeToolTip title="Designation" placement="top-start">
+                            <Box sx={{ width: "20%", pr: 1 }}>
+                                <DesignationSelect value={designation} setValue={setDesignation} />
+                            </Box>
+                        </CustomeToolTip>
                     </Box>
                     <Box sx={{
                         width: "100%",
@@ -374,15 +425,27 @@ const UserCreation = () => {
                         display: "flex",
                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                     }}>
-                        <CusCheckBox
-                            label="Status"
-                            color="primary"
-                            size="md"
-                            name="em_status"
-                            value={em_status}
-                            checked={em_status}
-                            onCheked={updateUserCreation}
-                        />
+                        <CustomeToolTip title="Designation" placement="top-start">
+                            <Box sx={{ width: "20%", pr: 1, pt: 1 }}>
+                                <ModuleGroupSelect value={modulegroup} setValue={setmodulegroup} />
+                            </Box>
+                        </CustomeToolTip>
+                        <CustomeToolTip title="Designation" placement="top-start">
+                            <Box sx={{ width: "20%", pr: 1, pt: 1 }}>
+                                <UserGroupSelect value={usergroup} setValue={setUsergroup} />
+                            </Box>
+                        </CustomeToolTip>
+                        <Box sx={{ width: "20%", pr: 1, pt: 1 }}>
+                            <CusCheckBox
+                                label="Status"
+                                color="primary"
+                                size="md"
+                                name="em_status"
+                                value={em_status}
+                                checked={em_status}
+                                onCheked={updateUserCreation}
+                            />
+                        </Box>
                     </Box>
                 </Paper>
             </Box >
@@ -393,7 +456,7 @@ const UserCreation = () => {
                     <UserCreationTable count={count} rowSelect={rowSelect} />
                 </Paper>
             </Box>
-        </CardMasterView>
+        </CardMaster>
     )
 }
 
