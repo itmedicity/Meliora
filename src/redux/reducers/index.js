@@ -36,6 +36,7 @@ import { getNusringStationMeli } from './NurseStatnMeli.Reducer'
 import { getDepartemployee } from './Departwiseemployee.Reducer'
 import { getAssistantemployee } from './AssistantEmp.Reducer'
 import { changeStateAggrid } from '../reducers/StatechangeAgGrid';
+import { getAsignedstaffnurse } from '../reducers/Asignrdstaff.reducer';
 import { getTotalcomplaints } from '../reducers/ComplaintDashboard.Reducer';
 import { getComplaintLists } from '../reducers/ComplaintLists.Reducer'
 import { getAssignedComplaintLists } from '../reducers/AssignedcmLists.Reducer'
@@ -81,6 +82,7 @@ const reducer = combineReducers({
     getDepartemployee,
     getAssistantemployee,
     changeStateAggrid,
+    getAsignedstaffnurse,
     getTotalcomplaints,
     getComplaintLists,
     getAssignedComplaintLists,

@@ -10,7 +10,6 @@ export const axioslogin = Axios.create({
         "Accept-Language": "en-GB,en"
     }
 });
-
 axioslogin.interceptors.request.use(function (config) {
     const userinfo = sessionStorage.getItem('userDetl');
     const accessToken = userinfo ? JSON.parse(sessionStorage.getItem('userDetl')).token : 0;
