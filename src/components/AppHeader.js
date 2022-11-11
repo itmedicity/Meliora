@@ -18,13 +18,9 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
-import { Badge } from '@mui/material'
-import EmailIcon from '@mui/icons-material/Email'
-import NotificationsIcon from '@mui/icons-material/Notifications'
+
 import {
   iconHome,
-  iconMessage,
-  iconNotification,
   iconPowerOff,
   iconSettings, iconReport
 } from 'src/color/Color'
@@ -75,12 +71,12 @@ const AppHeader = () => {
               </CNavLink>
             </CNavItem>
             <CNavItem>
-              <CNavLink to="#" onClick={cmsLogout}>
+              <CNavLink to="#" component={NavLink} onClick={cmsLogout}>
                 <PowerSettingsNewIcon sx={{ color: iconPowerOff }} />
               </CNavLink>
             </CNavItem>
           </CHeaderNav>
-          <CHeaderNav>
+          {/* <CHeaderNav>
             <CNavItem>
               <CNavLink to="/Home">
                 <Badge badgeContent={4} color="error">
@@ -95,7 +91,7 @@ const AppHeader = () => {
                 </Badge>
               </CNavLink>
             </CNavItem>
-          </CHeaderNav>
+          </CHeaderNav> */}
           <CHeaderNav className="ms-3">
             <AppHeaderDropdown sx={{ paddingX: 0 }} />
           </CHeaderNav>

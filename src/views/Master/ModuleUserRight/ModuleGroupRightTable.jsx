@@ -8,9 +8,9 @@ const ModuleGroupRightTable = ({ count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
     const [column] = useState([
         { headerName: 'SlNo', field: 'mod_grp_user_slno' },
-        { headerName: 'Employee Name', field: 'em_name' },
-        { headerName: 'Module Group', field: 'mod_grp_name' },
-        { headerName: 'User Group', field: 'user_grp_name' },
+        { headerName: 'Employee Name', field: 'em_name', filter: "true", },
+        { headerName: 'Module Group', field: 'mod_grp_name', filter: "true", },
+        { headerName: 'User Group', field: 'user_grp_name', filter: "true", },
         { headerName: 'Status', field: 'mod_grp_user_status' },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])

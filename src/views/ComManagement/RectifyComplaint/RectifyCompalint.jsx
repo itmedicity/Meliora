@@ -45,7 +45,7 @@ const RectifyCompalint = () => {
         { headerName: "Reason", field: "rectify_pending_hold_remarks1", autoHeight: true, wrapText: true, width: 280 },
         // { headerName: "User Verification", field: "verify_remarks1", autoHeight: true, wrapText: true, width: 280 },
         {
-            headerName: 'Rectify',
+            headerName: 'Rectify', minWidth: 120,
             cellRenderer: params => {
                 if (params.data.compalint_status === 2 || params.data.compalint_status === 3) {
                     return <IconButton disabled

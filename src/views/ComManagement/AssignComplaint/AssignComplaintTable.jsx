@@ -1,5 +1,4 @@
 import React, { Fragment, useCallback, useEffect, useState } from 'react'
-import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import { IconButton, Paper } from '@mui/material';
 import { editicon } from 'src/color/Color';
@@ -21,6 +20,7 @@ import { getComplaintLists } from 'src/redux/actions/ComplaintLists.action';
 import { getAssignedComplaintLists } from 'src/redux/actions/AssignedcmLists.action';
 import { getAssistComplaintLists } from 'src/redux/actions/AssistcmLists.action';
 import { getAllComplaintLists } from 'src/redux/actions/AllcomplaintsLists.action';
+import CusAgGridForMain from 'src/views/Components/CusAgGridForMain';
 const AssignComplaintTable = () => {
     const history = useHistory();
     //state for modal open
@@ -46,9 +46,9 @@ const AssignComplaintTable = () => {
                 }
             }
         },
-        { headerName: "Department Section", field: "sec_name", autoHeight: true, wrapText: true, width: 220 },
-        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, width: 200 },
+        { headerName: "Department Section", field: "sec_name", autoHeight: true, filter: "true", wrapText: true, width: 220 },
+        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, width: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
         { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
         {
@@ -63,7 +63,7 @@ const AssignComplaintTable = () => {
         },
         { headerName: "Date & Time", field: "compalint_date", autoHeight: true, wrapText: true },
         {
-            headerName: 'Action', cellRenderer: params => <Fragment>
+            headerName: 'Action', minWidth: 120, cellRenderer: params => <Fragment>
 
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                     onClick={() => quickAssign(params)}>
@@ -94,9 +94,9 @@ const AssignComplaintTable = () => {
                 }
             }
         },
-        { headerName: "Department Section", field: "sec_name", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, width: 200 },
+        { headerName: "Department Section", field: "sec_name", autoHeight: true, wrapText: true, filter: "true", width: 250 },
+        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, width: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
         { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
         { headerName: "Remark", field: "complaint_remark", autoHeight: true, wrapText: true },
@@ -125,9 +125,9 @@ const AssignComplaintTable = () => {
                 }
             }
         },
-        { headerName: "Department Section", field: "sec_name", autoHeight: true, wrapText: true, width: 220 },
-        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, width: 200 },
+        { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, width: 220 },
+        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, width: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
         { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
         {
@@ -147,15 +147,15 @@ const AssignComplaintTable = () => {
     const [assitantaccept] = useState([
         { headerName: "SlNo", field: "complaint_slno" },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 280 },
-        { headerName: "Department Section", field: "sec_name", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, width: 200 },
+        { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, width: 250 },
+        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, width: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
         { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
         { headerName: "Requested Employee", field: "em_name", autoHeight: true, wrapText: true, width: 250 },
         { headerName: "Date & Time", field: "assist_assign_date", autoHeight: true, wrapText: true },
         {
-            headerName: 'Assisted',
+            headerName: 'Assisted', minWidth: 120,
             cellRenderer: params => {
                 if (params.data.assist_receive === 1) {
                     return <IconButton disabled
@@ -424,10 +424,13 @@ const AssignComplaintTable = () => {
                         </Box>
                     </Paper>
                 </Box>
+
                 {
                     flag === 0 ?
-                        <Box sx={{ p: 1 }}>
-                            <CusAgGridMast
+                        <Box sx={{
+                            p: 1,
+                        }}>
+                            <CusAgGridForMain
                                 columnDefs={column}
                                 tableData={pendingcomplaints}
                             />
@@ -435,7 +438,7 @@ const AssignComplaintTable = () => {
                 }
                 {
                     flag === 2 ? <Box sx={{ p: 1 }}>
-                        <CusAgGridMast
+                        <CusAgGridForMain
                             columnDefs={column}
                             tableData={pendingcomplaints}
                         />
@@ -443,7 +446,7 @@ const AssignComplaintTable = () => {
                 }
                 {
                     flag === 1 ? <Box sx={{ p: 1 }}>
-                        <CusAgGridMast
+                        <CusAgGridForMain
                             columnDefs={assign}
                             tableData={assignedcomplaints}
                         />
@@ -451,7 +454,7 @@ const AssignComplaintTable = () => {
                 }
                 {
                     flag === 3 ? <Box sx={{ p: 1 }}>
-                        <CusAgGridMast
+                        <CusAgGridForMain
                             columnDefs={alldata}
                             tableData={allcomplaints}
                         />
@@ -459,7 +462,7 @@ const AssignComplaintTable = () => {
                 }
                 {
                     flag === 4 ? <Box sx={{ p: 1 }}>
-                        <CusAgGridMast
+                        <CusAgGridForMain
                             columnDefs={assitantaccept}
                             tableData={assistcomplaints}
                         />
@@ -471,8 +474,9 @@ const AssignComplaintTable = () => {
                 {
                     bc === 1 ? <AssistantNeedmodal open={open} setOpen={setOpen} assistant={assistant} empdept={profileData} count={count} setCount={setCount} /> : null //assistant needed modal
                 }
+
             </CardCloseOnly>
-        </Fragment>
+        </Fragment >
     )
 }
 export default AssignComplaintTable

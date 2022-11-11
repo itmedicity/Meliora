@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect, memo, Fragment, useMemo } from 'react'
 import { Box } from '@mui/material'
-import CusAgGridMast from '../Components/CusAgGridMast'
 import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { IconButton } from '@mui/material';
@@ -16,6 +15,7 @@ import { useSelector } from 'react-redux'
 import { succesNotify } from 'src/views/Common/CommonCode'
 import SelectDiet from '../CommonSelectCode/SelectDiet';
 import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect';
+import CusAgGridForMain from '../Components/CusAgGridForMain';
 
 const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, startdate, dayselect, setdayselect }) => {
     const [tabledata, setTabledata] = useState([])
@@ -308,8 +308,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                                 <Button onClick={allProcess} variant="contained" size="small" color="primary">All Process</Button>
                             </Box>
                         </Box>
-
-                        <CusAgGridMast
+                        <CusAgGridForMain
                             columnDefs={column}
                             tableData={tabledata}
                         />
@@ -317,7 +316,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                     : null
                 }
                 {depand === 0 ?
-                    <CusAgGridMast
+                    <CusAgGridForMain
                         columnDefs={columnprocess}
                         tableData={tabledata}
                     /> : null
@@ -378,7 +377,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                                 <Button onClick={allProcess} variant="contained" size="small" color="primary">All Process</Button>
                             </Box>
                         </Box>
-                        <CusAgGridMast
+                        <CusAgGridForMain
                             columnDefs={column}
                             tableData={tabledata}
                         />
