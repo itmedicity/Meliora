@@ -16,31 +16,6 @@ const AssistantEmpSelect = ({ postdata, value, setValue }) => {
     }, [dispatch, postdata])
     return (
         <Box >
-            {/* <FormControl sx={{ m: 1, width: 300 }}>
-                <InputLabel id="demo-multiple-name-label">Employee</InputLabel>
-                <Select
-                    labelId="demo-multiple-name-label"
-                    id="demo-multiple-name"
-                    multiple
-                    // value={personName}
-                    // onChange={handleChange}
-                    input={<OutlinedInput label="Name" />}
-                //   MenuProps={MenuProps}
-                >
-                    {assistantemp.map((name) => {
-                        return (
-                            <MenuItem
-                                key={name.em_id}
-                            // value={name.em_id}
-                            // style={getStyles(name, personName, theme)}
-                            >
-                                {name.em_name}
-                            </MenuItem>
-                        );
-                    })}
-
-                </Select>
-            </FormControl> */}
             <FormControl fullWidth size="small"  >
                 <Select
                     labelId="demo-simple-select-label"

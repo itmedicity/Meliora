@@ -1,12 +1,12 @@
 import { Paper } from '@mui/material'
 import { Box } from '@mui/system'
-import React, { Fragment } from 'react'
+import React, { Fragment, memo } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 
-const ComplistAgGridcmp = ({ columnDefs, tableData, onSelectionChanged, columnTypes, rowHeight }) => {
-
+const CusAgGridForMain = ({ columnDefs, tableData, onSelectionChanged, columnTypes }) => {
+    const rowHeight = 30
     const headerHeight = 30
     const defaultColDef = {
     }
@@ -35,7 +35,7 @@ const ComplistAgGridcmp = ({ columnDefs, tableData, onSelectionChanged, columnTy
                 <Box
                     className="ag-theme-alpine ListItemScrol"
                     sx={{
-                        height: 640,
+                        height: 650,
                         width: "100%"
                     }}
                 >
@@ -52,7 +52,6 @@ const ComplistAgGridcmp = ({ columnDefs, tableData, onSelectionChanged, columnTy
                         onSelectionChanged={onSelectionChanged}
                         rowStyle={rowStyle}
                         columnTypes={columnTypes}
-
                     ></AgGridReact>
                 </Box>
             </Paper>
@@ -60,4 +59,4 @@ const ComplistAgGridcmp = ({ columnDefs, tableData, onSelectionChanged, columnTy
     )
 }
 
-export default ComplistAgGridcmp
+export default memo(CusAgGridForMain)

@@ -5,7 +5,7 @@ import { axioslogin } from '../Axios/Axios';
 import { warningNotify } from '../Common/CommonCode';
 import ComplistAgGridcmp from '../Components/ComplistAgGridcmp';
 import { getComplaintDept } from 'src/redux/actions/ComplaintDept.action'
-import { Box } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import CusCheckBox from '../Components/CusCheckBox';
 import CardCloseOnly from '../Components/CardCloseOnly';
 const ComplaintList = (count) => {
@@ -26,20 +26,20 @@ const ComplaintList = (count) => {
     const [column] = useState([
         { headerName: "SlNo", field: "complaint_slno", minWidth: 10 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
-        { headerName: "Department", field: "sec_name", wrapText: true, autoHeight: true, minWidth: 70 },
-        { headerName: "Request Type", field: "req_type_name" },
-        { headerName: "Complaint Type", field: "complaint_type_name" },
-        { headerName: "Complaint Department", field: "complaint_dept_name" },
+        { headerName: "Department", field: "sec_name", filter: "true", wrapText: true, autoHeight: true, minWidth: 70 },
+        { headerName: "Request Type", field: "req_type_name", filter: "true" },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true" },
+        { headerName: "Complaint Department", field: "complaint_dept_name", filter: "true" },
         { headerName: "Date & Time", field: "compalint_date" },
         { headerName: "status", field: "compalint_status1" }
     ])
     const [assigned] = useState([
         { headerName: "SlNo", field: "complaint_slno", minWidth: 10 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Department", field: "sec_name", wrapText: true, autoHeight: true, width: 200 },
-        { headerName: "Request Type", field: "req_type_name" },
-        { headerName: "Complaint Type", field: "complaint_type_name" },
-        { headerName: "Complaint Department", field: "complaint_dept_name", wrapText: true, autoHeight: true, width: 250 },
+        { headerName: "Department", field: "sec_name", wrapText: true, filter: "true", autoHeight: true, width: 200 },
+        { headerName: "Request Type", field: "req_type_name", filter: "true" },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true" },
+        { headerName: "Complaint Department", field: "complaint_dept_name", filter: "true", wrapText: true, autoHeight: true, width: 250 },
         { headerName: "Employee", field: "em_name" },
         { headerName: "Date & Time", field: "compalint_date" },
         { headerName: "status", field: "compalint_status1" }
@@ -252,7 +252,7 @@ const ComplaintList = (count) => {
                     />
                 </Box>
             </Box>
-            <Box sx={{ p: 1 }}>
+            <Paper sx={{ p: 1, height: 650 }}>
                 {
                     table === 1 ?
                         <ComplistAgGridcmp
@@ -268,7 +268,7 @@ const ComplaintList = (count) => {
                         rowHeight={30}
                     /> : null
                 }
-            </Box>
+            </Paper>
         </CardCloseOnly>
 
     )

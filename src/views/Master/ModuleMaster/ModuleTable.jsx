@@ -7,7 +7,7 @@ const ModuleTable = ({ count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
     const [column] = useState([
         { headerName: 'SlNo', field: 'module_slno' },
-        { headerName: 'Module Name', field: 'module_name' },
+        { headerName: 'Module Name', field: 'module_name', filter: "true", },
         { headerName: 'Status', field: 'status' },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])
