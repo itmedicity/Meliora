@@ -24,25 +24,55 @@ const ComplaintList = (count) => {
     }, [dispatch])
     //column title setting
     const [column] = useState([
-        { headerName: "SlNo", field: "complaint_slno", minWidth: 10 },
+        { headerName: "SlNo", field: "complaint_slno", width: 90 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
-        { headerName: "Department", field: "sec_name", filter: "true", wrapText: true, autoHeight: true, minWidth: 70 },
+        { headerName: "Req.Department", field: "sec_name", filter: "true", wrapText: true, autoHeight: true, minWidth: 70 },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
         { headerName: "Request Type", field: "req_type_name", filter: "true" },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true" },
-        { headerName: "Complaint Department", field: "complaint_dept_name", filter: "true" },
-        { headerName: "Date & Time", field: "compalint_date" },
-        { headerName: "status", field: "compalint_status1" }
+        { headerName: "Comp.Department", field: "complaint_dept_name", filter: "true", width: 180 },
+        { headerName: "Req.Date", field: "compalint_date" },
+        { headerName: "Assigned Employee", field: "em_name", filter: "true", width: 180 },
+        { headerName: "status", field: "compalint_status1", filter: "true" }
     ])
     const [assigned] = useState([
-        { headerName: "SlNo", field: "complaint_slno", minWidth: 10 },
+        { headerName: "SlNo", field: "complaint_slno", width: 90 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Department", field: "sec_name", wrapText: true, filter: "true", autoHeight: true, width: 200 },
+        { headerName: "Req.Department", field: "sec_name", wrapText: true, filter: "true", autoHeight: true, width: 200 },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
         { headerName: "Request Type", field: "req_type_name", filter: "true" },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true" },
-        { headerName: "Complaint Department", field: "complaint_dept_name", filter: "true", wrapText: true, autoHeight: true, width: 250 },
+        { headerName: "Comp.Department", field: "complaint_dept_name", filter: "true", wrapText: true, autoHeight: true, width: 150 },
         { headerName: "Employee", field: "em_name" },
-        { headerName: "Date & Time", field: "compalint_date" },
-        { headerName: "status", field: "compalint_status1" }
+        { headerName: "Req.Date", field: "compalint_date" },
+        { headerName: "Assign.Date", field: "assigned_date" },
+        { headerName: "status", field: "compalint_status1", filter: "true" }
+    ])
+    const [rectified] = useState([
+        { headerName: "SlNo", field: "complaint_slno", width: 90 },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 250 },
+        { headerName: "Req.Department", field: "sec_name", wrapText: true, filter: "true", autoHeight: true, width: 200 },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+        { headerName: "Request Type", field: "req_type_name", filter: "true" },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true" },
+        { headerName: "Comp.Department", field: "complaint_dept_name", filter: "true", wrapText: true, autoHeight: true, width: 150 },
+        { headerName: "Employee", field: "em_name" },
+        { headerName: "Req.Date", field: "compalint_date" },
+        { headerName: "Rectify.Date", field: "cm_rectify_time" },
+        { headerName: "status", field: "compalint_status1", filter: "true" }
+    ])
+    const [verified] = useState([
+        { headerName: "SlNo", field: "complaint_slno", width: 90 },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 250 },
+        { headerName: "Req.Department", field: "sec_name", wrapText: true, filter: "true", autoHeight: true, width: 200 },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+        { headerName: "Request Type", field: "req_type_name", filter: "true" },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true" },
+        { headerName: "Comp.Department", field: "complaint_dept_name", filter: "true", wrapText: true, autoHeight: true, width: 150 },
+        { headerName: "Employee", field: "em_name" },
+        { headerName: "Req.Date", field: "compalint_date" },
+        { headerName: "Verify.Date", field: "cm_verfy_time" },
+        { headerName: "Status", field: "compalint_status1", filter: "true" }
     ])
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
@@ -139,7 +169,7 @@ const ComplaintList = (count) => {
             const { success, data, message } = result.data
             if (success === 1) {
                 setTabledata(data)
-                // settable(1)
+                settable(2)
             }
             else if (success === 2) {
                 setTabledata([])
@@ -159,7 +189,7 @@ const ComplaintList = (count) => {
             const { success, data, message } = result.data
             if (success === 1) {
                 setTabledata(data)
-                settable(1)
+                settable(4)
             }
             else if (success === 2) {
                 setTabledata([])
@@ -179,7 +209,7 @@ const ComplaintList = (count) => {
             const { success, data, message } = result.data
             if (success === 1) {
                 setTabledata(data)
-                settable(1)
+                settable(3)
             }
             else if (success === 2) {
                 setTabledata([])
@@ -192,12 +222,7 @@ const ComplaintList = (count) => {
             setTabledata([])
         }
     }, [total, assign, verify, rectify, count, flag])
-    // const refreshWindow = useCallback(() => {
-    //     settotal(true)
-    //     setassign(false)
-    //     setverify(false)
-    //     setrectify(false)
-    // }, [])
+
     return (
         <CardCloseOnly
             title="Complaint List"
@@ -264,6 +289,20 @@ const ComplaintList = (count) => {
                 {
                     table === 2 ? <ComplistAgGridcmp
                         columnDefs={assigned}
+                        tableData={tabledata}
+                        rowHeight={30}
+                    /> : null
+                }
+                {
+                    table === 3 ? <ComplistAgGridcmp
+                        columnDefs={rectified}
+                        tableData={tabledata}
+                        rowHeight={30}
+                    /> : null
+                }
+                {
+                    table === 4 ? <ComplistAgGridcmp
+                        columnDefs={verified}
                         tableData={tabledata}
                         rowHeight={30}
                     /> : null

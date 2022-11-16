@@ -5,7 +5,7 @@ import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 
-const CusAgGridMast = ({ columnDefs, tableData, onSelectionChanged, columnTypes }) => {
+const CusAgGridMast = ({ columnDefs, tableData, onSelectionChanged, columnTypes, getRowStyle }) => {
     const rowHeight = 30
     const headerHeight = 30
     const defaultColDef = {
@@ -52,6 +52,7 @@ const CusAgGridMast = ({ columnDefs, tableData, onSelectionChanged, columnTypes 
                         onSelectionChanged={onSelectionChanged}
                         rowStyle={rowStyle}
                         columnTypes={columnTypes}
+                        getRowStyle={getRowStyle}
                     ></AgGridReact>
                 </Box>
             </Paper>

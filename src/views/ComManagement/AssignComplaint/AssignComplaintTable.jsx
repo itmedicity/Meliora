@@ -35,33 +35,6 @@ const AssignComplaintTable = () => {
     })
     //column title setting
     const [column] = useState([
-        { headerName: "SlNo", field: "complaint_slno" },
-        {
-            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 230,
-            cellStyle: function (params) {
-                if (params.data.cm_rectify_status === 'Z') {
-                    return { color: 'red' };
-                } else {
-                    return null;
-                }
-            }
-        },
-        { headerName: "Department Section", field: "sec_name", autoHeight: true, filter: "true", wrapText: true, width: 220 },
-        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, width: 200 },
-        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
-        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
-        {
-            headerName: "Verification Remark", field: "verify_remarks1", autoHeight: true, wrapText: true, width: 250,
-            cellStyle: function (params) {
-                if (params.data.cm_rectify_status === 'Z') {
-                    return { color: 'red' };
-                } else {
-                    return null;
-                }
-            }
-        },
-        { headerName: "Date & Time", field: "compalint_date", autoHeight: true, wrapText: true },
         {
             headerName: 'Action', minWidth: 120, cellRenderer: params => <Fragment>
 
@@ -80,10 +53,61 @@ const AssignComplaintTable = () => {
 
             </Fragment>
         },
+        { headerName: "SlNo", field: "complaint_slno" },
+        {
+            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 230,
+            cellStyle: function (params) {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
+        { headerName: "Department Section", field: "sec_name", autoHeight: true, filter: "true", wrapText: true, width: 220 },
+        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, width: 200 },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
+        {
+            headerName: "Verification Remark", field: "verify_remarks1", autoHeight: true, wrapText: true, width: 250,
+            cellStyle: function (params) {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
+        { headerName: "Date & Time", field: "compalint_date", autoHeight: true, wrapText: true },
+
     ])
     // when we click on assign this wil show assigned each inviduals employess complaint
     const [assign] = useState([
-        { headerName: "SlNo", field: "complaint_slno", autoHeight: true, wrapText: true, width: 200, },
+        {
+            headerName: 'Action', minWidth: 10,
+
+            cellRenderer: params => {
+                if (params.data.compalint_status === 2 || params.data.compalint_status === 3) {
+                    return <IconButton disabled
+                        sx={{ color: editicon, paddingY: 0.5 }}>
+                        <CustomeToolTip title="Assistant Needed" >
+                            < AccessibilityNewIcon />
+                        </CustomeToolTip>
+                    </IconButton>
+                } else {
+                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                        onClick={() => AssistantNeeded(params)}>
+                        <CustomeToolTip title="Assistant Needed" >
+                            < AccessibilityNewIcon />
+                        </CustomeToolTip>
+                    </IconButton>
+                }
+            }
+
+        },
+        { headerName: "SlNo", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 10, },
         {
             headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 270,
             cellStyle: (params) => {
@@ -98,23 +122,14 @@ const AssignComplaintTable = () => {
         { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, width: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
-        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
         { headerName: "Remark", field: "complaint_remark", autoHeight: true, wrapText: true },
         { headerName: "Date & Time", field: "assigned_date", autoHeight: true, wrapText: true },
-        {
-            headerName: 'Action', cellRenderer: params => <Fragment>
-                <IconButton sx={{ color: editicon, paddingY: 0.5 }}
-                    onClick={() => AssistantNeeded(params)}>
-                    <CustomeToolTip title="Assistant Needed" >
-                        < AccessibilityNewIcon />
-                    </CustomeToolTip>
-                </IconButton>
-            </Fragment>
-        }
+
     ])
     //when we click on all compalint this table  will show  
     const [alldata] = useState([
-        { headerName: "SlNo", field: "complaint_slno" },
+        { headerName: "SlNo", field: "complaint_slno", minWidth: 30 },
         {
             headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 230,
             cellStyle: (params) => {
@@ -129,9 +144,10 @@ const AssignComplaintTable = () => {
         { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, width: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
         { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
         {
-            headerName: "Employee Name", field: "em_name", autoHeight: true, wrapText: true,
+            headerName: "Employee Name", field: "em_name", filter: true, autoHeight: true, wrapText: true,
             cellStyle: (params) => {
                 if (params.data.cm_rectify_status === 'Z') {
                     return { color: 'red' };
@@ -140,20 +156,12 @@ const AssignComplaintTable = () => {
                 }
             }
         },
-        { headerName: "Date & Time", field: "assigned_date", autoHeight: true, wrapText: true, width: 200 },
-        { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, wrapText: true }
+        { headerName: "Req.Date", field: "compalint_date", autoHeight: true, wrapText: true, width: 200 },
+        { headerName: "Assign Date", field: "assigned_date", autoHeight: true, wrapText: true, width: 200 },
+        { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, filter: true, wrapText: true }
     ])
     //When we click on assist this table  will show
     const [assitantaccept] = useState([
-        { headerName: "SlNo", field: "complaint_slno" },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 280 },
-        { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, width: 200 },
-        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
-        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
-        { headerName: "Requested Employee", field: "em_name", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Date & Time", field: "assist_assign_date", autoHeight: true, wrapText: true },
         {
             headerName: 'Assisted', minWidth: 120,
             cellRenderer: params => {
@@ -174,7 +182,18 @@ const AssignComplaintTable = () => {
                 }
             }
 
-        }
+        },
+        { headerName: "SlNo", field: "complaint_slno" },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 280 },
+        { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, width: 250 },
+        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, width: 200 },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
+        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+        { headerName: "Requested Employee", field: "em_name", autoHeight: true, filter: true, wrapText: true, width: 250 },
+        { headerName: "Date & Time", field: "assist_assign_date", autoHeight: true, wrapText: true },
+
     ])
     const dispatch = useDispatch();
     //getting id
@@ -214,6 +233,7 @@ const AssignComplaintTable = () => {
     })
     //destructuring redux state
     const { pendingcomplaints, assignedcomplaints, assistcomplaints, allcomplaints } = state
+
     //for displaying the messages when there is no results in api
     useEffect(() => {
         const { pendingcomplaints, assignedcomplaints, assistcomplaints, allcomplaints } = state
