@@ -80,12 +80,10 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
         }
         if (personName.length === 0) {
             infoNotify("Please Select Employee")
-        } else if (remark === '') {
-            infoNotify("Please Enter Any Remark")
         } else {
             Assignemp(postData);
         }
-    }, [postData, count, reset, setCount, compremark, remark, personName])
+    }, [postData, count, reset, setCount, compremark, personName])
     return (
         <Fragment>
             <ToastContainer />

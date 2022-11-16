@@ -1,4 +1,4 @@
-import { Box, Paper, Grid } from '@mui/material';
+import { Box, Paper, Grid, IconButton, Typography } from '@mui/material';
 import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import CardMaster from 'src/views/Components/CardMaster'
@@ -22,6 +22,8 @@ import HicpolicyTitle from 'src/views/Components/HicpolicyTitle'
 import HicypolicygrpsTitle from 'src/views/Components/HicypolicygrpsTitle'
 import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect';
 import DirectComplaintTable from './DirectComplaintTable';
+import CropSquareIcon from '@mui/icons-material/CropSquare';
+
 const DirectComplaintReg = () => {
     /*** Initializing */
     const history = useHistory();
@@ -611,10 +613,26 @@ const DirectComplaintReg = () => {
                 </Paper>
             </Box>
             < Paper square elevation={0} sx={{
-                p: 2,
+                p: 1,
             }} >
                 <DirectComplaintTable rowSelect={rowSelect} count={count} />
             </Paper >
+            <Paper square sx={{
+                display: "flex",
+                p: 1,
+                alignItems: "center",
+            }}  >
+                <Box sx={{ display: "flex" }}>
+                    <IconButton >
+                        <CropSquareIcon sx={{ background: '#ff7043', pr: 5 }} />
+                    </IconButton>
+                </Box>
+                <Box sx={{ display: "flex", width: "98%", fontWeight: 400, pl: 2 }}>
+                    <Typography >
+                        Priority Critical
+                    </Typography>
+                </Box>
+            </Paper>
         </CardMaster>
     )
 }

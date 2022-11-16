@@ -1,5 +1,5 @@
 
-import { Box, Grid, Paper, } from '@mui/material'
+import { Box, Grid, Paper, IconButton, Typography } from '@mui/material'
 import React, { useCallback, useEffect, useState, useMemo, Fragment } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import { useHistory } from 'react-router-dom'
@@ -15,6 +15,7 @@ import { getHicpolicy } from 'src/redux/actions/HicPolicy.action'
 import ComplaintRegTable from './ComplaintRegTable'
 import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action'
 import ComplaintCheckBox from './ComplaintCheckBox'
+import CustomPaperTitle from '../../Components/CustomPaperTitle'
 import RequestTypeTitle from 'src/views/Components/RequestTypeTitle'
 import ComplaintDeptTitle from 'src/views/Components/ComplaintDeptTitle'
 import PrioritycmpTitle from 'src/views/Components/PrioritycmpTitle'
@@ -22,6 +23,9 @@ import ComplaintTypeTitle from 'src/views/Components/ComplaintTypeTitle'
 import ComplaintDescriptionTitle from 'src/views/Components/ComplaintDescriptionTitle'
 import HicpolicyTitle from 'src/views/Components/HicpolicyTitle'
 import HicypolicygrpsTitle from 'src/views/Components/HicypolicygrpsTitle'
+import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect'
+import CropSquareIcon from '@mui/icons-material/CropSquare';
+
 const ComplaintRegistrMast = () => {
     /*** Initializing */
     const history = useHistory();
@@ -49,6 +53,8 @@ const ComplaintRegistrMast = () => {
     const [codept, setcodept] = useState(null)
     //state for getting depsection of employee
     const [sec, setsec] = useState(0)
+    //state for dep section select box
+    const [depsec, setDepsec] = useState(0)
     const [complaint, setComplaint] = useState({
         complaint_slno: 0
     })
@@ -159,20 +165,22 @@ const ComplaintRegistrMast = () => {
             compalint_priority: priority,
             complaint_hicslno: hic !== 0 ? hic : null,
             compalint_status: 0,
+            cm_location: depsec,
             create_user: id
         }
-    }, [desc, sec, ReqType, cotype, hic, priority, codept, id])
+    }, [desc, sec, ReqType, cotype, depsec, hic, priority, codept, id])
     //Data set for edit
     const rowSelect = useCallback((params) => {
         setValue(1);
         const data = params.api.getSelectedRows()
         const { complaint_typeslno, complaint_dept_secslno, complaint_hicslno, hic_policy_status,
-            compalint_priority,
+            compalint_priority, cm_location,
             complaint_request_slno, complaint_deptslno, complaint_slno, complaint_desc, id } = data[0];
         const frmdata = {
             create_user: id,
             complaint_slno: complaint_slno
         }
+        setDepsec(cm_location)
         setComplaint(frmdata)
         setsec(complaint_dept_secslno)
         setReqType(complaint_request_slno)
@@ -212,10 +220,11 @@ const ComplaintRegistrMast = () => {
             compalint_priority: priority,
             complaint_hicslno: hic,
             compalint_status: 0,
+            cm_location: depsec,
             edit_user: id,
             complaint_slno: complaint_slno
         }
-    }, [desc, sec, ReqType, codept, cotype, priority, hic, complaint_slno, id])
+    }, [desc, sec, ReqType, depsec, codept, cotype, priority, hic, complaint_slno, id])
     /*** usecallback function for form submitting */
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
@@ -234,6 +243,7 @@ const ComplaintRegistrMast = () => {
             setHigh(false)
             setMedium(false)
             setdesc('')
+            setDepsec(0)
             setcodept(null)
         }
         /***    * insert function for use call back     */
@@ -290,6 +300,7 @@ const ComplaintRegistrMast = () => {
         setReqType(false)
         setcotype(false)
         setHic(0)
+        setDepsec(0)
         setChechHic(false)
         setpriority(false)
         setcodept(false)
@@ -299,6 +310,9 @@ const ComplaintRegistrMast = () => {
         setMedium(false)
         setdesc('')
     }, [])
+
+
+
     return (
         <CardMaster
             title="Complaint Registration"
@@ -611,6 +625,37 @@ const ComplaintRegistrMast = () => {
                                     </Box>
                                 </Paper>
                             </Box>
+
+                        </Box>
+                        {/* 4th section */}
+                    </Box>
+
+
+                    <Box sx={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                    }}>
+                        <Box sx={{
+                            display: 'flex',
+                            width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
+                        }} >
+                            <Box sx={{
+                                width: '30%',
+                                mt: 0.8
+                            }}>
+                                <Paper square elevation={1} sx={{
+                                    mt: 1,
+                                }}>
+                                    <CustomPaperTitle heading='Location' />
+                                    <Paper sx={{
+                                        p: 1,
+                                        width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%' }
+                                    }} >
+                                        <DeptSectionSelect value={depsec} setValue={setDepsec} />
+                                    </Paper>
+                                </Paper>
+                            </Box>
                         </Box>
                         {/* 4th section */}
                     </Box>
@@ -622,6 +667,29 @@ const ComplaintRegistrMast = () => {
                 <ComplaintRegTable
                     rowSelect={rowSelect} sec={sec} count={count} setCount={setCount} />
             </Paper >
+
+            <Paper square sx={{
+                display: "flex",
+                p: 1,
+                alignItems: "center",
+            }}  >
+                <Box sx={{ display: "flex" }}>
+                    <IconButton >
+                        <CropSquareIcon sx={{ background: '#ff7043', pr: 5 }} />
+                    </IconButton>
+                </Box>
+                <Box sx={{ display: "flex", width: "98%", fontWeight: 400, pl: 2 }}>
+                    <Typography >
+                        Priority Critical
+                    </Typography>
+                </Box>
+            </Paper>
+
+
+
+
+
+
         </CardMaster>
     )
 }
