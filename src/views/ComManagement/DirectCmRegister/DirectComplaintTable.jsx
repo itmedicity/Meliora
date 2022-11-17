@@ -54,7 +54,7 @@ const DirectComplaintTable = ({ count, rowSelect }) => {
                 setTabledata(data)
             }
             else {
-                warningNotify("Error occured contact EDP")
+                warningNotify("No Complaint")
             }
         }
         getDirectcomplaint();
