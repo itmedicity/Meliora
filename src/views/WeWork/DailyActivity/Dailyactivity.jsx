@@ -16,6 +16,8 @@ import moment from 'moment'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import DailyActivityTable from './DailyActivityTable'
+import CustomTextarea from '../../Components/CustomTextarea'
+
 
 const Dailyactivity = ({ ipno }) => {
     const [daily, setdaily] = useState('')
@@ -31,6 +33,7 @@ const Dailyactivity = ({ ipno }) => {
     const [value, setvalue] = useState(0)
     const [count, setCount] = useState(0);
     const [id, setid] = useState(0)
+    const [doctime, setdoctime] = useState('')
     const [activity, setactivity] = useState({
         activity_slno: '',
         update_empid: '',
@@ -93,6 +96,9 @@ const Dailyactivity = ({ ipno }) => {
     }, [])
     const getTime = useCallback((e) => {
         settime(e.target.value)
+    }, [])
+    const getdoctime = useCallback((e) => {
+        setdoctime(e.target.value)
     }, [])
 
     const getCleaning = useCallback((e) => {
@@ -188,7 +194,6 @@ const Dailyactivity = ({ ipno }) => {
         setasset(resetasset)
         setdiettype(resetdiet)
     }, [resetasset, resetdiet])
-
     useEffect(() => {
         const getsurvno = async () => {
             const result = await axioslogin.get(`/WeWork/slnobyip/${ipno}`)
@@ -223,10 +228,11 @@ const Dailyactivity = ({ ipno }) => {
             asset_usage: assetusage,
             patient_board_update: board === true ? 1 : 0,
             insurance_status: Insurance === true ? 1 : 0,
-            create_empid: emid
+            create_empid: emid,
+            dr_visit_time: doctime !== '' ? moment(doctime).format('YYYY-MM-DD hh:mm:ss') : null
         }
     }, [id, ipno, time, dietdetail, clean, sheet, round, notes, dietion,
-        bill, assetusage, board, Insurance, emid, daily])
+        bill, assetusage, board, Insurance, emid, daily, doctime])
 
 
     const patchdata = useMemo(() => {
@@ -244,10 +250,11 @@ const Dailyactivity = ({ ipno }) => {
             patient_board_update: board === true ? 1 : 0,
             insurance_status: Insurance === true ? 1 : 0,
             update_empid: emid,
-            activity_slno: activity_slno
+            activity_slno: activity_slno,
+            dr_visit_time: doctime !== '' ? moment(doctime).format('YYYY-MM-DD hh:mm:ss') : null
         }
     }, [time, dietdetail, clean, sheet, round, notes, dietion,
-        bill, assetusage, board, Insurance, emid, daily, activity_slno])
+        bill, assetusage, board, Insurance, emid, daily, activity_slno, doctime])
 
     const rowSelect = useCallback((params) => {
         setvalue(1);
@@ -337,12 +344,16 @@ const Dailyactivity = ({ ipno }) => {
         else {
             InsertData(postdata)
         }
-
     }, [postdata, patchdata, value, count, reset])
 
 
     return (
-        <Paper square elevation={1} sx={{ dispaly: "flex", justifyContent: "column" }}>
+        <Paper square elevation={0} sx={{ dispaly: "flex", justifyContent: "column" }}>
+            <Box sx={{ pb: 1 }}>
+                <Typography sx={{ fontStyle: "oblique", fontWeight: 800, color: '#94B7FC', textAlign: "center", fontSize: 20 }}>
+                    Daily Activity
+                </Typography>
+            </Box>
             <Box sx={{ display: "flex", flexDirection: "row", width: "80%", p: 2 }}>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
                     <Box sx={{ width: { xl: "30%", lg: "15%", md: "50%", sm: "30%" } }}  >
@@ -472,6 +483,60 @@ const Dailyactivity = ({ ipno }) => {
                     </Box>
                 </Box>
             </Paper>
+            <Paper square elevation={3} sx={{ p: 2 }} >
+                <Box sx={{ display: "flex", flexDirection: "row", width: "100%", }}>
+                    <Box sx={{ width: { xl: "10%", lg: "15%", md: "15%", sm: "20%" }, pb: 1 }}  >
+                        <CssVarsProvider>
+                            <Typography sx={{ fontStyle: "oblique", fontWeight: 500, color: '#94B7FC' }} startdecorator={<ArrowRightOutlinedIcon />}>
+                                Asset Usage</Typography>
+                        </CssVarsProvider>
+                    </Box>
+                </Box>
+
+                <Box sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%"
+                }}>
+                    <Box sx={{ width: "25%" }}>
+                        <CusCheckBox
+                            variant="outlined"
+                            color="primary"
+                            size="md"
+                            name="cardiac"
+                            label="Cardiac"
+                            value={cardiac}
+                            onCheked={updateAsset}
+                            checked={cardiac}
+                        />
+                    </Box>
+                    <Box sx={{ width: "25%" }}>
+                        <CusCheckBox
+                            variant="outlined"
+                            color="primary"
+                            size="md"
+                            name="monitor"
+                            label="O2 monitor"
+                            value={monitor}
+                            onCheked={updateAsset}
+                            checked={monitor}
+                        />
+                    </Box>
+                    <Box sx={{ width: "25%" }}>
+                        <CusCheckBox
+                            variant="outlined"
+                            color="primary"
+                            size="md"
+                            name="pump"
+                            label="Syringe Pump"
+                            value={pump}
+                            onCheked={updateAsset}
+                            checked={pump}
+                        />
+                    </Box>
+
+                </Box>
+            </Paper>
             <Paper square elevation={3} sx={{
                 p: 2, display: "flex", flexDirection: "column",
                 width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" }
@@ -483,7 +548,6 @@ const Dailyactivity = ({ ipno }) => {
                     flexDirection: { xl: "column", lg: "column", md: "column", sm: 'column', xs: "column" },
                     justifyContent: "space-between",
                     width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" }
-
                 }}>
                     <Box sx={{
                         display: "flex",
@@ -556,13 +620,36 @@ const Dailyactivity = ({ ipno }) => {
                                 checked={round}
                             />
                         </Box>
-                        <Box sx={{ width: { xl: "75%", lg: "80%", md: "75%", sm: "75%" } }}>
+                        <Box sx={{ width: { xl: "25%", lg: "25%", md: "25%", sm: "25%" } }}>
                             <TextFieldCustom
                                 size="sm"
+                                type="datetime-local"
+                                name="time"
+                                value={doctime}
+                                style={{ width: { xl: '50%', lg: "90%", md: "90%", sm: "90%" } }}
+                                onchange={getdoctime}
+                                disabled={round === true ? false : true}
+
+                            />
+                        </Box>
+
+                        <Box sx={{ width: { xl: "50%", lg: "40%", md: "40%", sm: "45%" } }}>
+                            {/* <CustomTextarea
+                                size="lg"
+                                style={{ width: { xl: '80%', lg: "90%" } }}
                                 type="text"
                                 placeholder="important notes"
                                 name="notes"
                                 value={notes}
+                                onchange={getnotes}
+                            /> */}
+                            <TextFieldCustom
+                                size="sm"
+                                type="text"
+                                name="notes"
+                                value={notes}
+                                style={{ width: { xl: '80%', lg: "90%", md: "100%", sm: "100%" }, height: "50%" }}
+                                placeholder={"important notes"}
                                 onchange={getnotes}
                             />
                         </Box>
@@ -573,62 +660,8 @@ const Dailyactivity = ({ ipno }) => {
 
 
             </Paper>
-            <Paper square elevation={3} sx={{ p: 2 }}>
-                <Box sx={{ display: "flex", flexDirection: "row", width: "100%", }}>
-                    <Box sx={{ width: { xl: "10%", lg: "15%", md: "15%", sm: "20%" }, pb: 1 }}  >
-                        <CssVarsProvider>
-                            <Typography sx={{ fontStyle: "oblique", fontWeight: 500, color: '#94B7FC' }} startdecorator={<ArrowRightOutlinedIcon />}>
-                                Asset Usage</Typography>
-                        </CssVarsProvider>
-                    </Box>
-                </Box>
 
-                <Box sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "100%"
-                }}>
-                    <Box sx={{ width: "25%" }}>
-                        <CusCheckBox
-                            variant="outlined"
-                            color="primary"
-                            size="md"
-                            name="cardiac"
-                            label="Cardiac"
-                            value={cardiac}
-                            onCheked={updateAsset}
-                            checked={cardiac}
-                        />
-                    </Box>
-                    <Box sx={{ width: "25%" }}>
-                        <CusCheckBox
-                            variant="outlined"
-                            color="primary"
-                            size="md"
-                            name="monitor"
-                            label="O2 monitor"
-                            value={monitor}
-                            onCheked={updateAsset}
-                            checked={monitor}
-                        />
-                    </Box>
-                    <Box sx={{ width: "25%" }}>
-                        <CusCheckBox
-                            variant="outlined"
-                            color="primary"
-                            size="md"
-                            name="pump"
-                            label="Syringe Pump"
-                            value={pump}
-                            onCheked={updateAsset}
-                            checked={pump}
-                        />
-                    </Box>
-
-                </Box>
-            </Paper>
-
-            <Paper square elevation={2} sx={{
+            <Paper square elevation={1} sx={{
                 pl: 2, display: "flex", flexDirection: "row",
                 width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" }
             }}>
@@ -649,13 +682,13 @@ const Dailyactivity = ({ ipno }) => {
                             checked={board}
                         />
                     </Box>
-                    <Box sx={{ display: "flex", flexDirection: "row", width: "10%", }}>
+                    <Box sx={{ display: "flex", flexDirection: "row", width: "50%", }}>
                         <CusCheckBox
                             variant="outlined"
                             color="primary"
                             size="md"
                             name="Insurance"
-                            label="Insurence status"
+                            label="Insurance status"
                             value={Insurance}
                             onCheked={getInsurce}
                             checked={Insurance}
@@ -672,21 +705,10 @@ const Dailyactivity = ({ ipno }) => {
                         </CusIconButton>
                     </Box>
                 </CustomeToolTip>
-                {/* <CustomeToolTip title="Edit" placement="left" >
-                    <Box sx={{ p: 1 }}>
-                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true"  >
-                            <ModeEditIcon fontSize='small' />
-                        </CusIconButton>
-                    </Box>
-                </CustomeToolTip> */}
-
-
-
-
             </Box>
-            <Paper sx={{ px: 2, py: 1 }}>
+            <Box sx={{ px: 2, py: 1 }}>
                 <DailyActivityTable ipno={ipno} count={count} rowSelect={rowSelect} setdiettype={setdiettype} />
-            </Paper>
+            </Box>
         </Paper>
     )
 }

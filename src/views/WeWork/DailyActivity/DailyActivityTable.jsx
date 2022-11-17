@@ -7,7 +7,7 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 import EditButton from 'src/views/Components/EditButton';
 
-const DailyActivityTable = ({ setCount, count, rowSelect, ipno }) => {
+const DailyActivityTable = ({ count, rowSelect, ipno }) => {
     const [tabledata, setTabledata] = useState([])
 
     const [column] = useState([
@@ -15,15 +15,12 @@ const DailyActivityTable = ({ setCount, count, rowSelect, ipno }) => {
         { headerName: "ipno", field: "ip_no", wrapText: true, autoHeight: true },
         { headerName: "name", field: "ptc_ptname", wrapText: true, autoHeight: true, width: 300 },
         { headerName: "Date", field: "activity_date", wrapText: true, autoHeight: true },
-
         { headerName: "Room cleaning", field: "room_clean" },
         { headerName: "Sheet change", field: "sheet_change" },
         { headerName: "Doctor's round", field: "dr_round" },
         { headerName: "Dietion Round", field: "dietian_round" },
         { headerName: "Bill Audit", field: "bill_audit" },
         { headerName: "Insurence", field: "insurance_status" },
-
-
         { headerName: 'Actions', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> }
 
     ])
@@ -41,12 +38,10 @@ const DailyActivityTable = ({ setCount, count, rowSelect, ipno }) => {
         getActivity(ipno);
     }, [count, ipno])
 
-
-
-
     return (
         <Fragment>
             <CusAgGridMast
+                height={600}
                 columnDefs={column}
                 tableData={tabledata} />
         </Fragment>

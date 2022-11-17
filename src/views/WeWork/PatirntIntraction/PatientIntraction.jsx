@@ -100,9 +100,7 @@ const PatientIntraction = ({ ipno }) => {
             status: status,
             remarks: Remarks,
             submit_employee: emid
-
         }
-
     }, [dates, parti, status, Remarks, emid, id])
 
     const patchdata = useMemo(() => {
@@ -161,7 +159,12 @@ const PatientIntraction = ({ ipno }) => {
     }, [postData, patchdata, value, count])
 
     return (
-        <Paper square elevation={3} sx={{ dispaly: "flex", p: 2 }}>
+        <Paper square elevation={0} sx={{ dispaly: "flex", p: 2, }}>
+            <Box sx={{ pb: 1 }}>
+                <Typography sx={{ fontStyle: "oblique", fontWeight: 800, color: '#94B7FC', textAlign: "center", fontSize: 20 }}>
+                    Patient Intraction
+                </Typography>
+            </Box>
             <Box sx={{ display: "flex", p: 2, width: "50%" }}>
                 <Box sx={{ width: { xl: "20%", lg: "30%", md: "30%", sm: "40%" } }}  >
                     <CssVarsProvider>
@@ -232,7 +235,7 @@ const PatientIntraction = ({ ipno }) => {
                             size="sm"
                             type="text"
                             name="time"
-                            style={{ height: 50, width: "100%" }}
+                            style={{ height: 50, width: 1500 }}
                             value={Remarks}
                             onchange={getRemark}
                         />

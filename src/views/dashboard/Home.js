@@ -154,6 +154,9 @@ import { getAssignedcomplaints, getOnholdcomplaints, getRectifiedcomplaints, get
 import { getPendingcomplaints } from 'src/redux/actions/ComplaintDashboard.action';
 import { getComplaintRights } from 'src/redux/actions/CmpRightsDashboard.action';
 import ComplaintDashboard from './ComplaintDashboard';
+import WeworkDashboard from './WeworkDashboard';
+import { getTotalAdmission } from 'src/redux/actions/WeworkAdmission.action'
+
 const Home = () => {
     const dispatch = useDispatch();
     const id = useSelector((state) => {
@@ -179,16 +182,37 @@ const Home = () => {
             dispatch(getRectifiedcomplaints(em_department))
             dispatch(getVerifiedcomplaints(em_department))
             dispatch(getOnholdcomplaints(em_department))
+
         }
     }, [profileData, dispatch])
 
     const newState = useSelector((state) => {
         return state.getTotalcomplaints
     })
+
     const data = Object.values(newState);
     const entries = useMemo(() => data, [data]);
     const newDashMenu = entries.filter(val => complaintRights.includes(val.slno) === true ? val.slno : null);
     const notification = useMemo(() => newDashMenu, [newDashMenu]);
+    // wework dash board
+    const admission = useSelector((state) => {
+        return state.getTotalAdmission
+
+
+    })
+
+    useEffect(() => {
+        dispatch(getTotalAdmission())
+    }, [dispatch])
+
+    const wewrkdata = Object.values(admission);
+    const workentries = useMemo(() => wewrkdata, [wewrkdata])
+    const weworkDash = workentries.filter(val => complaintRights.includes(val.slno) === true ? val.slno : null);
+    const weworkmenu = useMemo(() => weworkDash, [weworkDash])
+
+
+
+
     return (
         <Fragment>
             <Paper square sx={{ p: 1, width: '100%', display: "flex" }} elevation={3}>
@@ -204,6 +228,18 @@ const Home = () => {
                             </Grid>
                         ))
                     }
+                    {/* <Paper square sx={{ p: 1, width: '100%', display: "flex" }} elevation={3}> */}
+                    {
+                        weworkmenu.map((val, index) => (
+                            <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={index}>
+                                <WeworkDashboard widgetName={val.name} count={val.count} status={val.status} slno={val.slno} indx={index} />
+                            </Grid>
+                        ))
+                    }
+
+                    {/* </Paper> */}
+
+
                 </Grid>
             </Paper>
         </Fragment>
