@@ -16,7 +16,7 @@ import moment from 'moment'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import DailyActivityTable from './DailyActivityTable'
-import CustomTextarea from '../../Components/CustomTextarea'
+
 
 
 const Dailyactivity = ({ ipno }) => {
