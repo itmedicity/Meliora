@@ -92,7 +92,6 @@ const InPatientList = ({ close, refresh, submit }) => {
 
     //close button function
     const backtoSetting = useCallback(() => {
-        console.log("close");
         setflag(0)
     }, [])
 

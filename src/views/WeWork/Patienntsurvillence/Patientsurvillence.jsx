@@ -25,10 +25,12 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
     const [rmcat, setrmcat] = useState(false)
     const [modepay, setmodpay] = useState(false)
     const [pck, setpck] = useState(false)
+    const [bhrc, setbhrc] = useState(false)
     const [duser, setduser] = useState('')
     const [rstym, setrstym] = useState('')
     const [tele, settele] = useState(false)
     const [gzr, setgzr] = useState(false)
+    const [dama, setdama] = useState(false)
     const [dv, setdv] = useState('')
     const [st, setst] = useState('')
     const [rt, setrt] = useState('')
@@ -37,6 +39,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
     const [cr, setcr] = useState('')
     const [sfa, setsfa] = useState('')
     const [remr, setremr] = useState('')
+    const [reson, setreson] = useState('')
     const [shiffrom, setshiffrom] = useState(0)
     const [shiftto, setshiftto] = useState(0)
     const [count, setcount] = useState(0)
@@ -75,6 +78,23 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
     }, [])
     const getremark = useCallback((e) => {
         setremr(e.target.value)
+    }, [])
+    const getreason = useCallback((e) => {
+        setreson(e.target.value)
+    }, [])
+    const getbhrc = useCallback((e) => {
+        if (e.target.checked === true) {
+            setbhrc(true)
+        } else {
+            setbhrc(false)
+        }
+    }, [])
+    const getdama = useCallback((e) => {
+        if (e.target.checked === true) {
+            setdama(true)
+        } else {
+            setdama(false)
+        }
     }, [])
     const gettele = useCallback((e) => {
         if (e.target.checked === true) {
@@ -239,6 +259,11 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
         setamenties(resetamenties)
         setremote(resetremot)
         setservice(resetservice)
+        setdama(false)
+        setreson('')
+        setbhrc(false)
+
+
     }, [resetamenties, resetremot, resetservice])
 
     const detail = useMemo(() => {
@@ -255,7 +280,8 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                 const { shift_from, shift_to, surv_log_slno,
                     recieved_time, room_category, bed_type, telephone, geezer, dietition_visit_tme,
                     stat_medicine, stat_recived_time, assigned_nurse, document_status, payment_mode, tv_ac_remot,
-                    creadit_detail, pateint_service, remarks_we, sfa_mfa, discharge_wright, patpackage, we_surv_slno, room_amentites } = data[0];
+                    creadit_detail, pateint_service, remarks_we, sfa_mfa, discharge_wright, patpackage,
+                    we_surv_slno, room_amentites, if_dama, dama_remarks, bhrc_patient } = data[0];
                 const obj1 = JSON.parse(room_amentites)
                 const { sofaa, chair, card, almirah, cup, arm, kit, bin, wood, tab, mat } = obj1
                 const v = {
@@ -314,6 +340,9 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                 setamenties(v)
                 setremote(t)
                 setservice(p)
+                setdama(if_dama === 1 ? true : false)
+                setreson(dama_remarks)
+                setbhrc(bhrc_patient === 1 ? true : false)
             }
             else if (success === 2) {
                 infoNotify("enter patient details!")
@@ -356,7 +385,8 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
             }
         }
 
-        /*** * insert function for use call back     */
+
+        /*** * initial insert function for use call back     */
         const Insertidtable = async (postdetail) => {
             const result = await axioslogin.post(`/WeWork/insertsurv`, postdetail)
             const { message, success, insertId } = result.data;
@@ -389,6 +419,9 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                     sfa_mfa: sfa,
                     room_amentites: roomamenties,
                     pateint_service: patservice,
+                    bhrc_patient: bhrc === true ? 1 : 0,
+                    if_dama: dama === true ? 1 : 0,
+                    dama_remarks: reson,
                     we_employee: emid
                 }
                 const timeout = setTimeout(() => {
@@ -412,15 +445,12 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
             const result = await axioslogin.post(`/WeWork/survslno`, postdata)
             const { success, data } = result.data;
             if (success === 1) {
-
                 const { surv_slno } = data[0]
-
                 const shiftdetl = {
                     shift_from: shiffrom,
                     shift_to: shiftto,
                     we_surv_slno: we_surv_slno
                 }
-
                 const getsurvlogslno = async (shiftdetl) => {
                     const result = await axioslogin.post('/WeWork/logslno', shiftdetl)
                     const { success, data } = result.data
@@ -449,10 +479,14 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                             room_amentites: roomamenties,
                             pateint_service: patservice,
                             we_employee: emid,
-                            surv_log_slno: surv_log_slno
+                            surv_log_slno: surv_log_slno,
+                            bhrc_patient: bhrc === true ? 1 : 0,
+                            if_dama: dama === true ? 1 : 0,
+                            dama_remarks: reson,
                         }
                         Updatedata(patchData)
                     }
+                    // shifting insert function
                     else if (success === 2) {
                         const postData = {
                             we_surv_slno: surv_slno,
@@ -480,6 +514,9 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                             sfa_mfa: sfa,
                             room_amentites: roomamenties,
                             pateint_service: patservice,
+                            bhrc_patient: bhrc === true ? 1 : 0,
+                            if_dama: dama === true ? 1 : 0,
+                            dama_remarks: reson,
                             we_employee: emid
                         }
                         insertdata(postData)
@@ -495,7 +532,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
         getsurvslno(postdata)
     }, [postdetail, ipno, ptno, bedcode, bedtype, gzr, dv, st, rt, asn, modepay, doc,
         cr, pck, remr, sfa, duser, shiffrom, shiftto, rstym, tele,
-        emid, rmcat, we_surv_slno, roomamenties, patservice, actvremort, count, reset])
+        emid, rmcat, we_surv_slno, roomamenties, patservice, actvremort, count, reset, dama, reson, bhrc])
 
     return (
         < Box sx={{
@@ -504,6 +541,11 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
         }}
         >
             <Paper>
+                <Box sx={{ pb: 1 }}>
+                    <Typography sx={{ fontStyle: "oblique", fontWeight: 800, color: '#94B7FC', textAlign: "center", fontSize: 20 }}>
+                        Patient Survillence
+                    </Typography>
+                </Box>
                 <Paper sx={{ p: 1, }} >
                     <Paper>
                         <Box square elevation={3} sx={{
@@ -603,16 +645,31 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                     </Box>
                                 </Box>
                             </Box>
+
                             <Box sx={{
-                                dispaly: "flex",
+                                display: "flex", flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                                 width: { xl: "50%", lg: "50%", md: "50%", sm: "49%" }
                             }}>
-                                <Box sx={{ width: { xl: "90%", lg: "50%", md: "60%", sm: "100%" }, display: 'flex', }}>
-                                    <Box sx={{ width: { xl: "15%", lg: "39%", md: "40%", sm: "30%" } }}>
+                                <Box sx={{ width: { xl: "52%", lg: "50%", md: "60%", sm: "80%" }, display: 'flex', }}>
+                                    <Box sx={{ width: { xl: "30%", lg: "39%", md: "40%", sm: "40%" } }}>
                                         <Typography>Cousultant</Typography>
                                     </Box>
                                     <Box sx={{ width: { xl: "60%", lg: "61%", md: "60%", sm: "60%" }, height: 30, }}>
                                         <Typography>{docname}</Typography>
+                                    </Box>
+                                </Box>
+                                <Box sx={{ width: { xl: "30%", lg: "50%", md: "30%", sm: "30%" }, display: 'flex' }}>
+                                    <Box sx={{ width: { xl: "100%", lg: "61%", md: "60%", sm: "100%" }, height: 30, }}>
+                                        <CusCheckBox
+                                            variant="outlined"
+                                            color="primary"
+                                            size="md"
+                                            name="acremot"
+                                            label="BHRC"
+                                            value={bhrc}
+                                            onCheked={getbhrc}
+                                            checked={bhrc}
+                                        />
                                     </Box>
                                 </Box>
                             </Box>
@@ -717,7 +774,6 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                         <Typography> Room category</Typography>
                                     </CssVarsProvider>
                                 </Box>
-
                                 <Box variant="outlined" square sx={{
                                     px: 2, pr: 2,
                                     display: "flex",
@@ -791,7 +847,6 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                                 onChange={setbedtype}
                                                 checkedValue={bedtype}
                                             />
-
                                         </Box>
                                     })
                                 }
@@ -905,7 +960,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                 </Box>
                             </Box>
                             <Box sx={{ display: "flex", flexDirection: "row", width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
-                                <Box sx={{ display: 'flex', width: { xl: "30%", lg: "30%", md: "30%", sm: "40%" } }}>
+                                <Box sx={{ display: 'flex', width: { xl: "30%", lg: "40%", md: "30%", sm: "40%" } }}>
                                     <CssVarsProvider>    <Typography>STAT Medicine indent time</Typography> </CssVarsProvider></Box>
                                 <Box sx={{ display: 'flex', width: { xl: "40%", lg: "50%", md: "60%", sm: "60%" } }}>
                                     <TextFieldCustom
@@ -920,7 +975,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                         </Box>
                         <Box sx={{ display: 'flex', width: "100%", justifyContent: "start", pt: 1 }}>
                             <Box sx={{ display: "flex", width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, }}>
-                                <Box sx={{ display: 'flex', width: { xl: "30%", lg: "26%", md: "33%", sm: "33%" }, }}>
+                                <Box sx={{ display: 'flex', width: { xl: "30%", lg: "25%", md: "33%", sm: "33%" }, }}>
                                     <CssVarsProvider><Typography>Received time</Typography> </CssVarsProvider></Box>
                                 <Box sx={{ display: 'flex', width: { xl: "43%", lg: "55%", md: "58%", sm: "60%" }, pl: 3 }}>
                                     <TextFieldCustom
@@ -933,7 +988,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                 </Box>
                             </Box>
                             <Box sx={{ display: "flex", width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, }}>
-                                <Box sx={{ display: 'flex', width: { xl: "30%", lg: "30%", md: "30%", sm: "40%" } }}>
+                                <Box sx={{ display: 'flex', width: { xl: "30%", lg: "40%", md: "30%", sm: "40%" } }}>
                                     <CssVarsProvider>    <Typography>Assigned nursing staff</Typography> </CssVarsProvider></Box>
                                 <Box sx={{ display: 'flex', width: { xl: "40%", lg: "50%", md: "60%", sm: "60%" }, }}>
                                     <AssignedStaffselect value={asn} setValue={setasn} shiftto={shiftto} />
@@ -954,7 +1009,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                     </Box>
                     <Paper sx={{ p: 2 }}>
                         <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
-                            <Box sx={{ width: "16.5%" }}  >
+                            <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }}  >
                                 <CssVarsProvider>
                                     <Typography> Mode of Payment</Typography>
                                 </CssVarsProvider>
@@ -992,8 +1047,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                         <Box sx={{
                             display: "flex", flexDirection: "row", width: "100%", justifyContent: "start", pt: 1
                         }}>
-                            <Box sx={{ width: "16.5%" }
-                            } >
+                            <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }} >
                                 <CssVarsProvider>
                                     <Typography>Document Status(if any)</Typography>
                                 </CssVarsProvider>
@@ -1011,8 +1065,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                         <Box sx={{
                             display: "flex", flexDirection: "row", width: "100%", justifyContent: "start", pt: 1
                         }}>
-                            <Box sx={{ width: "16.5%" }
-                            } >
+                            <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }} >
                                 <CssVarsProvider>
                                     <Typography>Details if Credit</Typography>
                                 </CssVarsProvider>
@@ -1028,13 +1081,13 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                             </Box>
                         </Box>
                         <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pt: 1 }}>
-                            <Box sx={{ width: "16.5%" }}  >
+                            <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }}  >
                                 <CssVarsProvider>
                                     <Typography> Package</Typography>
                                 </CssVarsProvider>
                             </Box>
                             <Box variant="outlined" square sx={{
-                                px: 4.5, pr: 2,
+                                px: 4.5,
                                 display: "flex",
                                 textTransform: 'capitalize',
                                 flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" },
@@ -1064,7 +1117,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                             </Box>
                         </Box>
                         <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pt: 1 }}>
-                            <Box sx={{ width: "16.5%" }}  >
+                            <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }}  >
                                 <CssVarsProvider>
                                     <Typography>SFA/MFA</Typography>
                                 </CssVarsProvider>
@@ -1082,7 +1135,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                             </Box>
                         </Box>
                         <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pt: 1 }}>
-                            <Box sx={{ width: "16.5%" }}  >
+                            <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }}  >
                                 <CssVarsProvider>
                                     <Typography>Remarks</Typography>
                                 </CssVarsProvider>
@@ -1094,6 +1147,31 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                     name="remr"
                                     value={remr}
                                     onchange={getremark}
+                                />
+                            </Box>
+                        </Box>
+                        <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pt: 1 }}>
+                            <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "21%" } }}>
+                                <CusCheckBox
+                                    variant="outlined"
+                                    color="primary"
+                                    size="md"
+                                    name="gzr"
+                                    label="DAMA"
+                                    value={dama}
+                                    onCheked={getdama}
+                                    checked={dama}
+                                />
+                            </Box>
+                            <Box sx={{ width: "66%" }}>
+                                <TextFieldCustom
+                                    size="sm"
+                                    disabled={dama === true ? false : true}
+                                    type="text"
+                                    name="sfa"
+                                    placeholder="reason"
+                                    value={reson}
+                                    onchange={getreason}
                                 />
                             </Box>
                         </Box>
