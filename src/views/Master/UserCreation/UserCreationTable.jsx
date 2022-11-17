@@ -1,7 +1,7 @@
 import React, { useEffect, useState, memo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
-import CusAgGridMast from 'src/views/Components/CusAgGridMast';
+import CusAgGridForMain from 'src/views/Components/CusAgGridForMain';
 import EditButton from 'src/views/Components/EditButton';
 const UserCreationTable = ({ count, rowSelect }) => {
     //state for setting table data
@@ -33,7 +33,7 @@ const UserCreationTable = ({ count, rowSelect }) => {
         getUserTable();
     }, [count])
     return (
-        <CusAgGridMast
+        <CusAgGridForMain
             columnDefs={column}
             tableData={tabledata}
         />

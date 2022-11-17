@@ -10,10 +10,10 @@ import UserGroupSelect from 'src/views/CommonSelectCode/UserGroupSelect';
 import ModuleSelect from 'src/views/CommonSelectCode/ModuleSelect';
 import { useCallback } from 'react';
 import { axioslogin } from 'src/views/Axios/Axios'
-import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import SubModuleGroup from 'src/views/CommonSelectCode/SubModuleGroup';
+import CusAgGridForMain from 'src/views/Components/CusAgGridForMain';
 
 const UserGroupRight = () => {
     //Initializing
@@ -189,7 +189,7 @@ const UserGroupRight = () => {
             <Box sx={{ pl: 2, pr: 2, pb: 2 }}>
                 {
                     render !== 0 ?
-                        <CusAgGridMast
+                        <CusAgGridForMain
                             columnDefs={column}
                             tableData={tabledata}
                             onSelectionChanged={getdata}

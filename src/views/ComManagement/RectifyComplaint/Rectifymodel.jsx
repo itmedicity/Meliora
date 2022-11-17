@@ -116,7 +116,8 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
             compalint_status: rectified === true ? 2 : compalint_status, // when we click on rectifi status becom 2 other wise status is 1
             cm_rectify_status: pending === true ? 'P' : hold === true ? 'O' : rectified === true ? 'R' : null, //we click pending rectify status becom P so onn
             cm_rectify_time: rectified === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
-            rectify_pending_hold_remarks: pending === true ? pendholdreason : hold === true ? pendholdreason : null,
+            rectify_pending_hold_remarks: pending === true ? pendholdreason : hold === true ?
+                pendholdreason : rectified === true ? pendholdreason : null,
             complaint_slno: complaint_slno
         }
     }, [complaint_slno, pending, hold, rectified, compalint_status, pendholdreason])
@@ -166,7 +167,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
                 </DialogTitle>
                 <DialogContent sx={{
                     width: "100%",
-                    height: "100%"
+                    height: 450
                 }}>
                     <Box sx={{ width: "100%", mt: 0 }}>
                         <Box>
@@ -344,7 +345,15 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
                                         />
                                     </Box> : null
                                 }
-
+                                <Box sx={{ p: 0.5 }}>
+                                    <CustomTextarea
+                                        style={{ width: 390 }}
+                                        minRows={4}
+                                        placeholder="Remarks"
+                                        onchange={updatePendhold}
+                                        value={pendholdreason}
+                                    />
+                                </Box>
                             </Paper>
                         </Box>
                     </Box>

@@ -12,15 +12,14 @@ function NursingStationMastTable({ count, rowSelect }) {
         headerName: "slno", field: "co_nurse_slno"
     },
     {
-        headerName: "Nursing station Name", field: "co_nurse_desc", minWidth: 200
+        headerName: "Nursing station Name", field: "co_nurse_desc", filter: "true", minWidth: 200
     },
     {
-        headerName: "Nursing station Oracle", field: "nsc_desc", minWidth: 250
+        headerName: "Nursing station Oracle", field: "nsc_desc", filter: "true", minWidth: 250
     },
     {
         headerName: "Status", field: "status"
     },
-
 
     { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> }
 

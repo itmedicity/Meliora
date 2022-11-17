@@ -1,10 +1,8 @@
 import React, { Fragment, useState } from 'react'
 import {
   CAvatar,
-  CBadge,
   CDropdown,
   CDropdownDivider,
-  CDropdownHeader,
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
@@ -12,16 +10,8 @@ import {
 
 import avatar8 from './../../assets/images/avatars/8.jpg'
 import {
-  iconMessage,
-  iconNotification,
-  iconProfile,
-  iconPowerOff,
-  iconSettings,
+  iconPowerOff
 } from 'src/color/Color'
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
-import EmailIcon from '@mui/icons-material/Email'
-import NotificationsIcon from '@mui/icons-material/Notifications'
-import SettingsIcon from '@mui/icons-material/Settings'
 import LogoutIcon from '@mui/icons-material/Logout'
 import ModelMessage from 'src/views/Components/ModelMessage'
 
@@ -43,7 +33,7 @@ const AppHeaderDropdown = () => {
           <CAvatar src={avatar8} size="md" />
         </CDropdownToggle>
         <CDropdownMenu className="pt-0" placement="bottom-end">
-          <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>
+          {/* <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>
           <CDropdownItem href="#">
             <ManageAccountsIcon className="me-2" sx={{ color: iconProfile }} />
             Profile
@@ -68,7 +58,7 @@ const AppHeaderDropdown = () => {
             <CBadge style={{ backgroundColor: iconSettings }} className="ms-2">
               42
             </CBadge>
-          </CDropdownItem>
+          </CDropdownItem> */}
           <CDropdownDivider />
           <CDropdownItem href="#" onClick={cmsLogout} >
             <LogoutIcon className="me-2" sx={{ color: iconPowerOff }} onClick={cmsLogout} />

@@ -5,8 +5,8 @@ const { FETCH_LOGIN_PROFILE_DATA } = ActionTyps
  * success is '1'  retrun data set to payload and status set to true otherwise set null array and status false
  */
 
-export const setLoginProfileData = (dept) => async (dispatch) => {
-    const result = await axioslogin.get(`/common/getLoginProfile/${dept}`)
+export const setLoginProfileData = (id) => async (dispatch) => {
+    const result = await axioslogin.get(`/common/getLoginProfile/${id}`)
     const { success, data } = result.data
     if (success === 1) {
         dispatch({ type: FETCH_LOGIN_PROFILE_DATA, payload: data, loadingStatus: true })

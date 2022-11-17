@@ -9,15 +9,13 @@ import { getMenuSlno } from 'src/views/Constant/Constant'
 import CmTransactions from '../Menus/CmTransactions'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilPuzzle, cilSpeedometer } from '@coreui/icons'
+import { cilHouse } from '@coreui/icons'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { apsideBgclor } from 'src/color/Color'
 import DietTransactions from '../Menus/DietTransactions'
 import RmTransactions from '../Menus/RmTransaction'
-import RmUtilities from '../Menus/RmUtilities'
 import NurseStation from '../Menus/NurseStation'
 import WeWorkTransact from '../Menus/WeWorkTransact'
-
 const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.changeState.sidebarUnfoldable)
@@ -26,26 +24,25 @@ const AppSidebar = () => {
   const [cmtransact, setCmTransact] = useState()
   const [diettransact, setDietTransact] = useState()
   const [rmtransact, setRmTransact] = useState()
-  const [rmutilities, setRmUtilities] = useState()
   const [weworktransact, setweworktransact] = useState()
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
 
   //Side bar menus array
   const navigation = [
+    //Home Menu
     {
       slno: 1,
       component: CNavItem,
       name: 'Home',
       to: '/Home',
-      icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />
-
+      icon: <CIcon icon={cilHouse} customClassName="nav-icon" />
     },
+    //Nursing Station Menu
     {
       slno: 11,
       component: CNavGroup,
       name: 'Nursing Station',
-      // icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
       items: nurseStation
     },
     //Complaint Management System Menu Start from Here
@@ -63,37 +60,19 @@ const AppSidebar = () => {
     },
     //Room Management System Menu Start from Here
     {
-      slno: 4,
-      component: CNavTitle,
-      name: 'Asset Management',
-    },
-    //Room Management System Menu Start from Here
-    {
-      slno: 5,
-      component: CNavTitle,
-      name: 'Room Management',
-    },
-    {
       slno: 5,
       component: CNavGroup,
-      name: 'Transaction',
-      icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+      name: 'Room Management',
       items: rmtransact
     },
-    {
-      slno: 5,
-      component: CNavGroup,
-      name: 'Utilities',
-      icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-      items: rmutilities
-    },
-    //Request Management System Menu Start from Here
+    //Diet Management Menus
     {
       slno: 7,
       component: CNavGroup,
       name: 'Diet Management',
       items: diettransact
     },
+    //We  Work Menu Start from Here
     {
       slno: 7,
       component: CNavGroup,
@@ -120,8 +99,6 @@ const AppSidebar = () => {
         setDietTransact(newDietTransaction)
         const newRmTransaction = RmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setRmTransact(newRmTransaction)
-        const newRmUtilities = RmUtilities.filter(val => menuSlnoAry.includes(val.men_slno));
-        setRmUtilities(newRmUtilities)
         const weworkTransact = WeWorkTransact.filter(val => menuSlnoAry.includes(val.men_slno));
         setweworktransact(weworkTransact)
         setCount(1)
@@ -160,6 +137,10 @@ const AppSidebar = () => {
     getModuleUserRight()
   }, [count])
 
+  const empname = useSelector((state) => {
+    return state.LoginUserData.empname
+  })
+
   return (
     <CSidebar
       position="fixed"
@@ -171,6 +152,7 @@ const AppSidebar = () => {
       style={{ backgroundColor: apsideBgclor }}
     >
       <CSidebarBrand className="d-none d-md-flex" to="/">
+        {empname}
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>
