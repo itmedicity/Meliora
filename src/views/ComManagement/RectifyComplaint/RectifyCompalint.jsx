@@ -80,7 +80,11 @@ const RectifyCompalint = () => {
                 }
             }
         },
-        { headerName: "SlNo", field: "complaint_slno" },
+        {
+            headerName: "SlNo",
+
+            field: "complaint_slno"
+        },
         { headerName: "Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 350 },
         { headerName: "Department", field: "sec_name", autoHeight: true, wrapText: true, width: 280 },
         { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, width: 280 },
@@ -158,7 +162,7 @@ const RectifyCompalint = () => {
                     <Box sx={{ width: "13%", pr: 1, mt: 1 }}>
                         <CusCheckBox
                             label="Rectified"
-                            color="primary"
+                            color="danger"
                             size="md"
                             name="rectify"
                             value={rectify}
@@ -169,7 +173,7 @@ const RectifyCompalint = () => {
                     <Box sx={{ width: "13%", mt: 1 }}>
                         <CusCheckBox
                             label="Not Rectified"
-                            color="primary"
+                            color="danger"
                             size="md"
                             name="notRecty"
                             value={notRecty}

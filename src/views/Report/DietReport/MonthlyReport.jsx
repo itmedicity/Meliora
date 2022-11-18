@@ -153,24 +153,24 @@ const MonthlyReport = () => {
     }, [exports, setexport, dispatch])
 
     useEffect(() => {
-        if ((total.length !== 0) && (extra.length !== 0)) {
-            const newarrt = total && total.map((val) => {
-                const a1 = extra.find((ele) => ele.proc_slno === val.proc_slno)
-                return {
-                    ...val, extraAmnt: a1?.exhossum ?? 0,
-                    extracantAmt: a1?.excantsum ?? 0
-                }
-            })
-            const newhos = newarrt.map((val) => {
-                const obj = {
-                    ...val, totalsum: val.hossum + val.extraAmnt,
-                    totalextrasum: val.cantsum + val.extracantAmt
-                }
-                return obj
-            })
-            setTableData(newhos);
-            setdataa(newhos)
-        }
+
+        const newarrt = total && total.map((val) => {
+            const a1 = extra.find((ele) => ele.proc_slno === val.proc_slno)
+            return {
+                ...val, extraAmnt: a1?.exhossum ?? 0,
+                extracantAmt: a1?.excantsum ?? 0
+            }
+        })
+        const newhos = newarrt.map((val) => {
+            const obj = {
+                ...val, totalsum: val.hossum + val.extraAmnt,
+                totalextrasum: val.cantsum + val.extracantAmt
+            }
+            return obj
+        })
+        setTableData(newhos);
+        setdataa(newhos)
+
 
     }, [total, extra])
 
