@@ -422,7 +422,7 @@ const ComplaintRegistrMast = () => {
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                                 <CusCheckBox
                                                     variant="outlined"
-                                                    color="primary"
+                                                    color="danger"
                                                     size="md"
                                                     name="crical"
                                                     label="Critical"
@@ -434,7 +434,7 @@ const ComplaintRegistrMast = () => {
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                                 <CusCheckBox
                                                     variant="outlined"
-                                                    color="primary"
+                                                    color="danger"
                                                     size="md"
                                                     name="high"
                                                     label="High"
@@ -446,7 +446,7 @@ const ComplaintRegistrMast = () => {
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                                 <CusCheckBox
                                                     variant="outlined"
-                                                    color="primary"
+                                                    color="danger"
                                                     size="md"
                                                     name="medium"
                                                     label="Medium"
@@ -532,7 +532,7 @@ const ComplaintRegistrMast = () => {
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                                 <CusCheckBox
                                                     variant="outlined"
-                                                    color="primary"
+                                                    color="danger"
                                                     size="md"
                                                     name="Hic"
                                                     label="Hic"
@@ -684,12 +684,6 @@ const ComplaintRegistrMast = () => {
                     </Typography>
                 </Box>
             </Paper>
-
-
-
-
-
-
         </CardMaster>
     )
 }

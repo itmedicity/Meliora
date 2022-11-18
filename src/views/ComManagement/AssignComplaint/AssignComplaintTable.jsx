@@ -388,7 +388,7 @@ const AssignComplaintTable = () => {
                             }} >
                                 <CusCheckBox
                                     label="Assigned List"
-                                    color="primary"
+                                    color="danger"
                                     size="md"
                                     name="assigned"
                                     value={assigned}
@@ -403,7 +403,7 @@ const AssignComplaintTable = () => {
                             }} >
                                 <CusCheckBox
                                     label="Pending List"
-                                    color="primary"
+                                    color="danger"
                                     size="md"
                                     name="pending"
                                     value={pending}
@@ -418,7 +418,7 @@ const AssignComplaintTable = () => {
                             }} >
                                 <CusCheckBox
                                     label="Assist"
-                                    color="primary"
+                                    color="danger"
                                     size="md"
                                     name="assist"
                                     value={assist}
@@ -433,7 +433,7 @@ const AssignComplaintTable = () => {
                             }} >
                                 <CusCheckBox
                                     label="All Complaint"
-                                    color="primary"
+                                    color="danger"
                                     size="md"
                                     name="all"
                                     value={all}

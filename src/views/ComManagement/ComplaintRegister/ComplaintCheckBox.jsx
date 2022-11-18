@@ -7,7 +7,7 @@ const ComplaintCheckBox = ({ value, onChange, name, label, checkedValue, onClick
             <CssVarsProvider>
                 <Checkbox
                     variant="outlined"
-                    color='primary'
+                    color='danger'
                     label={label.toLowerCase()}
                     checked={checkedValue !== undefined && checkedValue !== value ? false : true}
                     onChange={(e) => {
@@ -15,11 +15,9 @@ const ComplaintCheckBox = ({ value, onChange, name, label, checkedValue, onClick
 
                     }}
                     onClick={onClick}
-                    // checked={100}
                     name={name}
                 //disabled={checkedValue !== undefined && checkedValue !== val.value ? true : false}
                 />
-
             </CssVarsProvider >
         </Fragment >
     )
