@@ -3,7 +3,7 @@ import CardMaster from 'src/views/Components/CardMaster'
 import { useHistory } from 'react-router-dom';
 import { Box, Paper, Typography } from '@mui/material'
 import NursingStationMeliSelect from 'src/views/CommonSelectCode/NursingStationMeliSelect';
-import ExtraRoomMeliSelect from '../ExtraRoomMeliSelect';
+import ExtraRoomMeliSelect from '../DietExtraOrder/ExtraRoomMeliSelect';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import CusIconButton from 'src/views/Components/CusIconButton';
 import moment from 'moment'

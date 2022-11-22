@@ -23,8 +23,8 @@ import ComplaintTypeTitle from 'src/views/Components/ComplaintTypeTitle'
 import ComplaintDescriptionTitle from 'src/views/Components/ComplaintDescriptionTitle'
 import HicpolicyTitle from 'src/views/Components/HicpolicyTitle'
 import HicypolicygrpsTitle from 'src/views/Components/HicypolicygrpsTitle'
-import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect'
 import CropSquareIcon from '@mui/icons-material/CropSquare';
+import LocationSelect from 'src/views/CommonSelectCode/LocationSelect'
 
 const ComplaintRegistrMast = () => {
     /*** Initializing */
@@ -652,7 +652,7 @@ const ComplaintRegistrMast = () => {
                                         p: 1,
                                         width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%' }
                                     }} >
-                                        <DeptSectionSelect value={depsec} setValue={setDepsec} />
+                                        <LocationSelect value={depsec} setValue={setDepsec} />
                                     </Paper>
                                 </Paper>
                             </Box>
