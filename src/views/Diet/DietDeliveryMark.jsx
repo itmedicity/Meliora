@@ -16,7 +16,7 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import Button from '@mui/material/Button';
 import RoomSelectDelivery from './RoomSelectDelivery';
 import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect';
-import ExtraRoomMeliSelect from './ExtraRoomMeliSelect';
+import ExtraRoomMeliSelect from './DietExtraOrder/ExtraRoomMeliSelect';
 const DietDeliveryMark = () => {
     const [room, setRoom] = useState(0)
     const [nurse, setNurse] = useState(0)

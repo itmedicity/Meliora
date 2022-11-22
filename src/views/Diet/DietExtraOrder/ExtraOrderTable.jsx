@@ -2,17 +2,19 @@ import React, { Fragment, memo } from 'react'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color'
-const ExtraOrderTable = ({ newfood, setNewdata }) => {
+const ExtraOrderTable = ({ newfood, setNewdata, setHospital, setCanteen, sumCanteen, sumHosptial }) => {
 
-    const rowSelect = (id) => {
+    const rowSelect = (value) => {
         const newarry = newfood.filter((val) => {
-            return val.id !== id
+            return val.item_slno !== value.item_slno
         })
         setNewdata(newarry)
+        setCanteen(sumCanteen - value.rate_cant)
+        setHospital(sumHosptial - value.rate_hos)
     }
     return (
         <Fragment>
-            <TableContainer sx={{ maxHeight: 250 }}>
+            <TableContainer sx={{ maxHeight: 200 }}>
                 <Table size="small"
                     stickyHeader aria-label="sticky table"
                     sx={{ border: "0.5px solid" }}>
@@ -28,7 +30,7 @@ const ExtraOrderTable = ({ newfood, setNewdata }) => {
                     <TableBody>
                         {newfood && newfood.map((val, index) => {
                             return <TableRow
-                                key={val.id}
+                                key={val.item_slno}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell align="center">{val.item_slno}</TableCell>
@@ -38,7 +40,7 @@ const ExtraOrderTable = ({ newfood, setNewdata }) => {
                                 <TableCell align="center">
                                     <IconButton
                                         sx={{ color: editicon, paddingY: 0.5 }}
-                                        onClick={() => rowSelect(val.id)} >
+                                        onClick={() => rowSelect(val)} >
                                         <DeleteIcon size={25} />
                                     </IconButton >
                                 </TableCell>
