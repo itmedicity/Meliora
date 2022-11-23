@@ -368,7 +368,7 @@ const AssignComplaintTable = () => {
     return (
         <Fragment>
             <CardCloseOnly
-                title="Complaint Assign"
+                title="Complaint Assigns"
                 close={backtoSetting}
             >
                 <Box sx={{ width: "100%", p: 1 }}>
