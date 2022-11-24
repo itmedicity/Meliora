@@ -163,7 +163,7 @@ const AppSidebar = () => {
             justifyContent: 'space-between',
             textTransform: "capitalize"
           }}>
-            <Typography sx={{ fontWeight: 500, color: '#cddc39' }} >
+            <Typography sx={{ fontWeight: 500, color: '#e0f7fa' }} >
               {empname.toLowerCase()}
             </Typography>
           </Box>
@@ -172,7 +172,7 @@ const AppSidebar = () => {
             display: 'flex',
             justifyContent: 'space-between',
           }} >
-            <Typography sx={{ color: '#cddc39' }} >
+            <Typography sx={{ color: '#e0f7fa', fontSize: 11 }} >
               {section}
             </Typography>
           </Box>

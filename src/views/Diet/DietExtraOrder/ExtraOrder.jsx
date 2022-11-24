@@ -128,12 +128,32 @@ const ExtraOrder = () => {
                 total_hos: rate_hos * Count,
                 total_cat: rate_cant * Count,
             }
-            setNewdata([...newfood, newdata])
-            setCanteen(sumCanteen + (rate_cant * Count))
-            setHospital(sumHosptial + (rate_hos * Count))
-            setItem(0)
-            setCount(1)
-            setFood(frmreset)
+
+            if (newfood.length !== 0) {
+                if (newfood[0].item_slno !== item) {
+                    setNewdata([...newfood, newdata])
+                    setNewdata([...newfood, newdata])
+                    setCanteen(sumCanteen + (rate_cant * Count))
+                    setHospital(sumHosptial + (rate_hos * Count))
+                    setItem(0)
+                    setCount(1)
+                    setFood(frmreset)
+                }
+                else {
+                    warningNotify("Item Already Select For Oder")
+                }
+            }
+            else {
+                setNewdata([...newfood, newdata])
+                setNewdata([...newfood, newdata])
+                setCanteen(sumCanteen + (rate_cant * Count))
+                setHospital(sumHosptial + (rate_hos * Count))
+                setItem(0)
+                setCount(1)
+                setFood(frmreset)
+            }
+
+
         } else {
             warningNotify("Please Select Item")
         }
@@ -339,9 +359,14 @@ const ExtraOrder = () => {
         setItem(item_slno)
         setCount(count)
         setEditCount(count)
+        setForUpdate()
     }, [])
-    /** when count change array update function */
     useEffect(() => {
+        setForUpdate()
+    }, [Count])
+    /** when count change array update function */
+
+    const setForUpdate = useCallback(() => {
         if (Count !== editCount && Count !== 1) {
             const { item_slno, rate_hos, rate_cant, item_name, type_slno } = editArry
             const newarry = newfood.filter((val) => {
@@ -367,9 +392,7 @@ const ExtraOrder = () => {
                     setCanteen(sumCanteen - (rate_cant * Count))
                     setHospital(sumHosptial - (rate_hos * Count))
                 }
-
             }
-
         }
 
     }, [editCount, Count, editArry, newfood, sumHosptial, sumCanteen])
