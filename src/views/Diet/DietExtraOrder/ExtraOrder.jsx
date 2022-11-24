@@ -1,4 +1,4 @@
-import { IconButton, Paper, Typography, Box } from '@mui/material';
+import { IconButton, Paper, Typography, Box, Tooltip } from '@mui/material';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -19,6 +19,7 @@ import ExtraOrderView from './ExtraOrderView';
 import { Fragment } from 'react';
 
 const ExtraOrder = () => {
+    /** Variable initialization */
     const history = useHistory();
     const [disview, setDisview] = useState(0)
     const [checkAction, setCheckaction] = useState(0)
@@ -29,6 +30,8 @@ const ExtraOrder = () => {
     const [add, setAdd] = useState(0);
     const [nurse, setNurse] = useState(0)
     const [itemName, setItemName] = useState("");
+    const [procsdetl_slno, setProcesDetal] = useState(0)
+    const [Count, setCount] = useState(0)
     const [food, setFood] = useState({
         item_slno: "",
         rate_hos: "",
@@ -38,7 +41,7 @@ const ExtraOrder = () => {
     const [order, setOrder] = useState({
         pt_no: "",
         ptc_ptname: "",
-        process_date: moment(new Date).format('YYYY-MM-DD')
+        process_date: moment(new Date).format('YYYY-MM-DD'),
     })
     const { process_date, pt_no, ptc_ptname } = order
     const [process, setProcess] = useState('')
@@ -52,6 +55,37 @@ const ExtraOrder = () => {
             item_slno: item
         }
     }, [item])
+    // Refesh function for window refresh and after insert and update data clear
+    const refreshWindow = useCallback(() => {
+        const frmreset = {
+            item_slno: "",
+            rate_hos: "",
+            rate_cant: ""
+        }
+        const refresh = {
+            pt_no: "",
+            ptc_ptname: "",
+            process_date: moment(new Date).format('YYYY-MM-DD'),
+        }
+        setOrder(refresh)
+        setRoom(0)
+        setDiet(0)
+        setItem(0)
+        setFood(frmreset)
+        setProcess("")
+        setAdd(0)
+        setNewdata([]);
+        setCanteen(0);
+        setHospital(0);
+        setCheckaction(0)
+        setCount(0)
+        setNurse(0)
+        setDisview(0)
+        setDietold(0)
+        setItemName(0)
+        setProcesDetal(0)
+    }, [])
+
     useEffect(() => {
         const getRate = async () => {
             const result = await axioslogin.post(`/extraorder/rate`, post);
@@ -61,7 +95,7 @@ const ExtraOrder = () => {
                 const frmdata = {
                     item_slno: item_slno,
                     rate_hos: rate_hos,
-                    rate_cant: rate_cant
+                    rate_cant: rate_cant,
                 }
                 setFood(frmdata)
             } else {
@@ -89,12 +123,16 @@ const ExtraOrder = () => {
                 type_slno: diet,
                 rate_hos: rate_hos,
                 rate_cant: rate_cant,
-                item_name: itemName
+                item_name: itemName,
+                count: Count,
+                total_hos: rate_hos * Count,
+                total_cat: rate_cant * Count,
             }
             setNewdata([...newfood, newdata])
-            setCanteen(setCanteen + rate_cant)
-            setHospital(sumHosptial + rate_hos)
+            setCanteen(sumCanteen + (rate_cant * Count))
+            setHospital(sumHosptial + (rate_hos * Count))
             setItem(0)
+            setCount(1)
             setFood(frmreset)
         } else {
             warningNotify("Please Select Item")
@@ -116,9 +154,10 @@ const ExtraOrder = () => {
                 const frmdata = {
                     pt_no: pt_no,
                     ptc_ptname: ptc_ptname,
-                    process_date: process_date
+                    process_date: process_date,
                 }
                 setOrder(frmdata)
+                setCount(1)
                 setProcess(proc_slno)
                 setDiet(diet_slno)
                 setDietold(diet_slno)
@@ -136,6 +175,7 @@ const ExtraOrder = () => {
             getProcessno()
         }
     }, [room, postData])
+    /** insert data */
     const Insert = useMemo(() => {
         return {
             proc_slno: process,
@@ -143,15 +183,22 @@ const ExtraOrder = () => {
             rate_hos: sumHosptial,
             rate_cant: sumCanteen,
             is_extra_billed: 1,
-            extra_bill_date: format(new Date(), "yyyy-MM-dd hh-mm-ss")
+            extra_bill_date: format(new Date(), "yyyy-MM-dd hh-mm-ss"),
         }
     }, [process, sumHosptial, sumCanteen, diet, dietold])
-    const reset = useCallback(() => {
-        setRoom(0);
-        setDiet(0);
-        setProcess("");
-        setNewdata([]);
-    }, [])
+    /**ipdate datas */
+    const update = useMemo(() => {
+        return {
+            proc_slno: process,
+            type_slno: diet !== 0 ? diet : dietold,
+            rate_hos: sumHosptial,
+            rate_cant: sumCanteen,
+            is_extra_billed: 1,
+            extra_bill_date: format(new Date(), "yyyy-MM-dd hh-mm-ss"),
+            prod_slno: procsdetl_slno
+        }
+    }, [process, sumHosptial, sumCanteen, diet, dietold, procsdetl_slno])
+    /** Model open function */
     const [open, setOpen] = useState(false);
     const handleClose = () => {
         setOpen(false);
@@ -162,9 +209,24 @@ const ExtraOrder = () => {
 
     const submitDiettype = useCallback((e) => {
         e.preventDefault();
+        /***    * insert function for extra order detail table    */
+        const InsertExtra = async (extraOrder) => {
+            const result = await axioslogin.post('/extraorder/insertextra', extraOrder);
+            const { message, success, } = result.data;
+            if (success === 1) {
+                succesNotify(message)
+                refreshWindow()
+                setOpen(false);
+            } else if (success === 0) {
+                infoNotify(message)
+            }
+            else {
+                infoNotify(message)
+            }
+        }
+
         /***    * insert function for use call back     */
         const InsertFunc = async (Insert) => {
-
             if (process === '') {
                 infoNotify("Please Choose the Room")
             } else {
@@ -178,38 +240,51 @@ const ExtraOrder = () => {
                             hos_rate: val.rate_hos,
                             cant_rate: val.rate_cant,
                             type_slno: val.type_slno,
-                            extra_status: 1
+                            extra_status: 1,
+                            count: val.count
                         }
                     })
-                    const result = await axioslogin.post('/extraorder/insertextra', extraOrder);
-                    const { message, success, } = result.data;
-                    if (success === 1) {
-                        succesNotify(message)
-                        reset();
-                        setOpen(false);
-                    } else if (success === 0) {
-                        infoNotify(message)
-                    }
-                    else {
-                        infoNotify(message)
-                    }
+                    const timeout = setTimeout(() => {
+                        InsertExtra(extraOrder)
+                    }, 400)
+                    return () => clearTimeout(timeout)
+
+
                 }
             }
         }
-
-        const UpdateFunc = async () => {
-
-
+        /** Extra order update function */
+        const UpdateFunc = async (update) => {
+            const result = await axioslogin.patch('/extraorder/updateExta', update);
+            const { message, success } = result.data;
+            if (success === 1) {
+                const extraOrder = newfood && newfood.map((val) => {
+                    return {
+                        prod_slno: procsdetl_slno,
+                        item_slno: val.item_slno,
+                        hos_rate: val.rate_hos,
+                        cant_rate: val.rate_cant,
+                        type_slno: val.type_slno,
+                        extra_status: 1,
+                        count: val.count
+                    }
+                })
+                InsertExtra(extraOrder)
+            } else if (success === 0) {
+                infoNotify(message);
+            }
+            else {
+                infoNotify(message)
+            }
         }
         if (checkAction === 0) {
             InsertFunc(Insert)
             setAdd(0)
         } else {
-            UpdateFunc()
+            UpdateFunc(update)
         }
-
-    }, [Insert, process, newfood, reset, checkAction])
-
+    }, [Insert, process, newfood, checkAction, refreshWindow, update, procsdetl_slno])
+    /** Extra order list view button function */
     const dietExtraViews = useCallback((params) => {
         setDisview(0)
         setCheckaction(1)
@@ -217,59 +292,88 @@ const ExtraOrder = () => {
             const result = await axioslogin.get(`/extraorder/getExtraOrderDetail/${prod_slno}`)
             const { success, data } = result.data
             if (success === 1) {
-                console.log(data);
                 setAdd(1)
                 setNewdata(data)
             }
         }
 
-
         const dataa = params.api.getSelectedRows()
-        console.log(dataa);
-        const { orderdate, rate_hos, co_ora_nurse, pt_no, ptc_ptname, prod_slno, rm_code } = dataa[0]
+        const { orderdate, rate_hos, rate_cant, co_ora_nurse, pt_no, ptc_ptname, prod_slno, rm_code } = dataa[0]
+        setProcesDetal(prod_slno)
         getItemArry(prod_slno)
         setNurse(co_ora_nurse)
         setRoom(rm_code)
         setHospital(rate_hos)
+        setCanteen(rate_cant)
         const frmdata = {
             pt_no: pt_no,
             ptc_ptname: ptc_ptname,
-            process_date: moment(orderdate).format('YYYY-MM-DD')
+            process_date: moment(orderdate).format('YYYY-MM-DD'),
+
         }
         setOrder(frmdata)
 
     }, [])
 
-
-
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
-    const refreshWindow = useCallback(() => {
-        const frmreset = {
-            item_slno: "",
-            rate_hos: "",
-            rate_cant: ""
-        }
-        setRoom(0)
-        setDiet(0)
-        setItem(0)
-        setFood(frmreset)
-        setProcess("")
-        setAdd(0)
-        setNewdata([]);
-        setCanteen(0);
-        setHospital(0);
-        setCheckaction(0)
-    }, [])
 
     //View button function
     const viewdatas = useCallback(() => {
-        setDisview(1)
+        if (checkAction === 1) {
+            warningNotify("Please update or close taken file before take another")
+        }
+        else {
+            setDisview(1)
+        }
+    }, [checkAction])
 
-
+    const [editCount, setEditCount] = useState(0)
+    const [editArry, setEditArry] = useState([])
+    // in item list edit icon taken button functon
+    const editdatas = useCallback((value) => {
+        const { item_slno, count } = value
+        setEditArry(value)
+        setItem(item_slno)
+        setCount(count)
+        setEditCount(count)
     }, [])
+    /** when count change array update function */
+    useEffect(() => {
+        if (Count !== editCount && Count !== 1) {
+            const { item_slno, rate_hos, rate_cant, item_name, type_slno } = editArry
+            const newarry = newfood.filter((val) => {
+                return val.item_slno !== item_slno
+            })
+            const newdata = {
+                item_slno: item_slno,
+                type_slno: type_slno,
+                rate_hos: rate_hos,
+                rate_cant: rate_cant,
+                item_name: item_name,
+                count: Count,
+                total_hos: rate_hos * Count,
+                total_cat: rate_cant * Count,
+            }
+            if (newdata.item_slno !== undefined) {
+                setNewdata([...newarry, newdata])
+                if (Count > editCount) {
+                    setCanteen(sumCanteen + (rate_cant * Count))
+                    setHospital(sumHosptial + (rate_hos * Count))
+                }
+                else {
+                    setCanteen(sumCanteen - (rate_cant * Count))
+                    setHospital(sumHosptial - (rate_hos * Count))
+                }
+
+            }
+
+        }
+
+    }, [editCount, Count, editArry, newfood, sumHosptial, sumCanteen])
+
 
     return (
         <Fragment>
@@ -524,19 +628,23 @@ const ExtraOrder = () => {
                                         width: '100%',
                                         pl: { xl: 1, md: 1 }
                                     }}>
-                                        <Typography sx={{ mt: 0.4 }}>Canteen Rate</Typography>
+                                        <Typography sx={{ mt: 0.4 }}>Count</Typography>
                                     </Box>
                                     <Box sx={{
                                         width: '100%',
                                         mt: 0.5
                                     }}>
                                         <TextFieldCustom
-                                            placeholder="Canteen Rate"
+                                            placeholder="Count"
                                             type="text"
                                             size="sm"
-                                            name="rate_cant"
-                                            value={rate_cant}
-                                            disabled={true}
+                                            name="Count"
+                                            value={Count}
+                                            onchange={(e) => {
+                                                setCount(e.target.value)
+
+                                            }}
+
                                         />
                                     </Box>
                                 </Box>
@@ -584,9 +692,11 @@ const ExtraOrder = () => {
                                         width: '100%',
                                         mt: 0.5
                                     }}>
-                                        <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={addnew}>
-                                            < MdOutlineAddCircleOutline />
-                                        </IconButton>
+                                        <Tooltip title="Add" arrow>
+                                            <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={addnew}>
+                                                < MdOutlineAddCircleOutline />
+                                            </IconButton>
+                                        </Tooltip>
                                     </Box>
                                 </Box>
                             </Box>
@@ -601,6 +711,7 @@ const ExtraOrder = () => {
                                         setCanteen={setCanteen}
                                         sumCanteen={sumCanteen}
                                         sumHosptial={sumHosptial}
+                                        editdatas={editdatas}
                                     /> : null
                                 }
                             </Box>

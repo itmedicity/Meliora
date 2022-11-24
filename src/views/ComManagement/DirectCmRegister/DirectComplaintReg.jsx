@@ -296,7 +296,7 @@ const DirectComplaintReg = () => {
     }, [])
     //close button function
     const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
+        history.push('/Home')
     }, [history])
     return (
         <CardMaster
