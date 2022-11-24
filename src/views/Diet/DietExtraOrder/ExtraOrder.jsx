@@ -385,12 +385,12 @@ const ExtraOrder = () => {
             if (newdata.item_slno !== undefined) {
                 setNewdata([...newarry, newdata])
                 if (Count > editCount) {
-                    setCanteen(sumCanteen + (rate_cant * Count))
-                    setHospital(sumHosptial + (rate_hos * Count))
+                    setCanteen(sumCanteen + (rate_cant * (editCount + Count)))
+                    setHospital(sumHosptial + (rate_hos * (editCount + Count)))
                 }
                 else {
-                    setCanteen(sumCanteen - (rate_cant * Count))
-                    setHospital(sumHosptial - (rate_hos * Count))
+                    setCanteen(sumCanteen - (rate_cant * (editCount - Count)))
+                    setHospital(sumHosptial - (rate_hos * (editCount - Count)))
                 }
             }
         }
