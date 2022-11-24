@@ -287,7 +287,7 @@ const ComplaintRegistrMast = () => {
     }, [postdata, value, patchdata, count])
     //close button function
     const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
+        history.push('/Home')
     }, [history])
     //fn for entire state referesh
     const refreshWindow = useCallback(() => {

@@ -363,7 +363,7 @@ const AssignComplaintTable = () => {
     }, [id, count])
     //close button function
     const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
+        history.push('/Home')
     }, [history])
     return (
         <Fragment>

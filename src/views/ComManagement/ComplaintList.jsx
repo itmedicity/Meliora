@@ -75,7 +75,7 @@ const ComplaintList = (count) => {
         { headerName: "Status", field: "compalint_status1", filter: "true" }
     ])
     const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
+        history.push('/Home')
     }, [history])
     const [flag, setFlag] = useState(1)
     const totalcmp = useCallback((e) => {

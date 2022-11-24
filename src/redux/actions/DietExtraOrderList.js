@@ -8,7 +8,6 @@ const { FETCH_EXTRAORDER_LIST } = ActionTyps
 export const getExtraOrderList = () => async (dispatch) => {
     const result = await axioslogin.get('/extraorder/getExtraOrder');
     const { success, data } = result.data
-    console.log(data);
     if (success === 1) {
         dispatch({ type: FETCH_EXTRAORDER_LIST, payload: data, loadingStatus: true })
     }

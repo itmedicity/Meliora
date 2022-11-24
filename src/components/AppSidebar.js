@@ -161,9 +161,10 @@ const AppSidebar = () => {
           <Box sx={{
             display: 'flex',
             justifyContent: 'space-between',
+            textTransform: "capitalize"
           }}>
-            <Typography sx={{ fontStyle: "oblique", fontWeight: 500, color: '#cddc39' }} >
-              {empname}
+            <Typography sx={{ fontWeight: 500, color: '#cddc39' }} >
+              {empname.toLowerCase()}
             </Typography>
           </Box>
 
@@ -171,7 +172,7 @@ const AppSidebar = () => {
             display: 'flex',
             justifyContent: 'space-between',
           }} >
-            <Typography sx={{ fontStyle: "oblique", fontWeight: 500, color: '#cddc39' }} >
+            <Typography sx={{ color: '#cddc39' }} >
               {section}
             </Typography>
           </Box>
