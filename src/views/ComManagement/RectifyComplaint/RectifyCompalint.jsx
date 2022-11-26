@@ -116,7 +116,7 @@ const RectifyCompalint = () => {
         }
         else {
             const arrys = getdata && getdata.filter((val) => {
-                return val.compalint_status !== 2 ? val : null
+                return val.compalint_status === 1 ? val : null
             })
             setTabledata(arrys)
         }
