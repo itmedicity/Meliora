@@ -62,7 +62,7 @@ const DirectComplaintTable = ({ count, rowSelect }) => {
 
     const getRowStyle = params => {
         if (params.data.compalint_priority === 1) {
-            return { background: '#ff7043' };
+            return { background: '#f44336' };
         }
     };
 

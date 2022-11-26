@@ -92,7 +92,7 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
     }, [])
     const getRowStyle = params => {
         if (params.data.compalint_priority === 1) {
-            return { background: '#ff7043' };
+            return { background: '#f44336' };
         }
     };
     return (

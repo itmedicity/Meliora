@@ -653,7 +653,7 @@ const DirectComplaintReg = () => {
             }}  >
                 <Box sx={{ display: "flex" }}>
                     <IconButton >
-                        <CropSquareIcon sx={{ background: '#ff7043', pr: 5 }} />
+                        <CropSquareIcon sx={{ background: '#f44336', pr: 5 }} />
                     </IconButton>
                 </Box>
                 <Box sx={{ display: "flex", width: "98%", fontWeight: 400, pl: 2 }}>
