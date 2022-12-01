@@ -17,6 +17,16 @@ function NursingStationMastTable({ count, rowSelect }) {
     {
         headerName: "Nursing station Oracle", field: "nsc_desc", filter: "true", minWidth: 250
     },
+
+    {
+        headerName: "Building", field: "ns_building", filter: "true"
+    },
+    {
+        headerName: "Floor", field: "ns_floor", filter: "true",
+    },
+    {
+        headerName: "Outlet", field: "ns_ora_outlet", filter: "true",
+    },
     {
         headerName: "Status", field: "status"
     },

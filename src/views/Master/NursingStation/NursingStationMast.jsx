@@ -9,6 +9,9 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
 import NursingStationSelect from 'src/views/CommonSelectCode/NursingStationSelect'
 import NursingStationMastTable from './NursingStationMastTable'
+import BuildingSelect from 'src/views/CommonSelectCode/BuildingSelect'
+import FloorSelect from 'src/views/CommonSelectCode/FloorSelect'
+import SelectOraOutlet from 'src/views/CommonSelectCode/SelectOraOutlet'
 
 const NursingStationMast = () => {
     const history = useHistory();
@@ -16,11 +19,16 @@ const NursingStationMast = () => {
     const [oranurse, setoranurse] = useState(0)
     const [value, setValue] = useState(0)
     const [count, setCount] = useState(0)
+    const [building, setbuilding] = useState(0)
+    const [floor, setfloor] = useState(0)
+    const [outlet, setoutlet] = useState(0)
     const [nursstation, setNursStation] = useState({
         nurse_station: '',
         status: false,
-        nurse_slno: ''
+        nurse_slno: '',
+
     })
+
 
     //destructuring
     const { nurse_station, status, nurse_slno } = nursstation
@@ -40,15 +48,19 @@ const NursingStationMast = () => {
             co_nurse_desc: nurse_station,
             co_ora_nurse: oranurse,
             co_status: status === true ? 1 : 0,
-            em_id: id
+            em_id: id,
+            ns_building: building,
+            ns_floor: floor,
+            ns_ora_outlet: outlet
+
         }
-    }, [nurse_station, oranurse, status, id])
+    }, [nurse_station, oranurse, status, id, building, floor, outlet])
 
     //data set for edit  
     const rowSelect = useCallback((params) => {
         setValue(1)
         const data = params.api.getSelectedRows()
-        const { co_nurse_slno, co_nurse_desc, co_ora_nurse, co_status } = data[0];
+        const { co_nurse_slno, co_nurse_desc, co_ora_nurse, co_status, ns_building, ns_floor, ns_ora_outlet } = data[0];
         const frmdata = {
             nurse_station: co_nurse_desc,
             status: co_status === 1 ? true : false,
@@ -56,6 +68,10 @@ const NursingStationMast = () => {
         }
         setNursStation(frmdata)
         setoranurse(co_ora_nurse)
+        setbuilding(ns_building)
+        setfloor(ns_floor)
+        setoutlet(ns_ora_outlet)
+
     }, [])
 
     //update data
@@ -65,9 +81,12 @@ const NursingStationMast = () => {
             co_ora_nurse: oranurse,
             co_status: status === true ? 1 : 0,
             em_id: id,
-            co_nurse_slno: nurse_slno
+            co_nurse_slno: nurse_slno,
+            ns_building: building,
+            ns_floor: floor,
+            ns_ora_outlet: outlet
         }
-    }, [nurse_station, oranurse, status, id, nurse_slno])
+    }, [nurse_station, oranurse, status, id, nurse_slno, building, floor, outlet])
 
     //Submit function for insert and update
     const submitNursestation = useCallback((e) => {
@@ -82,10 +101,16 @@ const NursingStationMast = () => {
         const InsertData = async (postdata) => {
             const result = await axioslogin.post(`/nursestation`, postdata)
             const { message, success } = result.data;
+
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1)
                 setNursStation(formReset)
+                setoranurse(0)
+                setbuilding(0)
+                setfloor(0)
+                setoutlet(0)
+
             } else if (success === 0) {
                 infoNotify(message)
             }
@@ -97,6 +122,8 @@ const NursingStationMast = () => {
         /***  * update function for use call back     */
         const updateData = async (patchdata) => {
             const result = await axioslogin.patch('/nursestation', patchdata)
+
+
             const { message, success } = result.data;
             if (success === 2) {
                 succesNotify(message)
@@ -104,6 +131,9 @@ const NursingStationMast = () => {
                 setValue(0)
                 setNursStation(formReset)
                 setoranurse(0)
+                setbuilding(0)
+                setfloor(0)
+                setoutlet(0)
             } else if (success === 0) {
                 infoNotify(message)
 
@@ -132,6 +162,10 @@ const NursingStationMast = () => {
         setNursStation(formReset)
         setValue(0)
         setoranurse(0)
+        setbuilding(0)
+        setfloor(0)
+        setoutlet(0)
+
     }, [setNursStation])
 
 
@@ -164,6 +198,15 @@ const NursingStationMast = () => {
                                 <NursingStationSelect value={oranurse} setValue={setoranurse} />
                             </Grid>
                             <Grid item xl={12} lg={12}>
+                                <BuildingSelect value={building} setValue={setbuilding} />
+                            </Grid>
+                            <Grid item xl={12} lg={12} >
+                                <FloorSelect value={floor} setValue={setfloor} />
+                            </Grid>
+                            <Grid item xl={12} lg={12} >
+                                <SelectOraOutlet value={outlet} setValue={setoutlet} />
+                            </Grid>
+                            <Grid item xl={12} lg={12}>
                                 <CusCheckBox
                                     label="Status"
                                     color="primary"
@@ -182,7 +225,7 @@ const NursingStationMast = () => {
 
                 </Grid>
             </Box>
-        </CardMaster>
+        </CardMaster >
 
 
 
