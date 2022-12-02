@@ -4,21 +4,19 @@ import React, { useEffect } from 'react'
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { useDispatch, useSelector } from "react-redux";
-import { getBuilding } from 'src/redux/actions/Building.action';
-const BuildingSelect = ({ value, setValue }) => {
-    const dispatch = useDispatch();
-    /**getBuilding -state update function of reducer 
-* buildingList- initial state of reducer function
-*buildingdata is used to list select box items by using map
-*/
-    const buildingdata = useSelector((state) => {
-        return state.getBuilding.buildingList || 0
+import { getfloor } from 'src/redux/actions/FloorSelect.action'
+
+const FloorSelect = ({ value, setValue }) => {
+    const dispatch = useDispatch()
+
+    const getfloordetl = useSelector((state) => {
+        return state.getFloorselect.floorList
     })
 
-    //getBuilding function is used to update data in building redux
     useEffect(() => {
-        dispatch(getBuilding());
-    }, [dispatch]);
+        dispatch(getfloor())
+    }, [dispatch])
+
     return (
         <Box  >
             <FormControl fullWidth size="small"  >
@@ -33,10 +31,10 @@ const BuildingSelect = ({ value, setValue }) => {
                     variant='outlined'
                     sx={{ height: 24, p: 0, m: 0, lineHeight: 1.200 }}
                 >
-                    <MenuItem value={0} disabled  >Select Building</MenuItem>
+                    <MenuItem value={0} disabled  >Select floor</MenuItem>
                     {
-                        buildingdata && buildingdata.map((val, index) => {
-                            return <MenuItem key={index} value={val.build_code}>{val.build_name}</MenuItem>
+                        getfloordetl && getfloordetl.map((val, index) => {
+                            return <MenuItem key={index} value={val.floor_code}>{val.floor_desc}</MenuItem>
                         })
                     }
                 </Select>
@@ -45,4 +43,4 @@ const BuildingSelect = ({ value, setValue }) => {
     )
 }
 
-export default BuildingSelect
+export default FloorSelect

@@ -154,8 +154,15 @@ import { getAssignedcomplaints, getOnholdcomplaints, getRectifiedcomplaints, get
 import { getPendingcomplaints } from 'src/redux/actions/ComplaintDashboard.action';
 import { getComplaintRights } from 'src/redux/actions/CmpRightsDashboard.action';
 import ComplaintDashboard from './ComplaintDashboard';
-// import WeworkDashboard from './WeworkDashboard';
-// import { getTotalAdmission } from 'src/redux/actions/WeworkAdmission.action'
+import WeworkDashboard from './WeworkDashboard';
+import { getTotalWeworkAdmission } from 'src/redux/actions/WeWrkTotAdmision.action'
+import { getTotalBhrcList } from 'src/redux/actions/WeBhrcDetl.action'
+import { getDiscAfternoonList } from 'src/redux/actions/WeDiscAfternoon.action'
+import { getAfternoonRoundList } from 'src/redux/actions/WeAfternoonRounds.action'
+import { getWeDamaDetl } from 'src/redux/actions/WeDamaDetl.action'
+import { getNoshifingList } from 'src/redux/actions/WeOneSheeetDetl.action'
+import { getHighAntibiotic } from 'src/redux/actions/HighAntibiotic.action'
+
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -183,6 +190,10 @@ const Home = () => {
             dispatch(getVerifiedcomplaints(em_department))
             dispatch(getOnholdcomplaints(em_department))
 
+
+
+
+
         }
     }, [profileData, dispatch])
 
@@ -190,20 +201,28 @@ const Home = () => {
         return state.getTotalcomplaints
     })
 
+
     const data = Object.values(newState);
     const entries = useMemo(() => data, [data]);
     const newDashMenu = entries.filter(val => complaintRights.includes(val.slno) === true ? val.slno : null);
     const notification = useMemo(() => newDashMenu, [newDashMenu]);
-    // wework dash board
+
+
+    //wework dash board
     // const admission = useSelector((state) => {
     //     return state.getTotalAdmission
-
-
     // })
 
     // useEffect(() => {
     //     dispatch(getTotalAdmission())
+    //     dispatch(getTotalDama())
+    //     dispatch(getTotalBhrc())
+    //     dispatch(getVisitCountafterNoon())
+    //     dispatch(getDischargecountAfternoon())
     // }, [dispatch])
+
+    // console.log(admission);
+
 
     // const wewrkdata = Object.values(admission);
     // const workentries = useMemo(() => wewrkdata, [wewrkdata])
@@ -211,35 +230,80 @@ const Home = () => {
     // const weworkmenu = useMemo(() => weworkDash, [weworkDash])
 
 
+    useEffect(() => {
+        dispatch(getTotalWeworkAdmission())
+        dispatch(getTotalBhrcList())
+        dispatch(getWeDamaDetl())
+        dispatch(getDiscAfternoonList())
+        dispatch(getAfternoonRoundList())
+        dispatch(getNoshifingList())
+        dispatch(getHighAntibiotic())
+    }, [dispatch])
 
+    const state = useSelector((state) => {
+        return {
+            WeAdmissionTotal: state.getTotalWeAdmission.WeTotalList || 0,
+            WeBhrcDetl: state.getWeBhrcDetl.WeBhrcList || 0,
+            WeDamaDetl: state.getDamaDetl.damaList || 0,
+            WedischrgeList: state.getDischargeList.DischargeList || 0,
+            AftternoonRounds: state.getAfternoonrounds.RoundsList || 0,
+            noshiftdetl: state.getwenoShiftdetl.noshiftdetlList || 0,
+            HighAntiBiotic: state.getHighAntibioticdetl.AntibioticList
+        }
+    })
+
+
+
+    const Dashboard = {
+        74: { slno: 74, name: "Total Admission", count: state.WeAdmissionTotal.length },
+        75: { slno: 75, name: "DAMA patient", count: state.WeDamaDetl.length },
+        76: { slno: 76, name: "BHRC Patient", count: state.WeBhrcDetl.length },
+        77: { slno: 77, name: "No shifted Patient", count: state.noshiftdetl.length },
+        78: { slno: 78, name: "Doctor Rounds after 2 pm", count: state.WedischrgeList.length },
+        79: { slno: 79, name: "Discahrge after 2 pm", count: state.AftternoonRounds.length },
+        81: { slno: 81, name: "high Antibiotic", count: state.HighAntiBiotic.length }
+    }
+
+    const wewrkdata = Object.values(Dashboard);
+    const workentries = useMemo(() => wewrkdata, [wewrkdata])
+    const weworkDash = workentries.filter(val => complaintRights.includes(val.slno) === true ? val.slno : null);
+    const weworkmenu = useMemo(() => weworkDash, [weworkDash])
 
     return (
         <Fragment>
             <Paper square sx={{ p: 1, width: '100%', display: "flex" }} elevation={3}>
-                <Grid
-                    container
-                    spacing={{ xs: 1, md: 1, md: 1, lg: 1.5, xl: 1.5 }}
+                <Grid container
+                    // spacing={{ xs: 1, md: 1, md: 1, lg: 1.5, xl: 1.5 }}
                     columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
-                    sx={{ width: '100%' }} >
-                    {
-                        notification.map((val, index) => (
-                            <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={index}>
-                                <ComplaintDashboard widgetName={val.name} count={val.count} status={val.status} slno={val.slno} indx={index} />
-                            </Grid>
-                        ))
-                    }
-                    {/* <Paper square sx={{ p: 1, width: '100%', display: "flex" }} elevation={3}> */}
-                    {/* {
-                        weworkmenu.map((val, index) => (
-                            <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={index}>
-                                <WeworkDashboard widgetName={val.name} count={val.count} status={val.status} slno={val.slno} indx={index} />
-                            </Grid>
-                        ))
-                    } */}
+                    sx={{ width: '100%' }}>
+                    <Grid
+                        container
+                        spacing={{ xs: 1, md: 1, md: 1, lg: 1.5, xl: 1.5 }}
+                        columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
+                        sx={{ width: '100%' }}
+                    >
+                        {
+                            notification.map((val, index) => (
+                                <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={index}>
+                                    <ComplaintDashboard widgetName={val.name} count={val.count} status={val.status} slno={val.slno} indx={index} />
+                                </Grid>
+                            ))
+                        }
 
-                    {/* </Paper> */}
-
-
+                    </Grid>
+                    <Grid
+                        container
+                        spacing={{ xs: 1, sm: 1, md: 1, lg: 1.5, xl: 1.5 }}
+                        columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
+                        sx={{ width: '100%' }}>
+                        {
+                            weworkmenu.map((val, index) => (
+                                <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={index}>
+                                    <WeworkDashboard widgetName={val.name} count={val.count} status={val.status} slno={val.slno} indx={index} />
+                                </Grid>
+                            ))
+                        }
+                    </Grid>
                 </Grid>
             </Paper>
         </Fragment>

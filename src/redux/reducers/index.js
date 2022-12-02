@@ -45,7 +45,18 @@ import { getAllComplaintLists } from '../reducers/AllcomplaintsLists.Reducer'
 import { getComplaintRights } from '../reducers/CmpRightsDashboard.Reducer'
 import { getDepartSecemployee } from '../reducers/EmpNameDeptSec.Reducer'
 import { getTotalAdmission } from '../reducers/WeworkAdmission.Reducer'
+import { getTotalWeAdmission } from '../reducers/WeWrkTotAdmission.Reducer'
+import { getWeBhrcDetl } from '../reducers/WeBhrcDetl.reducer'
+import { getDamaDetl } from '../reducers/WeDamaDetl.reducer'
+import { getDischargeList } from '../reducers/WeDiscAfternoonList.reducer'
+import { getAfternoonrounds } from '../reducers/WeRoundsAfternoon.reducer'
+import { getwenoShiftdetl } from '../reducers/WeOnesheetDetl.reducers'
+import { getHighAntibioticdetl } from '../reducers/HighBiotic.Reducer'
+import { getWeBhrcAdmitdetl } from '../reducers/WebhrcAdmitList.Reducer'
+import { getFloorselect } from '../reducers/FloorSelect.Reducer'
+import { getnursewisefloor } from '../reducers/NurseWiseFloor.reducer'
 import { setExtraOrderList } from '../reducers/DietExtraOrder.Reducer'
+
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -93,6 +104,16 @@ const reducer = combineReducers({
     getComplaintRights,
     getDepartSecemployee,
     getTotalAdmission,
+    getTotalWeAdmission,
+    getWeBhrcDetl,
+    getDamaDetl,
+    getDischargeList,
+    getAfternoonrounds,
+    getwenoShiftdetl,
+    getHighAntibioticdetl,
+    getWeBhrcAdmitdetl,
+    getFloorselect,
+    getnursewisefloor,
     setExtraOrderList
 })
 export default reducer;
