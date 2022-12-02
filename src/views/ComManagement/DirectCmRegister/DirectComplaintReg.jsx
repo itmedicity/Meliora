@@ -23,6 +23,8 @@ import HicypolicygrpsTitle from 'src/views/Components/HicypolicygrpsTitle'
 import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect';
 import DirectComplaintTable from './DirectComplaintTable';
 import CropSquareIcon from '@mui/icons-material/CropSquare';
+import CustomPaperTitle from 'src/views/Components/CustomPaperTitle';
+import LocationSelect from 'src/views/CommonSelectCode/LocationSelect';
 
 const DirectComplaintReg = () => {
     /*** Initializing */
@@ -51,6 +53,7 @@ const DirectComplaintReg = () => {
     const [codept, setcodept] = useState(null)
     //state for dep section select box
     const [depsec, setDepsec] = useState(0)
+    const [locations, setLocation] = useState(0)
     const [complaint, setComplaint] = useState({
         complaint_slno: 0
     })
@@ -156,13 +159,14 @@ const DirectComplaintReg = () => {
         setMedium(false)
         setdesc('')
         setcodept(null)
+        setLocation(0)
     }
     //Data set for edit
     const rowSelect = useCallback((params) => {
         setEdit(1)
         const data = params.api.getSelectedRows()
         const { complaint_typeslno, complaint_dept_secslno, complaint_hicslno, hic_policy_status,
-            compalint_priority,
+            compalint_priority, cm_location,
             complaint_request_slno, complaint_deptslno, complaint_slno, complaint_desc, id } = data[0];
         const frmdata = {
             create_user: id,
@@ -174,6 +178,7 @@ const DirectComplaintReg = () => {
         setReqType(complaint_request_slno)
         setcotype(complaint_typeslno)
         setHic(complaint_hicslno)
+        setLocation(cm_location)
         setChechHic(hic_policy_status === 1 ? true : false)
         setpriority(compalint_priority)
         setcodept(complaint_deptslno)
@@ -208,10 +213,11 @@ const DirectComplaintReg = () => {
             compalint_priority: priority,
             complaint_hicslno: hic,
             compalint_status: 0,
+            cm_location: locations,
             edit_user: id,
             complaint_slno: complaint_slno
         }
-    }, [desc, depsec, ReqType, codept, cotype, priority, hic, complaint_slno, id])
+    }, [desc, depsec, ReqType, locations, codept, cotype, priority, hic, complaint_slno, id])
     //insert data
     const postdata = useMemo(() => {
         return {
@@ -223,9 +229,10 @@ const DirectComplaintReg = () => {
             compalint_priority: priority,
             complaint_hicslno: hic !== 0 ? hic : null,
             compalint_status: 0,
+            cm_location: locations,
             create_user: id
         }
-    }, [desc, depsec, ReqType, cotype, hic, priority, codept, id])
+    }, [desc, depsec, locations, ReqType, cotype, hic, priority, codept, id])
     /*** usecallback function for form submitting */
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
@@ -289,7 +296,7 @@ const DirectComplaintReg = () => {
     }, [])
     //close button function
     const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
+        history.push('/Home')
     }, [history])
     return (
         <CardMaster
@@ -300,12 +307,34 @@ const DirectComplaintReg = () => {
         >
             <Box sx={{ width: "100%" }}>
                 <Paper square elevation={3} sx={{ p: 1 }} >
-                    <Paper sx={{
-                        p: 1,
-                        width: { xs: '100%', sm: '100%', md: '40%', lg: '30%', xl: '20%' }
-                    }} >
-                        <DeptSectionSelect value={depsec} setValue={setDepsec} />
-                    </Paper>
+                    <Box sx={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                    }}>
+                        <Box sx={{
+                            display: 'flex',
+                            width: { xs: '100%', sm: '100%', md: '60%', lg: '50%', xl: '50%', },
+                        }} >
+                            <Paper sx={{
+                                width: '100%',
+                                mt: 0.8,
+                            }} square elevation={1}>
+                                <CustomPaperTitle heading='Requested Department Section' />
+                                <DeptSectionSelect value={depsec} setValue={setDepsec} />
+                            </Paper>
+
+                            <Paper sx={{
+                                width: '100%',
+                                mt: 0.8, ml: 0.8
+                            }} square elevation={1}>
+
+                                <CustomPaperTitle heading='Complaint Location' />
+                                <LocationSelect value={locations} setValue={setLocation} />
+                            </Paper>
+                        </Box>
+                    </Box>
+
                     {/* 1st section starts */}
                     <Box sx={{
                         width: "100%",
@@ -404,7 +433,7 @@ const DirectComplaintReg = () => {
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                                 <CusCheckBox
                                                     variant="outlined"
-                                                    color="primary"
+                                                    color="danger"
                                                     size="md"
                                                     name="crical"
                                                     label="Critical"
@@ -416,7 +445,7 @@ const DirectComplaintReg = () => {
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                                 <CusCheckBox
                                                     variant="outlined"
-                                                    color="primary"
+                                                    color="danger"
                                                     size="md"
                                                     name="high"
                                                     label="High"
@@ -428,7 +457,7 @@ const DirectComplaintReg = () => {
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                                 <CusCheckBox
                                                     variant="outlined"
-                                                    color="primary"
+                                                    color="danger"
                                                     size="md"
                                                     name="medium"
                                                     label="Medium"
@@ -513,7 +542,7 @@ const DirectComplaintReg = () => {
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                                 <CusCheckBox
                                                     variant="outlined"
-                                                    color="primary"
+                                                    color="danger"
                                                     size="md"
                                                     name="Hic"
                                                     label="Hic"
@@ -624,7 +653,7 @@ const DirectComplaintReg = () => {
             }}  >
                 <Box sx={{ display: "flex" }}>
                     <IconButton >
-                        <CropSquareIcon sx={{ background: '#ff7043', pr: 5 }} />
+                        <CropSquareIcon sx={{ background: '#f44336', pr: 5 }} />
                     </IconButton>
                 </Box>
                 <Box sx={{ display: "flex", width: "98%", fontWeight: 400, pl: 2 }}>

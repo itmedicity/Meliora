@@ -75,7 +75,7 @@ const ComplaintList = (count) => {
         { headerName: "Status", field: "compalint_status1", filter: "true" }
     ])
     const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
+        history.push('/Home')
     }, [history])
     const [flag, setFlag] = useState(1)
     const totalcmp = useCallback((e) => {
@@ -231,7 +231,7 @@ const ComplaintList = (count) => {
                 <Box sx={{ p: 2 }}>
                     <CusCheckBox
                         variant="outlined"
-                        color="primary"
+                        color="danger"
                         size="md"
                         name="total"
                         label="Total complaint"
@@ -243,7 +243,7 @@ const ComplaintList = (count) => {
                 <Box sx={{ p: 2 }}>
                     <CusCheckBox
                         variant="outlined"
-                        color="primary"
+                        color="danger"
                         size="md"
                         name="total"
                         label="Assigned complaints"
@@ -255,7 +255,7 @@ const ComplaintList = (count) => {
                 <Box sx={{ p: 2 }}>
                     <CusCheckBox
                         variant="outlined"
-                        color="primary"
+                        color="danger"
                         size="md"
                         name="total"
                         label="Rectified complaints"
@@ -267,7 +267,7 @@ const ComplaintList = (count) => {
                 <Box sx={{ p: 2 }}>
                     <CusCheckBox
                         variant="outlined"
-                        color="primary"
+                        color="danger"
                         size="md"
                         name="total"
                         label="Verified complaints"

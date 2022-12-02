@@ -46,7 +46,7 @@ const DietDetail = React.lazy(() => import('./views/Master/DietMasters/DietDetai
 const DietApproval = React.lazy(() => import('./views/NursingStation/DietApprovalList'));
 const DietPlanList = React.lazy(() => import('./views/NursingStation/DietPlanList'));
 const DietOrderList = React.lazy(() => import('./views/Diet/DietOrder/DietOderTaking'));
-const DietExtraOrder = React.lazy(() => import('./views/Diet/ExtraOrder'));
+const DietExtraOrder = React.lazy(() => import('./views/Diet/DietExtraOrder/ExtraOrder'));
 const DietDelivery = React.lazy(() => import('./views/Diet/DietDeliveryMark'))
 const RectifyComplaint = React.lazy(() => import('./views/ComManagement/RectifyComplaint/RectifyCompalint'))
 const WeWorkInpatient = React.lazy(() => import('./views/WeWork/InPatientList'))
@@ -66,6 +66,7 @@ const PatSurvillenceView = React.lazy(() => import('./views/WeWork/Patienntsurvi
 const NoshiftReport = React.lazy(() => import('./views/Report/WeworkReport/NoshiftReport'))
 const HighAntiBioticReport = React.lazy(() => import('./views/Report/WeworkReport/HighAntiBioticReport'))
 const EmpNsWiseMaping = React.lazy(() => import('./views/Master/WEWorkMaster/EmpNSWiseMapp/NSWiseMAppingMast'))
+const ExtraOrderView = React.lazy(() => import('./views/Diet/DietExtraOrder/ExtraOrderView'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -135,7 +136,7 @@ const routes = [
   { path: "/Home/noshift", exact: true, name: "No shift", component: NoshiftReport },
   { path: '/Home/highbioticReport', exact: true, name: "HighAntiBiotic Report", component: HighAntiBioticReport },
   { path: "/Home/WeEmpMap", exact: true, name: "Employee-Ns Wise Mapping", component: EmpNsWiseMaping },
-
+  { path: '/Home/ExtraOrderView', exact: true, name: 'Total Admission', component: ExtraOrderView }
 
 ]
 

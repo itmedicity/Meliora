@@ -16,6 +16,8 @@ import DietTransactions from '../Menus/DietTransactions'
 import RmTransactions from '../Menus/RmTransaction'
 import NurseStation from '../Menus/NurseStation'
 import WeWorkTransact from '../Menus/WeWorkTransact'
+import { Box, Typography } from '@mui/material'
+
 const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.changeState.sidebarUnfoldable)
@@ -140,6 +142,9 @@ const AppSidebar = () => {
   const empname = useSelector((state) => {
     return state.LoginUserData.empname
   })
+  const section = useSelector((state) => {
+    return state.LoginUserData.empdeptsec
+  })
 
   return (
     <CSidebar
@@ -152,7 +157,26 @@ const AppSidebar = () => {
       style={{ backgroundColor: apsideBgclor }}
     >
       <CSidebarBrand className="d-none d-md-flex" to="/">
-        {empname}
+        <Box>
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            textTransform: "capitalize"
+          }}>
+            <Typography sx={{ fontWeight: 500, color: '#e0f7fa' }} >
+              {empname.toLowerCase()}
+            </Typography>
+          </Box>
+
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }} >
+            <Typography sx={{ color: '#e0f7fa', fontSize: 11 }} >
+              {section}
+            </Typography>
+          </Box>
+        </Box>
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>
@@ -163,7 +187,7 @@ const AppSidebar = () => {
         className="d-none d-lg-flex"
         onClick={() => dispatch({ type: ActionTyps.APP_SIDEBAR_SHOW, sidebarUnfoldable: !unfoldable })}
       />
-    </CSidebar>
+    </CSidebar >
   )
 }
 

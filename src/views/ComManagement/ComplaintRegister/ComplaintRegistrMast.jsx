@@ -23,8 +23,8 @@ import ComplaintTypeTitle from 'src/views/Components/ComplaintTypeTitle'
 import ComplaintDescriptionTitle from 'src/views/Components/ComplaintDescriptionTitle'
 import HicpolicyTitle from 'src/views/Components/HicpolicyTitle'
 import HicypolicygrpsTitle from 'src/views/Components/HicypolicygrpsTitle'
-import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect'
 import CropSquareIcon from '@mui/icons-material/CropSquare';
+import LocationSelect from 'src/views/CommonSelectCode/LocationSelect'
 
 const ComplaintRegistrMast = () => {
     /*** Initializing */
@@ -287,7 +287,7 @@ const ComplaintRegistrMast = () => {
     }, [postdata, value, patchdata, count])
     //close button function
     const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
+        history.push('/Home')
     }, [history])
     //fn for entire state referesh
     const refreshWindow = useCallback(() => {
@@ -422,7 +422,7 @@ const ComplaintRegistrMast = () => {
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                                 <CusCheckBox
                                                     variant="outlined"
-                                                    color="primary"
+                                                    color="danger"
                                                     size="md"
                                                     name="crical"
                                                     label="Critical"
@@ -434,7 +434,7 @@ const ComplaintRegistrMast = () => {
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                                 <CusCheckBox
                                                     variant="outlined"
-                                                    color="primary"
+                                                    color="danger"
                                                     size="md"
                                                     name="high"
                                                     label="High"
@@ -446,7 +446,7 @@ const ComplaintRegistrMast = () => {
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                                 <CusCheckBox
                                                     variant="outlined"
-                                                    color="primary"
+                                                    color="danger"
                                                     size="md"
                                                     name="medium"
                                                     label="Medium"
@@ -532,7 +532,7 @@ const ComplaintRegistrMast = () => {
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                                 <CusCheckBox
                                                     variant="outlined"
-                                                    color="primary"
+                                                    color="danger"
                                                     size="md"
                                                     name="Hic"
                                                     label="Hic"
@@ -652,7 +652,7 @@ const ComplaintRegistrMast = () => {
                                         p: 1,
                                         width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%' }
                                     }} >
-                                        <DeptSectionSelect value={depsec} setValue={setDepsec} />
+                                        <LocationSelect value={depsec} setValue={setDepsec} />
                                     </Paper>
                                 </Paper>
                             </Box>
@@ -675,7 +675,7 @@ const ComplaintRegistrMast = () => {
             }}  >
                 <Box sx={{ display: "flex" }}>
                     <IconButton >
-                        <CropSquareIcon sx={{ background: '#ff7043', pr: 5 }} />
+                        <CropSquareIcon sx={{ background: '#f44336', pr: 5 }} />
                     </IconButton>
                 </Box>
                 <Box sx={{ display: "flex", width: "98%", fontWeight: 400, pl: 2 }}>
@@ -684,12 +684,6 @@ const ComplaintRegistrMast = () => {
                     </Typography>
                 </Box>
             </Paper>
-
-
-
-
-
-
         </CardMaster>
     )
 }

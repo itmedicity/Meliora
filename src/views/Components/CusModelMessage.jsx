@@ -32,8 +32,8 @@ const CusModelMessage = ({ open, handleClose, message, submitDiettype }) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={submitDiettype} color="secondary" >Save</Button>
-                    <Button onClick={handleClose} color="secondary" >Cancel</Button>
+                    <Button onClick={submitDiettype} color="secondary" >Yes</Button>
+                    <Button onClick={handleClose} color="secondary" >No</Button>
                 </DialogActions>
             </Dialog>
         </Fragment>
