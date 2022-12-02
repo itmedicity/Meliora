@@ -57,7 +57,7 @@ const PatientReport = React.lazy(() => import('./views/Report/DietReport/Patient
 const DirectComplaintReg = React.lazy(() => import('./views/ComManagement/DirectCmRegister/DirectComplaintReg'))
 const MonthlyReport = React.lazy(() => import('./views/Report/DietReport/MonthlyReport'))
 const TotalAdmisson = React.lazy(() => import('./views/WeWork/WeworkTaotalAdmission/TotalAdmisson'))
-const DamaCount = React.lazy(() => import('./views/WeWork/DamaCount/DamaCount'))
+const DamaCount = React.lazy(() => import('./views/WeWork/Damacount/DamaCount'))
 const BhrcCount = React.lazy(() => import('./views/WeWork/BhrcList/BhrcCount'))
 const RoundsAfternoonList = React.lazy(() => import('./views/WeWork/RoundsAfterNoon/RoundsAfternoonList'))
 const DischargeList = React.lazy(() => import('./views/WeWork/DischrgeafternoonList/DischargeList'))
