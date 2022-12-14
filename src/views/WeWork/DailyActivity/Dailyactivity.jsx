@@ -15,11 +15,11 @@ import { infoNotify, succesNotify, warningNotify } from '../../Common/CommonCode
 import moment from 'moment'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import CloseIcon from '@mui/icons-material/Close';
 import DailyActivityTable from './DailyActivityTable'
 
 
-
-const Dailyactivity = ({ ipno }) => {
+const Dailyactivity = ({ ipno, setclosebtn }) => {
     const [daily, setdaily] = useState('')
     const [time, settime] = useState('')
     const [clean, setclean] = useState(false)
@@ -346,11 +346,14 @@ const Dailyactivity = ({ ipno }) => {
         }
     }, [postdata, patchdata, value, count, reset])
 
+    const closwindow = useCallback(() => {
+        setclosebtn(0)
+    }, [setclosebtn])
 
     return (
         <Paper square elevation={0} sx={{ dispaly: "flex", justifyContent: "column" }}>
             <Box sx={{ pb: 1 }}>
-                <Typography sx={{ fontStyle: "oblique", fontWeight: 800, color: '#94B7FC', textAlign: "center", fontSize: 20 }}>
+                <Typography sx={{ fontStyle: "oblique", fontWeight: 800, color: '#1a237e', textAlign: "center", fontSize: 20 }}>
                     Daily Activity
                 </Typography>
             </Box>
@@ -705,9 +708,16 @@ const Dailyactivity = ({ ipno }) => {
                         </CusIconButton>
                     </Box>
                 </CustomeToolTip>
+                <CustomeToolTip title="close" placement="left" >
+                    <Box sx={{ p: 1 }}>
+                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closwindow} >
+                            <CloseIcon fontSize='small' />
+                        </CusIconButton>
+                    </Box>
+                </CustomeToolTip>
             </Box>
             <Box sx={{ px: 2, py: 1 }}>
-                <DailyActivityTable ipno={ipno} count={count} rowSelect={rowSelect} setdiettype={setdiettype} />
+                <DailyActivityTable ipno={ipno} count={count} rowSelect={rowSelect} />
             </Box>
         </Paper>
     )

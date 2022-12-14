@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import {
     co_setting_one, co_setting_two, co_setting_three, cm_setting_one, cm_setting_two, cm_setting_three,
     userManagement_one, userManagement_two, userManagement_three, am_setting_one, am_setting_two, am_setting_three,
-    rm_setting_one, rm_setting_two, rm_setting_three, dm_setting_one, dm_setting_two, dm_setting_three
+    rm_setting_one, rm_setting_two, rm_setting_three, dm_setting_one, dm_setting_two, dm_setting_three,
+    we_setting_one, we_setting_two
 } from './SettingsMenu';
 import { Card, CardContent, CardHeader } from '@mui/material';
 import { titleTypography, cardActionBgClr } from 'src/color/Color';
@@ -28,6 +29,8 @@ const Settings = () => {
     const [userManagment_secOne, setUserManag_secOne] = useState();
     const [userManagment_secTwo, setUserManag_secTwo] = useState();
     const [userManagment_secThree, setUserManag_secThree] = useState();
+    const [weMast_secOne, setweMast_secOne] = useState();
+    const [weMast_secTwo, setweMast_secTwo] = useState();
     const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
@@ -72,6 +75,12 @@ const Settings = () => {
             setdmMast_secTwo(dm_setting_section_two)
             const dm_setting_section_three = dm_setting_three.filter(val => menuSlnoArray.includes(val.slno));
             setdmMast_secThree(dm_setting_section_three)
+
+            //WE Work
+            const we_setting_section_one = we_setting_one.filter(val => menuSlnoArray.includes(val.slno));
+            setweMast_secOne(we_setting_section_one)
+            const we_setting_section_two = we_setting_two.filter(val => menuSlnoArray.includes(val.slno));
+            setweMast_secTwo(we_setting_section_two)
 
             //User Rights 
             const user_setting_section_one = userManagement_one.filter(val => menuSlnoArray.includes(val.slno));
@@ -272,6 +281,35 @@ const Settings = () => {
                         <ul className="list-group list-group-flush">
                             {
                                 dmMast_secThree && dmMast_secThree.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </CardContent>
+
+            <CardHeader title={"We Work"}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
+                sx={{
+                    backgroundColor: cardActionBgClr,
+                    paddingY: 0.5,
+                }} />
+            <CardContent>
+                <div className="row" >
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                weMast_secOne && weMast_secOne.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                weMast_secTwo && weMast_secTwo.map((val) => {
                                     return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
                                 })
                             }
