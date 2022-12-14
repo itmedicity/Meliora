@@ -644,7 +644,7 @@ const DirectComplaintReg = () => {
             < Paper square elevation={0} sx={{
                 p: 1,
             }} >
-                <DirectComplaintTable rowSelect={rowSelect} count={count} />
+                <DirectComplaintTable rowSelect={rowSelect} count={count} setCount={setCount} />
             </Paper >
             <Paper square sx={{
                 display: "flex",

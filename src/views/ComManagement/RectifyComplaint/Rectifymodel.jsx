@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment, useState, useEffect, memo, useMemo, useCallback } from 'react'
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import DialogContent from '@mui/material/DialogContent';
@@ -7,21 +7,19 @@ import DialogActions from '@mui/material/DialogActions';
 import { ToastContainer } from 'react-toastify';
 import { Box, Paper, Typography } from '@mui/material'
 import Button from '@mui/material/Button';
-
-import { Fragment } from 'react';
-import { useState } from 'react';
-import { useEffect, memo } from 'react';
-import { useMemo } from 'react';
-import { useCallback } from 'react';
 import { errorNotify, infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 import { axioslogin } from 'src/views/Axios/Axios';
 import CustomTextarea from 'src/views/Components/CustomTextarea';
 import { format } from 'date-fns'
 import CusCheckBox from 'src/views/Components/CusCheckBox';
+import Checkbox from '@mui/material/Checkbox';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
-const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
+
+
+const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
+
     //intialisation
     const [rectify, setrectify] = useState({
         complaint_slno: 0,
@@ -36,6 +34,32 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
     const { complaint_slno, complaint_desc,
         sec_name, em_name, date, Time, compalint_status
     } = rectify
+
+    const [select, setSelect] = useState(false)
+    const updateSelect = (e) => {
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+        setSelect({ ...select, [e.target.name]: value })
+    }
+    const [Employee, setEmployee] = useState([])
+    const getemp = (e, v) => {
+        if (e === true) {
+            const obj = {
+                emids: v
+            }
+            setEmployee([...Employee, obj])
+        }
+        else {
+            const obj = {
+                emids: v
+            }
+            const newarry = Employee.filter((val) => {
+                return val.emids !== obj.emids
+            })
+            setEmployee(newarry)
+        }
+    }
+
+
     //setting data to be displayed in modal
     useEffect(() => {
         const rectifyfunction = () => {
@@ -57,7 +81,6 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
                 compalint_status: compalint_status
             }
             setrectify(frmdata)
-            // setslno(complaint_slno)
         }
         rectifyfunction()
     }, [detail])
@@ -115,34 +138,85 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
         return {
             compalint_status: rectified === true ? 2 : compalint_status, // when we click on rectifi status becom 2 other wise status is 1
             cm_rectify_status: pending === true ? 'P' : hold === true ? 'O' : rectified === true ? 'R' : null, //we click pending rectify status becom P so onn
-            cm_rectify_time: rectified === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+            cm_rectify_time: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             rectify_pending_hold_remarks: pending === true ? pendholdreason : hold === true ?
                 pendholdreason : rectified === true ? pendholdreason : null,
             complaint_slno: complaint_slno
         }
     }, [complaint_slno, pending, hold, rectified, compalint_status, pendholdreason])
+
+
+
+    const [counmsg, setMsg] = useState(0)
+
+    useEffect(() => {
+        if (counmsg === 1) {
+            succesNotify("Rectify Complaint")
+        } else if (counmsg === 2) {
+            errorNotify("Not Completed")
+        }
+
+    }, [counmsg])
+
+
     // function to database update
     const rectifycmplt = useCallback((e) => {
         e.preventDefault();
+        const resetFrmdata = {
+            complaint_slno: 0,
+            complaint_desc: '',
+            req_type_name: '',
+            complaint_dept_name: '',
+            complaint_type_name: '',
+            hic_policy_name: '',
+            compalint_date: ''
+        }
+
         const updateFun = async (patchData) => {
             const result = await axioslogin.patch(`/Rectifycomplit/updatecmp`, patchData);
-            const { success, message } = result.data;
+            const { success } = result.data;
             if (success === 2) {
-                succesNotify(message)
                 setCount(count + 1);
                 setOpen(false)
+                setrectify(resetFrmdata)
+                setPending(false)
+                setHold(false)
+                setRectify(false)
+                setSelect(false)
+                setPendhold("")
             }
             else {
-                errorNotify(message)
+                setMsg(2)
             }
         }
-        if (pending === true || hold === true || rectified === true) {
+
+        const updateFunDetail = async (dataforUpdate) => {
+            const result = await axioslogin.patch(`/Rectifycomplit/updateassignDetail/recty`, dataforUpdate);
+            const { success } = result.data;
+            if (success === 2) {
+                setMsg(1)
+                setCount(count + 1);
+            }
+            else {
+                setMsg(2)
+            }
+        }
+        if (pending === true || hold === true || rectified === true && Employee.length !== 0) {
             updateFun(patchData)
+            Employee && Employee.map((val) => {
+                const dataforUpdate = {
+                    assigned_emp: val.emids,
+                    complaint_slno: complaint_slno
+                }
+                updateFunDetail(dataforUpdate)
+                return 0
+            })
+
         }
         else {
-            infoNotify("Please Choose Any")
+            infoNotify("Please Select any employee Or Choose Any Option")
         }
-    }, [patchData, count, setCount, setOpen, hold, pending, rectified])
+    }, [patchData, count, setCount, setOpen, hold, pending, rectified, Employee, complaint_slno])
     //modal close function
     const handleClose = () => {
         setOpen(false);
@@ -151,7 +225,10 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
         setPending(false);
         setHold(false);
         setPendhold('');
+        setSelect(false)
+        setEmployee([])
     };
+
     return (
         <Fragment>
             <ToastContainer />
@@ -171,7 +248,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
                 }}>
                     <Box sx={{ width: "100%", mt: 0 }}>
                         <Box>
-                            <Paper square elevation={3} sx={{ p: 2, mt: 1 }} >
+                            <Paper square elevation={3} sx={{ p: 2, mt: 1, pt: 0 }} >
                                 {/* 2nd section */}
                                 <Box sx={{
                                     width: "100%",
@@ -267,12 +344,72 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
                                     }} >
                                         <CustomTextarea
                                             style={{ width: 390 }}
-                                            minRows={4}
+                                            minRows={3}
                                             value={complaint_desc}
                                             disabled
                                         />
                                     </Box>
                                 </Box>
+
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                    p: 0.5,
+                                }}>
+
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+                                        <Typography>Actual Assigned</Typography>
+
+                                    </Box>
+
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+
+                                        {
+                                            empName && empName.map((val) => {
+                                                return <Box key={val.assigned_emp} sx={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                                }}>
+
+                                                    {/* <CssVarsProvider> */}
+                                                    <Checkbox
+                                                        color="primary"
+
+                                                        // defaultChecked={false}
+                                                        // disabled={disabled}
+                                                        label={val.em_name}
+                                                        value={val.assigned_emp}
+                                                        name={val.em_name}
+                                                        onChange={(e) => {
+                                                            updateSelect(e)
+                                                            getemp(e.target.checked, e.target.value)
+                                                        }}
+                                                        checked={val.check === 1 ? true : select.check}
+
+                                                    />
+
+                                                    <Typography sx={{ pt: 1 }}>{val.em_name}</Typography>
+
+                                                    {/* </CssVarsProvider> */}
+
+                                                </Box>
+                                            })
+                                        }
+
+                                    </Box>
+
+
+
+                                </Box>
+
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
@@ -332,10 +469,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
                                             onchange={updatePendhold}
                                             value={pendholdreason}
                                         />
-                                    </Box> : null
-                                }
-                                {
-                                    flag === 2 ? <Box sx={{ p: 0.5 }}>
+                                    </Box> : flag === 2 ? <Box sx={{ p: 0.5 }}>
                                         <CustomTextarea
                                             style={{ width: 390 }}
                                             minRows={4}
@@ -343,17 +477,17 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount }) => {
                                             onchange={updatePendhold}
                                             value={pendholdreason}
                                         />
-                                    </Box> : null
+                                    </Box> : <Box sx={{ p: 0.5 }}>
+                                        <CustomTextarea
+                                            style={{ width: 390 }}
+                                            minRows={4}
+                                            placeholder="Remarks"
+                                            onchange={updatePendhold}
+                                            value={pendholdreason}
+                                        />
+                                    </Box>
                                 }
-                                <Box sx={{ p: 0.5 }}>
-                                    <CustomTextarea
-                                        style={{ width: 390 }}
-                                        minRows={4}
-                                        placeholder="Remarks"
-                                        onchange={updatePendhold}
-                                        value={pendholdreason}
-                                    />
-                                </Box>
+
                             </Paper>
                         </Box>
                     </Box>

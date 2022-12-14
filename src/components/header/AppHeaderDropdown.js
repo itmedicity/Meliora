@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from 'react'
 import {
-  CAvatar,
   CDropdown,
   CDropdownDivider,
   CDropdownItem,
@@ -8,7 +7,8 @@ import {
   CDropdownToggle,
 } from '@coreui/react'
 
-import avatar8 from './../../assets/images/avatars/8.jpg'
+
+import Avatar from "@mui/material/Avatar";
 import {
   iconPowerOff
 } from 'src/color/Color'
@@ -30,7 +30,8 @@ const AppHeaderDropdown = () => {
       <ModelMessage open={open} handleClose={handleClose} />
       <CDropdown variant="nav-item">
         <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
-          <CAvatar src={avatar8} size="md" />
+          <Avatar src="/broken-image.jpg" />
+          {/* <CAvatar src="/broken-image.jpg" size="md" /> */}
         </CDropdownToggle>
         <CDropdownMenu className="pt-0" placement="bottom-end">
           {/* <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>

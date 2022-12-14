@@ -37,7 +37,7 @@ import { getDepartemployee } from './Departwiseemployee.Reducer'
 import { getAssistantemployee } from './AssistantEmp.Reducer'
 import { changeStateAggrid } from '../reducers/StatechangeAgGrid';
 import { getAsignedstaffnurse } from '../reducers/Asignrdstaff.reducer';
-import { getTotalcomplaints } from '../reducers/ComplaintDashboard.Reducer';
+import { getComplaintList, setPendingOnholEmpWise, getOnholdList, setAssitRectEmpWise } from '../reducers/ComplaintDashboard.Reducer';
 import { getComplaintLists } from '../reducers/ComplaintLists.Reducer'
 import { getAssignedComplaintLists } from '../reducers/AssignedcmLists.Reducer'
 import { getAssistComplaintLists } from '../reducers/AssistcmLists.Reducer'
@@ -46,6 +46,8 @@ import { getComplaintRights } from '../reducers/CmpRightsDashboard.Reducer'
 import { getDepartSecemployee } from '../reducers/EmpNameDeptSec.Reducer'
 import { getTotalAdmission } from '../reducers/WeworkAdmission.Reducer'
 import { setExtraOrderList } from '../reducers/DietExtraOrder.Reducer'
+import { setComplaintListAll, setPendOnholdCompListAll } from '../reducers/ComplaintDashAllDept.Reducer'
+import { setCompListAllForMenu } from '../reducers/CompalintListAll.Reducer'
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -85,7 +87,6 @@ const reducer = combineReducers({
     getAssistantemployee,
     changeStateAggrid,
     getAsignedstaffnurse,
-    getTotalcomplaints,
     getComplaintLists,
     getAssignedComplaintLists,
     getAssistComplaintLists,
@@ -93,6 +94,15 @@ const reducer = combineReducers({
     getComplaintRights,
     getDepartSecemployee,
     getTotalAdmission,
-    setExtraOrderList
+    setExtraOrderList,
+    getComplaintList,
+    getOnholdList,
+    setAssitRectEmpWise,
+    setPendingOnholEmpWise,
+    setComplaintListAll,
+    setPendOnholdCompListAll,
+    setCompListAllForMenu
+
+
 })
 export default reducer;

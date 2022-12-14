@@ -25,8 +25,8 @@ const AssignComplaintTable = () => {
     const history = useHistory();
     //state for modal open
     const [open, setOpen] = useState(false)
-    // state for modal rendering
-    const [ab, setAb] = useState(0);
+    // state for modal rendering 
+    const [assignmodel, setAssignModel] = useState(0);
     const [complaint, setComplaint] = useState([]);
     const [count, setCount] = useState(0)
     // Get login user emp_id
@@ -37,7 +37,6 @@ const AssignComplaintTable = () => {
     const [column] = useState([
         {
             headerName: 'Action', minWidth: 120, cellRenderer: params => <Fragment>
-
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                     onClick={() => quickAssign(params)}>
                     <CustomeToolTip title="Quick Assign" >
@@ -50,7 +49,6 @@ const AssignComplaintTable = () => {
                         < AccessibilityNewIcon />
                     </CustomeToolTip>
                 </IconButton>
-
             </Fragment>
         },
         { headerName: "SlNo", field: "complaint_slno" },
@@ -87,7 +85,6 @@ const AssignComplaintTable = () => {
     const [assign] = useState([
         {
             headerName: 'Action', minWidth: 10,
-
             cellRenderer: params => {
                 if (params.data.compalint_status === 2 || params.data.compalint_status === 3) {
                     return <IconButton disabled
@@ -105,7 +102,6 @@ const AssignComplaintTable = () => {
                     </IconButton>
                 }
             }
-
         },
         { headerName: "SlNo", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 10, },
         {
@@ -181,7 +177,6 @@ const AssignComplaintTable = () => {
                     </IconButton>
                 }
             }
-
         },
         { headerName: "SlNo", field: "complaint_slno" },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 280 },
@@ -248,6 +243,8 @@ const AssignComplaintTable = () => {
             complaint_slno: complaint_slno,
             assigned_emp: id,
             assigned_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+            assign_rect_status: 0,
+            assigned_user: id
         }
         const getData = async (postData) => {
             const result = await axioslogin.post('/complaintassign', postData);
@@ -265,8 +262,8 @@ const AssignComplaintTable = () => {
     }, [count, id])
     //when we click on detailed assign button a modal will open
     const Assign = useCallback((params) => {
-        setAb(1)
-        setBc(0)
+        setAssignModel(1)
+        setAssistantModel(0)
         setOpen(true)
         const data = params.api.getSelectedRows()
         setComplaint(data)
@@ -274,11 +271,11 @@ const AssignComplaintTable = () => {
     //state for data passing to assistant modal
     const [assistant, setAssistant] = useState([]);
     //flag for rendering assistant need modal
-    const [bc, setBc] = useState(0);
+    const [assistantModel, setAssistantModel] = useState(0);
     //assistant needed icon fun user click on this a modal will open
     const AssistantNeeded = useCallback((params) => {
-        setBc(1)
-        setAb(0)
+        setAssistantModel(1)
+        setAssignModel(0)
         setOpen(true)
         const data = params.api.getSelectedRows()
         setAssistant(data);
@@ -306,7 +303,6 @@ const AssignComplaintTable = () => {
             setAssist(false)
         } else {
             setFlag(0)
-            // setFlag(2)
             setPending(false)
         }
     }, [])
@@ -446,53 +442,43 @@ const AssignComplaintTable = () => {
                 </Box>
 
                 {
-                    flag === 0 ?
-                        <Box sx={{
-                            p: 1,
-                        }}>
-                            <CusAgGridForMain
-                                columnDefs={column}
-                                tableData={pendingcomplaints}
-                            />
-                        </Box> : null
-                }
-                {
-                    flag === 2 ? <Box sx={{ p: 1 }}>
-                        <CusAgGridForMain
-                            columnDefs={column}
-                            tableData={pendingcomplaints}
-                        />
-                    </Box> : null
-                }
-                {
                     flag === 1 ? <Box sx={{ p: 1 }}>
                         <CusAgGridForMain
                             columnDefs={assign}
                             tableData={assignedcomplaints}
                         />
-                    </Box> : null
+                    </Box> :
+                        flag === 2 ? <Box sx={{ p: 1 }}>
+                            <CusAgGridForMain
+                                columnDefs={column}
+                                tableData={pendingcomplaints}
+                            />
+                        </Box> :
+                            flag === 3 ? <Box sx={{ p: 1 }}>
+                                <CusAgGridForMain
+                                    columnDefs={alldata}
+                                    tableData={allcomplaints}
+                                />
+                            </Box> :
+
+                                flag === 4 ? <Box sx={{ p: 1 }}>
+                                    <CusAgGridForMain
+                                        columnDefs={assitantaccept}
+                                        tableData={assistcomplaints}
+                                    />
+                                </Box> : <Box sx={{ p: 1 }}>
+                                    <CusAgGridForMain
+                                        columnDefs={column}
+                                        tableData={pendingcomplaints}
+                                    />
+                                </Box>
+                }
+
+                {
+                    assignmodel === 1 ? <ModalAssignComplaint open={open} id={id} setOpen={setOpen} complaint={complaint} empdept={profileData} count={count} setCount={setCount} /> : null //detailed assign modal
                 }
                 {
-                    flag === 3 ? <Box sx={{ p: 1 }}>
-                        <CusAgGridForMain
-                            columnDefs={alldata}
-                            tableData={allcomplaints}
-                        />
-                    </Box> : null
-                }
-                {
-                    flag === 4 ? <Box sx={{ p: 1 }}>
-                        <CusAgGridForMain
-                            columnDefs={assitantaccept}
-                            tableData={assistcomplaints}
-                        />
-                    </Box> : null
-                }
-                {
-                    ab === 1 ? <ModalAssignComplaint open={open} setOpen={setOpen} complaint={complaint} empdept={profileData} count={count} setCount={setCount} /> : null //detailed assign modal
-                }
-                {
-                    bc === 1 ? <AssistantNeedmodal open={open} setOpen={setOpen} assistant={assistant} empdept={profileData} count={count} setCount={setCount} /> : null //assistant needed modal
+                    assistantModel === 1 ? <AssistantNeedmodal open={open} setOpen={setOpen} assistant={assistant} empdept={profileData} count={count} setCount={setCount} /> : null //assistant needed modal
                 }
 
             </CardCloseOnly>
