@@ -359,11 +359,8 @@ const ExtraOrder = () => {
         setItem(item_slno)
         setCount(count)
         setEditCount(count)
-        setForUpdate()
     }, [])
-    useEffect(() => {
-        setForUpdate()
-    }, [Count])
+
     /** when count change array update function */
 
     const setForUpdate = useCallback(() => {
@@ -397,6 +394,9 @@ const ExtraOrder = () => {
 
     }, [editCount, Count, editArry, newfood, sumHosptial, sumCanteen])
 
+    useEffect(() => {
+        setForUpdate()
+    }, [Count])
 
     return (
         <Fragment>

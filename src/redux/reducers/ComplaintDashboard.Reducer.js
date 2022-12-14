@@ -1,36 +1,76 @@
 import { ActionTyps } from '../constants/action.type'
 const {
     FETCH_TOTAL_COMPLAINTS,
-    FETCH_PENDING_COMPLAINTS,
-    FETCH_ASSIGNEDCOMPLAINTS_DASH,
-    FETCH_RECTIFIEDCOMPLAINTS_DASH,
-    FETCH_VERIFIEDCOMPLAINTS_DASH,
-    FETCH_ONHOLDCOMPLAINTS_DASH
+    FETCH_ONHOLDCOMPLAINTS_DASH,
+    FETCH_ASSIST_RECTY_EMP,
+    FETCH_PENDING_ONHOLD_EMP
 } = ActionTyps
 
-const DashboardNotify = {
-    67: { slno: 67, name: "Total Complaint", count: 0, status: true },
-    68: { slno: 68, name: "Pending Complaints", count: 0, status: true },
-    69: { slno: 69, name: "Assigned  Complaints", count: 0, status: true },
-    70: { slno: 70, name: "Rectified  Complaints", count: 0, status: true },
-    71: { slno: 71, name: "Verified Complaints", count: 0, status: true },
-    72: { slno: 72, name: "Onhold Complaints", count: 0, status: true },
+
+const complaints = {
+    complaintList: [],
+    loadingStatus: false
 }
-export const getTotalcomplaints = (state = DashboardNotify, { type, payload, status }) => {
+
+const onHold = {
+    onHoldList: [],
+    onholdStatus: false
+}
+
+const assitEmp = {
+    assitEmpList: [],
+    assitEmpStatus: false
+}
+
+const pendOnholdEmp = {
+    pendOnholdEmpList: [],
+    pendOnholdEmpStatus: false
+}
+
+export const getComplaintList = (state = complaints, { type, payload }) => {
     switch (type) {
         case FETCH_TOTAL_COMPLAINTS:
-            return { ...state, 67: { slno: 67, name: "Total Complaint", count: payload, status: status } }
-        case FETCH_PENDING_COMPLAINTS:
-            return { ...state, 68: { slno: 68, name: "Pending Complaints", count: payload, status: status } }
-        case FETCH_ASSIGNEDCOMPLAINTS_DASH:
-            return { ...state, 69: { slno: 69, name: "Assigned Complaints", count: payload, status: status } }
-        case FETCH_RECTIFIEDCOMPLAINTS_DASH:
-            return { ...state, 70: { slno: 70, name: "Rectified  Complaints", count: payload, status: status } }
-        case FETCH_VERIFIEDCOMPLAINTS_DASH:
-            return { ...state, 71: { slno: 71, name: "Verified Complaints", count: payload, status: status } }
-        case FETCH_ONHOLDCOMPLAINTS_DASH:
-            return { ...state, 72: { slno: 72, name: "Onhold Complaints", count: payload, status: status } }
+            return { ...state, complaintList: payload, loadingStatus: true }
         default:
             return state
     }
 }
+
+
+export const getOnholdList = (state = onHold, { type, payload }) => {
+    switch (type) {
+        case FETCH_ONHOLDCOMPLAINTS_DASH:
+            return { ...state, onHoldList: payload, onholdStatus: true }
+        default:
+            return state
+    }
+
+}
+
+export const setAssitRectEmpWise = (state = assitEmp, { type, payload }) => {
+    switch (type) {
+        case FETCH_ASSIST_RECTY_EMP:
+            return { ...state, assitEmpList: payload, assitEmpStatus: true }
+        default:
+            return state
+    }
+
+}
+
+
+
+export const setPendingOnholEmpWise = (state = pendOnholdEmp, { type, payload }) => {
+    switch (type) {
+        case FETCH_PENDING_ONHOLD_EMP:
+            return { ...state, pendOnholdEmpList: payload, pendOnholdEmpStatus: true }
+        default:
+            return state
+    }
+
+}
+
+
+
+
+
+

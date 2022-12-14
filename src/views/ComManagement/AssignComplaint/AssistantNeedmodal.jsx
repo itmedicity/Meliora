@@ -55,7 +55,9 @@ const AssistantNeedmodal = ({ open, setOpen, assistant, empdept, count, setCount
             assigned_emp: assistemp,  //assit employee
             assist_assign_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'), //assist accepted time
             assist_flag: assistuser === true ? 1 : 0,
-            assist_requested_emp: id
+            assist_requested_emp: id,
+            assign_rect_status: 0,
+            assigned_user: id
         }
     }, [complaint_slno, assistemp, assistuser, id]);
     // reset states to intial
