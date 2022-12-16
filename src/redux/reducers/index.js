@@ -58,7 +58,7 @@ import { getnursewisefloor } from '../reducers/NurseWiseFloor.reducer'
 import { setExtraOrderList } from '../reducers/DietExtraOrder.Reducer'
 import { setComplaintListAll, setPendOnholdCompListAll } from '../reducers/ComplaintDashAllDept.Reducer'
 import { setCompListAllForMenu } from '../reducers/CompalintListAll.Reducer'
-
+import { setItemExtra } from '../reducers/ItemMasterExtra.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -124,6 +124,6 @@ const reducer = combineReducers({
     getWeBhrcAdmitdetl,
     getFloorselect,
     getnursewisefloor,
-    setExtraOrderList
+    setItemExtra
 })
 export default reducer;

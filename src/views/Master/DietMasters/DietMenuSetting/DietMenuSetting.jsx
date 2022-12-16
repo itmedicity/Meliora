@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useEffect, useState } from 'react'
 import { Box, Grid, IconButton } from '@mui/material'
 import { useHistory } from 'react-router-dom';
 import CardMaster from 'src/views/Components/CardMaster'
@@ -11,14 +11,14 @@ import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/Common
 import { axioslogin } from 'src/views/Axios/Axios';
 import { MdOutlineAddCircleOutline } from 'react-icons/md';
 import DietMenuSettCmp from './DietMenuSettCmp';
-import { useSelector } from 'react-redux'
 import SelectDietName from 'src/views/CommonSelectCode/SelectDietName';
 import SelectDietTypeName from 'src/views/CommonSelectCode/SelectDietTypeName';
 import ItemGroupName from 'src/views/CommonSelectCode/ItemGroupName';
 import SelectItemName from 'src/views/CommonSelectCode/SelectItemName';
-
+import { useSelector } from 'react-redux';
 const DietMenuSetting = () => {
     const history = useHistory();
+
     //state for select boxes 
     const [diet, setDiet] = useState(0);
     const [item, setItem] = useState(0);
@@ -35,13 +35,18 @@ const DietMenuSetting = () => {
     const [dietmenu, setDietmenu] = useState({
         order_req: false,
         status: false,
+    })
+
+    const [dataset, setData] = useState({
         qty: '',
         unit: '',
         rate_hos: '',
         rate_cant: '',
     })
+
     //destructuring
-    const { order_req, status, qty, unit, rate_hos, rate_cant } = dietmenu
+    const { order_req, status } = dietmenu
+    const { qty, unit, rate_hos, rate_cant } = dataset
     const updateDietmenu = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setDietmenu({ ...dietmenu, [e.target.name]: value })
@@ -50,6 +55,27 @@ const DietMenuSetting = () => {
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
+
+    useEffect(() => {
+        const getRate = async () => {
+            const result = await axioslogin.get(`/dietmenudtl/item/rate/${item}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { qty, rate_cant, rate_hos, unit } = data[0]
+                const formdara = {
+                    qty: qty,
+                    unit: unit,
+                    rate_hos: rate_hos,
+                    rate_cant: rate_cant,
+                }
+                setData(formdara)
+            }
+        }
+        if (item !== 0) {
+            getRate();
+        }
+
+    }, [item])
 
     const reset = () => {
         setDiet(0);
@@ -63,13 +89,16 @@ const DietMenuSetting = () => {
         const formReset = {
             order_req: false,
             status: false,
+            dmenu_slno: ''
+        }
+        const Resetdata = {
             qty: '',
             unit: '',
             rate_hos: '',
             rate_cant: '',
-            dmenu_slno: ''
         }
         setDietmenu(formReset)
+        setData(Resetdata)
         reset()
     }, [])
 
@@ -133,11 +162,13 @@ const DietMenuSetting = () => {
         const formReset = {
             order_req: false,
             status: false,
+            dmenu_slno: ''
+        }
+        const resetfrm = {
             qty: '',
             unit: '',
             rate_hos: '',
             rate_cant: '',
-            dmenu_slno: ''
         }
         /*** * insert function for use call back     */
         const InsertData = async (dmenuPost) => {
@@ -190,6 +221,7 @@ const DietMenuSetting = () => {
                 succesNotify(message)
                 setCount(count + 1)
                 setDietmenu(formReset)
+                setData(resetfrm)
                 reset();
                 setdataPost([])
             }
@@ -257,7 +289,7 @@ const DietMenuSetting = () => {
                                 <ItemGroupName value={group} setValue={setGroup} setName={setItemGroupName} />
                             </Grid>
                             <Grid item xl={12} lg={12} >
-                                <SelectItemName value={item} setValue={setItem} setName={setItemName} />
+                                <SelectItemName value={item} setValue={setItem} setName={setItemName} group={group} />
                             </Grid>
                             <Grid item xl={6} lg={6}>
                                 <TextFieldCustom
@@ -266,7 +298,6 @@ const DietMenuSetting = () => {
                                     size="sm"
                                     name="qty"
                                     value={qty}
-                                    onchange={updateDietmenu}
                                     style={{ mt: 0 }}
                                 />
                             </Grid>
@@ -277,7 +308,6 @@ const DietMenuSetting = () => {
                                     size="sm"
                                     name="unit"
                                     value={unit}
-                                    onchange={updateDietmenu}
                                 />
                             </Grid>
                             <Grid item xl={6} lg={6} >
@@ -287,7 +317,6 @@ const DietMenuSetting = () => {
                                     size="sm"
                                     name="rate_hos"
                                     value={rate_hos}
-                                    onchange={updateDietmenu}
                                 />
                             </Grid>
                             <Grid item xl={6} lg={6}>
@@ -297,7 +326,6 @@ const DietMenuSetting = () => {
                                     size="sm"
                                     name="rate_cant"
                                     value={rate_cant}
-                                    onchange={updateDietmenu}
                                 />
                             </Grid>
                             <Grid item xl={12} lg={12}>

@@ -8,6 +8,7 @@ import { Grid } from '@mui/material'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
+import { useSelector } from 'react-redux'
 const ModuleMaster = () => {
     const [value, setvalue] = useState(0)
     const [count, setCount] = useState(0)
@@ -24,13 +25,18 @@ const ModuleMaster = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setModule({ ...module, [e.target.name]: value })
     }, [module])
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     // data for insert
     const postdata = useMemo(() => {
         return {
             module_name: module_name,
-            module_status: module_status === true ? 1 : 0
+            module_status: module_status === true ? 1 : 0,
+            create_user: id
         }
-    }, [module_name, module_status])
+    }, [module_name, module_status, id])
 
 
     //data for edit 
@@ -50,9 +56,10 @@ const ModuleMaster = () => {
         return {
             module_name: module_name,
             module_status: module_status === true ? 1 : 0,
-            module_slno: module_slno
+            module_slno: module_slno,
+            edit_user: id
         }
-    }, [module_name, module_status, module_slno])
+    }, [module_name, module_status, module_slno, id])
     /*** usecallback function for form submitting form */
     const submitModule = useCallback((e) => {
         e.preventDefault();
