@@ -76,7 +76,7 @@ const AppSidebar = () => {
     },
     //We  Work Menu Start from Here
     {
-      slno: 7,
+      slno: 6,
       component: CNavGroup,
       name: 'We Work',
       items: weworktransact

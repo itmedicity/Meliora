@@ -12,7 +12,7 @@ const NoshiftReport = () => {
     const getnosheet = useSelector((state) => {
         return state.getwenoShiftdetl.noshiftdetlList || 0
     })
-    console.log(getnosheet);
+
 
     useEffect(() => {
         dispatch(getNoshifingList())
@@ -33,7 +33,7 @@ const NoshiftReport = () => {
     return (
         <Fragment>
             <CusReportDownloadClose
-                title={"no sheet change"}
+                title={"No sheet change"}
                 tableData={getnosheet}
                 columnDefs={column}
                 sx={{ width: "100%", height: 800 }} />

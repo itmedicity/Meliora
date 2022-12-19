@@ -289,7 +289,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
         }
 
         setactivity(frmdata)
-        settime(visit_time !== null ? visit_time : null)
+        settime(visit_time !== null ? visit_time : '')
         setdiettype(v)
         setclean(room_clean === 'yes' ? true : false)
         setsheet(sheet_change === 'yes' ? true : false)
@@ -300,7 +300,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
         setasset(y)
         setboard(patient_board_update === 'yes' ? true : false)
         setnotes(imortant_note)
-        setdaily(activity_date !== null ? activity_date : null)
+        setdaily(activity_date !== null ? activity_date : '')
 
     }, [emid])
 
