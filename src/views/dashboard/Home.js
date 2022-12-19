@@ -66,8 +66,8 @@ const Home = () => {
         75: { slno: 75, name: "DAMA patient", count: state.WeDamaDetl.length },
         76: { slno: 76, name: "BHRC Patient", count: state.WeBhrcDetl.length },
         77: { slno: 77, name: "No shifted Patient", count: state.noshiftdetl.length },
-        78: { slno: 78, name: "Doctor Rounds after 2 pm", count: state.WedischrgeList.length },
-        79: { slno: 79, name: "Discahrge after 2 pm", count: state.AftternoonRounds.length },
+        79: { slno: 79, name: "Doctor Rounds after 2 pm", count: state.WedischrgeList.length },
+        78: { slno: 78, name: "Discahrge after 2 pm", count: state.AftternoonRounds.length },
         81: { slno: 81, name: "high Antibiotic", count: state.HighAntiBiotic.length }
     }
 
