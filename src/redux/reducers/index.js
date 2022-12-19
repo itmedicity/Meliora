@@ -60,6 +60,7 @@ import { setComplaintListAll, setPendOnholdCompListAll } from '../reducers/Compl
 import { setCompListAllForMenu } from '../reducers/CompalintListAll.Reducer'
 import { setItemExtra } from '../reducers/ItemMasterExtra.Reducer'
 
+
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -124,8 +125,8 @@ const reducer = combineReducers({
     getWeBhrcAdmitdetl,
     getFloorselect,
     getnursewisefloor,
-    setExtraOrderList,
     setItemExtra
+
 
 })
 export default reducer;
