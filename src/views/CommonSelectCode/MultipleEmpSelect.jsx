@@ -36,7 +36,7 @@ export default function MultipleSelectChip() {
             typeof value === "string" ? value.split(",") : value
         );
     };
-    console.log(value);
+
     return (
         <div>
             <FormControl sx={{ m: 1, width: 300 }}>
@@ -51,7 +51,6 @@ export default function MultipleSelectChip() {
                             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                                 {selected.map((value) => {
                                     const option = options.find((o) => o.id === value);
-                                    console.log(option);
                                     return <Chip key={value} label={option.name} />;
                                 })}
                             </Box>

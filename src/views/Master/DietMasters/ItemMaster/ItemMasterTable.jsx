@@ -9,7 +9,7 @@ const ItemMasterTable = ({ count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
     //column title setting
     const [column] = useState([
-        { headerName: "SlNo", field: "item_slno" },
+        { headerName: "SlNo", field: "item_slno", minWidth: 70, },
         { headerName: "Item Name", field: "item_name", filter: "true", minWidth: 150, wrapText: true, },
         { headerName: "Item group", field: "group_name", minWidth: 150, wrapText: true, },
         { headerName: "Rate", field: "rate" },

@@ -37,7 +37,7 @@ import { getDepartemployee } from './Departwiseemployee.Reducer'
 import { getAssistantemployee } from './AssistantEmp.Reducer'
 import { changeStateAggrid } from '../reducers/StatechangeAgGrid';
 import { getAsignedstaffnurse } from '../reducers/Asignrdstaff.reducer';
-import { getTotalcomplaints } from '../reducers/ComplaintDashboard.Reducer';
+import { getComplaintList, setPendingOnholEmpWise, getOnholdList, setAssitRectEmpWise } from '../reducers/ComplaintDashboard.Reducer';
 import { getComplaintLists } from '../reducers/ComplaintLists.Reducer'
 import { getAssignedComplaintLists } from '../reducers/AssignedcmLists.Reducer'
 import { getAssistComplaintLists } from '../reducers/AssistcmLists.Reducer'
@@ -56,7 +56,10 @@ import { getWeBhrcAdmitdetl } from '../reducers/WebhrcAdmitList.Reducer'
 import { getFloorselect } from '../reducers/FloorSelect.Reducer'
 import { getnursewisefloor } from '../reducers/NurseWiseFloor.reducer'
 import { setExtraOrderList } from '../reducers/DietExtraOrder.Reducer'
-//  import { getFloorselect } from '../reducers/FloorSelect.Reducer'
+import { setComplaintListAll, setPendOnholdCompListAll } from '../reducers/ComplaintDashAllDept.Reducer'
+import { setCompListAllForMenu } from '../reducers/CompalintListAll.Reducer'
+import { setItemExtra } from '../reducers/ItemMasterExtra.Reducer'
+
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -96,7 +99,6 @@ const reducer = combineReducers({
     getAssistantemployee,
     changeStateAggrid,
     getAsignedstaffnurse,
-    getTotalcomplaints,
     getComplaintLists,
     getAssignedComplaintLists,
     getAssistComplaintLists,
@@ -104,6 +106,14 @@ const reducer = combineReducers({
     getComplaintRights,
     getDepartSecemployee,
     getTotalAdmission,
+    setExtraOrderList,
+    getComplaintList,
+    getOnholdList,
+    setAssitRectEmpWise,
+    setPendingOnholEmpWise,
+    setComplaintListAll,
+    setPendOnholdCompListAll,
+    setCompListAllForMenu,
     getTotalWeAdmission,
     getWeBhrcDetl,
     getDamaDetl,
@@ -115,6 +125,7 @@ const reducer = combineReducers({
     getFloorselect,
     getnursewisefloor,
     setExtraOrderList,
-    // getFloorselect
+    setItemExtra
+
 })
 export default reducer;

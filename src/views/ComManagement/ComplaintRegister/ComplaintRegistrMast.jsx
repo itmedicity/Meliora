@@ -311,8 +311,6 @@ const ComplaintRegistrMast = () => {
         setdesc('')
     }, [])
 
-
-
     return (
         <CardMaster
             title="Complaint Registration"
@@ -515,6 +513,24 @@ const ComplaintRegistrMast = () => {
                                 display: 'flex',
                                 width: { xs: '100%', sm: '100%', md: '30%', lg: '100%', xl: '100%', },
                             }} >
+
+
+
+                                <Paper sx={{
+                                    width: '100%',
+                                    mt: 0.8
+                                }} square elevation={1}>
+                                    <CustomPaperTitle heading='Location' />
+                                    <Paper sx={{
+                                        p: 1,
+                                        width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%' }
+                                    }} >
+                                        <LocationSelect value={depsec} setValue={setDepsec} />
+                                    </Paper>
+
+                                </Paper>
+
+
                                 <Paper sx={{
                                     width: '100%',
                                     mt: 0.8
@@ -629,40 +645,10 @@ const ComplaintRegistrMast = () => {
                         </Box>
                         {/* 4th section */}
                     </Box>
-
-
-                    <Box sx={{
-                        width: "100%",
-                        display: "flex",
-                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                    }}>
-                        <Box sx={{
-                            display: 'flex',
-                            width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
-                        }} >
-                            <Box sx={{
-                                width: '30%',
-                                mt: 0.8
-                            }}>
-                                <Paper square elevation={1} sx={{
-                                    mt: 1,
-                                }}>
-                                    <CustomPaperTitle heading='Location' />
-                                    <Paper sx={{
-                                        p: 1,
-                                        width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%' }
-                                    }} >
-                                        <LocationSelect value={depsec} setValue={setDepsec} />
-                                    </Paper>
-                                </Paper>
-                            </Box>
-                        </Box>
-                        {/* 4th section */}
-                    </Box>
                 </Paper>
             </Box>
             < Paper square elevation={0} sx={{
-                p: 2,
+                p: 1, pt: 0
             }} >
                 <ComplaintRegTable
                     rowSelect={rowSelect} sec={sec} count={count} setCount={setCount} />

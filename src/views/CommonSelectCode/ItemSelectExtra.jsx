@@ -1,24 +1,25 @@
-import React, { memo, useEffect } from 'react'
+import React, { useEffect, memo } from 'react'
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { useDispatch, useSelector } from 'react-redux';
-import { getItem } from 'src/redux/actions/ItemMaster.action'
+import { getItemExtra } from "src/redux/actions/ItemMasterExtra.action ";
 
-const SelectItemName = ({ value, setValue, setName, group }) => {
+const ItemSelectExtra = ({ value, setValue, setName }) => {
+
     const dispatch = useDispatch();
     /**getItem -state update function of reducer 
 *   itemList- initial state of reducer function
 *itemdata is used to list select box items by using map
 */
     const itemdata = useSelector((state) => {
-        return state.getItem.itemList || 0
+        return state.setItemExtra.itemExtraList || 0
     })
     useEffect(() => {
+        dispatch(getItemExtra());
+    }, [dispatch])
 
-        dispatch(getItem(group));
-    }, [dispatch, group])
     return (
         <Box  >
             <FormControl fullWidth size="small"  >
@@ -47,4 +48,4 @@ const SelectItemName = ({ value, setValue, setName, group }) => {
     )
 }
 
-export default memo(SelectItemName)
+export default memo(ItemSelectExtra)

@@ -1,7 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
-import { useCallback } from 'react'
+import { useState, useCallback, useEffect, Fragment } from 'react'
 import { editicon } from 'src/color/Color'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -9,7 +7,6 @@ import CardMaster from 'src/views/Components/CardMaster'
 import ComplistAgGridcmp from 'src/views/Components/ComplistAgGridcmp'
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import { IconButton } from '@mui/material';
-import { Fragment } from 'react'
 import Rectifymodel from './Rectifymodel'
 import { useSelector } from 'react-redux'
 import { Box } from '@mui/system'
@@ -99,9 +96,28 @@ const RectifyCompalint = () => {
 
 
     ])
+
+    const [empName, setempname] = useState([])
+
     //rectify complaint  click function on click model open and pass data
     const Rectifycomplaintdept = useCallback((params) => {
         const data = params.api.getSelectedRows()
+
+
+        const { complaint_slno } = data[0]
+        const getEmployeees = async () => {
+            const result = await axioslogin.get(`Rectifycomplit/getAssignEmps/${complaint_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setempname(data)
+            }
+            else {
+                setempname([])
+            }
+        }
+        getEmployeees();
+
+
         setdeatial(data)
         setmdopen(1)
         setOpen(true)
@@ -147,7 +163,8 @@ const RectifyCompalint = () => {
     return (
         <Fragment >
             {mdopen !== 0 ? <Rectifymodel open={open} detail={detail}
-                setCount={setCount} count={count} setOpen={setOpen} /> : null}
+                setCount={setCount} count={count} setOpen={setOpen}
+                empName={empName} /> : null}
             <CardMaster
                 close={backtoSetting}
                 title="Rectify complaint"

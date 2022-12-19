@@ -13,10 +13,10 @@ import CusModelMessage from 'src/views/Components/CusModelMessage';
 import NursingStationMeliSelect from 'src/views/CommonSelectCode/NursingStationMeliSelect';
 import ExtraRoomMeliSelect from './ExtraRoomMeliSelect';
 import ExtraDietTypeSelect from './ExtraDietTypeSelect';
-import SelectItemName from 'src/views/CommonSelectCode/SelectItemName';
 import { format } from 'date-fns'
 import ExtraOrderView from './ExtraOrderView';
 import { Fragment } from 'react';
+import ItemSelectExtra from 'src/views/CommonSelectCode/ItemSelectExtra';
 
 const ExtraOrder = () => {
     /** Variable initialization */
@@ -249,6 +249,8 @@ const ExtraOrder = () => {
         const InsertFunc = async (Insert) => {
             if (process === '') {
                 infoNotify("Please Choose the Room")
+
+
             } else {
                 const result = await axioslogin.post('/extraorder/insert', Insert);
                 const { success, insertId } = result.data;
@@ -359,11 +361,8 @@ const ExtraOrder = () => {
         setItem(item_slno)
         setCount(count)
         setEditCount(count)
-        setForUpdate()
     }, [])
-    useEffect(() => {
-        setForUpdate()
-    }, [Count])
+
     /** when count change array update function */
 
     const setForUpdate = useCallback(() => {
@@ -397,6 +396,9 @@ const ExtraOrder = () => {
 
     }, [editCount, Count, editArry, newfood, sumHosptial, sumCanteen])
 
+    useEffect(() => {
+        setForUpdate()
+    }, [Count])
 
     return (
         <Fragment>
@@ -609,7 +611,7 @@ const ExtraOrder = () => {
                                         width: '100%',
                                         mt: 1
                                     }}>
-                                        <SelectItemName value={item} setValue={setItem} setName={setItemName} />
+                                        <ItemSelectExtra value={item} setValue={setItem} setName={setItemName} />
                                     </Box>
                                 </Box>
                             </Box>

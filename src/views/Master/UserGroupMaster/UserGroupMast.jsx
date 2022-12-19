@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState, memo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
@@ -8,6 +8,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import UserGroupTable from './UserGroupTable'
 import { Box } from '@mui/system'
+import { useSelector } from 'react-redux'
 const UserGroupMast = () => {
     const [count, setCount] = useState(0)
     const [value, setvalue] = useState(0)
@@ -24,13 +25,18 @@ const UserGroupMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setUsergrp({ ...usergrp, [e.target.name]: value })
     }, [usergrp])
+    // Get login user emp_id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     //data for insert
     const postdata = useMemo(() => {
         return {
             user_grp_name: usergrp_name,
-            user_grp_status: usergrp_status === true ? 1 : 0
+            user_grp_status: usergrp_status === true ? 1 : 0,
+            create_user: id
         }
-    }, [usergrp_name, usergrp_status])
+    }, [usergrp_name, usergrp_status, id])
     //data set for edit 
     const rowSelect = useCallback((params) => {
         setvalue(1);
@@ -48,9 +54,10 @@ const UserGroupMast = () => {
         return {
             user_grp_name: usergrp_name,
             user_grp_status: usergrp_status === true ? 1 : 0,
-            user_grp_slno: user_grp_slno
+            user_grp_slno: user_grp_slno,
+            edit_user: id
         }
-    }, [usergrp_name, usergrp_status, user_grp_slno])
+    }, [usergrp_name, usergrp_status, user_grp_slno, id])
     /*** usecallback function for form submitting */
     const submitUserGroup = useCallback((e) => {
         e.preventDefault();
@@ -156,4 +163,4 @@ const UserGroupMast = () => {
         </CardMaster >
     )
 }
-export default UserGroupMast
+export default memo(UserGroupMast)
