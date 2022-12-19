@@ -25,8 +25,8 @@ const PatSurvillenceView = ({ ipno, setclosebtn }) => {
         // { headerName: "Dietion visit time", field: "dietition_visit_tme", wrapText: true, autoHeight: true },
         // { headerName: "stat medicine ", field: "stat_medicine", wrapText: true, autoHeight: true },
         // { headerName: "stat receive time", field: "stat_recived_time", wrapText: true, autoHeight: true },
-        { headerName: "sfa/mfa ", field: "sfa_mfa" },
-        { headerName: "Payement", field: "payment_mode" },
+        // { headerName: "sfa/mfa ", field: "sfa_mfa" },
+        { headerName: "Payment", field: "payment_mode" },
 
     ])
 
@@ -62,7 +62,6 @@ const PatSurvillenceView = ({ ipno, setclosebtn }) => {
                     <CusAgGridMast
                         tableData={tabledata}
                         columnDefs={column}
-
                     />
                 </Paper>
 

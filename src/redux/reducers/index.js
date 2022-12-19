@@ -56,7 +56,7 @@ import { getWeBhrcAdmitdetl } from '../reducers/WebhrcAdmitList.Reducer'
 import { getFloorselect } from '../reducers/FloorSelect.Reducer'
 import { getnursewisefloor } from '../reducers/NurseWiseFloor.reducer'
 import { setExtraOrderList } from '../reducers/DietExtraOrder.Reducer'
-
+//  import { getFloorselect } from '../reducers/FloorSelect.Reducer'
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -114,6 +114,7 @@ const reducer = combineReducers({
     getWeBhrcAdmitdetl,
     getFloorselect,
     getnursewisefloor,
-    setExtraOrderList
+    setExtraOrderList,
+    // getFloorselect
 })
 export default reducer;

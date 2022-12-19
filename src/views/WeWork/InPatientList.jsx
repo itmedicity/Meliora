@@ -14,11 +14,26 @@ import { Card, CardContent, ThemeProvider } from '@mui/material';
 import CustomCardHeaderOne from '../Components/CustomCardHeaderOne';
 import theme from '../Components/MuiTheme';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+// import { useDispatch } from 'react-redux';
+import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
+import BedTracking from './BedTracking/BedTracking';
+import FollowTheSignsTwoToneIcon from '@mui/icons-material/FollowTheSignsTwoTone';
+import DischargeEvent from './DischargeEvent/DischargeEvent';
+import { memo } from 'react';
+// import ComplaintCheckBox from '../ComManagement/ComplaintRegister/ComplaintCheckBox';
+// import { useSelector } from 'react-redux';
+// import { CssVarsProvider } from '@mui/joy';
+// import { CssVarsProvider } from '@mui/joy';
+
+// import Nurstationwisefloorselect from '../CommonSelectCode/Nurstationwisefloorselect';
+// import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect';
+
 const NursingStation = React.lazy(() => import('../CommonSelectCode/NursingStationMeliSelect'))
 const DailyactivityLazy = React.lazy(() => import('./DailyActivity/Dailyactivity'))
 const PatientIntractionLazy = React.lazy(() => import('./PatirntIntraction/PatientIntraction'))
 const PatientsurvillenceLazy = React.lazy(() => import('./Patienntsurvillence/Patientsurvillence'))
 const PatSurvillenceViewLazy = React.lazy(() => import('./Patienntsurvillence/PatSurvillenceView'))
+
 
 
 
@@ -38,7 +53,21 @@ const InPatientList = ({ close, refresh, submit }) => {
     const [mf, setmf] = useState(0)
     const [checkIcon, setcheckIcon] = useState(0)
     const [bedcode, setbedcode] = useState([])
+    const [nsdesc, setnsdesc] = useState('')
     const history = useHistory()
+    // const [floorDesc, setfloorDesc] = useState('')
+    // const [floorNumber, setFloornumber] = useState(0)
+    // const [mapnurse, setmapnurse] = useState(0)
+    // const [nurstation, setnurstation] = useState([])
+    // const [cc, setcc] = useState(0)
+    // const [nurDesr, setnurdesc] = useState('')
+
+    // const [aa, setaa] = useState()
+    // const emid = useSelector((state) => {
+    //     return state.LoginUserData.empid
+    // })
+
+
 
     const [column] = useState([
 
@@ -62,7 +91,7 @@ const InPatientList = ({ close, refresh, submit }) => {
         // setflag(1)
         setclosebtn(1)
         const dataa = params.api.getSelectedRows()
-        const { ip_no, pt_no, ptc_ptname, doc_name, DOA, rmc_desc, age, ptc_sex, bd_code } = dataa[0]
+        const { ip_no, pt_no, ptc_ptname, doc_name, DOA, rmc_desc, age, ptc_sex, bd_code, nsc_desc } = dataa[0]
         setname(ptc_ptname)
         setipno(ip_no)
         setptno(pt_no)
@@ -73,8 +102,34 @@ const InPatientList = ({ close, refresh, submit }) => {
         // setdod(DOD)
         setmf(ptc_sex)
         setbedcode(bd_code)
+        setnsdesc(nsc_desc)
+
 
     }, [])
+    // useEffect(() => {
+    //     const getPatientList = async () => {
+    //         // if (nurse !== 0) {
+    //         const result = await axioslogin.get(`/WeWork/getinpatient/${nurstation}`)
+    //         const { success, data, message } = result.data
+    //         console.log(data);
+    //         if (success === 1) {
+    //             setTabledata(data)
+    //             setTable(1)
+    //         } else if (success === 2) {
+    //             setTabledata([])
+    //             infoNotify(message)
+    //         }
+    //         else {
+    //             warningNotify("Error occured contact EDP")
+    //         }
+    //         // }
+    //     }
+    //     getPatientList(nurstation);
+    // }, [nurstation])
+
+
+
+
 
     useEffect(() => {
         const getPatientList = async () => {
@@ -93,7 +148,7 @@ const InPatientList = ({ close, refresh, submit }) => {
                 }
             }
         }
-        getPatientList();
+        getPatientList(nurse);
     }, [nurse])
 
     //close button function
@@ -114,6 +169,15 @@ const InPatientList = ({ close, refresh, submit }) => {
         setcheckIcon(3)
     }
 
+
+    const bedTracking = (e) => {
+        setcheckIcon(4)
+    }
+
+    const discharge = (e) => {
+        setcheckIcon(5)
+    }
+
     const submited = useCallback((insertdata) => {
         const insert = (insertdata) => {
 
@@ -123,6 +187,54 @@ const InPatientList = ({ close, refresh, submit }) => {
             insert(insertdata)
         }
     }, [checkIcon])
+
+
+
+
+
+
+
+    // const floorlist = useSelector((state) => {
+    //     return state.getFloorselect.floorList || 0
+    // })
+
+    // useEffect(() => {
+    //     dispatch(getfloor(id))
+    // }, [dispatch, id])
+
+
+    // console.log(floorlist);
+
+
+
+
+
+
+
+    // useEffect(() => {
+    //     const getfloor = async () => {
+    //         const result = await axioslogin.get(`/weEmpMap/floorEmp/${emid}`)
+    //         const { success, data, message } = result.data
+    //         console.log(data);
+    //         if (success === 1) {
+    //             const { floor_desc, map_floor, co_nurse_desc, map_nsurse_station } = data[0]
+    //             setfloorDesc(floor_desc)
+    //             setFloornumber(map_floor)
+    //             setmapnurse(map_nsurse_station)
+    //             setnurdesc(co_nurse_desc)
+    //             setaa(data)
+
+    //         } else if (success === 2) {
+    //             // setTabledata([])
+    //             infoNotify(message)
+    //         }
+    //         else {
+    //             warningNotify("Error occured contact EDP")
+    //         }
+
+    //     }
+    //     getfloor(emid)
+    // }, [emid])
 
 
     return (
@@ -148,13 +260,75 @@ const InPatientList = ({ close, refresh, submit }) => {
                                         justifyContent: 'center',
                                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                                     }}>
-                                        <Box sx={{ width: { xl: "25%", lg: "25%", md: "30%", sm: "40%" }, pr: 1, mt: 1 }}                            >
-                                            <Paper >
-                                                <NursingStation value={nurse} setValue={setNurse} />
-                                            </Paper>
+                                        <Box sx={{ width: { xl: "25%", lg: "25%", md: "30%", sm: "40%" }, pr: 1, mt: 1, }}                            >
+
+                                            {/* <CssVarsProvider>
+                                                <Typography level="body1" > {floorDesc}</Typography>
+                                            </CssVarsProvider> */}
+                                            <NursingStation value={nurse} setValue={setNurse} />
+
                                         </Box>
                                     </Box>
+
+
+                                    {/* <Box sx={{ width: "20%" }}>
+                                        <Nurstationwisefloorselect value={nurstation} setValue={setnurstation} floor={floorNumber} />
+                                    </Box> */}
+                                    {/* <Box>
+                                        {
+                                            aa && aa.map((val, index) => {
+                                                return <Box sx={{
+                                                    pt: 1, pb: 1,
+                                                    justifyContent: 'space-between',
+                                                    // width: "100%",
+                                                    width: { xl: "100%", lg: "100%", md: "100%" }
+                                                }}
+                                                    key={val.map_nsurse_station}
+                                                >
+                                                    <Box sx={{ p: 1, display: "flex", flexDirection: 'column' }} >
+
+                                                        <ComplaintCheckBox
+                                                            label={val.co_nurse_desc}
+                                                            value={val.map_nsurse_station}
+                                                            name={val.co_nurse_desc}
+                                                            onChange={setcc}
+                                                            checkedValue={cc}
+
+
+                                                        />
+
+
+                                                        {
+                                                            val.co_nurse_desc.split(",") && val.co_nurse_desc.split(",").map((id, index) => {
+                                                                return <Box key={index}>
+
+                                                                    <ComplaintCheckBox
+                                                                        label={id}
+                                                                        value={val.map_nsurse_station}
+                                                                        name={id}
+                                                                        onChange={setcc}
+                                                                        checkedValue={cc}
+
+
+                                                                    />
+
+
+
+                                                                </Box>
+                                                            })
+                                                        }
+                                                    </Box>
+                                                </Box>
+
+                                            })
+                                        }
+                                    </Box> */}
                                 </Paper>
+
+
+
+
+
                                 <Box sx={{ mt: 1, width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" } }}>
                                     {
                                         table === 1 ? <CusAgGridMast
@@ -179,23 +353,34 @@ const InPatientList = ({ close, refresh, submit }) => {
                             width: "100%",
                             alignContent: "center",
                             justifyContent: "right",
-                            cursor: 'pointer'
+                            cursor: 'pointer',
+                            // justifyContent: "space-between"
                         }}>
 
 
-                            <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "5%", sm: "5%" } }}>
+                            <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
                                 <Tooltip title="Patient Survillance" >
                                     <CoPresentOutlinedIcon onClick={patient} variant="contained" size="small" color="#1a237e"></CoPresentOutlinedIcon>
                                 </Tooltip>
                             </Box>
-                            <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "5%", sm: "5%" } }}>
+                            <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
                                 <Tooltip title="Dialy Activity" >
                                     <NaturePeopleSharpIcon onClick={Activity} variant="contained" size="small" color="#1a237e"></NaturePeopleSharpIcon>
                                 </Tooltip>
                             </Box>
-                            <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "5%", sm: "5%" } }}>
+                            <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
+                                <Tooltip title="Bed Transfer" >
+                                    <HotelOutlinedIcon onClick={bedTracking} variant="contained" size="small" color="#1a237e"></HotelOutlinedIcon>
+                                </Tooltip>
+                            </Box>
+                            <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
                                 <Tooltip title="Interaction" >
                                     <DifferenceOutlinedIcon onClick={Interaction} variant="contained" size="small" color="#1a237e"></DifferenceOutlinedIcon>
+                                </Tooltip>
+                            </Box>
+                            <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
+                                <Tooltip title="Discharge Event" >
+                                    <FollowTheSignsTwoToneIcon onClick={discharge} variant="contained" size="small" color="#1a237e"></FollowTheSignsTwoToneIcon>
                                 </Tooltip>
                             </Box>
 
@@ -209,10 +394,19 @@ const InPatientList = ({ close, refresh, submit }) => {
                                     checkIcon === 3 ?
                                         <PatientIntractionLazy ipno={ipno} doa={doa} setclosebtn={setclosebtn} />
                                         :
-                                        <PatientsurvillenceLazy
-                                            setclosebtn={setclosebtn}
-                                            ipno={ipno} ptno={ptno} name={name} doa={doa} docname={docname}
-                                            age={age} mf={mf} rmno={rmno} submited={submited} bedcode={bedcode} />
+                                        checkIcon === 4 ?
+                                            <BedTracking ipno={ipno} setclosebtn={setclosebtn} nsdesc={nsdesc} nurse={nurse} /> :
+
+
+                                            checkIcon === 5 ?
+                                                <DischargeEvent ipno={ipno} setclosebtn={setclosebtn} /> :
+
+
+
+                                                <PatientsurvillenceLazy
+                                                    setclosebtn={setclosebtn}
+                                                    ipno={ipno} ptno={ptno} name={name} doa={doa} docname={docname}
+                                                    age={age} mf={mf} rmno={rmno} submited={submited} bedcode={bedcode} />
 
                             }
                         </Box>
@@ -225,4 +419,4 @@ const InPatientList = ({ close, refresh, submit }) => {
         </Fragment >
     )
 }
-export default InPatientList
+export default memo(InPatientList)

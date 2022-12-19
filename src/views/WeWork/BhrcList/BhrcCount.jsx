@@ -5,11 +5,12 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { getTotalBhrcList } from 'src/redux/actions/WeBhrcDetl.action'
-import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import CusReportDownloadClose from 'src/views/Components/CusReportDownloadClose'
 import { getTotalbhrcAdmitList } from 'src/redux/actions/WeBhrcAdmiList.action'
 import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { Card } from '@material-ui/core'
+import { Typography } from '@mui/material'
 
 const BhrcCount = () => {
 
@@ -52,7 +53,7 @@ const BhrcCount = () => {
             dispatch(getTotalBhrcList(discharge))
         }
         else if (discharge === true && addmission === false && BhrcList.length === 0) {
-            warningNotify("no bhrc discahrge patient")
+            warningNotify("no bhrc discharge patient")
         }
 
         else if (addmission === true && discharge === false && bhrcAdmit.length !== 0) {
@@ -82,9 +83,12 @@ const BhrcCount = () => {
 
     return (
 
-        <CardCloseOnly
+        <Card
             title='Bhrc patient'
         >
+            <Typography sx={{ fontStyle: "normal", color: '#263238', textAlign: "left", fontSize: 18, pl: 3, pt: 2 }}>
+                Bhrc patient List
+            </Typography>
             <Box sx={{ width: "100%", p: 1, }}>
 
                 <Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -133,7 +137,7 @@ const BhrcCount = () => {
                 }
             </Box>
 
-        </CardCloseOnly>
+        </Card>
     )
 }
 
