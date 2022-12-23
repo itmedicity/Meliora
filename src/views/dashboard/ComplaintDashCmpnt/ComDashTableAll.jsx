@@ -11,7 +11,7 @@ const ComDashTableAll = ({ compdept }) => {
             <TableContainer sx={{ maxHeight: 200 }}>
                 <Table size="small"
                     stickyHeader aria-label="sticky table"
-                    sx={{ border: "0.5px solid" }}>
+                    sx={{ border: "0.5px solid", borderColor: '#F0F3F5' }}>
                     <TableHead sx={{ border: "1px " }}>
                         <TableRow >
                             <TableCell align="center">Sl No</TableCell>
