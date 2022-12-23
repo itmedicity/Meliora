@@ -15,6 +15,10 @@ import { getAfternoonRoundList } from 'src/redux/actions/WeAfternoonRounds.actio
 import { getWeDamaDetl } from 'src/redux/actions/WeDamaDetl.action'
 import { getNoshifingList } from 'src/redux/actions/WeOneSheeetDetl.action'
 import { getHighAntibiotic } from 'src/redux/actions/HighAntibiotic.action'
+import DietDashBoardCmp from './DietDashCmpnt/DietDashBoardCmp';
+import { getTotalInPateint } from 'src/redux/actions/TotalInPateintList.action';
+import { getDietPlanned } from 'src/redux/actions/DietPlannedList.action';
+import { getDietPlanPending } from 'src/redux/actions/DietPlanPending.action';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -47,6 +51,10 @@ const Home = () => {
         dispatch(getAfternoonRoundList())
         dispatch(getNoshifingList())
         dispatch(getHighAntibiotic())
+        dispatch(getTotalInPateint())
+        dispatch(getDietPlanned())
+        dispatch(getDietPlanPending())
+
     }, [dispatch])
 
     const state = useSelector((state) => {
@@ -61,20 +69,40 @@ const Home = () => {
         }
     })
 
-    const Dashboard = {
+    const Dashboard_we = {
         74: { slno: 74, name: "Total Admission", count: state.WeAdmissionTotal.length },
         75: { slno: 75, name: "DAMA patient", count: state.WeDamaDetl.length },
         76: { slno: 76, name: "BHRC Patient", count: state.WeBhrcDetl.length },
         77: { slno: 77, name: "No shifted Patient", count: state.noshiftdetl.length },
-        78: { slno: 78, name: "Doctor Rounds after 2 pm", count: state.WedischrgeList.length },
-        79: { slno: 79, name: "Discahrge after 2 pm", count: state.AftternoonRounds.length },
-        81: { slno: 81, name: "high Antibiotic", count: state.HighAntiBiotic.length }
+        78: { slno: 78, name: "Discharge after 2 pm ", count: state.WedischrgeList.length },
+        79: { slno: 79, name: "Doctor Rounds after 2 pm", count: state.AftternoonRounds.length },
+        81: { slno: 81, name: "High Antibiotic", count: state.HighAntiBiotic.length }
     }
 
-    const wewrkdata = Object.values(Dashboard);
+    const wewrkdata = Object.values(Dashboard_we);
     const workentries = useMemo(() => wewrkdata, [wewrkdata])
     const weworkDash = workentries.filter(val => complaintRights.includes(val.slno) === true ? val.slno : null);
     const weworkmenu = useMemo(() => weworkDash, [weworkDash])
+
+    const dietDatas = useSelector((state) => {
+        return {
+            inpatient: state.setTotalInPateint.InPateintList,
+            dietPlanned: state.setDietPlaned.plannedList,
+            dietPlanPending: state.setDietPlanPending.planPendingList
+        }
+    })
+
+    const Dashboard_Diet = {
+        90: { slno: 90, name: "Total In-Pateint", count: dietDatas.inpatient.length },
+        91: { slno: 91, name: "Diet Planned", count: dietDatas.dietPlanned.length },
+        92: { slno: 92, name: "Diet Plan Pending", count: dietDatas.dietPlanPending.length },
+
+    }
+
+    const dietdata = Object.values(Dashboard_Diet);
+    const dietentries = useMemo(() => dietdata, [dietdata])
+    const DietDash = dietentries.filter(val => complaintRights.includes(val.slno) === true ? val.slno : null);
+    const dietmenus = useMemo(() => DietDash, [DietDash])
 
     return (
         <Fragment>
@@ -102,7 +130,7 @@ const Home = () => {
                         container
                         spacing={{ xs: 1, sm: 1, md: 1, lg: 1.5, xl: 1.5 }}
                         columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
-                        sx={{ width: '100%' }}>
+                        sx={{ width: '100%', pb: 1 }}>
                         {
                             weworkmenu.map((val, index) => (
                                 <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={index}>
@@ -111,6 +139,21 @@ const Home = () => {
                             ))
                         }
                     </Grid>
+                    <Paper square elevation={2} sx={{ p: 1 }} >
+                        <Grid
+                            container
+                            spacing={{ xs: 1, sm: 1, md: 1, lg: 1.5, xl: 1.5 }}
+                            columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
+                            sx={{ width: '100%', }}>
+                            {
+                                dietmenus.map((val, index) => (
+                                    <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={index}>
+                                        <DietDashBoardCmp widgetName={val.name} count={val.count} status={val.status} slno={val.slno} indx={index} />
+                                    </Grid>
+                                ))
+                            }
+                        </Grid>
+                    </Paper>
                 </Paper>
             </Box >
         </Fragment >

@@ -1,43 +1,34 @@
-import { Box, CssVarsProvider } from '@mui/joy'
+import { Box } from '@mui/joy'
 import { Paper } from '@mui/material'
-import React from 'react'
+import React, { memo } from 'react'
+import { CssVarsProvider } from '@mui/joy';
 import Typography from '@mui/joy/Typography';
 import IconButton from '@mui/joy/IconButton';
 import { useHistory } from 'react-router-dom';
 
-const WeworkDashboard = ({ widgetName, count, slno }) => {
+const DietDashBoardCmp = ({ widgetName, count, slno }) => {
+
     const history = useHistory();
-    const TotalAdmission = () => {
-        history.push('/Home/totaladmission')
+
+    const TotalInpatient = () => {
+        history.push('/Home/DashBoard/InPatientList')
     }
 
-    const DAMA = () => {
-        history.push('/Home/damaList')
+    const DietPlanned = () => {
+        history.push('/Home/DietPlannedList')
     }
-    const BHRCpat = () => {
-        history.push('/Home/BhrcList')
+    const DietPending = () => {
+        history.push('/Home/DietPlanPending')
     }
-    const RoundsafterNoon = () => {
-        history.push('/Home/roundsAfternoon')
-    }
-    const DischargeAfterNoon = () => {
-        history.push('/Home/disafternoonList')
-    }
-    const Noshift = () => {
-        history.push('/Home/noshift')
-    }
-    const Antibiotic = () => {
-        history.push('/Home/highbioticReport')
-    }
+
     const DashBoardClick = () => {
-        return slno === 74 && TotalAdmission ||
-            slno === 75 && DAMA ||
-            slno === 76 && BHRCpat ||
-            slno === 78 && RoundsafterNoon ||
-            slno === 79 && DischargeAfterNoon ||
-            slno === 77 && Noshift ||
-            slno === 81 && Antibiotic
+        return slno === 90 && TotalInpatient ||
+            slno === 91 && DietPlanned ||
+            slno === 92 && DietPending
+
+
     }
+
     return (
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
             <Paper elevation={3} sx={{
@@ -87,4 +78,4 @@ const WeworkDashboard = ({ widgetName, count, slno }) => {
     )
 }
 
-export default WeworkDashboard
+export default memo(DietDashBoardCmp)

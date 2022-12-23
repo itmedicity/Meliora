@@ -141,7 +141,7 @@ const AssignComplaintTable = () => {
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, width: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
         { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
+
         {
             headerName: "Employee Name", field: "em_name", filter: true, autoHeight: true, wrapText: true,
             cellStyle: (params) => {
