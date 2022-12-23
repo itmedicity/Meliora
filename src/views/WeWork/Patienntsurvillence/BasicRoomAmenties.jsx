@@ -88,7 +88,7 @@ const BasicRoomAmenties = ({ ameties, setamenties }) => {
                             color="primary"
                             size="md"
                             name="cup"
-                            label="Cup Board"
+                            label="CupBoard"
                             value={cup}
                             onCheked={updateValue}
                             checked={cup}
@@ -151,7 +151,7 @@ const BasicRoomAmenties = ({ ameties, setamenties }) => {
                             color="primary"
                             size="md"
                             name="tab"
-                            label="Table withount drawer"
+                            label="Table without drawer"
                             value={tab}
                             onCheked={updateValue}
                             checked={tab}

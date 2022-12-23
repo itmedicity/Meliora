@@ -59,7 +59,7 @@ import { setExtraOrderList } from '../reducers/DietExtraOrder.Reducer'
 import { setComplaintListAll, setPendOnholdCompListAll } from '../reducers/ComplaintDashAllDept.Reducer'
 import { setCompListAllForMenu } from '../reducers/CompalintListAll.Reducer'
 import { setItemExtra } from '../reducers/ItemMasterExtra.Reducer'
-
+import { getBhrctotalPatient } from '../reducers/BhrcTotalPatient.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -125,7 +125,8 @@ const reducer = combineReducers({
     getWeBhrcAdmitdetl,
     getFloorselect,
     getnursewisefloor,
-    setItemExtra
+    setItemExtra,
+    getBhrctotalPatient
 
 
 })
