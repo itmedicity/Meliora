@@ -561,7 +561,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                     </Box>
                     : <Paper>
                         <Box sx={{ pb: 1 }}>
-                            <Typography sx={{ fontStyle: "oblique", fontWeight: 800, color: '#1a237e', textAlign: "center", fontSize: 20 }}>
+                            <Typography sx={{ backgroundColor: "#f0f3f5", fontFamily: "Roboto", fontSize: 20, p: 1.5 }} >
                                 Patient Survillence
                             </Typography>
                         </Box>

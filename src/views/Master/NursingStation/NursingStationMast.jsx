@@ -51,10 +51,11 @@ const NursingStationMast = () => {
             em_id: id,
             ns_building: building,
             ns_floor: floor,
-            ns_ora_outlet: outlet
+            ns_ora_outlet: outlet === 0 ? 'null' : outlet
 
         }
     }, [nurse_station, oranurse, status, id, building, floor, outlet])
+
 
     //data set for edit  
     const rowSelect = useCallback((params) => {
@@ -84,7 +85,7 @@ const NursingStationMast = () => {
             co_nurse_slno: nurse_slno,
             ns_building: building,
             ns_floor: floor,
-            ns_ora_outlet: outlet
+            ns_ora_outlet: outlet,
         }
     }, [nurse_station, oranurse, status, id, nurse_slno, building, floor, outlet])
 
@@ -101,7 +102,7 @@ const NursingStationMast = () => {
         const InsertData = async (postdata) => {
             const result = await axioslogin.post(`/nursestation`, postdata)
             const { message, success } = result.data;
-
+            console.log(postdata);
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1)
