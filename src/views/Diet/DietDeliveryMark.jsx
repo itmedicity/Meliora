@@ -17,6 +17,7 @@ import Button from '@mui/material/Button';
 import RoomSelectDelivery from './RoomSelectDelivery';
 import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect';
 import ExtraRoomMeliSelect from './DietExtraOrder/ExtraRoomMeliSelect';
+import RmmasterMeliSelect from '../CommonSelectCode/RmmasterMeliSelect';
 const DietDeliveryMark = () => {
     const [room, setRoom] = useState(0)
     const [nurse, setNurse] = useState(0)
@@ -173,11 +174,14 @@ const DietDeliveryMark = () => {
                             rmdata === 1 ?
                                 <Box sx={{ pt: 1, pr: 1, width: "20%" }}>
                                     <RoomSelectDelivery value={room} setValue={setRoom} nurse={nurse} diet={diet} />
-                                </Box> :
-                                <Box sx={{ pt: 1, pr: 1, width: "20%" }}>
-                                    <ExtraRoomMeliSelect value={room} setValue={setRoom} nurse={nurse} />
-                                </Box>
+                                </Box> : nurse !== 0 ?
+                                    <Box sx={{ pt: 1, pr: 1, width: "20%" }}>
+                                        <ExtraRoomMeliSelect value={room} setValue={setRoom} nurse={nurse} />
+                                    </Box> :
+                                    <Box sx={{ pt: 1, pr: 1, width: "20%" }}>
 
+                                        <RmmasterMeliSelect value={room} setValue={setRoom} />
+                                    </Box>
                         }
 
                     </Box>

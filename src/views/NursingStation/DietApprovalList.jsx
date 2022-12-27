@@ -218,54 +218,6 @@ const DietApprovalList = () => {
                         </Box>
                     </Paper>
                 </Box>
-                {checkDis !== 0 ?
-                    <Box sx={{ width: "100%", pl: 1, pt: 1, pr: 1, pb: 1 }}>
-                        <Paper square elevation={3} sx={{
-                            pl: 1, pt: 1, pr: 1, pb: 1
-                        }}>
-                            <Box sx={{
-                                width: "100%",
-                                pl: 1, pt: 0.5, pr: 1, pb: 0.5, flex: 1,
-                                display: "flex",
-                                flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-                                justifyContent: 'center',
-                            }}>
-                                <Box sx={{ width: "13%", pr: 1, mt: 1 }}>
-                                    <CusCheckBox
-                                        label="Approved"
-                                        color="primary"
-                                        size="md"
-                                        name="appro"
-                                        value={appro}
-                                        checked={appro}
-                                        onCheked={updateApprove}
-                                    />
-                                </Box>
-                                <Box sx={{ width: "13%", mt: 1 }}>
-                                    <CusCheckBox
-                                        label="Approval Pending"
-                                        color="primary"
-                                        size="md"
-                                        name="notappro"
-                                        value={notappro}
-                                        checked={notappro}
-                                        onCheked={updateNotApprov}
-                                    />
-                                </Box>
-                            </Box>
-                            <Box sx={{ width: "100%", p: 1 }} >
-                                <CusAgGridMast
-                                    columnDefs={column}
-                                    tableData={tabledata}
-                                />
-                                {
-                                    approval === 1 ? <DietApprovalModel open={open} setOpen={setOpen} data={approvaldata} count={count} setCount={setCount} /> : null
-                                }
-                            </Box>
-                        </Paper>
-                    </Box>
-                    : null
-                }
                 {
                     consul === 1 ?
                         <Box sx={{ width: "100%", pl: 1, pt: 1, pr: 1, pb: 1 }}>
@@ -280,7 +232,53 @@ const DietApprovalList = () => {
                                     approval === 1 ? <DietApprovalModel open={open} setOpen={setOpen} data={approvaldata} count={count} setCount={setCount} /> : null
                                 }
                             </Paper>
-                        </Box> : null
+                        </Box> : checkDis !== 0 ?
+                            <Box sx={{ width: "100%", pl: 1, pt: 1, pr: 1, pb: 1 }}>
+                                <Paper square elevation={3} sx={{
+                                    pl: 1, pt: 1, pr: 1, pb: 1
+                                }}>
+                                    <Box sx={{
+                                        width: "100%",
+                                        pl: 1, pt: 0.5, pr: 1, pb: 0.5, flex: 1,
+                                        display: "flex",
+                                        flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                                        justifyContent: 'center',
+                                    }}>
+                                        <Box sx={{ width: "13%", pr: 1, mt: 1 }}>
+                                            <CusCheckBox
+                                                label="Approved"
+                                                color="primary"
+                                                size="md"
+                                                name="appro"
+                                                value={appro}
+                                                checked={appro}
+                                                onCheked={updateApprove}
+                                            />
+                                        </Box>
+                                        <Box sx={{ width: "13%", mt: 1 }}>
+                                            <CusCheckBox
+                                                label="Approval Pending"
+                                                color="primary"
+                                                size="md"
+                                                name="notappro"
+                                                value={notappro}
+                                                checked={notappro}
+                                                onCheked={updateNotApprov}
+                                            />
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ width: "100%", p: 1 }} >
+                                        <CusAgGridMast
+                                            columnDefs={column}
+                                            tableData={tabledata}
+                                        />
+                                        {
+                                            approval === 1 ? <DietApprovalModel open={open} setOpen={setOpen} data={approvaldata} count={count} setCount={setCount} /> : null
+                                        }
+                                    </Box>
+                                </Paper>
+                            </Box>
+                            : null
                 }
             </CardCloseOnly>
         </Fragment >

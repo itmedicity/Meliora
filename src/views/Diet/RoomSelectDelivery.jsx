@@ -20,7 +20,7 @@ const RoomSelectDelivery = ({ nurse, diet, setValue, value }) => {
                     setroommastermelidata(dataa)
                 }
                 else {
-                    warningNotify("Error occured contact EDP")
+                    warningNotify("No Patient Under Selected Condition")
                 }
             }
             else if ((nurse === 0 && diet !== 0)) {
@@ -30,7 +30,7 @@ const RoomSelectDelivery = ({ nurse, diet, setValue, value }) => {
                     setroommastermelidata(dataa)
                 }
                 else {
-                    warningNotify("Error occured contact EDP")
+                    warningNotify("No Patient Under Selected Condition")
                 }
             }
             else if ((nurse !== 0 && diet === 0)) {
@@ -40,7 +40,7 @@ const RoomSelectDelivery = ({ nurse, diet, setValue, value }) => {
                     setroommastermelidata(dataa)
                 }
                 else {
-                    warningNotify("Error occured contact EDP")
+                    warningNotify("No Patient Under Selected Condition")
                 }
             }
         }
