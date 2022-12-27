@@ -1,5 +1,5 @@
 import { Box } from '@mui/system'
-import React from 'react'
+import React, { memo } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -7,25 +7,27 @@ import { useDispatch } from 'react-redux'
 import { getTotalBhrcList } from 'src/redux/actions/WeBhrcDetl.action'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import CusReportDownloadClose from 'src/views/Components/CusReportDownloadClose'
-import { getTotalbhrcAdmitList } from 'src/redux/actions/WeBhrcAdmiList.action'
-import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { Card } from '@material-ui/core'
 import { Typography } from '@mui/material'
 
-const BhrcCount = () => {
 
+const BhrcCount = () => {
     const dispatch = useDispatch()
     const [addmission, setaddmission] = useState(false)
     const [discharge, setdischarge] = useState(false)
+    const [TableData, setTableData] = useState([]);
+    const [checking, setchecking] = useState(0)
 
     const getadmmision = (e) => {
         if (e.target.checked === true) {
             setaddmission(true)
             setdischarge(false)
+            setchecking(1)
         }
         else {
             setaddmission(false)
             setdischarge(false)
+            setchecking(0)
         }
     }
 
@@ -33,10 +35,12 @@ const BhrcCount = () => {
         if (e.target.checked === true) {
             setdischarge(true)
             setaddmission(false)
+            setchecking(2)
         }
         else {
             setdischarge(false)
             setaddmission(false)
+            setchecking(0)
         }
     }
 
@@ -44,29 +48,32 @@ const BhrcCount = () => {
         return state.getWeBhrcDetl.WeBhrcList || 0
     })
 
-    const bhrcAdmit = useSelector((state) => {
-        return state.getWeBhrcAdmitdetl.WeBhrcAdmitList || 0
-    })
 
     useEffect(() => {
-        if (discharge === true && addmission === false && BhrcList.length !== 0) {
-            dispatch(getTotalBhrcList(discharge))
+        dispatch(getTotalBhrcList())
+    }, [dispatch])
+
+    useEffect(() => {
+        if (checking === 1) {
+            const array = BhrcList && BhrcList.filter((val) => {
+                return val.ipd_status === 'N' ? val : null
+            })
+            setTableData(array)
         }
-        else if (discharge === true && addmission === false && BhrcList.length === 0) {
-            warningNotify("no bhrc discharge patient")
+        else if (checking === 2) {
+            const array2 = BhrcList && BhrcList.filter((val) => {
+                return val.ipd_status === 'Y' ? val : null
+            })
+            setTableData(array2)
         }
 
-        else if (addmission === true && discharge === false && bhrcAdmit.length !== 0) {
-            dispatch(getTotalbhrcAdmitList(addmission))
-        }
-        else if (addmission === true && discharge === false && bhrcAdmit.length === 0) {
-            warningNotify("no Bhrc admitted patient")
-        }
         else {
-            infoNotify("please select discharge or admit patient")
+            const arrys = BhrcList && BhrcList.filter((val) => {
+                return val
+            })
+            setTableData(arrys)
         }
-
-    }, [dispatch, discharge, addmission, BhrcList.length, bhrcAdmit.length])
+    }, [checking, BhrcList])
 
     const [column] = useState([
         { headerName: "MRDno", field: "pt_no" },
@@ -78,11 +85,9 @@ const BhrcCount = () => {
         { headerName: "Bed", field: "bdc_no" },
         { headerName: "Shift_from", field: "shift_from" },
         { headerName: "Shift_to", field: "shift_to" },
-
     ])
 
     return (
-
         <Card
             title='Bhrc patient'
         >
@@ -122,23 +127,14 @@ const BhrcCount = () => {
                         />
                     </Box>
                 </Box>
-
-                {
-                    discharge === true ?
-
-                        <CusReportDownloadClose
-                            columnDefs={column}
-                            tableData={BhrcList}
-                            sx={{ width: "100%", height: 800 }} /> :
-                        <CusReportDownloadClose
-                            columnDefs={column}
-                            tableData={bhrcAdmit}
-                            sx={{ width: "100%", height: 800 }} />
-                }
+                <CusReportDownloadClose
+                    columnDefs={column}
+                    tableData={TableData}
+                    sx={{ width: "100%", height: 800 }} />
             </Box>
 
         </Card>
     )
 }
 
-export default BhrcCount
+export default memo(BhrcCount)

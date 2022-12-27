@@ -293,7 +293,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse }) => {
     return (
         <Paper square elevation={3} sx={{ dispaly: "flex", justifyContent: "column" }}>
             <Box>
-                <Typography sx={{ fontStyle: "oblique", fontWeight: 800, color: '#1a237e', textAlign: "center", fontSize: 20 }}>
+                <Typography sx={{ backgroundColor: "#f0f3f5", fontFamily: "Roboto", fontSize: 20, p: 1.5, pl: 2 }} >
                     Bed Transfer
                 </Typography>
             </Box>
@@ -328,28 +328,9 @@ const BedTracking = ({ setclosebtn, ipno, nurse }) => {
                     </Box>
                 </Box>
 
-
-
-                {/* <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
-                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "35%" } }}  >
-                        <CssVarsProvider>
-                            <Typography >
-                                Transfer Date and Time</Typography>
-                        </CssVarsProvider>
-                    </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "60%" }, height: 40, }}>
-                        <TextFieldCustom
-                            size="sm"
-                            type="datetime-local"
-                            name="daily"
-                            value={tranDate}
-                            onchange={getDate}
-                        />
-                    </Box>
-                </Box> */}
             </Box>
 
-            <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
+            <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2 }}>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
                     <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "35%" } }}  >
                         <CssVarsProvider>
@@ -369,23 +350,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse }) => {
                 </Box>
 
 
-                {/* <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
-                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
-                        <CssVarsProvider>
-                            <Typography >
-                                BystanderRoom retaining</Typography>
-                        </CssVarsProvider>
-                    </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" }, height: 40, }}>
-                        <TextFieldCustom
-                            size="sm"
-                            type="text"
-                            name="room"
-                            value={room}
-                            onchange={getroom}
-                        />
-                    </Box>
-                </Box> */}
+
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
                     <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "35%" } }}  >
                         <CssVarsProvider>
@@ -404,67 +369,91 @@ const BedTracking = ({ setclosebtn, ipno, nurse }) => {
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{ display: "flex", flexDirection: "row", width: "50%", pl: 2 }} >
-                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
-                    <CssVarsProvider>
-                        <Typography >
-                            BystanderRoom retaining:</Typography>
-                    </CssVarsProvider>
+
+            <Box sx={{ width: "100%", display: "flex", flexDirection: "row", pl: 2 }}>
+                <Box sx={{ display: "flex", flexDirection: "row", width: "50%", }} >
+                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
+                        <CssVarsProvider>
+                            <Typography >
+                                BystanderRoom retaining:</Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" }, height: 40, }}>
+                        <TextFieldCustom
+                            size="sm"
+                            type="text"
+                            name="room"
+                            value={room}
+                            onchange={getroom}
+                        />
+                    </Box>
                 </Box>
-                <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" }, height: 40, }}>
-                    <TextFieldCustom
-                        size="sm"
-                        type="text"
-                        name="room"
-                        value={room}
-                        onchange={getroom}
-                    />
+
+                <Box sx={{ display: "flex", width: "50%" }}>
+                    <Box sx={{ display: "flex", width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}>
+                        <CssVarsProvider>
+                            <Typography >
+                                SFA/MFA Clearence:
+                            </Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" } }}>
+
+                        <TextFieldCustom
+                            size="sm"
+                            type="text"
+                            name="sfa"
+                            value={sfa}
+                            onchange={getsfa}
+                        />
+
+                    </Box>
+                </Box>
+
+            </Box>
+            <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', pl: 2 }}>
+                <Box sx={{ display: "flex", width: "50%" }}>
+                    <Box sx={{ display: "flex", width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}>
+                        <CssVarsProvider>
+                            <Typography >
+                                Counselling status:
+                            </Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" } }}>
+
+                        <TextFieldCustom
+                            size="sm"
+                            type="text"
+                            name="counstatus"
+                            value={counstatus}
+                            onchange={getStatus}
+                        />
+
+                    </Box>
+                </Box>
+                <Box sx={{ display: "flex", width: "50%" }}>
+                    <Box sx={{ display: "flex", width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}>
+                        <CssVarsProvider>
+                            <Typography >
+                                Remarks:
+                            </Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" }, pb: 2 }}>
+
+                        <TextFieldCustom
+                            size="sm"
+                            type="text"
+                            name="remark"
+                            value={remark}
+                            onchange={getremark}
+                        />
+
+                    </Box>
                 </Box>
             </Box>
-
-            <Box sx={{ display: "flex", width: "100%", pl: 2 }}>
-                <Box sx={{ display: "flex", width: { xl: "15%", lg: "20%", md: "20%", sm: "15%" } }}>
-                    <CssVarsProvider>
-                        <Typography >
-                            Counselling status:
-                        </Typography>
-                    </CssVarsProvider>
-                </Box>
-                <Box sx={{ display: 'flex', width: { xl: "50%", lg: "25%", md: "40%", sm: "33%" } }}>
-
-                    <TextFieldCustom
-                        size="sm"
-                        type="text"
-                        name="counstatus"
-                        value={counstatus}
-                        onchange={getStatus}
-                    />
-
-                </Box>
-            </Box>
-
-            <Box sx={{ display: "flex", width: "100%", pl: 2, pt: 1 }}>
-                <Box sx={{ display: "flex", width: { xl: "15%", lg: "20%", md: "20%", sm: "15%" } }}>
-                    <CssVarsProvider>
-                        <Typography >
-                            SFA/MFA Clearence:
-                        </Typography>
-                    </CssVarsProvider>
-                </Box>
-                <Box sx={{ display: 'flex', width: { xl: "50%", lg: "25%", md: "40%", sm: "33%" } }}>
-
-                    <TextFieldCustom
-                        size="sm"
-                        type="text"
-                        name="sfa"
-                        value={sfa}
-                        onchange={getsfa}
-                    />
-
-                </Box>
-            </Box>
-
-            <Box >
+            <Box>
                 <Box sx={{ display: "flex", width: { xl: "15%", lg: "20%", md: "40%", sm: "50%" }, pl: 2 }}>
                     <CssVarsProvider>
                         <Typography >
@@ -478,26 +467,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse }) => {
 
             </Box>
 
-            <Box sx={{ display: "flex", width: "100%", pl: 2, pt: 1 }}>
-                <Box sx={{ display: "flex", width: { xl: "15%", lg: "20%", md: "20%", sm: "20%" } }}>
-                    <CssVarsProvider>
-                        <Typography >
-                            Remarks:
-                        </Typography>
-                    </CssVarsProvider>
-                </Box>
-                <Box sx={{ display: 'flex', width: { xl: "50%", lg: "60%", md: "40%", sm: "50%" }, pb: 2 }}>
 
-                    <TextFieldCustom
-                        size="sm"
-                        type="text"
-                        name="remark"
-                        value={remark}
-                        onchange={getremark}
-                    />
-
-                </Box>
-            </Box>
             <Box sx={{ display: "flex", flexDirection: "row", pl: 1 }}>
                 <CustomeToolTip title="Save" placement="left" >
                     <Box sx={{ p: 1 }}>

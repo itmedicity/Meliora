@@ -7,7 +7,7 @@ import { IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color';
 import { Box, Paper } from '@mui/material'
 import { Tooltip } from '@material-ui/core';
-import NaturePeopleSharpIcon from '@mui/icons-material/NaturePeopleSharp';
+import WheelchairPickupIcon from '@mui/icons-material/WheelchairPickup';
 import CoPresentOutlinedIcon from '@mui/icons-material/CoPresentOutlined';
 import DifferenceOutlinedIcon from '@mui/icons-material/DifferenceOutlined';
 import { Card, CardContent, ThemeProvider } from '@mui/material';
@@ -239,42 +239,43 @@ const InPatientList = ({ close, refresh, submit }) => {
 
     return (
         <Fragment>
-            {
-                closebtn === 0 ? <ThemeProvider theme={theme} >
-                    <Card sx={{ borderRadius: 0, boxShadow: 1 }}>
-                        <CustomCardHeaderOne
-                            title="In Pateint List"
-                            onClickClose={backtoSetting}
-                            cardStyle={{}}
-                        />
-                        <CardContent sx={{ p: 0 }} >
+            <Card>
+                {
+                    closebtn === 0 ? <ThemeProvider theme={theme} >
+                        <Card sx={{ borderRadius: 0, boxShadow: 1 }}>
+                            <CustomCardHeaderOne
+                                title="In Pateint List"
+                                onClickClose={backtoSetting}
+                                cardStyle={{}}
+                            />
+                            <CardContent sx={{ p: 0 }} >
 
-                            <Box sx={{ width: "100%", pl: 1, pt: 1, pr: 1, pb: 1 }}>
-                                <Paper square elevation={3} sx={{
-                                    pl: 1, pt: 1, pr: 1, pb: 1
-                                }}>
-                                    <Box sx={{
-                                        width: "100%",
-                                        pl: 1, pt: 0.5, pr: 1, pb: 0.5,
-                                        display: "flex",
-                                        justifyContent: 'center',
-                                        flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                                <Box sx={{ width: "100%", pl: 1, pt: 1, pr: 1, pb: 1 }}>
+                                    <Paper square elevation={3} sx={{
+                                        pl: 1, pt: 1, pr: 1, pb: 1
                                     }}>
-                                        <Box sx={{ width: { xl: "25%", lg: "25%", md: "30%", sm: "40%" }, pr: 1, mt: 1, }}                            >
+                                        <Box sx={{
+                                            width: "100%",
+                                            pl: 1, pt: 0.5, pr: 1, pb: 0.5,
+                                            display: "flex",
+                                            justifyContent: 'center',
+                                            flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                                        }}>
+                                            <Box sx={{ width: { xl: "25%", lg: "25%", md: "30%", sm: "40%" }, pr: 1, mt: 1, }}                            >
 
-                                            {/* <CssVarsProvider>
+                                                {/* <CssVarsProvider>
                                                 <Typography level="body1" > {floorDesc}</Typography>
                                             </CssVarsProvider> */}
-                                            <NursingStation value={nurse} setValue={setNurse} />
+                                                <NursingStation value={nurse} setValue={setNurse} />
 
+                                            </Box>
                                         </Box>
-                                    </Box>
 
 
-                                    {/* <Box sx={{ width: "20%" }}>
+                                        {/* <Box sx={{ width: "20%" }}>
                                         <Nurstationwisefloorselect value={nurstation} setValue={setnurstation} floor={floorNumber} />
                                     </Box> */}
-                                    {/* <Box>
+                                        {/* <Box>
                                         {
                                             aa && aa.map((val, index) => {
                                                 return <Box sx={{
@@ -323,98 +324,97 @@ const InPatientList = ({ close, refresh, submit }) => {
                                             })
                                         }
                                     </Box> */}
-                                </Paper>
+                                    </Paper>
 
 
 
 
 
-                                <Box sx={{ mt: 1, width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" } }}>
-                                    {
-                                        table === 1 ? <CusAgGridMast
-                                            columnDefs={column}
-                                            tableData={tabledata}
-                                        /> : null
-                                    }
+                                    <Box sx={{ mt: 1, width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" } }}>
+                                        {
+                                            table === 1 ? <CusAgGridMast
+                                                columnDefs={column}
+                                                tableData={tabledata}
+                                            /> : null
+                                        }
+                                    </Box>
                                 </Box>
-                            </Box>
-                        </CardContent>
-                    </Card>
-                </ThemeProvider> : closebtn === 1 ?
-                    <Box sx={{
-                        pt: 1,
-                        flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-
-                    }}>
-
-
+                            </CardContent>
+                        </Card>
+                    </ThemeProvider> : closebtn === 1 ?
                         <Box sx={{
-                            display: "flex",
-                            width: "100%",
-                            alignContent: "center",
-                            justifyContent: "right",
-                            cursor: 'pointer',
-                            // justifyContent: "space-between"
+                            pt: 1,
+                            flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+
                         }}>
 
 
-                            <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
-                                <Tooltip title="Patient Survillance" >
-                                    <CoPresentOutlinedIcon onClick={patient} variant="contained" size="small" color="#1a237e"></CoPresentOutlinedIcon>
-                                </Tooltip>
-                            </Box>
-                            <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
-                                <Tooltip title="Dialy Activity" >
-                                    <NaturePeopleSharpIcon onClick={Activity} variant="contained" size="small" color="#1a237e"></NaturePeopleSharpIcon>
-                                </Tooltip>
-                            </Box>
-                            <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
-                                <Tooltip title="Bed Transfer" >
-                                    <HotelOutlinedIcon onClick={bedTracking} variant="contained" size="small" color="#1a237e"></HotelOutlinedIcon>
-                                </Tooltip>
-                            </Box>
-                            <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
-                                <Tooltip title="Interaction" >
-                                    <DifferenceOutlinedIcon onClick={Interaction} variant="contained" size="small" color="#1a237e"></DifferenceOutlinedIcon>
-                                </Tooltip>
-                            </Box>
-                            <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
-                                <Tooltip title="Discharge Event" >
-                                    <FollowTheSignsTwoToneIcon onClick={discharge} variant="contained" size="small" color="#1a237e"></FollowTheSignsTwoToneIcon>
-                                </Tooltip>
-                            </Box>
+                            <Box sx={{
+                                display: "flex",
+                                width: "100%",
+                                alignContent: "center",
+                                justifyContent: "right",
+                                cursor: 'pointer',
+                                // justifyContent: "space-between"
+                            }}>
 
-                        </Box>
-                        <Box>
-                            {
-                                checkIcon === 2 ?
-                                    <DailyactivityLazy ipno={ipno} setclosebtn={setclosebtn} />
 
-                                    :
-                                    checkIcon === 3 ?
-                                        <PatientIntractionLazy ipno={ipno} doa={doa} setclosebtn={setclosebtn} />
+                                <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
+                                    <Tooltip title="Patient Survillance" >
+                                        <CoPresentOutlinedIcon onClick={patient} variant="contained" size="small" color="#1a237e"></CoPresentOutlinedIcon>
+                                    </Tooltip>
+                                </Box>
+                                <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
+                                    <Tooltip title="Dialy Activity" >
+                                        <WheelchairPickupIcon onClick={Activity} variant="contained" size="small" color="#1a237e"></WheelchairPickupIcon>
+                                    </Tooltip>
+                                </Box>
+                                <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
+                                    <Tooltip title="Bed Transfer" >
+                                        <HotelOutlinedIcon onClick={bedTracking} variant="contained" size="small" color="#1a237e"></HotelOutlinedIcon>
+                                    </Tooltip>
+                                </Box>
+                                <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
+                                    <Tooltip title="Interaction" >
+                                        <DifferenceOutlinedIcon onClick={Interaction} variant="contained" size="small" color="#1a237e"></DifferenceOutlinedIcon>
+                                    </Tooltip>
+                                </Box>
+                                <Box sx={{ dispaly: "flex", width: { xl: '5%', lg: "5%", md: "10%", sm: "10%" } }}>
+                                    <Tooltip title="Discharge Event" >
+                                        <FollowTheSignsTwoToneIcon onClick={discharge} variant="contained" size="small" color="#1a237e"></FollowTheSignsTwoToneIcon>
+                                    </Tooltip>
+                                </Box>
+
+                            </Box>
+                            <Box>
+                                {
+                                    checkIcon === 2 ?
+                                        <DailyactivityLazy ipno={ipno} setclosebtn={setclosebtn} />
                                         :
-                                        checkIcon === 4 ?
-                                            <BedTracking ipno={ipno} setclosebtn={setclosebtn} nsdesc={nsdesc} nurse={nurse} /> :
+                                        checkIcon === 3 ?
+                                            <PatientIntractionLazy ipno={ipno} doa={doa} setclosebtn={setclosebtn} />
+                                            :
+                                            checkIcon === 4 ?
+                                                <BedTracking ipno={ipno} setclosebtn={setclosebtn} nsdesc={nsdesc} nurse={nurse} /> :
 
 
-                                            checkIcon === 5 ?
-                                                <DischargeEvent ipno={ipno} setclosebtn={setclosebtn} /> :
+                                                checkIcon === 5 ?
+                                                    <DischargeEvent ipno={ipno} setclosebtn={setclosebtn} /> :
 
 
-
-                                                <PatientsurvillenceLazy
-                                                    setclosebtn={setclosebtn}
-                                                    ipno={ipno} ptno={ptno} name={name} doa={doa} docname={docname}
-                                                    age={age} mf={mf} rmno={rmno} submited={submited} bedcode={bedcode} />
-
-                            }
+                                                    <Card>
+                                                        <PatientsurvillenceLazy
+                                                            setclosebtn={setclosebtn}
+                                                            ipno={ipno} ptno={ptno} name={name} doa={doa} docname={docname}
+                                                            age={age} mf={mf} rmno={rmno} submited={submited} bedcode={bedcode} />
+                                                    </Card>
+                                }
+                            </Box>
                         </Box>
-                    </Box>
-                    : <PatSurvillenceViewLazy ipno={ipno} setclosebtn={setclosebtn} />
-            }
+                        : <PatSurvillenceViewLazy ipno={ipno} setclosebtn={setclosebtn} />
+                }
 
-
+            </Card>
 
         </Fragment >
     )

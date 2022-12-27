@@ -282,19 +282,16 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
     return (
         <Paper square elevation={3} sx={{ dispaly: "flex", justifyContent: "column" }}>
             <Box>
-                <Typography sx={{ fontStyle: "oblique", fontWeight: 800, color: '#1a237e', textAlign: "center", fontSize: 20 }}>
+                <Typography sx={{ backgroundColor: "#f0f3f5", fontFamily: "Roboto", fontSize: 20, p: 1.5 }}>
                     DischargeEvents
                 </Typography>
             </Box>
-
-
-
             <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
                     <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
                         <CssVarsProvider>
                             <Typography >
-                                Discahrge Type:</Typography>
+                                Discharge Type:</Typography>
                         </CssVarsProvider>
                     </Box>
                     <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
@@ -312,7 +309,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
                         <CssVarsProvider>
                             <Typography >
-                                Discharge Anounced date & time</Typography>
+                                Discharge Anounced date & time:</Typography>
                         </CssVarsProvider>
                     </Box>
                     <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
@@ -324,12 +321,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                             onchange={getdisTime}
                         />
                     </Box>
-
                 </Box>
-
-
-
-
             </Box>
 
             <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
@@ -337,7 +329,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
                         <CssVarsProvider>
                             <Typography >
-                                summary time</Typography>
+                                Summary time:</Typography>
                         </CssVarsProvider>
                     </Box>
                     <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
@@ -355,7 +347,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
                         <CssVarsProvider>
                             <Typography >
-                                Discharge medicine indent time</Typography>
+                                Discharge medicine indent time:</Typography>
                         </CssVarsProvider>
                     </Box>
                     <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
@@ -380,7 +372,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
                         <CssVarsProvider>
                             <Typography >
-                                Discharge Medicine Received time</Typography>
+                                Discharge Medicine Received time:</Typography>
                         </CssVarsProvider>
                     </Box>
                     <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
@@ -398,7 +390,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
                         <CssVarsProvider>
                             <Typography >
-                                Final bill ready time</Typography>
+                                Final bill ready time:</Typography>
                         </CssVarsProvider>
                     </Box>
                     <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
@@ -418,7 +410,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </Box>
 
 
-            <Box sx={{ display: "flex", width: "100%", pl: 2, pt: 1 }}>
+            <Box sx={{ display: "flex", width: "100%", pl: 2 }}>
                 <Box sx={{ width: "50%", display: "flex", flexDirection: "row" }}>
                     <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" }, flexDirection: "row" }}>
                         <CssVarsProvider>
@@ -515,14 +507,8 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                         </Box>
                     </Box>
                 </Box>
-
-
-
-
             </Box>
             <Box sx={{ width: "50%", display: "flex", flexDirection: "row", pl: 2 }}>
-
-
                 <Box sx={{ width: "50%", }}>
                     <CusCheckBox
                         variant="outlined"
@@ -547,16 +533,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                         checked={bell}>
                     </CusCheckBox>
                 </Box>
-
-
-
-
-
-
             </Box>
-
-
-
 
             <Box sx={{ display: "flex", flexDirection: "row", pl: 1 }}>
                 <CustomeToolTip title="Save" placement="left" >
@@ -574,8 +551,6 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     </Box>
                 </CustomeToolTip>
             </Box>
-
-
             <Box sx={{ p: 1 }}>
                 <DiscahrgeEventTable ipno={ipno} count={count} rowSelect={rowSelect} />
             </Box>

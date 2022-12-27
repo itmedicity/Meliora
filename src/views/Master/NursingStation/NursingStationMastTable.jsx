@@ -19,13 +19,13 @@ function NursingStationMastTable({ count, rowSelect }) {
     },
 
     {
-        headerName: "Building", field: "ns_building", filter: "true"
+        headerName: "Building", field: "build_name", filter: "true"
     },
     {
-        headerName: "Floor", field: "ns_floor", filter: "true",
+        headerName: "Floor", field: "floor_desc", filter: "true",
     },
     {
-        headerName: "Outlet", field: "ns_ora_outlet", filter: "true",
+        headerName: "Outlet", field: "ouc_desc", filter: "true",
     },
     {
         headerName: "Status", field: "status"
