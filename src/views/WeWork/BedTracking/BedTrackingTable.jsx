@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { Fragment } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 import EditButton from 'src/views/Components/EditButton';
 
@@ -33,9 +32,9 @@ const BedTrackingTable = ({ ipno, count, rowSelect }) => {
             if (success === 1) {
                 setTabledata(data)
             }
-            else {
-                warningNotify("please enter bed transfer details!")
-            }
+            // else {
+            //     warningNotify("please enter bed transfer details!")
+            // }
         }
         getBedTracking(ipno);
     }, [ipno, count])

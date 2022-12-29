@@ -73,7 +73,7 @@ const InPatientList = ({ close, refresh, submit }) => {
 
         { headerName: "IP No", field: "ip_no" },
         { headerName: "OP No", field: "pt_no" },
-        { headerName: "Name", field: "ptc_ptname" },
+        { headerName: "Name", field: "ptc_ptname", filter: true },
         { headerName: "Age", field: "age" },
         { headerName: "Doctor", field: "doc_name" },
         { headerName: "Room", field: "rmc_desc" },
@@ -150,6 +150,9 @@ const InPatientList = ({ close, refresh, submit }) => {
         }
         getPatientList(nurse);
     }, [nurse])
+
+
+
 
     //close button function
     const backtoSetting = () => {
@@ -395,7 +398,7 @@ const InPatientList = ({ close, refresh, submit }) => {
                                             <PatientIntractionLazy ipno={ipno} doa={doa} setclosebtn={setclosebtn} />
                                             :
                                             checkIcon === 4 ?
-                                                <BedTracking ipno={ipno} setclosebtn={setclosebtn} nsdesc={nsdesc} nurse={nurse} /> :
+                                                <BedTracking ipno={ipno} setclosebtn={setclosebtn} nsdesc={nsdesc} nurse={nurse} bedcode={bedcode} /> :
 
 
                                                 checkIcon === 5 ?
@@ -406,7 +409,7 @@ const InPatientList = ({ close, refresh, submit }) => {
                                                         <PatientsurvillenceLazy
                                                             setclosebtn={setclosebtn}
                                                             ipno={ipno} ptno={ptno} name={name} doa={doa} docname={docname}
-                                                            age={age} mf={mf} rmno={rmno} submited={submited} bedcode={bedcode} />
+                                                            age={age} mf={mf} rmno={rmno} submited={submited} bedcode={bedcode} nurse={nurse} nsdesc={nsdesc} />
                                                     </Card>
                                 }
                             </Box>
