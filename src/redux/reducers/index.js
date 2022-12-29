@@ -59,6 +59,9 @@ import { setExtraOrderList } from '../reducers/DietExtraOrder.Reducer'
 import { setComplaintListAll, setPendOnholdCompListAll } from '../reducers/ComplaintDashAllDept.Reducer'
 import { setCompListAllForMenu } from '../reducers/CompalintListAll.Reducer'
 import { setItemExtra } from '../reducers/ItemMasterExtra.Reducer'
+import { setTotalInPateint } from '../reducers/TotalInPateintList.Reducer'
+import { setDietPlaned } from '../reducers/DietPlannedList.Reducer'
+import { setDietPlanPending } from '../reducers/DietPlanPending.Reducer'
 import { getBhrctotalPatient } from '../reducers/BhrcTotalPatient.Reducer'
 
 const reducer = combineReducers({
@@ -126,8 +129,10 @@ const reducer = combineReducers({
     getFloorselect,
     getnursewisefloor,
     setItemExtra,
+    setDietPlaned,
+    setTotalInPateint,
+    setDietPlanPending,
     getBhrctotalPatient
-
 
 })
 export default reducer;

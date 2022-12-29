@@ -76,6 +76,11 @@ const OnHoldPendingDeptWiseList = React.lazy(() => import('./views/dashboard/Com
 const AssignEmpWiseList = React.lazy(() => import('./views/dashboard/ComplaintDashViews/AssignComEmp'))
 const VerifyEmpWiseList = React.lazy(() => import('./views/dashboard/ComplaintDashViews/RectifyComEmp'))
 const OnHoldPendingEmpWiseList = React.lazy(() => import('./views/dashboard/ComplaintDashViews/PendingOnholdEmp'))
+const InPatientList = React.lazy(() => import('./views/dashboard/DietDashViews/TotalInpatientList'))
+const DietPlannedList = React.lazy(() => import('./views/dashboard/DietDashViews/DietPalnnedList'))
+const DietPlanPending = React.lazy(() => import('./views/dashboard/DietDashViews/DietPlanPendingList'))
+
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -155,7 +160,10 @@ const routes = [
   { path: "/Home/noshift", exact: true, name: "No shift", component: NoshiftReport },
   { path: '/Home/highbioticReport', exact: true, name: "HighAntiBiotic Report", component: HighAntiBioticReport },
   { path: "/Home/WeEmpMap", exact: true, name: "Employee-Ns Wise Mapping", component: EmpNsWiseMaping },
-  { path: '/Home/ExtraOrderView', exact: true, name: 'Total Admission', component: ExtraOrderView }
+  { path: '/Home/ExtraOrderView', exact: true, name: 'Total Admission', component: ExtraOrderView },
+  { path: "/Home/DashBoard/InPatientList", exact: true, name: "InPatientList View", component: InPatientList },
+  { path: '/Home/DietPlannedList', exact: true, name: 'DietPlannedList View', component: DietPlannedList },
+  { path: '/Home/DietPlanPending', exact: true, name: 'DietPlanPending View', component: DietPlanPending }
 
 ]
 

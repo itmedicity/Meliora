@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect, useState } from 'react'
+import React, { useCallback, useMemo, useEffect, memo, useState } from 'react'
 import { Box, Paper } from '@mui/material'
 import { CssVarsProvider, Typography } from '@mui/joy';
 import IconButton from '@mui/joy/IconButton';
@@ -194,4 +194,4 @@ const DietProcessDashCmp = () => {
     )
 }
 
-export default DietProcessDashCmp
+export default memo(DietProcessDashCmp)

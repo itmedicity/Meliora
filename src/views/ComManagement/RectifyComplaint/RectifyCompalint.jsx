@@ -58,7 +58,7 @@ const RectifyCompalint = () => {
     //data setting in table
     const [column] = useState([
         {
-            headerName: 'Rectify', minWidth: 120,
+            headerName: 'Rectify', minWidth: 50,
             cellRenderer: params => {
                 if (params.data.compalint_status === 2 || params.data.compalint_status === 3) {
                     return <IconButton disabled
@@ -78,19 +78,15 @@ const RectifyCompalint = () => {
             }
         },
         {
-            headerName: "SlNo",
-
-            field: "complaint_slno"
+            headerName: "SlNo", field: "complaint_slno", width: 120
         },
         { headerName: "Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 350 },
         { headerName: "Department", field: "sec_name", autoHeight: true, wrapText: true, width: 280 },
-        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, width: 280 },
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, width: 280 },
-        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true, width: 280 },
         { headerName: "Assign emp", field: "em_name", autoHeight: true, wrapText: true, width: 280 },
         { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
         { headerName: "complaint status", field: "compalint_status1", autoHeight: true, wrapText: true, width: 300 },
-        { headerName: "Req.Date", field: "assigned_date", autoHeight: true, wrapText: true, width: 300 },
+        { headerName: "Req.Date", field: "assigned_date", autoHeight: true, wrapText: true, width: 180 },
         { headerName: "Rectified Status", field: "cm_rectify_status1", autoHeight: true, wrapText: true, width: 290 },
         { headerName: "Reason", field: "rectify_pending_hold_remarks1", autoHeight: true, wrapText: true, width: 280 },
 
