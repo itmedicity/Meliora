@@ -1,7 +1,7 @@
 import { Paper } from '@material-ui/core'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { CssVarsProvider } from '@mui/joy'
 import NursingStationMeliSelect from 'src/views/CommonSelectCode/NursingStationMeliSelect'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -14,17 +14,16 @@ import CustomeToolTip from '../../Components/CustomeToolTip';
 import CusIconButton from '../../Components/CusIconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import moment from 'moment'
 import BedTrackingTable from './BedTrackingTable'
 
 
-const BedTracking = ({ setclosebtn, ipno, nurse }) => {
+const BedTracking = ({ setclosebtn, ipno, nurse, bedcode }) => {
     const [nurstation, setnurstation] = useState(0)
     const [tranDate, settranDate] = useState('')
     const [counstatus, setcounstatus] = useState('')
     const [sfa, setmfa] = useState('')
-    const [id, setid] = useState(0)
     const [room, setroom] = useState('')
     const [Indate, setIndate] = useState('')
     const [remark, setremark] = useState('')
@@ -104,7 +103,6 @@ const BedTracking = ({ setclosebtn, ipno, nurse }) => {
         }
     }, [])
 
-
     const reset = useCallback(() => {
         setnurstation(0)
         settranDate('')
@@ -119,38 +117,39 @@ const BedTracking = ({ setclosebtn, ipno, nurse }) => {
     }, [resetamenties])
 
 
-    useEffect(() => {
-        const getsurvno = async () => {
-            const result = await axioslogin.get(`/WeWork/slnobyip/${ipno}`)
-            const { success, data, message } = result.data
-            setid(data)
-            if (success === 1) {
-                const { surv_slno } = data[0]
-                setid(surv_slno)
-            } else if (success === 2) {
-                infoNotify(message)
-            }
-            else {
-                warningNotify("please complete the survillence sheet")
-            }
-        }
-        getsurvno();
-    }, [ipno])
-    const postdata = useMemo(() => {
-        return {
-            bed_trans_surv_slno: id,
-            trasfer_to: nurstation !== 0 ? nurstation : null,
-            transfer_from: tranFrom,
-            transfer_time: tranDate !== '' ? moment(tranDate).format('YYYY-MM-DD hh:mm:ss') : null,
-            counseling_status: counstatus,
-            sfa_mfa_clearence: sfa,
-            room_amenties: roomamenties,
-            bystander_room_retain: room,
-            transfer_in_time: Indate !== '' ? moment(Indate).format('YYYY-MM-DD hh:mm:ss') : null,
-            remarks: remark !== '' ? remark : null,
-            ip_no: ipno
-        }
-    }, [id, nurstation, tranDate, counstatus, sfa, roomamenties, room, Indate, remark, tranFrom, ipno])
+    // useEffect(() => {
+    //     const getsurvno = async () => {
+    //         const result = await axioslogin.get(`/WeWork/slnobyip/${ipno}`)
+    //         const { success, data, message } = result.data
+    //         setid(data)
+    //         if (success === 1) {
+    //             const { surv_slno } = data[0]
+    //             setid(surv_slno)
+    //         } else if (success === 2) {
+    //             infoNotify(message)
+    //         }
+    //         else {
+    //             warningNotify("please complete the survillence sheet")
+    //         }
+    //     }
+    //     getsurvno();
+    // }, [ipno])
+    // const postdata = useMemo(() => {
+    //     return {
+    //         bed_trans_surv_slno: id,
+    //         trasfer_to: nurstation !== 0 ? nurstation : null,
+    //         transfer_from: tranFrom,
+    //         transfer_time: tranDate !== '' ? moment(tranDate).format('YYYY-MM-DD hh:mm:ss') : null,
+    //         counseling_status: counstatus,
+    //         sfa_mfa_clearence: sfa,
+    //         room_amenties: roomamenties,
+    //         bystander_room_retain: room,
+    //         transfer_in_time: Indate !== '' ? moment(Indate).format('YYYY-MM-DD hh:mm:ss') : null,
+    //         remarks: remark !== '' ? remark : null,
+    //         ip_no: ipno,
+    //         bd_code: bedcode
+    //     }
+    // }, [id, nurstation, tranDate, counstatus, sfa, roomamenties, room, Indate, remark, tranFrom, ipno, bedcode])
 
 
 
@@ -164,9 +163,10 @@ const BedTracking = ({ setclosebtn, ipno, nurse }) => {
             bystander_room_retain: room,
             transfer_in_time: Indate !== '' ? moment(Indate).format('YYYY-MM-DD hh:mm:ss') : null,
             remarks: remark !== '' ? remark : null,
-            trasf_slno: trasf_slno
+            trasf_slno: trasf_slno,
+            transfer_from: tranFrom,
         }
-    }, [nurstation, tranDate, counstatus, sfa, roomamenties, room, Indate, remark, trasf_slno])
+    }, [nurstation, tranDate, counstatus, sfa, roomamenties, room, Indate, remark, trasf_slno, tranFrom])
 
 
     const rowSelect = useCallback((params) => {
@@ -179,39 +179,44 @@ const BedTracking = ({ setclosebtn, ipno, nurse }) => {
 
         }
 
-        const obj1 = JSON.parse(room_amenties)
-        const { sofaa, chair, card, almirah, cup, arm, kit, bin, wood, tab, mat } = obj1
-        const v = {
-            sofaa: sofaa === 1 ? true : false,
-            chair: chair === 2 ? true : false,
-            card: card === 3 ? true : false,
-            almirah: almirah === 4 ? true : false,
-            cup: cup === 5 ? true : false,
-            arm: arm === 6 ? true : false,
-            kit: kit === 7 ? true : false,
-            bin: bin === 8 ? true : false,
-            wood: wood === 9 ? true : false,
-            tab: tab === 10 ? true : false,
-            mat: mat === 11 ? true : false,
+        const obj1 = room_amenties === null ? null : JSON.parse(room_amenties)
+        if (obj1 !== null) {
+            const { sofaa, chair, card, almirah, cup, arm, kit, bin, wood, tab, mat } = obj1
+            const v = {
+                sofaa: sofaa === 1 ? true : false,
+                chair: chair === 2 ? true : false,
+                card: card === 3 ? true : false,
+                almirah: almirah === 4 ? true : false,
+                cup: cup === 5 ? true : false,
+                arm: arm === 6 ? true : false,
+                kit: kit === 7 ? true : false,
+                bin: bin === 8 ? true : false,
+                wood: wood === 9 ? true : false,
+                tab: tab === 10 ? true : false,
+                mat: mat === 11 ? true : false,
 
+            }
+            setamenties(v)
         }
+
         setbedtransfer(formdata)
-        setnurstation(trasfer_to)
-        settranDate(transfer_time !== 'not updated' ? transfer_time : '')
-        setcounstatus(counseling_status !== 'not updated' ? counseling_status : '')
-        setmfa(sfa_mfa_clearence !== 'not updated' ? sfa_mfa_clearence : '')
-        setroom(bystander_room_retain !== 'not updated' ? bystander_room_retain : '')
-        setIndate(transfer_in_time !== 'not updated' ? transfer_in_time : '')
-        setremark(remarks !== 'not updated' ? remarks : '')
-        setamenties(v)
-        setTranFrom(transfer_from)
+        setnurstation(trasfer_to === null ? '' : trasfer_to)
+        settranDate(transfer_time === null ? '' : transfer_time)
+        setcounstatus(counseling_status === null ? '' : counseling_status)
+        setmfa(sfa_mfa_clearence === null ? '' : sfa_mfa_clearence)
+        setroom(bystander_room_retain === null ? '' : bystander_room_retain)
+        setIndate(transfer_in_time === null ? '' : transfer_in_time)
+        setremark(remarks === null ? '' : remarks)
+
+        setTranFrom(transfer_from === null ? '' : transfer_from)
 
     }, [])
 
 
+
+
     const submit = useCallback((e) => {
         e.preventDefault();
-
         const updateData = async (Patchdata) => {
             const results = await axioslogin.patch(`/WeWork/updatebedTrack`, Patchdata)
             const { message, success } = results.data;
@@ -232,57 +237,57 @@ const BedTracking = ({ setclosebtn, ipno, nurse }) => {
 
 
 
-        const InsertData = async (postdata) => {
+        // const InsertData = async (postdata) => {
 
-            const shift = {
-                transfer_from: nurse,
-                trasfer_to: nurstation,
-                bed_trans_surv_slno: id
-            }
+        //     const shift = {
+        //         transfer_from: nurse,
+        //         trasfer_to: nurstation,
+        //         bed_trans_surv_slno: id
+        //     }
 
-            const result = await axioslogin.post('/WeWork/bedtranSlno', shift)
-            const { success, data } = result.data
-            if (success === 1) {
-                const { trasf_slno } = data[0]
-                const patchdata = {
-                    trasfer_to: nurstation,
-                    transfer_time: tranDate !== '' ? moment(tranDate).format('YYYY-MM-DD hh:mm:ss') : null,
-                    counseling_status: counstatus,
-                    sfa_mfa_clearence: sfa,
-                    room_amenties: roomamenties,
-                    bystander_room_retain: room,
-                    transfer_in_time: Indate !== '' ? moment(Indate).format('YYYY-MM-DD hh:mm:ss') : null,
-                    remarks: remark !== '' ? remark : null,
-                    trasf_slno: trasf_slno
-                }
-                updateData(patchdata)
-            }
-            else {
-                const results = await axioslogin.post(`/WeWork/insertbed`, postdata)
-                const { message, success } = results.data;
-                if (success === 2) {
-                    succesNotify(message)
-                    setcount(count + 1)
-                    reset();
-                }
-                else if (success === 1) {
-                    infoNotify(message)
-                }
-                else {
-                    infoNotify(message)
-                }
-            }
-        }
+        //     const result = await axioslogin.post('/WeWork/bedtranSlno', shift)
+        //     const { success, data } = result.data
+        //     if (success === 1) {
+        //         const { trasf_slno } = data[0]
+        //         const patchdata = {
+        //             trasfer_to: nurstation,
+        //             transfer_time: tranDate !== '' ? moment(tranDate).format('YYYY-MM-DD hh:mm:ss') : null,
+        //             counseling_status: counstatus,
+        //             sfa_mfa_clearence: sfa,
+        //             room_amenties: roomamenties,
+        //             bystander_room_retain: room,
+        //             transfer_in_time: Indate !== '' ? moment(Indate).format('YYYY-MM-DD hh:mm:ss') : null,
+        //             remarks: remark !== '' ? remark : null,
+        //             trasf_slno: trasf_slno,
+
+        //         }
+        //         updateData(patchdata)
+        //     }
+        //     else {
+        //         const results = await axioslogin.post(`/WeWork/insertbed`, postdata)
+        //         const { message, success } = results.data;
+        //         if (success === 2) {
+        //             succesNotify(message)
+        //             setcount(count + 1)
+        //             reset();
+        //         }
+        //         else if (success === 1) {
+        //             infoNotify(message)
+        //         }
+        //         else {
+        //             infoNotify(message)
+        //         }
+        //     }
+        // }
 
         if (value === 1) {
             updateData(Patchdata)
         }
-        else {
-            InsertData(postdata)
-        }
+        // else {
+        //     InsertData(postdata)
+        // }
 
-    }, [value, count, reset, nurstation, tranDate, counstatus, sfa, roomamenties, Patchdata,
-        room, Indate, remark, id, nurse, postdata])
+    }, [value, count, reset, Patchdata])
 
 
     const closwindow = useCallback(() => {

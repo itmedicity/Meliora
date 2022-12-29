@@ -22,7 +22,7 @@ const RoomAmenties = React.lazy(() => import('../../WeWork/Patienntsurvillence/B
 const Patservice = React.lazy(() => import('../../WeWork/Patienntsurvillence/Patientservice'))
 const AssignedStaff = React.lazy(() => import('../../CommonSelectCode/AssignedStaffselect'))
 const ShiftinngNursingStation = React.lazy(() => import('../../CommonSelectCode/NursingStationMeliSelect'))
-const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bedcode, setclosebtn }) => {
+const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bedcode, setclosebtn, nurse, nsdesc }) => {
     const [bedtype, setbedtype] = useState(false)
     const [rmcat, setrmcat] = useState(false)
     const [modepay, setmodpay] = useState(false)
@@ -42,7 +42,6 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
     const [sfa, setsfa] = useState('')
     const [remr, setremr] = useState('')
     const [reson, setreson] = useState('')
-    const [shiffrom, setshiffrom] = useState(0)
     const [shiftto, setshiftto] = useState(0)
     const [count, setcount] = useState(0)
     const [flag, setflag] = useState(0)
@@ -258,7 +257,6 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
         setcr('')
         setsfa('')
         setremr('')
-        setshiffrom(0)
         setshiftto(0)
         setamenties(resetamenties)
         setremote(resetremot)
@@ -281,7 +279,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
             const result = await axioslogin.post(`/WeWork/patdetail`, detail)
             const { success, data } = result.data
             if (success === 1) {
-                const { shift_from, shift_to, surv_log_slno,
+                const { shift_to, surv_log_slno,
                     recieved_time, room_category, bed_type, telephone, geezer, dietition_visit_tme,
                     stat_medicine, stat_recived_time, assigned_nurse, document_status, payment_mode, tv_ac_remot,
                     creadit_detail, pateint_service, remarks_we, sfa_mfa, discharge_wright, patpackage,
@@ -324,7 +322,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                 }
                 setsurv(frmdata)
                 setduser(discharge_wright !== null ? discharge_wright : '')
-                setshiffrom(shift_from)
+                // setshiffrom(shift_from)
                 setshiftto(shift_to)
                 setrstym(recieved_time !== null ? recieved_time : '')
                 setrmcat(room_category)
@@ -403,7 +401,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                     pt_no: ptno,
                     bd_code: bedcode,
                     discharge_wright: duser !== '' ? moment(duser).format('YYYY-MM-DD hh:mm:ss') : null,
-                    shift_from: shiffrom,
+                    shift_from: nurse,
                     shift_to: shiftto,
                     recieved_time: rstym !== '' ? moment(rstym).format('YYYY-MM-DD hh:mm:ss') : null,
                     room_category: rmcat,
@@ -451,7 +449,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
             if (success === 1) {
                 const { surv_slno } = data[0]
                 const shiftdetl = {
-                    shift_from: shiffrom,
+                    shift_from: nurse,
                     shift_to: shiftto,
                     we_surv_slno: we_surv_slno
                 }
@@ -462,7 +460,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                         const { surv_log_slno } = data[0]
                         const patchData = {
                             discharge_wright: duser !== '' ? moment(duser).format('YYYY-MM-DD hh:mm:ss') : null,
-                            shift_from: shiffrom,
+                            // shift_from: nurse,
                             shift_to: shiftto,
                             recieved_time: rstym !== '' ? moment(rstym).format('YYYY-MM-DD hh:mm:ss') : null,
                             room_category: rmcat,
@@ -498,7 +496,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                             pt_no: ptno,
                             bd_code: bedcode,
                             discharge_wright: duser !== '' ? moment(duser).format('YYYY-MM-DD hh:mm:ss') : null,
-                            shift_from: shiffrom,
+                            shift_from: nurse,
                             shift_to: shiftto,
                             recieved_time: rstym !== '' ? moment(rstym).format('YYYY-MM-DD hh:mm:ss') : null,
                             room_category: rmcat,
@@ -535,7 +533,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
         }
         getsurvslno(postdata)
     }, [postdetail, ipno, ptno, bedcode, bedtype, gzr, dv, st, rt, asn, modepay, doc,
-        cr, pck, remr, sfa, duser, shiffrom, shiftto, rstym, tele,
+        cr, pck, remr, sfa, duser, shiftto, rstym, tele, nurse,
         emid, rmcat, we_surv_slno, roomamenties, patservice, actvremort, count, reset, dama, reson, bhrc])
 
     const SurvillenceView = useCallback(() => {
@@ -751,9 +749,13 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                     }}>
                                             <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "50%", sm: "45%" } }}>
                                                 <Box sx={{ display: 'flex', width: { xl: "20%", lg: "30%", md: "25%", sm: "40%" } }}>
-                                                    <CssVarsProvider><Typography>Shift from </Typography> </CssVarsProvider></Box>
+                                                    <CssVarsProvider><Typography>Shift from:</Typography> </CssVarsProvider></Box>
                                                 <Box sx={{ width: { xl: "60%", lg: "60%", md: "60%", sm: "60%" } }}>
-                                                    <ShiftinngNursingStation value={shiffrom} setValue={setshiffrom} />
+                                                    <Typography>
+                                                        {nsdesc}
+                                                    </Typography>
+
+                                                    {/* <ShiftinngNursingStation value={shiffrom} setValue={setshiffrom} /> */}
                                                 </Box>
                                             </Box>
                                             <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
