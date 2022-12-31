@@ -18,7 +18,7 @@ const NSWiseMappingTable = ({ count, rowSelect }) => {
         { headerName: "Emp.Name", field: "em_name" },
         { headerName: "nusing station", field: "co_nurse_desc", width: 300 },
         { headerName: "Building", field: "build_name" },
-        { headerName: "Floor", field: "floor_desc" },
+        { headerName: "Floor", field: "floor_desc", width: 250 },
         { headerName: "Status", field: "map_status" },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])

@@ -69,9 +69,9 @@ const NursingStationMast = () => {
         }
         setNursStation(frmdata)
         setoranurse(co_ora_nurse)
-        setbuilding(ns_building)
-        setfloor(ns_floor)
-        setoutlet(ns_ora_outlet)
+        setbuilding(ns_building !== null ? ns_building : '')
+        setfloor(ns_floor !== null ? ns_building : '')
+        setoutlet(ns_ora_outlet !== null ? ns_ora_outlet : '')
 
     }, [])
 

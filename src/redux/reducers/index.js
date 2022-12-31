@@ -63,6 +63,7 @@ import { setTotalInPateint } from '../reducers/TotalInPateintList.Reducer'
 import { setDietPlaned } from '../reducers/DietPlannedList.Reducer'
 import { setDietPlanPending } from '../reducers/DietPlanPending.Reducer'
 import { getBhrctotalPatient } from '../reducers/BhrcTotalPatient.Reducer'
+import { getEmpfloor } from '../reducers/EmpWiseFloor.reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -132,7 +133,8 @@ const reducer = combineReducers({
     setDietPlaned,
     setTotalInPateint,
     setDietPlanPending,
-    getBhrctotalPatient
+    getBhrctotalPatient,
+    getEmpfloor
 
 })
 export default reducer;

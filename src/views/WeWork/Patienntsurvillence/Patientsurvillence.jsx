@@ -347,10 +347,10 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                 setbhrc(bhrc_patient === 1 ? true : false)
             }
             else if (success === 2) {
-                infoNotify("enter patient details!")
+                infoNotify("Please enter patient details!")
             }
             else {
-                warningNotify("Error occured contact")
+                warningNotify("Error occured contact EDP")
             }
         }
 
