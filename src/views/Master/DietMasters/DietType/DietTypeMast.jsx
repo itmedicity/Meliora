@@ -10,6 +10,7 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
+import CustomeToolTip from '../../../Components/CustomeToolTip';
 const DietTypeMast = () => {
     const history = useHistory();
     //state for table rendering
@@ -156,28 +157,31 @@ const DietTypeMast = () => {
                             </Grid>
                             <Grid item xl={12} lg={12}>
                                 <Grid container spacing={1}>
-                                    <Grid item xl={6} lg={6}>
-                                        {/* <CustomeToolTip title="Start Date" placement="left" > */}
-                                        <TextFieldCustom
-                                            placeholder="Start time"
-                                            type="datetime-local"
-                                            size="sm"
-                                            //   min={new Date()}
-                                            name="start_time"
-                                            value={start_time}
-                                            onchange={updateDiettype} />
-                                        {/* </CustomeToolTip> */}
-                                    </Grid>
-                                    <Grid item xl={6} lg={6}>
-                                        <TextFieldCustom
-                                            placeholder="End time"
-                                            type="datetime-local"
-                                            size="sm"
-                                            min={start_time}
-                                            name="end_time"
-                                            value={end_time}
-                                            onchange={updateDiettype} />
-                                    </Grid>
+                                    <CustomeToolTip title="Start Time" placement="top-start">
+                                        <Grid item xl={6} lg={6}>
+
+                                            <TextFieldCustom
+                                                placeholder="Start time"
+                                                type="datetime-local"
+                                                size="sm"
+                                                name="start_time"
+                                                value={start_time}
+                                                onchange={updateDiettype} />
+
+                                        </Grid>
+                                    </CustomeToolTip>
+                                    <CustomeToolTip title="End Time" placement="top-start">
+                                        <Grid item xl={6} lg={6}>
+                                            <TextFieldCustom
+                                                placeholder="End time"
+                                                type="datetime-local"
+                                                size="sm"
+                                                min={start_time}
+                                                name="end_time"
+                                                value={end_time}
+                                                onchange={updateDiettype} />
+                                        </Grid>
+                                    </CustomeToolTip>
                                 </Grid>
                             </Grid>
                             <Grid item xl={12} lg={12}>
@@ -198,7 +202,7 @@ const DietTypeMast = () => {
                     </Grid>
                 </Grid>
             </Box>
-        </CardMaster>
+        </CardMaster >
     )
 }
 export default DietTypeMast
