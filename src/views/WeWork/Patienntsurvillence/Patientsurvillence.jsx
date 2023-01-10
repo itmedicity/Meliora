@@ -32,6 +32,8 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
     const [rstym, setrstym] = useState('')
     const [tele, settele] = useState(false)
     const [gzr, setgzr] = useState(false)
+    const [key, setkey] = useState(false)
+    const [callbell, setcallbell] = useState(false)
     const [dama, setdama] = useState(false)
     const [dv, setdv] = useState('')
     const [st, setst] = useState('')
@@ -112,6 +114,22 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
         }
         else {
             setgzr(false)
+        }
+    }, [])
+    const getkey = useCallback((e) => {
+        if (e.target.checked === true) {
+            setkey(true)
+        }
+        else {
+            setkey(false)
+        }
+    }, [])
+    const getcallbell = useCallback((e) => {
+        if (e.target.checked === true) {
+            setcallbell(true)
+        }
+        else {
+            setcallbell(false)
         }
     }, [])
 
@@ -264,6 +282,9 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
         setdama(false)
         setreson('')
         setbhrc(false)
+        setcallbell(false)
+        setkey(false)
+
 
 
     }, [resetamenties, resetremot, resetservice])
@@ -283,7 +304,8 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                     recieved_time, room_category, bed_type, telephone, geezer, dietition_visit_tme,
                     stat_medicine, stat_recived_time, assigned_nurse, document_status, payment_mode, tv_ac_remot,
                     creadit_detail, pateint_service, remarks_we, sfa_mfa, discharge_wright, patpackage,
-                    we_surv_slno, room_amentites, if_dama, dama_remarks, bhrc_patient } = data[0];
+                    we_surv_slno, room_amentites, if_dama, dama_remarks, bhrc_patient, pat_surv_callbell,
+                    pat_surv_key } = data[0];
                 const obj1 = JSON.parse(room_amentites)
                 const { sofaa, chair, card, almirah, cup, arm, kit, bin, wood, tab, mat } = obj1
                 const v = {
@@ -345,6 +367,8 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                 setdama(if_dama === 1 ? true : false)
                 setreson(dama_remarks)
                 setbhrc(bhrc_patient === 1 ? true : false)
+                setcallbell(pat_surv_callbell === 1 ? true : false)
+                setkey(pat_surv_key === 1 ? true : false)
             }
             else if (success === 2) {
                 infoNotify("Please enter patient details!")
@@ -409,6 +433,8 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                     tv_ac_remot: actvremort,
                     telephone: tele === true ? 1 : 0,
                     geezer: gzr === true ? 1 : 0,
+                    pat_surv_key: key === true ? 1 : 0,
+                    pat_surv_callbell: callbell === true ? 1 : 0,
                     dietition_visit_tme: dv !== '' ? moment(dv).format('YYYY-MM-DD hh:mm:ss') : null,
                     stat_medicine: st !== '' ? moment(st).format('YYYY-MM-DD hh:mm:ss') : null,
                     stat_recived_time: rt !== '' ? moment(rt).format('YYYY-MM-DD hh:mm:ss') : null,
@@ -467,6 +493,8 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                             bed_type: bedtype,
                             telephone: tele === true ? 1 : 0,
                             geezer: gzr === true ? 1 : 0,
+                            pat_surv_key: key === true ? 1 : 0,
+                            pat_surv_callbell: callbell === true ? 1 : 0,
                             dietition_visit_tme: dv !== '' ? moment(dv).format('YYYY-MM-DD hh:mm:ss') : null,
                             stat_medicine: st !== '' ? moment(st).format('YYYY-MM-DD hh:mm:ss') : null,
                             stat_recived_time: rt !== '' ? moment(rt).format('YYYY-MM-DD hh:mm:ss') : null,
@@ -504,6 +532,8 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                             tv_ac_remot: actvremort,
                             telephone: tele === true ? 1 : 0,
                             geezer: gzr === true ? 1 : 0,
+                            pat_surv_key: key === true ? 1 : 0,
+                            pat_surv_callbell: callbell === true ? 1 : 0,
                             dietition_visit_tme: dv !== '' ? moment(dv).format('YYYY-MM-DD hh:mm:ss') : null,
                             stat_medicine: st !== '' ? moment(st).format('YYYY-MM-DD hh:mm:ss') : null,
                             stat_recived_time: rt !== '' ? moment(rt).format('YYYY-MM-DD hh:mm:ss') : null,
@@ -533,7 +563,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
         }
         getsurvslno(postdata)
     }, [postdetail, ipno, ptno, bedcode, bedtype, gzr, dv, st, rt, asn, modepay, doc,
-        cr, pck, remr, sfa, duser, shiftto, rstym, tele, nurse,
+        cr, pck, remr, sfa, duser, shiftto, rstym, tele, nurse, key, callbell,
         emid, rmcat, we_surv_slno, roomamenties, patservice, actvremort, count, reset, dama, reson, bhrc])
 
     const SurvillenceView = useCallback(() => {
@@ -923,7 +953,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                                 checked={tele}
                                             />
                                         </Box>
-                                        <Box sx={{ width: { xl: "20%", lg: "20%", md: "20%", sm: "21%" } }}>
+                                        <Box sx={{ width: { xl: "21.5%", lg: "20%", md: "20%", sm: "21%" } }}>
                                             <CusCheckBox
                                                 variant="outlined"
                                                 color="primary"
@@ -933,6 +963,30 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                                 value={gzr}
                                                 onCheked={getgeezer}
                                                 checked={gzr}
+                                            />
+                                        </Box>
+                                        <Box sx={{ width: { xl: "21.5%", lg: "20%", md: "20%", sm: "21%" } }}>
+                                            <CusCheckBox
+                                                variant="outlined"
+                                                color="primary"
+                                                size="md"
+                                                name="key"
+                                                label="Key"
+                                                value={key}
+                                                onCheked={getkey}
+                                                checked={key}
+                                            />
+                                        </Box>
+                                        <Box sx={{ width: { xl: "20%", lg: "20%", md: "20%", sm: "21%" } }}>
+                                            <CusCheckBox
+                                                variant="outlined"
+                                                color="primary"
+                                                size="md"
+                                                name="callbell"
+                                                label="Callbell"
+                                                value={callbell}
+                                                onCheked={getcallbell}
+                                                checked={callbell}
                                             />
                                         </Box>
                                     </Box>

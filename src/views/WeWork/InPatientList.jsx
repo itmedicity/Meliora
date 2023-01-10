@@ -54,14 +54,14 @@ const InPatientList = ({ close, refresh, submit }) => {
 
 
     const [column] = useState([
-
-        { headerName: "IP No", field: "ip_no", filter: true },
-        { headerName: "OP No", field: "pt_no" },
-        { headerName: "Name", field: "ptc_ptname", filter: true, width: 300 },
+        { headerName: 'Slno', field: 'slno' },
+        { headerName: "IP No", field: "ip_no", filter: true, wrapText: true, autoHeight: true, sortable: true },
+        { headerName: "OP No", field: "pt_no", wrapText: true, autoHeight: true, filter: true },
+        { headerName: "Name", field: "ptc_ptname", filter: true, width: 300, wrapText: true, autoHeight: true },
         { headerName: "Age", field: "age" },
-        { headerName: "Doctor", field: "doc_name", width: 350, filter: true },
+        { headerName: "Doctor", field: "doc_name", width: 350, filter: true, wrapText: true, autoHeight: true },
         { headerName: "Room", field: "rmc_desc" },
-        { headerName: "DOA", field: "DOA", width: 350 },
+        { headerName: "DOA", field: "DOA", width: 350, wrapText: true, autoHeight: true },
         {
             headerName: 'Action', cellRenderer: params => <IconButton
                 sx={{ color: editicon, paddingY: 0.5 }}

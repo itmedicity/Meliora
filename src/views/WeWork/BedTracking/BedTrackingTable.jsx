@@ -1,53 +1,85 @@
-import React from 'react'
-import { useEffect } from 'react'
+import { IconButton } from '@mui/material'
+import React, { memo } from 'react'
 import { useState } from 'react'
 import { Fragment } from 'react'
-import { axioslogin } from 'src/views/Axios/Axios'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
-import EditButton from 'src/views/Components/EditButton';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { editicon } from 'src/color/Color';
+import { useCallback } from 'react'
+import SheetRequiremodel from './SheetRequiremodel'
+import CustomeToolTip from 'src/views/Components/CustomeToolTip'
 
-const BedTrackingTable = ({ ipno, count, rowSelect }) => {
-    const [tabledata, setTabledata] = useState([])
-
+const BedTrackingTable = ({ ipno, count, rowSelect, setTabledata, tabledata, rmSlno, setrmSlno, rmNo, setcount }) => {
+    const [sheet, setsheet] = useState(0)
+    const [open, setopen] = useState(true)
+    const [dataa, setdataa] = useState()
+    const [shift, setshift] = useState(0)
     const [column] = useState([
-        { headerName: "slno", field: "trasf_slno", width: 150 },
+        { headerName: "slno", field: "sl_no", width: 150 },
+        { headerName: "MRD No.", field: "pt_no" },
         { headerName: "ipno", field: "ip_no", wrapText: true, autoHeight: true },
-        { headerName: "name", field: "ptc_ptname", wrapText: true, autoHeight: true, width: 250 },
-        { headerName: "Transfer time", field: "transfer_time", wrapText: true, autoHeight: true },
-        { headerName: "Coucilling status", field: "counseling_status" },
-        { headerName: "sfa/mfa clearence", field: "sfa_mfa_clearence" },
-        { headerName: "bystander room ", field: "bystander_room_retain" },
-        { headerName: "Transfer in time", field: "transfer_in_time", width: 250 },
-        { headerName: "Remarks", field: "remarks" },
-        { headerName: "Transfer from", field: "transfer_fromm", width: 300 },
-        { headerName: "Transfer To", field: "transfer_too", width: 300 },
-        { headerName: 'Actions', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> }
+        { headerName: "name", field: "ptc_ptname", wrapText: true, autoHeight: true },
+        { headerName: "Transfer time", field: "rmd_occupdate", wrapText: true, autoHeight: true },
+        { headerName: "Realese Time", field: "rmd_relesedate", wrapText: true, autoHeight: true },
+        { headerName: "Transfer To", field: "nsc_desc", wrapText: true, autoHeight: true },
+        { headerName: "Bed no.", field: "bdc_no" },
 
+        {
+            headerName: 'Edit', minWidth: 80,
+            cellRenderer: params => {
+                if (params.data.rmc_shifing_required !== 1) {
+                    return <IconButton disabled
+                        sx={{ color: editicon, paddingY: 0.5 }}>
+                        <EditOutlinedIcon />
+                    </IconButton>
+                } else {
+                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                        onClick={() => rowSelect(params)}>
+                        <CustomeToolTip title="Edit">
+                            <EditOutlinedIcon />
+                        </CustomeToolTip>
+                    </IconButton>
+                }
+            }
+        },
+        {
+            headerName: 'shift require', minwidth: 80,
+            cellRenderer: params =>
+                <IconButton onClick={() => SheetRequire(params)}
+                    sx={{ color: editicon, paddingY: 0.5 }} >
+                    <CustomeToolTip title="Verify">
+                        <HighlightOffIcon />
+                    </CustomeToolTip>
+                </IconButton>
+        }
     ])
 
-    useEffect(() => {
-        const getBedTracking = async (ipno) => {
-            const result = await axioslogin.get(`/WeWork/getbedTrack/${ipno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setTabledata(data)
-            }
-            // else {
-            //     warningNotify("please enter bed transfer details!")
-            // }
-        }
-        getBedTracking(ipno);
-    }, [ipno, count])
-
+    const SheetRequire = useCallback((params) => {
+        const data = params.api.getSelectedRows()
+        const { sl_no, rmc_shifing_required } = data[0]
+        setrmSlno(sl_no)
+        setdataa(data)
+        setsheet(1)
+        setopen(true)
+        setshift(rmc_shifing_required)
+    }, [setrmSlno])
 
     return (
         <Fragment>
             <CusAgGridMast
                 tableData={tabledata}
                 columnDefs={column}
-                height={600} />
+                height={600}
+                rowHeight={500} />
+            {
+                sheet === 1 ?
+                    <SheetRequiremodel open={open} setopen={setopen} rmSlno={rmSlno} rmNo={rmNo}
+                        dataa={dataa} count={count} setcount={setcount} shift={shift} /> :
+                    null
+            }
         </Fragment>
     )
 }
 
-export default BedTrackingTable
+export default memo(BedTrackingTable)
