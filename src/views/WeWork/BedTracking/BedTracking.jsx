@@ -1,9 +1,8 @@
 import { Paper } from '@material-ui/core'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React, { memo, useEffect } from 'react'
 import { CssVarsProvider } from '@mui/joy'
-import NursingStationMeliSelect from 'src/views/CommonSelectCode/NursingStationMeliSelect'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { useState } from 'react'
 import { useCallback } from 'react'
@@ -14,12 +13,12 @@ import CustomeToolTip from '../../Components/CustomeToolTip';
 import CusIconButton from '../../Components/CusIconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import moment from 'moment'
 import BedTrackingTable from './BedTrackingTable'
+import CusCheckBox from 'src/views/Components/CusCheckBox'
 
-
-const BedTracking = ({ setclosebtn, ipno, nurse, bedcode }) => {
+const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
     const [nurstation, setnurstation] = useState(0)
     const [tranDate, settranDate] = useState('')
     const [counstatus, setcounstatus] = useState('')
@@ -29,12 +28,47 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode }) => {
     const [remark, setremark] = useState('')
     const [value, setValue] = useState(0)
     const [count, setcount] = useState(0)
-    const [tranFrom, setTranFrom] = useState(0)
-    const [bedtransfer, setbedtransfer] = useState({
-        trasf_slno: ''
-    })
-    const { trasf_slno } = bedtransfer
+    // const [tranFrom, setTranFrom] = useState(0)
+    const [tabledata, setTabledata] = useState([])
+    const [rmSlno, setrmSlno] = useState(0)
+    const [id, setid] = useState(0)
+    const [rmstatus, setrmstatus] = useState(false)
+    const [cstatus, setcStatus] = useState(false)
+    const [sfaStatus, setSfaStatus] = useState(false)
+    const [rmNo, setRmno] = useState(false)
+    const [tonurse, setTonurse] = useState('')
 
+    // const [bedtransfer, setbedtransfer] = useState({
+    //     trasf_slno: ''
+    // })
+    // const { trasf_slno } = bedtransfer
+
+    const getSfastatus = useCallback((e) => {
+        if (e.target.checked === true) {
+            setSfaStatus(true)
+        }
+        else {
+            setSfaStatus(false)
+        }
+    }, [])
+
+    const getrmstatus = useCallback((e) => {
+        if (e.target.checked === true) {
+            setrmstatus(true)
+        }
+        else {
+            setrmstatus(false)
+        }
+    }, [])
+
+    const getCstatus = useCallback((e) => {
+        if (e.target.checked === true) {
+            setcStatus(true)
+        }
+        else {
+            setcStatus(false)
+        }
+    }, [])
 
     const [ameties, setamenties] = useState({
         sofaa: false,
@@ -67,10 +101,9 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode }) => {
     }, [ameties.sofaa, ameties.chair, ameties.card, ameties.almirah, ameties.cup, ameties.arm, ameties.kit, ameties.bin,
     ameties.wood, ameties.tab, ameties.mat])
 
-
-    const getDate = useCallback((e) => {
-        settranDate(e.target.value)
-    }, [])
+    // const getDate = useCallback((e) => {
+    //     settranDate(e.target.value)
+    // }, [])
     const getStatus = useCallback((e) => {
         setcounstatus(e.target.value)
     }, [])
@@ -112,130 +145,95 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode }) => {
         setIndate('')
         setremark('')
         setamenties(resetamenties)
-        setTranFrom(0)
-
+        // setTranFrom(0)
+        setcStatus(false)
+        setSfaStatus(false)
+        setrmstatus(false)
     }, [resetamenties])
 
-
-    // useEffect(() => {
-    //     const getsurvno = async () => {
-    //         const result = await axioslogin.get(`/WeWork/slnobyip/${ipno}`)
-    //         const { success, data, message } = result.data
-    //         setid(data)
-    //         if (success === 1) {
-    //             const { surv_slno } = data[0]
-    //             setid(surv_slno)
-    //         } else if (success === 2) {
-    //             infoNotify(message)
-    //         }
-    //         else {
-    //             warningNotify("please complete the survillence sheet")
-    //         }
-    //     }
-    //     getsurvno();
-    // }, [ipno])
-    // const postdata = useMemo(() => {
-    //     return {
-    //         bed_trans_surv_slno: id,
-    //         trasfer_to: nurstation !== 0 ? nurstation : null,
-    //         transfer_from: tranFrom,
-    //         transfer_time: tranDate !== '' ? moment(tranDate).format('YYYY-MM-DD hh:mm:ss') : null,
-    //         counseling_status: counstatus,
-    //         sfa_mfa_clearence: sfa,
-    //         room_amenties: roomamenties,
-    //         bystander_room_retain: room,
-    //         transfer_in_time: Indate !== '' ? moment(Indate).format('YYYY-MM-DD hh:mm:ss') : null,
-    //         remarks: remark !== '' ? remark : null,
-    //         ip_no: ipno,
-    //         bd_code: bedcode
-    //     }
-    // }, [id, nurstation, tranDate, counstatus, sfa, roomamenties, room, Indate, remark, tranFrom, ipno, bedcode])
-
-
-
-    const Patchdata = useMemo(() => {
+    const postdata = useMemo(() => {
         return {
-            trasfer_to: nurstation,
+            bed_trans_surv_slno: id,
+            trasfer_to: nurstation !== 0 ? nurstation : null,
+            transfer_from: nurse,
             transfer_time: tranDate !== '' ? moment(tranDate).format('YYYY-MM-DD hh:mm:ss') : null,
-            counseling_status: counstatus,
-            sfa_mfa_clearence: sfa,
+            counseling_status: cstatus,
+            sfa_mfa_status: sfaStatus,
             room_amenties: roomamenties,
-            bystander_room_retain: room,
+            bystander_room_retain: rmstatus,
             transfer_in_time: Indate !== '' ? moment(Indate).format('YYYY-MM-DD hh:mm:ss') : null,
             remarks: remark !== '' ? remark : null,
-            trasf_slno: trasf_slno,
-            transfer_from: tranFrom,
+            ip_no: ipno,
+            counciling_remarks: counstatus,
+            sfa_mfa_clearence: sfa,
+            bystander_room_retain_remark: room,
+            bd_code: bedcode
         }
-    }, [nurstation, tranDate, counstatus, sfa, roomamenties, room, Indate, remark, trasf_slno, tranFrom])
-
+    }, [id, nurstation, tranDate, counstatus, sfa, roomamenties, room, Indate, remark, nurse, ipno, bedcode, sfaStatus, cstatus, rmstatus])
 
     const rowSelect = useCallback((params) => {
         setValue(1)
         const data = params.api.getSelectedRows()
-        const { trasf_slno, trasfer_to, transfer_from, transfer_time, counseling_status, sfa_mfa_clearence, bystander_room_retain,
-            transfer_in_time, remarks, room_amenties } = data[0]
-        const formdata = {
-            trasf_slno: trasf_slno,
-
-        }
-
-        const obj1 = room_amenties === null ? null : JSON.parse(room_amenties)
-        if (obj1 !== null) {
-            const { sofaa, chair, card, almirah, cup, arm, kit, bin, wood, tab, mat } = obj1
-            const v = {
-                sofaa: sofaa === 1 ? true : false,
-                chair: chair === 2 ? true : false,
-                card: card === 3 ? true : false,
-                almirah: almirah === 4 ? true : false,
-                cup: cup === 5 ? true : false,
-                arm: arm === 6 ? true : false,
-                kit: kit === 7 ? true : false,
-                bin: bin === 8 ? true : false,
-                wood: wood === 9 ? true : false,
-                tab: tab === 10 ? true : false,
-                mat: mat === 11 ? true : false,
-
-            }
-            setamenties(v)
-        }
-
-        setbedtransfer(formdata)
-        setnurstation(trasfer_to === null ? '' : trasfer_to)
-        settranDate(transfer_time === null ? '' : transfer_time)
-        setcounstatus(counseling_status === null ? '' : counseling_status)
-        setmfa(sfa_mfa_clearence === null ? '' : sfa_mfa_clearence)
-        setroom(bystander_room_retain === null ? '' : bystander_room_retain)
-        setIndate(transfer_in_time === null ? '' : transfer_in_time)
-        setremark(remarks === null ? '' : remarks)
-
-        setTranFrom(transfer_from === null ? '' : transfer_from)
-
+        const { rm_slno, nsc_desc, rmd_occupdate, ns_code } = data[0]
+        setRmno(rm_slno)
+        setTonurse(nsc_desc)
+        settranDate(rmd_occupdate)
+        setnurstation(ns_code)
     }, [])
 
+    useEffect(() => {
+        const getsurvno = async () => {
+            const result = await axioslogin.get(`/WeWork/slnobyip/${ipno}`)
+            const { success, data, message } = result.data
 
+            setid(data)
+            if (success === 1) {
+                const { surv_slno } = data[0]
+                setid(surv_slno)
+            } else if (success === 2) {
+                infoNotify(message)
+            }
+            else {
+                warningNotify("Error occured contact EDP")
+            }
+        }
+        getsurvno();
+    }, [ipno])
 
+    useEffect(() => {
+        const getBedTracking = async (ipno) => {
+            const result = await axioslogin.get(`/WeWork/getbedTrack/${ipno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const { sl_no, ns_code, rmd_occupdate, rm_slno } = data[0]
+                setTabledata(data)
+                setrmSlno(sl_no)
+                setnurstation(ns_code)
+                settranDate(rmd_occupdate)
+                setRmno(rm_slno)
+            } else {
+                warningNotify("no shifting under this patient")
+            }
+        }
+        getBedTracking(ipno);
+    }, [ipno, count])
 
     const submit = useCallback((e) => {
         e.preventDefault();
-        const updateData = async (Patchdata) => {
-            const results = await axioslogin.patch(`/WeWork/updatebedTrack`, Patchdata)
+        const insertdata = async (postdata) => {
+            const results = await axioslogin.post(`/WeWork/insertbed`, postdata)
             const { message, success } = results.data;
             if (success === 2) {
                 succesNotify(message)
                 setcount(count + 1)
-                setValue(0)
                 reset();
-            }
-            else if (success === 1) {
+            } else if (success === 1) {
                 infoNotify(message)
-            }
-            else {
+            } else {
                 infoNotify(message)
             }
         }
-
-
-
+        insertdata(postdata)
 
         // const InsertData = async (postdata) => {
 
@@ -280,14 +278,14 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode }) => {
         //     }
         // }
 
-        if (value === 1) {
-            updateData(Patchdata)
-        }
+        // if (value === 1) {
+        //     updateData(Patchdata)
+        // }
         // else {
         //     InsertData(postdata)
         // }
 
-    }, [value, count, reset, Patchdata])
+    }, [count, reset, postdata])
 
 
     const closwindow = useCallback(() => {
@@ -303,198 +301,251 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode }) => {
                 </Typography>
             </Box>
 
-            <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
-
-                <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
-                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
-                        <CssVarsProvider>
-                            <Typography >
-                                Transfer from:</Typography>
-                        </CssVarsProvider>
-                    </Box>
-
-
-
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" }, height: 40, }}>
-                        <NursingStationMeliSelect value={tranFrom} setValue={setTranFrom} />
-                    </Box>
-                    {/* <NursingStationMeliSelect value={nurstation} setValue={setnurstation} /> */}
-
-                </Box>
-                <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
-                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
-                        <CssVarsProvider>
-                            <Typography >
-                                Transfer To:</Typography>
-                        </CssVarsProvider>
-                    </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" }, height: 40, }}>
-                        <NursingStationMeliSelect value={nurstation} setValue={setnurstation} />
-                    </Box>
-                </Box>
-
-            </Box>
-
-            <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2 }}>
-                <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
-                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "35%" } }}  >
-                        <CssVarsProvider>
-                            <Typography >
-                                Transfer Date and Time:</Typography>
-                        </CssVarsProvider>
-                    </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "60%" }, height: 40, }}>
-                        <TextFieldCustom
-                            size="sm"
-                            type="datetime-local"
-                            name="daily"
-                            value={tranDate}
-                            onchange={getDate}
-                        />
-                    </Box>
-                </Box>
-
-
-
-                <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
-                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "35%" } }}  >
-                        <CssVarsProvider>
-                            <Typography >
-                                Transfer IN Date and Time:</Typography>
-                        </CssVarsProvider>
-                    </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "60%" }, height: 40, }}>
-                        <TextFieldCustom
-                            size="sm"
-                            type="datetime-local"
-                            name="daily"
-                            value={Indate}
-                            onchange={getindate}
-                        />
-                    </Box>
-                </Box>
-            </Box>
-
-            <Box sx={{ width: "100%", display: "flex", flexDirection: "row", pl: 2 }}>
-                <Box sx={{ display: "flex", flexDirection: "row", width: "50%", }} >
-                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
-                        <CssVarsProvider>
-                            <Typography >
-                                BystanderRoom retaining:</Typography>
-                        </CssVarsProvider>
-                    </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" }, height: 40, }}>
-                        <TextFieldCustom
-                            size="sm"
-                            type="text"
-                            name="room"
-                            value={room}
-                            onchange={getroom}
-                        />
-                    </Box>
-                </Box>
-
-                <Box sx={{ display: "flex", width: "50%" }}>
-                    <Box sx={{ display: "flex", width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}>
-                        <CssVarsProvider>
-                            <Typography >
-                                SFA/MFA Clearence:
-                            </Typography>
-                        </CssVarsProvider>
-                    </Box>
-                    <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" } }}>
-
-                        <TextFieldCustom
-                            size="sm"
-                            type="text"
-                            name="sfa"
-                            value={sfa}
-                            onchange={getsfa}
-                        />
-
-                    </Box>
-                </Box>
-
-            </Box>
-            <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', pl: 2 }}>
-                <Box sx={{ display: "flex", width: "50%" }}>
-                    <Box sx={{ display: "flex", width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}>
-                        <CssVarsProvider>
-                            <Typography >
-                                Counselling status:
-                            </Typography>
-                        </CssVarsProvider>
-                    </Box>
-                    <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" } }}>
-
-                        <TextFieldCustom
-                            size="sm"
-                            type="text"
-                            name="counstatus"
-                            value={counstatus}
-                            onchange={getStatus}
-                        />
-
-                    </Box>
-                </Box>
-                <Box sx={{ display: "flex", width: "50%" }}>
-                    <Box sx={{ display: "flex", width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}>
-                        <CssVarsProvider>
-                            <Typography >
-                                Remarks:
-                            </Typography>
-                        </CssVarsProvider>
-                    </Box>
-                    <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" }, pb: 2 }}>
-
-                        <TextFieldCustom
-                            size="sm"
-                            type="text"
-                            name="remark"
-                            value={remark}
-                            onchange={getremark}
-                        />
-
-                    </Box>
-                </Box>
-            </Box>
-            <Box>
-                <Box sx={{ display: "flex", width: { xl: "15%", lg: "20%", md: "40%", sm: "50%" }, pl: 2 }}>
-                    <CssVarsProvider>
-                        <Typography >
-                            Basic room amenities:
-                        </Typography>
-                    </CssVarsProvider>
-                </Box>
-                <Box>
-                    <BasicRoomAmenties ameties={ameties} setamenties={setamenties} />
-                </Box>
-
-            </Box>
-
-
-            <Box sx={{ display: "flex", flexDirection: "row", pl: 1 }}>
-                <CustomeToolTip title="Save" placement="left" >
-                    <Box sx={{ p: 1 }}>
-                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submit}>
-                            <LibraryAddIcon fontSize='small' />
-                        </CusIconButton>
-                    </Box>
-                </CustomeToolTip>
-                <CustomeToolTip title="close" placement="left" >
-                    <Box sx={{ p: 1 }}>
-                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closwindow} >
-                            <CloseIcon fontSize='small' />
-                        </CusIconButton>
-                    </Box>
-                </CustomeToolTip>
-            </Box>
             <Box sx={{ p: 1 }}>
-                <BedTrackingTable ipno={ipno} rowSelect={rowSelect} count={count} />
+                <BedTrackingTable ipno={ipno} rowSelect={rowSelect} count={count} setcount={setcount}
+                    tabledata={tabledata} setTabledata={setTabledata} setrmSlno={setrmSlno} rmSlno={rmSlno} rmNo={rmNo} />
             </Box>
+            {
+                value === 1 ?
 
+                    <Paper>
+
+                        <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
+                            <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
+                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "35%" } }}  >
+                                    <CssVarsProvider>
+                                        <Typography >
+                                            Transfer from:</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "60%" }, height: 40, }}>
+                                    <Typography >
+                                        {nsdesc}</Typography>
+                                </Box>
+                            </Box>
+                            <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
+                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "35%" } }}  >
+                                    <CssVarsProvider>
+                                        <Typography >
+                                            Transfer To:</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "60%" }, height: 40, }}>
+                                    <Typography >
+                                        {tonurse}</Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+                        <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
+                            <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
+                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "35%" } }}  >
+                                    <CssVarsProvider>
+                                        <Typography >
+                                            Transfer Date and Time:</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "60%" }, height: 40, }}>
+                                    <Typography >
+                                        {tranDate}</Typography>
+                                </Box>
+                            </Box>
+                            <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
+                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "35%" } }}  >
+                                    <CssVarsProvider>
+                                        <Typography >
+                                            Transfer IN Date and Time:</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "60%" }, height: 40, }}>
+                                    <TextFieldCustom
+                                        size="sm"
+                                        type="datetime-local"
+                                        name="daily"
+                                        value={Indate}
+                                        onchange={getindate}
+                                    />
+                                </Box>
+                            </Box>
+                        </Box>
+
+                        <Box sx={{ width: "100%", display: "flex", flexDirection: "row", pl: 2 }}>
+                            <Box sx={{ display: "flex", width: "50%" }}>
+                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
+                                    <CssVarsProvider>
+                                        <Typography >
+                                            Bystander room retaining status:</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box>
+
+                                    <CusCheckBox
+                                        variant="outlined"
+                                        color="primary"
+                                        size="md"
+                                        name="rmstatus"
+                                        label="Yes"
+                                        value={rmstatus}
+                                        onCheked={getrmstatus}
+                                        checked={rmstatus}
+                                    />
+
+                                </Box>
+                            </Box>
+                            <Box sx={{ display: "flex", flexDirection: "row", width: "50%", }} >
+                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
+                                    <CssVarsProvider>
+                                        <Typography >
+                                            Room Retaining remarks:</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" }, height: 40, }}>
+                                    <TextFieldCustom
+                                        size="sm"
+                                        type="text"
+                                        name="room"
+                                        value={room}
+                                        onchange={getroom}
+                                    />
+                                </Box>
+                            </Box>
+
+                        </Box>
+
+                        <Box sx={{ width: "100%", display: "flex", flexDirection: "row", pl: 2 }}>
+                            <Box sx={{ display: "flex", width: "50%" }}>
+                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
+                                    <CssVarsProvider>
+                                        <Typography >
+                                            SFA/MFA status:</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box>
+
+                                    <CusCheckBox
+                                        variant="outlined"
+                                        color="primary"
+                                        size="md"
+                                        name="sfaStatus"
+                                        label="Yes"
+                                        value={sfaStatus}
+                                        onCheked={getSfastatus}
+                                        checked={sfaStatus}
+                                    />
+
+                                </Box>
+                            </Box>
+                            <Box sx={{ display: "flex", flexDirection: "row", width: "50%", }} >
+                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
+                                    <CssVarsProvider>
+                                        <Typography >
+                                            SFA/MFA Remarks:</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" }, height: 40, }}>
+                                    <TextFieldCustom
+                                        size="sm"
+                                        type="text"
+                                        name="sfa"
+                                        value={sfa}
+                                        onchange={getsfa}
+                                    />
+                                </Box>
+                            </Box>
+                        </Box>
+                        <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', pl: 2 }}>
+                            <Box sx={{ display: "flex", width: "50%" }}>
+                                <Box sx={{ display: "flex", width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}>
+                                    <CssVarsProvider>
+                                        <Typography >
+                                            Counselling status:
+                                        </Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" } }}>
+                                    <CusCheckBox
+                                        variant="outlined"
+                                        color="primary"
+                                        size="md"
+                                        name="cstatus"
+                                        label="Yes"
+                                        value={cstatus}
+                                        onCheked={getCstatus}
+                                        checked={cstatus}
+                                    />
+                                </Box>
+                            </Box>
+                            <Box sx={{ display: "flex", width: "50%" }}>
+                                <Box sx={{ display: "flex", width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}>
+                                    <CssVarsProvider>
+                                        <Typography >
+                                            Counselling Remark:
+                                        </Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" } }}>
+                                    <TextFieldCustom
+                                        size="sm"
+                                        type="text"
+                                        name="counstatus"
+                                        value={counstatus}
+                                        onchange={getStatus}
+                                    />
+                                </Box>
+                            </Box>
+                        </Box>
+
+                        <Box sx={{ width: "100%", display: "flex", pl: 2 }}>
+                            <Box sx={{ display: "flex", width: { xl: "15%", lg: "40%", md: "40%", sm: "30%" } }}>
+                                <CssVarsProvider>
+                                    <Typography >
+                                        Remarks:
+                                    </Typography>
+                                </CssVarsProvider>
+                            </Box>
+                            <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" } }}>
+                                <TextFieldCustom
+                                    size="sm"
+                                    type="text"
+                                    name="remark"
+                                    value={remark}
+                                    onchange={getremark}
+                                />
+                            </Box>
+                        </Box>
+                        <Box>
+                            <Box sx={{ display: "flex", width: { xl: "15%", lg: "20%", md: "40%", sm: "50%" }, pl: 2 }}>
+                                <CssVarsProvider>
+                                    <Typography >
+                                        Basic room amenities:
+                                    </Typography>
+                                </CssVarsProvider>
+                            </Box>
+                            <Box>
+                                <BasicRoomAmenties ameties={ameties} setamenties={setamenties} />
+                            </Box>
+                        </Box>
+                        <Box sx={{ display: "flex", flexDirection: "row", pl: 1 }}>
+                            <CustomeToolTip title="Save" placement="left" >
+                                <Box sx={{ p: 1 }}>
+                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submit}>
+                                        <LibraryAddIcon fontSize='small' />
+                                    </CusIconButton>
+                                </Box>
+                            </CustomeToolTip>
+                            <CustomeToolTip title="close" placement="left" >
+                                <Box sx={{ p: 1 }}>
+                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closwindow} >
+                                        <CloseIcon fontSize='small' />
+                                    </CusIconButton>
+                                </Box>
+                            </CustomeToolTip>
+                        </Box>
+
+                    </Paper> :
+                    null
+            }
         </Paper>
     )
 }
 
-export default BedTracking
+export default memo(BedTracking)

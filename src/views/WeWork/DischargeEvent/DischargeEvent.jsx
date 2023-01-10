@@ -1,7 +1,7 @@
 import { Paper } from '@material-ui/core'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React, { memo } from 'react'
 import { CssVarsProvider } from '@mui/joy'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { useCallback } from 'react'
@@ -35,11 +35,36 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
     const [value, setvalue] = useState(0)
     const [bell, setbell] = useState(false)
     const [key, setkey] = useState(false)
+    const [DiscReportTime, setDiscReportTime] = useState('')
+    const [disStatus, setDiscStatus] = useState(false)
+    const [entryTime, setEntrytime] = useState('')
+    const [ActEntTime, setActEntTime] = useState('')
+    const [ActRdytym, setActRdytym] = useState('')
+    const [finalTime, setFinaltime] = useState('')
+    const [actFinal, setActFinal] = useState('')
+
+    // const [DisTym]
+
     const [disEvent, setDisevent] = useState({
         dis_slno: '',
 
 
     })
+
+
+
+
+
+
+    const getDiscStatus = useCallback((e) => {
+        if (e.target.checked === true) {
+            setDiscStatus(true)
+        }
+        else {
+            setDiscStatus(false)
+        }
+    }, [])
+
 
 
     const [remote, setremote] = useState({
@@ -111,6 +136,31 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
     const getconstation = useCallback((e) => {
         setcross(e.target.value)
     }, [])
+    const getActReport = useCallback((e) => {
+        setDiscReportTime(e.target.value)
+    }, [])
+    const getDiscEntTime = useCallback((e) => {
+        setEntrytime(e.target.value)
+    }, [])
+    const getActEntTime = useCallback((e) => {
+        setActEntTime(e.target.value)
+    }, [])
+    const getActRdyTym = useCallback((e) => {
+        setActRdytym(e.target.value)
+    }, [])
+    const getDischargeTime = useCallback((e) => {
+        setFinaltime(e.target.value)
+    }, [])
+    const getActDiscTime = useCallback((e) => {
+        setActFinal(e.target.value)
+    }, [])
+
+
+
+
+
+
+
 
     const resetremot = useMemo(() => {
         return {
@@ -133,6 +183,13 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
         setbell(false)
         setkey(false)
         setremote(resetremot)
+        setDiscReportTime('')
+        setEntrytime('')
+        setActEntTime('')
+        setActRdytym('')
+        setFinaltime('')
+        setActFinal('')
+        setDiscStatus(false)
     }, [resetremot])
 
 
@@ -157,24 +214,31 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
         return {
             surv_slno: id,
             ip_no: ipno,
-            discharge_type: disType !== '' ? disType : null,
-            dis_annoc_time: distime !== '' ? moment(distime).format('YYYY-MM-DD hh:mm:ss') : null,
+            discharge_type: disType !== '' ? disType : '',
+            // dis_annoc_time: distime !== '' ? moment(distime).format('YYYY-MM-DD hh:mm:ss') : null,
             cros_consult: cross,
             summary_time: sumrytym !== '' ? moment(sumrytym).format('YYYY-MM-DD hh:mm:ss') : null,
             disc_medicine_indent: indeTym !== '' ? moment(indeTym).format('YYYY-MM-DD hh:mm:ss') : null,
             disc_medicine_recive: medtime !== '' ? moment(medtime).format('YYYY-MM-DD hh:mm:ss') : null,
-            bill_ready_time: billtime !== '' ? moment(billtime).format('YYYY-MM-DD hh:mm:ss') : null,
+            // bill_ready_time: billtime !== '' ? moment(billtime).format('YYYY-MM-DD hh:mm:ss') : null,
             feed_back_collected: fedback === true ? 1 : 0,
             room_clear_time: clearence !== '' ? moment(clearence).format('YYYY-MM-DD hh:mm:ss') : null,
             disc_key: key === true ? 1 : 0,
             disc_callbell: bell === true ? 1 : 0,
-            disc_tv_ac_remot: actvremort
-
-
+            disc_tv_ac_remot: actvremort,
+            disc_report_date: distime !== '' ? moment(distime).format('YYYY-MM-DD hh:mm:ss') : null,
+            act_dis_report_date: DiscReportTime !== '' ? moment(DiscReportTime).format('YYYY-MM-DD hh:mm:ss') : null,
+            dis_entry_time: entryTime !== '' ? moment(entryTime).format('YYYY-MM-DD hh:mm:ss') : null,
+            act_dis_entry_time: ActEntTime !== '' ? moment(ActEntTime).format('YYYY-MM-DD hh:mm:ss') : null,
+            dmd_date: billtime !== '' ? moment(billtime).format('YYYY-MM-DD hh:mm:ss') : null,
+            act_dmd_date: ActRdytym !== '' ? moment(ActRdytym).format('YYYY-MM-DD hh:mm:ss') : null,
+            disc_date: finalTime !== '' ? moment(finalTime).format('YYYY-MM-DD hh:mm:ss') : null,
+            act_disc_date: actFinal !== '' ? moment(actFinal).format('YYYY-MM-DD hh:mm:ss') : null,
+            act_disc_status: disStatus === true ? 1 : 0
         }
 
-    }, [ipno, disType, distime, cross, sumrytym, indeTym, medtime,
-        billtime, fedback, clearence, id, key, bell, actvremort])
+    }, [ipno, disType, distime, cross, sumrytym, indeTym, medtime, DiscReportTime, entryTime, ActEntTime, billtime, ActRdytym, finalTime, actFinal,
+        disStatus, fedback, clearence, id, key, bell, actvremort])
 
 
 
@@ -192,17 +256,28 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             dis_slno: dis_slno,
             disc_key: key === true ? 1 : 0,
             disc_callbell: bell === true ? 1 : 0,
-            disc_tv_ac_remot: actvremort
+            disc_tv_ac_remot: actvremort,
+            disc_report_date: distime !== '' ? moment(distime).format('YYYY-MM-DD hh:mm:ss') : null,
+            act_dis_report_date: DiscReportTime !== '' ? moment(DiscReportTime).format('YYYY-MM-DD hh:mm:ss') : null,
+            dis_entry_time: entryTime !== '' ? moment(entryTime).format('YYYY-MM-DD hh:mm:ss') : null,
+            act_dis_entry_time: ActEntTime !== '' ? moment(ActEntTime).format('YYYY-MM-DD hh:mm:ss') : null,
+            dmd_date: billtime !== '' ? moment(billtime).format('YYYY-MM-DD hh:mm:ss') : null,
+            act_dmd_date: ActRdytym !== '' ? moment(ActRdytym).format('YYYY-MM-DD hh:mm:ss') : null,
+            disc_date: finalTime !== '' ? moment(finalTime).format('YYYY-MM-DD hh:mm:ss') : null,
+            act_disc_date: actFinal !== '' ? moment(actFinal).format('YYYY-MM-DD hh:mm:ss') : null,
+            act_disc_status: disStatus === true ? 1 : 0
         }
     }, [disType, distime, cross, sumrytym, indeTym, medtime,
-        billtime, fedback, clearence, dis_slno, key, bell, actvremort])
-
+        fedback, clearence, dis_slno, key, bell, actvremort, DiscReportTime, entryTime, ActEntTime, billtime, ActRdytym, finalTime, actFinal,
+        disStatus,])
 
     const rowSelect = useCallback((params) => {
         setvalue(1)
         const data = params.api.getSelectedRows()
-        const { dis_slno, surv_slno, discharge_type, dis_annoc_time, cros_consult, summary_time, disc_medicine_indent,
-            disc_medicine_recive, bill_ready_time, feed_back_collected, room_clear_time, disc_key, disc_callbell, disc_tv_ac_remot }
+        const { dis_slno, surv_slno, discharge_type, cros_consult, summary_time, disc_medicine_indent,
+            disc_medicine_recive, feed_back_collected, room_clear_time, disc_key, disc_callbell, disc_tv_ac_remot,
+            disc_report_date, act_dis_report_date, dis_entry_time, act_dis_entry_time, dmd_date, act_dmd_date,
+            disc_date, act_disc_date, act_disc_status }
             = data[0]
         const formdata = {
             dis_slno: dis_slno,
@@ -215,20 +290,26 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             tvremot: tvremot === 2 ? true : false
         }
         setDisevent(formdata)
-        setDisType(discharge_type)
-        setdisctime(dis_annoc_time !== 'not updated' ? dis_annoc_time : '')
-        setsumrytym(summary_time !== 'not updated' ? summary_time : '')
-        setindtym(disc_medicine_indent !== 'not updated' ? disc_medicine_indent : '')
-        setmedtime(disc_medicine_recive !== 'not updated' ? disc_medicine_recive : '')
-        setbilltime(bill_ready_time !== 'not updated' ? bill_ready_time : '')
-        setfeedback(feed_back_collected === 'yes' ? true : false)
-        setclearence(room_clear_time !== 'not updated' ? room_clear_time : '')
-        setcross(cros_consult !== 'not updated' ? cros_consult : '')
-        setkey(disc_key === 'yes' ? true : false)
-        setbell(disc_callbell === 'yes' ? true : false)
+        setDisType(discharge_type !== null ? discharge_type : '')
+        setsumrytym(summary_time !== null ? summary_time : '')
+        setindtym(disc_medicine_indent !== null ? disc_medicine_indent : '')
+        setmedtime(disc_medicine_recive !== null ? disc_medicine_recive : '')
+        setfeedback(feed_back_collected === 1 ? true : false)
+        setclearence(room_clear_time !== null ? room_clear_time : '')
+        setcross(cros_consult !== null ? cros_consult : '')
+        setkey(disc_key === 1 ? true : false)
+        setbell(disc_callbell === 1 ? true : false)
         setremote(t)
-    }, [])
-
+        setdisctime(disc_report_date !== null ? disc_report_date : '')
+        setDiscReportTime(act_dis_report_date !== null ? DiscReportTime : '')
+        setEntrytime(dis_entry_time !== null ? dis_entry_time : '')
+        setActEntTime(act_dis_entry_time !== null ? act_dis_entry_time : '')
+        setbilltime(dmd_date !== null ? dmd_date : '')
+        setActRdytym(act_dmd_date !== null ? act_dmd_date : '')
+        setFinaltime(disc_date !== null ? disc_date : '')
+        setActFinal(act_disc_date !== null ? act_disc_date : '')
+        setDiscStatus(act_disc_status !== 1 ? true : false)
+    }, [DiscReportTime])
 
     const submit = useCallback((e) => {
         e.preventDefault();
@@ -274,7 +355,6 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
 
     }, [postdata, patchdata, count, value, reset])
 
-
     const closwindow = useCallback(() => {
         setclosebtn(0)
     }, [setclosebtn])
@@ -303,27 +383,25 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                             onchange={getDiscType}
                         />
                     </Box>
-
                 </Box>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
                     <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
                         <CssVarsProvider>
                             <Typography >
-                                Discharge Anounced date & time:</Typography>
+                                Discharge Medicine Received time:</Typography>
                         </CssVarsProvider>
                     </Box>
                     <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
-                            name="indeTym"
-                            value={distime}
-                            onchange={getdisTime}
+                            name="disType"
+                            value={medtime}
+                            onchange={getmedtime}
                         />
                     </Box>
                 </Box>
             </Box>
-
             <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
                     <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
@@ -341,7 +419,6 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                             onchange={getsumryTym}
                         />
                     </Box>
-
                 </Box>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
                     <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
@@ -359,35 +436,84 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                             onchange={getIndentTym}
                         />
                     </Box>
-
                 </Box>
-
-
-
-
             </Box>
-
             <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
                     <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
                         <CssVarsProvider>
                             <Typography >
-                                Discharge Medicine Received time:</Typography>
+                                Discharge Anounced date & time:</Typography>
                         </CssVarsProvider>
                     </Box>
                     <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
-                            name="disType"
-                            value={medtime}
-                            onchange={getmedtime}
+                            name="distime"
+                            value={distime}
+                            onchange={getdisTime}
+                        />
+                    </Box>
+                </Box>
+                <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
+                    <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
+                        <CssVarsProvider>
+                            <Typography > Actual time:
+                            </Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                        <TextFieldCustom
+                            size="sm"
+                            type="datetime-local"
+                            name="DiscReportTime"
+                            value={DiscReportTime}
+                            onchange={getActReport}
+                        />
+                    </Box>
+                </Box>
+            </Box>
+            <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
+                <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
+                    <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
+                        <CssVarsProvider>
+                            <Typography >
+                                Discharge entry time:</Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                        <TextFieldCustom
+                            size="sm"
+                            type="datetime-local"
+                            name="entryTime"
+                            value={entryTime}
+                            onchange={getDiscEntTime}
                         />
                     </Box>
 
                 </Box>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
                     <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
+                        <CssVarsProvider>
+                            <Typography> Actual entry time:
+                            </Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                        <TextFieldCustom
+                            size="sm"
+                            type="datetime-local"
+                            name="ActEntTime"
+                            value={ActEntTime}
+                            onchange={getActEntTime}
+                        />
+                    </Box>
+                </Box>
+            </Box>
+            <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
+                <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
+                    <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
                         <CssVarsProvider>
                             <Typography >
                                 Final bill ready time:</Typography>
@@ -397,19 +523,68 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
-                            name="disType"
+                            name="billtime"
                             value={billtime}
                             onchange={getbilltime}
                         />
                     </Box>
                 </Box>
-
-
-
-
+                <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
+                    <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
+                        <CssVarsProvider>
+                            <Typography>
+                                Actual Ready time:
+                            </Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                        <TextFieldCustom
+                            size="sm"
+                            type="datetime-local"
+                            name="ActRdytym"
+                            value={ActRdytym}
+                            onchange={getActRdyTym}
+                        />
+                    </Box>
+                </Box>
             </Box>
-
-
+            <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
+                <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
+                    <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
+                        <CssVarsProvider>
+                            <Typography >
+                                Discharge time:</Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                        <TextFieldCustom
+                            size="sm"
+                            type="datetime-local"
+                            name="finalTime"
+                            value={finalTime}
+                            onchange={getDischargeTime}
+                        />
+                    </Box>
+                </Box>
+                <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
+                    <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
+                        <CssVarsProvider>
+                            <Typography>
+                                Actual Discharge time:
+                            </Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                        <TextFieldCustom
+                            size="sm"
+                            type="datetime-local"
+                            name="actFinal"
+                            value={actFinal}
+                            onchange={getActDiscTime}
+                        />
+                    </Box>
+                </Box>
+            </Box>
             <Box sx={{ display: "flex", width: "100%", pl: 2 }}>
                 <Box sx={{ width: "50%", display: "flex", flexDirection: "row" }}>
                     <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" }, flexDirection: "row" }}>
@@ -430,9 +605,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                             onCheked={getfeedback}
                             checked={fedback}
                         />
-
                     </Box>
-
                 </Box>
                 <Box sx={{ width: "50%", display: "flex", flexDirection: "row" }}>
                     <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
@@ -479,7 +652,6 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     <Box sx={{
                         display: "flex", flexDirection: "row",
                         width: { xl: "78%", lg: '65%', md: "70%", sm: "65%" },
-
                     }}>
                         <Box sx={{ width: { xl: "22%", lg: "22%", md: "21%", sm: "25%" } }}>
                             <CusCheckBox
@@ -508,33 +680,48 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{ width: "50%", display: "flex", flexDirection: "row", pl: 2 }}>
-                <Box sx={{ width: "50%", }}>
-                    <CusCheckBox
-                        variant="outlined"
-                        color="primary"
-                        size="md"
-                        name="key"
-                        label="Key"
-                        value={key}
-                        onCheked={getkey}
-                        checked={key}>
-                    </CusCheckBox>
+            <Box sx={{ width: "100%", display: "flex", flexDirection: "row", pl: 2 }}>
+                <Box sx={{ display: "flex", width: "50%" }}>
+                    <Box sx={{ width: "20%" }}>
+                        <CusCheckBox
+                            variant="outlined"
+                            color="primary"
+                            size="md"
+                            name="disStatus"
+                            label="Bill status"
+                            value={disStatus}
+                            onCheked={getDiscStatus}
+                            checked={disStatus}>
+                        </CusCheckBox>
+                    </Box>
                 </Box>
-                <Box sx={{ width: "50%", }}>
-                    <CusCheckBox
-                        variant="outlined"
-                        color="primary"
-                        size="md"
-                        name="bell"
-                        label="Callbell"
-                        value={bell}
-                        onCheked={getbell}
-                        checked={bell}>
-                    </CusCheckBox>
+                <Box sx={{ display: "flex", width: "50%" }}>
+                    <Box sx={{ width: "50%", }}>
+                        <CusCheckBox
+                            variant="outlined"
+                            color="primary"
+                            size="md"
+                            name="key"
+                            label="Key"
+                            value={key}
+                            onCheked={getkey}
+                            checked={key}>
+                        </CusCheckBox>
+                    </Box>
+                    <Box sx={{ width: "50%", }}>
+                        <CusCheckBox
+                            variant="outlined"
+                            color="primary"
+                            size="md"
+                            name="bell"
+                            label="Callbell"
+                            value={bell}
+                            onCheked={getbell}
+                            checked={bell}>
+                        </CusCheckBox>
+                    </Box>
                 </Box>
             </Box>
-
             <Box sx={{ display: "flex", flexDirection: "row", pl: 1 }}>
                 <CustomeToolTip title="Save" placement="left" >
                     <Box sx={{ p: 1 }}>
@@ -558,4 +745,4 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
     )
 }
 
-export default DischargeEvent
+export default memo(DischargeEvent)
