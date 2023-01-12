@@ -56,6 +56,23 @@ import { getWeBhrcAdmitdetl } from '../reducers/WebhrcAdmitList.Reducer'
 import { getFloorselect } from '../reducers/FloorSelect.Reducer'
 import { getnursewisefloor } from '../reducers/NurseWiseFloor.reducer'
 import { setExtraOrderList } from '../reducers/DietExtraOrder.Reducer'
+import { getEscalation } from '../reducers/Level1Escalation.reducer'
+import { getEscalationMaster } from '../reducers/EscalationMaster.Reducer'
+import { getEscalationMapping } from '../reducers/EscalationMapping.Reducer'
+import { getEscalationlvl2 } from '../reducers/Level2Escalation.Reducer'
+import { getescalationlvl3 } from '../reducers/Level3Escalation.Reducer'
+import { getescalationlvl4 } from '../reducers/Level4Escalation.Reducer'
+import { getescalationtoplvl } from '../reducers/TopLevelEscalation.Reducer'
+import { getEscalationMappingmaintenenace } from '../reducers/EscmappingMain.Reducer'
+import { getEscalationMappingIt } from '../reducers/EscalationMappingIt.reducer'
+import { getEscalationMappingToplvlIt } from '../reducers/EscalationMappingToplvlIt.Reducer'
+import { getEscalationMappingToplvlmaintenenace } from '../reducers/EscalationMappingToplvlMain.Reducer'
+import { getEscalationMappingLvl2It } from '../reducers/EscalationMappingLvl2It.Reducer'
+import { getEscalationMappingLvl2Main } from '../reducers/EscalationMappingLvl2Main.Reducer'
+import { getEscalationMappingLvl3It } from '../reducers/EscalationMappingLvl3It.Reducer'
+import { getEscalationMappingLvl3Main } from '../reducers/EscalationLvl3Main.Reducer'
+import { getEscalationMappingLvl4It } from '../reducers/EscalationMappingLvl4It.Reducer'
+import { getEscalationMappingLvl4Main } from '../reducers/EscalationMappingLvl4Main.Reducer'
 import { setComplaintListAll, setPendOnholdCompListAll } from '../reducers/ComplaintDashAllDept.Reducer'
 import { setCompListAllForMenu } from '../reducers/CompalintListAll.Reducer'
 import { setItemExtra } from '../reducers/ItemMasterExtra.Reducer'
@@ -112,6 +129,23 @@ const reducer = combineReducers({
     getDepartSecemployee,
     getTotalAdmission,
     setExtraOrderList,
+    getEscalation,
+    getEscalationMaster,
+    getEscalationMapping,
+    getEscalationlvl2,
+    getescalationlvl3,
+    getescalationlvl4,
+    getescalationtoplvl,
+    getEscalationMappingmaintenenace,
+    getEscalationMappingIt,
+    getEscalationMappingToplvlIt,
+    getEscalationMappingToplvlmaintenenace,
+    getEscalationMappingLvl2It,
+    getEscalationMappingLvl2Main,
+    getEscalationMappingLvl3It,
+    getEscalationMappingLvl3Main,
+    getEscalationMappingLvl4It,
+    getEscalationMappingLvl4Main,
     getComplaintList,
     getOnholdList,
     setAssitRectEmpWise,
