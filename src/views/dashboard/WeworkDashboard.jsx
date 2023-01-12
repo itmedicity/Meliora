@@ -1,22 +1,42 @@
-import { CssVarsProvider } from '@mui/joy'
-import { Box, Paper, CircularProgress } from '@mui/material'
-import Typography from '@mui/joy/Typography';
+import { Box, CssVarsProvider } from '@mui/joy'
+import { Paper } from '@mui/material'
 import React from 'react'
+import Typography from '@mui/joy/Typography';
 import IconButton from '@mui/joy/IconButton';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router-dom';
 
-const WeworkDashboard = ({ widgetName, count, status, slno, indx }) => {
+const WeworkDashboard = ({ widgetName, count, slno }) => {
     const history = useHistory();
     const TotalAdmission = () => {
         history.push('/Home/totaladmission')
     }
 
-    // const DAMA = () => {
-    //     history.push('/Home')
-    // }
+    const DAMA = () => {
+        history.push('/Home/damaList')
+    }
+    const BHRCpat = () => {
+        history.push('/Home/BhrcList')
+    }
+    const RoundsafterNoon = () => {
+        history.push('/Home/roundsAfternoon')
+    }
+    const DischargeAfterNoon = () => {
+        history.push('/Home/disafternoonList')
+    }
+    const Noshift = () => {
+        history.push('/Home/noshift')
+    }
+    const Antibiotic = () => {
+        history.push('/Home/highbioticReport')
+    }
     const DashBoardClick = () => {
-        return slno === 74 && TotalAdmission
-        // return slno === 75 && DAMA
+        return slno === 74 && TotalAdmission ||
+            slno === 75 && DAMA ||
+            slno === 76 && BHRCpat ||
+            slno === 78 && RoundsafterNoon ||
+            slno === 79 && DischargeAfterNoon ||
+            slno === 77 && Noshift ||
+            slno === 81 && Antibiotic
     }
     return (
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
@@ -36,10 +56,10 @@ const WeworkDashboard = ({ widgetName, count, status, slno, indx }) => {
                             variant="outlined"
                             size='lg'
                             color="primary"
-                            // onClick={DashboardClick(slno)}
                             onClick={DashBoardClick(slno)}
                         >
-                            {status === true ? <CircularProgress sx={{ color: 'pink' }} /> : count}
+                            {count}
+                            {/* {status === true ? <CircularProgress sx={{ color: 'pink' }} /> : count} */}
                         </IconButton>
                     </CssVarsProvider>
                 </Box>

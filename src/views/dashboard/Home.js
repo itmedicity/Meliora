@@ -1,105 +1,162 @@
-import { Grid, Paper } from '@mui/material'
+import { Paper, Box, Grid } from '@mui/material';
 import React, { Fragment, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getAssignedcomplaints, getOnholdcomplaints, getRectifiedcomplaints, getTotalcomplaints, getVerifiedcomplaints } from 'src/redux/actions/ComplaintDashboard.action';
-import { getPendingcomplaints } from 'src/redux/actions/ComplaintDashboard.action';
+import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action';
+import DashCompAll from './ComplaintDashCmpnt/DashCompAll';
+import DashCompDept from './ComplaintDashCmpnt/DashCompDept';
+import DashCompEmp from './ComplaintDashCmpnt/DashCompEmp';
+import CMdashboard from './DashBoardCM'
 import { getComplaintRights } from 'src/redux/actions/CmpRightsDashboard.action';
-import ComplaintDashboard from './ComplaintDashboard';
-import { getEscalationMapping } from 'src/redux/actions/EscalationMapping.action'
-// import WeworkDashboard from './WeworkDashboard';
-// import { getTotalAdmission } from 'src/redux/actions/WeworkAdmission.action'
+import WeworkDashboard from './WeworkDashboard';
+import { getTotalWeworkAdmission } from 'src/redux/actions/WeWrkTotAdmision.action'
+import { getTotalBhrcList } from 'src/redux/actions/WeBhrcDetl.action'
+import { getDiscAfternoonList } from 'src/redux/actions/WeDiscAfternoon.action'
+import { getAfternoonRoundList } from 'src/redux/actions/WeAfternoonRounds.action'
+import { getWeDamaDetl } from 'src/redux/actions/WeDamaDetl.action'
+import { getNoshifingList } from 'src/redux/actions/WeOneSheeetDetl.action'
+import { getHighAntibiotic } from 'src/redux/actions/HighAntibiotic.action'
+import DietDashBoardCmp from './DietDashCmpnt/DietDashBoardCmp';
+import { getTotalInPateint } from 'src/redux/actions/TotalInPateintList.action';
+import { getDietPlanned } from 'src/redux/actions/DietPlannedList.action';
+import { getDietPlanPending } from 'src/redux/actions/DietPlanPending.action';
 
 const Home = () => {
     const dispatch = useDispatch();
+    /**reducer function for getting login employees id */
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
+    /**redux function for getting login employees all details */
+    useEffect(() => {
+        dispatch(setLoginProfileData(id))
+        dispatch(getComplaintRights(id))
+    }, [dispatch, id])
+    //All menus under login user
+    const complaintRights = useSelector((state) => {
+        return state.getComplaintRights.complaintRightsLists.map(ele => ele.menu_slno) || 0
+    })
+
     //redux for getting employee data
     const profileData = useSelector((state) => {
         return state.getLoginProfileData.loginProfiledata
     })
-    useEffect(() => {
-        dispatch(getComplaintRights(id))
-    }, [dispatch, id])
-    //redux for module rights
-    const complaintRights = useSelector((state) => {
-        return state.getComplaintRights.complaintRightsLists.map(ele => ele.menu_slno) || 0
-    })
-    useEffect(() => {
-        if (profileData.length !== 0) {
-            const { em_department } = profileData[0]
-            dispatch(getTotalcomplaints(em_department))
-            dispatch(getPendingcomplaints(em_department))
-            dispatch(getAssignedcomplaints(em_department))
-            dispatch(getRectifiedcomplaints(em_department))
-            dispatch(getVerifiedcomplaints(em_department))
-            dispatch(getOnholdcomplaints(em_department))
+    const complaintdash = CMdashboard.filter(val => complaintRights.includes(val.men_slno));
 
-        }
-    }, [profileData, dispatch])
-
-    //redux for esclation mapping
+    //we work dashborad start
     useEffect(() => {
-        dispatch(getEscalationMapping())
+        dispatch(getTotalWeworkAdmission())
+        dispatch(getTotalBhrcList())
+        dispatch(getWeDamaDetl())
+        dispatch(getDiscAfternoonList())
+        dispatch(getAfternoonRoundList())
+        dispatch(getNoshifingList())
+        dispatch(getHighAntibiotic())
+        dispatch(getTotalInPateint())
+        dispatch(getDietPlanned())
+        dispatch(getDietPlanPending())
+
     }, [dispatch])
 
-
-
-    const newState = useSelector((state) => {
-        return state.getTotalcomplaints
+    const state = useSelector((state) => {
+        return {
+            WeAdmissionTotal: state.getTotalWeAdmission.WeTotalList || 0,
+            WeBhrcDetl: state.getWeBhrcDetl.WeBhrcList || 0,
+            WeDamaDetl: state.getDamaDetl.damaList || 0,
+            WedischrgeList: state.getDischargeList.DischargeList || 0,
+            AftternoonRounds: state.getAfternoonrounds.RoundsList || 0,
+            noshiftdetl: state.getwenoShiftdetl.noshiftdetlList || 0,
+            HighAntiBiotic: state.getHighAntibioticdetl.AntibioticList
+        }
     })
 
-    const data = Object.values(newState);
-    const entries = useMemo(() => data, [data]);
-    const newDashMenu = entries.filter(val => complaintRights.includes(val.slno) === true ? val.slno : null);
-    const notification = useMemo(() => newDashMenu, [newDashMenu]);
-    // wework dash board
-    // const admission = useSelector((state) => {
-    //     return state.getTotalAdmission
+    const Dashboard_we = {
+        74: { slno: 74, name: "Total Admission", count: state.WeAdmissionTotal.length },
+        75: { slno: 75, name: "DAMA patient", count: state.WeDamaDetl.length },
+        76: { slno: 76, name: "BHRC Patient", count: state.WeBhrcDetl.length },
+        77: { slno: 77, name: "No shifted Patient", count: state.noshiftdetl.length },
+        78: { slno: 78, name: "Discharge after 2 pm ", count: state.WedischrgeList.length },
+        79: { slno: 79, name: "Doctor Rounds after 2 pm", count: state.AftternoonRounds.length },
+        81: { slno: 81, name: "High Antibiotic", count: state.HighAntiBiotic.length }
+    }
 
+    const wewrkdata = Object.values(Dashboard_we);
+    const workentries = useMemo(() => wewrkdata, [wewrkdata])
+    const weworkDash = workentries.filter(val => complaintRights.includes(val.slno) === true ? val.slno : null);
+    const weworkmenu = useMemo(() => weworkDash, [weworkDash])
 
-    // })
+    const dietDatas = useSelector((state) => {
+        return {
+            inpatient: state.setTotalInPateint.InPateintList,
+            dietPlanned: state.setDietPlaned.plannedList,
+            dietPlanPending: state.setDietPlanPending.planPendingList
+        }
+    })
 
-    // useEffect(() => {
-    //     dispatch(getTotalAdmission())
-    // }, [dispatch])
+    const Dashboard_Diet = {
+        90: { slno: 90, name: "Total In-Pateint", count: dietDatas.inpatient.length },
+        91: { slno: 91, name: "Diet Planned", count: dietDatas.dietPlanned.length },
+        92: { slno: 92, name: "Diet Plan Pending", count: dietDatas.dietPlanPending.length },
 
-    // const wewrkdata = Object.values(admission);
-    // const workentries = useMemo(() => wewrkdata, [wewrkdata])
-    // const weworkDash = workentries.filter(val => complaintRights.includes(val.slno) === true ? val.slno : null);
-    // const weworkmenu = useMemo(() => weworkDash, [weworkDash])
+    }
 
+    const dietdata = Object.values(Dashboard_Diet);
+    const dietentries = useMemo(() => dietdata, [dietdata])
+    const DietDash = dietentries.filter(val => complaintRights.includes(val.slno) === true ? val.slno : null);
+    const dietmenus = useMemo(() => DietDash, [DietDash])
 
     return (
         <Fragment>
-            <Paper square sx={{ p: 1, width: '100%', display: "flex" }} elevation={3}>
-                <Grid
-                    container
-                    spacing={{ xs: 1, md: 1, md: 1, lg: 1.5, xl: 1.5 }}
-                    columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
-                    sx={{ width: '100%' }} >
+            <Box sx={{ width: "100%", p: 1 }}>
+                <Paper square elevation={2} sx={{ p: 1 }} >
                     {
-                        notification.map((val, index) => (
-                            <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={index}>
-                                <ComplaintDashboard widgetName={val.name} count={val.count} status={val.status} slno={val.slno} indx={index} />
-                            </Grid>
-                        ))
+                        complaintdash.map((val) => {
+                            return <Box key={val.men_slno} >
+                                {
+                                    val.men_slno === 67 ? < DashCompDept
+
+                                        profileData={profileData}
+                                    /> : val.men_slno === 68 ? <DashCompEmp
+                                        profileData={profileData}
+
+                                    /> :
+                                        val.men_slno === 69 ? <DashCompAll
+
+                                        /> : null
+                                }
+                            </Box>
+                        })
                     }
-                    {/* <Paper square sx={{ p: 1, width: '100%', display: "flex" }} elevation={3}> */}
-                    {/* {
-                        weworkmenu.map((val, index) => (
-                            <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={index}>
-                                <WeworkDashboard widgetName={val.name} count={val.count} status={val.status} slno={val.slno} indx={index} />
-                            </Grid>
-                        ))
-                    } */}
-
-                    {/* </Paper> */}
-
-
-                </Grid>
-            </Paper>
-        </Fragment>
+                    <Grid
+                        container
+                        spacing={{ xs: 1, sm: 1, md: 1, lg: 1.5, xl: 1.5 }}
+                        columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
+                        sx={{ width: '100%', pb: 1 }}>
+                        {
+                            weworkmenu.map((val, index) => (
+                                <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={index}>
+                                    <WeworkDashboard widgetName={val.name} count={val.count} status={val.status} slno={val.slno} indx={index} />
+                                </Grid>
+                            ))
+                        }
+                    </Grid>
+                    <Paper square elevation={2} sx={{ p: 1 }} >
+                        <Grid
+                            container
+                            spacing={{ xs: 1, sm: 1, md: 1, lg: 1.5, xl: 1.5 }}
+                            columns={{ xs: 1, sm: 8, md: 8, lg: 8, xl: 12 }}
+                            sx={{ width: '100%', }}>
+                            {
+                                dietmenus.map((val, index) => (
+                                    <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={index}>
+                                        <DietDashBoardCmp widgetName={val.name} count={val.count} status={val.status} slno={val.slno} indx={index} />
+                                    </Grid>
+                                ))
+                            }
+                        </Grid>
+                    </Paper>
+                </Paper>
+            </Box >
+        </Fragment >
     )
 }
 export default Home

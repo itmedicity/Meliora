@@ -82,12 +82,12 @@ const UserCreation = () => {
             mod_grp_user_slno } = data[0]
         const frmdata = {
             em_name: em_name,
-            em_no: em_no,
             em_mobile: em_mobile,
             em_email: em_email,
             mod_grp_user_slno: mod_grp_user_slno,
             em_status: em_status === 1 ? true : false
         }
+        setemno(em_no)
         setmodulegroup(mod_grp_slno)
         setUsergroup(user_group_slno)
         setUserdata(frmdata)
@@ -170,7 +170,6 @@ const UserCreation = () => {
         e.preventDefault();
         const formreset = {
             em_name: '',
-            em_no: '',
             em_mobile: '',
             em_email: '',
             em_status: false,
@@ -193,8 +192,11 @@ const UserCreation = () => {
                 setmodulegroup(0)
                 setUsergroup(0)
                 setCount(0)
-                setdob(new Date())
-                setdoj(new Date())
+                setValue(0)
+                setGender(0)
+                setemno(0)
+                setdob()
+                setdoj()
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -218,8 +220,11 @@ const UserCreation = () => {
                 setmodulegroup(0)
                 setUsergroup(0)
                 setCount(0)
-                setdob(new Date())
-                setdoj(new Date())
+                setValue(0)
+                setGender(0)
+                setemno(0)
+                setdob()
+                setdoj()
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -245,15 +250,22 @@ const UserCreation = () => {
             em_status: false,
             em_gender: 0
         }
-        setUserdata(formreset)
+        setUserdata(formreset);
         setemId(0)
         setSalut(0)
         setDept(0)
         setDeptsec(0)
         setBranch(0)
         setDesignation(0)
+        setmodulegroup(0)
+        setUsergroup(0)
         setCount(0)
-    }, [setUserdata])
+        setValue(0)
+        setGender(0)
+        setemno(0)
+        setdob()
+        setdoj()
+    }, [])
 
     //back to home
     const backtoSetting = useCallback(() => {

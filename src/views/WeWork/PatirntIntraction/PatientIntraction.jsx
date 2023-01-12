@@ -15,10 +15,10 @@ import { axioslogin } from '../../Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from '../../Common/CommonCode'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import PatientIntactionTable from './PatientIntactionTable'
+import CloseIcon from '@mui/icons-material/Close';
+const PatIntractionTable = React.lazy(() => import('../PatirntIntraction/PatientIntactionTable'))
 
-
-const PatientIntraction = ({ ipno }) => {
+const PatientIntraction = ({ ipno, setclosebtn }) => {
     const [parti, setparti] = useState('')
     const [status, setstatus] = useState('')
     const [Remarks, setremarks] = useState('')
@@ -158,10 +158,14 @@ const PatientIntraction = ({ ipno }) => {
         }
     }, [postData, patchdata, value, count])
 
+    const closeIcon = useCallback(() => {
+        setclosebtn(0)
+    }, [setclosebtn])
+
     return (
         <Paper square elevation={0} sx={{ dispaly: "flex", p: 2, }}>
             <Box sx={{ pb: 1 }}>
-                <Typography sx={{ fontStyle: "oblique", fontWeight: 800, color: '#94B7FC', textAlign: "center", fontSize: 20 }}>
+                <Typography sx={{ backgroundColor: "#f0f3f5", fontFamily: "Roboto", fontSize: 20, p: 1.5 }} >
                     Patient Intraction
                 </Typography>
             </Box>
@@ -250,11 +254,18 @@ const PatientIntraction = ({ ipno }) => {
                         </CusIconButton>
                     </Box>
                 </CustomeToolTip>
+                <CustomeToolTip title="close" placement="left" >
+                    <Box sx={{ p: 1 }}>
+                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closeIcon} >
+                            <CloseIcon fontSize='small' />
+                        </CusIconButton>
+                    </Box>
+                </CustomeToolTip>
 
             </Box>
 
             <Box sx={{ px: 2, py: 1 }}>
-                <PatientIntactionTable ipno={ipno} count={count} rowSelect={rowSelect} />
+                <PatIntractionTable ipno={ipno} count={count} rowSelect={rowSelect} />
             </Box>
         </Paper >
     )

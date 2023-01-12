@@ -6,7 +6,7 @@ import Select from "@mui/material/Select";
 import { useDispatch, useSelector } from 'react-redux';
 import { getItem } from 'src/redux/actions/ItemMaster.action'
 
-const SelectItemName = ({ value, setValue, setName }) => {
+const SelectItemName = ({ value, setValue, setName, group }) => {
     const dispatch = useDispatch();
     /**getItem -state update function of reducer 
 *   itemList- initial state of reducer function
@@ -16,8 +16,9 @@ const SelectItemName = ({ value, setValue, setName }) => {
         return state.getItem.itemList || 0
     })
     useEffect(() => {
-        dispatch(getItem());
-    }, [dispatch])
+
+        dispatch(getItem(group));
+    }, [dispatch, group])
     return (
         <Box  >
             <FormControl fullWidth size="small"  >

@@ -50,7 +50,6 @@ const DietExtraOrder = React.lazy(() => import('./views/Diet/DietExtraOrder/Extr
 const DietDelivery = React.lazy(() => import('./views/Diet/DietDeliveryMark'))
 const RectifyComplaint = React.lazy(() => import('./views/ComManagement/RectifyComplaint/RectifyCompalint'))
 const WeWorkInpatient = React.lazy(() => import('./views/WeWork/InPatientList'))
-const WeWorkForm = React.lazy(() => import('./views/WeWork/WeWorkForm'))
 const Reports = React.lazy(() => import('./Menus/Reports'))
 const DietReport = React.lazy(() => import('./views/Report/DietReport/DietTypeWise'))
 const NusrseStationReport = React.lazy(() => import('./views/Report/DietReport/NurseStationWise'))
@@ -58,6 +57,15 @@ const PatientReport = React.lazy(() => import('./views/Report/DietReport/Patient
 const DirectComplaintReg = React.lazy(() => import('./views/ComManagement/DirectCmRegister/DirectComplaintReg'))
 const MonthlyReport = React.lazy(() => import('./views/Report/DietReport/MonthlyReport'))
 const TotalAdmisson = React.lazy(() => import('./views/WeWork/WeworkTaotalAdmission/TotalAdmisson'))
+const DamaCount = React.lazy(() => import('./views/WeWork/Damacount/DamaCount'))
+const BhrcCount = React.lazy(() => import('./views/WeWork/BhrcList/BhrcCount'))
+const RoundsAfternoonList = React.lazy(() => import('./views/WeWork/RoundsAfterNoon/RoundsAfternoonList'))
+const DischargeList = React.lazy(() => import('./views/WeWork/DischrgeafternoonList/DischargeList'))
+const HighAntibiotic = React.lazy(() => import('./views/Master/WEWorkMaster/HighAntibiotic/HighAntibioMast'))
+const PatSurvillenceView = React.lazy(() => import('./views/WeWork/Patienntsurvillence/PatSurvillenceView'))
+const NoshiftReport = React.lazy(() => import('./views/Report/WeworkReport/NoshiftReport'))
+const HighAntiBioticReport = React.lazy(() => import('./views/Report/WeworkReport/HighAntiBioticReport'))
+const EmpNsWiseMaping = React.lazy(() => import('./views/Master/WEWorkMaster/EmpNSWiseMapp/NSWiseMAppingMast'))
 const ExtraOrderView = React.lazy(() => import('./views/Diet/DietExtraOrder/ExtraOrderView'))
 const EscalationTime = React.lazy(() => import('./views/Master/EscalationTimeMast/EscalationTimeMast'))
 const EscalationLevel1 = React.lazy(() => import('./views/TimeEscalation/Level1Escalation/Level1escalation'))
@@ -66,6 +74,20 @@ const EscalationLevel3 = React.lazy(() => import('./views/TimeEscalation/Level3E
 const EscalationLevel4 = React.lazy(() => import('./views/TimeEscalation/Level4Escalation/Level4escalation'))
 const TopLevelED = React.lazy(() => import('./views/TimeEscalation/TopLevelEscalationED/TopelevelED'))
 const EscalationMapping = React.lazy(() => import('./views/Master/EscalationMapping/EscalationMapping'))
+const PendingOnholdList = React.lazy(() => import('./views/ComManagement/PendingOnhold/PendingOnHoldList'))
+const TotalDeptWiseList = React.lazy(() => import('./views/dashboard/ComplaintDashViews/ComDashDeptAllTable'))
+const PendingDeptWiseList = React.lazy(() => import('./views/dashboard/ComplaintDashViews/PendingAssignDept'))
+const AssignDeptWiseList = React.lazy(() => import('./views/dashboard/ComplaintDashViews/AssignComDept'))
+const VerifyDeptWiseList = React.lazy(() => import('./views/dashboard/ComplaintDashViews/VeriftComDept'))
+const OnHoldPendingDeptWiseList = React.lazy(() => import('./views/dashboard/ComplaintDashViews/OnPendingComDept'))
+const AssignEmpWiseList = React.lazy(() => import('./views/dashboard/ComplaintDashViews/AssignComEmp'))
+const VerifyEmpWiseList = React.lazy(() => import('./views/dashboard/ComplaintDashViews/RectifyComEmp'))
+const OnHoldPendingEmpWiseList = React.lazy(() => import('./views/dashboard/ComplaintDashViews/PendingOnholdEmp'))
+const InPatientList = React.lazy(() => import('./views/dashboard/DietDashViews/TotalInpatientList'))
+const DietPlannedList = React.lazy(() => import('./views/dashboard/DietDashViews/DietPalnnedList'))
+const DietPlanPending = React.lazy(() => import('./views/dashboard/DietDashViews/DietPlanPendingList'))
+
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/Home', exact: true, name: 'Home', component: Home },
@@ -118,7 +140,6 @@ const routes = [
   { path: '/Home/DietDelivery', exact: true, name: ' Diet Delivery', component: DietDelivery },
   { path: '/Home/RectifyComplaint', exact: true, name: 'Rectify Complaint', component: RectifyComplaint },
   { path: '/Home/WeWork/InpatientList', exact: true, name: 'WeWork Inpatient', component: WeWorkInpatient },
-  { path: '/Home/WeWork/WeWorkForm', exact: true, name: 'WeWork Form', component: WeWorkForm },
   { path: '/Home/Reports', exact: true, name: 'Reports', component: Reports },
   { path: '/Home/Report/Diet', exact: true, name: 'Diet Report', component: DietReport },
   { path: '/Home/Report/NurseStation', exact: true, name: 'Nuse Station Wise Report', component: NusrseStationReport },
@@ -133,7 +154,29 @@ const routes = [
   { path: '/Home/EscalationLevel3', exact: true, name: 'EscalationLevel3', component: EscalationLevel3 },
   { path: '/Home/EscalationLevel4', exact: true, name: 'EscalationLevel4', component: EscalationLevel4 },
   { path: '/Home/TopLevelED', exact: true, name: 'TopLevelED', component: TopLevelED },
-  { path: '/Home/EscalationMapping', exact: true, name: 'EscalationMapping', component: EscalationMapping }
+  { path: '/Home/EscalationMapping', exact: true, name: 'EscalationMapping', component: EscalationMapping },
+  { path: '/Home/PendingOnholdComplaint', exact: true, name: 'Pending Onhold List', component: PendingOnholdList },
+  { path: '/Home/TotalDeptWiseList', exact: true, name: 'Total Comp Dept Wise List', component: TotalDeptWiseList },
+  { path: '/Home/PendingDeptWiseList', exact: true, name: 'Pending For Assign Comp Dept Wise List', component: PendingDeptWiseList },
+  { path: '/Home/AssignDeptWiseList', exact: true, name: 'Assign Comp Dept Wise List', component: AssignDeptWiseList },
+  { path: '/Home/VerifyDeptWiseList', exact: true, name: 'Verify Comp Dept Wise List', component: VerifyDeptWiseList },
+  { path: '/Home/OnHoldPendingDeptWiseList', exact: true, name: 'Onhold Comp Dept Wise List', component: OnHoldPendingDeptWiseList },
+  { path: '/Home/AssignEmpWiseList', exact: true, name: 'Assign Comp Emp Wise List', component: AssignEmpWiseList },
+  { path: '/Home/VerifyEmpWiseList', exact: true, name: 'verify Comp Emp Wise List', component: VerifyEmpWiseList },
+  { path: '/Home/OnHoldPendingEmpWiseList', exact: true, name: 'Onhold Comp Emp Wise List', component: OnHoldPendingEmpWiseList },
+  { path: '/Home/damaList', exact: true, name: "Dama count", component: DamaCount },
+  { path: '/Home/BhrcList', exact: true, name: "Bhrc List", component: BhrcCount },
+  { path: '/Home/roundsAfternoon', exact: true, name: "Rounds Afternoon", component: RoundsAfternoonList },
+  { path: "/Home/disafternoonList", exact: true, name: 'Discharge Afternoon', component: DischargeList },
+  { path: "/Home/HighAntibiotic", exact: true, name: 'High Antibiotic', component: HighAntibiotic },
+  { path: "/Home/SurvillenceView", exact: true, name: 'Survillence view', component: PatSurvillenceView },
+  { path: "/Home/noshift", exact: true, name: "No shift", component: NoshiftReport },
+  { path: '/Home/highbioticReport', exact: true, name: "HighAntiBiotic Report", component: HighAntiBioticReport },
+  { path: "/Home/WeEmpMap", exact: true, name: "Employee-Ns Wise Mapping", component: EmpNsWiseMaping },
+  { path: '/Home/ExtraOrderView', exact: true, name: 'Total Admission', component: ExtraOrderView },
+  { path: "/Home/DashBoard/InPatientList", exact: true, name: "InPatientList View", component: InPatientList },
+  { path: '/Home/DietPlannedList', exact: true, name: 'DietPlannedList View', component: DietPlannedList },
+  { path: '/Home/DietPlanPending', exact: true, name: 'DietPlanPending View', component: DietPlanPending }
 ]
 
 export default routes

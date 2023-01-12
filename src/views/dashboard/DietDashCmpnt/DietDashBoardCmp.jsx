@@ -1,31 +1,34 @@
 import { Box } from '@mui/joy'
-import { Paper, CircularProgress } from '@mui/material'
+import { Paper } from '@mui/material'
 import React, { memo } from 'react'
 import { CssVarsProvider } from '@mui/joy';
 import Typography from '@mui/joy/Typography';
 import IconButton from '@mui/joy/IconButton';
 import { useHistory } from 'react-router-dom';
 
-const ComplaintDashboard = ({ widgetName, count, status, slno, indx }) => {
+const DietDashBoardCmp = ({ widgetName, count, slno }) => {
+
     const history = useHistory();
-    const TotalComplaints = () => {
-        history.push('/Home/AssignComplaint')
+
+    const TotalInpatient = () => {
+        history.push('/Home/DashBoard/InPatientList')
     }
-    const PendingComplaints = () => {
-        history.push('/Home/AssignComplaint')
+
+    const DietPlanned = () => {
+        history.push('/Home/DietPlannedList')
     }
-    const AssignedComplaints = () => {
-        history.push('/Home/AssignComplaint')
+    const DietPending = () => {
+        history.push('/Home/DietPlanPending')
     }
-    const RectifiedComplaints = () => {
-        history.push('/Home/RectifyComplaint')
+
+    const DashBoardClick = () => {
+        return slno === 90 && TotalInpatient ||
+            slno === 91 && DietPlanned ||
+            slno === 92 && DietPending
+
+
     }
-    const DashboardClick = (slno) => {
-        return slno === 67 && TotalComplaints ||
-            slno === 68 && PendingComplaints ||
-            slno === 69 && AssignedComplaints ||
-            slno === 70 && RectifiedComplaints
-    }
+
     return (
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
             <Paper elevation={3} sx={{
@@ -44,9 +47,10 @@ const ComplaintDashboard = ({ widgetName, count, status, slno, indx }) => {
                             variant="outlined"
                             size='lg'
                             color="primary"
-                            onClick={DashboardClick(slno)}
+                            onClick={DashBoardClick(slno)}
                         >
-                            {status === true ? <CircularProgress sx={{ color: 'pink' }} /> : count}
+                            {count}
+                            {/* {status === true ? <CircularProgress sx={{ color: 'pink' }} /> : count} */}
                         </IconButton>
                     </CssVarsProvider>
                 </Box>
@@ -73,4 +77,5 @@ const ComplaintDashboard = ({ widgetName, count, status, slno, indx }) => {
         </Box>
     )
 }
-export default memo(ComplaintDashboard)
+
+export default memo(DietDashBoardCmp)

@@ -16,7 +16,7 @@ import { format } from 'date-fns'
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
-const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCount }) => {
+const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCount, id }) => {
     //props data for modal
     const { complaint_slno, complaint_desc, sec_name, req_type_name, complaint_type_name } = complaint[0]
     //state for employee select box
@@ -51,7 +51,9 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
             complaint_remark: remark,
             complaint_slno: complaint_slno,
             assigned_emp: val,
-            assigned_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
+            assigned_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+            assign_rect_status: 0,
+            assigned_user: id
         }
     })
     //data set for complaint remark

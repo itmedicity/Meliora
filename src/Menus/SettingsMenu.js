@@ -79,6 +79,17 @@ export const dm_setting_three = [
     { to: '/Home/DietMenuSetting', name: 'Diet Menu Setting', slno: 55 }
 ]
 
+//We  Work Menu
+export const we_setting_one = [
+    { to: '/Home/HighAntibiotic', name: 'Hight Antibiotic ', slno: 80 },
+
+]
+export const we_setting_two = [
+    { to: '/Home/WeEmpMap', name: 'Emp-Ns Wise Mapping ', slno: 83 },
+
+]
+
+
 //User Management Menu
 
 export const userManagement_one = [

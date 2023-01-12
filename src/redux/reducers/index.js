@@ -37,7 +37,7 @@ import { getDepartemployee } from './Departwiseemployee.Reducer'
 import { getAssistantemployee } from './AssistantEmp.Reducer'
 import { changeStateAggrid } from '../reducers/StatechangeAgGrid';
 import { getAsignedstaffnurse } from '../reducers/Asignrdstaff.reducer';
-import { getTotalcomplaints } from '../reducers/ComplaintDashboard.Reducer';
+import { getComplaintList, setPendingOnholEmpWise, getOnholdList, setAssitRectEmpWise } from '../reducers/ComplaintDashboard.Reducer';
 import { getComplaintLists } from '../reducers/ComplaintLists.Reducer'
 import { getAssignedComplaintLists } from '../reducers/AssignedcmLists.Reducer'
 import { getAssistComplaintLists } from '../reducers/AssistcmLists.Reducer'
@@ -45,6 +45,16 @@ import { getAllComplaintLists } from '../reducers/AllcomplaintsLists.Reducer'
 import { getComplaintRights } from '../reducers/CmpRightsDashboard.Reducer'
 import { getDepartSecemployee } from '../reducers/EmpNameDeptSec.Reducer'
 import { getTotalAdmission } from '../reducers/WeworkAdmission.Reducer'
+import { getTotalWeAdmission } from '../reducers/WeWrkTotAdmission.Reducer'
+import { getWeBhrcDetl } from '../reducers/WeBhrcDetl.reducer'
+import { getDamaDetl } from '../reducers/WeDamaDetl.reducer'
+import { getDischargeList } from '../reducers/WeDiscAfternoonList.reducer'
+import { getAfternoonrounds } from '../reducers/WeRoundsAfternoon.reducer'
+import { getwenoShiftdetl } from '../reducers/WeOnesheetDetl.reducers'
+import { getHighAntibioticdetl } from '../reducers/HighBiotic.Reducer'
+import { getWeBhrcAdmitdetl } from '../reducers/WebhrcAdmitList.Reducer'
+import { getFloorselect } from '../reducers/FloorSelect.Reducer'
+import { getnursewisefloor } from '../reducers/NurseWiseFloor.reducer'
 import { setExtraOrderList } from '../reducers/DietExtraOrder.Reducer'
 import { getEscalation } from '../reducers/Level1Escalation.reducer'
 import { getEscalationMaster } from '../reducers/EscalationMaster.Reducer'
@@ -63,6 +73,14 @@ import { getEscalationMappingLvl3It } from '../reducers/EscalationMappingLvl3It.
 import { getEscalationMappingLvl3Main } from '../reducers/EscalationLvl3Main.Reducer'
 import { getEscalationMappingLvl4It } from '../reducers/EscalationMappingLvl4It.Reducer'
 import { getEscalationMappingLvl4Main } from '../reducers/EscalationMappingLvl4Main.Reducer'
+import { setComplaintListAll, setPendOnholdCompListAll } from '../reducers/ComplaintDashAllDept.Reducer'
+import { setCompListAllForMenu } from '../reducers/CompalintListAll.Reducer'
+import { setItemExtra } from '../reducers/ItemMasterExtra.Reducer'
+import { setTotalInPateint } from '../reducers/TotalInPateintList.Reducer'
+import { setDietPlaned } from '../reducers/DietPlannedList.Reducer'
+import { setDietPlanPending } from '../reducers/DietPlanPending.Reducer'
+import { getBhrctotalPatient } from '../reducers/BhrcTotalPatient.Reducer'
+import { getEmpfloor } from '../reducers/EmpWiseFloor.reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -103,7 +121,6 @@ const reducer = combineReducers({
     getAssistantemployee,
     changeStateAggrid,
     getAsignedstaffnurse,
-    getTotalcomplaints,
     getComplaintLists,
     getAssignedComplaintLists,
     getAssistComplaintLists,
@@ -128,6 +145,30 @@ const reducer = combineReducers({
     getEscalationMappingLvl3It,
     getEscalationMappingLvl3Main,
     getEscalationMappingLvl4It,
-    getEscalationMappingLvl4Main
+    getEscalationMappingLvl4Main,
+    getComplaintList,
+    getOnholdList,
+    setAssitRectEmpWise,
+    setPendingOnholEmpWise,
+    setComplaintListAll,
+    setPendOnholdCompListAll,
+    setCompListAllForMenu,
+    getTotalWeAdmission,
+    getWeBhrcDetl,
+    getDamaDetl,
+    getDischargeList,
+    getAfternoonrounds,
+    getwenoShiftdetl,
+    getHighAntibioticdetl,
+    getWeBhrcAdmitdetl,
+    getFloorselect,
+    getnursewisefloor,
+    setItemExtra,
+    setDietPlaned,
+    setTotalInPateint,
+    setDietPlanPending,
+    getBhrctotalPatient,
+    getEmpfloor
+
 })
 export default reducer;

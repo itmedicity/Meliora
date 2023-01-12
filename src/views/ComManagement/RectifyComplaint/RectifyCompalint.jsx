@@ -1,7 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
-import { useCallback } from 'react'
+import { useState, useCallback, useEffect, Fragment } from 'react'
 import { editicon } from 'src/color/Color'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -9,7 +7,6 @@ import CardMaster from 'src/views/Components/CardMaster'
 import ComplistAgGridcmp from 'src/views/Components/ComplistAgGridcmp'
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import { IconButton } from '@mui/material';
-import { Fragment } from 'react'
 import Rectifymodel from './Rectifymodel'
 import { useSelector } from 'react-redux'
 import { Box } from '@mui/system'
@@ -61,7 +58,7 @@ const RectifyCompalint = () => {
     //data setting in table
     const [column] = useState([
         {
-            headerName: 'Rectify', minWidth: 120,
+            headerName: 'Rectify', minWidth: 50,
             cellRenderer: params => {
                 if (params.data.compalint_status === 2 || params.data.compalint_status === 3) {
                     return <IconButton disabled
@@ -81,27 +78,42 @@ const RectifyCompalint = () => {
             }
         },
         {
-            headerName: "SlNo",
-
-            field: "complaint_slno"
+            headerName: "SlNo", field: "complaint_slno", width: 120
         },
         { headerName: "Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 350 },
         { headerName: "Department", field: "sec_name", autoHeight: true, wrapText: true, width: 280 },
-        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, width: 280 },
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, width: 280 },
-        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true, width: 280 },
         { headerName: "Assign emp", field: "em_name", autoHeight: true, wrapText: true, width: 280 },
         { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
         { headerName: "complaint status", field: "compalint_status1", autoHeight: true, wrapText: true, width: 300 },
-        { headerName: "Req.Date", field: "assigned_date", autoHeight: true, wrapText: true, width: 300 },
+        { headerName: "Req.Date", field: "assigned_date", autoHeight: true, wrapText: true, width: 180 },
         { headerName: "Rectified Status", field: "cm_rectify_status1", autoHeight: true, wrapText: true, width: 290 },
         { headerName: "Reason", field: "rectify_pending_hold_remarks1", autoHeight: true, wrapText: true, width: 280 },
 
 
     ])
+
+    const [empName, setempname] = useState([])
+
     //rectify complaint  click function on click model open and pass data
     const Rectifycomplaintdept = useCallback((params) => {
         const data = params.api.getSelectedRows()
+
+
+        const { complaint_slno } = data[0]
+        const getEmployeees = async () => {
+            const result = await axioslogin.get(`Rectifycomplit/getAssignEmps/${complaint_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setempname(data)
+            }
+            else {
+                setempname([])
+            }
+        }
+        getEmployeees();
+
+
         setdeatial(data)
         setmdopen(1)
         setOpen(true)
@@ -116,7 +128,7 @@ const RectifyCompalint = () => {
         }
         else {
             const arrys = getdata && getdata.filter((val) => {
-                return val.compalint_status !== 2 ? val : null
+                return val.compalint_status === 1 ? val : null
             })
             setTabledata(arrys)
         }
@@ -139,7 +151,7 @@ const RectifyCompalint = () => {
     }, [count, id])
     //close function
     const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
+        history.push('/Home')
     }, [history])
 
 
@@ -147,7 +159,8 @@ const RectifyCompalint = () => {
     return (
         <Fragment >
             {mdopen !== 0 ? <Rectifymodel open={open} detail={detail}
-                setCount={setCount} count={count} setOpen={setOpen} /> : null}
+                setCount={setCount} count={count} setOpen={setOpen}
+                empName={empName} /> : null}
             <CardMaster
                 close={backtoSetting}
                 title="Rectify complaint"

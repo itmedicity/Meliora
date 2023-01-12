@@ -1,66 +1,41 @@
-import { Paper } from '@mui/material'
-import React, { Fragment, useCallback, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
-import CardCloseOnly from 'src/views/Components/CardCloseOnly'
-import CusAgGridMast from 'src/views/Components/CusAgGridMast'
+import React, { Fragment, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { getTotalWeworkAdmission } from 'src/redux/actions/WeWrkTotAdmision.action'
+import { useDispatch } from 'react-redux'
+import CusReportDownloadClose from 'src/views/Components/CusReportDownloadClose'
+
 
 
 const TotalAdmisson = () => {
-    const [tableData, setTabledata] = useState([])
-    const history = useHistory()
+    const dispatch = useDispatch()
+    const TotalWeAdmission = useSelector((state) => {
+        return state.getTotalWeAdmission.WeTotalList || 0
+    })
 
-
-
+    useEffect(() => {
+        dispatch(getTotalWeworkAdmission())
+    }, [dispatch])
 
     const [column] = useState([
 
         { headerName: "MRDno", field: "pt_no" },
         { headerName: "Ad.Date", field: "ipd_date" },
-        { headerName: "AdNo", field: "ip_no" },
-        { headerName: "Name", field: "ptc_ptname" },
-        { headerName: "Nursing station", field: "nsc_desc" },
+        { headerName: "AdNo", field: "ip_no", filter: true },
+        { headerName: "Name", field: "ptc_ptname", filter: true },
+        { headerName: "Nursing station", field: "nsc_desc", filter: true },
         { headerName: "Bed no.", field: "bdc_no" },
-        { headerName: "mobile", field: "ptc_mobile" },
+        { headerName: "mobile", field: "ptc_mobile", filter: true },
         { headerName: "Room", field: "rcc_desc" },
     ])
-    useEffect(() => {
-        const gettotaladmision = async () => {
-            const result = await axioslogin.get(`/WeWork/total/admission`)
-            const { success, data, message } = result.data
-            if (success === 1) {
-                setTabledata(data)
 
-            } else if (success === 2) {
-                setTabledata([])
-                infoNotify(message)
-            }
-            else {
-                warningNotify("Error occured contact EDP")
-            }
-
-        }
-        gettotaladmision();
-    }, [])
-
-
-
-    const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
-    }, [history])
     return (
         <Fragment>
-            <CardCloseOnly
-                title="Total Complaint"
-                close={backtoSetting}
-            >
-                <Paper sx={{ p: 2 }}>
-                    <CusAgGridMast
-                        columnDefs={column}
-                        tableData={tableData} />
-                </Paper>
-            </CardCloseOnly>
+            <CusReportDownloadClose
+                title={"Total Admission"}
+                columnDefs={column}
+                tableData={TotalWeAdmission}
+                sx={{ width: "100%", height: 800 }} />
+
         </Fragment>
     )
 }
