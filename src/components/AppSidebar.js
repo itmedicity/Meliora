@@ -16,6 +16,7 @@ import DietTransactions from '../Menus/DietTransactions'
 import RmTransactions from '../Menus/RmTransaction'
 import NurseStation from '../Menus/NurseStation'
 import WeWorkTransact from '../Menus/WeWorkTransact'
+import TimeEscalations from '../Menus/EscalationUtility'
 import { Box, Typography } from '@mui/material'
 
 const AppSidebar = () => {
@@ -27,6 +28,7 @@ const AppSidebar = () => {
   const [diettransact, setDietTransact] = useState()
   const [rmtransact, setRmTransact] = useState()
   const [weworktransact, setweworktransact] = useState()
+  const [escalation, setescalation] = useState()
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
 
@@ -76,10 +78,16 @@ const AppSidebar = () => {
     },
     //We  Work Menu Start from Here
     {
-      slno: 7,
+      slno: 6,
       component: CNavGroup,
       name: 'We Work',
       items: weworktransact
+    },
+    {
+      slno: 15,
+      component: CNavGroup,
+      name: 'Escalation',
+      items: escalation
     },
   ]
 
@@ -103,6 +111,8 @@ const AppSidebar = () => {
         setRmTransact(newRmTransaction)
         const weworkTransact = WeWorkTransact.filter(val => menuSlnoAry.includes(val.men_slno));
         setweworktransact(weworkTransact)
+        const escalationTransact = TimeEscalations.filter(val => menuSlnoAry.includes(val.men_slno));
+        setescalation(escalationTransact)
         setCount(1)
       }
     })

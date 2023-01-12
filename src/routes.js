@@ -59,7 +59,13 @@ const DirectComplaintReg = React.lazy(() => import('./views/ComManagement/Direct
 const MonthlyReport = React.lazy(() => import('./views/Report/DietReport/MonthlyReport'))
 const TotalAdmisson = React.lazy(() => import('./views/WeWork/WeworkTaotalAdmission/TotalAdmisson'))
 const ExtraOrderView = React.lazy(() => import('./views/Diet/DietExtraOrder/ExtraOrderView'))
-
+const EscalationTime = React.lazy(() => import('./views/Master/EscalationTimeMast/EscalationTimeMast'))
+const EscalationLevel1 = React.lazy(() => import('./views/TimeEscalation/Level1Escalation/Level1escalation'))
+const EscalationLevel2 = React.lazy(() => import('./views/TimeEscalation/Level2Escalation/Level2escalation'))
+const EscalationLevel3 = React.lazy(() => import('./views/TimeEscalation/Level3Escalation/Level3escalation'))
+const EscalationLevel4 = React.lazy(() => import('./views/TimeEscalation/Level4Escalation/Level4escalation'))
+const TopLevelED = React.lazy(() => import('./views/TimeEscalation/TopLevelEscalationED/TopelevelED'))
+const EscalationMapping = React.lazy(() => import('./views/Master/EscalationMapping/EscalationMapping'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/Home', exact: true, name: 'Home', component: Home },
@@ -120,8 +126,14 @@ const routes = [
   { path: '/Home/DirectComplaint', exact: true, name: 'Direct Complaint Register', component: DirectComplaintReg },
   { path: '/Home/Report/Monthly', exact: true, name: 'Monthly Report', component: MonthlyReport },
   { path: '/Home/totaladmission', exact: true, name: 'Total Admission', component: TotalAdmisson },
-  { path: '/Home/ExtraOrderView', exact: true, name: 'Total Admission', component: ExtraOrderView }
-
+  { path: '/Home/ExtraOrderView', exact: true, name: 'Total Admission', component: ExtraOrderView },
+  { path: '/Home/EscalationTime', exact: true, name: 'Escalation Time', component: EscalationTime },
+  { path: '/Home/EscalationLevel1', exact: true, name: 'EscalationLevel1', component: EscalationLevel1 },
+  { path: '/Home/EscalationLevel2', exact: true, name: 'EscalationLevel2', component: EscalationLevel2 },
+  { path: '/Home/EscalationLevel3', exact: true, name: 'EscalationLevel3', component: EscalationLevel3 },
+  { path: '/Home/EscalationLevel4', exact: true, name: 'EscalationLevel4', component: EscalationLevel4 },
+  { path: '/Home/TopLevelED', exact: true, name: 'TopLevelED', component: TopLevelED },
+  { path: '/Home/EscalationMapping', exact: true, name: 'EscalationMapping', component: EscalationMapping }
 ]
 
 export default routes
