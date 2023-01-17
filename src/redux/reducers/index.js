@@ -64,7 +64,7 @@ import { setDietPlaned } from '../reducers/DietPlannedList.Reducer'
 import { setDietPlanPending } from '../reducers/DietPlanPending.Reducer'
 import { getBhrctotalPatient } from '../reducers/BhrcTotalPatient.Reducer'
 import { getEmpfloor } from '../reducers/EmpWiseFloor.reducer'
-
+import { setRequestListByDeptSec } from '../reducers/ReqRegisterListByDept.Reducer'
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -134,7 +134,8 @@ const reducer = combineReducers({
     setTotalInPateint,
     setDietPlanPending,
     getBhrctotalPatient,
-    getEmpfloor
+    getEmpfloor,
+    setRequestListByDeptSec
 
 })
 export default reducer;

@@ -20,7 +20,7 @@ const LocationSelect = ({ value, setValue }) => {
         dispatch(getDeptsection());
     }, [dispatch])
     return (
-        <Box sx={{ mt: 1 }} >
+        <Box  >
             <FormControl fullWidth size="small"  >
                 <Select
                     labelId="demo-simple-select-label"

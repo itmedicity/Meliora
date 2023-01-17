@@ -7,7 +7,7 @@ import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect'
 import BranchSelectHr from 'src/views/CommonSelectCode/BranchSelectHr'
 import DesignationSelect from 'src/views/CommonSelectCode/DesignationSelect'
 import SalutationSelect from 'src/views/CommonSelectCode/SalutationSelect'
-import { getempid } from 'src/views/Constant/Constant'
+import { getempid, getEmpSlno } from 'src/views/Constant/Constant'
 import DeptSecUnderDept from 'src/views/CommonSelectCode/DeptSecUnderDept'
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -53,11 +53,17 @@ const UserCreation = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setUserdata({ ...userdata, [e.target.name]: value })
     }, [userdata])
+    const [mastdetl, setDetlSlno] = useState(0)
     useEffect(() => {
         getempid().then((val) => {
             const empid = val
             setemId(empid)
             setemno(empid.toString())
+        })
+        getEmpSlno().then((value) => {
+            const empdetlSlno = value
+            setDetlSlno(empdetlSlno)
+
         })
     }, [count])
 
@@ -79,7 +85,7 @@ const UserCreation = () => {
         const data = params.api.getSelectedRows();
         const { em_id, em_no, em_name, em_salutation, em_gender, em_dob, em_doj, em_mobile, em_email, em_branch,
             em_department, em_dept_section, em_designation, em_status, mod_grp_slno, user_group_slno,
-            mod_grp_user_slno } = data[0]
+            mod_grp_user_slno, empdtl_slno } = data[0]
         const frmdata = {
             em_name: em_name,
             em_mobile: em_mobile,
@@ -92,6 +98,7 @@ const UserCreation = () => {
         setUsergroup(user_group_slno)
         setUserdata(frmdata)
         setemId(em_id)
+        setDetlSlno(empdtl_slno)
         setSalut(em_salutation)
         setGender(em_gender)
         setDept(em_department)
@@ -125,19 +132,22 @@ const UserCreation = () => {
             mod_grp_slno: modulegroup,
             user_group_slno: usergroup,
             mod_grp_user_status: em_status === true ? 1 : 0,
-            emp_slno: em_id,
+            empdtl_slno: mastdetl,
             dept_slno: dept,
             deptsec_slno: deptsec,
             emp_status: em_status === true ? 1 : 0,
-            create_user: id
+            create_user: id,
+            emp_slno: em_id
         }
-    }, [em_id, em_no, salut, em_name, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
+    }, [em_id, em_no, mastdetl, salut, em_name, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
+
 
     //Update data
     const patchdata = useMemo(() => {
         return {
             em_id: em_id,
             em_no: em_no,
+            emp_slno: em_id,
             emp_no: em_no,
             em_salutation: salut,
             em_name: em_name,
@@ -158,13 +168,13 @@ const UserCreation = () => {
             mod_grp_slno: modulegroup,
             user_group_slno: usergroup,
             mod_grp_user_status: em_status === true ? 1 : 0,
-            emp_slno: em_id,
+            empdtl_slno: mastdetl,
             dept_slno: dept,
             deptsec_slno: deptsec,
             mod_grp_user_slno: mod_grp_user_slno,
             edit_user: id
         }
-    }, [em_id, em_no, salut, em_name, mod_grp_user_slno, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
+    }, [em_id, em_no, mastdetl, salut, em_name, mod_grp_user_slno, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
 
     const submitUserCreation = useCallback((e) => {
         e.preventDefault();
@@ -197,6 +207,7 @@ const UserCreation = () => {
                 setemno(0)
                 setdob()
                 setdoj()
+                setDetlSlno(0)
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -225,6 +236,7 @@ const UserCreation = () => {
                 setemno(0)
                 setdob()
                 setdoj()
+                setDetlSlno(0)
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -265,6 +277,7 @@ const UserCreation = () => {
         setemno(0)
         setdob()
         setdoj()
+        setDetlSlno(0)
     }, [])
 
     //back to home

@@ -8,7 +8,7 @@ const CustomPaperTitle = ({ heading }) => {
             <Box >
                 <Box sx={{ flex: 1 }} >
                     <CssVarsProvider>
-                        <Typography textColor="neutral.400" sx={{ display: 'flex', p: 0.5 }} >
+                        <Typography textColor="neutral.400" sx={{ display: 'flex', p: 0, px: 1 }} >
                             {heading}
                         </Typography>
                     </CssVarsProvider>

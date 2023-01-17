@@ -7,7 +7,7 @@ import 'simplebar/dist/simplebar.min.css'
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { getMenuSlno } from 'src/views/Constant/Constant'
 import CmTransactions from '../Menus/CmTransactions'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { CNavGroup, CNavItem } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilHouse } from '@coreui/icons'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -16,6 +16,7 @@ import DietTransactions from '../Menus/DietTransactions'
 import RmTransactions from '../Menus/RmTransaction'
 import NurseStation from '../Menus/NurseStation'
 import WeWorkTransact from '../Menus/WeWorkTransact'
+import CrmTransactions from '../Menus/CrmTransactions'
 import { Box, Typography } from '@mui/material'
 
 const AppSidebar = () => {
@@ -24,6 +25,7 @@ const AppSidebar = () => {
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
   const [nurseStation, setNurseStation] = useState()
   const [cmtransact, setCmTransact] = useState()
+  const [crmtransact, setCrmTransact] = useState()
   const [diettransact, setDietTransact] = useState()
   const [rmtransact, setRmTransact] = useState()
   const [weworktransact, setweworktransact] = useState()
@@ -57,8 +59,9 @@ const AppSidebar = () => {
     //Request Management System Menu Start from Here
     {
       slno: 3,
-      component: CNavTitle,
+      component: CNavGroup,
       name: 'Central Request management',
+      items: crmtransact
     },
     //Room Management System Menu Start from Here
     {
@@ -97,6 +100,8 @@ const AppSidebar = () => {
         setNurseStation(newNurseStation)
         const newCmTransaction = CmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setCmTransact(newCmTransaction)
+        const newCrmTransaction = CrmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        setCrmTransact(newCrmTransaction)
         const newDietTransaction = DietTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setDietTransact(newDietTransaction)
         const newRmTransaction = RmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
