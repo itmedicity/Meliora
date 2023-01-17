@@ -162,7 +162,7 @@ const UserCreation = () => {
             em_designation: designation,
             em_status: em_status === true ? 1 : 0,
             emp_username: em_no,
-            emp_password: em_no,
+            emp_password: em_no.toString(),
             emp_email: em_email,
             emp_status: em_status === true ? 1 : 0,
             mod_grp_slno: modulegroup,
