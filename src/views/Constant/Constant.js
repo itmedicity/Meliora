@@ -47,3 +47,13 @@ export const getDepartmentsectionId = async () => {
     }
 }
 
+//get employee user, password slno
+export const getEmpSlno = async () => {
+    const result = await axioslogin.get('/common/getEmpSlno')
+    const { success } = result.data;
+    if (success === 1) {
+        const [serial_current] = result.data.data
+        return serial_current.serial_current
+    }
+}
+

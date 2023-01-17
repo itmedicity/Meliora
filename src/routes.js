@@ -86,7 +86,8 @@ const OnHoldPendingEmpWiseList = React.lazy(() => import('./views/dashboard/Comp
 const InPatientList = React.lazy(() => import('./views/dashboard/DietDashViews/TotalInpatientList'))
 const DietPlannedList = React.lazy(() => import('./views/dashboard/DietDashViews/DietPalnnedList'))
 const DietPlanPending = React.lazy(() => import('./views/dashboard/DietDashViews/DietPlanPendingList'))
-
+const RequestRegister = React.lazy(() => import('./views/RequestManagement/RequestRegister/ReqRegistration'))
+const ReqDepartmentApproval = React.lazy(() => import('./views/RequestManagement/DepartmentApproval/ReqDeptApproval'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -176,7 +177,10 @@ const routes = [
   { path: '/Home/ExtraOrderView', exact: true, name: 'Total Admission', component: ExtraOrderView },
   { path: "/Home/DashBoard/InPatientList", exact: true, name: "InPatientList View", component: InPatientList },
   { path: '/Home/DietPlannedList', exact: true, name: 'DietPlannedList View', component: DietPlannedList },
-  { path: '/Home/DietPlanPending', exact: true, name: 'DietPlanPending View', component: DietPlanPending }
+  { path: '/Home/DietPlanPending', exact: true, name: 'DietPlanPending View', component: DietPlanPending },
+  { path: '/Home/RequestRegister', exact: true, name: 'Request Register', component: RequestRegister },
+  { path: '/Home/Req.DepartmentApproval', exact: true, name: 'Request Departmental Approval', component: ReqDepartmentApproval },
+
 ]
 
 export default routes

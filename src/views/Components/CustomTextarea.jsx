@@ -1,5 +1,4 @@
-import { CssVarsProvider } from '@mui/joy'
-import TextareaAutosize from '@mui/material/TextareaAutosize'
+import TextareaAutosize from '@mui/base/TextareaAutosize'
 import React, { Fragment } from 'react'
 
 const CustomTextarea = ({
@@ -16,18 +15,18 @@ const CustomTextarea = ({
 
     return (
         <Fragment>
-            <CssVarsProvider>
-                <TextareaAutosize
-                    size={size}
-                    placeholder={placeholder}
-                    minRows={minRows}
-                    style={{ ...style }}
-                    //sx={{ ...style }}
-                    value={value}
-                    disabled={disabled}
-                    onChange={(e) => onchange(e)}
-                />
-            </CssVarsProvider>
+
+            <TextareaAutosize
+                color='red'
+                size={size}
+                placeholder={placeholder}
+                minRows={minRows}
+                style={{ ...style, borderRadius: 5, borderColor: "#A9A9A9" }}
+                value={value}
+                disabled={disabled}
+                onChange={(e) => onchange(e)}
+            />
+
         </Fragment>
     )
 }
