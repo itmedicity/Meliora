@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { Fragment } from 'react'
@@ -7,26 +7,21 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 import EditButton from 'src/views/Components/EditButton';
 
-
 const DiscahrgeEventTable = ({ ipno, count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
     const [column] = useState([
         { headerName: "slno", field: "dis_slno", width: 150 },
         { headerName: "ipno", field: "ip_no", wrapText: true, autoHeight: true },
         { headerName: "name", field: "ptc_ptname", wrapText: true, autoHeight: true, width: 300 },
-        { headerName: "Bill time", field: "bill_ready_time", wrapText: true, autoHeight: true, width: 300 },
-        { headerName: "medicine recive", field: "disc_medicine_recive", width: 350 },
+        { headerName: "disc.report", field: "disc_report_date", wrapText: true, autoHeight: true, width: 300 },
+        { headerName: "Disc.entry ", field: "act_dis_entry_time", width: 350, wrapText: true, autoHeight: true, },
         { headerName: "Disc.type", field: "discharge_type", width: 300 },
-        { headerName: "cross consultant", field: "cros_consult", width: 300 },
-        { headerName: "is feedback", field: "feed_back_collected" },
-        { headerName: "Room cleaning ", field: "room_clear_time", width: 300 },
-        { headerName: "Summary time", field: "summary_time", width: 350 },
-        { headerName: "Key return", field: "disc_key", width: 250 },
-        { headerName: "Call bell", field: "disc_callbell" },
+        { headerName: "bill time", field: "act_dmd_date", wrapText: true, autoHeight: true, },
+        { headerName: "final disc.date", field: "act_disc_date", wrapText: true, autoHeight: true, },
+        { headerName: "Room cleaning ", field: "room_clear_time", width: 300, wrapText: true, autoHeight: true, },
+        { headerName: "Summary time", field: "summary_time", width: 350, wrapText: true, autoHeight: true, },
         { headerName: 'Actions', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> }
-
     ])
-
 
     useEffect(() => {
         const getDiscahrge = async (ipno) => {
@@ -41,7 +36,6 @@ const DiscahrgeEventTable = ({ ipno, count, rowSelect }) => {
         }
         getDiscahrge(ipno);
     }, [ipno, count])
-
     return (
         <Fragment >
             <CusAgGridMast
@@ -52,4 +46,4 @@ const DiscahrgeEventTable = ({ ipno, count, rowSelect }) => {
     )
 }
 
-export default DiscahrgeEventTable
+export default memo(DiscahrgeEventTable)

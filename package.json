@@ -46,6 +46,7 @@
     "@mui/joy": "^5.0.0-alpha.33",
     "@mui/lab": "^5.0.0-alpha.85",
     "@mui/material": "^5.6.3",
+    "@mui/x-date-pickers": "^5.0.9",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
     "ag-grid-community": "^27.3.0",
     "ag-grid-enterprise": "^27.3.0",

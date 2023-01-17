@@ -7,11 +7,14 @@ export const co_setting_one = [
 
 export const co_setting_two = [
     { to: '/Home/DepartmentSection', name: 'Department Section', slno: 2 },
+    { to: '/Home/EscalationTime', name: 'Escalation Time', slno: 82 },
+
 
 ]
 
 export const co_setting_three = [
-    { to: '/Home/RequestType', name: 'Request Type', slno: 12 }
+    { to: '/Home/RequestType', name: 'Request Type', slno: 12 },
+    { to: '/Home/EscalationMapping', name: 'Escalation Mapping', slno: 93 }
 ]
 
 //Compliant Master Menu
