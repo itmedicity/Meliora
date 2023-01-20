@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
@@ -56,21 +56,12 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
             assigned_user: id
         }
     })
-    //data set for complaint remark
-    const compremark = useMemo(() => {
-        return {
-            complaint_remark: remark,
-            complaint_slno: complaint_slno
-        }
-    }, [remark, complaint_slno])
     //inserting detailed assign
     const detailAssign = useCallback(() => {
         const Assignemp = async (postData) => {
             const result = await axioslogin.post(`/complaintassign/detailassign`, postData);
             const { message, success } = result.data;
             if (success === 1) {
-                const result = await axioslogin.patch(`/complaintassign/remark`, compremark);
-                const { message } = result.data;
                 succesNotify(message)
                 setCount(count + 1)
                 reset();
@@ -85,7 +76,7 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
         } else {
             Assignemp(postData);
         }
-    }, [postData, count, reset, setCount, compremark, personName])
+    }, [postData, count, reset, setCount, personName])
     return (
         <Fragment>
             <ToastContainer />
