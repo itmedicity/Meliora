@@ -21,6 +21,8 @@ import { getAssignedComplaintLists } from 'src/redux/actions/AssignedcmLists.act
 import { getAssistComplaintLists } from 'src/redux/actions/AssistcmLists.action';
 import { getAllComplaintLists } from 'src/redux/actions/AllcomplaintsLists.action';
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import TransferDeptmodal from './TransferDeptmodal';
 const AssignComplaintTable = () => {
     const history = useHistory();
     //state for modal open
@@ -36,7 +38,7 @@ const AssignComplaintTable = () => {
     //column title setting
     const [column] = useState([
         {
-            headerName: 'Action', minWidth: 120, cellRenderer: params => <Fragment>
+            headerName: 'Action', minWidth: 160, cellRenderer: params => <Fragment>
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                     onClick={() => quickAssign(params)}>
                     <CustomeToolTip title="Quick Assign" >
@@ -47,6 +49,13 @@ const AssignComplaintTable = () => {
                     onClick={() => Assign(params)}>
                     <CustomeToolTip title="Detailed Assign" >
                         < AccessibilityNewIcon />
+                    </CustomeToolTip>
+                </IconButton>
+                <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                    onClick={() => TransferDepartment(params)}
+                >
+                    <CustomeToolTip title="Transfer Department" >
+                        < ChangeCircleIcon />
                     </CustomeToolTip>
                 </IconButton>
             </Fragment>
@@ -268,6 +277,15 @@ const AssignComplaintTable = () => {
         const data = params.api.getSelectedRows()
         setComplaint(data)
     }, [])
+    // when we click on transfer button
+    const [transfer, setTransfer] = useState({})
+    const [transmodal, setTransmodal] = useState(0);
+    const TransferDepartment = useCallback((params) => {
+        setTransmodal(1);
+        setOpen(true)
+        const data = params.data
+        setTransfer(data)
+    }, [])
     //state for data passing to assistant modal
     const [assistant, setAssistant] = useState([]);
     //flag for rendering assistant need modal
@@ -479,6 +497,9 @@ const AssignComplaintTable = () => {
                 }
                 {
                     assistantModel === 1 ? <AssistantNeedmodal open={open} setOpen={setOpen} assistant={assistant} empdept={profileData} count={count} setCount={setCount} /> : null //assistant needed modal
+                }
+                {
+                    transmodal === 1 ? <TransferDeptmodal open={open} setOpen={setOpen} transfer={transfer} count={count} setCount={setCount} /> : null
                 }
 
             </CardCloseOnly>
