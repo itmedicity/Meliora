@@ -15,7 +15,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
-const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount }) => {
+const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount, setTransmodal }) => {
     const [cmpdept, setCmpdept] = useState(0);
     const { complaint_slno, complaint_desc } = transfer
     //patch data for updating complaint dept
@@ -29,7 +29,8 @@ const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount }) => {
     const reset = useCallback(() => {
         setOpen(false);
         setCmpdept(0);
-    }, [setOpen])
+        setTransmodal(0);
+    }, [setOpen, setTransmodal])
     // when we click on transfer function
     const Transfer = useCallback(() => {
         const TranserDept = async (patchData) => {

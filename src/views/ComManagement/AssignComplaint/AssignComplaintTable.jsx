@@ -273,6 +273,7 @@ const AssignComplaintTable = () => {
     const Assign = useCallback((params) => {
         setAssignModel(1)
         setAssistantModel(0)
+        setTransmodal(0)
         setOpen(true)
         const data = params.api.getSelectedRows()
         setComplaint(data)
@@ -282,6 +283,8 @@ const AssignComplaintTable = () => {
     const [transmodal, setTransmodal] = useState(0);
     const TransferDepartment = useCallback((params) => {
         setTransmodal(1);
+        setAssignModel(0);
+        setAssistantModel(0);
         setOpen(true)
         const data = params.data
         setTransfer(data)
@@ -294,6 +297,7 @@ const AssignComplaintTable = () => {
     const AssistantNeeded = useCallback((params) => {
         setAssistantModel(1)
         setAssignModel(0)
+        setTransmodal(0);
         setOpen(true)
         const data = params.api.getSelectedRows()
         setAssistant(data);
@@ -499,7 +503,7 @@ const AssignComplaintTable = () => {
                     assistantModel === 1 ? <AssistantNeedmodal open={open} setOpen={setOpen} assistant={assistant} empdept={profileData} count={count} setCount={setCount} /> : null //assistant needed modal
                 }
                 {
-                    transmodal === 1 ? <TransferDeptmodal open={open} setOpen={setOpen} transfer={transfer} count={count} setCount={setCount} /> : null
+                    transmodal === 1 ? <TransferDeptmodal open={open} setOpen={setOpen} transfer={transfer} count={count} setCount={setCount} setTransmodal={setTransmodal} /> : null
                 }
 
             </CardCloseOnly>
