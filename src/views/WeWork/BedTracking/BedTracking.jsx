@@ -28,7 +28,6 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
     const [remark, setremark] = useState('')
     const [value, setValue] = useState(0)
     const [count, setcount] = useState(0)
-    // const [tranFrom, setTranFrom] = useState(0)
     const [tabledata, setTabledata] = useState([])
     const [rmSlno, setrmSlno] = useState(0)
     const [id, setid] = useState(0)
@@ -37,12 +36,6 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
     const [sfaStatus, setSfaStatus] = useState(false)
     const [rmNo, setRmno] = useState(false)
     const [tonurse, setTonurse] = useState('')
-
-    // const [bedtransfer, setbedtransfer] = useState({
-    //     trasf_slno: ''
-    // })
-    // const { trasf_slno } = bedtransfer
-
     const getSfastatus = useCallback((e) => {
         if (e.target.checked === true) {
             setSfaStatus(true)
@@ -100,10 +93,6 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
         }
     }, [ameties.sofaa, ameties.chair, ameties.card, ameties.almirah, ameties.cup, ameties.arm, ameties.kit, ameties.bin,
     ameties.wood, ameties.tab, ameties.mat])
-
-    // const getDate = useCallback((e) => {
-    //     settranDate(e.target.value)
-    // }, [])
     const getStatus = useCallback((e) => {
         setcounstatus(e.target.value)
     }, [])
@@ -137,15 +126,12 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
     }, [])
 
     const reset = useCallback(() => {
-        setnurstation(0)
-        settranDate('')
         setcounstatus('')
         setmfa('')
         setroom('')
         setIndate('')
         setremark('')
         setamenties(resetamenties)
-        // setTranFrom(0)
         setcStatus(false)
         setSfaStatus(false)
         setrmstatus(false)
@@ -157,10 +143,10 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
             trasfer_to: nurstation !== 0 ? nurstation : null,
             transfer_from: nurse,
             transfer_time: tranDate !== '' ? moment(tranDate).format('YYYY-MM-DD hh:mm:ss') : null,
-            counseling_status: cstatus,
-            sfa_mfa_status: sfaStatus,
+            counseling_status: cstatus === true ? 1 : 0,
+            sfa_mfa_status: sfaStatus === true ? 1 : 0,
             room_amenties: roomamenties,
-            bystander_room_retain: rmstatus,
+            bystander_room_retain: rmstatus === true ? 1 : 0,
             transfer_in_time: Indate !== '' ? moment(Indate).format('YYYY-MM-DD hh:mm:ss') : null,
             remarks: remark !== '' ? remark : null,
             ip_no: ipno,
@@ -173,13 +159,56 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
 
     const rowSelect = useCallback((params) => {
         setValue(1)
-        const data = params.api.getSelectedRows()
-        const { rm_slno, nsc_desc, rmd_occupdate, ns_code } = data[0]
+        const dataa = params.api.getSelectedRows()
+        const { rm_slno, nsc_desc, rmd_occupdate, ns_code, sl_no, ip_no } = dataa[0]
         setRmno(rm_slno)
         setTonurse(nsc_desc)
         settranDate(rmd_occupdate)
         setnurstation(ns_code)
-    }, [])
+        setrmSlno(sl_no)
+
+        const postdata1 = {
+            trasfer_to: ns_code,
+            ip_no: ip_no
+        }
+
+        const beddetl = async () => {
+            const result = await axioslogin.post('/WeWork/patBedDetl', postdata1)
+            const { success, data } = result.data
+            if (success === 1) {
+                const { bystander_room_retain, bystander_room_retain_remark, transfer_in_time,
+                    counciling_remarks, counseling_status, remarks, sfa_mfa_clearence,
+                    room_amenties, sfa_mfa_status } = data[0]
+                const obj1 = JSON.parse(room_amenties)
+                const { sofaa, chair, card, almirah, cup, arm, kit, bin, wood, tab, mat } = obj1
+                const v = {
+                    sofaa: sofaa === 1 ? true : false,
+                    chair: chair === 2 ? true : false,
+                    card: card === 3 ? true : false,
+                    almirah: almirah === 4 ? true : false,
+                    cup: cup === 5 ? true : false,
+                    arm: arm === 6 ? true : false,
+                    kit: kit === 7 ? true : false,
+                    bin: bin === 8 ? true : false,
+                    wood: wood === 9 ? true : false,
+                    tab: tab === 10 ? true : false,
+                    mat: mat === 11 ? true : false,
+
+                }
+                setrmstatus(bystander_room_retain === 1 ? true : false)
+                setamenties(v)
+                setcStatus(counseling_status === 1 ? true : false)
+                setSfaStatus(sfa_mfa_status === 1 ? true : false)
+                setcounstatus(counciling_remarks !== '' ? counciling_remarks : '')
+                setmfa(sfa_mfa_clearence !== '' ? sfa_mfa_clearence : '')
+                setremark(remarks !== '' ? remarks : '')
+                setroom(bystander_room_retain_remark !== '' ? bystander_room_retain_remark : '')
+                setIndate(transfer_in_time !== null ? transfer_in_time : '')
+            }
+        }
+        beddetl(postdata1)
+        reset()
+    }, [reset])
 
     useEffect(() => {
         const getsurvno = async () => {
@@ -233,65 +262,61 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
                 infoNotify(message)
             }
         }
-        insertdata(postdata)
+        const Updatedata = async (patchData) => {
+            const results = await axioslogin.patch(`/WeWork/updatebedTrack`, patchData)
+            const { message, success } = results.data;
+            if (success === 2) {
+                succesNotify(message)
+                setcount(count + 1)
+                reset();
+            }
+            else if (success === 1) {
+                infoNotify(message)
+            }
+            else {
+                infoNotify(message)
+            }
+        }
 
-        // const InsertData = async (postdata) => {
+        const InsertData = async (postdata) => {
+            const shift = {
+                transfer_from: nurse,
+                trasfer_to: nurstation,
+                ip_no: ipno
+            }
+            const result = await axioslogin.post('/WeWork/bedtranSlno', shift)
+            const { success, data } = result.data
+            if (success === 1) {
+                const { trasf_slno } = data[0]
+                const patchdata = {
+                    trasfer_to: nurstation,
+                    transfer_from: nurse,
+                    transfer_time: tranDate !== '' ? moment(tranDate).format('YYYY-MM-DD hh:mm:ss') : null,
+                    counseling_status: cstatus === true ? 1 : 0,
+                    sfa_mfa_status: sfaStatus === true ? 1 : 0,
+                    bystander_room_retain: rmstatus === true ? 1 : 0,
+                    sfa_mfa_clearence: sfa !== '' ? sfa : '',
+                    room_amenties: roomamenties,
+                    transfer_in_time: Indate !== '' ? moment(Indate).format('YYYY-MM-DD hh:mm:ss') : null,
+                    remarks: remark !== '' ? remark : null,
+                    counciling_remarks: counstatus,
+                    bystander_room_retain_remark: room,
+                    trasf_slno: trasf_slno,
 
-        //     const shift = {
-        //         transfer_from: nurse,
-        //         trasfer_to: nurstation,
-        //         bed_trans_surv_slno: id
-        //     }
-
-        //     const result = await axioslogin.post('/WeWork/bedtranSlno', shift)
-        //     const { success, data } = result.data
-        //     if (success === 1) {
-        //         const { trasf_slno } = data[0]
-        //         const patchdata = {
-        //             trasfer_to: nurstation,
-        //             transfer_time: tranDate !== '' ? moment(tranDate).format('YYYY-MM-DD hh:mm:ss') : null,
-        //             counseling_status: counstatus,
-        //             sfa_mfa_clearence: sfa,
-        //             room_amenties: roomamenties,
-        //             bystander_room_retain: room,
-        //             transfer_in_time: Indate !== '' ? moment(Indate).format('YYYY-MM-DD hh:mm:ss') : null,
-        //             remarks: remark !== '' ? remark : null,
-        //             trasf_slno: trasf_slno,
-
-        //         }
-        //         updateData(patchdata)
-        //     }
-        //     else {
-        //         const results = await axioslogin.post(`/WeWork/insertbed`, postdata)
-        //         const { message, success } = results.data;
-        //         if (success === 2) {
-        //             succesNotify(message)
-        //             setcount(count + 1)
-        //             reset();
-        //         }
-        //         else if (success === 1) {
-        //             infoNotify(message)
-        //         }
-        //         else {
-        //             infoNotify(message)
-        //         }
-        //     }
-        // }
-
-        // if (value === 1) {
-        //     updateData(Patchdata)
-        // }
-        // else {
-        //     InsertData(postdata)
-        // }
-
-    }, [count, reset, postdata])
-
+                }
+                reset()
+                Updatedata(patchdata)
+            }
+            else {
+                insertdata(postdata)
+            }
+        }
+        InsertData(postdata)
+    }, [count, reset, postdata, Indate, counstatus, cstatus, ipno, nurse, nurstation, remark, rmstatus, room, roomamenties, sfa, sfaStatus, tranDate])
 
     const closwindow = useCallback(() => {
         setclosebtn(0)
     }, [setclosebtn])
-
 
     return (
         <Paper square elevation={3} sx={{ dispaly: "flex", justifyContent: "column" }}>
@@ -312,25 +337,25 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
 
                         <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
                             <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
-                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "35%" } }}  >
+                                <Box sx={{ width: { xl: "40%", lg: "50%", md: "49%", sm: "50%" } }}  >
                                     <CssVarsProvider>
                                         <Typography >
                                             Transfer from:</Typography>
                                     </CssVarsProvider>
                                 </Box>
-                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "60%" }, height: 40, }}>
+                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
                                     <Typography >
                                         {nsdesc}</Typography>
                                 </Box>
                             </Box>
                             <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
-                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "35%" } }}  >
+                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "45%", sm: "50%" } }}  >
                                     <CssVarsProvider>
                                         <Typography >
                                             Transfer To:</Typography>
                                     </CssVarsProvider>
                                 </Box>
-                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "60%" }, height: 40, }}>
+                                <Box sx={{ width: { xl: "65%", lg: "50%", md: "54%", sm: "50%" } }}>
                                     <Typography >
                                         {tonurse}</Typography>
                                 </Box>
@@ -338,25 +363,25 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
                         </Box>
                         <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
                             <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
-                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "35%" } }}  >
+                                <Box sx={{ width: { xl: "40%", lg: "50%", md: "49%", sm: "50%" } }}  >
                                     <CssVarsProvider>
                                         <Typography >
                                             Transfer Date and Time:</Typography>
                                     </CssVarsProvider>
                                 </Box>
-                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "60%" }, height: 40, }}>
+                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "60%" } }}>
                                     <Typography >
                                         {tranDate}</Typography>
                                 </Box>
                             </Box>
                             <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
-                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "35%" } }}  >
+                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "45%", sm: "50%" } }}  >
                                     <CssVarsProvider>
                                         <Typography >
                                             Transfer IN Date and Time:</Typography>
                                     </CssVarsProvider>
                                 </Box>
-                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "60%" }, height: 40, }}>
+                                <Box sx={{ width: { xl: "65%", lg: "50%", md: "54%", sm: "49%" } }}>
                                     <TextFieldCustom
                                         size="sm"
                                         type="datetime-local"
@@ -368,15 +393,15 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
                             </Box>
                         </Box>
 
-                        <Box sx={{ width: "100%", display: "flex", flexDirection: "row", pl: 2 }}>
+                        <Box sx={{ width: "100%", display: "flex", flexDirection: "row", pl: 2, pt: 1 }}>
                             <Box sx={{ display: "flex", width: "50%" }}>
-                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
+                                <Box sx={{ width: { xl: "40%", lg: "50%", md: "50%", sm: "50%" } }}  >
                                     <CssVarsProvider>
                                         <Typography >
                                             Bystander room retaining status:</Typography>
                                     </CssVarsProvider>
                                 </Box>
-                                <Box>
+                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
 
                                     <CusCheckBox
                                         variant="outlined"
@@ -392,13 +417,13 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
                                 </Box>
                             </Box>
                             <Box sx={{ display: "flex", flexDirection: "row", width: "50%", }} >
-                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
+                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "45%", sm: "50%" } }}  >
                                     <CssVarsProvider>
                                         <Typography >
                                             Room Retaining remarks:</Typography>
                                     </CssVarsProvider>
                                 </Box>
-                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" }, height: 40, }}>
+                                <Box sx={{ width: { xl: "65%", lg: "50%", md: "54%", sm: "49%" }, height: 40, }}>
                                     <TextFieldCustom
                                         size="sm"
                                         type="text"
@@ -413,13 +438,13 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
 
                         <Box sx={{ width: "100%", display: "flex", flexDirection: "row", pl: 2 }}>
                             <Box sx={{ display: "flex", width: "50%" }}>
-                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
+                                <Box sx={{ width: { xl: "40%", lg: "50%", md: "49%", sm: "50%" } }}  >
                                     <CssVarsProvider>
                                         <Typography >
                                             SFA/MFA status:</Typography>
                                     </CssVarsProvider>
                                 </Box>
-                                <Box>
+                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
 
                                     <CusCheckBox
                                         variant="outlined"
@@ -435,13 +460,13 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
                                 </Box>
                             </Box>
                             <Box sx={{ display: "flex", flexDirection: "row", width: "50%", }} >
-                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}  >
+                                <Box sx={{ width: { xl: "30%", lg: "40%", md: "45%", sm: "50%" } }}  >
                                     <CssVarsProvider>
                                         <Typography >
                                             SFA/MFA Remarks:</Typography>
                                     </CssVarsProvider>
                                 </Box>
-                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" }, height: 40, }}>
+                                <Box sx={{ width: { xl: "65%", lg: "50%", md: "54%", sm: "49%" } }}>
                                     <TextFieldCustom
                                         size="sm"
                                         type="text"
@@ -452,16 +477,16 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
                                 </Box>
                             </Box>
                         </Box>
-                        <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', pl: 2 }}>
+                        <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', pl: 2, pt: 1 }}>
                             <Box sx={{ display: "flex", width: "50%" }}>
-                                <Box sx={{ display: "flex", width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}>
+                                <Box sx={{ display: "flex", width: { xl: "40%", lg: "50%", md: "49%", sm: "50%" } }}>
                                     <CssVarsProvider>
                                         <Typography >
                                             Counselling status:
                                         </Typography>
                                     </CssVarsProvider>
                                 </Box>
-                                <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" } }}>
+                                <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
                                     <CusCheckBox
                                         variant="outlined"
                                         color="primary"
@@ -475,14 +500,14 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
                                 </Box>
                             </Box>
                             <Box sx={{ display: "flex", width: "50%" }}>
-                                <Box sx={{ display: "flex", width: { xl: "30%", lg: "40%", md: "40%", sm: "30%" } }}>
+                                <Box sx={{ display: "flex", width: { xl: "30%", lg: "40%", md: "45%", sm: "50%" } }}>
                                     <CssVarsProvider>
                                         <Typography >
                                             Counselling Remark:
                                         </Typography>
                                     </CssVarsProvider>
                                 </Box>
-                                <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" } }}>
+                                <Box sx={{ display: 'flex', width: { xl: "65%", lg: "50%", md: "54%", sm: "49%" } }}>
                                     <TextFieldCustom
                                         size="sm"
                                         type="text"
@@ -494,15 +519,15 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
                             </Box>
                         </Box>
 
-                        <Box sx={{ width: "100%", display: "flex", pl: 2 }}>
-                            <Box sx={{ display: "flex", width: { xl: "15%", lg: "40%", md: "40%", sm: "30%" } }}>
+                        <Box sx={{ width: "100%", display: "flex", pl: 2, pt: 1 }}>
+                            <Box sx={{ display: "flex", width: { xl: "20%", lg: "25%", md: "24%", sm: "15%" } }}>
                                 <CssVarsProvider>
                                     <Typography >
                                         Remarks:
                                     </Typography>
                                 </CssVarsProvider>
                             </Box>
-                            <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "55%", sm: "65%" } }}>
+                            <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "50%", sm: "65%" } }}>
                                 <TextFieldCustom
                                     size="sm"
                                     type="text"

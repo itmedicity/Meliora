@@ -21,7 +21,7 @@ import DailyActivityTable from './DailyActivityTable'
 
 const Dailyactivity = ({ ipno, setclosebtn }) => {
     const [daily, setdaily] = useState('')
-    const [time, settime] = useState('')
+    const [times, setTimes] = useState('')
     const [clean, setclean] = useState(false)
     const [sheet, setsheet] = useState(false)
     const [dietion, setdietion] = useState(false)
@@ -94,9 +94,10 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
     const getdate = useCallback((e) => {
         setdaily(e.target.value)
     }, [])
-    const getTime = useCallback((e) => {
-        settime(e.target.value)
+    const getTimes = useCallback((e) => {
+        setTimes(e.target.value)
     }, [])
+
     const getdoctime = useCallback((e) => {
         setdoctime(e.target.value)
     }, [])
@@ -182,7 +183,6 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
 
     const reset = useCallback(() => {
         setdaily('')
-        settime('')
         setclean(false)
         setsheet(false)
         setdietion(false)
@@ -193,6 +193,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
         setinsurance(false)
         setasset(resetasset)
         setdiettype(resetdiet)
+        setdoctime('')
     }, [resetasset, resetdiet])
     useEffect(() => {
         const getsurvno = async () => {
@@ -217,12 +218,12 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
             activity_date: daily !== '' ? moment(daily).format('YYYY-MM-DD') : null,
             ip_no: ipno,
             srv_slno: id,
-            visit_time: time !== '' ? moment(time).format('YYYY-MM-DD hh:mm:ss') : null,
+            activity_time: times !== '' ? moment(times).format('YYYY-MM-DD hh:mm:ss') : null,
             diet_status: dietdetail,
             room_clean: clean === true ? 1 : 0,
             sheet_change: sheet === true ? 1 : 0,
             dr_round: round === true ? 1 : 0,
-            imortant_note: notes,
+            imortant_note: notes !== '' ? notes : '',
             dietian_round: dietion === true ? 1 : 0,
             bill_audit: bill === true ? 1 : 0,
             asset_usage: assetusage,
@@ -231,14 +232,15 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
             create_empid: emid,
             dr_visit_time: doctime !== '' ? moment(doctime).format('YYYY-MM-DD hh:mm:ss') : null
         }
-    }, [id, ipno, time, dietdetail, clean, sheet, round, notes, dietion,
-        bill, assetusage, board, Insurance, emid, daily, doctime])
+    }, [id, ipno, dietdetail, clean, sheet, round, notes, dietion,
+        bill, assetusage, board, Insurance, emid, daily, doctime, times])
+
 
 
     const patchdata = useMemo(() => {
         return {
             activity_date: daily !== '' ? moment(daily).format('YYYY-MM-DD') : null,
-            visit_time: time !== '' ? moment(time).format('YYYY-MM-DD hh:mm:ss') : null,
+            activity_time: times !== '' ? moment(times).format('YYYY-MM-DD hh:mm:ss') : null,
             diet_status: dietdetail,
             room_clean: clean === true ? 1 : 0,
             sheet_change: sheet === true ? 1 : 0,
@@ -253,14 +255,14 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
             activity_slno: activity_slno,
             dr_visit_time: doctime !== '' ? moment(doctime).format('YYYY-MM-DD hh:mm:ss') : null
         }
-    }, [time, dietdetail, clean, sheet, round, notes, dietion,
-        bill, assetusage, board, Insurance, emid, daily, activity_slno, doctime])
+    }, [dietdetail, clean, sheet, round, notes, dietion,
+        bill, assetusage, board, Insurance, emid, daily, activity_slno, doctime, times])
 
     const rowSelect = useCallback((params) => {
         setvalue(1);
         const data = params.api.getSelectedRows()
-        const { activity_date, activity_slno, visit_time, diet_status, room_clean, sheet_change, dr_round,
-            imortant_note, dietian_round, bill_audit, asset_usage, patient_board_update, insurance_status
+        const { activity_date, activity_slno, diet_status, room_clean, sheet_change, dr_round, activity_time,
+            imortant_note, dietian_round, bill_audit, asset_usage, patient_board_update, insurance_status, dr_visit_time
         } = data[0]
 
         const obj = JSON.parse(diet_status)
@@ -289,7 +291,6 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
         }
 
         setactivity(frmdata)
-        settime(visit_time !== null ? visit_time : '')
         setdiettype(v)
         setclean(room_clean === 'yes' ? true : false)
         setsheet(sheet_change === 'yes' ? true : false)
@@ -301,7 +302,8 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
         setboard(patient_board_update === 'yes' ? true : false)
         setnotes(imortant_note)
         setdaily(activity_date !== null ? activity_date : '')
-
+        setTimes(activity_time !== null ? activity_time : '')
+        setdoctime(dr_visit_time !== null ? dr_visit_time : '')
     }, [emid])
 
     const submited = useCallback((e) => {
@@ -352,20 +354,38 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
 
     return (
         <Paper square elevation={0} sx={{ dispaly: "flex", justifyContent: "column" }}>
-            <Box sx={{ pb: 1 }}>
-                <Typography sx={{ backgroundColor: "#f0f3f5", fontFamily: "Roboto", fontSize: 20, p: 1.5 }}>
-                    Daily Activity
-                </Typography>
+            <Box sx={{ display: "flex", backgroundColor: "#f0f3f5" }}>
+                <Box sx={{ pb: 1, flex: 1, }}>
+                    <Typography sx={{ fontFamily: "Roboto", fontSize: 20, p: 1.5 }}>
+                        Daily Activity
+                    </Typography>
+                </Box>
+                <Box sx={{ display: "flex", flexDirection: "row", pl: 1 }}>
+                    <CustomeToolTip title="Save" placement="left" >
+                        <Box sx={{ p: 1 }}>
+                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submited}>
+                                <LibraryAddIcon fontSize='small' />
+                            </CusIconButton>
+                        </Box>
+                    </CustomeToolTip>
+                    <CustomeToolTip title="close" placement="left" >
+                        <Box sx={{ p: 1 }}>
+                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closwindow} >
+                                <CloseIcon fontSize='small' />
+                            </CusIconButton>
+                        </Box>
+                    </CustomeToolTip>
+                </Box>
             </Box>
-            <Box sx={{ display: "flex", flexDirection: "row", width: "80%", p: 2 }}>
+            <Box sx={{ display: "flex", flexDirection: "row", width: "100%", p: 2 }}>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
-                    <Box sx={{ width: { xl: "30%", lg: "15%", md: "50%", sm: "30%" } }}  >
+                    <Box sx={{ width: { xl: "10%", lg: "15%", md: "50%", sm: "30%" } }}  >
                         <CssVarsProvider>
                             <Typography >
-                                Date</Typography>
+                                Date:</Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                    <Box sx={{ width: { xl: "30%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="date"
@@ -375,24 +395,22 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
                         />
                     </Box>
                 </Box>
-                <Box sx={{ display: "flex", flexDirection: "row", width: "50%", }}>
-                    <Box sx={{ width: { xl: "30%", lg: "30%", md: "50%", sm: "40%" } }}  >
+                <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }} >
+                    <Box sx={{ width: { xl: "10%", lg: "15%", md: "50%", sm: "30%" } }}  >
                         <CssVarsProvider>
                             <Typography >
-                                Room visit time</Typography>
+                                Time:</Typography>
                         </CssVarsProvider>
                     </Box>
-                    {/* <Box sx={{ display: "flex", flexDirection: "row" }}> */}
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "60%" } }}>
+                    <Box sx={{ width: { xl: "30%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
-                            name="time"
-                            value={time}
-                            onchange={getTime}
+                            name="times"
+                            value={times}
+                            onchange={getTimes}
                         />
                     </Box>
-                    {/* </Box> */}
                 </Box>
             </Box>
             <Paper square elevation={3} sx={{ p: 2, }}>
@@ -635,17 +653,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
 
                             />
                         </Box>
-
                         <Box sx={{ width: { xl: "50%", lg: "40%", md: "40%", sm: "45%" } }}>
-                            {/* <CustomTextarea
-                                size="lg"
-                                style={{ width: { xl: '80%', lg: "90%" } }}
-                                type="text"
-                                placeholder="important notes"
-                                name="notes"
-                                value={notes}
-                                onchange={getnotes}
-                            /> */}
                             <TextFieldCustom
                                 size="sm"
                                 type="text"
@@ -658,13 +666,8 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
                         </Box>
                     </Box>
                 </Box>
-
-
-
-
             </Paper>
-
-            <Paper square elevation={1} sx={{
+            <Paper square elevation={0} sx={{
                 pl: 2, display: "flex", flexDirection: "row",
                 width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" }
             }}>
@@ -700,23 +703,8 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
                     </Box>
                 </Box>
             </Paper>
-            <Box sx={{ display: "flex", flexDirection: "row", pl: 1 }}>
-                <CustomeToolTip title="Save" placement="left" >
-                    <Box sx={{ p: 1 }}>
-                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submited}>
-                            <LibraryAddIcon fontSize='small' />
-                        </CusIconButton>
-                    </Box>
-                </CustomeToolTip>
-                <CustomeToolTip title="close" placement="left" >
-                    <Box sx={{ p: 1 }}>
-                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closwindow} >
-                            <CloseIcon fontSize='small' />
-                        </CusIconButton>
-                    </Box>
-                </CustomeToolTip>
-            </Box>
-            <Box sx={{ px: 2, py: 1 }}>
+
+            <Box sx={{ px: 2, py: 2 }}>
                 <DailyActivityTable ipno={ipno} count={count} rowSelect={rowSelect} />
             </Box>
         </Paper>

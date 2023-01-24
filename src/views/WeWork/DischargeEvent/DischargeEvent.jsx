@@ -47,15 +47,9 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
 
     const [disEvent, setDisevent] = useState({
         dis_slno: '',
-
-
     })
 
-
-
-
-
-
+    const { dis_slno } = disEvent
     const getDiscStatus = useCallback((e) => {
         if (e.target.checked === true) {
             setDiscStatus(true)
@@ -64,8 +58,6 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             setDiscStatus(false)
         }
     }, [])
-
-
 
     const [remote, setremote] = useState({
         acremot: false,
@@ -83,7 +75,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
         }
     }, [remote.acremot, remote.tvremot])
 
-    const { dis_slno } = disEvent
+
     const getfeedback = useCallback((e) => {
         if (e.target.checked === true) {
             setfeedback(true)
@@ -155,13 +147,6 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
         setActFinal(e.target.value)
     }, [])
 
-
-
-
-
-
-
-
     const resetremot = useMemo(() => {
         return {
             acremot: false,
@@ -192,7 +177,6 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
         setDiscStatus(false)
     }, [resetremot])
 
-
     useEffect(() => {
         const getsurvno = async () => {
             const result = await axioslogin.get(`/WeWork/slnobyip/${ipno}`)
@@ -215,12 +199,10 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             surv_slno: id,
             ip_no: ipno,
             discharge_type: disType !== '' ? disType : '',
-            // dis_annoc_time: distime !== '' ? moment(distime).format('YYYY-MM-DD hh:mm:ss') : null,
             cros_consult: cross,
             summary_time: sumrytym !== '' ? moment(sumrytym).format('YYYY-MM-DD hh:mm:ss') : null,
             disc_medicine_indent: indeTym !== '' ? moment(indeTym).format('YYYY-MM-DD hh:mm:ss') : null,
             disc_medicine_recive: medtime !== '' ? moment(medtime).format('YYYY-MM-DD hh:mm:ss') : null,
-            // bill_ready_time: billtime !== '' ? moment(billtime).format('YYYY-MM-DD hh:mm:ss') : null,
             feed_back_collected: fedback === true ? 1 : 0,
             room_clear_time: clearence !== '' ? moment(clearence).format('YYYY-MM-DD hh:mm:ss') : null,
             disc_key: key === true ? 1 : 0,
@@ -308,7 +290,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
         setActRdytym(act_dmd_date !== null ? act_dmd_date : '')
         setFinaltime(disc_date !== null ? disc_date : '')
         setActFinal(act_disc_date !== null ? act_disc_date : '')
-        setDiscStatus(act_disc_status !== 1 ? true : false)
+        setDiscStatus(act_disc_status === 1 ? true : false)
     }, [DiscReportTime])
 
     const submit = useCallback((e) => {
@@ -361,20 +343,38 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
 
     return (
         <Paper square elevation={3} sx={{ dispaly: "flex", justifyContent: "column" }}>
-            <Box>
-                <Typography sx={{ backgroundColor: "#f0f3f5", fontFamily: "Roboto", fontSize: 20, p: 1.5 }}>
-                    DischargeEvents
-                </Typography>
+            <Box sx={{ display: "flex", backgroundColor: "#f0f3f5" }}>
+                <Box sx={{ flex: 1 }}>
+                    <Typography sx={{ fontFamily: "Roboto", fontSize: 20, p: 1.5 }}>
+                        DischargeEvents
+                    </Typography>
+                </Box>
+                <Box sx={{ display: "flex", flexDirection: "row", pl: 1 }}>
+                    <CustomeToolTip title="Save" placement="left" >
+                        <Box sx={{ p: 1 }}>
+                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submit}>
+                                <LibraryAddIcon fontSize='small' />
+                            </CusIconButton>
+                        </Box>
+                    </CustomeToolTip>
+                    <CustomeToolTip title="close" placement="left" >
+                        <Box sx={{ p: 1 }}>
+                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closwindow} >
+                                <CloseIcon fontSize='small' />
+                            </CusIconButton>
+                        </Box>
+                    </CustomeToolTip>
+                </Box>
             </Box>
             <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
-                <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
-                    <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
+                <Box sx={{ display: "flex", flexDirection: "row", width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
+                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "49%" } }}>
                         <CssVarsProvider>
                             <Typography >
                                 Discharge Type:</Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                    <Box sx={{ width: { xl: "50%", lg: "55%", md: "50%", sm: "49%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="text"
@@ -384,14 +384,14 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                         />
                     </Box>
                 </Box>
-                <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
-                    <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
+                <Box sx={{ display: "flex", flexDirection: "row", width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
+                    <Box sx={{ width: { xl: "35%", lg: "48%", md: "50%", sm: "49%" } }}>
                         <CssVarsProvider>
                             <Typography >
                                 Discharge Medicine Received time:</Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "49%", sm: "50%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
@@ -404,13 +404,13 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </Box>
             <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
-                    <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
+                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "49%" } }}>
                         <CssVarsProvider>
                             <Typography >
                                 Summary time:</Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                    <Box sx={{ width: { xl: "50%", lg: "55%", md: "50%", sm: "49%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
@@ -421,13 +421,13 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     </Box>
                 </Box>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
-                    <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
+                    <Box sx={{ width: { xl: "35%", lg: "48%", md: "50%", sm: "49%" } }}>
                         <CssVarsProvider>
                             <Typography >
                                 Discharge medicine indent time:</Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "49%", sm: "50%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
@@ -440,13 +440,13 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </Box>
             <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
-                    <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
+                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "49%" } }}>
                         <CssVarsProvider>
                             <Typography >
-                                Discharge Anounced date & time:</Typography>
+                                Discharge Anounced date:</Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                    <Box sx={{ width: { xl: "50%", lg: "55%", md: "50%", sm: "49%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
@@ -457,13 +457,13 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     </Box>
                 </Box>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
-                    <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
+                    <Box sx={{ width: { xl: "35%", lg: "48%", md: "50%", sm: "49%" } }}>
                         <CssVarsProvider>
                             <Typography > Actual time:
                             </Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "49%", sm: "50%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
@@ -476,13 +476,13 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </Box>
             <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
-                    <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
+                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "49%" } }}>
                         <CssVarsProvider>
                             <Typography >
                                 Discharge entry time:</Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                    <Box sx={{ width: { xl: "50%", lg: "55%", md: "50%", sm: "49%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
@@ -494,13 +494,13 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
 
                 </Box>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
-                    <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
+                    <Box sx={{ width: { xl: "35%", lg: "48%", md: "50%", sm: "49%" } }}>
                         <CssVarsProvider>
                             <Typography> Actual entry time:
                             </Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "49%", sm: "50%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
@@ -513,13 +513,13 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </Box>
             <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
-                    <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
+                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "49%" } }}>
                         <CssVarsProvider>
                             <Typography >
                                 Final bill ready time:</Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                    <Box sx={{ width: { xl: "50%", lg: "55%", md: "50%", sm: "49%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
@@ -530,14 +530,14 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     </Box>
                 </Box>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
-                    <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
+                    <Box sx={{ width: { xl: "35%", lg: "48%", md: "50%", sm: "49%" } }}>
                         <CssVarsProvider>
                             <Typography>
                                 Actual Ready time:
                             </Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "49%", sm: "50%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
@@ -550,13 +550,13 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </Box>
             <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pl: 2, pt: 1 }}>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
-                    <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
+                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "49%" } }}>
                         <CssVarsProvider>
                             <Typography >
                                 Discharge time:</Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                    <Box sx={{ width: { xl: "50%", lg: "55%", md: "50%", sm: "49%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
@@ -567,14 +567,14 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     </Box>
                 </Box>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%" }}>
-                    <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
+                    <Box sx={{ width: { xl: "35%", lg: "48%", md: "50%", sm: "49%" } }}>
                         <CssVarsProvider>
                             <Typography>
                                 Actual Discharge time:
                             </Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "49%", sm: "50%" }, height: 40, }}>
                         <TextFieldCustom
                             size="sm"
                             type="datetime-local"
@@ -585,15 +585,51 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{ display: "flex", width: "100%", pl: 2 }}>
+            <Box sx={{ display: "flex", width: "100%", pl: 2, pt: 1 }}>
                 <Box sx={{ width: "50%", display: "flex", flexDirection: "row" }}>
-                    <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" }, flexDirection: "row" }}>
+                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "49%" } }}>
+                        <CssVarsProvider>
+                            <Typography >
+                                Cross consulation if any:</Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ width: { xl: "50%", lg: "55%", md: "50%", sm: "49%" }, height: 40, }}>
+                        <TextFieldCustom
+                            size="sm"
+                            type="text"
+                            name="disType"
+                            value={cross}
+                            onchange={getconstation}
+                        />
+                    </Box>
+                </Box>
+                <Box sx={{ width: "50%", display: "flex", flexDirection: "row" }}>
+                    <Box sx={{ width: { xl: "35%", lg: "48%", md: "50%", sm: "49%" } }}>
+                        <CssVarsProvider>
+                            <Typography >
+                                Room clearence time:</Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "49%", sm: "50%" }, height: 40, }}>
+                        <TextFieldCustom
+                            size="sm"
+                            type="datetime-local"
+                            name="disType"
+                            value={clearence}
+                            onchange={getcleartime}
+                        />
+                    </Box>
+                </Box>
+            </Box>
+            <Box sx={{ width: "100%", display: "flex", flexDirection: "row", pl: 2, pt: 1 }}>
+                <Box sx={{ width: "50%", display: "flex", flexDirection: "row" }}>
+                    <Box sx={{ width: { xl: "30%", lg: "40%", md: "40%", sm: "49%" }, flexDirection: "row" }}>
                         <CssVarsProvider>
                             <Typography >
                                 Feedback collected:</Typography>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ width: "50%" }}>
+                    <Box sx={{ width: { xl: "50%", lg: "40%", md: "50%", sm: "49%" } }}>
 
                         <CusCheckBox
                             variant="outlined"
@@ -607,53 +643,18 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                         />
                     </Box>
                 </Box>
-                <Box sx={{ width: "50%", display: "flex", flexDirection: "row" }}>
-                    <Box sx={{ width: { xl: "35%", lg: "30%", md: "40%", sm: "40%" } }}>
-                        <CssVarsProvider>
-                            <Typography >
-                                Room clearence time:</Typography>
-                        </CssVarsProvider>
-                    </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
-                        <TextFieldCustom
-                            size="sm"
-                            type="datetime-local"
-                            name="disType"
-                            value={clearence}
-                            onchange={getcleartime}
-                        />
-                    </Box>
-                </Box>
-            </Box>
-            <Box sx={{ width: "100%", display: "flex", flexDirection: "row", pl: 2 }}>
-                <Box sx={{ width: "50%", display: "flex", flexDirection: "row" }}>
-                    <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "40%" } }}>
-                        <CssVarsProvider>
-                            <Typography >
-                                Cross consulation if any:</Typography>
-                        </CssVarsProvider>
-                    </Box>
-                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, height: 40, }}>
-                        <TextFieldCustom
-                            size="sm"
-                            type="text"
-                            name="disType"
-                            value={cross}
-                            onchange={getconstation}
-                        />
-                    </Box>
-                </Box>
+
                 <Box sx={{ display: "flex", flexDirection: "row", width: "50%", }}>
-                    <Box sx={{ width: { xl: "42%", lg: "30%", md: "46%", sm: "45%" } }} >
+                    <Box sx={{ width: { xl: "42%", lg: "48%", md: "50%", sm: "49%" } }} >
                         <CssVarsProvider>
                             <Typography>Remote:</Typography>
                         </CssVarsProvider>
                     </Box>
                     <Box sx={{
                         display: "flex", flexDirection: "row",
-                        width: { xl: "78%", lg: '65%', md: "70%", sm: "65%" },
+                        width: { xl: "78%", lg: '50%', md: "49%", sm: "50%" },
                     }}>
-                        <Box sx={{ width: { xl: "22%", lg: "22%", md: "21%", sm: "25%" } }}>
+                        <Box sx={{ width: { xl: "22%", lg: "35%", md: "35%", sm: "40%" } }}>
                             <CusCheckBox
                                 variant="outlined"
                                 color="primary"
@@ -665,7 +666,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                                 checked={acremot}
                             />
                         </Box>
-                        <Box sx={{ width: { xl: "20%", lg: "20%", md: "20%", sm: "25%" } }} >
+                        <Box sx={{ width: { xl: "20%", lg: "20%", md: "30%", sm: "40%" } }} >
                             <CusCheckBox
                                 variant="outlined"
                                 color="primary"
@@ -680,23 +681,22 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{ width: "100%", display: "flex", flexDirection: "row", pl: 2 }}>
-                <Box sx={{ display: "flex", width: "50%" }}>
-                    <Box sx={{ width: "20%" }}>
-                        <CusCheckBox
-                            variant="outlined"
-                            color="primary"
-                            size="md"
-                            name="disStatus"
-                            label="Bill status"
-                            value={disStatus}
-                            onCheked={getDiscStatus}
-                            checked={disStatus}>
-                        </CusCheckBox>
-                    </Box>
+            <Box sx={{ width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" }, display: "flex", flexDirection: "row", pl: 2, pt: 1 }}>
+                <Box sx={{ display: "flex", width: { xl: "67.5%", lg: "74%", md: "75%", sm: "75%" } }}>
+                    <CusCheckBox
+                        variant="outlined"
+                        color="primary"
+                        size="md"
+                        name="disStatus"
+                        label="Actual Discharge Status"
+                        value={disStatus}
+                        onCheked={getDiscStatus}
+                        checked={disStatus}
+                        disabled={actFinal !== '' ? false : true}>
+                    </CusCheckBox>
                 </Box>
-                <Box sx={{ display: "flex", width: "50%" }}>
-                    <Box sx={{ width: "50%", }}>
+                <Box sx={{ display: "flex", width: { xl: "20%", lg: "26%", md: "25%", sm: "25%" } }}>
+                    <Box sx={{ width: { xl: "36%", lg: "35%", md: "35%", sm: "40%" }, }}>
                         <CusCheckBox
                             variant="outlined"
                             color="primary"
@@ -708,7 +708,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                             checked={key}>
                         </CusCheckBox>
                     </Box>
-                    <Box sx={{ width: "50%", }}>
+                    <Box sx={{ width: { xl: "36%", lg: "36%", md: "35%", sm: "40%" } }}>
                         <CusCheckBox
                             variant="outlined"
                             color="primary"
@@ -721,22 +721,6 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
                         </CusCheckBox>
                     </Box>
                 </Box>
-            </Box>
-            <Box sx={{ display: "flex", flexDirection: "row", pl: 1 }}>
-                <CustomeToolTip title="Save" placement="left" >
-                    <Box sx={{ p: 1 }}>
-                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submit}>
-                            <LibraryAddIcon fontSize='small' />
-                        </CusIconButton>
-                    </Box>
-                </CustomeToolTip>
-                <CustomeToolTip title="close" placement="left" >
-                    <Box sx={{ p: 1 }}>
-                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closwindow} >
-                            <CloseIcon fontSize='small' />
-                        </CusIconButton>
-                    </Box>
-                </CustomeToolTip>
             </Box>
             <Box sx={{ p: 1 }}>
                 <DiscahrgeEventTable ipno={ipno} count={count} rowSelect={rowSelect} />

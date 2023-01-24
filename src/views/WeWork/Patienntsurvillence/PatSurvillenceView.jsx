@@ -12,22 +12,16 @@ import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 const PatSurvillenceView = ({ ipno, setclosebtn }) => {
     const [tabledata, setTabledata] = useState([])
     const [column] = useState([
-
+        // { headerName: "slno", field: "sl_no" },
         { headerName: "ipno", field: "ip_no", wrapText: true, autoHeight: true, width: 250 },
         { headerName: "name", field: "ptc_ptname", wrapText: true, autoHeight: true, width: 300, filter: true },
         { headerName: "Shift To", field: "shift_to", wrapText: true, autoHeight: true, width: 300 },
         { headerName: "Shift from", field: "shift_from", width: 300, wrapText: true, autoHeight: true },
-        // { headerName: "Recieved Time", field: "recieved_time", wrapText: true, autoHeight: true },
         { headerName: "Bed", field: "bdc_no" },
         { headerName: "Room", field: "room_category" },
         { headerName: "Bed Type", field: "bed_type" },
         { headerName: "Is BHRC", field: "bhrc_patient", width: 200 },
-        // { headerName: "Dietion visit time", field: "dietition_visit_tme", wrapText: true, autoHeight: true },
-        // { headerName: "stat medicine ", field: "stat_medicine", wrapText: true, autoHeight: true },
-        // { headerName: "stat receive time", field: "stat_recived_time", wrapText: true, autoHeight: true },
-        // { headerName: "sfa/mfa ", field: "sfa_mfa" },
         { headerName: "Payment", field: "payment_mode" },
-
     ])
 
     useEffect(() => {
@@ -64,7 +58,6 @@ const PatSurvillenceView = ({ ipno, setclosebtn }) => {
                         columnDefs={column}
                     />
                 </Paper>
-
             </CardCloseOnly>
         </Fragment>
     )

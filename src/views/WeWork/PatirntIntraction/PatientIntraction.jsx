@@ -25,6 +25,7 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
     const [dates, setdates] = useState("")
     const [count, setCount] = useState(0);
     const [value, setvalue] = useState()
+    const [times, setTime] = useState('')
     const [intraction, setintraction] = useState({
         inter_remark_slno: '',
         submit_employee: ''
@@ -45,10 +46,15 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
         setdates(e.target.value)
     }, [])
 
+
+    const getTime = useCallback((e) => {
+        setTime(e.target.value)
+    }, [])
+
     const rowSelect = useCallback((params) => {
         setvalue(1)
         const data = params.api.getSelectedRows()
-        const { inter_remark_slno, particular, status, remarks, remark_date } = data[0]
+        const { inter_remark_slno, particular, status, remarks, remark_date, remark_time } = data[0]
         const frmdata = {
             inter_remark_slno: inter_remark_slno
 
@@ -58,13 +64,12 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
         setstatus(status)
         setdates(remark_date === null ? '' : remark_date)
         setremarks(remarks)
-
+        setTime(remark_time === null ? '' : remark_time)
     }, [])
 
     const emid = useSelector((state) => {
         return state.LoginUserData.empid
     })
-
     const reset = () => {
         setparti('')
         setstatus('')
@@ -95,17 +100,19 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
     const postData = useMemo(() => {
         return {
             surv_slno: id,
-            remark_date: dates !== '' ? moment(dates).format('YYYY-MM-DD hh:mm:ss') : null,
+            remark_date: dates !== '' ? moment(dates).format('YYYY-MM-DD') : null,
+            remark_time: times !== '' ? moment(times).format('YYYY-MM-DD hh:mm:ss') : null,
             particular: parti,
             status: status,
             remarks: Remarks,
             submit_employee: emid
         }
-    }, [dates, parti, status, Remarks, emid, id])
+    }, [dates, times, parti, status, Remarks, emid, id])
 
     const patchdata = useMemo(() => {
         return {
             remark_date: dates !== '' ? moment(dates).format('YYYY-MM-DD hh:mm:ss') : null,
+            remark_time: times,
             particular: parti,
             status: status,
             remarks: Remarks,
@@ -113,7 +120,7 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
             inter_remark_slno: inter_remark_slno
         }
 
-    }, [dates, parti, status, Remarks, emid, inter_remark_slno])
+    }, [dates, times, parti, status, Remarks, emid, inter_remark_slno])
 
     const submited = useCallback((e) => {
         e.preventDefault();
@@ -127,7 +134,6 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
             }
             else if (success === 2) {
                 infoNotify(message)
-
             }
             else {
                 infoNotify(message)
@@ -140,7 +146,6 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
                 succesNotify(message)
                 setCount(count + 1)
                 reset();
-
             }
             else if (success === 1) {
                 infoNotify(message)
@@ -152,7 +157,6 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
         if (value !== 1) {
             InsertData(postData)
         }
-
         else {
             Updatedata(patchdata)
         }
@@ -164,26 +168,63 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
 
     return (
         <Paper square elevation={0} sx={{ dispaly: "flex", p: 2, }}>
-            <Box sx={{ pb: 1 }}>
-                <Typography sx={{ backgroundColor: "#f0f3f5", fontFamily: "Roboto", fontSize: 20, p: 1.5 }} >
-                    Patient Intraction
-                </Typography>
-            </Box>
-            <Box sx={{ display: "flex", p: 2, width: "50%" }}>
-                <Box sx={{ width: { xl: "20%", lg: "30%", md: "30%", sm: "40%" } }}  >
-                    <CssVarsProvider>
-                        <Typography >
-                            Date</Typography>
-                    </CssVarsProvider>
+            <Box sx={{ display: "flex", backgroundColor: "#f0f3f5" }}>
+                <Box sx={{ pb: 1, flex: 1 }}>
+                    <Typography sx={{ fontFamily: "Roboto", fontSize: 20, p: 1.5 }} >
+                        Patient Intraction
+                    </Typography>
                 </Box>
-                <Box sx={{ width: { xl: "30%", lg: "30%", md: "60%", sm: "60%" } }}>
-                    <TextFieldCustom
-                        size="sm"
-                        type="datetime-local"
-                        name="dates"
-                        value={dates}
-                        onchange={getDates}
-                    />
+                <Box sx={{ display: "flex", flexDirection: "row", pl: 1 }}>
+                    <CustomeToolTip title="Save" placement="left" >
+                        <Box sx={{ p: 1 }}>
+                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submited}>
+                                <LibraryAddIcon fontSize='small' />
+                            </CusIconButton>
+                        </Box>
+                    </CustomeToolTip>
+                    <CustomeToolTip title="close" placement="left" >
+                        <Box sx={{ p: 1 }}>
+                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closeIcon} >
+                                <CloseIcon fontSize='small' />
+                            </CusIconButton>
+                        </Box>
+                    </CustomeToolTip>
+                </Box>
+            </Box>
+            <Box sx={{ display: "flex", p: 2, width: "100%" }}>
+                <Box sx={{ display: "flex", width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
+                    <Box sx={{ width: { xl: "20%", lg: "30%", md: "30%", sm: "40%" } }}  >
+                        <CssVarsProvider>
+                            <Typography >
+                                Date:</Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ width: { xl: "30%", lg: "50%", md: "60%", sm: "50%" } }}>
+                        <TextFieldCustom
+                            size="sm"
+                            type="date"
+                            name="dates"
+                            value={dates}
+                            onchange={getDates}
+                        />
+                    </Box>
+                </Box>
+                <Box sx={{ display: "flex", width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
+                    <Box sx={{ width: { xl: "20%", lg: "20%", md: "30%", sm: "20%" } }}  >
+                        <CssVarsProvider>
+                            <Typography >
+                                Time:</Typography>
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ width: { xl: "30%", lg: "50%", md: "60%", sm: "60%" } }}>
+                        <TextFieldCustom
+                            size="sm"
+                            type="datetime-local"
+                            name="times"
+                            value={times}
+                            onchange={getTime}
+                        />
+                    </Box>
                 </Box>
             </Box>
             <Box sx={{ p: 1 }} >
@@ -191,10 +232,9 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
                     <Box sx={{ width: { xl: "10%", lg: "15%", md: "15%", sm: "20%" } }}>
                         <CssVarsProvider>
                             <Typography >
-                                Particular</Typography>
+                                Particular:</Typography>
                         </CssVarsProvider>
                     </Box>
-
                     <Box sx={{ display: "flex", width: { xl: "70%", lg: "90%", md: "90%", sm: "80%" } }}>
                         <CustomTextarea
                             size="sm"
@@ -203,7 +243,6 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
                             style={{ height: 50, width: '100%' }}
                             value={parti}
                             onchange={getparticular}
-
                         />
                     </Box>
                 </Box>
@@ -211,10 +250,9 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
                     <Box sx={{ width: { xl: "10%", lg: "15%", md: "15%", sm: "20%" } }}>
                         <CssVarsProvider>
                             <Typography >
-                                Status</Typography>
+                                Status:</Typography>
                         </CssVarsProvider>
                     </Box>
-
                     <Box sx={{ display: "flex", width: { xl: "70%", lg: "90%", md: "90%", sm: "80%" }, }}>
                         <CustomTextarea
                             size="sm"
@@ -227,14 +265,13 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
                     </Box>
                 </Box>
                 <Box sx={{ display: "flex", flexDirection: "row", width: "100%", p: 1 }}>
-                    <Box sx={{ width: { xl: "10%", lg: "15%", md: "15%", sm: "20%" } }}>
+                    <Box sx={{ width: { xl: "10%", lg: "14%", md: "14%", sm: "20%" } }}>
                         <CssVarsProvider>
                             <Typography >
-                                Remarks</Typography>
+                                Remarks:</Typography>
                         </CssVarsProvider>
                     </Box>
-
-                    <Box sx={{ display: "flex", width: { xl: "70%", lg: "90%", md: "90%", sm: "80%" } }}>
+                    <Box sx={{ display: "flex", width: { xl: "70%", lg: "86%", md: "86%", sm: "80%" } }}>
                         <CustomTextarea
                             size="sm"
                             type="text"
@@ -246,24 +283,6 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{ display: "flex", flexDirection: "row", pl: 1 }}>
-                <CustomeToolTip title="Save" placement="left" >
-                    <Box sx={{ p: 1 }}>
-                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submited}>
-                            <LibraryAddIcon fontSize='small' />
-                        </CusIconButton>
-                    </Box>
-                </CustomeToolTip>
-                <CustomeToolTip title="close" placement="left" >
-                    <Box sx={{ p: 1 }}>
-                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closeIcon} >
-                            <CloseIcon fontSize='small' />
-                        </CusIconButton>
-                    </Box>
-                </CustomeToolTip>
-
-            </Box>
-
             <Box sx={{ px: 2, py: 1 }}>
                 <PatIntractionTable ipno={ipno} count={count} rowSelect={rowSelect} />
             </Box>

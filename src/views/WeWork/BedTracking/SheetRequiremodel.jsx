@@ -85,7 +85,7 @@ const SheetRequiremodel = ({ open, setopen, rmSlno, count, setcount, shift }) =>
                     }}>
 
                     <DialogContentText id="alert-dialog-slide-descriptiona">
-                        shifting require
+                        sheet require
                     </DialogContentText>
 
 
