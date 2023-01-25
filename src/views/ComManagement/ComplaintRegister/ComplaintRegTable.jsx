@@ -76,34 +76,34 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
 
     //column title setting for pending
     const [columnpending] = useState([
-        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, width: 120 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, width: 300 },
-        { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", width: 250 },
-        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", width: 280 },
-        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", width: 250, autoHeight: true, wrapText: true },
+        { headerName: "Slno", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 80 },
+        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 100 },
+        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 100 },
+        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", minWidth: 180, autoHeight: true, wrapText: true },
     ])
 
     const [columnonhold] = useState([
-        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, width: 120 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, width: 300 },
-        { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", width: 250 },
-        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", width: 280 },
-        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", width: 250, autoHeight: true, wrapText: true },
+        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 80 },
+        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 100 },
+        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 100 },
+        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", minWidth: 180, autoHeight: true, wrapText: true },
     ])
 
     const [columnVerify] = useState([
         {
-            headerName: 'Verify', cellRenderer: params => {
+            headerName: 'Verify', minWidth: 80, cellRenderer: params => {
                 if ((params.data.compalint_status === 2) && (params.data.cm_rectify_status === 'R')) {
                     return <IconButton onClick={() => Verify(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
@@ -118,16 +118,16 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
                 }
             }
         },
-        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, width: 120 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, width: 300 },
-        { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 250 },
+        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", width: 250 },
-        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", width: 280 },
-        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", width: 250, autoHeight: true, wrapText: true },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 150 },
+        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 150 },
+        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", minWidth: 180, autoHeight: true, wrapText: true },
 
     ])
 
@@ -153,7 +153,7 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
             }
         },
         {
-            headerName: 'Verify', cellRenderer: params => {
+            headerName: 'Verify', minWidth: 80, cellRenderer: params => {
                 if ((params.data.compalint_status === 2) && (params.data.cm_rectify_status === 'R')) {
                     return <IconButton onClick={() => Verify(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
@@ -168,16 +168,16 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
                 }
             }
         },
-        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, width: 120 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, width: 300 },
-        { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", width: 250 },
-        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", width: 280 },
-        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", width: 250, autoHeight: true, wrapText: true },
+        { headerName: "Slno", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 100 },
+        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 150 },
+        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", autoHeight: true, wrapText: true, minWidth: 180 },
 
     ])
     //dispalying complaints against the users deptsection
