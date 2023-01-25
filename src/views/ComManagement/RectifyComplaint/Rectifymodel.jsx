@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, memo, useMemo, useCallback } from 'react'
+import React, { Fragment, useState, useEffect, memo, useCallback } from 'react'
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import DialogContent from '@mui/material/DialogContent';
@@ -16,10 +16,7 @@ import Checkbox from '@mui/material/Checkbox';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
-
-
 const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
-
     //intialisation
     const [rectify, setrectify] = useState({
         complaint_slno: 0,
@@ -58,8 +55,6 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
             setEmployee(newarry)
         }
     }
-
-
     //setting data to be displayed in modal
     useEffect(() => {
         const rectifyfunction = () => {
@@ -133,32 +128,18 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
     const updatePendhold = useCallback((e) => {
         setPendhold(e.target.value)
     }, [])
-    // data setting to update the complaint mast table
-    const patchData = useMemo(() => {
+    // data setting to update the complaint mast table and complaint detail table
+    const patchData = Employee && Employee.map((val) => {
         return {
             compalint_status: rectified === true ? 2 : compalint_status, // when we click on rectifi status becom 2 other wise status is 1
             cm_rectify_status: pending === true ? 'P' : hold === true ? 'O' : rectified === true ? 'R' : null, //we click pending rectify status becom P so onn
             cm_rectify_time: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             rectify_pending_hold_remarks: pending === true ? pendholdreason : hold === true ?
                 pendholdreason : rectified === true ? pendholdreason : null,
+            assigned_emp: val.emids,
             complaint_slno: complaint_slno
         }
-    }, [complaint_slno, pending, hold, rectified, compalint_status, pendholdreason])
-
-
-
-    const [counmsg, setMsg] = useState(0)
-
-    useEffect(() => {
-        if (counmsg === 1) {
-            succesNotify("Rectify Complaint")
-        } else if (counmsg === 2) {
-            errorNotify("Not Completed")
-        }
-
-    }, [counmsg])
-
-
+    })
     // function to database update
     const rectifycmplt = useCallback((e) => {
         e.preventDefault();
@@ -171,10 +152,9 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
             hic_policy_name: '',
             compalint_date: ''
         }
-
         const updateFun = async (patchData) => {
             const result = await axioslogin.patch(`/Rectifycomplit/updatecmp`, patchData);
-            const { success } = result.data;
+            const { success, message } = result.data;
             if (success === 2) {
                 setCount(count + 1);
                 setOpen(false)
@@ -184,39 +164,20 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
                 setRectify(false)
                 setSelect(false)
                 setPendhold("")
+                setEmployee([])
+                succesNotify(message)
             }
             else {
-                setMsg(2)
-            }
-        }
-
-        const updateFunDetail = async (dataforUpdate) => {
-            const result = await axioslogin.patch(`/Rectifycomplit/updateassignDetail/recty`, dataforUpdate);
-            const { success } = result.data;
-            if (success === 2) {
-                setMsg(1)
-                setCount(count + 1);
-            }
-            else {
-                setMsg(2)
+                errorNotify("Error Occured")
             }
         }
         if (pending === true || hold === true || rectified === true && Employee.length !== 0) {
             updateFun(patchData)
-            Employee && Employee.map((val) => {
-                const dataforUpdate = {
-                    assigned_emp: val.emids,
-                    complaint_slno: complaint_slno
-                }
-                updateFunDetail(dataforUpdate)
-                return 0
-            })
-
         }
         else {
             infoNotify("Please Select any employee Or Choose Any Option")
         }
-    }, [patchData, count, setCount, setOpen, hold, pending, rectified, Employee, complaint_slno])
+    }, [patchData, count, setCount, setOpen, hold, pending, rectified, Employee])
     //modal close function
     const handleClose = () => {
         setOpen(false);
@@ -228,7 +189,6 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
         setSelect(false)
         setEmployee([])
     };
-
     return (
         <Fragment>
             <ToastContainer />

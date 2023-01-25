@@ -79,29 +79,29 @@ const DirectComplaintTable = ({ count, rowSelect, setCount }) => {
 
     //column title setting for pending
     const [columnpending] = useState([
-        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, width: 120 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, width: 300 },
-        { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", width: 250 },
-        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", width: 280 },
-        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", width: 250, autoHeight: true, wrapText: true },
+        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 150 },
+        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 150 },
+        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
     ])
 
     const [columnonhold] = useState([
-        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, width: 120 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, width: 300 },
-        { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", width: 250 },
-        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", width: 280 },
-        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", width: 250, autoHeight: true, wrapText: true },
+        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 150 },
+        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 150 },
+        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
     ])
 
     const [columnVerify] = useState([
@@ -121,16 +121,16 @@ const DirectComplaintTable = ({ count, rowSelect, setCount }) => {
                 }
             }
         },
-        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, width: 120 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, width: 300 },
-        { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", width: 250 },
-        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", width: 280 },
-        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", width: 250, autoHeight: true, wrapText: true },
+        { headerName: "Slno", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 150 },
+        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 150 },
+        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
 
     ])
 
@@ -173,14 +173,14 @@ const DirectComplaintTable = ({ count, rowSelect, setCount }) => {
                 }
             }
         },
-        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, width: 80 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, width: 200 },
-        { headerName: "Request Type", field: "req_type_name", width: 250 },
-        { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true },
+        { headerName: "Slno", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Request Type", field: "req_type_name", minWidth: 150 },
+        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-        { headerName: "Priority", field: "priority" },
+        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Priority", field: "priority", minWidth: 150 },
     ])
     //for getting login user id
     const id = useSelector((state) => {
