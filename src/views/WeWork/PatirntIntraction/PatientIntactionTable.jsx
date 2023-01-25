@@ -12,18 +12,15 @@ const PatientIntactionTable = ({ ipno, count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
 
     const [column] = useState([
-        { headerName: "SlNo", field: "inter_remark_slno", width: 150 },
+        { headerName: "SlNo", field: "slno", width: 150 },
         { headerName: "Date", field: "remark_date", width: 150 },
+        { headerName: "Time", field: "remark_time", width: 150 },
         { headerName: "Name", field: "ptc_ptname", width: 150 },
         { headerName: "Particular", field: "particular", width: 150 },
-        { headerName: "status", field: "status", width: 150 },
+        { headerName: "Status", field: "status", width: 150 },
         { headerName: "Remark", field: "remarks", width: 150 },
         { headerName: 'Actions', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> }
-
-
     ])
-
-
 
     useEffect(() => {
         const getIntarction = async (ipno) => {
@@ -39,7 +36,6 @@ const PatientIntactionTable = ({ ipno, count, rowSelect }) => {
         }
         getIntarction(ipno);
     }, [count, ipno])
-
 
     return (
         <Fragment>

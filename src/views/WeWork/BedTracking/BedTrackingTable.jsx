@@ -16,17 +16,17 @@ const BedTrackingTable = ({ ipno, count, rowSelect, setTabledata, tabledata, rmS
     const [dataa, setdataa] = useState()
     const [shift, setshift] = useState(0)
     const [column] = useState([
-        { headerName: "slno", field: "sl_no", width: 150 },
+        { headerName: "Slno", field: "slno", width: 150 },
         { headerName: "MRD No.", field: "pt_no" },
-        { headerName: "ipno", field: "ip_no", wrapText: true, autoHeight: true },
-        { headerName: "name", field: "ptc_ptname", wrapText: true, autoHeight: true },
+        { headerName: "IPNo", field: "ip_no", wrapText: true, autoHeight: true },
+        { headerName: "Name", field: "ptc_ptname", wrapText: true, autoHeight: true },
         { headerName: "Transfer time", field: "rmd_occupdate", wrapText: true, autoHeight: true },
         { headerName: "Realese Time", field: "rmd_relesedate", wrapText: true, autoHeight: true },
         { headerName: "Transfer To", field: "nsc_desc", wrapText: true, autoHeight: true },
         { headerName: "Bed no.", field: "bdc_no" },
 
         {
-            headerName: 'Edit', minWidth: 80,
+            headerName: 'Add', minWidth: 80,
             cellRenderer: params => {
                 if (params.data.rmc_shifing_required !== 1) {
                     return <IconButton disabled

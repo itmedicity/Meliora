@@ -11,16 +11,17 @@ const DailyActivityTable = ({ count, rowSelect, ipno }) => {
     const [tabledata, setTabledata] = useState([])
 
     const [column] = useState([
-        { headerName: "SlNo", field: "activity_slno", width: 150 },
-        { headerName: "ipno", field: "ip_no", wrapText: true, autoHeight: true },
-        { headerName: "name", field: "ptc_ptname", wrapText: true, autoHeight: true, width: 300 },
+        { headerName: "SlNo", field: "slno", width: 150 },
+        { headerName: "IPno", field: "ip_no", wrapText: true, autoHeight: true },
+        { headerName: "Name", field: "ptc_ptname", wrapText: true, autoHeight: true, width: 300 },
         { headerName: "Date", field: "activity_date", wrapText: true, autoHeight: true },
-        { headerName: "Room cleaning", field: "room_clean" },
-        { headerName: "Sheet change", field: "sheet_change" },
-        { headerName: "Doctor's round", field: "dr_round" },
-        { headerName: "Dietion Round", field: "dietian_round" },
-        { headerName: "Bill Audit", field: "bill_audit" },
-        { headerName: "Insurence", field: "insurance_status" },
+        { headerName: "Time", field: "Time" },
+        { headerName: "Room cleaning", field: "room_clean", width: 300 },
+        { headerName: "Doctor's round", field: "dr_round", width: 300 },
+        { headerName: "Doc.visit time", field: "dr_visit_time", wrapText: true, autoHeight: true, width: 350 },
+        { headerName: "Dietion Round", field: "dietian_round", width: 300 },
+        { headerName: "Bill Audit", field: "bill_audit", width: 300 },
+        { headerName: "Insurence", field: "insurance_status", width: 300 },
         { headerName: 'Actions', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> }
 
     ])
