@@ -88,6 +88,7 @@ const DietPlannedList = React.lazy(() => import('./views/dashboard/DietDashViews
 const DietPlanPending = React.lazy(() => import('./views/dashboard/DietDashViews/DietPlanPendingList'))
 const RequestRegister = React.lazy(() => import('./views/RequestManagement/RequestRegister/ReqRegistration'))
 const ReqDepartmentApproval = React.lazy(() => import('./views/RequestManagement/DepartmentApproval/ReqDeptApproval'))
+const HallBooking = React.lazy(() => import('./views/HallBooking/HallBookingRegister'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -180,7 +181,7 @@ const routes = [
   { path: '/Home/DietPlanPending', exact: true, name: 'DietPlanPending View', component: DietPlanPending },
   { path: '/Home/RequestRegister', exact: true, name: 'Request Register', component: RequestRegister },
   { path: '/Home/Req.DepartmentApproval', exact: true, name: 'Request Departmental Approval', component: ReqDepartmentApproval },
-
+  { path: '/Home/HallBooking', exact: true, name: 'Hall Booking', component: HallBooking },
 ]
 
 export default routes

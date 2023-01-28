@@ -13,10 +13,15 @@ import CustomTextarea from 'src/views/Components/CustomTextarea';
 import { format } from 'date-fns'
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import Checkbox from '@mui/material/Checkbox';
+import { useSelector } from 'react-redux';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
+    //redux for geting login id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     //intialisation
     const [rectify, setrectify] = useState({
         complaint_slno: 0,
@@ -59,7 +64,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
     useEffect(() => {
         const rectifyfunction = () => {
             const { complaint_slno, complaint_desc, req_type_name, complaint_dept_name, complaint_type_name, hic_policy_name, compalint_date, sec_name, em_name,
-                date, Time, compalint_status
+                date, Time, compalint_status, cm_rectify_status, rectify_pending_hold_remarks
             } = detail[0]
             const frmdata = {
                 complaint_slno: complaint_slno,
@@ -76,6 +81,9 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
                 compalint_status: compalint_status
             }
             setrectify(frmdata)
+            setHold(cm_rectify_status === 'O' ? true : false);
+            setPendhold(rectify_pending_hold_remarks)
+            setPending(cm_rectify_status === 'P' ? true : false);
         }
         rectifyfunction()
     }, [detail])
@@ -136,6 +144,8 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
             cm_rectify_time: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             rectify_pending_hold_remarks: pending === true ? pendholdreason : hold === true ?
                 pendholdreason : rectified === true ? pendholdreason : null,
+            pending_onhold_time: pending === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : hold === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+            pending_onhold_user: id,
             assigned_emp: val.emids,
             complaint_slno: complaint_slno
         }
@@ -379,10 +389,10 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
                                 }}>
                                     <Box sx={{
                                         display: 'flex',
-                                        width: "30%"
+                                        width: "40%"
                                     }} >
                                         <CusCheckBox
-                                            label="Pending"
+                                            label="On Progress"
                                             color="primary"
                                             size="md"
                                             name="pending"
@@ -427,7 +437,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
                                             minRows={4}
                                             placeholder=" Pending Remarks"
                                             onchange={updatePendhold}
-                                            value={pendholdreason}
+                                            value={pendholdreason === null ? '' : pendholdreason}
                                         />
                                     </Box> : flag === 2 ? <Box sx={{ p: 0.5 }}>
                                         <CustomTextarea
@@ -435,7 +445,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
                                             minRows={4}
                                             placeholder=" On Hold Remarks"
                                             onchange={updatePendhold}
-                                            value={pendholdreason}
+                                            value={pendholdreason === null ? '' : pendholdreason}
                                         />
                                     </Box> : <Box sx={{ p: 0.5 }}>
                                         <CustomTextarea
@@ -443,7 +453,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
                                             minRows={4}
                                             placeholder="Remarks"
                                             onchange={updatePendhold}
-                                            value={pendholdreason}
+                                            value={pendholdreason === null ? '' : pendholdreason}
                                         />
                                     </Box>
                                 }

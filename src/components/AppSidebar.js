@@ -18,6 +18,7 @@ import NurseStation from '../Menus/NurseStation'
 import WeWorkTransact from '../Menus/WeWorkTransact'
 import CrmTransactions from '../Menus/CrmTransactions'
 import TimeEscalations from '../Menus/EscalationUtility'
+import HallBookingTrans from 'src/Menus/HallBookingTrans'
 import { Box, Typography } from '@mui/material'
 
 const AppSidebar = () => {
@@ -31,6 +32,7 @@ const AppSidebar = () => {
   const [rmtransact, setRmTransact] = useState()
   const [weworktransact, setweworktransact] = useState()
   const [escalation, setescalation] = useState()
+  const [hallbooking, setHallBooking] = useState()
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
 
@@ -92,6 +94,12 @@ const AppSidebar = () => {
       name: 'Escalation',
       items: escalation
     },
+    {
+      slno: 16,
+      component: CNavGroup,
+      name: 'Hall Booking',
+      items: hallbooking
+    },
   ]
 
   useEffect(() => {
@@ -118,6 +126,8 @@ const AppSidebar = () => {
         setweworktransact(weworkTransact)
         const escalationTransact = TimeEscalations.filter(val => menuSlnoAry.includes(val.men_slno));
         setescalation(escalationTransact)
+        const hallBookingTransact = HallBookingTrans.filter(val => menuSlnoAry.includes(val.men_slno));
+        setHallBooking(hallBookingTransact)
         setCount(1)
       }
     })
