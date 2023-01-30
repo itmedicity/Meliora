@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useCallback, useMemo, useState } from 'react'
+import React, { Fragment, useEffect, useCallback, useMemo, memo, useState } from 'react'
 import CustomReportOne from 'src/views/Components/CustomReportOne'
 import { useDispatch, useSelector } from 'react-redux';
 import { getDiet } from 'src/redux/actions/Diet.action'
@@ -117,4 +117,4 @@ const DietTypeWise = () => {
     )
 }
 
-export default DietTypeWise
+export default memo(DietTypeWise)

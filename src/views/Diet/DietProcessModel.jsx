@@ -63,6 +63,7 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
                     let day = d.getDay();
                     const getmenu = {
                         bd_code: bd_code,
+                        diet_slno: diet_slno,
                         dmenu_slno: dmenu_slno,
                         days: day
                     }
@@ -100,36 +101,44 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
         e.preventDefault();
         const InsertFun = async (postdata) => {
             const result = await axioslogin.post('/dietprocess', postdata);
-            const { success, message, insetid } = result.data;
-            if (success === 1) {
-                const procesDetail = menus && menus.map((val) => {
-                    return {
-                        proc_slno: insetid,
-                        type_slno: val.type_slno,
-                        rate_hos: val.hosp_rate,
-                        rate_cant: val.cant_rate
-                    }
-                })
-                const result1 = await axioslogin.post('/dietprocess/processDetailInsert', procesDetail);
-                const { suces, messag } = result1.data;
-                if (suces === 1) {
-                    succesNotify(messag)
-                    setCount(count + 1);
-                    setOpen(false)
-                    setSearch(0)
-                }
-                else if (suces === 0) {
-                    infoNotify(messag);
-                }
-                else {
-                    infoNotify(messag)
-                }
-            } else {
-                errorNotify(message)
+            return result.data
+        }
+
+        const insertDetail = async (procesDetail) => {
+            const result1 = await axioslogin.post('/dietprocess/processDetailInsert', procesDetail);
+            const { suces, messag } = result1.data;
+            if (suces === 1) {
+                succesNotify(messag)
+                setCount(count + 1);
+                setOpen(false)
+                setSearch(0)
+            }
+            else if (suces === 0) {
+                infoNotify(messag);
+            }
+            else {
+                infoNotify(messag)
             }
         }
+
         if (menus.length !== 0) {
-            InsertFun(postdata)
+            InsertFun(postdata).then((value) => {
+                const { success, message, insetid } = value;
+                if (success === 1) {
+                    const procesDetail = menus && menus.map((val) => {
+                        return {
+                            proc_slno: insetid,
+                            type_slno: val.type_slno,
+                            rate_hos: val.hosp_rate,
+                            rate_cant: val.cant_rate
+                        }
+                    })
+                    insertDetail(procesDetail)
+                }
+                else {
+                    errorNotify(message)
+                }
+            })
         }
         else {
             infoNotify("No Menus are present in selected day under planed Diet")

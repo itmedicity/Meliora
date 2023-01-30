@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect, useState } from 'react'
+import React, { useCallback, useMemo, useEffect, memo, useState } from 'react'
 import { Box, Grid, IconButton } from '@mui/material'
 import { useHistory } from 'react-router-dom';
 import CardMaster from 'src/views/Components/CardMaster'
@@ -173,7 +173,31 @@ const DietMenuSetting = () => {
         /*** * insert function for use call back     */
         const InsertData = async (dmenuPost) => {
             const result = await axioslogin.post(`/dietmenudtl/dmenu`, dmenuPost)
-            const { success, insetid, data } = result.data;
+            return result.data
+        }
+
+        /*** * insert function for use call back     */
+        const menudetailInsert = async (postMenuDetal) => {
+            const result = await axioslogin.post(`/dietmenudtl/detailInsert`, postMenuDetal)
+            const { message, success } = result.data;
+            if (success === 1) {
+                succesNotify(message)
+                setCount(count + 1)
+                setDietmenu(formReset)
+                setData(resetfrm)
+                reset();
+                setdataPost([])
+            }
+            else if (success === 0) {
+                infoNotify(message)
+            }
+            else {
+                infoNotify(message)
+            }
+        }
+
+        InsertData(dmenuPost).then((value) => {
+            const { success, insetid, data } = value;
             if (success === 1) {
                 const postMenuDetal = dataPost && dataPost.map((val) => {
                     return {
@@ -211,28 +235,7 @@ const DietMenuSetting = () => {
                 })
                 menudetailInsert(postMenuDetal)
             }
-        }
-
-        /*** * insert function for use call back     */
-        const menudetailInsert = async (postMenuDetal) => {
-            const result = await axioslogin.post(`/dietmenudtl/detailInsert`, postMenuDetal)
-            const { message, success } = result.data;
-            if (success === 1) {
-                succesNotify(message)
-                setCount(count + 1)
-                setDietmenu(formReset)
-                setData(resetfrm)
-                reset();
-                setdataPost([])
-            }
-            else if (success === 0) {
-                infoNotify(message)
-            }
-            else {
-                infoNotify(message)
-            }
-        }
-        InsertData(dmenuPost)
+        })
     }, [count, dmenuPost, dataPost, id])
 
     //Close function
@@ -371,4 +374,4 @@ const DietMenuSetting = () => {
     )
 }
 
-export default DietMenuSetting
+export default memo(DietMenuSetting)

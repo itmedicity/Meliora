@@ -6,7 +6,7 @@ const { FETCH_ITEM_MASTER_EXTRA } = ActionTyps
  */
 /*** Itemt action type check then payload set to the state and loading status set as true */
 export const getItemExtra = () => async (dispatch) => {
-    const result = await axioslogin.get('/dietmenudtl/item/extra');
+    const result = await axioslogin.get(`/dietmenudtl/itemExtraOder`);
     const { success, data } = result.data
     if (success === 1) {
         dispatch({ type: FETCH_ITEM_MASTER_EXTRA, payload: data, loadingStatus: true })
