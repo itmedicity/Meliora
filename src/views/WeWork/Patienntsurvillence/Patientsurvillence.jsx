@@ -21,7 +21,6 @@ import CloseIcon from '@mui/icons-material/Close';
 const RoomAmenties = React.lazy(() => import('../../WeWork/Patienntsurvillence/BasicRoomAmenties'))
 const Patservice = React.lazy(() => import('../../WeWork/Patienntsurvillence/Patientservice'))
 const AssignedStaff = React.lazy(() => import('../../CommonSelectCode/AssignedStaffselect'))
-const ShiftinngNursingStation = React.lazy(() => import('../../CommonSelectCode/NursingStationMeliSelect'))
 const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bedcode, setclosebtn, nurse, nsdesc }) => {
     const [bedtype, setbedtype] = useState(false)
     const [rmcat, setrmcat] = useState(false)
@@ -44,7 +43,6 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
     const [sfa, setsfa] = useState('')
     const [remr, setremr] = useState('')
     const [reson, setreson] = useState('')
-    const [shiftto, setshiftto] = useState(0)
     const [count, setcount] = useState(0)
     const [flag, setflag] = useState(0)
     const [surv, setsurv] = useState({
@@ -225,7 +223,6 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
             ip_no: ipno,
             pt_no: ptno,
             admission_date: doa,
-
         }
     }, [ipno, ptno, doa])
     const resetremot = useMemo(() => {
@@ -257,7 +254,6 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
             visit: false
         }
     }, [])
-
     const reset = useCallback(() => {
         setbedtype(false)
         setrmcat(false)
@@ -275,7 +271,6 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
         setcr('')
         setsfa('')
         setremr('')
-        setshiftto(0)
         setamenties(resetamenties)
         setremote(resetremot)
         setservice(resetservice)
@@ -284,9 +279,6 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
         setbhrc(false)
         setcallbell(false)
         setkey(false)
-
-
-
     }, [resetamenties, resetremot, resetservice])
 
     const detail = useMemo(() => {
@@ -295,12 +287,13 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
             bd_code: bedcode
         }
     }, [ipno, bedcode])
+
     useEffect(() => {
         const getPatientList = async (detail) => {
             const result = await axioslogin.post(`/WeWork/patdetail`, detail)
             const { success, data } = result.data
             if (success === 1) {
-                const { shift_to, surv_log_slno,
+                const { surv_log_slno,
                     recieved_time, room_category, bed_type, telephone, geezer, dietition_visit_tme,
                     stat_medicine, stat_recived_time, assigned_nurse, document_status, payment_mode, tv_ac_remot,
                     creadit_detail, pateint_service, remarks_we, sfa_mfa, discharge_wright, patpackage,
@@ -344,8 +337,6 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                 }
                 setsurv(frmdata)
                 setduser(discharge_wright !== null ? discharge_wright : '')
-                // setshiffrom(shift_from)
-                setshiftto(shift_to)
                 setrstym(recieved_time !== null ? recieved_time : '')
                 setrmcat(room_category)
                 setbedtype(bed_type)
@@ -377,13 +368,58 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                 warningNotify("Error occured contact EDP")
             }
         }
-
         getPatientList(detail);
     }, [detail])
-
     const submited = useCallback((e) => {
         e.preventDefault();
-        const insertdata = async (postData) => {
+        /*** * initial insert function for use call back     */
+        const Insertidtable = async (postdetail) => {
+            const result = await axioslogin.post(`/WeWork/insertsurv`, postdetail)
+            const { message, success, insertId } = result.data;
+            if (success === 1) {
+                reset();
+                return insertId
+            } else if (success === 2) {
+                infoNotify(message)
+                reset();
+            }
+            else {
+                infoNotify(message)
+            }
+        }
+        const insertdata = async (inserid) => {
+            const postData = {
+                we_surv_slno: inserid,
+                ip_no: ipno,
+                bd_code: bedcode,
+                discharge_wright: duser !== '' ? moment(duser).format('YYYY-MM-DD hh:mm:ss') : null,
+                shift_from: null,
+                shift_to: nurse,
+                recieved_time: rstym !== '' ? moment(rstym).format('YYYY-MM-DD hh:mm:ss') : null,
+                room_category: rmcat,
+                bed_type: bedtype,
+                tv_ac_remot: actvremort,
+                telephone: tele === true ? 1 : 0,
+                geezer: gzr === true ? 1 : 0,
+                pat_surv_key: key === true ? 1 : 0,
+                pat_surv_callbell: callbell === true ? 1 : 0,
+                dietition_visit_tme: dv !== '' ? moment(dv).format('YYYY-MM-DD hh:mm:ss') : null,
+                stat_medicine: st !== '' ? moment(st).format('YYYY-MM-DD hh:mm:ss') : null,
+                stat_recived_time: rt !== '' ? moment(rt).format('YYYY-MM-DD hh:mm:ss') : null,
+                assigned_nurse: asn !== 0 ? asn : null,
+                payment_mode: modepay,
+                document_status: doc,
+                creadit_detail: cr,
+                package: pck,
+                remarks_we: remr,
+                sfa_mfa: sfa,
+                room_amentites: roomamenties,
+                pateint_service: patservice,
+                bhrc_patient: bhrc === true ? 1 : 0,
+                if_dama: dama === true ? 1 : 0,
+                dama_remarks: reson,
+                we_employee: emid
+            }
             const result1 = await axioslogin.post('/WeWork/patientsurv', postData)
             const { succs, messagee } = result1.data;
             if (succs === 1) {
@@ -410,84 +446,28 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                 infoNotify(message)
             }
         }
-
-
-        /*** * initial insert function for use call back     */
-        const Insertidtable = async (postdetail) => {
-            const result = await axioslogin.post(`/WeWork/insertsurv`, postdetail)
-            const { message, success, insertId } = result.data;
-            if (success === 1) {
-                succesNotify(message)
-                reset();
-                const postData = {
-                    we_surv_slno: insertId,
-                    ip_no: ipno,
-                    pt_no: ptno,
-                    bd_code: bedcode,
-                    discharge_wright: duser !== '' ? moment(duser).format('YYYY-MM-DD hh:mm:ss') : null,
-                    shift_from: nurse,
-                    shift_to: shiftto,
-                    recieved_time: rstym !== '' ? moment(rstym).format('YYYY-MM-DD hh:mm:ss') : null,
-                    room_category: rmcat,
-                    bed_type: bedtype,
-                    tv_ac_remot: actvremort,
-                    telephone: tele === true ? 1 : 0,
-                    geezer: gzr === true ? 1 : 0,
-                    pat_surv_key: key === true ? 1 : 0,
-                    pat_surv_callbell: callbell === true ? 1 : 0,
-                    dietition_visit_tme: dv !== '' ? moment(dv).format('YYYY-MM-DD hh:mm:ss') : null,
-                    stat_medicine: st !== '' ? moment(st).format('YYYY-MM-DD hh:mm:ss') : null,
-                    stat_recived_time: rt !== '' ? moment(rt).format('YYYY-MM-DD hh:mm:ss') : null,
-                    assigned_nurse: asn !== 0 ? asn : null,
-                    payment_mode: modepay,
-                    document_status: doc,
-                    creadit_detail: cr,
-                    package: pck,
-                    remarks_we: remr,
-                    sfa_mfa: sfa,
-                    room_amentites: roomamenties,
-                    pateint_service: patservice,
-                    bhrc_patient: bhrc === true ? 1 : 0,
-                    if_dama: dama === true ? 1 : 0,
-                    dama_remarks: reson,
-                    we_employee: emid
-                }
-                const timeout = setTimeout(() => {
-                    insertdata(postData)
-                }, 1000)
-                return () => clearTimeout(timeout)
-            } else if (success === 2) {
-                infoNotify(message)
-                reset();
-            }
-            else {
-                infoNotify(message)
-            }
-        }
         const postdata = {
             ip_no: ipno,
             pt_no: ptno
         }
-
         const getsurvslno = async (postdata) => {
             const result = await axioslogin.post(`/WeWork/survslno`, postdata)
             const { success, data } = result.data;
             if (success === 1) {
                 const { surv_slno } = data[0]
                 const shiftdetl = {
-                    shift_from: nurse,
-                    shift_to: shiftto,
+                    shift_to: nurse,
                     we_surv_slno: we_surv_slno
                 }
                 const getsurvlogslno = async (shiftdetl) => {
                     const result = await axioslogin.post('/WeWork/logslno', shiftdetl)
                     const { success, data } = result.data
-                    if (success === 1) {
+                    if (success === 1 && success !== 2) {
                         const { surv_log_slno } = data[0]
                         const patchData = {
                             discharge_wright: duser !== '' ? moment(duser).format('YYYY-MM-DD hh:mm:ss') : null,
-                            // shift_from: nurse,
-                            shift_to: shiftto,
+                            shift_from: null,
+                            shift_to: nurse,
                             recieved_time: rstym !== '' ? moment(rstym).format('YYYY-MM-DD hh:mm:ss') : null,
                             room_category: rmcat,
                             bed_type: bedtype,
@@ -521,11 +501,10 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                         const postData = {
                             we_surv_slno: surv_slno,
                             ip_no: ipno,
-                            pt_no: ptno,
                             bd_code: bedcode,
                             discharge_wright: duser !== '' ? moment(duser).format('YYYY-MM-DD hh:mm:ss') : null,
-                            shift_from: nurse,
-                            shift_to: shiftto,
+                            shift_from: null,
+                            shift_to: nurse,
                             recieved_time: rstym !== '' ? moment(rstym).format('YYYY-MM-DD hh:mm:ss') : null,
                             room_category: rmcat,
                             bed_type: bedtype,
@@ -551,19 +530,30 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                             dama_remarks: reson,
                             we_employee: emid
                         }
-                        insertdata(postData)
+                        const result1 = await axioslogin.post('/WeWork/patientsurv', postData)
+                        const { succs, messagee } = result1.data;
+                        if (succs === 1) {
+                            succesNotify(messagee)
+                        } else if (succs === 0) {
+                            infoNotify(messagee);
+                        }
+                        else {
+                            infoNotify(messagee)
+                        }
                         reset()
                     }
                 }
                 getsurvlogslno(shiftdetl)
             }
             else if (success === 2) {
-                Insertidtable(postdetail)
+                Insertidtable(postdetail).then((value) => {
+                    insertdata(value)
+                })
             }
         }
         getsurvslno(postdata)
     }, [postdetail, ipno, ptno, bedcode, bedtype, gzr, dv, st, rt, asn, modepay, doc,
-        cr, pck, remr, sfa, duser, shiftto, rstym, tele, nurse, key, callbell,
+        cr, pck, remr, sfa, duser, rstym, tele, nurse, key, callbell,
         emid, rmcat, we_surv_slno, roomamenties, patservice, actvremort, count, reset, dama, reson, bhrc])
 
     const SurvillenceView = useCallback(() => {
@@ -574,7 +564,6 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
         setclosebtn(0)
         setflag(0)
     }, [setclosebtn])
-
 
     return (
         < Box sx={{
@@ -588,173 +577,193 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                         <PatSurvillenceView ipno={ipno} />
                     </Box>
                     : <Paper>
-                        <Box sx={{ pb: 1 }}>
-                            <Typography sx={{ backgroundColor: "#f0f3f5", fontFamily: "Roboto", fontSize: 20, p: 1.5 }} >
-                                Patient Survillence
-                            </Typography>
+                        <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5" }}>
+                            <Box sx={{ flex: 1, }}>
+                                <CssVarsProvider>
+                                    <Typography sx={{ fontFamily: "Roboto", fontSize: 20, p: 1.5 }} >
+                                        Patient Survillence
+                                    </Typography>
+                                </CssVarsProvider>
+                            </Box>
+                            <CustomeToolTip title="Save" placement="left" >
+                                <Box sx={{ p: 1 }}>
+                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submited} >
+                                        <LibraryAddIcon fontSize='small' />
+                                    </CusIconButton>
+                                </Box>
+                            </CustomeToolTip>
+                            <CustomeToolTip title="View" placement="left" >
+                                <Box sx={{ p: 1 }}>
+                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SurvillenceView} >
+                                        <RemoveRedEyeSharpIcon fontSize='small' />
+                                    </CusIconButton>
+                                </Box>
+                            </CustomeToolTip>
+                            <CustomeToolTip title="close" placement="left" >
+                                <Box sx={{ p: 1 }}>
+                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closeIcon} >
+                                        <CloseIcon fontSize='small' />
+                                    </CusIconButton>
+                                </Box>
+                            </CustomeToolTip>
                         </Box>
-                        <Paper sx={{ p: 1, }} >
-                            <Paper>
-                                <Box square elevation={3} sx={{
-                                    mt: 1,
-                                    pl: 3,
+                        <Paper sx={{ p: 1 }} >
+                            <Box square elevation={3} sx={{
+                                pl: 3,
+                                display: "flex",
+                                width: { xl: "100%", lg: "100%", md: "100%" },
+                                flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                            }}
+                            >
+                                <Box sx={{
                                     display: "flex",
-                                    width: { xl: "100%", lg: "100%", md: "100%" },
-                                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-                                }}
-                                >
+                                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" },
+                                    width: { xl: "50%", lg: "50%", md: "50%", sm: "100%" },
+
+                                }}>
                                     <Box sx={{
-                                        display: "flex",
-                                        flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" },
-                                        width: { xl: "50%", lg: "50%", md: "50%" }
+                                        width: { xl: "50%", lg: "50%", md: "50%", sm: "60%" },
+                                        display: 'flex'
                                     }}>
-                                        <Box sx={{
-                                            width: { xl: "50%", lg: "50%", md: "50%", sm: "60%" },
-                                            display: 'flex',
-                                        }}>
-                                            <Box sx={{ width: { xl: "30%", lg: "30%", md: "38%", sm: "30%" }, display: "flex", }}>
-                                                <Typography>#MRD.No</Typography>
-                                            </Box>
-                                            <Box sx={{ width: { xl: "60%", lg: "70%", md: "62%", sm: "50%" }, height: 30 }}>
-                                                <Typography>{ptno}</Typography>
-                                            </Box>
+                                        <Box sx={{ width: { xl: "30%", lg: "30%", md: "38%", sm: "37%" }, display: "flex", }}>
+                                            <Typography>#MRD.No:</Typography>
                                         </Box>
-                                        <Box sx={{
-                                            width: { xl: "50%", lg: "50%", md: "31%", sm: "60%" },
-                                            display: 'flex',
-                                        }}>
-                                            <Box sx={{ width: { xl: "20%", lg: "25%", md: "50%", sm: "30%" } }}>
-                                                <Typography>#IP.No</Typography>
-                                            </Box>
-                                            <Box sx={{ width: { xl: "60%", lg: "60%", md: "35%", sm: "50%" }, height: 30 }}>
-                                                <Typography>{ipno}</Typography>
-                                            </Box>
+                                        <Box sx={{ width: { xl: "60%", lg: "70%", md: "62%", sm: "60%" } }}>
+                                            <Typography>{ptno}</Typography>
                                         </Box>
                                     </Box>
                                     <Box sx={{
-                                        display: "flex",
-                                        flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" },
-                                        width: { xl: "50%", lg: "50%", md: "50%" }
+                                        width: { xl: "50%", lg: "50%", md: "31%", sm: "60%" },
+                                        display: 'flex'
                                     }}>
-                                        <Box sx={{
-                                            width: { xl: "50%", lg: "50%", md: "60%", sm: "60%" },
-                                            display: 'flex'
-                                        }}>
-                                            <Box sx={{ width: { xl: "25%", lg: "20%", md: "30%", sm: "30%" } }}>
-                                                <Typography>Name</Typography>
-                                            </Box>
-                                            <Box sx={{ width: { xl: "60%", lg: "70%", md: "70%", sm: "50%" }, height: 30, display: "flex" }}>
-                                                <Typography>{name}</Typography>
-
-                                            </Box>
+                                        <Box sx={{ width: { xl: "20%", lg: "25%", md: "50%", sm: "30%" } }}>
+                                            <Typography>#IP.No:</Typography>
                                         </Box>
-                                        <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "60%" }, display: 'flex', }} >
-                                            <Box sx={{ width: { xl: "15%", lg: "20%", md: "30%", sm: "30%" } }}>
-                                                <Typography>Age</Typography>
-                                            </Box>
-                                            <Box sx={{ width: { xl: "60%", lg: "60%", md: "50%", sm: "50%" }, height: 30 }}>
-                                                <Typography>{age}</Typography>
-                                            </Box>
+                                        <Box sx={{ width: { xl: "60%", lg: "60%", md: "35%", sm: "50%" } }}>
+                                            <Typography>{ipno}</Typography>
                                         </Box>
                                     </Box>
                                 </Box>
                                 <Box sx={{
                                     display: "flex",
-                                    flexDirection: 'row',
-                                    justifyContent: "space-between",
-                                    px: 3,
-                                    pt: 1,
+                                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" },
+                                    width: { xl: "50%", lg: "50%", md: "50%", sm: "100%" },
 
-                                    width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" },
+
                                 }}>
                                     <Box sx={{
-                                        display: "flex",
-                                        width: { xl: "50%", lg: "50%", md: "51%", sm: "50%" },
-                                        flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" }
-
-                                    }}>
-                                        <Box sx={{ width: { xl: "50%", lg: "50%", md: "51%", sm: "50%" }, display: 'flex', }}>
-                                            <Box sx={{ width: { xl: "30%", lg: "30%", md: "40%", sm: "62%" } }}>
-                                                <Typography>Sex</Typography>
-                                            </Box>
-                                            <Box sx={{ width: { xl: "50%", lg: "60%", md: "60%", sm: "30%" }, height: 30, }}>
-                                                <Typography>
-                                                    {mf}
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                        <Box sx={{ width: { xl: "50%", lg: "50%", md: "49%", sm: "50%" }, display: 'flex', }} >
-                                            <Box sx={{ width: { xl: "21%", lg: "27%", md: "34%", sm: "60%" } }}>
-                                                <Typography>Room</Typography>
-                                            </Box>
-                                            <Box sx={{ width: { xl: "70%", lg: "70%", md: "60%", sm: "40%" }, height: 30 }}>
-                                                <Typography>{rmno}</Typography>
-                                            </Box>
-                                        </Box>
-                                    </Box>
-
-                                    <Box sx={{
-                                        display: "flex", flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-                                        width: { xl: "50%", lg: "50%", md: "50%", sm: "49%" }
-                                    }}>
-                                        <Box sx={{ width: { xl: "52%", lg: "50%", md: "60%", sm: "80%" }, display: 'flex', }}>
-                                            <Box sx={{ width: { xl: "30%", lg: "39%", md: "40%", sm: "40%" } }}>
-                                                <Typography>Cousultant</Typography>
-                                            </Box>
-                                            <Box sx={{ width: { xl: "60%", lg: "61%", md: "60%", sm: "60%" }, height: 30, }}>
-                                                <Typography>{docname}</Typography>
-                                            </Box>
-                                        </Box>
-                                        <Box sx={{ width: { xl: "30%", lg: "50%", md: "30%", sm: "30%" }, display: 'flex' }}>
-                                            <Box sx={{ width: { xl: "100%", lg: "61%", md: "60%", sm: "100%" }, height: 30, }}>
-                                                <CusCheckBox
-                                                    variant="outlined"
-                                                    color="primary"
-                                                    size="md"
-                                                    name="acremot"
-                                                    label="BHRC"
-                                                    value={bhrc}
-                                                    onCheked={getbhrc}
-                                                    checked={bhrc}
-                                                />
-                                            </Box>
-                                        </Box>
-                                    </Box>
-                                </Box>
-                                <Box sx={{
-                                    display: "flex",
-                                    flexDirection: 'row',
-                                    justifyContent: "space-evenly",
-                                    pt: 1,
-                                    width: { xl: "50%", lg: "60%", md: "100%", sm: "100%" },
-                                }}>
-                                    <Box sx={{
-                                        width: { xl: "45%", lg: "39%", md: "45%", sm: "45%" },
+                                        width: { xl: "65%", lg: "80%", md: "80%", sm: "60%" },
                                         display: 'flex',
                                     }}>
-                                        <Box sx={{ width: { xl: "30%", lg: "30%", md: "18%", sm: "34%" } }}>
-                                            <Typography>DOA</Typography>
+                                        <Box sx={{ width: { xl: "30%", lg: "25%", md: "26%", sm: "37%" } }}>
+                                            <Typography>Name:</Typography>
                                         </Box>
-                                        <Box sx={{ width: { xl: "50%", lg: "70%", md: "70%", sm: "80%" }, height: 30 }}>
-                                            <Typography>{doa}</Typography>
+                                        <Box sx={{ width: { xl: "60%", lg: "75%", md: "74%", sm: "60%" }, display: "flex" }}>
+                                            <Typography>{name}</Typography>
+
                                         </Box>
                                     </Box>
-                                    <Box sx={{ width: { xl: "45%", lg: "53%", md: "47%", sm: "45%" }, display: 'flex', }}>
-                                        <Box sx={{ width: { xl: "20%", lg: "15%", md: "24%", sm: "20%" } }}>
-                                            <Typography>DOD</Typography>
+                                    <Box sx={{ width: { xl: "35%", lg: "20%", md: "20%", sm: "60%" }, display: 'flex', }} >
+                                        <Box sx={{ width: { xl: "15%", lg: "40%", md: "50%", sm: "30%" } }}>
+                                            <Typography>Age:</Typography>
                                         </Box>
-                                        <Box sx={{ width: { xl: "50%", lg: "60%", md: "60%", sm: "50%" }, height: 40, pb: 2 }}>
-                                            <TextFieldCustom
-                                                size="sm"
-                                                type="datetime-local"
-                                                name="duser"
-                                                value={duser}
-                                                onchange={doduser}
-                                            />
+                                        <Box sx={{ width: { xl: "60%", lg: "60%", md: "50%", sm: "50%" } }}>
+                                            <Typography>{age}</Typography>
                                         </Box>
                                     </Box>
                                 </Box>
-                            </Paper>
+                            </Box>
+                            <Box sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                pl: 3, pt: 0.5,
+                                width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" },
+                                flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" }
+                            }}>
+                                <Box sx={{
+                                    display: "flex",
+                                    width: { xl: "50%", lg: "50%", md: "50%", sm: "100%" },
+                                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" }
+                                }}>
+                                    <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, display: 'flex' }}>
+                                        <Box sx={{ width: { xl: "30%", lg: "30%", md: "38%", sm: "37%" } }}>
+                                            <Typography>Sex:</Typography>
+                                        </Box>
+                                        <Box sx={{ width: { xl: "60%", lg: "60%", md: "60%", sm: "60%" } }}>
+                                            <Typography>
+                                                {mf}
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ width: { xl: "50%", lg: "49%", md: "50%", sm: "50%" }, display: 'flex' }} >
+                                        <Box sx={{ width: { xl: "21%", lg: "27%", md: "30%", sm: "30%" } }}>
+                                            <Typography>Room:</Typography>
+                                        </Box>
+                                        <Box sx={{ width: { xl: "70%", lg: "70%", md: "60%", sm: "50%" } }}>
+                                            <Typography>{rmno}</Typography>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                                <Box sx={{
+                                    display: "flex", flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" },
+                                    width: { xl: "50%", lg: "50%", md: "50%", sm: "100%" }
+                                }}>
+                                    <Box sx={{ width: { xl: "65%", lg: "80%", md: "80%", sm: "65%" }, display: 'flex', }}>
+                                        <Box sx={{ width: { xl: "30%", lg: "25%", md: "25%", sm: "29%" } }}>
+                                            <Typography>Consultant:</Typography>
+                                        </Box>
+                                        <Box sx={{ width: { xl: "60%", lg: "75%", md: "75%", sm: "70%" } }}>
+                                            <Typography>{docname}</Typography>
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ width: { xl: "35%", lg: "20%", md: "20%", sm: "30%" }, display: 'flex' }}>
+                                        <CusCheckBox
+                                            variant="outlined"
+                                            color="primary"
+                                            size="md"
+                                            name="acremot"
+                                            label="BHRC"
+                                            value={bhrc}
+                                            onCheked={getbhrc}
+                                            checked={bhrc}
+                                        />
+                                    </Box>
+                                </Box>
+                            </Box>
+                            <Box sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                pl: 3, pt: 0.5,
+                                width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" },
+                                flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" },
+
+                            }}>
+                                <Box sx={{
+                                    width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" },
+                                    display: 'flex',
+                                }}>
+                                    <Box sx={{ width: { xl: "15%", lg: "15%", md: "19%", sm: "37%" } }}>
+                                        <Typography>DOA:</Typography>
+                                    </Box>
+                                    <Box sx={{ width: { xl: "70%", lg: "70%", md: "70%", sm: "60%" } }}>
+                                        <Typography>{doa}</Typography>
+                                    </Box>
+                                </Box>
+                                <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, display: 'flex' }}>
+                                    <Box sx={{ width: { xl: "19%", lg: "19%", md: "20%", sm: "30%" } }}>
+                                        <Typography>DOD:</Typography>
+                                    </Box>
+                                    <Box sx={{ width: { xl: "40%", lg: "40%", md: "60%", sm: "65%" } }}>
+                                        <TextFieldCustom
+                                            size="sm"
+                                            type="datetime-local"
+                                            name="duser"
+                                            value={duser}
+                                            onchange={doduser}
+                                        />
+                                    </Box>
+                                </Box>
+                            </Box>
                         </Paper>
                         <Paper square elevation={3} sx={{ p: 2 }}>
                             <Box sx={{ pb: 1 }}>
@@ -766,94 +775,64 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                             </Box>
                             <Paper>
                                 <Box sx={{
-                                    p: 1,
-                                    display: "flex"
+                                    display: 'flex', width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" },
+                                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row' }, pl: 2
                                 }}>
-                                    <Box sx={{
-                                        display: 'flex', width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" },
-                                        flexDirection: { xl: "row", lg: "row", md: "column", sm: 'column', xs: "column" }
-                                    }}><Box sx={{
-                                        display: "flex",
-                                        width: { xl: "60%", lg: "60%", md: "100%", sm: "100%" },
-                                        justifyContent: "space-between"
-                                    }}>
-                                            <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "50%", sm: "45%" } }}>
-                                                <Box sx={{ display: 'flex', width: { xl: "20%", lg: "30%", md: "25%", sm: "40%" } }}>
-                                                    <CssVarsProvider><Typography>Shift from:</Typography> </CssVarsProvider></Box>
-                                                <Box sx={{ width: { xl: "60%", lg: "60%", md: "60%", sm: "60%" } }}>
-                                                    <Typography>
-                                                        {nsdesc}
-                                                    </Typography>
-
-                                                    {/* <ShiftinngNursingStation value={shiffrom} setValue={setshiffrom} /> */}
-                                                </Box>
-                                            </Box>
-                                            <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
-                                                <Box sx={{ display: 'flex', width: { xl: "20%", lg: "30%", md: "25%", sm: "30%" } }}>
-                                                    <CssVarsProvider><Typography>Shift to </Typography> </CssVarsProvider></Box>
-
-                                                <Box sx={{ width: { xl: "60%", lg: "60%", md: "60%", sm: "60%" } }}>
-                                                    <ShiftinngNursingStation value={shiftto} setValue={setshiftto} />
-                                                </Box>
-                                            </Box>
+                                    <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
+                                        <Box sx={{ display: 'flex', width: { xl: "20%", lg: "28%", md: "30%", sm: "40%" } }}>
+                                            <CssVarsProvider><Typography>Nursing station:</Typography> </CssVarsProvider></Box>
+                                        <Box sx={{ width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
+                                            <Typography>
+                                                {nsdesc}
+                                            </Typography>
                                         </Box>
-                                        <Box sx={{
-                                            display: "flex",
-                                            width: { xl: "40%", lg: "40%", md: "40%", sm: "100%" },
-                                            py: { xl: 0, lg: 0, md: 2, sm: 2 }
-                                        }}>
-                                            <Box sx={{ display: 'flex', width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" }, }}>
-                                                <Box sx={{ display: 'flex', width: { xl: "35%", lg: "50%", md: "50%", sm: "25%" } }}>
-                                                    <Typography>Received date & time </Typography></Box>
-                                                <Box sx={{ display: 'flex', width: { xl: "60%", lg: "50%", md: "50%", sm: "30%" } }}>
-                                                    <TextFieldCustom
-                                                        size="sm"
-                                                        type="datetime-local"
-                                                        name="rstym"
-                                                        value={rstym}
-                                                        onchange={rstime}
-                                                    />
-                                                </Box>
-                                            </Box>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, }}>
+                                        <Box sx={{ display: 'flex', width: { xl: "25%", lg: "38%", md: "40%", sm: "50%" } }}>
+                                            <Typography>Received date & time:</Typography></Box>
+                                        <Box sx={{ display: 'flex', width: { xl: "50%", lg: "60%", md: "50%", sm: "50%" } }}>
+                                            <TextFieldCustom
+                                                size="sm"
+                                                type="datetime-local"
+                                                name="rstym"
+                                                value={rstym}
+                                                onchange={rstime}
+                                            />
                                         </Box>
                                     </Box>
                                 </Box>
-                                <Box sx={{ p: 2 }} >
-                                    <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
-                                        <Box sx={{ width: "16.5%", pt: 0.5 }}  >
-                                            <CssVarsProvider>
-                                                <Typography> Room category</Typography>
-                                            </CssVarsProvider>
-                                        </Box>
-                                        <Box variant="outlined" square sx={{
-                                            px: 2, pr: 2,
-                                            display: "flex",
-                                            textTransform: 'capitalize',
-                                            flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" },
-                                            justifyContent: "space-between",
-                                            width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" }
-                                        }}  >
-                                            {
-                                                roomcategory && roomcategory.map((val, index) => {
-                                                    return <Box sx={{
-                                                        pt: 1, pb: 1,
-                                                        justifyContent: 'space-between',
-                                                        // width: "100%",
-                                                        width: { xl: "100%", lg: "100%", md: "100%" }
-                                                    }}
-                                                        key={val.rmslno}
-                                                    >
-                                                        <ComplaintCheckBox
-                                                            label={val.rmname.toLowerCase()}
-                                                            name={val.rmname}
-                                                            value={val.rmslno}
-                                                            onChange={setrmcat}
-                                                            checkedValue={rmcat}
-                                                        />
-                                                    </Box>
-                                                })
-                                            }
-                                        </Box>
+                                <Box sx={{ display: "flex", flexDirection: "row", width: "100%", px: 2, }}>
+                                    <Box sx={{ width: { xl: "10%", lg: "16.5%", md: "16.5%", sm: "16.5%" } }}  >
+                                        <CssVarsProvider>
+                                            <Typography>Room category:</Typography>
+                                        </CssVarsProvider>
+                                    </Box>
+                                    <Box variant="outlined" square sx={{
+                                        display: "flex",
+                                        textTransform: 'capitalize',
+                                        flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" },
+                                        justifyContent: "space-between",
+                                        width: { xl: "90%", lg: "100%", md: "100%", sm: "100%" }
+                                    }}  >
+                                        {
+                                            roomcategory && roomcategory.map((val, index) => {
+                                                return <Box sx={{
+                                                    py: 1,
+                                                    justifyContent: 'space-between',
+                                                    width: { xl: "100%", lg: "100%", md: "100%" }
+                                                }}
+                                                    key={val.rmslno}
+                                                >
+                                                    <ComplaintCheckBox
+                                                        label={val.rmname.toLowerCase()}
+                                                        name={val.rmname}
+                                                        value={val.rmslno}
+                                                        onChange={setrmcat}
+                                                        checkedValue={rmcat}
+                                                    />
+                                                </Box>
+                                            })
+                                        }
                                     </Box>
                                 </Box>
                             </Paper>
@@ -866,27 +845,24 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                     </Typography>
                                 </CssVarsProvider>
                             </Box>
-                            <Paper sx={{ p: 2 }} >
+                            <Paper sx={{ px: 2 }} >
                                 <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
-                                    <Box sx={{ width: { xl: "14%", lg: "15%", md: "15%", sm: "15%" }, pt: 0.5 }}  >
+                                    <Box sx={{ width: { xl: "10%", lg: "14%", md: "15%", sm: "16%" } }}  >
                                         <CssVarsProvider>
-                                            <Typography> Bed</Typography>
+                                            <Typography>Bed:</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box variant="outlined" square sx={{
-                                        px: 2, pr: 2,
                                         display: "flex",
                                         textTransform: 'capitalize',
                                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" },
                                         justifyContent: "space-between",
-                                        width: { xl: "90%", lg: "100%", md: "90%", sm: "100%" },
+                                        width: { xl: "90%", lg: "86%", md: "90%", sm: "84%" },
                                     }}  >
                                         {
                                             bed && bed.map((val, index) => {
                                                 return <Box sx={{
-                                                    pt: 1, pb: 1, pl: 1,
                                                     justifyContent: 'space-between',
-                                                    // width: "100%",
                                                     width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" }
                                                 }}
                                                     key={val.bdslno}
@@ -904,13 +880,13 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                     </Box>
                                 </Box>
                                 <Box sx={{ display: "flex", flexDirection: "row", width: "100%", }}>
-                                    <Box sx={{ width: { xl: "15%", lg: "15%", md: "17%", sm: "16%" } }} >
+                                    <Box sx={{ width: { xl: "10%", lg: "14%", md: "14%", sm: "16%" } }} >
                                         <CssVarsProvider>
-                                            <Typography>Remote</Typography>
+                                            <Typography>Remote:</Typography>
                                         </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{ display: "flex", flexDirection: "row", width: "78%" }}>
-                                        <Box sx={{ width: { xl: "22%", lg: "22%", md: "21%", sm: "21%" } }}>
+                                    <Box sx={{ display: "flex", flexDirection: "row", width: { xl: "90%", lg: "86%", md: "86%", sm: "84%" } }}>
+                                        <Box sx={{ width: { xl: "20%", lg: "20%", md: "20%", sm: "20%" } }}>
                                             <CusCheckBox
                                                 variant="outlined"
                                                 color="primary"
@@ -936,12 +912,10 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                         </Box>
                                     </Box>
                                 </Box>
-                                <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pt: 1 }}>
-                                    <Box sx={{ width: { xl: "15%", lg: "15%", md: "17%", sm: "16%" } }} >
-
-                                    </Box>
-                                    <Box sx={{ display: "flex", flexDirection: "row", width: "78%" }}>
-                                        <Box sx={{ width: { xl: "22%", lg: "22%", md: "21%", sm: "21%" } }}>
+                                <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
+                                    <Box sx={{ width: { xl: "10%", lg: "14%", md: "14%", sm: "16%" } }} ></Box>
+                                    <Box sx={{ display: "flex", flexDirection: "row", width: { xl: "90%", lg: "86%", md: "86%", sm: "84%" } }}>
+                                        <Box sx={{ width: { xl: "20%", lg: "20%", md: "20%", sm: "20%" } }}>
                                             <CusCheckBox
                                                 variant="outlined"
                                                 color="primary"
@@ -953,7 +927,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                                 checked={tele}
                                             />
                                         </Box>
-                                        <Box sx={{ width: { xl: "21.5%", lg: "20%", md: "20%", sm: "21%" } }}>
+                                        <Box sx={{ width: { xl: "20%", lg: "20%", md: "20%", sm: "20%" } }}>
                                             <CusCheckBox
                                                 variant="outlined"
                                                 color="primary"
@@ -965,7 +939,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                                 checked={gzr}
                                             />
                                         </Box>
-                                        <Box sx={{ width: { xl: "21.5%", lg: "20%", md: "20%", sm: "21%" } }}>
+                                        <Box sx={{ width: { xl: "20%", lg: "20%", md: "20%", sm: "20%" } }}>
                                             <CusCheckBox
                                                 variant="outlined"
                                                 color="primary"
@@ -990,40 +964,37 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                             />
                                         </Box>
                                     </Box>
-
                                 </Box>
                             </Paper>
                         </Paper>
                         <Paper square elevation={3} sx={{ p: 2 }}>
-                            <Box sx={{ py: 0.5 }}>
+                            <Box>
                                 <CssVarsProvider>
                                     <Typography sx={{ fontStyle: "oblique", fontWeight: 500, color: '#94B7FC' }} startdecorator={<ArrowRightOutlinedIcon />} >
                                         Basic Room amentities
                                     </Typography>
                                 </CssVarsProvider>
                             </Box>
-                            <Paper sx={{ display: "flex", pl: 1, pt: 1 }}>
+                            <Paper sx={{ display: "flex", }}>
                                 <RoomAmenties ameties={ameties} setamenties={setamenties} />
                             </Paper>
                         </Paper>
                         <Paper square elevation={3} sx={{ p: 2 }}>
                             <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
-                                <Box sx={{ py: 0.5 }}>
-                                    <CssVarsProvider>
-                                        <Typography sx={{ fontStyle: "oblique", fontWeight: 500, color: '#94B7FC' }} startdecorator={<ArrowRightOutlinedIcon />} >
-                                            Primary Patient service
-                                        </Typography>
-                                    </CssVarsProvider>
-                                </Box>
+                                <CssVarsProvider>
+                                    <Typography sx={{ fontStyle: "oblique", fontWeight: 500, color: '#94B7FC' }} startdecorator={<ArrowRightOutlinedIcon />} >
+                                        Primary Patient service
+                                    </Typography>
+                                </CssVarsProvider>
                             </Box>
-                            <Paper sx={{ p: 2 }}>
-                                <Box sx={{ pb: 1 }}>
+                            <Paper sx={{ px: 2, py: 2 }}>
+                                <Box sx={{ pb: 0.5 }}>
                                     <Patservice service={service} setservice={setservice} />
                                 </Box>
                                 <Box sx={{ display: "flex", flexDirection: "row" }}>
                                     <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, justifyContent: "start" }}>
                                         <Box sx={{ display: 'flex', width: { xl: "33%", lg: "30%", md: "38%", sm: "40%" } }}>
-                                            <CssVarsProvider>    <Typography>Dietition visit time </Typography> </CssVarsProvider></Box>
+                                            <CssVarsProvider><Typography>Dietition visit time:</Typography> </CssVarsProvider></Box>
                                         <Box sx={{ display: 'flex', width: { xl: "40%", lg: "50%", md: "52%", sm: "53%" } }}>
                                             <TextFieldCustom
                                                 size="sm"
@@ -1035,9 +1006,9 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                         </Box>
                                     </Box>
                                     <Box sx={{ display: "flex", flexDirection: "row", width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
-                                        <Box sx={{ display: 'flex', width: { xl: "30%", lg: "40%", md: "30%", sm: "40%" } }}>
-                                            <CssVarsProvider>    <Typography>STAT Medicine indent time</Typography> </CssVarsProvider></Box>
-                                        <Box sx={{ display: 'flex', width: { xl: "40%", lg: "50%", md: "60%", sm: "60%" } }}>
+                                        <Box sx={{ display: 'flex', width: { xl: "30%", lg: "50%", md: "50%", sm: "50%" } }}>
+                                            <CssVarsProvider><Typography>STAT Medicine indent time:</Typography> </CssVarsProvider></Box>
+                                        <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" } }}>
                                             <TextFieldCustom
                                                 size="sm"
                                                 type="datetime-local"
@@ -1048,11 +1019,11 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                         </Box>
                                     </Box>
                                 </Box>
-                                <Box sx={{ display: 'flex', width: "100%", justifyContent: "start", pt: 1 }}>
+                                <Box sx={{ display: 'flex', width: "100%", justifyContent: "start", pt: 0.5 }}>
                                     <Box sx={{ display: "flex", width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, }}>
-                                        <Box sx={{ display: 'flex', width: { xl: "30%", lg: "25%", md: "33%", sm: "33%" }, }}>
-                                            <CssVarsProvider><Typography>Received time</Typography> </CssVarsProvider></Box>
-                                        <Box sx={{ display: 'flex', width: { xl: "43%", lg: "55%", md: "58%", sm: "60%" }, pl: 3 }}>
+                                        <Box sx={{ display: 'flex', width: { xl: "29.5%", lg: "25%", md: "33%", sm: "33%" }, }}>
+                                            <CssVarsProvider><Typography>Received time:</Typography> </CssVarsProvider></Box>
+                                        <Box sx={{ display: 'flex', width: { xl: "44%", lg: "55%", md: "58%", sm: "60%" }, pl: 3 }}>
                                             <TextFieldCustom
                                                 size="sm"
                                                 type="datetime-local"
@@ -1063,34 +1034,29 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                         </Box>
                                     </Box>
                                     <Box sx={{ display: "flex", width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, }}>
-                                        <Box sx={{ display: 'flex', width: { xl: "30%", lg: "40%", md: "30%", sm: "40%" } }}>
-                                            <CssVarsProvider>    <Typography>Assigned nursing staff</Typography> </CssVarsProvider></Box>
-                                        <Box sx={{ display: 'flex', width: { xl: "40%", lg: "50%", md: "60%", sm: "60%" }, }}>
-                                            <AssignedStaff value={asn} setValue={setasn} shiftto={shiftto} />
-                                        </Box>
+                                        <Box sx={{ display: 'flex', width: { xl: "30%", lg: "50%", md: "50%", sm: "50%" } }}>
+                                            <CssVarsProvider><Typography>Assigned nursing staff:</Typography> </CssVarsProvider></Box>
+                                        <Box sx={{ display: 'flex', width: { xl: "50%", lg: "50%", md: "50%", sm: "50%" }, }}>
+                                            <AssignedStaff value={asn} setValue={setasn} shiftto={nurse} /></Box>
                                     </Box>
                                 </Box>
                             </Paper>
                         </Paper>
                         <Paper square elevation={3} sx={{ p: 2 }}>
                             <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
-                                <Box sx={{ py: 0.5 }}>
-                                    <CssVarsProvider>
-                                        <Typography sx={{ fontStyle: "oblique", fontWeight: 500, color: '#94B7FC' }} startdecorator={<ArrowRightOutlinedIcon />} >
-                                            Financial Perspective
-                                        </Typography>
-                                    </CssVarsProvider>
-                                </Box>
+                                <CssVarsProvider>
+                                    <Typography sx={{ fontStyle: "oblique", fontWeight: 500, color: '#94B7FC' }} startdecorator={<ArrowRightOutlinedIcon />} >
+                                        Financial Perspective
+                                    </Typography>
+                                </CssVarsProvider>
                             </Box>
                             <Paper sx={{ p: 2 }}>
                                 <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
-                                    <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }}  >
+                                    <Box sx={{ width: { xl: "20%", lg: "25%", md: "25%", sm: "25%" } }}  >
                                         <CssVarsProvider>
-                                            <Typography> Mode of Payment</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
+                                            <Typography> Mode of Payment:</Typography>
+                                        </CssVarsProvider> </Box>
                                     <Box variant="outlined" square sx={{
-                                        px: 4.5, pr: 2,
                                         display: "flex",
                                         textTransform: 'capitalize',
                                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" },
@@ -1100,9 +1066,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                         {
                                             payment && payment.map((val, index) => {
                                                 return <Box sx={{
-                                                    pt: 1, pb: 1,
                                                     justifyContent: 'space-between',
-                                                    // width: "100%",
                                                     width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" }
                                                 }}
                                                     key={val.payno}
@@ -1119,50 +1083,13 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                         }
                                     </Box>
                                 </Box>
-                                <Box sx={{
-                                    display: "flex", flexDirection: "row", width: "100%", justifyContent: "start", pt: 1
-                                }}>
-                                    <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }} >
+                                <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pt: 0.5 }}>
+                                    <Box sx={{ width: { xl: "20%", lg: "25%", md: "25%", sm: "25%" } }}  >
                                         <CssVarsProvider>
-                                            <Typography>Document Status(if any)</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{ display: 'flex', width: { xl: "66%", lg: "70%", md: "75%", sm: "78%" } }}>
-                                        <TextFieldCustom
-                                            size="sm"
-                                            type="text"
-                                            name="doc"
-                                            value={doc}
-                                            onchange={getdoc}
-                                        />
-                                    </Box>
-                                </Box>
-                                <Box sx={{
-                                    display: "flex", flexDirection: "row", width: "100%", justifyContent: "start", pt: 1
-                                }}>
-                                    <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }} >
-                                        <CssVarsProvider>
-                                            <Typography>Details if Credit</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{ display: 'flex', width: { xl: "66%", lg: "70%", md: "75%", sm: "78%" } }}>
-                                        <TextFieldCustom
-                                            size="sm"
-                                            type="text"
-                                            name="cr"
-                                            value={cr}
-                                            onchange={getcredit}
-                                        />
-                                    </Box>
-                                </Box>
-                                <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pt: 1 }}>
-                                    <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }}  >
-                                        <CssVarsProvider>
-                                            <Typography> Package</Typography>
+                                            <Typography>Package:</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box variant="outlined" square sx={{
-                                        px: 4.5,
                                         display: "flex",
                                         textTransform: 'capitalize',
                                         flexDirection: { xl: "row", lg: "row", md: "row", sm: 'row', xs: "column" },
@@ -1172,9 +1099,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                         {
                                             pack && pack.map((val, index) => {
                                                 return <Box sx={{
-                                                    pt: 1, pb: 1,
                                                     justifyContent: 'space-between',
-                                                    // width: "100%",
                                                     width: { xl: "100%", lg: "100%", md: "100%", sm: "100%" }
                                                 }}
                                                     key={val.pcno}
@@ -1191,31 +1116,65 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                         }
                                     </Box>
                                 </Box>
-                                <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pt: 1 }}>
-                                    <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }}  >
+                                <Box sx={{
+                                    display: "flex", flexDirection: "row", width: "100%", justifyContent: "start", pt: 0.5
+                                }}>
+                                    <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }} >
                                         <CssVarsProvider>
-                                            <Typography>SFA/MFA</Typography>
+                                            <Typography>Document Status(if any):</Typography>
                                         </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{ display: "flex", flexDirection: "row", width: "80%" }}>
-                                        <Box sx={{ width: "30%" }}>
-                                            <TextFieldCustom
-                                                size="sm"
-                                                type="text"
-                                                name="sfa"
-                                                value={sfa}
-                                                onchange={getsfa}
-                                            />
-                                        </Box>
+                                    <Box sx={{ display: 'flex', width: { xl: "73%", lg: "80%", md: "75%", sm: "78%" } }}>
+                                        <TextFieldCustom
+                                            size="sm"
+                                            type="text"
+                                            name="doc"
+                                            value={doc}
+                                            onchange={getdoc}
+                                        />
                                     </Box>
                                 </Box>
-                                <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pt: 1 }}>
-                                    <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }}  >
+                                <Box sx={{
+                                    display: "flex", flexDirection: "row", width: "100%", justifyContent: "start", pt: 0.5
+                                }}>
+                                    <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }} >
                                         <CssVarsProvider>
-                                            <Typography>Remarks</Typography>
+                                            <Typography>Details if Credit:</Typography>
                                         </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{ width: { xl: "66%", lg: "70%", md: "75%", sm: "78%" } }}>
+                                    <Box sx={{ display: 'flex', width: { xl: "73%", lg: "80%", md: "75%", sm: "78%" } }}>
+                                        <TextFieldCustom
+                                            size="sm"
+                                            type="text"
+                                            name="cr"
+                                            value={cr}
+                                            onchange={getcredit}
+                                        />
+                                    </Box>
+                                </Box>
+                                <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pt: 0.5 }}>
+                                    <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }}  >
+                                        <CssVarsProvider>
+                                            <Typography>SFA/MFA:</Typography>
+                                        </CssVarsProvider>
+                                    </Box>
+                                    <Box sx={{ display: "flex", flexDirection: "row", width: { xl: "73%", lg: "80%", md: "75%", sm: "78%" } }}>
+                                        <TextFieldCustom
+                                            size="sm"
+                                            type="text"
+                                            name="sfa"
+                                            value={sfa}
+                                            onchange={getsfa}
+                                        />
+                                    </Box>
+                                </Box>
+                                <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pt: 0.5 }}>
+                                    <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "20%" } }}  >
+                                        <CssVarsProvider>
+                                            <Typography>Remarks:</Typography>
+                                        </CssVarsProvider>
+                                    </Box>
+                                    <Box sx={{ width: { xl: "73%", lg: "80%", md: "75%", sm: "78%" } }}>
                                         <TextFieldCustom
                                             size="sm"
                                             type="text"
@@ -1225,7 +1184,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                         />
                                     </Box>
                                 </Box>
-                                <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pt: 1 }}>
+                                <Box sx={{ display: "flex", flexDirection: "row", width: "100%", pt: 0.5 }}>
                                     <Box sx={{ width: { xl: "16.5%", lg: "20%", md: "20%", sm: "21%" } }}>
                                         <CusCheckBox
                                             variant="outlined"
@@ -1238,7 +1197,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                             checked={dama}
                                         />
                                     </Box>
-                                    <Box sx={{ width: "66%" }}>
+                                    <Box sx={{ width: { xl: "73%", lg: "80%", md: "75%", sm: "78%" } }}>
                                         <TextFieldCustom
                                             size="sm"
                                             disabled={dama === true ? false : true}
@@ -1250,32 +1209,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                                         />
                                     </Box>
                                 </Box>
-
                             </Paper>
-                            <Box sx={{ display: "flex", flexDirection: "row" }}>
-                                <CustomeToolTip title="Save" placement="left" >
-                                    <Box sx={{ p: 1 }}>
-                                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submited} >
-                                            <LibraryAddIcon fontSize='small' />
-                                        </CusIconButton>
-                                    </Box>
-                                </CustomeToolTip>
-
-                                <CustomeToolTip title="View" placement="left" >
-                                    <Box sx={{ p: 1 }}>
-                                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SurvillenceView} >
-                                            <RemoveRedEyeSharpIcon fontSize='small' />
-                                        </CusIconButton>
-                                    </Box>
-                                </CustomeToolTip>
-                                <CustomeToolTip title="close" placement="left" >
-                                    <Box sx={{ p: 1 }}>
-                                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closeIcon} >
-                                            <CloseIcon fontSize='small' />
-                                        </CusIconButton>
-                                    </Box>
-                                </CustomeToolTip>
-                            </Box>
                         </Paper>
                     </Paper>
             }

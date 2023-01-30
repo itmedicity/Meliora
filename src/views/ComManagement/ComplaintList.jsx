@@ -39,57 +39,57 @@ const ComplaintList = () => {
 
     //column title setting
     const [column] = useState([
-        { headerName: "SlNo", field: "complaint_slno", width: 90 },
+        { headerName: "SlNo", field: "complaint_slno", minWidth: 90 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
-        { headerName: "Req.Department", field: "sec_name", filter: "true", wrapText: true, autoHeight: true, minWidth: 70 },
+        { headerName: "Request Department", field: "sec_name", filter: "true", wrapText: true, autoHeight: true, minWidth: 180 },
         { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true" },
-        { headerName: "Comp.Department", field: "complaint_dept_name", filter: "true", width: 180 },
-        { headerName: "Req.Date", field: "compalint_date" },
-        { headerName: "Assigned Employee", field: "em_name", filter: "true", width: 180 },
-        { headerName: "Assign.Date", field: "assigned_date" },
-        { headerName: "Rectify.Date", field: "cm_rectify_time" },
-        { headerName: "Verify.Date", field: "cm_verfy_time" },
-        { headerName: "status", field: "compalint_status1", filter: "true" }
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", minWidth: 180 },
+        { headerName: "Complaint Department", field: "complaint_dept_name", filter: "true", minWidth: 200 },
+        { headerName: "Request Date", field: "compalint_date", minWidth: 180 },
+        { headerName: "Assigned Employee", field: "em_name", filter: "true", minWidth: 180 },
+        { headerName: "Assign Date", field: "assigned_date", minWidth: 180 },
+        { headerName: "Rectify Date", field: "cm_rectify_time", minWidth: 180 },
+        { headerName: "Verify Date", field: "cm_verfy_time", minWidth: 180 },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 180 }
     ])
     const [assigned] = useState([
-        { headerName: "SlNo", field: "complaint_slno", width: 90 },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Req.Department", field: "sec_name", wrapText: true, filter: "true", autoHeight: true, width: 200 },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true" },
-        { headerName: "Comp.Department", field: "complaint_dept_name", filter: "true", wrapText: true, autoHeight: true, width: 150 },
-        { headerName: "Employee", field: "em_name" },
-        { headerName: "Req.Date", field: "compalint_date" },
-        { headerName: "Assign.Date", field: "assigned_date" },
-        { headerName: "status", field: "compalint_status1", filter: "true" }
+        { headerName: "SlNo", field: "complaint_slno", minWidth: 90 },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
+        { headerName: "Request Department", field: "sec_name", wrapText: true, filter: "true", autoHeight: true, minWidth: 200 },
+        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", minWidth: 150 },
+        { headerName: "Complaint Department", field: "complaint_dept_name", filter: "true", wrapText: true, autoHeight: true, minWidth: 180 },
+        { headerName: "Employee", field: "em_name", minWidth: 150 },
+        { headerName: "Request Date", field: "compalint_date", minWidth: 150 },
+        { headerName: "Assign Date", field: "assigned_date", minWidth: 150 },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 150 }
     ])
     const [rectified] = useState([
-        { headerName: "SlNo", field: "complaint_slno", width: 90 },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Req.Department", field: "sec_name", wrapText: true, filter: "true", autoHeight: true, width: 200 },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true" },
-        { headerName: "Comp.Department", field: "complaint_dept_name", filter: "true", wrapText: true, autoHeight: true, width: 150 },
-        { headerName: "Employee", field: "em_name" },
-        { headerName: "Req.Date", field: "compalint_date" },
-        { headerName: "Assign.Date", field: "assigned_date" },
-        { headerName: "Rectify.Date", field: "cm_rectify_time" },
-        { headerName: "status", field: "compalint_status1", filter: "true" }
+        { headerName: "SlNo", field: "complaint_slno", minWidth: 90 },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
+        { headerName: "Request Department", field: "sec_name", wrapText: true, filter: "true", autoHeight: true, minWidth: 200 },
+        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", minWidth: 150 },
+        { headerName: "Complaint Department", field: "complaint_dept_name", filter: "true", wrapText: true, autoHeight: true, minWidth: 150 },
+        { headerName: "Employee", field: "em_name", minWidth: 150 },
+        { headerName: "Request Date", field: "compalint_date", minWidth: 150 },
+        { headerName: "Assign Date", field: "assigned_date", minWidth: 150 },
+        { headerName: "Rectify Date", field: "cm_rectify_time", minWidth: 150 },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 150 }
     ])
     const [verified] = useState([
-        { headerName: "SlNo", field: "complaint_slno", width: 100 },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "Req.Department", field: "sec_name", wrapText: true, filter: "true", autoHeight: true, width: 200 },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true" },
-        { headerName: "Comp.Department", field: "complaint_dept_name", filter: "true", wrapText: true, autoHeight: true, width: 150 },
-        { headerName: "Employee", field: "em_name" },
-        { headerName: "Req.Date", field: "compalint_date" },
-        { headerName: "Assign.Date", field: "assigned_date" },
-        { headerName: "Rectify.Date", field: "cm_rectify_time" },
-        { headerName: "Verify.Date", field: "cm_verfy_time" },
-        { headerName: "Status", field: "compalint_status1", filter: "true" }
+        { headerName: "SlNo", field: "complaint_slno", minWidth: 90 },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
+        { headerName: "Request Department", field: "sec_name", wrapText: true, filter: "true", autoHeight: true, minWidth: 180 },
+        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", minWidth: 150 },
+        { headerName: "Complaint Department", field: "complaint_dept_name", filter: "true", wrapText: true, autoHeight: true, minWidth: 150 },
+        { headerName: "Employee", field: "em_name", minWidth: 150 },
+        { headerName: "Request Date", field: "compalint_date", minWidth: 150 },
+        { headerName: "Assign Date", field: "assigned_date", minWidth: 150 },
+        { headerName: "Rectify Date", field: "cm_rectify_time", minWidth: 150 },
+        { headerName: "Verify Date", field: "cm_verfy_time", minWidth: 150 },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 150 }
     ])
     const backtoSetting = useCallback(() => {
         history.push('/Home')

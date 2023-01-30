@@ -93,6 +93,7 @@ const ReqSMOApproval = React.lazy(() => import('./views/RequestManagement/SMOApp
 const ReqCAOApproval = React.lazy(() => import('./views/RequestManagement/CAOApproval/CAOApproval'))
 const ReqEDApproval = React.lazy(() => import('./views/RequestManagement/EDApproval/EDApproval'))
 const NDRFform = React.lazy(() => import('./views/RequestManagement/NdrfFrorm/NdrfFrom'))
+const HallBooking = React.lazy(() => import('./views/HallBooking/HallBookingRegister'))
 
 
 const routes = [
@@ -191,6 +192,8 @@ const routes = [
   { path: '/Home/Req.CAOApproval', exact: true, name: 'Request CAO/MS/COO Approval', component: ReqCAOApproval },
   { path: '/Home/Req.EDApproval', exact: true, name: 'Request ED/MD Approval', component: ReqEDApproval },
   { path: '/Home/NDRF', exact: true, name: 'NDRF Form', component: NDRFform },
+  { path: '/Home/HallBooking', exact: true, name: 'Hall Booking', component: HallBooking },
+
 ]
 
 export default routes
