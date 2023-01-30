@@ -163,6 +163,11 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
             }
         }
 
+        const insertProcess = async (postdata) => {
+            const result = await axioslogin.post('/dietprocess', postdata);
+            return result.data
+        }
+
         tabledata && tabledata.map((val) => {
             const getdmenu = async () => {
                 const result = await axioslogin.get(`/common/dMenu/${val.diet_slno}`,)
@@ -173,6 +178,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                     let day = d.getDay();
                     const getmenu = {
                         bd_code: val.bd_code,
+                        diet_slno: val.diet_slno,
                         dmenu_slno: dmenu_slno,
                         days: day
                     }
@@ -192,26 +198,24 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                             em_id: id
                         }
 
-                        const result = await axioslogin.post('/dietprocess', postdata);
-                        const { success, insetid } = result.data;
-                        if (success === 1) {
-                            const postdetaildata = dataa && dataa.map((val) => {
-                                return {
-                                    proc_slno: insetid,
-                                    type_slno: val.type_slno,
-                                    rate_hos: val.hosp_rate,
-                                    rate_cant: val.cant_rate
-                                }
-                            })
-
-                            const timeout = setTimeout(() => {
+                        insertProcess(postdata).then((value) => {
+                            const { success, insetid } = value
+                            if (success === 1) {
+                                const postdetaildata = dataa && dataa.map((val) => {
+                                    return {
+                                        proc_slno: insetid,
+                                        type_slno: val.type_slno,
+                                        rate_hos: val.hosp_rate,
+                                        rate_cant: val.cant_rate
+                                    }
+                                })
                                 detail(postdetaildata)
-                            }, 1000)
-                            return () => clearTimeout(timeout)
-                        }
-                        else {
-                            setMsg(2)
-                        }
+                            }
+                            else {
+                                setMsg(2)
+                            }
+                        })
+
                     }
                     else {
                         setMsg(2)

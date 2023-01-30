@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useRef, useEffect } from 'react'
+import React, { useCallback, useMemo, useState, useRef, memo, useEffect } from 'react'
 import { Paper, Typography, Box } from '@mui/material';
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import { useHistory } from 'react-router-dom';
@@ -369,4 +369,4 @@ const PatientWise = () => {
     )
 }
 
-export default PatientWise
+export default memo(PatientWise)

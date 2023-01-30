@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useCallback, useMemo, useState } from 'react'
+import React, { Fragment, useEffect, useCallback, useMemo, memo, useState } from 'react'
 import CustomReportOne from 'src/views/Components/CustomReportOne'
 import { useDispatch, useSelector } from 'react-redux';
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -116,4 +116,4 @@ const NurseStationWise = () => {
     )
 }
 
-export default NurseStationWise
+export default memo(NurseStationWise)

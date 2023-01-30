@@ -1,5 +1,5 @@
 import { IconButton } from '@mui/material'
-import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, memo, useState } from 'react'
 import { axioslogin } from '../Axios/Axios'
 import { warningNotify, infoNotify } from '../Common/CommonCode'
 import CusAgGridMast from '../Components/CusAgGridMast'
@@ -284,4 +284,4 @@ const DietApprovalList = () => {
         </Fragment >
     )
 }
-export default DietApprovalList
+export default memo(DietApprovalList)

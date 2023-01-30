@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, memo, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import { axioslogin } from '../Axios/Axios';
 import { warningNotify, infoNotify } from '../Common/CommonCode'
@@ -75,4 +75,4 @@ const DietPlanList = () => {
         </Fragment>
     )
 }
-export default DietPlanList
+export default memo(DietPlanList)

@@ -1,9 +1,8 @@
-import React, { useCallback, useState, useMemo } from 'react'
+import React, { useCallback, useState, useMemo, useEffect, memo } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import { Box, Paper } from '@mui/material'
 import { CssVarsProvider } from '@mui/joy'
 import Typography from '@mui/joy/Typography';
-import { useEffect } from 'react';
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useHistory } from 'react-router-dom'
@@ -18,6 +17,7 @@ import RoomSelectDelivery from './RoomSelectDelivery';
 import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect';
 import ExtraRoomMeliSelect from './DietExtraOrder/ExtraRoomMeliSelect';
 import RmmasterMeliSelect from '../CommonSelectCode/RmmasterMeliSelect';
+
 const DietDeliveryMark = () => {
     const [room, setRoom] = useState(0)
     const [nurse, setNurse] = useState(0)
@@ -26,6 +26,7 @@ const DietDeliveryMark = () => {
     const [count, setCount] = useState(0)
     const history = useHistory();
     const [tabledata, setTabledata] = useState([])
+    const [rmdata, setrmdata] = useState(0)
     const [dispaly, setDispaly] = useState({
         name: '',
         diet_name: '',
@@ -71,9 +72,21 @@ const DietDeliveryMark = () => {
     }, [room, count])
 
     const cleardata = useCallback(() => {
+        setRoom(0)
         setdiet(0)
         setNurse(0)
+        setDetail(0)
+        setCount(0)
+        setTabledata([])
+        setFinal([])
         setrmdata(0)
+        const reset = {
+            name: '',
+            diet_name: '',
+            process_no: '',
+            pt_no: ''
+        }
+        setDispaly(reset)
     }, [])
 
     const onSelectionChanged = (event) => {
@@ -109,7 +122,7 @@ const DietDeliveryMark = () => {
     const refreshWindow = useCallback(() => {
         setRoom(0);
     }, [])
-    const [rmdata, setrmdata] = useState(0)
+
     const clicksearch = () => {
         setrmdata(1)
     }
@@ -246,4 +259,4 @@ const DietDeliveryMark = () => {
     )
 }
 
-export default DietDeliveryMark
+export default memo(DietDeliveryMark)

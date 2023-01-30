@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useRef, useEffect } from 'react'
+import React, { useCallback, useMemo, useState, useRef, memo, useEffect } from 'react'
 import { Paper, Typography, Box } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
@@ -407,4 +407,4 @@ const MonthlyReport = () => {
     )
 }
 
-export default MonthlyReport
+export default memo(MonthlyReport)

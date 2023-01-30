@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, memo, useState } from 'react'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 import LocalDiningSharpIcon from '@mui/icons-material/LocalDiningSharp';
 import { axioslogin } from 'src/views/Axios/Axios';
@@ -122,4 +122,4 @@ const InPatientList = () => {
         </Fragment>
     )
 }
-export default InPatientList
+export default memo(InPatientList) 

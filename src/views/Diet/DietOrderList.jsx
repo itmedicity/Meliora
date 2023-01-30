@@ -1,6 +1,6 @@
 import { Box } from '@mui/system'
 import { IconButton, Paper } from '@mui/material'
-import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useMemo, memo, useState } from 'react'
 import Test from '../CommonSelectCode/Test';
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -198,4 +198,4 @@ const DietOrderList = () => {
 
     )
 }
-export default DietOrderList
+export default memo(DietOrderList)

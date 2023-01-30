@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, memo, useState } from 'react'
 import CardCloseOnly from '../Components/CardCloseOnly'
 import { useHistory } from 'react-router-dom'
 import { Box } from '@mui/material'
@@ -29,4 +29,4 @@ const DietProcess = () => {
     )
 }
 
-export default DietProcess
+export default memo(DietProcess)

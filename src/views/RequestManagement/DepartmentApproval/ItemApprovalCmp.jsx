@@ -2,9 +2,10 @@ import React, { memo, Fragment } from 'react'
 import { editicon } from 'src/color/Color'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 
-const ReqRegisterComp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdelete, setEditdata, setArryUpdate }) => {
+
+const ItemApprovalCmp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdelete }) => {
+
     //array data delete
     const rowSelect = (id) => {
         const newdata = dataPost.filter((val) => {
@@ -14,12 +15,6 @@ const ReqRegisterComp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdel
 
     }
 
-    const editSelect = (id) => {
-        setArryUpdate(1)
-        const editdata = dataPost.filter((val) => val.item_slno === id ? val : null)
-
-        setEditdata(editdata);
-    }
 
     return (
         <Fragment>
@@ -27,11 +22,11 @@ const ReqRegisterComp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdel
                 <Table size="small"
                     stickyHeader aria-label="sticky table"
 
-                    sx={{ border: "0.5px solid" }}>
+                    sx={{ border: "0.2px solid" }}>
                     <TableHead sx={{ border: "1px " }}>
-                        <TableRow >
-                            <TableCell align="center">Item Slno</TableCell>
-                            <TableCell align="center">Item Description</TableCell>
+                        <TableRow  >
+                            <TableCell align="center" style={{ width: '60%' }}>Item Slno</TableCell>
+                            <TableCell align="center" >Item Description</TableCell>
                             <TableCell align="center">Req. Brand</TableCell>
                             <TableCell align="center">Item Unit</TableCell>
                             <TableCell align="center">Item Qty</TableCell>
@@ -56,11 +51,6 @@ const ReqRegisterComp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdel
                                 <TableCell align="center">
                                     <IconButton
                                         sx={{ color: editicon, paddingY: 0.5 }}
-                                        onClick={() => editSelect(val.item_slno)} >
-                                        <EditIcon size={25} />
-                                    </IconButton >
-                                    <IconButton
-                                        sx={{ color: editicon, paddingY: 0.5 }}
                                         onClick={() => rowSelect(val.item_slno)} >
                                         <DeleteIcon size={25} />
                                     </IconButton >
@@ -74,4 +64,4 @@ const ReqRegisterComp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdel
     )
 }
 
-export default memo(ReqRegisterComp)
+export default memo(ItemApprovalCmp)

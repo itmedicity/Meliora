@@ -88,6 +88,12 @@ const DietPlannedList = React.lazy(() => import('./views/dashboard/DietDashViews
 const DietPlanPending = React.lazy(() => import('./views/dashboard/DietDashViews/DietPlanPendingList'))
 const RequestRegister = React.lazy(() => import('./views/RequestManagement/RequestRegister/ReqRegistration'))
 const ReqDepartmentApproval = React.lazy(() => import('./views/RequestManagement/DepartmentApproval/ReqDeptApproval'))
+const ReqOMApproval = React.lazy(() => import('./views/RequestManagement/OMApproval/OmApproval'))
+const ReqSMOApproval = React.lazy(() => import('./views/RequestManagement/SMOApproval/SmoApproval'))
+const ReqCAOApproval = React.lazy(() => import('./views/RequestManagement/CAOApproval/CAOApproval'))
+const ReqEDApproval = React.lazy(() => import('./views/RequestManagement/EDApproval/EDApproval'))
+const NDRFform = React.lazy(() => import('./views/RequestManagement/NdrfFrorm/NdrfFrom'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -180,7 +186,11 @@ const routes = [
   { path: '/Home/DietPlanPending', exact: true, name: 'DietPlanPending View', component: DietPlanPending },
   { path: '/Home/RequestRegister', exact: true, name: 'Request Register', component: RequestRegister },
   { path: '/Home/Req.DepartmentApproval', exact: true, name: 'Request Departmental Approval', component: ReqDepartmentApproval },
-
+  { path: '/Home/Req.OMApproval', exact: true, name: 'Request OM Approval', component: ReqOMApproval },
+  { path: '/Home/Req.SMOApproval', exact: true, name: 'Request SMO Approval', component: ReqSMOApproval },
+  { path: '/Home/Req.CAOApproval', exact: true, name: 'Request CAO/MS/COO Approval', component: ReqCAOApproval },
+  { path: '/Home/Req.EDApproval', exact: true, name: 'Request ED/MD Approval', component: ReqEDApproval },
+  { path: '/Home/NDRF', exact: true, name: 'NDRF Form', component: NDRFform },
 ]
 
 export default routes
