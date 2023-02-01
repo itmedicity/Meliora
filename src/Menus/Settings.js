@@ -5,7 +5,7 @@ import {
     co_setting_one, co_setting_two, co_setting_three, cm_setting_one, cm_setting_two, cm_setting_three,
     userManagement_one, userManagement_two, userManagement_three, am_setting_one, am_setting_two, am_setting_three,
     rm_setting_one, rm_setting_two, rm_setting_three, dm_setting_one, dm_setting_two, dm_setting_three,
-    we_setting_one, we_setting_two
+    we_setting_one, we_setting_two, hall_booking_one
 } from './SettingsMenu';
 import { Card, CardContent, CardHeader } from '@mui/material';
 import { titleTypography, cardActionBgClr } from 'src/color/Color';
@@ -31,6 +31,7 @@ const Settings = () => {
     const [userManagment_secThree, setUserManag_secThree] = useState();
     const [weMast_secOne, setweMast_secOne] = useState();
     const [weMast_secTwo, setweMast_secTwo] = useState();
+    const [hallBooking_secOne, setHallBooking_secOne] = useState();
     const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
@@ -81,6 +82,10 @@ const Settings = () => {
             setweMast_secOne(we_setting_section_one)
             const we_setting_section_two = we_setting_two.filter(val => menuSlnoArray.includes(val.slno));
             setweMast_secTwo(we_setting_section_two)
+
+            //Hall Booking
+            const hall_setting_section_one = hall_booking_one.filter(val => menuSlnoArray.includes(val.slno));
+            setHallBooking_secOne(hall_setting_section_one)
 
             //User Rights 
             const user_setting_section_one = userManagement_one.filter(val => menuSlnoArray.includes(val.slno));
@@ -317,6 +322,27 @@ const Settings = () => {
                     </div>
                 </div>
             </CardContent>
+
+            <CardHeader title={"Hall Booking"}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
+                sx={{
+                    backgroundColor: cardActionBgClr,
+                    paddingY: 0.5,
+                }} />
+            <CardContent>
+                <div className="row" >
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                hallBooking_secOne && hallBooking_secOne.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </CardContent>
+
 
             <CardHeader title={"User Settings"}
                 titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
