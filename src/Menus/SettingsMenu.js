@@ -89,7 +89,11 @@ export const we_setting_two = [
 
 ]
 
+//We  Work Menu
+export const hall_booking_one = [
+    { to: '/Home/HighAntibiotic', name: 'Hall Master ', slno: 80 },
 
+]
 //User Management Menu
 
 export const userManagement_one = [

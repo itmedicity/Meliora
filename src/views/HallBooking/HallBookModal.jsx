@@ -26,6 +26,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
         return state.LoginUserData.empid
     })
     const [dept, setDept] = useState(0);
+
     const [hallbooking, setBooking] = useState({
         h_book_event: "",
         h_book_attendees: '',
