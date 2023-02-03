@@ -4,21 +4,19 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
-import { getReqApprovOthers } from 'src/redux/actions/ReqApprovOtherDept.action'
+import { getNdrfList } from 'src/redux/actions/NdrfList.action'
 
 const NdrfFrom = () => {
     /*** Initializing */
     const history = useHistory();
     const dispatch = useDispatch();
 
-
-
     useEffect(() => {
-        dispatch(getReqApprovOthers())
+        dispatch(getNdrfList())
     }, [dispatch])
 
     const tabledata = useSelector((state) => {
-        return state.setReqApprovOthers.ReqApprovOthersList
+        return state.setNdrfList.NdrfListdata
     })
 
 
@@ -26,24 +24,14 @@ const NdrfFrom = () => {
     const [column] = useState([
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
         { headerName: "Actual Requirement", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "Req. Date", field: "req_date", minWidth: 120, autoHeight: true, wrapText: true, },
-        { headerName: "Inch.Appr.Status", field: "approve_incharge", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "Incharge Remarks", field: "incharge_remarks", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: "Hod.Approve Status", field: "approve_hod", minWidth: 150, wrapText: true, },
-        { headerName: "Hod Remarks", field: "hod_remarks", minWidth: 300, wrapText: true, },
-        { headerName: "OM Approve Status", field: "manag_operation_approvs", minWidth: 150, wrapText: true, },
-        { headerName: "OM Remarks", field: "manag_operation_remarks", minWidth: 300, wrapText: true, },
-        { headerName: "SMO Approve Status", field: "senior_manage_approvs", minWidth: 150, wrapText: true, },
-        { headerName: "SMO Remarks", field: "senior_manage_remarks", minWidth: 300, wrapText: true, },
-        { headerName: "CAO/COO/MD Approve Status", field: "cao_approves", minWidth: 150, wrapText: true, },
-        { headerName: "CAO/COO/MD Remarks", field: "cao_approve_remarks", minWidth: 300, wrapText: true, },
-        { headerName: "ED/MD Approve Status", field: "ed_approves", minWidth: 150, wrapText: true, },
-        { headerName: "ED/MD Remarks", field: "ed_approve_remarks", minWidth: 300, wrapText: true, },
-
+        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+        { headerName: "Req.Department", field: "req_dept", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
+        { headerName: "Req.DeptSec", field: "req_deptsec", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
+        { headerName: "Req.Date", field: "create_date", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
+        { headerName: "Exp.DeptSec", field: "expected_date", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
+        { headerName: "NDRF Date", field: "ndrf_date", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
+        { headerName: "Remarks", field: "remarks", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
     ])
-
-
 
     //close button function
     const backtoSetting = useCallback(() => {

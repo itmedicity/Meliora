@@ -73,7 +73,8 @@
     "react-tooltip": "^4.2.21",
     "redux": "4.1.2",
     "redux-thunk": "^2.4.1",
-    "simplebar-react": "^2.3.6"
+    "simplebar-react": "^2.3.6",
+    "underscore": "^1.13.6"
   },
   "devDependencies": {
     "auto-changelog": "~2.3.0",

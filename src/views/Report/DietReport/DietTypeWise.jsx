@@ -1,15 +1,17 @@
-import React, { Fragment, useEffect, useCallback, useMemo, memo, useState } from 'react'
+import React, { useEffect, useCallback, useMemo, memo, useState } from 'react'
 import CustomReportOne from 'src/views/Components/CustomReportOne'
 import { useDispatch, useSelector } from 'react-redux';
 import { getDiet } from 'src/redux/actions/Diet.action'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { format } from 'date-fns'
-import { ToastContainer } from 'react-toastify';
 import { ActionTyps } from 'src/redux/constants/action.type'
+import { useHistory } from 'react-router-dom';
+import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 
 const DietTypeWise = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const [TableData, setTableData] = useState([]);
     const [diet, setDiet] = useState([])
     const [dietslno, setDietslno] = useState([])
@@ -36,14 +38,15 @@ const DietTypeWise = () => {
     ])
 
     const [columnDefMain] = useState([
-        { headerName: 'Sl No ', field: 'slno' },
-        { headerName: 'Room No', field: 'rmc_desc' },
-        { headerName: 'Admission Date ', field: 'ipd_date' },
-        { headerName: 'IP No', field: 'ip_no' },
-        { headerName: 'Patient Id ', field: 'pt_no' },
-        { headerName: 'Patient Name ', field: 'ptc_ptname' },
-        { headerName: 'Diet Name', field: 'diet_name' },
-        { headerName: 'Remarks', field: 'plan_remark', wrapText: true },
+        { headerName: 'Sl No ', field: 'slno', minWidth: 80 },
+        { headerName: 'Room No', field: 'rmc_desc', minWidth: 150 },
+        { headerName: 'Admission Date ', field: 'ipd_date', minWidth: 150 },
+        { headerName: 'IP No', field: 'ip_no', minWidth: 150 },
+        { headerName: 'Patient Id ', field: 'pt_no', minWidth: 150 },
+        { headerName: 'Patient Name ', field: 'ptc_ptname', minWidth: 150 },
+        { headerName: 'Nursing Station', field: 'nsc_desc', wrapText: true, minWidth: 150 },
+        { headerName: 'Diet Name', field: 'diet_name', minWidth: 150 },
+        { headerName: 'Remarks', field: 'plan_remark', wrapText: true, minWidth: 150 },
         { headerName: 'Breakfast', minWidth: 100 },
         { headerName: 'Lunch', minWidth: 100 },
         { headerName: 'Dinner', minWidth: 100 },
@@ -95,9 +98,14 @@ const DietTypeWise = () => {
         }
     }, [postdata, dietslno.length, dispatch])
 
+    const backToSetting = useCallback(() => {
+        history.push(`/Home/Reports`)
+    }, [history])
     return (
-        <Fragment>
-            <ToastContainer />
+        <CardCloseOnly
+            title='Diet Type Wise Report'
+            close={backToSetting}
+        >
             <CustomReportOne
                 /**  Menu Select for filtering */
                 columnDefs={columnDefsMenu}
@@ -113,7 +121,7 @@ const DietTypeWise = () => {
                 startdate={startdate}
                 setstartDate={setstartDate}
             />
-        </Fragment>
+        </CardCloseOnly>
     )
 }
 

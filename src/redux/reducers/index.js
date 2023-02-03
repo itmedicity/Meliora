@@ -85,7 +85,7 @@ import { setRequestListByDeptSec } from '../reducers/ReqRegisterListByDept.Reduc
 import { setInchargeHodData } from '../reducers/InchargeHodChecks.Reducer'
 import { setReqApprvDept } from '../reducers/ReqApprovDept.Reducer'
 import { setReqApprovOthers } from '../reducers/ReqApprovOtherDept.Reducer'
-
+import { setNdrfList } from '../reducers/NdrfList.Reducer'
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -176,7 +176,8 @@ const reducer = combineReducers({
     setRequestListByDeptSec,
     setInchargeHodData,
     setReqApprvDept,
-    setReqApprovOthers
+    setReqApprovOthers,
+    setNdrfList
 
 })
 export default reducer;

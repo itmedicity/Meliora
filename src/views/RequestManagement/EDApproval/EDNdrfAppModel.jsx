@@ -18,12 +18,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const EDApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
+
+const EDNdrfAppModel = ({ open, setOpen, datas, count, setCount }) => {
 
     const { req_slno, req_date, actual_requirement, needed, location, expected_date,
         approve_incharge, incharge_remarks, hod_remarks, req_approv_slno,
-        approve_hod, manag_operation_approvs,
-        manag_operation_remarks, senior_manage_approvs, senior_manage_remarks, cao_approves, cao_approve_remarks } = datas[0]
+        approve_hod, manag_operation_approvs, manag_operation_remarks, senior_manage_approvs, senior_manage_remarks, cao_approves, cao_approve_remarks } = datas[0]
 
     const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
     const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
@@ -130,6 +130,7 @@ const EDApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
         setPending(false)
         setRemark('')
     }, [setOpen])
+
 
 
     return (
@@ -413,4 +414,4 @@ const EDApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
     )
 }
 
-export default memo(EDApprovalModel)
+export default memo(EDNdrfAppModel)
