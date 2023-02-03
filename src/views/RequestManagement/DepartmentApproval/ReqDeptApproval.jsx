@@ -36,6 +36,7 @@ const ReqDeptApproval = () => {
         return state.setInchargeHodData.InchargeHoddata
 
     })
+
     const [isIncharge, setincharge] = useState(0)
     const [ishod, setHod] = useState(0)
 
@@ -181,6 +182,7 @@ const ReqDeptApproval = () => {
                     count={count}
                     setCount={setCount} /> : null}
 
+
             {
                 (isIncharge === 1) && (ishod === 1) ? <Box sx={{ p: 1 }}>
                     <CusAgGridForMain
@@ -203,6 +205,7 @@ const ReqDeptApproval = () => {
                 </Box> : null
 
             }
+
         </CardCloseOnly>
     )
 }

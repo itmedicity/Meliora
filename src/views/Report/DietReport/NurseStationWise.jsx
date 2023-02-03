@@ -1,15 +1,17 @@
-import React, { Fragment, useEffect, useCallback, useMemo, memo, useState } from 'react'
+import React, { useEffect, useCallback, useMemo, memo, useState } from 'react'
 import CustomReportOne from 'src/views/Components/CustomReportOne'
 import { useDispatch, useSelector } from 'react-redux';
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { format } from 'date-fns'
-import { ToastContainer } from 'react-toastify';
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { setNurseStationMeli } from "src/redux/actions/NuseStationMeli.action";
+import { useHistory } from 'react-router-dom';
+import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 
 const NurseStationWise = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const [TableData, setTableData] = useState([]);
     const [nurse, setNurse] = useState([])
     const [nurseslno, setnurseslno] = useState([])
@@ -36,14 +38,15 @@ const NurseStationWise = () => {
     ])
 
     const [columnDefMain] = useState([
-        { headerName: 'Sl No ', field: 'slno', wrapText: true, minWidth: 1 },
-        { headerName: 'Room No', field: 'rmc_desc', wrapText: true, minWidth: 10 },
-        { headerName: 'Admission Date ', field: 'ipd_date', wrapText: true, minWidth: 20 },
-        { headerName: 'IP No', field: 'ip_no', wrapText: true, minWidth: 60 },
-        { headerName: 'Patient Id ', field: 'pt_no', wrapText: true, minWidth: 60 },
+        { headerName: 'Sl No ', field: 'slno', wrapText: true, minWidth: 50 },
+        { headerName: 'Room No', field: 'rmc_desc', wrapText: true, minWidth: 100 },
+        { headerName: 'Admission Date ', field: 'ipd_date', wrapText: true, minWidth: 100 },
+        { headerName: 'IP No', field: 'ip_no', wrapText: true, minWidth: 150 },
+        { headerName: 'Patient Id ', field: 'pt_no', wrapText: true, minWidth: 150 },
         { headerName: 'Patient Name ', field: 'ptc_ptname', wrapText: true, minWidth: 150 },
+        { headerName: 'Nursing Station', field: 'nsc_desc', wrapText: true, minWidth: 150 },
         { headerName: 'Diet Name', field: 'diet_name', wrapText: true, minWidth: 100 },
-        { headerName: 'Remarks', field: 'plan_remark', wrapText: true, minWidth: 100 },
+        { headerName: 'Remarks', field: 'plan_remark', wrapText: true, minWidth: 150 },
         { headerName: 'Breakfast', minWidth: 100 },
         { headerName: 'Lunch', minWidth: 100 },
         { headerName: 'Dinner', minWidth: 100 },
@@ -94,9 +97,15 @@ const NurseStationWise = () => {
         }
     }, [postdata, dispatch, nurseslno.length])
 
+    const backToSetting = useCallback(() => {
+        history.push(`/Home/Reports`)
+    }, [history])
+
     return (
-        <Fragment>
-            <ToastContainer />
+        <CardCloseOnly
+            title='Nursing Station Wise Report'
+            close={backToSetting}
+        >
             <CustomReportOne
                 /**  Menu Select for filtering */
                 columnDefs={columnDefsMenu}
@@ -112,7 +121,7 @@ const NurseStationWise = () => {
                 startdate={startdate}
                 setstartDate={setstartDate}
             />
-        </Fragment>
+        </CardCloseOnly>
     )
 }
 

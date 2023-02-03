@@ -64,7 +64,7 @@ const AppSidebar = () => {
     {
       slno: 3,
       component: CNavGroup,
-      name: 'Central Request management',
+      name: 'Request management',
       items: crmtransact
     },
     //Room Management System Menu Start from Here

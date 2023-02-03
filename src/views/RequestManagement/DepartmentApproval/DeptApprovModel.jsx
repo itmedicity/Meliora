@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { Box, Grid, Paper, Typography } from '@mui/material'
+import { Box, Paper, Typography } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import ApprovalCompnt from './ApprovalCompnt';
@@ -44,26 +44,46 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
 
     const [approve, setApprove] = useState(false)
     const [reject, setReject] = useState(false)
+    const [pending, setPending] = useState(false)
     const updateApprove = useCallback((e) => {
         if (e.target.checked === true) {
             setApprove(true)
             setReject(false)
+            setPending(false)
         }
         else {
             setApprove(false)
             setReject(false)
+            setPending(false)
         }
     }, [])
     const updateReject = useCallback((e) => {
         if (e.target.checked === true) {
             setReject(true)
             setApprove(false)
+            setPending(false)
         }
         else {
             setApprove(false)
             setReject(false)
+            setPending(false)
         }
     }, [])
+
+    const updatePending = useCallback((e) => {
+        if (e.target.checked === true) {
+            setPending(true)
+            setApprove(false)
+            setReject(false)
+        }
+        else {
+            setPending(false)
+            setApprove(false)
+            setReject(false)
+        }
+
+    }, [])
+
 
     const [dataPost, setdataPost] = useState([])
     const [tableDis, setTableDis] = useState(0)
@@ -89,6 +109,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
             setOpen(false)
             setApprove(false)
             setReject(false)
+            setPending(false)
             setRemark('')
         }
         const updateInchApproval = async (patchdatainch) => {
@@ -112,7 +133,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
 
         if (isIncharge === 1) {
             const patchdatainch = {
-                incharge_approve: approve === true ? 1 : 0,
+                incharge_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
                 incharge_remarks: remark,
                 incharge_apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
                 req_approv_slno: req_approv_slno
@@ -121,21 +142,21 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
 
         } else if (ishod === 1) {
             const patchdatahod = {
-                hod_approve: approve === true ? 1 : 0,
+                hod_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
                 hod_remarks: remark,
                 hod_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
                 req_approv_slno: req_approv_slno
             }
             updatehodApproval(patchdatahod)
         }
-    }, [approve, remark, isIncharge, ishod, req_approv_slno, count, setCount, setOpen])
+    }, [approve, reject, pending, remark, isIncharge, ishod, req_approv_slno, count, setCount, setOpen])
 
     // reset 
     const Close = useCallback(() => {
         setOpen(false)
-        setOpen(false)
         setApprove(false)
         setReject(false)
+        setPending(false)
         setRemark('')
     }, [setOpen])
     return (
@@ -150,114 +171,196 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                 >
                     < DialogContent id="alert-dialog-slide-descriptiona"
                         sx={{
-                            width: "100%",
-                            height: "100%",
+                            width: 600,
+                            height: 600,
                             pb: 2
                         }}
                     >
                         < DialogContentText id="alert-dialog-slide-descriptiona">
-                            Requst Approval
+                            Request Approval
                         </DialogContentText>
-                        <Box sx={{ width: "100%", height: "100%", display: "flex", p: 1 }}>
-                            <Paper square elevation={3} sx={{ width: "100%", height: "100%" }}>
-                                <Box sx={{ p: 2 }}>
-                                    <Grid item xl={12} lg={12} md={12} sm={12}>
-                                        <Grid container spacing={2}>
-                                            <Grid item xl={3} lg={3} >
-                                                <Typography>Request No:</Typography>
-                                            </Grid>
-                                            <Grid item xl={2} lg={2} >
-                                                <Typography>{req_slno}</Typography>
-                                            </Grid>
-                                            <Grid item xl={3} lg={3} >
-                                                <Typography>Req.Date:</Typography>
-                                            </Grid>
-                                            <Grid item xl={3} lg={3} >
-                                                <Typography>{reqdate}</Typography>
-                                            </Grid>
-                                            <Grid item xl={6} lg={6} >
-                                                <Typography>Actual Requirement:</Typography>
-                                            </Grid>
-                                            <Grid item xl={6} lg={6} >
-                                                <Typography>{actual_requirement}</Typography>
-                                            </Grid>
-                                            <Grid item xl={6} lg={6} >
-                                                <Typography>Justification for the need:</Typography>
-                                            </Grid>
-                                            <Grid item xl={6} lg={6} >
-                                                <Typography>{needed}</Typography>
-                                            </Grid>
-                                            <Grid item xl={6} lg={6} >
-                                                <Typography>Location:</Typography>
-                                            </Grid>
-                                            <Grid item xl={6} lg={6} >
-                                                <Typography>{location}</Typography>
-                                            </Grid>
-                                            <Grid item xl={6} lg={6} >
-                                                <Typography>Expected Date:</Typography>
-                                            </Grid>
-                                            <Grid item xl={6} lg={6} >
-                                                <Typography>{expdate}</Typography>
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
+
+
+                        <Box sx={{ width: "100%", mt: 0 }}>
+                            <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                }}>
+                                    <Box sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        p: 0.5,
+                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    }}>
+                                        <Box
+                                            sx={{ pr: 4 }}>
+                                            <Typography>Request No:  {req_slno}</Typography>
+                                        </Box>
+                                        <Box
+                                        >
+                                            <Typography>Req.Date: {reqdate}</Typography>
+                                        </Box>
+                                    </Box>
+
+                                    <Box sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        p: 0.5,
+                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    }}>
+
+                                        <Box
+                                            sx={{ pr: 3 }}>
+                                            <Typography>Actual Requirement:</Typography>
+                                        </Box>
+                                        <Paper sx={{
+                                            width: '100%', height: 50,
+                                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                        }} variant='outlined'>
+                                            {actual_requirement}
+                                        </Paper>
+
+
+                                    </Box>
+                                    <Box sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        p: 0.5,
+                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    }}>
+
+                                        <Box
+                                            sx={{ pr: 3 }}>
+                                            <Typography>Justification for need:</Typography>
+                                        </Box>
+                                        <Paper sx={{
+                                            width: '100%', height: 50,
+                                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                        }} variant='outlined'>
+                                            {needed}
+                                        </Paper>
+
+
+                                    </Box>
+                                    <Box sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        p: 0.5,
+                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    }}>
+
+                                        <Box
+                                            sx={{ pr: 9 }}>
+                                            <Typography>Location:</Typography>
+                                        </Box>
+                                        <Paper sx={{
+                                            width: '100%', height: 50,
+                                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                        }} variant='outlined'>
+                                            {location}
+                                        </Paper>
+                                    </Box>
+                                    <Box sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        p: 0.5,
+                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    }}>
+                                        <Box
+                                            sx={{ pr: 9 }}>
+                                            <Typography>Expected Date: {expdate}</Typography>
+                                        </Box>
+
+                                    </Box>
+                                    <Box sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        p: 0.5,
+                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    }}>
+                                        {tableDis === 1 ? <ItemApprovalCmp
+                                            dataPost={dataPost}
+                                            setdataPost={setdataPost}
+
+                                        /> : null}
+
+                                    </Box>
+
                                 </Box>
-                                <Box sx={{ pl: 2, pr: 2 }}>
-                                    {tableDis === 1 ? <ItemApprovalCmp
-                                        dataPost={dataPost}
-                                        setdataPost={setdataPost}
+                            </Paper>
 
-                                    /> : null}
-
-                                </Box>
-
-                                <Box sx={{ pl: 2, pr: 2 }}>
+                        </Box>
 
 
+                        <Box sx={{ width: "100%", mt: 0 }}>
+                            <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                }}>
+                                    <Box sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        p: 1,
+                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    }}>
 
-                                    {
-                                        isIncharge === 1 ? <ApprovalCompnt
-                                            heading="Incharge Approval"
-                                            approve={approve}
-                                            reject={reject}
-                                            remark={remark}
-                                            updateRemark={updateRemark}
-                                            updateApprove={updateApprove}
-                                            updateReject={updateReject}
-                                        />
-                                            : ishod === 1 ? <Box sx={{ width: "100%" }}>
-                                                <Box sx={{ pl: 2, pt: 2, pb: 2 }}>
-                                                    <Grid item xl={12} lg={12} md={12} sm={12}>
-                                                        <Grid container spacing={2}>
-                                                            <Grid item xl={6} lg={6} >
-                                                                <Typography>Incharge Status:</Typography>
-                                                            </Grid>
-                                                            <Grid item xl={6} lg={6} >
-                                                                <Typography>{approve_incharge}</Typography>
-                                                            </Grid>
-                                                            <Grid item xl={6} lg={6} >
-                                                                <Typography>Incharge Remark:</Typography>
-                                                            </Grid>
-                                                            <Grid item xl={6} lg={6} >
-                                                                <Typography>{incharge_remarks}</Typography>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Grid>
-                                                </Box>
-                                                <ApprovalCompnt
-                                                    heading="Hod Approval"
-                                                    approve={approve}
-                                                    reject={reject}
-                                                    remark={remark}
-                                                    updateRemark={updateRemark}
-                                                    updateApprove={updateApprove}
-                                                    updateReject={updateReject}
-                                                />
-                                            </Box> : null
-                                    }
+                                        {
+                                            isIncharge === 1 ? <ApprovalCompnt
+                                                heading="Incharge Approval"
+                                                approve={approve}
+                                                reject={reject}
+                                                pending={pending}
+                                                remark={remark}
+                                                updateRemark={updateRemark}
+                                                updateApprove={updateApprove}
+                                                updateReject={updateReject}
+                                                updatePending={updatePending}
+                                            />
+                                                : ishod === 1 ? <Box sx={{ width: "100%" }}>
+                                                    <Box sx={{
+                                                        width: "100%",
+                                                        display: "flex",
+                                                        flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                                    }}>
+                                                        <Box
+                                                            sx={{ pr: 9 }}>
+                                                            <Typography>Department Approval</Typography>
+                                                        </Box>
+                                                        <Box
+                                                            sx={{ pr: 9 }}>
+                                                            <Typography>Incharge: {approve_incharge}</Typography>
+                                                        </Box>
+
+                                                        <Paper sx={{
+                                                            width: '100%', height: 50,
+                                                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                        }} variant='outlined'>
+                                                            {incharge_remarks}
+                                                        </Paper>
+                                                    </Box>
+                                                    <ApprovalCompnt
+                                                        heading="Hod Approval"
+                                                        approve={approve}
+                                                        reject={reject}
+                                                        pending={pending}
+                                                        remark={remark}
+                                                        updateRemark={updateRemark}
+                                                        updateApprove={updateApprove}
+                                                        updateReject={updateReject}
+                                                        updatePending={updatePending}
+                                                    />
+                                                </Box> : null
+                                        }
+
+                                    </Box>
                                 </Box>
                             </Paper>
                         </Box>
+
                     </DialogContent>
                     <DialogActions>
                         <Button color="secondary" onClick={submit} >Save</Button>

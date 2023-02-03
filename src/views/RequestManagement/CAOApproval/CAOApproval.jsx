@@ -10,7 +10,8 @@ import { IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
-
+import SummarizeIcon from '@mui/icons-material/Summarize';
+import NdrfModel from '../NdrfFrorm/NdrfModel'
 const CEOApproval = () => {
 
     /*** Initializing */
@@ -45,6 +46,24 @@ const CEOApproval = () => {
                 }
             }
         },
+        {
+            headerName: 'NDRF', minWidth: 80,
+            cellRenderer: params => {
+                if ((params.data.cao_approve !== 1) && (params.data.ed_approve_req !== 1)) {
+                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
+                        <SummarizeIcon />
+                    </IconButton>
+                } else {
+                    return <IconButton onClick={() => ndrfconvert(params)}
+                        sx={{ color: editicon, paddingY: 0.5 }} >
+                        <CustomeToolTip title="NDRF">
+                            <SummarizeIcon />
+                        </CustomeToolTip>
+                    </IconButton>
+                }
+            }
+        },
+
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
         { headerName: "Actual Requirement", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
@@ -66,13 +85,19 @@ const CEOApproval = () => {
     const [model, setmodel] = useState(0)
     const [open, setOpen] = useState(false);
     const [datas, setdatas] = useState([])
-
+    const [ndrfModel, setNdrfModel] = useState(0)
     //Data set for edit
     const rowSelect = useCallback((params) => {
         setOpen(true)
         const data = params.api.getSelectedRows()
         setdatas(data);
         setmodel(1)
+    }, [])
+    const ndrfconvert = useCallback((params) => {
+        setOpen(true)
+        const data = params.api.getSelectedRows()
+        setdatas(data);
+        setNdrfModel(1)
     }, [])
 
     //close button function
@@ -94,6 +119,16 @@ const CEOApproval = () => {
                     count={count}
                     setCount={setCount}
                 /> : null}
+            {
+                ndrfModel === 1 ? <NdrfModel
+                    open={open}
+                    setOpen={setOpen}
+                    datas={datas}
+                    count={count}
+                    setCount={setCount}
+
+                /> : null
+            }
 
             <Box sx={{ p: 1 }}>
                 <CusAgGridForMain

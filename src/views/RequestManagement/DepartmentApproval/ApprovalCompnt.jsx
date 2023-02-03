@@ -3,18 +3,18 @@ import { Box, Typography } from '@mui/material'
 import CustomTextarea from 'src/views/Components/CustomTextarea'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 
-const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject, remark, updateRemark }) => {
+const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject, remark, updateRemark, updatePending, pending }) => {
 
     return (
         <Fragment>
             <Box sx={{ width: "100%", pb: 2 }}>
-                <Box sx={{ pl: 2, pt: 0 }}>
-                    <Typography variant='h6'>{heading} </Typography>
+                <Box sx={{ pl: 1, pt: 1 }}>
+                    <Typography >{heading} </Typography>
                 </Box>
                 <Box sx={{
                     display: 'flex',
-                    p: 1,
-                    width: '100%'
+                    width: '100%',
+                    pl: 1, pr: 1
                 }}>
                     <CustomTextarea
                         required
@@ -56,6 +56,17 @@ const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject,
                             value={reject}
                             checked={reject}
                             onCheked={updateReject}
+                        />
+                    </Box>
+                    <Box sx={{ width: "20%", mt: 1 }}>
+                        <CusCheckBox
+                            label="Pending"
+                            color="primary"
+                            size="md"
+                            name="pending"
+                            value={pending}
+                            checked={pending}
+                            onCheked={updatePending}
                         />
                     </Box>
 
