@@ -17,6 +17,7 @@ import { axioslogin } from '../Axios/Axios';
 import { infoNotify, succesNotify } from '../Common/CommonCode';
 import { useSelector } from 'react-redux';
 import CusCheckBox from '../Components/CusCheckBox';
+import HallMasterSelect from '../CommonSelectCode/HallMasterSelect';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -26,17 +27,19 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
         return state.LoginUserData.empid
     })
     const [dept, setDept] = useState(0);
-
+    const [hall, sethall] = useState(0)
     const [hallbooking, setBooking] = useState({
         h_book_event: "",
         h_book_attendees: '',
+        h_booking_reason: '',
         h_book_startdatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
         h_book_enddatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
         h_book_contno: '',
         h_book_email: '',
-        h_book_hall: ''
+
+
     })
-    const { h_book_event, h_book_attendees, h_book_startdatetime, h_book_enddatetime, h_book_contno, h_book_email, h_book_hall } = hallbooking
+    const { h_book_event, h_book_attendees, h_booking_reason, h_book_startdatetime, h_book_enddatetime, h_book_contno, h_book_email } = hallbooking
     const updateHallbooking = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setBooking({ ...hallbooking, [e.target.name]: value })
@@ -97,21 +100,23 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
         return {
             h_book_event: h_book_event,
             h_book_attendees: h_book_attendees,
+            h_booking_reason: h_booking_reason,
             h_book_startdatetime: moment(h_book_startdatetime).format('YYYY-MM-DD hh:mm:ss'),
             h_book_enddatetime: moment(h_book_enddatetime).format('YYYY-MM-DD hh:mm:ss'),
             h_book_contno: h_book_contno,
             h_book_email: h_book_email,
             h_book_dept: dept,
-            h_book_hall: h_book_hall,
+            h_book_hall: hall,
             h_book_hall_items: hallitem,
             h_book_catering: cateringFoods,
             create_user: id
         }
-    }, [h_book_event, h_book_attendees, h_book_startdatetime, h_book_enddatetime, h_book_contno, h_book_email, dept, id, cateringFoods, hallitem, h_book_hall])
+    }, [h_book_event, h_book_attendees, h_booking_reason, h_book_startdatetime, h_book_enddatetime, h_book_contno, h_book_email, dept, id, cateringFoods, hallitem, hall])
     const resetForm = useMemo(() => {
         return {
             h_book_event: "",
             h_book_attendees: '',
+            h_booking_reason: '',
             h_book_startdatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
             h_book_enddatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
             h_book_contno: '',
@@ -144,6 +149,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
         setOpen(false);
         setModal(0);
         setDept(0);
+        sethall(0)
         setCatering(resetCatering);
         setItems(resetItem);
     }, [setOpen, setModal, resetCatering, resetItem])
@@ -216,7 +222,8 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
                             <Box sx={{
                                 display: 'flex',
                                 width: '100%',
-                                p: 0.5
+                                p: 0.5,
+
                             }}>
                                 <TextFieldCustom
                                     placeholder="No.of attendees"
@@ -227,6 +234,25 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
                                     onchange={updateHallbooking}
                                 />
                             </Box>
+                            <Box sx={{
+                                display: 'flex',
+                                width: '100%',
+                                p: 0.5,
+                                backgroundColor: "yellow"
+                            }}>
+                                <TextFieldCustom
+                                    placeholder="Reason"
+                                    type="text"
+                                    size="sm"
+                                    name="h_booking_reason"
+                                    value={h_booking_reason}
+                                    onchange={updateHallbooking}
+                                />
+                            </Box>
+
+
+
+
                             <Box sx={{
                                 width: "100%",
                                 display: "flex",
@@ -294,19 +320,9 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
                                 <Typography sx={{ fontStyle: "oblique", fontWeight: 500, color: '#94B7FC' }}> Hall Selection</Typography>
                             </Box>
 
-                            <Box sx={{
-                                display: "flex", width: "100%", p: 0.5,
-                                // bgcolor: "red"
-                            }}>
+                            <Box sx={{ width: "100%", mt: 1, p: 0.5 }}>
+                                <HallMasterSelect value={hall} setValue={sethall} />
 
-                                <TextFieldCustom
-                                    placeholder="Hall Name"
-                                    type="email"
-                                    size="sm"
-                                    name="h_book_hall"
-                                    value={h_book_hall}
-                                    onchange={updateHallbooking}
-                                />
                             </Box>
                             <Box sx={{ display: "flex", width: "100%" }}>
                                 <Box sx={{ width: "30%", p: 0.5, mt: 0.5 }}>
@@ -380,10 +396,6 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
 
 
                             </Box>
-
-
-
-
                             <Box sx={{ display: "flex", textAlign: "center", justifyContent: "center" }}>
                                 <Typography sx={{ fontStyle: "oblique", fontWeight: 500, color: '#94B7FC' }}> Catering</Typography>
                             </Box>

@@ -148,7 +148,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                     keepMounted
                     aria-describedby="alert-dialog-slide-descriptiona"
                 >
-                    < DialogContent id="alert-dialog-slide-descriptiona"
+                    <DialogContent id="alert-dialog-slide-descriptiona"
                         sx={{
                             width: "100%",
                             height: "100%",
@@ -212,9 +212,6 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                 </Box>
 
                                 <Box sx={{ pl: 2, pr: 2 }}>
-
-
-
                                     {
                                         isIncharge === 1 ? <ApprovalCompnt
                                             heading="Incharge Approval"
