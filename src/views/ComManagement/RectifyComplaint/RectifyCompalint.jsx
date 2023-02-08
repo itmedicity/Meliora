@@ -160,7 +160,7 @@ const RectifyCompalint = () => {
         <Fragment >
             {mdopen !== 0 ? <Rectifymodel open={open} detail={detail}
                 setCount={setCount} count={count} setOpen={setOpen}
-                empName={empName} /> : null}
+                empName={empName} setempname={setempname} /> : null}
             <CardMaster
                 close={backtoSetting}
                 title="Rectify complaint"

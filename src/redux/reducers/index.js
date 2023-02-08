@@ -87,6 +87,7 @@ import { setReqApprvDept } from '../reducers/ReqApprovDept.Reducer'
 import { setReqApprovOthers } from '../reducers/ReqApprovOtherDept.Reducer'
 import { getHallMasterSlno } from '../reducers/Hallmaster.Reducer'
 import { setdepthallbookApproval } from '../reducers/HallbookingApproval.Reducer'
+import { setNdrfList } from '../reducers/NdrfList.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -180,7 +181,8 @@ const reducer = combineReducers({
     setReqApprvDept,
     setReqApprovOthers,
     getHallMasterSlno,
-    setdepthallbookApproval
+    setdepthallbookApproval,
+    setNdrfList
 
 })
 export default reducer;

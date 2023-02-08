@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
-const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
+const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempname }) => {
     //redux for geting login id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -175,6 +175,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
                 setSelect(false)
                 setPendhold("")
                 setEmployee([])
+                setempname([])
                 succesNotify(message)
             }
             else {
@@ -187,7 +188,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName }) => {
         else {
             infoNotify("Please Select any employee Or Choose Any Option")
         }
-    }, [patchData, count, setCount, setOpen, hold, pending, rectified, Employee])
+    }, [patchData, count, setCount, setOpen, hold, pending, rectified, Employee, setempname])
     //modal close function
     const handleClose = () => {
         setOpen(false);

@@ -101,7 +101,36 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
     useEffect(() => {
         const serchdatass = async () => {
             if (sercha === 1) {
-                if (nurse !== 0 && dayselect === 1 && diet === 0) {
+                if ((nurse !== 0) && (diet === 0)) {
+                    const postData = {
+                        process_date: format(new Date(), 'yyyy-MM-dd'),
+                        ns_code: nurse
+                    }
+                    const result = await axioslogin.post('/dietplan/newbydateNS', postData)
+                    const { success, data } = result.data
+                    if (success === 1) {
+                        setTabledata(data)
+                    } else {
+                        setTabledata()
+                        warningNotify("No Patient Found")
+                    }
+                }
+                else if ((nurse !== 0) && (diet !== 0)) {
+                    const postData = {
+                        process_date: format(new Date(), 'yyyy-MM-dd'),
+                        ns_code: nurse,
+                        diet_slno: diet
+                    }
+                    const result = await axioslogin.post('/dietplan/newByDiet', postData)
+                    const { success, data } = result.data
+                    if (success === 1) {
+                        setTabledata(data)
+                    } else {
+                        setTabledata()
+                        warningNotify("No Patient Found")
+                    }
+                }
+                else if ((nurse !== 0) && (dayselect === 1) && (diet === 0)) {
                     const result = await axioslogin.post('/dietplan/newbydateNS', postdata)
                     const { success, data, message } = result.data
                     if (success === 1) {
@@ -111,24 +140,29 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                         warningNotify(message)
                     }
                 }
-                else if (nurse === 0 && diet === 0) {
-                    const result = await axioslogin.post('/dietplan/newbydate', postdata)
+                else if ((nurse === 0) && (dayselect !== 1) && (diet === 0)) {
+                    const postdataa = {
+                        process_date: format(new Date(), 'yyyy-MM-dd'),
+                    }
+                    const result = await axioslogin.post('/dietplan/newbydate', postdataa)
                     const { success, data } = result.data
                     if (success === 1) {
                         setTabledata(data)
                     } else {
                         setTabledata()
-                        warningNotify("Error occured contact EDP")
+                        warningNotify("No Patient Found")
                     }
+
                 }
-                else if (nurse !== 0 && dayselect === 1 && diet !== 0) {
+
+                else if ((nurse !== 0) && (dayselect === 1) && (diet !== 0)) {
                     const result = await axioslogin.post('/dietplan/newByDiet', postdata)
                     const { success, data } = result.data
                     if (success === 1) {
                         setTabledata(data)
                     } else {
                         setTabledata()
-                        warningNotify("Error occured contact EDP")
+                        warningNotify("No Patient Found")
                     }
                 }
             }

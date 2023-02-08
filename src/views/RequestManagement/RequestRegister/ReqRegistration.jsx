@@ -1,5 +1,5 @@
 import { Box, Paper, IconButton } from '@mui/material'
-import React, { useCallback, memo, useState, useMemo, useEffect } from 'react'
+import React, { useCallback, memo, useState, useMemo, useEffect, Fragment } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import { useHistory } from 'react-router-dom'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
@@ -20,6 +20,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import { format } from 'date-fns'
+import _ from 'underscore'
 
 const ReqRegistration = () => {
     /*** Initializing */
@@ -36,6 +37,11 @@ const ReqRegistration = () => {
         setNeeded(e.target.value)
     }, [])
     //state for location
+    const [category, setCategory] = useState('')
+    const updateCategory = useCallback((e) => {
+        setCategory(e.target.value)
+    }, [])
+    //state for location
     const [location, setLocation] = useState('')
     const updateLocation = useCallback((e) => {
         setLocation(e.target.value)
@@ -45,7 +51,7 @@ const ReqRegistration = () => {
     const updateRemarks = useCallback((e) => {
         setRemarks(e.target.value)
     }, [])
-
+    // Intializing variables
     const [dept, setdept] = useState(0)
     const [deptSec, setdeptSec] = useState(0)
     const [tableDis, setTableDis] = useState(0)
@@ -73,18 +79,13 @@ const ReqRegistration = () => {
         setItemState({ ...itemstate, [e.target.name]: value })
     }, [itemstate])
     //redux for geting login id
-    const id = useSelector((state) => {
-        return state.LoginUserData.empid
-    })
-
+    const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
+    //checking login id is hod or incharge
     useEffect(() => {
         dispatch(getInchargeHodData(id))
     }, [dispatch, id])
 
-    const HodIncharge = useSelector((state) => {
-        return state.setInchargeHodData.InchargeHoddata
-    })
-
+    const HodIncharge = useSelector((state) => state.setInchargeHodData.InchargeHoddata, _.isEqual)
     const [isIncharge, setincharge] = useState(0)
     const [ishod, setHod] = useState(0)
 
@@ -147,8 +148,7 @@ const ReqRegistration = () => {
     const [dataPost, setdataPost] = useState([])
     const [arrayupdate, setArryUpdate] = useState(0)
     const [item_slno, setItemSlno] = useState(1)
-
-
+    // Estimate add button click data store into array
     const AddItem = () => {
         setTableDis(1)
         if (arrayupdate === 0) {
@@ -210,14 +210,14 @@ const ReqRegistration = () => {
 
     const [deletedata, setDelete] = useState([])
     const [editdata, setEditdata] = useState([])
+    //itemm array delete button click item delete
     const deleteSelect = useCallback((params) => {
         const data = params.api.getSelectedRows()
         setDelete(data)
 
     }, [])
-
+    //itemm array edit button click item edit and save
     const editSelect = (params) => {
-
         const data = params.api.getSelectedRows()
         setEditdata(data)
         setArryUpdate(1)
@@ -248,20 +248,11 @@ const ReqRegistration = () => {
     }, [editdata, dataPost])
 
 
-
-
-
-
-
-
-
-
-
-
     //redux for geting login emp secid
     const empsecid = useSelector((state) => {
         return state.LoginUserData.empsecid
     })
+    //Request insertt
     const postData = useMemo(() => {
         return {
             actual_requirement: actual_require,
@@ -273,9 +264,11 @@ const ReqRegistration = () => {
             remarks: remarks,
             total_approx_cost: disEstimate === 1 ? totalApproxCost : approx,
             expected_date: startdate,
-            user_deptsec: empsecid
+            user_deptsec: empsecid,
+            category: category
         }
-    }, [actual_require, needed, dept, deptSec, location, id, remarks, approx, startdate, disEstimate, totalApproxCost, empsecid])
+    }, [actual_require, needed, dept, deptSec, category, location, id, remarks, approx, startdate,
+        disEstimate, totalApproxCost, empsecid])
 
     const patchData = useMemo(() => {
         return {
@@ -288,9 +281,10 @@ const ReqRegistration = () => {
             total_approx_cost: disEstimate === 1 ? totalApproxCost : approx,
             expected_date: startdate,
             user_deptsec: empsecid,
+            category: category,
             req_slno: reqSlno,
         }
-    }, [actual_require, needed, dept, deptSec, location, remarks, startdate, approx, disEstimate, totalApproxCost, empsecid, reqSlno])
+    }, [actual_require, needed, dept, deptSec, category, location, remarks, startdate, approx, disEstimate, totalApproxCost, empsecid, reqSlno])
 
     useEffect(() => {
         if (msgShow !== 0) {
@@ -320,7 +314,9 @@ const ReqRegistration = () => {
             setCount(0)
             setMsgShow(0)
             setItemSlno(1)
+            setDisEstimate(0)
             setapprox('')
+            setEstimate(false)
             const resetdata = {
                 item_desc: '',
                 item_brand: '',
@@ -376,7 +372,7 @@ const ReqRegistration = () => {
                 manag_operation_req: 1,
                 senior_manage_req: 1,
                 cao_approve_req: 1,
-                ed_approve_req: 0,
+                ed_approve_req: null,
                 incharge_approve: isIncharge === 1 ? 1 : ishod === 1 ? 1 : null,
                 hod_approve: ishod === 1 ? 1 : null,
                 incharge_apprv_date: isIncharge === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : ishod === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
@@ -503,10 +499,9 @@ const ReqRegistration = () => {
     const rowSelect = useCallback((params) => {
         setValue(1);
         const data = params.api.getSelectedRows()
-        const { req_slno, actual_requirement, location, request_dept_slno,
+        const { req_slno, actual_requirement, location, request_dept_slno, category,
             needed, request_deptsec_slno, remarks, expected_date, total_approx_cost
         } = data[0]
-
         setActual_require(actual_requirement)
         setNeeded(needed)
         setLocation(location)
@@ -515,6 +510,8 @@ const ReqRegistration = () => {
         setdeptSec(request_deptsec_slno)
         setStartdate(format(new Date(expected_date), "yyyy-MM-dd"))
         setTotalCost(total_approx_cost)
+        setapprox(total_approx_cost)
+        setCategory(category)
         setReqSlno(req_slno)
         const InsertFun = async (req_slno) => {
             const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
@@ -547,400 +544,409 @@ const ReqRegistration = () => {
         setStartdate(format(new Date(), "yyyy-MM-dd"))
         setMsgShow(0)
         setItemSlno(1)
+        setDisEstimate(0)
         setapprox('')
+        setEstimate(false)
     }, [])
 
     return (
-        <CardMaster
-            title="Common Request Form"
-            submit={submitComplaint}
-            close={backtoSetting}
-            refresh={refreshWindow}
-        >
-            <Box sx={{ width: "100%" }}>
-                <Paper square elevation={3} sx={{ p: 1 }}>
-                    {/* 1st section starts */}
-                    <Paper sx={{
-                        width: '100%',
-                        mt: 0.8
-                    }} variant='outlined'>
-                        <Box sx={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
-                        }}>
-                            <Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: "column"
-                            }}>
-                                <CustomPaperTitle heading="Actual Requirement" />
-                                <Box sx={{
-                                    display: 'flex',
-                                    p: 0.5,
-                                    width: '100%'
-                                }} >
-                                    <CustomTextarea
-                                        required
-                                        type="text"
-                                        size="sm"
-                                        style={{
-                                            width: "100%",
-                                            height: 70,
-                                            boardColor: "#E0E0E0"
-                                        }}
-                                        value={actual_require}
-                                        onchange={updateactual_require}
-                                    />
-                                </Box>
-                            </Box>
-                            <Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: "column"
-                            }}>
-                                <CustomPaperTitle heading="Justification for the need" />
-                                <Box sx={{
-                                    display: 'flex',
-                                    p: 0.5,
-                                    width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
-                                }} >
-                                    <CustomTextarea
-                                        required
-                                        type="text"
-                                        size="sm"
-                                        style={{
-                                            width: "100%",
-                                            height: 70,
-                                        }}
-                                        value={needed}
-                                        onchange={updateNeeded}
-                                    />
-                                </Box>
-                            </Box>
-                        </Box>
-                    </Paper>
-
-                    {/*2 nd Section Start*/}
-                    <Paper sx={{
-                        width: '100%',
-                        mt: 0.8
-                    }} variant='outlined'>
-                        <Box sx={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "row"
-                        }}>
-                            <Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: "column"
-                            }}>
-                                <CustomPaperTitle heading="Requested Department Details" />
-                                <Box sx={{
-                                    width: "100%",
-                                    p: 1,
-                                    display: "flex",
-                                    flexDirection: 'row'
-                                }}>
-                                    <Box sx={{
-                                        width: "100%",
-                                        pr: 1
-                                    }}>
-                                        <DepartmentSelect value={dept} setValue={setdept} />
-                                    </Box>
-                                    <Box sx={{
-                                        width: "100%",
-                                        pr: 1
-                                    }}>
-                                        <DeptSectionSelect value={deptSec} setValue={setdeptSec} />
-                                    </Box>
-                                </Box>
-                            </Box>
-                            <Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: "column"
-                            }}>
-                                <CustomPaperTitle heading="Location" />
-                                <TextFieldCustom
-                                    type="text"
-                                    size="sm"
-                                    name="location"
-                                    value={location}
-                                    onchange={updateLocation}
-                                />
-                            </Box>
-
-                            <Box sx={{
-                                width: "25%",
-                                display: "flex",
-                                flexDirection: "column", pt: 3.5, pl: 1
-                            }}>
-
-                                <CusCheckBox
-                                    variant="outlined"
-                                    color="danger"
-                                    size="md"
-                                    name="estimate"
-                                    label="Estimate Details"
-                                    value={estimate}
-                                    onCheked={updateEstimate}
-                                    checked={estimate}
-                                />
-
-                            </Box>
-                        </Box>
-                    </Paper>
-
-                    {/* 3rd section starts */}
-                    {
-                        disEstimate === 1 ? <Paper sx={{
+        <Fragment>
+            <CardMaster
+                title="Common Request Form"
+                submit={submitComplaint}
+                close={backtoSetting}
+                refresh={refreshWindow}
+            >
+                <Box sx={{ width: "100%" }}>
+                    <Paper square elevation={3} sx={{ p: 1 }}>
+                        {/* 1st section starts */}
+                        <Paper sx={{
                             width: '100%',
                             mt: 0.8
                         }} variant='outlined'>
-
                             <Box sx={{
                                 width: "100%",
                                 display: "flex",
-                                flexDirection: "column"
+                                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
                             }}>
-                                <CustomPaperTitle heading="Estimate/Approximate/Requirement Details" />
                                 <Box sx={{
                                     width: "100%",
-                                    p: 1,
                                     display: "flex",
-                                    flexDirection: 'row'
+                                    flexDirection: "column"
                                 }}>
+                                    <CustomPaperTitle heading="Actual Requirement" />
                                     <Box sx={{
-                                        width: "70%",
-                                        display: "flex",
-                                        pr: 1,
-                                        flexDirection: "column"
-                                    }}>
-                                        <CustomPaperTitle heading="Item Description" />
-                                        <TextFieldCustom
+                                        display: 'flex',
+                                        p: 0.5,
+                                        width: '100%'
+                                    }} >
+                                        <CustomTextarea
+                                            required
                                             type="text"
                                             size="sm"
-                                            name="item_desc"
-                                            value={item_desc}
-                                            onchange={updateItemState}
+                                            style={{
+                                                width: "100%",
+                                                height: 70,
+                                                boardColor: "#E0E0E0"
+                                            }}
+                                            value={actual_require}
+                                            onchange={updateactual_require}
                                         />
-                                    </Box>
-
-                                    <Box sx={{
-                                        width: "50%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        pr: 1
-                                    }}>
-                                        <CustomPaperTitle heading="Item Brand" />
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="item_brand"
-                                            value={item_brand}
-                                            onchange={updateItemState}
-                                        />
-                                    </Box>
-
-                                    <Box sx={{
-                                        width: "20%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        pr: 1
-                                    }}>
-                                        <CustomPaperTitle heading="Unit" />
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="item_unit"
-                                            value={item_unit}
-                                            onchange={updateItemState}
-                                        />
-                                    </Box>
-
-                                    <Box sx={{
-                                        width: "7%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        pr: 1
-                                    }}>
-                                        <CustomPaperTitle heading="Quantity" />
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="item_qty"
-                                            value={item_qty}
-                                            onchange={updateItemState}
-                                        />
-                                    </Box>
-
-                                    <Box sx={{
-                                        width: "70%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        pr: 1
-                                    }}>
-                                        <CustomPaperTitle heading="Specification" />
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="item_spec"
-                                            value={item_spec}
-                                            onchange={updateItemState}
-                                        />
-                                    </Box>
-                                    <Box sx={{
-                                        width: "7%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        pr: 1
-                                    }}>
-                                        <CustomPaperTitle heading="Approx.Cost" />
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="approx_cost"
-                                            value={approx_cost}
-                                            onchange={updateItemState}
-                                        />
-                                    </Box>
-                                    <Box sx={{
-                                        width: "7%",
-                                        pt: 2
-                                    }}>
-                                        <IconButton variant="outlined" color="primary" onClick={AddItem}>
-                                            <MdOutlineAddCircleOutline size={30} />
-                                        </IconButton>
                                     </Box>
                                 </Box>
-                                {tableDis === 1 ?
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "column"
+                                }}>
+                                    <CustomPaperTitle heading="Justification for the need" />
+                                    <Box sx={{
+                                        display: 'flex',
+                                        p: 0.5,
+                                        width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+                                        <CustomTextarea
+                                            required
+                                            type="text"
+                                            size="sm"
+                                            style={{
+                                                width: "100%",
+                                                height: 70,
+                                            }}
+                                            value={needed}
+                                            onchange={updateNeeded}
+                                        />
+                                    </Box>
+                                </Box>
+                            </Box>
+                        </Paper>
+
+                        {/*2 nd Section Start*/}
+                        <Paper sx={{
+                            width: '100%',
+                            mt: 0.8
+                        }} variant='outlined'>
+                            <Box sx={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
+                            }}>
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "column"
+                                }}>
+                                    <CustomPaperTitle heading="Requested Department Details" />
                                     <Box sx={{
                                         width: "100%",
+                                        p: 1,
                                         display: "flex",
-                                        flexDirection: "column",
-
+                                        flexDirection: 'row'
                                     }}>
-                                        <ReqRegistItemCmpt
-                                            columnDefs={column}
-                                            tableData={dataPost}
-                                        />
-                                    </Box> : null}
-                            </Box>
-                        </Paper> : null
-                    }
-
-                    {/** 4th Section*/}
-                    <Paper sx={{
-                        width: '100%',
-                        mt: 0.8
-                    }} variant='outlined'>
-                        <Box sx={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
-                        }}>
-                            <Box sx={{
-                                width: "200%",
-                                display: "flex",
-                                flexDirection: "column"
-                            }}>
-                                <CustomPaperTitle heading="Remarks" />
+                                        <Box sx={{
+                                            width: "100%",
+                                            pr: 1
+                                        }}>
+                                            <DepartmentSelect value={dept} setValue={setdept} />
+                                        </Box>
+                                        <Box sx={{
+                                            width: "100%",
+                                            pr: 0.5
+                                        }}>
+                                            <DeptSectionSelect value={deptSec} setValue={setdeptSec} />
+                                        </Box>
+                                    </Box>
+                                </Box>
                                 <Box sx={{
-                                    display: 'flex',
-                                    p: 0.5,
-                                    width: '100%'
-                                }} >
-                                    <CustomTextarea
-                                        required
+                                    width: "50%",
+                                    display: "flex",
+                                    flexDirection: "column"
+                                }}>
+                                    <CustomPaperTitle heading="Category" />
+                                    <TextFieldCustom
                                         type="text"
                                         size="sm"
-                                        style={{
-                                            width: "100%",
-                                            height: 50,
-                                        }}
-                                        value={remarks}
-                                        onchange={updateRemarks}
+                                        name="category"
+                                        value={category}
+                                        onchange={updateCategory}
                                     />
                                 </Box>
-                            </Box>
-
-                            <Box sx={{
-                                width: "60%",
-                                display: "flex",
-                                flexDirection: "column"
-                            }}>
-                                <CustomPaperTitle heading="Expected Date" />
                                 <Box sx={{
-                                    display: 'flex',
-                                    p: 0.5,
-                                    width: '100%'
-                                }} >
-                                    <TextFieldCustom
-                                        type="date"
-                                        size="sm"
-                                        name="startdate"
-                                        value={startdate}
-                                        onchange={updateExpectedDate}
-                                    />
-                                    {/* <TextFieldCustom
-                                        type="date"
-                                        size="sm"
-                                        min={new Date()}
-                                        name="startdate"
-                                        value={startdate}
-                                        onchange={updateExpectedDate}
-                                    /> */}
-                                </Box>
-                            </Box>
-
-                            {
-                                disEstimate === 1 ? <Box sx={{
-                                    width: "40%",
+                                    width: "100%",
                                     display: "flex",
                                     flexDirection: "column",
-                                    pr: 2, pt: 0.5
+                                    pl: 1
                                 }}>
-                                    <CustomPaperTitle heading="Total Approx.Cost" />
+                                    <CustomPaperTitle heading="Location" />
                                     <TextFieldCustom
                                         type="text"
                                         size="sm"
-                                        name="totalApproxCost"
-                                        value={totalApproxCost}
-                                        disabled={true}
+                                        name="location"
+                                        value={location}
+                                        onchange={updateLocation}
                                     />
-                                </Box> :
+                                </Box>
+
+                                <Box sx={{
+                                    width: "25%",
+                                    display: "flex",
+                                    flexDirection: "column", pt: 3.5, pl: 1
+                                }}>
+
+                                    <CusCheckBox
+                                        variant="outlined"
+                                        color="danger"
+                                        size="md"
+                                        name="estimate"
+                                        label="Estimate Details"
+                                        value={estimate}
+                                        onCheked={updateEstimate}
+                                        checked={estimate}
+                                    />
+
+                                </Box>
+                            </Box>
+                        </Paper>
+
+                        {/* 3rd section starts */}
+                        {
+                            disEstimate === 1 ? <Paper sx={{
+                                width: '100%',
+                                mt: 0.8
+                            }} variant='outlined'>
+
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "column"
+                                }}>
+                                    <CustomPaperTitle heading="Estimate/Approximate/Requirement Details" />
                                     <Box sx={{
+                                        width: "100%",
+                                        p: 1,
+                                        display: "flex",
+                                        flexDirection: 'row'
+                                    }}>
+                                        <Box sx={{
+                                            width: "70%",
+                                            display: "flex",
+                                            pr: 1,
+                                            flexDirection: "column"
+                                        }}>
+                                            <CustomPaperTitle heading="Item Description" />
+                                            <TextFieldCustom
+                                                type="text"
+                                                size="sm"
+                                                name="item_desc"
+                                                value={item_desc}
+                                                onchange={updateItemState}
+                                            />
+                                        </Box>
+
+                                        <Box sx={{
+                                            width: "50%",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            pr: 1
+                                        }}>
+                                            <CustomPaperTitle heading="Item Brand" />
+                                            <TextFieldCustom
+                                                type="text"
+                                                size="sm"
+                                                name="item_brand"
+                                                value={item_brand}
+                                                onchange={updateItemState}
+                                            />
+                                        </Box>
+
+                                        <Box sx={{
+                                            width: "20%",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            pr: 1
+                                        }}>
+                                            <CustomPaperTitle heading="Unit" />
+                                            <TextFieldCustom
+                                                type="text"
+                                                size="sm"
+                                                name="item_unit"
+                                                value={item_unit}
+                                                onchange={updateItemState}
+                                            />
+                                        </Box>
+
+                                        <Box sx={{
+                                            width: "7%",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            pr: 1
+                                        }}>
+                                            <CustomPaperTitle heading="Quantity" />
+                                            <TextFieldCustom
+                                                type="text"
+                                                size="sm"
+                                                name="item_qty"
+                                                value={item_qty}
+                                                onchange={updateItemState}
+                                            />
+                                        </Box>
+
+                                        <Box sx={{
+                                            width: "70%",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            pr: 1
+                                        }}>
+                                            <CustomPaperTitle heading="Specification" />
+                                            <TextFieldCustom
+                                                type="text"
+                                                size="sm"
+                                                name="item_spec"
+                                                value={item_spec}
+                                                onchange={updateItemState}
+                                            />
+                                        </Box>
+                                        <Box sx={{
+                                            width: "7%",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            pr: 1
+                                        }}>
+                                            <CustomPaperTitle heading="Approx.Cost" />
+                                            <TextFieldCustom
+                                                type="text"
+                                                size="sm"
+                                                name="approx_cost"
+                                                value={approx_cost}
+                                                onchange={updateItemState}
+                                            />
+                                        </Box>
+                                        <Box sx={{
+                                            width: "7%",
+                                            pt: 2
+                                        }}>
+                                            <IconButton variant="outlined" color="primary" onClick={AddItem}>
+                                                <MdOutlineAddCircleOutline size={30} />
+                                            </IconButton>
+                                        </Box>
+                                    </Box>
+                                    {tableDis === 1 ?
+                                        <Box sx={{
+                                            width: "100%",
+                                            display: "flex",
+                                            flexDirection: "column",
+
+                                        }}>
+                                            <ReqRegistItemCmpt
+                                                columnDefs={column}
+                                                tableData={dataPost}
+                                            />
+                                        </Box> : null}
+                                </Box>
+                            </Paper> : null
+                        }
+
+                        {/** 4th Section*/}
+                        <Paper sx={{
+                            width: '100%',
+                            mt: 0.8
+                        }} variant='outlined'>
+                            <Box sx={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
+                            }}>
+                                <Box sx={{
+                                    width: "200%",
+                                    display: "flex",
+                                    flexDirection: "column"
+                                }}>
+                                    <CustomPaperTitle heading="Remarks" />
+                                    <Box sx={{
+                                        display: 'flex',
+                                        p: 0.5,
+                                        width: '100%'
+                                    }} >
+                                        <CustomTextarea
+                                            required
+                                            type="text"
+                                            size="sm"
+                                            style={{
+                                                width: "100%",
+                                                height: 50,
+                                            }}
+                                            value={remarks}
+                                            onchange={updateRemarks}
+                                        />
+                                    </Box>
+                                </Box>
+
+                                <Box sx={{
+                                    width: "60%",
+                                    display: "flex",
+                                    flexDirection: "column"
+                                }}>
+                                    <CustomPaperTitle heading="Expected Date" />
+                                    <Box sx={{
+                                        display: 'flex',
+                                        p: 0.5,
+                                        width: '100%'
+                                    }} >
+                                        <TextFieldCustom
+                                            type="date"
+                                            size="sm"
+                                            name="startdate"
+                                            value={startdate}
+                                            onchange={updateExpectedDate}
+                                        />
+                                    </Box>
+                                </Box>
+
+                                {
+                                    disEstimate === 1 ? <Box sx={{
                                         width: "40%",
                                         display: "flex",
                                         flexDirection: "column",
                                         pr: 2, pt: 0.5
                                     }}>
-
-                                        <CustomPaperTitle heading="Approx.Cost" />
+                                        <CustomPaperTitle heading="Total Approx.Cost" />
                                         <TextFieldCustom
                                             type="text"
                                             size="sm"
-                                            name="approx"
-                                            value={approx}
-                                            onchange={updateApprox}
+                                            name="totalApproxCost"
+                                            value={totalApproxCost}
+                                            disabled={true}
                                         />
-                                    </Box>
-                            }
+                                    </Box> :
+                                        <Box sx={{
+                                            width: "40%",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            pr: 2, pt: 0.5
+                                        }}>
 
-                        </Box>
+                                            <CustomPaperTitle heading="Approx.Cost" />
+                                            <TextFieldCustom
+                                                type="text"
+                                                size="sm"
+                                                name="approx"
+                                                value={approx}
+                                                onchange={updateApprox}
+                                            />
+                                        </Box>
+                                }
+
+                            </Box>
+                        </Paper>
                     </Paper>
-
-                    < Paper square elevation={0} sx={{
-                        p: 1, pt: 0
-                    }} >
-                        <ReqRegisterTable count={count} rowSelect={rowSelect} />
-                    </Paper >
-
-                </Paper>
-            </Box >
-        </CardMaster >
+                </Box >
+            </CardMaster >
+            < Paper square elevation={0} sx={{
+                p: 1, pt: 0
+            }} >
+                <ReqRegisterTable count={count} rowSelect={rowSelect} />
+            </Paper >
+        </Fragment>
     )
 }
 
