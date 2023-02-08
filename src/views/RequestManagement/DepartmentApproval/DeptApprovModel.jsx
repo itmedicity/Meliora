@@ -17,7 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCount }) => {
+const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCount, id }) => {
     const { req_slno, req_date, actual_requirement, needed, location, expected_date, incharge_approve,
         hod_approve, approve_incharge, incharge_remarks, hod_remarks, req_approv_slno } = datas[0]
     useEffect(() => {
@@ -136,7 +136,8 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                 incharge_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
                 incharge_remarks: remark,
                 incharge_apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-                req_approv_slno: req_approv_slno
+                req_approv_slno: req_approv_slno,
+                incharge_user: id
             }
             updateInchApproval(patchdatainch)
 
@@ -145,11 +146,12 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                 hod_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
                 hod_remarks: remark,
                 hod_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-                req_approv_slno: req_approv_slno
+                req_approv_slno: req_approv_slno,
+                hod_user: id
             }
             updatehodApproval(patchdatahod)
         }
-    }, [approve, reject, pending, remark, isIncharge, ishod, req_approv_slno, count, setCount, setOpen])
+    }, [approve, reject, pending, remark, isIncharge, ishod, req_approv_slno, count, setCount, setOpen, id])
 
     // reset 
     const Close = useCallback(() => {

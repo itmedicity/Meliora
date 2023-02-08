@@ -34,7 +34,6 @@ const ReqDeptApproval = () => {
 
     const HodIncharge = useSelector((state) => {
         return state.setInchargeHodData.InchargeHoddata
-
     })
 
     const [isIncharge, setincharge] = useState(0)
