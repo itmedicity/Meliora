@@ -52,7 +52,6 @@ const HallbookingApprmodel = ({ open, setOpen, isIncharge, ishod, datas, count, 
     return state.LoginUserData.empid
   })
 
-
   const { h_booking_slno, h_book_attendees, h_book_event, h_book_startdatetime, h_book_enddatetime,
     h_book_slno, h_incharge_remark, hall_name, hod_remark,
     is_hod_approve, is_icharge_approve
@@ -88,6 +87,7 @@ const HallbookingApprmodel = ({ open, setOpen, isIncharge, ishod, datas, count, 
       setApprove(false)
       setReject(false)
       setRemark('')
+
     }
     const updateInchApproval = async (patchdatainch) => {
       const result = await axioslogin.patch('/hallBooking/inchargeAppr', patchdatainch);
@@ -200,32 +200,36 @@ const HallbookingApprmodel = ({ open, setOpen, isIncharge, ishod, datas, count, 
                     <Grid item xl={6} lg={6} >
                       <Typography>{h_book_attendees}</Typography>
                     </Grid>
-                    <Grid item xl={6} lg={6} >
-                      <Typography>Incharge Appr.Date:</Typography>
-                    </Grid>
-                    <Grid item xl={6} lg={6} >
-                      <TextFieldCustom
-                        size="sm"
-                        type="datetime-local"
-                        name="inchdate"
-                        value={inchdate}
-                        onchange={updateInchdate}
-                      />
-                    </Grid>
+
                   </Grid>
                   <Grid item xl={6} lg={6}>
                     {
                       isIncharge === 1 ?
-
-                        <HallApprovalcmpnt
-                          heading="Incharge Approval"
-                          approve={approve}
-                          reject={reject}
-                          remark={remark}
-                          updateRemark={updateRemark}
-                          updateApprove={updateApprove}
-                          updateReject={updateReject}
-                        />
+                        <Box sx={{ py: 2 }}>
+                          <Grid item xl={3} lg={3} >
+                            <Typography>Inch Appr.Date:</Typography>
+                          </Grid>
+                          <Grid item xl={9} lg={9} >
+                            <TextFieldCustom
+                              size="sm"
+                              type="datetime-local"
+                              name="inchdate"
+                              value={inchdate}
+                              onchange={updateInchdate}
+                            />
+                          </Grid>
+                          <Box sx={{ pt: 1 }}>
+                            <HallApprovalcmpnt
+                              heading="Incharge Approval"
+                              approve={approve}
+                              reject={reject}
+                              remark={remark}
+                              updateRemark={updateRemark}
+                              updateApprove={updateApprove}
+                              updateReject={updateReject}
+                            />
+                          </Box>
+                        </Box>
 
                         : ishod === 1 ?
                           <Box sx={{ py: 2 }}>
@@ -258,8 +262,6 @@ const HallbookingApprmodel = ({ open, setOpen, isIncharge, ishod, datas, count, 
                     }
                   </Grid>
                 </Grid>
-
-
               </Box>
             </Paper>
           </Box>

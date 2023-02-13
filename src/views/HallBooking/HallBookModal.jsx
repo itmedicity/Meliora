@@ -237,8 +237,8 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
                             <Box sx={{
                                 display: 'flex',
                                 width: '100%',
-                                p: 0.5,
-                                backgroundColor: "yellow"
+                                p: 0.5
+
                             }}>
                                 <TextFieldCustom
                                     placeholder="Reason"
