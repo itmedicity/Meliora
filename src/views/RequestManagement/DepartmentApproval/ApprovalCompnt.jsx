@@ -7,14 +7,14 @@ const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject,
 
     return (
         <Fragment>
-            <Box sx={{ width: "100%", pb: 2 }}>
-                <Box sx={{ pl: 1, pt: 1 }}>
-                    <Typography >{heading} </Typography>
+            <Box sx={{ width: "100%", }}>
+                <Box sx={{ pt: 0.5 }}>
+                    <Typography sx={{ fontSize: 15 }} >{heading} </Typography>
                 </Box>
                 <Box sx={{
                     display: 'flex',
                     width: '100%',
-                    pl: 1, pr: 1
+                    fontSize: 15
                 }}>
                     <CustomTextarea
                         required
@@ -35,6 +35,7 @@ const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject,
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: 'center',
+
                 }}>
                     <Box sx={{ width: "20%", pr: 1, mt: 1 }}>
                         <CusCheckBox
@@ -60,7 +61,7 @@ const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject,
                     </Box>
                     <Box sx={{ width: "20%", mt: 1 }}>
                         <CusCheckBox
-                            label="Pending"
+                            label="On-Hold"
                             color="primary"
                             size="md"
                             name="pending"

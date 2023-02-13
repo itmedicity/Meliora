@@ -17,7 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCount }) => {
+const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCount, id }) => {
     const { req_slno, req_date, actual_requirement, needed, location, expected_date, incharge_approve,
         hod_approve, approve_incharge, incharge_remarks, hod_remarks, req_approv_slno } = datas[0]
     useEffect(() => {
@@ -136,7 +136,8 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                 incharge_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
                 incharge_remarks: remark,
                 incharge_apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-                req_approv_slno: req_approv_slno
+                req_approv_slno: req_approv_slno,
+                incharge_user: id
             }
             updateInchApproval(patchdatainch)
 
@@ -145,11 +146,12 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                 hod_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
                 hod_remarks: remark,
                 hod_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-                req_approv_slno: req_approv_slno
+                req_approv_slno: req_approv_slno,
+                hod_user: id
             }
             updatehodApproval(patchdatahod)
         }
-    }, [approve, reject, pending, remark, isIncharge, ishod, req_approv_slno, count, setCount, setOpen])
+    }, [approve, reject, pending, remark, isIncharge, ishod, req_approv_slno, count, setCount, setOpen, id])
 
     // reset 
     const Close = useCallback(() => {
@@ -162,212 +164,211 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
     return (
         <Fragment>
             <ToastContainer />
-            <div>
-                <Dialog
-                    open={open}
-                    TransitionComponent={Transition}
-                    keepMounted
-                    aria-describedby="alert-dialog-slide-descriptiona"
+            <Dialog
+                open={open}
+                TransitionComponent={Transition}
+                keepMounted
+                aria-describedby="alert-dialog-slide-descriptiona"
+            >
+                < DialogContent id="alert-dialog-slide-descriptiona"
+                    sx={{
+                        width: 600,
+                        height: 500
+                    }}
                 >
-                    < DialogContent id="alert-dialog-slide-descriptiona"
-                        sx={{
-                            width: 600,
-                            height: 600,
-                            pb: 2
-                        }}
-                    >
-                        < DialogContentText id="alert-dialog-slide-descriptiona">
-                            Request Approval
-                        </DialogContentText>
+                    < DialogContentText id="alert-dialog-slide-descriptiona">
+                        Request Approval
+                    </DialogContentText>
 
 
-                        <Box sx={{ width: "100%", mt: 0 }}>
-                            <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                    <Box sx={{ width: "100%", mt: 0 }}>
+                        <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                            <Box sx={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                            }}>
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                    p: 0.5,
+                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
-                                    <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        p: 0.5,
-                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                    }}>
-                                        <Box
-                                            sx={{ pr: 4 }}>
-                                            <Typography>Request No:  {req_slno}</Typography>
-                                        </Box>
-                                        <Box
-                                        >
-                                            <Typography>Req.Date: {reqdate}</Typography>
-                                        </Box>
+                                    <Box
+                                        sx={{ pr: 4 }}>
+                                        <Typography sx={{ fontSize: 15 }}>Request No:  {req_slno}</Typography>
                                     </Box>
-
-                                    <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        p: 0.5,
-                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                    }}>
-
-                                        <Box
-                                            sx={{ pr: 3 }}>
-                                            <Typography>Actual Requirement:</Typography>
-                                        </Box>
-                                        <Paper sx={{
-                                            width: '100%', height: 50,
-                                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                        }} variant='outlined'>
-                                            {actual_requirement}
-                                        </Paper>
-
-
+                                    <Box
+                                    >
+                                        <Typography sx={{ fontSize: 15 }}>Req.Date: {reqdate}</Typography>
                                     </Box>
-                                    <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        p: 0.5,
-                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                    }}>
+                                </Box>
 
-                                        <Box
-                                            sx={{ pr: 3 }}>
-                                            <Typography>Justification for need:</Typography>
-                                        </Box>
-                                        <Paper sx={{
-                                            width: '100%', height: 50,
-                                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                        }} variant='outlined'>
-                                            {needed}
-                                        </Paper>
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    p: 0.5,
+                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                }}>
 
-
+                                    <Box
+                                        sx={{ pr: 3 }}>
+                                        <Typography sx={{ fontSize: 15 }}>Actual Requirement:</Typography>
                                     </Box>
-                                    <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        p: 0.5,
-                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                    }}>
+                                    <Paper sx={{
+                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
+                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                    }} variant='outlined'>
+                                        {actual_requirement}
+                                    </Paper>
 
-                                        <Box
-                                            sx={{ pr: 9 }}>
-                                            <Typography>Location:</Typography>
-                                        </Box>
-                                        <Paper sx={{
-                                            width: '100%', height: 50,
-                                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                        }} variant='outlined'>
-                                            {location}
-                                        </Paper>
+
+                                </Box>
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    p: 0.5,
+                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                }}>
+
+                                    <Box
+                                        sx={{ pr: 3 }}>
+                                        <Typography sx={{ fontSize: 15 }}>Justification for need:</Typography>
                                     </Box>
-                                    <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        p: 0.5,
-                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                    }}>
-                                        <Box
-                                            sx={{ pr: 9 }}>
-                                            <Typography>Expected Date: {expdate}</Typography>
-                                        </Box>
+                                    <Paper sx={{
+                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
+                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                    }} variant='outlined'>
+                                        {needed}
+                                    </Paper>
 
+
+                                </Box>
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    p: 0.5,
+                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                }}>
+
+                                    <Box
+                                        sx={{ pr: 9 }}>
+                                        <Typography sx={{ fontSize: 15 }}>Location:</Typography>
                                     </Box>
-                                    <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        p: 0.5,
-                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                    }}>
-                                        {tableDis === 1 ? <ItemApprovalCmp
-                                            dataPost={dataPost}
-                                            setdataPost={setdataPost}
-
-                                        /> : null}
-
+                                    <Paper sx={{
+                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
+                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                    }} variant='outlined'>
+                                        {location}
+                                    </Paper>
+                                </Box>
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    p: 0.5, pb: 0,
+                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                }}>
+                                    <Box
+                                        sx={{ pr: 9 }}>
+                                        <Typography sx={{ fontSize: 15 }}>Expected Date: {expdate}</Typography>
                                     </Box>
 
                                 </Box>
-                            </Paper>
-
-                        </Box>
-
-
-                        <Box sx={{ width: "100%", mt: 0 }}>
-                            <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                    p: 0.5,
+                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
-                                    <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        p: 1,
-                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                    }}>
+                                    {tableDis === 1 ? <ItemApprovalCmp
+                                        dataPost={dataPost}
+                                        setdataPost={setdataPost}
 
-                                        {
-                                            isIncharge === 1 ? <ApprovalCompnt
-                                                heading="Incharge Approval"
-                                                approve={approve}
-                                                reject={reject}
-                                                pending={pending}
-                                                remark={remark}
-                                                updateRemark={updateRemark}
-                                                updateApprove={updateApprove}
-                                                updateReject={updateReject}
-                                                updatePending={updatePending}
-                                            />
-                                                : ishod === 1 ? <Box sx={{ width: "100%" }}>
-                                                    <Box sx={{
-                                                        width: "100%",
-                                                        display: "flex",
-                                                        flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                                    }}>
-                                                        <Box
-                                                            sx={{ pr: 9 }}>
-                                                            <Typography>Department Approval</Typography>
-                                                        </Box>
-                                                        <Box
-                                                            sx={{ pr: 9 }}>
-                                                            <Typography>Incharge: {approve_incharge}</Typography>
-                                                        </Box>
+                                    /> : null}
 
-                                                        <Paper sx={{
-                                                            width: '100%', height: 50,
-                                                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                                        }} variant='outlined'>
-                                                            {incharge_remarks}
-                                                        </Paper>
+                                </Box>
+
+                            </Box>
+                        </Paper>
+
+                    </Box>
+
+
+                    <Box sx={{ width: "100%", mt: 0, }}>
+                        <Paper variant='outlined' sx={{ mt: 1 }} >
+                            <Box sx={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                            }}>
+                                <Box
+                                    sx={{ pr: 9, pl: 0.6, pb: 0 }}>
+                                    <Typography sx={{ fontWeight: 900, fontSize: 12 }} >Department Approval</Typography>
+                                </Box>
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    p: 1,
+                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                }}>
+
+                                    {
+                                        isIncharge === 1 ? <ApprovalCompnt
+                                            heading="Incharge Approval"
+                                            approve={approve}
+                                            reject={reject}
+                                            pending={pending}
+                                            remark={remark}
+                                            updateRemark={updateRemark}
+                                            updateApprove={updateApprove}
+                                            updateReject={updateReject}
+                                            updatePending={updatePending}
+                                        />
+                                            : ishod === 1 ? <Box sx={{ width: "100%" }}>
+                                                <Box sx={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                                }}>
+
+                                                    <Box
+                                                        sx={{ pr: 9 }}>
+                                                        <Typography sx={{ fontSize: 15 }}>Incharge: {approve_incharge}</Typography>
                                                     </Box>
-                                                    <ApprovalCompnt
-                                                        heading="Hod Approval"
-                                                        approve={approve}
-                                                        reject={reject}
-                                                        pending={pending}
-                                                        remark={remark}
-                                                        updateRemark={updateRemark}
-                                                        updateApprove={updateApprove}
-                                                        updateReject={updateReject}
-                                                        updatePending={updatePending}
-                                                    />
-                                                </Box> : null
-                                        }
 
-                                    </Box>
+                                                    <Paper sx={{
+                                                        width: '100%', height: 50, fontSize: 15, pl: 0.5,
+                                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                    }} variant='outlined'>
+                                                        {incharge_remarks}
+                                                    </Paper>
+                                                </Box>
+
+                                                <ApprovalCompnt
+                                                    heading="Hod Approval"
+                                                    approve={approve}
+                                                    reject={reject}
+                                                    pending={pending}
+                                                    remark={remark}
+                                                    updateRemark={updateRemark}
+                                                    updateApprove={updateApprove}
+                                                    updateReject={updateReject}
+                                                    updatePending={updatePending}
+                                                />
+                                            </Box> : null
+                                    }
+
                                 </Box>
-                            </Paper>
-                        </Box>
+                            </Box>
+                        </Paper>
+                    </Box>
 
-                    </DialogContent>
-                    <DialogActions>
-                        <Button color="secondary" onClick={submit} >Save</Button>
-                        <Button onClick={Close} color="secondary" >Cancel</Button>
-                    </DialogActions>
-                </Dialog>
-            </div >
+                </DialogContent>
+                <DialogActions>
+                    <Button color="secondary" onClick={submit} >Save</Button>
+                    <Button onClick={Close} color="secondary" >Cancel</Button>
+                </DialogActions>
+            </Dialog>
         </Fragment >
     )
 }

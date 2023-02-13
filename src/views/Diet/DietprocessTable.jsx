@@ -101,7 +101,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
     useEffect(() => {
         const serchdatass = async () => {
             if (sercha === 1) {
-                if ((nurse !== 0) && (diet === 0)) {
+                if ((nurse !== 0) && (diet === 0) && (dayselect !== 1)) {
                     const postData = {
                         process_date: format(new Date(), 'yyyy-MM-dd'),
                         ns_code: nurse
@@ -115,7 +115,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                         warningNotify("No Patient Found")
                     }
                 }
-                else if ((nurse !== 0) && (diet !== 0)) {
+                else if ((nurse !== 0) && (diet !== 0) && (dayselect !== 1)) {
                     const postData = {
                         process_date: format(new Date(), 'yyyy-MM-dd'),
                         ns_code: nurse,
@@ -152,11 +152,23 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
                         setTabledata()
                         warningNotify("No Patient Found")
                     }
-
                 }
-
                 else if ((nurse !== 0) && (dayselect === 1) && (diet !== 0)) {
                     const result = await axioslogin.post('/dietplan/newByDiet', postdata)
+                    const { success, data } = result.data
+                    if (success === 1) {
+                        setTabledata(data)
+                    } else {
+                        setTabledata()
+                        warningNotify("No Patient Found")
+                    }
+                }
+
+                else if ((nurse === 0) && (dayselect === 1) && (diet === 0)) {
+                    const postdataa = {
+                        process_date: startdate
+                    }
+                    const result = await axioslogin.post('/dietplan/newbydate', postdataa)
                     const { success, data } = result.data
                     if (success === 1) {
                         setTabledata(data)
@@ -168,7 +180,7 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
             }
         }
         serchdatass()
-    }, [sercha, postdata, nurse, count, dayselect, diet])
+    }, [sercha, postdata, nurse, count, dayselect, diet, startdate])
 
     const dietProcess = useCallback((params) => {
         const data = params.api.getSelectedRows()
@@ -183,7 +195,6 @@ const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, st
     }
     const [msgshow, setMsg] = useState(0)
     const allProcess = () => {
-
         const detail = async (postdetaildata) => {
             const result1 = await axioslogin.post('/dietprocess/processDetailInsert', postdetaildata);
             const { suces } = result1.data;

@@ -21,6 +21,8 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import { format } from 'date-fns'
 import _ from 'underscore'
+import { CssVarsProvider } from '@mui/joy/styles';
+import Button from '@mui/joy/Button';
 
 const ReqRegistration = () => {
     /*** Initializing */
@@ -63,6 +65,7 @@ const ReqRegistration = () => {
     const [msgShow, setMsgShow] = useState(0)
     const [estimate, setEstimate] = useState(false)
     const [approx, setapprox] = useState('')
+    const [document, setDocument] = useState(false)
     //Item details initialization
     const [itemstate, setItemState] = useState({
         item_desc: '',
@@ -101,6 +104,9 @@ const ReqRegistration = () => {
         setStartdate(e.target.value)
     }
     const [disEstimate, setDisEstimate] = useState(0)
+    const [disFile, setDisFile] = useState(0)
+
+
     const updateEstimate = (e) => {
         if (e.target.checked === true) {
             setEstimate(true)
@@ -108,6 +114,15 @@ const ReqRegistration = () => {
         } else {
             setEstimate(false)
             setDisEstimate(0)
+        }
+    }
+    const updateDocument = (e) => {
+        if (e.target.checked === true) {
+            setDocument(true)
+            setDisFile(1)
+        } else {
+            setDocument(false)
+            setDisFile(0)
         }
     }
 
@@ -316,6 +331,7 @@ const ReqRegistration = () => {
             setItemSlno(1)
             setDisEstimate(0)
             setapprox('')
+            setCategory('')
             setEstimate(false)
             const resetdata = {
                 item_desc: '',
@@ -464,6 +480,9 @@ const ReqRegistration = () => {
                         }
                     })
                 }
+                else if (success === 2) {
+                    infoNotify(message)
+                }
                 else {
                     infoNotify(message)
                 }
@@ -540,14 +559,54 @@ const ReqRegistration = () => {
     const refreshWindow = useCallback(() => {
         setActual_require('')
         setNeeded('')
+        setLocation('')
+        setRemarks('')
+        setdept(0)
+        setdeptSec(0)
+        setTableDis(0)
+        setTotalCost(0)
+        setValue(0)
+        setReqSlno(0)
+        setPatchInserDetl(0)
+        setMsgShow(0)
         setTotalCost(0)
         setStartdate(format(new Date(), "yyyy-MM-dd"))
+        setCount(0)
         setMsgShow(0)
         setItemSlno(1)
         setDisEstimate(0)
         setapprox('')
+        setCategory('')
         setEstimate(false)
+        const resetdata = {
+            item_desc: '',
+            item_brand: '',
+            item_qty: '',
+            item_unit: '',
+            item_spec: '',
+            approx_cost: ''
+        }
+        setItemState(resetdata)
+        setdataPost([])
     }, [])
+
+    const [fileArry, setFilearry] = useState([])
+
+    const uploadFile = (e) => {
+        let upload = e.target.files[0];
+        const arry = [...fileArry, upload]
+        setFilearry(arry)
+    }
+
+    const uploaddata = () => {
+        if (fileArry.length !== 0) {
+            const obj = {
+                id: Math.ceil(Math.random() * 1000),
+                file: fileArry[0]
+            }
+            return obj
+        }
+    }
 
     return (
         <Fragment>
@@ -857,7 +916,7 @@ const ReqRegistration = () => {
                                 flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
                             }}>
                                 <Box sx={{
-                                    width: "200%",
+                                    width: "100%",
                                     display: "flex",
                                     flexDirection: "column"
                                 }}>
@@ -882,7 +941,7 @@ const ReqRegistration = () => {
                                 </Box>
 
                                 <Box sx={{
-                                    width: "60%",
+                                    width: "20%",
                                     display: "flex",
                                     flexDirection: "column"
                                 }}>
@@ -904,10 +963,10 @@ const ReqRegistration = () => {
 
                                 {
                                     disEstimate === 1 ? <Box sx={{
-                                        width: "40%",
+                                        width: "30%",
                                         display: "flex",
                                         flexDirection: "column",
-                                        pr: 2, pt: 0.5
+                                        pr: 1, pt: 0.5
                                     }}>
                                         <CustomPaperTitle heading="Total Approx.Cost" />
                                         <TextFieldCustom
@@ -919,10 +978,10 @@ const ReqRegistration = () => {
                                         />
                                     </Box> :
                                         <Box sx={{
-                                            width: "40%",
+                                            width: "30%",
                                             display: "flex",
                                             flexDirection: "column",
-                                            pr: 2, pt: 0.5
+                                            pr: 1, pt: 0.5
                                         }}>
 
                                             <CustomPaperTitle heading="Approx.Cost" />
@@ -936,8 +995,74 @@ const ReqRegistration = () => {
                                         </Box>
                                 }
 
+                                <Box sx={{
+                                    width: "25%",
+                                    display: "flex",
+                                    flexDirection: "column", pt: 4
+                                }}>
+                                    <CusCheckBox
+                                        variant="outlined"
+                                        color="danger"
+                                        size="md"
+                                        name="document"
+                                        label="Supporting Document"
+                                        value={document}
+                                        onCheked={updateDocument}
+                                        checked={document}
+                                    />
+                                </Box>
                             </Box>
                         </Paper>
+                        {
+                            disFile === 1 ? <Paper sx={{
+                                width: '100%',
+                                mt: 0.8
+                            }} variant='outlined'>
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    p: 0.5,
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
+                                }}>
+                                    <Box sx={{
+                                        width: "60%",
+                                        display: "flex",
+                                        flexDirection: "column"
+                                    }}>
+
+                                        <input type='file'
+                                            onChange={uploadFile}
+                                            required multiple="multiple"></input>
+                                        {/* <input type='file' multiple="multiple"></input> */}
+                                    </Box>
+                                    <Box sx={{
+                                        width: "10%",
+                                        display: "flex",
+                                        flexDirection: "column"
+                                    }}>
+                                        <CssVarsProvider>
+
+                                            <Button size="sm" variant="outlined"
+                                                // color="primary"
+                                                clickable="true"
+                                                onClick={uploaddata}
+                                            >Upload</Button>
+
+                                        </CssVarsProvider>
+                                        {/* <Button variant="contained" color="default">Upload</Button> */}
+                                    </Box>
+
+                                    <Box sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        flexDirection: "column"
+                                    }}>
+
+                                    </Box>
+                                </Box>
+                            </Paper>
+                                : null
+                        }
                     </Paper>
                 </Box >
             </CardMaster >

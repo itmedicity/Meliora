@@ -180,7 +180,8 @@ const ReqDeptApproval = () => {
                     ishod={ishod}
                     datas={datas}
                     count={count}
-                    setCount={setCount} /> : null}
+                    setCount={setCount}
+                    id={id} /> : null}
 
 
             {
