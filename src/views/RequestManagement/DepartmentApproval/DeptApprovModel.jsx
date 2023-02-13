@@ -173,7 +173,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                 < DialogContent id="alert-dialog-slide-descriptiona"
                     sx={{
                         width: 600,
-                        height: 500
+                        height: 540
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
@@ -301,10 +301,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                 display: "flex",
                                 flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
                             }}>
-                                <Box
-                                    sx={{ pr: 9, pl: 0.6, pb: 0 }}>
-                                    <Typography sx={{ fontWeight: 900, fontSize: 12 }} >Department Approval</Typography>
-                                </Box>
+
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
@@ -343,7 +340,6 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                                         {incharge_remarks}
                                                     </Paper>
                                                 </Box>
-
                                                 <ApprovalCompnt
                                                     heading="Hod Approval"
                                                     approve={approve}
