@@ -17,6 +17,7 @@ import { axioslogin } from '../Axios/Axios';
 import { infoNotify, succesNotify } from '../Common/CommonCode';
 import { useSelector } from 'react-redux';
 import CusCheckBox from '../Components/CusCheckBox';
+import HallMasterSelect from '../CommonSelectCode/HallMasterSelect';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -28,16 +29,19 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal, mddata }) => 
     })
 
     const [dept, setDept] = useState(0);
+    const [hall, sethall] = useState(0)
+
     const [hallbooking, setBooking] = useState({
         h_book_event: "",
         h_book_attendees: '',
+        h_booking_reason: '',
         h_book_startdatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
         h_book_enddatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
         h_book_contno: '',
         h_book_email: '',
         h_book_hall: ''
     })
-    const { h_book_event, h_book_attendees, h_book_startdatetime, h_book_enddatetime, h_book_contno, h_book_email, h_book_hall } = hallbooking
+    const { h_book_event, h_book_attendees, h_booking_reason, h_book_startdatetime, h_book_enddatetime, h_book_contno, h_book_email } = hallbooking
     const updateHallbooking = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setBooking({ ...hallbooking, [e.target.name]: value })
@@ -68,7 +72,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal, mddata }) => 
     const [slno, setSlno] = useState(0);
     useEffect(() => {
         if (mddata.length !== 0) {
-            const { h_book_event, h_book_attendees, h_book_startdatetime, h_book_enddatetime, h_book_contno,
+            const { h_book_event, h_book_attendees, h_booking_reason, h_book_startdatetime, h_book_enddatetime, h_book_contno,
                 h_book_email, h_book_dept, h_book_hall, h_book_hall_items, h_book_catering, h_book_slno
             } = mddata[0]
             const hallitems = JSON.parse(h_book_hall_items);
@@ -78,14 +82,16 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal, mddata }) => 
             const formData = {
                 h_book_event: h_book_event,
                 h_book_attendees: h_book_attendees,
+                h_booking_reason: h_booking_reason !== '' ? h_booking_reason : '',
                 h_book_startdatetime: h_book_startdatetime,
                 h_book_enddatetime: h_book_enddatetime,
                 h_book_contno: h_book_contno,
                 h_book_email: h_book_email,
-                h_book_hall: h_book_hall
+                // h_book_hall: h_book_hall
             }
             setBooking(formData);
             setDept(h_book_dept)
+            sethall(h_book_hall)
             const items = {
                 mikeset: mikeset === 1 ? true : false,
                 ac: ac === 2 ? true : false,
@@ -139,23 +145,25 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal, mddata }) => 
         return {
             h_book_event: h_book_event,
             h_book_attendees: h_book_attendees,
+            h_booking_reason: h_booking_reason,
             h_book_startdatetime: moment(h_book_startdatetime).format('YYYY-MM-DD hh:mm:ss'),
             h_book_enddatetime: moment(h_book_enddatetime).format('YYYY-MM-DD hh:mm:ss'),
             h_book_contno: h_book_contno,
             h_book_email: h_book_email,
             h_book_dept: dept,
-            h_book_hall: h_book_hall,
+            h_book_hall: hall,
             h_book_hall_items: hallitem,
             h_book_catering: cateringFoods,
             edit_user: id,
             h_book_slno: slno,
         }
-    }, [h_book_event, h_book_attendees, h_book_startdatetime, h_book_enddatetime, h_book_contno, h_book_email, dept, id, cateringFoods, hallitem, h_book_hall, slno])
+    }, [h_book_event, h_book_attendees, h_booking_reason, h_book_startdatetime, h_book_enddatetime, h_book_contno, h_book_email, dept, id, cateringFoods, hallitem, hall, slno])
 
     const resetForm = useMemo(() => {
         return {
             h_book_event: "",
             h_book_attendees: '',
+            h_booking_reason: '',
             h_book_startdatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
             h_book_enddatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
             h_book_contno: '',
@@ -187,6 +195,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal, mddata }) => 
         setOpen(false);
         setModal(0);
         setDept(0);
+        sethall(0)
         setCatering(resetCatering);
         setItems(resetItem);
     }, [setOpen, setModal, resetCatering, resetItem])
@@ -272,6 +281,25 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal, mddata }) => 
                                 />
                             </Box>
                             <Box sx={{
+                                display: 'flex',
+                                width: '100%',
+                                p: 0.5,
+                                backgroundColor: "yellow"
+                            }}>
+                                <TextFieldCustom
+                                    placeholder="Reason"
+                                    type="text"
+                                    size="sm"
+                                    name="h_booking_reason"
+                                    value={h_booking_reason}
+                                    onchange={updateHallbooking}
+                                />
+                            </Box>
+
+
+
+
+                            <Box sx={{
                                 width: "100%",
                                 display: "flex",
                                 flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
@@ -338,35 +366,9 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal, mddata }) => 
                                 <Typography sx={{ fontStyle: "oblique", fontWeight: 500, color: '#94B7FC' }}> Hall Selection</Typography>
                             </Box>
 
-                            <Box sx={{
-                                display: "flex", width: "100%", p: 0.5,
-                                // bgcolor: "red"
-                            }}>
+                            <Box sx={{ width: "100%", mt: 1, p: 0.5 }}>
+                                <HallMasterSelect value={hall} setValue={sethall} />
 
-                                <TextFieldCustom
-                                    placeholder="Hall Name"
-                                    type="email"
-                                    size="sm"
-                                    name="h_book_hall"
-                                    value={h_book_hall}
-                                    onchange={updateHallbooking}
-                                />
-                                {/* <Box sx={{ width: "60%" }}>
-                                    <CusCheckBox
-                                        label="Auditorium"
-                                        color="primary"
-                                        size="md"
-                                        name="Tea"
-                                    />
-                                </Box> */}
-                                {/* <Box sx={{ width: "40%" }}>
-                                    <CusCheckBox
-                                        label="Admin Hall"
-                                        color="primary"
-                                        size="md"
-                                        name="Tea"
-                                    />
-                                </Box> */}
                             </Box>
                             <Box sx={{ display: "flex", width: "100%" }}>
                                 <Box sx={{ width: "30%", p: 0.5, mt: 0.5 }}>
@@ -437,13 +439,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal, mddata }) => 
                                         checked={conferencetable}
                                     />
                                 </Box>
-
-
                             </Box>
-
-
-
-
                             <Box sx={{ display: "flex", textAlign: "center", justifyContent: "center" }}>
                                 <Typography sx={{ fontStyle: "oblique", fontWeight: 500, color: '#94B7FC' }}> Catering</Typography>
                             </Box>

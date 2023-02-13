@@ -26,10 +26,10 @@ const HallBookingRegister = () => {
     const [open, setOpen] = useState(false);
     const [modal, setModal] = useState(0);
     const [count, setCount] = useState(0);
-    const addEvent = () => {
-        setModal(1);
-        setOpen(true);
-    }
+    // const addEvent = () => {
+    //     setModal(1);
+    //     setOpen(true);
+    // }
     const [events, setEvents] = useState([]);
     const [tabledata, setTable] = useState([])
 
@@ -65,9 +65,9 @@ const HallBookingRegister = () => {
                         title="Event Calender"
                     >
                         <Box sx={{ display: 'flex' }}>
-                            <Box sx={{ p: 1, ml: 4, mt: 4 }}>
+                            {/* <Box sx={{ p: 1, ml: 4, mt: 4 }}>
                                 <Button variant="outlined" color="primary" onClick={addEvent} >Add Event</Button>
-                            </Box>
+                            </Box> */}
                             <Box sx={{ p: 1, mt: 4 }}>
                                 <Button variant="outlined" color="primary"
                                     onClick={viewEvent}

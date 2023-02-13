@@ -94,7 +94,10 @@ const ReqCAOApproval = React.lazy(() => import('./views/RequestManagement/CAOApp
 const ReqEDApproval = React.lazy(() => import('./views/RequestManagement/EDApproval/EDApproval'))
 const NDRFform = React.lazy(() => import('./views/RequestManagement/NdrfFrorm/NdrfFrom'))
 const HallBooking = React.lazy(() => import('./views/HallBooking/HallBookingRegister'))
-
+const Hallmaster = React.lazy(() => import('./views/Master/HallMaster/Hallmaster'))
+const HallbookingReg = React.lazy(() => import('./views/HallBooking/HallbookingReg'))
+const HallBookingApproval = React.lazy(() => import('./views/HallBooking/HallBookingApproval'))
+const CAoApproval = React.lazy(() => import('./views/HallBooking/CeoApproval/CeoApproval'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -193,7 +196,10 @@ const routes = [
   { path: '/Home/Req.EDApproval', exact: true, name: 'Request ED/MD Approval', component: ReqEDApproval },
   { path: '/Home/NDRF', exact: true, name: 'NDRF Form', component: NDRFform },
   { path: '/Home/HallBooking', exact: true, name: 'Hall Booking', component: HallBooking },
-
+  { path: '/Home/Hallmaster', exact: true, name: "Hall master", component: Hallmaster },
+  { path: '/Home/HallbookingReg', exact: true, name: "HallbookingReg", component: HallbookingReg },
+  { path: '/Home/HallbookingApproval', exact: true, name: "HallBookingApproval", component: HallBookingApproval },
+  { path: '/Home/HallCeoApproval', exact: true, name: 'CAoApproval', component: CAoApproval }
 ]
 
 export default routes
