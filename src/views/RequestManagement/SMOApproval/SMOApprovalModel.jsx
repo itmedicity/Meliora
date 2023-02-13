@@ -13,7 +13,9 @@ import { succesNotify } from 'src/views/Common/CommonCode'
 import ApprovalCompnt from '../DepartmentApproval/ApprovalCompnt';
 import { useMemo } from 'react';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux'
 import ItemApprovalCmp from '../DepartmentApproval/ItemApprovalCmp';
+import _ from 'underscore'
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -27,7 +29,8 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
 
     const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
     const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
-
+    //redux for geting login id
+    const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     //state for Remarks
     const [remark, setRemark] = useState('')
     const updateRemark = useCallback((e) => {
@@ -114,9 +117,10 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
             senior_manage_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
             senior_manage_remarks: remark,
             som_aprrov_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            req_approv_slno: req_approv_slno
+            req_approv_slno: req_approv_slno,
+            senior_manage_user: id
         }
-    }, [approve, reject, pending, remark, req_approv_slno])
+    }, [approve, reject, pending, remark, req_approv_slno, id])
 
     const submit = useCallback((e) => {
         e.preventDefault();
@@ -160,8 +164,7 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                 < DialogContent id="alert-dialog-slide-descriptiona"
                     sx={{
                         width: 600,
-                        height: 600,
-                        pb: 2
+                        height: 600
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
@@ -184,11 +187,11 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                 }}>
                                     <Box
                                         sx={{ pr: 4 }}>
-                                        <Typography>Request No:  {req_slno}</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>Request No:  {req_slno}</Typography>
                                     </Box>
                                     <Box
                                     >
-                                        <Typography>Req.Date: {reqdate}</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>Req.Date: {reqdate}</Typography>
                                     </Box>
                                 </Box>
 
@@ -201,10 +204,10 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
 
                                     <Box
                                         sx={{ pr: 3 }}>
-                                        <Typography>Actual Requirement:</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>Actual Requirement:</Typography>
                                     </Box>
                                     <Paper sx={{
-                                        width: '100%', height: 50,
+                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='outlined'>
                                         {actual_requirement}
@@ -220,11 +223,11 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                 }}>
 
                                     <Box
-                                        sx={{ pr: 3 }}>
-                                        <Typography>Justification for need:</Typography>
+                                        sx={{ pr: 2.5 }}>
+                                        <Typography sx={{ fontSize: 15 }}>Justification for need:</Typography>
                                     </Box>
                                     <Paper sx={{
-                                        width: '100%', height: 50,
+                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='outlined'>
                                         {needed}
@@ -240,11 +243,11 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                 }}>
 
                                     <Box
-                                        sx={{ pr: 9 }}>
-                                        <Typography>Location:</Typography>
+                                        sx={{ pr: 8.5 }}>
+                                        <Typography sx={{ fontSize: 15 }}>Location:</Typography>
                                     </Box>
                                     <Paper sx={{
-                                        width: '100%', height: 50,
+                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='outlined'>
                                         {location}
@@ -253,12 +256,12 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
-                                    p: 0.5,
+                                    p: 0.5, pb: 0,
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
                                     <Box
                                         sx={{ pr: 9 }}>
-                                        <Typography>Expected Date: {expdate}</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>Expected Date: {expdate}</Typography>
                                     </Box>
 
                                 </Box>
@@ -294,7 +297,7 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                 }}>
                                     <Box
                                         sx={{ pr: 9 }}>
-                                        <Typography>Department Approval</Typography>
+                                        <Typography sx={{ fontWeight: 900, fontSize: 12 }}>Department Approval</Typography>
                                     </Box>
 
                                 </Box>
@@ -306,11 +309,11 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                 }}>
                                     <Box
                                         sx={{ pr: 9 }}>
-                                        <Typography>Incharge: {approve_incharge}</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>Incharge: {approve_incharge}</Typography>
                                     </Box>
 
                                     <Paper sx={{
-                                        width: '100%', height: 50,
+                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='outlined'>
                                         {incharge_remarks}
@@ -324,11 +327,11 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                 }}>
                                     <Box
                                         sx={{ pr: 9 }}>
-                                        <Typography>HOD: {approve_hod}</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>HOD: {approve_hod}</Typography>
                                     </Box>
 
                                     <Paper sx={{
-                                        width: '100%', height: 50,
+                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='outlined'>
                                         {hod_remarks}
@@ -354,28 +357,32 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                 }}>
                                     <Box
                                         sx={{ pr: 9 }}>
-                                        <Typography>Operation Manager: {manag_operation_approvs}</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>Operation Manager: {manag_operation_approvs}</Typography>
                                     </Box>
 
                                     <Paper sx={{
-                                        width: '100%', height: 50,
+                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='outlined'>
                                         {manag_operation_remarks}
                                     </Paper>
                                 </Box>
-                                <ApprovalCompnt
-                                    heading="Senior Manager Operation Approval"
-                                    approve={approve}
-                                    reject={reject}
-                                    pending={pending}
-                                    remark={remark}
-                                    updateRemark={updateRemark}
-                                    updateApprove={updateApprove}
-                                    updateReject={updateReject}
-                                    updatePending={updatePending}
-                                />
-
+                                <Box
+                                    sx={{
+                                        pl: 1, pr: 1
+                                    }}>
+                                    <ApprovalCompnt
+                                        heading="Senior Manager Operation Approval"
+                                        approve={approve}
+                                        reject={reject}
+                                        pending={pending}
+                                        remark={remark}
+                                        updateRemark={updateRemark}
+                                        updateApprove={updateApprove}
+                                        updateReject={updateReject}
+                                        updatePending={updatePending}
+                                    />
+                                </Box>
                             </Box>
                         </Paper>
                     </Box>

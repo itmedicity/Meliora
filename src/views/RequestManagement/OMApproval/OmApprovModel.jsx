@@ -12,21 +12,26 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify } from 'src/views/Common/CommonCode'
 import ApprovalCompnt from '../DepartmentApproval/ApprovalCompnt';
 import { useMemo } from 'react';
+import { useSelector } from 'react-redux'
 import ItemApprovalCmp from '../DepartmentApproval/ItemApprovalCmp';
+import _ from 'underscore'
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
 
 const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
-    console.log(datas);
     const { req_slno, req_date, actual_requirement, needed, location, expected_date,
         approve_incharge, incharge_remarks, req_approv_slno, approve_hod, hod_remarks,
-        manag_operation_remarks, manag_operation_approv } = datas[0]
+        manag_operation_remarks, manag_operation_approv, incharge_apprv_date, hod_approve_date,
+        inch_user, hod_user } = datas[0]
 
     const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
     const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
-
+    const inchadate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy') : null
+    const hoddate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy') : null
+    //redux for geting login id
+    const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     //state for Remarks
     const [remark, setRemark] = useState('')
     const updateRemark = useCallback((e) => {
@@ -115,9 +120,10 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
             manag_operation_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
             manag_operation_remarks: remark,
             om_approv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            req_approv_slno: req_approv_slno
+            req_approv_slno: req_approv_slno,
+            manag_operation_user: id
         }
-    }, [approve, reject, pending, remark, req_approv_slno])
+    }, [approve, reject, pending, remark, req_approv_slno, id])
 
     const submit = useCallback((e) => {
         e.preventDefault();
@@ -160,7 +166,6 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                     sx={{
                         width: 600,
                         height: 600,
-                        pb: 2
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
@@ -183,11 +188,11 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                 }}>
                                     <Box
                                         sx={{ pr: 4 }}>
-                                        <Typography>Request No:  {req_slno}</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>Request No:  {req_slno}</Typography>
                                     </Box>
                                     <Box
                                     >
-                                        <Typography>Req.Date: {reqdate}</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>Req.Date: {reqdate}</Typography>
                                     </Box>
                                 </Box>
 
@@ -200,10 +205,10 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
 
                                     <Box
                                         sx={{ pr: 3 }}>
-                                        <Typography>Actual Requirement:</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>Actual Requirement:</Typography>
                                     </Box>
                                     <Paper sx={{
-                                        width: '100%', height: 50,
+                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='outlined'>
                                         {actual_requirement}
@@ -219,11 +224,11 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                 }}>
 
                                     <Box
-                                        sx={{ pr: 3 }}>
-                                        <Typography>Justification for need:</Typography>
+                                        sx={{ pr: 2.2 }}>
+                                        <Typography sx={{ fontSize: 15 }}>Justification for need:</Typography>
                                     </Box>
                                     <Paper sx={{
-                                        width: '100%', height: 50,
+                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='outlined'>
                                         {needed}
@@ -239,11 +244,11 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                 }}>
 
                                     <Box
-                                        sx={{ pr: 9 }}>
-                                        <Typography>Location:</Typography>
+                                        sx={{ pr: 8.5 }}>
+                                        <Typography sx={{ fontSize: 15 }}>Location:</Typography>
                                     </Box>
                                     <Paper sx={{
-                                        width: '100%', height: 50,
+                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='outlined'>
                                         {location}
@@ -252,12 +257,12 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
-                                    p: 0.5,
+                                    p: 0.5, pb: 0,
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
                                     <Box
                                         sx={{ pr: 9 }}>
-                                        <Typography>Expected Date: {expdate}</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>Expected Date: {expdate}</Typography>
                                     </Box>
 
                                 </Box>
@@ -279,7 +284,7 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                     </Box>
 
                     <Box sx={{ width: "100%", mt: 0 }}>
-                        <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                        <Paper variant='outlined' sx={{ mt: 1 }} >
                             <Box sx={{
                                 width: "100%",
                                 display: "flex",
@@ -288,12 +293,12 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
-                                    pl: 1, pr: 0.5,
+                                    pl: 0.2, pr: 0.5,
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
                                     <Box
                                         sx={{ pr: 9 }}>
-                                        <Typography>Department Approval</Typography>
+                                        <Typography sx={{ fontWeight: 900, fontSize: 12 }}>Department Approval</Typography>
                                     </Box>
 
                                 </Box>
@@ -304,12 +309,30 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                     flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
                                 }}>
                                     <Box
-                                        sx={{ pr: 9 }}>
-                                        <Typography>Incharge: {approve_incharge}</Typography>
-                                    </Box>
+                                        sx={{
+                                            // pl: 1,
+                                            display: "flex",
+                                            flexDirection: 'row',
+                                            justifyContent: "space-between"
+                                        }}>
 
+                                        <Typography sx={{ fontSize: 15 }}>Incharge: {approve_incharge} </Typography>
+                                        {
+                                            inchadate !== null ? <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: 'row',
+                                                    justifyContent: "space-evenly",
+                                                    pr: 2
+                                                }}>
+                                                <Typography sx={{ fontSize: 15, pr: 2 }}>Date:{inchadate !== null ? inchadate : "Not Update"}</Typography>
+                                                <Typography sx={{ fontSize: 15 }}>User: {inch_user} </Typography>
+                                            </Box> : null
+                                        }
+
+                                    </Box>
                                     <Paper sx={{
-                                        width: '100%', height: 50,
+                                        width: '100%', height: 50, fontSize: 15, pl: 0.5,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='outlined'>
                                         {incharge_remarks}
@@ -322,28 +345,64 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                     flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
                                 }}>
                                     <Box
-                                        sx={{ pr: 9 }}>
-                                        <Typography>HOD: {approve_hod}</Typography>
+                                        sx={{
+                                            // pl: 1,
+                                            display: "flex",
+                                            flexDirection: 'row',
+                                            justifyContent: "space-between"
+                                        }}>
+                                        <Typography sx={{ fontSize: 15 }}>HOD: {approve_hod}</Typography>
+                                        {
+                                            inchadate !== null ? <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: 'row',
+                                                    justifyContent: "space-evenly",
+                                                    pr: 2
+                                                }}>
+                                                <Typography sx={{ fontSize: 15, pr: 2 }}>Date:{hoddate !== null ? hoddate : "Not Update"}</Typography>
+                                                <Typography sx={{ fontSize: 15 }}>User: {hod_user} </Typography>
+                                            </Box> : null
+                                        }
+
                                     </Box>
 
                                     <Paper sx={{
-                                        width: '100%', height: 50,
+                                        width: '100%', height: 50, fontSize: 15, pl: 0.5,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='outlined'>
                                         {hod_remarks}
                                     </Paper>
                                 </Box>
-                                <ApprovalCompnt
-                                    heading="Operation Manager Approval"
-                                    approve={approve}
-                                    reject={reject}
-                                    pending={pending}
-                                    remark={remark}
-                                    updateRemark={updateRemark}
-                                    updateApprove={updateApprove}
-                                    updateReject={updateReject}
-                                    updatePending={updatePending}
-                                />
+                            </Box>
+                        </Paper>
+                    </Box>
+
+                    <Box sx={{ width: "100%", mt: 0 }}>
+                        <Paper variant='outlined' sx={{ mt: 1 }} >
+                            <Box sx={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                            }}>
+                                <Box
+                                    sx={{
+                                        pl: 1, pr: 1
+                                    }}>
+                                    <ApprovalCompnt
+                                        heading="Operation Manager Approval"
+                                        approve={approve}
+                                        reject={reject}
+                                        pending={pending}
+                                        remark={remark}
+                                        updateRemark={updateRemark}
+                                        updateApprove={updateApprove}
+                                        updateReject={updateReject}
+                                        updatePending={updatePending}
+                                    />
+
+                                </Box>
+
                             </Box>
                         </Paper>
                     </Box>
