@@ -284,7 +284,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal, mddata }) => 
                                 display: 'flex',
                                 width: '100%',
                                 p: 0.5,
-                                backgroundColor: "yellow"
+
                             }}>
                                 <TextFieldCustom
                                     placeholder="Reason"

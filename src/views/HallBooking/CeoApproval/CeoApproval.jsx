@@ -57,16 +57,19 @@ const CeoApproval = () => {
             }
         },
         // { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
-        { headerName: "Hall booking no", field: "h_approval_slno", width: 300 },
-        { headerName: "Event", field: "h_book_event", autoHeight: true, wrapText: true, width: 350, filter: "true" },
-        { headerName: "No of attendees", field: "h_book_attendees", autoHeight: true, wrapText: true, width: 350, filter: "true" },
-        { headerName: "Inch.Appr.Status", field: "is_icharge_approves", autoHeight: true, wrapText: true, width: 350, filter: "true" },
-        { headerName: "Incharge Remarks", field: "h_incharge_remark", autoHeight: true, wrapText: true, width: 400, filter: "true" },
-        { headerName: "Hod.Approve Status", field: "is_hod_approve", width: 350 },
-        { headerName: "Hod Remarks", field: "hod_remark", width: 350 },
-        { headerName: "CEO Approve Status", field: "is_ceo_approveds", width: 250 },
-        { headerName: "CEO Remarks", field: "ceo_remark", width: 350 },
-        { headerName: "Reason", field: "h_booking_reason", width: 400 },
+        { headerName: "slno", field: "h_approval_slno", minWidth: 100 },
+        { headerName: "Event", field: "h_book_event", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
+        { headerName: "Reason", field: "h_booking_reason", minWidth: 200 },
+        { headerName: "Attendees", field: "h_book_attendees", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
+        { headerName: "Start Time", field: "h_book_startdatetime", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+        { headerName: "End Time", field: "h_book_enddatetime", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+        { headerName: "Inch.Appr.Status", field: "is_icharge_approves", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Inch.Remarks", field: "h_incharge_remark", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Hod.Appr.Status", field: "is_hod_approves", minWidth: 150 },
+        { headerName: "Hod Remarks", field: "hod_remark", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "CEO Appr.Status", field: "is_ceo_approveds", minWidth: 150 },
+        { headerName: "CEO Remarks", field: "ceo_remark", autoHeight: true, wrapText: true, minWidth: 200 },
+
 
     ])
 

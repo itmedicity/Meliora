@@ -24,7 +24,7 @@ import { useDispatch } from 'react-redux'
 //     return <Slide direction="left" ref={ref} {...props} />;
 // });
 
-const HallbookingReg = ({ open, setOpen, count, setCount, setModal }) => {
+const HallbookingReg = ({ open, setOpen, setModal }) => {
 
     const dispatch = useDispatch()
     //redux for geting login id
@@ -205,11 +205,13 @@ const HallbookingReg = ({ open, setOpen, count, setCount, setModal }) => {
                 is_hod_req: ishod === 1 ? 0 : 1,
                 is_ceo_req: 1
             }
+
+            console.log(postData)
             const result = await axioslogin.post('/hallBooking/hDept', postData)
             const { message, success } = result.data;
             if (success === 1) {
                 succesNotify(message);
-                // setCount(count + 1);
+                // setcount(count + 1);
                 setBooking(resetForm);
                 reset();
             } else {

@@ -14,6 +14,8 @@ import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithC
 const HallBookingApproval = () => {
   const history = useHistory()
   const dispatch = useDispatch()
+
+
   const [count, setCount] = useState(0)
   //redux for geting login id
   const id = useSelector((state) => {
@@ -27,7 +29,7 @@ const HallBookingApproval = () => {
   useEffect(() => {
     dispatch(getInchargeHodData(id))
     dispatch(getHallbookDeotApprove())
-  }, [dispatch, id])
+  }, [dispatch, id, count])
 
 
   const HodIncharge = useSelector((state) => {
@@ -41,6 +43,7 @@ const HallBookingApproval = () => {
     if (HodIncharge.length !== 0) {
       const { hod, incharge } = HodIncharge[0]
       setincharge(incharge)
+
       setHod(hod)
     }
   }, [HodIncharge])
@@ -100,15 +103,16 @@ const HallBookingApproval = () => {
       }
     },
     // { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
-    { headerName: "Req.Slno", field: "h_approval_slno", width: 150 },
-    { headerName: 'Hall', field: "hall_name", width: 200 },
-    { headerName: "Event", field: "h_book_event", autoHeight: true, wrapText: true, width: 350, filter: "true" },
-    { headerName: "No of attendees", field: "h_book_attendees", autoHeight: true, wrapText: true, width: 250, filter: "true" },
-    { headerName: "Reason", field: "h_booking_reason", width: 250 },
-    { headerName: "Start Time", field: "h_book_startdatetime", autoHeight: true, wrapText: true, width: 350, filter: "true" },
-    { headerName: "End Time", field: "h_book_enddatetime", autoHeight: true, wrapText: true, width: 350, filter: "true" },
-    { headerName: "Inch.Appr.Status", field: "is_icharge_approves", autoHeight: true, wrapText: true, width: 250, filter: "true" },
-    { headerName: "Incharge Remarks", field: "h_incharge_remark", autoHeight: true, wrapText: true, width: 350, filter: "true" },
+    { headerName: "Slno", field: "h_approval_slno", minWidth: 100 },
+    { headerName: 'Hall', field: "hall_name", minWidth: 200 },
+    { headerName: "Event", field: "h_book_event", autoHeight: true, wrapText: true, minWidth: 200, },
+    { headerName: "Attendees", field: "h_book_attendees", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
+    { headerName: "Reason", field: "h_booking_reason", minWidth: 300 },
+    { headerName: "Start Time", field: "h_book_startdatetime", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+    { headerName: "End Time", field: "h_book_enddatetime", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+    { headerName: "Inch.Appr.Status", field: "is_icharge_approves", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+    { headerName: "InchApprv.Date", field: "incharge_approved_date", minWidth: 200 },
+    { headerName: "Incharge Remarks", field: "h_incharge_remark", autoHeight: true, wrapText: true, minWidth: 350, filter: "true" },
     // { headerName: "CEO Approve Status", field: "is_ceo_approved", width: 250 },
     // { headerName: "CEO Remarks", field: "ceo_remark", width: 350 },
 
@@ -139,15 +143,20 @@ const HallBookingApproval = () => {
     { headerName: "Req.Slno", field: "h_booking_slno", minWidth: 100 },
     { headerName: 'Hall', field: "hall_name", minWidth: 200 },
     { headerName: "Event", field: "h_book_event", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-    { headerName: "No of attendees", field: "h_book_attendees", autoHeight: true, wrapText: true, width: 250, filter: "true" },
-    { headerName: "Reason", field: "h_booking_reason", minWidth: 150 }, { headerName: "Hod appr.Date", field: "hod_approved_date", autoHeight: true, wrapText: true, minWidth: 200 },
     { headerName: "Start Time", field: "h_book_startdatetime", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
     { headerName: "End Time", field: "h_book_enddatetime", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
-    { headerName: "Hod.Approve Status", field: "is_hod_approves", minWidth: 200 },
-    { headerName: "Hod Remarks", field: "hod_remark", minWidth: 150, autoHeight: true, wrapText: true },
-    { headerName: "Inch.Appr.Status", field: "is_icharge_approve", autoHeight: true, wrapText: true, minWidth: 200 },
+    { headerName: "No of attendees", field: "h_book_attendees", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+    { headerName: "Reason", field: "h_booking_reason", minWidth: 150 },
+    { headerName: "Inch.Appr.Status", field: "is_icharge_approves", autoHeight: true, wrapText: true, minWidth: 200 },
     { headerName: "InchApprv.Date", field: "incharge_approved_date", minWidth: 200 },
     { headerName: "Incharge Remarks", field: "h_incharge_remark", autoHeight: true, wrapText: true, minWidth: 200 },
+    { headerName: "Hod.Approve Status", field: "is_hod_approves", minWidth: 200 },
+    { headerName: "Hod appr.Date", field: "hod_approved_date", autoHeight: true, wrapText: true, minWidth: 200 },
+    { headerName: "Hod Remarks", field: "hod_remark", minWidth: 150, autoHeight: true, wrapText: true },
+
+
+
+
 
   ])
   const [model, setmodel] = useState(0)
