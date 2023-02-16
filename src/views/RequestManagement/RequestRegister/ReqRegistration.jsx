@@ -389,6 +389,8 @@ const ReqRegistration = () => {
                 senior_manage_req: 1,
                 cao_approve_req: 1,
                 ed_approve_req: null,
+                incharge_user: isIncharge === 1 ? id : ishod === 1 ? id : null,
+                hod_user: ishod === 1 ? id : null,
                 incharge_approve: isIncharge === 1 ? 1 : ishod === 1 ? 1 : null,
                 hod_approve: ishod === 1 ? 1 : null,
                 incharge_apprv_date: isIncharge === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : ishod === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,

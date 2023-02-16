@@ -26,7 +26,7 @@ const OmApproval = () => {
     const tabledata = useSelector((state) => {
         return state.setReqApprovOthers.ReqApprovOthersList
     })
-
+    // console.log(tabledata);
     //column title setting
     const [column] = useState([
         {
@@ -48,16 +48,16 @@ const OmApproval = () => {
         {
             headerName: 'NDRF', minWidth: 80,
             cellRenderer: params => {
-                if ((params.data.cao_approve !== 1) && (params.data.ed_approve_req !== 1)) {
-                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
-                        <SummarizeIcon />
-                    </IconButton>
-                } else {
+                if ((params.data.cao_approve === 1) && (params.data.ed_approve_req === 0)) {
                     return <IconButton onClick={() => ndrfconvert(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
                         <CustomeToolTip title="NDRF">
                             <SummarizeIcon />
                         </CustomeToolTip>
+                    </IconButton>
+                } else {
+                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
+                        <SummarizeIcon />
                     </IconButton>
                 }
             }
@@ -82,6 +82,7 @@ const OmApproval = () => {
     ])
     const [model, setmodel] = useState(0)
     const [open, setOpen] = useState(false);
+    const [openNdrf, setOpenNdrf] = useState(false);
     const [datas, setdatas] = useState([])
     const [ndrfModel, setNdrfModel] = useState(0)
 
@@ -94,7 +95,7 @@ const OmApproval = () => {
     }, [])
 
     const ndrfconvert = useCallback((params) => {
-        setOpen(true)
+        setOpenNdrf(true)
         const data = params.api.getSelectedRows()
         setdatas(data);
         setNdrfModel(1)
@@ -121,8 +122,8 @@ const OmApproval = () => {
 
             {
                 ndrfModel === 1 ? <NdrfModel
-                    open={open}
-                    setOpen={setOpen}
+                    open={openNdrf}
+                    setOpen={setOpenNdrf}
                     datas={datas}
                     count={count}
                     setCount={setCount}

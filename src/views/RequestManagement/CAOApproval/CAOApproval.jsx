@@ -27,7 +27,6 @@ const CEOApproval = () => {
         return state.setReqApprovOthers.ReqApprovOthersList
     })
 
-
     //column title setting
     const [column] = useState([
         {
@@ -49,16 +48,16 @@ const CEOApproval = () => {
         {
             headerName: 'NDRF', minWidth: 80,
             cellRenderer: params => {
-                if ((params.data.cao_approve !== 1) && (params.data.ed_approve_req !== 1)) {
-                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
-                        <SummarizeIcon />
-                    </IconButton>
-                } else {
+                if ((params.data.cao_approve === 1) && (params.data.ed_approve_req === 0)) {
                     return <IconButton onClick={() => ndrfconvert(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
                         <CustomeToolTip title="NDRF">
                             <SummarizeIcon />
                         </CustomeToolTip>
+                    </IconButton>
+                } else {
+                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
+                        <SummarizeIcon />
                     </IconButton>
                 }
             }
@@ -67,7 +66,7 @@ const CEOApproval = () => {
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
         { headerName: "Actual Requirement", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "Req. Date", field: "req_date", minWidth: 120, autoHeight: true, wrapText: true, },
+        { headerName: "Req. Date", field: "req_date", minWidth: 180, autoHeight: true, wrapText: true, },
         { headerName: "Inch.Appr.Status", field: "approve_incharge", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Incharge Remarks", field: "incharge_remarks", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Hod.Approve Status", field: "approve_hod", minWidth: 150, wrapText: true, },
@@ -84,6 +83,7 @@ const CEOApproval = () => {
     ])
     const [model, setmodel] = useState(0)
     const [open, setOpen] = useState(false);
+    const [openNdrf, setOpenNdrf] = useState(false);
     const [datas, setdatas] = useState([])
     const [ndrfModel, setNdrfModel] = useState(0)
     //Data set for edit
@@ -94,7 +94,7 @@ const CEOApproval = () => {
         setmodel(1)
     }, [])
     const ndrfconvert = useCallback((params) => {
-        setOpen(true)
+        setOpenNdrf(true)
         const data = params.api.getSelectedRows()
         setdatas(data);
         setNdrfModel(1)
@@ -121,8 +121,8 @@ const CEOApproval = () => {
                 /> : null}
             {
                 ndrfModel === 1 ? <NdrfModel
-                    open={open}
-                    setOpen={setOpen}
+                    open={openNdrf}
+                    setOpen={setOpenNdrf}
                     datas={datas}
                     count={count}
                     setCount={setCount}

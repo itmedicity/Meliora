@@ -19,7 +19,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCount, id }) => {
     const { req_slno, req_date, actual_requirement, needed, location, expected_date, incharge_approve,
-        hod_approve, approve_incharge, incharge_remarks, hod_remarks, req_approv_slno } = datas[0]
+        hod_approve, approve_incharge, incharge_remarks, hod_remarks, req_approv_slno, category,
+        incharge_apprv_date, inch_user } = datas[0]
+    const inchadate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : null
     useEffect(() => {
         if ((incharge_approve !== null) && (isIncharge === 1)) {
             setRemark(incharge_remarks)
@@ -195,7 +197,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
                                     <Box
-                                        sx={{ pr: 4 }}>
+                                        sx={{ pr: 4.7 }}>
                                         <Typography sx={{ fontSize: 15 }}>Request No:  {req_slno}</Typography>
                                     </Box>
                                     <Box
@@ -203,8 +205,49 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                         <Typography sx={{ fontSize: 15 }}>Req.Date: {reqdate}</Typography>
                                     </Box>
                                 </Box>
+                                {
+                                    actual_requirement !== null ? <Box sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        p: 0.5,
+                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    }}>
 
-                                <Box sx={{
+                                        <Box
+                                            sx={{ width: "25%", }}>
+                                            <Typography sx={{ fontSize: 15 }}>Actual Requirement:</Typography>
+                                        </Box>
+                                        <Paper sx={{
+                                            width: "75%", minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15,
+                                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                        }} variant='outlined'>
+                                            {actual_requirement}
+                                        </Paper>
+
+
+                                    </Box> : null
+                                }
+                                {
+                                    needed !== null ? <Box sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        p: 0.5,
+                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    }}>
+
+                                        <Box
+                                            sx={{ width: "25%", }}>
+                                            <Typography sx={{ fontSize: 15 }}>Justification for need:</Typography>
+                                        </Box>
+                                        <Paper sx={{
+                                            width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15,
+                                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                        }} variant='outlined'>
+                                            {needed}
+                                        </Paper>
+                                    </Box> : null
+                                }
+                                {location !== null ? <Box sx={{
                                     width: "100%",
                                     display: "flex",
                                     p: 0.5,
@@ -212,56 +255,35 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                 }}>
 
                                     <Box
-                                        sx={{ pr: 3 }}>
-                                        <Typography sx={{ fontSize: 15 }}>Actual Requirement:</Typography>
-                                    </Box>
-                                    <Paper sx={{
-                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
-                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                    }} variant='outlined'>
-                                        {actual_requirement}
-                                    </Paper>
-
-
-                                </Box>
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    p: 0.5,
-                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                }}>
-
-                                    <Box
-                                        sx={{ pr: 3 }}>
-                                        <Typography sx={{ fontSize: 15 }}>Justification for need:</Typography>
-                                    </Box>
-                                    <Paper sx={{
-                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
-                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                    }} variant='outlined'>
-                                        {needed}
-                                    </Paper>
-
-
-                                </Box>
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    p: 0.5,
-                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                }}>
-
-                                    <Box
-                                        sx={{ pr: 9 }}>
+                                        sx={{ width: "25%", }}>
                                         <Typography sx={{ fontSize: 15 }}>Location:</Typography>
                                     </Box>
                                     <Paper sx={{
-                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
+                                        width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='outlined'>
                                         {location}
                                     </Paper>
-                                </Box>
+                                </Box> : null}
+                                {category !== null ? <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    p: 0.5,
+                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                }}>
+
+                                    <Box
+                                        sx={{ width: "25%", }}>
+                                        <Typography sx={{ fontSize: 15 }}>Category:</Typography>
+                                    </Box>
+                                    <Paper sx={{
+                                        width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15,
+                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                    }} variant='outlined'>
+                                        {category}
+                                    </Paper>
+                                </Box> : null}
+
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
@@ -272,7 +294,6 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                         sx={{ pr: 9 }}>
                                         <Typography sx={{ fontSize: 15 }}>Expected Date: {expdate}</Typography>
                                     </Box>
-
                                 </Box>
                                 <Box sx={{
                                     width: "100%",
@@ -287,28 +308,28 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                     /> : null}
 
                                 </Box>
-
                             </Box>
                         </Paper>
-
                     </Box>
-
 
                     <Box sx={{ width: "100%", mt: 0, }}>
                         <Paper variant='outlined' sx={{ mt: 1 }} >
                             <Box sx={{
                                 width: "100%",
                                 display: "flex",
-                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                flexDirection: 'column',
                             }}>
 
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
                                     p: 1,
-                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    flexDirection: 'column',
                                 }}>
-
+                                    <Box
+                                        sx={{ pr: 9 }}>
+                                        <Typography sx={{ fontWeight: 900, fontSize: 12 }}>Department Approval</Typography>
+                                    </Box>
                                     {
                                         isIncharge === 1 ? <ApprovalCompnt
                                             heading="Incharge Approval"
@@ -329,8 +350,27 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                                 }}>
 
                                                     <Box
-                                                        sx={{ pr: 9 }}>
-                                                        <Typography sx={{ fontSize: 15 }}>Incharge: {approve_incharge}</Typography>
+                                                        sx={{
+                                                            // pl: 1,
+                                                            display: "flex",
+                                                            flexDirection: 'row',
+                                                            justifyContent: "space-between"
+                                                        }}>
+
+                                                        <Typography sx={{ fontSize: 15 }}>Incharge: {approve_incharge} </Typography>
+                                                        {
+                                                            inchadate !== null ? <Box
+                                                                sx={{
+                                                                    display: "flex",
+                                                                    flexDirection: 'row',
+                                                                    justifyContent: "space-evenly",
+                                                                    pr: 2
+                                                                }}>
+                                                                <Typography sx={{ fontSize: 13, pr: 0.5 }}>{inchadate !== null ? inchadate : "Not Update"}</Typography>
+                                                                <Typography sx={{ fontSize: 13, textTransform: "capitalize" }}>  /  {inch_user !== null ? inch_user.toLowerCase() : null} </Typography>
+                                                            </Box> : null
+                                                        }
+
                                                     </Box>
 
                                                     <Paper sx={{
@@ -351,6 +391,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                                     updateReject={updateReject}
                                                     updatePending={updatePending}
                                                 />
+
                                             </Box> : null
                                     }
 
@@ -364,7 +405,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                     <Button color="secondary" onClick={submit} >Save</Button>
                     <Button onClick={Close} color="secondary" >Cancel</Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog >
         </Fragment >
     )
 }
