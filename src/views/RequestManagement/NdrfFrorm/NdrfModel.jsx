@@ -27,8 +27,8 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
         om_approv_date, som_aprrov_date, cao_approv_date, ed_approve_date, inch_user, ed_approve_req,
         hod_user, om_user, smo_user, cao_user } = datas[0]
 
-    const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
-    const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
+    const reqdate = req_date !== null ? format(new Date(req_date), 'dd-MM-yyyy') : null
+    const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : null
     const inchadate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : null
     const hoddate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
     const omdate = om_approv_date !== null ? format(new Date(om_approv_date), 'dd-MM-yyyy hh:mm:ss') : null
@@ -107,6 +107,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         const { message } = value
                         succesNotify(message)
                         setCount(count + 1)
+                        setOpen(false)
                     })
                 }
                 else if (success === 2) {
@@ -116,7 +117,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
             })
         }
 
-    }, [postdata, approve, count, setCount])
+    }, [postdata, approve, count, setCount, setOpen])
 
     // reset 
     const Close = useCallback(() => {

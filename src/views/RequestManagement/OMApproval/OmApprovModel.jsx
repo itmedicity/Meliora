@@ -26,8 +26,8 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
         manag_operation_remarks, manag_operation_approv, incharge_apprv_date, hod_approve_date,
         inch_user, hod_user } = datas[0]
 
-    const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
-    const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
+    const reqdate = req_date !== null ? format(new Date(req_date), 'dd-MM-yyyy') : null
+    const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : null
     const inchadate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : null
     const hoddate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
     //redux for geting login id

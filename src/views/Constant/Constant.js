@@ -57,3 +57,21 @@ export const getEmpSlno = async () => {
     }
 }
 
+//URL EXSIT CHECK FUNCTION
+
+export const urlExist = (url, callBack) => {
+    const img = new Image();
+    img.src = JSON.parse(url);
+
+    if (img.complete) {
+        callBack(true);
+    } else {
+        img.onload = () => {
+            callBack(true);
+        };
+
+        img.onerror = () => {
+            callBack(false);
+        };
+    }
+}
