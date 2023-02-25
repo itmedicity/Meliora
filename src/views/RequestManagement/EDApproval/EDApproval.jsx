@@ -71,7 +71,7 @@ const EDApproval = () => {
     //column title setting
     const [column] = useState([
         {
-            headerName: 'Action', minWidth: 120, cellRenderer: params => {
+            headerName: 'Action', minWidth: 80, cellRenderer: params => {
                 return <IconButton onClick={() => rowSelect(params)}
                     sx={{ color: editicon, paddingY: 0.5 }} >
                     <CustomeToolTip title="Approval">
@@ -117,11 +117,10 @@ const EDApproval = () => {
         { headerName: "Actual Requirement", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
         { headerName: "Req.Department", field: "req_dept", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
-        { headerName: "Req.DeptSec", field: "req_deptsec", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "Approx. Cost", field: "total_approx_cost", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "Req.Date", field: "req_date", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
-        { headerName: "Exp.DeptSec", field: "expected_date", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
-        { headerName: "NDRF Date", field: "ndrf_date", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
+        { headerName: "Req.DeptSec", field: "req_deptsec", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
+        { headerName: "Req.Date", field: "reqdate", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
+        { headerName: "Exp.DeptSec", field: "expdate", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
+        { headerName: "NDRF Date", field: "ndrf_date", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
         { headerName: "Remarks", field: "remarks", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
     ])
 

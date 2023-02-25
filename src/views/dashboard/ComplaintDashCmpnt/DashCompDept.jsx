@@ -63,7 +63,7 @@ const DashCompDept = ({ profileData }) => {
         { slno: 2, name: "Pending For Assign", count: pending.length, status: loadingStatus },
         { slno: 3, name: "Assigned Complaints", count: assign.length, status: loadingStatus },
         { slno: 4, name: "Verified Complaints", count: veryfied.length, status: loadingStatus },
-        { slno: 5, name: "Onhold/Pending Complaints", count: onHoldData.length, status: onHoldStatus }
+        { slno: 5, name: "Onhold/On-Progress Complaints", count: onHoldData.length, status: onHoldStatus }
     ]
     return (
         <Fragment>

@@ -12,7 +12,7 @@ const ExtraOrderView = ({ dietExtraViews, setDisview }) => {
 
     //column title setting
     const [column] = useState([
-        { headerName: "Plan Slno", field: "proc_slno" },
+        { headerName: "Process Slno", field: "proc_slno" },
         { headerName: "Patient Id", field: "pt_no" },
         { headerName: "Patient Name", field: "ptc_ptname" },
         { headerName: "Room/Ward", field: "bdc_no" },

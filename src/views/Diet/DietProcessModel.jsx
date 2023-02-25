@@ -68,9 +68,13 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
                         days: day
                     }
                     const result1 = await axioslogin.post('/dietprocess/dmenubyday', getmenu);
-                    const { succes, dataa } = result1.data
+                    const { succes, messagee, dataa } = result1.data
                     if (succes === 1) {
                         setmenus(dataa)
+                    }
+                    else {
+                        infoNotify(messagee);
+                        setOpen(false)
                     }
                 }
                 else {
@@ -81,7 +85,7 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
         }
         destrufunction()
 
-    }, [detail, startdate])
+    }, [detail, startdate, setOpen])
 
     const postdata = useMemo(() => {
         return {
@@ -155,7 +159,7 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
                 keepMounted
                 aria-describedby="alert-dialog-slide-descriptiona"
             >
-                <DialogTitle>
+                <DialogTitle sx={{ fontSize: 10 }}>
                     {"Diet Plan Process"}
                 </DialogTitle>
                 <DialogContent sx={{
@@ -164,7 +168,7 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
                     width: 500,
                 }}>
                     <Box sx={{ width: "100%" }}>
-                        <Paper square elevation={3}
+                        <Paper variant='outlined'
                             sx={{
                                 width: "100%", pr: 1,
                                 display: "flex",
