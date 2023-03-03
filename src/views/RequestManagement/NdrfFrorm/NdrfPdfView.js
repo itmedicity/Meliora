@@ -3,26 +3,15 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import { format } from 'date-fns'
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-
-
-export const pdfdownloadTable = (data, dataPost, hodsign) => {
-    const { req_slno, reqdate, actual_requirement, needed, location, expdate, req_dept,
-        approve_incharge, incharge_remarks, hod_remarks, remarks, total_approx_cost,
-        approve_hod, manag_operation_approvs, manag_operation_remarks, senior_manage_approvs,
-        senior_manage_remarks, category, incharge_apprv_date, om_approv_date, caouser, req_user,
-        hod_approve_date, som_aprrov_date, inch_user, hoduser, om_user, smo_user, cao_approves,
-        cao_approv_date, cao_approve_remarks, ed_approves, ed_approve_remarks, ed_approve_date, eduser
+export const pdfdownloadTable = (data, dataPost, inchargesign, hodsign, omsign, smosign, caosign, edsign) => {
+    const { req_slno, actual_requirement, needed, location, req_dept, incharge_approve,
+        incharge_remarks, incharge_apprv_date, hod_approve, hod_remarks, hod_approve_date,
+        expected_date, remarks, reqdate, ndrf_om_approv, ndrf_om_remarks, ndrfom_approv_date,
+        ndrf_smo_approv, ndrf_smo_remarks, ndrf_som_aprrov_date, ndrf_cao_approve,
+        ndrf_cao_approve_remarks, ndrf_cao_approv_date, ndrf_ed_approve, ndrf_ed_approve_remarks,
+        ndrf_ed_approve_date, inchuser, hoduser, omuser, smouser, caouser, requser, category,
+        total_approx_cost, eduser
     } = data[0]
-
-    const req_date = reqdate !== null ? format(new Date(reqdate), 'dd-MM-yyyy hh:mm:ss') : "Not updated"
-    const exp_date = expdate !== null ? format(new Date(expdate), 'dd-MM-yyyy hh:mm:ss') : "Not updated"
-    const inchadate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : "Not updated"
-    const hoddate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not updated"
-    const omdate = om_approv_date !== null ? format(new Date(om_approv_date), 'dd-MM-yyyy hh:mm:ss') : "Not updated"
-    const smodate = som_aprrov_date !== null ? format(new Date(som_aprrov_date), 'dd-MM-yyyy hh:mm:ss') : "Not updated"
-    const caodate = cao_approv_date !== null ? format(new Date(cao_approv_date), 'dd-MM-yyyy hh:mm:ss') : "Not updated"
-    const eddate = ed_approve_date !== null ? format(new Date(ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not updated"
-    const ed_user = eduser !== null ? eduser : "Not updated"
 
     var doc = {
         background: function (currentPage, pageSize) {
@@ -111,13 +100,12 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         { text: 'Category', fontSize: 8, font: 'Roboto' },
                         { text: category, fontSize: 8, font: 'Roboto' }],
                         [{ text: 'Date', fontSize: 8, font: 'Roboto' },
-                        { text: req_date, fontSize: 8, font: 'Roboto' },
+                        { text: reqdate !== null ? format(new Date(reqdate), 'dd-MM-yyyy hh:mm:ss') : "Not Updated", fontSize: 8, font: 'Roboto' },
                         { text: 'Request No', fontSize: 8, font: 'Roboto' },
                         { text: req_slno, fontSize: 8, font: 'Roboto' }]
                     ]
                 }
             },
-
             {
                 margin: [0, 3, 0, 0,],
                 style: 'tableExample',
@@ -178,7 +166,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             {
-                                text: actual_requirement.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto',
+                                text: actual_requirement !== null ? actual_requirement.toLowerCase() : "Not Given", textTransform: "capitalize", fontSize: 8, font: 'Roboto',
                             },
                         ],
                         [
@@ -188,7 +176,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             {
-                                text: needed.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto',
+                                text: needed !== null ? needed.toLowerCase() : "Not Given", textTransform: "capitalize", fontSize: 8, font: 'Roboto',
                             },
                         ],
                         [
@@ -198,7 +186,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             {
-                                text: location.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto',
+                                text: location !== null ? location.toLowerCase() : "Not Given", textTransform: "capitalize", fontSize: 8, font: 'Roboto',
                             },
                         ],
                         [
@@ -208,21 +196,27 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             {
-                                text: remarks.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto',
+                                text: remarks !== null ? remarks.toLowerCase() : "Not Given", textTransform: "capitalize", fontSize: 8, font: 'Roboto',
                             },
                         ],
                         [
-                            { text: [{ text: 'Approximate Amount ', bold: true, fontSize: 8, font: 'Roboto' }, { text: total_approx_cost, fontSize: 8, font: 'Roboto' },] }
+                            {
+                                text: [{ text: 'Approximate Amount ', bold: true, fontSize: 8, font: 'Roboto' },
+                                { text: total_approx_cost !== null ? total_approx_cost : "Not Given", fontSize: 8, font: 'Roboto' },]
+                            }
 
                         ],
                         [
-                            { text: [{ text: 'Expected Date: ', bold: true, fontSize: 8, font: 'Roboto' }, { text: exp_date, fontSize: 8, font: 'Roboto' },] }
+                            {
+                                text: [{ text: 'Expected Date: ', bold: true, fontSize: 8, font: 'Roboto' },
+                                { text: expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy hh:mm:ss') : "Not Given", fontSize: 8, font: 'Roboto' },]
+                            }
 
                         ],
                         [
                             {
                                 text: [{ text: 'Requested By: ', bold: true, fontSize: 8, font: 'Roboto' },
-                                { text: req_user, fontSize: 8, font: 'Roboto' },]
+                                { text: requser, fontSize: 8, font: 'Roboto' },]
                             }
 
                         ],
@@ -246,7 +240,10 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                             {
                                 colSpan: 4,
                                 text: [{ text: 'Incharge Status: ', bold: true, fontSize: 8, font: 'Roboto' },
-                                { text: approve_incharge, fontSize: 8, font: 'Roboto' },]
+                                {
+                                    text: incharge_approve !== null ? incharge_approve === 1 ? "Apporved" :
+                                        incharge_approve === 2 ? "Reject" : "Onhold" : "Not Updated", fontSize: 8, font: 'Roboto'
+                                },]
 
                             },
                             '',
@@ -257,7 +254,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                             {
                                 colSpan: 4,
                                 text: [{ text: 'Remarks by Incharge\n', bold: true, fontSize: 8, font: 'Roboto' },
-                                { text: incharge_remarks.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
+                                { text: incharge_remarks !== null ? incharge_remarks.toLowerCase() : "Not Updated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
 
                             },
                             '',
@@ -266,7 +263,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             { text: 'User', bold: true, fontSize: 8, font: 'Roboto' },
-                            { text: inch_user.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto' },
+                            { text: inchuser !== null ? inchuser.toLowerCase() : "Not Updated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },
                             {
                                 colSpan: 2, rowSpan: 2,
                                 text: 'Signature',
@@ -276,7 +273,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                                     headerRows: 1,
                                     body: [
                                         [{ text: 'Signature', fontSize: 8, font: 'Roboto' },
-                                        { image: 'hsign', alignment: 'center', fit: [50, 75], },
+                                        { image: 'inchargesign', alignment: 'center', fit: [50, 75], },
 
                                         ],
 
@@ -291,7 +288,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             { text: 'Date', bold: true, fontSize: 8, font: 'Roboto' },
-                            { text: inchadate, fontSize: 8, font: 'Roboto' },
+                            { text: incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated", fontSize: 8, font: 'Roboto' },
                             '',
                             ''
                         ]
@@ -309,7 +306,10 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                             {
                                 colSpan: 4,
                                 text: [{ text: 'HOD Status: ', bold: true, fontSize: 8, font: 'Roboto' },
-                                { text: approve_hod, fontSize: 8, font: 'Roboto' },]
+                                {
+                                    text: hod_approve !== null ? hod_approve === 1 ? "Approved" :
+                                        hod_approve === 2 ? "Rejected" : "OnHold" : "Not Updated", fontSize: 8, font: 'Roboto'
+                                },]
 
                             },
                             '',
@@ -320,7 +320,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                             {
                                 colSpan: 4,
                                 text: [{ text: 'Remarks by HOD\n', bold: true, fontSize: 8, font: 'Roboto' },
-                                { text: hod_remarks.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
+                                { text: hod_remarks !== null ? hod_remarks.toLowerCase() : "Not Updated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
 
                             },
                             '',
@@ -329,7 +329,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             { text: 'User', bold: true, fontSize: 8, font: 'Roboto' },
-                            { text: hoduser.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto' },
+                            { text: hoduser !== null ? hoduser.toLowerCase() : "Not Updated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },
                             {
                                 colSpan: 2, rowSpan: 2,
                                 text: 'Signature',
@@ -354,7 +354,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             { text: 'Date', bold: true, fontSize: 8, font: 'Roboto' },
-                            { text: hoddate, fontSize: 8, font: 'Roboto' },
+                            { text: hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated", fontSize: 8, font: 'Roboto' },
                             '',
                             ''
                         ]
@@ -371,7 +371,11 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                             {
                                 colSpan: 4,
                                 text: [{ text: 'Manager Operation Status: ', bold: true, fontSize: 8, font: 'Roboto' },
-                                { text: manag_operation_approvs, fontSize: 8, font: 'Roboto' },]
+                                {
+                                    text: ndrf_om_approv !== null ? ndrf_om_approv === 1 ? "Approved" :
+                                        ndrf_om_approv === 2 ? "Reject" : "OnHold" : "Not Updated",
+                                    fontSize: 8, font: 'Roboto'
+                                },]
 
                             },
                             '',
@@ -382,7 +386,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                             {
                                 colSpan: 4,
                                 text: [{ text: 'Remarks by Manager Operation\n', bold: true, fontSize: 8, font: 'Roboto' },
-                                { text: manag_operation_remarks.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
+                                { text: ndrf_om_remarks !== null ? ndrf_om_remarks.toLowerCase() : "Not Updated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
 
                             },
                             '',
@@ -391,7 +395,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             { text: 'User', bold: true, fontSize: 8, font: 'Roboto' },
-                            { text: om_user.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto' },
+                            { text: omuser !== null ? omuser.toLowerCase() : "Not Updated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },
                             {
                                 colSpan: 2, rowSpan: 2,
                                 text: 'Signature',
@@ -401,7 +405,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                                     headerRows: 1,
                                     body: [
                                         [{ text: 'Signature', fontSize: 8, font: 'Roboto' },
-                                        { image: 'hsign', alignment: 'center', fit: [50, 75], },
+                                        { image: 'omsign', alignment: 'center', fit: [50, 75], },
 
                                         ],
 
@@ -416,7 +420,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             { text: 'Date', bold: true, fontSize: 8, font: 'Roboto' },
-                            { text: omdate, fontSize: 8, font: 'Roboto' },
+                            { text: ndrfom_approv_date !== null ? format(new Date(ndrfom_approv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated", fontSize: 8, font: 'Roboto' },
                             '',
                             ''
                         ]
@@ -433,7 +437,11 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                             {
                                 colSpan: 4,
                                 text: [{ text: 'Senior Manager Operations Status: ', bold: true, fontSize: 8, font: 'Roboto' },
-                                { text: senior_manage_approvs, fontSize: 8, font: 'Roboto' },]
+                                {
+                                    text: ndrf_smo_approv !== null ? ndrf_smo_approv === 1 ? "Approved" :
+                                        ndrf_smo_approv === 2 ? "Reject" : "OnHold" : "Not Updated",
+                                    fontSize: 8, font: 'Roboto'
+                                },]
 
                             },
                             '',
@@ -444,7 +452,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                             {
                                 colSpan: 4,
                                 text: [{ text: 'Remarks by Senior Manager Operation\n', bold: true, fontSize: 8, font: 'Roboto' },
-                                { text: senior_manage_remarks.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
+                                { text: ndrf_smo_remarks !== null ? ndrf_smo_remarks.toLowerCase() : "Not updated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
 
                             },
                             '',
@@ -453,7 +461,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             { text: 'User', bold: true, fontSize: 8, font: 'Roboto' },
-                            { text: smo_user.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto' },
+                            { text: smouser !== null ? smouser.toLowerCase() : "Not Updated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },
                             {
                                 colSpan: 2, rowSpan: 2,
                                 text: 'Signature',
@@ -463,7 +471,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                                     headerRows: 1,
                                     body: [
                                         [{ text: 'Signature', fontSize: 8, font: 'Roboto' },
-                                        { image: 'hsign', alignment: 'center', fit: [50, 75], },
+                                        { image: 'smosign', alignment: 'center', fit: [50, 75], },
 
                                         ],
 
@@ -478,7 +486,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             { text: 'Date', bold: true, fontSize: 8, font: 'Roboto' },
-                            { text: smodate, fontSize: 8, font: 'Roboto' },
+                            { text: ndrf_som_aprrov_date !== null ? format(new Date(ndrf_som_aprrov_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated", fontSize: 8, font: 'Roboto' },
                             '',
                             ''
                         ]
@@ -488,7 +496,6 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
             {
                 margin: [0, 3, 0, 0,],
                 style: 'tableExample',
-                // pageBreak: 'after',
                 table: {
                     widths: [110, 175, 174, 20],
                     body: [
@@ -496,7 +503,11 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                             {
                                 colSpan: 4,
                                 text: [{ text: 'CAO/COO/MS Status: ', bold: true, fontSize: 8, font: 'Roboto' },
-                                { text: cao_approves, fontSize: 8, font: 'Roboto' },]
+                                {
+                                    text: ndrf_cao_approve !== null ? ndrf_cao_approve === 1 ? "Approved" :
+                                        ndrf_cao_approve === 2 ? "Reject" : "OnHold" : "Not Updated",
+                                    fontSize: 8, font: 'Roboto'
+                                },]
 
                             },
                             '',
@@ -507,7 +518,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                             {
                                 colSpan: 4,
                                 text: [{ text: 'Remarks by CAO/COO/MS\n', bold: true, fontSize: 8, font: 'Roboto' },
-                                { text: cao_approve_remarks.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
+                                { text: ndrf_cao_approve_remarks !== null ? ndrf_cao_approve_remarks.toLowerCase() : "Not Updated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
 
                             },
                             '',
@@ -516,7 +527,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             { text: 'User', bold: true, fontSize: 8, font: 'Roboto' },
-                            { text: caouser.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto' },
+                            { text: caouser !== null ? caouser.toLowerCase() : "Not Updated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },
                             {
                                 colSpan: 2, rowSpan: 2,
                                 text: 'Signature',
@@ -526,7 +537,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                                     headerRows: 1,
                                     body: [
                                         [{ text: 'Signature', fontSize: 8, font: 'Roboto' },
-                                        { image: 'hsign', alignment: 'center', fit: [50, 75], },
+                                        { image: 'caosign', alignment: 'center', fit: [50, 75], },
 
                                         ],
 
@@ -541,7 +552,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             { text: 'Date', bold: true, fontSize: 8, font: 'Roboto' },
-                            { text: caodate, fontSize: 8, font: 'Roboto' },
+                            { text: ndrf_cao_approv_date !== null ? format(new Date(ndrf_cao_approv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated", fontSize: 8, font: 'Roboto' },
                             '',
                             ''
                         ]
@@ -559,7 +570,12 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                             {
                                 colSpan: 4,
                                 text: [{ text: 'ED/MD Status: ', bold: true, fontSize: 8, font: 'Roboto' },
-                                { text: ed_approves, fontSize: 8, font: 'Roboto' },]
+                                {
+
+                                    text: ndrf_ed_approve !== null ? ndrf_ed_approve === 1 ? "Approved" :
+                                        ndrf_ed_approve === 2 ? "Reject" : "OnHold" : "Not Updated",
+                                    fontSize: 8, font: 'Roboto'
+                                },]
 
                             },
                             '',
@@ -570,7 +586,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                             {
                                 colSpan: 4,
                                 text: [{ text: 'Remarks by ED/MD\n', bold: true, fontSize: 8, font: 'Roboto' },
-                                { text: ed_approve_remarks.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
+                                { text: ndrf_ed_approve_remarks !== null ? ndrf_ed_approve_remarks.toLowerCase() : "Not Updated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
 
                             },
                             '',
@@ -579,7 +595,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             { text: 'User', bold: true, fontSize: 8, font: 'Roboto' },
-                            { text: ed_user.toLowerCase(), textTransform: "capitalize", fontSize: 8, font: 'Roboto' },
+                            { text: eduser !== null ? eduser.toLowerCase() : "No Upadated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },
                             {
                                 colSpan: 2, rowSpan: 2,
                                 text: 'Signature',
@@ -589,7 +605,7 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                                     headerRows: 1,
                                     body: [
                                         [{ text: 'Signature', fontSize: 8, font: 'Roboto' },
-                                        { image: 'hsign', alignment: 'center', fit: [50, 75], },
+                                        { image: 'edsign', alignment: 'center', fit: [50, 75], },
 
                                         ],
 
@@ -604,31 +620,26 @@ export const pdfdownloadTable = (data, dataPost, hodsign) => {
                         ],
                         [
                             { text: 'Date', bold: true, fontSize: 8, font: 'Roboto' },
-                            { text: eddate, fontSize: 8, font: 'Roboto' },
+                            { text: ndrf_ed_approve_date !== null ? format(new Date(ndrf_ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated", fontSize: 8, font: 'Roboto' },
                             '',
                             ''
                         ]
                     ]
                 }
-            },
+            }
         ],
 
         images: {
             snow: 'http://192.168.10.170/NAS/logo/logo.png',
-            hsign: hodsign
+            // pic: 'http://192.168.10.170/NAS/2119/signature/signature.jpg',
+            inchargesign: inchargesign,
+            hsign: hodsign,
+            omsign: omsign,
+            smosign: smosign,
+            caosign: caosign,
+            edsign: edsign,
         }
     }
-
-
     pdfMake.createPdf(doc).open();
-
-
-
-
-
-
-
-
-
 }
 
