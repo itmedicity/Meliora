@@ -1,4 +1,4 @@
-import { Paper, Box, Grid } from '@mui/material';
+import { Paper, Box, Grid, Button } from '@mui/material';
 import React, { Fragment, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action';
@@ -19,6 +19,9 @@ import DietDashBoardCmp from './DietDashCmpnt/DietDashBoardCmp';
 import { getTotalInPateint } from 'src/redux/actions/TotalInPateintList.action';
 import { getDietPlanned } from 'src/redux/actions/DietPlannedList.action';
 import { getDietPlanPending } from 'src/redux/actions/DietPlanPending.action';
+
+import { io } from "socket.io-client";
+import { WS_URL } from '../Constant/Static';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -104,8 +107,28 @@ const Home = () => {
     const DietDash = dietentries.filter(val => complaintRights.includes(val.slno) === true ? val.slno : null);
     const dietmenus = useMemo(() => DietDash, [DietDash])
 
+    const socket = io.connect(WS_URL)
+
+
+    const handlechangesockettest = () => {
+        socket.emit("message", "from 192.168.11.42")
+    }
+
+    useEffect(() => {
+        socket.on("message", (data) => {
+            console.log(data)
+        })
+
+    }, [socket])
+
     return (
         <Fragment>
+
+            <Box>
+                <Box>Socket test</Box>
+                <Button onClick={handlechangesockettest} >Click Heare</Button>
+            </Box>
+
             <Box sx={{ width: "100%", p: 1 }}>
                 <Paper square elevation={2} sx={{ p: 1 }} >
                     {
