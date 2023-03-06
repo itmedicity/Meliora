@@ -89,7 +89,7 @@ import { getHallMasterSlno } from '../reducers/Hallmaster.Reducer'
 import { setdepthallbookApproval } from '../reducers/HallbookingApproval.Reducer'
 import { setNdrfList } from '../reducers/NdrfList.Reducer'
 import { setNdrfPdfList } from '../reducers/NdrfPdfList.Reducer'
-
+import { setDeptSecInchHod } from '../reducers/DeptSecInchHod.Reducer'
 
 
 const reducer = combineReducers({
@@ -186,7 +186,8 @@ const reducer = combineReducers({
     getHallMasterSlno,
     setdepthallbookApproval,
     setNdrfList,
-    setNdrfPdfList
+    setNdrfPdfList,
+    setDeptSecInchHod
 
 })
 export default reducer;
