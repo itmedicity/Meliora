@@ -111,7 +111,7 @@ const Home = () => {
 
 
     const handlechangesockettest = () => {
-        socket.emit("message", "from 192.168.11.42")
+        socket.emit("message", "from 192.168.10.106")
     }
 
     useEffect(() => {
@@ -126,7 +126,7 @@ const Home = () => {
 
             <Box>
                 <Box>Socket test</Box>
-                <Button onClick={handlechangesockettest} >Click Heare</Button>
+                <Button onClick={handlechangesockettest} >Click Here</Button>
             </Box>
 
             <Box sx={{ width: "100%", p: 1 }}>
