@@ -21,6 +21,7 @@ import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import { format } from 'date-fns'
 import _ from 'underscore'
 import DeptSecUnderDept from 'src/views/CommonSelectCode/DeptSecUnderDept'
+import { getDeptSecInchHod } from 'src/redux/actions/DeptSecInchHod.action'
 
 const ReqRegistration = () => {
     /*** Initializing */
@@ -80,10 +81,13 @@ const ReqRegistration = () => {
     }, [itemstate])
     //redux for geting login id
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
+    const deptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+
     //checking login id is hod or incharge
     useEffect(() => {
         dispatch(getInchargeHodData(id))
-    }, [dispatch, id])
+        dispatch(getDeptSecInchHod(deptsec))
+    }, [dispatch, id, deptsec])
 
     const HodIncharge = useSelector((state) => state.setInchargeHodData.InchargeHoddata, _.isEqual)
     const [isIncharge, setincharge] = useState(0)
@@ -96,6 +100,10 @@ const ReqRegistration = () => {
             setHod(hod)
         }
     }, [HodIncharge])
+
+    const deptsecHodInch = useSelector((state) => state.setDeptSecInchHod.deptSecInchHodList, _.isEqual)
+    const object1 = deptsecHodInch.filter(obj => obj.auth_post === 1 ? obj.emp_id : null);
+    const object2 = deptsecHodInch.filter(obj => obj.auth_post === 2 ? obj.emp_id : null);
 
     const updateExpectedDate = (e) => {
         setStartdate(e.target.value)
@@ -367,6 +375,7 @@ const ReqRegistration = () => {
 
         //** Inset api for Approval */
         const InsertApproval = async (reqno) => {
+            //Postdata department have incharge and Hod then check isicharge or ishod
             const ApprovalData = {
                 req_slno: reqno,
                 incharge_req: isIncharge === 1 ? 0 : ishod === 1 ? 0 : 1,
@@ -382,8 +391,52 @@ const ReqRegistration = () => {
                 incharge_apprv_date: isIncharge === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : ishod === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
                 hod_approve_date: ishod === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
             }
-            const result = await axioslogin.post('/requestRegister/postReqApproval', ApprovalData);
-            return result.data
+            //Postdata department have incharge and Hod then check isicharge or ishod
+            const ApprovalDataNoInch = {
+                req_slno: reqno,
+                incharge_req: object2.length === 0 ? 0 : 1,
+                hod_req: object1.length === 0 ? 0 : 1,
+                manag_operation_req: 1,
+                senior_manage_req: 1,
+                cao_approve_req: 1,
+                ed_approve_req: null,
+                incharge_user: object2.length === 0 ? id : null,
+                hod_user: object1.length === 0 ? id : null,
+                incharge_approve: object2.length === 0 ? 1 : null,
+                hod_approve: object1.length === 0 ? 1 : null,
+                incharge_apprv_date: object2.length === 0 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+                hod_approve_date: object1.length === 0 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+            }
+            //Postdata department have incharge and Hod then check isicharge or ishod
+            const ApprDataCheckHod = {
+                req_slno: reqno,
+                incharge_req: 1,
+                hod_req: object1.length === 0 ? 0 : 1,
+                manag_operation_req: 1,
+                senior_manage_req: 1,
+                cao_approve_req: 1,
+                ed_approve_req: null,
+                incharge_user: id,
+                hod_user: ishod === 1 ? id : null,
+                incharge_approve: 1,
+                hod_approve: object1.length === 0 ? 1 : null,
+                incharge_apprv_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+                hod_approve_date: object1.length === 0 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+            }
+
+            if (isIncharge === 0 && ishod === 0) {
+                const result = await axioslogin.post('/requestRegister/postReqApproval', ApprovalDataNoInch);
+                return result.data
+
+            }
+            else if (isIncharge === 1) {
+                const result = await axioslogin.post('/requestRegister/postReqApproval', ApprDataCheckHod);
+                return result.data
+            }
+            else {
+                const result = await axioslogin.post('/requestRegister/postReqApproval', ApprovalData);
+                return result.data
+            }
         }
 
         //** Inset api for detail */
@@ -498,7 +551,7 @@ const ReqRegistration = () => {
                 }
             })
         }
-    }, [postData, dataPost, id, count, patchData, reqSlno, patchInserDetl, value, ishod, isIncharge])
+    }, [postData, dataPost, id, count, object1, object2, patchData, reqSlno, patchInserDetl, value, ishod, isIncharge])
 
     //Data set for edit
     const rowSelect = useCallback((params) => {
