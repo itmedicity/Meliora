@@ -55,6 +55,7 @@ const ComplaintRegistrMast = () => {
     const [sec, setsec] = useState(0)
     //state for dep section select box
     const [depsec, setDepsec] = useState(0)
+    const [locationName, setlocationName] = useState("");
     const [complaint, setComplaint] = useState({
         complaint_slno: 0
     })
@@ -154,6 +155,7 @@ const ComplaintRegistrMast = () => {
             setChechHic(false)
         }
     }, [])
+
     //insert data
     const postdata = useMemo(() => {
         return {
@@ -166,9 +168,12 @@ const ComplaintRegistrMast = () => {
             complaint_hicslno: hic !== 0 ? hic : null,
             compalint_status: 0,
             cm_location: depsec,
-            create_user: id
+            create_user: id,
+            locationName: locationName,
+            priority: priority === 1 ? "Critical" : priority === 2 ? "High" : priority === 3 ? "Medium" : null
         }
-    }, [desc, sec, ReqType, cotype, depsec, hic, priority, codept, id])
+    }, [desc, sec, ReqType, cotype, depsec, hic, priority, codept, id, locationName])
+
     //Data set for edit
     const rowSelect = useCallback((params) => {
         setValue(1);
@@ -313,7 +318,7 @@ const ComplaintRegistrMast = () => {
 
     return (
         <CardMaster
-            title="Complaint Registration"
+            title="Ticket Registration"
             submit={submitComplaint}
             close={backtoSetting}
             refresh={refreshWindow}
@@ -525,7 +530,7 @@ const ComplaintRegistrMast = () => {
                                         p: 1,
                                         width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%' }
                                     }} >
-                                        <LocationSelect value={depsec} setValue={setDepsec} />
+                                        <LocationSelect value={depsec} setValue={setDepsec} setName={setlocationName} />
                                     </Paper>
 
                                 </Paper>

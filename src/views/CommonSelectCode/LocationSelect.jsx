@@ -6,7 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
-const LocationSelect = ({ value, setValue }) => {
+const LocationSelect = ({ value, setValue, setName }) => {
     const dispatch = useDispatch();
     /**getDeptsection -state update function of reducer 
 * deptsectionList- initial state of reducer function
@@ -26,7 +26,11 @@ const LocationSelect = ({ value, setValue }) => {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    onChange={(e, { props }) => {
+                        setValue(e.target.value)
+                        setName(props.children)
+                    }}
+                    // onChange={(e) => setValue(e.target.value)}
                     size="small"
                     fullWidth
                     variant='outlined'

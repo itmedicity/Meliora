@@ -80,8 +80,8 @@ const RectifyCompalint = () => {
         {
             headerName: "SlNo", field: "complaint_slno", minWidth: 100,
         },
-        { headerName: "Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Department", field: "sec_name", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300 },
+        { headerName: "Department", field: "sec_name", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Assign Employee", field: "em_name", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Location", field: "location", minWidth: 200, autoHeight: true, wrapText: true },
