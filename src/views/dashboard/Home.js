@@ -1,4 +1,4 @@
-import { Paper, Box, Grid, Button } from '@mui/material';
+import { Paper, Box, Grid } from '@mui/material';
 import React, { Fragment, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action';
@@ -110,9 +110,9 @@ const Home = () => {
     const socket = io.connect(WS_URL)
 
 
-    const handlechangesockettest = () => {
-        socket.emit("message", "from 192.168.10.106")
-    }
+    // const handlechangesockettest = () => {
+    //     socket.emit("message", "from 192.168.10.106")
+    // }
 
     useEffect(() => {
         socket.on("message", (data) => {
@@ -124,10 +124,10 @@ const Home = () => {
     return (
         <Fragment>
 
-            <Box>
+            {/* <Box>
                 <Box>Socket test</Box>
                 <Button onClick={handlechangesockettest} >Click Here</Button>
-            </Box>
+            </Box> */}
 
             <Box sx={{ width: "100%", p: 1 }}>
                 <Paper square elevation={2} sx={{ p: 1 }} >
