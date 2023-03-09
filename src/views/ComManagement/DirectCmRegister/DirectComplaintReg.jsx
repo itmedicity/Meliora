@@ -161,6 +161,7 @@ const DirectComplaintReg = () => {
         setdesc('')
         setcodept(null)
         setLocation(0)
+        setlocationName("")
     }
     //Data set for edit
     const rowSelect = useCallback((params) => {
@@ -296,6 +297,7 @@ const DirectComplaintReg = () => {
         setHigh(false)
         setMedium(false)
         setdesc('')
+        setlocationName("")
     }, [])
     //close button function
     const backtoSetting = useCallback(() => {

@@ -237,7 +237,7 @@ const ComplaintRegistrMast = () => {
             complaint_slno: 0,
         }
         const reset = () => {
-            setsec(false)
+            setsec(0)
             setReqType(false)
             setcotype(false)
             setHic(0)
@@ -250,6 +250,10 @@ const ComplaintRegistrMast = () => {
             setdesc('')
             setDepsec(0)
             setcodept(null)
+            setlocationName("")
+            setCount(0)
+            setValue(0)
+
         }
         /***    * insert function for use call back     */
         const InsertFun = async (postdata) => {
@@ -299,21 +303,22 @@ const ComplaintRegistrMast = () => {
         const formreset = {
             complaint_slno: ''
         }
-        setComplaint(formreset)
-        setValue(0);
-        setsec(false)
+        setsec(0)
         setReqType(false)
         setcotype(false)
         setHic(0)
-        setDepsec(0)
         setChechHic(false)
         setpriority(false)
         setcodept(false)
-        setdesc(false)
         setCritical(false)
         setHigh(false)
         setMedium(false)
         setdesc('')
+        setDepsec(0)
+        setcodept(null)
+        setlocationName("")
+        setCount(0)
+        setValue(0)
     }, [])
 
     return (
