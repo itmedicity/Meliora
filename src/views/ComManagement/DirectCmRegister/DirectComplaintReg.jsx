@@ -54,6 +54,7 @@ const DirectComplaintReg = () => {
     //state for dep section select box
     const [depsec, setDepsec] = useState(0)
     const [locations, setLocation] = useState(0)
+    const [locationName, setlocationName] = useState("");
     const [complaint, setComplaint] = useState({
         complaint_slno: 0
     })
@@ -160,6 +161,7 @@ const DirectComplaintReg = () => {
         setdesc('')
         setcodept(null)
         setLocation(0)
+        setlocationName("")
     }
     //Data set for edit
     const rowSelect = useCallback((params) => {
@@ -230,9 +232,11 @@ const DirectComplaintReg = () => {
             complaint_hicslno: hic !== 0 ? hic : null,
             compalint_status: 0,
             cm_location: locations,
-            create_user: id
+            create_user: id,
+            locationName: locationName,
+            priority: priority === 1 ? "Critical" : priority === 2 ? "High" : priority === 3 ? "Medium" : null
         }
-    }, [desc, depsec, locations, ReqType, cotype, hic, priority, codept, id])
+    }, [desc, depsec, locations, ReqType, cotype, hic, priority, locationName, codept, id])
     /*** usecallback function for form submitting */
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
@@ -293,6 +297,7 @@ const DirectComplaintReg = () => {
         setHigh(false)
         setMedium(false)
         setdesc('')
+        setlocationName("")
     }, [])
     //close button function
     const backtoSetting = useCallback(() => {
@@ -330,7 +335,7 @@ const DirectComplaintReg = () => {
                             }} square elevation={1}>
 
                                 <CustomPaperTitle heading='Complaint Location' />
-                                <LocationSelect value={locations} setValue={setLocation} />
+                                <LocationSelect value={locations} setValue={setLocation} setName={setlocationName} />
                             </Paper>
                         </Box>
                     </Box>

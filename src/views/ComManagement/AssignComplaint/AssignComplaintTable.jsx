@@ -62,7 +62,7 @@ const AssignComplaintTable = () => {
         },
         { headerName: "SlNo", field: "complaint_slno", minWidth: 90 },
         {
-            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250,
+            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300,
             cellStyle: function (params) {
                 if (params.data.cm_rectify_status === 'Z') {
                     return { color: 'red' };
@@ -114,7 +114,7 @@ const AssignComplaintTable = () => {
         },
         { headerName: "SlNo", field: "complaint_slno", minWidth: 100 },
         {
-            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 200,
+            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300,
             cellStyle: (params) => {
                 if (params.data.cm_rectify_status === 'Z') {
                     return { color: 'red' };
@@ -126,7 +126,7 @@ const AssignComplaintTable = () => {
         { headerName: "Department Section", field: "sec_name", autoHeight: true, wrapText: true, filter: "true", minWidth: 150 },
         { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 120 },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Remark", field: "complaint_remark", autoHeight: true, wrapText: true, minWidth: 120 },
         { headerName: "Date & Time", field: "assigned_date", autoHeight: true, wrapText: true },
@@ -146,9 +146,9 @@ const AssignComplaintTable = () => {
             }
         },
         { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 220 },
-        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true },
+        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
 
         {
@@ -188,15 +188,15 @@ const AssignComplaintTable = () => {
             }
         },
         { headerName: "SlNo", field: "complaint_slno" },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 280 },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300 },
         { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 250 },
-        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true },
+        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true },
-        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Requested Employee", field: "em_name", autoHeight: true, filter: true, wrapText: true, minWidth: 250 },
-        { headerName: "Date & Time", field: "assist_assign_date", autoHeight: true, wrapText: true },
+        { headerName: "Date & Time", field: "assist_assign_date", autoHeight: true, wrapText: true, minWidth: 150 },
 
     ])
     const dispatch = useDispatch();
