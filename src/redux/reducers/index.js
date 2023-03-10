@@ -90,7 +90,7 @@ import { setdepthallbookApproval } from '../reducers/HallbookingApproval.Reducer
 import { setNdrfList } from '../reducers/NdrfList.Reducer'
 import { setNdrfPdfList } from '../reducers/NdrfPdfList.Reducer'
 import { setDeptSecInchHod } from '../reducers/DeptSecInchHod.Reducer'
-
+import { setComplaintRegTable } from '../reducers/ComplaintRegTable.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -187,7 +187,8 @@ const reducer = combineReducers({
     setdepthallbookApproval,
     setNdrfList,
     setNdrfPdfList,
-    setDeptSecInchHod
+    setDeptSecInchHod,
+    setComplaintRegTable
 
 })
 export default reducer;

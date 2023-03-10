@@ -1,7 +1,6 @@
 import React, { useEffect, useState, memo, useCallback, Fragment } from 'react'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast';
-import { warningNotify } from 'src/views/Common/CommonCode';
-import { axioslogin } from 'src/views/Axios/Axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { IconButton } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { editicon } from 'src/color/Color';
@@ -10,10 +9,11 @@ import VerifyModal from './VerifyModal';
 import { Box } from '@mui/system'
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import CusCheckBox from 'src/views/Components/CusCheckBox'
+import { getCompliantRegTable } from 'src/redux/actions/ComplaintRegTable.action';
+import { io } from "socket.io-client";
+import { WS_URL } from '../../Constant/Static';
 
 const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
-    //state for setting table data
-    const [tabledata, setTabledata] = useState([])
     //state for modal open
     const [open, setOpen] = useState(false);
     //state for modal render
@@ -25,7 +25,7 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
     const [onhold, setOnhold] = useState(false)
     const [verify, setVerify] = useState(false)
     const [selectbase, setSelect] = useState(0);
-
+    const dispatch = useDispatch();
     const updatePending = useCallback((e) => {
         if (e.target.checked === true) {
             setSelect(1)
@@ -180,32 +180,35 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
         { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", autoHeight: true, wrapText: true, minWidth: 180 },
 
     ])
+
+    const socket = io.connect(WS_URL)
+
+    useEffect(() => {
+        socket.on("message", () => {
+            dispatch(getCompliantRegTable(sec))
+        })
+    }, [socket, dispatch, sec])
+
     //dispalying complaints against the users deptsection
     useEffect(() => {
-        const getcomplinttable = async () => {
-            const result = await axioslogin.get(`/complaintreg/loginbysec/${sec}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setTabledata(data)
-            }
-            else {
-                warningNotify("Error occured contact EDP")
-            }
-        }
         if (sec !== 0) {
-            getcomplinttable();
+            dispatch(getCompliantRegTable(sec))
         }
-    }, [count, sec])
+    }, [count, sec, dispatch])
 
-    const forVerify = tabledata.filter((val) => {
+    const compallTable = useSelector((state) => {
+        return state.setComplaintRegTable.complaintRegTableList
+    })
+
+    const forVerify = compallTable.filter((val) => {
         return val.compalint_status === 2
     })
 
-    const pendingList = tabledata.filter((val) => {
+    const pendingList = compallTable.filter((val) => {
         return val.cm_rectify_status === 'P'
     })
 
-    const onholdList = tabledata.filter((val) => {
+    const onholdList = compallTable.filter((val) => {
         return val.cm_rectify_status === 'O'
 
     })
@@ -291,7 +294,7 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
 
                             <CusAgGridMast
                                 columnDefs={column}
-                                tableData={tabledata}
+                                tableData={compallTable}
                                 onClick={rowSelect}
                                 getRowStyle={getRowStyle}
                             />

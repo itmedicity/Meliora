@@ -25,11 +25,11 @@ const ItemApprovalCmp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdel
                     sx={{ border: "0.2px solid" }}>
                     <TableHead sx={{ border: "1px " }}>
                         <TableRow  >
-                            <TableCell align="center" style={{ width: '60%' }}>Item Slno</TableCell>
-                            <TableCell align="center" >Item Description</TableCell>
+                            <TableCell align="center" style={{ width: '60%' }}>Slno</TableCell>
+                            <TableCell align="center" > Description</TableCell>
                             <TableCell align="center">Req. Brand</TableCell>
-                            <TableCell align="center">Item Unit</TableCell>
-                            <TableCell align="center">Item Qty</TableCell>
+                            <TableCell align="center">Unit</TableCell>
+                            <TableCell align="center">Qty</TableCell>
                             <TableCell align="center">Specification</TableCell>
                             <TableCell align="center">approx.cost </TableCell>
                             <TableCell align="center">Action</TableCell>
