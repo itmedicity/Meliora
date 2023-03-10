@@ -15,7 +15,7 @@ const Login = React.lazy(() => import('./views/pages/login/Login'))
 
 function App() {
   return (
-    <BrowserRouter basename='/Test'  >
+    <BrowserRouter basename='/'  >
       <CssBaseline />
       <React.Suspense fallback={<BackDrop />}>
         <Switch>
