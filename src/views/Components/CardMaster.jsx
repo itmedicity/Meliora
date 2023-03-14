@@ -9,7 +9,7 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
 import CustomCardHeaderOne from './CustomCardHeaderOne';
 import { cardActionBgClr } from 'src/color/Color';
-const CardMaster = ({ children, title, close, submit, refresh }) => {
+const CardMaster = ({ children, title, close, submit, refresh, contentStyle }) => {
     return (
         <Fragment>
             <ThemeProvider theme={theme} >
@@ -19,7 +19,7 @@ const CardMaster = ({ children, title, close, submit, refresh }) => {
                         onClickClose={close}
                         cardStyle={{}}
                     />
-                    <CardContent sx={{ p: 0 }} >
+                    <CardContent sx={contentStyle} >
                         {children}
                     </CardContent>
                     <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.300, pt: 0.500 }} disableSpacing={false} >
