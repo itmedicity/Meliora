@@ -15,18 +15,16 @@ const CustomTextarea = ({
 
     return (
         <Fragment>
-
             <TextareaAutosize
                 color='red'
                 size={size}
                 placeholder={placeholder}
                 minRows={minRows}
-                style={{ ...style, borderRadius: 5, borderColor: "#A9A9A9" }}
+                style={{ ...style, borderRadius: 5, borderColor: "#A9A9A9", padding: 10 }}
                 value={value}
                 disabled={disabled}
                 onChange={(e) => onchange(e)}
             />
-
         </Fragment>
     )
 }
