@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import ComplistAgGridcmp from '../../Components/ComplistAgGridcmp';
 import CardCloseOnly from '../../Components/CardCloseOnly';
 import { getHiccomplaintsall } from 'src/redux/actions/HicComplaintList.action';
+import { Box } from '@mui/material';
 
 const HicComplaintList = () => {
     const history = useHistory()
@@ -30,7 +31,7 @@ const HicComplaintList = () => {
         // { headerName: "Assign Date", field: "assigned_date", minWidth: 180 },
         // { headerName: "Rectify Date", field: "cm_rectify_time", minWidth: 180 },
         // { headerName: "Verify Date", field: "cm_verfy_time", minWidth: 180 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 180 }
+        // { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 180 }
     ])
 
     const backtoSetting = useCallback(() => {
@@ -44,13 +45,26 @@ const HicComplaintList = () => {
             title="Complaint List"
             close={backtoSetting}>
 
-            <ComplistAgGridcmp
+            <Box sx={{ p: 1 }}>
+                <ComplistAgGridcmp
+                    // columnDefs={ }
+
+                    columnDefs={column}
+                    tableData={compall}
+                    rowHeight={30}
+                />
+            </Box>
+
+
+
+
+            {/* <ComplistAgGridcmp
                 // columnDefs={ }
 
                 columnDefs={column}
                 tableData={compall}
                 rowHeight={30}
-            />
+            /> */}
 
         </CardCloseOnly>
 

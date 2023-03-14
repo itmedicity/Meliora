@@ -15,17 +15,23 @@ import { getHicpolicy } from 'src/redux/actions/HicPolicy.action'
 import ComplaintRegTable from './ComplaintRegTable'
 import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action'
 import ComplaintCheckBox from './ComplaintCheckBox'
-import CustomPaperTitle from '../../Components/CustomPaperTitle'
-import RequestTypeTitle from 'src/views/Components/RequestTypeTitle'
-import ComplaintDeptTitle from 'src/views/Components/ComplaintDeptTitle'
-import PrioritycmpTitle from 'src/views/Components/PrioritycmpTitle'
-import ComplaintTypeTitle from 'src/views/Components/ComplaintTypeTitle'
-import ComplaintDescriptionTitle from 'src/views/Components/ComplaintDescriptionTitle'
-import HicpolicyTitle from 'src/views/Components/HicpolicyTitle'
-import HicypolicygrpsTitle from 'src/views/Components/HicypolicygrpsTitle'
+// import CustomPaperTitle from '../../Components/CustomPaperTitle'
+// import RequestTypeTitle from 'src/views/Components/RequestTypeTitle'
+// import ComplaintDeptTitle from 'src/views/Components/ComplaintDeptTitle'
+// import PrioritycmpTitle from 'src/views/Components/PrioritycmpTitle'
+// import ComplaintTypeTitle from 'src/views/Components/ComplaintTypeTitle'
+// import ComplaintDescriptionTitle from 'src/views/Components/ComplaintDescriptionTitle'
+// import HicpolicyTitle from 'src/views/Components/HicpolicyTitle'
+// import HicypolicygrpsTitle from 'src/views/Components/HicypolicygrpsTitle'
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 import LocationSelect from 'src/views/CommonSelectCode/LocationSelect'
-import { Button, Checkbox, CssVarsProvider, Sheet, Typography as Typo } from '@mui/joy'
+import {
+    Button,
+    //Checkbox,
+    CssVarsProvider,
+    // Sheet,
+    Typography as Typo
+} from '@mui/joy'
 import CmpRequestTypeCheckBx from './CmpRequestTypeCheckBx'
 import { memo } from 'react'
 
@@ -33,7 +39,7 @@ const ComplaintRegistrMast = () => {
     /*** Initializing */
     const history = useHistory();
     //state for hic checkbox
-    const [hic, setHic] = useState(0)
+    //const [hic, setHic] = useState(0)
     //state for critical checkbox
     const [crical, setCritical] = useState(false)
     //state for high checkbox
@@ -97,7 +103,9 @@ const ComplaintRegistrMast = () => {
         }
     })
     //destructuring redux data
-    const { complaintdeptdata, requesttypedata, complainttype, hicpolicy, } = state
+    const { complaintdeptdata, requesttypedata, complainttype,
+        //hicpolicy,
+    } = state
     const { complaint_slno } = complaint
     //function for complaint description state updation
     const complintdesc = useCallback((e) => {
@@ -168,20 +176,21 @@ const ComplaintRegistrMast = () => {
             complaint_deptslno: codept,
             complaint_typeslno: cotype,
             compalint_priority: priority,
-            complaint_hicslno: hic !== 0 ? hic : null,
+            complaint_hicslno: checkHic === true ? 1 : 0,
             compalint_status: 0,
             cm_location: depsec,
             create_user: id,
             locationName: locationName,
             priority: priority === 1 ? "Critical" : priority === 2 ? "High" : priority === 3 ? "Medium" : null
         }
-    }, [desc, sec, ReqType, cotype, depsec, hic, priority, codept, id, locationName])
+    }, [desc, sec, ReqType, cotype, depsec, priority, codept, id, locationName, checkHic])
 
     //Data set for edit
     const rowSelect = useCallback((params) => {
         setValue(1);
         const data = params.api.getSelectedRows()
-        const { complaint_typeslno, complaint_dept_secslno, complaint_hicslno, hic_policy_status,
+        const { complaint_typeslno, complaint_dept_secslno, complaint_hicslno,
+            //hic_policy_status,
             compalint_priority, cm_location,
             complaint_request_slno, complaint_deptslno, complaint_slno, complaint_desc, id } = data[0];
         const frmdata = {
@@ -193,8 +202,8 @@ const ComplaintRegistrMast = () => {
         setsec(complaint_dept_secslno)
         setReqType(complaint_request_slno)
         setcotype(complaint_typeslno)
-        setHic(complaint_hicslno)
-        setChechHic(hic_policy_status === 1 ? true : false)
+        // setHic(complaint_hicslno === 1 ? true : false)
+        setChechHic(complaint_hicslno === 1 ? true : false)
         setpriority(compalint_priority)
         setcodept(complaint_deptslno)
         setdesc(complaint_desc)
@@ -226,13 +235,13 @@ const ComplaintRegistrMast = () => {
             complaint_deptslno: codept,
             complaint_typeslno: cotype,
             compalint_priority: priority,
-            complaint_hicslno: hic,
+            complaint_hicslno: checkHic === true ? 1 : 0,
             compalint_status: 0,
             cm_location: depsec,
             edit_user: id,
             complaint_slno: complaint_slno
         }
-    }, [desc, sec, ReqType, depsec, codept, cotype, priority, hic, complaint_slno, id])
+    }, [desc, sec, ReqType, depsec, codept, cotype, priority, complaint_slno, id, checkHic])
     /*** usecallback function for form submitting */
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
@@ -244,7 +253,7 @@ const ComplaintRegistrMast = () => {
             setsec(0)
             setReqType(false)
             setcotype(false)
-            setHic(0)
+            //setHic(0)
             setChechHic(false)
             setpriority(false)
             setcodept(false)
@@ -311,7 +320,7 @@ const ComplaintRegistrMast = () => {
         setsec(0)
         setReqType(false)
         setcotype(false)
-        setHic(0)
+        // setHic(0)
         setChechHic(false)
         setpriority(false)
         setcodept(false)
