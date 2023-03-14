@@ -19,6 +19,13 @@ const CmTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
+        men_slno: 106,
+        component: CNavItem,
+        name: 'HIC ',
+        to: '/Home/Hic/Complaint',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
         men_slno: 84,
         component: CNavItem,
         name: 'Complaint List All ',
