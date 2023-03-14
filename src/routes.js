@@ -98,6 +98,7 @@ const Hallmaster = React.lazy(() => import('./views/Master/HallMaster/Hallmaster
 const HallbookingReg = React.lazy(() => import('./views/HallBooking/HallbookingReg'))
 const HallBookingApproval = React.lazy(() => import('./views/HallBooking/HallBookingApproval'))
 const CAoApproval = React.lazy(() => import('./views/HallBooking/CeoApproval/CeoApproval'))
+const HicComplaint = React.lazy(() => import("./views/ComManagement/HICComplaintList/HicComplaintList"))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -199,7 +200,8 @@ const routes = [
   { path: '/Home/Hallmaster', exact: true, name: "Hall master", component: Hallmaster },
   { path: '/Home/HallbookingReg', exact: true, name: "HallbookingReg", component: HallbookingReg },
   { path: '/Home/HallbookingApproval', exact: true, name: "HallBookingApproval", component: HallBookingApproval },
-  { path: '/Home/HallCeoApproval', exact: true, name: 'CAoApproval', component: CAoApproval }
+  { path: '/Home/HallCeoApproval', exact: true, name: 'CAoApproval', component: CAoApproval },
+  { path: '/Home/Hic/Complaint', exact: true, name: 'HIC Complaint List', component: HicComplaint }
 ]
 
 export default routes
