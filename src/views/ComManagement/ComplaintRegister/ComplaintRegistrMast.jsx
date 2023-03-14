@@ -508,6 +508,7 @@ const ComplaintRegistrMast = () => {
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
+                                    color="info"
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
                                 >Request Info</Button>
                                 <Button
@@ -530,14 +531,15 @@ const ComplaintRegistrMast = () => {
                                     variant="outlined"
                                     fullWidth
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
-                                >OnHold/Rejected</Button>
+                                >Verification Pending</Button>
                                 <Button
                                     startIcon={<h3>000</h3>}
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
+                                    color="info"
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
-                                >Verification Pending</Button>
+                                >OnHold/Rejected</Button>
                             </CssVarsProvider>
                         </Paper>
                     </Box>
