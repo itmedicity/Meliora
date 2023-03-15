@@ -34,6 +34,8 @@ import {
 } from '@mui/joy'
 import CmpRequestTypeCheckBx from './CmpRequestTypeCheckBx'
 import { memo } from 'react'
+import { getCompliantRegTable } from 'src/redux/actions/ComplaintRegTable.action'
+import { getReqRegistListByDept } from 'src/redux/actions/ReqRegisterListByDept.action'
 
 const ComplaintRegistrMast = () => {
     /*** Initializing */
@@ -334,6 +336,51 @@ const ComplaintRegistrMast = () => {
         setCount(0)
         setValue(0)
     }, [])
+    useEffect(() => {
+        if (ReqType === 2) {
+            history.push('/Home/RequestRegister')
+        }
+    }, [ReqType, history])
+
+
+    useEffect(() => {
+        if (sec !== 0) {
+            dispatch(getCompliantRegTable(sec))
+            dispatch(getReqRegistListByDept(sec))
+        }
+    }, [count, sec, dispatch])
+
+    const compallTable = useSelector((state) => {
+        return state.setComplaintRegTable.complaintRegTableList
+    })
+    const reqestTotal = useSelector((state) => {
+        return state.setRequestListByDeptSec.RequestListall
+    })
+
+    const pendingTckt = compallTable.filter((val) => {
+        return val.compalint_status === 0
+    })
+
+    const AssignedTckt = compallTable.filter((val) => {
+        return val.compalint_status === 1
+    })
+
+    const VerificationPendingTckt = compallTable.filter((val) => {
+        return val.compalint_status === 2
+    })
+
+    const onholdList = compallTable.filter((val) => {
+        return val.cm_rectify_status === 'O' || val.cm_rectify_status === 'P'
+
+    })
+    const reqList = reqestTotal.filter((val) => {
+        return val.rm_ndrf === 0
+    })
+
+    const reqPending = reqestTotal.filter((val) => {
+        return val.req_status === 'P'
+    })
+
 
     return (
         <Fragment>
@@ -506,14 +553,14 @@ const ComplaintRegistrMast = () => {
                             }} >
                             <CssVarsProvider>
                                 <Button
-                                    startIcon={<h3>000</h3>}
+                                    startIcon={<h3>{pendingTckt.length}</h3>}
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
                                 >Pending Ticket</Button>
                                 <Button
-                                    startIcon={<h3>000</h3>}
+                                    startIcon={<h3>{reqList.length}</h3>}
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
@@ -521,28 +568,29 @@ const ComplaintRegistrMast = () => {
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
                                 >Request Info</Button>
                                 <Button
-                                    startIcon={<h3>000</h3>}
+                                    startIcon={<h3>{AssignedTckt.length}</h3>}
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
                                 >Assigned Ticket</Button>
                                 <Button
-                                    startIcon={<h3>000</h3>}
+
+                                    startIcon={<h3>{onholdList.length}</h3>}
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
                                 >OnHold Ticket</Button>
                                 <Button
-                                    startIcon={<h3>000</h3>}
+                                    startIcon={<h3>{VerificationPendingTckt.length}</h3>}
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
                                 >Verification Pending</Button>
                                 <Button
-                                    startIcon={<h3>000</h3>}
+                                    startIcon={<h3>{reqPending.length}</h3>}
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
