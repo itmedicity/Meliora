@@ -24,8 +24,6 @@ const CmpRequestTypeCheckBx = ({ value, onChange, name, label, checkedValue, onC
                             onChange={(e) => {
                                 onChange(e.target.checked === true ? value : null)
                             }}
-                            onClick={onClick}
-                            disabled={value === 2 ? true : false}
                             name={name}
                             size="lg"
                         />
