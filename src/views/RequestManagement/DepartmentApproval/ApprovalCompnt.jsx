@@ -1,35 +1,117 @@
 import React, { Fragment, memo } from 'react'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import CustomTextarea from 'src/views/Components/CustomTextarea'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
+import { CssVarsProvider, Typography } from '@mui/joy'
+import { TypoHeadColor } from 'src/color/Color'
 
-const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject, remark, updateRemark, updatePending, pending }) => {
+const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject, remark,
+    updateRemark, rejectremark, updateRejectRemark, holdremark, updateHoldRemark, detailAnalis,
+    updatePending, updatedetailAnalis, pending }) => {
+
 
     return (
         <Fragment>
             <Box sx={{ width: "100%", }}>
                 <Box sx={{ pt: 0.5 }}>
-                    <Typography sx={{ fontSize: 15 }} >{heading} </Typography>
+                    <CssVarsProvider>
+                        <Typography sx={{ fontSize: 14, fontWeight: 700, color: TypoHeadColor }}  >{heading} </Typography>
+                    </CssVarsProvider>
                 </Box>
-                <Box sx={{
-                    display: 'flex',
-                    width: '100%',
-                    fontSize: 15
-                }}>
-                    <CustomTextarea
-                        required
-                        type="text"
-                        size="sm"
-                        style={{
-                            width: "100%",
-                            height: 70,
-                            boardColor: "#E0E0E0"
-                        }}
-                        placeholder=" Remarks"
-                        value={remark}
-                        onchange={updateRemark}
-                    />
-                </Box>
+
+                {
+                    reject === true ?
+                        <Box sx={{
+                            display: 'flex',
+                            width: '100%',
+                            fontSize: 15,
+                            flexDirection: "column",
+                        }}>
+                            <CssVarsProvider>
+                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject </Typography>
+                            </CssVarsProvider>
+                            <CustomTextarea
+                                required
+                                type="text"
+                                size="sm"
+                                style={{
+                                    width: "100%",
+                                    height: 70,
+                                    boardColor: "#E0E0E0",
+                                    mt: 5
+                                }}
+                                placeholder="Reject Remark"
+                                value={rejectremark}
+                                onchange={updateRejectRemark}
+                            />
+                        </Box> :
+                        pending === true ?
+
+                            <Box sx={{
+                                display: 'flex',
+                                width: '100%',
+                                fontSize: 15,
+                                flexDirection: "column",
+                            }}>
+                                <CssVarsProvider>
+                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold </Typography>
+                                </CssVarsProvider>
+                                <CustomTextarea
+                                    required
+                                    type="text"
+                                    size="sm"
+                                    style={{
+                                        width: "100%",
+                                        height: 70,
+                                        boardColor: "#E0E0E0"
+                                    }}
+                                    placeholder="On-Hold Remarks"
+                                    value={holdremark}
+                                    onchange={updateHoldRemark}
+                                />
+
+                            </Box> :
+                            <Box sx={{
+                                display: 'flex',
+                                width: '100%',
+                                fontSize: 15,
+                                flexDirection: "column",
+                            }}>
+                                <CssVarsProvider>
+                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description </Typography>
+                                </CssVarsProvider>
+                                <CustomTextarea
+                                    required
+                                    type="text"
+                                    size="sm"
+                                    style={{
+                                        width: "100%",
+                                        height: 70,
+                                        boardColor: "#E0E0E0"
+                                    }}
+                                    placeholder=" Remarks"
+                                    value={remark}
+                                    onchange={updateRemark}
+                                />
+                                <CssVarsProvider>
+                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement </Typography>
+                                </CssVarsProvider>
+                                <CustomTextarea
+                                    required
+                                    type="text"
+                                    size="sm"
+                                    style={{
+                                        width: "100%",
+                                        height: 70,
+                                        boardColor: "#E0E0E0"
+                                    }}
+                                    placeholder="Detail Analysis"
+                                    value={detailAnalis}
+                                    onchange={updatedetailAnalis}
+                                />
+                            </Box>
+                }
+
                 <Box sx={{
                     width: "100%",
                     display: "flex",

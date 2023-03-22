@@ -1,20 +1,22 @@
-import React, { Fragment, useCallback, useState, memo, useEffect } from 'react'
+import React, { Fragment, useCallback, useState, memo, useMemo, useEffect } from 'react'
 import Slide from '@mui/material/Slide';
 import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { Box, Paper, Typography } from '@mui/material'
+import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify } from 'src/views/Common/CommonCode'
-import { useMemo } from 'react';
 import { useSelector } from 'react-redux'
 import ItemApprovalCmp from '../DepartmentApproval/ItemApprovalCmp';
 import _ from 'underscore'
-import ApprovalCompnt from '../DepartmentApproval/ApprovalCompnt';
+import NdrfApprovalCompnt from '../NdrfFrorm/NdrfApprovalCompnt';
+import { CssVarsProvider, Typography } from '@mui/joy'
+import Divider from '@mui/material/Divider';
+import { TypoHeadColor } from 'src/color/Color'
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -23,10 +25,14 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
     const { req_slno, reqdate, actual_requirement, needed, location, expdate, req_deptsec, req_dept,
         approve_incharge, incharge_remarks, hod_remarks, ndrf_date, ndrf_mast_slno, ed_approve_req,
         approve_hod, manag_operation_approvs, manag_operation_remarks, senior_manage_approvs,
-        senior_manage_remarks, category, incharge_apprv_date, om_approv_date, caouser, ed_approve_date,
-        ed_approve_remarks, eduser, ed_approves,
-        hod_approve_date, som_aprrov_date, inch_user, hoduser, om_user, smo_user, cao_approves,
-        cao_approv_date, cao_approve_remarks, ndrfuser } = datas[0]
+        senior_manage_remarks, om_approv_date, caouser, ed_approve_date, ed_approve_remarks, eduser,
+        ed_approves, category, incharge_apprv_date, cao_approves,
+        cao_approve_remarks, om_user, smo_user, cao_approve, ndrf_om_remarks, ndrf_om_approv,
+        incharge_approve, manag_operation_approv, ed_approve, ed_detial_analysis,
+        inch_detial_analysis, hod_detial_analysis, incharge_req, hod_approve,
+        hod_req, om_detial_analysis, smo_detial_analysis, senior_manage_approv, ceo_detial_analysis,
+        hod_approve_date, som_aprrov_date, inch_user, hoduser,
+        cao_approv_date, ndrfuser } = datas[0]
     const inchadate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : null
     const hoddate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
     const omdate = om_approv_date !== null ? format(new Date(om_approv_date), 'dd-MM-yyyy hh:mm:ss') : null
@@ -83,6 +89,22 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
         }
 
     }, [])
+    useEffect(() => {
+        if (ndrf_om_approv !== null) {
+            setRemark(ndrf_om_remarks)
+            setApprove(ndrf_om_approv === 1 ? true : false)
+            setReject(ndrf_om_approv === 2 ? true : false)
+            setPending(ndrf_om_approv === 3 ? true : false)
+
+        }
+        else {
+            setRemark('')
+            setPending(false)
+            setApprove(false)
+            setReject(false)
+        }
+    }, [ndrf_om_approv, ndrf_om_remarks])
+
 
     const [dataPost, setdataPost] = useState([])
     const [tableDis, setTableDis] = useState(0)
@@ -142,7 +164,6 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
 
 
     return (
-
         <Fragment>
             <ToastContainer />
             <Dialog
@@ -150,18 +171,18 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
                 TransitionComponent={Transition}
                 keepMounted
                 aria-describedby="alert-dialog-slide-descriptiona"
+                fullWidth
+                maxWidth='md'
             >
                 < DialogContent id="alert-dialog-slide-descriptiona"
                     sx={{
-                        width: 600,
-                        height: "100%",
-                        pb: 2
+                        width: '100%',
+                        height: 540
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
                         New Demad Request Form Approval
                     </DialogContentText>
-
 
                     <Box sx={{ width: "100%", mt: 0 }}>
                         <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
@@ -177,12 +198,15 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
                                     <Box
-                                        sx={{ pr: 4.6 }}>
-                                        <Typography sx={{ fontSize: 15 }}>Request No:  {req_slno}</Typography>
+                                        sx={{ pr: 8 }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>Request No:  {req_slno}</Typography>
+                                        </CssVarsProvider>
                                     </Box>
-                                    <Box
-                                    >
-                                        <Typography sx={{ fontSize: 15, pl: 1.1 }}>Req.Date: {reqdate}</Typography>
+                                    <Box sx={{ pl: 6.8 }}                                    >
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>Req.Date: {reqdate}</Typography>
+                                        </CssVarsProvider>
                                     </Box>
                                 </Box>
                                 {
@@ -192,27 +216,34 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
                                                 width: "100%",
                                                 display: "flex",
                                                 p: 0.5,
-                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                                flexDirection: "row",
                                             }}>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15, pr: 8 }}>Department:</Typography>
+                                                <Typography sx={{ textTransform: "capitalize", fontSize: 15, pl: 8 }}> {req_dept.toLowerCase()}</Typography>
+                                            </CssVarsProvider>
 
-                                            <Box
-                                                sx={{ pr: 7.5, }}>
-                                                <Typography sx={{ fontSize: 15 }}>Department:</Typography>
-                                            </Box>
-                                            <Box
-                                            >
-                                                <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}> {req_dept.toLowerCase()}</Typography>
-                                            </Box>
+                                        </Box> : null
+                                }
+                                {
+                                    req_deptsec !== null ?
+
+                                        <Box
+                                            sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                p: 0.5,
+                                                flexDirection: "row",
+                                            }}>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15, pr: 5 }}>Department Section:</Typography>
+                                                <Typography sx={{ textTransform: "capitalize", fontSize: 15, pl: 4.5 }}> {req_deptsec.toLowerCase()}</Typography>
+                                            </CssVarsProvider>
+
                                         </Box>
 
 
                                         : null
-                                }
-                                {
-                                    req_deptsec !== null ? <Box
-                                        sx={{ pl: 0.5 }}>
-                                        <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}>Department Section: {req_deptsec.toLowerCase()}</Typography>
-                                    </Box> : null
                                 }
                                 {
                                     actual_requirement !== null ? <Box sx={{
@@ -224,12 +255,14 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
 
                                         <Box
                                             sx={{ width: "25%", }}>
-                                            <Typography sx={{ fontSize: 15 }}>Actual Requirement:</Typography>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15 }}>Actual Requirement:</Typography>
+                                            </CssVarsProvider>
                                         </Box>
                                         <Paper sx={{
                                             width: "75%", minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15,
                                             overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                        }} variant='outlined'>
+                                        }} variant='none'>
                                             {actual_requirement}
                                         </Paper>
 
@@ -246,12 +279,14 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
 
                                         <Box
                                             sx={{ width: "25%", }}>
-                                            <Typography sx={{ fontSize: 15 }}>Justification for need:</Typography>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15 }}>Justification for need:</Typography>
+                                            </CssVarsProvider>
                                         </Box>
                                         <Paper sx={{
                                             width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15,
                                             overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                        }} variant='outlined'>
+                                        }} variant='none'>
                                             {needed}
                                         </Paper>
                                     </Box> : null
@@ -265,12 +300,14 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
 
                                     <Box
                                         sx={{ width: "25%", }}>
-                                        <Typography sx={{ fontSize: 15 }}>Location:</Typography>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>Location:</Typography>
+                                        </CssVarsProvider>
                                     </Box>
                                     <Paper sx={{
                                         width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                    }} variant='outlined'>
+                                    }} variant='none'>
                                         {location}
                                     </Paper>
                                 </Box> : null}
@@ -280,15 +317,16 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
                                     p: 0.5,
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
-
                                     <Box
                                         sx={{ width: "25%", }}>
-                                        <Typography sx={{ fontSize: 15 }}>Category:</Typography>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>Category:</Typography>
+                                        </CssVarsProvider>
                                     </Box>
                                     <Paper sx={{
                                         width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                    }} variant='outlined'>
+                                    }} variant='none'>
                                         {category}
                                     </Paper>
                                 </Box> : null}
@@ -296,37 +334,27 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
                                     width: "100%",
                                     display: "flex",
                                     p: 0.5, pb: 0,
-                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    flexDirection: "column",
                                 }}>
                                     <Box
-                                        sx={{ pr: 9 }}>
-                                        <Typography sx={{ fontSize: 15 }}>Expected Date: {expdate}</Typography>
+                                        sx={{ pr: 9, pb: 1 }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>Expected Date: {expdate}</Typography>
+                                        </CssVarsProvider>
                                     </Box>
-                                </Box>
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    p: 0.5, pb: 0,
-                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                }}>
+                                    <Box
+                                        sx={{ pr: 9, pb: 1 }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>NDRF Date: {ndrf_date}</Typography>
+                                        </CssVarsProvider>
+                                    </Box>
                                     <Box
                                         sx={{ pr: 9 }}>
-                                        <Typography sx={{ fontSize: 15 }}>NDRF Date: {ndrf_date}</Typography>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>NDRF Generated User: {ndrfuser}</Typography>
+                                        </CssVarsProvider>
                                     </Box>
                                 </Box>
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    p: 0.5, pb: 0,
-                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                }}>
-                                    <Box
-                                        sx={{ pr: 9 }}>
-                                        <Typography sx={{ fontSize: 15 }}>NDRF Generated User: {ndrfuser}</Typography>
-                                    </Box>
-                                </Box>
-
-
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
@@ -357,208 +385,97 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
                                     <Box
-                                        sx={{ pr: 9, pl: 0.6 }}>
-                                        <Typography sx={{ fontWeight: 900, fontSize: 12 }}>Department Approval</Typography>
+                                        sx={{ pr: 9 }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontWeight: 900, fontSize: 14, pl: 0.8, color: TypoHeadColor }} >Department Approval</Typography>
+                                        </CssVarsProvider>
                                     </Box>
 
-                                </Box>
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    pl: 1, pr: 0.5, pt: 0.4,
-                                    flexDirection: 'column'
-                                }}>
-                                    <Box
-                                        sx={{
-                                            // pl: 1,
-                                            display: "flex",
-                                            flexDirection: 'row',
-                                            justifyContent: "space-between"
-                                        }}>
-
-                                        <Typography sx={{ fontSize: 15 }}>Incharge: {approve_incharge} </Typography>
-                                        {
-                                            inchadate !== null ? <Box
-                                                sx={{
-                                                    display: "flex",
-                                                    flexDirection: 'row',
-                                                    justifyContent: "space-evenly",
-                                                    pr: 2
-                                                }}>
-                                                <Typography sx={{ fontSize: 13, pr: 0.5 }}>{inchadate !== null ? inchadate : "Not Update"}</Typography>
-                                                <Typography sx={{ fontSize: 13, textTransform: "capitalize" }}>  /  {inch_user !== null ? inch_user.toLowerCase() : null} </Typography>
-                                            </Box> : null
-                                        }
-                                    </Box>
-                                    <Paper sx={{
-                                        width: '100%', height: 50, fontSize: 15, pl: 0.5,
-                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                    }} variant='outlined'>
-                                        {incharge_remarks}
-                                    </Paper>
-                                </Box>
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    pl: 1, pr: 0.5, pb: 1, pt: 0.8,
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                }}>
-                                    <Box
-                                        sx={{
-                                            // pl: 1,
-                                            display: "flex",
-                                            flexDirection: 'row',
-                                            justifyContent: "space-between"
-                                        }}>
-                                        <Typography sx={{ fontSize: 15 }}>HOD: {approve_hod}</Typography>
-                                        {
-                                            hoddate !== null ? <Box
-                                                sx={{
-                                                    display: "flex",
-                                                    flexDirection: 'row',
-                                                    justifyContent: "space-evenly",
-                                                    pr: 2
-                                                }}>
-                                                <Typography sx={{ fontSize: 13, pr: 0.5 }}>{hoddate !== null ? hoddate : "Not Update"}</Typography>
-                                                <Typography sx={{ fontSize: 13, textTransform: "capitalize" }}>  /  {hoduser !== null ? hoduser.toLowerCase() : null} </Typography>
-                                            </Box> : null
-                                        }
-
-                                    </Box>
-                                    <Paper sx={{
-                                        width: '100%', height: 50, fontSize: 15, pl: 0.5,
-                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                    }} variant='outlined'>
-                                        {hod_remarks}
-                                    </Paper>
-                                </Box>
-                            </Box>
-                        </Paper>
-                    </Box>
-
-                    <Box sx={{ width: "100%", mt: 1 }}>
-                        <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
-                            <Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                            }}>
-
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    pl: 1, pr: 0.5, pt: 0.6,
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                }}>
-                                    <Box
-                                        sx={{
-                                            // pl: 1,
-                                            display: "flex",
-                                            flexDirection: 'row',
-                                            justifyContent: "space-between"
-                                        }}>
-                                        <Typography sx={{ fontSize: 15 }}>Operation Manager: {manag_operation_approvs}</Typography>
-                                        {
-                                            omdate !== null ? <Box
-                                                sx={{
-                                                    display: "flex",
-                                                    flexDirection: 'row',
-                                                    justifyContent: "space-evenly",
-                                                    pr: 2
-                                                }}>
-                                                <Typography sx={{ fontSize: 13, pr: 0.5 }}>{omdate !== null ? omdate : "Not Update"}</Typography>
-                                                <Typography sx={{ fontSize: 13, textTransform: "capitalize" }}>  /  {om_user !== null ? om_user.toLowerCase() : null} </Typography>
-                                            </Box> : null
-                                        }
-
-                                    </Box>
-
-                                    <Paper sx={{
-                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
-                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                    }} variant='outlined'>
-                                        {manag_operation_remarks}
-                                    </Paper>
-                                </Box>
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    pl: 1, pr: 0.5, pt: 0.7,
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                }}>
-                                    <Box
-                                        sx={{
-                                            // pl: 1,
-                                            display: "flex",
-                                            flexDirection: 'row',
-                                            justifyContent: "space-between"
-                                        }}>
-                                        <Typography sx={{ fontSize: 15 }}>Senior Manager Operation: {senior_manage_approvs}</Typography>
-                                        {
-                                            smodate !== null ? <Box
-                                                sx={{
-                                                    display: "flex",
-                                                    flexDirection: 'row',
-                                                    justifyContent: "space-evenly",
-                                                    pr: 2
-                                                }}>
-                                                <Typography sx={{ fontSize: 13, pr: 0.5 }}>{smodate !== null ? smodate : "Not Update"}</Typography>
-                                                <Typography sx={{ fontSize: 13, textTransform: "capitalize" }}>  /  {smo_user !== null ? smo_user.toLowerCase() : null} </Typography>
-                                            </Box> : null
-                                        }
-
-                                    </Box>
-
-                                    <Paper sx={{
-                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
-                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                    }} variant='outlined'>
-                                        {senior_manage_remarks}
-                                    </Paper>
-                                </Box>
-
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    pl: 1, pr: 0.5, pt: 0.7, pb: 0.7,
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                }}>
-                                    <Box
-                                        sx={{
-                                            // pl: 1,
-                                            display: "flex",
-                                            flexDirection: 'row',
-                                            justifyContent: "space-between"
-                                        }}>
-                                        <Typography sx={{ fontSize: 15 }}>CAO/COO/MS: {cao_approves}</Typography>
-                                        {
-                                            caodate !== null ? <Box
-                                                sx={{
-                                                    display: "flex",
-                                                    flexDirection: 'row',
-                                                    justifyContent: "space-evenly",
-                                                    pr: 2
-                                                }}>
-                                                <Typography sx={{ fontSize: 13, pr: 0.5 }}>{caodate !== null ? caodate : "Not Update"}</Typography>
-                                                <Typography sx={{ fontSize: 13, textTransform: "capitalize" }}>  /  {caouser !== null ? caouser.toLowerCase() : null} </Typography>
-                                            </Box> : null
-                                        }
-
-                                    </Box>
-
-                                    <Paper sx={{
-                                        width: '100%', height: 50, pl: 0.5, fontSize: 15,
-                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                    }} variant='outlined'>
-                                        {cao_approve_remarks}
-                                    </Paper>
                                 </Box>
                                 {
-                                    ed_approve_req === 1 ?
+                                    hod_req === 1 ? <Box>
+
+                                        {incharge_req === 1 ?
+                                            <Box sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                pl: 1, pr: 0.5, pt: 0.4,
+
+                                                flexDirection: 'column'
+                                            }}>
+                                                <Box
+                                                    sx={{
+                                                        // pl: 1,
+                                                        display: "flex",
+                                                        flexDirection: 'row',
+                                                        justifyContent: "space-between"
+                                                    }}>
+
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Incharge :
+                                                            {
+                                                                incharge_approve === 1 ?
+                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {approve_incharge}
+                                                                    </Typography> : incharge_approve === 2 ?
+                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {approve_incharge}
+                                                                        </Typography> : incharge_approve === 3 ?
+                                                                            <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {approve_incharge}
+                                                                            </Typography> : null
+                                                            }
+                                                        </Typography>
+                                                    </CssVarsProvider>
+                                                    {
+                                                        inchadate !== null ? <Box
+                                                            sx={{
+                                                                display: "flex",
+                                                                flexDirection: 'row',
+                                                                justifyContent: "space-evenly",
+                                                                pr: 2
+                                                            }}>
+                                                            <CssVarsProvider>
+                                                                <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }}>{inchadate !== null ? inchadate : "Not Update"}</Typography>
+                                                                <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                                <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>    {inch_user !== null ? inch_user.toLowerCase() : null} </Typography>
+                                                            </CssVarsProvider>   </Box> : null
+                                                    }
+                                                </Box>
+                                                {
+                                                    incharge_approve === 1 ? <Box sx={{ width: "100%" }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{incharge_remarks} </Typography>
+                                                        </CssVarsProvider>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{inch_detial_analysis} </Typography>
+                                                        </CssVarsProvider> </Box> :
+                                                        incharge_approve === 2 ? <Box sx={{ width: "100%" }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15 }} >{incharge_remarks} </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box> :
+                                                            incharge_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                                <CssVarsProvider>
+                                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                                    <Typography ml={10} sx={{ fontSize: 15 }} >{incharge_remarks} </Typography>
+                                                                </CssVarsProvider>
+                                                            </Box> : null
+                                                }
+                                            </Box> : <Box>
+                                                <CssVarsProvider>
+                                                    <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Requested By Incharge </Typography>
+                                                </CssVarsProvider>
+                                            </Box>
+                                        }
+
+                                        <Divider
+                                            // variant="middle"
+                                            sx={{ my: 0.8 }} />
                                         <Box sx={{
                                             width: "100%",
                                             display: "flex",
-                                            pl: 1, pr: 0.5, pt: 0.7, pb: 1,
+                                            pl: 1, pr: 0.5, pb: 0.5,
                                             flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
                                         }}>
                                             <Box
@@ -568,36 +485,66 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
                                                     flexDirection: 'row',
                                                     justifyContent: "space-between"
                                                 }}>
-                                                <Typography sx={{ fontSize: 15 }}>ED/MD: {ed_approves}</Typography>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Head Of the Department :
+                                                        {
+                                                            hod_approve === 1 ?
+                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {approve_hod}
+                                                                </Typography> : hod_approve === 2 ?
+                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {approve_hod}
+                                                                    </Typography> : hod_approve === 3 ?
+                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {approve_hod}
+                                                                        </Typography> : null
+                                                        }
+                                                    </Typography>
+                                                </CssVarsProvider>
                                                 {
-                                                    eddate !== null ? <Box
+                                                    hoddate !== null ? <Box
                                                         sx={{
                                                             display: "flex",
                                                             flexDirection: 'row',
                                                             justifyContent: "space-evenly",
                                                             pr: 2
                                                         }}>
-                                                        <Typography sx={{ fontSize: 13, pr: 0.5 }}>{eddate !== null ? eddate : "Not Update"}</Typography>
-                                                        <Typography sx={{ fontSize: 13, textTransform: "capitalize" }}>  /  {eduser !== null ? eduser.toLowerCase() : null} </Typography>
-                                                    </Box> : null
+                                                        <CssVarsProvider>
+                                                            <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }}>{hoddate !== null ? hoddate : "Not Update"}</Typography>
+                                                            <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                            <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>{hoduser !== null ? hoduser.toLowerCase() : null} </Typography>
+                                                        </CssVarsProvider>   </Box> : null
                                                 }
 
                                             </Box>
-
-                                            <Paper sx={{
-                                                width: '100%', height: 50, pl: 0.5, fontSize: 15,
-                                                overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                            }} variant='outlined'>
-                                                {ed_approve_remarks}
-                                            </Paper>
+                                            {
+                                                hod_approve === 1 ? <Box sx={{ width: "100%" }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{hod_remarks} </Typography>
+                                                    </CssVarsProvider>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{hod_detial_analysis} </Typography>
+                                                    </CssVarsProvider> </Box> :
+                                                    hod_approve === 2 ? <Box sx={{ width: "100%" }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15 }} >Detail Justification for Reject: </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15, fontWeight: 600 }} >{hod_remarks} </Typography>
+                                                        </CssVarsProvider>
+                                                    </Box> :
+                                                        hod_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15 }} >Detail Justification for On-Hold: </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15, fontWeight: 600 }} >{hod_remarks} </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box> : null
+                                            }
                                         </Box>
-
-
-
-
-                                        : null
+                                    </Box>
+                                        : <Box>
+                                            <CssVarsProvider>
+                                                <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Requested By Head Of The Department </Typography>
+                                            </CssVarsProvider>
+                                        </Box>
                                 }
-
                             </Box>
                         </Paper>
                     </Box>
@@ -609,12 +556,306 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
                                 display: "flex",
                                 flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
                             }}>
+
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    pl: 1, pr: 0.5, pt: 0.5,
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                }}>
+                                    <Box
+                                        sx={{ pr: 9 }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontWeight: 900, fontSize: 14, color: TypoHeadColor }} >Request Approval</Typography>
+                                        </CssVarsProvider>
+                                    </Box>
+                                    <Box
+                                        sx={{
+                                            // pl: 1,
+                                            display: "flex",
+                                            flexDirection: 'row',
+                                            justifyContent: "space-between"
+                                        }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Operation Managers:
+                                                {
+                                                    manag_operation_approv === 1 ?
+                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {manag_operation_approvs}
+                                                        </Typography> : manag_operation_approv === 2 ?
+                                                            <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {manag_operation_approvs}
+                                                            </Typography> : manag_operation_approv === 3 ?
+                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {manag_operation_approvs}
+                                                                </Typography> : null
+                                                }
+                                            </Typography>
+                                        </CssVarsProvider>
+                                        {
+                                            omdate !== null ? <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: 'row',
+                                                    justifyContent: "space-evenly",
+                                                    pr: 2
+                                                }}>
+                                                <CssVarsProvider>
+                                                    <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }}>{omdate !== null ? omdate : "Not Update"}</Typography>
+                                                    <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                    <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>{om_user !== null ? om_user.toLowerCase() : null} </Typography>
+                                                </CssVarsProvider>   </Box> : null
+                                        }
+
+                                    </Box>
+                                    {
+                                        manag_operation_approv === 1 ? <Box sx={{ width: "100%" }}>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
+                                                <Typography ml={10} sx={{ fontSize: 15 }} >{manag_operation_remarks} </Typography>
+                                            </CssVarsProvider>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
+                                                <Typography ml={10} sx={{ fontSize: 15 }} >{om_detial_analysis} </Typography>
+                                            </CssVarsProvider> </Box> :
+                                            manag_operation_approv === 2 ? <Box sx={{ width: "100%" }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15 }} >Detail Justification for Reject: </Typography>
+                                                    <Typography ml={10} sx={{ fontSize: 15, fontWeight: 600 }} >{manag_operation_remarks} </Typography>
+                                                </CssVarsProvider>
+                                            </Box> :
+                                                manag_operation_approv === 3 ? <Box sx={{ width: "100%" }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15 }} >Detail Justification for On-Hold: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15, fontWeight: 600 }} >{manag_operation_remarks} </Typography>
+                                                    </CssVarsProvider>
+                                                </Box> : null
+                                    }
+                                </Box>
+                                <Divider
+                                    // variant="middle"
+                                    sx={{ my: 0.8 }} />
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    pl: 1, pr: 0.5, pt: 0.5,
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                }}>
+                                    <Box
+                                        sx={{
+                                            // pl: 1,
+                                            display: "flex",
+                                            flexDirection: 'row',
+                                            justifyContent: "space-between"
+                                        }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Senior Manager Operations:
+                                                {
+                                                    senior_manage_approv === 1 ?
+                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {senior_manage_approvs}
+                                                        </Typography> : senior_manage_approv === 2 ?
+                                                            <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {senior_manage_approvs}
+                                                            </Typography> : senior_manage_approv === 3 ?
+                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {senior_manage_approvs}
+                                                                </Typography> : null
+                                                }
+                                            </Typography>
+                                        </CssVarsProvider>
+                                        {
+                                            smodate !== null ? <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: 'row',
+                                                    justifyContent: "space-evenly",
+                                                    pr: 2
+                                                }}>
+                                                <CssVarsProvider>
+                                                    <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }}>{smodate !== null ? smodate : "Not Update"}</Typography>
+                                                    <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                    <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>{smo_user !== null ? smo_user.toLowerCase() : null} </Typography>
+                                                </CssVarsProvider>   </Box> : null
+                                        }
+
+                                    </Box>
+                                    {
+                                        senior_manage_approv === 1 ? <Box sx={{ width: "100%" }}>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
+                                                <Typography ml={10} sx={{ fontSize: 15 }} >{senior_manage_remarks} </Typography>
+                                            </CssVarsProvider>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
+                                                <Typography ml={10} sx={{ fontSize: 15 }} >{smo_detial_analysis} </Typography>
+                                            </CssVarsProvider> </Box> :
+                                            senior_manage_approv === 2 ? <Box sx={{ width: "100%" }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
+                                                    <Typography ml={10} sx={{ fontSize: 15 }} >{senior_manage_remarks} </Typography>
+                                                </CssVarsProvider>
+                                            </Box> :
+                                                senior_manage_approv === 3 ? <Box sx={{ width: "100%" }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{senior_manage_remarks} </Typography>
+                                                    </CssVarsProvider>
+                                                </Box> : null
+                                    }
+                                </Box>
+                                <Divider
+                                    // variant="middle"
+                                    sx={{ my: 0.8 }} />
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    pl: 1, pr: 0.5, pt: 0.5,
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                }}>
+                                    <Box
+                                        sx={{
+                                            // pl: 1,
+                                            display: "flex",
+                                            flexDirection: 'row',
+                                            justifyContent: "space-between"
+                                        }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >CAO/COO/MS:
+                                                {
+                                                    cao_approve === 1 ?
+                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {cao_approves}
+                                                        </Typography> : cao_approve === 2 ?
+                                                            <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {cao_approves}
+                                                            </Typography> : cao_approve === 3 ?
+                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {cao_approves}
+                                                                </Typography> : null
+                                                }
+                                            </Typography>
+                                        </CssVarsProvider>
+                                        {
+                                            caodate !== null ? <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: 'row',
+                                                    justifyContent: "space-evenly",
+                                                    pr: 2
+                                                }}>
+                                                <CssVarsProvider>
+                                                    <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }}>{caodate !== null ? caodate : "Not Update"}</Typography>
+                                                    <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                    <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>{caouser !== null ? caouser.toLowerCase() : null} </Typography>
+                                                </CssVarsProvider>   </Box> : null
+                                        }
+
+                                    </Box>
+                                    {
+                                        cao_approve === 1 ? <Box sx={{ width: "100%" }}>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
+                                                <Typography ml={10} sx={{ fontSize: 15 }} >{cao_approve_remarks} </Typography>
+                                            </CssVarsProvider>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
+                                                <Typography ml={10} sx={{ fontSize: 15 }} >{ceo_detial_analysis} </Typography>
+                                            </CssVarsProvider> </Box> :
+                                            cao_approve === 2 ? <Box sx={{ width: "100%" }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15 }} >Detail Justification for Reject: </Typography>
+                                                    <Typography ml={10} sx={{ fontSize: 15, fontWeight: 600 }} >{cao_approve_remarks} </Typography>
+                                                </CssVarsProvider>
+                                            </Box> :
+                                                cao_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15 }} >Detail Justification for On-Hold: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15, fontWeight: 600 }} >{cao_approve_remarks} </Typography>
+                                                    </CssVarsProvider>
+                                                </Box> : null
+                                    }
+                                </Box>
+                                <Divider
+                                    // variant="middle"
+                                    sx={{ my: 0.8 }} />
+                                {
+                                    ed_approve_req === 1 ?
+                                        <Box sx={{
+                                            width: "100%",
+                                            display: "flex",
+                                            pl: 1, pr: 0.5, pt: 0.5,
+                                            flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                        }}>
+                                            <Box
+                                                sx={{
+                                                    // pl: 1,
+                                                    display: "flex",
+                                                    flexDirection: 'row',
+                                                    justifyContent: "space-between"
+                                                }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >ED/MD:
+                                                        {
+                                                            ed_approve === 1 ?
+                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {ed_approves}
+                                                                </Typography> : ed_approve === 2 ?
+                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {ed_approves}
+                                                                    </Typography> : ed_approve === 3 ?
+                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {ed_approves}
+                                                                        </Typography> : null
+                                                        }
+                                                    </Typography>
+                                                </CssVarsProvider>
+                                                {
+                                                    eddate !== null ? <Box
+                                                        sx={{
+                                                            display: "flex",
+                                                            flexDirection: 'row',
+                                                            justifyContent: "space-evenly",
+                                                            pr: 2
+                                                        }}>
+                                                        <CssVarsProvider>
+                                                            <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }}>{eddate !== null ? eddate : "Not Update"}</Typography>
+                                                            <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                            <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>{eduser !== null ? eduser.toLowerCase() : null} </Typography>
+                                                        </CssVarsProvider>   </Box> : null
+                                                }
+
+                                            </Box>
+                                            {
+                                                ed_approve === 1 ? <Box sx={{ width: "100%" }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{ed_approve_remarks} </Typography>
+                                                    </CssVarsProvider>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{ed_detial_analysis} </Typography>
+                                                    </CssVarsProvider> </Box> :
+                                                    ed_approve === 2 ? <Box sx={{ width: "100%" }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15 }} >Detail Justification for Reject: </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15, fontWeight: 600 }} >{ed_approve_remarks} </Typography>
+                                                        </CssVarsProvider>
+                                                    </Box> :
+                                                        ed_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15 }} >Detail Justification for On-Hold: </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15, fontWeight: 600 }} >{ed_approve_remarks} </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box> : null
+                                            }
+                                        </Box>
+                                        : null
+                                }
+                            </Box>
+                        </Paper>
+                    </Box>
+                    <Box sx={{ width: "100%", mt: 0 }}>
+                        <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                            <Box sx={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                            }}>
                                 <Box
                                     sx={{
                                         pl: 1, pr: 0.5, pt: 0.3
                                     }}>
-                                    <ApprovalCompnt
-                                        heading="NDRF Approval Operation Manager"
+                                    <NdrfApprovalCompnt
+                                        heading="NDRF Approval Operation Managers"
                                         approve={approve}
                                         reject={reject}
                                         pending={pending}

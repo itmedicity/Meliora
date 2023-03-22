@@ -21,17 +21,19 @@ const EDApproval = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [count, setCount] = useState(0)
-
+    const [ndrf, setNdrf] = useState(true)
+    const [request, setRequest] = useState(false)
+    const [reqNdrf, setReqNdrf] = useState(0)
     useEffect(() => {
         dispatch(getReqApprovOthers())
         dispatch(getNdrfList())
-    }, [dispatch, count])
+    }, [dispatch, count, reqNdrf])
 
     const tabledata = useSelector((state) => {
         return state.setReqApprovOthers.ReqApprovOthersList
     })
 
-    const ndrf = useSelector((state) => {
+    const ndrfdata = useSelector((state) => {
         return state.setNdrfList.NdrfListdata
     })
 
@@ -39,30 +41,27 @@ const EDApproval = () => {
         return val.ed_approve_req === 1
     })
 
-    const [approve, setApprove] = useState(false)
-    const [reject, setReject] = useState(true)
-    const [reqNdrf, setReqNdrf] = useState(0)
-    const updateApprove = useCallback((e) => {
+    const updateNdrf = useCallback((e) => {
         if (e.target.checked === true) {
-            setApprove(true)
-            setReject(false)
+            setNdrf(true)
+            setRequest(false)
             setReqNdrf(1)
         }
         else {
-            setApprove(false)
-            setReject(false)
+            setNdrf(false)
+            setRequest(false)
             setReqNdrf(0)
         }
     }, [])
-    const updateReject = useCallback((e) => {
+    const updateRequest = useCallback((e) => {
         if (e.target.checked === true) {
-            setReject(true)
-            setApprove(false)
+            setRequest(true)
+            setNdrf(false)
             setReqNdrf(2)
         }
         else {
-            setApprove(false)
-            setReject(false)
+            setNdrf(false)
+            setRequest(false)
             setReqNdrf(0)
         }
     }, [])
@@ -184,10 +183,10 @@ const EDApproval = () => {
                         label="NDRF Approval"
                         color="primary"
                         size="md"
-                        name="reject"
-                        value={reject}
-                        checked={reject}
-                        onCheked={updateReject}
+                        name="ndrf"
+                        value={ndrf}
+                        checked={ndrf}
+                        onCheked={updateNdrf}
                     />
                 </Box>
                 <Box sx={{ width: "20%", pr: 1, mt: 1 }}>
@@ -195,16 +194,16 @@ const EDApproval = () => {
                         label="Request Approval"
                         color="primary"
                         size="md"
-                        name="approve"
-                        value={approve}
-                        checked={approve}
-                        onCheked={updateApprove}
+                        name="request"
+                        value={request}
+                        checked={request}
+                        onCheked={updateRequest}
                     />
                 </Box>
 
             </Box>
 
-            {reqNdrf === 1 ? <Box sx={{ p: 1 }}>
+            {reqNdrf === 2 ? <Box sx={{ p: 1 }}>
                 <CusAgGridForMain
                     columnDefs={column}
                     tableData={ed}
@@ -212,7 +211,7 @@ const EDApproval = () => {
             </Box> : <Box sx={{ p: 1 }}>
                 <CusAgGridForMain
                     columnDefs={columnndrf}
-                    tableData={ndrf}
+                    tableData={ndrfdata}
                 />
             </Box>}
         </CardCloseOnly>

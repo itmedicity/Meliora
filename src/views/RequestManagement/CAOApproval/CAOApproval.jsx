@@ -15,6 +15,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { getNdrfList } from 'src/redux/actions/NdrfList.action'
 import CEOApprovalModel from './CAOApprovalModel';
 import NdrfModelCao from './NdrfModelCao'
+import { warningNotify } from 'src/views/Common/CommonCode'
 
 const CEOApproval = () => {
 
@@ -22,11 +23,13 @@ const CEOApproval = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [count, setCount] = useState(0)
-
+    const [ndrf, setNdrf] = useState(true)
+    const [request, setRequest] = useState(false)
+    const [reqNdrf, setReqNdrf] = useState(0)
     useEffect(() => {
         dispatch(getReqApprovOthers())
         dispatch(getNdrfList())
-    }, [dispatch, count])
+    }, [dispatch, count, reqNdrf])
 
     const tabledata = useSelector((state) => {
         return state.setReqApprovOthers.ReqApprovOthersList
@@ -36,9 +39,14 @@ const CEOApproval = () => {
         return state.setNdrfList.NdrfListdata
     })
 
-    const [ndrf, setNdrf] = useState(false)
-    const [request, setRequest] = useState(false)
-    const [reqNdrf, setReqNdrf] = useState(0)
+    useEffect(() => {
+        if (ndrftable.length === 0) {
+            warningNotify("No NDRF pending for aprroval")
+        }
+        else { return 0 }
+
+    }, [ndrftable])
+
     const updateNdrf = useCallback((e) => {
         if (e.target.checked === true) {
             setNdrf(true)
@@ -68,7 +76,7 @@ const CEOApproval = () => {
     //column title setting
     const [column] = useState([
         {
-            headerName: 'Action', minWidth: 100, cellRenderer: params => {
+            headerName: 'Action', minWidth: 50, cellRenderer: params => {
                 if (params.data.ed_approve !== null) {
                     return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
                         <PublishedWithChangesOutlinedIcon />
@@ -84,9 +92,16 @@ const CEOApproval = () => {
             }
         },
         {
-            headerName: 'NDRF', minWidth: 80,
+            headerName: 'NDRF', minWidth: 50,
             cellRenderer: params => {
                 if ((params.data.cao_approve === 1) && (params.data.ed_approve_req === 0)) {
+                    return <IconButton onClick={() => ndrfconvert(params)}
+                        sx={{ color: editicon, paddingY: 0.5 }} >
+                        <CustomeToolTip title="NDRF">
+                            <SummarizeIcon />
+                        </CustomeToolTip>
+                    </IconButton>
+                } else if (params.data.ed_approve === 1) {
                     return <IconButton onClick={() => ndrfconvert(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
                         <CustomeToolTip title="NDRF">
@@ -250,17 +265,17 @@ const CEOApproval = () => {
 
             </Box>
 
-            {reqNdrf === 1 ? <Box sx={{ p: 1 }}>
-                <CusAgGridForMain
-                    columnDefs={columnndrf}
-                    tableData={ndrftable}
-                />
-            </Box> : reqNdrf === 2 ? <Box sx={{ p: 1 }}>
+            {reqNdrf === 2 ? <Box sx={{ p: 1 }}>
                 <CusAgGridForMain
                     columnDefs={column}
                     tableData={tabledata}
                 />
-            </Box> : null}
+            </Box> : <Box sx={{ p: 1 }}>
+                <CusAgGridForMain
+                    columnDefs={columnndrf}
+                    tableData={ndrftable}
+                />
+            </Box>}
         </CardCloseOnly>
     )
 }

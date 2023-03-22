@@ -15,6 +15,7 @@ import NdrfModel from '../NdrfFrorm/NdrfModel'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { getNdrfList } from 'src/redux/actions/NdrfList.action'
 import NdrfModelsmo from './NdrfModelsmo'
+import { warningNotify } from 'src/views/Common/CommonCode'
 
 const SmoApproval = () => {
 
@@ -22,11 +23,13 @@ const SmoApproval = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [count, setCount] = useState(0)
-
+    const [ndrf, setNdrf] = useState(true)
+    const [request, setRequest] = useState(false)
+    const [reqNdrf, setReqNdrf] = useState(0)
     useEffect(() => {
         dispatch(getReqApprovOthers())
         dispatch(getNdrfList())
-    }, [dispatch, count])
+    }, [dispatch, count, reqNdrf])
 
     const tabledata = useSelector((state) => {
         return state.setReqApprovOthers.ReqApprovOthersList
@@ -36,9 +39,14 @@ const SmoApproval = () => {
         return state.setNdrfList.NdrfListdata
     })
 
-    const [ndrf, setNdrf] = useState(false)
-    const [request, setRequest] = useState(false)
-    const [reqNdrf, setReqNdrf] = useState(0)
+    useEffect(() => {
+        if (ndrftable.length === 0) {
+            warningNotify("No NDRF pending for aprroval")
+        }
+        else { return 0 }
+
+    }, [ndrftable])
+
     const updateNdrf = useCallback((e) => {
         if (e.target.checked === true) {
             setNdrf(true)
@@ -64,7 +72,6 @@ const SmoApproval = () => {
         }
     }, [])
 
-
     //column title setting
     const [column] = useState([
         {
@@ -87,6 +94,13 @@ const SmoApproval = () => {
             headerName: 'NDRF', minWidth: 80,
             cellRenderer: params => {
                 if ((params.data.cao_approve === 1) && (params.data.ed_approve_req === 0)) {
+                    return <IconButton onClick={() => ndrfconvert(params)}
+                        sx={{ color: editicon, paddingY: 0.5 }} >
+                        <CustomeToolTip title="NDRF">
+                            <SummarizeIcon />
+                        </CustomeToolTip>
+                    </IconButton>
+                } else if (params.data.ed_approve === 1) {
                     return <IconButton onClick={() => ndrfconvert(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
                         <CustomeToolTip title="NDRF">
@@ -122,7 +136,6 @@ const SmoApproval = () => {
 
     //column title setting
     const [columnndrf] = useState([
-
         {
             headerName: 'Action', minWidth: 120, cellRenderer: params => {
                 return <IconButton onClick={() => ndrfSelect(params)}
@@ -133,7 +146,6 @@ const SmoApproval = () => {
                 </IconButton>
             }
         },
-
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
         { headerName: "Actual Requirement", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
@@ -144,7 +156,6 @@ const SmoApproval = () => {
         { headerName: "NDRF Date", field: "ndrf_date", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
         { headerName: "Remarks", field: "remarks", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
     ])
-
 
     const [model, setmodel] = useState(0)
     const [open, setOpen] = useState(false);
@@ -249,17 +260,17 @@ const SmoApproval = () => {
 
             </Box>
 
-            {reqNdrf === 1 ? <Box sx={{ p: 1 }}>
-                <CusAgGridForMain
-                    columnDefs={columnndrf}
-                    tableData={ndrftable}
-                />
-            </Box> : reqNdrf === 2 ? <Box sx={{ p: 1 }}>
+            {reqNdrf === 2 ? <Box sx={{ p: 1 }}>
                 <CusAgGridForMain
                     columnDefs={column}
                     tableData={tabledata}
                 />
-            </Box> : null}
+            </Box> : <Box sx={{ p: 1 }}>
+                <CusAgGridForMain
+                    columnDefs={columnndrf}
+                    tableData={ndrftable}
+                />
+            </Box>}
         </CardCloseOnly>
     )
 }
