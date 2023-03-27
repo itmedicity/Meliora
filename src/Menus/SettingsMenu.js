@@ -31,6 +31,23 @@ export const cm_setting_three = [
     { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 14 }
 ]
 
+//Request Management Master Menu
+export const crm_setting_one = [
+    { to: '/Home/OMTableMast', name: 'OM Table Mast', slno: 107 },
+]
+
+export const crm_setting_two = [
+    { to: '/Home/OMEmpMapping', name: 'OM-Emp Mapping', slno: 108 },
+
+
+]
+
+export const crm_setting_three = [
+
+
+]
+
+
 //Asset Master Menu
 export const am_setting_one = [
     { to: '/Home/AssetType', name: 'Asset Type', slno: 23 },

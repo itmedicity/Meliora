@@ -3,6 +3,7 @@ import { getMenuSlno } from 'src/views/Constant/Constant';
 import { Link } from 'react-router-dom'
 import {
     co_setting_one, co_setting_two, co_setting_three, cm_setting_one, cm_setting_two, cm_setting_three,
+    crm_setting_one, crm_setting_two, crm_setting_three,
     userManagement_one, userManagement_two, userManagement_three, am_setting_one, am_setting_two, am_setting_three,
     rm_setting_one, rm_setting_two, rm_setting_three, dm_setting_one, dm_setting_two, dm_setting_three,
     we_setting_one, we_setting_two, hall_booking_one
@@ -17,6 +18,9 @@ const Settings = () => {
     const [coMast_secOne, setcoMast_secOne] = useState();
     const [coMast_secTwo, setcoMast_secTwo] = useState();
     const [coMast_secThree, setcoMast_secThree] = useState();
+    const [crmMast_secOne, setcrmMast_secOne] = useState();
+    const [crmMast_secTwo, setcrmMast_secTwo] = useState();
+    const [crmMast_secThree, setcrmMast_secThree] = useState();
     const [amMast_secOne, setamMast_secOne] = useState();
     const [amMast_secTwo, setamMast_secTwo] = useState();
     const [amMast_secThree, setamMast_secThree] = useState();
@@ -52,6 +56,14 @@ const Settings = () => {
             setcoMast_secTwo(cm_setting_section_two)
             const cm_setting_section_three = cm_setting_three.filter(val => menuSlnoArray.includes(val.slno));
             setcoMast_secThree(cm_setting_section_three)
+
+            //Request Management Master
+            const crm_setting_section_one = crm_setting_one.filter(val => menuSlnoArray.includes(val.slno));
+            setcrmMast_secOne(crm_setting_section_one)
+            const crm_setting_section_two = crm_setting_two.filter(val => menuSlnoArray.includes(val.slno));
+            setcrmMast_secTwo(crm_setting_section_two)
+            const crm_setting_section_three = crm_setting_three.filter(val => menuSlnoArray.includes(val.slno));
+            setcrmMast_secThree(crm_setting_section_three)
 
             //Asset Management Master
             const am_setting_section_one = am_setting_one.filter(val => menuSlnoArray.includes(val.slno));
@@ -181,6 +193,40 @@ const Settings = () => {
                     backgroundColor: cardActionBgClr,
                     paddingY: 0.5,
                 }} />
+
+            <CardContent>
+                <div className="row" >
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                crmMast_secOne && crmMast_secOne.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                crmMast_secTwo && crmMast_secTwo.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                crmMast_secThree && crmMast_secThree.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </CardContent>
+
+
 
             <CardHeader title={"Asset Management"}
                 titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
