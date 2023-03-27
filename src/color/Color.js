@@ -16,3 +16,4 @@ export const cardActionBgClr = '#f0f3f5'
 export const editicon = "#0D47A1"
 export const apsideBgclor = "#282b33"
 export const iconReport = "#8bc34a"
+export const TypoHeadColor = "#9e9e9e"

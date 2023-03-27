@@ -20,7 +20,7 @@ const CustomTextarea = ({
                 size={size}
                 placeholder={placeholder}
                 minRows={minRows}
-                style={{ ...style, borderRadius: 5, borderColor: "#A9A9A9", padding: 10 }}
+                style={{ ...style, borderRadius: 5, borderColor: "#A9A9A9", padding: 5 }}
                 value={value}
                 disabled={disabled}
                 onChange={(e) => onchange(e)}

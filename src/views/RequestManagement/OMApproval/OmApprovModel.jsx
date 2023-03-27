@@ -1,19 +1,21 @@
-import React, { Fragment, useCallback, useState, memo, useEffect } from 'react'
+import React, { Fragment, useCallback, useState, memo, useMemo, useEffect } from 'react'
 import Slide from '@mui/material/Slide';
 import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { Box, Paper, Typography } from '@mui/material'
+import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify } from 'src/views/Common/CommonCode'
 import ApprovalCompnt from '../DepartmentApproval/ApprovalCompnt';
-import { useMemo } from 'react';
 import { useSelector } from 'react-redux'
 import ItemApprovalCmp from '../DepartmentApproval/ItemApprovalCmp';
+import { CssVarsProvider, Typography } from '@mui/joy'
+import Divider from '@mui/material/Divider';
+import { TypoHeadColor } from 'src/color/Color'
 import _ from 'underscore'
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
@@ -21,10 +23,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
-    const { req_slno, req_date, actual_requirement, needed, location, expected_date,
+    const { req_slno, req_date, actual_requirement, needed, location, expected_date, incharge_approve,
         approve_incharge, incharge_remarks, req_approv_slno, approve_hod, hod_remarks, category,
         manag_operation_remarks, manag_operation_approv, incharge_apprv_date, hod_approve_date,
-        inch_user, hod_user } = datas[0]
+        inch_user, hod_user, inch_detial_analysis, hod_detial_analysis, incharge_req, hod_approve,
+        hod_req, om_detial_analysis } = datas[0]
 
     const reqdate = req_date !== null ? format(new Date(req_date), 'dd-MM-yyyy') : null
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : null
@@ -38,6 +41,18 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
         setRemark(e.target.value)
     }, [])
 
+    const [rejectremark, setRejectRemark] = useState('')
+    const updateRejectRemark = useCallback((e) => {
+        setRejectRemark(e.target.value)
+    }, [])
+    const [holdremark, setHoldRemark] = useState('')
+    const updateHoldRemark = useCallback((e) => {
+        setHoldRemark(e.target.value)
+    }, [])
+    const [detailAnalis, setDetailAnalis] = useState('')
+    const updatedetailAnalis = useCallback((e) => {
+        setDetailAnalis(e.target.value)
+    }, [])
     const [approve, setApprove] = useState(false)
     const [reject, setReject] = useState(false)
     const [pending, setPending] = useState(false)
@@ -87,14 +102,20 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
             setApprove(manag_operation_approv === 1 ? true : false)
             setReject(manag_operation_approv === 2 ? true : false)
             setPending(manag_operation_approv === 3 ? true : false)
+            setRejectRemark(manag_operation_approv === 2 ? manag_operation_remarks : null)
+            setHoldRemark(manag_operation_approv === 3 ? manag_operation_remarks : null)
+            setDetailAnalis(manag_operation_approv === 1 ? om_detial_analysis : null)
         }
         else {
             setRemark('')
             setPending(false)
             setApprove(false)
             setReject(false)
+            setRejectRemark('')
+            setHoldRemark('')
+            setDetailAnalis('')
         }
-    }, [manag_operation_approv, req_slno, manag_operation_remarks])
+    }, [manag_operation_approv, req_slno, manag_operation_remarks, om_detial_analysis])
 
 
     const [dataPost, setdataPost] = useState([])
@@ -114,16 +135,17 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
         InsertFun(req_slno)
     }, [req_slno])
 
-
     const patchdataOm = useMemo(() => {
         return {
             manag_operation_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
-            manag_operation_remarks: remark,
+            manag_operation_remarks: approve === true ? remark : reject === true ? rejectremark : pending === true ? holdremark : null,
+            om_detial_analysis: approve === true ? detailAnalis : null,
             om_approv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
             req_approv_slno: req_approv_slno,
-            manag_operation_user: id
+            manag_operation_user: id,
+            req_slno: req_slno
         }
-    }, [approve, reject, pending, remark, req_approv_slno, id])
+    }, [approve, reject, pending, remark, rejectremark, holdremark, req_slno, req_approv_slno, detailAnalis, id])
 
     const submit = useCallback((e) => {
         e.preventDefault();
@@ -133,6 +155,9 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
             setReject(false)
             setPending(false)
             setRemark('')
+            setRejectRemark('')
+            setHoldRemark('')
+            setDetailAnalis('')
         }
         const updateInchApproval = async (patchdataOm) => {
             const result = await axioslogin.patch('/requestRegister/approval/om', patchdataOm);
@@ -152,6 +177,9 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
         setReject(false)
         setPending(false)
         setRemark('')
+        setRejectRemark('')
+        setHoldRemark('')
+        setDetailAnalis('')
     }, [setOpen])
     return (
         <Fragment>
@@ -161,17 +189,18 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                 TransitionComponent={Transition}
                 keepMounted
                 aria-describedby="alert-dialog-slide-descriptiona"
+                fullWidth
+                maxWidth='md'
             >
                 < DialogContent id="alert-dialog-slide-descriptiona"
                     sx={{
-                        width: 600,
-                        height: 600,
+                        width: '100%',
+                        height: 540
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
                         Request Approval
                     </DialogContentText>
-
 
                     <Box sx={{ width: "100%", mt: 0 }}>
                         <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
@@ -187,12 +216,15 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
                                     <Box
-                                        sx={{ pr: 4.7 }}>
-                                        <Typography sx={{ fontSize: 15 }}>Request No:  {req_slno}</Typography>
+                                        sx={{ pr: 8 }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>Request No:  {req_slno}</Typography>
+                                        </CssVarsProvider>
                                     </Box>
-                                    <Box
-                                    >
-                                        <Typography sx={{ fontSize: 15 }}>Req.Date: {reqdate}</Typography>
+                                    <Box sx={{ pl: 6.7 }}                                    >
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>Req.Date: {reqdate}</Typography>
+                                        </CssVarsProvider>
                                     </Box>
                                 </Box>
 
@@ -206,12 +238,14 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
 
                                         <Box
                                             sx={{ width: "25%", }}>
-                                            <Typography sx={{ fontSize: 15 }}>Actual Requirement:</Typography>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15 }}>Actual Requirement:</Typography>
+                                            </CssVarsProvider>
                                         </Box>
                                         <Paper sx={{
                                             width: "75%", minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15,
                                             overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                        }} variant='outlined'>
+                                        }} variant='none'>
                                             {actual_requirement}
                                         </Paper>
 
@@ -228,12 +262,14 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
 
                                         <Box
                                             sx={{ width: "25%", }}>
-                                            <Typography sx={{ fontSize: 15 }}>Justification for need:</Typography>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15 }}>Justification for need:</Typography>
+                                            </CssVarsProvider>
                                         </Box>
                                         <Paper sx={{
                                             width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15,
                                             overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                        }} variant='outlined'>
+                                        }} variant='none'>
                                             {needed}
                                         </Paper>
                                     </Box> : null
@@ -247,12 +283,14 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
 
                                     <Box
                                         sx={{ width: "25%", }}>
-                                        <Typography sx={{ fontSize: 15 }}>Location:</Typography>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>Location:</Typography>
+                                        </CssVarsProvider>
                                     </Box>
                                     <Paper sx={{
                                         width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                    }} variant='outlined'>
+                                    }} variant='none'>
                                         {location}
                                     </Paper>
                                 </Box> : null}
@@ -262,15 +300,16 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                     p: 0.5,
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
-
                                     <Box
                                         sx={{ width: "25%", }}>
-                                        <Typography sx={{ fontSize: 15 }}>Category:</Typography>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>Category:</Typography>
+                                        </CssVarsProvider>
                                     </Box>
                                     <Paper sx={{
                                         width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                    }} variant='outlined'>
+                                    }} variant='none'>
                                         {category}
                                     </Paper>
                                 </Box> : null}
@@ -282,7 +321,9 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                 }}>
                                     <Box
                                         sx={{ pr: 9 }}>
-                                        <Typography sx={{ fontSize: 15 }}>Expected Date: {expdate}</Typography>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>Expected Date: {expdate}</Typography>
+                                        </CssVarsProvider>
                                     </Box>
                                 </Box>
                                 <Box sx={{
@@ -315,85 +356,169 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
                                     <Box
-                                        sx={{ pr: 9, pl: 0.6 }}>
-                                        <Typography sx={{ fontWeight: 900, fontSize: 12 }}>Department Approval</Typography>
+                                        sx={{ pr: 9 }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontWeight: 900, fontSize: 14, color: TypoHeadColor }} >Department Approval</Typography>
+                                        </CssVarsProvider>
                                     </Box>
 
                                 </Box>
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    pl: 1, pr: 0.5, pt: 0.4,
-                                    flexDirection: 'column'
-                                }}>
-                                    <Box
-                                        sx={{
-                                            // pl: 1,
-                                            display: "flex",
-                                            flexDirection: 'row',
-                                            justifyContent: "space-between"
-                                        }}>
+                                {
+                                    hod_req === 1 ? <Box>
 
-                                        <Typography sx={{ fontSize: 15 }}>Incharge: {approve_incharge} </Typography>
-                                        {
-                                            inchadate !== null ? <Box
+                                        {incharge_req === 1 ?
+                                            <Box sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                pl: 1, pr: 0.5, pt: 0.4,
+
+                                                flexDirection: 'column'
+                                            }}>
+                                                <Box
+                                                    sx={{
+                                                        // pl: 1,
+                                                        display: "flex",
+                                                        flexDirection: 'row',
+                                                        justifyContent: "space-between"
+                                                    }}>
+
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Incharge :
+                                                            {
+                                                                incharge_approve === 1 ?
+                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }} color="success" variant="outlined"> {approve_incharge}
+                                                                    </Typography> : incharge_approve === 2 ?
+                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }} color="danger" variant="outlined"> {approve_incharge}
+                                                                        </Typography> : incharge_approve === 3 ?
+                                                                            <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }} color="primary" variant="outlined"> {approve_incharge}
+                                                                            </Typography> : null
+                                                            }
+                                                        </Typography>
+                                                    </CssVarsProvider>
+                                                    {
+                                                        inchadate !== null ? <Box
+                                                            sx={{
+                                                                display: "flex",
+                                                                flexDirection: 'row',
+                                                                justifyContent: "space-evenly",
+                                                                pr: 2
+                                                            }}>
+                                                            <CssVarsProvider>
+                                                                <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>{inchadate !== null ? inchadate : "Not Update"}</Typography>
+                                                                <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                                <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>    {inch_user !== null ? inch_user.toLowerCase() : null} </Typography>
+                                                            </CssVarsProvider>   </Box> : null
+                                                    }
+                                                </Box>
+                                                {
+                                                    incharge_approve === 1 ? <Box sx={{ width: "100%" }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{incharge_remarks} </Typography>
+                                                        </CssVarsProvider>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{inch_detial_analysis} </Typography>
+                                                        </CssVarsProvider> </Box> :
+                                                        incharge_approve === 2 ? <Box sx={{ width: "100%" }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15 }} >{incharge_remarks} </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box> :
+                                                            incharge_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                                <CssVarsProvider>
+                                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                                    <Typography ml={10} sx={{ fontSize: 15 }} >{incharge_remarks} </Typography>
+                                                                </CssVarsProvider>
+                                                            </Box> : null
+                                                }
+                                            </Box> : <Box>
+                                                <CssVarsProvider>
+                                                    <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Requested By Incharge </Typography>
+                                                </CssVarsProvider>
+                                            </Box>
+                                        }
+
+                                        <Divider
+                                            // variant="middle"
+                                            sx={{ my: 0.8 }} />
+                                        <Box sx={{
+                                            width: "100%",
+                                            display: "flex",
+                                            pl: 1, pr: 0.5, pb: 0.5,
+                                            flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                        }}>
+                                            <Box
                                                 sx={{
+                                                    // pl: 1,
                                                     display: "flex",
                                                     flexDirection: 'row',
-                                                    justifyContent: "space-evenly",
-                                                    pr: 2
+                                                    justifyContent: "space-between"
                                                 }}>
-                                                <Typography sx={{ fontSize: 13, pr: 0.5 }}>{inchadate !== null ? inchadate : "Not Update"}</Typography>
-                                                <Typography sx={{ fontSize: 13, textTransform: "capitalize" }}>  /  {inch_user !== null ? inch_user.toLowerCase() : null} </Typography>
-                                            </Box> : null
-                                        }
-                                    </Box>
-                                    <Paper sx={{
-                                        width: '100%', height: 50, fontSize: 15, pl: 0.5,
-                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                    }} variant='outlined'>
-                                        {incharge_remarks}
-                                    </Paper>
-                                </Box>
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    pl: 1, pr: 0.5, pb: 1, pt: 0.7,
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                }}>
-                                    <Box
-                                        sx={{
-                                            // pl: 1,
-                                            display: "flex",
-                                            flexDirection: 'row',
-                                            justifyContent: "space-between"
-                                        }}>
-                                        <Typography sx={{ fontSize: 15 }}>HOD: {approve_hod}</Typography>
-                                        {
-                                            hoddate !== null ? <Box
-                                                sx={{
-                                                    display: "flex",
-                                                    flexDirection: 'row',
-                                                    justifyContent: "space-evenly",
-                                                    pr: 2
-                                                }}>
-                                                <Typography sx={{ fontSize: 13, pr: 0.5 }}>{hoddate !== null ? hoddate : "Not Update"}</Typography>
-                                                <Typography sx={{ fontSize: 13, textTransform: "capitalize" }}>  /  {hod_user !== null ? hod_user.toLowerCase() : null} </Typography>
-                                            </Box> : null
-                                        }
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Head Of the Department :
+                                                        {
+                                                            hod_approve === 1 ?
+                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {approve_hod}
+                                                                </Typography> : hod_approve === 2 ?
+                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {approve_hod}
+                                                                    </Typography> : hod_approve === 3 ?
+                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {approve_hod}
+                                                                        </Typography> : null
+                                                        }
+                                                    </Typography>
+                                                </CssVarsProvider>
+                                                {
+                                                    hoddate !== null ? <Box
+                                                        sx={{
+                                                            display: "flex",
+                                                            flexDirection: 'row',
+                                                            justifyContent: "space-evenly",
+                                                            pr: 2
+                                                        }}>
+                                                        <CssVarsProvider>
+                                                            <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }}>{hoddate !== null ? hoddate : "Not Update"}</Typography>
+                                                            <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                            <Typography ml={2} mb={0.5} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>    {hod_user !== null ? hod_user.toLowerCase() : null} </Typography>
+                                                        </CssVarsProvider>   </Box> : null
+                                                }
 
+                                            </Box>
+                                            {
+                                                hod_approve === 1 ? <Box sx={{ width: "100%" }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{hod_remarks} </Typography>
+                                                    </CssVarsProvider>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{hod_detial_analysis} </Typography>
+                                                    </CssVarsProvider> </Box> :
+                                                    hod_approve === 2 ? <Box sx={{ width: "100%" }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{hod_remarks} </Typography>
+                                                        </CssVarsProvider>
+                                                    </Box> :
+                                                        hod_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15 }} >{hod_remarks} </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box> : null
+                                            }
+                                        </Box>
                                     </Box>
-                                    <Paper sx={{
-                                        width: '100%', height: 50, fontSize: 15, pl: 0.5,
-                                        overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                    }} variant='outlined'>
-                                        {hod_remarks}
-                                    </Paper>
-                                </Box>
+                                        : <Box>
+                                            <CssVarsProvider>
+                                                <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Requested By Head Of The Department </Typography>
+                                            </CssVarsProvider>
+                                        </Box>
+                                }
                             </Box>
                         </Paper>
                     </Box>
-
                     <Box sx={{ width: "100%", mt: 0 }}>
                         <Paper variant='outlined' sx={{ mt: 1 }} >
                             <Box sx={{
@@ -406,11 +531,17 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                         pl: 1, pr: 1
                                     }}>
                                     <ApprovalCompnt
-                                        heading="Operation Manager Approval"
+                                        heading="Operation Managers Approval"
                                         approve={approve}
                                         reject={reject}
                                         pending={pending}
                                         remark={remark}
+                                        rejectremark={rejectremark}
+                                        updateRejectRemark={updateRejectRemark}
+                                        holdremark={holdremark}
+                                        updateHoldRemark={updateHoldRemark}
+                                        detailAnalis={detailAnalis}
+                                        updatedetailAnalis={updatedetailAnalis}
                                         updateRemark={updateRemark}
                                         updateApprove={updateApprove}
                                         updateReject={updateReject}

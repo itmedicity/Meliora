@@ -25,7 +25,7 @@ const ItemApprovalCmp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdel
                     sx={{ border: "0.2px solid" }}>
                     <TableHead sx={{ border: "1px " }}>
                         <TableRow  >
-                            <TableCell align="center" style={{ width: '60%' }}>Slno</TableCell>
+                            <TableCell align="center" >Slno</TableCell>
                             <TableCell align="center" > Description</TableCell>
                             <TableCell align="center">Req. Brand</TableCell>
                             <TableCell align="center">Unit</TableCell>
@@ -39,7 +39,10 @@ const ItemApprovalCmp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdel
                         {dataPost && dataPost.map((val, index) => {
                             return <TableRow
                                 key={val.item_slno}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                sx={{
+                                    '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
+                                    minHeight: 5
+                                }}
                             >
                                 <TableCell align="center">{val.item_slno}</TableCell>
                                 <TableCell align="center">{val.item_desc}</TableCell>
@@ -50,9 +53,9 @@ const ItemApprovalCmp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdel
                                 <TableCell align="center">{val.aprox_cost}</TableCell>
                                 <TableCell align="center">
                                     <IconButton
-                                        sx={{ color: editicon, paddingY: 0.5 }}
+                                        sx={{ color: editicon, paddingY: 0.01 }}
                                         onClick={() => rowSelect(val.item_slno)} >
-                                        <DeleteIcon size={25} />
+                                        <DeleteIcon size={6} />
                                     </IconButton >
                                 </TableCell>
                             </TableRow>
