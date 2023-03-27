@@ -92,6 +92,8 @@ import { setNdrfPdfList } from '../reducers/NdrfPdfList.Reducer'
 import { setDeptSecInchHod } from '../reducers/DeptSecInchHod.Reducer'
 import { setComplaintRegTable } from '../reducers/ComplaintRegTable.Reducer'
 import { setHICComplaintLists } from '../reducers/HicComplaintList.Reducer'
+import { setOmTableList } from '../reducers/OmTableSelect.Reducer'
+
 
 const reducer = combineReducers({
     changeState,
@@ -190,7 +192,8 @@ const reducer = combineReducers({
     setNdrfPdfList,
     setDeptSecInchHod,
     setComplaintRegTable,
-    setHICComplaintLists
+    setHICComplaintLists,
+    setOmTableList
 
 })
 export default reducer;
