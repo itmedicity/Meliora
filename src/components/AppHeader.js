@@ -22,7 +22,7 @@ import { logo } from 'src/assets/brand/logo'
 import {
   iconHome,
   iconPowerOff,
-  iconSettings, iconReport
+  iconSettings, iconReport, iconManual
 } from 'src/color/Color'
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { ToastContainer } from 'react-toastify'
