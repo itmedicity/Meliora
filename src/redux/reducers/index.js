@@ -93,7 +93,7 @@ import { setDeptSecInchHod } from '../reducers/DeptSecInchHod.Reducer'
 import { setComplaintRegTable } from '../reducers/ComplaintRegTable.Reducer'
 import { setHICComplaintLists } from '../reducers/HicComplaintList.Reducer'
 import { setOmTableList } from '../reducers/OmTableSelect.Reducer'
-
+import { setManualEmpList } from '../reducers/ManualEmpList.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -193,7 +193,8 @@ const reducer = combineReducers({
     setDeptSecInchHod,
     setComplaintRegTable,
     setHICComplaintLists,
-    setOmTableList
+    setOmTableList,
+    setManualEmpList
 
 })
 export default reducer;

@@ -101,7 +101,7 @@ const CAoApproval = React.lazy(() => import('./views/HallBooking/CeoApproval/Ceo
 const HicComplaint = React.lazy(() => import("./views/ComManagement/HICComplaintList/HicComplaintList"))
 const OMTableMast = React.lazy(() => import('./views/Master/RequestManagement/OMTableMast/OMTableMast'))
 const OMEmpMapping = React.lazy(() => import('./views/Master/RequestManagement/OMEmpMap/OMEmpMapMast'))
-
+const ManualList = React.lazy(() => import('./views/Manual/ManualList'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -206,7 +206,8 @@ const routes = [
   { path: '/Home/HallCeoApproval', exact: true, name: 'CAoApproval', component: CAoApproval },
   { path: '/Home/Hic/Complaint', exact: true, name: 'HIC Complaint List', component: HicComplaint },
   { path: '/Home/OMTableMast', exact: true, name: 'OM Table Master', component: OMTableMast },
-  { path: '/Home/OMEmpMapping', exact: true, name: 'OM Emp Mapping', component: OMEmpMapping }
+  { path: '/Home/OMEmpMapping', exact: true, name: 'OM Emp Mapping', component: OMEmpMapping },
+  { path: '/Home/Manual', exact: true, name: 'Manual List', component: ManualList }
 ]
 
 export default routes

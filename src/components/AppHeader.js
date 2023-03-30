@@ -16,6 +16,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import SettingsIcon from '@mui/icons-material/Settings'
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
 
@@ -27,6 +28,8 @@ import {
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { ToastContainer } from 'react-toastify'
 import ModelMessage from 'src/views/Components/ModelMessage'
+import { getManualEmpList } from 'src/redux/actions/ManualEmpList.action'
+import { useEffect } from 'react'
 
 const AppHeader = () => {
   const dispatch = useDispatch()
@@ -38,6 +41,32 @@ const AppHeader = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  // Get login user emp_id
+  const id = useSelector((state) => {
+    return state.LoginUserData.empid
+  })
+  useEffect(() => {
+    dispatch(getManualEmpList());
+  }, [dispatch])
+
+  const emparry = useSelector((state) => {
+    return state.setManualEmpList.ManualEmpListdata
+  })
+
+  const [Manualshow, setManualshow] = useState(0)
+
+  useEffect(() => {
+    if (emparry.length !== 0) {
+      const resultarray = emparry.filter((val) => {
+        return val.emp_id_inch === id
+      })
+      if (resultarray.length !== 0) {
+        setManualshow(1)
+      } else {
+        setManualshow(0)
+      }
+    }
+  }, [emparry, id])
 
   return (
     < Fragment >
@@ -75,6 +104,15 @@ const AppHeader = () => {
                 <PowerSettingsNewIcon sx={{ color: iconPowerOff }} />
               </CNavLink>
             </CNavItem>
+
+            {
+              Manualshow === 1 ? <CNavItem>
+                <CNavLink to="/Home/Manual" component={NavLink} >
+                  <MenuBookIcon sx={{ color: iconManual }} />
+                </CNavLink>
+              </CNavItem> : null
+            }
+
           </CHeaderNav>
           {/* <CHeaderNav>
             <CNavItem>
