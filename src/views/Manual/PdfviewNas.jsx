@@ -1,5 +1,5 @@
 import React from 'react'
-import { Fragment } from 'react';
+import { Fragment, memo } from 'react';
 
 const PdfviewNas = ({ pdfDis }) => {
     return (
@@ -7,29 +7,22 @@ const PdfviewNas = ({ pdfDis }) => {
             {
                 pdfDis === 1 ?
                     <embed
-                        src={"http://192.168.10.170/NAS//fileshows/Lab.pdf" + "#toolbar=0"}
+                        src={"http://192.168.10.170/NAS//fileshows/GuideLine.pdf"}
                         type="application/pdf"
                         height={850}
                         width={1800} />
-                    : pdfDis === 2 ?
+
+                    : pdfDis === 3 ?
                         <embed
-                            src={"http://192.168.10.170/NAS//fileshows/ndrf.pdf"}
+                            src={"http://192.168.10.170/NAS//fileshows/GuideLine.pdf"}
                             type="application/pdf"
                             height={850}
                             width={1800} />
-                        : pdfDis === 3 ?
-                            <embed
-                                src={"http://192.168.10.170/NAS//fileshows/Attendance.pdf"}
-                                type="application/pdf"
-                                height={850}
-                                width={1800} />
-                            : null
+                        : null
             }
 
-
         </Fragment>
-
     )
 }
 
-export default PdfviewNas
+export default memo(PdfviewNas)
