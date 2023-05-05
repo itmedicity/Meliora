@@ -12,7 +12,8 @@ const PdfviewNas = ({ pdfDis }) => {
                 {
                     pdfDis === 1 ?
                         <embed
-                            src={"http://192.168.10.170/NAS//fileshows/GuideLine.pdf" + "#toolbar=0"}
+                            id="pdf-embed"
+                            src={"http://192.168.10.170/NAS//fileshows/GuideLine.pdf#toolbar=0&navpanes=0&view=FitH"}
                             type="application/pdf"
                             height={850}
                             width="100%" />

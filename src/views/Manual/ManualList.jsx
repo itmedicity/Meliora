@@ -13,7 +13,7 @@ const ManualList = () => {
     }
 
     const backToSettings = useCallback(() => {
-        history.push(`/Home/Manual`)
+        history.push(`/Home`)
         setPdfDis(0)
     }, [history])
 
