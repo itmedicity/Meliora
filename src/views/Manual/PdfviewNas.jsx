@@ -18,13 +18,55 @@ const PdfviewNas = ({ pdfDis }) => {
                             height={850}
                             width="100%" />
 
-                        : pdfDis === 3 ?
+                        :
+                        pdfDis === 2 ?
                             <embed
-                                src={"http://192.168.10.170/NAS//fileshows/GuideLine.pdf"}
+                                id="pdf-embed"
+                                src={"http://192.168.10.170/NAS//fileshows/LASA.pdf#toolbar=0&navpanes=0&view=FitH"}
                                 type="application/pdf"
                                 height={850}
                                 width="100%" />
-                            : null
+
+                            :
+
+                            pdfDis === 3 ?
+                                <embed
+                                    id="pdf-embed"
+                                    src={"http://192.168.10.170/NAS//fileshows/SRADHA.pdf#toolbar=0&navpanes=0&view=FitH"}
+                                    type="application/pdf"
+                                    height={850}
+                                    width="100%" />
+
+                                :
+
+                                pdfDis === 4 ?
+                                    <embed
+                                        id="pdf-embed"
+                                        src={"http://192.168.10.170/NAS//fileshows/MSDS.pdf#toolbar=0&navpanes=0&view=FitH"}
+                                        type="application/pdf"
+                                        height={850}
+                                        width="100%" />
+
+                                    :
+
+
+
+                                    pdfDis === 5 ?
+                                        <embed
+                                            id="pdf-embed"
+                                            src={"http://192.168.10.170/NAS//fileshows/2023_MEDEF.pdf#toolbar=0&navpanes=0&view=FitH"}
+                                            type="application/pdf"
+                                            height={850}
+                                            width="100%" />
+
+                                        :
+
+
+
+
+
+
+                                        null
                 }
 
             </Box>
