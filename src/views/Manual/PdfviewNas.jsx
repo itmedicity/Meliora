@@ -1,6 +1,6 @@
 import React from 'react'
 import { Fragment, memo } from 'react';
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 
 const PdfviewNas = ({ pdfDis }) => {
     return (
@@ -17,7 +17,6 @@ const PdfviewNas = ({ pdfDis }) => {
                             type="application/pdf"
                             height={850}
                             width="100%" />
-
                         :
                         pdfDis === 2 ?
                             <embed
@@ -26,9 +25,7 @@ const PdfviewNas = ({ pdfDis }) => {
                                 type="application/pdf"
                                 height={850}
                                 width="100%" />
-
                             :
-
                             pdfDis === 3 ?
                                 <embed
                                     id="pdf-embed"
@@ -36,9 +33,7 @@ const PdfviewNas = ({ pdfDis }) => {
                                     type="application/pdf"
                                     height={850}
                                     width="100%" />
-
                                 :
-
                                 pdfDis === 4 ?
                                     <embed
                                         id="pdf-embed"
@@ -48,9 +43,6 @@ const PdfviewNas = ({ pdfDis }) => {
                                         width="100%" />
 
                                     :
-
-
-
                                     pdfDis === 5 ?
                                         <embed
                                             id="pdf-embed"
@@ -58,19 +50,10 @@ const PdfviewNas = ({ pdfDis }) => {
                                             type="application/pdf"
                                             height={850}
                                             width="100%" />
-
                                         :
-
-
-
-
-
-
                                         null
                 }
-
             </Box>
-
         </Fragment>
     )
 }
