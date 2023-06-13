@@ -29,8 +29,7 @@ import {
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { ToastContainer } from 'react-toastify'
 import ModelMessage from 'src/views/Components/ModelMessage'
-import { getManualEmpList } from 'src/redux/actions/ManualEmpList.action'
-import { useEffect } from 'react'
+
 
 const AppHeader = () => {
   const dispatch = useDispatch()
@@ -42,32 +41,32 @@ const AppHeader = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  // Get login user emp_id
-  const id = useSelector((state) => {
-    return state.LoginUserData.empid
-  })
-  useEffect(() => {
-    dispatch(getManualEmpList());
-  }, [dispatch])
+  // // Get login user emp_id
+  // const id = useSelector((state) => {
+  //   return state.LoginUserData.empid
+  // })
+  // useEffect(() => {
+  //   dispatch(getManualEmpList());
+  // }, [dispatch])
 
-  const emparry = useSelector((state) => {
-    return state.setManualEmpList.ManualEmpListdata
-  })
+  // const emparry = useSelector((state) => {
+  //   return state.setManualEmpList.ManualEmpListdata
+  // })
 
-  const [Manualshow, setManualshow] = useState(0)
+  // const [Manualshow, setManualshow] = useState(0)
 
-  useEffect(() => {
-    if (emparry.length !== 0) {
-      const resultarray = emparry.filter((val) => {
-        return val.emp_id_inch === id
-      })
-      if (resultarray.length !== 0) {
-        setManualshow(1)
-      } else {
-        setManualshow(0)
-      }
-    }
-  }, [emparry, id])
+  // useEffect(() => {
+  //   if (emparry.length !== 0) {
+  //     const resultarray = emparry.filter((val) => {
+  //       return val.emp_id_inch === id
+  //     })
+  //     if (resultarray.length !== 0) {
+  //       setManualshow(1)
+  //     } else {
+  //       setManualshow(0)
+  //     }
+  //   }
+  // }, [emparry, id])
 
   return (
     < Fragment >
@@ -105,15 +104,21 @@ const AppHeader = () => {
                 <PowerSettingsNewIcon sx={{ color: iconPowerOff }} />
               </CNavLink>
             </CNavItem>
-
-            {
+            <CNavItem>
+              <CNavLink to="/Home/Manual" component={NavLink} >
+                <MenuBookIcon sx={{ color: iconManual }} />
+              </CNavLink>
+            </CNavItem>
+            {/* {
               Manualshow === 1 ? <CNavItem>
                 <CNavLink to="/Home/Manual" component={NavLink} >
                   <MenuBookIcon sx={{ color: iconManual }} />
                 </CNavLink>
               </CNavItem> : null
-            }
-            {/* <CHeaderNav>
+            } */}
+
+          </CHeaderNav>
+          {/* <CHeaderNav>
             <CNavItem>
               <CNavLink to="/Home">
                 <Badge badgeContent={4} color="error">
@@ -129,12 +134,7 @@ const AppHeader = () => {
               </CNavLink>
             </CNavItem>
           </CHeaderNav> */}
-            {/* <CNavItem>
-            <CNavLink to="/Home/Manual" component={NavLink} >
-              <MenuBookIcon sx={{ color: iconManual }} />
-            </CNavLink>
-          </CNavItem> */}
-          </CHeaderNav>
+
           <CustomeToolTip title="Complaint Register" placement="top">
             <CHeaderNav className="ms-3">
 

@@ -1,22 +1,32 @@
-import { Box, Paper } from '@mui/material'
-import React, { useState } from 'react'
-import { useCallback } from 'react'
+import { Box, Typography } from '@mui/material'
+import React, { useState, memo, useCallback } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import Button from '@mui/material/Button';
 import PdfviewNas from './PdfviewNas'
+
 const ManualList = () => {
     const history = useHistory()
     const [pdfDis, setPdfDis] = useState(0)
-    const ns = () => {
+    const employeeGuide = () => {
         setPdfDis(1)
     }
-    const ns1 = () => {
+
+    const lasa2023 = () => {
         setPdfDis(2)
     }
-    const ns2 = () => {
+    const sradhapolicy = () => {
         setPdfDis(3)
     }
+
+    const safety = () => {
+        setPdfDis(4)
+    }
+
+    const meddef = () => {
+        setPdfDis(5)
+    }
+
     const backToSettings = useCallback(() => {
         history.push(`/Home/Manual`)
         setPdfDis(0)
@@ -24,58 +34,58 @@ const ManualList = () => {
 
     return (
         <CardCloseOnly
-            title='Manual'
+            title='Documents'
             close={backToSettings}
         >
             {
-                pdfDis === 0 ? <Box sx={{ width: "100%", p: 1 }}>
-                    <Paper sx={{ p: 2 }} >
+                pdfDis === 0 ?
+                    <Box sx={{ width: "100%", p: 1 }}>
+                        <Typography sx={{ fontSize: 15, font: 'Roboto', textTransform: "capitalize" }} >NABH GuideLines</Typography>
                         <Box sx={{
-                            width: "100%",
-                            display: "flex", pl: 5,
-                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                            justifyContent: "center"
+                            display: "flex", width: "100%", flex: 1,
                         }}>
+                            <Box sx={{
+                                display: "flex", width: "30%", flex: 1,
+                            }}>
+                                <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
+                                    onClick={() => employeeGuide()}> Employee Guide</Button>
+                            </Box>
 
                             <Box sx={{
-                                display: 'flex',
-                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                mt: 1,
-                                // bgcolor: "cyan",
-                                justifyContent: "left"
-                            }} >
-                                <Button size="small" onClick={() => ns()}> Nusing Station</Button>
-
+                                display: "flex", width: "30%", flex: 1,
+                            }}>
+                                <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
+                                    onClick={() => lasa2023()}> LASA 2023</Button>
                             </Box>
                             <Box sx={{
-                                display: 'flex',
-                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                mt: 1,
-                                // bgcolor: "cyan",
-                                justifyContent: "left"
-                            }} >
-                                <Button size="small" onClick={() => ns1()}> Nusing Station 1</Button>
-
+                                display: "flex", width: "30%", flex: 1,
+                            }}>
+                                <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
+                                    onClick={() => sradhapolicy()}>Sradha Antibiotic Policy 2023</Button>
                             </Box>
                             <Box sx={{
-                                display: 'flex',
-                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                mt: 1,
-                                // bgcolor: "cyan",
-                                justifyContent: "left"
-                            }} >
-                                <Button size="small" onClick={() => ns2()}> Nusing Station 2</Button>
-
+                                display: "flex", width: "30%", flex: 1,
+                            }}>
+                                <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
+                                    onClick={() => safety()}>MSDS Handbook_E1 2023</Button>
                             </Box>
                         </Box>
-                    </Paper>
-                </Box >
-                    : <PdfviewNas pdfDis={pdfDis} />
+                        <Box sx={{
+                            display: "flex", width: "100%", flex: 1,
+                        }}>
+                            <Box sx={{
+                                display: "flex", width: "30%", flex: 1,
+                            }}>
+                                <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
+                                    onClick={() => meddef()}>2023-MEDF</Button>
+                            </Box>
+                        </Box>
+                    </Box >
+                    :
+                    <PdfviewNas pdfDis={pdfDis} />
             }
-
-
         </CardCloseOnly >
     )
 }
 
-export default ManualList
+export default memo(ManualList)
