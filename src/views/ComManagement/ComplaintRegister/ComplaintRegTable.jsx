@@ -77,33 +77,33 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
     //column title setting for pending
     const [columnpending] = useState([
         { headerName: "Slno", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 80 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 100 },
+        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 180 },
         { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 180 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300 },
         { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true, minWidth: 100 },
         { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true, minWidth: 100 },
         { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 180 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 100 },
         { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 100 },
         { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", minWidth: 180, autoHeight: true, wrapText: true },
     ])
 
     const [columnonhold] = useState([
         { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 80 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 100 },
+        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 180 },
         { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 180 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300 },
         { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true, minWidth: 100 },
         { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true, minWidth: 100 },
         { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 180 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 100 },
         { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 100 },
         { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", minWidth: 180, autoHeight: true, wrapText: true },
     ])
 
     const [columnVerify] = useState([
         {
-            headerName: 'Verify', minWidth: 80, cellRenderer: params => {
+            headerName: 'Verify', minWidth: 10, cellRenderer: params => {
                 if ((params.data.compalint_status === 2) && (params.data.cm_rectify_status === 'R')) {
                     return <IconButton onClick={() => Verify(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
@@ -118,14 +118,14 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
                 }
             }
         },
+        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 100 },
         { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 100 },
         { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 250 },
         { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Location", field: "location", width: 250, autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 150 },
         { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 150 },
         { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", minWidth: 180, autoHeight: true, wrapText: true },
 
@@ -222,7 +222,7 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
     }, [])
     const getRowStyle = params => {
         if (params.data.compalint_priority === 1) {
-            return { background: '#f44336' };
+            return { background: '#ef5350' };
         }
     };
     return (

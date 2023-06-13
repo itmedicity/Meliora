@@ -18,19 +18,27 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount, setTransmodal }) => {
     const [cmpdept, setCmpdept] = useState(0);
     const { complaint_slno, complaint_desc } = transfer
+    const [remark, setRemark] = useState('');
+    //updating remark state
+    const updateRemark = useCallback((e) => {
+        setRemark(e.target.value)
+    }, [setRemark])
     //patch data for updating complaint dept
     const patchData = useMemo(() => {
         return {
             complaint_deptslno: cmpdept,
+            dept_transfer_remarks: remark,
             complaint_slno: complaint_slno
         }
-    }, [cmpdept, complaint_slno])
+    }, [cmpdept, complaint_slno, remark])
     //reset function for to intial state
     const reset = useCallback(() => {
         setOpen(false);
         setCmpdept(0);
         setTransmodal(0);
-    }, [setOpen, setTransmodal])
+        setCount(0)
+        setRemark("")
+    }, [setOpen, setCount, setTransmodal])
     // when we click on transfer function
     const Transfer = useCallback(() => {
         const TranserDept = async (patchData) => {
@@ -122,7 +130,30 @@ const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount, setTransm
                                     <ComplaintDeptSelect value={cmpdept} setValue={setCmpdept} />
                                 </Box>
                             </Box>
+                            <Box sx={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                // p: 1
+                                p: 0.5,
+                            }}>
+                                <Box sx={{
+                                    display: 'flex',
+                                    width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    mt: 0
+                                }} >
 
+                                    <CustomTextarea
+                                        style={{ width: 390 }}
+                                        minRows={4}
+                                        placeholder="Remarks"
+                                        name='remark'
+                                        value={remark}
+                                        onchange={updateRemark}
+                                    />
+
+                                </Box>
+                            </Box>
                         </Paper>
                     </Box>
                 </DialogContent>

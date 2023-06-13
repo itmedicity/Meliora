@@ -14,6 +14,17 @@ const AssistantEmpSelect = ({ postdata, value, setValue }) => {
     useEffect(() => {
         dispatch(getAssistantemployee(postdata))
     }, [dispatch, postdata])
+
+    const handleChange = (e) => {
+        const {
+            target: { value }
+        } = e;
+        setValue(
+            // On autofill we get a the stringified value.
+            typeof value === "string" ? value.split(",") : value
+        );
+    };
+
     return (
         <Box >
             <FormControl fullWidth size="small"  >
@@ -21,9 +32,10 @@ const AssistantEmpSelect = ({ postdata, value, setValue }) => {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    onChange={handleChange}
                     size="small"
                     fullWidth
+                    multiple
                     variant='outlined'
                     sx={{ height: 30, p: 0, m: 0, lineHeight: 1.200 }}
                 >

@@ -12,7 +12,6 @@ import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action'
 import AssignmentTurnedInRoundedIcon from '@mui/icons-material/AssignmentTurnedInRounded';
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { format } from 'date-fns'
-import AssistantNeedmodal from './AssistantNeedmodal';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import { getComplaintLists } from 'src/redux/actions/ComplaintLists.action';
@@ -21,11 +20,20 @@ import { getAssistComplaintLists } from 'src/redux/actions/AssistcmLists.action'
 import { getAllComplaintLists } from 'src/redux/actions/AllcomplaintsLists.action';
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
-import TransferDeptmodal from './TransferDeptmodal';
-const AssignComplaintTable = () => {
+import ModalAssignComplaint from '../AssignComplaint/ModalAssignComplaint';
+import AssistantNeedmodal from '../AssignComplaint/AssistantNeedmodal';
+import TransferDeptmodal from '../AssignComplaint/TransferDeptmodal';
+import TransferWithinAStationIcon from '@mui/icons-material/TransferWithinAStation';
+import SuperEmpTransfer from './SuperEmpTransfer';
+
+const SuperisorList = () => {
+
     const history = useHistory();
     //state for modal open
     const [open, setOpen] = useState(false)
+    // state for modal rendering 
+    const [assignmodel, setAssignModel] = useState(0);
+    const [complaint, setComplaint] = useState([]);
     const [count, setCount] = useState(0)
     // Get login user emp_id
     const id = useSelector((state) => {
@@ -34,11 +42,17 @@ const AssignComplaintTable = () => {
     //column title setting
     const [column] = useState([
         {
-            headerName: 'Action', minWidth: 120, cellRenderer: params => <Fragment>
+            headerName: 'Action', minWidth: 180, cellRenderer: params => <Fragment>
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                     onClick={() => quickAssign(params)}>
                     <CustomeToolTip title="Quick Assign" >
                         <AssignmentTurnedInRoundedIcon />
+                    </CustomeToolTip>
+                </IconButton>
+                <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                    onClick={() => Assign(params)}>
+                    <CustomeToolTip title="Detailed Assign" >
+                        < AccessibilityNewIcon />
                     </CustomeToolTip>
                 </IconButton>
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
@@ -61,10 +75,10 @@ const AssignComplaintTable = () => {
                 }
             }
         },
-        { headerName: "Department Section", field: "sec_name", autoHeight: true, filter: "true", wrapText: true, minWidth: 230 },
+        { headerName: "Department Section", field: "sec_name", autoHeight: true, filter: "true", wrapText: true, minWidth: 250 },
         { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 180 },
-        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 100 },
         { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 200 },
         {
             headerName: "Verification Remark", field: "verify_remarks1", autoHeight: true, wrapText: true, minWidth: 180,
@@ -100,7 +114,6 @@ const AssignComplaintTable = () => {
                     </IconButton>
                 }
             }
-
         },
         { headerName: "SlNo", field: "complaint_slno", minWidth: 100 },
         {
@@ -135,7 +148,6 @@ const AssignComplaintTable = () => {
                 }
             }
         },
-        { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, filter: true, wrapText: true },
         { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 220 },
         { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
@@ -185,10 +197,32 @@ const AssignComplaintTable = () => {
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Requested Employee", field: "em_name", autoHeight: true, filter: true, wrapText: true, minWidth: 250 },
         { headerName: "Date & Time", field: "assist_assign_date", autoHeight: true, wrapText: true, minWidth: 150 },
 
     ])
+    //When we click on assist this table  will show
+    const [TransferEmp] = useState([
+        {
+            headerName: 'Action', minWidth: 50, cellRenderer: params => <Fragment>
+                <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                    onClick={() => employeeTrasfer(params)}>
+                    <CustomeToolTip title="Employee Trasfer" >
+                        <TransferWithinAStationIcon />
+                    </CustomeToolTip>
+                </IconButton>
+            </Fragment>
+        },
+        { headerName: "SlNo", field: "complaint_slno" },
+        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300 },
+        { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 250 },
+        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Date & Time", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 180 },
+
+    ])
+
     const dispatch = useDispatch();
     //getting id
     useEffect(() => {
@@ -202,6 +236,8 @@ const AssignComplaintTable = () => {
     const [assigned, setAssigned] = useState(false);
     //state for pending list check box
     const [pending, setPending] = useState(false);
+    //state for pending list check box
+    const [empTras, setempTras] = useState(false);
     //flag for table rendering
     const [flag, setFlag] = useState(0)
     //state for assist checkbox
@@ -214,6 +250,7 @@ const AssignComplaintTable = () => {
             dispatch(getAssignedComplaintLists(id))
             dispatch(getAssistComplaintLists(id))
             dispatch(getAllComplaintLists(em_department))
+
         }
     }, [dispatch, profileData, id, count])
     //getting the dispatch data from redux state
@@ -260,12 +297,21 @@ const AssignComplaintTable = () => {
         }
         getData(postData);
     }, [count, id])
-
+    //when we click on detailed assign button a modal will open
+    const Assign = useCallback((params) => {
+        setAssignModel(1)
+        setAssistantModel(0)
+        setTransmodal(0)
+        setOpen(true)
+        const data = params.api.getSelectedRows()
+        setComplaint(data)
+    }, [])
     // when we click on transfer button
     const [transfer, setTransfer] = useState({})
     const [transmodal, setTransmodal] = useState(0);
     const TransferDepartment = useCallback((params) => {
         setTransmodal(1);
+        setAssignModel(0);
         setAssistantModel(0);
         setOpen(true)
         const data = params.data
@@ -278,6 +324,7 @@ const AssignComplaintTable = () => {
     //assistant needed icon fun user click on this a modal will open
     const AssistantNeeded = useCallback((params) => {
         setAssistantModel(1)
+        setAssignModel(0)
         setTransmodal(0);
         setOpen(true)
         const data = params.api.getSelectedRows()
@@ -291,6 +338,7 @@ const AssignComplaintTable = () => {
             setPending(false)
             setAll(false)
             setAssist(false)
+            setempTras(false)
         } else {
             setFlag(0);
             setAssigned(false)
@@ -304,11 +352,13 @@ const AssignComplaintTable = () => {
             setAssigned(false)
             setAll(false)
             setAssist(false)
+            setempTras(false)
         } else {
             setFlag(0)
             setPending(false)
         }
     }, [])
+
     const [all, setAll] = useState(false);
     //all complaint check box updation
     const updateCompall = useCallback((e) => {
@@ -318,6 +368,7 @@ const AssignComplaintTable = () => {
             setAssigned(false)
             setPending(false)
             setAssist(false)
+            setempTras(false)
         } else {
             setFlag(0)
             setAll(false)
@@ -332,11 +383,32 @@ const AssignComplaintTable = () => {
             setAll(false)
             setAssigned(false)
             setPending(false)
+            setempTras(false)
         } else {
             setAssist(false)
             setFlag(0)
         }
     }, [])
+
+    //updateEmpTras list check box updation
+    const updateEmpTras = useCallback((e) => {
+        if (e.target.checked === true) {
+            setFlag(5)
+            setempTras(true)
+            setPending(false)
+            setAssigned(false)
+            setAll(false)
+            setAssist(false)
+        } else {
+            setFlag(0)
+            setempTras(false)
+            setPending(false)
+            setAssigned(false)
+            setAll(false)
+            setAssist(false)
+        }
+    }, [])
+
     //function for assistant acception button clicks function in table
     const AssistantAccepted = useCallback((params) => {
         const { complaint_slno, } = params.data
@@ -360,10 +432,46 @@ const AssignComplaintTable = () => {
         }
         assistant(postData)
     }, [id, count])
+    const [empTrasFlag, setEmpTrasFlag] = useState(0)
+    const [empTrasfer, setEmpTrasfer] = useState([])
+    const [transDataModel, setTransDataModel] = useState([])
+    const employeeTrasfer = useCallback((params) => {
+        const data = params.api.getSelectedRows()
+        setEmpTrasFlag(1)
+        setTransDataModel(data)
+        setAssignModel(0);
+        setAssistantModel(0);
+        setTransmodal(0);
+        setOpen(true)
+    }, [])
+
+
+    const empdept = useSelector((state) => {
+        return state.LoginUserData.empdept
+    })
+
+    useEffect(() => {
+        if (flag === 5) {
+            const getAssigendList = async (empdept) => {
+                const result = await axioslogin.get(`/complaintassign/AssignedComList/${empdept}`);
+                const { success, data } = result.data
+                if (success === 1) {
+                    setEmpTrasfer(data);
+                }
+                else {
+                    setEmpTrasfer([])
+                }
+            }
+            getAssigendList(empdept)
+        }
+    }, [flag, empdept,])
+
+
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home')
     }, [history])
+
     return (
         <Fragment>
             <CardCloseOnly
@@ -431,6 +539,22 @@ const AssignComplaintTable = () => {
                                 mt: 1,
                             }} >
                                 <CusCheckBox
+                                    label="Employee Trasfer"
+                                    color="danger"
+                                    size="md"
+                                    name="empTras"
+                                    value={empTras}
+                                    checked={empTras}
+                                    onCheked={updateEmpTras}
+                                />
+                            </Box>
+
+                            <Box sx={{
+                                display: 'flex',
+                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                mt: 1,
+                            }} >
+                                <CusCheckBox
                                     label="All Complaint"
                                     color="danger"
                                     size="md"
@@ -469,6 +593,11 @@ const AssignComplaintTable = () => {
                                         columnDefs={assitantaccept}
                                         tableData={assistcomplaints}
                                     />
+                                </Box> : flag === 5 ? <Box sx={{ p: 1 }}>
+                                    <CusAgGridForMain
+                                        columnDefs={TransferEmp}
+                                        tableData={empTrasfer}
+                                    />
                                 </Box> : <Box sx={{ p: 1 }}>
                                     <CusAgGridForMain
                                         columnDefs={column}
@@ -476,14 +605,21 @@ const AssignComplaintTable = () => {
                                     />
                                 </Box>
                 }
+
+                {
+                    assignmodel === 1 ? <ModalAssignComplaint open={open} id={id} setOpen={setOpen} complaint={complaint} empdept={profileData} count={count} setCount={setCount} /> : null //detailed assign modal
+                }
                 {
                     assistantModel === 1 ? <AssistantNeedmodal open={open} setOpen={setOpen} assistant={assistant} empdept={profileData} count={count} setCount={setCount} /> : null //assistant needed modal
                 }
                 {
                     transmodal === 1 ? <TransferDeptmodal open={open} setOpen={setOpen} transfer={transfer} count={count} setCount={setCount} setTransmodal={setTransmodal} /> : null
                 }
+
+                {empTrasFlag === 1 ? <SuperEmpTransfer open={open} setOpen={setOpen} transfer={transDataModel} empdept={profileData} count={count} setCount={setCount} setTransmodal={setEmpTrasFlag} /> : null}
             </CardCloseOnly>
         </Fragment >
     )
 }
-export default AssignComplaintTable
+
+export default SuperisorList

@@ -12,7 +12,6 @@ import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action'
 import AssignmentTurnedInRoundedIcon from '@mui/icons-material/AssignmentTurnedInRounded';
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { format } from 'date-fns'
-import AssistantNeedmodal from './AssistantNeedmodal';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import { getComplaintLists } from 'src/redux/actions/ComplaintLists.action';
@@ -21,24 +20,170 @@ import { getAssistComplaintLists } from 'src/redux/actions/AssistcmLists.action'
 import { getAllComplaintLists } from 'src/redux/actions/AllcomplaintsLists.action';
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
-import TransferDeptmodal from './TransferDeptmodal';
-const AssignComplaintTable = () => {
+import ModalAssignComplaint from '../AssignComplaint/ModalAssignComplaint';
+import AssistantNeedmodal from '../AssignComplaint/AssistantNeedmodal';
+import TransferDeptmodal from '../AssignComplaint/TransferDeptmodal';
+import TransferWithinAStationIcon from '@mui/icons-material/TransferWithinAStation';
+import EmployeeTrasfermodal from './EmployeeTrasfermodal';
+
+const SupervisorComList = () => {
+
     const history = useHistory();
+    const dispatch = useDispatch();
     //state for modal open
     const [open, setOpen] = useState(false)
+    //flag for table rendering
+    const [flag, setFlag] = useState(0)
+    const [assigned, setAssigned] = useState(false);
+    const [pending, setPending] = useState(false);
+    const [assist, setAssist] = useState(false)
+    const [empTras, setempTras] = useState(false);
+    const [all, setAll] = useState(false);
     const [count, setCount] = useState(0)
+
+    //state for data passing 
+    const [assign, setassign] = useState([]);
+    const [assistant, setAssistant] = useState([]);
+    const [transfer, setTransfer] = useState({})
+    //flag for rendering 
+    const [assignmodel, setAssignModel] = useState(0);
+    const [assistantModel, setAssistantModel] = useState(0);
+    const [transmodal, setTransmodal] = useState(0);
+
     // Get login user emp_id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
+    useEffect(() => {
+        dispatch(setLoginProfileData(id))
+    }, [dispatch, id])
+    //getting employees data
+    const profileData = useSelector((state) => {
+        return state.getLoginProfileData.loginProfiledata
+    })
+    const empdept = useSelector((state) => {
+        return state.LoginUserData.empdept
+    })
+
+    //displaying complaints against the login users department
+    useEffect(() => {
+        dispatch(getAllComplaintLists(empdept))
+    }, [dispatch, empdept, count, flag])
+
+    const tabledata = useSelector((state) => {
+        return state.getAllComplaintLists.allcmpLists
+    })
+
+    const pendingcomplaints = tabledata.filter((val) => {
+        return val.compalint_status === 0
+    })
+
+    const AssignList = tabledata.filter((val) => {
+        return val.assigned_emp === id
+    })
+
+    console.log(AssignList);
+
+    console.log(tabledata);
+    //assigned list check box updation
+    const updateAssigned = useCallback((e) => {
+        if (e.target.checked === true) {
+            setFlag(1);
+            setAssigned(true)
+            setPending(false)
+            setAll(false)
+            setAssist(false)
+            setempTras(false)
+        } else {
+            setFlag(0);
+            setAssigned(false)
+        }
+    }, [])
+    //pending list check box updation
+    const updatePending = useCallback((e) => {
+        if (e.target.checked === true) {
+            setFlag(2)
+            setPending(true)
+            setAssigned(false)
+            setAll(false)
+            setAssist(false)
+            setempTras(false)
+        } else {
+            setFlag(0)
+            setPending(false)
+        }
+    }, [])
+
+
+    //individual assit check box function
+    const updateAssistant = useCallback((e) => {
+        if (e.target.checked === true) {
+            setFlag(3)
+            setAssist(true)
+            setAll(false)
+            setAssigned(false)
+            setPending(false)
+            setempTras(false)
+        } else {
+            setAssist(false)
+            setFlag(0)
+        }
+    }, [])
+
+    //updateEmpTras list check box updation
+    const updateEmpTras = useCallback((e) => {
+        if (e.target.checked === true) {
+            setFlag(4)
+            setempTras(true)
+            setPending(false)
+            setAssigned(false)
+            setAll(false)
+            setAssist(false)
+        } else {
+            setFlag(0)
+            setempTras(false)
+            setPending(false)
+            setAssigned(false)
+            setAll(false)
+            setAssist(false)
+        }
+    }, [])
+
+
+    //all complaint check box updation
+    const updateCompall = useCallback((e) => {
+        if (e.target.checked === true) {
+            setFlag(5)
+            setAll(true)
+            setAssigned(false)
+            setPending(false)
+            setAssist(false)
+            setempTras(false)
+        } else {
+            setFlag(0)
+            setAll(false)
+        }
+    }, [])
+
+
+
+
+    console.log(flag);
+
     //column title setting
     const [column] = useState([
         {
-            headerName: 'Action', minWidth: 120, cellRenderer: params => <Fragment>
+            headerName: 'Action', minWidth: 160, cellRenderer: params => <Fragment>
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                     onClick={() => quickAssign(params)}>
                     <CustomeToolTip title="Quick Assign" >
                         <AssignmentTurnedInRoundedIcon />
+                    </CustomeToolTip>
+                </IconButton>
+                <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                    onClick={() => Assign(params)}>
+                    <CustomeToolTip title="Detailed Assign" >
+                        < AccessibilityNewIcon />
                     </CustomeToolTip>
                 </IconButton>
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
@@ -61,11 +206,12 @@ const AssignComplaintTable = () => {
                 }
             }
         },
-        { headerName: "Department Section", field: "sec_name", autoHeight: true, filter: "true", wrapText: true, minWidth: 230 },
-        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Department Section", field: "sec_name", autoHeight: true, filter: "true", wrapText: true, minWidth: 200 },
+        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 180 },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 180 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Hic Policy", field: "hic_policy_name", autoHeight: true, wrapText: true, minWidth: 150 },
         {
             headerName: "Verification Remark", field: "verify_remarks1", autoHeight: true, wrapText: true, minWidth: 180,
             cellStyle: function (params) {
@@ -79,8 +225,9 @@ const AssignComplaintTable = () => {
         { headerName: "Date & Time", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 180 },
 
     ])
+
     // when we click on assign this wil show assigned each inviduals employess complaint
-    const [assign] = useState([
+    const [assigncloumn] = useState([
         {
             headerName: 'Action', minWidth: 100,
             cellRenderer: params => {
@@ -100,7 +247,6 @@ const AssignComplaintTable = () => {
                     </IconButton>
                 }
             }
-
         },
         { headerName: "SlNo", field: "complaint_slno", minWidth: 100 },
         {
@@ -122,119 +268,7 @@ const AssignComplaintTable = () => {
         { headerName: "Date & Time", field: "assigned_date", autoHeight: true, wrapText: true },
 
     ])
-    //when we click on all compalint this table  will show  
-    const [alldata] = useState([
-        { headerName: "SlNo", field: "complaint_slno", minWidth: 30 },
-        {
-            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250,
-            cellStyle: (params) => {
-                if (params.data.cm_rectify_status === 'Z') {
-                    return { color: 'red' };
-                } else {
-                    return null;
-                }
-            }
-        },
-        { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, filter: true, wrapText: true },
-        { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 220 },
-        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
 
-        {
-            headerName: "Employee Name", field: "em_name", filter: true, autoHeight: true, wrapText: true,
-            cellStyle: (params) => {
-                if (params.data.cm_rectify_status === 'Z') {
-                    return { color: 'red' };
-                } else {
-                    return null;
-                }
-            }
-        },
-        { headerName: "Request Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Assign Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, filter: true, wrapText: true }
-    ])
-    //When we click on assist this table  will show
-    const [assitantaccept] = useState([
-        {
-            headerName: 'Assisted', minWidth: 120,
-            cellRenderer: params => {
-                if (params.data.assist_receive === 1) {
-                    return <IconButton disabled
-                        sx={{ color: editicon, paddingY: 0.5 }}>
-                        <CustomeToolTip title="Assistant Accept" >
-                            < DoneOutlinedIcon />
-                        </CustomeToolTip>
-                    </IconButton>
-                } else {
-                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }}
-                        onClick={() => AssistantAccepted(params)}>
-                        <CustomeToolTip title="Assistant Accept" >
-                            < DoneOutlinedIcon />
-                        </CustomeToolTip>
-                    </IconButton>
-                }
-            }
-        },
-        { headerName: "SlNo", field: "complaint_slno" },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300 },
-        { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 250 },
-        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Requested Employee", field: "em_name", autoHeight: true, filter: true, wrapText: true, minWidth: 250 },
-        { headerName: "Date & Time", field: "assist_assign_date", autoHeight: true, wrapText: true, minWidth: 150 },
-
-    ])
-    const dispatch = useDispatch();
-    //getting id
-    useEffect(() => {
-        dispatch(setLoginProfileData(id))
-    }, [dispatch, id])
-    //getting employees data
-    const profileData = useSelector((state) => {
-        return state.getLoginProfileData.loginProfiledata
-    })
-    //state for assigned check box
-    const [assigned, setAssigned] = useState(false);
-    //state for pending list check box
-    const [pending, setPending] = useState(false);
-    //flag for table rendering
-    const [flag, setFlag] = useState(0)
-    //state for assist checkbox
-    const [assist, setAssist] = useState(false)
-    //displaying complaints against the login users department
-    useEffect(() => {
-        if (profileData.length !== 0) {
-            const { em_department } = profileData[0]
-            dispatch(getComplaintLists(em_department))
-            dispatch(getAssignedComplaintLists(id))
-            dispatch(getAssistComplaintLists(id))
-            dispatch(getAllComplaintLists(em_department))
-        }
-    }, [dispatch, profileData, id, count])
-    //getting the dispatch data from redux state
-    const state = useSelector((state) => {
-        return {
-            pendingcomplaints: state.getComplaintLists.complaintLists || 0,
-            assignedcomplaints: state.getAssignedComplaintLists.assignedcmpLists || 0,
-            assistcomplaints: state.getAssistComplaintLists.assistcmpLists || 0,
-            allcomplaints: state.getAllComplaintLists.allcmpLists || 0
-        }
-    })
-    //destructuring redux state
-    const { pendingcomplaints, assignedcomplaints, assistcomplaints, allcomplaints } = state
-
-    //for displaying the messages when there is no results in api
-    useEffect(() => {
-        const { pendingcomplaints, assignedcomplaints, assistcomplaints, allcomplaints } = state
-        return assist === true && assistcomplaints.length === 0 ? infoNotify("No Results Found") : assigned === true && assignedcomplaints.length === 0
-            ? infoNotify("No Results Found") : pending === true && pendingcomplaints.length === 0
-                ? infoNotify("No Results Found") : allcomplaints === true && allcomplaints.length === 0 ? infoNotify("No Results Found") : null
-    }, [flag, assist, assigned, pending, state])
     // when we click on quick assign button this function will run
     const quickAssign = useCallback((params) => {
         const { complaint_slno } = params.data
@@ -243,8 +277,7 @@ const AssignComplaintTable = () => {
             assigned_emp: id,
             assigned_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             assign_rect_status: 0,
-            assigned_user: id,
-            assign_status: 1
+            assigned_user: id
         }
         const getData = async (postData) => {
             const result = await axioslogin.post('/complaintassign', postData);
@@ -261,82 +294,35 @@ const AssignComplaintTable = () => {
         getData(postData);
     }, [count, id])
 
-    // when we click on transfer button
-    const [transfer, setTransfer] = useState({})
-    const [transmodal, setTransmodal] = useState(0);
+    //when we click on detailed assign button a modal will open
+    const Assign = useCallback((params) => {
+        setAssignModel(1)
+        setAssistantModel(0)
+        setTransmodal(0)
+        setOpen(true)
+        const data = params.api.getSelectedRows()
+        setassign(data)
+    }, [])
+
     const TransferDepartment = useCallback((params) => {
         setTransmodal(1);
+        setAssignModel(0);
         setAssistantModel(0);
         setOpen(true)
         const data = params.data
         setTransfer(data)
     }, [])
-    //state for data passing to assistant modal
-    const [assistant, setAssistant] = useState([]);
-    //flag for rendering assistant need modal
-    const [assistantModel, setAssistantModel] = useState(0);
+
     //assistant needed icon fun user click on this a modal will open
     const AssistantNeeded = useCallback((params) => {
         setAssistantModel(1)
+        setAssignModel(0)
         setTransmodal(0);
         setOpen(true)
         const data = params.api.getSelectedRows()
         setAssistant(data);
     }, [])
-    //assigned list check box updation
-    const updateAssigned = useCallback((e) => {
-        if (e.target.checked === true) {
-            setFlag(1);
-            setAssigned(true)
-            setPending(false)
-            setAll(false)
-            setAssist(false)
-        } else {
-            setFlag(0);
-            setAssigned(false)
-        }
-    }, [])
-    //pending list check box updation
-    const updatePending = useCallback((e) => {
-        if (e.target.checked === true) {
-            setFlag(2)
-            setPending(true)
-            setAssigned(false)
-            setAll(false)
-            setAssist(false)
-        } else {
-            setFlag(0)
-            setPending(false)
-        }
-    }, [])
-    const [all, setAll] = useState(false);
-    //all complaint check box updation
-    const updateCompall = useCallback((e) => {
-        if (e.target.checked === true) {
-            setFlag(3)
-            setAll(true)
-            setAssigned(false)
-            setPending(false)
-            setAssist(false)
-        } else {
-            setFlag(0)
-            setAll(false)
-        }
-    }, [])
 
-    //individual assit check box function
-    const updateAssistant = useCallback((e) => {
-        if (e.target.checked === true) {
-            setFlag(4)
-            setAssist(true)
-            setAll(false)
-            setAssigned(false)
-            setPending(false)
-        } else {
-            setAssist(false)
-            setFlag(0)
-        }
-    }, [])
     //function for assistant acception button clicks function in table
     const AssistantAccepted = useCallback((params) => {
         const { complaint_slno, } = params.data
@@ -360,10 +346,13 @@ const AssignComplaintTable = () => {
         }
         assistant(postData)
     }, [id, count])
+
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home')
     }, [history])
+
+
     return (
         <Fragment>
             <CardCloseOnly
@@ -431,6 +420,22 @@ const AssignComplaintTable = () => {
                                 mt: 1,
                             }} >
                                 <CusCheckBox
+                                    label="Employee Trasfer"
+                                    color="danger"
+                                    size="md"
+                                    name="empTras"
+                                    value={empTras}
+                                    checked={empTras}
+                                    onCheked={updateEmpTras}
+                                />
+                            </Box>
+
+                            <Box sx={{
+                                display: 'flex',
+                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                mt: 1,
+                            }} >
+                                <CusCheckBox
                                     label="All Complaint"
                                     color="danger"
                                     size="md"
@@ -447,27 +452,27 @@ const AssignComplaintTable = () => {
                 {
                     flag === 1 ? <Box sx={{ p: 1 }}>
                         <CusAgGridForMain
-                            columnDefs={assign}
-                            tableData={assignedcomplaints}
+                        // columnDefs={assigncloumn}
+                        // tableData={AssignList}
                         />
                     </Box> :
                         flag === 2 ? <Box sx={{ p: 1 }}>
                             <CusAgGridForMain
-                                columnDefs={column}
-                                tableData={pendingcomplaints}
+                            // columnDefs={column}
+                            // tableData={pendingcomplaints}
                             />
                         </Box> :
                             flag === 3 ? <Box sx={{ p: 1 }}>
                                 <CusAgGridForMain
-                                    columnDefs={alldata}
-                                    tableData={allcomplaints}
+                                // columnDefs={alldata}
+                                // tableData={allcomplaints}
                                 />
                             </Box> :
 
                                 flag === 4 ? <Box sx={{ p: 1 }}>
                                     <CusAgGridForMain
-                                        columnDefs={assitantaccept}
-                                        tableData={assistcomplaints}
+                                    // columnDefs={assitantaccept}
+                                    // tableData={assistcomplaints}
                                     />
                                 </Box> : <Box sx={{ p: 1 }}>
                                     <CusAgGridForMain
@@ -475,6 +480,10 @@ const AssignComplaintTable = () => {
                                         tableData={pendingcomplaints}
                                     />
                                 </Box>
+                }
+
+                {
+                    assignmodel === 1 ? <ModalAssignComplaint open={open} id={id} setOpen={setOpen} complaint={assign} empdept={profileData} count={count} setCount={setCount} /> : null //detailed assign modal
                 }
                 {
                     assistantModel === 1 ? <AssistantNeedmodal open={open} setOpen={setOpen} assistant={assistant} empdept={profileData} count={count} setCount={setCount} /> : null //assistant needed modal
@@ -486,4 +495,5 @@ const AssignComplaintTable = () => {
         </Fragment >
     )
 }
-export default AssignComplaintTable
+
+export default SupervisorComList

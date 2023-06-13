@@ -102,7 +102,9 @@ const HicComplaint = React.lazy(() => import("./views/ComManagement/HICComplaint
 const OMTableMast = React.lazy(() => import('./views/Master/RequestManagement/OMTableMast/OMTableMast'))
 const OMEmpMapping = React.lazy(() => import('./views/Master/RequestManagement/OMEmpMap/OMEmpMapMast'))
 const ManualList = React.lazy(() => import('./views/Manual/ManualList'))
-
+const ComEmpMapping = React.lazy(() => import('./views/Master/ComEMPMapping/ComEmpMapping'))
+const ComListSupervisor = React.lazy(() => import('./views/ComManagement/ComplaintListSupervisor/SuperisorList'))
+const ComPriorityMast = React.lazy(() => import('./views/Master/CompPriority/ComPriorityMast'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/Home', exact: true, name: 'Home', component: Home },
@@ -207,7 +209,12 @@ const routes = [
   { path: '/Home/Hic/Complaint', exact: true, name: 'HIC Complaint List', component: HicComplaint },
   { path: '/Home/OMTableMast', exact: true, name: 'OM Table Master', component: OMTableMast },
   { path: '/Home/OMEmpMapping', exact: true, name: 'OM Emp Mapping', component: OMEmpMapping },
-  { path: '/Home/Manual', exact: true, name: 'Manual List', component: ManualList }
+  { path: '/Home/Manual', exact: true, name: 'Manual List', component: ManualList },
+  { path: '/Home/ComplaintEmpMap', exact: true, name: 'Compalint EMP Mapping', component: ComEmpMapping },
+  { path: '/Home/Complaint/Supervisor', exact: true, name: 'Compalint List Supervisor', component: ComListSupervisor },
+  { path: '/Home/CompPriority', exact: true, name: 'Compalint Priority Master', component: ComPriorityMast }
+
+
 ]
 
 export default routes

@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useMemo, useState, memo } from 'react'
+import React, { Fragment, useCallback, useEffect, useState, memo } from 'react'
 import { ToastContainer } from 'react-toastify'
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
@@ -40,7 +40,7 @@ const AssistantNeedmodal = ({ open, setOpen, assistant, empdept, count, setCount
         em_id: id
     }
     //state for select box
-    const [assistemp, setAssistemp] = useState(0)
+    const [assistemp, setAssistemp] = useState([])
     //check box for assistant needed
     const [assistuser, setAssist] = useState(false);
     //assist check box updation
@@ -49,10 +49,10 @@ const AssistantNeedmodal = ({ open, setOpen, assistant, empdept, count, setCount
     }, [])
     // data setting to db and when we clickon assistant need check box true
     //there is flag assist_flag updated to 1
-    const assistentData = useMemo(() => {
+    const assistentData = assistemp && assistemp.map((val) => {
         return {
             complaint_slno: complaint_slno,
-            assigned_emp: assistemp,  //assit employee
+            assigned_emp: val,  //assit employee
             assist_assign_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'), //assist accepted time
             assist_flag: assistuser === true ? 1 : 0,
             assist_requested_emp: id,
@@ -60,16 +60,18 @@ const AssistantNeedmodal = ({ open, setOpen, assistant, empdept, count, setCount
             assigned_user: id
         }
     }, [complaint_slno, assistemp, assistuser, id]);
+
     // reset states to intial
     const reset = useCallback(() => {
         setOpen(false)
-        setAssistemp(0)
+        setAssistemp([])
         setAssist(false)
     }, [setOpen])
     //assitant need function inserting to db
+
     const Assistent = useCallback(() => {
         const AssistentEmp = async () => {
-            const result = await axioslogin.post(`/complaintassign/assistant/emp`, assistentData);
+            const result = await axioslogin.post(`/complaintassign/assist/multiple`, assistentData);
             const { message, success } = result.data;
             if (success === 1) {
                 succesNotify(message)
@@ -88,7 +90,9 @@ const AssistantNeedmodal = ({ open, setOpen, assistant, empdept, count, setCount
         } else {
             AssistentEmp(assistentData)
         }
+
     }, [assistentData, assistuser, count, reset, setCount, assistemp])
+
     return (
         <Fragment>
             <ToastContainer />

@@ -20,10 +20,12 @@ export const co_setting_three = [
 //Compliant Master Menu
 export const cm_setting_one = [
     { to: '/Home/ComplaintDepartment', name: 'Complaint Department', slno: 3 },
+    { to: '/Home/ComplaintEmpMap', name: 'Complaint-EMP Mapping', slno: 109 },
 ]
 
 export const cm_setting_two = [
-    { to: '/Home/ComplaintType', name: 'Complaint Type', slno: 13 }
+    { to: '/Home/ComplaintType', name: 'Complaint Type', slno: 13 },
+    { to: '/Home/CompPriority', name: 'Complaint Priority', slno: 111 },
 
 ]
 

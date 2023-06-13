@@ -19,6 +19,28 @@ const CmTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
+        men_slno: 6,
+        component: CNavItem,
+        name: 'Complaint List ',
+        to: '/Home/AssignComplaint',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 110,
+        component: CNavItem,
+        name: 'Complaint List Supervisor',
+        to: '/Home/Complaint/Supervisor',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 61,
+        component: CNavItem,
+        name: 'Rectify Complaint ',
+        to: '/Home/RectifyComplaint',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
+    {
         men_slno: 106,
         component: CNavItem,
         name: 'HIC ',
@@ -30,20 +52,6 @@ const CmTransactions = [
         component: CNavItem,
         name: 'Complaint List All ',
         to: '/Home/ComplaintList',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-    {
-        men_slno: 6,
-        component: CNavItem,
-        name: 'Complaint List ',
-        to: '/Home/AssignComplaint',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-    {
-        men_slno: 61,
-        component: CNavItem,
-        name: 'Rectify Complaint ',
-        to: '/Home/RectifyComplaint',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 ]

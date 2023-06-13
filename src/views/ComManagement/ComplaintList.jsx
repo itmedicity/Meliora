@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import ComplistAgGridcmp from '../Components/ComplistAgGridcmp';
@@ -168,7 +168,7 @@ const ComplaintList = () => {
             close={backtoSetting}>
 
             <Box sx={{ width: "100%", p: 1 }}>
-                <Paper square elevation={3} sx={{ p: 2 }} >
+                <Paper variant='outlined' sx={{ p: 2 }} >
                     <Box sx={{
                         width: "100%",
                         display: "flex",
@@ -277,4 +277,4 @@ const ComplaintList = () => {
 
     )
 }
-export default ComplaintList
+export default memo(ComplaintList)

@@ -1,4 +1,3 @@
-
 import { Box, Grid, Paper, IconButton, Typography } from '@mui/material'
 import React, { useCallback, useEffect, useState, useMemo, Fragment } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
@@ -15,39 +14,24 @@ import { getHicpolicy } from 'src/redux/actions/HicPolicy.action'
 import ComplaintRegTable from './ComplaintRegTable'
 import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action'
 import ComplaintCheckBox from './ComplaintCheckBox'
-// import CustomPaperTitle from '../../Components/CustomPaperTitle'
-// import RequestTypeTitle from 'src/views/Components/RequestTypeTitle'
-// import ComplaintDeptTitle from 'src/views/Components/ComplaintDeptTitle'
-// import PrioritycmpTitle from 'src/views/Components/PrioritycmpTitle'
-// import ComplaintTypeTitle from 'src/views/Components/ComplaintTypeTitle'
-// import ComplaintDescriptionTitle from 'src/views/Components/ComplaintDescriptionTitle'
-// import HicpolicyTitle from 'src/views/Components/HicpolicyTitle'
-// import HicypolicygrpsTitle from 'src/views/Components/HicypolicygrpsTitle'
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 import LocationSelect from 'src/views/CommonSelectCode/LocationSelect'
 import {
     Button,
-    //Checkbox,
     CssVarsProvider,
-    // Sheet,
     Typography as Typo
 } from '@mui/joy'
 import CmpRequestTypeCheckBx from './CmpRequestTypeCheckBx'
 import { memo } from 'react'
 import { getCompliantRegTable } from 'src/redux/actions/ComplaintRegTable.action'
 import { getReqRegistListByDept } from 'src/redux/actions/ReqRegisterListByDept.action'
-
+import ComDeptCheckBox from './ComDeptCheckBox'
 const ComplaintRegistrMast = () => {
     /*** Initializing */
     const history = useHistory();
     //state for hic checkbox
-    //const [hic, setHic] = useState(0)
     //state for critical checkbox
     const [crical, setCritical] = useState(false)
-    //state for high checkbox
-    const [high, setHigh] = useState(false)
-    //state for medium checkbox
-    const [medium, setMedium] = useState(false)
     //state for complaint priority
     const [priority, setpriority] = useState(0)
     //state for table rendering
@@ -56,6 +40,8 @@ const ComplaintRegistrMast = () => {
     const [value, setValue] = useState(0)
     //state for complaintdescription
     const [desc, setdesc] = useState('')
+    //state for Priority Reson
+    const [priorreason, setPriorreason] = useState('')
     //state for request type
     const [ReqType, setReqType] = useState(false)
     //state for complaint type
@@ -70,6 +56,8 @@ const ComplaintRegistrMast = () => {
     const [complaint, setComplaint] = useState({
         complaint_slno: 0
     })
+
+
     //redux for geting login id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -113,52 +101,22 @@ const ComplaintRegistrMast = () => {
     const complintdesc = useCallback((e) => {
         setdesc(e.target.value)
     }, [])
+    const updatePriorreason = useCallback((e) => {
+        setPriorreason(e.target.value)
+    }, [])
     /*** Priority seting Check box */
     //fn for critical state updation
     const getCritical = useCallback((e) => {
         if (e.target.checked === true) {
             setCritical(true)
             setpriority(1)
-            setHigh(false)
-            setMedium(false)
         }
         else {
-            setCritical(false)
-            setHigh(false)
-            setMedium(false)
-            setpriority(0)
-        }
-    }, [])
-    //fn for critical state updation
-    const getHigh = useCallback((e) => {
-        if (e.target.checked === true) {
-            setHigh(true)
-            setpriority(2)
-            setCritical(false)
-            setMedium(false)
-        }
-        else {
-            setHigh(false)
-            setCritical(false)
-            setMedium(false)
-            setpriority(0)
-        }
-    }, [])
-    //fn for medium state updation
-    const getMedium = useCallback((e) => {
-        if (e.target.checked === true) {
-            setMedium(true)
-            setpriority(3)
-            setHigh(false)
-            setCritical(false)
-        }
-        else {
-            setMedium(false)
-            setHigh(false)
             setCritical(false)
             setpriority(0)
         }
     }, [])
+
     const [checkHic, setChechHic] = useState(false)
     const getHicCheck = useCallback((e) => {
         if (e.target.checked === true) {
@@ -177,24 +135,24 @@ const ComplaintRegistrMast = () => {
             complaint_request_slno: ReqType,
             complaint_deptslno: codept,
             complaint_typeslno: cotype,
-            compalint_priority: priority,
+            priority_check: priority,
             complaint_hicslno: checkHic === true ? 1 : 0,
             compalint_status: 0,
             cm_location: depsec,
             create_user: id,
+            priority_reason: priority === 1 ? priorreason : null,
             locationName: locationName,
-            priority: priority === 1 ? "Critical" : priority === 2 ? "High" : priority === 3 ? "Medium" : null
+            priority: priority === 1 ? "Priority Ticket" : "Normal Ticket"
         }
-    }, [desc, sec, ReqType, cotype, depsec, priority, codept, id, locationName, checkHic])
+    }, [desc, sec, ReqType, cotype, depsec, priorreason, priority, codept, id, locationName, checkHic])
 
     //Data set for edit
     const rowSelect = useCallback((params) => {
         setValue(1);
         const data = params.api.getSelectedRows()
         const { complaint_typeslno, complaint_dept_secslno, complaint_hicslno,
-            //hic_policy_status,
-            compalint_priority, cm_location,
-            complaint_request_slno, complaint_deptslno, complaint_slno, complaint_desc, id } = data[0];
+            cm_location, priority_reason, complaint_request_slno, complaint_deptslno, complaint_slno,
+            complaint_desc, id, priority_check } = data[0];
         const frmdata = {
             create_user: id,
             complaint_slno: complaint_slno
@@ -204,29 +162,12 @@ const ComplaintRegistrMast = () => {
         setsec(complaint_dept_secslno)
         setReqType(complaint_request_slno)
         setcotype(complaint_typeslno)
-        // setHic(complaint_hicslno === 1 ? true : false)
         setChechHic(complaint_hicslno === 1 ? true : false)
-        setpriority(compalint_priority)
+        setpriority(priority_check)
         setcodept(complaint_deptslno)
         setdesc(complaint_desc)
-        if (compalint_priority === 1) {
-            setCritical(true)
-            setHigh(false)
-            setMedium(false)
-        } else if (compalint_priority === 2) {
-            setHigh(true)
-            setCritical(false)
-            setMedium(false)
-        }
-        else if (compalint_priority === 3) {
-            setMedium(true)
-            setCritical(false)
-            setHigh(false)
-        } else {
-            setCritical(false)
-            setHigh(false)
-            setMedium(false)
-        }
+        setPriorreason(priority_reason)
+        setCritical(priority_check === 1 ? true : false)
     }, [])
     //update data
     const patchdata = useMemo(() => {
@@ -236,14 +177,15 @@ const ComplaintRegistrMast = () => {
             complaint_request_slno: ReqType,
             complaint_deptslno: codept,
             complaint_typeslno: cotype,
-            compalint_priority: priority,
+            priority_check: priority,
             complaint_hicslno: checkHic === true ? 1 : 0,
             compalint_status: 0,
             cm_location: depsec,
             edit_user: id,
+            priority_reason: priority === 1 ? priorreason : null,
             complaint_slno: complaint_slno
         }
-    }, [desc, sec, ReqType, depsec, codept, cotype, priority, complaint_slno, id, checkHic])
+    }, [desc, sec, ReqType, depsec, codept, cotype, priority, priorreason, complaint_slno, id, checkHic])
     /*** usecallback function for form submitting */
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
@@ -255,17 +197,15 @@ const ComplaintRegistrMast = () => {
             setsec(0)
             setReqType(false)
             setcotype(false)
-            //setHic(0)
             setChechHic(false)
             setpriority(false)
             setcodept(false)
             setCritical(false)
-            setHigh(false)
-            setMedium(false)
             setdesc('')
             setDepsec(0)
             setcodept(null)
             setlocationName("")
+            setPriorreason("")
             setCount(0)
             setValue(0)
 
@@ -322,17 +262,15 @@ const ComplaintRegistrMast = () => {
         setsec(0)
         setReqType(false)
         setcotype(false)
-        // setHic(0)
         setChechHic(false)
         setpriority(false)
         setcodept(false)
         setCritical(false)
-        setHigh(false)
-        setMedium(false)
         setdesc('')
         setDepsec(0)
         setcodept(null)
         setlocationName("")
+        setPriorreason("")
         setCount(0)
         setValue(0)
     }, [])
@@ -381,7 +319,6 @@ const ComplaintRegistrMast = () => {
         return val.req_status === 'P'
     })
 
-
     return (
         <Fragment>
             <CardMaster
@@ -429,46 +366,63 @@ const ComplaintRegistrMast = () => {
                                 {
                                     complaintdeptdata && complaintdeptdata.map((val) => {
                                         return <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={val.complaint_dept_slno} sx={{ width: '100%' }} >
-                                            <ComplaintCheckBox
+                                            <ComDeptCheckBox
                                                 label={val.complaint_dept_name}
                                                 name={val.complaint_dept_name}
                                                 value={val.complaint_dept_slno}
                                                 onChange={setcodept}
                                                 checkedValue={codept}
                                             />
+
+                                            {/* <ComDeptCheckBox
+                                                label={val.complaint_dept_name}
+                                                value={val.complaint_dept_slno}
+                                                onCheked={updateComDept}
+                                            // checked={codept}
+                                            /> */}
+
+
                                         </Grid>
                                     })
                                 }
                             </Box>
                         </Paper>
                         {/* complaint type */}
-                        <Paper variant='outlined' sx={{ p: 0.5 }} square >
-                            <Box>
-                                <CssVarsProvider>
-                                    <Typo level="h2" fontSize="sm" sx={{ mb: 0.5, color: 'neutral.400' }}>
-                                        COMPLAINT TYPE
-                                    </Typo>
-                                </CssVarsProvider>
-                            </Box>
-                            {/* complaint department */}
-                            <Box sx={{ display: 'flex', flex: 1, p: 1 }} >
-                                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                                    {
-                                        complainttype && complainttype.map((val) => {
-                                            return <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={val.complaint_type_slno} sx={{ width: '100%' }}>
-                                                <ComplaintCheckBox
-                                                    label={val.complaint_type_name}
-                                                    name={val.complaint_type_name}
-                                                    value={val.complaint_type_slno}
-                                                    onChange={setcotype}
-                                                    checkedValue={cotype}
-                                                />
-                                            </Grid>
-                                        })
-                                    }
-                                </Grid>
-                            </Box>
-                        </Paper>
+
+                        {codept !== null ?
+                            <Paper variant='outlined' sx={{ p: 0.5 }} square >
+                                <Box>
+                                    <CssVarsProvider>
+                                        <Typo level="h2" fontSize="sm" sx={{ mb: 0.5, color: 'neutral.400' }}>
+                                            COMPLAINT TYPE
+                                        </Typo>
+                                    </CssVarsProvider>
+                                </Box>
+                                {/* complaint department */}
+                                <Box sx={{ display: 'flex', flex: 1, p: 1 }} >
+                                    <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+
+                                        {
+                                            complainttype && complainttype.map((val) => {
+                                                return <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={val.complaint_type_slno} sx={{ width: '100%' }}>
+                                                    <ComplaintCheckBox
+                                                        label={val.complaint_type_name}
+                                                        name={val.complaint_type_name}
+                                                        value={val.complaint_type_slno}
+                                                        onChange={setcotype}
+                                                        checkedValue={cotype}
+                                                    />
+                                                </Grid>
+                                            })
+                                        }
+
+                                    </Grid>
+                                </Box>
+                            </Paper> :
+                            // <CircularProgress sx={{ color: 'pink' }} />
+                            null
+                        }
+
                         <Paper variant='outlined' sx={{ p: 0.5, display: 'flex' }} square >
                             <Box sx={{ flex: 1, p: 0.5, pt: 1 }} >
                                 <LocationSelect value={depsec} setValue={setDepsec} setName={setlocationName} />
@@ -489,49 +443,12 @@ const ComplaintRegistrMast = () => {
                             </Box>
                         </Paper>
                         <Paper variant='outlined' sx={{ p: 0.5, display: 'flex', flex: 1 }} square >
-                            <Box sx={{ display: 'flex', flexDirection: 'column', width: '20%', px: 1, pt: 0.5, justifyContent: 'center', }} >
-                                <Grid item  >
-                                    <CusCheckBox
-                                        // variant="outlined"
-                                        color="danger"
-                                        size="lg"
-                                        name="crical"
-                                        label={<Typography level="h2" fontSize="md" sx={{ mb: 0.5, color: 'neutral.600' }} >Very Urgent</Typography>}
-                                        value={crical}
-                                        onCheked={getCritical}
-                                        checked={crical}
-                                    />
-                                </Grid>
-                                <Grid item >
-                                    <CusCheckBox
-                                        // variant="outlined"
-                                        color="danger"
-                                        size="lg"
-                                        name="high"
-                                        label={<Typography level="h2" fontSize="md" sx={{ mb: 0.5, color: 'neutral.600' }} >High Priority</Typography>}
-                                        value={high}
-                                        onCheked={getHigh}
-                                        checked={high}
-                                    />
-                                </Grid>
-                                <Grid item >
-                                    <CusCheckBox
-                                        // variant="outlined"
-                                        color="danger"
-                                        size="lg"
-                                        name="medium"
-                                        label={<Typography level="h2" fontSize="md" sx={{ mb: 0.5, color: 'neutral.600' }} >Medium Priority</Typography>}
-                                        value={medium}
-                                        onCheked={getMedium}
-                                        checked={medium}
-                                    />
-                                </Grid>
-                            </Box>
                             <Box sx={{ width: '80%' }} >
                                 <CustomTextarea
                                     placeholder="complaint descrition"
                                     required
                                     type="text"
+                                    maxRows={3}
                                     size="sm"
                                     style={{
                                         width: "100%",
@@ -541,6 +458,48 @@ const ComplaintRegistrMast = () => {
                                     onchange={complintdesc}
                                 />
                             </Box>
+                            <Box sx={{
+                                display: 'flex', flexDirection: 'column',
+                                px: 1, pt: 0.5, flex: 1,
+                            }} >
+                                <Box sx={{
+                                    display: 'flex',
+                                    pt: 0.8
+                                }} >
+                                    <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
+                                        <CusCheckBox
+                                            // variant="outlined"
+                                            color="danger"
+                                            size="lg"
+                                            name="Hic"
+                                            label="Priority"
+                                            value={crical}
+                                            onCheked={getCritical}
+                                            checked={crical}
+                                        />
+                                    </Grid>
+                                </Box>
+
+                                {
+                                    crical === true ?
+                                        <Box sx={{ width: '100%', pt: 0.5 }} >
+                                            <CustomTextarea
+                                                style={{ width: "100%" }}
+                                                minRows={2}
+                                                maxRows={2}
+                                                required
+                                                type="text"
+                                                placeholder="Remarks"
+                                                name='priorreason'
+                                                value={priorreason}
+                                                onchange={updatePriorreason}
+                                            />
+                                        </Box>
+
+                                        : null
+                                }
+                            </Box>
+
                         </Paper>
                     </Box>
                     <Box sx={{ display: 'flex', width: '20%', p: 0.5, overflow: 'auto' }} >

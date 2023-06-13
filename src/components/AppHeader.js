@@ -17,9 +17,10 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
-
+import CustomeToolTip from '../views/Components/CustomeToolTip';
 import {
   iconHome,
   iconPowerOff,
@@ -112,9 +113,7 @@ const AppHeader = () => {
                 </CNavLink>
               </CNavItem> : null
             }
-
-          </CHeaderNav>
-          {/* <CHeaderNav>
+            {/* <CHeaderNav>
             <CNavItem>
               <CNavLink to="/Home">
                 <Badge badgeContent={4} color="error">
@@ -130,6 +129,25 @@ const AppHeader = () => {
               </CNavLink>
             </CNavItem>
           </CHeaderNav> */}
+            {/* <CNavItem>
+            <CNavLink to="/Home/Manual" component={NavLink} >
+              <MenuBookIcon sx={{ color: iconManual }} />
+            </CNavLink>
+          </CNavItem> */}
+          </CHeaderNav>
+          <CustomeToolTip title="Complaint Register" placement="top">
+            <CHeaderNav className="ms-3">
+
+              <CNavItem>
+                <CNavLink to="/Home/ComplaintRegister" component={NavLink} >
+                  {/* < CssVarsProvider>
+                  <Typography level="body1" sx={{ color: "white" }} >Complaint Register</Typography>
+                </CssVarsProvider> */}
+                  <BookmarksIcon sx={{ color: iconManual }} />
+                </CNavLink>
+              </CNavItem>
+            </CHeaderNav>
+          </CustomeToolTip>
           <CHeaderNav className="ms-3">
             <AppHeaderDropdown sx={{ paddingX: 0 }} />
           </CHeaderNav>

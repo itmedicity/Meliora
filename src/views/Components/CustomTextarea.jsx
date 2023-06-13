@@ -8,7 +8,7 @@ const CustomTextarea = ({
     onchange,
     value,
     disabled,
-    size
+    size, maxRows
 
 }) => {
     // const textStyle = { width: "100%", height: "100%" }
@@ -20,6 +20,7 @@ const CustomTextarea = ({
                 size={size}
                 placeholder={placeholder}
                 minRows={minRows}
+                maxRows={maxRows}
                 style={{ ...style, borderRadius: 5, borderColor: "#A9A9A9", padding: 5 }}
                 value={value}
                 disabled={disabled}
