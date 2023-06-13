@@ -78,7 +78,7 @@ const SuperisorList = () => {
         { headerName: "Department Section", field: "sec_name", autoHeight: true, filter: "true", wrapText: true, minWidth: 250 },
         { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 180 },
-        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 200 },
         {
             headerName: "Verification Remark", field: "verify_remarks1", autoHeight: true, wrapText: true, minWidth: 180,
@@ -250,7 +250,6 @@ const SuperisorList = () => {
             dispatch(getAssignedComplaintLists(id))
             dispatch(getAssistComplaintLists(id))
             dispatch(getAllComplaintLists(em_department))
-
         }
     }, [dispatch, profileData, id, count])
     //getting the dispatch data from redux state
