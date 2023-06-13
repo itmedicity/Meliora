@@ -21,6 +21,7 @@ import CustomeToolTip from '../../Components/CustomeToolTip';
 import CardMaster from 'src/views/Components/CardMaster'
 import ModuleGroupSelect from 'src/views/CommonSelectCode/ModuleGroupSelect'
 import UserGroupSelect from 'src/views/CommonSelectCode/UserGroupSelect'
+import ComEmpMapSelect from 'src/views/CommonSelectCode/ComEmpMapSelect'
 const UserCreation = () => {
     //*** Initializing */
     const history = useHistory();
@@ -32,13 +33,16 @@ const UserCreation = () => {
     const [branch, setBranch] = useState(0)
     const [gender, setGender] = useState(0)
     const [designation, setDesignation] = useState(0)
-    const [dob, setdob] = useState()
-    const [doj, setdoj] = useState()
+    const [dob, setdob] = useState('')
+    const [doj, setdoj] = useState('')
     //state for table render
     const [count, setCount] = useState(0);
     const [value, setValue] = useState(0)
     const [modulegroup, setmodulegroup] = useState(0)
     const [usergroup, setUsergroup] = useState(0)
+    const [mastdetl, setDetlSlno] = useState(0)
+    const [supervis, setSupervise] = useState(false)
+    const [comTpeMap, setComTypeMap] = useState(0)
     const [userdata, setUserdata] = useState({
         em_name: '',
         em_mobile: '',
@@ -53,7 +57,16 @@ const UserCreation = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setUserdata({ ...userdata, [e.target.name]: value })
     }, [userdata])
-    const [mastdetl, setDetlSlno] = useState(0)
+
+    const UpdateSupervis = (e) => {
+        if (e.target.checked === true) {
+            setSupervise(true)
+        }
+        else {
+            setSupervise(false)
+        }
+    }
+
     useEffect(() => {
         getempid().then((val) => {
             const empid = val
@@ -85,7 +98,7 @@ const UserCreation = () => {
         const data = params.api.getSelectedRows();
         const { em_id, em_no, em_name, em_salutation, em_gender, em_dob, em_doj, em_mobile, em_email, em_branch,
             em_department, em_dept_section, em_designation, em_status, mod_grp_slno, user_group_slno,
-            mod_grp_user_slno, empdtl_slno } = data[0]
+            mod_grp_user_slno, empdtl_slno, supervisor, comp_type_map } = data[0]
         const frmdata = {
             em_name: em_name,
             em_mobile: em_mobile,
@@ -107,6 +120,8 @@ const UserCreation = () => {
         setDesignation(em_designation)
         setdob(format(new Date(em_dob), "yyyy-MM-dd"))
         setdoj(format(new Date(em_doj), "yyyy-MM-dd"))
+        setSupervise(supervisor === 1 ? true : false)
+        setComTypeMap(comp_type_map)
     }, [])
     //Insert data
     const postdata = useMemo(() => {
@@ -137,9 +152,11 @@ const UserCreation = () => {
             deptsec_slno: deptsec,
             emp_status: em_status === true ? 1 : 0,
             create_user: id,
-            emp_slno: em_id
+            emp_slno: em_id,
+            supervisor: supervis === true ? 1 : 0,
+            comp_type_map: comTpeMap
         }
-    }, [em_id, em_no, mastdetl, salut, em_name, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
+    }, [em_id, em_no, mastdetl, salut, supervis, comTpeMap, em_name, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
 
 
     //Update data
@@ -172,12 +189,13 @@ const UserCreation = () => {
             dept_slno: dept,
             deptsec_slno: deptsec,
             mod_grp_user_slno: mod_grp_user_slno,
-            edit_user: id
+            edit_user: id,
+            supervisor: supervis === true ? 1 : 0,
+            comp_type_map: comTpeMap
         }
-    }, [em_id, em_no, mastdetl, salut, em_name, mod_grp_user_slno, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
+    }, [em_id, em_no, mastdetl, salut, em_name, supervis, comTpeMap, mod_grp_user_slno, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
 
-    const submitUserCreation = useCallback((e) => {
-        e.preventDefault();
+    const reset = () => {
         const formreset = {
             em_name: '',
             em_mobile: '',
@@ -185,6 +203,31 @@ const UserCreation = () => {
             em_status: false,
             mod_grp_user_slno: ''
         }
+        setUserdata(formreset)
+        setemId(0)
+        setemno('')
+        setSalut(0)
+        setDept(0)
+        setDeptsec(0)
+        setBranch(0)
+        setGender(0)
+        setDesignation(0)
+        setdob('')
+        setdoj('')
+        setCount(0)
+        setValue(0)
+        setmodulegroup(0)
+        setUsergroup(0)
+        setDetlSlno(0)
+        setSupervise(false)
+        setComTypeMap(0)
+    }
+
+
+
+    const submitUserCreation = useCallback((e) => {
+        e.preventDefault();
+
         /***    * insert function for use call back   */
         const InsertFun = async (postdata) => {
             const result = await axioslogin.post('/employee/empInsert', postdata);
@@ -192,22 +235,7 @@ const UserCreation = () => {
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1);
-                setUserdata(formreset);
-                setemId(0)
-                setSalut(0)
-                setDept(0)
-                setDeptsec(0)
-                setBranch(0)
-                setDesignation(0)
-                setmodulegroup(0)
-                setUsergroup(0)
-                setCount(0)
-                setValue(0)
-                setGender(0)
-                setemno(0)
-                setdob()
-                setdoj()
-                setDetlSlno(0)
+                reset()
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -221,22 +249,7 @@ const UserCreation = () => {
             if (success === 2) {
                 succesNotify(message)
                 setCount(count + 1);
-                setUserdata(formreset);
-                setemId(0)
-                setSalut(0)
-                setDept(0)
-                setDeptsec(0)
-                setBranch(0)
-                setDesignation(0)
-                setmodulegroup(0)
-                setUsergroup(0)
-                setCount(0)
-                setValue(0)
-                setGender(0)
-                setemno(0)
-                setdob()
-                setdoj()
-                setDetlSlno(0)
+                reset()
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -254,30 +267,7 @@ const UserCreation = () => {
 
     //referesh func
     const refreshWindow = useCallback(() => {
-        const formreset = {
-            em_name: '',
-            em_no: '',
-            em_mobile: '',
-            em_email: '',
-            em_status: false,
-            em_gender: 0
-        }
-        setUserdata(formreset);
-        setemId(0)
-        setSalut(0)
-        setDept(0)
-        setDeptsec(0)
-        setBranch(0)
-        setDesignation(0)
-        setmodulegroup(0)
-        setUsergroup(0)
-        setCount(0)
-        setValue(0)
-        setGender(0)
-        setemno(0)
-        setdob()
-        setdoj()
-        setDetlSlno(0)
+        reset()
     }, [])
 
     //back to home
@@ -343,7 +333,6 @@ const UserCreation = () => {
                                     disabled={true}
                                     name="em_no"
                                     value={em_no}
-                                //onchange={updateUserCreation}
                                 />
                             </Box>
                         </CustomeToolTip>
@@ -460,7 +449,7 @@ const UserCreation = () => {
                                 <UserGroupSelect value={usergroup} setValue={setUsergroup} />
                             </Box>
                         </CustomeToolTip>
-                        <Box sx={{ width: "20%", pr: 1, pt: 1 }}>
+                        <Box sx={{ width: "10%", pr: 1, pt: 1 }}>
                             <CusCheckBox
                                 label="Status"
                                 color="primary"
@@ -471,6 +460,22 @@ const UserCreation = () => {
                                 onCheked={updateUserCreation}
                             />
                         </Box>
+                        <Box sx={{ width: "10%", pr: 1, pt: 1 }}>
+                            <CusCheckBox
+                                label="Supervisor"
+                                color="primary"
+                                size="md"
+                                name="supervis"
+                                value={supervis}
+                                checked={supervis}
+                                onCheked={UpdateSupervis}
+                            />
+                        </Box>
+
+                        {supervis === true ? <Box sx={{ width: "20%", pr: 1, pt: 1 }}>
+                            <ComEmpMapSelect value={comTpeMap} setValue={setComTypeMap} />
+                        </Box> : null}
+
                     </Box>
                 </Paper>
             </Box >

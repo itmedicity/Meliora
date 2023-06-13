@@ -26,12 +26,10 @@ const DirectComplaintReg = () => {
     const history = useHistory();
     //state for critical checkbox
     const [crical, setCritical] = useState(false)
-    //state for high checkbox
-    const [high, setHigh] = useState(false)
-    //state for medium checkbox
-    const [medium, setMedium] = useState(false)
     //state for complaint priority
     const [priority, setpriority] = useState(0)
+    //state for Priority Reson
+    const [priorreason, setPriorreason] = useState('')
     //state for table rendering
     const [count, setCount] = useState(0)
     //state for knowing insert or edit to database
@@ -81,52 +79,22 @@ const DirectComplaintReg = () => {
     const complintdesc = useCallback((e) => {
         setdesc(e.target.value)
     }, [])
+    const updatePriorreason = useCallback((e) => {
+        setPriorreason(e.target.value)
+    }, [])
     /*** Priority seting Check box */
     //fn for critical state updation
     const getCritical = useCallback((e) => {
         if (e.target.checked === true) {
             setCritical(true)
             setpriority(1)
-            setHigh(false)
-            setMedium(false)
         }
         else {
-            setCritical(false)
-            setHigh(false)
-            setMedium(false)
-            setpriority(0)
-        }
-    }, [])
-    //fn for critical state updation
-    const getHigh = useCallback((e) => {
-        if (e.target.checked === true) {
-            setHigh(true)
-            setpriority(2)
-            setCritical(false)
-            setMedium(false)
-        }
-        else {
-            setHigh(false)
-            setCritical(false)
-            setMedium(false)
-            setpriority(0)
-        }
-    }, [])
-    //fn for medium state updation
-    const getMedium = useCallback((e) => {
-        if (e.target.checked === true) {
-            setMedium(true)
-            setpriority(3)
-            setHigh(false)
-            setCritical(false)
-        }
-        else {
-            setMedium(false)
-            setHigh(false)
             setCritical(false)
             setpriority(0)
         }
     }, [])
+
     //state for hic
     const [checkHic, setChechHic] = useState(false)
     //fn for hic state updation
@@ -147,19 +115,18 @@ const DirectComplaintReg = () => {
         setpriority(false)
         setcodept(false)
         setCritical(false)
-        setHigh(false)
-        setMedium(false)
         setdesc('')
         setcodept(null)
         setLocation(0)
         setlocationName("")
+        setPriorreason("")
     }
     //Data set for edit
     const rowSelect = useCallback((params) => {
         setEdit(1)
         const data = params.api.getSelectedRows()
         const { complaint_dept_secslno, complaint_hicslno,
-            compalint_priority, cm_location,
+            cm_location, priority_reason, complaint_typeslno, priority_check,
             complaint_request_slno, complaint_deptslno, complaint_slno, complaint_desc, id } = data[0];
         const frmdata = {
             create_user: id,
@@ -168,29 +135,15 @@ const DirectComplaintReg = () => {
         setComplaint(frmdata)
         setDepsec(complaint_dept_secslno)
         setReqType(complaint_request_slno)
+        setcotype(complaint_typeslno)
         setLocation(cm_location)
         setChechHic(complaint_hicslno === 1 ? true : false)
-        setpriority(compalint_priority)
+        setpriority(priority_check)
         setcodept(complaint_deptslno)
         setdesc(complaint_desc)
-        if (compalint_priority === 1) {
-            setCritical(true)
-            setHigh(false)
-            setMedium(false)
-        } else if (compalint_priority === 2) {
-            setHigh(true)
-            setCritical(false)
-            setMedium(false)
-        }
-        else if (compalint_priority === 3) {
-            setMedium(true)
-            setCritical(false)
-            setHigh(false)
-        } else {
-            setCritical(false)
-            setHigh(false)
-            setMedium(false)
-        }
+        setPriorreason(priority_check === 1 ? priority_reason : null)
+        setCritical(priority_check === 1 ? true : false)
+
     }, [])
     //update data
     const patchdata = useMemo(() => {
@@ -200,14 +153,15 @@ const DirectComplaintReg = () => {
             complaint_request_slno: ReqType,
             complaint_deptslno: codept,
             complaint_typeslno: cotype,
-            compalint_priority: priority,
+            priority_check: priority,
             complaint_hicslno: checkHic === true ? 1 : 0,
             compalint_status: 0,
             cm_location: locations,
             edit_user: id,
+            priority_reason: priority === 1 ? priorreason : null,
             complaint_slno: complaint_slno
         }
-    }, [desc, depsec, ReqType, locations, codept, cotype, priority, checkHic, complaint_slno, id])
+    }, [desc, depsec, ReqType, locations, codept, priorreason, cotype, priority, checkHic, complaint_slno, id])
     //insert data
     const postdata = useMemo(() => {
         return {
@@ -216,15 +170,16 @@ const DirectComplaintReg = () => {
             complaint_request_slno: ReqType,
             complaint_deptslno: codept,
             complaint_typeslno: cotype,
-            compalint_priority: priority,
+            priority_check: priority,
             complaint_hicslno: checkHic === true ? 1 : 0,
             compalint_status: 0,
             cm_location: locations,
             create_user: id,
+            priority_reason: priority === 1 ? priorreason : null,
             locationName: locationName,
-            priority: priority === 1 ? "Critical" : priority === 2 ? "High" : priority === 3 ? "Medium" : null
+            priority: priority === 1 ? "Priority Ticket" : "Normal Ticket"
         }
-    }, [desc, depsec, locations, ReqType, cotype, priority, checkHic, locationName, codept, id])
+    }, [desc, depsec, locations, ReqType, cotype, priority, priorreason, checkHic, locationName, codept, id])
     /*** usecallback function for form submitting */
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
@@ -278,10 +233,9 @@ const DirectComplaintReg = () => {
         setcodept(null)
         setdesc(false)
         setCritical(false)
-        setHigh(false)
-        setMedium(false)
         setdesc('')
         setlocationName("")
+        setPriorreason("")
     }, [])
     //close button function
     const backtoSetting = useCallback(() => {
@@ -401,33 +355,39 @@ const DirectComplaintReg = () => {
                             </Box>
                         </Paper>
                         {/* complaint type */}
-                        <Paper variant='outlined' sx={{ p: 0.5 }} square >
-                            <Box>
-                                <CssVarsProvider>
-                                    <Typo level="h2" fontSize="sm" sx={{ mb: 0.5, color: 'neutral.400' }}>
-                                        COMPLAINT TYPE
-                                    </Typo>
-                                </CssVarsProvider>
-                            </Box>
-                            {/* complaint department */}
-                            <Box sx={{ display: 'flex', flex: 1, p: 1 }} >
-                                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                                    {
-                                        complainttype && complainttype.map((val) => {
-                                            return <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={val.complaint_type_slno} sx={{ width: '100%' }}>
-                                                <ComplaintCheckBox
-                                                    label={val.complaint_type_name}
-                                                    name={val.complaint_type_name}
-                                                    value={val.complaint_type_slno}
-                                                    onChange={setcotype}
-                                                    checkedValue={cotype}
-                                                />
-                                            </Grid>
-                                        })
-                                    }
-                                </Grid>
-                            </Box>
-                        </Paper>
+                        {codept !== null ?
+                            <Paper variant='outlined' sx={{ p: 0.5 }} square >
+                                <Box>
+                                    <CssVarsProvider>
+                                        <Typo level="h2" fontSize="sm" sx={{ mb: 0.5, color: 'neutral.400' }}>
+                                            COMPLAINT TYPE
+                                        </Typo>
+                                    </CssVarsProvider>
+                                </Box>
+                                {/* complaint department */}
+                                <Box sx={{ display: 'flex', flex: 1, p: 1 }} >
+                                    <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+
+                                        {
+                                            complainttype && complainttype.map((val) => {
+                                                return <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={val.complaint_type_slno} sx={{ width: '100%' }}>
+                                                    <ComplaintCheckBox
+                                                        label={val.complaint_type_name}
+                                                        name={val.complaint_type_name}
+                                                        value={val.complaint_type_slno}
+                                                        onChange={setcotype}
+                                                        checkedValue={cotype}
+                                                    />
+                                                </Grid>
+                                            })
+                                        }
+
+                                    </Grid>
+                                </Box>
+                            </Paper> :
+                            // <CircularProgress sx={{ color: 'pink' }} />
+                            null
+                        }
                         <Paper variant='outlined' sx={{ p: 0.5, display: 'flex' }} square >
                             <Box sx={{ flex: 1, p: 0.5, pt: 1 }} >
                                 <DeptSectionSelect value={depsec} setValue={setDepsec} />
@@ -450,41 +410,6 @@ const DirectComplaintReg = () => {
                             </Box>
                         </Paper>
                         <Paper variant='outlined' sx={{ p: 0.5, display: 'flex', flex: 1 }} square >
-                            <Box sx={{ display: 'flex', flexDirection: 'column', width: '20%', px: 1, pt: 0.5, justifyContent: 'center', }} >
-                                <Grid item  >
-                                    <CusCheckBox
-                                        color="danger"
-                                        size="lg"
-                                        name="crical"
-                                        label={<Typography level="h2" fontSize="md" sx={{ mb: 0.5, color: 'neutral.600' }} >Very Urgent</Typography>}
-                                        value={crical}
-                                        onCheked={getCritical}
-                                        checked={crical}
-                                    />
-                                </Grid>
-                                <Grid item >
-                                    <CusCheckBox
-                                        color="danger"
-                                        size="lg"
-                                        name="high"
-                                        label={<Typography level="h2" fontSize="md" sx={{ mb: 0.5, color: 'neutral.600' }} >High Priority</Typography>}
-                                        value={high}
-                                        onCheked={getHigh}
-                                        checked={high}
-                                    />
-                                </Grid>
-                                <Grid item >
-                                    <CusCheckBox
-                                        color="danger"
-                                        size="lg"
-                                        name="medium"
-                                        label={<Typography level="h2" fontSize="md" sx={{ mb: 0.5, color: 'neutral.600' }} >Medium Priority</Typography>}
-                                        value={medium}
-                                        onCheked={getMedium}
-                                        checked={medium}
-                                    />
-                                </Grid>
-                            </Box>
                             <Box sx={{ width: '80%' }} >
                                 <CustomTextarea
                                     placeholder="complaint descrition"
@@ -498,6 +423,47 @@ const DirectComplaintReg = () => {
                                     value={desc}
                                     onchange={complintdesc}
                                 />
+                            </Box>
+                            <Box sx={{
+                                display: 'flex', flexDirection: 'column',
+                                width: '20%', px: 1, pt: 0.5, flex: 1, justifyContent: 'center',
+                            }} >
+                                <Box sx={{
+                                    display: 'flex',
+                                    pt: 0.8
+                                }} >
+                                    <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
+                                        <CusCheckBox
+                                            // variant="outlined"
+                                            color="danger"
+                                            size="lg"
+                                            name="Hic"
+                                            label="Priority"
+                                            value={crical}
+                                            onCheked={getCritical}
+                                            checked={crical}
+                                        />
+                                    </Grid>
+                                </Box>
+
+                                {
+                                    crical === true ?
+                                        <Box sx={{ width: '100%', pt: 0.5 }} >
+                                            <CustomTextarea
+                                                style={{ width: 250 }}
+                                                minRows={2}
+                                                maxRows={2}
+                                                required
+                                                type="text"
+                                                placeholder="Remarks"
+                                                name='priorreason'
+                                                value={priorreason}
+                                                onchange={updatePriorreason}
+                                            />
+                                        </Box>
+
+                                        : null
+                                }
                             </Box>
                         </Paper>
                     </Box>

@@ -33,30 +33,23 @@ const DeptWiseEmpSelect = ({ personName, setPersonName, empdeptwise }) => {
         <Box >
             <CustomeToolTip title="Select Employee">
                 <FormControl fullWidth >
-                    {/* <InputLabel id="demo-multiple-name-label"
-                    sx={{ height: 30, p: 0, m: 0, lineHeight: 1.200 }}
-                >Select Employee</InputLabel> */}
                     <Select
                         labelId="demo-multiple-name-label"
                         id="demo-multiple-name"
                         size="small"
-                        // fullWidth
                         multiple
                         value={personName}
                         onChange={handleChange}
                         variant='outlined'
-                        // input={<OutlinedInput label="Name" />}
                         sx={{ height: 30, p: 0, m: 0, lineHeight: 1.200 }}
-                    //   MenuProps={MenuProps}
                     >
-                        <MenuItem value={[]} disabled  >Select Employee</MenuItem>
+                        <MenuItem value={0} disabled >Select Department Section</MenuItem>
                         {
                             deptwiseemp && deptwiseemp.map((name) => {
                                 return (
                                     <MenuItem
                                         key={name.em_id}
                                         value={name.em_id}
-                                    // style={getStyles(name, personName, theme)}
                                     >
                                         {name.em_name}
                                     </MenuItem>

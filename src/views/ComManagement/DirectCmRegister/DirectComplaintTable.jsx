@@ -72,11 +72,6 @@ const DirectComplaintTable = ({ count, rowSelect, setCount }) => {
         }
     }, [])
 
-
-
-
-
-
     //column title setting for pending
     const [columnpending] = useState([
         { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 100 },

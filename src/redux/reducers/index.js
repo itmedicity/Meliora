@@ -94,6 +94,9 @@ import { setComplaintRegTable } from '../reducers/ComplaintRegTable.Reducer'
 import { setHICComplaintLists } from '../reducers/HicComplaintList.Reducer'
 import { setOmTableList } from '../reducers/OmTableSelect.Reducer'
 import { setManualEmpList } from '../reducers/ManualEmpList.Reducer'
+import { setComEmpMap } from '../reducers/ComEmpMap.Reducer'
+
+
 
 const reducer = combineReducers({
     changeState,
@@ -194,7 +197,8 @@ const reducer = combineReducers({
     setComplaintRegTable,
     setHICComplaintLists,
     setOmTableList,
-    setManualEmpList
+    setManualEmpList,
+    setComEmpMap
 
 })
 export default reducer;

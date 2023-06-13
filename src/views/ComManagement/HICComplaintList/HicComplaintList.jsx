@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import ComplistAgGridcmp from '../../Components/ComplistAgGridcmp';
@@ -9,7 +9,6 @@ import { Box } from '@mui/material';
 const HicComplaintList = () => {
     const history = useHistory()
     const dispatch = useDispatch();
-
 
     useEffect(() => {
         dispatch(getHiccomplaintsall())
@@ -27,11 +26,6 @@ const HicComplaintList = () => {
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", minWidth: 180 },
         { headerName: "Complaint Department", field: "complaint_dept_name", filter: "true", minWidth: 200 },
         { headerName: "Request Date", field: "compalint_date", minWidth: 180 },
-        // { headerName: "Assigned Employee", field: "em_name", filter: "true", minWidth: 180 },
-        // { headerName: "Assign Date", field: "assigned_date", minWidth: 180 },
-        // { headerName: "Rectify Date", field: "cm_rectify_time", minWidth: 180 },
-        // { headerName: "Verify Date", field: "cm_verfy_time", minWidth: 180 },
-        // { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 180 }
     ])
 
     const backtoSetting = useCallback(() => {
@@ -39,36 +33,20 @@ const HicComplaintList = () => {
     }, [history])
 
 
-
     return (
         <CardCloseOnly
-            title="Complaint List"
+            title="HIC Complaint List"
             close={backtoSetting}>
 
             <Box sx={{ p: 1 }}>
                 <ComplistAgGridcmp
-                    // columnDefs={ }
-
                     columnDefs={column}
                     tableData={compall}
                     rowHeight={30}
                 />
             </Box>
-
-
-
-
-            {/* <ComplistAgGridcmp
-                // columnDefs={ }
-
-                columnDefs={column}
-                tableData={compall}
-                rowHeight={30}
-            /> */}
-
         </CardCloseOnly>
-
     )
 }
 
-export default HicComplaintList
+export default memo(HicComplaintList)
