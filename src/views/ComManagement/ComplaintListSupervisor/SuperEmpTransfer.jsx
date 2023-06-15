@@ -108,7 +108,7 @@ const SuperEmpTransfer = ({ open, setOpen, transfer, count, empdept, setCount, s
             }
         }
         const Inactiveemp = async (inactive) => {
-            const result = await axioslogin.post(`/complaintassign/updatePunchMastDuty`, inactive);
+            const result = await axioslogin.post(`/complaintassign/employeeTrans/Inactive`, inactive);
             const { message, success } = result.data;
             if (success === 1) {
                 succesNotify(message)
@@ -123,8 +123,8 @@ const SuperEmpTransfer = ({ open, setOpen, transfer, count, empdept, setCount, s
         if (personName.length === 0) {
             infoNotify("Please Select Employee")
         } else {
-            Assignemp(postData);
             Inactiveemp(inactive)
+            Assignemp(postData);
         }
 
     }, [postData, inactive, count, reset, setCount, personName])
