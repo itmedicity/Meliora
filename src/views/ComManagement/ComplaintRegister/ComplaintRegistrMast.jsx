@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getComplaintDept } from 'src/redux/actions/ComplaintDept.action'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { errorNotify, infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { getRequesttype } from 'src/redux/actions/RequestType.action';
 import { getComplainttype } from 'src/redux/actions/ComplaintType.action';
 import CustomTextarea from 'src/views/Components/CustomTextarea'
@@ -26,6 +26,8 @@ import { memo } from 'react'
 import { getCompliantRegTable } from 'src/redux/actions/ComplaintRegTable.action'
 import { getReqRegistListByDept } from 'src/redux/actions/ReqRegisterListByDept.action'
 import ComDeptCheckBox from './ComDeptCheckBox'
+import { getComplaintSlno } from 'src/views/Constant/Constant'
+
 const ComplaintRegistrMast = () => {
     /*** Initializing */
     const history = useHistory();
@@ -53,11 +55,32 @@ const ComplaintRegistrMast = () => {
     //state for dep section select box
     const [depsec, setDepsec] = useState(0)
     const [locationName, setlocationName] = useState("");
-    const [complaint, setComplaint] = useState({
-        complaint_slno: 0
+    // const [complaint, setComplaint] = useState({
+    //     complaint_slno: 0
+    // })
+
+    const [complaint_slno, setComplaint] = useState(0)
+
+    useEffect(() => {
+        getComplaintSlno().then((val) => {
+            setComplaint(val);
+        })
+    }, [count])
+
+    const logOut_time = useSelector((state) => {
+        return state.LoginUserData.logOut
     })
 
+    useEffect(() => {
+        const now = new Date()
+        if (now.getTime() < new Date(logOut_time).getTime()) {
+            history.push('/Home/ComplaintRegister')
+        }
+        else {
+            history.push('/')
+        }
 
+    }, [codept, history, logOut_time])
     //redux for geting login id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -96,7 +119,7 @@ const ComplaintRegistrMast = () => {
     const { complaintdeptdata, requesttypedata, complainttype,
         //hicpolicy,
     } = state
-    const { complaint_slno } = complaint
+
     //function for complaint description state updation
     const complintdesc = useCallback((e) => {
         setdesc(e.target.value)
@@ -130,6 +153,7 @@ const ComplaintRegistrMast = () => {
     //insert data
     const postdata = useMemo(() => {
         return {
+            complaint_slno: complaint_slno,
             complaint_desc: desc,
             complaint_dept_secslno: sec,
             complaint_request_slno: ReqType,
@@ -144,7 +168,7 @@ const ComplaintRegistrMast = () => {
             locationName: locationName,
             priority: priority === 1 ? "Priority Ticket" : "Normal Ticket"
         }
-    }, [desc, sec, ReqType, cotype, depsec, priorreason, priority, codept, id, locationName, checkHic])
+    }, [desc, sec, ReqType, cotype, depsec, priorreason, priority, codept, id, locationName, complaint_slno, checkHic])
 
     //Data set for edit
     const rowSelect = useCallback((params) => {
@@ -152,13 +176,11 @@ const ComplaintRegistrMast = () => {
         const data = params.api.getSelectedRows()
         const { complaint_typeslno, complaint_dept_secslno, complaint_hicslno,
             cm_location, priority_reason, complaint_request_slno, complaint_deptslno, complaint_slno,
-            complaint_desc, id, priority_check } = data[0];
-        const frmdata = {
-            create_user: id,
-            complaint_slno: complaint_slno
-        }
+            complaint_desc, priority_check } = data[0];
+
+
         setDepsec(cm_location)
-        setComplaint(frmdata)
+        setComplaint(complaint_slno)
         setsec(complaint_dept_secslno)
         setReqType(complaint_request_slno)
         setcotype(complaint_typeslno)
@@ -189,17 +211,14 @@ const ComplaintRegistrMast = () => {
     /*** usecallback function for form submitting */
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
-        const resetFrorm = {
-            complaint_slno: 0,
-        }
         const reset = () => {
-            setComplaint(resetFrorm)
+            setComplaint(0)
             setsec(0)
             setReqType(false)
             setcotype(false)
             setChechHic(false)
-            setpriority(false)
-            setcodept(false)
+            setpriority(0)
+            setcodept(null)
             setCritical(false)
             setdesc('')
             setDepsec(0)
@@ -208,7 +227,6 @@ const ComplaintRegistrMast = () => {
             setPriorreason("")
             setCount(0)
             setValue(0)
-
         }
         /***    * insert function for use call back     */
         const InsertFun = async (postdata) => {
@@ -217,10 +235,11 @@ const ComplaintRegistrMast = () => {
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1);
-                setComplaint(resetFrorm);
                 reset()
-            } else if (success === 0) {
-                infoNotify(message);
+            } else if (success === 5) {
+                errorNotify("Complaint Not Registered Please Register again");
+                setCount(count + 1);
+                reset()
             }
             else {
                 infoNotify(message)
@@ -233,7 +252,6 @@ const ComplaintRegistrMast = () => {
             if (success === 2) {
                 succesNotify(message)
                 setCount(count + 1);
-                setComplaint(resetFrorm);
                 reset()
             } else if (success === 0) {
                 infoNotify(message);
@@ -255,16 +273,13 @@ const ComplaintRegistrMast = () => {
     }, [history])
     //fn for entire state referesh
     const refreshWindow = useCallback(() => {
-        const formreset = {
-            complaint_slno: ''
-        }
-        setComplaint(formreset)
+        setComplaint(0)
         setsec(0)
         setReqType(false)
         setcotype(false)
         setChechHic(false)
-        setpriority(false)
-        setcodept(false)
+        setpriority(0)
+        setcodept(null)
         setCritical(false)
         setdesc('')
         setDepsec(0)

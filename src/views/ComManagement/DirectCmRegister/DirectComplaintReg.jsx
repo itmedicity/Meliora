@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getComplaintDept } from 'src/redux/actions/ComplaintDept.action'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { errorNotify, infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { getRequesttype } from 'src/redux/actions/RequestType.action';
 import { getComplainttype } from 'src/redux/actions/ComplaintType.action';
 import CustomTextarea from 'src/views/Components/CustomTextarea'
@@ -20,6 +20,7 @@ import { Button, CssVarsProvider, Typography as Typo } from '@mui/joy'
 import CmpRequestTypeCheckBx from '../ComplaintRegister/CmpRequestTypeCheckBx'
 import { getReqRegistListByDept } from 'src/redux/actions/ReqRegisterListByDept.action';
 import { getCompliantRegTable } from 'src/redux/actions/ComplaintRegTable.action';
+import { getComplaintSlno } from 'src/views/Constant/Constant'
 
 const DirectComplaintReg = () => {
     /*** Initializing */
@@ -46,13 +47,32 @@ const DirectComplaintReg = () => {
     const [depsec, setDepsec] = useState(0)
     const [locations, setLocation] = useState(0)
     const [locationName, setlocationName] = useState("");
-    const [complaint, setComplaint] = useState({
-        complaint_slno: 0
-    })
+    const [complaint_slno, setComplaint] = useState(0)
     //redux for geting login id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
+
+    useEffect(() => {
+        getComplaintSlno().then((val) => {
+            setComplaint(val);
+        })
+    }, [count])
+
+    const logOut_time = useSelector((state) => {
+        return state.LoginUserData.logOut
+    })
+
+    useEffect(() => {
+        const now = new Date()
+        if (now.getTime() < new Date(logOut_time).getTime()) {
+            history.push('/Home/DirectComplaint')
+        }
+        else {
+            history.push('/')
+        }
+    }, [codept, history, logOut_time])
+
     const dispatch = useDispatch();
     //dispatching redux data hic,complaintype,requestype,complaintdept
     useEffect(() => {
@@ -74,7 +94,7 @@ const DirectComplaintReg = () => {
     })
     //destructuring redux data
     const { complaintdeptdata, requesttypedata, complainttype } = state
-    const { complaint_slno } = complaint
+
     //function for complaint description state updation
     const complintdesc = useCallback((e) => {
         setdesc(e.target.value)
@@ -108,18 +128,21 @@ const DirectComplaintReg = () => {
     }, [])
     //function for reseting states to intial state
     const reset = () => {
+        setComplaint(0)
         setDepsec(0)
         setReqType(false)
         setcotype(false)
         setChechHic(false)
-        setpriority(false)
-        setcodept(false)
+        setpriority(0)
+        setcodept(null)
         setCritical(false)
         setdesc('')
         setcodept(null)
         setLocation(0)
         setlocationName("")
         setPriorreason("")
+        setCount(0)
+        setEdit(0)
     }
     //Data set for edit
     const rowSelect = useCallback((params) => {
@@ -127,12 +150,8 @@ const DirectComplaintReg = () => {
         const data = params.api.getSelectedRows()
         const { complaint_dept_secslno, complaint_hicslno,
             cm_location, priority_reason, complaint_typeslno, priority_check,
-            complaint_request_slno, complaint_deptslno, complaint_slno, complaint_desc, id } = data[0];
-        const frmdata = {
-            create_user: id,
-            complaint_slno: complaint_slno
-        }
-        setComplaint(frmdata)
+            complaint_request_slno, complaint_deptslno, complaint_slno, complaint_desc } = data[0];
+        setComplaint(complaint_slno)
         setDepsec(complaint_dept_secslno)
         setReqType(complaint_request_slno)
         setcotype(complaint_typeslno)
@@ -165,6 +184,7 @@ const DirectComplaintReg = () => {
     //insert data
     const postdata = useMemo(() => {
         return {
+            complaint_slno: complaint_slno,
             complaint_desc: desc,
             complaint_dept_secslno: depsec,
             complaint_request_slno: ReqType,
@@ -179,7 +199,9 @@ const DirectComplaintReg = () => {
             locationName: locationName,
             priority: priority === 1 ? "Priority Ticket" : "Normal Ticket"
         }
-    }, [desc, depsec, locations, ReqType, cotype, priority, priorreason, checkHic, locationName, codept, id])
+    }, [desc, depsec, locations, ReqType, cotype, priority, priorreason, checkHic, complaint_slno, locationName, codept, id])
+    //console.log(postdata);
+
     /*** usecallback function for form submitting */
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
@@ -190,8 +212,10 @@ const DirectComplaintReg = () => {
                 succesNotify(message)
                 setCount(count + 1);
                 reset();
-            } else if (success === 0) {
-                infoNotify(message);
+            } else if (success === 5) {
+                errorNotify("Complaint Not Registered Please Register again");
+                setCount(count + 1);
+                reset()
             }
             else {
                 infoNotify(message)
@@ -204,7 +228,6 @@ const DirectComplaintReg = () => {
             if (success === 2) {
                 succesNotify(message)
                 setCount(count + 1);
-                setEdit(0);
                 reset()
             } else if (success === 0) {
                 infoNotify(message);
@@ -221,21 +244,21 @@ const DirectComplaintReg = () => {
     }, [postdata, patchdata, edit, count])
     //refersh function
     const refreshWindow = useCallback(() => {
-        const formreset = {
-            complaint_slno: ''
-        }
-        setComplaint(formreset)
+        setComplaint(0)
         setDepsec(0)
         setReqType(false)
         setcotype(false)
         setChechHic(false)
-        setpriority(false)
+        setpriority(0)
         setcodept(null)
-        setdesc(false)
         setCritical(false)
         setdesc('')
+        setcodept(null)
+        setLocation(0)
         setlocationName("")
         setPriorreason("")
+        setCount(0)
+        setEdit(0)
     }, [])
     //close button function
     const backtoSetting = useCallback(() => {
@@ -290,12 +313,7 @@ const DirectComplaintReg = () => {
         return val.req_status === 'P'
     })
 
-
-
-
     return (
-
-
         <Fragment>
             <CardMaster
                 title="Direct Complaint Registration"
@@ -437,7 +455,7 @@ const DirectComplaintReg = () => {
                                             // variant="outlined"
                                             color="danger"
                                             size="lg"
-                                            name="Hic"
+                                            name="crical"
                                             label="Priority"
                                             value={crical}
                                             onCheked={getCritical}
