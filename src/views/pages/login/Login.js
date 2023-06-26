@@ -63,7 +63,8 @@ const Login = () => {
           empdeptsec: data.emp_sec,
           empsecid: data.emp_secid,
           empdept: data.emp_dept,
-          apptoken: data.app_token
+          apptoken: data.app_token,
+          logOut: data.logOutTime
         }
         dispatch({ type: FETCH_LOGIN, payload: loggedDetl })
         const loggedCredential = sessionStorage.setItem('userDetl', JSON.stringify(loggedDetl));

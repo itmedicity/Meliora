@@ -57,6 +57,16 @@ export const getEmpSlno = async () => {
     }
 }
 
+//Get compliant slno
+export const getComplaintSlno = async () => {
+    const result = await axioslogin.get('/common/getCompSerialno')
+    const { success } = result.data;
+    if (success === 1) {
+        const [serial_current] = result.data.data
+        return serial_current.serial_current
+    }
+}
+
 //URL EXSIT CHECK FUNCTION
 
 export const urlExist = (url, callBack) => {
