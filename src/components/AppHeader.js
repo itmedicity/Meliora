@@ -100,15 +100,16 @@ const AppHeader = () => {
               </CNavLink>
             </CNavItem>
             <CNavItem>
-              <CNavLink to="#" component={NavLink} onClick={cmsLogout}>
-                <PowerSettingsNewIcon sx={{ color: iconPowerOff }} />
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
               <CNavLink to="/Home/Manual" component={NavLink} >
                 <MenuBookIcon sx={{ color: iconManual }} />
               </CNavLink>
             </CNavItem>
+            <CNavItem>
+              <CNavLink to="#" component={NavLink} onClick={cmsLogout}>
+                <PowerSettingsNewIcon sx={{ color: iconPowerOff }} />
+              </CNavLink>
+            </CNavItem>
+
             {/* {
               Manualshow === 1 ? <CNavItem>
                 <CNavLink to="/Home/Manual" component={NavLink} >
