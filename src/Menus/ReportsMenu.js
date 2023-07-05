@@ -10,3 +10,8 @@ export const diet_three = [
     { to: '/Home/Report/Pateintwise', name: 'Patient Wise Report', slno: 65 },
 
 ]
+
+export const cms_one = [
+    { to: '/Home/CmsReportDeptWise', name: 'All Complaint Dept Wise', slno: 114 },
+
+]

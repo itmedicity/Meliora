@@ -105,6 +105,9 @@ const ManualList = React.lazy(() => import('./views/Manual/ManualList'))
 const ComEmpMapping = React.lazy(() => import('./views/Master/ComEMPMapping/ComEmpMapping'))
 const ComListSupervisor = React.lazy(() => import('./views/ComManagement/ComplaintListSupervisor/SuperisorList'))
 const ComPriorityMast = React.lazy(() => import('./views/Master/CompPriority/ComPriorityMast'))
+const RegistredCompList = React.lazy(() => import('./views/ComManagement/RegistredComplaintList/RegistredComList'))
+const CmsReportDeptWise = React.lazy(() => import('./views/Report/ComplaintReport/DeptWiseReport'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/Home', exact: true, name: 'Home', component: Home },
@@ -212,7 +215,9 @@ const routes = [
   { path: '/Home/Manual', exact: true, name: 'Manual List', component: ManualList },
   { path: '/Home/ComplaintEmpMap', exact: true, name: 'Compalint EMP Mapping', component: ComEmpMapping },
   { path: '/Home/Complaint/Supervisor', exact: true, name: 'Compalint List Supervisor', component: ComListSupervisor },
-  { path: '/Home/CompPriority', exact: true, name: 'Compalint Priority Master', component: ComPriorityMast }
+  { path: '/Home/CompPriority', exact: true, name: 'Compalint Priority Master', component: ComPriorityMast },
+  { path: '/Home/RegistredCompList', exact: true, name: 'Registred Compalint List', component: RegistredCompList },
+  { path: '/Home/CmsReportDeptWise', exact: true, name: 'Registred Compalint List', component: CmsReportDeptWise }
 
 
 ]

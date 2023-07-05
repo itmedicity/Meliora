@@ -5,6 +5,13 @@ import CIcon from '@coreui/icons-react'
 
 const CmTransactions = [
     {
+        men_slno: 113,
+        component: CNavItem,
+        name: 'Registred Complaint List',
+        to: '/Home/RegistredCompList',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
         men_slno: 5,
         component: CNavItem,
         name: 'Complaint Registration',

@@ -25,7 +25,12 @@ import AssistantNeedmodal from '../AssignComplaint/AssistantNeedmodal';
 import TransferDeptmodal from '../AssignComplaint/TransferDeptmodal';
 import TransferWithinAStationIcon from '@mui/icons-material/TransferWithinAStation';
 import SuperEmpTransfer from './SuperEmpTransfer';
-
+import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone';
+import MessageSendModel from './MessageSendModel';
+import SocialDistanceIcon from '@mui/icons-material/SocialDistance';
+import AssistTransferSuper from './AssistTransferSuper';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import VerifyModelSuper from './VerifyModelSuper';
 const SuperisorList = () => {
 
     const history = useHistory();
@@ -42,7 +47,7 @@ const SuperisorList = () => {
     //column title setting
     const [column] = useState([
         {
-            headerName: 'Action', minWidth: 180, cellRenderer: params => <Fragment>
+            headerName: 'Action', minWidth: 240, cellRenderer: params => <Fragment>
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                     onClick={() => quickAssign(params)}>
                     <CustomeToolTip title="Quick Assign" >
@@ -60,6 +65,12 @@ const SuperisorList = () => {
                 >
                     <CustomeToolTip title="Transfer Department" >
                         < ChangeCircleIcon />
+                    </CustomeToolTip>
+                </IconButton>
+                <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                    onClick={() => MessageSend(params)}>
+                    <CustomeToolTip title="Send Message" >
+                        < ForwardToInboxTwoToneIcon />
                     </CustomeToolTip>
                 </IconButton>
             </Fragment>
@@ -223,6 +234,138 @@ const SuperisorList = () => {
 
     ])
 
+    //when we click on all compalint this table  will show  
+    const [AssignedAll] = useState([
+        { headerName: "SlNo", field: "complaint_slno", minWidth: 30 },
+        {
+            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250,
+            cellStyle: (params) => {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
+        { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 220 },
+        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+
+        {
+            headerName: "Employee Name", field: "em_name", filter: true, autoHeight: true, wrapText: true,
+            cellStyle: (params) => {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
+        { headerName: "Request Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Assign Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, filter: true, wrapText: true }
+    ])
+    //when we click on all compalint this table  will show  
+    const [AssistReqAll] = useState([
+
+        {
+            headerName: 'Action', minWidth: 50, cellRenderer: params => <Fragment>
+                <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                    onClick={() => AssistTrasfer(params)}>
+                    <CustomeToolTip title="Assist Trasfer" >
+                        <SocialDistanceIcon />
+                    </CustomeToolTip>
+                </IconButton>
+            </Fragment>
+        },
+
+
+        { headerName: "SlNo", field: "complaint_slno", minWidth: 30 },
+        {
+            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250,
+            cellStyle: (params) => {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
+        { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 220 },
+        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+
+        {
+            headerName: "Employee Name", field: "em_name", filter: true, autoHeight: true, wrapText: true,
+            cellStyle: (params) => {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
+        { headerName: "Request Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Assign Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, filter: true, wrapText: true }
+    ])
+
+
+    //when we click on all compalint this table  will show  
+    const [VeryPendSuper] = useState([
+
+
+
+        {
+            headerName: 'Action', minWidth: 50, cellRenderer: params => <Fragment>
+                <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                    onClick={() => verifySupervisr(params)}>
+                    <CustomeToolTip title="Verify" >
+                        <HowToRegIcon />
+                    </CustomeToolTip>
+                </IconButton>
+            </Fragment>
+        },
+
+
+        { headerName: "SlNo", field: "complaint_slno", minWidth: 30 },
+        {
+            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250,
+            cellStyle: (params) => {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
+        { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 220 },
+        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+
+        {
+            headerName: "Employee Name", field: "em_name", filter: true, autoHeight: true, wrapText: true,
+            cellStyle: (params) => {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
+        { headerName: "Request Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Assign Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, filter: true, wrapText: true }
+    ])
+
+
+
     const dispatch = useDispatch();
     //getting id
     useEffect(() => {
@@ -338,9 +481,19 @@ const SuperisorList = () => {
             setAll(false)
             setAssist(false)
             setempTras(false)
+            setAssignAll(false)
+            setAssistAll(false)
+            setVerifySuper(false)
         } else {
-            setFlag(0);
+            setFlag(0)
+            setempTras(false)
+            setPending(false)
             setAssigned(false)
+            setAll(false)
+            setAssist(false)
+            setAssignAll(false)
+            setAssistAll(false)
+            setVerifySuper(false)
         }
     }, [])
     //pending list check box updation
@@ -352,9 +505,19 @@ const SuperisorList = () => {
             setAll(false)
             setAssist(false)
             setempTras(false)
+            setAssignAll(false)
+            setAssistAll(false)
+            setVerifySuper(false)
         } else {
             setFlag(0)
+            setempTras(false)
             setPending(false)
+            setAssigned(false)
+            setAll(false)
+            setAssist(false)
+            setAssignAll(false)
+            setAssistAll(false)
+            setVerifySuper(false)
         }
     }, [])
 
@@ -368,9 +531,19 @@ const SuperisorList = () => {
             setPending(false)
             setAssist(false)
             setempTras(false)
+            setAssignAll(false)
+            setAssistAll(false)
+            setVerifySuper(false)
         } else {
             setFlag(0)
+            setempTras(false)
+            setPending(false)
+            setAssigned(false)
             setAll(false)
+            setAssist(false)
+            setAssignAll(false)
+            setAssistAll(false)
+            setVerifySuper(false)
         }
     }, [])
 
@@ -383,9 +556,19 @@ const SuperisorList = () => {
             setAssigned(false)
             setPending(false)
             setempTras(false)
+            setAssignAll(false)
+            setAssistAll(false)
+            setVerifySuper(false)
         } else {
-            setAssist(false)
             setFlag(0)
+            setempTras(false)
+            setPending(false)
+            setAssigned(false)
+            setAll(false)
+            setAssist(false)
+            setAssignAll(false)
+            setAssistAll(false)
+            setVerifySuper(false)
         }
     }, [])
 
@@ -398,6 +581,9 @@ const SuperisorList = () => {
             setAssigned(false)
             setAll(false)
             setAssist(false)
+            setAssignAll(false)
+            setAssistAll(false)
+            setVerifySuper(false)
         } else {
             setFlag(0)
             setempTras(false)
@@ -405,6 +591,9 @@ const SuperisorList = () => {
             setAssigned(false)
             setAll(false)
             setAssist(false)
+            setAssignAll(false)
+            setAssistAll(false)
+            setVerifySuper(false)
         }
     }, [])
 
@@ -449,6 +638,20 @@ const SuperisorList = () => {
         return state.LoginUserData.empdept
     })
 
+
+    const [messagemodel, setMessageModel] = useState(0)
+
+    //when we click Message send button a modal will open
+    const MessageSend = useCallback((params) => {
+        setMessageModel(1)
+        setAssignModel(0)
+        setAssistantModel(0)
+        setTransmodal(0)
+        setOpen(true)
+        const data = params.api.getSelectedRows()
+        setComplaint(data)
+    }, [])
+
     useEffect(() => {
         if (flag === 5) {
             const getAssigendList = async (empdept) => {
@@ -466,6 +669,160 @@ const SuperisorList = () => {
     }, [flag, empdept,])
 
 
+    const [assignall, setAssignAll] = useState(false)
+    const [assistall, setAssistAll] = useState(false)
+
+
+    //updateEmpTras list check box updation
+    const updateAssignedAll = useCallback((e) => {
+        if (e.target.checked === true) {
+            setFlag(6)
+            setAssignAll(true)
+            setAssistAll(false)
+            setempTras(false)
+            setPending(false)
+            setAssigned(false)
+            setAll(false)
+            setAssist(false)
+            setVerifySuper(false)
+        } else {
+            setFlag(0)
+            setAssignAll(false)
+            setAssistAll(false)
+            setempTras(false)
+            setPending(false)
+            setAssigned(false)
+            setAll(false)
+            setAssist(false)
+            setVerifySuper(false)
+        }
+    }, [])
+    //updateEmpTras list check box updation
+    const updateAssistantAll = useCallback((e) => {
+        if (e.target.checked === true) {
+            setFlag(7)
+            setAssistAll(true)
+            setAssignAll(false)
+            setempTras(false)
+            setPending(false)
+            setAssigned(false)
+            setAll(false)
+            setAssist(false)
+            setVerifySuper(false)
+        } else {
+            setFlag(0)
+            setAssignAll(false)
+            setAssistAll(false)
+            setempTras(false)
+            setPending(false)
+            setAssigned(false)
+            setAll(false)
+            setAssist(false)
+            setVerifySuper(false)
+        }
+    }, [])
+
+    const AssignesListAll = allcomplaints.filter((val) => {
+        return val.compalint_status === 1
+    })
+
+    const [assistListAll, setAssistListAll] = useState([])
+
+    useEffect(() => {
+        if (flag === 7) {
+            const getAssigendList = async (em_department) => {
+                const result = await axioslogin.get(`/complaintassign/AssistReqListAll/${em_department}`);
+                const { success, data } = result.data
+                if (success === 1) {
+                    setAssistListAll(data);
+                }
+                else {
+                    setAssistListAll([])
+                }
+            }
+            if (profileData.length !== 0) {
+                const { em_department } = profileData[0]
+                getAssigendList(em_department)
+            }
+        }
+    }, [flag, profileData])
+
+    const [AssistTrans, setAssistTrans] = useState(0)
+    const AssistTrasfer = useCallback((params) => {
+        const data = params.api.getSelectedRows()
+        setAssistTrans(1)
+        setEmpTrasFlag(0)
+        setTransDataModel(data)
+        setAssignModel(0);
+        setAssistantModel(0);
+        setTransmodal(0);
+        setOpen(true)
+    }, [])
+
+    const [verifySuper, setVerifySuper] = useState(false)
+
+    //updateEmpTras list check box updation
+    const updateVerifySuper = useCallback((e) => {
+        if (e.target.checked === true) {
+            setFlag(8)
+            setVerifySuper(true)
+            setAssistAll(false)
+            setAssignAll(false)
+            setempTras(false)
+            setPending(false)
+            setAssigned(false)
+            setAll(false)
+            setAssist(false)
+        } else {
+            setFlag(0)
+            setVerifySuper(false)
+            setAssignAll(false)
+            setAssistAll(false)
+            setempTras(false)
+            setPending(false)
+            setAssigned(false)
+            setAll(false)
+            setAssist(false)
+        }
+    }, [])
+
+    const [VeryPendingSuperList, setVerySuprtList] = useState([])
+
+    useEffect(() => {
+        if (flag === 8) {
+            const getPendingVerifyList = async (em_department) => {
+                const result = await axioslogin.get(`/complaintassign/SupervsrVerifyPending/${em_department}`);
+                const { success, data } = result.data
+                if (success === 1) {
+                    setVerySuprtList(data);
+                }
+                else {
+                    setVerySuprtList([])
+                }
+            }
+            if (profileData.length !== 0) {
+                const { em_department } = profileData[0]
+                getPendingVerifyList(em_department)
+            }
+        }
+    }, [flag, profileData])
+
+
+
+    const [verifySupermdl, setverifySuperMdl] = useState(0)
+    const verifySupervisr = useCallback((params) => {
+        const data = params.api.getSelectedRows()
+        setverifySuperMdl(1)
+        setAssistTrans(0)
+        setEmpTrasFlag(0)
+        setTransDataModel(data)
+        setAssignModel(0);
+        setAssistantModel(0);
+        setTransmodal(0);
+        setOpen(true)
+    }, [])
+
+
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home')
@@ -477,8 +834,57 @@ const SuperisorList = () => {
                 title="Complaint Assign"
                 close={backtoSetting}
             >
-                <Box sx={{ width: "100%", p: 1 }}>
-                    <Paper variant='outlined' sx={{ p: 2 }} >
+                <Box sx={{
+                    width: "100%", p: 1,
+                    display: "flex",
+                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                    justifyContent: "center"
+                }}>
+                    <Paper variant='outlined' sx={{ width: "25%", p: 2 }} >
+                        <Box sx={{
+                            width: "100%",
+                            display: "flex",
+                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                            justifyContent: "center"
+                        }}>
+                            <Box sx={{
+                                display: 'flex',
+                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                mt: 1,
+                                // bgcolor: "cyan",
+                                justifyContent: "center"
+                            }} >
+                                <CusCheckBox
+                                    label="Assigned List(Self)"
+                                    color="danger"
+                                    size="md"
+                                    name="assigned"
+                                    value={assigned}
+                                    checked={assigned}
+                                    onCheked={updateAssigned}
+                                />
+                            </Box>
+
+                            <Box sx={{
+                                display: 'flex',
+                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                mt: 1,
+                            }} >
+                                <CusCheckBox
+                                    label="Assist(Self)"
+                                    color="danger"
+                                    size="md"
+                                    name="assist"
+                                    value={assist}
+                                    checked={assist}
+                                    onCheked={updateAssistant}
+                                />
+                            </Box>
+
+                        </Box>
+                    </Paper>
+
+                    <Paper variant='outlined' sx={{ width: "75%", p: 2 }} >
                         <Box sx={{
                             width: "100%",
                             display: "flex",
@@ -496,10 +902,10 @@ const SuperisorList = () => {
                                     label="Assigned List"
                                     color="danger"
                                     size="md"
-                                    name="assigned"
-                                    value={assigned}
-                                    checked={assigned}
-                                    onCheked={updateAssigned}
+                                    name="assignall"
+                                    value={assignall}
+                                    checked={assignall}
+                                    onCheked={updateAssignedAll}
                                 />
                             </Box>
                             <Box sx={{
@@ -526,10 +932,10 @@ const SuperisorList = () => {
                                     label="Assist"
                                     color="danger"
                                     size="md"
-                                    name="assist"
-                                    value={assist}
-                                    checked={assist}
-                                    onCheked={updateAssistant}
+                                    name="assistall"
+                                    value={assistall}
+                                    checked={assistall}
+                                    onCheked={updateAssistantAll}
                                 />
                             </Box>
                             <Box sx={{
@@ -554,6 +960,21 @@ const SuperisorList = () => {
                                 mt: 1,
                             }} >
                                 <CusCheckBox
+                                    label="Verify Pending"
+                                    color="danger"
+                                    size="md"
+                                    name="verifySuper"
+                                    value={verifySuper}
+                                    checked={verifySuper}
+                                    onCheked={updateVerifySuper}
+                                />
+                            </Box>
+                            <Box sx={{
+                                display: 'flex',
+                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                mt: 1,
+                            }} >
+                                <CusCheckBox
                                     label="All Complaint"
                                     color="danger"
                                     size="md"
@@ -565,6 +986,7 @@ const SuperisorList = () => {
                             </Box>
                         </Box>
                     </Paper>
+
                 </Box>
 
                 {
@@ -597,6 +1019,21 @@ const SuperisorList = () => {
                                         columnDefs={TransferEmp}
                                         tableData={empTrasfer}
                                     />
+                                </Box> : flag === 6 ? <Box sx={{ p: 1 }}>
+                                    <CusAgGridForMain
+                                        columnDefs={AssignedAll}
+                                        tableData={AssignesListAll}
+                                    />
+                                </Box> : flag === 7 ? <Box sx={{ p: 1 }}>
+                                    <CusAgGridForMain
+                                        columnDefs={AssistReqAll}
+                                        tableData={assistListAll}
+                                    />
+                                </Box> : flag === 8 ? <Box sx={{ p: 1 }}>
+                                    <CusAgGridForMain
+                                        columnDefs={VeryPendSuper}
+                                        tableData={VeryPendingSuperList}
+                                    />
                                 </Box> : <Box sx={{ p: 1 }}>
                                     <CusAgGridForMain
                                         columnDefs={column}
@@ -616,6 +1053,16 @@ const SuperisorList = () => {
                 }
 
                 {empTrasFlag === 1 ? <SuperEmpTransfer open={open} setOpen={setOpen} transfer={transDataModel} empdept={profileData} count={count} setCount={setCount} setTransmodal={setEmpTrasFlag} /> : null}
+
+                {
+                    messagemodel === 1 ? <MessageSendModel open={open} id={id} setOpen={setOpen} complaint={complaint} empdept={profileData} count={count} setCount={setCount} /> : null //detailed assign modal
+                }
+                {
+                    AssistTrans === 1 ? <AssistTransferSuper open={open} setOpen={setOpen} transfer={transDataModel} empdept={profileData} count={count} setCount={setCount} setTransmodal={setEmpTrasFlag} /> : null
+                }
+                {
+                    verifySupermdl === 1 ? <VerifyModelSuper open={open} id={id} setOpen={setOpen} complaint={VeryPendingSuperList} empdept={profileData} count={count} setCount={setCount} /> : null
+                }
             </CardCloseOnly>
         </Fragment >
     )
