@@ -5,8 +5,8 @@ const { FETCH_COM_EMP_MAP } = ActionTyps
  * success is '1'  retrun data set to payload and status set to true otherwise set null array and status false
  */
 /*** Diet action type check then payload set to the state and loading status set as true */
-export const getComEmpMap = (dept) => async (dispatch) => {
-    const result = await axioslogin.get(`/comempmapping/selectall/${dept}`)
+export const getComEmpMap = () => async (dispatch) => {
+    const result = await axioslogin.get(`/comempmapping/getSelectBox`)
     const { success, data } = result.data
     if (success === 1) {
         dispatch({ type: FETCH_COM_EMP_MAP, payload: data, loadingStatus: true })

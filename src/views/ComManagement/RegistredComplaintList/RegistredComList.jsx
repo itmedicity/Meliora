@@ -115,7 +115,7 @@ const RegistredComList = () => {
         return state.setComplaintRegTable.complaintRegTableList
     })
     const forVerify = compallTable.filter((val) => {
-        return val.compalint_status === 2
+        return val.compalint_status === 2 && val.verify_spervsr === 1
     })
 
     const pendingList = compallTable.filter((val) => {

@@ -319,7 +319,7 @@ const ComplaintRegistrMast = () => {
     })
 
     const VerificationPendingTckt = compallTable.filter((val) => {
-        return val.compalint_status === 2
+        return val.compalint_status === 2 && val.verify_spervsr === 1
     })
 
     const onholdList = compallTable.filter((val) => {

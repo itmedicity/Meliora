@@ -3,7 +3,7 @@ import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllComplaintLists } from 'src/redux/actions/AllcomplaintsLists.action';
 import { useHistory } from 'react-router-dom';
-import { Box, Paper } from '@mui/material'
+import { Box } from '@mui/material'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain';
 
 const DeptWiseReport = () => {
@@ -64,7 +64,6 @@ const DeptWiseReport = () => {
                     columnDefs={column}
                     tableData={allcomplaints}
                 />
-
             </Box>
         </CardCloseOnly>
     )

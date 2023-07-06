@@ -204,7 +204,7 @@ const DirectComplaintTable = ({ count, rowSelect, setCount }) => {
 
 
     const forVerify = tabledata.filter((val) => {
-        return val.compalint_status === 2
+        return val.compalint_status === 2 && val.verify_spervsr === 1
     })
 
 
