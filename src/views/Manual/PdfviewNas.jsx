@@ -13,7 +13,7 @@ const PdfviewNas = ({ pdfDis }) => {
                     pdfDis === 1 ?
                         <embed
                             id="pdf-embed"
-                            src={"http://192.168.10.170/NAS//fileshows/GuideLine.pdf#toolbar=0&navpanes=0&view=FitH"}
+                            src={"http://192.168.10.88:9090/fileshows/GuideLine.pdf#toolbar=0&navpanes=0&view=FitH"}
                             type="application/pdf"
                             height={850}
                             width="100%" />
@@ -21,7 +21,7 @@ const PdfviewNas = ({ pdfDis }) => {
                         pdfDis === 2 ?
                             <embed
                                 id="pdf-embed"
-                                src={"http://192.168.10.170/NAS//fileshows/LASA.pdf#toolbar=0&navpanes=0&view=FitH"}
+                                src={"http://192.168.10.88:9090/fileshows/LASA.pdf#toolbar=0&navpanes=0&view=FitH"}
                                 type="application/pdf"
                                 height={850}
                                 width="100%" />
@@ -29,7 +29,7 @@ const PdfviewNas = ({ pdfDis }) => {
                             pdfDis === 3 ?
                                 <embed
                                     id="pdf-embed"
-                                    src={"http://192.168.10.170/NAS//fileshows/SRADHA.pdf#toolbar=0&navpanes=0&view=FitH"}
+                                    src={"http://192.168.10.88:9090/fileshows/SRADHA.pdf#toolbar=0&navpanes=0&view=FitH"}
                                     type="application/pdf"
                                     height={850}
                                     width="100%" />
@@ -37,7 +37,7 @@ const PdfviewNas = ({ pdfDis }) => {
                                 pdfDis === 4 ?
                                     <embed
                                         id="pdf-embed"
-                                        src={"http://192.168.10.170/NAS//fileshows/MSDS.pdf#toolbar=0&navpanes=0&view=FitH"}
+                                        src={"http://192.168.10.88:9090/fileshows/MSDS.pdf#toolbar=0&navpanes=0&view=FitH"}
                                         type="application/pdf"
                                         height={850}
                                         width="100%" />
@@ -46,7 +46,7 @@ const PdfviewNas = ({ pdfDis }) => {
                                     pdfDis === 5 ?
                                         <embed
                                             id="pdf-embed"
-                                            src={"http://192.168.10.170/NAS//fileshows/2023_MEDEF.pdf#toolbar=0&navpanes=0&view=FitH"}
+                                            src={"http://192.168.10.88:9090/fileshows/2023_MEDEF.pdf#toolbar=0&navpanes=0&view=FitH"}
                                             type="application/pdf"
                                             height={850}
                                             width="100%" />
