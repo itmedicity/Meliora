@@ -22,6 +22,9 @@ import { getAllComplaintLists } from 'src/redux/actions/AllcomplaintsLists.actio
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import TransferDeptmodal from './TransferDeptmodal';
+import CropSquareIcon from '@mui/icons-material/CropSquare';
+import { Typography } from '@mui/material'
+
 const AssignComplaintTable = () => {
     const history = useHistory();
     //state for modal open
@@ -56,6 +59,8 @@ const AssignComplaintTable = () => {
             cellStyle: function (params) {
                 if (params.data.cm_rectify_status === 'Z') {
                     return { color: 'red' };
+                } else if (params.data.verify_spervsr === 2) {
+                    return { color: "#00897b" };
                 } else {
                     return null;
                 }
@@ -71,6 +76,8 @@ const AssignComplaintTable = () => {
             cellStyle: function (params) {
                 if (params.data.cm_rectify_status === 'Z') {
                     return { color: 'red' };
+                } else if (params.data.verify_spervsr === 2) {
+                    return { color: "#00897b" };
                 } else {
                     return null;
                 }
@@ -108,6 +115,8 @@ const AssignComplaintTable = () => {
             cellStyle: (params) => {
                 if (params.data.cm_rectify_status === 'Z') {
                     return { color: 'red' };
+                } else if (params.data.verify_spervsr === 2) {
+                    return { color: "#00897b" };
                 } else {
                     return null;
                 }
@@ -130,6 +139,8 @@ const AssignComplaintTable = () => {
             cellStyle: (params) => {
                 if (params.data.cm_rectify_status === 'Z') {
                     return { color: 'red' };
+                } else if (params.data.verify_spervsr === 2) {
+                    return { color: "#00897b" };
                 } else {
                     return null;
                 }
@@ -147,6 +158,8 @@ const AssignComplaintTable = () => {
             cellStyle: (params) => {
                 if (params.data.cm_rectify_status === 'Z') {
                     return { color: 'red' };
+                } else if (params.data.verify_spervsr === 2) {
+                    return { color: "#00897b" };
                 } else {
                     return null;
                 }
@@ -442,46 +455,75 @@ const AssignComplaintTable = () => {
                             </Box>
                         </Box>
                     </Paper>
-                </Box>
 
-                {
-                    flag === 1 ? <Box sx={{ p: 1 }}>
-                        <CusAgGridForMain
-                            columnDefs={assign}
-                            tableData={assignedcomplaints}
-                        />
-                    </Box> :
-                        flag === 2 ? <Box sx={{ p: 1 }}>
+
+                    {
+                        flag === 1 ? <Box sx={{ p: 1 }}>
                             <CusAgGridForMain
-                                columnDefs={column}
-                                tableData={pendingcomplaints}
+                                columnDefs={assign}
+                                tableData={assignedcomplaints}
                             />
                         </Box> :
-                            flag === 3 ? <Box sx={{ p: 1 }}>
+                            flag === 2 ? <Box sx={{ p: 1 }}>
                                 <CusAgGridForMain
-                                    columnDefs={alldata}
-                                    tableData={allcomplaints}
+                                    columnDefs={column}
+                                    tableData={pendingcomplaints}
                                 />
                             </Box> :
+                                flag === 3 ? <Box sx={{ p: 1 }}>
+                                    <CusAgGridForMain
+                                        columnDefs={alldata}
+                                        tableData={allcomplaints}
+                                    />
+                                </Box> :
 
-                                flag === 4 ? <Box sx={{ p: 1 }}>
-                                    <CusAgGridForMain
-                                        columnDefs={assitantaccept}
-                                        tableData={assistcomplaints}
-                                    />
-                                </Box> : <Box sx={{ p: 1 }}>
-                                    <CusAgGridForMain
-                                        columnDefs={column}
-                                        tableData={pendingcomplaints}
-                                    />
-                                </Box>
-                }
-                {
-                    assistantModel === 1 ? <AssistantNeedmodal open={open} setOpen={setOpen} assistant={assistant} empdept={profileData} count={count} setCount={setCount} /> : null //assistant needed modal
-                }
-                {
-                    transmodal === 1 ? <TransferDeptmodal open={open} setOpen={setOpen} transfer={transfer} count={count} setCount={setCount} setTransmodal={setTransmodal} /> : null
-                }
+                                    flag === 4 ? <Box sx={{ p: 1 }}>
+                                        <CusAgGridForMain
+                                            columnDefs={assitantaccept}
+                                            tableData={assistcomplaints}
+                                        />
+                                    </Box> : <Box sx={{ p: 1 }}>
+                                        <CusAgGridForMain
+                                            columnDefs={column}
+                                            tableData={pendingcomplaints}
+                                        />
+                                    </Box>
+                    }
+                    {
+                        assistantModel === 1 ? <AssistantNeedmodal open={open} setOpen={setOpen} assistant={assistant} empdept={profileData} count={count} setCount={setCount} /> : null //assistant needed modal
+                    }
+                    {
+                        transmodal === 1 ? <TransferDeptmodal open={open} setOpen={setOpen} transfer={transfer} count={count} setCount={setCount} setTransmodal={setTransmodal} /> : null
+                    }
+                    <Box sx={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                        //   /  justifyContent: "flex-start"
+                    }}>
+                        <Box sx={{ display: "flex" }}>
+                            <IconButton >
+                                <CropSquareIcon sx={{ background: "red", pr: 5 }} />
+                            </IconButton>
+                        </Box>
+                        <Box sx={{ display: "flex", fontWeight: 400, pl: 1, pt: 1.2 }}>
+                            <Typography >
+                                Not Verify By User
+                            </Typography>
+                        </Box>
+                        <Box sx={{ display: "flex" }}>
+                            <IconButton >
+                                <CropSquareIcon sx={{ background: "#00897b", pr: 5 }} />
+                            </IconButton>
+                        </Box>
+                        <Box sx={{ display: "flex", fontWeight: 400, pl: 1, pt: 1.2 }}>
+                            <Typography >
+                                Not Verify By Supervisor
+                            </Typography>
+                        </Box>
+
+                    </Box>
+                </Box>
             </CardCloseOnly>
         </Fragment >
     )

@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useCallback } from 'react'
+import React, { Fragment, memo, useCallback, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
@@ -11,6 +11,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 import { format } from 'date-fns'
 import { CssVarsProvider, Typography } from '@mui/joy'
+import CustomTextarea from 'src/views/Components/CustomTextarea';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -18,8 +19,18 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => {
     //props data for modal
     const { complaint_slno, complaint_desc, compalint_date, sec_name, req_type_name, complaint_type_name,
-        compalint_priority, complaint_hicslno, compdept_message, compdept_message_flag, read_user
+        compalint_priority, complaint_hicslno, compdept_message, compdept_message_flag, read_user,
+        message_reply_emp
     } = complaint
+
+    // state for retrun msg
+    const [messagee, setMessage] = useState('');
+
+    //updating remark state
+    const updateMessage = useCallback((e) => {
+        setMessage(e.target.value)
+    }, [setMessage])
+
 
     //Message Send Api, Update complaint Mast Table
     const sendMeassage = useCallback(() => {
@@ -27,7 +38,8 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
             const patchdata = {
                 complaint_slno: complaint_slno,
                 compdept_message_flag: 2,
-                message_read_emp: id
+                message_read_emp: id,
+                message_reply_emp: messagee
             }
             const result = await axioslogin.patch(`/complaintassign/ReadMeassage`, patchdata);
             const { message, success } = result.data;
@@ -41,8 +53,15 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                 infoNotify(message)
             }
         }
-        MessageSend()
-    }, [complaint_slno, id, count, setCount, setOpen])
+
+        if (compdept_message_flag === 1) {
+            MessageSend()
+        }
+        else {
+            setOpen(false)
+        }
+
+    }, [complaint_slno, id, count, setCount, setOpen, messagee, compdept_message_flag])
 
 
     return (
@@ -163,26 +182,53 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                                 </Box>
                                 {
                                     compdept_message_flag === 1 ?
-                                        <Box sx={{
-                                            width: "100%",
-                                            display: "flex",
-                                            p: 0.5,
-                                            flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                        }}>
+                                        <Box>
+                                            <Box sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                p: 0.5,
+                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                            }}>
 
-                                            <Box
-                                                sx={{ width: "25%", }}>
-                                                <CssVarsProvider>
-                                                    <Typography sx={{ fontSize: 15 }}>Message</Typography>
-                                                </CssVarsProvider>
+                                                <Box
+                                                    sx={{ width: "25%", }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15 }}>Message</Typography>
+                                                    </CssVarsProvider>
+                                                </Box>
+                                                <Paper sx={{
+                                                    width: "75%", minHeight: 10, maxHeight: 70, pl: 0.9, fontSize: 15,
+                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                }} variant='none'>
+                                                    {compdept_message}
+                                                </Paper>
+
                                             </Box>
-                                            <Paper sx={{
-                                                width: "75%", minHeight: 10, maxHeight: 70, pl: 0.9, fontSize: 15,
-                                                overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                            }} variant='none'>
-                                                {compdept_message}
-                                            </Paper>
-                                        </Box> :
+                                            <Box sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                p: 0.5,
+                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                            }}>
+                                                <Box
+                                                    sx={{ pr: 8 }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15 }}>Replay Message</Typography>
+                                                    </CssVarsProvider>
+                                                </Box>
+                                                <Box sx={{ pl: 5.5, width: "65%", pt: 0.5 }}                                    >
+                                                    <CustomTextarea
+                                                        style={{ width: 390 }}
+                                                        minRows={4}
+                                                        placeholder="message"
+                                                        name='messagee'
+                                                        value={messagee}
+                                                        onchange={updateMessage}
+                                                    />
+                                                </Box>
+                                            </Box>
+                                        </Box>
+                                        :
                                         <Box>
 
                                             <Box sx={{
@@ -217,14 +263,26 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                                                 <Box
                                                     sx={{ width: "25%", }}>
                                                     <CssVarsProvider>
-                                                        <Typography sx={{ fontSize: 15 }}>Message Read User</Typography>
+                                                        <Typography sx={{ fontSize: 15 }}>Replay Message</Typography>
                                                     </CssVarsProvider>
                                                 </Box> <Paper sx={{
                                                     width: "75%", minHeight: 10, maxHeight: 70, pl: 0.9, fontSize: 15,
                                                     overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                                 }} variant='none'>
-                                                    {read_user}
+                                                    {message_reply_emp}
                                                 </Paper>
+                                            </Box>
+                                            <Box
+                                                sx={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    p: 0.5,
+                                                    flexDirection: "row",
+                                                }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15, pr: 6 }}>Message Read Employee:</Typography>
+                                                    <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}> {read_user.toLowerCase()}</Typography>
+                                                </CssVarsProvider>
                                             </Box>
                                         </Box>
                                 }

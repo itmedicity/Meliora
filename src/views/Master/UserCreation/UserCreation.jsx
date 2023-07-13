@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo, useEffect } from 'react'
+import React, { useCallback, useState, useMemo, useEffect, memo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Box, Paper } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -21,9 +21,10 @@ import CustomeToolTip from '../../Components/CustomeToolTip';
 import CardMaster from 'src/views/Components/CardMaster'
 import ModuleGroupSelect from 'src/views/CommonSelectCode/ModuleGroupSelect'
 import UserGroupSelect from 'src/views/CommonSelectCode/UserGroupSelect'
-import ComEmpMapSelect from 'src/views/CommonSelectCode/ComEmpMapSelect'
+import SelectComTypeUser from 'src/views/CommonSelectCode/SelectComTypeUser'
 const UserCreation = () => {
     //*** Initializing */
+
     const history = useHistory();
     const [em_id, setemId] = useState(0)
     const [em_no, setemno] = useState('')
@@ -42,7 +43,7 @@ const UserCreation = () => {
     const [usergroup, setUsergroup] = useState(0)
     const [mastdetl, setDetlSlno] = useState(0)
     const [supervis, setSupervise] = useState(false)
-    const [comTpeMap, setComTypeMap] = useState(0)
+    const [comTpeMap, setComTypeMap] = useState([])
     const [userdata, setUserdata] = useState({
         em_name: '',
         em_mobile: '',
@@ -121,7 +122,8 @@ const UserCreation = () => {
         setdob(format(new Date(em_dob), "yyyy-MM-dd"))
         setdoj(format(new Date(em_doj), "yyyy-MM-dd"))
         setSupervise(supervisor === 1 ? true : false)
-        setComTypeMap(comp_type_map)
+        const comptypemap = comp_type_map !== [] ? JSON.parse(comp_type_map) : []
+        setComTypeMap(comptypemap)
     }, [])
     //Insert data
     const postdata = useMemo(() => {
@@ -154,10 +156,9 @@ const UserCreation = () => {
             create_user: id,
             emp_slno: em_id,
             supervisor: supervis === true ? 1 : 0,
-            comp_type_map: comTpeMap
+            comp_type_map: comTpeMap !== [] ? comTpeMap : null
         }
     }, [em_id, em_no, mastdetl, salut, supervis, comTpeMap, em_name, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
-
 
     //Update data
     const patchdata = useMemo(() => {
@@ -191,7 +192,7 @@ const UserCreation = () => {
             mod_grp_user_slno: mod_grp_user_slno,
             edit_user: id,
             supervisor: supervis === true ? 1 : 0,
-            comp_type_map: comTpeMap
+            comp_type_map: comTpeMap !== [] ? comTpeMap : null
         }
     }, [em_id, em_no, mastdetl, salut, em_name, supervis, comTpeMap, mod_grp_user_slno, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
 
@@ -220,7 +221,7 @@ const UserCreation = () => {
         setUsergroup(0)
         setDetlSlno(0)
         setSupervise(false)
-        setComTypeMap(0)
+        setComTypeMap([])
     }
 
 
@@ -460,9 +461,9 @@ const UserCreation = () => {
                                 onCheked={updateUserCreation}
                             />
                         </Box>
-                        <Box sx={{ width: "10%", pr: 1, pt: 1 }}>
+                        <Box sx={{ width: "25%", pr: 1, pt: 1 }}>
                             <CusCheckBox
-                                label="Supervisor"
+                                label="Supervisor/Incharge/HOD/Technical Head"
                                 color="primary"
                                 size="md"
                                 name="supervis"
@@ -472,8 +473,8 @@ const UserCreation = () => {
                             />
                         </Box>
 
-                        {supervis === true ? <Box sx={{ width: "20%", pr: 1, pt: 1 }}>
-                            <ComEmpMapSelect value={comTpeMap} setValue={setComTypeMap} />
+                        {supervis === true ? <Box sx={{ width: "20%", pr: 1, pt: 0.5 }}>
+                            <SelectComTypeUser value={comTpeMap} setValue={setComTypeMap} />
                         </Box> : null}
 
                     </Box>
@@ -490,4 +491,4 @@ const UserCreation = () => {
     )
 }
 
-export default UserCreation
+export default memo(UserCreation)
