@@ -23,7 +23,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCount, id }) => {
     //props data for modal
     const { complaint_slno, complaint_desc, compalint_date, sec_name, req_type_name, complaint_type_name,
-        compalint_priority, complaint_hicslno
+        compalint_priority, complaint_hicslno, compdept_message, message_reply_emp, compdept_message_flag,
+        msg_read_emp, msg_send_emp
     } = complaint[0]
     // sate for getting emp dept
     const [empdeptwise, setEmpdept] = useState(0)
@@ -265,6 +266,89 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
+
+
+
+                                {
+                                    compdept_message_flag !== 0 ?
+
+                                        <Box
+                                            sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                            }}>
+                                            <Box sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                p: 0.5,
+                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                            }}>
+
+                                                <Box
+                                                    sx={{ width: "25%", }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15 }}>Message Send:</Typography>
+                                                    </CssVarsProvider>
+                                                </Box>
+                                                <Paper sx={{
+                                                    width: "75%", minHeight: 10, maxHeight: 70, pl: 0.9, fontSize: 15,
+                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                }} variant='none'>
+                                                    {compdept_message}
+                                                </Paper>
+
+
+                                            </Box>
+                                            <Box
+                                                sx={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    p: 0.5,
+                                                    flexDirection: "row",
+                                                }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15, pr: 5.7 }}>Message Send Employee:</Typography>
+                                                    <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}> {msg_send_emp.toLowerCase()}</Typography>
+                                                </CssVarsProvider>
+
+                                            </Box>
+
+                                            <Box sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                p: 0.5,
+                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                            }}>
+
+                                                <Box
+                                                    sx={{ width: "25%", }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15 }}>Replay Message:</Typography>
+                                                    </CssVarsProvider>
+                                                </Box>
+                                                <Paper sx={{
+                                                    width: "75%", minHeight: 10, maxHeight: 70, pl: 1, fontSize: 15,
+                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                }} variant='none'>
+                                                    {message_reply_emp}
+                                                </Paper>
+                                            </Box>
+                                            <Box
+                                                sx={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    p: 0.5,
+                                                    flexDirection: "row",
+                                                }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15, pr: 5.5 }}>Message Read Employee:</Typography>
+                                                    <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}> {msg_read_emp.toLowerCase()}</Typography>
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box> : null
+                                }
+
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
@@ -295,28 +379,6 @@ const ModalAssignComplaint = ({ open, setOpen, complaint, empdept, count, setCou
                                             />
                                         </Box> : null}
                                 </Box>
-                                {/* {
-                                    compalint_priority === 1 ? <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        p: 0.5,
-                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                    }}>
-                                        <Box
-                                            sx={{ pr: 1 }}>
-                                            <CssVarsProvider>
-                                                <Typography sx={{ fontSize: 15, pr: 8 }}>Priority Reason:</Typography>
-
-                                            </CssVarsProvider>
-                                        </Box>
-                                        <Box
-                                            sx={{}}>
-                                            <CssVarsProvider>
-                                                <Typography sx={{ textTransform: "capitalize", fontSize: 15, pl: 5.4 }}> {priority_reason !== null ? priority_reason.toLowerCase() : "Not Given"}</Typography>
-                                            </CssVarsProvider>
-                                        </Box>
-                                    </Box> : null
-                                } */}
                                 {flag === 0 ?
                                     <Box>
                                         <Box sx={{

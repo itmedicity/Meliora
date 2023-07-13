@@ -147,6 +147,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
             pending_onhold_time: pending === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : hold === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
             pending_onhold_user: id,
             assigned_emp: val.emids,
+            verify_spervsr: 0,
             complaint_slno: complaint_slno
         }
     })

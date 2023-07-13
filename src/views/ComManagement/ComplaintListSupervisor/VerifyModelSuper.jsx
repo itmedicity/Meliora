@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
+import React, { Fragment, memo, useCallback, useMemo, useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
@@ -19,15 +19,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => {
-    console.log(complaint);
     //props data for modal
     const { complaint_slno, complaint_desc, compalint_date, sec_name, req_type_name, complaint_type_name,
-        compalint_priority, complaint_hicslno, rectify_pending_hold_remarks
+        compalint_priority, complaint_hicslno, rectify_pending_hold_remarks, compdept_message,
+        message_reply_emp, compdept_message_flag, msg_read_emp, msg_send_emp, assigned_date,
+        cm_rectify_time
     } = complaint[0]
 
     // state for remarks
     const [messagee, setMessage] = useState('');
-
+    const [getAssignEmp, setGetAssignEmp] = useState([])
     //updating remark state
     const updateMessage = useCallback((e) => {
         setMessage(e.target.value)
@@ -44,6 +45,7 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
             complaint_slno: complaint_slno,
             verify_spervsr: 1,
             verify_spervsr_remarks: messagee,
+            compalint_status: 2,
             verify_spervsr_user: id
         }
     }, [complaint_slno, messagee, id])
@@ -53,6 +55,7 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
             complaint_slno: complaint_slno,
             verify_spervsr: 2,
             verify_spervsr_remarks: messagee,
+            compalint_status: 1,
             verify_spervsr_user: id
         }
     }, [complaint_slno, messagee, id])
@@ -92,6 +95,21 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
         }
         Verified(NotVerifyData);
     }, [NotVerifyData, setCount, reset, count])
+
+    useEffect(() => {
+        const getEmployeees = async () => {
+            const result = await axioslogin.get(`Rectifycomplit/getAssignEmps/${complaint_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setGetAssignEmp(data)
+            }
+            else {
+                setGetAssignEmp([])
+            }
+        }
+        getEmployeees();
+    }, [complaint_slno])
+
 
     return (
         <Fragment>
@@ -212,6 +230,143 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
+
+
+                                {
+                                    compdept_message_flag !== 0 ?
+
+                                        <Box
+                                            sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                            }}>
+                                            <Box sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                p: 0.5,
+                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                            }}>
+
+                                                <Box
+                                                    sx={{ width: "25%", }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15 }}>Message Send:</Typography>
+                                                    </CssVarsProvider>
+                                                </Box>
+                                                <Paper sx={{
+                                                    width: "75%", minHeight: 10, maxHeight: 70, pl: 0.9, fontSize: 15,
+                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                }} variant='none'>
+                                                    {compdept_message}
+                                                </Paper>
+                                            </Box>
+                                            <Box
+                                                sx={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    p: 0.5,
+                                                    flexDirection: "row",
+                                                }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15, pr: 5.7 }}>Message Send Employee:</Typography>
+                                                    <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}> {msg_send_emp.toLowerCase()}</Typography>
+                                                </CssVarsProvider>
+                                            </Box>
+                                            <Box sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                p: 0.5,
+                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                            }}>
+                                                <Box
+                                                    sx={{ width: "25%", }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15 }}>Replay Message:</Typography>
+                                                    </CssVarsProvider>
+                                                </Box>
+                                                <Paper sx={{
+                                                    width: "75%", minHeight: 10, maxHeight: 70, pl: 1, fontSize: 15,
+                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                }} variant='none'>
+                                                    {message_reply_emp}
+                                                </Paper>
+                                            </Box>
+                                            <Box
+                                                sx={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    p: 0.5,
+                                                    flexDirection: "row",
+                                                }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15, pr: 5.5 }}>Message Read Employee:</Typography>
+                                                    <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}> {msg_read_emp.toLowerCase()}</Typography>
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box> : null
+                                }
+
+
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    p: 0.5,
+                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                }}>
+                                    <Box
+                                        sx={{ width: "30%", }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>Assigned Employees:</Typography>
+                                        </CssVarsProvider>
+                                    </Box>
+                                    <Box sx={{
+                                        pl: 2,
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+
+                                        {
+                                            getAssignEmp.length !== 0 ?
+                                                getAssignEmp && getAssignEmp.map((val) => {
+                                                    return <Box key={val.assigned_emp} sx={{
+                                                        width: "100%",
+                                                        display: "flex",
+                                                        flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                                    }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ textTransform: "capitalize", textAlign: "left", pl: 1 }}>{val.em_name.toLowerCase()},</Typography>
+                                                        </CssVarsProvider>
+                                                    </Box>
+                                                })
+                                                : <CssVarsProvider>
+                                                    <Typography sx={{ textTransform: "capitalize", textAlign: "left" }}>No Assigned Employee</Typography>
+                                                </CssVarsProvider>
+                                        }
+                                    </Box>
+                                </Box>
+
+
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    p: 0.5,
+                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                }}>
+                                    <Box
+                                        sx={{ width: "25%", }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>Assigned Date:</Typography>
+                                        </CssVarsProvider>
+                                    </Box>
+
+                                    <Box sx={{}}                                    >
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}> {format(new Date(assigned_date), 'dd-MM-yyyy hh:mm:ss')}</Typography>
+                                        </CssVarsProvider>
+                                    </Box>
+                                </Box>
+
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
@@ -226,7 +381,7 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
                                         </CssVarsProvider>
                                     </Box>
                                     <Paper sx={{
-                                        width: "75%", minHeight: 10, maxHeight: 70, pl: 0.9, fontSize: 15,
+                                        width: "75%", minHeight: 10, maxHeight: 70, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='none'>
                                         {rectify_pending_hold_remarks}
@@ -234,6 +389,26 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
 
 
                                 </Box>
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    p: 0.5,
+                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                }}>
+                                    <Box
+                                        sx={{ width: "25%", }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}>Rectified Date:</Typography>
+                                        </CssVarsProvider>
+                                    </Box>
+
+                                    <Box sx={{}}                                    >
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15 }}> {format(new Date(cm_rectify_time), 'dd-MM-yyyy hh:mm:ss')}</Typography>
+                                        </CssVarsProvider>
+                                    </Box>
+                                </Box>
+
 
                                 <Box sx={{
                                     width: "100%",

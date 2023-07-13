@@ -24,7 +24,8 @@ const SuperEmpTransfer = ({ open, setOpen, transfer, count, empdept, setCount, s
 
     //props data for modal
     const { complaint_slno, complaint_desc, compalint_date, sec_name, req_type_name, complaint_type_name,
-        priority } = transfer[0]
+        priority, compdept_message, message_reply_emp, compdept_message_flag,
+        msg_read_emp, msg_send_emp } = transfer[0]
 
     // Get login user emp_id
     const id = useSelector((state) => {
@@ -150,7 +151,7 @@ const SuperEmpTransfer = ({ open, setOpen, transfer, count, empdept, setCount, s
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
-                        Employee Trasfer
+                        Employee Trasfer/Assign
                     </DialogContentText>
 
 
@@ -247,6 +248,85 @@ const SuperEmpTransfer = ({ open, setOpen, transfer, count, empdept, setCount, s
                                         {priority}
                                     </Paper>
                                 </Box>
+                                {
+                                    compdept_message_flag !== 0 ?
+
+                                        <Box
+                                            sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                            }}>
+                                            <Box sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                p: 0.5,
+                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                            }}>
+
+                                                <Box
+                                                    sx={{ width: "25%", }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15 }}>Message Send:</Typography>
+                                                    </CssVarsProvider>
+                                                </Box>
+                                                <Paper sx={{
+                                                    width: "75%", minHeight: 10, maxHeight: 70, pl: 0.9, fontSize: 15,
+                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                }} variant='none'>
+                                                    {compdept_message}
+                                                </Paper>
+
+
+                                            </Box>
+                                            <Box
+                                                sx={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    p: 0.5,
+                                                    flexDirection: "row",
+                                                }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15, pr: 5.7 }}>Message Send Employee:</Typography>
+                                                    <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}> {msg_send_emp.toLowerCase()}</Typography>
+                                                </CssVarsProvider>
+
+                                            </Box>
+
+                                            <Box sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                p: 0.5,
+                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                            }}>
+
+                                                <Box
+                                                    sx={{ width: "25%", }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15 }}>Replay Message:</Typography>
+                                                    </CssVarsProvider>
+                                                </Box>
+                                                <Paper sx={{
+                                                    width: "75%", minHeight: 10, maxHeight: 70, pl: 1, fontSize: 15,
+                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                }} variant='none'>
+                                                    {message_reply_emp}
+                                                </Paper>
+                                            </Box>
+                                            <Box
+                                                sx={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    p: 0.5,
+                                                    flexDirection: "row",
+                                                }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15, pr: 5.5 }}>Message Read Employee:</Typography>
+                                                    <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}> {msg_read_emp.toLowerCase()}</Typography>
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box> : null
+                                }
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
@@ -274,7 +354,7 @@ const SuperEmpTransfer = ({ open, setOpen, transfer, count, empdept, setCount, s
                                                         flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
                                                     }}>
                                                         <CssVarsProvider>
-                                                            <Typography sx={{ textTransform: "capitalize", textAlign: "left" }}>{val.em_name.toLowerCase()},</Typography>
+                                                            <Typography sx={{ textTransform: "capitalize", textAlign: "left", pl: 1 }}>{val.em_name.toLowerCase()},</Typography>
                                                         </CssVarsProvider>
                                                     </Box>
                                                 })
