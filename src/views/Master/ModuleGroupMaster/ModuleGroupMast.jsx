@@ -30,12 +30,14 @@ const ModuleGroupMast = () => {
         dashboard: false,
         escalation: false,
         hallbooking: false,
+        task: false,
         mod_grp_slno: 0
 
     })
     /*** Destructuring */
     const { modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework,
-        diet, feedback, nabh, settings, sfanfa, nurseStation, reports, mod_grp_slno, dashboard, escalation, hallbooking } = moduleGroup
+        diet, feedback, nabh, settings, sfanfa, nurseStation, reports, mod_grp_slno, dashboard,
+        escalation, hallbooking, task } = moduleGroup
 
     /***Get values from the component */
     const updateModuleGroup = useCallback((e) => {
@@ -63,11 +65,12 @@ const ModuleGroupMast = () => {
                 module_reports: reports === true ? 13 : 0,
                 module_dashboard: dashboard === true ? 14 : 0,
                 module_escalation: escalation === true ? 15 : 0,
-                module_hallbooking: hallbooking === true ? 16 : 0
+                module_hallbooking: hallbooking === true ? 16 : 0,
+                module_task: task === true ? 17 : 0
             }
         }
-    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, escalation, wework, diet, feedback,
-        settings, nabh, sfanfa, nurseStation, reports, dashboard, hallbooking])
+    }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, escalation, wework,
+        diet, feedback, settings, nabh, sfanfa, nurseStation, reports, dashboard, hallbooking, task])
 
     /*** data for  update to module_group_mast table */
     const patchdata = useMemo(() => {
@@ -89,12 +92,13 @@ const ModuleGroupMast = () => {
                 module_reports: reports === true ? 13 : 0,
                 module_dashboard: dashboard === true ? 14 : 0,
                 module_escalation: escalation === true ? 15 : 0,
-                module_hallbooking: hallbooking === true ? 16 : 0
+                module_hallbooking: hallbooking === true ? 16 : 0,
+                module_task: task === true ? 17 : 0
             },
             mod_grp_slno: mod_grp_slno
         }
-    }, [modulegrp_name, complaintManagement, requestmanag, escalation, assetmanag, roommanag, wework, diet, feedback,
-        nabh, settings, sfanfa, mod_grp_slno, nurseStation, reports, dashboard, hallbooking])
+    }, [modulegrp_name, complaintManagement, requestmanag, escalation, assetmanag, roommanag, wework, diet,
+        feedback, nabh, settings, sfanfa, mod_grp_slno, nurseStation, reports, dashboard, hallbooking, task])
     // data setting for edit
     const rowSelect = useCallback((data) => {
         setvalue(1)
@@ -118,7 +122,8 @@ const ModuleGroupMast = () => {
             mod_grp_slno: mod_grp_slno,
             dashboard: module_status.module_dashboard === 0 ? false : true,
             escalation: module_status.module_escalation === 0 ? false : true,
-            hallbooking: module_status.module_hallbooking === 0 ? false : true
+            hallbooking: module_status.module_hallbooking === 0 ? false : true,
+            task: module_status.module_task === 0 ? false : true,
         }
         setModuleGroup(formdata)
     }, [])
@@ -141,7 +146,8 @@ const ModuleGroupMast = () => {
             nurseStation: false,
             reports: false,
             escalation: false,
-            hallbooking: false
+            hallbooking: false,
+            task: false
         }
         /***     * insert function for use call back     */
         const InsertFun = async (postdata) => {
@@ -205,7 +211,8 @@ const ModuleGroupMast = () => {
             reports: false,
             dashboard: false,
             escalation: false,
-            hallbooking: false
+            hallbooking: false,
+            task: false
         }
         setModuleGroup(frmreset)
         setvalue(0);
@@ -410,6 +417,18 @@ const ModuleGroupMast = () => {
                                         variant="outlined"
                                         value={hallbooking}
                                         checked={hallbooking}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
+                                        label="Task Management"
+                                        color="primary"
+                                        size="md"
+                                        name="task"
+                                        variant="outlined"
+                                        value={task}
+                                        checked={task}
                                         onCheked={updateModuleGroup}
                                     />
                                 </Grid>

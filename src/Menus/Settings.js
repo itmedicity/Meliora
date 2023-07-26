@@ -3,7 +3,7 @@ import { getMenuSlno } from 'src/views/Constant/Constant';
 import { Link } from 'react-router-dom'
 import {
     co_setting_one, co_setting_two, co_setting_three, cm_setting_one, cm_setting_two, cm_setting_three,
-    crm_setting_one, crm_setting_two, crm_setting_three,
+    crm_setting_one, crm_setting_two, crm_setting_three, task_setting_one, task_setting_two, task_setting_three,
     userManagement_one, userManagement_two, userManagement_three, am_setting_one, am_setting_two, am_setting_three,
     rm_setting_one, rm_setting_two, rm_setting_three, dm_setting_one, dm_setting_two, dm_setting_three,
     we_setting_one, we_setting_two, hall_booking_one
@@ -21,6 +21,9 @@ const Settings = () => {
     const [crmMast_secOne, setcrmMast_secOne] = useState();
     const [crmMast_secTwo, setcrmMast_secTwo] = useState();
     const [crmMast_secThree, setcrmMast_secThree] = useState();
+    const [taskMast_secOne, settaskMast_secOne] = useState();
+    const [taskMast_secTwo, settaskMast_secTwo] = useState();
+    const [taskMast_secThree, settaskMast_secThree] = useState();
     const [amMast_secOne, setamMast_secOne] = useState();
     const [amMast_secTwo, setamMast_secTwo] = useState();
     const [amMast_secThree, setamMast_secThree] = useState();
@@ -64,6 +67,16 @@ const Settings = () => {
             setcrmMast_secTwo(crm_setting_section_two)
             const crm_setting_section_three = crm_setting_three.filter(val => menuSlnoArray.includes(val.slno));
             setcrmMast_secThree(crm_setting_section_three)
+
+
+            //Complaint Management Master
+            const task_setting_section_one = task_setting_one.filter(val => menuSlnoArray.includes(val.slno));
+            settaskMast_secOne(task_setting_section_one)
+            const task_setting_section_two = task_setting_two.filter(val => menuSlnoArray.includes(val.slno));
+            settaskMast_secTwo(task_setting_section_two)
+            const task_setting_section_three = task_setting_three.filter(val => menuSlnoArray.includes(val.slno));
+            settaskMast_secThree(task_setting_section_three)
+
 
             //Asset Management Master
             const am_setting_section_one = am_setting_one.filter(val => menuSlnoArray.includes(val.slno));
@@ -226,7 +239,43 @@ const Settings = () => {
                 </div>
             </CardContent>
 
-
+            <CardHeader title={"Task Management Master"}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
+                sx={{
+                    backgroundColor: cardActionBgClr,
+                    paddingY: 0.5,
+                }} />
+            <CardContent>
+                <div className="row" >
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                taskMast_secOne && taskMast_secOne.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                taskMast_secTwo && taskMast_secTwo.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                taskMast_secThree && taskMast_secThree.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </CardContent>
 
             <CardHeader title={"Asset Management"}
                 titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
