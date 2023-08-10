@@ -107,6 +107,11 @@ const ComListSupervisor = React.lazy(() => import('./views/ComManagement/Complai
 const ComPriorityMast = React.lazy(() => import('./views/Master/CompPriority/ComPriorityMast'))
 const RegistredCompList = React.lazy(() => import('./views/ComManagement/RegistredComplaintList/RegistredComList'))
 const CmsReportDeptWise = React.lazy(() => import('./views/Report/ComplaintReport/DeptWiseReport'))
+const TeamMaster = React.lazy(() => import('./views/Master/TaskManagement/TaskTeamMaster/TeamMast'))
+const TaskHomePage = React.lazy(() => import('./views/TaskManagement/Home/TaskHomePage'))
+
+
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -217,7 +222,9 @@ const routes = [
   { path: '/Home/Complaint/Supervisor', exact: true, name: 'Compalint List Supervisor', component: ComListSupervisor },
   { path: '/Home/CompPriority', exact: true, name: 'Compalint Priority Master', component: ComPriorityMast },
   { path: '/Home/RegistredCompList', exact: true, name: 'Registred Compalint List', component: RegistredCompList },
-  { path: '/Home/CmsReportDeptWise', exact: true, name: 'Registred Compalint List', component: CmsReportDeptWise }
+  { path: '/Home/CmsReportDeptWise', exact: true, name: 'Registred Compalint List', component: CmsReportDeptWise },
+  { path: '/Home/TeamMaster', exact: true, name: 'Team Master', component: TeamMaster },
+  { path: '/Home/TaskHome', exact: true, name: 'Task management Home', component: TaskHomePage }
 
 
 ]

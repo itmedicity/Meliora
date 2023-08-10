@@ -20,6 +20,7 @@ import CrmTransactions from '../Menus/CrmTransactions'
 import TimeEscalations from '../Menus/EscalationUtility'
 import HallBookingTrans from 'src/Menus/HallBookingTrans'
 import { Box, Typography } from '@mui/material'
+import TaskTransaction from 'src/Menus/TaskTransaction'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
@@ -33,6 +34,7 @@ const AppSidebar = () => {
   const [weworktransact, setweworktransact] = useState()
   const [escalation, setescalation] = useState()
   const [hallbooking, setHallBooking] = useState()
+  const [tasktransact, setTaskTransact] = useState()
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
 
@@ -100,6 +102,13 @@ const AppSidebar = () => {
       name: 'Hall Booking',
       items: hallbooking
     },
+
+    {
+      slno: 17,
+      component: CNavGroup,
+      name: 'Task Management',
+      items: tasktransact
+    },
   ]
 
   useEffect(() => {
@@ -128,6 +137,8 @@ const AppSidebar = () => {
         setescalation(escalationTransact)
         const hallBookingTransact = HallBookingTrans.filter(val => menuSlnoAry.includes(val.men_slno));
         setHallBooking(hallBookingTransact)
+        const TaskManageTransact = TaskTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
+        setTaskTransact(TaskManageTransact)
         setCount(1)
       }
     })
