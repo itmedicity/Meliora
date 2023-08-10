@@ -71,13 +71,23 @@ export const am_setting_three = [
 //Room Master Menu
 export const rm_setting_one = [
     { to: '/Home/Building', name: 'Building', slno: 30 },
+    { to: '/Home/Campus', name: 'Campus', slno: 116 },
+    { to: '/Home/InsideBuilding', name: 'Inside Building Block', slno: 119 },
+
+
 ]
 
 export const rm_setting_two = [
-    { to: '/Home/Floor', name: 'Floor', slno: 31 }
+    { to: '/Home/Floor', name: 'Floor', slno: 31 },
+    { to: '/Home/BuildingMast', name: 'Building', slno: 117 },
+    { to: '/Home/RoomTypeMaster', name: 'Room Type Master', slno: 121 }
+    // { to: '/Home/FloorMast', name: 'Floor Master', slno: 120 }
 ]
 export const rm_setting_three = [
-    { to: '/Home/RoomType', name: 'Room Type', slno: 32 }
+    { to: '/Home/RoomType', name: 'Room Type', slno: 32 },
+    { to: '/Home/BuildingBlockMaster', name: 'Building Block', slno: 118 },
+    { to: '/Home/RoomCategoryMaster', name: 'Room Category Master', slno: 122 }
+
 ]
 
 //Room Master Menu

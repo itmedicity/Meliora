@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const Home = React.lazy(() => import('./views/dashboard/Home'))
 const Settings = React.lazy(() => import('../src/Menus/Settings'))
 const Administrtion = React.lazy(() => import('../src/views/Administration/Test'))
@@ -107,6 +108,17 @@ const ComListSupervisor = React.lazy(() => import('./views/ComManagement/Complai
 const ComPriorityMast = React.lazy(() => import('./views/Master/CompPriority/ComPriorityMast'))
 const RegistredCompList = React.lazy(() => import('./views/ComManagement/RegistredComplaintList/RegistredComList'))
 const CmsReportDeptWise = React.lazy(() => import('./views/Report/ComplaintReport/DeptWiseReport'))
+const CampusMaster = React.lazy(() => import('./views/Master/RoomMasters/CampusMaster/CampusMaster'))
+const BuildingMast = React.lazy(() => import('./views/Master/RoomMasters/BuildingMast/BuildingMast'))
+const BluidBlockMast = React.lazy(() => import('./views/Master/RoomMasters/BuildBlockMast/BuildBlockMast'))
+const InsideBuildBlock = React.lazy(() => import('./views/Master/RoomMasters/InsideBulidBlock/InsideBuildBlockMast'))
+const FloorMaster = React.lazy(() => import('./views/Master/RoomMasters/FloorMast/FloorMast'))
+const RoomTypeMaster = React.lazy(() => import('./views/Master/RoomMasters/RoomTypeMaster/RoomTypeMaster'))
+const RoomCategoryMaster = React.lazy(() => import('./views/Master/RoomMasters/RoomCategoryMaster/RoomCategoryMaster'))
+const FloorCreation = React.lazy(() => import('./views/RoomManagement/FloorCreation/FloorCreation'))
+const RoomNewCreation = React.lazy(() => import('./views/RoomManagement/RoomNewCreation/RoomCreation'))
+
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -217,7 +229,18 @@ const routes = [
   { path: '/Home/Complaint/Supervisor', exact: true, name: 'Compalint List Supervisor', component: ComListSupervisor },
   { path: '/Home/CompPriority', exact: true, name: 'Compalint Priority Master', component: ComPriorityMast },
   { path: '/Home/RegistredCompList', exact: true, name: 'Registred Compalint List', component: RegistredCompList },
-  { path: '/Home/CmsReportDeptWise', exact: true, name: 'Registred Compalint List', component: CmsReportDeptWise }
+  { path: '/Home/CmsReportDeptWise', exact: true, name: 'Registred Compalint List', component: CmsReportDeptWise },
+  { path: '/Home/Campus', exact: true, name: 'Campus master', component: CampusMaster },
+  { path: '/Home/BuildingMast', exact: true, name: 'Building master', component: BuildingMast },
+  { path: '/Home/BuildingBlockMaster', exact: true, name: 'Building block Master', component: BluidBlockMast },
+  { path: '/Home/InsideBuilding', exact: true, name: 'Inside Building block', component: InsideBuildBlock },
+  { path: '/Home/FloorMast', exact: true, name: ' Floor Master', component: FloorMaster },
+  { path: '/Home/RoomTypeMaster', exact: true, name: 'Room Type Master', component: RoomTypeMaster },
+  { path: '/Home/RoomCategoryMaster', exact: true, name: 'Room Category Master', component: RoomCategoryMaster },
+  { path: '/Home/FloorCreation', exact: true, name: 'Floor Creation', component: FloorCreation },
+  { path: '/Home/RoomCreationSideNav', exact: true, name: 'Room New Creation', component: RoomNewCreation }
+
+
 
 
 ]

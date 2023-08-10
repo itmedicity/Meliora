@@ -1,66 +1,157 @@
-import { Grid } from '@mui/material';
-import { Box } from '@mui/system';
 import React, { useCallback, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import SubCategoryTable from './SubCategoryTable'
 import CardMaster from 'src/views/Components/CardMaster'
-import CusCheckBox from 'src/views/Components/CusCheckBox';
-import TextFieldCustom from 'src/views/Components/TextFieldCustom';
-import SubCategoryTable from './SubCategoryTable';
+import { Box } from '@mui/material'
+import TextFieldCustom from 'src/views/Components/TextFieldCustom'
+import CusCheckBox from 'src/views/Components/CusCheckBox'
+import { useMemo } from 'react'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { axioslogin } from 'src/views/Axios/Axios'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+
 const SubCategoryMast = () => {
-    const history = useHistory();
-    //intializing
-    const [subcategory, setsubCategory] = useState({
-        subcat: '',
-        status: false
-    })
-    //destructuring
-    const { subcat, status } = subcategory
-    const updatesubCategory = useCallback((e) => {
-        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setsubCategory({ ...subcategory, [e.target.name]: value })
-    }, [subcategory])
-    //close button function
-    const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
-    }, [history])
-    return (
-        <CardMaster
-            title="Sub Category Master"
-            close={backtoSetting}
-        >
-            <Box sx={{ p: 1 }}>
-                <Grid container spacing={1} >
-                    <Grid item xl={4} lg={4}  >
-                        <Grid container spacing={1} >
-                            <Grid item xl={12} lg={12} >
-                                <TextFieldCustom
-                                    placeholder="Sub Category Name"
-                                    type="text"
-                                    size="sm"
-                                    name="subcat"
-                                    value={subcat}
-                                    onchange={updatesubCategory}
-                                />
-                            </Grid>
-                            <Grid item lg={2} xl={2}>
-                                <CusCheckBox
-                                    label="Status"
-                                    color="primary"
-                                    size="md"
-                                    name="status"
-                                    value={status}
-                                    checked={status}
-                                    onCheked={updatesubCategory}
-                                />
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid item lg={8} xl={8} >
-                        <SubCategoryTable />
-                    </Grid>
-                </Grid>
+  const history = useHistory()
+  const [value, setValue] = useState(0)
+  const [count, setCount] = useState(0)
+  const [subcategory, setSubCategory] = useState({
+    subcategory_slno: '',
+    subcategory_name: '',
+    subcategory_status: false,
+  })
+  const { subcategory_slno, subcategory_name, subcategory_status } = subcategory
+  const updateSubCategory = useCallback(
+    (e) => {
+      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+      setSubCategory({ ...subcategory, [e.target.name]: value })
+    },
+    [subcategory],
+  )
+  const reset = () => {
+    const frmdata = {
+      subcategory_slno: '',
+      subcategory_name: '',
+      subcategory_status: false,
+    }
+    setSubCategory(frmdata)
+    setCount(0)
+    setValue(0)
+  }
+  const postdata = useMemo(() => {
+    return {
+      subcategory_name: subcategory_name,
+      subcategory_status: subcategory_status === true ? 1 : 0,
+    }
+  }, [subcategory_name, subcategory_status])
+
+  const patchdata = useMemo(() => {
+    return {
+      subcategory_slno: subcategory_slno,
+      subcategory_name: subcategory_name,
+      subcategory_status: subcategory_status === true ? 1 : 0,
+    }
+  }, [subcategory_slno, subcategory_name, subcategory_status])
+  const rowSelect = useCallback((params) => {
+    setValue(1)
+    const data = params.api.getSelectedRows()
+
+    const { subcategory_slno, subcategory_name, subcategory_status } = data[0]
+    const frmdata = {
+      subcategory_slno: subcategory_slno,
+      subcategory_name: subcategory_name,
+      subcategory_status: subcategory_status === 1 ? true : false,
+    }
+    setSubCategory(frmdata)
+  }, [])
+  const submitSubCategory = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      const InsertSubCategory = async (postdata) => {
+        const result = await axioslogin.post('/subcategory/insert', postdata)
+
+        const { message, success } = result.data
+        if (success === 1) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
+      }
+      const SubCategoryUpdate = async (patchdata) => {
+        const result = await axioslogin.patch('/subcategory/update', patchdata)
+        const { message, success } = result.data
+        if (success === 2) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
+      }
+
+      if (value === 0) {
+        InsertSubCategory(postdata)
+      } else {
+        SubCategoryUpdate(patchdata)
+      }
+    },
+    [postdata, value, patchdata, count],
+  )
+  const backtoSetting = useCallback(() => {
+    history.push('/Home/Settings')
+  }, [history])
+  const refreshWindow = useCallback(() => {
+    const frmdata = {
+      subcategory_slno: '',
+      subcategory_name: '',
+      subcategory_status: false,
+    }
+    setSubCategory(frmdata)
+    setValue(0)
+  }, [setSubCategory])
+  return (
+    <CardMaster
+      title="Subcategory Master"
+      submit={submitSubCategory}
+      close={backtoSetting}
+      refresh={refreshWindow}
+    >
+      <Box sx={{ p: 1 }}>
+        <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
+          <Box sx={{ width: '30%', p: 1 }}>
+            <Box>
+              <TextFieldCustom
+                placeholder="Subcategory"
+                type="text"
+                size="sm"
+                name="subcategory_name"
+                value={subcategory_name}
+                onchange={updateSubCategory}
+              ></TextFieldCustom>
             </Box>
-        </CardMaster>
-    )
+            <Box sx={{ pt: 1 }}>
+              <CusCheckBox
+                label="status"
+                color="primary"
+                size="md"
+                name="subcategory_status"
+                value={subcategory_status}
+                checked={subcategory_status}
+                onCheked={updateSubCategory}
+              ></CusCheckBox>
+            </Box>
+          </Box>
+          <Box sx={{ width: '70%' }}>
+            <SubCategoryTable count={count} rowSelect={rowSelect} />
+          </Box>
+        </Box>
+      </Box>
+    </CardMaster>
+  )
 }
 export default SubCategoryMast

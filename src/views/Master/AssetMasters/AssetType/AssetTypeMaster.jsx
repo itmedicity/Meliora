@@ -1,68 +1,160 @@
-import { Grid } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useCallback, useState } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import AssetTypeTable from './AssetTypeTable'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-import { useHistory } from 'react-router-dom'
+import { axioslogin } from 'src/views/Axios/Axios'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { useMemo } from 'react'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+
 const AssetTypeMaster = () => {
+  const history = useHistory()
+  const [value, setValue] = useState(0)
+  const [count, setCount] = useState(0)
+  const [assetType, setAssetType] = useState({
+    asset_type_slno: '',
+    asset_type_name: '',
+    asset_type_status: false,
+  })
+  const { asset_type_slno, asset_type_name, asset_type_status } = assetType
 
-    const history = useHistory();
+  const updateAssetType = useCallback(
+    (e) => {
+      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+      setAssetType({ ...assetType, [e.target.name]: value })
+    },
+    [assetType],
+  )
 
-    const [asset, setAsset] = useState({
-        assetname: '',
-        status: false
-    })
-    const { assetname, status } = asset
-    const updateAssettype = useCallback((e) => {
-        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setAsset({ ...asset, [e.target.name]: value })
-    }, [asset])
-    //close button function
-    const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
-    }, [history])
-    return (
-        <CardMaster
-            title="Asset Type Master"
-            close={backtoSetting}
-        >
-            <Box sx={{ p: 1 }}>
-                <Grid container spacing={1} >
-                    <Grid item xl={4} lg={4}  >
-                        <Grid container spacing={1} >
-                            <Grid item xl={12} lg={12} >
-                                <TextFieldCustom
-                                    placeholder="Asset Type Name"
-                                    type="text"
-                                    size="sm"
-                                    name="assetname"
-                                    value={assetname}
-                                    onchange={updateAssettype}
-                                />
-                            </Grid>
-                            <Grid item lg={2} xl={2}>
-                                <CusCheckBox
-                                    label="Status"
-                                    color="primary"
-                                    size="md"
-                                    name="status"
-                                    value={status}
-                                    checked={status}
-                                    onCheked={updateAssettype}
-                                />
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid item lg={8} xl={8} >
-                        <AssetTypeTable />
-                    </Grid>
-                </Grid>
+  const reset = () => {
+    const frmdata = {
+      asset_type_slno: '',
+      asset_type_name: '',
+      asset_type_status: false,
+    }
+    setAssetType(frmdata)
+    setCount(0)
+    setValue(0)
+  }
+
+  const postdata = useMemo(() => {
+    return {
+      asset_type_name: asset_type_name,
+      asset_type_status: asset_type_status === true ? 1 : 0,
+    }
+  }, [asset_type_name, asset_type_status])
+
+  const patchdata = useMemo(() => {
+    return {
+      asset_type_slno: asset_type_slno,
+      asset_type_name: asset_type_name,
+      asset_type_status: asset_type_status === true ? 1 : 0,
+    }
+  }, [asset_type_slno, asset_type_name, asset_type_status])
+
+  const sumbitAssetType = useCallback(
+    (e) => {
+      e.preventDefault()
+      const InsertAssetType = async (postdata) => {
+        const result = await axioslogin.post('/assettypee/insert', postdata)
+        const { message, success } = result.data
+        if (success === 1) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
+      }
+      const AssetTypeUpdate = async (patchdata) => {
+        const result = await axioslogin.patch('/assettypee/update', patchdata)
+        const { message, success } = result.data
+        if (success === 2) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
+      }
+      if (value === 0) {
+        InsertAssetType(postdata)
+      } else {
+        AssetTypeUpdate(patchdata)
+      }
+    },
+    [postdata, value, patchdata, count],
+  )
+  const rowSelect = useCallback((params) => {
+    setValue(1)
+
+    const data = params.api.getSelectedRows()
+    const { asset_type_slno, asset_type_name, asset_type_status } = data[0]
+    const frmdata = {
+      asset_type_slno: asset_type_slno,
+      asset_type_name: asset_type_name,
+      asset_type_status: asset_type_status === 1 ? true : false,
+    }
+    setAssetType(frmdata)
+  }, [])
+  const backtoSetting = useCallback(() => {
+    history.push('/Home/Settings')
+  }, [history])
+  const refreshWindow = useCallback(() => {
+    const frmdata = {
+      asset_type_slno: '',
+      asset_type_name: '',
+      asset_type_status: false,
+    }
+    setAssetType(frmdata)
+    setValue(0)
+  }, [setAssetType])
+  return (
+    <CardMaster
+      title="Asset Master"
+      submit={sumbitAssetType}
+      close={backtoSetting}
+      refresh={refreshWindow}
+    >
+      <Box sx={{ p: 1 }}>
+        <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
+          <Box sx={{ width: '30%', p: 1 }}>
+            <Box sx>
+              <TextFieldCustom
+                placeholder="Asset Type"
+                type="text"
+                size="sm"
+                name="asset_type_name"
+                value={asset_type_name}
+                onchange={updateAssetType}
+              ></TextFieldCustom>
             </Box>
+            <Box sx={{ p: 1.5 }}>
+              <CusCheckBox
+                label="status"
+                color="primary"
+                size="md"
+                name="asset_type_status"
+                value={asset_type_status}
+                checked={asset_type_status}
+                onCheked={updateAssetType}
+              ></CusCheckBox>
+            </Box>
+          </Box>
 
-        </CardMaster>
-    )
+          <Box sx={{ width: '70%' }}>
+            <AssetTypeTable count={count} rowSelect={rowSelect} />
+          </Box>
+        </Box>
+      </Box>
+    </CardMaster>
+  )
 }
 
 export default AssetTypeMaster

@@ -95,6 +95,11 @@ import { setHICComplaintLists } from '../reducers/HicComplaintList.Reducer'
 import { setOmTableList } from '../reducers/OmTableSelect.Reducer'
 import { setManualEmpList } from '../reducers/ManualEmpList.Reducer'
 import { setComEmpMap } from '../reducers/ComEmpMap.Reducer'
+import { getCampus } from '../reducers/CampusSelect.Reducer'
+import { getBuildingdata } from '../reducers/BuildingSelect.Reducer'
+import { getBuildingBlock } from '../reducers/BuildingBlock.Reducer'
+import { getInsideBuildingBlock } from '../reducers/InsideBuildBlock.Reducer'
+import { getFloorData } from '../reducers/FloorRM.Reducer'
 
 
 
@@ -198,7 +203,12 @@ const reducer = combineReducers({
     setHICComplaintLists,
     setOmTableList,
     setManualEmpList,
-    setComEmpMap
+    setComEmpMap,
+    getCampus,
+    getBuildingdata,
+    getBuildingBlock,
+    getInsideBuildingBlock,
+    getFloorData
 
 })
 export default reducer;
