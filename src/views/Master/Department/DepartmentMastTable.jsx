@@ -10,7 +10,8 @@ const DepartmentMastTable = ({ count, rowSelect }) => {
     const [column] = useState([
         { headerName: "SlNo", field: "dept_id" },
         { headerName: "Department Name", field: "dept_name", width: 250, filter: "true" },
-        { headerName: " Deaprtment Alias", field: "dept_alias" },
+        { headerName: " Department Alias", field: "dept_alias" },
+        { headerName: " Department Type", field: "depttype" },
         { headerName: "Status", field: "status" },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])

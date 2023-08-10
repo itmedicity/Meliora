@@ -63,7 +63,6 @@ const ReqRegistration = () => {
     const [patchInserDetl, setPatchInserDetl] = useState(0)
     const [msgShow, setMsgShow] = useState(0)
     const [estimate, setEstimate] = useState(false)
-    const [approx, setapprox] = useState('')
     //Item details initialization
     const [itemstate, setItemState] = useState({
         item_desc: '',
@@ -82,6 +81,38 @@ const ReqRegistration = () => {
     //redux for geting login id
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const deptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+    const empdept = useSelector((state) => state.LoginUserData.empdept, _.isEqual)
+
+
+    const [detldept, setDetldept] = useState(0)
+
+    const [depttype, setDeptType] = useState(0)
+    useEffect(() => {
+        const deptCheck = async (empdept) => {
+            const result = await axioslogin.get(`/common/crfdept/${empdept}`)
+            const { success } = result.data
+            if (success === 1) {
+                setDetldept(1)
+            }
+            else {
+                setDetldept(0)
+            }
+        }
+        const deptTypeget = async (empdept) => {
+            const result = await axioslogin.get(`/common/deptType/${empdept}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const { dept_type } = data
+                setDeptType(dept_type)
+            }
+            else {
+                setDeptType(0)
+            }
+        }
+        deptCheck(empdept)
+        deptTypeget(empdept)
+    }, [empdept])
+
 
     //checking login id is hod or incharge
     useEffect(() => {
@@ -109,7 +140,15 @@ const ReqRegistration = () => {
         setStartdate(e.target.value)
     }
     const [disEstimate, setDisEstimate] = useState(0)
+    const [emergency, setEmergency] = useState(false)
 
+    const updateEmergency = (e) => {
+        if (e.target.checked === true) {
+            setEmergency(true)
+        } else {
+            setEmergency(false)
+        }
+    }
     const updateEstimate = (e) => {
         if (e.target.checked === true) {
             setEstimate(true)
@@ -120,9 +159,7 @@ const ReqRegistration = () => {
         }
     }
 
-    const updateApprox = (e) => {
-        setapprox(e.target.value)
-    }
+
     //column title setting
     const [column] = useState([
         { headerName: "Item Slno", field: "item_slno" },
@@ -152,30 +189,89 @@ const ReqRegistration = () => {
         },
     ])
 
+
+    const [columnDeptDetl] = useState([
+        { headerName: "Item Slno", field: "item_slno" },
+        { headerName: "Description", field: "item_desc", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+        { headerName: "Brand", field: "item_brand", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+        { headerName: "Quantity", field: "item_qnty" },
+        {
+            headerName: 'Edit', width: 80, cellRenderer: params =>
+                <IconButton onClick={() => editSelect(params)}
+                    sx={{ color: editicon, pt: 0 }} >
+                    <CustomeToolTip title="Edit">
+                        <EditIcon size={15} />
+                    </CustomeToolTip>
+                </IconButton>
+        },
+        {
+            headerName: 'Delete', width: 80, cellRenderer: params =>
+                <IconButton onClick={() => deleteSelect(params)}
+                    sx={{ color: editicon, pt: 0 }} >
+                    <CustomeToolTip title="Edit">
+                        <DeleteIcon size={15} />
+                    </CustomeToolTip>
+                </IconButton>
+        },
+    ])
+
     const [totalApproxCost, setTotalCost] = useState(0)
     //Items store array
     const [dataPost, setdataPost] = useState([])
     const [arrayupdate, setArryUpdate] = useState(0)
     const [item_slno, setItemSlno] = useState(1)
+    const [deletedata, setDelete] = useState([])
+    const [editdata, setEditdata] = useState([])
+    const [getDataDetl, setGetDataDetl] = useState([])
+
     // Estimate add button click data store into array
-    const AddItem = () => {
-        setTableDis(1)
-        if (arrayupdate === 0) {
-            const newdata = {
-                id: Math.ceil(Math.random() * 1000),
-                item_slno: parseInt(item_slno),
-                item_desc: item_desc,
-                item_brand: item_brand,
-                item_unit: item_unit,
-                item_qnty: parseInt(item_qty),
-                item_specification: item_spec,
-                aprox_cost: parseInt(approx_cost),
-                item_status: 1
+    //When page is taken by users except it,maintenence an d biomedical
+    const AddItemUser = () => {
+        if (item_desc === '') {
+            warningNotify("Please Add Item Desription")
+        }
+        else {
+            setTableDis(1)
+            if (arrayupdate === 0) {
+                const newdata = {
+                    id: Math.ceil(Math.random() * 1000),
+                    item_slno: parseInt(item_slno),
+                    item_desc: item_desc,
+                    item_brand: item_brand !== '' ? item_brand : "Not Given",
+                    item_qnty: item_qty !== '' ? parseInt(item_qty) : 0,
+                    item_status: 1
+                }
+                const datass = [...dataPost, newdata]
+                if (datass.length !== 0) {
+                    setdataPost(datass)
+                    const resetarrray = {
+                        item_desc: '',
+                        item_brand: '',
+                        item_qty: '',
+                        item_unit: '',
+                        item_spec: '',
+                        approx_cost: ''
+                    }
+                    setItemState(resetarrray)
+                    setItemSlno(item_slno + 1)
+                }
             }
-            const datass = [...dataPost, newdata]
-            if (datass.length !== 0) {
-                setdataPost(datass)
-                setTotalCost(totalApproxCost + parseInt(approx_cost))
+
+            else {
+                const { item_slno } = editdata[0]
+                const frmset = {
+                    item_slno: item_slno,
+                    item_desc: item_desc,
+                    item_brand: item_brand,
+                    item_unit: item_unit,
+                    item_qnty: parseInt(item_qty),
+                    item_specification: item_spec,
+                    aprox_cost: parseInt(approx_cost),
+                }
+                setItemState(frmset)
+                const result = dataPost.map((val) => val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val);
+                setdataPost(result)
+                setEditdata([])
                 const resetarrray = {
                     item_desc: '',
                     item_brand: '',
@@ -185,46 +281,101 @@ const ReqRegistration = () => {
                     approx_cost: ''
                 }
                 setItemState(resetarrray)
-                setItemSlno(item_slno + 1)
             }
-            else {
-                warningNotify("Please Fill all fields")
-            }
-        }
-        else {
-            const { item_slno } = editdata[0]
-            const frmset = {
-                item_slno: item_slno,
-                item_desc: item_desc,
-                item_brand: item_brand,
-                item_unit: item_unit,
-                item_qnty: parseInt(item_qty),
-                item_specification: item_spec,
-                aprox_cost: parseInt(approx_cost),
-            }
-            setItemState(frmset)
-            const result = dataPost.map((val) => val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val);
-            setdataPost(result)
-            const resetarrray = {
-                item_desc: '',
-                item_brand: '',
-                item_qty: '',
-                item_unit: '',
-                item_spec: '',
-                approx_cost: ''
-            }
-            setItemState(resetarrray)
         }
     }
 
-    const [deletedata, setDelete] = useState([])
-    const [editdata, setEditdata] = useState([])
+    const AddItem = () => {
+        if (item_desc === '') {
+            warningNotify("Please Add Item Desription")
+        }
+        else {
+            setTableDis(1)
+            if (arrayupdate === 0) {
+
+                const newdata = {
+                    id: Math.ceil(Math.random() * 1000),
+                    item_slno: parseInt(item_slno),
+                    item_desc: item_desc,
+                    item_brand: item_brand !== '' ? item_brand : "Not Given",
+                    item_unit: item_unit !== '' ? item_unit : "Not Given",
+                    item_qnty: item_qty !== '' ? parseInt(item_qty) : 0,
+                    item_specification: item_spec !== '' ? item_spec : "Not Given",
+                    aprox_cost: approx_cost !== '' ? parseInt(approx_cost) : 0,
+                    item_status: 1
+                }
+                const datass = [...dataPost, newdata]
+                if (datass.length !== 0) {
+                    setdataPost(datass)
+                    const xx = approx_cost !== 0 ? totalApproxCost + parseInt(approx_cost) : totalApproxCost
+                    setTotalCost(xx)
+                    const resetarrray = {
+                        item_desc: '',
+                        item_brand: '',
+                        item_qty: '',
+                        item_unit: '',
+                        item_spec: '',
+                        approx_cost: ''
+                    }
+                    setItemState(resetarrray)
+                    setItemSlno(item_slno + 1)
+                    setEditdata([])
+                }
+                else {
+                    warningNotify("Please Fill all fields")
+                }
+            }
+            else {
+                const { item_slno } = editdata[0]
+                const frmset = {
+                    item_slno: item_slno,
+                    item_desc: item_desc,
+                    item_brand: item_brand,
+                    item_unit: item_unit,
+                    item_qnty: parseInt(item_qty),
+                    item_specification: item_spec,
+                    aprox_cost: parseInt(approx_cost),
+                }
+                setItemState(frmset)
+                const result = dataPost.map((val) => val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val);
+                setdataPost(result)
+                const resetarrray = {
+                    item_desc: '',
+                    item_brand: '',
+                    item_qty: '',
+                    item_unit: '',
+                    item_spec: '',
+                    approx_cost: ''
+                }
+                setItemState(resetarrray)
+                setItemSlno(0)
+                setArryUpdate(0)
+            }
+        }
+    }
+
+
     //itemm array delete button click item delete
     const deleteSelect = useCallback((params) => {
         const data = params.api.getSelectedRows()
         setDelete(data)
+        const { req_detl_slno } = data[0]
 
-    }, [])
+        const patchdata = {
+            req_detl_slno: req_detl_slno,
+            delete_user: id
+        }
+        const deleteItem = async (patchdata) => {
+            const result = await axioslogin.patch('/requestRegister/DeleteItemList', patchdata);
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNotify(message)
+            }
+        }
+        deleteItem(patchdata)
+    }, [id])
+
+
     //itemm array edit button click item edit and save
     const editSelect = (params) => {
         const data = params.api.getSelectedRows()
@@ -239,7 +390,7 @@ const ReqRegistration = () => {
             })
             setdataPost(newdata)
         }
-    }, [deletedata])
+    }, [deletedata, dataPost])
 
     useEffect(() => {
         if (Object.keys(editdata).length > 0) {
@@ -261,6 +412,8 @@ const ReqRegistration = () => {
     const empsecid = useSelector((state) => {
         return state.LoginUserData.empsecid
     })
+
+
     //Request insertt
     const postData = useMemo(() => {
         return {
@@ -270,14 +423,15 @@ const ReqRegistration = () => {
             request_deptsec_slno: deptSec,
             location: location,
             create_user: id,
-            remarks: remarks,
-            total_approx_cost: disEstimate === 1 ? totalApproxCost : approx,
+            remarks: remarks !== '' ? remarks : '',
+            total_approx_cost: totalApproxCost,
             expected_date: startdate,
             user_deptsec: empsecid,
-            category: category
+            category: category,
+            emergency: emergency === false ? 0 : 1
         }
-    }, [actual_require, needed, dept, deptSec, category, location, id, remarks, approx, startdate,
-        disEstimate, totalApproxCost, empsecid])
+    }, [actual_require, needed, dept, deptSec, category, location, id, remarks, startdate,
+        totalApproxCost, emergency, empsecid])
 
     const patchData = useMemo(() => {
         return {
@@ -287,13 +441,15 @@ const ReqRegistration = () => {
             request_deptsec_slno: deptSec,
             location: location,
             remarks: remarks,
-            total_approx_cost: disEstimate === 1 ? totalApproxCost : approx,
+            total_approx_cost: totalApproxCost !== '' ? totalApproxCost : 0,
             expected_date: startdate,
             user_deptsec: empsecid,
             category: category,
             req_slno: reqSlno,
+            emergency: emergency === false ? 0 : 1
         }
-    }, [actual_require, needed, dept, deptSec, category, location, remarks, startdate, approx, disEstimate, totalApproxCost, empsecid, reqSlno])
+    }, [actual_require, needed, dept, emergency, deptSec, category, location, remarks, startdate,
+        totalApproxCost, empsecid, reqSlno])
 
     useEffect(() => {
         if (msgShow !== 0) {
@@ -304,7 +460,7 @@ const ReqRegistration = () => {
     /*** usecallback function for form submitting */
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
-        //* Reset function
+        // //* Reset function
         const reset = () => {
             setActual_require('')
             setNeeded('')
@@ -318,13 +474,11 @@ const ReqRegistration = () => {
             setReqSlno(0)
             setPatchInserDetl(0)
             setMsgShow(0)
-            setTotalCost(0)
             setStartdate(format(new Date(), "yyyy-MM-dd"))
             setCount(0)
             setMsgShow(0)
             setItemSlno(1)
             setDisEstimate(0)
-            setapprox('')
             setCategory('')
             setEstimate(false)
             const resetdata = {
@@ -338,7 +492,9 @@ const ReqRegistration = () => {
             setItemState(resetdata)
             setdataPost([])
         }
-        /***    * insert function for use call back     */
+        /**** insert function for use call back     */
+
+
         const InsertFun = async (postData) => {
             const result = await axioslogin.post('/requestRegister', postData);
             return result.data
@@ -380,6 +536,7 @@ const ReqRegistration = () => {
                 req_slno: reqno,
                 incharge_req: isIncharge === 1 ? 0 : ishod === 1 ? 0 : 1,
                 hod_req: ishod === 1 ? 0 : 1,
+                dms_req: depttype === 1 ? 1 : 0,
                 manag_operation_req: 1,
                 senior_manage_req: 1,
                 cao_approve_req: 1,
@@ -396,6 +553,7 @@ const ReqRegistration = () => {
                 req_slno: reqno,
                 incharge_req: object2.length === 0 ? 0 : 1,
                 hod_req: object1.length === 0 ? 0 : 1,
+                dms_req: depttype === 1 ? 1 : 0,
                 manag_operation_req: 1,
                 senior_manage_req: 1,
                 cao_approve_req: 1,
@@ -412,6 +570,7 @@ const ReqRegistration = () => {
                 req_slno: reqno,
                 incharge_req: 0,
                 hod_req: object1.length === 0 ? 0 : 1,
+                dms_req: depttype === 1 ? 1 : 0,
                 manag_operation_req: 1,
                 senior_manage_req: 1,
                 cao_approve_req: 1,
@@ -477,30 +636,32 @@ const ReqRegistration = () => {
 
         /***  update function for use call back     */
         const updateReqDetl = async (dataPost) => {
-            dataPost && dataPost.map((val) => {
-                const getdmenu = async () => {
-                    const dataaas = {
-                        req_slno: val.req_slno,
-                        item_slno: val.item_slno,
-                        item_desc: val.item_desc,
-                        item_brand: val.item_brand,
-                        item_unit: val.item_unit,
-                        item_qnty: val.item_qnty,
-                        item_specification: val.item_specification,
-                        aprox_cost: val.aprox_cost,
-                        item_status: 1,
-                        edit_user: id,
-                        req_detl_slno: val.req_detl_slno
+            if (getDataDetl.length === dataPost.length) {
+                dataPost && dataPost.map((val) => {
+                    const getdmenu = async () => {
+                        const dataaas = {
+                            req_slno: val.req_slno,
+                            item_slno: val.item_slno,
+                            item_desc: val.item_desc,
+                            item_brand: val.item_brand,
+                            item_unit: val.item_unit,
+                            item_qnty: val.item_qnty,
+                            item_specification: val.item_specification,
+                            aprox_cost: val.aprox_cost,
+                            item_status: 1,
+                            edit_user: id,
+                            req_detl_slno: val.req_detl_slno
+                        }
+                        const result = await axioslogin.patch('/requestRegister/patchDetails', dataaas);
+                        const { success } = result.data;
+                        if (success === 2) {
+                            setMsgShow(1)
+                        }
                     }
-                    const result = await axioslogin.patch('/requestRegister/patchDetails', dataaas);
-                    const { success } = result.data;
-                    if (success === 2) {
-                        setMsgShow(1)
-                    }
-                }
-                getdmenu(val.req_detl_slno)
-                return 0
-            })
+                    getdmenu(val.req_detl_slno)
+                    return 0
+                })
+            }
         }
 
         //** Call insert and detail api by using then. for getting insert id */
@@ -551,7 +712,9 @@ const ReqRegistration = () => {
                 }
             })
         }
-    }, [postData, dataPost, id, count, object1, object2, patchData, reqSlno, patchInserDetl, value, ishod, isIncharge])
+    }, [postData, dataPost, id, count, object1, object2, patchData, reqSlno,
+        patchInserDetl, value, ishod, isIncharge, depttype, getDataDetl])
+
 
     //Data set for edit
     const rowSelect = useCallback((params) => {
@@ -568,7 +731,6 @@ const ReqRegistration = () => {
         setdeptSec(request_deptsec_slno)
         setStartdate(format(new Date(expected_date), "yyyy-MM-dd"))
         setTotalCost(total_approx_cost)
-        setapprox(total_approx_cost)
         setCategory(category)
         setReqSlno(req_slno)
         const InsertFun = async (req_slno) => {
@@ -576,6 +738,7 @@ const ReqRegistration = () => {
             const { success, data } = result.data
             if (success === 1) {
                 setdataPost(data)
+                setGetDataDetl(data)
                 setTableDis(1)
                 setEstimate(true)
                 setDisEstimate(1)
@@ -606,13 +769,11 @@ const ReqRegistration = () => {
         setReqSlno(0)
         setPatchInserDetl(0)
         setMsgShow(0)
-        setTotalCost(0)
         setStartdate(format(new Date(), "yyyy-MM-dd"))
         setCount(0)
         setMsgShow(0)
         setItemSlno(1)
         setDisEstimate(0)
-        setapprox('')
         setCategory('')
         setEstimate(false)
         const resetdata = {
@@ -651,7 +812,7 @@ const ReqRegistration = () => {
                                 display: "flex",
                                 flexDirection: "column"
                             }}>
-                                <CustomPaperTitle heading="Actual Requirement" />
+                                <CustomPaperTitle heading="Purpose" />
                                 <Box sx={{
                                     display: 'flex',
                                     p: 0.5,
@@ -776,7 +937,7 @@ const ReqRegistration = () => {
                                     color="danger"
                                     size="md"
                                     name="estimate"
-                                    label="Estimate Details"
+                                    label="Requirment Details"
                                     value={estimate}
                                     onCheked={updateEstimate}
                                     checked={estimate}
@@ -787,127 +948,208 @@ const ReqRegistration = () => {
                     </Paper>
 
                     {/* 3rd section starts */}
+
+
                     {
-                        disEstimate === 1 ? <Paper sx={{
-                            width: '100%',
-                            mt: 0.8
-                        }} variant='outlined'>
+                        disEstimate === 1 ?
+                            <Paper sx={{
+                                width: '100%',
+                                mt: 0.8
+                            }} variant='outlined'>
+                                {
+                                    detldept === 1 ?
+                                        <Box sx={{
+                                            width: "100%",
+                                            display: "flex",
+                                            flexDirection: "column"
+                                        }}>
+                                            <CustomPaperTitle heading="Estimate/Approximate/Requirement Details" />
+                                            <Box sx={{
+                                                width: "100%",
+                                                p: 1,
+                                                display: "flex",
+                                                flexDirection: 'row'
+                                            }}>
+                                                <Box sx={{
+                                                    width: "70%",
+                                                    display: "flex",
+                                                    pr: 1,
+                                                    flexDirection: "column"
+                                                }}>
+                                                    <CustomPaperTitle heading="Item Description" />
+                                                    <TextFieldCustom
+                                                        type="text"
+                                                        size="sm"
+                                                        name="item_desc"
+                                                        value={item_desc}
+                                                        onchange={updateItemState}
+                                                    />
+                                                </Box>
 
-                            <Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: "column"
-                            }}>
-                                <CustomPaperTitle heading="Estimate/Approximate/Requirement Details" />
-                                <Box sx={{
-                                    width: "100%",
-                                    p: 1,
-                                    display: "flex",
-                                    flexDirection: 'row'
-                                }}>
-                                    <Box sx={{
-                                        width: "70%",
-                                        display: "flex",
-                                        pr: 1,
-                                        flexDirection: "column"
-                                    }}>
-                                        <CustomPaperTitle heading="Item Description" />
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="item_desc"
-                                            value={item_desc}
-                                            onchange={updateItemState}
-                                        />
-                                    </Box>
+                                                <Box sx={{
+                                                    width: "50%",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    pr: 1
+                                                }}>
+                                                    <CustomPaperTitle heading="Item Brand" />
+                                                    <TextFieldCustom
+                                                        type="text"
+                                                        size="sm"
+                                                        name="item_brand"
+                                                        value={item_brand}
+                                                        onchange={updateItemState}
+                                                    />
+                                                </Box>
 
-                                    <Box sx={{
-                                        width: "50%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        pr: 1
-                                    }}>
-                                        <CustomPaperTitle heading="Item Brand" />
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="item_brand"
-                                            value={item_brand}
-                                            onchange={updateItemState}
-                                        />
-                                    </Box>
+                                                <Box sx={{
+                                                    width: "7%",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    pr: 1
+                                                }}>
+                                                    <CustomPaperTitle heading="Quantity" />
+                                                    <TextFieldCustom
+                                                        type="text"
+                                                        size="sm"
+                                                        name="item_qty"
+                                                        value={item_qty}
+                                                        onchange={updateItemState}
+                                                    />
+                                                </Box>
+                                                <Box sx={{
+                                                    width: "20%",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    pr: 1
+                                                }}>
+                                                    <CustomPaperTitle heading="Unit" />
+                                                    <TextFieldCustom
+                                                        type="text"
+                                                        size="sm"
+                                                        name="item_unit"
+                                                        value={item_unit}
+                                                        onchange={updateItemState}
+                                                    />
+                                                </Box>
+                                                <Box sx={{
+                                                    width: "70%",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    pr: 1
+                                                }}>
+                                                    <CustomPaperTitle heading="Specification" />
+                                                    <TextFieldCustom
+                                                        type="text"
+                                                        size="sm"
+                                                        name="item_spec"
+                                                        value={item_spec}
+                                                        onchange={updateItemState}
+                                                    />
+                                                </Box>
+                                                <Box sx={{
+                                                    width: "7%",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    pr: 1
+                                                }}>
+                                                    <CustomPaperTitle heading="Approx.Cost" />
+                                                    <TextFieldCustom
+                                                        type="text"
+                                                        size="sm"
+                                                        name="approx_cost"
+                                                        value={approx_cost}
+                                                        onchange={updateItemState}
+                                                    />
+                                                </Box>
+                                                <Box sx={{
+                                                    width: "7%",
+                                                    pt: 2
+                                                }}>
+                                                    <IconButton variant="outlined" color="primary" onClick={AddItem}>
+                                                        <MdOutlineAddCircleOutline size={30} />
+                                                    </IconButton>
+                                                </Box>
+                                            </Box>
+                                        </Box>
+                                        : <Box sx={{
+                                            width: "100%",
+                                            display: "flex",
+                                            flexDirection: "column"
+                                        }}>
+                                            <CustomPaperTitle heading="Estimate/Approximate/Requirement Details" />
+                                            <Box sx={{
+                                                width: "100%",
+                                                p: 1,
+                                                display: "flex",
+                                                flexDirection: 'row'
+                                            }}>
+                                                <Box sx={{
+                                                    width: "70%",
+                                                    display: "flex",
+                                                    pr: 1,
+                                                    flexDirection: "column"
+                                                }}>
+                                                    <CustomPaperTitle heading="Item Description" />
+                                                    <TextFieldCustom
+                                                        type="text"
+                                                        size="sm"
+                                                        name="item_desc"
+                                                        value={item_desc}
+                                                        onchange={updateItemState}
+                                                    />
+                                                </Box>
 
-                                    <Box sx={{
-                                        width: "20%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        pr: 1
-                                    }}>
-                                        <CustomPaperTitle heading="Unit" />
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="item_unit"
-                                            value={item_unit}
-                                            onchange={updateItemState}
-                                        />
-                                    </Box>
+                                                <Box sx={{
+                                                    width: "50%",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    pr: 1
+                                                }}>
+                                                    <CustomPaperTitle heading="Item Brand" />
+                                                    <TextFieldCustom
+                                                        type="text"
+                                                        size="sm"
+                                                        name="item_brand"
+                                                        value={item_brand}
+                                                        onchange={updateItemState}
+                                                    />
+                                                </Box>
 
-                                    <Box sx={{
-                                        width: "7%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        pr: 1
-                                    }}>
-                                        <CustomPaperTitle heading="Quantity" />
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="item_qty"
-                                            value={item_qty}
-                                            onchange={updateItemState}
-                                        />
-                                    </Box>
+                                                <Box sx={{
+                                                    width: "7%",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    pr: 1
+                                                }}>
+                                                    <CustomPaperTitle heading="Quantity" />
+                                                    <TextFieldCustom
+                                                        type="text"
+                                                        size="sm"
+                                                        name="item_qty"
+                                                        value={item_qty}
+                                                        onchange={updateItemState}
+                                                    />
+                                                </Box>
 
-                                    <Box sx={{
-                                        width: "70%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        pr: 1
-                                    }}>
-                                        <CustomPaperTitle heading="Specification" />
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="item_spec"
-                                            value={item_spec}
-                                            onchange={updateItemState}
-                                        />
-                                    </Box>
-                                    <Box sx={{
-                                        width: "7%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        pr: 1
-                                    }}>
-                                        <CustomPaperTitle heading="Approx.Cost" />
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="approx_cost"
-                                            value={approx_cost}
-                                            onchange={updateItemState}
-                                        />
-                                    </Box>
-                                    <Box sx={{
-                                        width: "7%",
-                                        pt: 2
-                                    }}>
-                                        <IconButton variant="outlined" color="primary" onClick={AddItem}>
-                                            <MdOutlineAddCircleOutline size={30} />
-                                        </IconButton>
-                                    </Box>
-                                </Box>
+                                                <Box sx={{
+                                                    width: "7%",
+                                                    pt: 2
+                                                }}>
+                                                    <IconButton variant="outlined" color="primary" onClick={AddItemUser}>
+                                                        <MdOutlineAddCircleOutline size={30} />
+                                                    </IconButton>
+                                                </Box>
+                                            </Box>
+
+                                        </Box>
+
+
+
+
+                                }
+
+
                                 {tableDis === 1 ?
                                     <Box sx={{
                                         width: "100%",
@@ -915,14 +1157,37 @@ const ReqRegistration = () => {
                                         flexDirection: "column",
 
                                     }}>
-                                        <ReqRegistItemCmpt
-                                            columnDefs={column}
-                                            tableData={dataPost}
-                                        />
+                                        {
+                                            detldept === 1 ?
+                                                <ReqRegistItemCmpt
+                                                    columnDefs={column}
+                                                    tableData={dataPost}
+                                                    detldept={detldept}
+                                                /> : <ReqRegistItemCmpt
+                                                    columnDefs={columnDeptDetl}
+                                                    tableData={dataPost}
+                                                    detldept={detldept}
+                                                />
+                                        }
                                     </Box> : null}
-                            </Box>
-                        </Paper> : null
+
+
+
+                            </Paper> : null
+
                     }
+
+
+
+
+
+
+
+
+
+
+
+
 
                     {/** 4th Section*/}
                     <Paper sx={{
@@ -930,35 +1195,10 @@ const ReqRegistration = () => {
                         mt: 0.8
                     }} variant='outlined'>
                         <Box sx={{
-                            width: "100%",
+                            width: "80%",
                             display: "flex",
                             flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
                         }}>
-                            <Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: "column"
-                            }}>
-                                <CustomPaperTitle heading="Remarks" />
-                                <Box sx={{
-                                    display: 'flex',
-                                    p: 0.5,
-                                    width: '100%'
-                                }} >
-                                    <CustomTextarea
-                                        required
-                                        type="text"
-                                        size="sm"
-                                        style={{
-                                            width: "100%",
-                                            height: 50,
-                                        }}
-                                        value={remarks}
-                                        onchange={updateRemarks}
-                                    />
-                                </Box>
-                            </Box>
-
                             <Box sx={{
                                 width: "20%",
                                 display: "flex",
@@ -980,38 +1220,71 @@ const ReqRegistration = () => {
                                 </Box>
                             </Box>
 
+                            <Box sx={{
+                                width: "10%",
+                                display: "flex", pl: 2, pt: 4,
+                                flexDirection: "column"
+                            }}>
+                                <CusCheckBox
+                                    variant="outlined"
+                                    color="danger"
+                                    size="md"
+                                    name="estimate"
+                                    label="Emergency"
+                                    value={emergency}
+                                    onCheked={updateEmergency}
+                                    checked={emergency}
+                                />
+                            </Box>
+
+
                             {
-                                disEstimate === 1 ? <Box sx={{
-                                    width: "30%",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    pr: 1, pt: 0.5
-                                }}>
-                                    <CustomPaperTitle heading="Total Approx.Cost" />
-                                    <TextFieldCustom
-                                        type="text"
-                                        size="sm"
-                                        name="totalApproxCost"
-                                        value={totalApproxCost}
-                                        disabled={true}
-                                    />
-                                </Box> :
+                                emergency === true ?
                                     <Box sx={{
-                                        width: "30%",
+                                        width: "50%",
+                                        display: "flex",
+                                        flexDirection: "column"
+                                    }}>
+                                        <CustomPaperTitle heading="Remarks" />
+                                        <Box sx={{
+                                            display: 'flex',
+                                            p: 0.5,
+                                            width: '100%'
+                                        }} >
+                                            <CustomTextarea
+                                                required
+                                                type="text"
+                                                size="sm"
+                                                style={{
+                                                    width: "100%",
+                                                    height: 50,
+                                                }}
+                                                value={remarks}
+                                                onchange={updateRemarks}
+                                            />
+                                        </Box>
+                                    </Box> : null
+                            }
+
+
+                            {
+                                detldept === 1 ?
+                                    <Box sx={{
+                                        width: "15%",
                                         display: "flex",
                                         flexDirection: "column",
                                         pr: 1, pt: 0.5
                                     }}>
-
-                                        <CustomPaperTitle heading="Approx.Cost" />
+                                        <CustomPaperTitle heading="Total Approx.Cost" />
                                         <TextFieldCustom
                                             type="text"
                                             size="sm"
-                                            name="approx"
-                                            value={approx}
-                                            onchange={updateApprox}
+                                            name="totalApproxCost"
+                                            value={totalApproxCost}
+                                            disabled={true}
                                         />
-                                    </Box>
+
+                                    </Box> : null
                             }
                         </Box>
                     </Paper>

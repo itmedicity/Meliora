@@ -95,8 +95,8 @@ import { setHICComplaintLists } from '../reducers/HicComplaintList.Reducer'
 import { setOmTableList } from '../reducers/OmTableSelect.Reducer'
 import { setManualEmpList } from '../reducers/ManualEmpList.Reducer'
 import { setComEmpMap } from '../reducers/ComEmpMap.Reducer'
-
-
+import { setReqApprovDMS } from '../reducers/ReqApprovalDMS.Reducer'
+import { setdataCollectionCRF } from '../reducers/CRFDataCollectionDept.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -198,7 +198,9 @@ const reducer = combineReducers({
     setHICComplaintLists,
     setOmTableList,
     setManualEmpList,
-    setComEmpMap
+    setComEmpMap,
+    setReqApprovDMS,
+    setdataCollectionCRF
 
 })
 export default reducer;

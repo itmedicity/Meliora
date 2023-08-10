@@ -28,8 +28,8 @@ const ItemApprovalCmp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdel
                             <TableCell align="center" >Slno</TableCell>
                             <TableCell align="center" > Description</TableCell>
                             <TableCell align="center">Req. Brand</TableCell>
-                            <TableCell align="center">Unit</TableCell>
                             <TableCell align="center">Qty</TableCell>
+                            <TableCell align="center">Unit</TableCell>
                             <TableCell align="center">Specification</TableCell>
                             <TableCell align="center">approx.cost </TableCell>
                             <TableCell align="center">Action</TableCell>
@@ -38,17 +38,17 @@ const ItemApprovalCmp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdel
                     <TableBody>
                         {dataPost && dataPost.map((val, index) => {
                             return <TableRow
-                                key={val.item_slno}
+                                key={index}
                                 sx={{
                                     '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
                                     minHeight: 5
                                 }}
                             >
-                                <TableCell align="center">{val.item_slno}</TableCell>
+                                <TableCell align="center">{index + 1}</TableCell>
                                 <TableCell align="center">{val.item_desc}</TableCell>
                                 <TableCell align="center">{val.item_brand}</TableCell>
-                                <TableCell align="center">{val.item_unit}</TableCell>
                                 <TableCell align="center">{val.item_qnty}</TableCell>
+                                <TableCell align="center">{val.item_unit}</TableCell>
                                 <TableCell align="center">{val.item_specification}</TableCell>
                                 <TableCell align="center">{val.aprox_cost}</TableCell>
                                 <TableCell align="center">

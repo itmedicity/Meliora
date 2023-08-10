@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState, memo, useMemo, useEffect } from 'react'
+import React, { Fragment, useCallback, useState, memo, useEffect } from 'react'
 import Slide from '@mui/material/Slide';
 import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
@@ -9,25 +9,27 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify } from 'src/views/Common/CommonCode'
-import ApprovalCompnt from '../DMS Approval/DepartmentApproval/ApprovalCompnt';
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+
 import { useSelector } from 'react-redux'
-import ItemApprovalCmp from '../DMS Approval/DepartmentApproval/ItemApprovalCmp';
 import { CssVarsProvider, Typography } from '@mui/joy'
 import Divider from '@mui/material/Divider';
 import { TypoHeadColor } from 'src/color/Color'
 import _ from 'underscore'
+import CrfDepartmentSelect from 'src/views/CommonSelectCode/CrfDepartmentSelect';
+import ItemApprovalCmp from '../DepartmentApprovals/ItemApprovalCmp';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
 
-const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
+const DMSDataCollectModel = ({ open, setOpen, datas, count, setCount }) => {
+
+
     const { req_slno, req_date, actual_requirement, needed, location, expected_date, incharge_approve,
-        approve_incharge, incharge_remarks, req_approv_slno, approve_hod, hod_remarks, category,
-        manag_operation_remarks, manag_operation_approv, incharge_apprv_date, hod_approve_date,
-        inch_user, hod_user, inch_detial_analysis, hod_detial_analysis, incharge_req, hod_approve,
-        hod_req, om_detial_analysis } = datas[0]
+        approve_incharge, incharge_remarks, approve_hod, hod_remarks, category, incharge_apprv_date,
+        hod_approve_date, inch_user, hod_user, inch_detial_analysis, hod_detial_analysis, incharge_req,
+        hod_approve, hod_req } = datas[0]
 
     const reqdate = req_date !== null ? format(new Date(req_date), 'dd-MM-yyyy') : null
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : null
@@ -35,89 +37,8 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
     const hoddate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
     //redux for geting login id
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-    //state for Remarks
-    const [remark, setRemark] = useState('')
-    const updateRemark = useCallback((e) => {
-        setRemark(e.target.value)
-    }, [])
 
-    const [rejectremark, setRejectRemark] = useState('')
-    const updateRejectRemark = useCallback((e) => {
-        setRejectRemark(e.target.value)
-    }, [])
-    const [holdremark, setHoldRemark] = useState('')
-    const updateHoldRemark = useCallback((e) => {
-        setHoldRemark(e.target.value)
-    }, [])
-    const [detailAnalis, setDetailAnalis] = useState('')
-    const updatedetailAnalis = useCallback((e) => {
-        setDetailAnalis(e.target.value)
-    }, [])
-    const [approve, setApprove] = useState(false)
-    const [reject, setReject] = useState(false)
-    const [pending, setPending] = useState(false)
-    const updateApprove = useCallback((e) => {
-        if (e.target.checked === true) {
-            setApprove(true)
-            setReject(false)
-            setPending(false)
-        }
-        else {
-            setApprove(false)
-            setReject(false)
-            setPending(false)
-        }
-    }, [])
-    const updateReject = useCallback((e) => {
-        if (e.target.checked === true) {
-            setReject(true)
-            setApprove(false)
-            setPending(false)
-        }
-        else {
-            setApprove(false)
-            setReject(false)
-            setPending(false)
-        }
-    }, [])
-
-    const updatePending = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPending(true)
-            setApprove(false)
-            setReject(false)
-        }
-        else {
-            setPending(false)
-            setApprove(false)
-            setReject(false)
-        }
-
-    }, [])
-
-
-    useEffect(() => {
-        if (manag_operation_approv !== null) {
-            setRemark(manag_operation_remarks)
-            setApprove(manag_operation_approv === 1 ? true : false)
-            setReject(manag_operation_approv === 2 ? true : false)
-            setPending(manag_operation_approv === 3 ? true : false)
-            setRejectRemark(manag_operation_approv === 2 ? manag_operation_remarks : null)
-            setHoldRemark(manag_operation_approv === 3 ? manag_operation_remarks : null)
-            setDetailAnalis(manag_operation_approv === 1 ? om_detial_analysis : null)
-        }
-        else {
-            setRemark('')
-            setPending(false)
-            setApprove(false)
-            setReject(false)
-            setRejectRemark('')
-            setHoldRemark('')
-            setDetailAnalis('')
-        }
-    }, [manag_operation_approv, req_slno, manag_operation_remarks, om_detial_analysis])
-
-
+    const [crfdept, serCrfDept] = useState([])
     const [dataPost, setdataPost] = useState([])
     const [tableDis, setTableDis] = useState(0)
     useEffect(() => {
@@ -135,52 +56,50 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
         InsertFun(req_slno)
     }, [req_slno])
 
-    const patchdataOm = useMemo(() => {
+
+
+    const postData = crfdept && crfdept.map((val) => {
         return {
-            manag_operation_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
-            manag_operation_remarks: approve === true ? remark : reject === true ? rejectremark : pending === true ? holdremark : null,
-            om_detial_analysis: approve === true ? detailAnalis : null,
-            om_approv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            req_approv_slno: req_approv_slno,
-            manag_operation_user: id,
-            req_slno: req_slno
+            crf_requst_slno: req_slno,
+            crf_req_collect_dept: val,
+            req_user: id
         }
-    }, [approve, reject, pending, remark, rejectremark, holdremark, req_slno, req_approv_slno, detailAnalis, id])
+    })
+
+
 
     const submit = useCallback((e) => {
         e.preventDefault();
+
         const reset = () => {
+            setdataPost([])
+            setTableDis(0)
+            serCrfDept([])
             setOpen(false)
-            setApprove(false)
-            setReject(false)
-            setPending(false)
-            setRemark('')
-            setRejectRemark('')
-            setHoldRemark('')
-            setDetailAnalis('')
         }
-        const updateInchApproval = async (patchdataOm) => {
-            const result = await axioslogin.patch('/requestRegister/approval/om', patchdataOm);
-            const { success, message } = result.data;
-            if (success === 2) {
+
+        const deptRequest = async (postData) => {
+            const result = await axioslogin.post(`/requestRegister/dataCollect/Insert`, postData);
+            const { message, success } = result.data;
+            if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1)
-                reset()
+                reset();
+            } else if (success === 0) {
+                infoNotify(message)
+            } else {
+                infoNotify(message)
             }
         }
-        updateInchApproval(patchdataOm)
-    }, [patchdataOm, count, setCount, setOpen])
+        deptRequest(postData)
+    }, [postData, count, setCount, setOpen])
+
     // reset 
     const Close = useCallback(() => {
         setOpen(false)
-        setApprove(false)
-        setReject(false)
-        setPending(false)
-        setRemark('')
-        setRejectRemark('')
-        setHoldRemark('')
-        setDetailAnalis('')
     }, [setOpen])
+
+
     return (
         <Fragment>
             <ToastContainer />
@@ -524,30 +443,25 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                             <Box sx={{
                                 width: "100%",
                                 display: "flex",
-                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                             }}>
                                 <Box
-                                    sx={{
-                                        pl: 1, pr: 1
-                                    }}>
-                                    <ApprovalCompnt
-                                        heading="Operation Managers Approval"
-                                        approve={approve}
-                                        reject={reject}
-                                        pending={pending}
-                                        remark={remark}
-                                        rejectremark={rejectremark}
-                                        updateRejectRemark={updateRejectRemark}
-                                        holdremark={holdremark}
-                                        updateHoldRemark={updateHoldRemark}
-                                        detailAnalis={detailAnalis}
-                                        updatedetailAnalis={updatedetailAnalis}
-                                        updateRemark={updateRemark}
-                                        updateApprove={updateApprove}
-                                        updateReject={updateReject}
-                                        updatePending={updatePending}
-                                    />
+                                    sx={{ width: "30%", pt: 1, pl: 1 }}
+                                >
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Collected Depatments: </Typography>
+
+                                    </CssVarsProvider>
                                 </Box>
+
+                                <Box
+                                    sx={{ width: "30%", pt: 1, pl: 1, pb: 0.5 }}
+                                >
+                                    <CrfDepartmentSelect value={crfdept} setValue={serCrfDept} />
+
+                                </Box>
+
+
                             </Box>
                         </Paper>
                     </Box>
@@ -562,4 +476,4 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
     )
 }
 
-export default memo(OmApprovModel)
+export default memo(DMSDataCollectModel)

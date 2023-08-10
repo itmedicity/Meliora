@@ -87,7 +87,7 @@ const InPatientList = React.lazy(() => import('./views/dashboard/DietDashViews/T
 const DietPlannedList = React.lazy(() => import('./views/dashboard/DietDashViews/DietPalnnedList'))
 const DietPlanPending = React.lazy(() => import('./views/dashboard/DietDashViews/DietPlanPendingList'))
 const RequestRegister = React.lazy(() => import('./views/RequestManagement/RequestRegister/ReqRegistration'))
-const ReqDepartmentApproval = React.lazy(() => import('./views/RequestManagement/DepartmentApproval/ReqDeptApproval'))
+const ReqDepartmentApproval = React.lazy(() => import('./views/RequestManagement/DepartmentApprovals/ReqDeptApproval'))
 const ReqOMApproval = React.lazy(() => import('./views/RequestManagement/OMApproval/OmApproval'))
 const ReqSMOApproval = React.lazy(() => import('./views/RequestManagement/SMOApproval/SmoApproval'))
 const ReqCAOApproval = React.lazy(() => import('./views/RequestManagement/CAOApproval/CAOApproval'))
@@ -109,8 +109,8 @@ const RegistredCompList = React.lazy(() => import('./views/ComManagement/Registr
 const CmsReportDeptWise = React.lazy(() => import('./views/Report/ComplaintReport/DeptWiseReport'))
 const TeamMaster = React.lazy(() => import('./views/Master/TaskManagement/TaskTeamMaster/TeamMast'))
 const TaskHomePage = React.lazy(() => import('./views/TaskManagement/Home/TaskHomePage'))
-
-
+const DMSApproval = React.lazy(() => import('./views/RequestManagement/DMSApproval/DmsApprovalTable'))
+const CRFDataCollection = React.lazy(() => import('./views/RequestManagement/CRFDataCollection/CrfDataCollectnTable'))
 
 
 const routes = [
@@ -224,7 +224,9 @@ const routes = [
   { path: '/Home/RegistredCompList', exact: true, name: 'Registred Compalint List', component: RegistredCompList },
   { path: '/Home/CmsReportDeptWise', exact: true, name: 'Registred Compalint List', component: CmsReportDeptWise },
   { path: '/Home/TeamMaster', exact: true, name: 'Team Master', component: TeamMaster },
-  { path: '/Home/TaskHome', exact: true, name: 'Task management Home', component: TaskHomePage }
+  { path: '/Home/TaskHome', exact: true, name: 'Task management Home', component: TaskHomePage },
+  { path: '/Home/DMSApproval', exact: true, name: 'DMS Approval', component: DMSApproval },
+  { path: '/Home/CrfDataCollection', exact: true, name: 'CRF data Collection', component: CRFDataCollection }
 
 
 ]

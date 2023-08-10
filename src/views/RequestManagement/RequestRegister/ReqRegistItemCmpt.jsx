@@ -5,7 +5,7 @@ import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 
-const ReqRegistItemCmpt = ({ columnDefs, tableData, onSelectionChanged, columnTypes, getRowStyle }) => {
+const ReqRegistItemCmpt = ({ columnDefs, tableData, onSelectionChanged, columnTypes, getRowStyle, detldept }) => {
 
     const rowHeight = 25
     const headerHeight = 25

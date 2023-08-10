@@ -15,7 +15,8 @@ import NdrfModelOm from './NdrfModelOm'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { getNdrfList } from 'src/redux/actions/NdrfList.action'
 import NdrfModel from '../NdrfFrorm/NdrfModel'
-import { warningNotify } from 'src/views/Common/CommonCode'
+import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone';
+import DMSDataCollectModel from '../DMSApproval/DMSDataCollectModel'
 
 const OmApproval = () => {
     /*** Initializing */
@@ -40,7 +41,7 @@ const OmApproval = () => {
 
     useEffect(() => {
         if (ndrftable.length === 0) {
-            warningNotify("No NDRF pending for aprroval")
+            // warningNotify("No NDRF pending for aprroval")
         }
         else { return 0 }
 
@@ -72,10 +73,40 @@ const OmApproval = () => {
         }
     }, [])
 
+    const [msgmodel, setmsgmodel] = useState(0)
+    const [msgopen, setmsgOpen] = useState(false);
+    const [msgdatas, setmsgdatas] = useState([])
+
+    const MessageSend = useCallback((params) => {
+        setmsgOpen(true)
+        const data = params.api.getSelectedRows()
+        setmsgdatas(data);
+        setmsgmodel(1)
+    }, [])
+
+
+
     //column title setting
     const [column] = useState([
         {
-            headerName: 'Action', minWidth: 10, cellRenderer: params => {
+            headerName: 'Data Collection', minWidth: 80, cellRenderer: params => {
+                if (params.data.senior_manage_approv !== null) {
+                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
+                        < ForwardToInboxTwoToneIcon />
+                    </IconButton>
+                } else {
+                    return <IconButton onClick={() => MessageSend(params)}
+                        sx={{ color: editicon, paddingY: 0.5 }} >
+                        <CustomeToolTip title="Forward To Data Collection">
+                            < ForwardToInboxTwoToneIcon />
+                        </CustomeToolTip>
+                    </IconButton>
+                }
+            }
+        },
+        {
+            headerName: 'Approval', minWidth: 10, cellRenderer: params => {
+
                 if (params.data.senior_manage_approv !== null) {
                     return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
                         <PublishedWithChangesOutlinedIcon />
@@ -88,6 +119,7 @@ const OmApproval = () => {
                         </CustomeToolTip>
                     </IconButton>
                 }
+
             }
         },
         {
@@ -118,6 +150,7 @@ const OmApproval = () => {
         },
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
         { headerName: "Actual Requirement", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
+        { headerName: "Emergency", field: "Emergency", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Req. Date", field: "req_date", minWidth: 180, autoHeight: true, wrapText: true, },
         { headerName: "Inch.Appr.Status", field: "approve_incharge", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
@@ -151,6 +184,7 @@ const OmApproval = () => {
 
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
         { headerName: "Actual Requirement", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
+        { headerName: "Emergency", field: "Emergency", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
         { headerName: "Req.Department", field: "req_dept", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
         { headerName: "Req.DeptSec", field: "req_deptsec", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
@@ -197,10 +231,18 @@ const OmApproval = () => {
 
     return (
         <CardCloseOnly
-            title="Operation Manager Approval"
+            title="Operation Manager Documentation"
             close={backtoSetting}
         >
+            {msgmodel === 1 ?
+                <DMSDataCollectModel
 
+                    open={msgopen}
+                    setOpen={setmsgOpen}
+                    datas={msgdatas}
+                    count={count}
+                    setCount={setCount}
+                /> : null}
             {model === 1 ?
                 <OmApprovModel
 

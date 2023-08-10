@@ -10,10 +10,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify } from 'src/views/Common/CommonCode'
-import ApprovalCompnt from '../DepartmentApproval/ApprovalCompnt';
+import ApprovalCompnt from '../DMS Approval/DepartmentApproval/ApprovalCompnt';
 import { useMemo } from 'react';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
-import ItemApprovalCmp from '../DepartmentApproval/ItemApprovalCmp';
+import ItemApprovalCmp from '../DMS Approval/DepartmentApproval/ItemApprovalCmp';
 import _ from 'underscore'
 import { useSelector } from 'react-redux'
 import { CssVarsProvider, Typography } from '@mui/joy'
