@@ -10,19 +10,20 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify } from 'src/views/Common/CommonCode'
-import ApprovalCompnt from '../DMS Approval/DepartmentApproval/ApprovalCompnt';
 import { useSelector } from 'react-redux'
-import ItemApprovalCmp from '../DMS Approval/DepartmentApproval/ItemApprovalCmp';
 import { CssVarsProvider, Typography } from '@mui/joy'
 import Divider from '@mui/material/Divider';
 import { TypoHeadColor } from 'src/color/Color'
 import _ from 'underscore'
+import ItemApprovalCmp from '../DepartmentApprovals/ItemApprovalCmp';
+import ApprovalCompnt from '../DepartmentApprovals/ApprovalCompnt';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
 
-const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
+const DMSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
+
     const { req_slno, req_date, actual_requirement, needed, location, expected_date, incharge_approve,
         approve_incharge, incharge_remarks, req_approv_slno, approve_hod, hod_remarks, category,
         manag_operation_remarks, manag_operation_approv, incharge_apprv_date, hod_approve_date,
@@ -181,6 +182,7 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
         setHoldRemark('')
         setDetailAnalis('')
     }, [setOpen])
+
     return (
         <Fragment>
             <ToastContainer />
@@ -531,7 +533,7 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                         pl: 1, pr: 1
                                     }}>
                                     <ApprovalCompnt
-                                        heading="Operation Managers Approval"
+                                        heading="DMS Approval"
                                         approve={approve}
                                         reject={reject}
                                         pending={pending}
@@ -562,4 +564,4 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
     )
 }
 
-export default memo(OmApprovModel)
+export default memo(DMSApprovalModel)

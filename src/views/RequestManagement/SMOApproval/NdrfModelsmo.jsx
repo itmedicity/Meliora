@@ -12,7 +12,7 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify } from 'src/views/Common/CommonCode'
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux'
-import ItemApprovalCmp from '../DepartmentApproval/ItemApprovalCmp';
+import ItemApprovalCmp from '../DMS Approval/DepartmentApproval/ItemApprovalCmp';
 import _ from 'underscore'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import Divider from '@mui/material/Divider';

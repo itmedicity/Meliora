@@ -10,6 +10,10 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
 import { getDepartmentId } from 'src/views/Constant/Constant'
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+
 const DepartmentMast = () => {
     //for routing
     const history = useHistory();
@@ -17,7 +21,7 @@ const DepartmentMast = () => {
     const [count, setCount] = useState(0);
     //state for edit
     const [value, setValue] = useState(0)
-
+    const [type, setType] = useState(0)
     const [departmentId, setDepartmentId] = useState(0)
     // Get login user emp_id
     const id = useSelector((state) => {
@@ -48,20 +52,23 @@ const DepartmentMast = () => {
             dept_name: dept_name,
             dept_alias: dept_alias,
             dept_status: dept_status === true ? 1 : 0,
+            dept_type: type,
             create_user: id
         }
-    }, [dept_name, dept_alias, dept_status, id, departmentId])
+    }, [dept_name, dept_alias, dept_status, id, type, departmentId])
     //edit data setting on textfields
     const rowSelect = useCallback((params) => {
         setValue(1)
         const data = params.api.getSelectedRows()
-        const { dept_name, dept_alias, status, dept_id } = data[0]
+        const { dept_name, dept_alias, status, dept_type, dept_id } = data[0]
         const frmdata = {
             dept_name: dept_name,
             dept_alias: dept_alias,
+            type: dept_type,
             dept_status: status === 'Yes' ? true : false,
             dept_id: dept_id
         }
+        setType(dept_type)
         setDepartment(frmdata)
     }, [])
     //data for update
@@ -71,9 +78,10 @@ const DepartmentMast = () => {
             dept_alias: dept_alias,
             dept_status: dept_status === true ? 1 : 0,
             edit_user: id,
+            dept_type: type,
             dept_id: dept_id
         }
-    }, [dept_name, dept_alias, dept_status, dept_id, id])
+    }, [dept_name, dept_alias, dept_status, type, dept_id, id])
     /*** usecallback function for form submitting */
     const submitDepartment = useCallback((e) => {
         e.preventDefault();
@@ -90,6 +98,7 @@ const DepartmentMast = () => {
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1);
+                setType(0)
                 setDepartment(formreset);
             } else if (success === 0) {
                 infoNotify(message);
@@ -106,6 +115,7 @@ const DepartmentMast = () => {
                 succesNotify(message)
                 setCount(count + 1);
                 setValue(0)
+                setType(0)
                 setDepartment(formreset);
             } else if (success === 0) {
                 infoNotify(message);
@@ -137,6 +147,7 @@ const DepartmentMast = () => {
         }
         setDepartment(formreset)
         setValue(0);
+        setType(0)
     }, [setDepartment])
     return (
         <CardMaster
@@ -169,6 +180,30 @@ const DepartmentMast = () => {
                                     onchange={updateDepartment}
                                 />
                             </Grid>
+
+
+                            <Grid item xl={12} lg={12} >
+                                <FormControl fullWidth size="small"  >
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={type}
+                                        onChange={(e) => setType(e.target.value)}
+                                        size="small"
+                                        fullWidth
+                                        variant='outlined'
+                                        sx={{ height: 24, p: 0, m: 0, lineHeight: 1.200 }}
+                                    >
+                                        <MenuItem value={0} disabled > Select Type</MenuItem>
+                                        <MenuItem value={1} > Clinical</MenuItem>
+                                        <MenuItem value={2} > Non Clinical</MenuItem>
+                                        <MenuItem value={3} > Academic</MenuItem>
+
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+
+
                             <Grid item lg={2} xl={2}>
                                 <CusCheckBox
                                     label="Status"
