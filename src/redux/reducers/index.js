@@ -95,18 +95,14 @@ import { setHICComplaintLists } from '../reducers/HicComplaintList.Reducer'
 import { setOmTableList } from '../reducers/OmTableSelect.Reducer'
 import { setManualEmpList } from '../reducers/ManualEmpList.Reducer'
 import { setComEmpMap } from '../reducers/ComEmpMap.Reducer'
-<<<<<<< HEAD
 import { getCampus } from '../reducers/CampusSelect.Reducer'
 import { getBuildingdata } from '../reducers/BuildingSelect.Reducer'
 import { getBuildingBlock } from '../reducers/BuildingBlock.Reducer'
 import { getInsideBuildingBlock } from '../reducers/InsideBuildBlock.Reducer'
 import { getFloorData } from '../reducers/FloorRM.Reducer'
-
-
-=======
 import { setReqApprovDMS } from '../reducers/ReqApprovalDMS.Reducer'
 import { setdataCollectionCRF } from '../reducers/CRFDataCollectionDept.Reducer'
->>>>>>> c26288af0861834bc2a115be1c7de564bcb85ee0
+
 
 const reducer = combineReducers({
     changeState,
@@ -209,16 +205,14 @@ const reducer = combineReducers({
     setOmTableList,
     setManualEmpList,
     setComEmpMap,
-<<<<<<< HEAD
     getCampus,
     getBuildingdata,
     getBuildingBlock,
     getInsideBuildingBlock,
-    getFloorData
-=======
+    getFloorData,
     setReqApprovDMS,
     setdataCollectionCRF
->>>>>>> c26288af0861834bc2a115be1c7de564bcb85ee0
+
 
 })
 export default reducer;
