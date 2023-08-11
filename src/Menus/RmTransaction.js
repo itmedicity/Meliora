@@ -5,9 +5,23 @@ import CIcon from '@coreui/icons-react'
 
 const RmTransactions = [
     {
-        men_slno: 45,
+        men_slno: 120,
+        component: CNavItem,
+        name: 'Floor Creation',
+        to: '/Home/FloorCreation',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 123,
         component: CNavItem,
         name: 'Room Creation',
+        to: '/Home/RoomCreationSideNav',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 45,
+        component: CNavItem,
+        name: 'Room ',
         to: '/Home/RoomCreation',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },

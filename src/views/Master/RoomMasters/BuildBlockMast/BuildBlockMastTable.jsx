@@ -1,14 +1,18 @@
-import React, { useState, memo } from 'react'
-import { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { memo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 import EditButton from 'src/views/Components/EditButton'
-const GroupTable = ({ count, rowSelect }) => {
+
+const BuildBlockMastTable = ({ count, rowSelect }) => {
   const [tabledata, setTabledata] = useState([])
+
   const [column] = useState([
-    { headerName: 'SlNo', field: 'group_slno' },
-    { headerName: 'Group', field: 'group_name' },
+    { headerName: 'SlNo', field: 'rm_buildblock_slno' },
+    { headerName: 'Build Block name', field: 'rm_buildblock_name' },
+    { headerName: 'Build Block alias', field: 'rm_buildblock_alias' },
+    { headerName: 'Build Block number', field: 'rm_buildblock_no' },
     { headerName: 'Status', field: 'status' },
     {
       headerName: 'Action',
@@ -16,8 +20,8 @@ const GroupTable = ({ count, rowSelect }) => {
     },
   ])
   useEffect(() => {
-    const getGroup = async () => {
-      const result = await axioslogin.get('amgroup/view')
+    const getbuildBlock = async () => {
+      const result = await axioslogin.get('buildblock/view')
       const { success, data } = result.data
       if (success === 2) {
         setTabledata(data)
@@ -25,9 +29,9 @@ const GroupTable = ({ count, rowSelect }) => {
         warningNotify('error occured')
       }
     }
-    getGroup()
+    getbuildBlock()
   }, [count])
   return <CusAgGridMast columnDefs={column} tableData={tabledata} />
 }
 
-export default memo(GroupTable)
+export default memo(BuildBlockMastTable)

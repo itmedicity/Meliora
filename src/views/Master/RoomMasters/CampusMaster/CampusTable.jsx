@@ -1,14 +1,19 @@
-import React, { useState, memo } from 'react'
-import { useEffect } from 'react'
+import React from 'react'
+import { useEffect, memo } from 'react'
+import { useState } from 'react'
+import EditButton from 'src/views/Components/EditButton'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
-import EditButton from 'src/views/Components/EditButton'
-const GroupTable = ({ count, rowSelect }) => {
+
+const CampusTable = ({ count, rowSelect }) => {
   const [tabledata, setTabledata] = useState([])
+
   const [column] = useState([
-    { headerName: 'SlNo', field: 'group_slno' },
-    { headerName: 'Group', field: 'group_name' },
+    { headerName: 'SlNo', field: 'rm_campus_slno' },
+    { headerName: 'Campus name', field: 'rm_campus_name' },
+    { headerName: 'Campus alias', field: 'rm_campus_alias' },
+    { headerName: 'Campus number', field: 'rm_campus_no' },
     { headerName: 'Status', field: 'status' },
     {
       headerName: 'Action',
@@ -16,8 +21,8 @@ const GroupTable = ({ count, rowSelect }) => {
     },
   ])
   useEffect(() => {
-    const getGroup = async () => {
-      const result = await axioslogin.get('amgroup/view')
+    const getCampus = async () => {
+      const result = await axioslogin.get('campus/view')
       const { success, data } = result.data
       if (success === 2) {
         setTabledata(data)
@@ -25,9 +30,9 @@ const GroupTable = ({ count, rowSelect }) => {
         warningNotify('error occured')
       }
     }
-    getGroup()
+    getCampus()
   }, [count])
   return <CusAgGridMast columnDefs={column} tableData={tabledata} />
 }
 
-export default memo(GroupTable)
+export default memo(CampusTable)
