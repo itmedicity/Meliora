@@ -15,7 +15,6 @@ import NdrfModel from '../NdrfFrorm/NdrfModel'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { getNdrfList } from 'src/redux/actions/NdrfList.action'
 import NdrfModelsmo from './NdrfModelsmo'
-import { warningNotify } from 'src/views/Common/CommonCode'
 
 const SmoApproval = () => {
 
@@ -41,7 +40,7 @@ const SmoApproval = () => {
 
     useEffect(() => {
         if (ndrftable.length === 0) {
-            warningNotify("No NDRF pending for aprroval")
+            // warningNotify("No NDRF pending for aprroval")
         }
         else { return 0 }
 
@@ -117,6 +116,7 @@ const SmoApproval = () => {
 
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
         { headerName: "Actual Requirement", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
+        { headerName: "Emergency", field: "Emergency", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Req. Date", field: "req_date", minWidth: 180, autoHeight: true, wrapText: true, },
         { headerName: "Inch.Appr.Status", field: "approve_incharge", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
@@ -195,7 +195,7 @@ const SmoApproval = () => {
 
     return (
         <CardCloseOnly
-            title="Senior Manager Operation Approval"
+            title="Senior Manager Operation Verification"
             close={backtoSetting}
         >
             {model === 1 ?

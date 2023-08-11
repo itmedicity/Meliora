@@ -88,7 +88,7 @@ const InPatientList = React.lazy(() => import('./views/dashboard/DietDashViews/T
 const DietPlannedList = React.lazy(() => import('./views/dashboard/DietDashViews/DietPalnnedList'))
 const DietPlanPending = React.lazy(() => import('./views/dashboard/DietDashViews/DietPlanPendingList'))
 const RequestRegister = React.lazy(() => import('./views/RequestManagement/RequestRegister/ReqRegistration'))
-const ReqDepartmentApproval = React.lazy(() => import('./views/RequestManagement/DepartmentApproval/ReqDeptApproval'))
+const ReqDepartmentApproval = React.lazy(() => import('./views/RequestManagement/DepartmentApprovals/ReqDeptApproval'))
 const ReqOMApproval = React.lazy(() => import('./views/RequestManagement/OMApproval/OmApproval'))
 const ReqSMOApproval = React.lazy(() => import('./views/RequestManagement/SMOApproval/SmoApproval'))
 const ReqCAOApproval = React.lazy(() => import('./views/RequestManagement/CAOApproval/CAOApproval'))
@@ -117,6 +117,10 @@ const RoomTypeMaster = React.lazy(() => import('./views/Master/RoomMasters/RoomT
 const RoomCategoryMaster = React.lazy(() => import('./views/Master/RoomMasters/RoomCategoryMaster/RoomCategoryMaster'))
 const FloorCreation = React.lazy(() => import('./views/RoomManagement/FloorCreation/FloorCreation'))
 const RoomNewCreation = React.lazy(() => import('./views/RoomManagement/RoomNewCreation/RoomCreation'))
+const TeamMaster = React.lazy(() => import('./views/Master/TaskManagement/TaskTeamMaster/TeamMast'))
+const TaskHomePage = React.lazy(() => import('./views/TaskManagement/Home/TaskHomePage'))
+const DMSApproval = React.lazy(() => import('./views/RequestManagement/DMSApproval/DmsApprovalTable'))
+const CRFDataCollection = React.lazy(() => import('./views/RequestManagement/CRFDataCollection/CrfDataCollectnTable'))
 
 
 
@@ -238,8 +242,11 @@ const routes = [
   { path: '/Home/RoomTypeMaster', exact: true, name: 'Room Type Master', component: RoomTypeMaster },
   { path: '/Home/RoomCategoryMaster', exact: true, name: 'Room Category Master', component: RoomCategoryMaster },
   { path: '/Home/FloorCreation', exact: true, name: 'Floor Creation', component: FloorCreation },
-  { path: '/Home/RoomCreationSideNav', exact: true, name: 'Room New Creation', component: RoomNewCreation }
-
+  { path: '/Home/RoomCreationSideNav', exact: true, name: 'Room New Creation', component: RoomNewCreation },
+  { path: '/Home/TeamMaster', exact: true, name: 'Team Master', component: TeamMaster },
+  { path: '/Home/TaskHome', exact: true, name: 'Task management Home', component: TaskHomePage },
+  { path: '/Home/DMSApproval', exact: true, name: 'DMS Approval', component: DMSApproval },
+  { path: '/Home/CrfDataCollection', exact: true, name: 'CRF data Collection', component: CRFDataCollection }
 
 
 

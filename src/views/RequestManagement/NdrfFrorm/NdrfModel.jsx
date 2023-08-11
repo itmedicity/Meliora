@@ -13,7 +13,7 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useMemo } from 'react';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { useSelector } from 'react-redux';
-import ItemApprovalCmp from '../DepartmentApproval/ItemApprovalCmp';
+import ItemApprovalCmp from '../DMS Approval/DepartmentApproval/ItemApprovalCmp';
 import { CssVarsProvider, Typography } from '@mui/joy'
 import Divider from '@mui/material/Divider';
 import { TypoHeadColor } from 'src/color/Color'

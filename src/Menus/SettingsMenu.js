@@ -33,6 +33,23 @@ export const cm_setting_three = [
     { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 14 }
 ]
 
+//Task Master Menu
+export const task_setting_one = [
+    { to: '/Home/TeamMaster', name: 'Team Master', slno: 115 },
+
+
+]
+
+export const task_setting_two = [
+
+
+
+]
+
+export const task_setting_three = [
+
+]
+
 //Request Management Master Menu
 export const crm_setting_one = [
     { to: '/Home/OMTableMast', name: 'OM Table Mast', slno: 107 },
