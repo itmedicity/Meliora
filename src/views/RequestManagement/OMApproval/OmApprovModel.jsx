@@ -120,6 +120,7 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
 
     const [dataPost, setdataPost] = useState([])
     const [tableDis, setTableDis] = useState(0)
+
     useEffect(() => {
         const InsertFun = async (req_slno) => {
             const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
@@ -133,6 +134,9 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
             }
         }
         InsertFun(req_slno)
+
+
+
     }, [req_slno])
 
     const patchdataOm = useMemo(() => {

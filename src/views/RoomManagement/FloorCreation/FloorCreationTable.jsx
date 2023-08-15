@@ -13,7 +13,6 @@ const FloorCreationTable = ({ count, rowSelect }) => {
     { headerName: 'Campus', field: 'rm_campus_name' },
     { headerName: 'Building', field: 'rm_building_name' },
     { headerName: 'Block', field: 'rm_buildblock_name' },
-    { headerName: 'Inside Building Block', field: 'rm_insidebuildblock_name' },
     { headerName: 'Floor ', field: 'rm_floor_name' },
     { headerName: 'Alias', field: 'rm_floor_alias' },
     { headerName: 'floor Number', field: 'rm_floor_no' },

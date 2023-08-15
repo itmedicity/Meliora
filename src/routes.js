@@ -122,7 +122,8 @@ const TaskHomePage = React.lazy(() => import('./views/TaskManagement/Home/TaskHo
 const DMSApproval = React.lazy(() => import('./views/RequestManagement/DMSApproval/DmsApprovalTable'))
 const CRFDataCollection = React.lazy(() => import('./views/RequestManagement/CRFDataCollection/CrfDataCollectnTable'))
 const RoomDashBoard = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardMain'))
-
+const CRFIncharge = React.lazy(() => import('./views/RequestManagement/InchargeApproval/InchargeApprovalTable'))
+const CRFMSApproval = React.lazy(() => import('./views/RequestManagement/MSApproval/MSApprovalTable'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -248,7 +249,8 @@ const routes = [
   { path: '/Home/DMSApproval', exact: true, name: 'DMS Approval', component: DMSApproval },
   { path: '/Home/CrfDataCollection', exact: true, name: 'CRF data Collection', component: CRFDataCollection },
   { path: '/Home/RoomDashBoard', exact: true, name: 'Room Dashboard', component: RoomDashBoard },
-
+  { path: '/Home/CRFInchargeApproval', exact: true, name: 'CRF Incharge Approval', component: CRFIncharge },
+  { path: '/Home/CrfMSApproval', exact: true, name: 'CRF MS Approval', component: CRFMSApproval }
 
 ]
 
