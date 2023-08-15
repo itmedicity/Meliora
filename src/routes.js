@@ -121,8 +121,8 @@ const TeamMaster = React.lazy(() => import('./views/Master/TaskManagement/TaskTe
 const TaskHomePage = React.lazy(() => import('./views/TaskManagement/Home/TaskHomePage'))
 const DMSApproval = React.lazy(() => import('./views/RequestManagement/DMSApproval/DmsApprovalTable'))
 const CRFDataCollection = React.lazy(() => import('./views/RequestManagement/CRFDataCollection/CrfDataCollectnTable'))
-
-
+const CRFIncharge = React.lazy(() => import('./views/RequestManagement/InchargeApproval/InchargeApprovalTable'))
+const CRFMSApproval = React.lazy(() => import('./views/RequestManagement/MSApproval/MSApprovalTable'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -246,7 +246,9 @@ const routes = [
   { path: '/Home/TeamMaster', exact: true, name: 'Team Master', component: TeamMaster },
   { path: '/Home/TaskHome', exact: true, name: 'Task management Home', component: TaskHomePage },
   { path: '/Home/DMSApproval', exact: true, name: 'DMS Approval', component: DMSApproval },
-  { path: '/Home/CrfDataCollection', exact: true, name: 'CRF data Collection', component: CRFDataCollection }
+  { path: '/Home/CrfDataCollection', exact: true, name: 'CRF data Collection', component: CRFDataCollection },
+  { path: '/Home/CRFInchargeApproval', exact: true, name: 'CRF Incharge Approval', component: CRFIncharge },
+  { path: '/Home/CrfMSApproval', exact: true, name: 'CRF MS Approval', component: CRFMSApproval }
 
 
 

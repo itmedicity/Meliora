@@ -18,6 +18,7 @@ import _ from 'underscore'
 import CRFDataItemEditCmnt from './CRFDataItemEditCmnt';
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
 import CustomTextarea from 'src/views/Components/CustomTextarea'
+import CRFDataItemOrginal from './CRFDataItemOrginal';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -50,22 +51,29 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
     }, [crf_dept_remarks])
 
 
-    const [dataPost, setdataPost] = useState([])
-    const [tableDis, setTableDis] = useState(0)
+
+
+    const [orginal, setorginal] = useState([])
+    const [tableOrginal, setTableOrginal] = useState(0)
+
     useEffect(() => {
-        const InsertFun = async (req_slno) => {
+        const getOrginalData = async (req_slno) => {
             const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
             const { success, data } = result.data
             if (success === 1) {
-                setdataPost(data)
-                setTableDis(1)
+                setorginal(data)
+                setTableOrginal(1)
             }
             else {
-                setTableDis(0)
+                setTableOrginal(0)
             }
         }
-        InsertFun(req_slno)
+        getOrginalData(req_slno)
+
     }, [req_slno])
+
+
+
 
     const patchdata = useMemo(() => {
         return {
@@ -118,7 +126,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
-                        Request Approval
+                        Data Collection Model
                     </DialogContentText>
 
                     <Box sx={{ width: "100%", mt: 0 }}>
@@ -245,18 +253,42 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
+
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
                                     p: 0.5,
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
-                                    {tableDis === 1 ? <CRFDataItemEditCmnt
-                                        reqslno={req_slno}
-                                        dataPost={dataPost}
-                                        setdataPost={setdataPost}
-                                        setTableDis={setTableDis}
-                                    /> : null}
+                                    {tableOrginal === 1 ?
+                                        <Box sx={{
+                                            width: "100%",
+                                            display: "flex",
+                                            p: 0.5, pb: 0,
+                                            flexDirection: "column",
+                                        }}>
+                                            <Box
+                                                sx={{ pr: 9 }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15 }}>Requested data</Typography>
+                                                </CssVarsProvider>
+                                            </Box>
+
+                                            <CRFDataItemOrginal
+                                                dataPost={orginal}
+                                            />
+                                            <Box
+                                                sx={{ pr: 9 }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15 }}>Data Enter For Collection</Typography>
+                                                </CssVarsProvider>
+                                            </Box>
+                                            <CRFDataItemEditCmnt
+                                                reqslno={req_slno}
+                                            />
+                                        </Box>
+
+                                        : null}
 
                                 </Box>
                             </Box>

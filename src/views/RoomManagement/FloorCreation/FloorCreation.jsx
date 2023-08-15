@@ -6,7 +6,6 @@ import FloorCreationTable from './FloorCreationTable'
 import CampusSelect from 'src/views/CommonSelectCode/CampusSelect'
 import BuildingRoomManagement from 'src/views/CommonSelectCode/BuildingRoomManagement'
 import BuildingBlockSelect from 'src/views/CommonSelectCode/BuildingBlockSelect'
-import InsideBluidBlockSelect from 'src/views/CommonSelectCode/InsideBluidBlockSelect'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useMemo } from 'react'
@@ -20,13 +19,14 @@ const FloorCreation = () => {
   const [campus, setCampus] = useState(0)
   const [building, setBuilding] = useState(0)
   const [buildBlock, setbuildBlock] = useState(0)
-  const [insidebuild, setInsideBuild] = useState(0)
+  const [campusshort, setCampusShort] = useState("");
+  const [buildingShort, setBuildingShort] = useState("")
+  const [buildBlockShort, setbuildBlockShort] = useState("")
+
 
   const [floor, setFloor] = useState({
     rm_floor_slno: '',
     rm_floor_name: '',
-    rm_floor_alias: '',
-    rm_floor_no: '',
     rm_floor_room_starts: '',
     rm_floor_room_ends: '',
     rm_floor_status: false,
@@ -34,8 +34,6 @@ const FloorCreation = () => {
   const {
     rm_floor_slno,
     rm_floor_name,
-    rm_floor_alias,
-    rm_floor_no,
     rm_floor_status,
     rm_floor_room_starts,
     rm_floor_room_ends,
@@ -47,15 +45,15 @@ const FloorCreation = () => {
     },
     [floor],
   )
+
   const postdata = useMemo(() => {
     return {
       rm_floor_campus_slno: campus,
       rm_floor_building_slno: building,
       rm_floor_build_block_slno: buildBlock,
-      rm_floor_inside_build_slno: insidebuild,
       rm_floor_name: rm_floor_name,
-      rm_floor_alias: rm_floor_alias,
-      rm_floor_no: rm_floor_no,
+      rm_floor_alias: campusshort + '/' + buildingShort + '/' + buildBlockShort,
+      rm_floor_no: campus + '/' + building + '/' + buildBlock,
       rm_floor_room_starts: rm_floor_room_starts,
       rm_floor_room_ends: rm_floor_room_ends,
       rm_floor_status: rm_floor_status === true ? 1 : 0,
@@ -64,13 +62,13 @@ const FloorCreation = () => {
     campus,
     building,
     buildBlock,
-    insidebuild,
     rm_floor_name,
-    rm_floor_alias,
-    rm_floor_no,
     rm_floor_room_starts,
     rm_floor_room_ends,
     rm_floor_status,
+    campusshort,
+    buildingShort,
+    buildBlockShort
   ])
   const patchdata = useMemo(() => {
     return {
@@ -78,10 +76,9 @@ const FloorCreation = () => {
       rm_floor_campus_slno: campus,
       rm_floor_building_slno: building,
       rm_floor_build_block_slno: buildBlock,
-      rm_floor_inside_build_slno: insidebuild,
       rm_floor_name: rm_floor_name,
-      rm_floor_alias: rm_floor_alias,
-      rm_floor_no: rm_floor_no,
+      rm_floor_alias: campusshort + '/' + buildingShort + '/' + buildBlockShort,
+      rm_floor_no: campus + '/' + building + '/' + buildBlock,
       rm_floor_room_starts: rm_floor_room_starts,
       rm_floor_room_ends: rm_floor_room_ends,
       rm_floor_status: rm_floor_status === true ? 1 : 0,
@@ -91,43 +88,39 @@ const FloorCreation = () => {
     campus,
     building,
     buildBlock,
-    insidebuild,
     rm_floor_name,
-    rm_floor_alias,
-    rm_floor_no,
     rm_floor_room_starts,
     rm_floor_room_ends,
     rm_floor_status,
+    campusshort,
+    buildingShort,
+    buildBlockShort
   ])
   const reset = async () => {
     const frmdata = {
       rm_floor_slno: '',
       rm_floor_name: '',
-      rm_floor_alias: '',
-      rm_floor_no: '',
       rm_floor_room_starts: '',
       rm_floor_room_ends: '',
       rm_floor_status: false,
     }
     setFloor(frmdata)
+    setValue(0)
     setCampus(0)
     setBuilding(0)
     setbuildBlock(0)
-    setInsideBuild(0)
+
   }
   const refreshWindow = useCallback(() => {
     const formreset = {
       rm_floor_slno: '',
       rm_floor_name: '',
-      rm_floor_alias: '',
-      rm_floor_no: '',
       rm_floor_room_starts: '',
       rm_floor_room_ends: '',
       rm_floor_status: false,
     }
     setFloor(formreset)
     reset()
-    setValue(0)
   }, [setFloor])
 
   const sumbitFloor = useCallback(
@@ -151,8 +144,9 @@ const FloorCreation = () => {
         const { message, success } = result.data
         if (success === 2) {
           succesNotify(message)
-          setCount(count + 1)
+
           reset()
+          setCount(count + 1)
         } else if (success === 0) {
           infoNotify(message)
         } else {
@@ -175,10 +169,7 @@ const FloorCreation = () => {
       rm_floor_campus_slno,
       rm_floor_building_slno,
       rm_floor_build_block_slno,
-      rm_floor_inside_build_slno,
       rm_floor_name,
-      rm_floor_alias,
-      rm_floor_no,
       rm_floor_status,
       rm_floor_slno,
       rm_floor_room_starts,
@@ -188,8 +179,6 @@ const FloorCreation = () => {
     const frmdata = {
       rm_floor_slno: rm_floor_slno,
       rm_floor_name: rm_floor_name,
-      rm_floor_alias: rm_floor_alias,
-      rm_floor_no: rm_floor_no,
       rm_floor_room_starts: rm_floor_room_starts,
       rm_floor_room_ends: rm_floor_room_ends,
       rm_floor_status: rm_floor_status === 1 ? true : false,
@@ -198,7 +187,6 @@ const FloorCreation = () => {
     setCampus(rm_floor_campus_slno)
     setBuilding(rm_floor_building_slno)
     setbuildBlock(rm_floor_build_block_slno)
-    setInsideBuild(rm_floor_inside_build_slno)
   }, [])
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
@@ -215,44 +203,21 @@ const FloorCreation = () => {
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>
             <Box>
-              <CampusSelect value={campus} setValue={setCampus} />
+              <CampusSelect value={campus} setValue={setCampus} setName={setCampusShort} />
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <BuildingRoomManagement value={building} setValue={setBuilding} />
+              <BuildingRoomManagement value={building} setValue={setBuilding} setName={setBuildingShort} />
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <BuildingBlockSelect value={buildBlock} setValue={setbuildBlock} />
+              <BuildingBlockSelect value={buildBlock} setValue={setbuildBlock} setName={setbuildBlockShort} />
             </Box>
-            <Box sx={{ pt: 1.5 }}>
-              <InsideBluidBlockSelect value={insidebuild} setValue={setInsideBuild} />
-            </Box>
-            <Box sx={{ pt: 1.5 }}>
+            <Box sx={{ pt: 1.2 }}>
               <TextFieldCustom
                 placeholder="Floor"
                 type="text"
                 size="sm"
                 name="rm_floor_name"
                 value={rm_floor_name}
-                onchange={updateFloor}
-              ></TextFieldCustom>
-            </Box>
-            <Box sx={{ pt: 1 }}>
-              <TextFieldCustom
-                placeholder="Floor Alias"
-                type="text"
-                size="sm"
-                name="rm_floor_alias"
-                value={rm_floor_alias}
-                onchange={updateFloor}
-              ></TextFieldCustom>
-            </Box>
-            <Box sx={{ pt: 1 }}>
-              <TextFieldCustom
-                placeholder="Floor Number"
-                type="text"
-                size="sm"
-                name="rm_floor_no"
-                value={rm_floor_no}
                 onchange={updateFloor}
               ></TextFieldCustom>
             </Box>

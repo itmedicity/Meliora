@@ -33,7 +33,6 @@ const CrfDataCollectnTable = () => {
         return state.setdataCollectionCRF.dataCollectionCrfList
     })
 
-
     //column title setting
     const [column] = useState([
         {

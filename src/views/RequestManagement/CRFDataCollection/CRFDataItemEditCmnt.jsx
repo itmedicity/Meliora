@@ -14,11 +14,13 @@ import { useSelector } from 'react-redux'
 import { useMemo } from 'react';
 
 
-const CRFDataItemEditCmnt = ({ reqslno, dataPost, setdataPost, setTableDis }) => {
+const CRFDataItemEditCmnt = ({ reqslno }) => {
+
+    const [dataPost, setdataPost] = useState([])
     const [count, setCount] = useState(0)
     useEffect(() => {
         const InsertFun = async (reqslno) => {
-            const result = await axioslogin.get(`/requestRegister/getItemList/${reqslno}`)
+            const result = await axioslogin.get(`/requestRegister/getItemListDataCollect/${reqslno}`)
             const { success, data } = result.data
             if (success === 1) {
                 setdataPost(data)
@@ -28,7 +30,7 @@ const CRFDataItemEditCmnt = ({ reqslno, dataPost, setdataPost, setTableDis }) =>
             }
         }
         InsertFun(reqslno)
-    }, [reqslno, setdataPost])
+    }, [reqslno, setdataPost, count])
     const [editValue, setEditValue] = useState(0)
     const [itemstate, setItemState] = useState({
         item_slno: '',
@@ -38,11 +40,11 @@ const CRFDataItemEditCmnt = ({ reqslno, dataPost, setdataPost, setTableDis }) =>
         item_unit: '',
         item_spec: '',
         approx_cost: '',
-        req_detl_slno: 0
+        data_detail_slno: 0
     })
 
     //Destructuring
-    const { item_slno, item_desc, item_brand, item_qty, item_unit, item_spec, approx_cost, req_detl_slno } = itemstate
+    const { item_slno, item_desc, item_brand, item_qty, item_unit, item_spec, approx_cost, data_detail_slno } = itemstate
     const updateItemState = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setItemState({ ...itemstate, [e.target.name]: value })
@@ -51,7 +53,7 @@ const CRFDataItemEditCmnt = ({ reqslno, dataPost, setdataPost, setTableDis }) =>
     //array data delete
     const EditData = (value) => {
         setEditValue(1)
-        const { item_slno, item_desc, item_brand, item_qnty, item_unit, item_specification, aprox_cost, req_detl_slno } = value
+        const { item_slno, item_desc, item_brand, item_qnty, item_unit, item_specification, aprox_cost, data_detail_slno } = value
         const frmdata = {
             item_slno: item_slno,
             item_desc: item_desc,
@@ -60,16 +62,16 @@ const CRFDataItemEditCmnt = ({ reqslno, dataPost, setdataPost, setTableDis }) =>
             item_unit: item_unit,
             item_spec: item_specification,
             approx_cost: aprox_cost === null ? '' : aprox_cost,
-            req_detl_slno: req_detl_slno
+            data_detail_slno: data_detail_slno
         }
         setItemState(frmdata)
     }
 
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const DeleteData = (val) => {
-        const { req_detl_slno } = val
+        const { data_detail_slno } = val
         const patchdata = {
-            req_detl_slno: req_detl_slno,
+            data_detail_slno: data_detail_slno,
             delete_user: id
         }
         const deleteItem = async (patchdata) => {
@@ -92,11 +94,12 @@ const CRFDataItemEditCmnt = ({ reqslno, dataPost, setdataPost, setTableDis }) =>
             item_specification: item_spec,
             aprox_cost: approx_cost,
             edit_user: id,
-            req_detl_slno: req_detl_slno
+            data_detail_slno: data_detail_slno
         }
-    }, [item_slno, item_desc, item_brand, item_qty, item_unit, item_spec, approx_cost, req_detl_slno, id])
+    }, [item_slno, item_desc, item_brand, item_qty, item_unit, item_spec, approx_cost, data_detail_slno, id])
 
     const AddItem = useCallback(() => {
+
         const editItem = async (Patchdata) => {
             const result = await axioslogin.patch('/requestRegister/EditItemList', Patchdata);
             const { success, message } = result.data

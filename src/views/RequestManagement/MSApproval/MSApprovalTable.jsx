@@ -8,14 +8,14 @@ import { IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
-import { getReqApprovDMS } from 'src/redux/actions/DMSApproval.action'
 import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone';
-import DMSDataCollectModel from './DMSDataCollectModel'
-import DMSApprovalModel from './DMSApprovalModel'
 import { Fragment } from 'react'
+import DMSDataCollectModel from '../DMSApproval/DMSDataCollectModel'
+import DMSApprovalModel from '../DMSApproval/DMSApprovalModel'
+import { getReqApprovMS } from 'src/redux/actions/MSApproval.action'
 
 
-const DmsApprovalTable = () => {
+const MSApprovalTable = () => {
     /*** Initializing */
     const history = useHistory();
     const dispatch = useDispatch();
@@ -27,11 +27,11 @@ const DmsApprovalTable = () => {
     const [dmsModel, setDmsModel] = useState(0)
 
     useEffect(() => {
-        dispatch(getReqApprovDMS())
+        dispatch(getReqApprovMS())
     }, [dispatch, count])
 
     const tabledata = useSelector((state) => {
-        return state.setReqApprovDMS.ReqApprovDMSList
+        return state.setReqApprovMS.ReqApprovMSList
     })
 
     //column title setting
@@ -73,7 +73,6 @@ const DmsApprovalTable = () => {
         { headerName: "CAO/COO/MD Remarks", field: "cao_approve_remarks", minWidth: 300, wrapText: true, },
         { headerName: "ED/MD Approve Status", field: "ed_approves", minWidth: 180, wrapText: true, },
         { headerName: "ED/MD Remarks", field: "ed_approve_remarks", minWidth: 300, wrapText: true, },
-
     ])
 
 
@@ -99,9 +98,11 @@ const DmsApprovalTable = () => {
     }, [history])
 
 
+
+
     return (
         <CardCloseOnly
-            title="DMS Approval"
+            title="MS Approval"
             close={backtoSetting}
         >
 
@@ -137,4 +138,4 @@ const DmsApprovalTable = () => {
     )
 }
 
-export default memo(DmsApprovalTable)
+export default memo(MSApprovalTable)

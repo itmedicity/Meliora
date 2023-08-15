@@ -89,7 +89,7 @@ const OmApproval = () => {
     //column title setting
     const [column] = useState([
         {
-            headerName: 'Data Collection', minWidth: 80, cellRenderer: params => {
+            headerName: 'Data Collection', minWidth: 40, cellRenderer: params => {
                 if (params.data.senior_manage_approv !== null) {
                     return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
                         < ForwardToInboxTwoToneIcon />

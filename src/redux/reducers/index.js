@@ -102,6 +102,11 @@ import { getInsideBuildingBlock } from '../reducers/InsideBuildBlock.Reducer'
 import { getFloorData } from '../reducers/FloorRM.Reducer'
 import { setReqApprovDMS } from '../reducers/ReqApprovalDMS.Reducer'
 import { setdataCollectionCRF } from '../reducers/CRFDataCollectionDept.Reducer'
+import { getFloorBasedOnBuild } from '../reducers/FloorSelectBasedBuild.Reducer'
+import { getRmRoomType } from '../reducers/RMRoomType.Reducer'
+import { getRmRoomCategory } from '../reducers/RmRoomCategory.Reducer'
+import { setReqApprovMS } from '../reducers/MSApproval.Reducer'
+
 
 
 const reducer = combineReducers({
@@ -211,7 +216,11 @@ const reducer = combineReducers({
     getInsideBuildingBlock,
     getFloorData,
     setReqApprovDMS,
-    setdataCollectionCRF
+    setdataCollectionCRF,
+    getFloorBasedOnBuild,
+    getRmRoomType,
+    getRmRoomCategory,
+    setReqApprovMS
 
 
 })

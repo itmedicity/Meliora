@@ -6,22 +6,34 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import RoomNewCreationTable from './RoomNewCreationTable'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
-import FloorRmSelect from 'src/views/CommonSelectCode/FloorRmSelect'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import FloorSelectBasedBuild from 'src/views/CommonSelectCode/FloorSelectBasedBuild'
+import RmRoomTypeSelect from 'src/views/CommonSelectCode/RmRoomTypeSelect'
+import RmRoomCategorySelect from 'src/views/CommonSelectCode/RmRoomCategorySelect'
+import InsideBluidBlockSelect from 'src/views/CommonSelectCode/InsideBluidBlockSelect'
+import { CssVarsProvider, Typography } from '@mui/joy'
+import BuildingSelectWithoutName from 'src/views/CommonSelectCode/BuildingSelectWithoutName'
+
 const RoomCreation = () => {
-  const [floorData, setFloorData] = useState(0)
+
   const history = useHistory()
   const [count, setCount] = useState(0)
   const [value, setValue] = useState(0)
+  const [building, setBuilding] = useState(0)
+  const [floorData, setFloorData] = useState(0)
+  const [insideBuildBlock, setInsidfeBuildBlck] = useState(0)
+  const [roomType, setRoomType] = useState(0)
+  const [roomCategory, setCategory] = useState(0)
+  const [BlockName, setBlockName] = useState('')
+  const [floorShort, setFloorShort] = useState("")
+  const [subroom, setSubRoom] = useState('')
 
   const [room, setRoom] = useState({
     rm_room_slno: '',
     rm_room_name: '',
-    rm_room_no: '',
-    rm_room_alias: '',
     rm_room_status: false,
   })
-  const { rm_room_slno, rm_room_name, rm_room_no, rm_room_alias, rm_room_status } = room
+  const { rm_room_slno, rm_room_name, rm_room_status } = room
   const updateRoom = useCallback(
     (e) => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -29,32 +41,45 @@ const RoomCreation = () => {
     },
     [room],
   )
+
+  const UpdateSubRoom = (e) => {
+    setSubRoom(e.target.value)
+
+  }
   const postdata = useMemo(() => {
     return {
       rm_room_name: rm_room_name,
-      rm_room_no: rm_room_no,
-      rm_room_alias: rm_room_alias,
+      rm_room_no: floorData + '/' + insideBuildBlock,
+      rm_room_alias: floorShort + '/' + BlockName,
+      rm_build_slno: building,
       rm_room_floor_slno: floorData,
+      rm_insidebuilldblock_slno: insideBuildBlock,
+      rm_roomtype_slno: roomType,
+      rm_category_slno: roomCategory,
       rm_room_status: rm_room_status === true ? 1 : 0,
     }
-  }, [rm_room_name, rm_room_no, rm_room_alias, floorData, rm_room_status])
+  }, [rm_room_name, building, floorData, insideBuildBlock,
+    floorShort, BlockName, roomType, roomCategory, rm_room_status])
 
   const patchdata = useMemo(() => {
     return {
       rm_room_slno: rm_room_slno,
-      rm_room_floor_slno: floorData,
       rm_room_name: rm_room_name,
-      rm_room_no: rm_room_no,
-      rm_room_alias: rm_room_alias,
+      rm_room_no: floorData + '/' + insideBuildBlock,
+      rm_room_alias: floorShort + '/' + BlockName,
+      rm_build_slno: building,
+      rm_room_floor_slno: floorData,
+      rm_insidebuilldblock_slno: insideBuildBlock,
+      rm_roomtype_slno: roomType,
+      rm_category_slno: roomCategory,
       rm_room_status: rm_room_status === true ? 1 : 0,
     }
-  }, [rm_room_slno, floorData, rm_room_name, rm_room_alias, rm_room_no, rm_room_status])
+  }, [rm_room_slno, rm_room_name, building, floorData, insideBuildBlock, BlockName, floorShort,
+    roomType, roomCategory, rm_room_status])
   const reset = async () => {
     const frmdata = {
       rm_room_slno: '',
       rm_room_name: '',
-      rm_room_no: '',
-      rm_room_alias: '',
       rm_room_status: false,
     }
     setRoom(frmdata)
@@ -65,13 +90,17 @@ const RoomCreation = () => {
     const formreset = {
       rm_room_slno: '',
       rm_room_name: '',
-      rm_room_no: '',
-      rm_room_alias: '',
       rm_room_status: false,
     }
     setRoom(formreset)
     reset()
     setValue(0)
+    setBuilding(0)
+    setFloorData(0)
+    setInsidfeBuildBlck(0)
+    setRoomType(0)
+    setCategory(0)
+    setCount(0)
   }, [setRoom])
 
   const sumbitRoom = useCallback(
@@ -79,12 +108,9 @@ const RoomCreation = () => {
       e.preventDefault()
       const InsertRoom = async (postdata) => {
         const result = await axioslogin.post('/roomnewcreation/insert', postdata)
-        const { message, success } = result.data
-
+        const { message, success, insetid } = result.data
         if (success === 1) {
-          succesNotify(message)
-          setCount(count + 1)
-          reset()
+          return insetid
         } else if (success === 0) {
           infoNotify(message)
         } else {
@@ -105,40 +131,50 @@ const RoomCreation = () => {
         }
       }
       if (value === 0) {
-        InsertRoom(postdata)
+        InsertRoom(postdata).then((val) => {
+          succesNotify("Room Created Successfully")
+
+
+          reset()
+
+
+
+        })
       } else {
         UpdateRoom(patchdata)
       }
     },
     [postdata, value, count, patchdata],
   )
-
   const rowSelect = useCallback((params) => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
     const {
-      rm_room_slno,
-      rm_room_name,
-      rm_room_no,
-      rm_room_alias,
-      rm_room_floor_slno,
-      rm_room_status,
+      rm_room_slno, rm_build_slno, rm_room_floor_slno, rm_insidebuilldblock_slno,
+      rm_room_name, rm_roomtype_slno,
+
+      rm_room_status, rm_category_slno,
     } = data[0]
 
     const frmdata = {
       rm_room_slno: rm_room_slno,
       rm_room_name: rm_room_name,
-      rm_room_no: rm_room_no,
-      rm_room_alias: rm_room_alias,
       rm_room_status: rm_room_status === 1 ? true : false,
     }
     setRoom(frmdata)
     setFloorData(rm_room_floor_slno)
+    setBuilding(rm_build_slno)
+    setInsidfeBuildBlck(rm_insidebuilldblock_slno)
+    setRoomType(rm_roomtype_slno)
+    setCategory(rm_category_slno)
   }, [])
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
   }, [history])
+
+
+
   return (
     <CardMaster
       title="Room Master"
@@ -149,7 +185,23 @@ const RoomCreation = () => {
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>
-            <Box>
+            <Box sx={{ pt: 1 }}>
+              <BuildingSelectWithoutName value={building} setValue={setBuilding} />
+            </Box>
+            <Box sx={{ pt: 1.5 }}>
+              <FloorSelectBasedBuild value={floorData} setValue={setFloorData} buildno={building} setName={setFloorShort} />
+            </Box>
+            <Box sx={{ pt: 1.5 }}>
+              <InsideBluidBlockSelect value={insideBuildBlock} setValue={setInsidfeBuildBlck} setName={setBlockName} />
+            </Box>
+            <Box sx={{ pt: 1.5 }}>
+              <RmRoomTypeSelect value={roomType} setValue={setRoomType} buildno={building} />
+            </Box>
+
+            <Box sx={{ pt: 1.5 }}>
+              <RmRoomCategorySelect value={roomCategory} setValue={setCategory} buildno={building} />
+            </Box>
+            <Box sx={{ pt: 1 }}>
               <TextFieldCustom
                 placeholder="Room Name"
                 type="text"
@@ -159,49 +211,43 @@ const RoomCreation = () => {
                 onchange={updateRoom}
               ></TextFieldCustom>
             </Box>
-            <Box sx={{ pt: 1 }}>
-              <TextFieldCustom
-                placeholder="Room Number"
-                type="text"
-                size="sm"
-                name="rm_room_no"
-                value={rm_room_no}
-                onchange={updateRoom}
-              ></TextFieldCustom>
-            </Box>
-            <Box sx={{ pt: 1 }}>
-              <TextFieldCustom
-                placeholder="Room Alias "
-                type="text"
-                size="sm"
-                name="rm_room_alias"
-                value={rm_room_alias}
-                onchange={updateRoom}
-              ></TextFieldCustom>
-            </Box>
-            <Box sx={{ width: '100%', pt: 1.5 }}>
-              <Box>
-                <FloorRmSelect value={floorData} setValue={setFloorData} />
+
+            <Box sx={{ pt: 1, display: "flex", flexDirection: "row" }}>
+              <Box sx={{ pt: 0.5 }}>
+                <CssVarsProvider>
+                  <Typography sx={{ fontSize: 15 }}>Sub Room Count: </Typography>
+                </CssVarsProvider>
               </Box>
-              <Box sx={{ p: 1.5 }}>
-                <CusCheckBox
-                  label="status"
-                  color="primary"
-                  size="md"
-                  name="rm_room_status"
-                  value={rm_room_status}
-                  checked={rm_room_status}
-                  onCheked={updateRoom}
-                ></CusCheckBox>
+              <Box sx={{ pl: 1 }}>
+                <TextFieldCustom
+                  placeholder="Sub Room Count"
+                  type="text"
+                  size="sm"
+                  name="subroom"
+                  value={subroom}
+                  onchange={UpdateSubRoom}
+                ></TextFieldCustom>
               </Box>
             </Box>
+            <Box sx={{ p: 1 }}>
+              <CusCheckBox
+                label="status"
+                color="primary"
+                size="md"
+                name="rm_room_status"
+                value={rm_room_status}
+                checked={rm_room_status}
+                onCheked={updateRoom}
+              ></CusCheckBox>
+            </Box>
+
           </Box>
           <Box sx={{ width: '70%' }}>
             <RoomNewCreationTable count={count} rowSelect={rowSelect} />
           </Box>
         </Box>
       </Box>
-    </CardMaster>
+    </CardMaster >
   )
 }
 

@@ -12,9 +12,16 @@ const CrmTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
+        men_slno: 127,
+        component: CNavItem,
+        name: 'Incharge Approval',
+        to: '/Home/CRFInchargeApproval',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
         men_slno: 95,
         component: CNavItem,
-        name: 'Department Approval',
+        name: 'HOD Approval',
         to: '/Home/Req.DepartmentApproval',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
@@ -23,6 +30,13 @@ const CrmTransactions = [
         component: CNavItem,
         name: 'DMS Approval',
         to: '/Home/DMSApproval',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 128,
+        component: CNavItem,
+        name: 'MS Approval',
+        to: '/Home/CrfMSApproval',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
