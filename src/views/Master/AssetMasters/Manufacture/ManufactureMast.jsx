@@ -8,6 +8,7 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useMemo } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { memo } from 'react'
 
 const ManufactureMast = () => {
   const history = useHistory()
@@ -153,4 +154,4 @@ const ManufactureMast = () => {
     </CardMaster>
   )
 }
-export default ManufactureMast
+export default memo(ManufactureMast)

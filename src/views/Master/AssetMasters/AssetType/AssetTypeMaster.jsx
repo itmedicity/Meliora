@@ -1,5 +1,5 @@
 import { Box } from '@mui/system'
-import React, { useCallback, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import AssetTypeTable from './AssetTypeTable'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -157,4 +157,4 @@ const AssetTypeMaster = () => {
   )
 }
 
-export default AssetTypeMaster
+export default memo(AssetTypeMaster)
