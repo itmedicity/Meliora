@@ -354,7 +354,6 @@ const ReqRegistration = () => {
         }
     }
 
-
     //itemm array delete button click item delete
     const deleteSelect = useCallback((params) => {
         const data = params.api.getSelectedRows()
@@ -531,12 +530,14 @@ const ReqRegistration = () => {
 
         //** Inset api for Approval */
         const InsertApproval = async (reqno) => {
+
             //Postdata department have incharge and Hod then check isicharge or ishod
             const ApprovalData = {
                 req_slno: reqno,
-                incharge_req: isIncharge === 1 ? 0 : ishod === 1 ? 0 : 1,
-                hod_req: ishod === 1 ? 0 : 1,
+                incharge_req: 0,
+                hod_req: 1,
                 dms_req: depttype === 1 ? 1 : 0,
+                ms_approve_req: depttype === 1 ? 1 : 0,
                 manag_operation_req: 1,
                 senior_manage_req: 1,
                 cao_approve_req: 1,
@@ -551,9 +552,10 @@ const ReqRegistration = () => {
             //Postdata department have incharge and Hod then check isicharge or ishod
             const ApprovalDataNoInch = {
                 req_slno: reqno,
-                incharge_req: object2.length === 0 ? 0 : 1,
-                hod_req: object1.length === 0 ? 0 : 1,
+                incharge_req: 1,
+                hod_req: 1,
                 dms_req: depttype === 1 ? 1 : 0,
+                ms_approve_req: depttype === 1 ? 1 : 0,
                 manag_operation_req: 1,
                 senior_manage_req: 1,
                 cao_approve_req: 1,
@@ -568,9 +570,10 @@ const ReqRegistration = () => {
             //Postdata department have incharge and Hod then check isicharge or ishod
             const ApprDataCheckHod = {
                 req_slno: reqno,
-                incharge_req: 0,
-                hod_req: object1.length === 0 ? 0 : 1,
+                incharge_req: 1,
+                hod_req: 1,
                 dms_req: depttype === 1 ? 1 : 0,
+                ms_approve_req: depttype === 1 ? 1 : 0,
                 manag_operation_req: 1,
                 senior_manage_req: 1,
                 cao_approve_req: 1,
@@ -615,7 +618,7 @@ const ReqRegistration = () => {
                         create_user: id
                     }
                 })
-                const result = await axioslogin.post('/requestRegister/postDetails', postdataDetl);
+                const result = await axioslogin.post('/requestRegister/dataCollectDetailInsert', postdataDetl);
                 const { message, success } = result.data;
                 if (success === 1) {
                     succesNotify(message)

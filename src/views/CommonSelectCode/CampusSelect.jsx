@@ -3,7 +3,7 @@ import React, { memo, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCampus } from 'src/redux/actions/CampusSelect.action'
 
-const CampusSelect = ({ value, setValue }) => {
+const CampusSelect = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
   const campusdata = useSelector((state) => {
     return state.getCampus.campusList || 0
@@ -19,7 +19,10 @@ const CampusSelect = ({ value, setValue }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, { props }) => {
+            setValue(e.target.value);
+            setName(props.name)
+          }}
           size="small"
           fullWidth
           variant="outlined"
@@ -31,7 +34,7 @@ const CampusSelect = ({ value, setValue }) => {
           {campusdata &&
             campusdata.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.rm_campus_slno}>
+                <MenuItem key={index} value={val.rm_campus_slno} name={val.rm_campus_alias}>
                   {val.rm_campus_name}
                 </MenuItem>
               )

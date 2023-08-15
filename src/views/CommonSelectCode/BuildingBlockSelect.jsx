@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBuildingBlock } from 'src/redux/actions/BuildingBlockSelect.action'
 
-const BuildingBlockSelect = ({ value, setValue }) => {
+const BuildingBlockSelect = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
   const buildingBlock = useSelector((state) => {
     return state.getBuildingBlock.buildingBlockList || 0
@@ -20,7 +20,10 @@ const BuildingBlockSelect = ({ value, setValue }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, { props }) => {
+            setValue(e.target.value);
+            setName(props.name)
+          }}
           size="small"
           fullWidth
           variant="outlined"
@@ -32,7 +35,7 @@ const BuildingBlockSelect = ({ value, setValue }) => {
           {buildingBlock &&
             buildingBlock.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.rm_buildblock_slno}>
+                <MenuItem key={index} value={val.rm_buildblock_slno} name={val.rm_buildblock_alias}>
                   {val.rm_buildblock_name}
                 </MenuItem>
               )

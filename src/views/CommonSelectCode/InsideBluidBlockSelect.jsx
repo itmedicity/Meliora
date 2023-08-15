@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getInsideBuildingBlock } from 'src/redux/actions/InsideBuildBlockSelect.action'
 
-const InsideBluidBlockSelect = ({ value, setValue }) => {
+const InsideBluidBlockSelect = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
   const insideBuilding = useSelector((state) => {
     return state.getInsideBuildingBlock.insideBuildList || 0
@@ -21,7 +21,10 @@ const InsideBluidBlockSelect = ({ value, setValue }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, { props }) => {
+            setValue(e.target.value);
+            setName(props.name)
+          }}
           size="small"
           fullWidth
           variant="outlined"
@@ -33,7 +36,7 @@ const InsideBluidBlockSelect = ({ value, setValue }) => {
           {insideBuilding &&
             insideBuilding.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.rm_insidebuildblock_slno}>
+                <MenuItem key={index} value={val.rm_insidebuildblock_slno} name={val.rm_insidebuildblock_alias}>
                   {val.rm_insidebuildblock_name}
                 </MenuItem>
               )

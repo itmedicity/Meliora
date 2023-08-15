@@ -4,7 +4,7 @@ import { memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBuildingdata } from 'src/redux/actions/BuildingSelect.action'
 
-const BuildingRoomManagement = ({ value, setValue }) => {
+const BuildingRoomManagement = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
   const buildingdata = useSelector((state) => {
     return state.getBuildingdata.buildingList || 0
@@ -20,7 +20,10 @@ const BuildingRoomManagement = ({ value, setValue }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, { props }) => {
+            setValue(e.target.value);
+            setName(props.name)
+          }}
           size="small"
           fullWidth
           variant="outlined"
@@ -32,7 +35,7 @@ const BuildingRoomManagement = ({ value, setValue }) => {
           {buildingdata &&
             buildingdata.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.rm_building_slno}>
+                <MenuItem key={index} value={val.rm_building_slno} name={val.rm_building_alias}>
                   {val.rm_building_name}
                 </MenuItem>
               )
