@@ -8,6 +8,7 @@ import { useMemo } from 'react'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { memo } from 'react'
 
 const SubCategoryMast = () => {
   const history = useHistory()
@@ -154,4 +155,4 @@ const SubCategoryMast = () => {
     </CardMaster>
   )
 }
-export default SubCategoryMast
+export default memo(SubCategoryMast)

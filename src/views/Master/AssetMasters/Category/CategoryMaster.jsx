@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import CategoryTable from './CategoryTable'
 import CardMaster from 'src/views/Components/CardMaster'
 import { Box } from '@mui/material'
@@ -159,4 +159,4 @@ const CategoryMaster = () => {
   )
 }
 
-export default CategoryMaster
+export default memo(CategoryMaster)

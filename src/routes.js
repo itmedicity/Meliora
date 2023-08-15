@@ -121,7 +121,7 @@ const TeamMaster = React.lazy(() => import('./views/Master/TaskManagement/TaskTe
 const TaskHomePage = React.lazy(() => import('./views/TaskManagement/Home/TaskHomePage'))
 const DMSApproval = React.lazy(() => import('./views/RequestManagement/DMSApproval/DmsApprovalTable'))
 const CRFDataCollection = React.lazy(() => import('./views/RequestManagement/CRFDataCollection/CrfDataCollectnTable'))
-
+const RoomDashBoard = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardMain'))
 
 
 const routes = [
@@ -246,8 +246,8 @@ const routes = [
   { path: '/Home/TeamMaster', exact: true, name: 'Team Master', component: TeamMaster },
   { path: '/Home/TaskHome', exact: true, name: 'Task management Home', component: TaskHomePage },
   { path: '/Home/DMSApproval', exact: true, name: 'DMS Approval', component: DMSApproval },
-  { path: '/Home/CrfDataCollection', exact: true, name: 'CRF data Collection', component: CRFDataCollection }
-
+  { path: '/Home/CrfDataCollection', exact: true, name: 'CRF data Collection', component: CRFDataCollection },
+  { path: '/Home/RoomDashBoard', exact: true, name: 'Room Dashboard', component: RoomDashBoard },
 
 
 ]

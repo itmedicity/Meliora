@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import GroupTable from './GroupTable'
 import CardMaster from 'src/views/Components/CardMaster'
 import { Box } from '@mui/material'
@@ -151,4 +151,4 @@ const GroupMast = () => {
   )
 }
 
-export default GroupMast
+export default memo(GroupMast)

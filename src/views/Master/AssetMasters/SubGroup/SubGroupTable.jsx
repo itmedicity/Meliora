@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { memo } from 'react'
 import { useEffect } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
@@ -30,4 +31,4 @@ const SubGroupTable = ({ count, rowSelect }) => {
   }, [count])
   return <CusAgGridMast columnDefs={column} tableData={tabledata} />
 }
-export default SubGroupTable
+export default memo(SubGroupTable)

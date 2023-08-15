@@ -7,6 +7,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { memo } from 'react'
 const SubGroupMast = () => {
   const history = useHistory()
   const [value, setValue] = useState(0)
@@ -150,4 +151,4 @@ const SubGroupMast = () => {
     </CardMaster>
   )
 }
-export default SubGroupMast
+export default memo(SubGroupMast)
