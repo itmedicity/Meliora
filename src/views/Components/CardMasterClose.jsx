@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, memo } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import { Card, CardActions, CardContent, ThemeProvider } from '@mui/material'
 import CusIconButton from './CusIconButton'
@@ -40,4 +40,4 @@ const CardMasterClose = ({ children, title, close, contentStyle }) => {
   )
 }
 
-export default CardMasterClose
+export default memo(CardMasterClose)

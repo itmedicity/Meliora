@@ -16,6 +16,7 @@ const FloorCreationTable = ({ count, rowSelect }) => {
     { headerName: 'Floor ', field: 'rm_floor_name' },
     { headerName: 'Alias', field: 'rm_floor_alias' },
     { headerName: 'floor Number', field: 'rm_floor_no' },
+    { headerName: 'Floor Code', field: 'floor_order' },
     { headerName: 'Room No.starts ', field: 'rm_floor_room_starts' },
     { headerName: 'Room No.ends', field: 'rm_floor_room_ends' },
     { headerName: 'Status', field: 'status' },

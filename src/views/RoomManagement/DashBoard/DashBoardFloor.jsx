@@ -10,12 +10,14 @@ import { useState } from 'react'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import { memo } from 'react'
 
-const DashBoardFloor = ({ buildNo, setFoolrList }) => {
+const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
   const [roomList, setRoomList] = useState(0)
   const [floorNo, setFloorNo] = useState(0)
-
-  const ground = useCallback((no) => {
-    setFloorNo(no)
+  const [floorName, setFloorNAme] = useState('')
+  const ground = useCallback((data) => {
+    const { rm_floor_slno, rm_floor_name } = data
+    setFloorNo(rm_floor_slno)
+    setFloorNAme(rm_floor_name)
     setRoomList(1)
   }, [])
 
@@ -24,11 +26,10 @@ const DashBoardFloor = ({ buildNo, setFoolrList }) => {
     const getFloorDash = async (buildNo) => {
       const result = await axioslogin.get(`/getDashboardData/getfloorbsedoncampus/${buildNo}`)
       const { success, data } = result.data
-
       if (success === 2) {
         setFloorArry(data)
       } else {
-        warningNotify('error occured')
+        warningNotify('no floor under selected building')
       }
     }
     getFloorDash(buildNo)
@@ -41,32 +42,44 @@ const DashBoardFloor = ({ buildNo, setFoolrList }) => {
   return (
     <Fragment>
       {roomList === 1 ? (
-        <DashBoardRoom floorNo={floorNo} setRoomList={setRoomList} />
+        <DashBoardRoom
+          floorNo={floorNo}
+          setRoomList={setRoomList}
+          campusName={campusName}
+          floorName={floorName}
+        />
       ) : (
-        <CardMasterClose title="Floor" close={ClosePage}>
-          <Box>
-            <Box sx={{ height: '50%', width: '100%' }}>
-              <Box sx={{ width: '80%', margin: 'auto' }}>
-                {floorArry &&
-                  floorArry.map((val) => {
-                    return (
-                      <Paper
-                        sx={{
-                          backgroundColor: 'white',
-                          textAlign: 'center',
-                          border: '5px',
-                          height: '55px',
-                          borderColor: 'grey',
-                        }}
-                        key={val.rm_floor_slno}
+        <CardMasterClose title={campusName} close={ClosePage}>
+          <Box sx={{ py: 3 }}>
+            <Box sx={{ width: '90%', margin: 'auto' }}>
+              {floorArry &&
+                floorArry.map((val) => {
+                  return (
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        // backgroundColor: 'white',
+                        textAlign: 'center',
+                        border: 1,
+                        height: 100,
+                        borderColor: 'white',
+                        borderRadius: 0,
+                      }}
+                      key={val.rm_floor_slno}
+                    >
+                      <Button
+                        onClick={() => ground(val)}
+                        value={val.rm_floor_name}
+                        sx={{ height: '100%' }}
+                        fullWidth
+                        variant="outlined"
+                        color="secondary"
                       >
-                        <Button onClick={() => ground(val.rm_floor_slno)} value={val.rm_floor_name}>
-                          {val.rm_floor_name}
-                        </Button>
-                      </Paper>
-                    )
-                  })}
-              </Box>
+                        {val.rm_floor_name}
+                      </Button>
+                    </Paper>
+                  )
+                })}
             </Box>
           </Box>
         </CardMasterClose>

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState, useEffect } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import { Box } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -15,7 +15,6 @@ import { CssVarsProvider, Typography } from '@mui/joy'
 import BuildingSelectWithoutName from 'src/views/CommonSelectCode/BuildingSelectWithoutName'
 
 const RoomCreation = () => {
-
   const history = useHistory()
   const [count, setCount] = useState(0)
   const [value, setValue] = useState(0)
@@ -25,9 +24,14 @@ const RoomCreation = () => {
   const [roomType, setRoomType] = useState(0)
   const [roomCategory, setCategory] = useState(0)
   const [BlockName, setBlockName] = useState('')
-  const [floorShort, setFloorShort] = useState("")
+  const [floorShort, setFloorShort] = useState('')
   const [subroom, setSubRoom] = useState('')
 
+  const [start, setStart] = useState(0)
+  const [end, setEnd] = useState(0)
+  const [lastRoom, setLastRoom] = useState(0)
+
+  const [roomData, setRoomData] = useState([])
   const [room, setRoom] = useState({
     rm_room_slno: '',
     rm_room_name: '',
@@ -44,7 +48,6 @@ const RoomCreation = () => {
 
   const UpdateSubRoom = (e) => {
     setSubRoom(e.target.value)
-
   }
   const postdata = useMemo(() => {
     return {
@@ -57,10 +60,20 @@ const RoomCreation = () => {
       rm_roomtype_slno: roomType,
       rm_category_slno: roomCategory,
       rm_room_status: rm_room_status === true ? 1 : 0,
+      actual_rm_no: lastRoom + 1,
     }
-  }, [rm_room_name, building, floorData, insideBuildBlock,
-    floorShort, BlockName, roomType, roomCategory, rm_room_status])
-
+  }, [
+    rm_room_name,
+    building,
+    floorData,
+    insideBuildBlock,
+    floorShort,
+    BlockName,
+    roomType,
+    roomCategory,
+    rm_room_status,
+    lastRoom,
+  ])
   const patchdata = useMemo(() => {
     return {
       rm_room_slno: rm_room_slno,
@@ -74,8 +87,18 @@ const RoomCreation = () => {
       rm_category_slno: roomCategory,
       rm_room_status: rm_room_status === true ? 1 : 0,
     }
-  }, [rm_room_slno, rm_room_name, building, floorData, insideBuildBlock, BlockName, floorShort,
-    roomType, roomCategory, rm_room_status])
+  }, [
+    rm_room_slno,
+    rm_room_name,
+    building,
+    floorData,
+    insideBuildBlock,
+    BlockName,
+    floorShort,
+    roomType,
+    roomCategory,
+    rm_room_status,
+  ])
   const reset = async () => {
     const frmdata = {
       rm_room_slno: '',
@@ -84,16 +107,6 @@ const RoomCreation = () => {
     }
     setRoom(frmdata)
     setFloorData(0)
-  }
-
-  const refreshWindow = useCallback(() => {
-    const formreset = {
-      rm_room_slno: '',
-      rm_room_name: '',
-      rm_room_status: false,
-    }
-    setRoom(formreset)
-    reset()
     setValue(0)
     setBuilding(0)
     setFloorData(0)
@@ -101,7 +114,54 @@ const RoomCreation = () => {
     setRoomType(0)
     setCategory(0)
     setCount(0)
-  }, [setRoom])
+  }
+
+  const [lastRoomData, setLastRoomData] = useState([])
+  useEffect(() => {
+    const getRoomStart = async (floorData) => {
+      const result = await axioslogin.get(`/roomnewcreation/byid/${floorData}`)
+      const { success, data } = result.data
+      if (success === 2) {
+        setRoomData(data)
+      } else {
+        setRoomData([])
+      }
+    }
+    if (floorData !== 0) {
+      getRoomStart(floorData)
+    }
+  }, [floorData])
+
+  useEffect(() => {
+    const getlastUpdateRoom = async (floorData) => {
+      const result = await axioslogin.get(`/roomnewcreation/lastupdatebyid/${floorData}`)
+      const { success, data } = result.data
+      if (success === 2) {
+        setLastRoomData(data)
+      }
+    }
+    if (floorData !== 0) {
+      getlastUpdateRoom(floorData)
+    }
+  }, [floorData])
+
+  useEffect(() => {
+    if (floorData !== 0 && roomData.length !== 0) {
+      const { rm_floor_room_starts, rm_floor_room_ends } = roomData[0]
+
+      setStart(rm_floor_room_starts)
+      setEnd(rm_floor_room_ends)
+    }
+
+    if (floorData !== 0 && lastRoomData.length !== 0) {
+      const { last_room_slno } = lastRoomData[0]
+      setLastRoom(last_room_slno)
+    }
+  }, [roomData, floorData, lastRoomData])
+
+  const refreshWindow = useCallback(() => {
+    reset()
+  }, [])
 
   const sumbitRoom = useCallback(
     (e) => {
@@ -131,30 +191,38 @@ const RoomCreation = () => {
         }
       }
       if (value === 0) {
-        InsertRoom(postdata).then((val) => {
-          succesNotify("Room Created Successfully")
+        console.log(start)
+        console.log(lastRoom)
+        console.log(end)
 
-
-          reset()
-
-
-
-        })
+        if (start < lastRoom && lastRoom < end) {
+          InsertRoom(postdata).then((val) => {
+            succesNotify('Room Created Successfully')
+            reset()
+          })
+        } else {
+          infoNotify('No Room Available in Selected Floor')
+        }
       } else {
         UpdateRoom(patchdata)
       }
     },
-    [postdata, value, count, patchdata],
+    [postdata, value, count, patchdata, start, lastRoom, end],
   )
   const rowSelect = useCallback((params) => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
     const {
-      rm_room_slno, rm_build_slno, rm_room_floor_slno, rm_insidebuilldblock_slno,
-      rm_room_name, rm_roomtype_slno,
+      rm_room_slno,
+      rm_build_slno,
+      rm_room_floor_slno,
+      rm_insidebuilldblock_slno,
+      rm_room_name,
+      rm_roomtype_slno,
 
-      rm_room_status, rm_category_slno,
+      rm_room_status,
+      rm_category_slno,
     } = data[0]
 
     const frmdata = {
@@ -173,8 +241,6 @@ const RoomCreation = () => {
     history.push('/Home/Settings')
   }, [history])
 
-
-
   return (
     <CardMaster
       title="Room Master"
@@ -189,17 +255,30 @@ const RoomCreation = () => {
               <BuildingSelectWithoutName value={building} setValue={setBuilding} />
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <FloorSelectBasedBuild value={floorData} setValue={setFloorData} buildno={building} setName={setFloorShort} />
+              <FloorSelectBasedBuild
+                value={floorData}
+                setValue={setFloorData}
+                buildno={building}
+                setName={setFloorShort}
+              />
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <InsideBluidBlockSelect value={insideBuildBlock} setValue={setInsidfeBuildBlck} setName={setBlockName} />
+              <InsideBluidBlockSelect
+                value={insideBuildBlock}
+                setValue={setInsidfeBuildBlck}
+                setName={setBlockName}
+              />
             </Box>
             <Box sx={{ pt: 1.5 }}>
               <RmRoomTypeSelect value={roomType} setValue={setRoomType} buildno={building} />
             </Box>
 
             <Box sx={{ pt: 1.5 }}>
-              <RmRoomCategorySelect value={roomCategory} setValue={setCategory} buildno={building} />
+              <RmRoomCategorySelect
+                value={roomCategory}
+                setValue={setCategory}
+                buildno={building}
+              />
             </Box>
             <Box sx={{ pt: 1 }}>
               <TextFieldCustom
@@ -212,7 +291,7 @@ const RoomCreation = () => {
               ></TextFieldCustom>
             </Box>
 
-            <Box sx={{ pt: 1, display: "flex", flexDirection: "row" }}>
+            <Box sx={{ pt: 1, display: 'flex', flexDirection: 'row' }}>
               <Box sx={{ pt: 0.5 }}>
                 <CssVarsProvider>
                   <Typography sx={{ fontSize: 15 }}>Sub Room Count: </Typography>
@@ -240,14 +319,13 @@ const RoomCreation = () => {
                 onCheked={updateRoom}
               ></CusCheckBox>
             </Box>
-
           </Box>
           <Box sx={{ width: '70%' }}>
             <RoomNewCreationTable count={count} rowSelect={rowSelect} />
           </Box>
         </Box>
       </Box>
-    </CardMaster >
+    </CardMaster>
   )
 }
 
