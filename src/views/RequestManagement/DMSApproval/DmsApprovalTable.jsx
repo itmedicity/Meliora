@@ -116,7 +116,6 @@ const DmsApprovalTable = () => {
                 /> : null}
             {dmsModel === 1 ?
                 <DMSApprovalModel
-
                     open={dmsOpen}
                     setOpen={setDmsopen}
                     datas={datas}
@@ -129,8 +128,6 @@ const DmsApprovalTable = () => {
                     columnDefs={column}
                     tableData={tabledata}
                 />
-
-
             </Box>
 
         </CardCloseOnly>

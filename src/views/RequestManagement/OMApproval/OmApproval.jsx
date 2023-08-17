@@ -88,8 +88,25 @@ const OmApproval = () => {
 
     //column title setting
     const [column] = useState([
+
+        // {
+        //     headerName: 'Action', minWidth: 40, cellRenderer: params => {
+
+
+
+        //         return <IconButton onClick={() => MessageSend(params)}
+        //             sx={{ color: editicon, paddingY: 0.5 }} >
+        //             <CustomeToolTip title="Forward To Data Collection">
+        //                 < ForwardToInboxTwoToneIcon />
+        //             </CustomeToolTip>
+        //         </IconButton>
+
+
+        //     }
+        // },
+
         {
-            headerName: 'Data Collection', minWidth: 40, cellRenderer: params => {
+            headerName: 'Data Collection', minWidth: 10, cellRenderer: params => {
                 if (params.data.senior_manage_approv !== null) {
                     return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
                         < ForwardToInboxTwoToneIcon />

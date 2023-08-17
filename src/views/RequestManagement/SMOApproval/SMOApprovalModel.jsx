@@ -12,11 +12,12 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify } from 'src/views/Common/CommonCode'
 import ApprovalCompnt from '../DMS Approval/DepartmentApproval/ApprovalCompnt';
 import { useSelector } from 'react-redux'
-import ItemApprovalCmp from '../DMS Approval/DepartmentApproval/ItemApprovalCmp';
 import _ from 'underscore'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import Divider from '@mui/material/Divider';
 import { TypoHeadColor } from 'src/color/Color'
+import CRFDataItemOrginal from '../CRFDataCollection/CRFDataItemOrginal';
+import CRFDataCollectAfter from '../CRFDataCollection/CRFDataCollectAfter';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -330,17 +331,42 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
+
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
                                     p: 0.5,
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
-                                    {tableDis === 1 ? <ItemApprovalCmp
-                                        dataPost={dataPost}
-                                        setdataPost={setdataPost}
+                                    {tableDis === 1 ?
+                                        <Box sx={{
+                                            width: "100%",
+                                            display: "flex",
+                                            p: 0.5, pb: 0,
+                                            flexDirection: "column",
+                                        }}>
+                                            <Box
+                                                sx={{ pr: 9 }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15 }}>Requested data</Typography>
+                                                </CssVarsProvider>
+                                            </Box>
 
-                                    /> : null}
+                                            <CRFDataItemOrginal
+                                                dataPost={dataPost}
+                                            />
+                                            <Box
+                                                sx={{ pr: 9 }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15 }}>After Data Collection</Typography>
+                                                </CssVarsProvider>
+                                            </Box>
+                                            <CRFDataCollectAfter
+                                                reqslno={req_slno}
+                                            />
+                                        </Box>
+
+                                        : null}
 
                                 </Box>
                             </Box>

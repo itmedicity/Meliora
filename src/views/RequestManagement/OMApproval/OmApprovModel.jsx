@@ -12,11 +12,12 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify } from 'src/views/Common/CommonCode'
 import ApprovalCompnt from '../DMS Approval/DepartmentApproval/ApprovalCompnt';
 import { useSelector } from 'react-redux'
-import ItemApprovalCmp from '../DMS Approval/DepartmentApproval/ItemApprovalCmp';
 import { CssVarsProvider, Typography } from '@mui/joy'
 import Divider from '@mui/material/Divider';
 import { TypoHeadColor } from 'src/color/Color'
 import _ from 'underscore'
+import CRFDataItemOrginal from '../CRFDataCollection/CRFDataItemOrginal';
+import CRFDataCollectAfter from '../CRFDataCollection/CRFDataCollectAfter';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -120,6 +121,8 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
 
     const [dataPost, setdataPost] = useState([])
     const [tableDis, setTableDis] = useState(0)
+    const [enable, setEnable] = useState(0)
+
 
     useEffect(() => {
         const InsertFun = async (req_slno) => {
@@ -133,11 +136,25 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                 setTableDis(0)
             }
         }
+        const checkDataCollectComplete = async (req_slno) => {
+            const result = await axioslogin.get(`/requestRegister/DataCollectComplete/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const xx = data && data.filter((val) => val.crf_dept_status === 0)
+                if (xx.length !== 0) {
+                    setEnable(0)
+                }
+                else {
+                    setEnable(1)
+                }
+            }
+            else {
+                setEnable(1)
+            }
+        }
         InsertFun(req_slno)
-
-
-
-    }, [req_slno])
+        checkDataCollectComplete(req_slno)
+    }, [req_slno, enable])
 
     const patchdataOm = useMemo(() => {
         return {
@@ -330,19 +347,45 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
+
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
                                     p: 0.5,
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
-                                    {tableDis === 1 ? <ItemApprovalCmp
-                                        dataPost={dataPost}
-                                        setdataPost={setdataPost}
+                                    {tableDis === 1 ?
+                                        <Box sx={{
+                                            width: "100%",
+                                            display: "flex",
+                                            p: 0.5, pb: 0,
+                                            flexDirection: "column",
+                                        }}>
+                                            <Box
+                                                sx={{ pr: 9 }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15 }}>Requested data</Typography>
+                                                </CssVarsProvider>
+                                            </Box>
 
-                                    /> : null}
+                                            <CRFDataItemOrginal
+                                                dataPost={dataPost}
+                                            />
+                                            <Box
+                                                sx={{ pr: 9 }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15 }}>After Data Collection</Typography>
+                                                </CssVarsProvider>
+                                            </Box>
+                                            <CRFDataCollectAfter
+                                                reqslno={req_slno}
+                                            />
+                                        </Box>
+
+                                        : null}
 
                                 </Box>
+
                             </Box>
                         </Paper>
                     </Box>
