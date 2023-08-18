@@ -19,14 +19,14 @@ const FloorCreation = () => {
   const [campus, setCampus] = useState(0)
   const [building, setBuilding] = useState(0)
   const [buildBlock, setbuildBlock] = useState(0)
-  const [campusshort, setCampusShort] = useState("");
-  const [buildingShort, setBuildingShort] = useState("")
-  const [buildBlockShort, setbuildBlockShort] = useState("")
-
+  const [campusshort, setCampusShort] = useState('')
+  const [buildingShort, setBuildingShort] = useState('')
+  const [buildBlockShort, setbuildBlockShort] = useState('')
 
   const [floor, setFloor] = useState({
     rm_floor_slno: '',
     rm_floor_name: '',
+    floor_order: '',
     rm_floor_room_starts: '',
     rm_floor_room_ends: '',
     rm_floor_status: false,
@@ -35,6 +35,7 @@ const FloorCreation = () => {
     rm_floor_slno,
     rm_floor_name,
     rm_floor_status,
+    floor_order,
     rm_floor_room_starts,
     rm_floor_room_ends,
   } = floor
@@ -54,6 +55,7 @@ const FloorCreation = () => {
       rm_floor_name: rm_floor_name,
       rm_floor_alias: campusshort + '/' + buildingShort + '/' + buildBlockShort,
       rm_floor_no: campus + '/' + building + '/' + buildBlock,
+      floor_order: floor_order,
       rm_floor_room_starts: rm_floor_room_starts,
       rm_floor_room_ends: rm_floor_room_ends,
       rm_floor_status: rm_floor_status === true ? 1 : 0,
@@ -63,12 +65,13 @@ const FloorCreation = () => {
     building,
     buildBlock,
     rm_floor_name,
+    floor_order,
     rm_floor_room_starts,
     rm_floor_room_ends,
     rm_floor_status,
     campusshort,
     buildingShort,
-    buildBlockShort
+    buildBlockShort,
   ])
   const patchdata = useMemo(() => {
     return {
@@ -79,6 +82,7 @@ const FloorCreation = () => {
       rm_floor_name: rm_floor_name,
       rm_floor_alias: campusshort + '/' + buildingShort + '/' + buildBlockShort,
       rm_floor_no: campus + '/' + building + '/' + buildBlock,
+      floor_order: floor_order,
       rm_floor_room_starts: rm_floor_room_starts,
       rm_floor_room_ends: rm_floor_room_ends,
       rm_floor_status: rm_floor_status === true ? 1 : 0,
@@ -89,17 +93,19 @@ const FloorCreation = () => {
     building,
     buildBlock,
     rm_floor_name,
+    floor_order,
     rm_floor_room_starts,
     rm_floor_room_ends,
     rm_floor_status,
     campusshort,
     buildingShort,
-    buildBlockShort
+    buildBlockShort,
   ])
   const reset = async () => {
     const frmdata = {
       rm_floor_slno: '',
       rm_floor_name: '',
+      floor_order: '',
       rm_floor_room_starts: '',
       rm_floor_room_ends: '',
       rm_floor_status: false,
@@ -109,12 +115,12 @@ const FloorCreation = () => {
     setCampus(0)
     setBuilding(0)
     setbuildBlock(0)
-
   }
   const refreshWindow = useCallback(() => {
     const formreset = {
       rm_floor_slno: '',
       rm_floor_name: '',
+      floor_order: '',
       rm_floor_room_starts: '',
       rm_floor_room_ends: '',
       rm_floor_status: false,
@@ -172,6 +178,7 @@ const FloorCreation = () => {
       rm_floor_name,
       rm_floor_status,
       rm_floor_slno,
+      floor_order,
       rm_floor_room_starts,
       rm_floor_room_ends,
     } = data[0]
@@ -179,6 +186,7 @@ const FloorCreation = () => {
     const frmdata = {
       rm_floor_slno: rm_floor_slno,
       rm_floor_name: rm_floor_name,
+      floor_order: floor_order,
       rm_floor_room_starts: rm_floor_room_starts,
       rm_floor_room_ends: rm_floor_room_ends,
       rm_floor_status: rm_floor_status === 1 ? true : false,
@@ -206,10 +214,18 @@ const FloorCreation = () => {
               <CampusSelect value={campus} setValue={setCampus} setName={setCampusShort} />
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <BuildingRoomManagement value={building} setValue={setBuilding} setName={setBuildingShort} />
+              <BuildingRoomManagement
+                value={building}
+                setValue={setBuilding}
+                setName={setBuildingShort}
+              />
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <BuildingBlockSelect value={buildBlock} setValue={setbuildBlock} setName={setbuildBlockShort} />
+              <BuildingBlockSelect
+                value={buildBlock}
+                setValue={setbuildBlock}
+                setName={setbuildBlockShort}
+              />
             </Box>
             <Box sx={{ pt: 1.2 }}>
               <TextFieldCustom
@@ -230,11 +246,21 @@ const FloorCreation = () => {
               }}
             >
               <Box sx={{ pt: 0.5 }}>
-                <Box>Room No. starts</Box>
-                <Box sx={{ pt: 1.8 }}>Room No. ends</Box>
+                <Box>Floor Code</Box>
+                <Box sx={{ pt: 1.5 }}>Room No. starts</Box>
+                <Box sx={{ pt: 1.5 }}>Room No. ends</Box>
               </Box>
               <Box sx={{ pl: 0.5, width: '100px' }}>
-                <Box sx={{ pt: 0.3 }}>
+                <Box sx={{ pt: 0.5 }}>
+                  <TextFieldCustom
+                    type="text"
+                    size="sm"
+                    name="floor_order"
+                    value={floor_order}
+                    onchange={updateFloor}
+                  ></TextFieldCustom>
+                </Box>
+                <Box sx={{ pt: 0.5 }}>
                   <TextFieldCustom
                     type="text"
                     size="sm"
@@ -243,7 +269,7 @@ const FloorCreation = () => {
                     onchange={updateFloor}
                   ></TextFieldCustom>
                 </Box>
-                <Box sx={{ pt: 0.8 }}>
+                <Box sx={{ pt: 0.5 }}>
                   <TextFieldCustom
                     type="text"
                     size="sm"
@@ -254,7 +280,7 @@ const FloorCreation = () => {
                 </Box>
               </Box>
             </Box>
-            <Box sx={{ p: 1.5 }}>
+            <Box sx={{ pt: 3 }}>
               <CusCheckBox
                 label="status"
                 color="primary"

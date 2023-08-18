@@ -2,12 +2,12 @@ import { Box, Paper } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
-import DashBoardRoomSort from './DashBoardRoomSort'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import { useCallback } from 'react'
 import { memo } from 'react'
+import DashBoardRoomSort from './DashBoardRoomSort'
 
-const DashBoardRoom = ({ floorNo, setRoomList }) => {
+const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName }) => {
   const [roomArry, setRoomArry] = useState([])
 
   const [xx, setxx] = useState([])
@@ -42,40 +42,58 @@ const DashBoardRoom = ({ floorNo, setRoomList }) => {
     setRoomList(0)
   }, [setRoomList])
   return (
-    <CardMasterClose title="Room details" close={CloseRoom}>
-      <Box>
-        <Box sx={{ height: '100%', width: '100%' }}>
-          <Box
-            sx={{
-              width: '80%',
-              margin: 'auto',
-            }}
-          >
-            <Paper sx={{ backgroundColor: '#F3F2F2' }}>
-              {xx &&
-                xx.map((val) => {
-                  return (
-                    <Box
-                      key={val.blockno}
-                      sx={{
-                        height: '150px',
-                        width: '100%',
-                        border: '2px',
-                        margin: 'auto',
-                        textAlign: 'center',
-                        pt: 2,
-                        pl: 4,
-                      }}
-                    >
-                      {val.blockname}
-
-                      <DashBoardRoomSort blockno={val.blockno} data={roomArry} />
-                    </Box>
-                  )
-                })}
-            </Paper>
-          </Box>
-        </Box>
+    <CardMasterClose title={campusName + '/' + floorName} close={CloseRoom}>
+      <Box
+        sx={{
+          width: '95%',
+          margin: 'auto',
+        }}
+      >
+        <Paper sx={{ overflow: 'hidden', px: 1 }} variant="outlined">
+          {xx &&
+            xx.map((val) => {
+              return (
+                <Paper
+                  variant="outlined"
+                  key={val.blockno}
+                  sx={{
+                    minHeight: 50,
+                    margin: 'auto',
+                    textAlign: 'center',
+                    my: 1,
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      backgroundColor: 'ButtonFace',
+                      textTransform: 'capitalize',
+                      fontFamily: 'cursive',
+                      fontSize: 13,
+                      textAlign: 'left',
+                      pl: 2,
+                      border: 0.2,
+                      borderColor: 'transparent',
+                      borderBottomColor: 'lightgrey',
+                    }}
+                  >
+                    {val?.blockname?.toLowerCase()}
+                  </Box>
+                  <Box
+                    padding={0.5}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      overflow: 'hidden',
+                      flexWrap: 'wrap',
+                    }}
+                  >
+                    <DashBoardRoomSort blockno={val.blockno} data={roomArry} />
+                  </Box>
+                </Paper>
+              )
+            })}
+        </Paper>
       </Box>
     </CardMasterClose>
   )
