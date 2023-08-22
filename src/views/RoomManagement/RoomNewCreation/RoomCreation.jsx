@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react'
+import React, { useCallback, useMemo, useState, memo, useEffect } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import { Box } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -191,13 +191,10 @@ const RoomCreation = () => {
         }
       }
       if (value === 0) {
-        console.log(start)
-        console.log(lastRoom)
-        console.log(end)
-
-        if (start < lastRoom && lastRoom < end) {
+        if (start <= lastRoom && lastRoom <= end) {
           InsertRoom(postdata).then((val) => {
             succesNotify('Room Created Successfully')
+            setCount(count + 1)
             reset()
           })
         } else {
@@ -329,4 +326,4 @@ const RoomCreation = () => {
   )
 }
 
-export default RoomCreation
+export default memo(RoomCreation)

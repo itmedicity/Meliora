@@ -10,10 +10,13 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { memo } from 'react'
 
+import AssetCategorySelect from 'src/views/CommonSelectCode/AssetCategorySelect'
+
 const SubCategoryMast = () => {
   const history = useHistory()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
+  const [category, setCategory] = useState(0)
   const [subcategory, setSubCategory] = useState({
     subcategory_slno: '',
     subcategory_name: '',
@@ -36,32 +39,36 @@ const SubCategoryMast = () => {
     setSubCategory(frmdata)
     setCount(0)
     setValue(0)
+    setCategory(0)
   }
   const postdata = useMemo(() => {
     return {
       subcategory_name: subcategory_name,
+      category_slno: category,
       subcategory_status: subcategory_status === true ? 1 : 0,
     }
-  }, [subcategory_name, subcategory_status])
+  }, [subcategory_name, category, subcategory_status])
 
   const patchdata = useMemo(() => {
     return {
       subcategory_slno: subcategory_slno,
       subcategory_name: subcategory_name,
+      category_slno: category,
       subcategory_status: subcategory_status === true ? 1 : 0,
     }
-  }, [subcategory_slno, subcategory_name, subcategory_status])
+  }, [subcategory_slno, subcategory_name, category, subcategory_status])
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
-
-    const { subcategory_slno, subcategory_name, subcategory_status } = data[0]
+    const { subcategory_slno, subcategory_name, category_slno, subcategory_status } = data[0]
     const frmdata = {
       subcategory_slno: subcategory_slno,
       subcategory_name: subcategory_name,
+      category_slno: category_slno,
       subcategory_status: subcategory_status === 1 ? true : false,
     }
     setSubCategory(frmdata)
+    setCategory(category_slno)
   }, [])
   const submitSubCategory = useCallback(
     (e) => {
@@ -114,6 +121,7 @@ const SubCategoryMast = () => {
     }
     setSubCategory(frmdata)
     setValue(0)
+    reset()
   }, [setSubCategory])
   return (
     <CardMaster
@@ -125,7 +133,7 @@ const SubCategoryMast = () => {
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>
-            <Box>
+            <Box sx={{ pt: 1 }}>
               <TextFieldCustom
                 placeholder="Subcategory"
                 type="text"
@@ -135,7 +143,10 @@ const SubCategoryMast = () => {
                 onchange={updateSubCategory}
               ></TextFieldCustom>
             </Box>
-            <Box sx={{ pt: 1 }}>
+            <Box sx={{ pt: 1.5 }}>
+              <AssetCategorySelect value={category} setValue={setCategory} />
+            </Box>
+            <Box sx={{ pt: 1.5 }}>
               <CusCheckBox
                 label="status"
                 color="primary"

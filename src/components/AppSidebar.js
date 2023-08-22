@@ -21,6 +21,7 @@ import TimeEscalations from '../Menus/EscalationUtility'
 import HallBookingTrans from 'src/Menus/HallBookingTrans'
 import { Box, Typography } from '@mui/material'
 import TaskTransaction from 'src/Menus/TaskTransaction'
+import AmTransactions from 'src/Menus/AmTransaction'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
@@ -31,6 +32,7 @@ const AppSidebar = () => {
   const [crmtransact, setCrmTransact] = useState()
   const [diettransact, setDietTransact] = useState()
   const [rmtransact, setRmTransact] = useState()
+  const [amtransact, setAmTransact] = useState()
   const [weworktransact, setweworktransact] = useState()
   const [escalation, setescalation] = useState()
   const [hallbooking, setHallBooking] = useState()
@@ -75,6 +77,13 @@ const AppSidebar = () => {
       component: CNavGroup,
       name: 'Room Management',
       items: rmtransact
+    },
+    //Asset Management System Menu Start from Here
+    {
+      slno: 4,
+      component: CNavGroup,
+      name: 'Asset Management',
+      items: amtransact
     },
     //Diet Management Menus
     {
@@ -131,6 +140,8 @@ const AppSidebar = () => {
         setDietTransact(newDietTransaction)
         const newRmTransaction = RmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setRmTransact(newRmTransaction)
+        const newAmTransaction = AmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        setAmTransact(newAmTransaction)
         const weworkTransact = WeWorkTransact.filter(val => menuSlnoAry.includes(val.men_slno));
         setweworktransact(weworkTransact)
         const escalationTransact = TimeEscalations.filter(val => menuSlnoAry.includes(val.men_slno));
