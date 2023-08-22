@@ -9,6 +9,7 @@ const SubCategoryTable = ({ count, rowSelect }) => {
   const [column] = useState([
     { headerName: 'SlNo', field: 'subcategory_slno' },
     { headerName: 'Sub Category', field: 'subcategory_name' },
+    { headerName: 'Category', field: 'category_name' },
     { headerName: 'Status', field: 'status' },
     {
       headerName: 'Action',

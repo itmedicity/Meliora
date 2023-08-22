@@ -106,7 +106,13 @@ import { getFloorBasedOnBuild } from '../reducers/FloorSelectBasedBuild.Reducer'
 import { getRmRoomType } from '../reducers/RMRoomType.Reducer'
 import { getRmRoomCategory } from '../reducers/RmRoomCategory.Reducer'
 import { setReqApprovMS } from '../reducers/MSApproval.Reducer'
-
+import { getCategory } from '../reducers/AmCategoryList.Reducer'
+import { getGroup } from './AmGroupList.Reducer';
+import { getAmAssetType } from './AmAssetTypeList.Reducer'
+import { getAmItemType } from './AmItemTypeList.Reducer'
+import { getAmSubcategory } from './AmSubcategoryList.Reducer'
+import { getAmSubGroupList } from './AmSubGroupList.Reducer'
+import { getAmManufacture } from './AmManufactureList.Reducer'
 
 
 const reducer = combineReducers({
@@ -220,7 +226,14 @@ const reducer = combineReducers({
     getFloorBasedOnBuild,
     getRmRoomType,
     getRmRoomCategory,
-    setReqApprovMS
+    setReqApprovMS,
+    getCategory,
+    getGroup,
+    getAmAssetType,
+    getAmItemType,
+    getAmSubcategory,
+    getAmSubGroupList,
+    getAmManufacture,
 
 
 })

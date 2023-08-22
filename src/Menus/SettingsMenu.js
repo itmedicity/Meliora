@@ -76,13 +76,14 @@ export const am_setting_one = [
 
 export const am_setting_two = [
     { to: '/Home/ItemType', name: 'Item Type', slno: 24 },
-    { to: '/Home/AssetGroup', name: 'Group ', slno: 27 }
-
+    { to: '/Home/AssetGroup', name: 'Group ', slno: 27 },
+    { to: '/Home/PrimaryCustodian', name: 'Primary Custodian ', slno: 129 }
 ]
 
 export const am_setting_three = [
     { to: '/Home/ItemCategory', name: 'Category ', slno: 25 },
-    { to: '/Home/SubGroup', name: 'Sub Group', slno: 28 }
+    { to: '/Home/SubGroup', name: 'Sub Group', slno: 28 },
+    { to: '/Home/SecondaryCustodian', name: 'Secondary Custodian', slno: 130 }
 ]
 
 //Room Master Menu
