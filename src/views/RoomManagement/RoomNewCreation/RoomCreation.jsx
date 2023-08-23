@@ -13,6 +13,7 @@ import RmRoomCategorySelect from 'src/views/CommonSelectCode/RmRoomCategorySelec
 import InsideBluidBlockSelect from 'src/views/CommonSelectCode/InsideBluidBlockSelect'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import BuildingSelectWithoutName from 'src/views/CommonSelectCode/BuildingSelectWithoutName'
+import BuildBlockSelect from 'src/views/CommonSelectCode/BuildBlockSelect'
 
 const RoomCreation = () => {
   const history = useHistory()
@@ -20,7 +21,8 @@ const RoomCreation = () => {
   const [value, setValue] = useState(0)
   const [building, setBuilding] = useState(0)
   const [floorData, setFloorData] = useState(0)
-  const [insideBuildBlock, setInsidfeBuildBlck] = useState(0)
+  const [buildingBlock, SetbuildingBlock] = useState(0)
+  const [insideBuildBlock, setInsideBuildBlck] = useState(0)
   const [roomType, setRoomType] = useState(0)
   const [roomCategory, setCategory] = useState(0)
   const [BlockName, setBlockName] = useState('')
@@ -37,6 +39,7 @@ const RoomCreation = () => {
     rm_room_name: '',
     rm_room_status: false,
   })
+
   const { rm_room_slno, rm_room_name, rm_room_status } = room
   const updateRoom = useCallback(
     (e) => {
@@ -55,6 +58,7 @@ const RoomCreation = () => {
       rm_room_no: floorData + '/' + insideBuildBlock,
       rm_room_alias: floorShort + '/' + BlockName,
       rm_build_slno: building,
+      rm_building_block_slno: buildingBlock,
       rm_room_floor_slno: floorData,
       rm_insidebuilldblock_slno: insideBuildBlock,
       rm_roomtype_slno: roomType,
@@ -65,6 +69,7 @@ const RoomCreation = () => {
   }, [
     rm_room_name,
     building,
+    buildingBlock,
     floorData,
     insideBuildBlock,
     floorShort,
@@ -74,6 +79,7 @@ const RoomCreation = () => {
     rm_room_status,
     lastRoom,
   ])
+
   const patchdata = useMemo(() => {
     return {
       rm_room_slno: rm_room_slno,
@@ -81,6 +87,7 @@ const RoomCreation = () => {
       rm_room_no: floorData + '/' + insideBuildBlock,
       rm_room_alias: floorShort + '/' + BlockName,
       rm_build_slno: building,
+      rm_building_block_slno: buildingBlock,
       rm_room_floor_slno: floorData,
       rm_insidebuilldblock_slno: insideBuildBlock,
       rm_roomtype_slno: roomType,
@@ -91,6 +98,7 @@ const RoomCreation = () => {
     rm_room_slno,
     rm_room_name,
     building,
+    buildingBlock,
     floorData,
     insideBuildBlock,
     BlockName,
@@ -109,12 +117,20 @@ const RoomCreation = () => {
     setFloorData(0)
     setValue(0)
     setBuilding(0)
+    SetbuildingBlock(0)
     setFloorData(0)
-    setInsidfeBuildBlck(0)
+    setInsideBuildBlck(0)
     setRoomType(0)
     setCategory(0)
     setCount(0)
   }
+
+  const insertdata = useMemo(() => {
+    return {
+      rm_floor_building_slno: building,
+      rm_floor_build_block_slno: buildingBlock,
+    }
+  }, [building, buildingBlock])
 
   const [lastRoomData, setLastRoomData] = useState([])
   useEffect(() => {
@@ -213,11 +229,11 @@ const RoomCreation = () => {
     const {
       rm_room_slno,
       rm_build_slno,
+      rm_building_block_slno,
       rm_room_floor_slno,
       rm_insidebuilldblock_slno,
       rm_room_name,
       rm_roomtype_slno,
-
       rm_room_status,
       rm_category_slno,
     } = data[0]
@@ -230,7 +246,8 @@ const RoomCreation = () => {
     setRoom(frmdata)
     setFloorData(rm_room_floor_slno)
     setBuilding(rm_build_slno)
-    setInsidfeBuildBlck(rm_insidebuilldblock_slno)
+    SetbuildingBlock(rm_building_block_slno)
+    setInsideBuildBlck(rm_insidebuilldblock_slno)
     setRoomType(rm_roomtype_slno)
     setCategory(rm_category_slno)
   }, [])
@@ -251,8 +268,12 @@ const RoomCreation = () => {
             <Box sx={{ pt: 1 }}>
               <BuildingSelectWithoutName value={building} setValue={setBuilding} />
             </Box>
+            <Box sx={{ pt: 1 }}>
+              <BuildBlockSelect value={buildingBlock} setValue={SetbuildingBlock} />
+            </Box>
             <Box sx={{ pt: 1.5 }}>
               <FloorSelectBasedBuild
+                insertdata={insertdata}
                 value={floorData}
                 setValue={setFloorData}
                 buildno={building}
@@ -262,7 +283,7 @@ const RoomCreation = () => {
             <Box sx={{ pt: 1.5 }}>
               <InsideBluidBlockSelect
                 value={insideBuildBlock}
-                setValue={setInsidfeBuildBlck}
+                setValue={setInsideBuildBlck}
                 setName={setBlockName}
               />
             </Box>
