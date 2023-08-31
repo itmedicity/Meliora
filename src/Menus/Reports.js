@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { diet_one, diet_two, diet_three } from './ReportsMenu'
+import { diet_one, diet_two, diet_three, cms_one, cms_two, cms_three } from './ReportsMenu'
 import { getMenuSlno } from '../views/Constant/Constant'
 import { Link } from 'react-router-dom'
 import { Card, CardContent, CardHeader } from '@mui/material'
 import { titleTypography, cardActionBgClr } from 'src/color/Color';
-import { cms_one } from './ReportsMenu'
+
 const Reports = () => {
     const [diet_report_one, setdiet_report_one] = useState();
     const [diet_report_two, setdiet_report_two] = useState();
     const [diet_report_three, setdiet_report_three] = useState();
-    const [cms, setcms_report_one] = useState();
+    const [cms_report_one, setcms_report_one] = useState();
+    const [cms_report_two, setcms_report_two] = useState();
+    const [cms_report_three, setcms_report_three] = useState();
     const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
@@ -24,8 +26,12 @@ const Reports = () => {
             setdiet_report_three(Diet_report_three)
 
             //Complaint Management Report
-            const cms_setting_section_one = cms_one.filter(val => menuSlnoArray.includes(val.slno));
-            setcms_report_one(cms_setting_section_one)
+            const Cms_report_one = cms_one.filter(val => menuSlnoArray.includes(val.slno));
+            setcms_report_one(Cms_report_one)
+            const Cms_report_two = cms_two.filter(val => menuSlnoArray.includes(val.slno));
+            setcms_report_two(Cms_report_two)
+            const Cms_report_three = cms_three.filter(val => menuSlnoArray.includes(val.slno));
+            setcms_report_three(Cms_report_three)
             setCount(1)
         })
     }, [count])
@@ -80,13 +86,30 @@ const Reports = () => {
                     <div className="col-4">
                         <ul className="list-group list-group-flush">
                             {
-                                cms && cms.map((val) => {
+                                cms_report_one && cms_report_one.map((val) => {
                                     return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
                                 })
                             }
                         </ul>
                     </div>
-
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                cms_report_two && cms_report_two.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                cms_report_three && cms_report_three.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
                 </div>
             </CardContent>
         </Card>
