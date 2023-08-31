@@ -1,26 +1,21 @@
-import { Box, Button, Paper } from '@mui/material'
+import { Box, Paper } from '@mui/material'
 import React from 'react'
 import { useCallback } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
-import DashBoardRoom from './DashBoardRoom'
-import { Fragment } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import { memo } from 'react'
+import DashBoardFloorSort from './DashBoardFloorSort'
+import DashBoardRoom from './DashBoardRoom'
 
 const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
   const [roomList, setRoomList] = useState(0)
   const [floorNo, setFloorNo] = useState(0)
   const [floorName, setFloorNAme] = useState('')
-  const ground = useCallback((data) => {
-    const { rm_floor_slno, rm_floor_name } = data
-    setFloorNo(rm_floor_slno)
-    setFloorNAme(rm_floor_name)
-    setRoomList(1)
-  }, [])
-
+  const [buildblockname, setbuildblockname] = useState('')
+  const [floormain, setFloor] = useState([])
   const [floorArry, setFloorArry] = useState([])
   useEffect(() => {
     const getFloorDash = async (buildNo) => {
@@ -28,6 +23,19 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
       const { success, data } = result.data
       if (success === 2) {
         setFloorArry(data)
+
+        const a = data.map((val) => {
+          const obj = {
+            blockno: val.rm_floor_build_block_slno,
+            blockname: val.rm_buildblock_name,
+          }
+          return obj
+        })
+
+        const insideBuild = Object.values(
+          a.reduce((acc, cur) => Object.assign(acc, { [cur.blockno]: cur }), {}),
+        )
+        setFloor(insideBuild)
       } else {
         warningNotify('no floor under selected building')
       }
@@ -40,51 +48,80 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
   }, [setFoolrList])
 
   return (
-    <Fragment>
+    <>
       {roomList === 1 ? (
         <DashBoardRoom
           floorNo={floorNo}
           setRoomList={setRoomList}
           campusName={campusName}
           floorName={floorName}
+          buildblockname={buildblockname}
         />
       ) : (
         <CardMasterClose title={campusName} close={ClosePage}>
-          <Box sx={{ py: 3 }}>
-            <Box sx={{ width: '90%', margin: 'auto' }}>
-              {floorArry &&
-                floorArry.map((val) => {
+          <Box
+            sx={{
+              width: '95%',
+              margin: 'auto',
+            }}
+          >
+            <Paper sx={{ overflow: 'hidden', px: 1 }} variant="outlined">
+              {floormain &&
+                floormain.map((val) => {
                   return (
                     <Paper
                       variant="outlined"
+                      key={val.blockno}
                       sx={{
-                        // backgroundColor: 'white',
+                        minHeight: 50,
+                        margin: 'auto',
                         textAlign: 'center',
-                        border: 1,
-                        height: 100,
-                        borderColor: 'white',
-                        borderRadius: 0,
+                        my: 1,
+                        overflow: 'hidden',
                       }}
-                      key={val.rm_floor_slno}
                     >
-                      <Button
-                        onClick={() => ground(val)}
-                        value={val.rm_floor_name}
-                        sx={{ height: '100%' }}
-                        fullWidth
-                        variant="outlined"
-                        color="secondary"
+                      <Box
+                        sx={{
+                          backgroundColor: 'ButtonFace',
+                          textTransform: 'capitalize',
+                          fontFamily: 'cursive',
+                          fontSize: 13,
+                          textAlign: 'left',
+                          pl: 2,
+                          border: 0.2,
+                          borderColor: 'transparent',
+                          borderBottomColor: 'lightgrey',
+                        }}
                       >
-                        {val.rm_floor_name}
-                      </Button>
+                        {val?.blockname?.toLowerCase()}
+                      </Box>
+                      <Box
+                        padding={0.5}
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          overflow: 'hidden',
+                          flexWrap: 'wrap',
+                        }}
+                      >
+                        <DashBoardFloorSort
+                          blockno={val.blockno}
+                          data={floorArry}
+                          campusName={campusName}
+                          setFloorNo={setFloorNo}
+                          setFloorNAme={setFloorNAme}
+                          setRoomList={setRoomList}
+                          setbuildblockname={setbuildblockname}
+                        />
+                      </Box>
                     </Paper>
                   )
                 })}
-            </Box>
+            </Paper>
           </Box>
         </CardMasterClose>
       )}
-    </Fragment>
+    </>
   )
 }
 

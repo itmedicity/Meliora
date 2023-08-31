@@ -7,32 +7,30 @@ import { useCallback } from 'react'
 import { memo } from 'react'
 import DashBoardRoomSort from './DashBoardRoomSort'
 
-const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName }) => {
+const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName, buildblockname }) => {
   const [roomArry, setRoomArry] = useState([])
 
-  const [xx, setxx] = useState([])
+  const [roomMain, setRoomMain] = useState([])
   useEffect(() => {
     const getRoomDash = async (floorNo) => {
       const result = await axioslogin.get(`/getDashboardData/frbyid/${floorNo}`)
       const { success, data } = result.data
-      setRoomArry(data)
-
-      const a = data.map((val) => {
-        const obj = {
-          blockno: val.rm_insidebuilldblock_slno,
-          blockname: val.rm_insidebuildblock_name,
-        }
-        return obj
-      })
-
-      const insideBuild = Object.values(
-        a.reduce((acc, cur) => Object.assign(acc, { [cur.blockno]: cur }), {}),
-      )
-      setxx(insideBuild)
       if (success === 2) {
         setRoomArry(data)
+        const a = data.map((val) => {
+          const obj = {
+            blockno: val.rm_insidebuilldblock_slno,
+            blockname: val.rm_insidebuildblock_name,
+          }
+          return obj
+        })
+
+        const insideBuild = Object.values(
+          a.reduce((acc, cur) => Object.assign(acc, { [cur.blockno]: cur }), {}),
+        )
+        setRoomMain(insideBuild)
       } else {
-        warningNotify('error occured')
+        warningNotify('No Room under selected building')
       }
     }
     getRoomDash(floorNo)
@@ -42,7 +40,10 @@ const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName }) => {
     setRoomList(0)
   }, [setRoomList])
   return (
-    <CardMasterClose title={campusName + '/' + floorName} close={CloseRoom}>
+    <CardMasterClose
+      title={campusName + '/' + buildblockname.toLowerCase() + '/' + floorName.toLowerCase()}
+      close={CloseRoom}
+    >
       <Box
         sx={{
           width: '95%',
@@ -50,11 +51,10 @@ const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName }) => {
         }}
       >
         <Paper sx={{ overflow: 'hidden', px: 1 }} variant="outlined">
-          {xx &&
-            xx.map((val) => {
+          {roomMain &&
+            roomMain.map((val) => {
               return (
                 <Paper
-                  variant="outlined"
                   key={val.blockno}
                   sx={{
                     minHeight: 50,

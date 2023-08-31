@@ -8,10 +8,12 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { memo } from 'react'
+import AssetGroupSlect from 'src/views/CommonSelectCode/AssetGroupSlect'
 const SubGroupMast = () => {
   const history = useHistory()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
+  const [group, setGroup] = useState(0)
   const [subGroup, setsubGroup] = useState({
     subgroup_slno: '',
     sub_group_name: '',
@@ -35,31 +37,36 @@ const SubGroupMast = () => {
     setsubGroup(frmdata)
     setCount(0)
     setValue(0)
+    setGroup(0)
   }
   const postdata = useMemo(() => {
     return {
       sub_group_name: sub_group_name,
+      group_slno: group,
       sub_group_status: sub_group_status === true ? 1 : 0,
     }
-  }, [sub_group_name, sub_group_status])
+  }, [sub_group_name, sub_group_status, group])
   const patchdata = useMemo(() => {
     return {
       subgroup_slno: subgroup_slno,
+      group_slno: group,
       sub_group_name: sub_group_name,
       sub_group_status: sub_group_status === true ? 1 : 0,
     }
-  }, [subgroup_slno, sub_group_name, sub_group_status])
+  }, [subgroup_slno, sub_group_name, group, sub_group_status])
 
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const { subgroup_slno, sub_group_name, sub_group_status } = data[0]
+    const { subgroup_slno, sub_group_name, sub_group_status, group_slno } = data[0]
     const frmdata = {
       subgroup_slno: subgroup_slno,
       sub_group_name: sub_group_name,
+      group_slno: group_slno,
       sub_group_status: sub_group_status === 1 ? true : false,
     }
     setsubGroup(frmdata)
+    setGroup(group_slno)
   }, [])
   const submitGroup = useCallback(
     (e) => {
@@ -110,6 +117,7 @@ const SubGroupMast = () => {
     }
     setsubGroup(frmdata)
     setValue(0)
+    reset()
   }, [setsubGroup])
   return (
     <CardMaster
@@ -130,6 +138,9 @@ const SubGroupMast = () => {
                 value={sub_group_name}
                 onchange={updateSubGroup}
               ></TextFieldCustom>
+            </Box>
+            <Box sx={{ pt: 1.5 }}>
+              <AssetGroupSlect value={group} setValue={setGroup} />
             </Box>
             <Box sx={{ pt: 1 }}>
               <CusCheckBox

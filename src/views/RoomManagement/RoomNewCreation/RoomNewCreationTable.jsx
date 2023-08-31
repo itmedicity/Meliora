@@ -9,10 +9,12 @@ function RoomNewCreationTable({ count, rowSelect }) {
 
   const [column] = useState([
     { headerName: 'SlNo', field: 'rm_room_slno' },
-    { headerName: 'Room Name', field: 'rm_room_name' },
-    { headerName: 'RooM No.', field: 'rm_room_no' },
-    { headerName: 'Room Alias', field: 'rm_room_alias' },
+    { headerName: 'Building', field: 'rm_building_name' },
+    { headerName: 'Block.', field: 'rm_buildblock_name' },
+    { headerName: 'Inside building block', field: 'rm_insidebuildblock_name' },
     { headerName: 'Floor', field: 'rm_floor_name' },
+    { headerName: 'Room Type', field: 'rm_roomtype_name' },
+    { headerName: 'Room Category', field: 'rm_roomcategory_name' },
     { headerName: 'Status', field: 'status' },
     {
       headerName: 'Action',
