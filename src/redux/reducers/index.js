@@ -106,7 +106,14 @@ import { getFloorBasedOnBuild } from '../reducers/FloorSelectBasedBuild.Reducer'
 import { getRmRoomType } from '../reducers/RMRoomType.Reducer'
 import { getRmRoomCategory } from '../reducers/RmRoomCategory.Reducer'
 import { setReqApprovMS } from '../reducers/MSApproval.Reducer'
-
+import { getRequestToAssignList } from '../reducers/RequestToAssignList.Reducer'
+import { getRequestToRectfyList } from '../reducers/RequestToRectify.Reducer'
+import { getRequestToVerifyList } from '../reducers/RequestToVerify.Reducer'
+import { getAssignToRectifyList } from '../reducers/ReqAssignToRecty.Reducer'
+import { getAssignToVerifyList } from '../reducers/ReqAssignToVerify.Reducer'
+import { getRectifyToVerifyList } from '../reducers/ReqRectyToVerify.Reducer'
+import { getReqCategoryReportList } from '../reducers/ReqCategoryReport.Reducer'
+import { getAreaWiseList } from '../reducers/ReqAreaWiseReport.Reducer'
 
 
 const reducer = combineReducers({
@@ -220,7 +227,15 @@ const reducer = combineReducers({
     getFloorBasedOnBuild,
     getRmRoomType,
     getRmRoomCategory,
-    setReqApprovMS
+    setReqApprovMS,
+    getRequestToAssignList,
+    getRequestToRectfyList,
+    getRequestToVerifyList,
+    getAssignToRectifyList,
+    getAssignToVerifyList,
+    getRectifyToVerifyList,
+    getReqCategoryReportList,
+    getAreaWiseList
 
 
 })

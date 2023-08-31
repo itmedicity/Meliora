@@ -124,6 +124,17 @@ const CRFDataCollection = React.lazy(() => import('./views/RequestManagement/CRF
 const RoomDashBoard = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardMain'))
 const CRFIncharge = React.lazy(() => import('./views/RequestManagement/InchargeApproval/InchargeApprovalTable'))
 const CRFMSApproval = React.lazy(() => import('./views/RequestManagement/MSApproval/MSApprovalTable'))
+const RequstToAssign = React.lazy(() => import('./views/Report/ComplaintReport/RequstToAssign'))
+const RequestToRectify = React.lazy(() => import('./views/Report/ComplaintReport/RequestToRectifctn'))
+const RequestToVerify = React.lazy(() => import('./views/Report/ComplaintReport/RequestToVerfy'))
+const AssignToRectify = React.lazy(() => import('./views/Report/ComplaintReport/AssignToRectify'))
+const AssignToVerify = React.lazy(() => import('./views/Report/ComplaintReport/AssignToVerify'))
+const RectifyToVerify = React.lazy(() => import('./views/Report/ComplaintReport/RectfyToVerify'))
+const ComplaintCategoryRprt = React.lazy(() => import('./views/Report/ComplaintReport/ComplaintCategoryWise'))
+const AreaWiseCompReport = React.lazy(() => import('./views/Report/ComplaintReport/AreaWiseReport'))
+const CompPerAssignee = React.lazy(() => import('./views/Report/ComplaintReport/ComplaintPerAssignee'))
+const TATCompPerAssignee = React.lazy(() => import('./views/Report/ComplaintReport/TatPerComplntAssignee'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -250,7 +261,21 @@ const routes = [
   { path: '/Home/CrfDataCollection', exact: true, name: 'CRF data Collection', component: CRFDataCollection },
   { path: '/Home/RoomDashBoard', exact: true, name: 'Room Dashboard', component: RoomDashBoard },
   { path: '/Home/CRFInchargeApproval', exact: true, name: 'CRF Incharge Approval', component: CRFIncharge },
-  { path: '/Home/CrfMSApproval', exact: true, name: 'CRF MS Approval', component: CRFMSApproval }
+  { path: '/Home/CrfMSApproval', exact: true, name: 'CRF MS Approval', component: CRFMSApproval },
+  { path: '/Home/RequstToAssign', exact: true, name: 'Request To Assign Report', component: RequstToAssign },
+  { path: '/Home/RequestToRectify', exact: true, name: 'Request To Rectification Report', component: RequestToRectify },
+  { path: '/Home/RequestToVerify', exact: true, name: 'Request To Verification Report', component: RequestToVerify },
+  { path: '/Home/AssignToRectify', exact: true, name: 'Assign To Rectification Report', component: AssignToRectify },
+  { path: '/Home/AssignToVerify', exact: true, name: 'Assign To Verification Report', component: AssignToVerify },
+  { path: '/Home/RectifyToVerify', exact: true, name: 'Rectification To Verification Report', component: RectifyToVerify },
+  { path: '/Home/ComplaintCategoryReport', exact: true, name: 'Complaint Category Report', component: ComplaintCategoryRprt },
+  { path: '/Home/AreaWiseReport', exact: true, name: 'Area Wise Compalint Report', component: AreaWiseCompReport },
+  { path: '/Home/ComplaintAssignee', exact: true, name: 'No Of Complaint per Assignee Report', component: CompPerAssignee },
+  { path: '/Home/TatPerAssignee', exact: true, name: 'TAT per Complaint per Assignee Report', component: TATCompPerAssignee },
+
+
+
+
 
 ]
 
