@@ -585,7 +585,7 @@ export const pdfdownload = (data, inchargesign, hodsign, omsign, smosign, caosig
         ],
 
         images: {
-            snow: 'http://192.168.10.170/NAS/logo/logo.png',
+            snow: 'http://192.168.22.170/NAS/logo/logo.png',
             // pic: 'http://192.168.10.170/NAS/2119/signature/signature.jpg',
             inchargesign: inchargesign,
             hsign: hodsign,

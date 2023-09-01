@@ -630,8 +630,8 @@ export const pdfdownloadTable = (data, dataPost, inchargesign, hodsign, omsign, 
         ],
 
         images: {
-            snow: 'http://192.168.10.170/NAS/logo/logo.png',
-            // pic: 'http://192.168.10.170/NAS/2119/signature/signature.jpg',
+            snow: 'http://192.168.22.170/NAS/logo/logo.png',
+            // pic: 'http://192.168.22.170/NAS/2119/signature/signature.jpg',
             inchargesign: inchargesign,
             hsign: hodsign,
             omsign: omsign,

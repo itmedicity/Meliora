@@ -41,8 +41,8 @@ const RegistredComList = () => {
     const [pending, setPending] = useState(false)
     const [onhold, setOnhold] = useState(false)
     const [verify, setVerify] = useState(false)
-    const [msgRead, setMsgRead] = useState(false)
-    const [flag, setFlag] = useState(0)
+    const [msgRead, setMsgRead] = useState(true)
+    const [flag, setFlag] = useState(4)
     const updatePending = useCallback((e) => {
         if (e.target.checked === true) {
             setFlag(1)
@@ -209,17 +209,41 @@ const RegistredComList = () => {
     ])
 
     const [columnMessage] = useState([
+
         {
-            headerName: 'Message', minWidth: 10, cellRenderer: params => {
-                return <IconButton onClick={() => MessageRead(params)}
-                    sx={{ color: editicon, paddingY: 0.5 }} >
-                    <CustomeToolTip title="Message">
-                        <MarkunreadIcon />
-                    </CustomeToolTip>
-                </IconButton>
+            headerName: 'Action', minWidth: 240, cellRenderer: params => {
+                if (params.data.compdept_message_flag === 1) {
+                    return <Fragment>
+                        <IconButton sx={{ color: "green", paddingY: 0.5 }}
+                            onClick={() => MessageRead(params)}>
+                            <CustomeToolTip title="Send Message" >
+                                <MarkunreadIcon />
+                            </CustomeToolTip>
+                        </IconButton>
+                    </Fragment>
+                }
+                else {
+                    return <IconButton onClick={() => MessageRead(params)}
+                        sx={{ color: editicon, paddingY: 0.5 }} >
+                        <CustomeToolTip title="Message">
+                            <MarkunreadIcon />
+                        </CustomeToolTip>
+                    </IconButton>
+                }
             }
         },
-        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 100 },
+
+        // {
+        //     headerName: 'Message', minWidth: 100, cellRenderer: params => {
+        //         return <IconButton onClick={() => MessageRead(params)}
+        //             sx={{ color: editicon, paddingY: 0.5 }} >
+        //             <CustomeToolTip title="Message">
+        //                 <MarkunreadIcon />
+        //             </CustomeToolTip>
+        //         </IconButton>
+        //     }
+        // },
+        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 130 },
         { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 250 },
         { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
@@ -451,6 +475,20 @@ const RegistredComList = () => {
                                 On-Hold
                             </Typography>
                         </Box>
+                        <Box sx={{ display: "flex", pl: 2 }}>
+                            <IconButton sx={{ color: "green", paddingY: 0.5 }}
+                            >
+                                <CustomeToolTip title="Send Message" >
+                                    <MarkunreadIcon />
+                                </CustomeToolTip>
+                            </IconButton>
+                        </Box>
+                        <Box sx={{ display: "flex", fontWeight: 400, pl: 1, pt: 1.2 }}>
+                            <Typography >
+                                New Message
+                            </Typography>
+                        </Box>
+
                     </Box>
                 </Box>
                 {
