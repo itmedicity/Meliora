@@ -21,10 +21,13 @@ const ComPriorityMast = () => {
     const [priority, setpriority] = useState({
         cm_priority_desc: '',
         cm_priority_status: false,
-        cm_priority_slno: ''
+        cm_priority_slno: '',
+        escalation_max: '',
+        escalation_min: ''
+
     })
     //destructuring
-    const { cm_priority_desc, cm_priority_status, cm_priority_slno } = priority
+    const { cm_priority_desc, cm_priority_status, escalation_max, escalation_min, cm_priority_slno } = priority
     const updatepriority = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setpriority({ ...priority, [e.target.name]: value })
@@ -38,17 +41,21 @@ const ComPriorityMast = () => {
         return {
             cm_priority_desc: cm_priority_desc,
             cm_priority_status: cm_priority_status === true ? 1 : 0,
+            escalation_max: escalation_max,
+            escalation_min: escalation_min,
             create_user: id
         }
-    }, [cm_priority_desc, cm_priority_status, id])
+    }, [cm_priority_desc, escalation_max, escalation_min, cm_priority_status, id])
     //data set for edit  
     const rowSelect = useCallback((params) => {
         setEdit(1);
         const data = params.api.getSelectedRows()
-        const { cm_priority_desc, status, cm_priority_slno } = data[0]
+        const { cm_priority_desc, status, escalation_min, escalation_max, cm_priority_slno } = data[0]
         const frmdata = {
             cm_priority_desc: cm_priority_desc,
             cm_priority_status: status === 'Yes' ? true : false,
+            escalation_max: escalation_max === null ? '' : escalation_max,
+            escalation_min: escalation_min === null ? '' : escalation_min,
             cm_priority_slno: cm_priority_slno,
         }
         setpriority(frmdata)
@@ -58,17 +65,22 @@ const ComPriorityMast = () => {
         return {
             cm_priority_desc: cm_priority_desc,
             cm_priority_status: cm_priority_status === true ? 1 : 0,
+            escalation_max: escalation_max,
+            escalation_min: escalation_min,
             edit_user: id,
             cm_priority_slno: cm_priority_slno
         }
-    }, [cm_priority_desc, cm_priority_status, cm_priority_slno, id])
+
+    }, [cm_priority_desc, cm_priority_status, cm_priority_slno, escalation_min, escalation_max, id])
     /*** usecallback function for form submitting */
     const submitHicpolicy = useCallback((e) => {
         e.preventDefault();
         const formreset = {
             cm_priority_desc: '',
             cm_priority_status: false,
-            cm_priority_slno: ''
+            cm_priority_slno: '',
+            escalation_max: '',
+            escalation_min: ''
         }
         /*** * insert function for use call back     */
         const InsertFun = async (postdata) => {
@@ -119,6 +131,9 @@ const ComPriorityMast = () => {
         const formreset = {
             cm_priority_desc: '',
             cm_priority_status: false,
+            escalation_min: '',
+            escalation_max: '',
+            cm_priority_slno: ''
         }
         setpriority(formreset);
         setEdit(0)
@@ -145,6 +160,56 @@ const ComPriorityMast = () => {
                                     onchange={updatepriority}
                                 />
                             </Grid>
+                            <Grid item xl={12} lg={12} >
+                                <Box sx={{
+                                    display: 'flex',
+                                    wdith: '100%',
+                                }}>
+                                    <Box sx={{
+                                        width: '25%',
+                                    }}>
+                                        Escalation Min
+                                    </Box>
+                                    <Box sx={{
+                                        width: '30%',
+                                    }}>
+                                        <TextFieldCustom
+                                            placeholder=" Escalation Min"
+                                            type="text"
+                                            size="sm"
+                                            name="escalation_min"
+                                            value={escalation_min}
+                                            onchange={updatepriority}
+                                        />
+                                    </Box>
+                                </Box>
+                            </Grid>
+
+                            <Grid item xl={12} lg={12} >
+                                <Box sx={{
+                                    display: 'flex',
+                                    wdith: '100%',
+                                }}>
+                                    <Box sx={{
+                                        width: '25%',
+                                    }}>
+                                        Escalation Max
+                                    </Box>
+                                    <Box sx={{
+                                        width: '30%',
+                                    }}>
+                                        <TextFieldCustom
+                                            placeholder="Escalation Max"
+                                            type="text"
+                                            size="sm"
+                                            name="escalation_max"
+                                            value={escalation_max}
+                                            onchange={updatepriority}
+                                        />
+                                    </Box>
+                                </Box>
+                            </Grid>
+
                             <Grid item lg={2} xl={2}>
                                 <CusCheckBox
                                     label="Status"

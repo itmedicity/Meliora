@@ -6,18 +6,17 @@ import CusIconButton from '../../Components/CusIconButton';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import { format } from 'date-fns'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import CusAgGridForReport from 'src/views/Components/CusAgGridForReport';
 import { warningNotify } from '../../Common/CommonCode';
 import DownloadIcon from '@mui/icons-material/Download'
 import CustomeToolTip from '../../Components/CustomeToolTip'
 import { ActionTyps } from 'src/redux/constants/action.type'
-import { getAssignToVerifyList } from 'src/redux/actions/ReqAssignToVerifyList.action';
 import ComplaintDeptSelect from 'src/views/CommonSelectCode/ComplaintDeptSelect';
+import { axioslogin } from 'src/views/Axios/Axios';
 
 
 const ComplaintPerAssignee = () => {
-
     const dispatch = useDispatch();
     const history = useHistory();
     const [exports, setexport] = useState(0)
@@ -25,6 +24,7 @@ const ComplaintPerAssignee = () => {
         start_date: new Date(),
         end_date: new Date()
     })
+    const [compdept, setCompDept] = useState(0)
 
     const { start_date, end_date } = dateset;
     const getDate = useCallback((e) => {
@@ -37,18 +37,20 @@ const ComplaintPerAssignee = () => {
         return {
             start_date: start_date,
             end_date: end_date,
+            complaint_deptslno: compdept
         }
-    }, [start_date, end_date])
+    }, [start_date, end_date, compdept])
 
 
-    const getDataList = useSelector((state) => {
-        return state.getAssignToVerifyList.AssignToVerifyList
-    })
-
-    const clicksearch = useCallback((e) => {
+    const [getDataList, setGetDataList] = useState(0)
+    const clicksearch = useCallback(async (e) => {
         e.preventDefault();
-        dispatch(getAssignToVerifyList(postdata))
-    }, [postdata, dispatch])
+        const result = await axioslogin.post(`/getTatReports/ReqComPerAssigne`, postdata);
+        const { success, data } = result.data
+        if (success === 1) {
+            setGetDataList(data)
+        }
+    }, [postdata])
 
 
     const [tabledata, setTableData] = useState([])
@@ -62,9 +64,11 @@ const ComplaintPerAssignee = () => {
                 desc: val.complaint_desc,
                 category: val.complaint_type_name !== null ? val.complaint_type_name : "Not Given",
                 priority: val.cm_priority_desc !== null ? val.cm_priority_desc : "Not Given",
+                requestdate: val.compalint_date !== null ? format(new Date(val.compalint_date), 'dd-MM-yyyy H:mm:ss') : "Not Given",
                 assigndate: val.assigned_date !== null ? format(new Date(val.assigned_date), 'dd-MM-yyyy H:mm:ss') : "Not Given",
-                verifydate: val.cm_verfy_time !== null ? format(new Date(val.cm_verfy_time), 'dd-MM-yyyy H:mm:ss') : "Not Assigned",
-                tat: (val.tat === 0 || val.tat === null) ? "Not asssigned" : val.tat + "Minutes"
+                assigned_emp: val.assign !== null ? val.assign : "Not assigned",
+                rectifydate: val.cm_rectify_time !== null ? format(new Date(val.cm_rectify_time), 'dd-MM-yyyy H:mm:ss') : "Not Done",
+                verifydate: val.cm_verfy_time !== null ? format(new Date(val.cm_verfy_time), 'dd-MM-yyyy H:mm:ss') : "Not Done",
             }
             return obj
         })
@@ -77,11 +81,14 @@ const ComplaintPerAssignee = () => {
         { headerName: "Date", field: "date", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
         { headerName: "Complaint Description", field: "desc", autoHeight: true, wrapText: true, minWidth: 300 },
-        { headerName: "Category", field: "category", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
+        { headerName: "Category", field: "category", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "Assigning Time ", field: "assigndate", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "Veryfyication Time", field: "verifydate", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "TAT Time(G_H)", field: "tat", autoHeight: true, wrapText: true, minWidth: 100, filter: "true" },
+        { headerName: "Request Time ", field: "requestdate", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
+        { headerName: "Assigning Time ", field: "assigndate", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
+        { headerName: "Assigned Employee ", field: "assigned_emp", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
+        { headerName: "Rectification Time", field: "rectifydate", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
+        { headerName: "Veryfyication Time", field: "verifydate", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
+
     ])
 
     const onExportClick = () => {
@@ -109,9 +116,7 @@ const ComplaintPerAssignee = () => {
         history.push(`/Home/Reports`)
     }, [history])
 
-    const [compdept, setCompDept] = useState(0)
 
-    // console.log(compdept);
     return (
         <CardCloseOnly
             title='Complaint Per Assignee Report'
@@ -199,11 +204,6 @@ const ComplaintPerAssignee = () => {
                                     value={compdept}
                                     setValue={setCompDept}
                                 />
-                                {/* <LocationSelectWithoutName
-                                    value={location}
-                                    setValue={setLocation}
-
-                                /> */}
                             </Box>
                         </Box>
                         <Box sx={{

@@ -10,6 +10,8 @@ const ComProirityMastTable = ({ count, rowSelect }) => {
     const [column] = useState([
         { headerName: 'SlNo', field: 'cm_priority_slno', minWidth: 100, },
         { headerName: 'Priority Name', field: 'cm_priority_desc', filter: "true", minWidth: 150, },
+        { headerName: 'Escalation Min', field: 'escalation_min_dis', filter: "true", minWidth: 150, },
+        { headerName: 'Escalation Max', field: 'escalation_max_dis', filter: "true", minWidth: 150, },
         { headerName: 'Status', field: 'status', minWidth: 100 },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])

@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
+import React, { Fragment, memo, useCallback, useMemo, useState, useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
@@ -21,11 +21,23 @@ const MessageSendModel = ({ open, setOpen, complaint, count, setCount, id }) => 
 
     //props data for modal
     const { complaint_slno, complaint_desc, compalint_date, sec_name, req_type_name, complaint_type_name,
-        compalint_priority, complaint_hicslno
+        compalint_priority, complaint_hicslno, compdept_message, compdept_message_flag, msg_read_emp,
+        msg_send_emp, message_reply_emp
     } = complaint[0]
+
 
     // state for remarks
     const [messagee, setMessage] = useState('');
+
+    useEffect(() => {
+
+        if (compdept_message_flag === 1) {
+
+            setMessage(compdept_message)
+        }
+
+    }, [compdept_message_flag])
+
 
     //updating remark state
     const updateMessage = useCallback((e) => {
@@ -190,30 +202,107 @@ const MessageSendModel = ({ open, setOpen, complaint, count, setCount, id }) => 
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
+                                {compdept_message_flag === 2 ?
+                                    <Box>
 
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    p: 0.5,
-                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                }}>
-                                    <Box
-                                        sx={{ pr: 8 }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Message</Typography>
-                                        </CssVarsProvider>
+                                        <Box sx={{
+                                            width: "100%",
+                                            display: "flex",
+                                            p: 0.5,
+                                            flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                        }}>
+
+                                            <Box
+                                                sx={{ width: "25%", }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15 }}>Message</Typography>
+                                                </CssVarsProvider>
+                                            </Box>
+                                            <Paper sx={{
+                                                width: "75%", minHeight: 10, maxHeight: 70, pl: 0.9, fontSize: 15,
+                                                overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                            }} variant='none'>
+                                                {compdept_message}
+                                            </Paper>
+
+
+                                        </Box>
+                                        <Box
+                                            sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                p: 0.5,
+                                                flexDirection: "row",
+                                            }}>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15, pr: 6 }}>Message Read Employee:</Typography>
+                                                <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}> {msg_send_emp.toLowerCase()}</Typography>
+                                            </CssVarsProvider>
+                                        </Box>
+
+                                        <Box sx={{
+                                            width: "100%",
+                                            display: "flex",
+                                            p: 0.5,
+                                            flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                        }}>
+
+                                            <Box
+                                                sx={{ width: "25%", }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15 }}>Replay Message</Typography>
+                                                </CssVarsProvider>
+                                            </Box> <Paper sx={{
+                                                width: "75%", minHeight: 10, maxHeight: 70, pl: 0.9, fontSize: 15,
+                                                overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                            }} variant='none'>
+                                                {message_reply_emp}
+                                            </Paper>
+                                        </Box>
+                                        <Box
+                                            sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                p: 0.5,
+                                                flexDirection: "row",
+                                            }}>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15, pr: 6 }}>Message Read Employee:</Typography>
+                                                <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}> {msg_read_emp.toLowerCase()}</Typography>
+                                            </CssVarsProvider>
+                                        </Box>
                                     </Box>
-                                    <Box sx={{ pl: 11.6, width: "65%", pt: 0.5 }}                                    >
-                                        <CustomTextarea
-                                            style={{ width: 390 }}
-                                            minRows={4}
-                                            placeholder="message"
-                                            name='messagee'
-                                            value={messagee}
-                                            onchange={updateMessage}
-                                        />
+
+                                    :
+
+                                    <Box sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        p: 0.5,
+                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    }}>
+                                        <Box
+                                            sx={{ pr: 8 }}>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15 }}>Message</Typography>
+                                            </CssVarsProvider>
+                                        </Box>
+                                        <Box sx={{ pl: 11.6, width: "65%", pt: 0.5 }}                                    >
+                                            <CustomTextarea
+                                                style={{ width: 390 }}
+                                                minRows={4}
+                                                placeholder="message"
+                                                name='messagee'
+                                                value={messagee}
+                                                onchange={updateMessage}
+                                            />
+                                        </Box>
                                     </Box>
-                                </Box>
+
+                                }
+
+
+
                             </Box>
                         </Paper>
                     </Box>

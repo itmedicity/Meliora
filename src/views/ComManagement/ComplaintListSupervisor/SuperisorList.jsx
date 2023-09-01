@@ -1,9 +1,9 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useState, memo } from 'react'
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import { IconButton, Paper } from '@mui/material';
 import { editicon } from 'src/color/Color';
 import CardCloseOnly from 'src/views/Components/CardCloseOnly';
-import { Box } from '@mui/material'
+import { Box, } from '@mui/material'
 import { useHistory } from 'react-router-dom';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
@@ -31,6 +31,8 @@ import SocialDistanceIcon from '@mui/icons-material/SocialDistance';
 import AssistTransferSuper from './AssistTransferSuper';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import VerifyModelSuper from './VerifyModelSuper';
+import { CssVarsProvider, Typography } from '@mui/joy'
+
 const SuperisorList = () => {
 
     const history = useHistory();
@@ -47,33 +49,65 @@ const SuperisorList = () => {
     //column title setting
     const [column] = useState([
         {
-            headerName: 'Action', minWidth: 240, cellRenderer: params => <Fragment>
-                <IconButton sx={{ color: editicon, paddingY: 0.5 }}
-                    onClick={() => quickAssign(params)}>
-                    <CustomeToolTip title="Quick Assign" >
-                        <AssignmentTurnedInRoundedIcon />
-                    </CustomeToolTip>
-                </IconButton>
-                <IconButton sx={{ color: editicon, paddingY: 0.5 }}
-                    onClick={() => Assign(params)}>
-                    <CustomeToolTip title="Detailed Assign" >
-                        < AccessibilityNewIcon />
-                    </CustomeToolTip>
-                </IconButton>
-                <IconButton sx={{ color: editicon, paddingY: 0.5 }}
-                    onClick={() => TransferDepartment(params)}
-                >
-                    <CustomeToolTip title="Transfer Department" >
-                        < ChangeCircleIcon />
-                    </CustomeToolTip>
-                </IconButton>
-                <IconButton sx={{ color: editicon, paddingY: 0.5 }}
-                    onClick={() => MessageSend(params)}>
-                    <CustomeToolTip title="Send Message" >
-                        < ForwardToInboxTwoToneIcon />
-                    </CustomeToolTip>
-                </IconButton>
-            </Fragment>
+            headerName: 'Action', minWidth: 240, cellRenderer: params => {
+                if (params.data.compdept_message_flag === 2) {
+                    return <Fragment>
+                        <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                            onClick={() => quickAssign(params)}>
+                            <CustomeToolTip title="Quick Assign" >
+                                <AssignmentTurnedInRoundedIcon />
+                            </CustomeToolTip>
+                        </IconButton>
+                        <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                            onClick={() => Assign(params)}>
+                            <CustomeToolTip title="Detailed Assign" >
+                                < AccessibilityNewIcon />
+                            </CustomeToolTip>
+                        </IconButton>
+                        <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                            onClick={() => TransferDepartment(params)}
+                        >
+                            <CustomeToolTip title="Transfer Department" >
+                                < ChangeCircleIcon />
+                            </CustomeToolTip>
+                        </IconButton>
+                        <IconButton sx={{ color: "green", paddingY: 0.5 }}
+                            onClick={() => MessageSend(params)}>
+                            <CustomeToolTip title="Send Message" >
+                                < ForwardToInboxTwoToneIcon />
+                            </CustomeToolTip>
+                        </IconButton>
+                    </Fragment>
+                } else {
+                    return <Fragment>
+                        <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                            onClick={() => quickAssign(params)}>
+                            <CustomeToolTip title="Quick Assign" >
+                                <AssignmentTurnedInRoundedIcon />
+                            </CustomeToolTip>
+                        </IconButton>
+                        <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                            onClick={() => Assign(params)}>
+                            <CustomeToolTip title="Detailed Assign" >
+                                < AccessibilityNewIcon />
+                            </CustomeToolTip>
+                        </IconButton>
+                        <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                            onClick={() => TransferDepartment(params)}
+                        >
+                            <CustomeToolTip title="Transfer Department" >
+                                < ChangeCircleIcon />
+                            </CustomeToolTip>
+                        </IconButton>
+                        <IconButton sx={{ color: editicon, paddingY: 0.5 }}
+                            onClick={() => MessageSend(params)}>
+                            <CustomeToolTip title="Send Message" >
+                                < ForwardToInboxTwoToneIcon />
+                            </CustomeToolTip>
+                        </IconButton>
+                    </Fragment>
+                }
+            }
         },
         { headerName: "SlNo", field: "complaint_slno", minWidth: 90 },
         {
@@ -831,7 +865,7 @@ const SuperisorList = () => {
     return (
         <Fragment>
             <CardCloseOnly
-                title="Complaint Assign"
+                title="Complaint List Supervisor"
                 close={backtoSetting}
             >
                 <Box sx={{
@@ -840,149 +874,186 @@ const SuperisorList = () => {
                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
                     justifyContent: "center"
                 }}>
-                    <Paper variant='outlined' sx={{ width: "25%", p: 2 }} >
+                    <Paper variant='outlined' sx={{ width: "25%", p: 0.5 }} >
+
                         <Box sx={{
                             width: "100%",
                             display: "flex",
-                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                            justifyContent: "center"
+                            flex: 1,
+                            flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                            justifyContent: "center",
                         }}>
-                            <Box sx={{
-                                display: 'flex',
-                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                mt: 1,
-                                // bgcolor: "cyan",
-                                justifyContent: "center"
-                            }} >
-                                <CusCheckBox
-                                    label="Assigned List(Self)"
-                                    color="danger"
-                                    size="md"
-                                    name="assigned"
-                                    value={assigned}
-                                    checked={assigned}
-                                    onCheked={updateAssigned}
-                                />
+
+                            <Box
+                                sx={{ pr: 8 }}>
+                                <CssVarsProvider>
+                                    <Typography sx={{ fontSize: 10 }}>Supervisor Statistics</Typography>
+                                </CssVarsProvider>
                             </Box>
 
                             <Box sx={{
-                                display: 'flex',
-                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                mt: 1,
-                            }} >
-                                <CusCheckBox
-                                    label="Assist(Self)"
-                                    color="danger"
-                                    size="md"
-                                    name="assist"
-                                    value={assist}
-                                    checked={assist}
-                                    onCheked={updateAssistant}
-                                />
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                justifyContent: "center"
+                            }}>
+                                <Box sx={{
+                                    display: 'flex',
+                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                    mt: 1,
+                                    // bgcolor: "cyan",
+                                    justifyContent: "center"
+                                }} >
+                                    <CusCheckBox
+                                        label="Assigned List(Self)"
+                                        color="danger"
+                                        size="md"
+                                        name="assigned"
+                                        value={assigned}
+                                        checked={assigned}
+                                        onCheked={updateAssigned}
+                                    />
+                                </Box>
+
+                                <Box sx={{
+                                    display: 'flex',
+                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                    mt: 1,
+                                }} >
+                                    <CusCheckBox
+                                        label="Assist(Self)"
+                                        color="danger"
+                                        size="md"
+                                        name="assist"
+                                        value={assist}
+                                        checked={assist}
+                                        onCheked={updateAssistant}
+                                    />
+                                </Box>
+
                             </Box>
 
                         </Box>
+
                     </Paper>
 
-                    <Paper variant='outlined' sx={{ width: "75%", p: 2 }} >
+                    <Paper variant='outlined' sx={{ width: "75%", p: 0.5 }} >
+
                         <Box sx={{
                             width: "100%",
                             display: "flex",
-                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                            justifyContent: "center"
+                            flex: 1,
+                            flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                            justifyContent: "center",
+                            // backgroundColor: "red"
                         }}>
-                            <Box sx={{
-                                display: 'flex',
-                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                mt: 1,
-                                // bgcolor: "cyan",
-                                justifyContent: "center"
-                            }} >
-                                <CusCheckBox
-                                    label="Assigned List"
-                                    color="danger"
-                                    size="md"
-                                    name="assignall"
-                                    value={assignall}
-                                    checked={assignall}
-                                    onCheked={updateAssignedAll}
-                                />
-                            </Box>
-                            <Box sx={{
-                                display: 'flex',
-                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                mt: 1,
-                            }} >
-                                <CusCheckBox
-                                    label="Pending List"
-                                    color="danger"
-                                    size="md"
-                                    name="pending"
-                                    value={pending}
-                                    checked={pending}
-                                    onCheked={updatePending}
-                                />
-                            </Box>
-                            <Box sx={{
-                                display: 'flex',
-                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                mt: 1,
-                            }} >
-                                <CusCheckBox
-                                    label="Assist"
-                                    color="danger"
-                                    size="md"
-                                    name="assistall"
-                                    value={assistall}
-                                    checked={assistall}
-                                    onCheked={updateAssistantAll}
-                                />
-                            </Box>
-                            <Box sx={{
-                                display: 'flex',
-                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                mt: 1,
-                            }} >
-                                <CusCheckBox
-                                    label="Employee Trasfer"
-                                    color="danger"
-                                    size="md"
-                                    name="empTras"
-                                    value={empTras}
-                                    checked={empTras}
-                                    onCheked={updateEmpTras}
-                                />
+
+                            <Box
+                                sx={{ pr: 8 }}>
+                                <CssVarsProvider>
+                                    <Typography sx={{ fontSize: 10 }}>Supervisor Departmental Statistics</Typography>
+                                </CssVarsProvider>
                             </Box>
 
                             <Box sx={{
-                                display: 'flex',
-                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                mt: 1,
-                            }} >
-                                <CusCheckBox
-                                    label="Verify Pending"
-                                    color="danger"
-                                    size="md"
-                                    name="verifySuper"
-                                    value={verifySuper}
-                                    checked={verifySuper}
-                                    onCheked={updateVerifySuper}
-                                />
-                            </Box>
-                            <Box sx={{
-                                display: 'flex',
-                                width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
-                                mt: 1,
-                            }} >
-                                <CusCheckBox
-                                    label="All Complaint"
-                                    color="danger"
-                                    size="md"
-                                    name="all"
-                                    value={all}
-                                    checked={all}
-                                    onCheked={updateCompall}
-                                />
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                justifyContent: "center"
+                            }}>
+                                <Box sx={{
+                                    display: 'flex',
+                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                    mt: 1,
+                                    // bgcolor: "cyan",
+                                    justifyContent: "center"
+                                }} >
+                                    <CusCheckBox
+                                        label="Assigned List"
+                                        color="danger"
+                                        size="md"
+                                        name="assignall"
+                                        value={assignall}
+                                        checked={assignall}
+                                        onCheked={updateAssignedAll}
+                                    />
+                                </Box>
+                                <Box sx={{
+                                    display: 'flex',
+                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                    mt: 1,
+                                }} >
+                                    <CusCheckBox
+                                        label="Pending List"
+                                        color="danger"
+                                        size="md"
+                                        name="pending"
+                                        value={pending}
+                                        checked={pending}
+                                        onCheked={updatePending}
+                                    />
+                                </Box>
+                                <Box sx={{
+                                    display: 'flex',
+                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                    mt: 1,
+                                }} >
+                                    <CusCheckBox
+                                        label="Assist"
+                                        color="danger"
+                                        size="md"
+                                        name="assistall"
+                                        value={assistall}
+                                        checked={assistall}
+                                        onCheked={updateAssistantAll}
+                                    />
+                                </Box>
+                                <Box sx={{
+                                    display: 'flex',
+                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                    mt: 1,
+                                }} >
+                                    <CusCheckBox
+                                        label="Employee Trasfer"
+                                        color="danger"
+                                        size="md"
+                                        name="empTras"
+                                        value={empTras}
+                                        checked={empTras}
+                                        onCheked={updateEmpTras}
+                                    />
+                                </Box>
+
+                                <Box sx={{
+                                    display: 'flex',
+                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                    mt: 1,
+                                }} >
+                                    <CusCheckBox
+                                        label="Verify Pending"
+                                        color="danger"
+                                        size="md"
+                                        name="verifySuper"
+                                        value={verifySuper}
+                                        checked={verifySuper}
+                                        onCheked={updateVerifySuper}
+                                    />
+                                </Box>
+                                <Box sx={{
+                                    display: 'flex',
+                                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                    mt: 1,
+                                }} >
+                                    <CusCheckBox
+                                        label="All Complaint"
+                                        color="danger"
+                                        size="md"
+                                        name="all"
+                                        value={all}
+                                        checked={all}
+                                        onCheked={updateCompall}
+                                    />
+                                </Box>
                             </Box>
                         </Box>
                     </Paper>
@@ -1063,9 +1134,31 @@ const SuperisorList = () => {
                 {
                     verifySupermdl === 1 ? <VerifyModelSuper open={open} id={id} setOpen={setOpen} complaint={VeryPendingSuperList} empdept={profileData} count={count} setCount={setCount} /> : null
                 }
+
+
+                <Box sx={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                    //   /  justifyContent: "flex-start"
+                }}>
+                    <Box sx={{ display: "flex", pl: 2 }}>
+                        <IconButton sx={{ color: "green", paddingY: 0.5 }}
+                        >
+                            <CustomeToolTip title="Send Message" >
+                                < ForwardToInboxTwoToneIcon />
+                            </CustomeToolTip>
+                        </IconButton>
+                    </Box>
+                    <Box sx={{ display: "flex", fontWeight: 400, pl: 1, }}>
+                        <CssVarsProvider>
+                            <Typography sx={{ fontSize: 15 }}>New Message</Typography>
+                        </CssVarsProvider>
+                    </Box>
+                </Box>
             </CardCloseOnly>
         </Fragment >
     )
 }
 
-export default SuperisorList
+export default memo(SuperisorList)
