@@ -114,6 +114,13 @@ import { getAssignToVerifyList } from '../reducers/ReqAssignToVerify.Reducer'
 import { getRectifyToVerifyList } from '../reducers/ReqRectyToVerify.Reducer'
 import { getReqCategoryReportList } from '../reducers/ReqCategoryReport.Reducer'
 import { getAreaWiseList } from '../reducers/ReqAreaWiseReport.Reducer'
+import { getCategory } from '../reducers/AmCategoryList.Reducer'
+import { getGroup } from './AmGroupList.Reducer';
+import { getAmAssetType } from './AmAssetTypeList.Reducer'
+import { getAmItemType } from './AmItemTypeList.Reducer'
+import { getAmSubcategory } from './AmSubcategoryList.Reducer'
+import { getAmSubGroupList } from './AmSubGroupList.Reducer'
+import { getAmManufacture } from './AmManufactureList.Reducer'
 
 
 const reducer = combineReducers({
@@ -235,7 +242,14 @@ const reducer = combineReducers({
     getAssignToVerifyList,
     getRectifyToVerifyList,
     getReqCategoryReportList,
-    getAreaWiseList
+    getAreaWiseList,
+    getCategory,
+    getGroup,
+    getAmAssetType,
+    getAmItemType,
+    getAmSubcategory,
+    getAmSubGroupList,
+    getAmManufacture,
 
 
 })

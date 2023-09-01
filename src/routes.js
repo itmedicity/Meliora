@@ -134,7 +134,9 @@ const ComplaintCategoryRprt = React.lazy(() => import('./views/Report/ComplaintR
 const AreaWiseCompReport = React.lazy(() => import('./views/Report/ComplaintReport/AreaWiseReport'))
 const CompPerAssignee = React.lazy(() => import('./views/Report/ComplaintReport/ComplaintPerAssignee'))
 const TATCompPerAssignee = React.lazy(() => import('./views/Report/ComplaintReport/TatPerComplntAssignee'))
-
+const ItemNameCreation = React.lazy(() => import('./views/AssetManagment/ItemNameCreation/ItemNameCreation'))
+const PrimaryCustodian = React.lazy(() => import('./views/Master/AssetMasters/PrimaryCustodian/PrimaryCustodianMast'))
+const SecondaryCustodian = React.lazy(() => import('./views/Master/AssetMasters/SecondaryCustodian/SecondaryCustodian'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -272,11 +274,9 @@ const routes = [
   { path: '/Home/AreaWiseReport', exact: true, name: 'Area Wise Compalint Report', component: AreaWiseCompReport },
   { path: '/Home/ComplaintAssignee', exact: true, name: 'No Of Complaint per Assignee Report', component: CompPerAssignee },
   { path: '/Home/TatPerAssignee', exact: true, name: 'TAT per Complaint per Assignee Report', component: TATCompPerAssignee },
-
-
-
-
-
+  { path: '/Home/ItemNameCreation', exact: true, name: 'Item Name Creation', component: ItemNameCreation },
+  { path: '/Home/PrimaryCustodian', exact: true, name: 'Primary Custodian', component: PrimaryCustodian },
+  { path: '/Home/SecondaryCustodian', exact: true, name: ' Secondary Custodian', component: SecondaryCustodian },
 ]
 
 export default routes
