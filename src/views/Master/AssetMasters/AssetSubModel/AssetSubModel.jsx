@@ -9,67 +9,71 @@ import { memo } from 'react'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useMemo } from 'react'
-import PrimaryTable from './PrimaryTable'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import SubModelTable from './SubModelTable'
+import AssetModelSelect from 'src/views/CommonSelectCode/AssetModelSelect'
 
-const PrimaryCustodianMast = () => {
+const AssetSubModel = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const history = useHistory()
-  const [primary, setPrimary] = useState({
-    primary_slno: '',
-    primary_name: '',
-    primary_status: false,
+  const [model, setModel] = useState(0)
+  const [submodel, setsubmodel] = useState({
+    submodel_slno: '',
+    submodel_name: '',
+    submodel_status: false,
   })
-  const { primary_slno, primary_name, primary_status } = primary
-  const UpdatePrimary = useCallback(
+  const { submodel_slno, submodel_name, submodel_status } = submodel
+  const Updatesubmodel = useCallback(
     (e) => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-      setPrimary({ ...primary, [e.target.name]: value })
+      setsubmodel({ ...submodel, [e.target.name]: value })
     },
-    [primary],
+    [submodel],
   )
   const reset = () => {
     const frmdata = {
-      primary_slno: '',
-      primary_name: '',
-      primary_status: false,
+      submodel_slno: '',
+      submodel_name: '',
+      submodel_status: false,
     }
-    setPrimary(frmdata)
+    setsubmodel(frmdata)
     setCount(0)
     setValue(0)
+    setModel(0)
   }
   const postdata = useMemo(() => {
     return {
-      primary_name: primary_name,
-      primary_status: primary_status === true ? 1 : 0,
+      submodel_name: submodel_name,
+      model_slno: model,
+      submodel_status: submodel_status === true ? 1 : 0,
     }
-  }, [primary_name, primary_status])
+  }, [submodel_name, submodel_status, model])
   const patchdata = useMemo(() => {
     return {
-      primary_slno: primary_slno,
-      primary_name: primary_name,
-      primary_status: primary_status === true ? 1 : 0,
+      submodel_slno: submodel_slno,
+      submodel_name: submodel_name,
+      model_slno: model,
+      submodel_status: submodel_status === true ? 1 : 0,
     }
-  }, [primary_slno, primary_name, primary_status])
+  }, [submodel_slno, submodel_name, model, submodel_status])
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const { primary_slno, primary_name, primary_status } = data[0]
+    const { submodel_slno, submodel_name, submodel_status, model_slno } = data[0]
     const frmdata = {
-      primary_slno: primary_slno,
-      primary_name: primary_name,
-      primary_status: primary_status === 1 ? true : false,
+      submodel_slno: submodel_slno,
+      submodel_name: submodel_name,
+      submodel_status: submodel_status === 1 ? true : false,
     }
-    setPrimary(frmdata)
+    setsubmodel(frmdata)
+    setModel(model_slno)
   }, [])
-  const submitPrimary = useCallback(
+  const submitsubmodel = useCallback(
     (e) => {
       e.preventDefault()
-
-      const InsertPrimary = async (postdata) => {
-        const result = await axioslogin.post('/primaryCustodian/insert', postdata)
-
+      const Insertsubmodel = async (postdata) => {
+        const result = await axioslogin.post('/submodel/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
           succesNotify(message)
@@ -81,8 +85,8 @@ const PrimaryCustodianMast = () => {
           infoNotify(message)
         }
       }
-      const PrimaryUpdate = async (patchdata) => {
-        const result = await axioslogin.patch('/primaryCustodian/update', patchdata)
+      const submodelUpdate = async (patchdata) => {
+        const result = await axioslogin.patch('/submodel/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
           succesNotify(message)
@@ -96,9 +100,9 @@ const PrimaryCustodianMast = () => {
       }
 
       if (value === 0) {
-        InsertPrimary(postdata)
+        Insertsubmodel(postdata)
       } else {
-        PrimaryUpdate(patchdata)
+        submodelUpdate(patchdata)
       }
     },
     [postdata, value, patchdata, count],
@@ -108,17 +112,17 @@ const PrimaryCustodianMast = () => {
   }, [history])
   const refreshWindow = useCallback(() => {
     const frmdata = {
-      primary_slno: '',
-      primary_name: '',
-      primary_status: false,
+      submodel_slno: '',
+      submodel_name: '',
+      submodel_status: false,
     }
-    setPrimary(frmdata)
+    setsubmodel(frmdata)
     setValue(0)
-  }, [setPrimary])
+  }, [setsubmodel])
   return (
     <CardMaster
-      title="Primary Custodian"
-      submit={submitPrimary}
+      title="Submodel"
+      submit={submitsubmodel}
       close={backtoSetting}
       refresh={refreshWindow}
     >
@@ -126,32 +130,35 @@ const PrimaryCustodianMast = () => {
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>
             <TextFieldCustom
-              placeholder="Name"
+              placeholder="Submodel"
               type="text"
               size="sm"
-              name="primary_name"
-              value={primary_name}
-              onchange={UpdatePrimary}
+              name="submodel_name"
+              value={submodel_name}
+              onchange={Updatesubmodel}
             ></TextFieldCustom>
+          </Box>
+          <Box sx={{ pt: 1.5 }}>
+            <AssetModelSelect value={model} setValue={setModel} />
           </Box>
           <Box sx={{ pt: 1 }}>
             <CusCheckBox
               label="status"
               color="primary"
               size="md"
-              name="primary_status"
-              value={primary_status}
-              checked={primary_status}
-              onCheked={UpdatePrimary}
+              name="submodel_status"
+              value={submodel_status}
+              checked={submodel_status}
+              onCheked={Updatesubmodel}
             ></CusCheckBox>
           </Box>
         </Box>
         <Box sx={{ width: '70%' }}>
-          <PrimaryTable count={count} rowSelect={rowSelect} />
+          <SubModelTable count={count} rowSelect={rowSelect} />
         </Box>
       </Box>
     </CardMaster>
   )
 }
 
-export default memo(PrimaryCustodianMast)
+export default memo(AssetSubModel)

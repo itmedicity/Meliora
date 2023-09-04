@@ -5,7 +5,7 @@ import CIcon from '@coreui/icons-react'
 
 const AmTransactions = [
     {
-        men_slno: 113,
+        men_slno: 144,
         component: CNavItem,
         name: 'Item Name Creation',
         to: '/Home/ItemNameCreation',

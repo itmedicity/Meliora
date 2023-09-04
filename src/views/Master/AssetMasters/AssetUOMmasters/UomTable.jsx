@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { memo } from 'react'
+import { useState } from 'react'
 import { useEffect } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 import EditButton from 'src/views/Components/EditButton'
-const SubGroupTable = ({ count, rowSelect }) => {
-  const [tabledata, setTabledata] = useState([])
 
+const UomTable = ({ count, rowSelect }) => {
+  const [tabledata, setTabledata] = useState([])
   const [column] = useState([
-    { headerName: 'SlNo', field: 'subgroup_slno' },
-    { headerName: 'Sub Group', field: 'sub_group_name' },
-    { headerName: 'Group', field: 'group_name' },
+    { headerName: 'SlNo', field: 'uom_slno' },
+    { headerName: 'Unit of measurement', field: 'uom_name' },
     { headerName: 'Status', field: 'status' },
     {
       headerName: 'Action',
@@ -19,8 +19,8 @@ const SubGroupTable = ({ count, rowSelect }) => {
     },
   ])
   useEffect(() => {
-    const getGroup = async () => {
-      const result = await axioslogin.get('subgroup/view')
+    const setModel = async () => {
+      const result = await axioslogin.get('uom/view')
       const { success, data } = result.data
       if (success === 2) {
         setTabledata(data)
@@ -28,8 +28,9 @@ const SubGroupTable = ({ count, rowSelect }) => {
         warningNotify('error occured')
       }
     }
-    getGroup()
+    setModel()
   }, [count])
   return <CusAgGridMast columnDefs={column} tableData={tabledata} />
 }
-export default memo(SubGroupTable)
+
+export default memo(UomTable)

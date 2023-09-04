@@ -137,6 +137,10 @@ const TATCompPerAssignee = React.lazy(() => import('./views/Report/ComplaintRepo
 const ItemNameCreation = React.lazy(() => import('./views/AssetManagment/ItemNameCreation/ItemNameCreation'))
 const PrimaryCustodian = React.lazy(() => import('./views/Master/AssetMasters/PrimaryCustodian/PrimaryCustodianMast'))
 const SecondaryCustodian = React.lazy(() => import('./views/Master/AssetMasters/SecondaryCustodian/SecondaryCustodian'))
+const UnitOfMeasurement = React.lazy(() => import('./views/Master/AssetMasters/AssetUOMmasters/UomMaster'))
+const AssetModel = React.lazy(() => import('./views/Master/AssetMasters/AssetModel/AssetModel'))
+const AssetSubModel = React.lazy(() => import('./views/Master/AssetMasters/AssetSubModel/AssetSubModel'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -277,6 +281,9 @@ const routes = [
   { path: '/Home/ItemNameCreation', exact: true, name: 'Item Name Creation', component: ItemNameCreation },
   { path: '/Home/PrimaryCustodian', exact: true, name: 'Primary Custodian', component: PrimaryCustodian },
   { path: '/Home/SecondaryCustodian', exact: true, name: ' Secondary Custodian', component: SecondaryCustodian },
+  { path: '/Home/UnitOfMeasurement', exact: true, name: 'Unit Of Measurement', component: UnitOfMeasurement },
+  { path: '/Home/AssetModel', exact: true, name: 'Asset Model', component: AssetModel },
+  { path: '/Home/AssetSubModel', exact: true, name: 'Asset SubModel', component: AssetSubModel }
 ]
 
 export default routes
