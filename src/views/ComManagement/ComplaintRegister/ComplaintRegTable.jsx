@@ -181,13 +181,26 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
 
     ])
 
-    const socket = io.connect(WS_URL)
+    // const socket = io.connect(WS_URL)
+
+    // useEffect(() => {
+    //     socket.on("message", () => {
+    //         dispatch(getCompliantRegTable(sec))
+    //     })
+    // }, [socket, dispatch, sec])
 
     useEffect(() => {
+        const socket = io();
+        socket.connect(WS_URL)
         socket.on("message", () => {
+            console.log("jgl");
             dispatch(getCompliantRegTable(sec))
         })
-    }, [socket, dispatch, sec])
+        return () => {
+            socket.disconnect()
+        }
+    }, [count, sec, dispatch])
+
 
     //dispalying complaints against the users deptsection
     useEffect(() => {

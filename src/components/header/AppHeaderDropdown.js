@@ -6,27 +6,31 @@ import {
   CDropdownMenu,
   CDropdownToggle,
 } from '@coreui/react'
-
-
 import Avatar from "@mui/material/Avatar";
 import {
   iconPowerOff
 } from 'src/color/Color'
 import LogoutIcon from '@mui/icons-material/Logout'
 import ModelMessage from 'src/views/Components/ModelMessage'
-
+import ModelPaswdChange from 'src/views/Components/ModelPaswdChange';
+import KeyIcon from '@mui/icons-material/Key';
 const AppHeaderDropdown = () => {
   const [open, setOpen] = useState(false);
-
+  const [openChangPswd, setOpenChangPswd] = useState(false);
   const cmsLogout = () => {
     setOpen(true)
   }
+  const passwordChange = () => {
+    setOpenChangPswd(true)
+  }
   const handleClose = () => {
+    setOpenChangPswd(false)
     setOpen(false);
   };
 
   return (
     <Fragment>
+      <ModelPaswdChange open={openChangPswd} handleClose={handleClose} />
       <ModelMessage open={open} handleClose={handleClose} />
       <CDropdown variant="nav-item">
         <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
@@ -61,6 +65,10 @@ const AppHeaderDropdown = () => {
             </CBadge>
           </CDropdownItem> */}
           <CDropdownDivider />
+          <CDropdownItem href="#" onClick={passwordChange} >
+            <KeyIcon className="me-2" sx={{ color: iconPowerOff }} onClick={cmsLogout} />
+            Change Password
+          </CDropdownItem>
           <CDropdownItem href="#" onClick={cmsLogout} >
             <LogoutIcon className="me-2" sx={{ color: iconPowerOff }} onClick={cmsLogout} />
             Log Out

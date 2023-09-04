@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, memo, useEffect, useState } from 'react'
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import { IconButton, Paper } from '@mui/material';
 import { editicon } from 'src/color/Color';
@@ -24,6 +24,9 @@ import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import TransferDeptmodal from './TransferDeptmodal';
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 import { Typography } from '@mui/material'
+import { io } from "socket.io-client";
+import { WS_URL } from '../../Constant/Static';
+
 
 const AssignComplaintTable = () => {
     const history = useHistory();
@@ -220,6 +223,22 @@ const AssignComplaintTable = () => {
     //state for assist checkbox
     const [assist, setAssist] = useState(false)
     //displaying complaints against the login users department
+
+    useEffect(() => {
+        if (profileData.length !== 0) {
+            const { em_department } = profileData[0]
+            const socket = io();
+            socket.connect(WS_URL)
+            socket.on("message", () => {
+                dispatch(getComplaintLists(em_department))
+            })
+            return () => {
+                socket.disconnect()
+            }
+        }
+
+    }, [count, profileData, dispatch])
+
     useEffect(() => {
         if (profileData.length !== 0) {
             const { em_department } = profileData[0]
@@ -528,4 +547,4 @@ const AssignComplaintTable = () => {
         </Fragment >
     )
 }
-export default AssignComplaintTable
+export default memo(AssignComplaintTable)

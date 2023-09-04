@@ -30,13 +30,11 @@ const MessageSendModel = ({ open, setOpen, complaint, count, setCount, id }) => 
     const [messagee, setMessage] = useState('');
 
     useEffect(() => {
-
         if (compdept_message_flag === 1) {
-
             setMessage(compdept_message)
         }
 
-    }, [compdept_message_flag])
+    }, [compdept_message_flag, compdept_message])
 
 
     //updating remark state

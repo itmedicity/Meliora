@@ -107,19 +107,22 @@ const Home = () => {
     const DietDash = dietentries.filter(val => complaintRights.includes(val.slno) === true ? val.slno : null);
     const dietmenus = useMemo(() => DietDash, [DietDash])
 
-    const socket = io.connect(WS_URL)
-
 
     // const handlechangesockettest = () => {
     //     socket.emit("message", "from 192.168.10.106")
     // }
 
     useEffect(() => {
+        const socket = io();
+        socket.connect(WS_URL)
         socket.on("message", (data) => {
             console.log(data)
         })
 
-    }, [socket])
+        return () => {
+            socket.disconnect()
+        }
+    }, [])
 
     return (
         <Fragment>
