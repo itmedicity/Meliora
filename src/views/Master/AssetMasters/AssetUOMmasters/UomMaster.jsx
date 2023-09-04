@@ -1,74 +1,73 @@
 import { Box } from '@mui/material'
-import React from 'react'
-import { useState } from 'react'
+import React, { memo } from 'react'
 import { useCallback } from 'react'
 import { useMemo } from 'react'
-import { memo } from 'react'
+import { useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import SecondaryTable from './SecondaryTable'
+import UomTable from './UomTable'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
-const SecondaryCustodian = () => {
+const UomMaster = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const history = useHistory()
-  const [secondary, setSecondary] = useState({
-    secondary_slno: '',
-    secondary_name: '',
-    secondary_status: false,
+  const [uom, setUom] = useState({
+    uom_slno: '',
+    uom_name: '',
+    uom_status: false,
   })
-  const { secondary_slno, secondary_name, secondary_status } = secondary
-  const UpdateSecondary = useCallback(
+  const { uom_slno, uom_name, uom_status } = uom
+  const UpdateUom = useCallback(
     (e) => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-      setSecondary({ ...secondary, [e.target.name]: value })
+      setUom({ ...uom, [e.target.name]: value })
     },
-    [secondary],
+    [uom],
   )
-  const reset = () => {
-    const frmdata = {
-      secondary_slno: '',
-      secondary_name: '',
-      secondary_status: false,
-    }
-    setSecondary(frmdata)
-    setCount(0)
-    setValue(0)
-  }
   const postdata = useMemo(() => {
     return {
-      secondary_name: secondary_name,
-      secondary_status: secondary_status === true ? 1 : 0,
+      uom_name: uom_name,
+      uom_status: uom_status === true ? 1 : 0,
     }
-  }, [secondary_name, secondary_status])
+  }, [uom_name, uom_status])
   const patchdata = useMemo(() => {
     return {
-      secondary_slno: secondary_slno,
-      secondary_name: secondary_name,
-      secondary_status: secondary_status === true ? 1 : 0,
+      uom_slno: uom_slno,
+      uom_name: uom_name,
+      uom_status: uom_status === true ? 1 : 0,
     }
-  }, [secondary_slno, secondary_name, secondary_status])
+  }, [uom_slno, uom_name, uom_status])
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const { secondary_slno, secondary_name, secondary_status } = data[0]
+    const { uom_slno, uom_name, uom_status } = data[0]
     const frmdata = {
-      secondary_slno: secondary_slno,
-      secondary_name: secondary_name,
-      secondary_status: secondary_status === 1 ? true : false,
+      uom_slno: uom_slno,
+      uom_name: uom_name,
+      uom_status: uom_status === 1 ? true : false,
     }
-    setSecondary(frmdata)
+    setUom(frmdata)
   }, [])
-  const submitSecondary = useCallback(
+  const reset = () => {
+    const frmdata = {
+      uom_slno: '',
+      uom_name: '',
+      uom_status: false,
+    }
+    setUom(frmdata)
+    setCount(0)
+    setValue(0)
+  }
+  const submitUom = useCallback(
     (e) => {
       e.preventDefault()
 
-      const InsertSecondary = async (postdata) => {
-        const result = await axioslogin.post('/secondaryCustodian/insert', postdata)
+      const InsertUom = async (postdata) => {
+        const result = await axioslogin.post('/uom/insert', postdata)
 
         const { message, success } = result.data
         if (success === 1) {
@@ -81,8 +80,8 @@ const SecondaryCustodian = () => {
           infoNotify(message)
         }
       }
-      const SecondaryUpdate = async (patchdata) => {
-        const result = await axioslogin.patch('/secondaryCustodian/update', patchdata)
+      const UomUpdate = async (patchdata) => {
+        const result = await axioslogin.patch('/uom/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
           succesNotify(message)
@@ -96,29 +95,30 @@ const SecondaryCustodian = () => {
       }
 
       if (value === 0) {
-        InsertSecondary(postdata)
+        InsertUom(postdata)
       } else {
-        SecondaryUpdate(patchdata)
+        UomUpdate(patchdata)
       }
     },
     [postdata, value, patchdata, count],
   )
+
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
   }, [history])
   const refreshWindow = useCallback(() => {
     const frmdata = {
-      secondary_slno: '',
-      secondary_name: '',
-      secondary_status: false,
+      uom_slno: '',
+      uom_name: '',
+      uom_status: false,
     }
-    setSecondary(frmdata)
+    setUom(frmdata)
     setValue(0)
-  }, [setSecondary])
+  }, [setUom])
   return (
     <CardMaster
-      title="Secondary Custodian"
-      submit={submitSecondary}
+      title="Unit Of Measurement"
+      submit={submitUom}
       close={backtoSetting}
       refresh={refreshWindow}
     >
@@ -126,12 +126,12 @@ const SecondaryCustodian = () => {
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>
             <TextFieldCustom
-              placeholder="Name"
+              placeholder="Unit Of Measurement"
               type="text"
               size="sm"
-              name="secondary_name"
-              value={secondary_name}
-              onchange={UpdateSecondary}
+              name="uom_name"
+              value={uom_name}
+              onchange={UpdateUom}
             ></TextFieldCustom>
           </Box>
           <Box sx={{ pt: 1 }}>
@@ -139,19 +139,19 @@ const SecondaryCustodian = () => {
               label="status"
               color="primary"
               size="md"
-              name="secondary_status"
-              value={secondary_status}
-              checked={secondary_status}
-              onCheked={UpdateSecondary}
+              name="uom_status"
+              value={uom_status}
+              checked={uom_status}
+              onCheked={UpdateUom}
             ></CusCheckBox>
           </Box>
         </Box>
         <Box sx={{ width: '70%' }}>
-          <SecondaryTable count={count} rowSelect={rowSelect} />
+          <UomTable count={count} rowSelect={rowSelect} />
         </Box>
       </Box>
     </CardMaster>
   )
 }
 
-export default memo(SecondaryCustodian)
+export default memo(UomMaster)

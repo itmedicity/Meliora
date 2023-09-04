@@ -107,13 +107,15 @@ import { getRmRoomType } from '../reducers/RMRoomType.Reducer'
 import { getRmRoomCategory } from '../reducers/RmRoomCategory.Reducer'
 import { setReqApprovMS } from '../reducers/MSApproval.Reducer'
 import { getCategory } from '../reducers/AmCategoryList.Reducer'
-import { getGroup } from './AmGroupList.Reducer';
+import { getGroup } from './AmGroupList.Reducer'
 import { getAmAssetType } from './AmAssetTypeList.Reducer'
 import { getAmItemType } from './AmItemTypeList.Reducer'
 import { getAmSubcategory } from './AmSubcategoryList.Reducer'
 import { getAmSubGroupList } from './AmSubGroupList.Reducer'
 import { getAmManufacture } from './AmManufactureList.Reducer'
-
+import { getAmModel } from './AmModelList.Reducer'
+import { getUOM } from './AmUOMList.Reducer'
+import { getSubmodel } from './AmSubModelListReducer'
 
 const reducer = combineReducers({
     changeState,
@@ -234,6 +236,10 @@ const reducer = combineReducers({
     getAmSubcategory,
     getAmSubGroupList,
     getAmManufacture,
+    getAmModel,
+    getSubmodel,
+    getUOM,
+
 
 
 })
