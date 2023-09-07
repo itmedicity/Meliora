@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import SubGroupTable from './SubGroupTable'
 import CardMaster from 'src/views/Components/CardMaster'
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -9,6 +9,7 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { memo } from 'react'
 import AssetGroupSlect from 'src/views/CommonSelectCode/AssetGroupSlect'
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
 const SubGroupMast = () => {
   const history = useHistory()
   const [value, setValue] = useState(0)
@@ -153,6 +154,9 @@ const SubGroupMast = () => {
                 onCheked={updateSubGroup}
               ></CusCheckBox>
             </Box>
+            <Button variant="contained" endIcon={<CloudUploadOutlinedIcon />}>
+              Upload
+            </Button>
           </Box>
           <Box sx={{ width: '70%' }}>
             <SubGroupTable count={count} rowSelect={rowSelect} />

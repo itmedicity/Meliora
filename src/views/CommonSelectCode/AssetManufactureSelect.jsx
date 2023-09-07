@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAmManufacture } from 'src/redux/actions/AmManufactureList.actions'
 
-const AssetManufactureSelect = ({ value, setValue }) => {
+const AssetManufactureSelect = ({ value, setValue,setName }) => {
   const dispatch = useDispatch()
   const manufacture = useSelector((state) => {
     return state.getAmManufacture.ManufactureList || 0
@@ -19,7 +19,10 @@ const AssetManufactureSelect = ({ value, setValue }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, { props }) => {
+            setValue(e.target.value)
+            setName(props.name)
+          }}
           size="small"
           fullWidth
           variant="outlined"
@@ -31,7 +34,7 @@ const AssetManufactureSelect = ({ value, setValue }) => {
           {manufacture &&
             manufacture.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.manufacture_slno}>
+                <MenuItem key={index} name={val.manufacture_name} value={val.manufacture_slno}>
                   {val.manufacture_name}
                 </MenuItem>
               )

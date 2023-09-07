@@ -4,7 +4,7 @@ import { useEffect, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAmModel } from 'src/redux/actions/AmModelList.action'
 
-const AssetModelSelect = ({ value, setValue }) => {
+const AssetModelSelect = ({ value, setValue,setName }) => {
   const dispatch = useDispatch()
   const model = useSelector((state) => {
     return state.getAmModel.modelList || 0
@@ -19,7 +19,10 @@ const AssetModelSelect = ({ value, setValue }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, { props }) => {
+            setValue(e.target.value)
+            setName(props.name)
+          }}
           size="small"
           fullWidth
           variant="outlined"
@@ -31,7 +34,7 @@ const AssetModelSelect = ({ value, setValue }) => {
           {model &&
             model.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.model_slno}>
+                <MenuItem key={index} name={val.model_name} value={val.model_slno}>
                   {val.model_name}
                 </MenuItem>
               )

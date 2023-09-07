@@ -5,7 +5,7 @@ import { memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAmSubGroupList } from 'src/redux/actions/AmSubGroupList.action'
 
-const AssetSubGroupSelect = ({ value, setValue, group }) => {
+const AssetSubGroupSelect = ({ value, setValue, group, setName }) => {
   const dispatch = useDispatch()
   const subgroup = useSelector((state) => {
     return state.getAmSubGroupList.SubGroupList || 0
@@ -20,7 +20,10 @@ const AssetSubGroupSelect = ({ value, setValue, group }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, { props }) => {
+            setValue(e.target.value)
+            setName(props.name)
+          }}
           size="small"
           fullWidth
           variant="outlined"
@@ -32,7 +35,7 @@ const AssetSubGroupSelect = ({ value, setValue, group }) => {
           {subgroup &&
             subgroup.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.subgroup_slno}>
+                <MenuItem key={index} name={val.sub_group_name} value={val.subgroup_slno}>
                   {val.sub_group_name}
                 </MenuItem>
               )

@@ -32,7 +32,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
     { headerName: 'Base Name.', field: 'item_base_name', minWidth: 200 },
     { headerName: 'Sepcification 1', field: 'item_specific_one', minWidth: 200 },
     { headerName: 'Sepcification 2', field: 'item_specific_two', minWidth: 200 },
-    { headerName: 'Sepcification 3', field: 'item_specific_three', minWidth: 200 },
+
     { headerName: 'Item Name', field: 'item_name', minWidth: 200 },
 
     { headerName: 'Status', field: 'status', minWidth: 100 },

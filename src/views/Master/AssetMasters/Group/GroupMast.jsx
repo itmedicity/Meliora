@@ -1,12 +1,13 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import GroupTable from './GroupTable'
 import CardMaster from 'src/views/Components/CardMaster'
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
 
 const GroupMast = () => {
   const history = useHistory()
@@ -141,6 +142,9 @@ const GroupMast = () => {
                 onCheked={updateGroup}
               ></CusCheckBox>
             </Box>
+            <Button variant="contained" endIcon={<CloudUploadOutlinedIcon />}>
+              Upload
+            </Button>
           </Box>
           <Box sx={{ width: '70%' }}>
             <GroupTable count={count} rowSelect={rowSelect} />

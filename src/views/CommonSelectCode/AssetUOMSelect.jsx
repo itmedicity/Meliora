@@ -4,7 +4,7 @@ import { memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUOM } from 'src/redux/actions/AmUOMList.action'
 
-const AssetUOMSelect = ({ value, setValue }) => {
+const AssetUOMSelect = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
   const uom = useSelector((state) => {
     return state.getUOM.uomList || 0
@@ -19,7 +19,10 @@ const AssetUOMSelect = ({ value, setValue }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, { props }) => {
+            setValue(e.target.value)
+            setName(props.name)
+          }}
           size="small"
           fullWidth
           variant="outlined"
@@ -31,7 +34,7 @@ const AssetUOMSelect = ({ value, setValue }) => {
           {uom &&
             uom.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.uom_slno}>
+                <MenuItem key={index} name={val.uom_name} value={val.uom_slno}>
                   {val.uom_name}
                 </MenuItem>
               )

@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategory } from 'src/redux/actions/AmCategoryList.action'
 
-const AssetCategorySelect = ({ value, setValue }) => {
+const AssetCategorySelect = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
   const category = useSelector((state) => {
     return state.getCategory.AssetCategoryList || 0
@@ -19,7 +19,10 @@ const AssetCategorySelect = ({ value, setValue }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, { props }) => {
+            setValue(e.target.value)
+            setName(props.name)
+          }}
           size="small"
           fullWidth
           variant="outlined"
@@ -31,7 +34,7 @@ const AssetCategorySelect = ({ value, setValue }) => {
           {category &&
             category.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.category_slno}>
+                <MenuItem key={index} name={val.category_name} value={val.category_slno}>
                   {val.category_name}
                 </MenuItem>
               )
