@@ -4,7 +4,7 @@ import { useEffect, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAmItemType } from 'src/redux/actions/AmItemTypeList.actions'
 
-const AssetItemSelect = ({ value, setValue }) => {
+const AssetItemSelect = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
   const itemtype = useSelector((state) => {
     return state.getAmItemType.ItemTypeList || 0
@@ -19,7 +19,10 @@ const AssetItemSelect = ({ value, setValue }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, { props }) => {
+            setValue(e.target.value)
+            setName(props.name)
+          }}
           size="small"
           fullWidth
           variant="outlined"
@@ -31,7 +34,7 @@ const AssetItemSelect = ({ value, setValue }) => {
           {itemtype &&
             itemtype.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.item_type_slno}>
+                <MenuItem key={index} name={val.item_type_name} value={val.item_type_slno}>
                   {val.item_type_name}
                 </MenuItem>
               )

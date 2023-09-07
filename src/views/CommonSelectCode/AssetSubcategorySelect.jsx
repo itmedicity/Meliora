@@ -4,7 +4,7 @@ import { memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAmSubcategory } from 'src/redux/actions/AmSubcategoryList.action'
 
-const AssetSubcategorySelect = ({ value, setValue, category }) => {
+const AssetSubcategorySelect = ({ value, setValue, category, setName }) => {
   const dispatch = useDispatch()
   const subcategory = useSelector((state) => {
     return state.getAmSubcategory.SubcategoryList || 0
@@ -19,7 +19,10 @@ const AssetSubcategorySelect = ({ value, setValue, category }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, { props }) => {
+            setValue(e.target.value)
+            setName(props.name)
+          }}
           size="small"
           fullWidth
           variant="outlined"
@@ -31,7 +34,7 @@ const AssetSubcategorySelect = ({ value, setValue, category }) => {
           {subcategory &&
             subcategory.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.subcategory_slno}>
+                <MenuItem key={index} name={val.subcategory_name} value={val.subcategory_slno}>
                   {val.subcategory_name}
                 </MenuItem>
               )

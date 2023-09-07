@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from 'react'
 import CategoryTable from './CategoryTable'
 import CardMaster from 'src/views/Components/CardMaster'
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { useState } from 'react'
@@ -9,6 +9,7 @@ import { useCallback } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
 
 const CategoryMaster = () => {
   const history = useHistory()
@@ -149,6 +150,10 @@ const CategoryMaster = () => {
                 onCheked={updateCategory}
               ></CusCheckBox>
             </Box>
+
+            <Button variant="contained" endIcon={<CloudUploadOutlinedIcon />}>
+              Upload
+            </Button>
           </Box>
           <Box sx={{ width: '70%' }}>
             <CategoryTable count={count} rowSelect={rowSelect} />

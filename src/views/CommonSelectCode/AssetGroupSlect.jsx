@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGroup } from 'src/redux/actions/AmGroupList.action'
 
-const AssetGroupSlect = ({ value, setValue }) => {
+const AssetGroupSlect = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
   const group = useSelector((state) => {
     return state.getGroup.AssetGroupList || 0
@@ -19,7 +19,10 @@ const AssetGroupSlect = ({ value, setValue }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, { props }) => {
+            setValue(e.target.value)
+            setName(props.name)
+          }}
           size="small"
           fullWidth
           variant="outlined"
@@ -31,7 +34,7 @@ const AssetGroupSlect = ({ value, setValue }) => {
           {group &&
             group.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.group_slno}>
+                <MenuItem key={index} name={val.group_name} value={val.group_slno}>
                   {val.group_name}
                 </MenuItem>
               )

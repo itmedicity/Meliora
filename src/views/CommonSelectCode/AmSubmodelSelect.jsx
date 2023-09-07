@@ -4,7 +4,8 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSubmodel } from 'src/redux/actions/AmSubmodelList.action'
 
-const AmSubmodelSelect = ({ value, setValue, model }) => {
+
+const AmSubmodelSelect = ({ value, setValue, model, setName }) => {
   const dispatch = useDispatch()
   const submodel = useSelector((state) => {
     return state.getSubmodel.SubmodelList || 0
@@ -19,7 +20,10 @@ const AmSubmodelSelect = ({ value, setValue, model }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, { props }) => {
+            setValue(e.target.value)
+            setName(props.name)
+          }}
           size="small"
           fullWidth
           variant="outlined"
@@ -31,7 +35,7 @@ const AmSubmodelSelect = ({ value, setValue, model }) => {
           {submodel &&
             submodel.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.submodel_slno}>
+                <MenuItem key={index} name={val.submodel_name} value={val.submodel_slno}>
                   {val.submodel_name}
                 </MenuItem>
               )

@@ -1,15 +1,12 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState ,memo,useMemo} from 'react'
 import SubCategoryTable from './SubCategoryTable'
 import CardMaster from 'src/views/Components/CardMaster'
-import { Box } from '@mui/material'
+import { Box} from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-import { useMemo } from 'react'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { memo } from 'react'
-
 import AssetCategorySelect from 'src/views/CommonSelectCode/AssetCategorySelect'
 
 const SubCategoryMast = () => {
@@ -158,6 +155,7 @@ const SubCategoryMast = () => {
               ></CusCheckBox>
             </Box>
           </Box>
+          <Box></Box>
           <Box sx={{ width: '70%' }}>
             <SubCategoryTable count={count} rowSelect={rowSelect} />
           </Box>
