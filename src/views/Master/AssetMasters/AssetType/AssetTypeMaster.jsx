@@ -41,7 +41,7 @@ const AssetTypeMaster = () => {
     setAssetType(frmdata)
     setCount(0)
     setValue(0)
-    setSelectFile(null)
+   
   }
   const postdata = useMemo(() => {
     return {
@@ -121,9 +121,8 @@ const AssetTypeMaster = () => {
       asset_type_status: false,
     }
     setAssetType(frmdata)
-    setValue(0) 
-    setSelectFile(null)
-  }, [setAssetType,setSelectFile])
+    setValue(0)     
+  }, [setAssetType])
   return (
     <CardMaster
       title="Asset Master"
@@ -156,7 +155,6 @@ const AssetTypeMaster = () => {
               ></CusCheckBox>
             </Box>
           </Box>
-
           <Box sx={{ width: '70%' }}>
             <AssetTypeTable count={count} rowSelect={rowSelect} />
           </Box>
