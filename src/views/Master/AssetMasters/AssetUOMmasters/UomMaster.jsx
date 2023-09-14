@@ -10,11 +10,16 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import UomTable from './UomTable'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { useSelector } from 'react-redux'
 
 const UomMaster = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const history = useHistory()
+       // Get login user emp_id
+       const id = useSelector((state) => {
+        return state.LoginUserData.empid
+       })
   const [uom, setUom] = useState({
     uom_slno: '',
     uom_name: '',
@@ -32,15 +37,18 @@ const UomMaster = () => {
     return {
       uom_name: uom_name,
       uom_status: uom_status === true ? 1 : 0,
+      create_user: id
     }
-  }, [uom_name, uom_status])
+  }, [uom_name, uom_status,id])
   const patchdata = useMemo(() => {
     return {
       uom_slno: uom_slno,
       uom_name: uom_name,
       uom_status: uom_status === true ? 1 : 0,
+      edit_user: id
+      
     }
-  }, [uom_slno, uom_name, uom_status])
+  }, [uom_slno, uom_name, uom_status,id])
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
@@ -95,12 +103,18 @@ const UomMaster = () => {
       }
 
       if (value === 0) {
+        if (uom_name !== '') {
         InsertUom(postdata)
-      } else {
+        }
+        else {
+          infoNotify("Please Enter Uinit of Measurement")
+        }
+      }
+        else {
         UomUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count],
+    [postdata, value, patchdata, count,uom_name],
   )
 
   const backtoSetting = useCallback(() => {

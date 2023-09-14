@@ -1,7 +1,5 @@
-import { Box,  Tooltip, Typography } from '@mui/material'
-import React, { useCallback, memo, useEffect } from 'react'
-import { useMemo } from 'react'
-import { useState } from 'react'
+import { Box,  Tooltip, Typography ,IconButton, Input} from '@mui/material'
+import React, { useCallback, memo, useEffect ,useState,useMemo} from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import AssetCategorySelect from 'src/views/CommonSelectCode/AssetCategorySelect'
@@ -21,10 +19,15 @@ import AssetModelSelect from 'src/views/CommonSelectCode/AssetModelSelect'
 import AmSubmodelSelect from 'src/views/CommonSelectCode/AmSubmodelSelect'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined'
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
+import imageCompression from 'browser-image-compression';
+import UploadFileIcon from '@mui/icons-material/UploadFile'
+import CustomeToolTip from 'src/views/Components/CustomeToolTip'
+
+
 
 const ItemNameCreation = () => {
   const history = useHistory()
+  const [selectFile, setSelectFile] = useState(null)
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const [assettype, setAssetType] = useState(0)
@@ -47,6 +50,7 @@ const ItemNameCreation = () => {
   const [modelName, setModelName] = useState('')
   const [submodelName, setSubmodelName] = useState('')
   const [uomName, setUomName] = useState('')
+
   const [manufactureName, setManufactureName] = useState('')
   const [assetTypeStatus, setAssetTypeStatus] = useState(true)
   const [itemTypeStatus, setItemTypeSatus] = useState(true)
@@ -263,6 +267,7 @@ const ItemNameCreation = () => {
     setItemNamee(name)
   }, [assetNameDis, itemNameDis,categoryDis,subcatDis,groupDis,subgroupDis,modelDis,submodelDis,uomDis,manufactureDis,modelNoDis])
 
+
   const postdata = useMemo(() => {
     return {
       item_asset_type_slno: assettype,
@@ -402,24 +407,30 @@ const ItemNameCreation = () => {
     setSubcatSatus, setGroupStatus, setSubGroupStatus, setModelStatus, setSubModelstatus, setUOMstatus, setManufactureStatus,
     setModelNoStatus, setAssetNameDis, setItemNameDis, setCategoryDis, setSubcatDis, setGroupDis, setSubGroupDis, setModelDis, setSubModelDis,
     setUOMdis, setManufactureDis, setModelNoDis, assetName, itemName, categoryName, subcatName, groupName, subgroupName, modelName, submodelName,
-    uomName, manufactureName,modelNo])
+    uomName, manufactureName, modelNo])
+  
+  
+    const uploadFile = async (event) => {
+      const file = event.target.files[0];
+    
+      setSelectFile(file);
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920
+      }
+      const compressedFile = await imageCompression(file, options);
+      setSelectFile(compressedFile);
+  };
+  
   const sumbitItemCreation = useCallback(
     (e) => {
       e.preventDefault()
       const InsertItem = async (postdata) => {
-        const result = await axioslogin.post('/itemNameCreation/insert', postdata)
-        const { message, success } = result.data
-        if (success === 1) {
-          succesNotify(message)
-          setCount(count + 1)
-          reset()
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
-      }
-      const UpdateAssetType = async (patchdata) => {
+        const result = await axioslogin.post('/itemNameCreation/insert', postdata)  
+        return result.data  
+             }    
+
+      const UpdateItem = async (patchdata) => {
         const result = await axioslogin.patch('/itemNameCreation/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -431,14 +442,51 @@ const ItemNameCreation = () => {
         } else {
           infoNotify(message)
         }
+      }      
+      const FileInsert = async (fileData) => {
+        const result = await axioslogin.post('/fileupload/uploadFile/Item', fileData)
+        const { message, success } = result.data
+        if (success === 1) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        }
+        else {
+          infoNotify(message)
+        }
       }
+
       if (value === 0) {
-        InsertItem(postdata)
-      } else {
-        UpdateAssetType(patchdata)
-      }
+       
+          InsertItem(postdata).then((val) => {
+            const { message, success, insertid } = val
+            if (success === 1) {
+              
+              if (selectFile !== null) {
+                //File upload Api and post data
+              const formData = new FormData()
+              formData.append('id', insertid)
+              formData.append('file', selectFile, selectFile.name)
+                FileInsert(formData)
+              }
+              else {
+                succesNotify(message)
+                setCount(count + 1)
+                reset()
+              }
+            }
+            else if (success === 0) {
+              infoNotify(message)
+            } else {
+              infoNotify(message)
+            }
+          }) 
+        }
+       
+      else UpdateItem(patchdata)
+    
     },
-    [postdata, value, count, patchdata,reset],
+    [postdata, value, count, patchdata,reset,selectFile],
   )
   const rowSelect = useCallback((params) => {
     setValue(1)
@@ -1223,25 +1271,36 @@ const ItemNameCreation = () => {
             ></TextFieldCustom>
           </Box>
         </Box>
+        <Box sx={{
+          display: 'flex',
+          width: '75%',
+          ml:34
+        //   backgroundColor: 'green',
+        // margin:'auto'
+        }}>
         <Box
           sx={{
             display: 'flex',
-            width: '65%',
+            width: '88%',
             pt: 1,
             margin: 'auto',
+            // backgroundColor:'blue'
           }}
         >
           <Box
             sx={{
-              width: '15.5%',
-              pl: 3,
+              width: '13%',
+             ml:4,
+              // backgroundColor:'yellow'
             }}
           >
             <Typography>Item creation</Typography>
           </Box>
           <Box
             sx={{
-              width: '85%',
+              width: '83%',
+                // backgroundColor:'black',
+              // ml:1
             }}
           >
             <TextFieldCustom
@@ -1251,17 +1310,37 @@ const ItemNameCreation = () => {
               value={itemNamee}             
             ></TextFieldCustom>
           </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pl: 1,
-            }}
-          >
-            <Tooltip title="UPLOAD FILE " placement="top">
-              <FileUploadOutlinedIcon />
-            </Tooltip>
           </Box>
-        </Box>
+          <Box sx={{
+            display: 'flex',
+            width:'200px',
+
+          // ml:6,
+            // backgroundColor: 'pink'
+          }}>
+            <Box sx={{pt:1}}>
+            <label htmlFor="file-input">
+              <CustomeToolTip title="upload">
+                <IconButton color="primary" aria-label="upload file" component="span">
+                  <UploadFileIcon />
+                </IconButton>
+              </CustomeToolTip>
+            </label>
+            <Input
+              id="file-input"
+              type="file"
+              accept=".jpg, .jpeg, .png, .pdf"
+              style={{ display: 'none' }}
+              onChange={uploadFile}
+              />
+            </Box>
+            <Box sx={{pt:2}}>
+              {selectFile && <p>{selectFile.name}</p>}
+              </Box>
+          </Box>
+          </Box>
+         
+        
 
         <Box
           sx={{            

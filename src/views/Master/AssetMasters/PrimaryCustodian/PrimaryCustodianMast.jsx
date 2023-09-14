@@ -11,11 +11,16 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { useMemo } from 'react'
 import PrimaryTable from './PrimaryTable'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { useSelector } from 'react-redux'
 
 const PrimaryCustodianMast = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const history = useHistory()
+     // Get login user emp_id
+     const id = useSelector((state) => {
+      return state.LoginUserData.empid
+     })
   const [primary, setPrimary] = useState({
     primary_slno: '',
     primary_name: '',
@@ -43,15 +48,17 @@ const PrimaryCustodianMast = () => {
     return {
       primary_name: primary_name,
       primary_status: primary_status === true ? 1 : 0,
+      create_user: id
     }
-  }, [primary_name, primary_status])
+  }, [primary_name, primary_status,id])
   const patchdata = useMemo(() => {
     return {
       primary_slno: primary_slno,
       primary_name: primary_name,
       primary_status: primary_status === true ? 1 : 0,
+      edit_user: id
     }
-  }, [primary_slno, primary_name, primary_status])
+  }, [primary_slno, primary_name, primary_status,id])
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
@@ -96,12 +103,19 @@ const PrimaryCustodianMast = () => {
       }
 
       if (value === 0) {
-        InsertPrimary(postdata)
-      } else {
+        if (primary_name !== '') {
+          InsertPrimary(postdata)
+          
+        }
+        else {
+          infoNotify("Please Enter Primary Custodian")
+        }
+      }
+        else {
         PrimaryUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count],
+    [postdata, value, patchdata, count,primary_name],
   )
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')

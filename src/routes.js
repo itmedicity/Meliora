@@ -140,6 +140,7 @@ const SecondaryCustodian = React.lazy(() => import('./views/Master/AssetMasters/
 const UnitOfMeasurement = React.lazy(() => import('./views/Master/AssetMasters/AssetUOMmasters/UomMaster'))
 const AssetModel = React.lazy(() => import('./views/Master/AssetMasters/AssetModel/AssetModel'))
 const AssetSubModel = React.lazy(() => import('./views/Master/AssetMasters/AssetSubModel/AssetSubModel'))
+const RoomAsset = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardRoomAsset'))
 
 
 const routes = [
@@ -283,7 +284,8 @@ const routes = [
   { path: '/Home/SecondaryCustodian', exact: true, name: ' Secondary Custodian', component: SecondaryCustodian },
   { path: '/Home/UnitOfMeasurement', exact: true, name: 'Unit Of Measurement', component: UnitOfMeasurement },
   { path: '/Home/AssetModel', exact: true, name: 'Asset Model', component: AssetModel },
-  { path: '/Home/AssetSubModel', exact: true, name: 'Asset SubModel', component: AssetSubModel }
+  { path: '/Home/AssetSubModel', exact: true, name: 'Asset SubModel', component: AssetSubModel },
+  { path: '/Home/RoomAsset', exact: true, name: 'Room Asset', component: RoomAsset }
 ]
 
 export default routes

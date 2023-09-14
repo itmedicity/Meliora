@@ -1,12 +1,8 @@
 import { Box, Paper } from '@mui/material'
-import React from 'react'
-import { useCallback } from 'react'
+import React,{ useCallback,useState,useEffect,memo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
-import { useEffect } from 'react'
-import { useState } from 'react'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
-import { memo } from 'react'
 import DashBoardFloorSort from './DashBoardFloorSort'
 import DashBoardRoom from './DashBoardRoom'
 
@@ -23,7 +19,6 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
       const { success, data } = result.data
       if (success === 2) {
         setFloorArry(data)
-
         const a = data.map((val) => {
           const obj = {
             blockno: val.rm_floor_build_block_slno,
@@ -31,7 +26,6 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
           }
           return obj
         })
-
         const insideBuild = Object.values(
           a.reduce((acc, cur) => Object.assign(acc, { [cur.blockno]: cur }), {}),
         )
@@ -45,8 +39,7 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
 
   const ClosePage = useCallback(() => {
     setFoolrList(0)
-  }, [setFoolrList])
-
+  }, [setFoolrList])  
   return (
     <>
       {roomList === 1 ? (

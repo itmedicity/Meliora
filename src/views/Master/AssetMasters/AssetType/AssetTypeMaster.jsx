@@ -8,11 +8,16 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useMemo } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { useSelector } from 'react-redux'
 
 const AssetTypeMaster = () => {
   const history = useHistory()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
+     // Get login user emp_id
+     const id = useSelector((state) => {
+      return state.LoginUserData.empid
+     })
   const [assetType, setAssetType] = useState({
     asset_type_slno: '',
     asset_type_name: '',
@@ -27,7 +32,6 @@ const AssetTypeMaster = () => {
     },
     [assetType],
   )
-
   const reset = () => {
     const frmdata = {
       asset_type_slno: '',
@@ -38,22 +42,21 @@ const AssetTypeMaster = () => {
     setCount(0)
     setValue(0)
   }
-
   const postdata = useMemo(() => {
     return {
       asset_type_name: asset_type_name,
       asset_type_status: asset_type_status === true ? 1 : 0,
+      create_user: id
     }
-  }, [asset_type_name, asset_type_status])
-
+  }, [asset_type_name, asset_type_status,id])
   const patchdata = useMemo(() => {
     return {
       asset_type_slno: asset_type_slno,
       asset_type_name: asset_type_name,
       asset_type_status: asset_type_status === true ? 1 : 0,
+      edit_user: id
     }
-  }, [asset_type_slno, asset_type_name, asset_type_status])
-
+  }, [asset_type_slno, asset_type_name, asset_type_status,id])
   const sumbitAssetType = useCallback(
     (e) => {
       e.preventDefault()
@@ -84,12 +87,16 @@ const AssetTypeMaster = () => {
         }
       }
       if (value === 0) {
+        if (asset_type_name !== '') {
         InsertAssetType(postdata)
       } else {
+        infoNotify("Please Enter Asset type") 
+      }
+    }else {
         AssetTypeUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count],
+    [postdata, value, patchdata, count,asset_type_name],
   )
   const rowSelect = useCallback((params) => {
     setValue(1)
@@ -113,7 +120,7 @@ const AssetTypeMaster = () => {
       asset_type_status: false,
     }
     setAssetType(frmdata)
-    setValue(0)
+    setValue(0)    
   }, [setAssetType])
   return (
     <CardMaster
@@ -125,7 +132,7 @@ const AssetTypeMaster = () => {
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>
-            <Box sx>
+            <Box >
               <TextFieldCustom
                 placeholder="Asset Type"
                 type="text"
