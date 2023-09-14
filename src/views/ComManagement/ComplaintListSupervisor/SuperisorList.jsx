@@ -839,7 +839,7 @@ const SuperisorList = () => {
                 getPendingVerifyList(em_department)
             }
         }
-    }, [flag, profileData])
+    }, [flag, count, profileData])
 
 
 
@@ -999,7 +999,7 @@ const SuperisorList = () => {
                                     mt: 1,
                                 }} >
                                     <CusCheckBox
-                                        label="Assist"
+                                        label="Assistance Requested"
                                         color="danger"
                                         size="md"
                                         name="assistall"
