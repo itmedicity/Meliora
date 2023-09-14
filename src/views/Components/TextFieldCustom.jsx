@@ -1,4 +1,4 @@
-import { CssVarsProvider, FormControl } from '@mui/joy/'
+import { CssVarsProvider, FormControl } from '@mui/joy'
 import Input from "@mui/joy/Input"
 import React, { Fragment, memo } from 'react'
 
