@@ -128,6 +128,7 @@ const UomMaster = () => {
     }
     setUom(frmdata)
     setValue(0)
+    setSelectFile(null)
   }, [setUom])
   return (
     <CardMaster

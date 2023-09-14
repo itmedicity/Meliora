@@ -25,11 +25,11 @@ const CusCheckBox = ({
                 <Checkbox
                     variant={variant}
                     color={color}
+                    value={value === true ? 1 : 0}
                     size={size}
                     // defaultChecked={false}
                     disabled={disabled}
                     label={label}
-                    value={value}
                     onChange={(e) => onCheked(e)}
                     checked={checked}
                     name={name}

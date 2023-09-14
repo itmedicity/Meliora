@@ -4,7 +4,6 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import AssetCategorySelect from 'src/views/CommonSelectCode/AssetCategorySelect'
 import AssetGroupSlect from 'src/views/CommonSelectCode/AssetGroupSlect'
-import AssetManagementTypeSelect from 'src/views/CommonSelectCode/AssetManagementTypeSelect'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -22,7 +21,9 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined'
 import imageCompression from 'browser-image-compression';
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import CustomeToolTip from 'src/views/Components/CustomeToolTip'
-
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
+import AmAssetTypeSelect from 'src/views/CommonSelectCode/AmAssetTypeSelect'
+import AssetTypeAddModel from './ModelForAssetItemAdd/AssetTypeAddModel'
 
 
 const ItemNameCreation = () => {
@@ -40,7 +41,7 @@ const ItemNameCreation = () => {
   const [submodel, setSubmodel] = useState(0)
   const [subgroup, setSubGroup] = useState(0)
   const [manufacture, setManufacture] = useState(0)
-  const [modelNo,setModelNo]=useState('')
+  const [modelNo, setModelNo] = useState('')
   const [assetName, setAssetName] = useState('')
   const [itemName, setItemName] = useState('')
   const [categoryName, setCategoryName] = useState('')
@@ -50,7 +51,6 @@ const ItemNameCreation = () => {
   const [modelName, setModelName] = useState('')
   const [submodelName, setSubmodelName] = useState('')
   const [uomName, setUomName] = useState('')
-
   const [manufactureName, setManufactureName] = useState('')
   const [assetTypeStatus, setAssetTypeStatus] = useState(true)
   const [itemTypeStatus, setItemTypeSatus] = useState(true)
@@ -174,26 +174,26 @@ const ItemNameCreation = () => {
       setModelNoDis('')
     }
   }
-  
-     const updateModelNo = (e) => {
-     setModelNo(e.target.value )
-     setModelNoDis(e.target.value)
-      }
-    const [item, setItem] = useState({
+
+  const updateModelNo = (e) => {
+    setModelNo(e.target.value)
+    setModelNoDis(e.target.value)
+  }
+  const [item, setItem] = useState({
     item_creation_slno: '',
     item_name: '',
-    item_base_name: '',    
+    item_base_name: '',
     item_specific_one: '',
     item_specific_two: '',
-    item_creation_status: false,    
+    item_creation_status: false,
   })
   const {
     item_creation_slno,
     item_base_name,
     item_specific_one,
     item_specific_two,
-    item_creation_status,      
-     } = item
+    item_creation_status,
+  } = item
 
   const updateItemCreation = useCallback(
     (e) => {
@@ -206,7 +206,7 @@ const ItemNameCreation = () => {
   useEffect(() => {
     if (assettype !== 0) {
       setAssetNameDis(assetName)
-    }   
+    }
     if (itemtype !== 0) {
       setItemNameDis(itemName)
     }
@@ -233,11 +233,11 @@ const ItemNameCreation = () => {
     }
     if (manufacture !== 0) {
       setManufactureDis(manufactureName)
-    }  
-      setModelNoDis(modelNo)
-  
+    }
+    setModelNoDis(modelNo)
+
   }, [assettype, itemtype, category, subcategory, group, subgroup, model, submodel, uom, manufacture, modelNo, assetName,
-    itemName,categoryName,subcatName,groupName,subgroupName,modelName,submodelName,uomName,manufactureName])
+    itemName, categoryName, subcatName, groupName, subgroupName, modelName, submodelName, uomName, manufactureName])
 
   const [itemNamee, setItemNamee] = useState('')
   useEffect(() => {
@@ -261,11 +261,11 @@ const ItemNameCreation = () => {
       uomDis +
       ' ' +
       manufactureDis +
-      
+
       ' ' +
       modelNoDis
     setItemNamee(name)
-  }, [assetNameDis, itemNameDis,categoryDis,subcatDis,groupDis,subgroupDis,modelDis,submodelDis,uomDis,manufactureDis,modelNoDis])
+  }, [assetNameDis, itemNameDis, categoryDis, subcatDis, groupDis, subgroupDis, modelDis, submodelDis, uomDis, manufactureDis, modelNoDis])
 
 
   const postdata = useMemo(() => {
@@ -286,7 +286,7 @@ const ItemNameCreation = () => {
       item_specific_one: item_specific_one,
       item_specific_two: item_specific_two,
       item_creation_status: item_creation_status === true ? 1 : 0,
-          }   
+    }
   }, [
     assettype,
     itemtype,
@@ -341,7 +341,7 @@ const ItemNameCreation = () => {
     item_base_name,
     modelNo,
     item_specific_one,
-    item_specific_two,    
+    item_specific_two,
     item_creation_status,
   ])
 
@@ -349,16 +349,16 @@ const ItemNameCreation = () => {
     const frmdata = {
       item_creation_slno: '',
       item_name: '',
-      item_base_name: '',     
+      item_base_name: '',
       item_specific_one: '',
-      item_specific_two: '',     
+      item_specific_two: '',
       item_creation_status: false,
     }
     setItem(frmdata)
     setCount(0)
     setValue(0)
     setItemtype(0)
-    setAssetType(0)  
+    setAssetType(0)
     setCategory(0)
     setSubcategory(0)
     setGroup(0)
@@ -401,18 +401,16 @@ const ItemNameCreation = () => {
     setUOMdis(uomName)
     setManufactureDis(manufactureName)
     setModelNoDis(modelNo)
-  },[setItem, setCount, setValue, setItemtype, setAssetType, setCategory, setSubcategory, setGroup, setSubGroup, setManufacture, setUOM,
+  }, [setItem, setCount, setValue, setItemtype, setAssetType, setCategory, setSubcategory, setGroup, setSubGroup, setManufacture, setUOM,
     setModel, setSubmodel, setModelNo, setItemNamee, setAssetName, setItemName, setCategoryName, setSubcatName, setGroupName,
     setSubgroupName, setModelName, setSubmodelName, setUomName, setManufactureName, setAssetTypeStatus, setItemTypeSatus, setCategorySatus,
     setSubcatSatus, setGroupStatus, setSubGroupStatus, setModelStatus, setSubModelstatus, setUOMstatus, setManufactureStatus,
     setModelNoStatus, setAssetNameDis, setItemNameDis, setCategoryDis, setSubcatDis, setGroupDis, setSubGroupDis, setModelDis, setSubModelDis,
     setUOMdis, setManufactureDis, setModelNoDis, assetName, itemName, categoryName, subcatName, groupName, subgroupName, modelName, submodelName,
     uomName, manufactureName, modelNo])
-  
-  
-    const uploadFile = async (event) => {
-      const file = event.target.files[0];
-    
+
+       const uploadFile = async (event) => {
+      const file = event.target.files[0];    
       setSelectFile(file);
       const options = {
         maxSizeMB: 1,
@@ -486,8 +484,10 @@ const ItemNameCreation = () => {
       else UpdateItem(patchdata)
     
     },
-    [postdata, value, count, patchdata,reset,selectFile],
+
+    [postdata, value, count, patchdata, reset, selectFile],
   )
+
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
@@ -507,16 +507,16 @@ const ItemNameCreation = () => {
       item_base_name,
       item_model_num,
       item_specific_one,
-      item_specific_two,     
+      item_specific_two,
       item_creation_status,
     } = data[0]
     const frmdata = {
-      item_creation_slno: item_creation_slno,    
-      item_base_name: item_base_name,     
+      item_creation_slno: item_creation_slno,
+      item_base_name: item_base_name,
       item_specific_one: item_specific_one,
       item_specific_two: item_specific_two,
       item_creation_status: item_creation_status === 1 ? true : false,
-          }
+    }
     setItem(frmdata)
     setAssetType(item_asset_type_slno)
     setItemtype(item_type_slno)
@@ -529,7 +529,7 @@ const ItemNameCreation = () => {
     setModel(item_model_slno)
     setSubmodel(item_submodel_slno)
     setItemNamee(item_name)
-    setModelNo(item_model_num)    
+    setModelNo(item_model_num)
   }, [])
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
@@ -541,13 +541,25 @@ const ItemNameCreation = () => {
       item_base_name: '',
       item_model_num: '',
       item_specific_one: '',
-      item_specific_two: '',     
+      item_specific_two: '',
       item_creation_status: false,
     }
     setItem(frmdata)
     reset()
     setValue(0)
-  }, [setItem,reset])
+  }, [setItem, reset])
+
+  const [AssetTypeOpen, setAssetTypeOpen] = useState(false)
+  const [AssetTypeFlag, setAssetTypeFlag] = useState(0)
+  const modelAsset = () => {
+    setAssetTypeFlag(1)
+    setAssetTypeOpen(true)
+  }
+  const handleClose = useCallback(() => {
+    setAssetTypeFlag(0)
+    setAssetTypeOpen(false)
+  }, [setAssetTypeOpen, setAssetTypeFlag])
+
   return (
     <Box>
       <CardMaster
@@ -556,9 +568,10 @@ const ItemNameCreation = () => {
         close={backtoSetting}
         refresh={refreshWindow}
       >
+        {AssetTypeFlag === 1 ? <AssetTypeAddModel open={AssetTypeOpen} handleClose={handleClose} /> : null}
         <Box
           sx={{
-            width: '50%',           
+            width: '50%',
             display: 'flex',
             pt: 2.5,
             margin: 'auto ',
@@ -592,9 +605,9 @@ const ItemNameCreation = () => {
               width: '55%',
             }}
           >
-            <AssetManagementTypeSelect
-              value={assettype}
-              setValue={setAssetType}
+            <AmAssetTypeSelect
+              // value={assettype}
+              setAssetType={setAssetType}
               setName={setAssetName}
             />
           </Box>
@@ -606,7 +619,7 @@ const ItemNameCreation = () => {
           >
             {' '}
             <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon />
+              <AddCircleOutlineIcon onClick={() => modelAsset()} />
             </Tooltip>
           </Box>
         </Box>
@@ -623,7 +636,7 @@ const ItemNameCreation = () => {
               pt: 1.3,
             }}
           >
-            <CusCheckBox              
+            <CusCheckBox
               color="primary"
               size="md"
               name="itemTypeStatus"
@@ -685,7 +698,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '14%',             
+              width: '14%',
               pl: 1,
               pt: 1.3,
             }}
@@ -693,7 +706,7 @@ const ItemNameCreation = () => {
             <Typography>Category</Typography>
           </Box>
           <Box
-            sx={{             
+            sx={{
               width: '55%',
               pt: 1.3,
             }}
@@ -706,7 +719,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '5%',              
+              width: '5%',
               pl: 1,
               pt: 1.3,
             }}
@@ -718,7 +731,7 @@ const ItemNameCreation = () => {
           <Box
             sx={{
               width: '5%',
-              pt: 1.3,            
+              pt: 1.3,
             }}
           >
             <Tooltip title="View " placement="top">
@@ -728,7 +741,7 @@ const ItemNameCreation = () => {
         </Box>
         <Box
           sx={{
-            width: '50%',            
+            width: '50%',
             display: 'flex',
             margin: 'auto',
           }}
@@ -750,7 +763,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '14%',            
+              width: '14%',
               pl: 1,
               pt: 1.3,
             }}
@@ -758,7 +771,7 @@ const ItemNameCreation = () => {
             <Typography>Subcategory</Typography>
           </Box>
           <Box
-            sx={{             
+            sx={{
               width: '55%',
               pt: 1.3,
             }}
@@ -772,7 +785,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '5%',              
+              width: '5%',
               pl: 1,
               pt: 1.3,
             }}
@@ -783,7 +796,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '5%',             
+              width: '5%',
               pt: 1.3,
             }}
           >
@@ -794,18 +807,18 @@ const ItemNameCreation = () => {
         </Box>
         <Box
           sx={{
-            width: '50%',           
+            width: '50%',
             display: 'flex',
             margin: 'auto',
           }}
         >
           <Box
-            sx={{             
+            sx={{
               pl: 0.8,
               pt: 1.3,
             }}
           >
-            <CusCheckBox              
+            <CusCheckBox
               color="primary"
               size="md"
               name="groupStatus"
@@ -833,7 +846,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '5%',              
+              width: '5%',
               pl: 1,
               pt: 1.3,
             }}
@@ -844,7 +857,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '5%',             
+              width: '5%',
               pt: 1.3,
             }}
           >
@@ -855,18 +868,18 @@ const ItemNameCreation = () => {
         </Box>
         <Box
           sx={{
-            width: '50%',           
+            width: '50%',
             display: 'flex',
             margin: 'auto',
           }}
         >
           <Box
-            sx={{            
+            sx={{
               pl: 0.8,
               pt: 1.3,
             }}
           >
-            <CusCheckBox             
+            <CusCheckBox
               color="primary"
               size="md"
               name="subgroupStatus"
@@ -877,7 +890,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '14%',             
+              width: '14%',
               pl: 1,
               pt: 1.3,
             }}
@@ -885,7 +898,7 @@ const ItemNameCreation = () => {
             <Typography>Subgroup</Typography>
           </Box>
           <Box
-            sx={{             
+            sx={{
               width: '55%',
               pt: 1.3,
             }}
@@ -899,7 +912,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '5%',             
+              width: '5%',
               pl: 1,
               pt: 1,
             }}
@@ -910,7 +923,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '5%',             
+              width: '5%',
               pt: 1,
             }}
           >
@@ -921,18 +934,18 @@ const ItemNameCreation = () => {
         </Box>
         <Box
           sx={{
-            width: '50%',          
+            width: '50%',
             display: 'flex',
             margin: 'auto',
           }}
         >
           <Box
-            sx={{           
+            sx={{
               pl: 0.8,
               pt: 1.3,
             }}
           >
-            <CusCheckBox            
+            <CusCheckBox
               color="primary"
               size="md"
               name="modelStatus"
@@ -943,7 +956,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '14%',             
+              width: '14%',
               pl: 1,
               pt: 1.3,
             }}
@@ -951,7 +964,7 @@ const ItemNameCreation = () => {
             <Typography>Model</Typography>
           </Box>
           <Box
-            sx={{             
+            sx={{
               width: '55%',
               pt: 1.3,
             }}
@@ -960,7 +973,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '5%',             
+              width: '5%',
               pl: 1,
               pt: 1,
             }}
@@ -971,7 +984,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '5%',             
+              width: '5%',
               pt: 1,
             }}
           >
@@ -982,18 +995,18 @@ const ItemNameCreation = () => {
         </Box>
         <Box
           sx={{
-            width: '50%',          
+            width: '50%',
             display: 'flex',
             margin: 'auto',
           }}
         >
           <Box
-            sx={{           
+            sx={{
               pl: 0.8,
               pt: 1.3,
             }}
           >
-            <CusCheckBox            
+            <CusCheckBox
               color="primary"
               size="md"
               name="submodelStatus"
@@ -1004,7 +1017,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '14%',             
+              width: '14%',
               pl: 1,
               pt: 1.3,
             }}
@@ -1012,7 +1025,7 @@ const ItemNameCreation = () => {
             <Typography>Submodel</Typography>
           </Box>
           <Box
-            sx={{             
+            sx={{
               width: '55%',
               pt: 1.3,
             }}
@@ -1026,7 +1039,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '5%',             
+              width: '5%',
               pl: 1,
               pt: 1,
             }}
@@ -1037,7 +1050,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '5%',             
+              width: '5%',
               pt: 1,
             }}
           >
@@ -1048,18 +1061,18 @@ const ItemNameCreation = () => {
         </Box>
         <Box
           sx={{
-            width: '50%',           
+            width: '50%',
             display: 'flex',
             margin: 'auto',
           }}
         >
           <Box
-            sx={{              
+            sx={{
               pl: 0.8,
               pt: 1.3,
             }}
           >
-            <CusCheckBox           
+            <CusCheckBox
               color="primary"
               size="md"
               name="uomStatus"
@@ -1070,7 +1083,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '14%',             
+              width: '14%',
               pl: 1,
               pt: 1.3,
             }}
@@ -1078,7 +1091,7 @@ const ItemNameCreation = () => {
             <Typography>U.O.M</Typography>
           </Box>
           <Box
-            sx={{             
+            sx={{
               width: '55%',
               pt: 1.3,
             }}
@@ -1087,7 +1100,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '5%',             
+              width: '5%',
               pl: 1,
               pt: 1,
             }}
@@ -1099,18 +1112,18 @@ const ItemNameCreation = () => {
         </Box>
         <Box
           sx={{
-            width: '50%',          
+            width: '50%',
             display: 'flex',
             margin: 'auto',
           }}
         >
           <Box
-            sx={{             
+            sx={{
               pl: 0.8,
               pt: 1.3,
             }}
           >
-            <CusCheckBox            
+            <CusCheckBox
               color="primary"
               size="md"
               name="manufactureStatus"
@@ -1121,7 +1134,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '14%',              
+              width: '14%',
               pl: 1,
               pt: 1.3,
             }}
@@ -1129,7 +1142,7 @@ const ItemNameCreation = () => {
             <Typography>Manufacture</Typography>
           </Box>
           <Box
-            sx={{             
+            sx={{
               width: '55%',
               pt: 1.3,
             }}
@@ -1142,7 +1155,7 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '5%',             
+              width: '5%',
               pl: 1,
               pt: 1,
             }}
@@ -1155,14 +1168,14 @@ const ItemNameCreation = () => {
 
         <Box
           sx={{
-            width: '65%',           
+            width: '65%',
             display: 'flex',
             margin: 'auto',
             pt: 3,
           }}
         >
           <Box>
-            <CusCheckBox              
+            <CusCheckBox
               color="primary"
               size="md"
               name="modelNoStatus"
@@ -1173,16 +1186,16 @@ const ItemNameCreation = () => {
           </Box>
           <Box
             sx={{
-              width: '13%',            
+              width: '13%',
               pl: 1,
-              display: 'flex',             
+              display: 'flex',
             }}
           >
             <Typography>Model No.</Typography>
           </Box>
           <Box
-            sx={{           
-              width: '35%',             
+            sx={{
+              width: '35%',
             }}
           >
             <TextFieldCustom
@@ -1191,7 +1204,7 @@ const ItemNameCreation = () => {
               name="modelNo"
               value={modelNo}
               onchange={updateModelNo}
-                         ></TextFieldCustom>
+            ></TextFieldCustom>
           </Box>
 
           <Box
@@ -1223,14 +1236,14 @@ const ItemNameCreation = () => {
             width: '65%',
             display: 'flex',
             pt: 1,
-            margin: 'auto',           
+            margin: 'auto',
           }}
         >
           <Box
             sx={{
               width: '14.8%',
               textAlign: 'left',
-              pl: 3,             
+              pl: 3,
             }}
           >
             <Typography>Specification 1</Typography>
@@ -1307,7 +1320,7 @@ const ItemNameCreation = () => {
               type="text"
               size="sm"
               name="itemNamee"
-              value={itemNamee}             
+              value={itemNamee}
             ></TextFieldCustom>
           </Box>
           </Box>
@@ -1343,7 +1356,7 @@ const ItemNameCreation = () => {
         
 
         <Box
-          sx={{            
+          sx={{
             width: '65%',
             margin: 'auto',
           }}

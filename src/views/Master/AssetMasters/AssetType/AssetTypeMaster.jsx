@@ -41,6 +41,7 @@ const AssetTypeMaster = () => {
     setAssetType(frmdata)
     setCount(0)
     setValue(0)
+    setSelectFile(null)
   }
   const postdata = useMemo(() => {
     return {
@@ -120,8 +121,9 @@ const AssetTypeMaster = () => {
       asset_type_status: false,
     }
     setAssetType(frmdata)
-    setValue(0)    
-  }, [setAssetType])
+    setValue(0) 
+    setSelectFile(null)
+  }, [setAssetType,setSelectFile])
   return (
     <CardMaster
       title="Asset Master"

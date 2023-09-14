@@ -127,6 +127,7 @@ const ManufactureMast = () => {
     }
     setManufacture(frmdata)
     setValue(0)
+
   }, [setManufacture])
   return (
     <CardMaster
