@@ -338,6 +338,7 @@ const DirectComplaintReg = () => {
                     flexDirection: 'column',
                 }}
             >
+                <CustomBackDrop open={open} text="Please Wait" />
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'row',

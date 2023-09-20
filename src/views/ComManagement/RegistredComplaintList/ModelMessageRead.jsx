@@ -272,7 +272,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                                                     {message_reply_emp}
                                                 </Paper>
                                             </Box>
-                                            <Box
+                                            {read_user !== null ? <Box
                                                 sx={{
                                                     width: "100%",
                                                     display: "flex",
@@ -283,7 +283,8 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                                                     <Typography sx={{ fontSize: 15, pr: 6 }}>Message Read Employee:</Typography>
                                                     <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}> {read_user.toLowerCase()}</Typography>
                                                 </CssVarsProvider>
-                                            </Box>
+                                            </Box> : null}
+
                                         </Box>
                                 }
                             </Box>
