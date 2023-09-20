@@ -13,6 +13,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 import { format } from 'date-fns'
 import { CssVarsProvider, Typography } from '@mui/joy'
+import CusCheckBox from 'src/views/Components/CusCheckBox';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -29,6 +30,33 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
     // state for remarks
     const [messagee, setMessage] = useState('');
     const [getAssignEmp, setGetAssignEmp] = useState([])
+    //state for verified checkbox
+    const [verify, setVerify] = useState(false);
+    //state for notrectified
+    const [notrectify, setNotrectify,] = useState(false);
+    const [flag, setFlag] = useState(0)
+    const updateVerify = (e) => {
+        if (e.target.checked === true) {
+            setVerify(true)
+            setNotrectify(false)
+            setFlag(1)
+        } else {
+            setFlag(0)
+            setVerify(false)
+        }
+    }
+    //function for update not rectify check box
+    const updateNotrectify = (e) => {
+        if (e.target.checked === true) {
+            setNotrectify(true)
+            setVerify(false)
+            setFlag(2)
+        } else {
+            setFlag(0)
+            setNotrectify(false)
+        }
+    }
+
     //updating remark state
     const updateMessage = useCallback((e) => {
         setMessage(e.target.value)
@@ -38,6 +66,9 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
     const reset = useCallback(() => {
         setOpen(false)
         setMessage('')
+        setVerify(false)
+        setNotrectify(false)
+        setFlag(0)
     }, [setOpen, setMessage])
 
     const VerifyData = useMemo(() => {
@@ -60,8 +91,8 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
         }
     }, [complaint_slno, messagee, id])
 
-    //Verified and Update complaint Mast Table
-    const Verified = useCallback(() => {
+
+    const Submit = useCallback(() => {
         const Verified = async (VerifyData) => {
             const result = await axioslogin.patch(`/complaintassign/SupervsrVerify`, VerifyData);
             const { message, success } = result.data;
@@ -75,12 +106,8 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
                 infoNotify(message)
             }
         }
-        Verified(VerifyData);
-    }, [VerifyData, setCount, count, reset])
 
-    //Not verify Api, Update complaint Mast Table
-    const NotVerified = useCallback(() => {
-        const Verified = async (NotVerifyData) => {
+        const NotVerified = async (NotVerifyData) => {
             const result = await axioslogin.patch(`/complaintassign/SupervsrVerify`, NotVerifyData);
             const { message, success } = result.data;
             if (success === 1) {
@@ -93,8 +120,19 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
                 infoNotify(message)
             }
         }
-        Verified(NotVerifyData);
-    }, [NotVerifyData, setCount, reset, count])
+
+        if (flag === 1) {
+            Verified(VerifyData)
+        } else if (flag === 2) {
+            NotVerified(NotVerifyData)
+        }
+    }, [flag, VerifyData, NotVerifyData, reset, setCount, count])
+
+
+    const Close = useCallback(() => {
+        reset();
+    }, [reset])
+
 
     useEffect(() => {
         const getEmployeees = async () => {
@@ -129,7 +167,7 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
-                        Message Send to User
+                        Supervisor Verification
                     </DialogContentText>
 
                     <Box sx={{ width: "100%", mt: 0 }}>
@@ -360,7 +398,7 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
                                         </CssVarsProvider>
                                     </Box>
 
-                                    <Box sx={{}}                                    >
+                                    <Box sx={{ pl: 0.7 }}                                    >
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}> {format(new Date(assigned_date), 'dd-MM-yyyy hh:mm:ss')}</Typography>
                                         </CssVarsProvider>
@@ -381,6 +419,7 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
                                         </CssVarsProvider>
                                     </Box>
                                     <Paper sx={{
+                                        pl: 0.7,
                                         width: "75%", minHeight: 10, maxHeight: 70, fontSize: 15,
                                         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                     }} variant='none'>
@@ -402,13 +441,60 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
                                         </CssVarsProvider>
                                     </Box>
 
-                                    <Box sx={{}}                                    >
+                                    <Box sx={{ pl: 0.7 }}                                    >
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}> {format(new Date(cm_rectify_time), 'dd-MM-yyyy hh:mm:ss')}</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
 
+
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    p: 0.5,
+                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                }}>
+
+
+                                    <Box sx={{
+                                        pl: 26, width: "60%",
+                                        display: "flex",
+                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    }}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%', },
+                                            p: 1
+                                        }} >
+                                            <CusCheckBox
+                                                label="Verified"
+                                                color="primary"
+                                                size="md"
+                                                name="verify"
+                                                value={verify}
+                                                checked={verify}
+                                                onCheked={updateVerify}
+                                            />
+                                        </Box>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            width: "50%",
+                                            p: 1
+                                            // width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%', }
+                                        }} >
+                                            <CusCheckBox
+                                                label="Not Verified"
+                                                color="primary"
+                                                size="md"
+                                                name="notrectify"
+                                                value={notrectify}
+                                                checked={notrectify}
+                                                onCheked={updateNotrectify}
+                                            />
+                                        </Box>
+                                    </Box>
+                                </Box>
 
                                 <Box sx={{
                                     width: "100%",
@@ -438,11 +524,11 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="secondary" onClick={Verified} >Verify</Button>
-                    <Button color="secondary" onClick={NotVerified}>Not Verify</Button>
+                    <Button color="secondary" onClick={Submit} >Save</Button>
+                    <Button color="secondary" onClick={Close}>Close</Button>
                 </DialogActions>
-            </Dialog>
-        </Fragment>
+            </Dialog >
+        </Fragment >
     )
 }
 

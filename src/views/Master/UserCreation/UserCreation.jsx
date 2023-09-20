@@ -21,7 +21,7 @@ import CustomeToolTip from '../../Components/CustomeToolTip';
 import CardMaster from 'src/views/Components/CardMaster'
 import ModuleGroupSelect from 'src/views/CommonSelectCode/ModuleGroupSelect'
 import UserGroupSelect from 'src/views/CommonSelectCode/UserGroupSelect'
-import SelectComTypeUser from 'src/views/CommonSelectCode/SelectComTypeUser'
+// import SelectComTypeUser from 'src/views/CommonSelectCode/SelectComTypeUser'
 const UserCreation = () => {
     //*** Initializing */
 
@@ -43,7 +43,7 @@ const UserCreation = () => {
     const [usergroup, setUsergroup] = useState(0)
     const [mastdetl, setDetlSlno] = useState(0)
     const [supervis, setSupervise] = useState(false)
-    const [comTpeMap, setComTypeMap] = useState([])
+    // const [comTpeMap, setComTypeMap] = useState([])
     const [userdata, setUserdata] = useState({
         em_name: '',
         em_mobile: '',
@@ -99,7 +99,7 @@ const UserCreation = () => {
         const data = params.api.getSelectedRows();
         const { em_id, em_no, em_name, em_salutation, em_gender, em_dob, em_doj, em_mobile, em_email, em_branch,
             em_department, em_dept_section, em_designation, em_status, mod_grp_slno, user_group_slno,
-            mod_grp_user_slno, empdtl_slno, supervisor, comp_type_map } = data[0]
+            mod_grp_user_slno, empdtl_slno, supervisor } = data[0]
         const frmdata = {
             em_name: em_name,
             em_mobile: em_mobile,
@@ -122,8 +122,8 @@ const UserCreation = () => {
         setdob(format(new Date(em_dob), "yyyy-MM-dd"))
         setdoj(format(new Date(em_doj), "yyyy-MM-dd"))
         setSupervise(supervisor === 1 ? true : false)
-        const comptypemap = comp_type_map !== [] ? JSON.parse(comp_type_map) : []
-        setComTypeMap(comptypemap)
+        // const comptypemap = comp_type_map !== [] ? JSON.parse(comp_type_map) : []
+        // setComTypeMap(comptypemap)
     }, [])
     //Insert data
     const postdata = useMemo(() => {
@@ -156,9 +156,10 @@ const UserCreation = () => {
             create_user: id,
             emp_slno: em_id,
             supervisor: supervis === true ? 1 : 0,
-            comp_type_map: comTpeMap !== [] ? comTpeMap : null
+            // comp_type_map: comTpeMap !== [] ? comTpeMap : null
         }
-    }, [em_id, em_no, mastdetl, salut, supervis, comTpeMap, em_name, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
+    }, [em_id, em_no, mastdetl, salut, supervis, em_name, usergroup, modulegroup,
+        dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
 
     //Update data
     const patchdata = useMemo(() => {
@@ -192,9 +193,10 @@ const UserCreation = () => {
             mod_grp_user_slno: mod_grp_user_slno,
             edit_user: id,
             supervisor: supervis === true ? 1 : 0,
-            comp_type_map: comTpeMap !== [] ? comTpeMap : null
+            // comp_type_map: comTpeMap !== [] ? comTpeMap : null
         }
-    }, [em_id, em_no, mastdetl, salut, em_name, supervis, comTpeMap, mod_grp_user_slno, usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
+    }, [em_id, em_no, mastdetl, salut, em_name, supervis, mod_grp_user_slno,
+        usergroup, modulegroup, dob, doj, id, gender, em_mobile, em_email, branch, dept, deptsec, designation, em_status])
 
     const reset = () => {
         const formreset = {
@@ -221,7 +223,7 @@ const UserCreation = () => {
         setUsergroup(0)
         setDetlSlno(0)
         setSupervise(false)
-        setComTypeMap([])
+        // setComTypeMap([])
     }
 
 
@@ -473,9 +475,9 @@ const UserCreation = () => {
                             />
                         </Box>
 
-                        {supervis === true ? <Box sx={{ width: "20%", pr: 1, pt: 0.5 }}>
+                        {/* {supervis === true ? <Box sx={{ width: "20%", pr: 1, pt: 0.5 }}>
                             <SelectComTypeUser value={comTpeMap} setValue={setComTypeMap} />
-                        </Box> : null}
+                        </Box> : null} */}
 
                     </Box>
                 </Paper>
