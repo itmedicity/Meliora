@@ -21,7 +21,7 @@ import CustomeToolTip from '../../Components/CustomeToolTip';
 import CardMaster from 'src/views/Components/CardMaster'
 import ModuleGroupSelect from 'src/views/CommonSelectCode/ModuleGroupSelect'
 import UserGroupSelect from 'src/views/CommonSelectCode/UserGroupSelect'
-import SelectComTypeUser from 'src/views/CommonSelectCode/SelectComTypeUser'
+// import SelectComTypeUser from 'src/views/CommonSelectCode/SelectComTypeUser'
 const UserCreation = () => {
     //*** Initializing */
 
@@ -99,7 +99,7 @@ const UserCreation = () => {
         const data = params.api.getSelectedRows();
         const { em_id, em_no, em_name, em_salutation, em_gender, em_dob, em_doj, em_mobile, em_email, em_branch,
             em_department, em_dept_section, em_designation, em_status, mod_grp_slno, user_group_slno,
-            mod_grp_user_slno, empdtl_slno, supervisor, comp_type_map } = data[0]
+            mod_grp_user_slno, empdtl_slno, supervisor } = data[0]
         const frmdata = {
             em_name: em_name,
             em_mobile: em_mobile,
