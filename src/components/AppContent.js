@@ -8,7 +8,7 @@ import BackDrop from 'src/views/Components/BackDrop'
 
 const AppContent = () => {
   return (
-    <CContainer fluid  >
+    <CContainer fluid>
       <Suspense fallback={<BackDrop />}>
         <Switch>
           {routes.map((route, idx) => {

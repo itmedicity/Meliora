@@ -106,7 +106,7 @@ const VerifyModal = ({ open, setOpen, mddata, count, setCount }) => {
                 </DialogTitle>
                 <DialogContent sx={{
                     width: 400,
-                    height: 200
+                    height: 130
                 }}>
                     <Box sx={{ width: "100%", mt: 0 }}>
                         <Paper square elevation={3} sx={{ p: 1, mt: 1 }} >
