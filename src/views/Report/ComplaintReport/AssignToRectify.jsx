@@ -71,6 +71,7 @@ const AssignToRectify = () => {
                 setOpen(false)
             }
             else {
+                setTableData([])
                 warningNotify("No Data In Selected Condition")
                 setOpen(false)
             }

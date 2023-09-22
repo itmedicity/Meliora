@@ -56,6 +56,7 @@ const DeptWiseReport = () => {
                 setOpen(false)
             }
             else {
+                setTableData([])
                 warningNotify("No complaint Registered In selected Date Range")
                 setOpen(false)
             }

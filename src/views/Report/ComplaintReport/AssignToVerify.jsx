@@ -72,6 +72,7 @@ const AssignToVerify = () => {
                 setOpen(false)
             }
             else {
+                setTableData([])
                 warningNotify("No Data In Selected Condition")
                 setOpen(false)
             }

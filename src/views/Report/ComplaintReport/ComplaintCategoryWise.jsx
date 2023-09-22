@@ -76,6 +76,7 @@ const ComplaintCategoryWise = () => {
             }
             else {
                 warningNotify("No Data In Selected Condition")
+                setTableData([])
                 setOpen(false)
             }
         }
