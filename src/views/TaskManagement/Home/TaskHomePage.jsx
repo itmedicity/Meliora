@@ -1,14 +1,9 @@
 import { Box } from '@mui/joy'
 import { Paper } from '@mui/material';
-import React, { useEffect, useState } from 'react'
-import { memo } from 'react'
+import React, { memo } from 'react'
 import { innerHeight } from 'src/views/Constant/Constant';
 
 const TaskHomePage = () => {
-
-    const [screenHeight, setScreenHeight] = useState(window.innerHeight);
-
-
 
     return (
         <Box sx={{
