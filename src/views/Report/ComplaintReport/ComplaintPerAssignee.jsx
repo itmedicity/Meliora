@@ -13,12 +13,14 @@ import DownloadIcon from '@mui/icons-material/Download'
 import CustomeToolTip from '../../Components/CustomeToolTip'
 import { ActionTyps } from 'src/redux/constants/action.type'
 import ComplaintDeptSelect from 'src/views/CommonSelectCode/ComplaintDeptSelect';
+import CustomBackDrop from 'src/views/Components/CustomBackDrop';
 import { axioslogin } from 'src/views/Axios/Axios';
 
 
 const ComplaintPerAssignee = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const [open, setOpen] = useState(false)
     const [exports, setexport] = useState(0)
     const [dateset, SetDate] = useState({
         start_date: new Date(),
@@ -42,39 +44,38 @@ const ComplaintPerAssignee = () => {
     }, [start_date, end_date, compdept])
 
 
-    const [getDataList, setGetDataList] = useState(0)
+    const [tabledata, setTableData] = useState([])
+
     const clicksearch = useCallback(async (e) => {
+        setOpen(true)
         e.preventDefault();
         const result = await axioslogin.post(`/getTatReports/ReqComPerAssigne`, postdata);
         const { success, data } = result.data
         if (success === 1) {
-            setGetDataList(data)
+            const dispalyData = data && data.map((val) => {
+                const obj = {
+                    slno: val.complaint_slno,
+                    date: format(new Date(val.compalint_date), 'dd-MM-yyyy'),
+                    location: val.location !== null ? val.location : "Not Given",
+                    desc: val.complaint_desc,
+                    category: val.complaint_type_name !== null ? val.complaint_type_name : "Not Given",
+                    priority: val.cm_priority_desc !== null ? val.cm_priority_desc : "Not Given",
+                    requestdate: val.compalint_date !== null ? format(new Date(val.compalint_date), 'dd-MM-yyyy H:mm:ss') : "Not Given",
+                    assigndate: val.assigned_date !== null ? format(new Date(val.assigned_date), 'dd-MM-yyyy H:mm:ss') : "Not Given",
+                    assigned_emp: val.assign !== null ? val.assign : "Not assigned",
+                    rectifydate: val.cm_rectify_time !== null ? format(new Date(val.cm_rectify_time), 'dd-MM-yyyy H:mm:ss') : "Not Done",
+                    verifydate: val.cm_verfy_time !== null ? format(new Date(val.cm_verfy_time), 'dd-MM-yyyy H:mm:ss') : "Not Done",
+                }
+                return obj
+            })
+            setTableData(dispalyData)
+            setOpen(false)
+        }
+        else {
+            warningNotify("No Data In Selected Condition")
+            setOpen(false)
         }
     }, [postdata])
-
-
-    const [tabledata, setTableData] = useState([])
-
-    useEffect(() => {
-        const dispalyData = getDataList && getDataList.map((val) => {
-            const obj = {
-                slno: val.complaint_slno,
-                date: format(new Date(val.compalint_date), 'dd-MM-yyyy'),
-                location: val.location !== null ? val.location : "Not Given",
-                desc: val.complaint_desc,
-                category: val.complaint_type_name !== null ? val.complaint_type_name : "Not Given",
-                priority: val.cm_priority_desc !== null ? val.cm_priority_desc : "Not Given",
-                requestdate: val.compalint_date !== null ? format(new Date(val.compalint_date), 'dd-MM-yyyy H:mm:ss') : "Not Given",
-                assigndate: val.assigned_date !== null ? format(new Date(val.assigned_date), 'dd-MM-yyyy H:mm:ss') : "Not Given",
-                assigned_emp: val.assign !== null ? val.assign : "Not assigned",
-                rectifydate: val.cm_rectify_time !== null ? format(new Date(val.cm_rectify_time), 'dd-MM-yyyy H:mm:ss') : "Not Done",
-                verifydate: val.cm_verfy_time !== null ? format(new Date(val.cm_verfy_time), 'dd-MM-yyyy H:mm:ss') : "Not Done",
-            }
-            return obj
-        })
-        setTableData(dispalyData)
-
-    }, [getDataList])
 
     const [columnDefs] = useState([
         { headerName: "SlNo", field: "slno", autoHeight: true, wrapText: true, minWidth: 100 },
@@ -122,6 +123,7 @@ const ComplaintPerAssignee = () => {
             title='Complaint Per Assignee Report'
             close={backToSetting}
         >
+            <CustomBackDrop open={open} text="Please Wait" />
             <Box
                 sx={{
                     display: 'flex',

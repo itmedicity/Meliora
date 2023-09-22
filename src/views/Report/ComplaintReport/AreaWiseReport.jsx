@@ -6,19 +6,20 @@ import CusIconButton from '../../Components/CusIconButton';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import { format } from 'date-fns'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import CusAgGridForReport from 'src/views/Components/CusAgGridForReport';
 import { warningNotify } from '../../Common/CommonCode';
 import DownloadIcon from '@mui/icons-material/Download'
 import CustomeToolTip from '../../Components/CustomeToolTip'
 import { ActionTyps } from 'src/redux/constants/action.type'
-import { getAreaWiseList } from 'src/redux/actions/ReqAreaWiseReport.action';
 import LocationSelectWithoutName from 'src/views/CommonSelectCode/LocationSelectWithoutName';
-
+import CustomBackDrop from 'src/views/Components/CustomBackDrop';
+import { axioslogin } from 'src/views/Axios/Axios';
 
 const AreaWiseReport = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const [open, setOpen] = useState(false)
     const [exports, setexport] = useState(0)
     const [dateset, SetDate] = useState({
         start_date: new Date(),
@@ -41,38 +42,46 @@ const AreaWiseReport = () => {
     }, [start_date, end_date, location])
 
 
-    const getDataList = useSelector((state) => {
-        return state.getAreaWiseList.AreaWiseList
-    })
-
-    const clicksearch = useCallback((e) => {
-        e.preventDefault();
-        dispatch(getAreaWiseList(postdata))
-    }, [postdata, dispatch])
-
+    // const getDataList = useSelector((state) => {
+    //     return state.getAreaWiseList.AreaWiseList
+    // })
 
     const [tabledata, setTableData] = useState([])
 
-    useEffect(() => {
-        const dispalyData = getDataList && getDataList.map((val) => {
-            const obj = {
-                slno: val.complaint_slno,
-                date: format(new Date(val.compalint_date), 'dd-MM-yyyy'),
-                location: val.location !== null ? val.location : "Not Given",
-                desc: val.complaint_desc,
-                category: val.complaint_type_name !== null ? val.complaint_type_name : "Not Given",
-                priority: val.cm_priority_desc !== null ? val.cm_priority_desc : "Not Given",
-                requestdate: val.compalint_date !== null ? format(new Date(val.compalint_date), 'dd-MM-yyyy H:mm:ss') : "Not Given",
-                assigndate: val.assigned_date !== null ? format(new Date(val.assigned_date), 'dd-MM-yyyy H:mm:ss') : "Not Given",
-                rectifydate: val.cm_rectify_time !== null ? format(new Date(val.cm_rectify_time), 'dd-MM-yyyy H:mm:ss') : "Not Given",
-                verifydate: val.cm_verfy_time !== null ? format(new Date(val.cm_verfy_time), 'dd-MM-yyyy H:mm:ss') : "Not Assigned",
-                tat: (val.tat === 0 || val.tat === null) ? "Not asssigned" : val.tat + "Minutes"
+    const clicksearch = useCallback((e) => {
+        e.preventDefault();
+        setOpen(true)
+        const getdatas = async () => {
+            const result = await axioslogin.post(`/getTatReports/ReqAreaWise`, postdata);
+            const { success, data } = result.data
+            if (success === 1) {
+                const dispalyData = data && data.map((val) => {
+                    const obj = {
+                        slno: val.complaint_slno,
+                        date: format(new Date(val.compalint_date), 'dd-MM-yyyy'),
+                        location: val.location !== null ? val.location : "Not Given",
+                        desc: val.complaint_desc,
+                        category: val.complaint_type_name !== null ? val.complaint_type_name : "Not Given",
+                        priority: val.cm_priority_desc !== null ? val.cm_priority_desc : "Not Given",
+                        requestdate: val.compalint_date !== null ? format(new Date(val.compalint_date), 'dd-MM-yyyy H:mm:ss') : "Not Given",
+                        assigndate: val.assigned_date !== null ? format(new Date(val.assigned_date), 'dd-MM-yyyy H:mm:ss') : "Not Given",
+                        rectifydate: val.cm_rectify_time !== null ? format(new Date(val.cm_rectify_time), 'dd-MM-yyyy H:mm:ss') : "Not Given",
+                        verifydate: val.cm_verfy_time !== null ? format(new Date(val.cm_verfy_time), 'dd-MM-yyyy H:mm:ss') : "Not Assigned",
+                        tat: (val.tat === 0 || val.tat === null) ? "Not asssigned" : val.tat + "Minutes"
+                    }
+                    return obj
+                })
+                setTableData(dispalyData)
+                setOpen(false)
             }
-            return obj
-        })
-        setTableData(dispalyData)
-
-    }, [getDataList])
+            else {
+                warningNotify("No Data In Selected Condition")
+                setOpen(false)
+            }
+        }
+        getdatas()
+        // dispatch(getAreaWiseList(postdata))
+    }, [postdata])
 
     const [columnDefs] = useState([
         { headerName: "SlNo", field: "slno", autoHeight: true, wrapText: true, minWidth: 100 },
@@ -89,12 +98,15 @@ const AreaWiseReport = () => {
     ])
 
     const onExportClick = () => {
+
         if (tabledata.length === 0) {
             warningNotify("No Data For Download, Please select dates")
             setexport(0)
+            setOpen(false)
         }
         else {
             setexport(1)
+            setOpen(false)
         }
     }
 
@@ -111,6 +123,7 @@ const AreaWiseReport = () => {
 
     const backToSetting = useCallback(() => {
         history.push(`/Home/Reports`)
+        setOpen(false)
     }, [history])
 
 
@@ -119,6 +132,8 @@ const AreaWiseReport = () => {
             title='Area Wise Complaint Report'
             close={backToSetting}
         >
+
+            <CustomBackDrop open={open} text="Please Wait" />
             <Box
                 sx={{
                     display: 'flex',

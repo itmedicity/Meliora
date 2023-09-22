@@ -15,17 +15,14 @@ export const cms_one = [
     { to: '/Home/CmsReportDeptWise', name: 'All Complaint Dept Wise', slno: 114 },
     { to: '/Home/RequestToVerify', name: 'Request To Verification', slno: 133 },
     { to: '/Home/RectifyToVerify', name: 'Rectification To Verification', slno: 136 },
-    { to: '/Home/ComplaintAssignee', name: 'Complaint Per Assignee', slno: 142 },
-
+    { to: '/Home/TatPerAssignee', name: 'TAT per Compliant Assignee', slno: 143 },
 
 ]
 export const cms_two = [
     { to: '/Home/RequstToAssign', name: 'Request To Assign', slno: 131 },
     { to: '/Home/AssignToRectify', name: 'Assign To Rectification', slno: 134 },
     { to: '/Home/ComplaintCategoryReport', name: 'Complaint Category Report', slno: 140 },
-    { to: '/Home/TatPerAssignee', name: 'TAT per Compliant Assignee', slno: 143 },
-
-
+    { to: '/Home/ComplaintAssignee', name: 'Complaint Per Assignee', slno: 142 },
 
 ]
 export const cms_three = [
