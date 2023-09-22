@@ -85,3 +85,6 @@ export const urlExist = (url, callBack) => {
         };
     }
 }
+
+export const innerHeight = window.innerHeight;
+export const innerWidth = window.innerWidth;

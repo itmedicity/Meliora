@@ -305,7 +305,7 @@ const SuperisorList = () => {
     const [AssistReqAll] = useState([
 
         {
-            headerName: 'Action', minWidth: 50, cellRenderer: params => <Fragment>
+            headerName: 'Action', minWidth: 30, cellRenderer: params => <Fragment>
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                     onClick={() => AssistTrasfer(params)}>
                     <CustomeToolTip title="Assist Trasfer" >
@@ -314,11 +314,9 @@ const SuperisorList = () => {
                 </IconButton>
             </Fragment>
         },
-
-
         { headerName: "SlNo", field: "complaint_slno", minWidth: 30 },
         {
-            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250,
+            headerName: "Employee Name", field: "assist_request_emp", filter: true, autoHeight: true, wrapText: true,
             cellStyle: (params) => {
                 if (params.data.cm_rectify_status === 'Z') {
                     return { color: 'red' };
@@ -327,14 +325,8 @@ const SuperisorList = () => {
                 }
             }
         },
-        { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 220 },
-        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-
         {
-            headerName: "Employee Name", field: "em_name", filter: true, autoHeight: true, wrapText: true,
+            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 350,
             cellStyle: (params) => {
                 if (params.data.cm_rectify_status === 'Z') {
                     return { color: 'red' };
@@ -343,19 +335,17 @@ const SuperisorList = () => {
                 }
             }
         },
-        { headerName: "Request Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Assign Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, filter: true, wrapText: true }
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Com.Request Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Assist.Request Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
     ])
 
 
     //when we click on all compalint this table  will show  
     const [VeryPendSuper] = useState([
-
-
-
         {
-            headerName: 'Action', minWidth: 50, cellRenderer: params => <Fragment>
+            headerName: 'Action', minWidth: 10, cellRenderer: params => <Fragment>
                 <IconButton sx={{ color: editicon, paddingY: 0.5 }}
                     onClick={() => verifySupervisr(params)}>
                     <CustomeToolTip title="Verify" >
@@ -364,27 +354,9 @@ const SuperisorList = () => {
                 </IconButton>
             </Fragment>
         },
-
-
         { headerName: "SlNo", field: "complaint_slno", minWidth: 30 },
         {
-            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250,
-            cellStyle: (params) => {
-                if (params.data.cm_rectify_status === 'Z') {
-                    return { color: 'red' };
-                } else {
-                    return null;
-                }
-            }
-        },
-        { headerName: "Department Section", field: "sec_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 220 },
-        { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
-
-        {
-            headerName: "Employee Name", field: "em_name", filter: true, autoHeight: true, wrapText: true,
+            headerName: "Employee Name", field: "assigned_employee", filter: true, autoHeight: true, wrapText: true,
             cellStyle: (params) => {
                 if (params.data.cm_rectify_status === 'Z') {
                     return { color: 'red' };
@@ -394,8 +366,20 @@ const SuperisorList = () => {
             }
         },
         { headerName: "Request Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 200 },
+        {
+            headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300,
+            cellStyle: (params) => {
+                if (params.data.cm_rectify_status === 'Z') {
+                    return { color: 'red' };
+                } else {
+                    return null;
+                }
+            }
+        },
+        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+        { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Assign Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, filter: true, wrapText: true }
+
     ])
 
 
@@ -839,17 +823,18 @@ const SuperisorList = () => {
                 getPendingVerifyList(em_department)
             }
         }
-    }, [flag, profileData])
+    }, [flag, count, profileData])
 
 
 
     const [verifySupermdl, setverifySuperMdl] = useState(0)
+    const [verfySuperSelectData, setVerifySuperSelectData] = useState([])
     const verifySupervisr = useCallback((params) => {
         const data = params.api.getSelectedRows()
         setverifySuperMdl(1)
         setAssistTrans(0)
         setEmpTrasFlag(0)
-        setTransDataModel(data)
+        setVerifySuperSelectData(data)
         setAssignModel(0);
         setAssistantModel(0);
         setTransmodal(0);
@@ -999,7 +984,7 @@ const SuperisorList = () => {
                                     mt: 1,
                                 }} >
                                     <CusCheckBox
-                                        label="Assist"
+                                        label="Assistance Requested"
                                         color="danger"
                                         size="md"
                                         name="assistall"
@@ -1132,7 +1117,7 @@ const SuperisorList = () => {
                     AssistTrans === 1 ? <AssistTransferSuper open={open} setOpen={setOpen} transfer={transDataModel} empdept={profileData} count={count} setCount={setCount} setTransmodal={setEmpTrasFlag} /> : null
                 }
                 {
-                    verifySupermdl === 1 ? <VerifyModelSuper open={open} id={id} setOpen={setOpen} complaint={VeryPendingSuperList} empdept={profileData} count={count} setCount={setCount} /> : null
+                    verifySupermdl === 1 ? <VerifyModelSuper open={open} id={id} setOpen={setOpen} complaint={verfySuperSelectData} empdept={profileData} count={count} setCount={setCount} /> : null
                 }
 
 

@@ -48,7 +48,7 @@ const CusAgGridForReport = ({ columnDefs, tableData, columnTypes, getRowStyle })
         <Box
             className="ag-theme-alpine ListItemScrol"
             sx={{
-                height: { xs: 475, sm: 475, md: 565, lg: 582, xl: 582 },
+                height: { xs: 475, sm: 475, md: 600, lg: 600, xl: 600 },
                 width: '100%',
             }}
         >

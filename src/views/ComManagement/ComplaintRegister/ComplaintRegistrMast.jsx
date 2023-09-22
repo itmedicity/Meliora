@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getComplaintDept } from 'src/redux/actions/ComplaintDept.action'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { errorNotify, infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { getRequesttype } from 'src/redux/actions/RequestType.action';
 import { getComplainttype } from 'src/redux/actions/ComplaintType.action';
 import CustomTextarea from 'src/views/Components/CustomTextarea'
@@ -27,6 +27,7 @@ import { getCompliantRegTable } from 'src/redux/actions/ComplaintRegTable.action
 import { getReqRegistListByDept } from 'src/redux/actions/ReqRegisterListByDept.action'
 import ComDeptCheckBox from './ComDeptCheckBox'
 import { getComplaintSlno } from 'src/views/Constant/Constant'
+import CustomBackDrop from 'src/views/Components/CustomBackDrop'
 
 const ComplaintRegistrMast = () => {
     /*** Initializing */
@@ -58,7 +59,7 @@ const ComplaintRegistrMast = () => {
     // const [complaint, setComplaint] = useState({
     //     complaint_slno: 0
     // })
-
+    const [open, setOpen] = useState(false)
     const [complaint_slno, setComplaint] = useState(0)
 
     useEffect(() => {
@@ -211,6 +212,7 @@ const ComplaintRegistrMast = () => {
     /*** usecallback function for form submitting */
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
+        setOpen(true)
         const reset = () => {
             setComplaint(0)
             setsec(0)
@@ -227,6 +229,7 @@ const ComplaintRegistrMast = () => {
             setPriorreason("")
             setCount(0)
             setValue(0)
+            setOpen(false)
         }
         /***    * insert function for use call back     */
         const InsertFun = async (postdata) => {
@@ -236,13 +239,11 @@ const ComplaintRegistrMast = () => {
                 succesNotify(message)
                 setCount(count + 1);
                 reset()
-            } else if (success === 5) {
-                errorNotify("Complaint Not Registered Please Register again");
-                setCount(count + 1);
-                reset()
+                setOpen(false)
             }
             else {
                 infoNotify(message)
+                setOpen(false)
             }
         }
         /***  * update function for use call back     */
@@ -253,11 +254,14 @@ const ComplaintRegistrMast = () => {
                 succesNotify(message)
                 setCount(count + 1);
                 reset()
+                setOpen(false)
             } else if (success === 0) {
                 infoNotify(message);
+                setOpen(false)
             }
             else {
                 infoNotify(message)
+                setOpen(false)
             }
         }
         if (value === 0) {
@@ -288,6 +292,7 @@ const ComplaintRegistrMast = () => {
         setPriorreason("")
         setCount(0)
         setValue(0)
+        setOpen(false)
     }, [])
     useEffect(() => {
         if (ReqType === 2) {
@@ -347,6 +352,7 @@ const ComplaintRegistrMast = () => {
                     flexDirection: 'column',
                 }}
             >
+                <CustomBackDrop open={open} text="Please Wait" />
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'row',
@@ -527,48 +533,47 @@ const ComplaintRegistrMast = () => {
                             }} >
                             <CssVarsProvider>
                                 <Button
-                                    startIcon={<h3>{pendingTckt.length}</h3>}
+                                    startDecorator={<h3>{pendingTckt.length}</h3>}
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
                                 >Pending Ticket</Button>
                                 <Button
-                                    startIcon={<h3>{reqList.length}</h3>}
+                                    startDecorator={<h3>{reqList.length}</h3>}
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
-                                    color="info"
+                                    color="danger"
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
                                 >Request Info</Button>
                                 <Button
-                                    startIcon={<h3>{AssignedTckt.length}</h3>}
+                                    startDecorator={<h3>{AssignedTckt.length}</h3>}
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
                                 >Assigned Ticket</Button>
                                 <Button
-
-                                    startIcon={<h3>{onholdList.length}</h3>}
+                                    startDecorator={<h3>{onholdList.length}</h3>}
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
                                 >OnHold Ticket</Button>
                                 <Button
-                                    startIcon={<h3>{VerificationPendingTckt.length}</h3>}
+                                    startDecorator={<h3>{VerificationPendingTckt.length}</h3>}
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
                                 >Verification Pending</Button>
                                 <Button
-                                    startIcon={<h3>{reqPending.length}</h3>}
+                                    startDecorator={<h3>{reqPending.length}</h3>}
                                     size="lg"
                                     variant="outlined"
                                     fullWidth
-                                    color="info"
+                                    color="danger"
                                     sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
                                 >OnHold/Rejected</Button>
                             </CssVarsProvider>
