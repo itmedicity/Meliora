@@ -1,47 +1,65 @@
-import { Box, FormControl, MenuItem, Select } from '@mui/material'
-import React from 'react'
-import { useEffect, memo } from 'react'
+import React ,{ useEffect, memo,useState ,Fragment}from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAmItemType } from 'src/redux/actions/AmItemTypeList.actions'
+import { ActionTyps } from 'src/redux/constants/action.type';
+import Autocomplete from '@mui/joy/Autocomplete';
+import { CssVarsProvider } from '@mui/joy/'
 
-const AssetItemSelect = ({ value, setValue, setName }) => {
-  const dispatch = useDispatch()
-  const itemtype = useSelector((state) => {
-    return state.getAmItemType.ItemTypeList || 0
-  })
+const AssetItemSelect = ({itemtype, setItemtype, setName }) => {
+  const dispatch = useDispatch();
+
+  const { FETCH_ASSET_ITEM_TYPE } = ActionTyps;
+  const assetItem = useSelector((state) => state.getAmItemType.ItemTypeList)
+  const [items, setItems] = useState([{ item_type_slno: 0, item_type_name: '' }])
+
+  const [value, setValue] = useState(items[0]);
+  const [inputValue, setInputValue] = useState('');
   useEffect(() => {
-    dispatch(getAmItemType())
-  }, [dispatch])
+      if (value !== null) {
+          dispatch({ type: FETCH_ASSET_ITEM_TYPE, payload: value.item_type_slno })
+                  setItemtype(value.item_type_slno)
+          setName(value.item_type_name)
+      } else {
+          dispatch({ type: FETCH_ASSET_ITEM_TYPE, payload: 0 })
+               setItemtype(0)
+          setName('')
+      }
+      return
+  }, [value, FETCH_ASSET_ITEM_TYPE, dispatch, setItemtype, setName])
+
+
+  useEffect(() => {
+    assetItem.length > 0 && setItems(assetItem)
+        }, [assetItem])
+
+ 
   return (
-    <Box>
-      <FormControl fullWidth size="small">
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={value}
-          onChange={(e, { props }) => {
-            setValue(e.target.value)
-            setName(props.name)
-          }}
-          size="small"
-          fullWidth
-          variant="outlined"
-          sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
-        >
-          <MenuItem value={0} disabled>
-            Select Item Type
-          </MenuItem>
-          {itemtype &&
-            itemtype.map((val, index) => {
-              return (
-                <MenuItem key={index} name={val.item_type_name} value={val.item_type_slno}>
-                  {val.item_type_name}
-                </MenuItem>
-              )
-            })}
-        </Select>
-      </FormControl>
-    </Box>
+
+    <Fragment >
+    <CssVarsProvider>
+        <Autocomplete
+            sx={{
+                "--Input-minHeight": "29px"
+                  }}
+                  value={itemtype === 0 ? items : value}
+            placeholder="Select Item type"
+            clearOnBlur
+            onChange={(event, newValue) => {
+                setValue(newValue);
+            }}
+            inputValue={inputValue}
+            onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+            }}
+            loading={true}
+            loadingText="Loading..."
+            freeSolo
+            // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
+            isOptionEqualToValue={(option, value) => option.item_type_name === value.item_type_name}
+            getOptionLabel={option => option.item_type_name || ''}
+            options={items}
+        />
+    </CssVarsProvider>
+    </Fragment>  
   )
 }
 

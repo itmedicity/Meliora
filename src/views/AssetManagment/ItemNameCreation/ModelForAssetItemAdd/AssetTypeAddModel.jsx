@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import Slide from '@mui/material/Slide';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { ToastContainer } from 'react-toastify';
@@ -82,23 +81,30 @@ const AssetTypeAddModel = ({ open, handleClose }) => {
     return (
         <Fragment>
             <ToastContainer />
+            
             <Dialog
                 open={open}
                 onClose={handleClose}
                 TransitionComponent={Transition}
                 keepMounted
                 aria-describedby="alert-dialog-slide-descriptiona"
+           
             >
+                
+            
                 < DialogContent id="alert-dialog-slide-descriptiona"
+                //    sx={{ border: '5px solid #474b4f' ,borderRadius:.5}}     
                 >
-                    <DialogContentText id="alert-dialog-slide-descriptiona">
-                        Add AssetType
-                    </DialogContentText>
-                </DialogContent>
+                    <Box sx={{width:'100%',height:'90%',borderRadius:1, border: '0.1px solid #454545'}}>
+                    <Box id="alert-dialog-slide-descriptiona" sx={{fontWeight:'bold',textAlign:'center',height:'50px',pt:1}}>
+                        Add Asset type
+                    </Box>
+              
                 <Box sx={{
                     width: 500,
                     height: 100, pl: 3,
                     flexDirection: 'column',
+                   
                 }}>
                     <Box sx={{
                         width: "100%",
@@ -108,11 +114,11 @@ const AssetTypeAddModel = ({ open, handleClose }) => {
                         <Box
                             sx={{ height: 50, width: "40%", }}>
                             <CssVarsProvider>
-                                <Typography sx={{ fontSize: 15 }}>Asset Type name</Typography>
+                                <Typography sx={{ fontSize: 15 }}>Asset Type Name</Typography>
                             </CssVarsProvider>
                         </Box>
                         <Box
-                            sx={{ height: 50, width: "50%", }}>
+                            sx={{ height: 50, width: "55%", }}>
                             <TextFieldCustom
                                 placeholder="Asset Type"
                                 type="text"
@@ -143,12 +149,16 @@ const AssetTypeAddModel = ({ open, handleClose }) => {
                             onCheked={updateAssetType}
                         ></CusCheckBox>
                     </Box>
-                </Box>
+                        </Box>
+                        </Box>
                 <DialogActions>
                     <Button color="secondary" onClick={submitAssetType} >Save</Button>
                     <Button color="secondary" onClick={handleClose}>Cancel</Button>
-                </DialogActions>
-            </Dialog>
+                    </DialogActions>
+                    </DialogContent>
+                    </Dialog>
+             
+             
         </Fragment >
     )
 }

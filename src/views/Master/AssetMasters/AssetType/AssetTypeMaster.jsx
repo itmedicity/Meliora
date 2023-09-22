@@ -41,7 +41,6 @@ const AssetTypeMaster = () => {
     setAssetType(frmdata)
     setCount(0)
     setValue(0)
-   
   }
   const postdata = useMemo(() => {
     return {
@@ -73,7 +72,7 @@ const AssetTypeMaster = () => {
         } else {
           infoNotify(message)
         }
-      }
+      }    
       const AssetTypeUpdate = async (patchdata) => {
         const result = await axioslogin.patch('/assettypee/update', patchdata)
         const { message, success } = result.data
@@ -91,13 +90,14 @@ const AssetTypeMaster = () => {
         if (asset_type_name !== '') {
         InsertAssetType(postdata)
       } else {
-        infoNotify("Please Enter Asset type") 
+        infoNotify("Please Enter Asset Type") 
       }
-    }else {
+      }
+      else {
         AssetTypeUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count,asset_type_name],
+    [postdata,value,patchdata,count,asset_type_name],
   )
   const rowSelect = useCallback((params) => {
     setValue(1)

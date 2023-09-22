@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 
 const ItemTypeMast = () => {
   const history = useHistory()
+
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
    // Get login user emp_id
@@ -28,6 +29,7 @@ const ItemTypeMast = () => {
     (e) => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setItemType({ ...itemType, [e.target.name]: value })
+  
     },
     [itemType],
   )
@@ -142,6 +144,7 @@ const ItemTypeMast = () => {
                 name="item_type_name"
                 value={item_type_name}
                 onchange={updateItemType}
+               
               ></TextFieldCustom>
             </Box>
             <Box sx={{ p: 1.5 }}>

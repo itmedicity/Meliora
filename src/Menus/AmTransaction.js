@@ -12,6 +12,14 @@ const AmTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 
+    {
+        men_slno: 145,
+        component: CNavItem,
+        name: 'Item Creation',
+        to: '/Home/ItemCreation',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
 ]
 
 export default AmTransactions;

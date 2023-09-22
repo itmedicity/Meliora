@@ -144,7 +144,9 @@ const SubCategoryMast = () => {
             else if (success === 0) {
               infoNotify(message)
               reset()
-            } else {
+            }
+           
+            else {
               infoNotify(message)
             }
           })
@@ -153,8 +155,10 @@ const SubCategoryMast = () => {
         else {
           infoNotify("Please Enter Subcategory Name and Select Category") 
         }
+       
      
-      }  else {
+      }
+      else {
         SubCategoryUpdate(patchdata)
       }
     },
