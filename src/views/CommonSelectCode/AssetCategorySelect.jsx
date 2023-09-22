@@ -1,47 +1,69 @@
-import { Box, FormControl, MenuItem, Select } from '@mui/material'
-import React, { memo } from 'react'
-import { useEffect } from 'react'
+import React ,{ useEffect, memo,useState ,Fragment}from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCategory } from 'src/redux/actions/AmCategoryList.action'
+import { ActionTyps } from 'src/redux/constants/action.type';
+import Autocomplete from '@mui/joy/Autocomplete';
+import { CssVarsProvider } from '@mui/joy/'
+import { getAmSubcategory } from 'src/redux/actions/AmSubcategoryList.action';
 
-const AssetCategorySelect = ({ value, setValue, setName }) => {
-  const dispatch = useDispatch()
-  const category = useSelector((state) => {
-    return state.getCategory.AssetCategoryList || 0
-  })
+const AssetCategorySelect = ({category,  setCategory, setName }) => {
+  const dispatch = useDispatch();
+
+  const { FETCH_ASSET_CATEGORY } = ActionTyps;
+  const assetCategory = useSelector((state) => state.getCategory.AssetCategoryList)
+  const [categories, setCategories] = useState([{ category_slno: 0, category_name: '' }])
+
+  const [value, setValue] = useState(categories[0]);
+  const [inputValue, setInputValue] = useState('');
+
   useEffect(() => {
-    dispatch(getCategory())
-  }, [dispatch])
+      if (value !== null) {
+          dispatch({ type: FETCH_ASSET_CATEGORY, payload: value.category_slno })
+           dispatch(getAmSubcategory(value.category_slno))
+          setCategory(value.category_slno)
+          setName(value.category_name)
+      } else {
+          dispatch({ type: FETCH_ASSET_CATEGORY, payload: 0 })
+          dispatch(getAmSubcategory(0))
+          setCategory(0)
+          setName('')
+      }
+      return
+  }, [value, FETCH_ASSET_CATEGORY, dispatch, setCategory, setName])
+
+
+  useEffect(() => {
+    assetCategory.length > 0 && setCategories(assetCategory)
+        }, [assetCategory])
+
+ 
   return (
-    <Box>
-      <FormControl fullWidth size="small">
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={value}
-          onChange={(e, { props }) => {
-            setValue(e.target.value)
-            setName(props.name)
-          }}
-          size="small"
-          fullWidth
-          variant="outlined"
-          sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
-        >
-          <MenuItem value={0} disabled>
-            Select Category
-          </MenuItem>
-          {category &&
-            category.map((val, index) => {
-              return (
-                <MenuItem key={index} name={val.category_name} value={val.category_slno}>
-                  {val.category_name}
-                </MenuItem>
-              )
-            })}
-        </Select>
-      </FormControl>
-    </Box>
+
+    <Fragment >
+    <CssVarsProvider>
+        <Autocomplete
+            sx={{
+                "--Input-minHeight": "29px"
+                  }}
+            value={category === 0 ? categories : value}
+            placeholder="Select Category"
+            clearOnBlur
+            onChange={(event, newValue) => {
+                setValue(newValue);
+            }}
+            inputValue={inputValue}
+            onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+            }}
+            loading={true}
+            loadingText="Loading..."
+            freeSolo
+            // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
+            isOptionEqualToValue={(option, value) => option.category_name === value.category_name}
+            getOptionLabel={option => option.category_name || ''}
+            options={categories}
+        />
+    </CssVarsProvider>
+    </Fragment>  
   )
 }
-export default memo(AssetCategorySelect)
+ export default memo(AssetCategorySelect)

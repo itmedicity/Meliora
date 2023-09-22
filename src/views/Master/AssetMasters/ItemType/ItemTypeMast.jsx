@@ -1,19 +1,25 @@
 import { Box } from '@mui/system'
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback, useState ,useMemo} from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import ItemTypeTable from './ItemTypeTable'
-import { useMemo } from 'react'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { useSelector } from 'react-redux'
+
 
 const ItemTypeMast = () => {
   const history = useHistory()
+
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
-  const [itemType, setItemType] = useState({
+   // Get login user emp_id
+   const id = useSelector((state) => {
+    return state.LoginUserData.empid
+   })
+    const [itemType, setItemType] = useState({
     item_type_slno: '',
     item_type_name: '',
     item_type_status: false,
@@ -23,10 +29,10 @@ const ItemTypeMast = () => {
     (e) => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setItemType({ ...itemType, [e.target.name]: value })
+  
     },
     [itemType],
   )
-
   const reset = () => {
     const frmdata = {
       item_type_slno: '',
@@ -36,23 +42,23 @@ const ItemTypeMast = () => {
     setItemType(frmdata)
     setCount(0)
     setValue(0)
+  
   }
-
   const postdata = useMemo(() => {
     return {
       item_type_name: item_type_name,
       item_type_status: item_type_status === true ? 1 : 0,
+      create_user: id
     }
-  }, [item_type_name, item_type_status])
-
+  }, [item_type_name, item_type_status,id])
   const patchdata = useMemo(() => {
     return {
       item_type_slno: item_type_slno,
       item_type_name: item_type_name,
       item_type_status: item_type_status === true ? 1 : 0,
+      edit_user: id
     }
-  }, [item_type_slno, item_type_name, item_type_status])
-
+  }, [item_type_slno, item_type_name, item_type_status,id])
   const sumbitItemType = useCallback(
     (e) => {
       e.preventDefault()
@@ -83,16 +89,21 @@ const ItemTypeMast = () => {
         }
       }
       if (value === 0) {
-        InsertItemType(postdata)
-      } else {
+        if (item_type_name !== '') {
+          InsertItemType(postdata)
+        }
+        else {
+          infoNotify("Please Enter Item type") 
+        }
+      }
+        else {
         ItemTypeUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count],
+    [postdata, value, patchdata, count,item_type_name],
   )
   const rowSelect = useCallback((params) => {
     setValue(1)
-
     const data = params.api.getSelectedRows()
     const { item_type_slno, item_type_name, item_type_status } = data[0]
     const frmdata = {
@@ -102,11 +113,9 @@ const ItemTypeMast = () => {
     }
     setItemType(frmdata)
   }, [])
-
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
   }, [history])
-
   const refreshWindow = useCallback(() => {
     const frmdata = {
       item_type_slno: '',
@@ -115,7 +124,8 @@ const ItemTypeMast = () => {
     }
     setItemType(frmdata)
     setValue(0)
-  }, [setItemType])
+    
+  }, [setItemType,])
   return (
     <CardMaster
       title="Item Type Master"
@@ -126,7 +136,7 @@ const ItemTypeMast = () => {
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>
-            <Box sx>
+            <Box>
               <TextFieldCustom
                 placeholder="Item Type"
                 type="text"
@@ -134,6 +144,7 @@ const ItemTypeMast = () => {
                 name="item_type_name"
                 value={item_type_name}
                 onchange={updateItemType}
+               
               ></TextFieldCustom>
             </Box>
             <Box sx={{ p: 1.5 }}>
@@ -148,7 +159,6 @@ const ItemTypeMast = () => {
               ></CusCheckBox>
             </Box>
           </Box>
-
           <Box sx={{ width: '70%' }}>
             <ItemTypeTable count={count} rowSelect={rowSelect} />
           </Box>

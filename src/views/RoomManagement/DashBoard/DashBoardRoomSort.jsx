@@ -1,10 +1,8 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
+import React, { useCallback,useEffect, useState,memo } from 'react'
 import { Box } from '@mui/material'
-import { memo } from 'react'
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined'
 
-const DashBoardRoomSort = ({ blockno, data }) => {
+const DashBoardRoomSort = ({ blockno, data,setRoomNo, setRoomName,setAssetList,setBlockName}) => {
   const [room, setRoom] = useState([])
   useEffect(() => {
     const all = data.filter((val) => {
@@ -12,6 +10,16 @@ const DashBoardRoomSort = ({ blockno, data }) => {
     }, [])
     setRoom(all)
   }, [blockno, data])
+    const asset = useCallback(
+      (data) => {      
+      const { rm_room_slno, rm_room_name ,rm_insidebuildblock_name} = data
+      setRoomNo(rm_room_slno)
+      setRoomName(rm_room_name)
+        setAssetList(1)
+        setBlockName(rm_insidebuildblock_name)      
+    },
+    [setRoomNo, setRoomName,setAssetList,setBlockName],
+  )
 
   return (
     <>
@@ -51,7 +59,9 @@ const DashBoardRoomSort = ({ blockno, data }) => {
                 justifyContent: 'center',
               }}
             >
-              <AccountTreeOutlinedIcon sx={{ fontSize: 30 }} />
+              <AccountTreeOutlinedIcon sx={{ fontSize: 30 }}
+                onClick={() => asset(val)}
+                value={val.rm_room_name}/>
             </Box>
           </Box>
         )

@@ -1,47 +1,69 @@
-import { Box, FormControl, MenuItem, Select } from '@mui/material'
-import React from 'react'
-import { useEffect, memo } from 'react'
+import React ,{ useEffect, memo,useState ,Fragment}from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAmModel } from 'src/redux/actions/AmModelList.action'
+import { ActionTyps } from 'src/redux/constants/action.type';
+import Autocomplete from '@mui/joy/Autocomplete';
+import { CssVarsProvider } from '@mui/joy/'
+import { getSubmodel } from 'src/redux/actions/AmSubmodelList.action';
 
-const AssetModelSelect = ({ value, setValue,setName }) => {
-  const dispatch = useDispatch()
-  const model = useSelector((state) => {
-    return state.getAmModel.modelList || 0
-  })
+
+const AssetModelSelect = ({model, setModel,setName }) => {
+  const dispatch = useDispatch();
+
+  const { FETCH_ASSET_MODEL } = ActionTyps;
+  const assetmodel = useSelector((state) => state.getAmModel.modelList)
+  const [models, setModels] = useState([{ model_slno: 0, model_name: '' }])
+
+  const [value, setValue] = useState(models[0]);
+  const [inputValue, setInputValue] = useState('');
   useEffect(() => {
-    dispatch(getAmModel())
-  }, [dispatch])
+      if (value !== null) {
+          dispatch({ type: FETCH_ASSET_MODEL, payload: value.model_slno })
+           dispatch(getSubmodel(value.model_slno))
+          setModel(value.model_slno)
+          setName(value.model_name)
+      } else {
+          dispatch({ type: FETCH_ASSET_MODEL, payload: 0 })
+          dispatch(getSubmodel(0))
+          setModel(0)
+          setName('')
+      }
+      return
+  }, [value, FETCH_ASSET_MODEL, dispatch, setModel, setName])
+
+
+  useEffect(() => {
+    assetmodel.length > 0 && setModels(assetmodel)
+        }, [assetmodel])
+
+ 
   return (
-    <Box>
-      <FormControl fullWidth size="small">
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={value}
-          onChange={(e, { props }) => {
-            setValue(e.target.value)
-            setName(props.name)
-          }}
-          size="small"
-          fullWidth
-          variant="outlined"
-          sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
-        >
-          <MenuItem value={0} disabled>
-            Select Model
-          </MenuItem>
-          {model &&
-            model.map((val, index) => {
-              return (
-                <MenuItem key={index} name={val.model_name} value={val.model_slno}>
-                  {val.model_name}
-                </MenuItem>
-              )
-            })}
-        </Select>
-      </FormControl>
-    </Box>
+
+    <Fragment >
+    <CssVarsProvider>
+        <Autocomplete
+            sx={{
+                "--Input-minHeight": "29px"
+                  }}
+                  value={model === 0 ? models : value}
+            placeholder="Select Model"
+            clearOnBlur
+            onChange={(event, newValue) => {
+                setValue(newValue);
+            }}
+            inputValue={inputValue}
+            onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+            }}
+            loading={true}
+            loadingText="Loading..."
+            freeSolo
+            // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
+            isOptionEqualToValue={(option, value) => option.model_name === value.model_name}
+            getOptionLabel={option => option.model_name || ''}
+            options={models}
+        />
+    </CssVarsProvider>
+    </Fragment>  
   )
 }
 

@@ -9,11 +9,16 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useMemo } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { memo } from 'react'
+import { useSelector } from 'react-redux'
 
 const ManufactureMast = () => {
   const history = useHistory()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
+    // Get login user emp_id
+    const id = useSelector((state) => {
+      return state.LoginUserData.empid
+     })
   const [manufacture, setManufacture] = useState({
     manufacture_slno: '',
     manufacture_name: '',
@@ -31,16 +36,18 @@ const ManufactureMast = () => {
     return {
       manufacture_name: manufacture_name,
       manufacture_status: manufacture_status === true ? 1 : 0,
+      create_user: id
     }
-  }, [manufacture_name, manufacture_status])
+  }, [manufacture_name, manufacture_status,id])
 
   const patchdata = useMemo(() => {
     return {
       manufacture_slno: manufacture_slno,
       manufacture_name: manufacture_name,
       manufacture_status: manufacture_status === true ? 1 : 0,
+      edit_user: id
     }
-  }, [manufacture_slno, manufacture_name, manufacture_status])
+  }, [manufacture_slno, manufacture_name, manufacture_status,id])
 
   const rowSelect = useCallback((params) => {
     setValue(1)
@@ -95,12 +102,19 @@ const ManufactureMast = () => {
         }
       }
       if (value === 0) {
-        InsertManufacture(postdata)
-      } else {
+        if (manufacture_name !== '') {
+          InsertManufacture(postdata)
+        }
+     
+        else {
+          infoNotify("Please Enter Manufacture")
+        }
+      }
+        else {
         ManufactureUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count],
+    [postdata, value, patchdata, count,manufacture_name],
   )
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
@@ -113,6 +127,7 @@ const ManufactureMast = () => {
     }
     setManufacture(frmdata)
     setValue(0)
+
   }, [setManufacture])
   return (
     <CardMaster

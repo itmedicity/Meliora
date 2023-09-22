@@ -1,23 +1,29 @@
-import { Box } from '@mui/material'
-import React from 'react'
-import { useCallback } from 'react'
-import { useState } from 'react'
+import { Box, IconButton, Input, Typography } from '@mui/material'
+import {React, useCallback,useState,memo ,useMemo} from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import { memo } from 'react'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { useMemo } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import SubModelTable from './SubModelTable'
-import AssetModelSelect from 'src/views/CommonSelectCode/AssetModelSelect'
+import imageCompression from 'browser-image-compression';
+import { CssVarsProvider } from '@mui/joy'
+import CustomeToolTip from 'src/views/Components/CustomeToolTip'
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import AssetModelSelWithoutName from 'src/views/CommonSelectCode/AssetModelSelWithoutName'
+import { useSelector } from 'react-redux'
 
 const AssetSubModel = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const history = useHistory()
+  const [selectFile, setSelectFile] = useState(null)
   const [model, setModel] = useState(0)
+     // Get login user emp_id
+     const id = useSelector((state) => {
+      return state.LoginUserData.empid
+     })
   const [submodel, setsubmodel] = useState({
     submodel_slno: '',
     submodel_name: '',
@@ -41,22 +47,25 @@ const AssetSubModel = () => {
     setCount(0)
     setValue(0)
     setModel(0)
+    setSelectFile(null)
   }
   const postdata = useMemo(() => {
     return {
       submodel_name: submodel_name,
-      model_slno: model,
+      model_slno: model,    
       submodel_status: submodel_status === true ? 1 : 0,
+      create_user: id,
     }
-  }, [submodel_name, submodel_status, model])
+  }, [submodel_name, submodel_status, model,id])
   const patchdata = useMemo(() => {
     return {
       submodel_slno: submodel_slno,
       submodel_name: submodel_name,
       model_slno: model,
       submodel_status: submodel_status === true ? 1 : 0,
+      edit_user: id,
     }
-  }, [submodel_slno, submodel_name, model, submodel_status])
+  }, [submodel_slno, submodel_name, model, submodel_status,id])
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
@@ -69,23 +78,24 @@ const AssetSubModel = () => {
     setsubmodel(frmdata)
     setModel(model_slno)
   }, [])
-  const submitsubmodel = useCallback(
+  const uploadFile = async (event) => {
+    const file = event.target.files[0];
+    setSelectFile(file);
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920      
+    }
+    const compressedFile = await imageCompression(file, options);
+    setSelectFile(compressedFile);
+  };
+  const submitSubmodel = useCallback(
     (e) => {
       e.preventDefault()
-      const Insertsubmodel = async (postdata) => {
+      const InsertSubmodel = async (postdata) => {
         const result = await axioslogin.post('/submodel/insert', postdata)
-        const { message, success } = result.data
-        if (success === 1) {
-          succesNotify(message)
-          setCount(count + 1)
-          reset()
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
+        return result.data        
       }
-      const submodelUpdate = async (patchdata) => {
+      const SubmodelUpdate = async (patchdata) => {
         const result = await axioslogin.patch('/submodel/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -98,14 +108,55 @@ const AssetSubModel = () => {
           infoNotify(message)
         }
       }
-
+      const FileInsert = async (fileData) => {
+        const result = await axioslogin.post('/fileupload/uploadFile/SubModel', fileData)
+        const { message, success } = result.data
+        if (success === 1) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        }
+        else {
+          infoNotify(message)
+        }
+      }
       if (value === 0) {
-        Insertsubmodel(postdata)
-      } else {
-        submodelUpdate(patchdata)
+        if ( submodel_name !== '' && model!==0) {
+          InsertSubmodel(postdata).then((val) => {
+            const { message, success, insertid } = val
+            if (success === 1) {
+              
+              if (selectFile !== null) {
+                //File upload Api and post data
+              const formData = new FormData()
+              formData.append('id', insertid)
+              formData.append('file', selectFile, selectFile.name)
+                FileInsert(formData)
+                reset()
+              }
+              else {
+                succesNotify(message)
+                setCount(count + 1)
+                reset()
+              }
+            }
+            else if (success === 0) {
+              infoNotify(message)
+              reset()
+            } else {
+              infoNotify(message)
+            }
+          }) 
+        }
+        else {
+          infoNotify("Please Enter Submodel Name and Select Model") 
+        }
+     
+      }  else {
+        SubmodelUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count],
+    [postdata, value, patchdata, count,selectFile,submodel_name,model],
   )
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
@@ -115,14 +166,17 @@ const AssetSubModel = () => {
       submodel_slno: '',
       submodel_name: '',
       submodel_status: false,
+
     }
     setsubmodel(frmdata)
     setValue(0)
-  }, [setsubmodel])
+    setModel(0)
+    setSelectFile(null)
+  }, [setsubmodel,setModel, setSelectFile])
   return (
     <CardMaster
       title="Submodel"
-      submit={submitsubmodel}
+      submit={submitSubmodel}
       close={backtoSetting}
       refresh={refreshWindow}
     >
@@ -139,7 +193,7 @@ const AssetSubModel = () => {
             ></TextFieldCustom>
           </Box>
           <Box sx={{ pt: 1.5 }}>
-            <AssetModelSelect value={model} setValue={setModel} />
+            <AssetModelSelWithoutName value={model} setValue={setModel} />
           </Box>
           <Box sx={{ pt: 1 }}>
             <CusCheckBox
@@ -152,6 +206,28 @@ const AssetSubModel = () => {
               onCheked={Updatesubmodel}
             ></CusCheckBox>
           </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <CssVarsProvider>
+              <Typography  >Upload file</Typography>
+            </CssVarsProvider>
+            <label htmlFor="file-input">
+              <CustomeToolTip title="upload">
+                <IconButton color="primary" aria-label="upload file" component="span">
+                  <UploadFileIcon />
+                </IconButton>
+              </CustomeToolTip>
+            </label>
+            <Input
+              id="file-input"
+              type="file"
+              accept=".jpg, .jpeg, .png, .pdf"
+              style={{ display: 'none' }}
+              onChange={uploadFile}
+            />
+                <Box sx={{ pt:2,fontWeight:2}}>
+            {selectFile && <p >  {selectFile.name}</p>}
+            </Box>
+          </Box>  
         </Box>
         <Box sx={{ width: '70%' }}>
           <SubModelTable count={count} rowSelect={rowSelect} />

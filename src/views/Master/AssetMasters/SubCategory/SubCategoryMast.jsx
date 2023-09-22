@@ -1,19 +1,28 @@
 import React, { useCallback, useState ,memo,useMemo} from 'react'
 import SubCategoryTable from './SubCategoryTable'
 import CardMaster from 'src/views/Components/CardMaster'
-import { Box} from '@mui/material'
+import { Box,IconButton, Input } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import AssetCategorySelect from 'src/views/CommonSelectCode/AssetCategorySelect'
-
+import AssetCategorySelWithoutName from 'src/views/CommonSelectCode/AssetCategorySelWithoutName'
+import imageCompression from 'browser-image-compression';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { CssVarsProvider, Typography } from '@mui/joy'
+import CustomeToolTip from 'src/views/Components/CustomeToolTip'
+import { useSelector } from 'react-redux'
 const SubCategoryMast = () => {
   const history = useHistory()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const [category, setCategory] = useState(0)
+  const [selectFile, setSelectFile] = useState(null)
+     // Get login user emp_id
+     const id = useSelector((state) => {
+      return state.LoginUserData.empid
+     })
   const [subcategory, setSubCategory] = useState({
     subcategory_slno: '',
     subcategory_name: '',
@@ -37,14 +46,16 @@ const SubCategoryMast = () => {
     setCount(0)
     setValue(0)
     setCategory(0)
+    setSelectFile(null)
   }
   const postdata = useMemo(() => {
     return {
       subcategory_name: subcategory_name,
       category_slno: category,
       subcategory_status: subcategory_status === true ? 1 : 0,
+      create_user: id
     }
-  }, [subcategory_name, category, subcategory_status])
+  }, [subcategory_name, category, subcategory_status,id])
 
   const patchdata = useMemo(() => {
     return {
@@ -52,8 +63,9 @@ const SubCategoryMast = () => {
       subcategory_name: subcategory_name,
       category_slno: category,
       subcategory_status: subcategory_status === true ? 1 : 0,
+      edit_user: id
     }
-  }, [subcategory_slno, subcategory_name, category, subcategory_status])
+  }, [subcategory_slno, subcategory_name, category, subcategory_status,id])
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
@@ -66,24 +78,23 @@ const SubCategoryMast = () => {
     }
     setSubCategory(frmdata)
     setCategory(category_slno)
-  }, [])
+  }, [])  
+  const uploadFile = async (event) => {
+    const file = event.target.files[0];
+    setSelectFile(file);
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920
+    }
+    const compressedFile = await imageCompression(file, options);
+    setSelectFile(compressedFile);
+  };
   const submitSubCategory = useCallback(
     (e) => {
       e.preventDefault()
-
       const InsertSubCategory = async (postdata) => {
         const result = await axioslogin.post('/subcategory/insert', postdata)
-
-        const { message, success } = result.data
-        if (success === 1) {
-          succesNotify(message)
-          setCount(count + 1)
-          reset()
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
+        return result.data
       }
       const SubCategoryUpdate = async (patchdata) => {
         const result = await axioslogin.patch('/subcategory/update', patchdata)
@@ -98,15 +109,61 @@ const SubCategoryMast = () => {
           infoNotify(message)
         }
       }
-
+      const FileInsert = async (fileData) => {
+        const result = await axioslogin.post('/fileupload/uploadFile/SubCategory', fileData)
+        const { message, success } = result.data
+        if (success === 1) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        }
+        else {
+          infoNotify(message)
+        }
+      }
       if (value === 0) {
-        InsertSubCategory(postdata)
-      } else {
+        if ( subcategory_name !== '' && category!==0) {
+          InsertSubCategory(postdata).then((val) => {
+            const { message, success, insertid } = val
+            if (success === 1) {
+              
+              if (selectFile !== null) {
+                //File upload Api and post data
+              const formData = new FormData()
+              formData.append('id', insertid)
+              formData.append('file', selectFile, selectFile.name)
+                FileInsert(formData)              
+                reset()
+              }
+              else {
+                succesNotify(message)
+                setCount(count + 1)
+                reset()
+              }
+            }
+            else if (success === 0) {
+              infoNotify(message)
+              reset()
+            }
+           
+            else {
+              infoNotify(message)
+            }
+          })
+         
+        }
+        else {
+          infoNotify("Please Enter Subcategory Name and Select Category") 
+        }
+       
+     
+      }
+      else {
         SubCategoryUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count],
-  )
+    [postdata, value, patchdata, count,selectFile,subcategory_name,category],
+  )  
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
   }, [history])
@@ -119,7 +176,8 @@ const SubCategoryMast = () => {
     setSubCategory(frmdata)
     setValue(0)
     reset()
-  }, [setSubCategory])
+    setSelectFile(null)
+  }, [setSubCategory, setSelectFile])
   return (
     <CardMaster
       title="Subcategory Master"
@@ -141,7 +199,7 @@ const SubCategoryMast = () => {
               ></TextFieldCustom>
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <AssetCategorySelect value={category} setValue={setCategory} />
+              <AssetCategorySelWithoutName value={category} setValue={setCategory} />
             </Box>
             <Box sx={{ pt: 1.5 }}>
               <CusCheckBox
@@ -154,8 +212,29 @@ const SubCategoryMast = () => {
                 onCheked={updateSubCategory}
               ></CusCheckBox>
             </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <CssVarsProvider>
+              <Typography  >Upload file</Typography>
+            </CssVarsProvider>
+            <label htmlFor="file-input">
+              <CustomeToolTip title="upload">
+                <IconButton color="primary" aria-label="upload file" component="span">
+                  <UploadFileIcon />
+                </IconButton>
+              </CustomeToolTip>
+            </label>
+            <Input
+              id="file-input"
+              type="file"
+              accept=".jpg, .jpeg, .png, .pdf"
+              style={{ display: 'none' }}
+              onChange={uploadFile}
+              />
+                <Box sx={{ pt:2,fontWeight:2}}>
+            {selectFile && <p > {selectFile.name}</p>}
+            </Box>
+          </Box>  
           </Box>
-          <Box></Box>
           <Box sx={{ width: '70%' }}>
             <SubCategoryTable count={count} rowSelect={rowSelect} />
           </Box>

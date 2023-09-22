@@ -1,7 +1,5 @@
 import { Box } from '@mui/material'
-import React, { Fragment } from 'react'
-import { useCallback } from 'react'
-import { useState } from 'react'
+import React, { Fragment,useState,useCallback,memo } from 'react'
 import DashBoardFloor from './DashBoardFloor'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import tmc from '../../../../src/assets/images/tmc.jpg'
@@ -14,9 +12,7 @@ import pgh from '../../../../src/assets/images/pgcottage.jpg'
 import mbbsm from '../../../../src/assets/images/mbbsboys.jpg'
 import mbbsg from '../../../../src/assets/images/mbbsgirls.jpg'
 import nurse_staff from '../../../../src/assets/images/nuse_staff.jpg'
-
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { memo } from 'react'
 
 const DashBoardMain = () => {
   const Floordatas = React.lazy(() => import('../DashBoard/DashBoardFloor'))
