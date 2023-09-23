@@ -5,9 +5,10 @@ const DashBordTile = () => {
     return (
         <Paper
             sx={{
-                width: '20%',
-                height: 150
+                width: '25%',
+                height: 160
             }}
+
         >
             dsdfsd
         </Paper>
