@@ -6,9 +6,10 @@ const DashBordTile = () => {
         <Paper
             sx={{
                 width: '25%',
-                height: 160
+                height: 160,
+                backgroundColor: 'transparent'
             }}
-
+            variant='outlined'
         >
             dsdfsd
         </Paper>

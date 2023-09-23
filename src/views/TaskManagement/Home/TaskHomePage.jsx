@@ -39,7 +39,7 @@ const TaskHomePage = () => {
                 flexDirection: 'column',
                 flexWrap: 'wrap',
                 padding: 1,
-                // backgroundColor: '#e0dedc',
+                backgroundColor: '#ffff',
                 overflow: 'hidden'
                 // border: 1
             }} >
