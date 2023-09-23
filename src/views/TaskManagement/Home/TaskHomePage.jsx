@@ -2,6 +2,7 @@ import { Box } from '@mui/joy'
 import { Paper } from '@mui/material';
 import React, { memo } from 'react'
 import { innerHeight } from 'src/views/Constant/Constant';
+import DashBordTile from '../Components/DashBordTile';
 
 const TaskHomePage = () => {
 
@@ -16,24 +17,23 @@ const TaskHomePage = () => {
             borderWidth: 1.5,
             borderColor: '#e0dedc'
         }} >
-            <Box sx={{
-                display: 'flex',
-                flex: 1,
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                padding: 1,
-                backgroundColor: '#e0dedc',
-                overflow: 'hidden'
-                // border: 1
-            }} >
-                <Paper
-                    sx={{
-                        width: '20%',
-                        height: 150
-                    }}
-                >
-                    dsdfsd
-                </Paper>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    padding: 1,
+                    backgroundColor: '#e0dedc',
+                    // overflow: 'hidden'
+                    // border: 1
+                }}
+                gap={1}
+            >
+                <DashBordTile />
+                <DashBordTile />
+                <DashBordTile />
+                <DashBordTile />
+                <DashBordTile />
+                <DashBordTile />
             </Box>
         </Box>
     )

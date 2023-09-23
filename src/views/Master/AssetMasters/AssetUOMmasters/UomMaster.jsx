@@ -16,10 +16,10 @@ const UomMaster = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const history = useHistory()
-       // Get login user emp_id
-       const id = useSelector((state) => {
-        return state.LoginUserData.empid
-       })
+  // Get login user emp_id
+  const id = useSelector((state) => {
+    return state.LoginUserData.empid
+  })
   const [uom, setUom] = useState({
     uom_slno: '',
     uom_name: '',
@@ -39,16 +39,16 @@ const UomMaster = () => {
       uom_status: uom_status === true ? 1 : 0,
       create_user: id
     }
-  }, [uom_name, uom_status,id])
+  }, [uom_name, uom_status, id])
   const patchdata = useMemo(() => {
     return {
       uom_slno: uom_slno,
       uom_name: uom_name,
       uom_status: uom_status === true ? 1 : 0,
       edit_user: id
-      
+
     }
-  }, [uom_slno, uom_name, uom_status,id])
+  }, [uom_slno, uom_name, uom_status, id])
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
@@ -104,17 +104,17 @@ const UomMaster = () => {
 
       if (value === 0) {
         if (uom_name !== '') {
-        InsertUom(postdata)
+          InsertUom(postdata)
         }
         else {
           infoNotify("Please Enter Uinit of Measurement")
         }
       }
-        else {
+      else {
         UomUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count,uom_name],
+    [postdata, value, patchdata, count, uom_name],
   )
 
   const backtoSetting = useCallback(() => {
@@ -128,7 +128,7 @@ const UomMaster = () => {
     }
     setUom(frmdata)
     setValue(0)
-    setSelectFile(null)
+    // setSelectFile(null)
   }, [setUom])
   return (
     <CardMaster
