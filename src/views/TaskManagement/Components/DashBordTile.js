@@ -13,7 +13,10 @@ const DashBordTile = ({ taskName, count, Icons }) => {
                 border: 1,
                 padding: 2,
                 borderColor: taskColor.indigoDark,
-                cursor: 'grab'
+                cursor: 'grab',
+                ":hover": {
+                    borderColor: '#7D18EA'
+                }
             }}
             variant='outlined'
         >

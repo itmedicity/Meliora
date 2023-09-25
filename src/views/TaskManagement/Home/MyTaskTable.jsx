@@ -1,7 +1,7 @@
-import { CssVarsProvider } from '@mui/joy'
+import { CssVarsProvider, LinearProgress } from '@mui/joy'
 import Table from '@mui/joy/Table'
 import Box from '@mui/joy/Box'
-import React, { memo } from 'react'
+import React, { memo, lazy, Suspense } from 'react'
 import Chip from '@mui/joy/Chip';
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
@@ -15,6 +15,8 @@ import Avatar from '@mui/joy/Avatar';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import LockIcon from '@mui/icons-material/Lock';
 
+// lazy components
+const TaskUpcomingCmp = lazy(() => import('../Components/TaskUpcomingCmp'))
 
 const MyTaskTable = () => {
     const [index, setIndex] = React.useState(0);
@@ -48,7 +50,14 @@ const MyTaskTable = () => {
                     <TabList
                         disableUnderline
                         sx={{
-                            // backgroundColor: 'green'
+                            p: 0.5,
+                            gap: 0.5,
+                            borderRadius: 'xl',
+                            bgcolor: 'background.level1',
+                            [`& .${tabClasses.root}[aria-selected="true"]`]: {
+                                boxShadow: 'sm',
+                                bgcolor: 'background.surface',
+                            },
                         }}
                     >
                         <Box
@@ -73,8 +82,8 @@ const MyTaskTable = () => {
                                 </Avatar>
                             </Box>
                             <Box>
-                                <Box sx={{ display: 'flex' }} >
-                                    <Box sx={{ fontWeight: 700, fontSize: 18, fontSmooth: 'always' }} >My Tasks</Box>
+                                <Box sx={{ display: 'flex', alignItems: 'center' }} >
+                                    <Box sx={{ fontWeight: 700, fontSize: 18, fontSmooth: 'always', pr: 0.5 }} >My Tasks</Box>
                                     <LockIcon />
                                 </Box>
                                 <Box
@@ -82,9 +91,9 @@ const MyTaskTable = () => {
                                         display: 'flex'
                                     }}
                                 >
-                                    <Tab>Upcoming</Tab>
-                                    <Tab>Over due (2)</Tab>
-                                    <Tab>Completed</Tab>
+                                    <Tab disableIndicator >Upcoming</Tab>
+                                    <Tab disableIndicator >Over due (2)</Tab>
+                                    <Tab disableIndicator >Completed</Tab>
                                 </Box>
                             </Box>
                         </Box>
@@ -93,7 +102,9 @@ const MyTaskTable = () => {
                         flex: 1,
                         flexGrow: 1,
                     }} >
-                        <b>First</b> tab panel
+                        <Suspense fallback={<LinearProgress size="sm" variant="plain" />} >
+                            <TaskUpcomingCmp />
+                        </Suspense>
                     </TabPanel>
                     <TabPanel value={1}>
                         <b>Second</b> tab panel
