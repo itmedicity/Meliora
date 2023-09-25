@@ -6,7 +6,7 @@ import {
     crm_setting_one, crm_setting_two, crm_setting_three, task_setting_one, task_setting_two, task_setting_three,
     userManagement_one, userManagement_two, userManagement_three, am_setting_one, am_setting_two, am_setting_three,
     rm_setting_one, rm_setting_two, rm_setting_three, dm_setting_one, dm_setting_two, dm_setting_three,
-    we_setting_one, we_setting_two, hall_booking_one
+    we_setting_one, we_setting_two, hall_booking_one, it_setting_one, it_setting_two, it_setting_three
 } from './SettingsMenu';
 import { Card, CardContent, CardHeader } from '@mui/material';
 import { titleTypography, cardActionBgClr } from 'src/color/Color';
@@ -39,6 +39,9 @@ const Settings = () => {
     const [weMast_secOne, setweMast_secOne] = useState();
     const [weMast_secTwo, setweMast_secTwo] = useState();
     const [hallBooking_secOne, setHallBooking_secOne] = useState();
+    const [itMast_secOne, setitMast_secOne] = useState();
+    const [itMast_secTwo, setitMast_secTwo] = useState();
+    const [itMast_secThree, setitMast_secThree] = useState();
     const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
@@ -111,6 +114,15 @@ const Settings = () => {
             //Hall Booking
             const hall_setting_section_one = hall_booking_one.filter(val => menuSlnoArray.includes(val.slno));
             setHallBooking_secOne(hall_setting_section_one)
+
+            //IT Management
+            const it_setting_section_one = it_setting_one.filter(val => menuSlnoArray.includes(val.slno));
+            setitMast_secOne(it_setting_section_one)
+            const it_setting_section_two = it_setting_two.filter(val => menuSlnoArray.includes(val.slno));
+            setitMast_secTwo(it_setting_section_two)
+            const it_setting_section_three = it_setting_three.filter(val => menuSlnoArray.includes(val.slno));
+            setitMast_secThree(it_setting_section_three)
+
 
             //User Rights 
             const user_setting_section_one = userManagement_one.filter(val => menuSlnoArray.includes(val.slno));
@@ -437,7 +449,43 @@ const Settings = () => {
                     </div>
                 </div>
             </CardContent>
-
+            <CardHeader title={"IT Management"}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
+                sx={{
+                    backgroundColor: cardActionBgClr,
+                    paddingY: 0.5,
+                }} />
+            <CardContent>
+                <div className="row" >
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                itMast_secOne && itMast_secOne.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                itMast_secTwo && itMast_secTwo.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                itMast_secThree && itMast_secThree.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </CardContent>
 
             <CardHeader title={"User Settings"}
                 titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}

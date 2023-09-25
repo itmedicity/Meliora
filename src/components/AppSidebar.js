@@ -22,6 +22,7 @@ import HallBookingTrans from 'src/Menus/HallBookingTrans'
 import { Box, Typography } from '@mui/material'
 import TaskTransaction from 'src/Menus/TaskTransaction'
 import AmTransactions from 'src/Menus/AmTransaction'
+import ITTransactions from 'src/Menus/ItTransaction'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
@@ -37,6 +38,7 @@ const AppSidebar = () => {
   const [escalation, setescalation] = useState()
   const [hallbooking, setHallBooking] = useState()
   const [tasktransact, setTaskTransact] = useState()
+  const [itmanagement, setItManagement] = useState()
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
 
@@ -118,6 +120,12 @@ const AppSidebar = () => {
       name: 'Task Management',
       items: tasktransact
     },
+    {
+      slno: 18,
+      component: CNavGroup,
+      name: 'IT Management',
+      items: itmanagement
+    },
   ]
 
   useEffect(() => {
@@ -150,6 +158,8 @@ const AppSidebar = () => {
         setHallBooking(hallBookingTransact)
         const TaskManageTransact = TaskTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
         setTaskTransact(TaskManageTransact)
+        const ItManageTransact = ITTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        setItManagement(ItManageTransact)
         setCount(1)
       }
     })

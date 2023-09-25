@@ -31,13 +31,14 @@ const ModuleGroupMast = () => {
         escalation: false,
         hallbooking: false,
         task: false,
+        itmanagement: false,
         mod_grp_slno: 0
 
     })
     /*** Destructuring */
     const { modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, wework,
         diet, feedback, nabh, settings, sfanfa, nurseStation, reports, mod_grp_slno, dashboard,
-        escalation, hallbooking, task } = moduleGroup
+        escalation, hallbooking, task, itmanagement } = moduleGroup
 
     /***Get values from the component */
     const updateModuleGroup = useCallback((e) => {
@@ -66,11 +67,12 @@ const ModuleGroupMast = () => {
                 module_dashboard: dashboard === true ? 14 : 0,
                 module_escalation: escalation === true ? 15 : 0,
                 module_hallbooking: hallbooking === true ? 16 : 0,
-                module_task: task === true ? 17 : 0
+                module_task: task === true ? 17 : 0,
+                module_it: itmanagement === true ? 18 : 0
             }
         }
     }, [modulegrp_name, complaintManagement, requestmanag, assetmanag, roommanag, escalation, wework,
-        diet, feedback, settings, nabh, sfanfa, nurseStation, reports, dashboard, hallbooking, task])
+        diet, feedback, settings, nabh, sfanfa, nurseStation, reports, dashboard, hallbooking, task, itmanagement])
 
     /*** data for  update to module_group_mast table */
     const patchdata = useMemo(() => {
@@ -93,12 +95,14 @@ const ModuleGroupMast = () => {
                 module_dashboard: dashboard === true ? 14 : 0,
                 module_escalation: escalation === true ? 15 : 0,
                 module_hallbooking: hallbooking === true ? 16 : 0,
-                module_task: task === true ? 17 : 0
+                module_task: task === true ? 17 : 0,
+                module_it: itmanagement === true ? 18 : 0
             },
             mod_grp_slno: mod_grp_slno
         }
     }, [modulegrp_name, complaintManagement, requestmanag, escalation, assetmanag, roommanag, wework, diet,
-        feedback, nabh, settings, sfanfa, mod_grp_slno, nurseStation, reports, dashboard, hallbooking, task])
+        feedback, nabh, settings, sfanfa, mod_grp_slno, nurseStation, reports, dashboard, hallbooking, task, itmanagement])
+
     // data setting for edit
     const rowSelect = useCallback((data) => {
         setvalue(1)
@@ -124,6 +128,7 @@ const ModuleGroupMast = () => {
             escalation: module_status.module_escalation === 0 ? false : true,
             hallbooking: module_status.module_hallbooking === 0 ? false : true,
             task: module_status.module_task === 0 ? false : true,
+            itmanagement: module_status.module_it === 0 ? false : true,
         }
         setModuleGroup(formdata)
     }, [])
@@ -147,7 +152,8 @@ const ModuleGroupMast = () => {
             reports: false,
             escalation: false,
             hallbooking: false,
-            task: false
+            task: false,
+            itmanagement: false
         }
         /***     * insert function for use call back     */
         const InsertFun = async (postdata) => {
@@ -212,7 +218,8 @@ const ModuleGroupMast = () => {
             dashboard: false,
             escalation: false,
             hallbooking: false,
-            task: false
+            task: false,
+            itmanagement: false
         }
         setModuleGroup(frmreset)
         setvalue(0);
@@ -432,6 +439,21 @@ const ModuleGroupMast = () => {
                                         onCheked={updateModuleGroup}
                                     />
                                 </Grid>
+                                <Grid item xl={12} lg={12}>
+                                    <CusCheckBox
+                                        label="IT Management"
+                                        color="primary"
+                                        size="md"
+                                        name="itmanagement"
+                                        variant="outlined"
+                                        value={itmanagement}
+                                        checked={itmanagement}
+                                        onCheked={updateModuleGroup}
+                                    />
+                                </Grid>
+
+
+
                             </Grid>
                         </Box>
 
