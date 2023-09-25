@@ -144,6 +144,27 @@ export const hall_booking_one = [
     { to: '/Home/Hallmaster', name: 'Hall Master', slno: 102 },
 
 ]
+
+
+
+//IT Menu
+export const it_setting_one = [
+    { to: '/Home/Building', name: 'Building', slno: 30 },
+
+
+
+]
+
+export const it_setting_two = [
+
+
+]
+export const it_setting_three = [
+
+
+
+]
+
 //User Management Menu
 
 export const userManagement_one = [
