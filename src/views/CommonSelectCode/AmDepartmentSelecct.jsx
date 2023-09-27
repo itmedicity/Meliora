@@ -1,56 +1,47 @@
 import React, { useEffect, memo, useState, Fragment } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/'
-import { getSubmodel } from 'src/redux/actions/AmSubmodelList.action';
+import { getDesignation } from 'src/redux/actions/DeptSecDept.action';
+import { useDispatch } from 'react-redux'
 
 
-const AssetModelSelect = ({ model, setModel, setName }) => {
+const AmDepartmentSelecct = ({ department, setDepartment, setDeptName }) => {
     const dispatch = useDispatch();
 
-    const assetmodel = useSelector((state) => state.getAmModel.modelList)
-    const [models, setModels] = useState([{ model_slno: 0, model_name: '' }])
-
+    const departmentList = useSelector((state) => state.getDepartment?.departmentList)
+    const [models, setModels] = useState([{ dept_id: 0, dept_name: '' }])
     const [value, setValue] = useState(models[0]);
     const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
-        if (model !== 0) {
-            let newObj = assetmodel?.find((e) => e.model_slno === model)
-            setValue(newObj)
-        }
-    }, [model, assetmodel])
-
-
-    useEffect(() => {
         if (value !== null) {
-            dispatch(getSubmodel(value.model_slno))
-            setModel(value.model_slno)
-            setName(value.model_name)
+            setValue(value)
+            dispatch(getDesignation(value.dept_id))
+            setDepartment(value.dept_id)
+            setDeptName(value.dept_name)
         } else {
-            dispatch(getSubmodel(0))
-            setModel(0)
-            setName('')
+            setDepartment(0)
+            setDeptName('')
         }
         return
-    }, [value, dispatch, setModel, setName])
+    }, [value, setDepartment, setDeptName, dispatch])
 
 
     useEffect(() => {
-        assetmodel.length > 0 && setModels(assetmodel)
-    }, [assetmodel])
+        departmentList.length > 0 && setModels(departmentList)
+    }, [departmentList])
 
 
     return (
-
         <Fragment >
             <CssVarsProvider>
                 <Autocomplete
                     sx={{
                         "--Input-minHeight": "29px"
                     }}
-                    value={model === 0 ? models : value}
-                    placeholder="Select Model"
+                    value={department === 0 ? models : value}
+                    placeholder="Select Department"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);
@@ -63,13 +54,12 @@ const AssetModelSelect = ({ model, setModel, setName }) => {
                     loadingText="Loading..."
                     freeSolo
                     // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
-                    isOptionEqualToValue={(option, value) => option.model_name === value.model_name}
-                    getOptionLabel={option => option.model_name || ''}
+                    isOptionEqualToValue={(option, value) => option.dept_name === value.dept_name}
+                    getOptionLabel={option => option.dept_name || ''}
                     options={models}
                 />
             </CssVarsProvider>
         </Fragment>
     )
 }
-
-export default memo(AssetModelSelect)
+export default memo(AmDepartmentSelecct)
