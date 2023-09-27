@@ -142,6 +142,12 @@ const AssetModel = React.lazy(() => import('./views/Master/AssetMasters/AssetMod
 const AssetSubModel = React.lazy(() => import('./views/Master/AssetMasters/AssetSubModel/AssetSubModel'))
 const RoomAsset = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardRoomAsset'))
 const ItemCreation = React.lazy(() => import('./views/AssetManagment/ItemCreation/ItemCreationMast'))
+const DashboardBackup = React.lazy(() => import('./views/ItManagement/DashboardBackup/DashboradBackup'))
+const PasswordManagement = React.lazy(() => import('./views/ItManagement/PasswordManagement/PasswordManagement'))
+const CommunicationDevice = React.lazy(() => import('./views/ItManagement/CommunicationDeviceDetails/CommunicationDevice'))
+const BackupChecks = React.lazy(() => import('./views/ItManagement/BackupChecksAndMonitoring/BackupChecks'))
+const NetWorkIP = React.lazy(() => import('./views/ItManagement/IPaddressDetails/NetworkIPaddress'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -286,7 +292,12 @@ const routes = [
   { path: '/Home/AssetModel', exact: true, name: 'Asset Model', component: AssetModel },
   { path: '/Home/AssetSubModel', exact: true, name: 'Asset SubModel', component: AssetSubModel },
   { path: '/Home/RoomAsset', exact: true, name: 'Room Asset', component: RoomAsset },
-  { path: '/Home/ItemCreation', exact: true, name: 'item Creation', component: ItemCreation }
+  { path: '/Home/ItemCreation', exact: true, name: 'item Creation', component: ItemCreation },
+  { path: '/Home/DashboardBackup', exact: true, name: 'Dashboard Backup', component: DashboardBackup },
+  { path: '/Home/PasswordManagement', exact: true, name: 'Password Management', component: PasswordManagement },
+  { path: '/Home/CommunicationDevice', exact: true, name: 'Communication Device Details', component: CommunicationDevice },
+  { path: '/Home/BackupChecks', exact: true, name: 'Backup Checks & Monitoring', component: BackupChecks },
+  { path: '/Home/NetworkIP', exact: true, name: 'IP Address Details', component: NetWorkIP }
 ]
 
 export default routes
