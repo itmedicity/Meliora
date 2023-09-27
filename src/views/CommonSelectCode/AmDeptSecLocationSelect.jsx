@@ -3,35 +3,25 @@ import { useSelector } from 'react-redux'
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/'
 
-const AmAssetTypeSelect = ({ assettype, setAssetType, setName }) => {
-    const assetTypes = useSelector((state) => state.getAmAssetType?.AssetTypeList)
-    const [types, setType] = useState([{ asset_type_slno: 0, asset_type_name: '' }])
-    const [value, setValue] = useState(types[0]);
+const AmDeptSecLocationSelect = ({ location, setLocation }) => {
+
+    const DeptSecArry = useSelector((state) => state.getDeptsection?.deptsectionList)
+    const [deptSections, setDeptSections] = useState([{ sec_id: 0, category_name: '' }])
+    const [value, setValue] = useState(deptSections[0]);
     const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
-        if (assettype !== 0) {
-            let newObj = assetTypes?.find((e) => e.asset_type_slno === assettype)
-            setValue(newObj)
-        }
-    }, [assettype, assetTypes])
-
-
-    useEffect(() => {
         if (value !== null) {
-            setAssetType(value.asset_type_slno)
-            setName(value.asset_type_name)
+            setLocation(value.sec_id)
         } else {
-            setAssetType(0)
-            setName('')
+            setLocation(0)
         }
         return
-    }, [value, setAssetType, setName])
-
+    }, [value, setLocation])
 
     useEffect(() => {
-        assetTypes.length > 0 && setType(assetTypes)
-    }, [assetTypes])
+        DeptSecArry.length > 0 && setDeptSections(DeptSecArry)
+    }, [DeptSecArry])
 
 
     return (
@@ -41,8 +31,8 @@ const AmAssetTypeSelect = ({ assettype, setAssetType, setName }) => {
                     sx={{
                         "--Input-minHeight": "29px"
                     }}
-                    value={assettype === 0 ? types : value}
-                    placeholder="Select Asset type"
+                    value={location === 0 ? deptSections : value}
+                    placeholder="Select Category"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);
@@ -55,13 +45,13 @@ const AmAssetTypeSelect = ({ assettype, setAssetType, setName }) => {
                     loadingText="Loading..."
                     freeSolo
                     // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
-                    isOptionEqualToValue={(option, value) => option.asset_type_name === value.asset_type_name}
-                    getOptionLabel={option => option.asset_type_name || ''}
-                    options={types}
+                    isOptionEqualToValue={(option, value) => option.sec_name === value.sec_name}
+                    getOptionLabel={option => option.sec_name || ''}
+                    options={deptSections}
                 />
             </CssVarsProvider>
         </Fragment>
     )
 }
 
-export default memo(AmAssetTypeSelect)
+export default memo(AmDeptSecLocationSelect)

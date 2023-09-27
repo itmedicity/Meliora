@@ -1,10 +1,9 @@
-import React, { useEffect, memo, useState, useCallback, Fragment } from 'react'
-import { useSelector } from 'react-redux'
+import React, { memo, useState, useEffect, Fragment, useCallback } from 'react'
+import { useSelector } from 'react-redux';
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/'
 
-
-const AmSubmodelSelect = ({ submodel, setSubmodel, setName }) => {
+const AmSubModelWOName = ({ submodel, setSubmodel }) => {
 
     const assetSUbmodel = useSelector((state) => state.getSubmodel.SubmodelList)
     const [submodels, setSubmodels] = useState([{ submodel_slno: 0, submodel_name: '' }])
@@ -12,23 +11,15 @@ const AmSubmodelSelect = ({ submodel, setSubmodel, setName }) => {
     const [value, setValue] = useState(submodels[0]);
     const [inputValue, setInputValue] = useState('');
 
-    useEffect(() => {
-        if (submodel !== 0) {
-            let newObj = assetSUbmodel?.find((e) => e.submodel_slno === submodel)
-            setValue(newObj)
-        }
-    }, [submodel, assetSUbmodel])
-
     const ClickFunction = useCallback((newValue) => {
         if (newValue !== null) {
+            setValue(newValue)
             setSubmodel(newValue.submodel_slno)
-            setName(newValue.submodel_name)
         }
         else {
             setSubmodel(0)
-            setName('')
         }
-    }, [setSubmodel, setName])
+    }, [setSubmodel])
 
     useEffect(() => {
         assetSUbmodel.length > 0 && setSubmodels(assetSUbmodel)
@@ -66,5 +57,4 @@ const AmSubmodelSelect = ({ submodel, setSubmodel, setName }) => {
 
 
 }
-
-export default memo(AmSubmodelSelect)
+export default memo(AmSubModelWOName)

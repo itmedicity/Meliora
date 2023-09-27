@@ -3,35 +3,29 @@ import { useSelector } from 'react-redux';
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/'
 
-const AssetUOMSelect = ({ uom, setUOM, setName }) => {
+const AmManufacWOName = ({ manufacture, setManufacture }) => {
 
-    const assetUom = useSelector((state) => state.getUOM.uomList)
-    const [uoms, setUoms] = useState([{ uom_slno: 0, uom_name: '' }])
-    const [value, setValue] = useState(uoms[0]);
+    const assetManufacture = useSelector((state) => state.getAmManufacture.ManufactureList)
+    const [manufactures, setManufactures] = useState([{ manufacture_slno: 0, manufacture_name: '' }])
+    const [value, setValue] = useState(manufactures[0]);
     const [inputValue, setInputValue] = useState('');
 
-    useEffect(() => {
-        if (uom !== 0) {
-            let newObj = assetUom?.find((e) => e.uom_slno === uom)
-            setValue(newObj)
-        }
-    }, [uom, assetUom])
+
 
     useEffect(() => {
         if (value !== null) {
-            setUOM(value.uom_slno)
-            setName(value.uom_name)
+            setValue(value)
+            setManufacture(value.manufacture_slno)
         } else {
-            setUOM(0)
-            setName('')
+            setManufacture(0)
         }
         return
-    }, [value, setUOM, setName])
+    }, [value, setManufacture])
 
 
     useEffect(() => {
-        assetUom.length > 0 && setUoms(assetUom)
-    }, [assetUom])
+        assetManufacture.length > 0 && setManufactures(assetManufacture)
+    }, [assetManufacture])
 
     return (
         <Fragment >
@@ -40,8 +34,8 @@ const AssetUOMSelect = ({ uom, setUOM, setName }) => {
                     sx={{
                         "--Input-minHeight": "29px"
                     }}
-                    value={uom === 0 ? uoms : value}
-                    placeholder="Select Unit of Measurement"
+                    value={manufacture === 0 ? manufactures : value}
+                    placeholder="Select Manufacture"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);
@@ -54,17 +48,12 @@ const AssetUOMSelect = ({ uom, setUOM, setName }) => {
                     loadingText="Loading..."
                     freeSolo
                     // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
-                    isOptionEqualToValue={(option, value) => option.uom_name === value.uom_name}
-                    getOptionLabel={option => option.uom_name || ''}
-                    options={uoms}
+                    isOptionEqualToValue={(option, value) => option.manufacture_name === value.manufacture_name}
+                    getOptionLabel={option => option.manufacture_name || ''}
+                    options={manufactures}
                 />
             </CssVarsProvider>
         </Fragment>
     );
 }
-
-export default memo(AssetUOMSelect)
-
-
-
-
+export default memo(AmManufacWOName)
