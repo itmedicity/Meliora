@@ -107,10 +107,14 @@ const MyTaskTable = () => {
                         </Suspense>
                     </TabPanel>
                     <TabPanel value={1}>
-                        <b>Second</b> tab panel
+                        <Suspense fallback={<LinearProgress size="sm" variant="plain" />} >
+                            <TaskUpcomingCmp />
+                        </Suspense>
                     </TabPanel>
                     <TabPanel value={2}>
-                        <b>Third</b> tab panel
+                        <Suspense fallback={<LinearProgress size="sm" variant="plain" />} >
+                            <TaskUpcomingCmp />
+                        </Suspense>
                     </TabPanel>
                 </Tabs>
             </CssVarsProvider>

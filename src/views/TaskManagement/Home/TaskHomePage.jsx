@@ -20,12 +20,11 @@ const TaskHomePage = () => {
     { taskName: 'Overdue task', count: 18, icon: <FormatOverlineIcon /> },
     { taskName: 'Total task', count: 215, icon: <DoNotDisturbOnTotalSilenceIcon /> }
   ]
-
   return (
     <Box
       sx={{
         display: 'flex',
-        Height: `${innerHeight - 80}px`,
+        minHeight: `${innerHeight - 80}px`,
         borderRadius: 2,
         overflow: 'hidden',
         flexDirection: 'column',
@@ -39,11 +38,11 @@ const TaskHomePage = () => {
           flex: 1,
           flexDirection: 'row',
           backgroundColor: '#ffffff',
+          maxHeight: 40,
           alignItems: 'center',
           borderBottom: 1,
           borderColor: '#b5b3ca',
-          pl: 2,
-          paddingY: 1.5
+          pl: 2
         }}
       >
         <DashboardOutlinedIcon fontSize='medium' sx={{ color: '#262065' }} />
