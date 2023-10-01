@@ -25,7 +25,7 @@ const TaskHomePage = () => {
     <Box
       sx={{
         display: 'flex',
-        minHeight: `${innerHeight - 80}px`,
+        Height: `${innerHeight - 80}px`,
         borderRadius: 2,
         overflow: 'hidden',
         flexDirection: 'column',
@@ -39,13 +39,11 @@ const TaskHomePage = () => {
           flex: 1,
           flexDirection: 'row',
           backgroundColor: '#ffffff',
-          maxHeight: 40,
           alignItems: 'center',
-          // borderLeftWidth: 0,
-          // borderRightWidth: 0,
           borderBottom: 1,
           borderColor: '#b5b3ca',
-          pl: 2
+          pl: 2,
+          paddingY: 1.5
         }}
       >
         <DashboardOutlinedIcon fontSize='medium' sx={{ color: '#262065' }} />
