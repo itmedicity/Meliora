@@ -105,10 +105,10 @@ const ItemCreationMast = () => {
   return (
     <Box sx={{
       display: 'flex',
-      flexDirection: 'column',
-      flex: 1,
+      flexGrow: 1,
       width: '100%',
-      height: window.innerHeight - 85
+      height: window.innerHeight - 85,
+      bgcolor: 'green'
     }}>
       <CardMasterClose
         title="Item Creation"
@@ -117,138 +117,111 @@ const ItemCreationMast = () => {
         <Box sx={{
           display: 'flex',
           flexDirection: 'column',
-          flex: 1,
-          width: '100%'
+          m: -1,
         }} >
-          <Box sx={{ display: 'flex', flex: 1, width: '100%', p: 0.5, flexDirection: 'row' }} >
-
-            <Box sx={{ display: 'flex', flex: 1, width: '25%', p: 0.5, flexDirection: 'row' }} >
-              <Box sx={{ width: '30%', pl: 1, pt: 1.3, }}>
-                <Typography>Category</Typography>
-              </Box>
-              <Box sx={{ width: '70%', pt: 1.3, }}>
+          <Box sx={{
+            display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+            borderBottom: 1, borderWidth: 0.1, borderColor: 'black',
+          }} >
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Category</Typography>
+              <Box>
                 <AmCategorySelWOName
                   category={category}
                   setCategory={setCategory}
-
                 />
               </Box>
-
             </Box>
-            <Box sx={{ display: 'flex', flex: 1, width: '25%', p: 0.5, flexDirection: 'row' }} >
-              <Box sx={{ width: '30%', pl: 1, pt: 1.3, }}>
-                <Typography>Sub Category</Typography>
-              </Box>
-              <Box sx={{ width: '70%', pt: 1.3, }}>
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Sub Category</Typography>
+              <Box sx={{ width: '100%' }}>
                 <AmSubCategryWOName
                   subcategory={subcategory}
                   setSubcategory={setSubcategory}
                 />
               </Box>
-
             </Box>
-            <Box sx={{ display: 'flex', flex: 1, width: '25%', p: 0.5, flexDirection: 'row' }} >
-              <Box sx={{ width: '30%', pl: 1, pt: 1.3, }}>
-                <Typography>Group</Typography>
-              </Box>
-              <Box sx={{ width: '70%', pt: 1.3 }}>
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Group</Typography>
+              <Box sx={{ width: '100%' }}>
                 <AmGroupSelWOName
                   group={group}
                   setGroup={setGroup}
                 />
               </Box>
-
             </Box>
-            <Box sx={{ display: 'flex', flex: 1, width: '25%', p: 0.5, flexDirection: 'row', }} >
-              <Box sx={{ width: '30%', pl: 1, pt: 1.3, }}>
-                <Typography>Sub Group</Typography>
-              </Box>
-              <Box sx={{ width: '70%', pt: 1.3 }}>
+
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Sub Group</Typography>
+              <Box sx={{ width: '100%' }}>
                 <AmSubGroupWOName
                   subgroup={subgroup}
                   setSubGroup={setSubGroup}
                 />
               </Box>
             </Box>
-          </Box>
-
-          {/* 2nd row */}
-          <Box sx={{ display: 'flex', flex: 1, width: '100%', p: 0.5, flexDirection: 'row' }} >
-            <Box sx={{ display: 'flex', flex: 1, width: '25%', p: 0.5, flexDirection: 'row' }} >
-              <Box sx={{ width: '30%', pl: 1, pt: 1.3, }}>
-                <Typography>Model</Typography>
-              </Box>
-              <Box sx={{ width: '70%', pt: 1.3, }}>
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Model</Typography>
+              <Box sx={{ width: '100%' }}>
                 <AmModelSelWOName
                   model={model}
                   setModel={setModel}
                 />
               </Box>
-
             </Box>
-            <Box sx={{ display: 'flex', flex: 1, width: '25%', p: 0.5, flexDirection: 'row' }} >
-              <Box sx={{ width: '30%', pl: 1, pt: 1.3, }}>
-                <Typography> Sub Model</Typography>
-              </Box>
-              <Box sx={{ width: '70%', pt: 1.3, }}>
+
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Sub Model</Typography>
+              <Box sx={{ width: '100%' }}>
                 <AmSubModelWOName
                   submodel={submodel}
                   setSubmodel={setSubmodel}
                 />
               </Box>
-
             </Box>
-            <Box sx={{ display: 'flex', flex: 1, width: '25%', p: 0.5, flexDirection: 'row' }} >
-              <Box sx={{ width: '30%', pl: 1, pt: 1.3, }}>
-                <Typography>Manufacture</Typography>
-              </Box>
-              <Box sx={{ width: '70%', pt: 1.3 }}>
+
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Manufacture</Typography>
+              <Box sx={{ width: '100%' }}>
                 <AmManufacWOName
                   manufacture={manufacture}
                   setManufacture={setManufacture}
                 />
               </Box>
-
             </Box>
-            <Box sx={{ display: 'flex', flex: 1, width: '25%', p: 0.5, flexDirection: 'row', }} >
-              <Box sx={{ width: '30%', pl: 1, pt: 1.3, }}>
-                <Typography>Model No</Typography>
-              </Box>
-              <Box sx={{ width: '70%', pt: 1.3 }}>
+
+            <Box sx={{ display: 'flex', width: '22%', p: 0.5, flexDirection: 'column' }} >
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Model No</Typography>
+              <Box sx={{ width: '100%' }}>
                 <AmModelNumberSelect
                   modelNumber={modelNumber}
                   setModelNumber={setModelNumber}
                 />
+              </Box>
+            </Box>
 
-              </Box>
-              <Box sx={{ width: '10%', pl: 1, pt: 1.3, }}>
-                <CusIconButton size="sm" variant="outlined" clickable="true" onClick={search} >
-                  <SearchOutlinedIcon fontSize='small' />
-                </CusIconButton>
-              </Box>
+            <Box sx={{ width: '3%', pl: 1, pt: 3, }}>
+              <CusIconButton size="sm" variant="outlined" clickable="true" onClick={search} >
+                <SearchOutlinedIcon fontSize='small' />
+              </CusIconButton>
             </Box>
           </Box>
 
           {/* 3rd row */}
+          {flag === 1 ? <ItemCreateMapping itemList={itemList} rowSelect={rowSelect} /> : null}
 
-          <Box sx={{ display: 'flex', flex: 1, width: '100%', p: 0.5, flexDirection: 'row', }} >
-
-            {/* {flag === 1 ? <ItemCreateMapping count={count} itemName={itemName} /> : null} */}
-            {flag === 1 ? <ItemCreateMapping itemList={itemList} rowSelect={rowSelect} /> : null}
-          </Box>
           {/* 4th row */}
-
-          {dataAdd !== 0 ?
-            <ItemAddingComp selectData={selectData}
-              setDisArry={setDisArry}
-              disArry={disArry} />
-            : null
+          {
+            dataAdd !== 0 ?
+              <ItemAddingComp selectData={selectData}
+                setDisArry={setDisArry}
+                disArry={disArry} />
+              : null
           }
 
-        </Box>
-      </CardMasterClose>
-
-    </Box>
+        </Box >
+      </CardMasterClose >
+    </Box >
   )
 }
 

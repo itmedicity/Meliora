@@ -1,8 +1,8 @@
 import React, { useEffect, useState, memo } from 'react'
 import { CssVarsProvider } from '@mui/joy/'
 import Table from '@mui/joy/Table';
-import { Paper } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { Box, } from '@mui/material'
 
 const ItemCreateMapping = ({ itemList, rowSelect }) => {
     const [showArry, setShowArry] = useState([])
@@ -20,7 +20,10 @@ const ItemCreateMapping = ({ itemList, rowSelect }) => {
         }
     }, [itemList])
     return (
-        <Paper sx={{ height: 200, overflow: 'auto' }}>
+        <Box sx={{
+            borderBottom: 1, borderWidth: 0.1, borderColor: 'black',
+            height: 200, overflow: 'auto'
+        }} >
             <CssVarsProvider>
                 <Table stickyHeader>
                     <thead>
@@ -31,7 +34,6 @@ const ItemCreateMapping = ({ itemList, rowSelect }) => {
                         </tr>
                     </thead>
                     <tbody>
-
                         {showArry && showArry.map((val, index) => {
                             return <tr
                                 key={index}
@@ -47,13 +49,10 @@ const ItemCreateMapping = ({ itemList, rowSelect }) => {
                                 </td>
                             </tr>
                         })}
-
-
                     </tbody>
                 </Table>
             </CssVarsProvider>
-        </Paper>
-
+        </Box>
     );
 }
 

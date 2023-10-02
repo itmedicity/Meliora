@@ -147,8 +147,8 @@ const PasswordManagement = React.lazy(() => import('./views/ItManagement/Passwor
 const CommunicationDevice = React.lazy(() => import('./views/ItManagement/CommunicationDeviceDetails/CommunicationDevice'))
 const BackupChecks = React.lazy(() => import('./views/ItManagement/BackupChecksAndMonitoring/BackupChecks'))
 const NetWorkIP = React.lazy(() => import('./views/ItManagement/IPaddressDetails/NetworkIPaddress'))
-
-
+const CustodianDeptmt = React.lazy(() => import('./views/Master/AssetMasters/CustodianDepartment/CustodianDeptMast'))
+const AssetItemListView = React.lazy(() => import('./views/AssetManagment/ItemListView/ItemListViewDept'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/Home', exact: true, name: 'Home', component: Home },
@@ -297,7 +297,9 @@ const routes = [
   { path: '/Home/PasswordManagement', exact: true, name: 'Password Management', component: PasswordManagement },
   { path: '/Home/CommunicationDevice', exact: true, name: 'Communication Device Details', component: CommunicationDevice },
   { path: '/Home/BackupChecks', exact: true, name: 'Backup Checks & Monitoring', component: BackupChecks },
-  { path: '/Home/NetworkIP', exact: true, name: 'IP Address Details', component: NetWorkIP }
+  { path: '/Home/NetworkIP', exact: true, name: 'IP Address Details', component: NetWorkIP },
+  { path: '/Home/CusodianDepartment', exact: true, name: 'Custodian Department', component: CustodianDeptmt },
+  { path: '/Home/AssetItemListView', exact: true, name: 'Asset Item List View', component: AssetItemListView },
 ]
 
 export default routes

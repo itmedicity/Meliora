@@ -124,6 +124,8 @@ import { getAmManufacture } from './AmManufactureList.Reducer'
 import { getAmModel } from './AmModelList.Reducer'
 import { getUOM } from './AmUOMList.Reducer'
 import { getSubmodel } from './AmSubModelListReducer'
+import { getCustodianDept } from './AmCustodianDept.Reducer'
+import { getItemBasedSection } from './AmItemSelectBsedSec.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -255,8 +257,8 @@ const reducer = combineReducers({
     getAmModel,
     getSubmodel,
     getUOM,
-
-
+    getCustodianDept,
+    getItemBasedSection
 
 })
 export default reducer;

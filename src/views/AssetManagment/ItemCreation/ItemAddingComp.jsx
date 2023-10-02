@@ -1,17 +1,18 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import AmDepartmentSelecct from 'src/views/CommonSelectCode/AmDepartmentSelecct'
 import { useDispatch, useSelector } from 'react-redux'
-import { Box, Typography, Tooltip } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import { getDepartment } from 'src/redux/actions/Department.action'
+import { getCustodianDept } from 'src/redux/actions/AmCustodianDept.action'
 import AmDeptSectionSele from 'src/views/CommonSelectCode/AmDeptSectionSele'
-import { Fragment } from 'react'
 import ItemCountWiseMap from './ItemCountWiseMap'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import AddTaskIcon from '@mui/icons-material/AddTask';
+import AmCustodianDeptsele from 'src/views/CommonSelectCode/AmCustodianDeptsele'
 
 const ItemAddingComp = ({ selectData }) => {
 
@@ -27,9 +28,27 @@ const ItemAddingComp = ({ selectData }) => {
     const [deptName, setDeptName] = useState('')
     const [deptSecName, setDeptSecName] = useState('')
     const [count, setCount] = useState('')
+    const [custodiandept, setCustodianDept] = useState(0)
+    const [custdeptName, setcustdeptname] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [secondname, setSecondName] = useState('')
+    const [assetno, setassetNo] = useState('')
+
+
+    useEffect(() => {
+        if (custodiandept !== 0) {
+
+            let array = [firstName, secondname]
+            let filterName = array?.filter((e) => e !== null);
+            let stringName = filterName?.map((e) => e).join('/')
+
+            setassetNo(stringName)
+        }
+    }, [custodiandept, firstName, secondname])
 
     useEffect(() => {
         dispatch(getDepartment())
+        dispatch(getCustodianDept())
         setFlag(0)
         setDisable(0)
         setCount('')
@@ -51,6 +70,8 @@ const ItemAddingComp = ({ selectData }) => {
             item_dept_slno: department,
             item_deptsec_slno: deptsec,
             item_create_status: 1,
+            item_custodian_dept: custodiandept,
+            item_asset_no: assetno,
             create_user: id
         }
     })
@@ -60,17 +81,18 @@ const ItemAddingComp = ({ selectData }) => {
             item_dept_slno: department,
             item_deptsec_slno: deptsec,
             item_create_status: 1,
+            item_custodian_dept: custodiandept,
+            item_asset_no: assetno,
             create_user: id
         }
 
-    }, [slno, department, deptsec, id])
+    }, [slno, department, deptsec, custodiandept, assetno, id])
 
     const getPostData = useMemo(() => {
         return {
             item_creation_slno: slno,
             item_dept_slno: department,
-            item_deptsec_slno: deptsec,
-
+            item_deptsec_slno: deptsec
         }
 
     }, [slno, department, deptsec])
@@ -119,23 +141,26 @@ const ItemAddingComp = ({ selectData }) => {
         setFlag(0)
 
     }, [addMoreItem])
+
+
     return (
-        <Fragment>
-            <Box sx={{ display: 'flex', width: '100%', p: 0.5, flexDirection: 'row', px: 20, justifyContent: 'center' }} >
+        <Box >
+            <Box sx={{ display: 'flex', width: '100%', p: 0.5, flexDirection: 'row', px: 5, justifyContent: 'center' }} >
                 <Box sx={{
-                    backgroundColor: '#94b3b1', borderRadius: 1, p: 1,
+                    backgroundColor: '#94b3b1', borderRadius: 1, p: 1, height: 35
                 }}>
                     <Typography >{Item_name}</Typography>
                 </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', width: '100%', p: 0.5, flexDirection: 'row' }} >
-                <Box sx={{ display: 'flex', flex: 1, width: '25%', p: 0.5, flexDirection: 'row' }} >
-                    <Box sx={{ width: '30%', pl: 1, pt: 1.3, }}>
-                        <Typography>Department</Typography>
-                    </Box>
-                    <Box sx={{ width: '70%', pt: 1.3, }}>
 
+            <Box sx={{
+                display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+                borderBottom: 1, borderWidth: 0.1, borderColor: 'black', width: '100%',
+            }} >
+                <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Department</Typography>
+                    <Box>
                         {disable === 0 ?
                             <AmDepartmentSelecct
                                 department={department}
@@ -151,13 +176,11 @@ const ItemAddingComp = ({ selectData }) => {
                             />
                         }
                     </Box>
-
                 </Box>
-                <Box sx={{ display: 'flex', flex: 1, width: '30%', p: 0.5, flexDirection: 'row', }} >
-                    <Box sx={{ width: '30%', pl: 1, pt: 1.3, }}>
-                        <Typography>Department Section</Typography>
-                    </Box>
-                    <Box sx={{ width: '70%', pt: 1.3, }}>
+
+                <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Department Section</Typography>
+                    <Box>
                         {disable === 0 ?
 
                             <AmDeptSectionSele
@@ -173,14 +196,34 @@ const ItemAddingComp = ({ selectData }) => {
                                 value={deptSecName}
                             />
                         }
-
                     </Box>
                 </Box>
-                <Box sx={{ display: 'flex', flex: 1, width: '40%', p: 0.5, flexDirection: 'row' }} >
-                    <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
-                        <Typography>Count</Typography>
+                <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Custodian Department</Typography>
+                    <Box>
+                        {disable === 0 ?
+
+                            <AmCustodianDeptsele
+                                custodiandept={custodiandept}
+                                setCustodianDept={setCustodianDept}
+                                setcustdeptname={setcustdeptname}
+                                setFirstName={setFirstName}
+                                setSecondName={setSecondName}
+                            /> :
+                            <TextFieldCustom
+                                type="text"
+                                size="sm"
+                                disabled={true}
+                                name="custdeptName"
+                                value={custdeptName}
+                            />
+                        }
                     </Box>
-                    <Box sx={{ width: '20%', pt: 1.3 }}>
+                </Box>
+
+                <Box sx={{ display: 'flex', width: '10%', p: 0.5, flexDirection: 'column' }} >
+                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Count</Typography>
+                    <Box>
                         {
                             disable === 0 ? <TextFieldCustom
                                 type="text"
@@ -196,19 +239,22 @@ const ItemAddingComp = ({ selectData }) => {
                                 value={count}
                             />
                         }
-
-                    </Box>
-                    <Box sx={{ width: '10%', pl: 1, pt: 1.3, }}>
-                        <Tooltip title="Add " placement="top">
-                            <AddTaskIcon onClick={() => AddMultiple()} />
-                        </Tooltip>
-                    </Box>
-                    <Box sx={{ width: '10%', pl: 1, pt: 1.3, }}>
-                        <Tooltip title="Add More " placement="top">
-                            <AddCircleOutlineIcon onClick={() => updateclick()} />
-                        </Tooltip>
                     </Box>
                 </Box>
+                <Box sx={{ display: 'flex', width: '5%', pt: 1, pl: 3, flexDirection: 'column' }} >
+                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Add </Typography>
+                    <Box>
+                        <AddTaskIcon onClick={() => AddMultiple()} />
+                    </Box>
+                </Box>
+
+                <Box sx={{ display: 'flex', width: '8%', pt: 1, pl: 3, flexDirection: 'column' }} >
+                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Add More </Typography>
+                    <Box>
+                        <AddCircleOutlineIcon onClick={() => updateclick()} />
+                    </Box>
+                </Box>
+
             </Box>
 
             <Box sx={{ display: 'flex', flex: 1, width: '100%', p: 0.5, flexDirection: 'row' }} >
@@ -218,7 +264,7 @@ const ItemAddingComp = ({ selectData }) => {
                     : null}
 
             </Box>
-        </Fragment >
+        </Box>
     )
 }
 

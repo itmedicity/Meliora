@@ -40,6 +40,9 @@ import GroupModal from './ModelForAssetItemAdd/GroupModal'
 import ModelModal from './ModelForAssetItemAdd/ModelModal'
 import SubGroupModal from './ModelForAssetItemAdd/SubGroupModal'
 import SubModelModal from './ModelForAssetItemAdd/SubModelModal'
+import { CssVarsProvider } from '@mui/joy'
+import Textarea from '@mui/joy/Textarea';
+
 
 const ItemNameCreation = () => {
   const dispatch = useDispatch();
@@ -79,6 +82,7 @@ const ItemNameCreation = () => {
   const [uomStatus, setUOMstatus] = useState(true)
   const [manufactureStatus, setManufactureStatus] = useState(true)
   const [modelNoStatus, setModelNoStatus] = useState(true)
+  const [baseStatus, setbaseStatus] = useState(true)
   const [assetNameDis, setAssetNameDis] = useState(assetName)
   const [itemNameDis, setItemNameDis] = useState(itemName)
   const [categoryDis, setCategoryDis] = useState(categoryName)
@@ -88,8 +92,25 @@ const ItemNameCreation = () => {
   const [modelDis, setModelDis] = useState(modelName)
   const [submodelDis, setSubModelDis] = useState(submodelName)
   const [uomDis, setUOMdis] = useState(uomName)
+  const [baseDis, setBasedis] = useState('')
   const [manufactureDis, setManufactureDis] = useState(manufactureName)
   const [modelNoDis, setModelNoDis] = useState(modelNo)
+
+  const [item, setItem] = useState({
+    item_creation_slno: '',
+    item_name: '',
+    item_base_name: '',
+    item_specific_one: '',
+    item_specific_two: '',
+    item_creation_status: true,
+  })
+  const {
+    item_creation_slno,
+    item_base_name,
+    item_specific_one,
+    item_specific_two,
+    item_creation_status,
+  } = item
 
   const updateAssetTypeStatus = useCallback((e) => {
     if (e.target.checked === true) {
@@ -173,6 +194,16 @@ const ItemNameCreation = () => {
       setUOMdis('')
     }
   }, [uomName])
+
+  const updateBasesatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setbaseStatus(true)
+      setBasedis(item_base_name)
+    } else if (e.target.checked === false) {
+      setbaseStatus(false)
+      setBasedis('')
+    }
+  }, [item_base_name])
   const updateManufactureStatus = useCallback((e) => {
     if (e.target.checked === true) {
       setManufactureStatus(true)
@@ -196,21 +227,7 @@ const ItemNameCreation = () => {
     setModelNo(e.target.value.toLocaleUpperCase())
     setModelNoDis(e.target.value.toLocaleUpperCase())
   }, [])
-  const [item, setItem] = useState({
-    item_creation_slno: '',
-    item_name: '',
-    item_base_name: '',
-    item_specific_one: '',
-    item_specific_two: '',
-    item_creation_status: false,
-  })
-  const {
-    item_creation_slno,
-    item_base_name,
-    item_specific_one,
-    item_specific_two,
-    item_creation_status,
-  } = item
+
 
   const updateItemCreation = useCallback(
     (e) => {
@@ -259,11 +276,22 @@ const ItemNameCreation = () => {
   const [itemNamee, setItemNamee] = useState('')
 
   useEffect(() => {
-    const name = assetNameDis + ' ' + itemNameDis + ' ' + categoryDis + ' ' + subcatDis + ' ' + groupDis +
-      ' ' + subgroupDis + ' ' + modelDis + ' ' + submodelDis + ' ' + uomDis + ' ' + manufactureDis + ' ' +
-      modelNoDis
-    setItemNamee(name)
-  }, [assetNameDis, itemNameDis, categoryDis, subcatDis, groupDis, subgroupDis, modelDis, submodelDis, uomDis, manufactureDis, modelNoDis])
+    let arrayys = [{ status: assetTypeStatus, name: assetNameDis },
+    { status: itemTypeStatus, name: itemNameDis }, { status: categoryStatus, name: categoryDis },
+    { status: subcatStatus, name: subcatDis }, { status: groupStatus, name: groupDis },
+    { status: subgroupStatus, name: subgroupDis }, { status: manufactureStatus, name: manufactureDis },
+    { status: modelStatus, name: modelDis }, { status: submodelStatus, name: submodelDis },
+    { status: modelNoStatus, name: modelNoDis }, { status: uomStatus, name: uomDis },
+    { status: baseStatus, name: baseDis }]
+
+    let filterName = arrayys?.filter((e) => e.name !== null && e.status === true);
+
+    let stringName = filterName?.map((e) => e.name).join(' ')
+    setItemNamee(stringName)
+  }, [assetTypeStatus, assetNameDis, itemTypeStatus, itemNameDis, categoryStatus, categoryDis,
+    subcatStatus, subcatDis, groupStatus, groupDis, subgroupStatus, subgroupDis, manufactureStatus,
+    manufactureDis, modelStatus, modelDis, submodelStatus, submodelDis, modelNoStatus, modelNoDis,
+    uomStatus, uomDis, baseStatus, baseDis])
 
   const postdata = useMemo(() => {
     return {
@@ -382,8 +410,8 @@ const ItemNameCreation = () => {
     setSubgroupName, setModelName, setSubmodelName, setUomName, setManufactureName, setAssetTypeStatus, setItemTypeSatus, setCategorySatus,
     setSubcatSatus, setGroupStatus, setSubGroupStatus, setModelStatus, setSubModelstatus, setUOMstatus, setManufactureStatus,
     setModelNoStatus, setAssetNameDis, setItemNameDis, setCategoryDis, setSubcatDis, setGroupDis, setSubGroupDis, setModelDis, setSubModelDis,
-    setUOMdis, setManufactureDis, setModelNoDis, assetName, itemName, categoryName, subcatName, groupName, subgroupName, modelName, submodelName,
-    uomName, manufactureName, modelNo, dispatch])
+    setUOMdis, setManufactureDis, setModelNoDis, assetName, itemName, categoryName, subcatName, groupName,
+    subgroupName, modelName, submodelName, uomName, manufactureName, modelNo, dispatch])
 
   const uploadFile = async (event) => {
     const file = event.target.files[0];
@@ -623,7 +651,6 @@ const ItemNameCreation = () => {
     dispatch(getAmModel())
   }, [dispatch])
 
-
   return (
     <Box>
       <CardMaster
@@ -830,6 +857,33 @@ const ItemNameCreation = () => {
               <RemoveRedEyeOutlinedIcon />
             </Tooltip>
           </Box> */}
+        </Box><Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}       >
+          <Box sx={{ pl: 0.8, pt: 1.3, }}      >
+            <CusCheckBox
+              color="primary"
+              size="md"
+              name="manufactureStatus"
+              value={manufactureStatus}
+              checked={manufactureStatus}
+              onCheked={updateManufactureStatus}
+            ></CusCheckBox>
+          </Box>
+          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
+            <Typography>Manufacture</Typography>
+          </Box>
+          <Box sx={{ width: '55%', pt: 1.3, }}>
+            <AssetManufactureSelect
+              manufacture={manufacture}
+              setManufacture={setManufacture}
+              setName={setManufactureName}
+              manufactureName={manufactureName}
+            />
+          </Box>
+          <Box sx={{ width: '5%', pl: 1, pt: 1, }}>
+            <Tooltip title="Add " placement="top">
+              <AddCircleOutlineIcon onClick={() => modelManufacture()} />
+            </Tooltip>
+          </Box>
         </Box>
         <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }} >
           <Box sx={{ pl: 0.8, pt: 1.3, }}>
@@ -897,6 +951,33 @@ const ItemNameCreation = () => {
             </Tooltip>
           </Box> */}
         </Box>
+
+        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}  >
+          <Box sx={{ pl: 0.8, pt: 1.3, }}>
+            <CusCheckBox
+              color="primary"
+              size="md"
+              name="modelNoStatus"
+              value={modelNoStatus}
+              checked={modelNoStatus}
+              onCheked={updateModelNoStatus}
+            ></CusCheckBox>
+          </Box>
+          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
+            <Typography>Model No.</Typography>
+          </Box>
+          <Box sx={{ width: '55%', pt: 1.3, }}>
+            <TextFieldCustom
+              type="text"
+              size="sm"
+              placeholder="Model Number"
+              name="modelNo"
+              value={modelNo}
+              onchange={updateModelNo}
+            ></TextFieldCustom>
+          </Box>
+        </Box>
+
         <Box sx={{ width: '50%', display: 'flex', margin: 'auto' }}>
           <Box sx={{ pl: 0.8, pt: 1.3, }}>
             <CusCheckBox
@@ -924,96 +1005,82 @@ const ItemNameCreation = () => {
             </Tooltip>
           </Box>
         </Box>
-        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}       >
-          <Box sx={{ pl: 0.8, pt: 1.3, }}      >
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="manufactureStatus"
-              value={manufactureStatus}
-              checked={manufactureStatus}
-              onCheked={updateManufactureStatus}
-            ></CusCheckBox>
-          </Box>
-          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
-            <Typography>Manufacture</Typography>
-          </Box>
-          <Box sx={{ width: '55%', pt: 1.3, }}>
-            <AssetManufactureSelect
-              manufacture={manufacture}
-              setManufacture={setManufacture}
-              setName={setManufactureName}
-              manufactureName={manufactureName}
-            />
-          </Box>
-          <Box sx={{ width: '5%', pl: 1, pt: 1, }}>
-            <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => modelManufacture()} />
-            </Tooltip>
-          </Box>
-        </Box>
-        <Box sx={{ width: '65%', display: 'flex', margin: 'auto', pt: 3, }}>
-          <Box>
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="modelNoStatus"
-              value={modelNoStatus}
-              checked={modelNoStatus}
-              onCheked={updateModelNoStatus}
-            ></CusCheckBox>
-          </Box>
-          <Box sx={{ width: '13%', pl: 1, display: 'flex' }}         >
-            <Typography>Model No.</Typography>
-          </Box>
-          <Box sx={{ width: '35%' }}       >
-            <TextFieldCustom
-              type="text"
-              size="sm"
-              name="modelNo"
-              value={modelNo}
-              onchange={updateModelNo}
-            ></TextFieldCustom>
-          </Box>
-          <Box sx={{ width: '15%', pl: 5, textAlign: 'left' }}   >
-            <Typography>Base name</Typography>
-          </Box>
-          <Box sx={{ width: '35%' }}     >
-            <TextFieldCustom
-              type="text"
-              size="sm"
-              name="item_base_name"
-              value={item_base_name}
-              onchange={updateItemCreation}
-            ></TextFieldCustom>
+
+        <Box sx={{ display: 'flex', width: '75%', ml: 22 }}>
+          <Box sx={{ display: 'flex', width: '82%', pt: 1, margin: 'auto' }}>
+            <Box sx={{ pl: 1.9, }}>
+              <CusCheckBox
+                color="primary"
+                size="md"
+                name="baseStatus"
+                value={baseStatus}
+                checked={baseStatus}
+                onCheked={updateBasesatus}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ width: '13%', ml: 0.5 }}   >
+              <Typography>Base name</Typography>
+            </Box>
+            <Box sx={{ width: '90%' }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                name="item_base_name"
+                value={item_base_name}
+                onchange={updateItemCreation}
+              ></TextFieldCustom>
+            </Box>
           </Box>
         </Box>
-        <Box sx={{ width: '65%', display: 'flex', pt: 1, margin: 'auto' }}  >
-          <Box sx={{ width: '14.8%', textAlign: 'left', pl: 3, }}  >
-            <Typography>Specification 1</Typography>
-          </Box>
-          <Box sx={{ width: '35%' }}    >
-            <TextFieldCustom
-              type="text"
-              size="sm"
-              name="item_specific_one"
-              value={item_specific_one}
-              onchange={updateItemCreation}
-            ></TextFieldCustom>
-          </Box>
-          <Box sx={{ width: '15%', textAlign: 'left', pl: 5, }}>
-            <Typography>Specification 2</Typography>
-          </Box>
-          <Box sx={{ width: '35%', }} >
-            <TextFieldCustom
-              type="text"
-              size="sm"
-              name="item_specific_two"
-              value={item_specific_two}
-              onchange={updateItemCreation}
-            ></TextFieldCustom>
+
+        <Box sx={{ display: 'flex', width: '75%', ml: 22 }}>
+          <Box sx={{ display: 'flex', width: '84%', pt: 1, margin: 'auto' }}>
+            <Box sx={{ width: '13%', ml: 4 }}   >
+              <Typography>Specification 1</Typography>
+            </Box>
+            <Box sx={{ width: '83%' }}>
+              <CssVarsProvider>
+                <Textarea
+                  type="text"
+                  size="sm"
+                  placeholder="Specification 1"
+                  variant="outlined"
+                  minRows={2}
+                  maxRows={4}
+                  name="item_specific_one"
+                  value={item_specific_one}
+                  onChange={(e) => updateItemCreation(e)}
+                >
+                </Textarea>
+              </CssVarsProvider>
+            </Box>
           </Box>
         </Box>
+
+        <Box sx={{ display: 'flex', width: '75%', ml: 22 }}>
+          <Box sx={{ display: 'flex', width: '84%', pt: 1, margin: 'auto' }}>
+            <Box sx={{ width: '13%', ml: 4 }}   >
+              <Typography>Specification 2</Typography>
+            </Box>
+            <Box sx={{ width: '83%' }}>
+              <CssVarsProvider>
+                <Textarea
+                  type="text"
+                  size="sm"
+                  placeholder="Specification 2"
+                  variant="outlined"
+                  minRows={2}
+                  maxRows={4}
+                  name="item_specific_two"
+                  value={item_specific_two}
+                  onChange={(e) => updateItemCreation(e)}
+                >
+                </Textarea>
+              </CssVarsProvider>
+            </Box>
+          </Box>
+        </Box>
+
         <Box sx={{ display: 'flex', width: '75%', ml: 34 }}>
           <Box sx={{ display: 'flex', width: '88%', pt: 1, margin: 'auto' }}>
             <Box sx={{ width: '13%', ml: 4 }}   >
@@ -1061,11 +1128,11 @@ const ItemNameCreation = () => {
             onCheked={updateItemCreation}
           ></CusCheckBox>
         </Box>
-      </CardMaster>
+      </CardMaster >
       <Box sx={{ width: '100%' }}>
         <ItemNameCreationTable count={count} rowSelect={rowSelect} />
       </Box>
-    </Box>
+    </Box >
   )
 }
 export default memo(ItemNameCreation)
