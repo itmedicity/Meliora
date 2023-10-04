@@ -38,7 +38,7 @@ const TaskUpcomingCmp = () => {
             }} >
                 <Button onClick={function () { }} variant="plain" startDecorator={<AddIcon />} size="sm" >Create task</Button>
             </Box>
-            <Sheet sx={{ height: `${innerHeight - 500}px`, overflow: 'auto' }}>
+            <Sheet sx={{ height: `${innerHeight - 450}px`, overflow: 'auto' }}>
                 <Table
                     aria-label="basic table"
                     sx={{
