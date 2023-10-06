@@ -2,7 +2,6 @@ import React, { useEffect, memo, useCallback, useState } from 'react'
 import { CssVarsProvider } from '@mui/joy/'
 import Table from '@mui/joy/Table';
 import { Paper } from '@mui/material';
-import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
 import { axioslogin } from 'src/views/Axios/Axios';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
@@ -24,11 +23,6 @@ const ItemCountWiseMap = ({ getPostData }) => {
         }
         getData(getPostData)
     }, [getPostData, count])
-
-    const modeldisplay = useCallback(() => {
-
-
-    }, [])
 
 
     const deleteitem = useCallback((val) => {
@@ -82,9 +76,6 @@ const ItemCountWiseMap = ({ getPostData }) => {
                                         <td> {val.deptname}</td>
                                         <td> {val.secname}</td>
                                         <td> {val.item_name}</td>
-                                        <td>
-                                            <PublishedWithChangesOutlinedIcon size={6} onClick={() => modeldisplay(val)} />
-                                        </td>
                                         <td><DeleteOutlineIcon size={6} onClick={() => deleteitem(val)} /></td>
                                     </tr>
                                 })}
@@ -117,9 +108,6 @@ const ItemCountWiseMap = ({ getPostData }) => {
                                         <td> {val.deptname}</td>
                                         <td> {val.secname}</td>
                                         <td> {val.item_name}</td>
-                                        <td>
-                                            <PublishedWithChangesOutlinedIcon size={6} onClick={() => modeldisplay(val)} />
-                                        </td>
                                         <td><DeleteOutlineIcon size={6} onClick={() => deleteitem(val)} /></td>
                                     </tr>
                                 })}

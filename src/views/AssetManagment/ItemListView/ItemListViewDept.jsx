@@ -12,8 +12,10 @@ import { useDispatch } from 'react-redux'
 import { getDepartment } from 'src/redux/actions/Department.action'
 import AmItemDeptSecBsedWOName from 'src/views/CommonSelectCode/AmItemDeptSecBsedWOName'
 import { warningNotify } from 'src/views/Common/CommonCode'
-const ItemListViewDept = () => {
 
+const ItemDetailAdd = React.lazy(() => import('../ItemDetailEnter/ItemDetailEnterMain'))
+
+const ItemListViewDept = () => {
     const history = useHistory()
     const dispatch = useDispatch();
     const [department, setDepartment] = useState(0)
@@ -25,7 +27,6 @@ const ItemListViewDept = () => {
             item_deptsec_slno: deptsec,
             item_creation_slno: item
         }
-
     }, [department, deptsec, item])
 
     const [displayarry, setDisArry] = useState([])
@@ -35,7 +36,6 @@ const ItemListViewDept = () => {
         dispatch(getDepartment())
     }, [dispatch])
     const search = useCallback(() => {
-
         const getdata = async (postdata) => {
             const result = await axioslogin.post(`/itemCreationDeptmap/getItemsFronList`, postdata);
             const { success, data } = result.data
@@ -54,80 +54,85 @@ const ItemListViewDept = () => {
 
     }, [postdata, department, deptsec])
 
+    const [detailArry, setDetailArry] = useState([])
+    const [detailflag, setDetailflag] = useState(0)
+
+    const AddDetails = useCallback((value) => {
+        setDetailArry(value)
+        setDetailflag(1)
+    }, [])
+
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
 
     return (
-        <Box sx={{
+        < Box sx={{
             display: 'flex',
             flexGrow: 1,
             width: '100%',
             height: window.innerHeight - 85,
-            bgcolor: 'green'
-        }}>
-            <CardMasterClose
-                title="Item List"
-                close={backtoSetting}
-            >
-                <Box sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    m: 1,
-                }} >
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        m: -1,
-                    }} >
-                        <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-                            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Department</Typography>
-                            <Box>
-                                <AmDepartmentSelWOName
-                                    department={department}
-                                    setDepartment={setDepartment}
-                                />
+        }
+        }>
+            {
+                detailflag === 1 ?
+                    <ItemDetailAdd detailArry={detailArry} setDetailflag={setDetailflag} />
+                    :
+                    <CardMasterClose
+                        title="Item Location List"
+                        close={backtoSetting}
+                    >
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            m: 0
+                        }} >
+                            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Department</Typography>
+                                <Box>
+                                    <AmDepartmentSelWOName
+                                        department={department}
+                                        setDepartment={setDepartment}
+                                    />
+                                </Box>
+                            </Box>
+
+                            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Department Section</Typography>
+                                <Box>
+                                    <AmDeptSecSelectWOName
+                                        deptsec={deptsec}
+                                        setDeptSec={setDeptSec}
+                                    />
+                                </Box>
+                            </Box>
+                            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Iten Name</Typography>
+                                <Box>
+                                    <AmItemDeptSecBsedWOName
+                                        item={item}
+                                        setItem={setItem}
+                                    />
+                                </Box>
+                            </Box>
+
+                            <Box sx={{ width: '3%', pl: 1, pt: 3, }}>
+                                <CusIconButton size="sm" variant="outlined" clickable="true" onClick={search} >
+                                    <SearchOutlinedIcon fontSize='small' />
+                                </CusIconButton>
                             </Box>
                         </Box>
 
-                        <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-                            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Department Section</Typography>
-                            <Box>
-                                <AmDeptSecSelectWOName
-                                    deptsec={deptsec}
-                                    setDeptSec={setDeptSec}
-                                />
-                            </Box>
-                        </Box>
-                        <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-                            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Iten Name</Typography>
-                            <Box>
-                                <AmItemDeptSecBsedWOName
-                                    item={item}
-                                    setItem={setItem}
-                                />
-                            </Box>
-                        </Box>
-
-
-                        <Box sx={{ width: '3%', pl: 1, pt: 3, }}>
-                            <CusIconButton size="sm" variant="outlined" clickable="true" onClick={search} >
-                                <SearchOutlinedIcon fontSize='small' />
-                            </CusIconButton>
-                        </Box>
-                    </Box>
-
-                    {flag === 1 ? <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        pt: 2
-                    }} >
-                        <ItemListViewTable displayarry={displayarry} />
-                    </Box> : null}
-                </Box>
-            </CardMasterClose>
-
-        </Box>
+                        {flag === 1 ? <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            pt: 2
+                        }} >
+                            <ItemListViewTable displayarry={displayarry} AddDetails={AddDetails} />
+                        </Box> : null}
+                    </CardMasterClose>
+            }
+        </Box >
     )
 }
 
