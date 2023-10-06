@@ -21,8 +21,8 @@ const ItemCreateMapping = ({ itemList, rowSelect }) => {
     }, [itemList])
     return (
         <Box sx={{
-            borderBottom: 1, borderWidth: 0.1, borderColor: 'black',
-            height: 200, overflow: 'auto'
+            borderBottom: 1, borderWidth: 0.1, borderColor: 'black', minHeight: 80, maxHeight: 200,
+            overflow: 'auto'
         }} >
             <CssVarsProvider>
                 <Table stickyHeader>

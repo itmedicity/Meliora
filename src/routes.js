@@ -149,6 +149,9 @@ const BackupChecks = React.lazy(() => import('./views/ItManagement/BackupChecksA
 const NetWorkIP = React.lazy(() => import('./views/ItManagement/IPaddressDetails/NetworkIPaddress'))
 const CustodianDeptmt = React.lazy(() => import('./views/Master/AssetMasters/CustodianDepartment/CustodianDeptMast'))
 const AssetItemListView = React.lazy(() => import('./views/AssetManagment/ItemListView/ItemListViewDept'))
+const AssetItemDetailsEnter = React.lazy(() => import('./views/AssetManagment/ItemListView/ItemDetailsEntered'))
+
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/Home', exact: true, name: 'Home', component: Home },
@@ -300,6 +303,8 @@ const routes = [
   { path: '/Home/NetworkIP', exact: true, name: 'IP Address Details', component: NetWorkIP },
   { path: '/Home/CusodianDepartment', exact: true, name: 'Custodian Department', component: CustodianDeptmt },
   { path: '/Home/AssetItemListView', exact: true, name: 'Asset Item List View', component: AssetItemListView },
+  { path: '/Home/AssetItemDetails', exact: true, name: 'Asset Item Details Entering', component: AssetItemDetailsEnter }
+  ,
 ]
 
 export default routes

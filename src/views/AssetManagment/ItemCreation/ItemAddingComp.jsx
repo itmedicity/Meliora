@@ -83,6 +83,7 @@ const ItemAddingComp = ({ selectData }) => {
             item_create_status: 1,
             item_custodian_dept: custodiandept,
             item_asset_no: assetno,
+            item_asset_no_only: assetno,
             create_user: id
         }
 
