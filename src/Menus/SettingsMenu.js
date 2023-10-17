@@ -150,7 +150,7 @@ export const hall_booking_one = [
 
 //IT Menu
 export const it_setting_one = [
-    { to: '/Home/Building', name: 'Building', slno: 30 },
+    { to: '/Home/DeviceType', name: 'Communication Device Type ', slno: 151 },
 
 
 

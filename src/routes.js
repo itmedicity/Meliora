@@ -142,14 +142,15 @@ const AssetModel = React.lazy(() => import('./views/Master/AssetMasters/AssetMod
 const AssetSubModel = React.lazy(() => import('./views/Master/AssetMasters/AssetSubModel/AssetSubModel'))
 const RoomAsset = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardRoomAsset'))
 const ItemCreation = React.lazy(() => import('./views/AssetManagment/ItemCreation/ItemCreationMast'))
-const DashboardBackup = React.lazy(() => import('./views/ItManagement/DashboardBackup/DashboradBackup'))
+const DashboardBackup = React.lazy(() => import('./views/ItManagement/DashboardBackup/DashBoardTariff/DashboardTariffMain'))
 const PasswordManagement = React.lazy(() => import('./views/ItManagement/PasswordManagement/PasswordManagement'))
 const CommunicationDevice = React.lazy(() => import('./views/ItManagement/CommunicationDeviceDetails/CommunicationDevice'))
 const BackupChecks = React.lazy(() => import('./views/ItManagement/BackupChecksAndMonitoring/BackupChecks'))
 const NetWorkIP = React.lazy(() => import('./views/ItManagement/IPaddressDetails/NetworkIPaddress'))
+const DeviceType = React.lazy(() => import('./views/Master/ItMasters/communicationDevice/DeviceTypeMaster'))
+const WifiManageMenT = React.lazy(() => import('./views/ItManagement/WifiManagement/WifiManageMentMains'))
 const CustodianDeptmt = React.lazy(() => import('./views/Master/AssetMasters/CustodianDepartment/CustodianDeptMast'))
 const AssetItemListView = React.lazy(() => import('./views/AssetManagment/ItemListView/ItemListViewDept'))
-
 
 
 const routes = [
@@ -301,6 +302,8 @@ const routes = [
   { path: '/Home/CommunicationDevice', exact: true, name: 'Communication Device Details', component: CommunicationDevice },
   { path: '/Home/BackupChecks', exact: true, name: 'Backup Checks & Monitoring', component: BackupChecks },
   { path: '/Home/NetworkIP', exact: true, name: 'IP Address Details', component: NetWorkIP },
+  { path: '/Home/DeviceType', exact: true, name: 'Device Type', component: DeviceType },
+  { path: '/Home/WifiManageMenT', exact: true, name: 'Wifi Management', component: WifiManageMenT },
   { path: '/Home/CusodianDepartment', exact: true, name: 'Custodian Department', component: CustodianDeptmt },
   { path: '/Home/AssetItemListView', exact: true, name: 'Asset Item List View', component: AssetItemListView },
 
