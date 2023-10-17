@@ -25,6 +25,7 @@ const ItemListViewTable = ({ displayarry, AddDetails }) => {
                     item_name: val.item_name,
                     item_asset_no: val.item_asset_no,
                     item_asset_no_only: val.item_asset_no_only,
+                    due_date: val.due_date,
                     assetno: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0')
                 }
                 return obj
@@ -35,11 +36,12 @@ const ItemListViewTable = ({ displayarry, AddDetails }) => {
 
     const [flag, setFlag] = useState(0)
     const [assetNo, setassetNo] = useState('')
-
+    const [dueDate, setDueDate] = useState('')
     const [open, setOpen] = useState(false)
     const modeldisplay = useCallback((val) => {
-        const { assetno } = val
+        const { assetno, due_date } = val
         setassetNo(assetno)
+        setDueDate(due_date)
         setFlag(1)
         setOpen(true)
     }, [])
@@ -56,7 +58,7 @@ const ItemListViewTable = ({ displayarry, AddDetails }) => {
 
 
         <Paper sx={{ height: 700, overflow: 'auto', border: 1 }}>
-            {flag === 1 ? <ItemQrDisplayModel open={open} handleClose={handleClose} assetNo={assetNo} /> : null}
+            {flag === 1 ? <ItemQrDisplayModel open={open} handleClose={handleClose} assetNo={assetNo} dueDate={dueDate} /> : null}
             < CssVarsProvider >
                 <Table stickyHeader>
                     <thead>
