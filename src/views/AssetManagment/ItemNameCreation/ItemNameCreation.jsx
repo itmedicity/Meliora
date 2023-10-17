@@ -1,5 +1,5 @@
-import { Box,  Tooltip, Typography ,IconButton, Input} from '@mui/material'
-import React, { useCallback, memo, useEffect ,useState,useMemo} from 'react'
+import { Box, Tooltip, Typography, IconButton, Input } from '@mui/material'
+import React, { useCallback, memo, useEffect, useState, useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import AssetCategorySelect from 'src/views/CommonSelectCode/AssetCategorySelect'
@@ -17,7 +17,7 @@ import AssetUOMSelect from 'src/views/CommonSelectCode/AssetUOMSelect'
 import AssetModelSelect from 'src/views/CommonSelectCode/AssetModelSelect'
 import AmSubmodelSelect from 'src/views/CommonSelectCode/AmSubmodelSelect'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined'
+// import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined'
 import imageCompression from 'browser-image-compression';
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import CustomeToolTip from 'src/views/Components/CustomeToolTip'
@@ -40,6 +40,9 @@ import GroupModal from './ModelForAssetItemAdd/GroupModal'
 import ModelModal from './ModelForAssetItemAdd/ModelModal'
 import SubGroupModal from './ModelForAssetItemAdd/SubGroupModal'
 import SubModelModal from './ModelForAssetItemAdd/SubModelModal'
+import { CssVarsProvider } from '@mui/joy'
+import Textarea from '@mui/joy/Textarea';
+
 
 const ItemNameCreation = () => {
   const dispatch = useDispatch();
@@ -79,6 +82,7 @@ const ItemNameCreation = () => {
   const [uomStatus, setUOMstatus] = useState(true)
   const [manufactureStatus, setManufactureStatus] = useState(true)
   const [modelNoStatus, setModelNoStatus] = useState(true)
+  const [baseStatus, setbaseStatus] = useState(true)
   const [assetNameDis, setAssetNameDis] = useState(assetName)
   const [itemNameDis, setItemNameDis] = useState(itemName)
   const [categoryDis, setCategoryDis] = useState(categoryName)
@@ -88,120 +92,17 @@ const ItemNameCreation = () => {
   const [modelDis, setModelDis] = useState(modelName)
   const [submodelDis, setSubModelDis] = useState(submodelName)
   const [uomDis, setUOMdis] = useState(uomName)
+  const [baseDis, setBasedis] = useState('')
   const [manufactureDis, setManufactureDis] = useState(manufactureName)
   const [modelNoDis, setModelNoDis] = useState(modelNo)
 
-  const updateAssetTypeStatus = (e) => {
-    if (e.target.checked === true) {
-      setAssetTypeStatus(true)
-      setAssetNameDis(assetName)
-    } else if (e.target.checked === false) {
-      setAssetTypeStatus(false)
-      setAssetNameDis('')
-    }
-  }
-  const updateItemStatus = (e) => {
-    if (e.target.checked === true) {
-      setItemTypeSatus(true)
-      setItemNameDis(itemName)
-    } else if (e.target.checked === false) {
-      setItemTypeSatus(false)
-      setItemNameDis('')
-    }
-  }
-  const updateCategoryStatus = (e) => {
-    if (e.target.checked === true) {
-      setCategorySatus(true)
-      setCategoryDis(categoryName)
-    } else if (e.target.checked === false) {
-      setCategorySatus(false)
-      setCategoryDis('')
-    }
-  }
-  const updateSubcatStatus = (e) => {
-    if (e.target.checked === true) {
-      setSubcatSatus(true)
-      setSubcatDis(subcatName)
-    } else if (e.target.checked === false) {
-      setSubcatSatus(false)
-      setSubcatDis('')
-    }
-  }
-  const updateGroupStatus = (e) => {
-    if (e.target.checked === true) {
-      setGroupStatus(true)
-      setGroupDis(groupName)
-    } else if (e.target.checked === false) {
-      setGroupStatus(false)
-      setGroupDis('')
-    }
-  }
-  const updateSubGroupStatus = (e) => {
-    if (e.target.checked === true) {
-      setSubGroupStatus(true)
-      setSubGroupDis(subgroupName)
-    } else if (e.target.checked === false) {
-      setSubGroupStatus(false)
-      setSubGroupDis('')
-    }
-  }
-  const updateModelStatus = (e) => {
-    if (e.target.checked === true) {
-      setModelStatus(true)
-      setModelDis(modelName)
-    } else if (e.target.checked === false) {
-      setModelStatus(false)
-      setModelDis('')
-    }
-  }
-  const updateSubModelStatus = (e) => {
-    if (e.target.checked === true) {
-      setSubModelstatus(true)
-      setSubModelDis(submodelName)
-    } else if (e.target.checked === false) {
-      setSubModelstatus(false)
-      setSubModelDis('')
-    }
-  }
-  const updateUOMsatus = (e) => {
-    if (e.target.checked === true) {
-      setUOMstatus(true)
-      setUOMdis(uomName)
-    } else if (e.target.checked === false) {
-      setUOMstatus(false)
-      setUOMdis('')
-    }
-  }
-  const updateManufactureStatus = (e) => {
-    if (e.target.checked === true) {
-      setManufactureStatus(true)
-      setManufactureDis(manufactureName)
-    } else if (e.target.checked === false) {
-      setManufactureStatus(false)
-      setManufactureDis('')
-    }
-  }
-  const updateModelNoStatus = (e) => {
-    if (e.target.checked === true) {
-      setModelNoStatus(true)
-      setModelNoDis(modelNo)
-    } else if (e.target.checked === false) {
-      setModelNoStatus(false)
-      setModelNoDis('')
-    }
-  }
-
-  const updateModelNo = (e) => {
-    setModelNo(e.target.value.toLocaleUpperCase())
-    setModelNoDis(e.target.value.toLocaleUpperCase())
-  }
   const [item, setItem] = useState({
     item_creation_slno: '',
     item_name: '',
     item_base_name: '',
     item_specific_one: '',
     item_specific_two: '',
-    item_creation_status: false,
+    item_creation_status: true,
   })
   const {
     item_creation_slno,
@@ -210,6 +111,123 @@ const ItemNameCreation = () => {
     item_specific_two,
     item_creation_status,
   } = item
+
+  const updateAssetTypeStatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setAssetTypeStatus(true)
+      setAssetNameDis(assetName)
+    } else if (e.target.checked === false) {
+      setAssetTypeStatus(false)
+      setAssetNameDis('')
+    }
+  }, [assetName])
+
+  const updateItemStatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setItemTypeSatus(true)
+      setItemNameDis(itemName)
+    } else if (e.target.checked === false) {
+      setItemTypeSatus(false)
+      setItemNameDis('')
+    }
+  }, [itemName])
+  const updateCategoryStatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setCategorySatus(true)
+      setCategoryDis(categoryName)
+    } else if (e.target.checked === false) {
+      setCategorySatus(false)
+      setCategoryDis('')
+    }
+  }, [categoryName])
+  const updateSubcatStatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setSubcatSatus(true)
+      setSubcatDis(subcatName)
+    } else if (e.target.checked === false) {
+      setSubcatSatus(false)
+      setSubcatDis('')
+    }
+  }, [subcatName])
+  const updateGroupStatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setGroupStatus(true)
+      setGroupDis(groupName)
+    } else if (e.target.checked === false) {
+      setGroupStatus(false)
+      setGroupDis('')
+    }
+  }, [groupName])
+  const updateSubGroupStatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setSubGroupStatus(true)
+      setSubGroupDis(subgroupName)
+    } else if (e.target.checked === false) {
+      setSubGroupStatus(false)
+      setSubGroupDis('')
+    }
+  }, [subgroupName])
+  const updateModelStatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setModelStatus(true)
+      setModelDis(modelName)
+    } else if (e.target.checked === false) {
+      setModelStatus(false)
+      setModelDis('')
+    }
+  }, [modelName])
+  const updateSubModelStatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setSubModelstatus(true)
+      setSubModelDis(submodelName)
+    } else if (e.target.checked === false) {
+      setSubModelstatus(false)
+      setSubModelDis('')
+    }
+  }, [submodelName])
+  const updateUOMsatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setUOMstatus(true)
+      setUOMdis(uomName)
+    } else if (e.target.checked === false) {
+      setUOMstatus(false)
+      setUOMdis('')
+    }
+  }, [uomName])
+
+  const updateBasesatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setbaseStatus(true)
+      setBasedis(item_base_name)
+    } else if (e.target.checked === false) {
+      setbaseStatus(false)
+      setBasedis('')
+    }
+  }, [item_base_name])
+  const updateManufactureStatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setManufactureStatus(true)
+      setManufactureDis(manufactureName)
+    } else if (e.target.checked === false) {
+      setManufactureStatus(false)
+      setManufactureDis('')
+    }
+  }, [manufactureName])
+  const updateModelNoStatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setModelNoStatus(true)
+      setModelNoDis(modelNo)
+    } else if (e.target.checked === false) {
+      setModelNoStatus(false)
+      setModelNoDis('')
+    }
+  }, [modelNo])
+
+  const updateModelNo = useCallback((e) => {
+    setModelNo(e.target.value.toLocaleUpperCase())
+    setModelNoDis(e.target.value.toLocaleUpperCase())
+  }, [])
+
 
   const updateItemCreation = useCallback(
     (e) => {
@@ -256,32 +274,24 @@ const ItemNameCreation = () => {
     itemName, categoryName, subcatName, groupName, subgroupName, modelName, submodelName, uomName, manufactureName])
 
   const [itemNamee, setItemNamee] = useState('')
-  useEffect(() => {
-    const name =
-      assetNameDis +
-      ' ' +
-      itemNameDis +
-      ' ' +
-      categoryDis +
-      ' ' +
-      subcatDis +
-      ' ' +
-      groupDis +
-      ' ' +
-      subgroupDis +
-      ' ' +
-      modelDis +
-      ' ' +
-      submodelDis +
-      ' ' +
-      uomDis +
-      ' ' +
-      manufactureDis +
 
-      ' ' +
-      modelNoDis
-    setItemNamee(name)
-  }, [assetNameDis, itemNameDis, categoryDis, subcatDis, groupDis, subgroupDis, modelDis, submodelDis, uomDis, manufactureDis, modelNoDis])
+  useEffect(() => {
+    let arrayys = [{ status: assetTypeStatus, name: assetNameDis },
+    { status: itemTypeStatus, name: itemNameDis }, { status: categoryStatus, name: categoryDis },
+    { status: subcatStatus, name: subcatDis }, { status: groupStatus, name: groupDis },
+    { status: subgroupStatus, name: subgroupDis }, { status: manufactureStatus, name: manufactureDis },
+    { status: modelStatus, name: modelDis }, { status: submodelStatus, name: submodelDis },
+    { status: modelNoStatus, name: modelNoDis }, { status: uomStatus, name: uomDis },
+    { status: baseStatus, name: baseDis }]
+
+    let filterName = arrayys?.filter((e) => e.name !== null && e.status === true);
+
+    let stringName = filterName?.map((e) => e.name).join(' ')
+    setItemNamee(stringName)
+  }, [assetTypeStatus, assetNameDis, itemTypeStatus, itemNameDis, categoryStatus, categoryDis,
+    subcatStatus, subcatDis, groupStatus, groupDis, subgroupStatus, subgroupDis, manufactureStatus,
+    manufactureDis, modelStatus, modelDis, submodelStatus, submodelDis, modelNoStatus, modelNoDis,
+    uomStatus, uomDis, baseStatus, baseDis])
 
   const postdata = useMemo(() => {
     return {
@@ -297,29 +307,14 @@ const ItemNameCreation = () => {
       item_manufactures_slno: manufacture,
       item_name: itemNamee,
       item_base_name: item_base_name,
-      item_model_num: modelNo !== null ? modelNo.toLocaleUpperCase():null,
+      item_model_num: modelNo !== null ? modelNo.toLocaleUpperCase() : null,
       item_specific_one: item_specific_one,
       item_specific_two: item_specific_two,
       item_creation_status: item_creation_status === true ? 1 : 0,
     }
-  }, [
-    assettype,
-    itemtype,
-    category,
-    subcategory,
-    group,
-    uom,
-    model,
-    subgroup,
-    submodel,
-    manufacture,
-    itemNamee,
-    item_base_name,
-    modelNo,
-    item_specific_one,
-    item_specific_two,
-    item_creation_status,
-  ])
+  }, [assettype, itemtype, category, subcategory, group, uom, model, subgroup, submodel, manufacture, itemNamee,
+    item_base_name, modelNo, item_specific_one, item_specific_two, item_creation_status,])
+
   const patchdata = useMemo(() => {
     return {
       item_creation_slno: item_creation_slno,
@@ -340,24 +335,8 @@ const ItemNameCreation = () => {
       item_specific_two: item_specific_two,
       item_creation_status: item_creation_status === true ? 1 : 0,
     }
-  }, [
-    item_creation_slno,
-    assettype,
-    itemtype,
-    category,
-    subcategory,
-    group,
-    subgroup,
-    uom,
-    model,
-    submodel,
-    manufacture,
-    itemNamee,
-    item_base_name,
-    modelNo,
-    item_specific_one,
-    item_specific_two,
-    item_creation_status,
+  }, [item_creation_slno, assettype, itemtype, category, subcategory, group, subgroup, uom, model, submodel,
+    manufacture, itemNamee, item_base_name, modelNo, item_specific_one, item_specific_two, item_creation_status,
   ])
 
   const reset = useCallback(() => {
@@ -369,9 +348,6 @@ const ItemNameCreation = () => {
       item_specific_two: '',
       item_creation_status: false,
     }
-
-    dispatch(getAmAssetType())
-    dispatch(getAmItemType())
 
     setSelectFile(null)
     setItem(frmdata)
@@ -421,35 +397,42 @@ const ItemNameCreation = () => {
     setUOMdis(uomName)
     setManufactureDis(manufactureName)
     setModelNoDis(modelNo)
-    
+    dispatch(getAmAssetType())
+    dispatch(getAmItemType())
+    dispatch(getCategory())
+    dispatch(getGroup())
+    dispatch(getUOM())
+    dispatch(getAmManufacture())
+    dispatch(getAmModel())
+
   }, [setItem, setCount, setValue, setItemtype, setAssetType, setCategory, setSubcategory, setGroup, setSubGroup, setManufacture, setUOM,
     setModel, setSubmodel, setModelNo, setItemNamee, setAssetName, setItemName, setCategoryName, setSubcatName, setGroupName,
     setSubgroupName, setModelName, setSubmodelName, setUomName, setManufactureName, setAssetTypeStatus, setItemTypeSatus, setCategorySatus,
     setSubcatSatus, setGroupStatus, setSubGroupStatus, setModelStatus, setSubModelstatus, setUOMstatus, setManufactureStatus,
     setModelNoStatus, setAssetNameDis, setItemNameDis, setCategoryDis, setSubcatDis, setGroupDis, setSubGroupDis, setModelDis, setSubModelDis,
-    setUOMdis, setManufactureDis, setModelNoDis, assetName, itemName, categoryName, subcatName, groupName, subgroupName, modelName, submodelName,
-    uomName, manufactureName, modelNo,dispatch])
+    setUOMdis, setManufactureDis, setModelNoDis, assetName, itemName, categoryName, subcatName, groupName,
+    subgroupName, modelName, submodelName, uomName, manufactureName, modelNo, dispatch])
 
-       const uploadFile = async (event) => {
-      const file = event.target.files[0];    
-      setSelectFile(file);
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 1920
-      }
-      const compressedFile = await imageCompression(file, options);
-      setSelectFile(compressedFile);
+  const uploadFile = async (event) => {
+    const file = event.target.files[0];
+    setSelectFile(file);
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920
+    }
+    const compressedFile = await imageCompression(file, options);
+    setSelectFile(compressedFile);
   };
-  
+
   const sumbitItemCreation = useCallback(
     (e) => {
       e.preventDefault()
       const InsertItem = async (postdata) => {
-        const result = await axioslogin.post('/itemNameCreation/insert', postdata)  
+        const result = await axioslogin.post('/itemNameCreation/insert', postdata)
         reset()
-        return result.data  
-      
-             }    
+        return result.data
+
+      }
 
       const UpdateItem = async (patchdata) => {
         const result = await axioslogin.patch('/itemNameCreation/update', patchdata)
@@ -463,7 +446,7 @@ const ItemNameCreation = () => {
         } else {
           infoNotify(message)
         }
-      }      
+      }
       const FileInsert = async (fileData) => {
         const result = await axioslogin.post('/fileupload/uploadFile/Item', fileData)
         const { message, success } = result.data
@@ -478,12 +461,12 @@ const ItemNameCreation = () => {
       }
 
       if (value === 0) {
-        if (assetName !== '' && itemName!=='') {
+        if (assetName !== '' && itemName !== '') {
 
           InsertItem(postdata).then((val) => {
             const { message, success, insertid } = val
             if (success === 1) {
-              
+
               if (selectFile !== null) {
                 //File upload Api and post data
                 const formData = new FormData()
@@ -505,20 +488,20 @@ const ItemNameCreation = () => {
           })
         }
         else {
-          infoNotify("please fill fields") 
-      
+          infoNotify("please fill fields")
+
         }
       }
       else UpdateItem(patchdata)
       reset()
     },
 
-    [postdata, value, count, patchdata, reset, selectFile,assetName,itemName],
+    [postdata, value, count, patchdata, reset, selectFile, assetName, itemName],
   )
 
   const rowSelect = useCallback((params) => {
     setValue(1)
-    const data = params.api.getSelectedRows()  
+    const data = params.api.getSelectedRows()
     const {
       item_creation_slno,
       item_asset_type_slno,
@@ -537,15 +520,14 @@ const ItemNameCreation = () => {
       item_specific_one,
       item_specific_two,
       item_creation_status,
-    } = data[0]   
+    } = data[0]
     const frmdata = {
       item_creation_slno: item_creation_slno,
       item_base_name: item_base_name,
       item_specific_one: item_specific_one,
       item_specific_two: item_specific_two,
       item_creation_status: item_creation_status === 1 ? true : false,
-    } 
-    
+    }
     setItem(frmdata)
     setAssetType(item_asset_type_slno)
     setItemtype(item_type_slno)
@@ -559,7 +541,7 @@ const ItemNameCreation = () => {
     setSubmodel(item_submodel_slno)
     setItemNamee(item_name)
     setModelNo(item_model_num)
-  }, [])
+  }, [setAssetType, setItemtype, setCategory])
 
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
@@ -567,7 +549,7 @@ const ItemNameCreation = () => {
 
   const refreshWindow = useCallback(() => {
     reset()
-  }, [ reset])
+  }, [reset])
 
   const [AssetTypeOpen, setAssetTypeOpen] = useState(false)
   const [AssetTypeFlag, setAssetTypeFlag] = useState(0)
@@ -600,35 +582,35 @@ const ItemNameCreation = () => {
     setItemTypeFlag(1)
     setItemTypeOpen(true)
   }
-  const modelUOM= () => {
+  const modelUOM = () => {
     setUOMflag(1)
     setUOMopen(true)
   }
-  const modelManufacture= () => {
+  const modelManufacture = () => {
     setManufactureFlag(1)
     setManufactureOpen(true)
   }
-  const modelCategory= () => {
+  const modelCategory = () => {
     setCategoryFlag(1)
     setCategoryOpen(true)
   }
-  const modelSubCategory= () => {
+  const modelSubCategory = () => {
     setSubCategoryFlag(1)
     setSubCategoryOpen(true)
   }
-  const modelGroup= () => {
+  const modelGroup = () => {
     setGroupFlag(1)
     setGroupOpen(true)
   }
-  const modelModal= () => {
+  const modelModal = () => {
     setModelFlag(1)
     setModelOpen(true)
   }
-  const SubgroupModal= () => {
+  const SubgroupModal = () => {
     setSubGroupFlag(1)
     setSubGroupOpen(true)
   }
-  const SubModeell= () => {
+  const SubModeell = () => {
     setSubModelFlag(1)
     setSubModelOpen(true)
   }
@@ -656,8 +638,8 @@ const ItemNameCreation = () => {
     setSubModelOpen(false)
   }, [setAssetTypeOpen, setAssetTypeFlag, setItemTypeOpen, setItemTypeFlag, setUOMflag, setUOMopen, setManufactureFlag, setManufactureOpen,
     setCategoryFlag, setCategoryOpen, setSubCategoryFlag, setSubCategoryOpen, setGroupFlag, setGroupOpen, setModelFlag, setModelOpen,
-    setSubGroupFlag,setSubGroupOpen,setSubModelFlag,setSubModelOpen
-  ]) 
+    setSubGroupFlag, setSubGroupOpen, setSubModelFlag, setSubModelOpen
+  ])
 
   useEffect(() => {
     dispatch(getAmAssetType())
@@ -667,8 +649,8 @@ const ItemNameCreation = () => {
     dispatch(getUOM())
     dispatch(getAmManufacture())
     dispatch(getAmModel())
+  }, [dispatch])
 
-  },[dispatch])
   return (
     <Box>
       <CardMaster
@@ -687,19 +669,9 @@ const ItemNameCreation = () => {
         {ModelFlag === 1 ? <ModelModal open={ModelOpen} handleClose={handleClose} /> : null}
         {SubGroupFlag === 1 ? <SubGroupModal open={SubGroupOpen} handleClose={handleClose} /> : null}
         {SubModelFlag === 1 ? <SubModelModal open={SubModelOpen} handleClose={handleClose} /> : null}
-        <Box
-          sx={{
-            width: '50%',
-            display: 'flex',
-            pt: 2.5,
-            margin: 'auto ',
-          }}
-        >
-          <Box
-            sx={{
-              pl: 0.8,
-            }}
-          >
+
+        <Box sx={{ width: '50%', display: 'flex', pt: 2.5, margin: 'auto ' }}>
+          <Box sx={{ pl: 0.8, }}>
             <CusCheckBox
               color="primary"
               size="md"
@@ -709,51 +681,25 @@ const ItemNameCreation = () => {
               onCheked={updateAssetTypeStatus}
             ></CusCheckBox>
           </Box>
-          <Box
-            sx={{
-              width: '14%',
-
-              pl: 1,
-            }}
-          >
+          <Box sx={{ width: '14%', pl: 1, }} >
             <Typography>Asset type</Typography>
           </Box>
-          <Box
-            sx={{
-              width: '55%',
-            }}
-          >
+          <Box sx={{ width: '55%', }}>
             <AmAssetTypeSelect
-               assettype={assettype}
+              assettype={assettype}
               setAssetType={setAssetType}
               setName={setAssetName}
+              assetName={assetName}
             />
           </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pl: 1,
-            }}
-          >
-          
+          <Box sx={{ width: '5%', pl: 1, }} >
             <Tooltip title="Add " placement="top">
               <AddCircleOutlineIcon onClick={() => modelAsset()} />
             </Tooltip>
           </Box>
         </Box>
-        <Box
-          sx={{
-            width: '50%',
-            display: 'flex',
-            margin: 'auto',
-          }}
-        >
-          <Box
-            sx={{
-              pl: 0.8,
-              pt: 1.3,
-            }}
-          >
+        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}>
+          <Box sx={{ pl: 0.8, pt: 1.3, }}>
             <CusCheckBox
               color="primary"
               size="md"
@@ -763,51 +709,24 @@ const ItemNameCreation = () => {
               onCheked={updateItemStatus}
             ></CusCheckBox>
           </Box>
-          <Box
-            sx={{
-              width: '14%',
-              pl: 1,
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
             <Typography>Item Type</Typography>
           </Box>
-          <Box
-            sx={{
-              width: '55%',
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '55%', pt: 1.3, }}>
             <AssetItemSelect
-               itemtype={itemtype}
+              itemtype={itemtype}
               setItemtype={setItemtype}
-              setName={setItemName} />
+              setName={setItemName}
+              itemName={itemName} />
           </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pl: 1,
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '5%', pl: 1, pt: 1.3, }}>
             <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => modelItem()}/>
+              <AddCircleOutlineIcon onClick={() => modelItem()} />
             </Tooltip>
           </Box>
         </Box>
-        <Box
-          sx={{
-            width: '50%',
-            display: 'flex',
-            margin: 'auto',
-          }}
-        >
-          <Box
-            sx={{
-              pl: 0.8,
-              pt: 1.3,
-            }}
-          >
+        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}>
+          <Box sx={{ pl: 0.8, pt: 1.3, }} >
             <CusCheckBox
               color="primary"
               size="md"
@@ -817,62 +736,30 @@ const ItemNameCreation = () => {
               onCheked={updateCategoryStatus}
             ></CusCheckBox>
           </Box>
-          <Box
-            sx={{
-              width: '14%',
-              pl: 1,
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }} >
             <Typography>Category</Typography>
           </Box>
-          <Box
-            sx={{
-              width: '55%',
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '55%', pt: 1.3, }}>
             <AssetCategorySelect
               category={category}
               setCategory={setCategory}
               setName={setCategoryName}
+              categoryName={categoryName}
             />
           </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pl: 1,
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '5%', pl: 1, pt: 1.3, }}>
             <Tooltip title="Add " placement="top">
               <AddCircleOutlineIcon onClick={() => modelCategory()} />
             </Tooltip>
           </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pt: 1.3,
-            }}
-          >
+          {/* <Box sx={{ width: '5%', pt: 1.3, }}>
             <Tooltip title="View " placement="top">
               <RemoveRedEyeOutlinedIcon />
             </Tooltip>
-          </Box>
+          </Box> */}
         </Box>
-        <Box
-          sx={{
-            width: '50%',
-            display: 'flex',
-            margin: 'auto',
-          }}
-        >
-          <Box
-            sx={{
-              pl: 0.8,
-              pt: 1.3,
-            }}
-          >
+        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}>
+          <Box sx={{ pl: 0.8, pt: 1.3, }}>
             <CusCheckBox
               color="primary"
               size="md"
@@ -882,63 +769,30 @@ const ItemNameCreation = () => {
               onCheked={updateSubcatStatus}
             ></CusCheckBox>
           </Box>
-          <Box
-            sx={{
-              width: '14%',
-              pl: 1,
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '14%', pl: 1, pt: 1.3 }}>
             <Typography>Subcategory</Typography>
           </Box>
-          <Box
-            sx={{
-              width: '55%',
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '55%', pt: 1.3 }}>
             <AssetSubcategorySelect
+              category={category}
               subcategory={subcategory}
               setSubcategory={setSubcategory}
-              category={category}
               setName={setSubcatName}
             />
           </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pl: 1,
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '5%', pl: 1, pt: 1.3, }}>
             <Tooltip title="Add " placement="top">
               <AddCircleOutlineIcon onClick={() => modelSubCategory()} />
             </Tooltip>
           </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pt: 1.3,
-            }}
-          >
+          {/* <Box sx={{ width: '5%', pt: 1.3, }}>
             <Tooltip title="View " placement="top">
               <RemoveRedEyeOutlinedIcon />
             </Tooltip>
-          </Box>
+          </Box> */}
         </Box>
-        <Box
-          sx={{
-            width: '50%',
-            display: 'flex',
-            margin: 'auto',
-          }}
-        >
-          <Box
-            sx={{
-              pl: 0.8,
-              pt: 1.3,
-            }}
-          >
+        <Box sx={{ width: '50%', display: 'flex', margin: 'auto' }}>
+          <Box sx={{ pl: 0.8, pt: 1.3 }} >
             <CusCheckBox
               color="primary"
               size="md"
@@ -948,61 +802,30 @@ const ItemNameCreation = () => {
               onCheked={updateGroupStatus}
             ></CusCheckBox>
           </Box>
-          <Box
-            sx={{
-              width: '14%',
-              pl: 1,
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
             <Typography>Group</Typography>
           </Box>
-          <Box
-            sx={{
-              width: '55%',
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '55%', pt: 1.3 }}>
             <AssetGroupSlect
               group={group}
               setGroup={setGroup}
+              groupName={groupName}
               setName={setGroupName} />
           </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pl: 1,
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '5%', pl: 1, pt: 1.3, }} >
             <Tooltip title="Add  " placement="top">
               <AddCircleOutlineIcon onClick={() => modelGroup()} />
             </Tooltip>
           </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pt: 1.3,
-            }}
-          >
+          {/* <Box sx={{ width: '5%', pt: 1.3, }}>
             <Tooltip title="View " placement="top">
               <RemoveRedEyeOutlinedIcon />
             </Tooltip>
-          </Box>
+          </Box> */}
         </Box>
-        <Box
-          sx={{
-            width: '50%',
-            display: 'flex',
-            margin: 'auto',
-          }}
-        >
-          <Box
-            sx={{
-              pl: 0.8,
-              pt: 1.3,
-            }}
-          >
+
+        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}>
+          <Box sx={{ pl: 0.8, pt: 1.3, }}>
             <CusCheckBox
               color="primary"
               size="md"
@@ -1012,247 +835,30 @@ const ItemNameCreation = () => {
               onCheked={updateSubGroupStatus}
             ></CusCheckBox>
           </Box>
-          <Box
-            sx={{
-              width: '14%',
-              pl: 1,
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
             <Typography>Subgroup</Typography>
           </Box>
-          <Box
-            sx={{
-              width: '55%',
-              pt: 1.3,
-            }}
-          >
-            <AssetSubGroupSelect          
+          <Box sx={{ width: '55%', pt: 1.3, }}>
+            <AssetSubGroupSelect
               setSubGroup={setSubGroup}
               group={group}
               setName={setSubgroupName}
               subgroup={subgroup}
+              subgroupName={subgroupName}
             />
           </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pl: 1,
-              pt: 1,
-            }}
-          >
+          <Box sx={{ width: '5%', pl: 1, pt: 1 }} >
             <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => SubgroupModal()}  />
+              <AddCircleOutlineIcon onClick={() => SubgroupModal()} />
             </Tooltip>
           </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pt: 1,
-            }}
-          >
+          {/* <Box sx={{ width: '5%', pt: 1, }}>
             <Tooltip title="View " placement="top">
               <RemoveRedEyeOutlinedIcon />
             </Tooltip>
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            width: '50%',
-            display: 'flex',
-            margin: 'auto',
-          }}
-        >
-          <Box
-            sx={{
-              pl: 0.8,
-              pt: 1.3,
-            }}
-          >
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="modelStatus"
-              value={modelStatus}
-              checked={modelStatus}
-              onCheked={updateModelStatus}
-            ></CusCheckBox>
-          </Box>
-          <Box
-            sx={{
-              width: '14%',
-              pl: 1,
-              pt: 1.3,
-            }}
-          >
-            <Typography>Model</Typography>
-          </Box>
-          <Box
-            sx={{
-              width: '55%',
-              pt: 1.3,
-            }}
-          >
-            <AssetModelSelect
-               model={model}
-              setModel={setModel}
-              setName={setModelName} />
-          </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pl: 1,
-              pt: 1,
-            }}
-          >
-            <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => modelModal()} />
-            </Tooltip>
-          </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pt: 1,
-            }}
-          >
-            <Tooltip title="View " placement="top">
-              <RemoveRedEyeOutlinedIcon />
-            </Tooltip>
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            width: '50%',
-            display: 'flex',
-            margin: 'auto',
-          }}
-        >
-          <Box
-            sx={{
-              pl: 0.8,
-              pt: 1.3,
-            }}
-          >
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="submodelStatus"
-              value={submodelStatus}
-              checked={submodelStatus}
-              onCheked={updateSubModelStatus}
-            ></CusCheckBox>
-          </Box>
-          <Box
-            sx={{
-              width: '14%',
-              pl: 1,
-              pt: 1.3,
-            }}
-          >
-            <Typography>Submodel</Typography>
-          </Box>
-          <Box
-            sx={{
-              width: '55%',
-              pt: 1.3,
-            }}
-          >
-            <AmSubmodelSelect
-              submodel={submodel}
-              setSubmodel={setSubmodel}
-              model={model}
-              setName={setSubmodelName}
-            />
-          </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pl: 1,
-              pt: 1,
-            }}
-          >
-            <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => SubModeell()}  />
-            </Tooltip>
-          </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pt: 1,
-            }}
-          >
-            <Tooltip title="View " placement="top">
-              <RemoveRedEyeOutlinedIcon />
-            </Tooltip>
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            width: '50%',
-            display: 'flex',
-            margin: 'auto',
-          }}
-        >
-          <Box
-            sx={{
-              pl: 0.8,
-              pt: 1.3,
-            }}
-          >
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="uomStatus"
-              value={uomStatus}
-              checked={uomStatus}
-              onCheked={updateUOMsatus}
-            ></CusCheckBox>
-          </Box>
-          <Box
-            sx={{
-              width: '14%',
-              pl: 1,
-              pt: 1.3,
-            }}
-          >
-            <Typography>U.O.M</Typography>
-          </Box>
-          <Box
-            sx={{
-              width: '55%',
-              pt: 1.3,
-            }}
-          >
-            <AssetUOMSelect
-          uom={uom}
-              setUOM={setUOM}
-              setName={setUomName} />
-          </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pl: 1,
-              pt: 1,
-            }}
-          >
-            <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => modelUOM()}/>
-            </Tooltip>
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            width: '50%',
-            display: 'flex',
-            margin: 'auto',
-          }}
-        >
-          <Box
-            sx={{
-              pl: 0.8,
-              pt: 1.3,
-            }}
-          >
+          </Box> */}
+        </Box><Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}       >
+          <Box sx={{ pl: 0.8, pt: 1.3, }}      >
             <CusCheckBox
               color="primary"
               size="md"
@@ -1262,49 +868,92 @@ const ItemNameCreation = () => {
               onCheked={updateManufactureStatus}
             ></CusCheckBox>
           </Box>
-          <Box
-            sx={{
-              width: '14%',
-              pl: 1,
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
             <Typography>Manufacture</Typography>
           </Box>
-          <Box
-            sx={{
-              width: '55%',
-              pt: 1.3,
-            }}
-          >
+          <Box sx={{ width: '55%', pt: 1.3, }}>
             <AssetManufactureSelect
               manufacture={manufacture}
               setManufacture={setManufacture}
               setName={setManufactureName}
+              manufactureName={manufactureName}
             />
           </Box>
-          <Box
-            sx={{
-              width: '5%',
-              pl: 1,
-              pt: 1,
-            }}
-          >
+          <Box sx={{ width: '5%', pl: 1, pt: 1, }}>
             <Tooltip title="Add " placement="top">
               <AddCircleOutlineIcon onClick={() => modelManufacture()} />
             </Tooltip>
           </Box>
         </Box>
+        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }} >
+          <Box sx={{ pl: 0.8, pt: 1.3, }}>
+            <CusCheckBox
+              color="primary"
+              size="md"
+              name="modelStatus"
+              value={modelStatus}
+              checked={modelStatus}
+              onCheked={updateModelStatus}
+            ></CusCheckBox>
+          </Box>
+          <Box sx={{ width: '14%', pl: 1, pt: 1.3 }}>
+            <Typography>Model</Typography>
+          </Box>
+          <Box sx={{ width: '55%', pt: 1.3, }}>
+            <AssetModelSelect
+              model={model}
+              setModel={setModel}
+              setName={setModelName}
+              modelName={modelName} />
+          </Box>
+          <Box sx={{ width: '5%', pl: 1, pt: 1, }}>
+            <Tooltip title="Add " placement="top">
+              <AddCircleOutlineIcon onClick={() => modelModal()} />
+            </Tooltip>
+          </Box>
+          {/* <Box sx={{ width: '5%', pt: 1, }}>
+            <Tooltip title="View " placement="top">
+              <RemoveRedEyeOutlinedIcon />
+            </Tooltip>
+          </Box> */}
+        </Box>
+        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}  >
+          <Box sx={{ pl: 0.8, pt: 1.3, }}>
+            <CusCheckBox
+              color="primary"
+              size="md"
+              name="submodelStatus"
+              value={submodelStatus}
+              checked={submodelStatus}
+              onCheked={updateSubModelStatus}
+            ></CusCheckBox>
+          </Box>
+          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
+            <Typography>Submodel</Typography>
+          </Box>
+          <Box sx={{ width: '55%', pt: 1.3, }}>
+            <AmSubmodelSelect
+              submodel={submodel}
+              setSubmodel={setSubmodel}
+              model={model}
+              setName={setSubmodelName}
+              submodelName={submodelName}
+            />
+          </Box>
+          <Box sx={{ width: '5%', pl: 1, pt: 1, }}>
+            <Tooltip title="Add " placement="top">
+              <AddCircleOutlineIcon onClick={() => SubModeell()} />
+            </Tooltip>
+          </Box>
+          {/* <Box sx={{ width: '5%', pt: 1, }}>
+            <Tooltip title="View " placement="top">
+              <RemoveRedEyeOutlinedIcon />
+            </Tooltip>
+          </Box> */}
+        </Box>
 
-        <Box
-          sx={{
-            width: '65%',
-            display: 'flex',
-            margin: 'auto',
-            pt: 3,
-          }}
-        >
-          <Box>
+        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}  >
+          <Box sx={{ pl: 0.8, pt: 1.3, }}>
             <CusCheckBox
               color="primary"
               size="md"
@@ -1314,180 +963,161 @@ const ItemNameCreation = () => {
               onCheked={updateModelNoStatus}
             ></CusCheckBox>
           </Box>
-          <Box
-            sx={{
-              width: '13%',
-              pl: 1,
-              display: 'flex',
-            }}
-          >
+          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
             <Typography>Model No.</Typography>
           </Box>
-          <Box
-            sx={{
-              width: '35%',
-            }}
-          >
+          <Box sx={{ width: '55%', pt: 1.3, }}>
             <TextFieldCustom
               type="text"
               size="sm"
+              placeholder="Model Number"
               name="modelNo"
               value={modelNo}
               onchange={updateModelNo}
             ></TextFieldCustom>
           </Box>
+        </Box>
 
-          <Box
-            sx={{
-              width: '15%',
-              pl: 5,
-              textAlign: 'left',
-            }}
-          >
-            <Typography>Base name</Typography>
+        <Box sx={{ width: '50%', display: 'flex', margin: 'auto' }}>
+          <Box sx={{ pl: 0.8, pt: 1.3, }}>
+            <CusCheckBox
+              color="primary"
+              size="md"
+              name="uomStatus"
+              value={uomStatus}
+              checked={uomStatus}
+              onCheked={updateUOMsatus}
+            ></CusCheckBox>
           </Box>
-          <Box
-            sx={{
-              width: '35%',
-            }}
-          >
-            <TextFieldCustom
-              type="text"
-              size="sm"
-              name="item_base_name"
-              value={item_base_name}
-              onchange={updateItemCreation}
-            ></TextFieldCustom>
+          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
+            <Typography>U.O.M</Typography>
+          </Box>
+          <Box sx={{ width: '55%', pt: 1.3, }}>
+            <AssetUOMSelect
+              uom={uom}
+              setUOM={setUOM}
+              setName={setUomName}
+              uomName={uomName} />
+          </Box>
+          <Box sx={{ width: '5%', pl: 1, pt: 1, }}>
+            <Tooltip title="Add " placement="top">
+              <AddCircleOutlineIcon onClick={() => modelUOM()} />
+            </Tooltip>
           </Box>
         </Box>
 
-        <Box
-          sx={{
-            width: '65%',
-            display: 'flex',
-            pt: 1,
-            margin: 'auto',
-          }}
-        >
-          <Box
-            sx={{
-              width: '14.8%',
-              textAlign: 'left',
-              pl: 3,
-            }}
-          >
-            <Typography>Specification 1</Typography>
-          </Box>
-          <Box
-            sx={{
-              width: '35%',
-            }}
-          >
-            <TextFieldCustom
-              type="text"
-              size="sm"
-              name="item_specific_one"
-              value={item_specific_one}
-              onchange={updateItemCreation}
-            ></TextFieldCustom>
-          </Box>
-          <Box
-            sx={{
-              width: '15%',
-              textAlign: 'left',
-              pl: 5,
-            }}
-          >
-            <Typography>Specification 2</Typography>
-          </Box>
-          <Box
-            sx={{
-              width: '35%',
-            }}
-          >
-            <TextFieldCustom
-              type="text"
-              size="sm"
-              name="item_specific_two"
-              value={item_specific_two}
-              onchange={updateItemCreation}
-            ></TextFieldCustom>
+        <Box sx={{ display: 'flex', width: '75%', ml: 22 }}>
+          <Box sx={{ display: 'flex', width: '82%', pt: 1, margin: 'auto' }}>
+            <Box sx={{ pl: 1.9, }}>
+              <CusCheckBox
+                color="primary"
+                size="md"
+                name="baseStatus"
+                value={baseStatus}
+                checked={baseStatus}
+                onCheked={updateBasesatus}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ width: '13%', ml: 0.5 }}   >
+              <Typography>Base name</Typography>
+            </Box>
+            <Box sx={{ width: '90%' }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                name="item_base_name"
+                value={item_base_name}
+                onchange={updateItemCreation}
+              ></TextFieldCustom>
+            </Box>
           </Box>
         </Box>
-        <Box sx={{
-          display: 'flex',
-          width: '75%',
-          ml:34
-       
-        }}>
-        <Box
-          sx={{
-            display: 'flex',
-            width: '88%',
-            pt: 1,
-            margin: 'auto',
-           
-          }}
-        >
-          <Box
-            sx={{
-              width: '13%',
-             ml:4,
-             
-            }}
-          >
-            <Typography>Item creation</Typography>
-          </Box>
-          <Box
-            sx={{
-              width: '83%',
-              
-            }}
-          >
-            <TextFieldCustom
-              type="text"
-              size="sm"
-              name="itemNamee"
-              value={itemNamee}
-            ></TextFieldCustom>
-          </Box>
-          </Box>
-          <Box sx={{
-            display: 'flex',
-            width:'200px',
 
-       
-          }}>
-            <Box sx={{pt:1}}>
-            <label htmlFor="file-input">
-              <CustomeToolTip title="upload">
-                <IconButton color="primary" aria-label="upload file" component="span">
-                  <UploadFileIcon />
-                </IconButton>
-              </CustomeToolTip>
-            </label>
-            <Input
-              id="file-input"
-              type="file"
-              accept=".jpg, .jpeg, .png, .pdf"
-              style={{ display: 'none' }}
-              onChange={uploadFile}
+        <Box sx={{ display: 'flex', width: '75%', ml: 22 }}>
+          <Box sx={{ display: 'flex', width: '84%', pt: 1, margin: 'auto' }}>
+            <Box sx={{ width: '13%', ml: 4 }}   >
+              <Typography>Specification 1</Typography>
+            </Box>
+            <Box sx={{ width: '83%' }}>
+              <CssVarsProvider>
+                <Textarea
+                  type="text"
+                  size="sm"
+                  placeholder="Specification 1"
+                  variant="outlined"
+                  minRows={2}
+                  maxRows={4}
+                  name="item_specific_one"
+                  value={item_specific_one}
+                  onChange={(e) => updateItemCreation(e)}
+                >
+                </Textarea>
+              </CssVarsProvider>
+            </Box>
+          </Box>
+        </Box>
+
+        <Box sx={{ display: 'flex', width: '75%', ml: 22 }}>
+          <Box sx={{ display: 'flex', width: '84%', pt: 1, margin: 'auto' }}>
+            <Box sx={{ width: '13%', ml: 4 }}   >
+              <Typography>Specification 2</Typography>
+            </Box>
+            <Box sx={{ width: '83%' }}>
+              <CssVarsProvider>
+                <Textarea
+                  type="text"
+                  size="sm"
+                  placeholder="Specification 2"
+                  variant="outlined"
+                  minRows={2}
+                  maxRows={4}
+                  name="item_specific_two"
+                  value={item_specific_two}
+                  onChange={(e) => updateItemCreation(e)}
+                >
+                </Textarea>
+              </CssVarsProvider>
+            </Box>
+          </Box>
+        </Box>
+
+        <Box sx={{ display: 'flex', width: '75%', ml: 34 }}>
+          <Box sx={{ display: 'flex', width: '88%', pt: 1, margin: 'auto' }}>
+            <Box sx={{ width: '13%', ml: 4 }}   >
+              <Typography>Item creation</Typography>
+            </Box>
+            <Box sx={{ width: '83%' }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                name="itemNamee"
+                value={itemNamee}
+              ></TextFieldCustom>
+            </Box>
+          </Box>
+          <Box sx={{ display: 'flex', width: '200px' }}>
+            <Box sx={{ pt: 1 }}>
+              <label htmlFor="file-input">
+                <CustomeToolTip title="upload">
+                  <IconButton color="primary" aria-label="upload file" component="span">
+                    <UploadFileIcon />
+                  </IconButton>
+                </CustomeToolTip>
+              </label>
+              <Input
+                id="file-input"
+                type="file"
+                accept=".jpg, .jpeg, .png, .pdf"
+                style={{ display: 'none' }}
+                onChange={uploadFile}
               />
             </Box>
-            <Box sx={{pt:2}}>
+            <Box sx={{ pt: 2 }}>
               {selectFile && <p>{selectFile.name}</p>}
-              </Box>
+            </Box>
           </Box>
-          </Box>
-         
-        
-
-        <Box
-          sx={{
-            width: '65%',
-            margin: 'auto',
-          }}
-        >
+        </Box>
+        <Box sx={{ width: '65%', margin: 'auto' }}      >
           <CusCheckBox
             label="Status"
             color="primary"
@@ -1498,11 +1128,11 @@ const ItemNameCreation = () => {
             onCheked={updateItemCreation}
           ></CusCheckBox>
         </Box>
-      </CardMaster>
+      </CardMaster >
       <Box sx={{ width: '100%' }}>
         <ItemNameCreationTable count={count} rowSelect={rowSelect} />
       </Box>
-    </Box>
+    </Box >
   )
 }
 export default memo(ItemNameCreation)

@@ -1,44 +1,44 @@
-import React ,{ useEffect, memo,useState ,Fragment}from 'react'
+import React, { useEffect, memo, useState, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ActionTyps } from 'src/redux/constants/action.type';
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/'
 import { getAmSubGroupList } from 'src/redux/actions/AmSubGroupList.action';
 
 
-
-const AssetGroupSlect = ({ group,setGroup, setName }) => {
+const AssetGroupSlect = ({ group, setGroup, setName }) => {
     const dispatch = useDispatch();
-
-    const { FETCH_ASSET_GROUP } = ActionTyps;
-    const assetGrps = useSelector((state) => state.getGroup.AssetGroupList)
+    const assetGrps = useSelector((state) => state.getGroup?.AssetGroupList)
     const [grps, setGrps] = useState([{ group_slno: 0, group_name: '' }])
-
     const [value, setValue] = useState(grps[0]);
     const [inputValue, setInputValue] = useState('');
+
+    useEffect(() => {
+        if (group !== 0) {
+            let newObj = assetGrps?.find((e) => e.group_slno === group)
+            setValue(newObj)
+        }
+    }, [group, assetGrps])
+
     useEffect(() => {
         if (value !== null) {
-            dispatch({ type: FETCH_ASSET_GROUP, payload: value.group_slno })
             dispatch(getAmSubGroupList(value.group_slno))
             setGroup(value.group_slno)
             setName(value.group_name)
         } else {
-            dispatch({ type: FETCH_ASSET_GROUP, payload: 0 })
             dispatch(getAmSubGroupList(0))
             setGroup(0)
             setName('')
         }
         return
-    }, [value, FETCH_ASSET_GROUP, dispatch, setGroup, setName])
+    }, [value, setGroup, dispatch, setName])
 
 
     useEffect(() => {
         assetGrps.length > 0 && setGrps(assetGrps)
     }, [assetGrps])
 
- 
-    return (
 
+    return (
         <Fragment >
             <CssVarsProvider>
                 <Autocomplete

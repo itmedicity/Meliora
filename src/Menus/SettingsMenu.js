@@ -73,6 +73,7 @@ export const am_setting_one = [
     { to: '/Home/SubCategory', name: 'Sub Category', slno: 26 },
     { to: '/Home/Manufacture', name: 'Manufacture', slno: 29 },
     { to: '/Home/UnitOfMeasurement', name: 'Unit Of Measurement', slno: 137 },
+    { to: '/Home/CusodianDepartment', name: 'Custodian Department', slno: 154 },
 ]
 
 export const am_setting_two = [
