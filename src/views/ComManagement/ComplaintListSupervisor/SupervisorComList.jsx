@@ -420,7 +420,7 @@ const SupervisorComList = () => {
                                 mt: 1,
                             }} >
                                 <CusCheckBox
-                                    label="Employee Trasfer"
+                                    label="Employee Transfer"
                                     color="danger"
                                     size="md"
                                     name="empTras"

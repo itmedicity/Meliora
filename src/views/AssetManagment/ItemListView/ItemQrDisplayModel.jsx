@@ -8,14 +8,15 @@ import { ToastContainer } from 'react-toastify';
 import { Box } from '@mui/material'
 import { useReactToPrint } from 'react-to-print';
 import { QRCodeSVG } from 'qrcode.react';
+import { format } from 'date-fns'
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
 
-const ItemQrDisplayModel = ({ open, handleClose, assetNo }) => {
+const ItemQrDisplayModel = ({ open, handleClose, assetNo, dueDate }) => {
 
-
+    const pmDueDate = dueDate !== null ? format(new Date(dueDate), "yyyy/MM/dd") : ''
     const ref = useRef();
     const handlePrint = useReactToPrint({
         content: () => ref.current,
@@ -40,14 +41,14 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo }) => {
                         </Box>
                         <Box sx={{
                             width: 300,
-                            height: 150, pl: 3,
+                            height: 150,
                             flexDirection: 'column',
                         }}>
 
-                            <div ref={ref} style={{ display: 'flex', flexDirection: 'row' }} >
+                            <div ref={ref} style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-evenly" }} >
                                 {/* <Barcode width={1} height={40} value={value} /> */}
                                 {/* <QRCodeCanvas value="https://reactjs.org/" /> */}
-                                <div>
+                                <div style={{ display: 'flex', flexDirection: 'column', }}>
                                     <QRCodeSVG
                                         value={assetNo}
                                         size={100}
@@ -69,8 +70,22 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo }) => {
                                             marginTop: -2
                                         }}
                                     >{assetNo}</div>
+                                    {
+                                        dueDate !== null ?
+                                            <div
+                                                style={{
+                                                    width: 145,
+                                                    fontSize: 12,
+                                                    fontWeight: 700,
+                                                    fontFamily: 'initial',
+                                                    textAlign: 'center',
+                                                    marginTop: -2
+                                                }}
+                                            >PM:{pmDueDate}</div> : null
+                                    }
+
                                 </div>
-                                <div>
+                                <div style={{ display: 'flex', flexDirection: 'column', }} >
                                     <QRCodeSVG
                                         value={assetNo}
                                         size={100}
@@ -80,6 +95,7 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo }) => {
                                             marginTop: 15,
                                             height: 80,
                                             width: 110,
+                                            pl: 5
                                         }}
                                     />
                                     <div
@@ -92,6 +108,19 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo }) => {
                                             marginTop: -2
                                         }}
                                     >{assetNo}</div>
+                                    {
+                                        dueDate !== null ?
+                                            <div
+                                                style={{
+                                                    width: 110,
+                                                    fontSize: 12,
+                                                    fontWeight: 700,
+                                                    fontFamily: 'initial',
+                                                    textAlign: 'center',
+                                                    marginTop: -2
+                                                }}
+                                            >PM:{pmDueDate}</div> : null
+                                    }
                                 </div>
                             </div>
 

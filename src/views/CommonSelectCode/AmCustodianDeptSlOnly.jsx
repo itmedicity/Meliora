@@ -10,6 +10,14 @@ const AmCustodianDeptSlOnly = ({ custodiandept, setCustodianDept }) => {
     const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
+        if (custodiandept !== 0 && custodiandept !== undefined) {
+
+            let newObj = custdnDeptList?.find((e) => e.am_custodian_slno === custodiandept)
+            setValue(newObj)
+        }
+    }, [custodiandept, custdnDeptList])
+
+    useEffect(() => {
         if (value !== null) {
             setValue(value)
             setCustodianDept(value.am_custodian_slno)
