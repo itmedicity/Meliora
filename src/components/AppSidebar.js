@@ -123,7 +123,7 @@ const AppSidebar = () => {
     {
       slno: 18,
       component: CNavGroup,
-      name: 'IT Management',
+      name: 'Information Technology',
       items: itmanagement
     },
   ]
