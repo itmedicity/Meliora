@@ -35,9 +35,9 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
     useEffect(() => {
         if (am_manufacture_no !== undefined || assetno !== undefined) {
             const frmdata = {
-                manufacturslno: am_manufacture_no,
-                asset_no: assetno,
-                asset_noold: assetno,
+                manufacturslno: am_manufacture_no !== undefined ? am_manufacture_no : '',
+                asset_no: assetno !== null ? assetno : '',
+                asset_noold: assetno !== null ? assetno : '',
             }
             setUserdata(frmdata);
         }
@@ -71,7 +71,7 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
             asset_noold: '',
         }
         setUserdata(frmdata)
-    }, [])
+    }, [setUserdata])
 
 
     const SaveDeviceDetails = useCallback((e) => {
@@ -97,9 +97,9 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
             if (success === 1) {
                 const { am_manufacture_no, am_asset_no, am_asset_old_no } = data[0]
                 const frmdata = {
-                    manufacturslno: am_manufacture_no,
-                    asset_no: am_asset_no,
-                    asset_noold: am_asset_old_no,
+                    manufacturslno: am_manufacture_no !== null ? am_manufacture_no : '',
+                    asset_no: am_asset_no !== null ? am_asset_no : '',
+                    asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
                 }
                 setUserdata(frmdata);
             }
@@ -132,7 +132,7 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
         reset()
     }, [reset])
 
-
+    const disableflag = true
     return (
         <Paper sx={{ overflow: 'auto', border: 1, mb: 1 }}>
             <Box sx={{
@@ -158,7 +158,7 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                             size="sm"
                             name="asset_no"
                             value={asset_no}
-                            disabled="true"
+                            disabled={disableflag}
                         ></TextFieldCustom>
                     </Box>
                 </Box>
@@ -170,7 +170,7 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                             size="sm"
                             name="asset_noold"
                             value={asset_noold}
-                            disabled="true"
+                            disabled={disableflag}
                         ></TextFieldCustom>
                     </Box>
                 </Box>

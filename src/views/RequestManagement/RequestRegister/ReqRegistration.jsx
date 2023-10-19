@@ -70,7 +70,7 @@ const ReqRegistration = () => {
         item_qty: '',
         item_unit: '',
         item_spec: '',
-        approx_cost: ''
+        approx_cost: 0
     })
     //Destructuring
     const { item_desc, item_brand, item_qty, item_unit, item_spec, approx_cost } = itemstate
@@ -307,7 +307,8 @@ const ReqRegistration = () => {
                 const datass = [...dataPost, newdata]
                 if (datass.length !== 0) {
                     setdataPost(datass)
-                    const xx = approx_cost !== 0 ? totalApproxCost + parseInt(approx_cost) : totalApproxCost
+                    console.log(approx_cost);
+                    const xx = approx_cost !== 0 ? totalApproxCost + parseInt(approx_cost) : 0
                     setTotalCost(xx)
                     const resetarrray = {
                         item_desc: '',
@@ -1144,21 +1145,14 @@ const ReqRegistration = () => {
                                                     </IconButton>
                                                 </Box>
                                             </Box>
-
                                         </Box>
-
-
-
-
                                 }
-
 
                                 {tableDis === 1 ?
                                     <Box sx={{
                                         width: "100%",
                                         display: "flex",
                                         flexDirection: "column",
-
                                     }}>
                                         {
                                             detldept === 1 ?
@@ -1173,24 +1167,8 @@ const ReqRegistration = () => {
                                                 />
                                         }
                                     </Box> : null}
-
-
-
                             </Paper> : null
-
                     }
-
-
-
-
-
-
-
-
-
-
-
-
 
                     {/** 4th Section*/}
                     <Paper sx={{
@@ -1222,73 +1200,76 @@ const ReqRegistration = () => {
                                     />
                                 </Box>
                             </Box>
-
                             <Box sx={{
-                                width: "10%",
-                                display: "flex", pl: 2, pt: 4,
-                                flexDirection: "column"
+                                width: "80%",
+                                display: "flex", flex: 1, pl: 2,
+                                flexDirection: "row"
                             }}>
-                                <CusCheckBox
-                                    variant="outlined"
-                                    color="danger"
-                                    size="md"
-                                    name="estimate"
-                                    label="Emergency"
-                                    value={emergency}
-                                    onCheked={updateEmergency}
-                                    checked={emergency}
-                                />
-                            </Box>
+                                <Box sx={{
+                                    width: "50%",
+                                    display: "flex", pl: 2, pt: 4,
+                                    flexDirection: "column"
+                                }}>
+                                    <CusCheckBox
+                                        variant="outlined"
+                                        color="danger"
+                                        size="md"
+                                        name="estimate"
+                                        label="Emergency"
+                                        value={emergency}
+                                        onCheked={updateEmergency}
+                                        checked={emergency}
+                                    />
 
-
-                            {
-                                emergency === true ?
-                                    <Box sx={{
-                                        width: "50%",
-                                        display: "flex",
-                                        flexDirection: "column"
-                                    }}>
-                                        <CustomPaperTitle heading="Remarks" />
+                                </Box>
+                                {
+                                    emergency === true ?
                                         <Box sx={{
-                                            display: 'flex',
-                                            p: 0.5,
-                                            width: '100%'
-                                        }} >
-                                            <CustomTextarea
-                                                required
+                                            width: "50%",
+                                            display: "flex",
+                                            flexDirection: "column"
+                                        }}>
+                                            <CustomPaperTitle heading="Remarks" />
+                                            <Box sx={{
+                                                display: 'flex',
+                                                p: 0.5,
+                                                width: '100%'
+                                            }} >
+                                                <CustomTextarea
+                                                    required
+                                                    type="text"
+                                                    size="sm"
+                                                    style={{
+                                                        width: "100%",
+                                                        height: 50,
+                                                    }}
+                                                    value={remarks}
+                                                    onchange={updateRemarks}
+                                                />
+                                            </Box>
+                                        </Box> : null
+                                }
+
+                                {
+                                    detldept === 1 ?
+                                        <Box sx={{
+                                            width: "25%",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            pr: 1, pt: 0.5
+                                        }}>
+                                            <CustomPaperTitle heading="Total Approx.Cost" />
+                                            <TextFieldCustom
                                                 type="text"
                                                 size="sm"
-                                                style={{
-                                                    width: "100%",
-                                                    height: 50,
-                                                }}
-                                                value={remarks}
-                                                onchange={updateRemarks}
+                                                name="totalApproxCost"
+                                                value={totalApproxCost}
+                                                disabled={true}
                                             />
-                                        </Box>
-                                    </Box> : null
-                            }
 
-
-                            {
-                                detldept === 1 ?
-                                    <Box sx={{
-                                        width: "15%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        pr: 1, pt: 0.5
-                                    }}>
-                                        <CustomPaperTitle heading="Total Approx.Cost" />
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="totalApproxCost"
-                                            value={totalApproxCost}
-                                            disabled={true}
-                                        />
-
-                                    </Box> : null
-                            }
+                                        </Box> : null
+                                }
+                            </Box>
                         </Box>
                     </Paper>
                 </Box >

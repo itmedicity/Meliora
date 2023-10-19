@@ -8,18 +8,19 @@ function RoomNewCreationTable({ count, rowSelect }) {
   const [tabledata, setTabledata] = useState([])
 
   const [column] = useState([
-    { headerName: 'SlNo', field: 'rm_room_slno' },
-    { headerName: 'Building', field: 'rm_building_name' },
-    { headerName: 'Block.', field: 'rm_buildblock_name' },
-    { headerName: 'Inside building block', field: 'rm_insidebuildblock_name' },
-    { headerName: 'Floor', field: 'rm_floor_name' },
-    { headerName: 'Room Type', field: 'rm_roomtype_name' },
-    { headerName: 'Room Category', field: 'rm_roomcategory_name' },
-    { headerName: 'Status', field: 'status' },
     {
-      headerName: 'Action',
+      headerName: 'Action', minWidth: 100,
       cellRenderer: (params) => <EditButton onClick={() => rowSelect(params)} />,
     },
+    { headerName: 'SlNo', field: 'rm_room_slno', wrapText: true, minWidth: 70 },
+    { headerName: 'Building', field: 'rm_building_name', wrapText: true, minWidth: 250 },
+    { headerName: 'Block.', field: 'rm_buildblock_name', wrapText: true, minWidth: 250 },
+    { headerName: 'Inside building block', field: 'rm_insidebuildblock_name', wrapText: true, minWidth: 180 },
+    { headerName: 'Floor', field: 'rm_floor_name', wrapText: true, minWidth: 200 },
+    { headerName: 'Room Type', field: 'rm_roomtype_name', wrapText: true, minWidth: 200 },
+    { headerName: 'Room Category', field: 'rm_roomcategory_name', wrapText: true, minWidth: 250 },
+    { headerName: 'Status', field: 'status', wrapText: true, minWidth: 100 },
+
   ])
   useEffect(() => {
     const getFloorData = async () => {

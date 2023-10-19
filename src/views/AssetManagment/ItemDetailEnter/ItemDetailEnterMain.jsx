@@ -58,75 +58,66 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag }) => {
                 setAmcPmArry([])
             }
         }
-
         checkinsertOrNotDetail(am_item_map_slno)
         checkinsertOrNotWarGar(am_item_map_slno)
         checkinsertOrNotAMCPM(am_item_map_slno)
     }, [am_item_map_slno])
-
 
     const BackToPage = useCallback(() => {
         setDetailflag(0)
     }, [setDetailflag])
 
     return (
-        <Box sx={{
-            display: 'flex', flexGrow: 1, width: '100%', height: window.innerHeight - 85,
-        }}>
-            <CardMasterClose
-                title="Item Details Add"
-                close={BackToPage}
-            >
-                <Paper sx={{ width: '100%', overflow: 'auto', height: 775 }}>
-                    <Box sx={{
-                        display: 'flex', flexDirection: 'column',
-                    }} >
-                        {/* GRN Detail */}
-                        <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                            GRN Details</Typography>
-                        <GRNDeailtsComp detailArry={detailArry}
-                            grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
-                        {/* Bill Details */}
-                        <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                            Bill Details</Typography>
-                        <BillDetailsComp detailArry={detailArry}
-                            grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
+        <CardMasterClose
+            title="Item Details Add"
+            close={BackToPage}
+        >
+            <Paper sx={{ display: 'flex', flex: 1, width: '100%' }}>
+                <Box sx={{
+                    display: 'flex', flex: 1, flexDirection: 'column',
+                }} >
+                    {/* GRN Detail */}
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        GRN Details</Typography>
+                    <GRNDeailtsComp detailArry={detailArry}
+                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
+                    {/* Bill Details */}
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        Bill Details</Typography>
+                    <BillDetailsComp detailArry={detailArry}
+                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
 
-                        {/* Device Details */}
-                        <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                            Device Details</Typography>
-                        <DEviceDetailsComp detailArry={detailArry}
-                            grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
+                    {/* Device Details */}
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        Device Details</Typography>
+                    <DEviceDetailsComp detailArry={detailArry}
+                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
 
-                        {/*  OwnerShip Details */}
-                        <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                            OwnerShip Details</Typography>
-                        <OwnerShipDetailsComp detailArry={detailArry}
-                            grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
+                    {/*  OwnerShip Details */}
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        OwnerShip Details</Typography>
+                    <OwnerShipDetailsComp detailArry={detailArry}
+                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
 
-                        {/*  Lease Details */}
-                        <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                            Lease Details</Typography>
-                        <LeaseDetails detailArry={detailArry}
-                            grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
-                        {/*  Warrenty/ Grarunty Details */}
-                        <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                            Warrenty/Grarunty  Details</Typography>
-                        <WarrentyGrauntyComp detailArry={detailArry} warGararry={warGararry}
-                            wargar={wargar} setWarGar={setWarGar} />
+                    {/*  Lease Details */}
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        Lease Details</Typography>
+                    <LeaseDetails detailArry={detailArry}
+                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
+                    {/*  Warrenty/ Grarunty Details */}
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        Warrenty/Grarunty  Details</Typography>
+                    <WarrentyGrauntyComp detailArry={detailArry} warGararry={warGararry}
+                        wargar={wargar} setWarGar={setWarGar} />
 
-                        {/*  AMC/PM Details */}
-                        <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                            AMC/PM  Details</Typography>
-
-                        <AMCPMComp detailArry={detailArry} amcPmarry={amcPmarry}
-                            amcPm={amcPm} setAmcPm={setAmcPm} />
-                    </Box>
-                </Paper>
-            </CardMasterClose>
-
-        </Box>
-
+                    {/*  AMC/PM Details */}
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        AMC/PM  Details</Typography>
+                    <AMCPMComp detailArry={detailArry} amcPmarry={amcPmarry}
+                        amcPm={amcPm} setAmcPm={setAmcPm} />
+                </Box>
+            </Paper>
+        </CardMasterClose>
     )
 }
 
