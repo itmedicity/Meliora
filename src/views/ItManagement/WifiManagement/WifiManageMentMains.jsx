@@ -24,8 +24,10 @@ const WifiManageMentMains = () => {
     patient: false,
     bystander: false,
     extra: false,
+    disbleP: false,
+    disbleB: false
   })
-  const { in_patient_no, patient, bystander, extra } = ipNumber
+  const { in_patient_no, patient, bystander, extra, disbleP, disbleB } = ipNumber
   const updateWifiManagement = useCallback(
     (e) => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -93,6 +95,8 @@ const WifiManageMentMains = () => {
                 patient: patient === 1 ? true : false,
                 bystander: bystander === 1 ? true : false,
                 extra: extra === 1 ? true : false,
+                disbleP: patient === 1 ? true : false,
+                disbleB: bystander === 1 ? true : false
               }
               setipNumber(frmdata)
               setSelectedRow(data)
@@ -145,6 +149,39 @@ const WifiManageMentMains = () => {
         if (success === 2) {
           setCount(count + 1)
           succesNotify(message)
+          const { patient, bystander, in_patient_no } = patchdata
+          if (patient === 1 && bystander === 1) {
+            const frmdata = {
+              in_patient_no: in_patient_no,
+              patient: true,
+              bystander: true,
+              extra: false,
+              disbleP: true,
+              disbleB: true
+            }
+            setipNumber(frmdata)
+          } else if (patient === 1 && bystander === 0) {
+            const frmdata = {
+              in_patient_no: in_patient_no,
+              patient: true,
+              bystander: false,
+              extra: false,
+              disbleP: true,
+              disbleB: false
+            }
+            setipNumber(frmdata)
+          } else if (patient === 0 && bystander === 1) {
+            const frmdata = {
+              in_patient_no: in_patient_no,
+              patient: false,
+              bystander: true,
+              extra: false,
+              disbleP: false,
+              disbleB: true
+            }
+            setipNumber(frmdata)
+          }
+
         } else if (success === 0) {
           infoNotify(message)
         } else {
@@ -362,6 +399,7 @@ const WifiManageMentMains = () => {
             name="patient"
             value={patient}
             checked={patient}
+            disabled={disbleP}
             onCheked={updateWifiManagement}
           ></CusCheckBox>
         </Box>
@@ -373,6 +411,7 @@ const WifiManageMentMains = () => {
             name="bystander"
             value={bystander}
             checked={bystander}
+            disabled={disbleB}
             onCheked={updateWifiManagement}
           ></CusCheckBox>
         </Box>
