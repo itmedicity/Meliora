@@ -40,7 +40,7 @@ const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                 billDate: am_bill_date !== null ? format(new Date(am_bill_date), "yyyy-MM-dd") : '',
                 billamount: am_bill_amount !== null ? am_bill_amount : '',
                 bill_vendor_detail: am_bill_vendor_detail !== null ? am_bill_vendor_detail : '',
-                billImage: am_bill_image
+                billImage: am_bill_image !== null ? am_bill_image : ''
             }
             setBillData(frmdata);
         }
@@ -102,7 +102,7 @@ const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
             billDate: '',
             billamount: '',
             bill_vendor_detail: '',
-            bill_image: ''
+            bill_image: 0
         }
         setBillData(frmdata)
     }
@@ -135,7 +135,7 @@ const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                     billDate: am_bill_date !== null ? format(new Date(am_bill_date), "yyyy-MM-dd") : '',
                     billamount: am_bill_amount !== null ? am_bill_amount : '',
                     bill_vendor_detail: am_bill_vendor_detail !== null ? am_bill_vendor_detail : '',
-                    billImage: am_bill_image
+                    billImage: am_bill_image !== null ? am_bill_image : 0
                 }
                 setBillData(frmdata);
             }

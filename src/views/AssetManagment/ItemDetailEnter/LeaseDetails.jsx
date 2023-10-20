@@ -49,9 +49,9 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist }) => {
 
         if (am_lease_from !== null || am_lease_to !== null || am_lease_amount !== null) {
             const frmdata = {
-                fromDate: am_lease_from,
-                toDate: am_lease_to,
-                leaseAmount: am_lease_amount,
+                fromDate: am_lease_from !== null ? am_lease_from : '',
+                toDate: am_lease_to !== null ? am_lease_to : '',
+                leaseAmount: am_lease_amount !== null ? am_lease_amount : '',
             }
             setUserdata(frmdata)
 
@@ -135,10 +135,10 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist }) => {
             if (success === 1) {
                 const { am_lease_status, am_lease_from, am_lease_to, am_lease_amount, am_lease_image } = data[0]
                 const frmdata = {
-                    fromDate: format(new Date(am_lease_from), "yyyy-MM-dd"),
-                    toDate: format(new Date(am_lease_to), "yyyy-MM-dd"),
-                    FileStatus: am_lease_image,
-                    leaseAmount: am_lease_amount,
+                    fromDate: am_lease_from !== null ? format(new Date(am_lease_from), "yyyy-MM-dd") : '',
+                    toDate: am_lease_to !== null ? format(new Date(am_lease_to), "yyyy-MM-dd") : '',
+                    FileStatus: am_lease_image !== null ? am_lease_image : '',
+                    leaseAmount: am_lease_amount !== null ? am_lease_amount : '',
                 }
                 setUserdata(frmdata);
                 setLeaseStatus(am_lease_status === 1 ? true : false)
@@ -298,14 +298,8 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist }) => {
                                     </CusIconButton>
                                 </Box>
                             </CustomeToolTip>
-
-
                         </Box> : null
-
-
                 }
-
-
             </Box>
         </Paper >
     )
