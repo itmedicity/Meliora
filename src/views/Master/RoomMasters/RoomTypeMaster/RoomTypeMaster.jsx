@@ -22,6 +22,7 @@ const RoomTypeMaster = () => {
     rm_roomtype_alias: '',
     rm_roomtype_no: '',
     rm_roomtype_status: false,
+    rm_roomtype_type: false
   })
   const {
     rm_roomtype_slno,
@@ -29,6 +30,7 @@ const RoomTypeMaster = () => {
     rm_roomtype_alias,
     rm_roomtype_no,
     rm_roomtype_status,
+    rm_roomtype_type
   } = roomType
   const updateRoomType = useCallback(
     (e) => {
@@ -43,8 +45,9 @@ const RoomTypeMaster = () => {
       rm_roomtype_alias: rm_roomtype_alias,
       rm_roomtype_no: rm_roomtype_no,
       rm_roomtype_status: rm_roomtype_status === true ? 1 : 0,
+      rm_roomtype_type: rm_roomtype_type === true ? 1 : 0
     }
-  }, [rm_roomtype_name, rm_roomtype_alias, rm_roomtype_no, rm_roomtype_status])
+  }, [rm_roomtype_name, rm_roomtype_alias, rm_roomtype_no, rm_roomtype_status, rm_roomtype_type])
 
   const patchdata = useMemo(() => {
     return {
@@ -53,8 +56,9 @@ const RoomTypeMaster = () => {
       rm_roomtype_alias: rm_roomtype_alias,
       rm_roomtype_no: rm_roomtype_no,
       rm_roomtype_status: rm_roomtype_status === true ? 1 : 0,
+      rm_roomtype_type: rm_roomtype_type === true ? 1 : 0
     }
-  }, [rm_roomtype_slno, rm_roomtype_name, rm_roomtype_alias, rm_roomtype_no, rm_roomtype_status])
+  }, [rm_roomtype_slno, rm_roomtype_name, rm_roomtype_alias, rm_roomtype_no, rm_roomtype_status, rm_roomtype_type])
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
   }, [history])
@@ -65,6 +69,7 @@ const RoomTypeMaster = () => {
       rm_roomtype_alias: '',
       rm_roomtype_no: '',
       rm_roomtype_status: false,
+      rm_roomtype_type: false
     }
     setRoomType(frmdata)
     setCount(0)
@@ -80,6 +85,7 @@ const RoomTypeMaster = () => {
       rm_roomtype_alias,
       rm_roomtype_no,
       rm_roomtype_status,
+      rm_roomtype_type
     } = data[0]
 
     const frmdata = {
@@ -88,6 +94,7 @@ const RoomTypeMaster = () => {
       rm_roomtype_alias: rm_roomtype_alias,
       rm_roomtype_no: rm_roomtype_no,
       rm_roomtype_status: rm_roomtype_status === 1 ? true : false,
+      rm_roomtype_type: rm_roomtype_type === 1 ? true : false
     }
     setRoomType(frmdata)
   }, [])
@@ -95,7 +102,7 @@ const RoomTypeMaster = () => {
     (e) => {
       e.preventDefault()
       const InsertRoomtype = async (postdata) => {
-        const result = await axioslogin.post('/roomtype/insert', postdata)
+        const result = await axioslogin.post('/roomtypeMaster/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
           succesNotify(message)
@@ -108,7 +115,7 @@ const RoomTypeMaster = () => {
         }
       }
       const UpdateRoomType = async (patchdata) => {
-        const result = await axioslogin.patch('/roomtype/update', patchdata)
+        const result = await axioslogin.patch('/roomtypeMaster/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
           succesNotify(message)
@@ -135,13 +142,14 @@ const RoomTypeMaster = () => {
       rm_roomtype_alias: '',
       rm_roomtype_no: '',
       rm_roomtype_status: false,
+      rm_roomtype_type: false
     }
     setRoomType(frmdata)
     setValue(0)
   }, [setRoomType])
   return (
     <CardMaster
-      title="Room Type"
+      title="Nomenclature Type"
       submit={sumbitRoomType}
       close={backtoSetting}
       refresh={refreshWindow}
@@ -151,7 +159,7 @@ const RoomTypeMaster = () => {
           <Box sx={{ width: '30%', p: 1 }}>
             <Box>
               <TextFieldCustom
-                placeholder="Room Type Name"
+                placeholder="Nomenclature Type Name"
                 type="text"
                 size="sm"
                 name="rm_roomtype_name"
@@ -161,7 +169,7 @@ const RoomTypeMaster = () => {
             </Box>
             <Box sx={{ pt: 1 }}>
               <TextFieldCustom
-                placeholder="Room Type Alias"
+                placeholder="Nomenclature Type Alias"
                 type="text"
                 size="sm"
                 name="rm_roomtype_alias"
@@ -171,7 +179,7 @@ const RoomTypeMaster = () => {
             </Box>
             <Box sx={{ pt: 1 }}>
               <TextFieldCustom
-                placeholder="Room Type Number"
+                placeholder="Nomenclature Type Number"
                 type="text"
                 size="sm"
                 name="rm_roomtype_no"
@@ -179,6 +187,19 @@ const RoomTypeMaster = () => {
                 onchange={updateRoomType}
               ></TextFieldCustom>
             </Box>
+
+            <Box sx={{ p: 1 }}>
+              <CusCheckBox
+                label="Entrance"
+                color="primary"
+                size="md"
+                name="rm_roomtype_type"
+                value={rm_roomtype_type}
+                checked={rm_roomtype_type}
+                onCheked={updateRoomType}
+              ></CusCheckBox>
+            </Box>
+
             <Box sx={{ p: 1 }}>
               <CusCheckBox
                 label="status"
