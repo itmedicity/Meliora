@@ -36,12 +36,12 @@ const WifiQRCodeModel = ({ open, handleClose, qrCodeDis }) => {
                 >
                     <Box sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}>
                         <Box sx={{
-                            width: 300,
+                            width: 250,
                             height: 120,
                             flexDirection: 'column',
                         }}>
 
-                            <div ref={ref} style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }} >
+                            <div ref={ref} style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-evenly" }} >
                                 {/* <Barcode width={1} height={40} value={value} /> */}
                                 {/* <QRCodeCanvas value="https://reactjs.org/" /> */}
                                 <div style={{ display: 'flex', flexDirection: 'column', }}>
@@ -51,17 +51,18 @@ const WifiQRCodeModel = ({ open, handleClose, qrCodeDis }) => {
                                         level='Q'
                                         includeMargin={false}
                                         style={{
+                                            marginLeft: 0.5,
                                             marginTop: 10,
                                             height: 100,
-                                            width: 145,
+                                            width: 100,
                                         }}
                                     />
                                 </div>
                                 <div style={{
-                                    marginLeft: 5,
+                                    marginLeft: 0.5,
                                     marginTop: 10,
                                     height: 100,
-                                    width: 145,
+                                    width: 144,
                                 }}>
                                     <Box
                                         sx={{ flexDirection: 'column', pt: 0.5 }}>
@@ -85,7 +86,7 @@ const WifiQRCodeModel = ({ open, handleClose, qrCodeDis }) => {
                                             Or
                                         </Box>
                                         <Box sx={{ fontSize: 11, height: '20px', }}>
-                                            Scan The QR Code with any QR Code Scaner
+                                            Scan the QR Code
                                         </Box>
                                     </Box>
                                 </div>

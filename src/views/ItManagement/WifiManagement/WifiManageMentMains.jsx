@@ -7,11 +7,11 @@ import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import CardMaster from 'src/views/Components/CardMaster'
 import CachedIcon from '@mui/icons-material/Cached';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import WifiQRCodeModel from './WifiQRCodeModel';
-
+import CardCloseOnly from 'src/views/Components/CardCloseOnly';
+import { useSelector } from 'react-redux'
 
 const WifiManageMentMains = () => {
   const [value, setValue] = useState(0)
@@ -35,15 +35,37 @@ const WifiManageMentMains = () => {
     },
     [ipNumber],
   )
-
+  // Get login user emp_id
+  const id = useSelector((state) => {
+    return state.LoginUserData.empid
+  })
   const patchdata = useMemo(() => {
     return {
       in_patient_no: in_patient_no,
       patient: patient === true ? 1 : 0,
       bystander: bystander === true ? 1 : 0,
-      extra: extra === true ? 1 : 0
+      extra: extra === true ? 1 : 0,
+      edit_user: id
     }
-  }, [in_patient_no, patient, bystander, extra])
+  }, [in_patient_no, patient, bystander, extra, id])
+
+  const [allowtted, setAllowted] = useState([])
+  const [dashChange, setDashChange] = useState(0)
+
+  useEffect(() => {
+    const getAlloteedWiFi = async () => {
+      const result = await axioslogin.get('/wifiManagement/getAllowttedWiFi')
+      const { success, data } = result.data
+      if (success === 1) {
+        setAllowted(data)
+      }
+      else {
+        setAllowted([])
+      }
+    }
+    getAlloteedWiFi()
+
+  }, [dashChange])
 
   useEffect(() => {
     const getdataMeliora = async (in_patient_no) => {
@@ -55,8 +77,10 @@ const WifiManageMentMains = () => {
     }
     if (in_patient_no !== '' && count !== 0) {
       getdataMeliora(in_patient_no)
+
     }
-  }, [in_patient_no, count])
+
+  }, [in_patient_no, count, setAllowted])
 
 
   const searchIP = useCallback(() => {
@@ -83,7 +107,8 @@ const WifiManageMentMains = () => {
             in_patient_no: in_patient_no,
             patient: 0,
             bystander: 0,
-            extra: 0
+            extra: 0,
+            create_user: id
           }
           getdataMeliora(in_patient_no).then((values) => {
             const { success, data } = values
@@ -135,7 +160,7 @@ const WifiManageMentMains = () => {
       warningNotify("Please Enter 10 Digit IP Number")
     }
 
-  }, [in_patient_no])
+  }, [in_patient_no, id])
 
 
 
@@ -254,6 +279,7 @@ const WifiManageMentMains = () => {
         setQrModelFlag(1)
         SetQrModelOpen(true)
         setQrCodeDis(code)
+        setDashChange(dashChange + 1)
       }
       else {
         const result1 = await axioslogin.patch('/wifiManagement/updateQrCode', checking)
@@ -266,6 +292,7 @@ const WifiManageMentMains = () => {
             setQrModelFlag(1)
             SetQrModelOpen(true)
             setQrCodeDis(code)
+            setDashChange(dashChange + 1)
           }
         }
         else {
@@ -274,7 +301,7 @@ const WifiManageMentMains = () => {
       }
     }
     getdata(checking)
-  }, [setQrModelFlag, SetQrModelOpen])
+  }, [setQrModelFlag, SetQrModelOpen, setDashChange, dashChange])
 
 
   const QrModelByStander = useCallback((val) => {
@@ -292,6 +319,7 @@ const WifiManageMentMains = () => {
         setQrModelFlag(1)
         SetQrModelOpen(true)
         setQrCodeDis(code)
+        setDashChange(dashChange + 1)
       }
       else {
         const result1 = await axioslogin.patch('/wifiManagement/updateQrCode', checking)
@@ -304,6 +332,7 @@ const WifiManageMentMains = () => {
             setQrModelFlag(1)
             SetQrModelOpen(true)
             setQrCodeDis(code)
+            setDashChange(dashChange + 1)
           }
         }
         else {
@@ -312,7 +341,7 @@ const WifiManageMentMains = () => {
       }
     }
     getdata(checking)
-  }, [setQrModelFlag, SetQrModelOpen])
+  }, [setQrModelFlag, SetQrModelOpen, setDashChange, dashChange])
 
   // const QrModelExtra = useCallback((val) => {
   //   const { in_patient_no } = val
@@ -357,80 +386,123 @@ const WifiManageMentMains = () => {
   }, [SetQrModelOpen])
 
   return (
-    <CardMaster
-      submit={submitWifiManagement}
+
+    <CardCloseOnly
       close={backtoSetting}
-      refresh={refreshWindow}>
+    >
 
-      <Box sx={{ display: 'flex', margin: 'auto', pt: 1, width: 800 }}>
-        <Box sx={{ pt: .5, }}>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        flex: 1,
+        width: '100%'
+      }} >
 
-          <Typography>
-            Enter IP Number
-          </Typography>
-        </Box>
-        <Box sx={{ flex: .5, pl: 2, }}>
-          <TextFieldCustom
-            placeholder="IP Number"
-            type="integer"
-            size="sm"
-            name="in_patient_no"
-            value={in_patient_no}
-            onchange={updateWifiManagement}
-          ></TextFieldCustom>
-        </Box>
-        <Box sx={{ pl: 1, pt: .5, color: '#9DBED1', cursor: 'pointer', }}>
-          <Tooltip title="search" placement="top">
-            <SearchIcon onClick={() => searchIP()} />
-          </Tooltip>
-        </Box>
-        <Box sx={{ flex: .5, pl: 1, pt: .5, color: '#9DBED1', cursor: 'pointer', }}>
-          <Tooltip title="refresh" placement="top">
-            <CachedIcon onClick={() => refreshWindow()} />
-          </Tooltip>
-        </Box>
-      </Box>
-      <Box sx={{ display: 'flex', margin: 'auto', pt: 1, width: 500 }}>
-        <Box sx={{ pt: 1, }}>
-          <CusCheckBox
-            label="Patient"
-            color="primary"
-            size="md"
-            name="patient"
-            value={patient}
-            checked={patient}
-            disabled={disbleP}
-            onCheked={updateWifiManagement}
-          ></CusCheckBox>
-        </Box>
-        <Box sx={{ pt: 1, pl: 3 }}>
-          <CusCheckBox
-            label="Bystander"
-            color="primary"
-            size="md"
-            name="bystander"
-            value={bystander}
-            checked={bystander}
-            disabled={disbleB}
-            onCheked={updateWifiManagement}
-          ></CusCheckBox>
-        </Box>
-        {/* <Box sx={{ pt: 1, pl: 3 }}>
+        <Box sx={{ display: 'flex', width: '80%', p: 0.5, flexDirection: 'column', }} >
+
+          <Box sx={{
+            display: 'flex', width: '100%', p: 0.5, flexDirection: 'row', pl: 35,
+            // justifyContent: "space-evenly"
+            // justifyItems: "center"
+          }} >
+            <Box sx={{ pt: .5, }}>
+
+              <Typography>
+                Enter IP Number</Typography>
+            </Box>
+            <Box sx={{ flex: .5, pl: 2, }}>
+              <TextFieldCustom
+                placeholder="IP Number"
+                type="integer"
+                size="sm"
+                name="in_patient_no"
+                value={in_patient_no}
+                onchange={updateWifiManagement}
+              ></TextFieldCustom>
+            </Box>
+            <Box sx={{ pl: 1, pt: .5, color: '#9DBED1', cursor: 'pointer', }}>
+              <Tooltip title="search" placement="top">
+                <SearchIcon onClick={() => searchIP()} />
+              </Tooltip>
+            </Box>
+            <Box sx={{ flex: .5, pl: 1, pt: .5, color: '#9DBED1', cursor: 'pointer', }}>
+              <Tooltip title="refresh" placement="top">
+                <CachedIcon onClick={() => refreshWindow()} />
+              </Tooltip>
+            </Box>
+          </Box>
+
+          <Box sx={{
+            display: 'flex', width: '100%', p: 0.5, flexDirection: 'row', pl: 55,
+            // justifyContent: "space-evenly"
+            // justifyItems: "center"
+          }} >
+
+
+            <Box sx={{ pt: 1, }}>
+              <CusCheckBox
+                label="Patient"
+                color="primary"
+                size="md"
+                name="patient"
+                value={patient}
+                checked={patient}
+                disabled={disbleP}
+                onCheked={updateWifiManagement}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ pt: 1, pl: 3 }}>
+              <CusCheckBox
+                label="Bystander"
+                color="primary"
+                size="md"
+                name="bystander"
+                value={bystander}
+                checked={bystander}
+                disabled={disbleB}
+                onCheked={updateWifiManagement}
+              ></CusCheckBox>
+            </Box>
+            {/* <Box sx={{ pt: 1, pl: 3 }}>
           <CusCheckBox
             label="Extra"
-            color="primary"
+             color="primary"
             size="md"
             name="extra"
-            value={extra}
+             value={extra}
             checked={extra}
             onCheked={updateWifiManagement}
-          ></CusCheckBox>
-        </Box> */}
-        <Box sx={{ pt: 1, pl: 3 }}>
-          <Button onClick={submitWifiManagement} variant="contained"
-            size="small" color="primary">Submit</Button>
+           ></CusCheckBox>
+         </Box> */}
+            <Box sx={{ pt: 1, pl: 3 }}>
+              <Button onClick={submitWifiManagement} variant="contained"
+                size="small" color="primary">Submit</Button>
+            </Box>
+          </Box>
         </Box>
-      </Box>
+
+        <Box sx={{ display: 'flex', width: '20%', p: 0.5, overflow: 'auto' }} >
+          <Paper
+            variant="outlined"
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              p: 1,
+              width: '100%',
+              height: "100%"
+            }}>
+            <Box sx={{ pt: 2, pr: 5, fontSize: 20, }}>
+              <Button variant="outlined"
+                size="large" color="primary" fontSize="20%"> {allowtted.length}</Button>
+            </Box>
+            <Box sx={{ pt: 3, pr: 5 }}>
+              <Typography sx={{ fontSize: 20, color: '#055C9D' }}>
+                WiFi Users</Typography>
+            </Box>
+          </Paper>
+        </Box>
+      </Box >
+
       <Paper variant="outlined" sx={{ maxHeight: 720, maxWidth: '100%', overflow: 'auto', margin: 'auto', mt: 3 }}>
         {qrModelFlag === 1 ? <WifiQRCodeModel open={QrModelOpen} handleClose={handleClose} qrCodeDis={qrCodeDis} /> : null}
         <CssVarsProvider>
@@ -469,17 +541,18 @@ const WifiManageMentMains = () => {
                   }
                   {/* {
                     val.extra_flag === 1 ? <td>
-                      <QrCode2Icon size={6} onClick={() => QrModelExtra(val)} />
+                       <QrCode2Icon size={6} onClick={() => QrModelExtra(val)} />
                     </td> :
-                      <td> {val.extra}</td>
-                  } */}
+                       <td> {val.extra}</td>
+                } */}
                 </tr>
               })}
             </tbody>
           </Table>
         </CssVarsProvider>
       </Paper>
-    </CardMaster>
+    </CardCloseOnly >
+
   )
 }
 

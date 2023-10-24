@@ -149,7 +149,7 @@ const RoomCategoryMaster = () => {
 
   return (
     <CardMaster
-      title="Room Category"
+      title="Nomenclature Category"
       submit={sumbitRoomCategory}
       close={backtoSetting}
       refresh={refreshWindow}
@@ -159,7 +159,7 @@ const RoomCategoryMaster = () => {
           <Box sx={{ width: '30%', p: 1 }}>
             <Box>
               <TextFieldCustom
-                placeholder="Room Category Name"
+                placeholder="Nomenclature Category Name"
                 type="text"
                 size="sm"
                 name="rm_roomcategory_name"
@@ -169,7 +169,7 @@ const RoomCategoryMaster = () => {
             </Box>
             <Box sx={{ pt: 1 }}>
               <TextFieldCustom
-                placeholder="Room Category Alias"
+                placeholder="Nomenclature Category Alias"
                 type="text"
                 size="sm"
                 name="rm_roomcategory_alias"
@@ -179,7 +179,7 @@ const RoomCategoryMaster = () => {
             </Box>
             <Box sx={{ pt: 1 }}>
               <TextFieldCustom
-                placeholder="Room Category Number"
+                placeholder="Nomenclature Category Number"
                 type="text"
                 size="sm"
                 name="rm_roomcategory_no"

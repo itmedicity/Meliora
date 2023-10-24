@@ -250,7 +250,7 @@ const ReqRegistration = () => {
                         item_qty: '',
                         item_unit: '',
                         item_spec: '',
-                        approx_cost: ''
+                        approx_cost: 0
                     }
                     setItemState(resetarrray)
                     setItemSlno(item_slno + 1)
@@ -278,14 +278,14 @@ const ReqRegistration = () => {
                     item_qty: '',
                     item_unit: '',
                     item_spec: '',
-                    approx_cost: ''
+                    approx_cost: 0
                 }
                 setItemState(resetarrray)
             }
         }
     }
 
-    const AddItem = () => {
+    const AddItem = useCallback(() => {
         if (item_desc === '') {
             warningNotify("Please Add Item Desription")
         }
@@ -316,7 +316,7 @@ const ReqRegistration = () => {
                         item_qty: '',
                         item_unit: '',
                         item_spec: '',
-                        approx_cost: ''
+                        approx_cost: 0
                     }
                     setItemState(resetarrray)
                     setItemSlno(item_slno + 1)
@@ -346,14 +346,15 @@ const ReqRegistration = () => {
                     item_qty: '',
                     item_unit: '',
                     item_spec: '',
-                    approx_cost: ''
+                    approx_cost: 0
                 }
                 setItemState(resetarrray)
                 setItemSlno(0)
                 setArryUpdate(0)
             }
         }
-    }
+    }, [totalApproxCost, approx_cost, setArryUpdate, dataPost, arrayupdate, item_brand, item_desc,
+        item_unit, item_qty, item_spec, editdata, item_slno])
 
     //itemm array delete button click item delete
     const deleteSelect = useCallback((params) => {
@@ -487,7 +488,7 @@ const ReqRegistration = () => {
                 item_qty: '',
                 item_unit: '',
                 item_spec: '',
-                approx_cost: ''
+                approx_cost: 0
             }
             setItemState(resetdata)
             setdataPost([])

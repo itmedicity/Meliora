@@ -15,6 +15,7 @@ const RoomTypeTablee = ({ count, rowSelect }) => {
     { headerName: 'Room Type name', field: 'rm_roomtype_name' },
     { headerName: 'Room Type alias', field: 'rm_roomtype_alias' },
     { headerName: 'Room Type number', field: 'rm_roomtype_no' },
+    { headerName: 'Room Type', field: 'room_type' },
     { headerName: 'Status', field: 'status' },
     {
       headerName: 'Action',
@@ -23,7 +24,7 @@ const RoomTypeTablee = ({ count, rowSelect }) => {
   ])
   useEffect(() => {
     const getRoomType = async () => {
-      const result = await axioslogin.get('roomtype/view')
+      const result = await axioslogin.get('roomtypeMaster/view')
       const { success, data } = result.data
       if (success === 2) {
         setTabledata(data)
