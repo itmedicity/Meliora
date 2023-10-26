@@ -1,4 +1,4 @@
-import { Box, Tooltip, Typography, IconButton, Input } from '@mui/material'
+import { Box, Tooltip, Typography, IconButton, Input, Button } from '@mui/material'
 import React, { useCallback, memo, useEffect, useState, useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
@@ -42,6 +42,7 @@ import SubGroupModal from './ModelForAssetItemAdd/SubGroupModal'
 import SubModelModal from './ModelForAssetItemAdd/SubModelModal'
 import { CssVarsProvider } from '@mui/joy'
 import Textarea from '@mui/joy/Textarea';
+import ModelForItemExistOrNot from './ModelForItemExistOrNot'
 
 
 const ItemNameCreation = () => {
@@ -95,22 +96,43 @@ const ItemNameCreation = () => {
   const [baseDis, setBasedis] = useState('')
   const [manufactureDis, setManufactureDis] = useState(manufactureName)
   const [modelNoDis, setModelNoDis] = useState(modelNo)
-
+  const [asset, setasset] = useState(false)
+  const [spare, setSpare] = useState(false)
+  const [checkExist, setCheckexist] = useState(0)
+  const [checkExistOpen, setCheckExsitOpen] = useState(false)
   const [item, setItem] = useState({
     item_creation_slno: '',
     item_name: '',
-    item_base_name: '',
     item_specific_one: '',
     item_specific_two: '',
     item_creation_status: true,
   })
   const {
     item_creation_slno,
-    item_base_name,
     item_specific_one,
     item_specific_two,
     item_creation_status,
   } = item
+  const [item_base_name, setitem_base_name] = useState('')
+
+  const updateAsset = useCallback((e) => {
+    if (e.target.checked === true) {
+      setasset(true)
+      setSpare(false)
+    } else if (e.target.checked === false) {
+      setasset(false)
+      setSpare(false)
+    }
+  }, [])
+  const updateSpare = useCallback((e) => {
+    if (e.target.checked === true) {
+      setSpare(true)
+      setasset(false)
+    } else if (e.target.checked === false) {
+      setasset(false)
+      setSpare(false)
+    }
+  }, [])
 
   const updateAssetTypeStatus = useCallback((e) => {
     if (e.target.checked === true) {
@@ -195,15 +217,7 @@ const ItemNameCreation = () => {
     }
   }, [uomName])
 
-  const updateBasesatus = useCallback((e) => {
-    if (e.target.checked === true) {
-      setbaseStatus(true)
-      setBasedis(item_base_name)
-    } else if (e.target.checked === false) {
-      setbaseStatus(false)
-      setBasedis('')
-    }
-  }, [item_base_name])
+
   const updateManufactureStatus = useCallback((e) => {
     if (e.target.checked === true) {
       setManufactureStatus(true)
@@ -228,6 +242,20 @@ const ItemNameCreation = () => {
     setModelNoDis(e.target.value.toLocaleUpperCase())
   }, [])
 
+  const updateBasesatus = useCallback((e) => {
+    if (e.target.checked === true) {
+      setbaseStatus(true)
+      setBasedis(item_base_name)
+    } else if (e.target.checked === false) {
+      setbaseStatus(false)
+      setBasedis('')
+    }
+  }, [item_base_name])
+
+  const updateBaseName = useCallback((e) => {
+    setitem_base_name(e.target.value.toLocaleUpperCase())
+    setBasedis(e.target.value.toLocaleUpperCase())
+  }, [])
 
   const updateItemCreation = useCallback(
     (e) => {
@@ -307,13 +335,14 @@ const ItemNameCreation = () => {
       item_manufactures_slno: manufacture,
       item_name: itemNamee,
       item_base_name: item_base_name,
-      item_model_num: modelNo !== null ? modelNo.toLocaleUpperCase() : null,
+      item_model_num: modelNo !== '' ? modelNo.toLocaleUpperCase() : null,
       item_specific_one: item_specific_one,
       item_specific_two: item_specific_two,
       item_creation_status: item_creation_status === true ? 1 : 0,
+      asset_spare: asset === true ? 1 : spare === true ? 2 : 0
     }
   }, [assettype, itemtype, category, subcategory, group, uom, model, subgroup, submodel, manufacture, itemNamee,
-    item_base_name, modelNo, item_specific_one, item_specific_two, item_creation_status,])
+    item_base_name, modelNo, item_specific_one, item_specific_two, item_creation_status, asset, spare])
 
   const patchdata = useMemo(() => {
     return {
@@ -330,20 +359,21 @@ const ItemNameCreation = () => {
       item_manufactures_slno: manufacture,
       item_name: itemNamee,
       item_base_name: item_base_name,
-      item_model_num: modelNo,
+      item_model_num: modelNo !== '' ? modelNo.toLocaleUpperCase() : null,
       item_specific_one: item_specific_one,
       item_specific_two: item_specific_two,
       item_creation_status: item_creation_status === true ? 1 : 0,
+      asset_spare: asset === true ? 1 : spare === true ? 2 : 0
     }
   }, [item_creation_slno, assettype, itemtype, category, subcategory, group, subgroup, uom, model, submodel,
-    manufacture, itemNamee, item_base_name, modelNo, item_specific_one, item_specific_two, item_creation_status,
+    manufacture, itemNamee, item_base_name, modelNo, item_specific_one, item_specific_two,
+    item_creation_status, asset, spare
   ])
 
   const reset = useCallback(() => {
     const frmdata = {
       item_creation_slno: '',
       item_name: '',
-      item_base_name: '',
       item_specific_one: '',
       item_specific_two: '',
       item_creation_status: false,
@@ -404,14 +434,20 @@ const ItemNameCreation = () => {
     dispatch(getUOM())
     dispatch(getAmManufacture())
     dispatch(getAmModel())
-
+    setasset(false)
+    setSpare(false)
+    setCheckexist(0)
+    setCheckExsitOpen(false)
+    setitem_base_name('')
+    setBasedis('')
+    setbaseStatus(true)
   }, [setItem, setCount, setValue, setItemtype, setAssetType, setCategory, setSubcategory, setGroup, setSubGroup, setManufacture, setUOM,
     setModel, setSubmodel, setModelNo, setItemNamee, setAssetName, setItemName, setCategoryName, setSubcatName, setGroupName,
     setSubgroupName, setModelName, setSubmodelName, setUomName, setManufactureName, setAssetTypeStatus, setItemTypeSatus, setCategorySatus,
     setSubcatSatus, setGroupStatus, setSubGroupStatus, setModelStatus, setSubModelstatus, setUOMstatus, setManufactureStatus,
     setModelNoStatus, setAssetNameDis, setItemNameDis, setCategoryDis, setSubcatDis, setGroupDis, setSubGroupDis, setModelDis, setSubModelDis,
-    setUOMdis, setManufactureDis, setModelNoDis, assetName, itemName, categoryName, subcatName, groupName,
-    subgroupName, modelName, submodelName, uomName, manufactureName, modelNo, dispatch])
+    setUOMdis, setManufactureDis, setModelNoDis, assetName, itemName, categoryName, subcatName, groupName, setCheckexist, setCheckExsitOpen,
+    subgroupName, modelName, submodelName, uomName, manufactureName, modelNo, dispatch, setasset, setSpare])
 
   const uploadFile = async (event) => {
     const file = event.target.files[0];
@@ -502,32 +538,18 @@ const ItemNameCreation = () => {
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const {
-      item_creation_slno,
-      item_asset_type_slno,
-      item_type_slno,
-      item_category_slno,
-      item_subcategory_slno,
-      item_group_slno,
-      item_subgroup_slno,
-      item_model_slno,
-      item_submodel_slno,
-      item_uom_slno,
-      item_manufactures_slno,
-      item_name,
-      item_base_name,
-      item_model_num,
-      item_specific_one,
-      item_specific_two,
-      item_creation_status,
+    const { item_creation_slno, item_asset_type_slno, item_type_slno, item_category_slno,
+      item_subcategory_slno, item_group_slno, item_subgroup_slno, item_model_slno, item_submodel_slno,
+      item_uom_slno, item_manufactures_slno, item_name, item_base_name, item_model_num,
+      item_specific_one, item_specific_two, item_creation_status, asset_spare
     } = data[0]
     const frmdata = {
       item_creation_slno: item_creation_slno,
-      item_base_name: item_base_name,
       item_specific_one: item_specific_one,
       item_specific_two: item_specific_two,
       item_creation_status: item_creation_status === 1 ? true : false,
     }
+
     setItem(frmdata)
     setAssetType(item_asset_type_slno)
     setItemtype(item_type_slno)
@@ -540,7 +562,10 @@ const ItemNameCreation = () => {
     setModel(item_model_slno)
     setSubmodel(item_submodel_slno)
     setItemNamee(item_name)
-    setModelNo(item_model_num)
+    setModelNo(item_model_num !== null ? item_model_num : '')
+    setasset(asset_spare === 1 ? true : false)
+    setSpare(asset_spare === 2 ? true : false)
+    setitem_base_name(item_base_name)
   }, [setAssetType, setItemtype, setCategory])
 
   const backtoSetting = useCallback(() => {
@@ -636,9 +661,10 @@ const ItemNameCreation = () => {
     setSubGroupOpen(false)
     setSubModelFlag(0)
     setSubModelOpen(false)
+    setCheckExsitOpen(false)
   }, [setAssetTypeOpen, setAssetTypeFlag, setItemTypeOpen, setItemTypeFlag, setUOMflag, setUOMopen, setManufactureFlag, setManufactureOpen,
     setCategoryFlag, setCategoryOpen, setSubCategoryFlag, setSubCategoryOpen, setGroupFlag, setGroupOpen, setModelFlag, setModelOpen,
-    setSubGroupFlag, setSubGroupOpen, setSubModelFlag, setSubModelOpen
+    setSubGroupFlag, setSubGroupOpen, setSubModelFlag, setSubModelOpen, setCheckExsitOpen
   ])
 
   useEffect(() => {
@@ -651,6 +677,11 @@ const ItemNameCreation = () => {
     dispatch(getAmModel())
   }, [dispatch])
 
+  const checkExistOtNot = useCallback(() => {
+    setCheckexist(1)
+    setCheckExsitOpen(true)
+  }, [])
+
   return (
     <Box>
       <CardMaster
@@ -659,6 +690,7 @@ const ItemNameCreation = () => {
         close={backtoSetting}
         refresh={refreshWindow}
       >
+        {checkExist === 1 ? <ModelForItemExistOrNot open={checkExistOpen} handleClose={handleClose} /> : null}
         {AssetTypeFlag === 1 ? <AssetTypeAddModel open={AssetTypeOpen} handleClose={handleClose} /> : null}
         {ItemTypeFlag === 1 ? <ItemTypeAddModel open={ItemTypeOpen} handleClose={handleClose} /> : null}
         {UOMflag === 1 ? <UomAddmodal open={UOMopen} handleClose={handleClose} /> : null}
@@ -669,7 +701,36 @@ const ItemNameCreation = () => {
         {ModelFlag === 1 ? <ModelModal open={ModelOpen} handleClose={handleClose} /> : null}
         {SubGroupFlag === 1 ? <SubGroupModal open={SubGroupOpen} handleClose={handleClose} /> : null}
         {SubModelFlag === 1 ? <SubModelModal open={SubModelOpen} handleClose={handleClose} /> : null}
+        <Box sx={{ width: '40%', display: 'flex', pt: 2.5, margin: 'auto ', pl: 13 }}>
 
+          <Box sx={{ pl: 0.8, }}>
+            <CusCheckBox
+              label="Asset"
+              color="primary"
+              size="md"
+              name="asset"
+              value={asset}
+              checked={asset}
+              onCheked={updateAsset}
+            ></CusCheckBox>
+          </Box>
+          <Box sx={{ pl: 0.8, }}>
+            <CusCheckBox
+              label="Spare"
+              color="primary"
+              size="md"
+              name="spare"
+              value={spare}
+              checked={spare}
+              onCheked={updateSpare}
+            ></CusCheckBox>
+          </Box>
+          <Box sx={{ width: '80%', pl: 0.8, }}>
+            <Button onClick={checkExistOtNot} variant="contained"
+              size="small" color="primary">List</Button>
+          </Box>
+
+        </Box>
         <Box sx={{ width: '50%', display: 'flex', pt: 2.5, margin: 'auto ' }}>
           <Box sx={{ pl: 0.8, }}>
             <CusCheckBox
@@ -681,7 +742,7 @@ const ItemNameCreation = () => {
               onCheked={updateAssetTypeStatus}
             ></CusCheckBox>
           </Box>
-          <Box sx={{ width: '14%', pl: 1, }} >
+          <Box sx={{ width: '20%', pl: 1, }} >
             <Typography>Asset type</Typography>
           </Box>
           <Box sx={{ width: '55%', }}>
@@ -709,7 +770,7 @@ const ItemNameCreation = () => {
               onCheked={updateItemStatus}
             ></CusCheckBox>
           </Box>
-          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
+          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
             <Typography>Item Type</Typography>
           </Box>
           <Box sx={{ width: '55%', pt: 1.3, }}>
@@ -736,7 +797,7 @@ const ItemNameCreation = () => {
               onCheked={updateCategoryStatus}
             ></CusCheckBox>
           </Box>
-          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }} >
+          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }} >
             <Typography>Category</Typography>
           </Box>
           <Box sx={{ width: '55%', pt: 1.3, }}>
@@ -769,7 +830,7 @@ const ItemNameCreation = () => {
               onCheked={updateSubcatStatus}
             ></CusCheckBox>
           </Box>
-          <Box sx={{ width: '14%', pl: 1, pt: 1.3 }}>
+          <Box sx={{ width: '20%', pl: 1, pt: 1.3 }}>
             <Typography>Subcategory</Typography>
           </Box>
           <Box sx={{ width: '55%', pt: 1.3 }}>
@@ -802,7 +863,7 @@ const ItemNameCreation = () => {
               onCheked={updateGroupStatus}
             ></CusCheckBox>
           </Box>
-          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
+          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
             <Typography>Group</Typography>
           </Box>
           <Box sx={{ width: '55%', pt: 1.3 }}>
@@ -835,7 +896,7 @@ const ItemNameCreation = () => {
               onCheked={updateSubGroupStatus}
             ></CusCheckBox>
           </Box>
-          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
+          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
             <Typography>Subgroup</Typography>
           </Box>
           <Box sx={{ width: '55%', pt: 1.3, }}>
@@ -868,7 +929,7 @@ const ItemNameCreation = () => {
               onCheked={updateManufactureStatus}
             ></CusCheckBox>
           </Box>
-          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
+          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
             <Typography>Manufacture</Typography>
           </Box>
           <Box sx={{ width: '55%', pt: 1.3, }}>
@@ -896,7 +957,7 @@ const ItemNameCreation = () => {
               onCheked={updateModelStatus}
             ></CusCheckBox>
           </Box>
-          <Box sx={{ width: '14%', pl: 1, pt: 1.3 }}>
+          <Box sx={{ width: '20%', pl: 1, pt: 1.3 }}>
             <Typography>Model</Typography>
           </Box>
           <Box sx={{ width: '55%', pt: 1.3, }}>
@@ -928,7 +989,7 @@ const ItemNameCreation = () => {
               onCheked={updateSubModelStatus}
             ></CusCheckBox>
           </Box>
-          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
+          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
             <Typography>Submodel</Typography>
           </Box>
           <Box sx={{ width: '55%', pt: 1.3, }}>
@@ -963,7 +1024,7 @@ const ItemNameCreation = () => {
               onCheked={updateModelNoStatus}
             ></CusCheckBox>
           </Box>
-          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
+          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
             <Typography>Model No.</Typography>
           </Box>
           <Box sx={{ width: '55%', pt: 1.3, }}>
@@ -989,7 +1050,7 @@ const ItemNameCreation = () => {
               onCheked={updateUOMsatus}
             ></CusCheckBox>
           </Box>
-          <Box sx={{ width: '14%', pl: 1, pt: 1.3, }}>
+          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
             <Typography>U.O.M</Typography>
           </Box>
           <Box sx={{ width: '55%', pt: 1.3, }}>
@@ -1006,7 +1067,7 @@ const ItemNameCreation = () => {
           </Box>
         </Box>
 
-        <Box sx={{ display: 'flex', width: '75%', ml: 22 }}>
+        <Box sx={{ display: 'flex', width: '80%', ml: 15 }}>
           <Box sx={{ display: 'flex', width: '82%', pt: 1, margin: 'auto' }}>
             <Box sx={{ pl: 1.9, }}>
               <CusCheckBox
@@ -1027,15 +1088,15 @@ const ItemNameCreation = () => {
                 size="sm"
                 name="item_base_name"
                 value={item_base_name}
-                onchange={updateItemCreation}
+                onchange={updateBaseName}
               ></TextFieldCustom>
             </Box>
           </Box>
         </Box>
 
-        <Box sx={{ display: 'flex', width: '75%', ml: 22 }}>
+        <Box sx={{ display: 'flex', width: '80%', ml: 14 }}>
           <Box sx={{ display: 'flex', width: '84%', pt: 1, margin: 'auto' }}>
-            <Box sx={{ width: '13%', ml: 4 }}   >
+            <Box sx={{ width: '15%', ml: 4 }}   >
               <Typography>Specification 1</Typography>
             </Box>
             <Box sx={{ width: '83%' }}>
@@ -1057,9 +1118,9 @@ const ItemNameCreation = () => {
           </Box>
         </Box>
 
-        <Box sx={{ display: 'flex', width: '75%', ml: 22 }}>
+        <Box sx={{ display: 'flex', width: '80%', ml: 14 }}>
           <Box sx={{ display: 'flex', width: '84%', pt: 1, margin: 'auto' }}>
-            <Box sx={{ width: '13%', ml: 4 }}   >
+            <Box sx={{ width: '15%', ml: 4 }}   >
               <Typography>Specification 2</Typography>
             </Box>
             <Box sx={{ width: '83%' }}>
@@ -1081,9 +1142,9 @@ const ItemNameCreation = () => {
           </Box>
         </Box>
 
-        <Box sx={{ display: 'flex', width: '75%', ml: 34 }}>
-          <Box sx={{ display: 'flex', width: '88%', pt: 1, margin: 'auto' }}>
-            <Box sx={{ width: '13%', ml: 4 }}   >
+        <Box sx={{ display: 'flex', width: '85%', ml: 20 }}>
+          <Box sx={{ display: 'flex', width: '90%', pt: 1, margin: 'auto' }}>
+            <Box sx={{ width: '13%', ml: 10, mr: 2 }}   >
               <Typography>Item creation</Typography>
             </Box>
             <Box sx={{ width: '83%' }}>

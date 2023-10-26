@@ -26,6 +26,9 @@ const AmDeptSecSelectWOName = ({ deptsec, setDeptSec }) => {
 
     useEffect(() => {
         deptsecList.length > 0 && setModels(deptsecList)
+        deptsecList.length === 0 && setModels(deptsecList)
+        deptsecList.length === 0 && setValue([{ sec_id: 0, sec_name: '' }])
+        deptsecList.length === 0 && setInputValue('')
     }, [deptsecList])
 
     return (
@@ -36,7 +39,7 @@ const AmDeptSecSelectWOName = ({ deptsec, setDeptSec }) => {
                         "--Input-minHeight": "29px"
                     }}
                     value={deptsec === 0 ? models : value}
-                    placeholder="Select Model"
+                    placeholder="SelectDepartment Section"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);

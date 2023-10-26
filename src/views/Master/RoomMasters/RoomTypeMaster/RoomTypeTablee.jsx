@@ -11,16 +11,17 @@ const RoomTypeTablee = ({ count, rowSelect }) => {
   const [tabledata, setTabledata] = useState([])
 
   const [column] = useState([
-    { headerName: 'SlNo', field: 'rm_roomtype_slno' },
-    { headerName: 'Room Type name', field: 'rm_roomtype_name' },
-    { headerName: 'Room Type alias', field: 'rm_roomtype_alias' },
-    { headerName: 'Room Type number', field: 'rm_roomtype_no' },
-    { headerName: 'Room Type', field: 'room_type' },
-    { headerName: 'Status', field: 'status' },
     {
       headerName: 'Action',
       cellRenderer: (params) => <EditButton onClick={() => rowSelect(params)} />,
     },
+    { headerName: 'SlNo', field: 'rm_roomtype_slno' },
+    { headerName: 'Type name', field: 'rm_roomtype_name' },
+    { headerName: 'Type alias', field: 'rm_roomtype_alias' },
+    { headerName: 'Type number', field: 'rm_roomtype_no' },
+    { headerName: 'Type', field: 'room_type' },
+    { headerName: 'Status', field: 'status' },
+
   ])
   useEffect(() => {
     const getRoomType = async () => {
