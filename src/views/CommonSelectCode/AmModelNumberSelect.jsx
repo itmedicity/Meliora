@@ -49,7 +49,7 @@ const AmModelNumberSelect = ({ modelNumber, setModelNumber }) => {
                         "--Input-minHeight": "29px"
                     }}
                     value={modelNumber === 0 ? grps : value}
-                    placeholder="Select Group"
+                    placeholder="Select Model No"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);

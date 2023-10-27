@@ -42,10 +42,12 @@ const ItemListViewDept = () => {
             if (success === 1) {
                 setDisArry(data)
                 setFlag(1)
+
             }
             else {
                 warningNotify("No data for Selected Condition")
                 setDisArry([])
+                setFlag(0)
             }
         }
         if (department !== 0 && deptsec !== 0) {
@@ -107,7 +109,7 @@ const ItemListViewDept = () => {
                                 </Box>
                             </Box>
                             <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Iten Name</Typography>
+                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Item Name</Typography>
                                 <Box>
                                     <AmItemDeptSecBsedWOName
                                         item={item}

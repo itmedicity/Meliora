@@ -4,11 +4,12 @@ import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/'
 import { useDispatch } from 'react-redux'
 
+
 const AmItemDeptSecBsedWOName = ({ item, setItem }) => {
 
     const dispatch = useDispatch();
     const AssetItemList = useSelector((state) => state.getItemBasedSection?.ItemBasedSectionList)
-    const [models, setModels] = useState([{ item_creation_slno: 0, item_name: '' }])
+    const [models, setModels] = useState([{ item_creation_slno: 0, item_name: 'Select Item name' }])
     const [value, setValue] = useState(models[0]);
     const [inputValue, setInputValue] = useState('');
 
@@ -24,7 +25,12 @@ const AmItemDeptSecBsedWOName = ({ item, setItem }) => {
 
 
     useEffect(() => {
+
         AssetItemList.length > 0 && setModels(AssetItemList)
+        AssetItemList.length === 0 && setModels(AssetItemList)
+        AssetItemList.length === 0 && setValue([{ item_creation_slno: 0, item_name: 'Select Item name' }])
+        AssetItemList.length === 0 && setInputValue('')
+
     }, [AssetItemList])
 
 
@@ -37,7 +43,7 @@ const AmItemDeptSecBsedWOName = ({ item, setItem }) => {
                         "--Input-minHeight": "29px"
                     }}
                     value={item === 0 ? models : value}
-                    placeholder="Select Model"
+                    placeholder="Select Item name"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);

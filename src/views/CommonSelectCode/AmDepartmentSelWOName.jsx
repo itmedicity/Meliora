@@ -27,6 +27,11 @@ const AmDepartmentSelWOName = ({ department, setDepartment }) => {
 
     useEffect(() => {
         departmentList.length > 0 && setModels(departmentList)
+        departmentList.length === 0 && setModels(departmentList)
+        departmentList.length === 0 && setValue([{ dept_id: 0, dept_name: '' }])
+        departmentList.length === 0 && setInputValue('')
+
+
     }, [departmentList])
 
     return (
