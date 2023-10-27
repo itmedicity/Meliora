@@ -21,8 +21,8 @@ const TatPerComplntAssignee = () => {
     const history = useHistory();
     const [exports, setexport] = useState(0)
     const [dateset, SetDate] = useState({
-        start_date: new Date(),
-        end_date: new Date()
+        start_date: format(new Date(), 'dd-MM-yyyy'),
+        end_date: format(new Date(), 'dd-MM-yyyy')
     })
     const [compdept, setCompDept] = useState(0)
 
