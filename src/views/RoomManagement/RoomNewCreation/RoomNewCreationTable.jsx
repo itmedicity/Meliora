@@ -13,6 +13,8 @@ function RoomNewCreationTable({ count, rowSelect }) {
       cellRenderer: (params) => <EditButton onClick={() => rowSelect(params)} />,
     },
     { headerName: 'SlNo', field: 'rm_room_slno', wrapText: true, minWidth: 70 },
+    { headerName: 'Room Name', field: 'rm_room_name', wrapText: true, minWidth: 250 },
+    { headerName: 'Room Number', field: 'rm_room_no_dis', wrapText: true, minWidth: 150 },
     { headerName: 'Building', field: 'rm_building_name', wrapText: true, minWidth: 250 },
     { headerName: 'Block.', field: 'rm_buildblock_name', wrapText: true, minWidth: 250 },
     { headerName: 'Inside building block', field: 'rm_insidebuildblock_name', wrapText: true, minWidth: 180 },
