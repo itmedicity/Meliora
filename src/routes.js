@@ -309,7 +309,6 @@ const routes = [
   { path: '/Home/WifiManageMenT', exact: true, name: 'Wifi Management', component: WifiManageMenT },
   { path: '/Home/CusodianDepartment', exact: true, name: 'Custodian Department', component: CustodianDeptmt },
   { path: '/Home/AssetItemListView', exact: true, name: 'Asset Item List View', component: AssetItemListView },
-  { path: '/Home/AssetItemDetails', exact: true, name: 'Asset Item Details Entering', component: AssetItemDetailsEnter },
   { path: '/Home/ScheduleType', exact: true, name: 'Backup Schedule Type', component: BackupScheduleType },
   { path: '/Home/ScheduleTime', exact: true, name: 'Backup Schedule Time', component: BackupScheduleTime },
   { path: '/Home/BackupMast', exact: true, name: 'Backup Details', component: Backupmast },
