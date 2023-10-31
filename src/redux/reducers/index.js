@@ -127,6 +127,22 @@ import { getSubmodel } from './AmSubModelListReducer'
 import { getCustodianDept } from './AmCustodianDept.Reducer'
 import { getItemBasedSection } from './AmItemSelectBsedSec.Reducer'
 
+import { getScheduleType } from './BackupScheduleType.Reducer';
+import { getScheduleTime } from './BackupScheduleTime.Reducer';
+import { getBackupDetails, getEmployeeBackup } from './BackupDetails.Reducers';
+import {
+    getDailyCount,
+    getDayDetails,
+    getMonthlyCount,
+    getMonthDetails,
+    getYearlyBackup,
+    getYearDetails,
+    getWeeklyBackup,
+    getWeeklyDetails,
+    getSelectedDaysDetails,
+    getDaysDetails
+} from './BackupDash.Reducer';
+
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -258,7 +274,21 @@ const reducer = combineReducers({
     getSubmodel,
     getUOM,
     getCustodianDept,
-    getItemBasedSection
+    getItemBasedSection,
 
+    getScheduleType,
+    getScheduleTime,
+    getBackupDetails,
+    getDailyCount,
+    getDayDetails,
+    getEmployeeBackup,
+    getMonthlyCount,
+    getMonthDetails,
+    getYearlyBackup,
+    getYearDetails,
+    getWeeklyBackup,
+    getWeeklyDetails,
+    getSelectedDaysDetails,
+    getDaysDetails
 })
 export default reducer;

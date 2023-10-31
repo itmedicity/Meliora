@@ -151,6 +151,10 @@ const CustodianDeptmt = React.lazy(() => import('./views/Master/AssetMasters/Cus
 const AssetItemListView = React.lazy(() => import('./views/AssetManagment/ItemListView/ItemListViewDept'))
 const AssetItemDetailsEnter = React.lazy(() => import('./views/AssetManagment/ItemListView/ItemDetailsEntered'))
 
+const BackupScheduleType = React.lazy(() => import('./views/Master/BackupMaster/ScheduleType/ScheduleTypeMast'))
+const BackupScheduleTime = React.lazy(() => import('./views/Master/BackupMaster/ScheduleTime/ScheduleTimeMast'))
+const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDetails/BackupMast'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -303,8 +307,11 @@ const routes = [
   { path: '/Home/NetworkIP', exact: true, name: 'IP Address Details', component: NetWorkIP },
   { path: '/Home/CusodianDepartment', exact: true, name: 'Custodian Department', component: CustodianDeptmt },
   { path: '/Home/AssetItemListView', exact: true, name: 'Asset Item List View', component: AssetItemListView },
-  { path: '/Home/AssetItemDetails', exact: true, name: 'Asset Item Details Entering', component: AssetItemDetailsEnter }
-  ,
+  { path: '/Home/AssetItemDetails', exact: true, name: 'Asset Item Details Entering', component: AssetItemDetailsEnter },
+
+  { path: '/Home/ScheduleType', exact: true, name: 'Backup Schedule Type', component: BackupScheduleType },
+  { path: '/Home/ScheduleTime', exact: true, name: 'Backup Schedule Time', component: BackupScheduleTime },
+  { path: '/Home/BackupMast', exact: true, name: 'Backup Details', component: Backupmast },
 ]
 
 export default routes

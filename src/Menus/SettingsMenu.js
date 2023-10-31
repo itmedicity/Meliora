@@ -151,19 +151,14 @@ export const hall_booking_one = [
 //IT Menu
 export const it_setting_one = [
     { to: '/Home/Building', name: 'Building', slno: 30 },
-
-
-
 ]
 
 export const it_setting_two = [
-
-
+    { to: '/Home/ScheduleType', name: 'Backup Schedule Type', slno: 152 },
+    { to: '/Home/ScheduleTime', name: 'Backup Schedule Time', slno: 153 },
 ]
 export const it_setting_three = [
-
-
-
+    { to: '/Home/BackupMast', name: 'Backup Details', slno: 156 },
 ]
 
 //User Management Menu
