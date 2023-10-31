@@ -339,7 +339,7 @@ const VerifyModelSuper = ({ open, setOpen, complaint, count, setCount, id }) => 
                                                 }}>
                                                 <CssVarsProvider>
                                                     <Typography sx={{ fontSize: 15, pr: 5.5 }}>Message Read Employee:</Typography>
-                                                    <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}> {msg_read_emp.toLowerCase()}</Typography>
+                                                    <Typography sx={{ textTransform: "capitalize", fontSize: 15 }}> {msg_read_emp !== null ? msg_read_emp.toLowerCase() : "Not Readed Yet"}</Typography>
                                                 </CssVarsProvider>
                                             </Box>
                                         </Box> : null

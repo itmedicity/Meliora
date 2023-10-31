@@ -23,7 +23,7 @@ const ITTransactions = [
     {
         men_slno: 148,
         component: CNavItem,
-        name: 'Communication Device Details',
+        name: 'Communication Device',
         to: '/Home/CommunicationDevice',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
@@ -43,6 +43,13 @@ const ITTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 
+    {
+        men_slno: 158,
+        component: CNavItem,
+        name: 'Wifi Management',
+        to: '/Home/WifiManageMent',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
 ]
 
 export default ITTransactions;

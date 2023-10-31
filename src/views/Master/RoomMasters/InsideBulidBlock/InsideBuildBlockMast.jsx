@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import { useCallback } from 'react'
 import { useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -110,12 +110,23 @@ const InsideBuildBlockMast = () => {
         }
       }
       if (value === 0) {
-        InsertInsideBuild(postdata)
+        if (rm_insidebuildblock_name !== '') {
+          InsertInsideBuild(postdata)
+        }
+        else {
+          warningNotify("Please Enter Inside Building Block Name")
+        }
+
       } else {
-        UpdateInsideBuild(patchdata)
+        if (rm_insidebuildblock_name !== '') {
+          UpdateInsideBuild(patchdata)
+        }
+        else {
+          warningNotify("Please Enter Inside Building Block Name")
+        }
       }
     },
-    [postdata, value, patchdata, count],
+    [postdata, value, patchdata, count, rm_insidebuildblock_name],
   )
   const rowSelect = useCallback((params) => {
     setValue(1)

@@ -25,6 +25,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
         hod_approve, approve_incharge, incharge_remarks, hod_remarks, req_approv_slno, category,
         incharge_apprv_date, inch_user, inch_detial_analysis, hod_detial_analysis, incharge_req } = datas[0]
     const inchadate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : null
+
     useEffect(() => {
         if ((incharge_approve !== null) && (isIncharge === 1)) {
             setRemark(incharge_remarks)

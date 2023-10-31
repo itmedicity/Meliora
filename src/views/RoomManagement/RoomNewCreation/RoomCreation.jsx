@@ -39,9 +39,10 @@ const RoomCreation = () => {
     rm_room_slno: '',
     rm_room_name: '',
     rm_room_status: false,
+    rm_room_no_dis: ''
   })
 
-  const { rm_room_slno, rm_room_name, rm_room_status } = room
+  const { rm_room_slno, rm_room_name, rm_room_status, rm_room_no_dis } = room
   const updateRoom = useCallback(
     (e) => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -67,6 +68,7 @@ const RoomCreation = () => {
       rm_outlet_slno: outlet,
       rm_room_status: rm_room_status === true ? 1 : 0,
       actual_rm_no: lastRoom + 1,
+      rm_room_no_dis: rm_room_no_dis
     }
   }, [
     rm_room_name,
@@ -81,6 +83,7 @@ const RoomCreation = () => {
     outlet,
     rm_room_status,
     lastRoom,
+    rm_room_no_dis
   ])
 
   const patchdata = useMemo(() => {
@@ -97,6 +100,7 @@ const RoomCreation = () => {
       rm_category_slno: roomCategory,
       rm_outlet_slno: outlet,
       rm_room_status: rm_room_status === true ? 1 : 0,
+      rm_room_no_dis: rm_room_no_dis
     }
   }, [
     rm_room_slno,
@@ -111,12 +115,14 @@ const RoomCreation = () => {
     roomCategory,
     outlet,
     rm_room_status,
+    rm_room_no_dis
   ])
   const reset = async () => {
     const frmdata = {
       rm_room_slno: '',
       rm_room_name: '',
       rm_room_status: false,
+      rm_room_no_dis: ''
     }
     setRoom(frmdata)
     setFloorData(0)
@@ -242,13 +248,14 @@ const RoomCreation = () => {
       rm_roomtype_slno,
       rm_room_status,
       rm_category_slno,
-      rm_outlet_slno
+      rm_outlet_slno, rm_room_no_dis
     } = data[0]
 
     const frmdata = {
       rm_room_slno: rm_room_slno,
       rm_room_name: rm_room_name,
       rm_room_status: rm_room_status === 1 ? true : false,
+      rm_room_no_dis: rm_room_no_dis
     }
     setRoom(frmdata)
     setFloorData(rm_room_floor_slno)
@@ -320,7 +327,16 @@ const RoomCreation = () => {
                 onchange={updateRoom}
               ></TextFieldCustom>
             </Box>
-
+            <Box sx={{ pt: 1 }}>
+              <TextFieldCustom
+                placeholder="Room Number"
+                type="text"
+                size="sm"
+                name="rm_room_no_dis"
+                value={rm_room_no_dis}
+                onchange={updateRoom}
+              ></TextFieldCustom>
+            </Box>
             <Box sx={{ pt: 1, display: 'flex', flexDirection: 'row' }}>
               <Box sx={{ pt: 0.5 }}>
                 <CssVarsProvider>

@@ -15,13 +15,12 @@ const CardMasterClose = ({ children, title, close, contentStyle }) => {
       <ThemeProvider theme={theme}>
         <Card sx={{
           display: 'flex',
-          flex: 1,
+          flexGrow: 1,
           borderRadius: 0,
-          flexDirection: 'column',
-          // height:
+          flexDirection: 'column'
         }}>
           <CustomCardHeaderOne title={title} onClickClose={close} cardStyle={{}} />
-          <CardContent sx={{ ...contentStyle, height: window.innerHeight - 85 }}>
+          <CardContent sx={{ ...contentStyle, height: window.innerHeight - 85, overflow: 'auto' }}>
             {children}
           </CardContent>
           <CardActions
