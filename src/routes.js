@@ -151,7 +151,7 @@ const DeviceType = React.lazy(() => import('./views/Master/ItMasters/communicati
 const WifiManageMenT = React.lazy(() => import('./views/ItManagement/WifiManagement/WifiManageMentMains'))
 const CustodianDeptmt = React.lazy(() => import('./views/Master/AssetMasters/CustodianDepartment/CustodianDeptMast'))
 const AssetItemListView = React.lazy(() => import('./views/AssetManagment/ItemListView/ItemListViewDept'))
-
+const PasswordManagementDeviceType = React.lazy(() => import('./views/Master/ItMasters/passwordManagement/PasswordDeviceType'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -306,7 +306,7 @@ const routes = [
   { path: '/Home/WifiManageMenT', exact: true, name: 'Wifi Management', component: WifiManageMenT },
   { path: '/Home/CusodianDepartment', exact: true, name: 'Custodian Department', component: CustodianDeptmt },
   { path: '/Home/AssetItemListView', exact: true, name: 'Asset Item List View', component: AssetItemListView },
-
+  { path: '/Home/PasswordManagementDeviceType', exact: true, name: 'DeviceType PasswordManagement', component: PasswordManagementDeviceType }
 
 ]
 

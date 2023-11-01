@@ -157,7 +157,7 @@ export const it_setting_one = [
 ]
 
 export const it_setting_two = [
-
+    { to: '/Home/PasswordManagementDeviceType', name: 'Password Device Type ', slno: 160 },
 
 ]
 export const it_setting_three = [
