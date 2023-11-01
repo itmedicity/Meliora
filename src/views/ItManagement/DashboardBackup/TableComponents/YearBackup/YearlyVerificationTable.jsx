@@ -2,24 +2,21 @@ import { CssVarsProvider, Input, Table } from '@mui/joy';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { memo } from 'react';
 import { useCallback } from 'react';
 import { Fragment } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { infoNotify } from 'src/views/Common/CommonCode';
 import CardMasterClose from 'src/views/Components/CardMasterClose';
-import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { startOfYear } from 'date-fns';
 import { ExportToExcel } from '../../OtherComponents/ExportToExcel';
-const YearlyVerificationTable = ({ yearreport, setYearflag }) => {
+import { axioslogin } from 'src/views/Axios/Axios';
+const YearlyVerificationTable = ({ setYearflag }) => {
     const [fromdate, setFromdate] = useState(moment(new Date()))
     const [todate, setTodate] = useState(moment(new Date()))
     const [array, setArray] = useState([])
-    const [allSelect, setallSelect] = useState(false)
     const [excelflag, setExcelflag] = useState(0)
-    const [exceldata, setExceldata] = useState([])
     const fileName = "Backup Report(Year)";
     const history = useHistory()
     const backtoHome = useCallback(() => {
@@ -27,41 +24,36 @@ const YearlyVerificationTable = ({ yearreport, setYearflag }) => {
         setYearflag(0)
         setExcelflag(0)
     }, [history, setYearflag])
-    const AllSelectDetails = useCallback((e) => {
-        if (e.target.checked === true) {
-            setallSelect(true)
-            setArray(yearreport)
-        } else {
-            setallSelect(false)
+
+    const postdata = useMemo(() => {
+        return {
+            start_date: moment(new Date(fromdate)).format('YYYY-01-01'),
+            end_date: moment(new Date(todate)).format('YYYY-01-01')
         }
-    }, [yearreport])
-    useEffect(() => {
-        if (yearreport.length !== 0) {
-            setArray(yearreport)
-        }
-        else {
-            setArray([])
-        }
-    }, [yearreport])
+    }, [fromdate, todate])
     const SearchDetails = useCallback(() => {
-        setallSelect(false)
         if (fromdate !== '' && todate !== '') {
-            const result = startOfYear(new Date(fromdate))
-            const toresult = startOfYear(new Date(todate))
-            const arr = yearreport?.filter((val) => val.backup_yearly_date >= moment(result).format('YYYY-MM-DD')
-                && val.backup_yearly_date <= moment(toresult).format('YYYY-MM-DD'))
-            if (arr.length === 0) {
-                infoNotify("No Data Found")
-                setArray([])
+            const getdata = async () => {
+                const result = await axioslogin.post('/backupdash/yearverified', postdata)
+                const { success, data, message } = result.data
+                if (success === 2) {
+                    setArray(data)
+                }
+                else if (success === 1) {
+                    infoNotify(message);
+                    setArray([])
+                }
+                else {
+                    infoNotify(message)
+                    setArray([])
+                }
             }
-            else {
-                setArray(arr)
-            }
+            getdata(postdata)
         } else {
             infoNotify("Select date to Search")
         }
-    }, [yearreport, fromdate, todate])
-    useEffect(() => {
+    }, [postdata, fromdate, todate])
+    const ExcelReportDetails = useCallback(() => {
         if (array.length !== 0) {
             const NewData = array?.map((val) => {
                 return {
@@ -77,16 +69,16 @@ const YearlyVerificationTable = ({ yearreport, setYearflag }) => {
                     remarks: val.remarks === null ? 'Nil' : val.remarks
                 }
             })
-            setExceldata(NewData)
+            setExcelflag(4)
+            ExportToExcel(NewData, fileName, excelflag)
         }
-    }, [array])
-    const ExcelReportDetails = useCallback(() => {
-        setExcelflag(4)
-        ExportToExcel(exceldata, fileName, excelflag)
-    }, [exceldata, excelflag])
+        else {
+            infoNotify("No Data Found")
+        }
+    }, [array, excelflag])
     return (
         <Fragment>
-            <Paper>
+            <Box>
                 <CardMasterClose
                     close={backtoHome}
                 >
@@ -158,17 +150,6 @@ const YearlyVerificationTable = ({ yearreport, setYearflag }) => {
                                     Search
                                 </Button>
                             </Box>
-                            <Box sx={{ pl: 2, pt: 1 }}>
-                                <CusCheckBox
-                                    label="All Select"
-                                    color="primary"
-                                    size="md"
-                                    name="allSelect"
-                                    value={allSelect}
-                                    checked={allSelect}
-                                    onCheked={AllSelectDetails}
-                                />
-                            </Box>
                             <Box sx={{ pl: 1, pt: 0.2 }}>
                                 <Button
                                     variant="outlined"
@@ -190,7 +171,7 @@ const YearlyVerificationTable = ({ yearreport, setYearflag }) => {
                             </Box>
                         </Box>
                     </Paper>
-                    <Paper variant="outlined" sx={{ maxHeight: 780, overflow: 'auto' }}>
+                    <Box variant="outlined" sx={{ minHeight: 780, overflow: 'auto', mt: 0.5 }}>
                         <CssVarsProvider>
                             <Table borderAxis="both" padding={"none"} stickyHeader >
                                 <thead>
@@ -231,9 +212,9 @@ const YearlyVerificationTable = ({ yearreport, setYearflag }) => {
                                 </tbody>
                             </Table>
                         </CssVarsProvider>
-                    </Paper>
+                    </Box>
                 </CardMasterClose>
-            </Paper>
+            </Box>
         </Fragment>
     )
 }

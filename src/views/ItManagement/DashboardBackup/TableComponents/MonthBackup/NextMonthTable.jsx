@@ -24,7 +24,7 @@ const NextMonthTable = ({ nextmonthdata, setMonthflag }) => {
                     <Paper>
                         <Typography sx={{ fontWeight: 10, fontSize: 18 }}>UpComing Backups</Typography>
                     </Paper>
-                    <Paper variant="outlined" sx={{ maxHeight: 780, minHeight: 600, overflow: 'auto' }}>
+                    <Paper variant="outlined" sx={{ minHeight: 780, overflow: 'auto' }}>
                         <CssVarsProvider>
                             <Table borderAxis="both" padding={"none"} stickyHeader >
                                 <thead>

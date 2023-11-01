@@ -1,23 +1,25 @@
-import { CssVarsProvider, Table } from '@mui/joy';
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { CssVarsProvider, Box, Button, Typography, Table } from '@mui/joy';
+import { Paper } from '@mui/material';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { memo } from 'react';
 import { useCallback } from 'react';
 import { Fragment } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { infoNotify } from 'src/views/Common/CommonCode';
 import CardMasterClose from 'src/views/Components/CardMasterClose';
-import CusCheckBox from 'src/views/Components/CusCheckBox';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import { ExportToExcel } from '../../OtherComponents/ExportToExcel';
-const VerificationDetailTable = ({ verifieddata, setDayFlag }) => {
+import { axioslogin } from 'src/views/Axios/Axios';
+import { useMemo } from 'react';
+const VerificationDetailTable = ({ setDayFlag }) => {
     const [fromdate, setFromdate] = useState('')
     const [todate, setTodate] = useState('')
     const [array, setArray] = useState([])
-    const [allSelect, setallSelect] = useState(false)
     const [excelflag, setExcelflag] = useState(0)
-    const [exceldata, setExceldata] = useState([])
+    // const [exceldata, setExceldata] = useState([])
+    // const [verifieddata, setVerifieddata] = useState([])
+
     const fileName = "Backup Report(Day)";
     const history = useHistory()
     const backtoHome = useCallback(() => {
@@ -31,38 +33,55 @@ const VerificationDetailTable = ({ verifieddata, setDayFlag }) => {
     const TodateOnChange = useCallback((e) => {
         setTodate(e.target.value)
     }, [])
-    const AllSelectDetails = useCallback((e) => {
-        if (e.target.checked === true) {
-            setallSelect(true)
-            setArray(verifieddata)
-        } else {
-            setallSelect(false)
+    // const AllSelectDetails = useCallback((e) => {
+    //     if (e.target.checked === true) {
+    //         setallSelect(true)
+    //         setArray(verifieddata)
+    //     } else {
+    //         setallSelect(false)
+    //     }
+    // }, [verifieddata])
+    // useEffect(() => {
+    //     if (verifieddata.length !== 0) {
+    //         setArray(verifieddata)
+    //     }
+    //     else {
+    //         setArray([])
+    //     }
+    // }, [verifieddata])
+
+    const postdata = useMemo(() => {
+        return {
+            start_date: fromdate,
+            end_date: todate
         }
-    }, [verifieddata])
-    useEffect(() => {
-        if (verifieddata.length !== 0) {
-            setArray(verifieddata)
-        }
-        else {
-            setArray([])
-        }
-    }, [verifieddata])
+    }, [fromdate, todate])
+
     const SearchDetails = useCallback(() => {
-        setallSelect(false)
         if (fromdate !== '' && todate !== '') {
-            const newdata = verifieddata.filter((val) => val.backup_daily_date >= moment(new Date(fromdate)).format('YYYY-MM-DD') && val.backup_daily_date <= moment(new Date(todate)).format('YYYY-MM-DD'))
-            if (newdata.length === 0) {
-                infoNotify("No Data Found")
-                setArray([])
+            const getdata = async () => {
+                const result = await axioslogin.post('/backupdash/dayverified', postdata)
+                const { success, data, message } = result.data
+                if (success === 2) {
+                    setArray(data)
+                }
+                else if (success === 1) {
+                    infoNotify(message);
+                    setArray([])
+                }
+                else {
+                    infoNotify(message)
+                    setArray([])
+                }
             }
-            else {
-                setArray(newdata)
-            }
+            getdata(postdata)
         } else {
             infoNotify("Select date to Search")
         }
-    }, [verifieddata, fromdate, todate])
-    useEffect(() => {
+
+    }, [postdata, fromdate, todate])
+
+    const ExcelReportDetails = useCallback(() => {
         if (array.length !== 0) {
             const NewData = array?.map((val) => {
                 return {
@@ -79,22 +98,23 @@ const VerificationDetailTable = ({ verifieddata, setDayFlag }) => {
                     remarks: val.remarks === null ? 'Nil' : val.remarks
                 }
             })
-            setExceldata(NewData)
+            setExcelflag(1)
+            ExportToExcel(NewData, fileName, excelflag)
         }
-    }, [array])
-    const ExcelReportDetails = useCallback(() => {
-        setExcelflag(1)
-        ExportToExcel(exceldata, fileName, excelflag)
-    }, [exceldata, excelflag])
+        else {
+            infoNotify("No Data Found")
+        }
+
+    }, [array, excelflag])
     return (
         <Fragment>
-            <Paper>
+            <Box>
                 <CardMasterClose
                     close={backtoHome}
                 >
                     <Paper sx={{ display: 'flex', flexDirection: 'row', height: 40 }}>
                         <Box sx={{ flex: 1, pt: 0.5 }}>
-                            <Typography sx={{ fontWeight: 10, fontSize: 18 }}>Verification Details</Typography>
+                            <Typography sx={{ fontSize: 18 }}>Verification Details</Typography>
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row', flex: 3 }}>
                             <Box sx={{ pt: 1 }}>
@@ -124,25 +144,28 @@ const VerificationDetailTable = ({ verifieddata, setDayFlag }) => {
                                 />
                             </Box>
                             <Box sx={{ pl: 1, pt: 0.2 }}>
-                                <Button
-                                    variant="outlined"
-                                    size='sm'
-                                    style={{
-                                        height: 30,
-                                        width: 200,
-                                        border: '1 solid',
-                                        borderRadius: '6px',
-                                        cursor: 'pointer',
-                                        paddingBottom: 1,
-                                        BorderAllRounded: 5,
-                                        color: 'black'
-                                    }}
-                                    onClick={SearchDetails}
-                                >
-                                    Search
-                                </Button>
+                                <CssVarsProvider>
+                                    <Button
+                                        variant="outlined"
+                                        size='sm'
+                                        style={{
+                                            height: 30,
+                                            width: 200,
+                                            border: '1 solid',
+                                            borderRadius: '6px',
+                                            cursor: 'pointer',
+                                            paddingBottom: 1,
+                                            BorderAllRounded: 5,
+                                            color: 'black'
+                                        }}
+                                        onClick={SearchDetails}
+                                    >
+                                        Search
+                                    </Button>
+                                </CssVarsProvider>
+
                             </Box>
-                            <Box sx={{ pl: 2, pt: 1 }}>
+                            {/* <Box sx={{ pl: 2, pt: 1 }}>
                                 <CusCheckBox
                                     label="All Select"
                                     color="primary"
@@ -152,29 +175,31 @@ const VerificationDetailTable = ({ verifieddata, setDayFlag }) => {
                                     checked={allSelect}
                                     onCheked={AllSelectDetails}
                                 />
-                            </Box>
+                            </Box> */}
                             <Box sx={{ pl: 1, pt: 0.2 }}>
-                                <Button
-                                    variant="outlined"
-                                    size='sm'
-                                    style={{
-                                        height: 30,
-                                        width: 200,
-                                        border: '1 solid',
-                                        borderRadius: '6px',
-                                        cursor: 'pointer',
-                                        paddingBottom: 1,
-                                        BorderAllRounded: 5,
-                                        color: 'black'
-                                    }}
-                                    onClick={ExcelReportDetails}
-                                >
-                                    Excel Report
-                                </Button>
+                                <CssVarsProvider>
+                                    <Button
+                                        variant="outlined"
+                                        size='sm'
+                                        style={{
+                                            height: 30,
+                                            width: 200,
+                                            border: '1 solid',
+                                            borderRadius: '6px',
+                                            cursor: 'pointer',
+                                            paddingBottom: 1,
+                                            BorderAllRounded: 5,
+                                            color: 'black'
+                                        }}
+                                        onClick={ExcelReportDetails}
+                                    >
+                                        Excel Report
+                                    </Button>
+                                </CssVarsProvider>
                             </Box>
                         </Box>
                     </Paper>
-                    <Paper variant="outlined" sx={{ maxHeight: 780, overflow: 'auto' }}>
+                    <Box variant="outlined" sx={{ minHeight: 780, overflow: 'auto', mt: 0.5 }}>
                         <CssVarsProvider>
                             <Table borderAxis="both" padding={"none"} stickyHeader >
                                 <thead>
@@ -217,9 +242,9 @@ const VerificationDetailTable = ({ verifieddata, setDayFlag }) => {
                                 </tbody>
                             </Table>
                         </CssVarsProvider>
-                    </Paper>
+                    </Box>
                 </CardMasterClose>
-            </Paper>
+            </Box>
         </Fragment>
     )
 }

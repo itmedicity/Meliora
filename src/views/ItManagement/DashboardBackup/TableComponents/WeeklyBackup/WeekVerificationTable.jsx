@@ -1,24 +1,23 @@
 import { CssVarsProvider, Table } from '@mui/joy';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { memo } from 'react';
 import { useCallback } from 'react';
 import { Fragment } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { infoNotify } from 'src/views/Common/CommonCode';
 import CardMasterClose from 'src/views/Components/CardMasterClose';
-import CusCheckBox from 'src/views/Components/CusCheckBox';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import { ExportToExcel } from '../../OtherComponents/ExportToExcel';
-const WeekVerificationTable = ({ weekverified, setWeekflag }) => {
+import { axioslogin } from 'src/views/Axios/Axios';
+import { useMemo } from 'react';
+const WeekVerificationTable = ({ setWeekflag }) => {
     const [fromdate, setFromdate] = useState('')
     const [todate, setTodate] = useState('')
     const [array, setArray] = useState([])
-    const [allSelect, setallSelect] = useState(false)
     const [excelflag, setExcelflag] = useState(0)
-    const [exceldata, setExceldata] = useState([])
-    const fileName = "Backup Report(Month)";
+    const fileName = "Backup Report(Week)";
     const history = useHistory()
     const backtoHome = useCallback(() => {
         history.push('/Home/DashboardBackup')
@@ -31,43 +30,41 @@ const WeekVerificationTable = ({ weekverified, setWeekflag }) => {
     const TodateOnChange = useCallback((e) => {
         setTodate(e.target.value)
     }, [])
-    const AllSelectDetails = useCallback((e) => {
-        if (e.target.checked === true) {
-            setallSelect(true)
-            setArray(weekverified)
-        } else {
-            setallSelect(false)
-        }
-    }, [weekverified])
-    useEffect(() => {
-        if (weekverified.length !== 0) {
-            setArray(weekverified)
-        }
-        else {
-            setArray([])
-        }
-    }, [weekverified])
-    const SearchDetails = useCallback(() => {
-        setallSelect(false)
-        if (fromdate !== '' && todate !== '') {
-            const newdata = weekverified.filter((val) => val.backup_weekly_date >= moment(new Date(fromdate)).format('YYYY-MM-DD') && val.backup_weekly_date <= moment(new Date(todate)).format('YYYY-MM-DD'))
 
-            if (newdata.length === 0) {
-                infoNotify("No Data Found")
-                setArray([])
+    const postdata = useMemo(() => {
+        return {
+            start_date: fromdate,
+            end_date: todate
+        }
+    }, [fromdate, todate])
+    const SearchDetails = useCallback(() => {
+        if (fromdate !== '' && todate !== '') {
+            const getdata = async () => {
+                const result = await axioslogin.post('/backupdash/weekverified', postdata)
+                const { success, data, message } = result.data
+                if (success === 2) {
+                    setArray(data)
+                }
+                else if (success === 1) {
+                    infoNotify(message);
+                    setArray([])
+                }
+                else {
+                    infoNotify(message)
+                    setArray([])
+                }
             }
-            else {
-                setArray(newdata)
-            }
+            getdata(postdata)
         } else {
             infoNotify("Select date to Search")
         }
-    }, [weekverified, fromdate, todate])
-    useEffect(() => {
+
+    }, [postdata, fromdate, todate])
+    const ExcelReportDetails = useCallback(() => {
         if (array.length !== 0) {
             const NewData = array?.map((val) => {
                 return {
-                    backup_yearly_date: val.backup_weekly_date,
+                    backup_weekly_date: val.backup_weekly_date,
                     backup_type: (val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup',
                     backup_name: val.backup_name,
                     backup_location: val.backup_location,
@@ -79,16 +76,16 @@ const WeekVerificationTable = ({ weekverified, setWeekflag }) => {
                     remarks: val.remarks === null ? 'Nil' : val.remarks
                 }
             })
-            setExceldata(NewData)
+            setExcelflag(2)
+            ExportToExcel(NewData, fileName, excelflag)
         }
-    }, [array])
-    const ExcelReportDetails = useCallback(() => {
-        setExcelflag(2)
-        ExportToExcel(exceldata, fileName, excelflag)
-    }, [exceldata, excelflag])
+        else {
+            infoNotify("No Data Found")
+        }
+    }, [array, excelflag])
     return (
         <Fragment>
-            <Paper>
+            <Box>
                 <CardMasterClose
                     close={backtoHome}
                 >
@@ -142,17 +139,6 @@ const WeekVerificationTable = ({ weekverified, setWeekflag }) => {
                                     Search
                                 </Button>
                             </Box>
-                            <Box sx={{ pl: 2, pt: 1 }}>
-                                <CusCheckBox
-                                    label="All Select"
-                                    color="primary"
-                                    size="md"
-                                    name="allSelect"
-                                    value={allSelect}
-                                    checked={allSelect}
-                                    onCheked={AllSelectDetails}
-                                />
-                            </Box>
                             <Box sx={{ pl: 1, pt: 0.2 }}>
                                 <Button
                                     variant="outlined"
@@ -174,7 +160,7 @@ const WeekVerificationTable = ({ weekverified, setWeekflag }) => {
                             </Box>
                         </Box>
                     </Paper>
-                    <Paper variant="outlined" sx={{ maxHeight: 780, overflow: 'auto' }}>
+                    <Box variant="outlined" sx={{ minHeight: 780, overflow: 'auto', mt: 0.5 }}>
                         <CssVarsProvider>
                             <Table borderAxis="both" padding={"none"} stickyHeader >
                                 <thead>
@@ -215,9 +201,9 @@ const WeekVerificationTable = ({ weekverified, setWeekflag }) => {
                                 </tbody>
                             </Table>
                         </CssVarsProvider>
-                    </Paper>
+                    </Box>
                 </CardMasterClose>
-            </Paper>
+            </Box>
         </Fragment>
     )
 }

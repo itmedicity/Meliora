@@ -142,7 +142,7 @@ const AssetModel = React.lazy(() => import('./views/Master/AssetMasters/AssetMod
 const AssetSubModel = React.lazy(() => import('./views/Master/AssetMasters/AssetSubModel/AssetSubModel'))
 const RoomAsset = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardRoomAsset'))
 const ItemCreation = React.lazy(() => import('./views/AssetManagment/ItemCreation/ItemCreationMast'))
-const DashboardBackup = React.lazy(() => import('./views/ItManagement/DashboardBackup/DashBoardTariff/DashboardTariffMain'))
+const DashboardBackup = React.lazy(() => import('./views/ItManagement/DashboardBackup/Newdashboard'))
 const PasswordManagement = React.lazy(() => import('./views/ItManagement/PasswordManagement/PasswordManagement'))
 const CommunicationDevice = React.lazy(() => import('./views/ItManagement/CommunicationDeviceDetails/CommunicationDevice'))
 const BackupChecks = React.lazy(() => import('./views/ItManagement/BackupChecksAndMonitoring/BackupChecks'))
@@ -154,6 +154,8 @@ const AssetItemListView = React.lazy(() => import('./views/AssetManagment/ItemLi
 const BackupScheduleType = React.lazy(() => import('./views/Master/BackupMaster/ScheduleType/ScheduleTypeMast'))
 const BackupScheduleTime = React.lazy(() => import('./views/Master/BackupMaster/ScheduleTime/ScheduleTimeMast'))
 const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDetails/BackupMast'))
+
+
 
 
 const routes = [

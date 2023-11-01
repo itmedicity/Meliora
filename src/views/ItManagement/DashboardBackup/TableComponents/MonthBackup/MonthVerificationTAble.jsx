@@ -1,23 +1,22 @@
 import { CssVarsProvider, Table } from '@mui/joy';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { memo } from 'react';
 import { useCallback } from 'react';
 import { Fragment } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { infoNotify } from 'src/views/Common/CommonCode';
 import CardMasterClose from 'src/views/Components/CardMasterClose';
-import CusCheckBox from 'src/views/Components/CusCheckBox';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import { ExportToExcel } from '../../OtherComponents/ExportToExcel';
-const MonthVerificationTAble = ({ monthReport, setMonthflag }) => {
+import { axioslogin } from 'src/views/Axios/Axios';
+import { useMemo } from 'react';
+const MonthVerificationTAble = ({ setMonthflag }) => {
     const [fromdate, setFromdate] = useState('')
     const [todate, setTodate] = useState('')
     const [array, setArray] = useState([])
-    const [allSelect, setallSelect] = useState(false)
     const [excelflag, setExcelflag] = useState(0)
-    const [exceldata, setExceldata] = useState([])
     const fileName = "Backup Report(Month)";
     const history = useHistory()
     const backtoHome = useCallback(() => {
@@ -31,38 +30,35 @@ const MonthVerificationTAble = ({ monthReport, setMonthflag }) => {
     const TodateOnChange = useCallback((e) => {
         setTodate(e.target.value)
     }, [])
-    const AllSelectDetails = useCallback((e) => {
-        if (e.target.checked === true) {
-            setallSelect(true)
-            setArray(monthReport)
-        } else {
-            setallSelect(false)
+    const postdata = useMemo(() => {
+        return {
+            start_date: moment(new Date(fromdate)).format('YYYY-MM-01'),
+            end_date: moment(new Date(todate)).format('YYYY-MM-01')
         }
-    }, [monthReport])
-    useEffect(() => {
-        if (monthReport.length !== 0) {
-            setArray(monthReport)
-        }
-        else {
-            setArray([])
-        }
-    }, [monthReport])
+    }, [fromdate, todate])
     const SearchDetails = useCallback(() => {
-        setallSelect(false)
         if (fromdate !== '' && todate !== '') {
-            const newdata = monthReport.filter((val) => val.backup_monthly_date >= moment(new Date(fromdate)).format('YYYY-MM-DD') && val.backup_monthly_date <= moment(new Date(todate)).format('YYYY-MM-DD'))
-            if (newdata.length === 0) {
-                infoNotify("No Data Found")
-                setArray([])
+            const getdata = async () => {
+                const result = await axioslogin.post('/backupdash/monthverified', postdata)
+                const { success, data, message } = result.data
+                if (success === 2) {
+                    setArray(data)
+                }
+                else if (success === 1) {
+                    infoNotify(message);
+                    setArray([])
+                }
+                else {
+                    infoNotify(message)
+                    setArray([])
+                }
             }
-            else {
-                setArray(newdata)
-            }
+            getdata(postdata)
         } else {
             infoNotify("Select date to Search")
         }
-    }, [monthReport, fromdate, todate])
-    useEffect(() => {
+    }, [postdata, fromdate, todate])
+    const ExcelReportDetails = useCallback(() => {
         if (array.length !== 0) {
             const NewData = array?.map((val) => {
                 return {
@@ -78,16 +74,16 @@ const MonthVerificationTAble = ({ monthReport, setMonthflag }) => {
                     remarks: val.remarks === null ? 'Nil' : val.remarks
                 }
             })
-            setExceldata(NewData)
+            setExcelflag(3)
+            ExportToExcel(NewData, fileName, excelflag)
         }
-    }, [array])
-    const ExcelReportDetails = useCallback(() => {
-        setExcelflag(3)
-        ExportToExcel(exceldata, fileName, excelflag)
-    }, [exceldata, excelflag])
+        else {
+            infoNotify("No Data Found")
+        }
+    }, [array, excelflag])
     return (
         <Fragment>
-            <Paper>
+            <Box>
                 <CardMasterClose
                     close={backtoHome}
                 >
@@ -141,17 +137,6 @@ const MonthVerificationTAble = ({ monthReport, setMonthflag }) => {
                                     Search
                                 </Button>
                             </Box>
-                            <Box sx={{ pl: 2, pt: 1 }}>
-                                <CusCheckBox
-                                    label="All Select"
-                                    color="primary"
-                                    size="md"
-                                    name="allSelect"
-                                    value={allSelect}
-                                    checked={allSelect}
-                                    onCheked={AllSelectDetails}
-                                />
-                            </Box>
                             <Box sx={{ pl: 1, pt: 0.2 }}>
                                 <Button
                                     variant="outlined"
@@ -173,7 +158,7 @@ const MonthVerificationTAble = ({ monthReport, setMonthflag }) => {
                             </Box>
                         </Box>
                     </Paper>
-                    <Paper variant="outlined" sx={{ maxHeight: 780, overflow: 'auto' }}>
+                    <Box variant="outlined" sx={{ minHeight: 780, overflow: 'auto', mt: 0.5 }}>
                         <CssVarsProvider>
                             <Table borderAxis="both" padding={"none"} stickyHeader >
                                 <thead>
@@ -215,9 +200,9 @@ const MonthVerificationTAble = ({ monthReport, setMonthflag }) => {
                                 </tbody>
                             </Table>
                         </CssVarsProvider>
-                    </Paper>
+                    </Box>
                 </CardMasterClose>
-            </Paper>
+            </Box>
         </Fragment>
     )
 }

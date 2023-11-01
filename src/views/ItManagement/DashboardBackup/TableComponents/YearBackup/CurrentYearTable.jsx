@@ -83,7 +83,7 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
                                     <Typography sx={{ fontWeight: 10, fontSize: 18 }}>Yearly Backup Errors</Typography>
                                 </Paper>
                                 : null}
-                    <Paper variant="outlined" sx={{ maxHeight: 780, minHeight: 600, overflow: 'auto' }}>
+                    <Paper variant="outlined" sx={{ minHeight: 780, overflow: 'auto' }}>
                         <CssVarsProvider>
                             <Table borderAxis="both" padding={"none"} stickyHeader >
                                 <thead style={{ alignItems: 'center' }}>

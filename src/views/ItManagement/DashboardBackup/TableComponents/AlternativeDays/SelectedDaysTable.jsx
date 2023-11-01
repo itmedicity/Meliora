@@ -76,7 +76,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                                         </Paper>
                                         : null
                         }
-                        <Paper variant="outlined" sx={{ maxHeight: 780, minHeight: 600, overflow: 'auto' }}>
+                        <Paper variant="outlined" sx={{ minHeight: 780, overflow: 'auto' }}>
                             <CssVarsProvider>
                                 <Table borderAxis="both" padding={"none"} stickyHeader >
                                     <thead style={{ alignItems: 'center' }}>

@@ -26,7 +26,7 @@ const BackupChecks = () => {
           close={backtoHome}
         >
           <Box>
-            <Typography sx={{ fontWeight: 10, fontSize: 20, fontFamily: 'Anton' }}> Backup Checks & Monitoring</Typography>
+            <Typography sx={{ fontWeight: 10, fontSize: 18 }}> Backup Checks & Monitoring</Typography>
           </Box>
           <Box sx={{ pt: 0.5 }}>
             <BackupChecksTable />

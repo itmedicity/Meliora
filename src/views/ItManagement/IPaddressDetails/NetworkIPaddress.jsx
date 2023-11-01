@@ -1,9 +1,16 @@
-import React from 'react'
+import { Paper } from '@mui/material'
+import React, { Fragment, memo } from 'react'
+import { ToastContainer } from 'react-toastify'
 
 const NetworkIPaddress = () => {
   return (
-    <div>NetworkIPaddress</div>
+    <Fragment>
+      <ToastContainer />
+      <Paper>
+
+      </Paper>
+    </Fragment>
   )
 }
 
-export default NetworkIPaddress
+export default memo(NetworkIPaddress)

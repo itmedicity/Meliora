@@ -25,7 +25,7 @@ export const ExportToExcel = async (reportData, fileName, excelflag) => {
             "Backup Taken Date & Time", "Backup Size Before", "Backup Size After", "Employee", "Remarks"]], { origin: "A1" });
     }
     else {
-        XLSX.utils.sheet_add_aoa(ws, [["Backup DueDate", "Backup Type", "Backup Name", "Backup Location", "Schedule Type",
+        XLSX.utils.sheet_add_aoa(ws, [["Backup Date", "Backup DueDate", "Backup Type", "Backup Name", "Backup Location", "Schedule Type",
             "Schedule Time", "Backup Taken Date & Time", "Backup Size Before", "Backup Size After", "Employee", "Remarks"]], { origin: "A1" });
     }
     const wb = {
