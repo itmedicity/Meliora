@@ -14,7 +14,6 @@ import { getCustodianDept } from 'src/redux/actions/AmCustodianDept.action';
 const OwnerShipDetailsComp = ({ detailArry, exist, setExist, grndetailarry }) => {
     const { am_item_map_slno } = detailArry
     const { am_primary_custodian, am_secondary_custodian } = grndetailarry
-
     const dispatch = useDispatch();
     // Get login user emp_id
     const id = useSelector((state) => {
@@ -30,8 +29,8 @@ const OwnerShipDetailsComp = ({ detailArry, exist, setExist, grndetailarry }) =>
 
     useEffect(() => {
         if (am_primary_custodian !== null || am_secondary_custodian !== null) {
-            setPrimaryCustodian(am_primary_custodian)
-            setSecondaryCustodian(am_secondary_custodian)
+            setPrimaryCustodian(am_primary_custodian !== null ? am_primary_custodian : 0)
+            setSecondaryCustodian(am_secondary_custodian !== null ? am_secondary_custodian : 0)
         }
 
     }, [am_primary_custodian, am_secondary_custodian])

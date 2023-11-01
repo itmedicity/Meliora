@@ -36,8 +36,8 @@ const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                 searchgrnFromDate: '',
                 searchgrnToDate: '',
                 searchgrnAlready: '',
-                grnNo: am_grn_no,
-                grndate: format(new Date(am_grn_date), "yyyy-MM-dd")
+                grnNo: am_grn_no !== null ? am_grn_no : '',
+                grndate: am_grn_date !== null ? format(new Date(am_grn_date), "yyyy-MM-dd") : ''
             }
             setUserdata(frmdata);
         }
@@ -116,8 +116,8 @@ const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                     searchgrnFromDate: '',
                     searchgrnToDate: '',
                     searchgrnAlready: '',
-                    grnNo: am_grn_no,
-                    grndate: format(new Date(am_grn_date), "yyyy-MM-dd")
+                    grnNo: am_grn_no !== null ? am_grn_no : '',
+                    grndate: am_grn_date !== null ? format(new Date(am_grn_date), "yyyy-MM-dd") : ''
                 }
                 setUserdata(frmdata);
 

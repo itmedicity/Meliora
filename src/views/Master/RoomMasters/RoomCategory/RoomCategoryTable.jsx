@@ -3,11 +3,12 @@ import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 import EditButton from 'src/views/Components/EditButton';
 const RoomCategoryTable = () => {
     const [column] = useState([
-        { headerName: "SlNo", field: "slno" },
-        { headerName: "Description", field: "name" },
-        { headerName: "Short Name", field: "name" },
-        { headerName: "Status", field: "status" },
-        { headerName: 'Action', cellRenderer: params => <EditButton /> }
+        { headerName: 'Action', minWidth: 50, cellRenderer: params => <EditButton /> },
+        { headerName: "SlNo", field: "slno", wrapText: true, minWidth: 50 },
+        { headerName: "Description", field: "name", wrapText: true, minWidth: 350 },
+        { headerName: "Short Name", field: "name", wrapText: true, minWidth: 200 },
+        { headerName: "Status", field: "status", wrapText: true, minWidth: 100 },
+
     ])
     const tableData = [
         {

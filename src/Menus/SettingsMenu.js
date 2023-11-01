@@ -43,7 +43,6 @@ export const task_setting_one = [
 export const task_setting_two = [
 
 
-
 ]
 
 export const task_setting_three = [
@@ -102,13 +101,14 @@ export const rm_setting_one = [
 export const rm_setting_two = [
     { to: '/Home/Floor', name: 'Floor', slno: 31 },
     { to: '/Home/BuildingMast', name: 'Building', slno: 117 },
-    { to: '/Home/RoomTypeMaster', name: 'Room Type Master', slno: 121 }
+    { to: '/Home/RoomCategoryMaster', name: 'Nomenclature Category ', slno: 122 }
+
     // { to: '/Home/FloorMast', name: 'Floor Master', slno: 120 }
 ]
 export const rm_setting_three = [
     { to: '/Home/RoomType', name: 'Room Type', slno: 32 },
     { to: '/Home/BuildingBlockMaster', name: 'Building Block', slno: 118 },
-    { to: '/Home/RoomCategoryMaster', name: 'Room Category Master', slno: 122 }
+    { to: '/Home/RoomTypeMaster', name: 'Nomenclature Type ', slno: 121 }
 
 ]
 
@@ -151,18 +151,16 @@ export const hall_booking_one = [
 //IT Menu
 export const it_setting_one = [
     { to: '/Home/DeviceType', name: 'Communication Device Type ', slno: 151 },
-
-
-
+    { to: '/Home/ScheduleTime', name: 'Backup Schedule Time', slno: 153 },
 ]
 
 export const it_setting_two = [
-    { to: '/Home/PasswordManagementDeviceType', name: 'Password Device Type ', slno: 160 },
 
+    { to: '/Home/PasswordManagementDeviceType', name: 'Password Device Type ', slno: 160 },
+    { to: '/Home/ScheduleType', name: 'Backup Schedule Type', slno: 152 },
 ]
 export const it_setting_three = [
-
-
+    { to: '/Home/BackupMast', name: 'Backup Details', slno: 156 },
 
 ]
 

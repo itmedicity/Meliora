@@ -1,32 +1,32 @@
 import { Box, Paper } from '@mui/material'
-import React, { useEffect, useState,memo,useCallback } from 'react'
+import React, { useEffect, useState, memo, useCallback } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import DashBoardRoomSort from './DashBoardRoomSort'
 import DashBoardRoomAsset from './DashBoardRoomAsset'
 
-const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName, buildblockname}) => {
+const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName, buildblockname }) => {
   const [roomArry, setRoomArry] = useState([])
   const [assetList, setAssetList] = useState(0)
   const [roomNo, setRoomNo] = useState(0)
   const [roomMain, setRoomMain] = useState([])
   const [roomName, setRoomName] = useState('')
-const [blockName,setBlockName]=useState('')
+  const [blockName, setBlockName] = useState('')
   useEffect(() => {
     const getRoomDash = async (floorNo) => {
       const result = await axioslogin.get(`/getDashboardData/frbyid/${floorNo}`)
       const { success, data } = result.data
       if (success === 2) {
         setRoomArry(data)
-        
+
         const a = data.map((val) => {
           const obj = {
             blockno: val.rm_insidebuilldblock_slno,
             blockname: val.rm_insidebuildblock_name,
-          }         
+          }
           return obj
-        })     
+        })
         const insideBuild = Object.values(
           a.reduce((acc, cur) => Object.assign(acc, { [cur.blockno]: cur }), {}),
         )
@@ -51,8 +51,8 @@ const [blockName,setBlockName]=useState('')
           floorName={floorName}
           buildblockname={buildblockname}
           roomName={roomName}
-         blockName={blockName}          
-        />      
+          blockName={blockName}
+        />
       ) : (
         <CardMasterClose
           title={campusName + '/' + buildblockname.toLowerCase() + '/' + floorName.toLowerCase()}
@@ -60,7 +60,7 @@ const [blockName,setBlockName]=useState('')
         >
           <Box
             sx={{
-              width: '95%',
+              width: '100%',
               margin: 'auto',
             }}
           >
@@ -92,13 +92,14 @@ const [blockName,setBlockName]=useState('')
                         }}
                       >
                         {val?.blockname?.toLowerCase()}
-                       
+
                       </Box>
-                      
+
                       <Box
                         padding={0.5}
                         sx={{
                           display: 'flex',
+                          width: "100%",
                           flexDirection: 'row',
                           overflow: 'hidden',
                           flexWrap: 'wrap',
@@ -121,7 +122,7 @@ const [blockName,setBlockName]=useState('')
           </Box>
         </CardMasterClose>
       )}
-      </>
+    </>
   )
 }
 export default memo(DashBoardRoom)

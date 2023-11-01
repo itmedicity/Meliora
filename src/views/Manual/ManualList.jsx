@@ -27,6 +27,9 @@ const ManualList = () => {
         setPdfDis(5)
     }
 
+    const Abbreviation = () => {
+        setPdfDis(6)
+    }
     const backToSettings = useCallback(() => {
         history.push(`/Home/Manual`)
         setPdfDis(0)
@@ -78,6 +81,22 @@ const ManualList = () => {
                             }}>
                                 <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
                                     onClick={() => meddef()}>2023-MEDF</Button>
+                            </Box>
+                            <Box sx={{
+                                display: "flex", width: "30%", flex: 1,
+                            }}>
+                                <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
+                                    onClick={() => Abbreviation()}>Abbreviation</Button>
+                            </Box>
+                            <Box sx={{
+                                display: "flex", width: "30%", flex: 1,
+                            }}>
+
+                            </Box>
+                            <Box sx={{
+                                display: "flex", width: "30%", flex: 1,
+                            }}>
+
                             </Box>
                         </Box>
                     </Box >
