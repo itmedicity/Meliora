@@ -9,6 +9,7 @@ const ITTransactions = [
         component: CNavItem,
         name: 'DashBoard',
         to: '/Home/DashboardBackup',
+        // to: '/Home/newDash',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 
