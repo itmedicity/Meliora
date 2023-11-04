@@ -115,6 +115,8 @@ const BackupMast = () => {
         }
     }, [backupType, backupname, location, ipadd1, compname1, physicalLoc1,
         ipadd2, compname2, physicalLoc2, scheduleType, scheduleTime, days, id])
+
+    console.log(postdata);
     const patchdata = useMemo(() => {
         return {
             backup_slno: backup_slno,
@@ -181,7 +183,10 @@ const BackupMast = () => {
         // setScheduleTime(selectedScheduleTime);
     }, [])
     const BackupChecksDetails = useCallback((e) => {
-        if (scheduleType !== 5 && scheduleTime.length === 0) {
+        if (backupType === 0) {
+            infoNotify("Please Select Valid Backup Type")
+        }
+        else if (scheduleType !== 5 && scheduleTime.length === 0) {
             infoNotify("Select Any Schedule Time")
         }
         else if (scheduleType === 5 && days === 0) {
