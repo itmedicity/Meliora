@@ -40,8 +40,8 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo, dueDate }) => {
                             QR Display
                         </Box>
                         <Box sx={{
-                            width: 300,
-                            height: 150,
+                            width: 250,
+                            height: 120,
                             flexDirection: 'column',
                         }}>
 

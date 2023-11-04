@@ -127,6 +127,7 @@ import { getSubmodel } from './AmSubModelListReducer'
 import { getDeviceType } from './ItCommunicationDeviceType.Reducer'
 import { getCustodianDept } from './AmCustodianDept.Reducer'
 import { getItemBasedSection } from './AmItemSelectBsedSec.Reducer'
+import { getSpareItemBasedSection } from './AmSpareItemSelectBasedSec.Reducer'
 import { getScheduleType } from './BackupScheduleType.Reducer';
 import { getScheduleTime } from './BackupScheduleTime.Reducer';
 import { getBackupDetails, getEmployeeBackup } from './BackupDetails.Reducers';
@@ -142,7 +143,6 @@ import {
     getSelectedDaysDetails,
     getDaysDetails
 } from './BackupDash.Reducer';
-
 
 const reducer = combineReducers({
     changeState,
@@ -277,7 +277,7 @@ const reducer = combineReducers({
     getDeviceType,
     getCustodianDept,
     getItemBasedSection,
-
+    getSpareItemBasedSection,
     getScheduleType,
     getScheduleTime,
     getBackupDetails,

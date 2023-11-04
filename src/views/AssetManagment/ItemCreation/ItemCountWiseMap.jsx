@@ -5,12 +5,13 @@ import { Paper } from '@mui/material';
 import { axioslogin } from 'src/views/Axios/Axios';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
-const ItemCountWiseMap = ({ getPostData }) => {
+const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare }) => {
 
     const [disArry, setDisArry] = useState([])
     const [count, setCount] = useState(0)
     const [tablerender, setTablerender] = useState(0)
     useEffect(() => {
+
         const getData = async (getPostData) => {
             const result = await axioslogin.post(`/itemCreationDeptmap/getInsertData`, getPostData);
             const { success, data } = result.data
@@ -21,17 +22,29 @@ const ItemCountWiseMap = ({ getPostData }) => {
                 setDisArry([])
             }
         }
-        getData(getPostData)
-    }, [getPostData, count])
+        const getDataSpare = async (getPostDataSpare) => {
+            const result = await axioslogin.post(`/itemCreationDeptmap/getInsertSpareData`, getPostDataSpare);
+            const { success, data } = result.data
+            if (success === 1) {
+                setDisArry(data)
+            }
+            else {
+                setDisArry([])
+            }
+        }
+        if (type === 1) {
+            getData(getPostData)
+        } else {
+            getDataSpare(getPostDataSpare)
+        }
+
+    }, [getPostData, getPostDataSpare, count, type])
 
 
     const deleteitem = useCallback((val) => {
-        const { am_item_map_slno } = val
-        const patchdata = {
-            am_item_map_slno: am_item_map_slno
-        }
+
         const Inactive = async (patchdata) => {
-            const result = await axioslogin.patch('/itemNameCreation/itemInactive', patchdata)
+            const result = await axioslogin.patch('/itemCreationDeptmap/itemInactive', patchdata)
             const { message, success } = result.data
             if (success === 2) {
                 succesNotify(message)
@@ -42,9 +55,37 @@ const ItemCountWiseMap = ({ getPostData }) => {
                 warningNotify(message)
             }
         }
-        Inactive(patchdata)
 
-    }, [count, setCount, tablerender, setTablerender])
+        const InactiveSpare = async (patchdataSpare) => {
+            const result = await axioslogin.patch('/itemCreationDeptmap/itemInactiveSpare', patchdataSpare)
+            const { message, success } = result.data
+            if (success === 2) {
+                succesNotify(message)
+                setCount(count + 1)
+                setTablerender(tablerender + 1)
+            }
+            else {
+                warningNotify(message)
+            }
+        }
+
+        if (type === 1) {
+            const { am_item_map_slno } = val
+            const patchdata = {
+                am_item_map_slno: am_item_map_slno
+            }
+            Inactive(patchdata)
+        }
+        else {
+            const { am_spare_item_map_slno } = val
+            const patchdataSpare = {
+                am_spare_item_map_slno: am_spare_item_map_slno
+            }
+
+            InactiveSpare(patchdataSpare)
+        }
+
+    }, [count, setCount, tablerender, setTablerender, type])
     return (
         <Paper sx={{ height: 300, overflow: 'auto' }}>
 
