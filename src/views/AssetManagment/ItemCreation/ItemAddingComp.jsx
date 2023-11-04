@@ -15,12 +15,11 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import AmCustodianDeptsele from 'src/views/CommonSelectCode/AmCustodianDeptsele'
 
 const ItemAddingComp = ({ selectData }) => {
-
     // Get login user emp_id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
-    const { slno, Item_name } = selectData
+    const { slno, Item_name, type } = selectData
     const dispatch = useDispatch();
 
     const [department, setDepartment] = useState(0)
@@ -37,14 +36,19 @@ const ItemAddingComp = ({ selectData }) => {
 
     useEffect(() => {
         if (custodiandept !== 0) {
+            if (type === 1) {
+                let array = [firstName, secondname]
+                let filterName = array?.filter((e) => e !== null);
+                let stringName = filterName?.map((e) => e).join('/')
 
-            let array = [firstName, secondname]
-            let filterName = array?.filter((e) => e !== null);
-            let stringName = filterName?.map((e) => e).join('/')
-
-            setassetNo(stringName)
+                setassetNo(stringName)
+            }
+            else {
+                let stringName = "SP/" + secondname
+                setassetNo(stringName)
+            }
         }
-    }, [custodiandept, firstName, secondname])
+    }, [custodiandept, firstName, secondname, type])
 
     useEffect(() => {
         dispatch(getDepartment())
@@ -75,6 +79,18 @@ const ItemAddingComp = ({ selectData }) => {
             create_user: id
         }
     })
+    const sparepostData = mapArry && mapArry.map((val) => {
+        return {
+            spare_creation_slno: slno,
+            spare_dept_slno: department,
+            spare_deptsec_slno: deptsec,
+            spare_create_status: 1,
+            spare_custodian_dept: custodiandept,
+            spare_asset_no: assetno,
+            create_user: id
+        }
+    })
+
     const addMoreItem = useMemo(() => {
         return {
             item_creation_slno: slno,
@@ -89,38 +105,80 @@ const ItemAddingComp = ({ selectData }) => {
 
     }, [slno, department, deptsec, custodiandept, assetno, id])
 
+    const spareaddMoreItem = useMemo(() => {
+        return {
+            spare_creation_slno: slno,
+            spare_dept_slno: department,
+            spare_deptsec_slno: deptsec,
+            spare_create_status: 1,
+            spare_custodian_dept: custodiandept,
+            spare_asset_no: assetno,
+            spare_asset_no_only: assetno,
+            create_user: id
+        }
+
+    }, [slno, department, deptsec, custodiandept, assetno, id])
+
     const getPostData = useMemo(() => {
         return {
             item_creation_slno: slno,
             item_dept_slno: department,
             item_deptsec_slno: deptsec
         }
-
     }, [slno, department, deptsec])
+
+    const getPostDataSpare = useMemo(() => {
+        return {
+            spare_creation_slno: slno,
+            spare_dept_slno: department,
+            spare_deptsec_slno: deptsec
+        }
+    }, [slno, department, deptsec])
+
     const AddMultiple = useCallback(() => {
         const insertItem = async (postData) => {
             const result = await axioslogin.post('/itemCreationDeptmap/insert', postData)
             return result
         }
-        if (department !== 0 && deptsec !== 0) {
-            insertItem(postData).then((val) => {
-                const { message, success } = val.data
-                if (success === 1) {
-                    setFlag(1)
-                    succesNotify(message)
-                    setDisable(1)
-                } else if (success === 0) {
-                    infoNotify(message)
-                } else {
-                    infoNotify(message)
-                }
-            })
 
+        const insertSpareItem = async (postData) => {
+            const result = await axioslogin.post('/itemCreationDeptmap/insertSpare', postData)
+            return result
+        }
+
+        if (department !== 0 && deptsec !== 0) {
+            if (type === 1) {
+                insertItem(postData).then((val) => {
+                    const { message, success } = val.data
+                    if (success === 1) {
+                        setFlag(1)
+                        succesNotify(message)
+                        setDisable(1)
+                    } else if (success === 0) {
+                        infoNotify(message)
+                    } else {
+                        infoNotify(message)
+                    }
+                })
+            } else {
+                insertSpareItem(sparepostData).then((val) => {
+                    const { message, success } = val.data
+                    if (success === 1) {
+                        setFlag(1)
+                        succesNotify(message)
+                        setDisable(1)
+                    } else if (success === 0) {
+                        infoNotify(message)
+                    } else {
+                        infoNotify(message)
+                    }
+                })
+            }
         } else {
             warningNotify("Please Select Deoartment and Dep")
         }
 
-    }, [postData, department, deptsec])
+    }, [postData, department, deptsec, type, sparepostData])
 
 
     const updateclick = useCallback(() => {
@@ -138,10 +196,30 @@ const ItemAddingComp = ({ selectData }) => {
                 infoNotify(message)
             }
         }
-        insertItemAdditional(addMoreItem)
-        setFlag(0)
 
-    }, [addMoreItem])
+        const insertSpareItemAdditional = async (spareaddMoreItem) => {
+            const result = await axioslogin.post('/itemCreationDeptmap/insertSpareItemAdditional', spareaddMoreItem)
+            const { message, success } = result.data
+            if (success === 1) {
+                setFlag(1)
+                succesNotify(message)
+                setDisable(1)
+            } else if (success === 0) {
+                infoNotify(message)
+            } else {
+                infoNotify(message)
+            }
+        }
+
+        if (type === 1) {
+            insertItemAdditional(addMoreItem)
+            setFlag(0)
+        }
+        else {
+            insertSpareItemAdditional(spareaddMoreItem)
+        }
+
+    }, [addMoreItem, spareaddMoreItem, type])
 
 
     return (
@@ -260,7 +338,7 @@ const ItemAddingComp = ({ selectData }) => {
 
             <Box sx={{ display: 'flex', flex: 1, width: '100%', p: 0.5, flexDirection: 'row' }} >
                 {flag === 1 ? < ItemCountWiseMap
-                    getPostData={getPostData}
+                    getPostData={getPostData} type={type} getPostDataSpare={getPostDataSpare}
                 />
                     : null}
 

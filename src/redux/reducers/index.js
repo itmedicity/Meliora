@@ -127,7 +127,7 @@ import { getSubmodel } from './AmSubModelListReducer'
 import { getDeviceType } from './ItCommunicationDeviceType.Reducer'
 import { getCustodianDept } from './AmCustodianDept.Reducer'
 import { getItemBasedSection } from './AmItemSelectBsedSec.Reducer'
-
+import { getSpareItemBasedSection } from './AmSpareItemSelectBasedSec.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -261,7 +261,8 @@ const reducer = combineReducers({
     getUOM,
     getDeviceType,
     getCustodianDept,
-    getItemBasedSection
+    getItemBasedSection,
+    getSpareItemBasedSection
 
 })
 export default reducer;

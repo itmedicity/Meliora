@@ -13,7 +13,7 @@ const HallBookingTrans = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
-        men_slno: 100,
+        men_slno: 101,
         component: CNavItem,
         name: 'Hall Booking view',
         to: '/Home/HallBooking',

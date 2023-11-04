@@ -77,18 +77,20 @@ const ItemCreationMast = () => {
       submodel !== 0 || manufacture !== 0 || modelNumber !== '') {
       getItemdata(postdata)
 
-    }
-    else {
+    } else {
       warningNotify("Please Select Any Options")
     }
-
-
   }, [postdata, category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber])
+
   const [flag, setFlag] = useState(0)
 
   const [selectData, setSelectData] = useState([])
   const [dataAdd, setDataAdd] = useState(0)
 
+  useEffect(() => {
+    setFlag(0)
+    setDataAdd(0)
+  }, [category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber])
 
   const rowSelect = useCallback((val) => {
     setSelectData(val);
