@@ -43,7 +43,6 @@ export const task_setting_one = [
 export const task_setting_two = [
 
 
-
 ]
 
 export const task_setting_three = [
@@ -152,18 +151,16 @@ export const hall_booking_one = [
 //IT Menu
 export const it_setting_one = [
     { to: '/Home/DeviceType', name: 'Communication Device Type ', slno: 151 },
-
-
-
+    { to: '/Home/ScheduleTime', name: 'Backup Schedule Time', slno: 153 },
 ]
 
 export const it_setting_two = [
 
-
+    { to: '/Home/PasswordManagementDeviceType', name: 'Password Device Type ', slno: 160 },
+    { to: '/Home/ScheduleType', name: 'Backup Schedule Type', slno: 152 },
 ]
 export const it_setting_three = [
-
-
+    { to: '/Home/BackupMast', name: 'Backup Details', slno: 156 },
 
 ]
 

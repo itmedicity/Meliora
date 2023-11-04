@@ -128,6 +128,21 @@ import { getDeviceType } from './ItCommunicationDeviceType.Reducer'
 import { getCustodianDept } from './AmCustodianDept.Reducer'
 import { getItemBasedSection } from './AmItemSelectBsedSec.Reducer'
 import { getSpareItemBasedSection } from './AmSpareItemSelectBasedSec.Reducer'
+import { getScheduleType } from './BackupScheduleType.Reducer';
+import { getScheduleTime } from './BackupScheduleTime.Reducer';
+import { getBackupDetails, getEmployeeBackup } from './BackupDetails.Reducers';
+import {
+    getDailyCount,
+    getDayDetails,
+    getMonthlyCount,
+    getMonthDetails,
+    getYearlyBackup,
+    getYearDetails,
+    getWeeklyBackup,
+    getWeeklyDetails,
+    getSelectedDaysDetails,
+    getDaysDetails
+} from './BackupDash.Reducer';
 
 const reducer = combineReducers({
     changeState,
@@ -262,7 +277,20 @@ const reducer = combineReducers({
     getDeviceType,
     getCustodianDept,
     getItemBasedSection,
-    getSpareItemBasedSection
-
+    getSpareItemBasedSection,
+    getScheduleType,
+    getScheduleTime,
+    getBackupDetails,
+    getDailyCount,
+    getDayDetails,
+    getEmployeeBackup,
+    getMonthlyCount,
+    getMonthDetails,
+    getYearlyBackup,
+    getYearDetails,
+    getWeeklyBackup,
+    getWeeklyDetails,
+    getSelectedDaysDetails,
+    getDaysDetails
 })
 export default reducer;

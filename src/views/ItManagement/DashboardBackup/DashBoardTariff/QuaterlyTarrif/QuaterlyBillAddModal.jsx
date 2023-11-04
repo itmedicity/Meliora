@@ -1,553 +1,637 @@
-import React, { Fragment, useState,useCallback,useMemo ,memo  } from 'react'
+import React, { Fragment, useState, useCallback, useMemo, memo } from 'react'
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import { Box,   } from '@mui/material'
+import { Box, IconButton, } from '@mui/material'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import CusCheckBox from 'src/views/Components/CusCheckBox'
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import { axioslogin } from 'src/views/Axios/Axios';
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import imageCompression from 'browser-image-compression';
+import CustomeToolTip from 'src/views/Components/CustomeToolTip';
+import CloseIcon from '@mui/icons-material/Close';
 
-const QuaterlyBillAddModal = ({ open, handleClose, getarry,count,setCount, }) => {
-  const { device_type_name, dept_name, reciver_name,providername, amount,device_name,quaterly_slno
-   
-        
-  }=getarry
-      const [billAddModal, setbillAddModal] = useState({
-        quaterly_slno:'',  
-          bill_amount: '',
-          bill_date: '',
-          bill_due_date: '',
-          bill_number:'' ,
-          bill_entered_date: '',
-          file_upload_status: false,
-          payed_status:false,  
-   
-       
-    })
-  const { bill_amount,bill_date,bill_due_date,bill_number,bill_entered_date,file_upload_status,payed_status
-        } = billAddModal
-    
-     
-    const billAddModalUpdate = useCallback(
-        (e) => {
-            const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-            setbillAddModal({ ...billAddModal, [e.target.name]: value })
-        },
-        [billAddModal],
-    )
-    
-    const reset = () => {
-        const formdata = {
-            quaterly_slno:'',
-          bill_amount: '',
-          bill_date: '',
-          bill_due_date: '',
-          bill_number:'' ,
-          bill_entered_date: '',
-          file_upload_status: false,
-          payed_status:false,    
-        }
-        setbillAddModal(formdata)
-    }
-    
-    const patchdata = useMemo(() => {
-         
-        return {
-            quaterly_slno:quaterly_slno,
-            bill_amount: bill_amount,
-            bill_date: bill_date,
-            bill_due_date: bill_due_date,
-            bill_number:bill_number ,
-            bill_entered_date: bill_entered_date,
-            file_upload_status: file_upload_status === true ? 1 : 0,
-            payed_status:payed_status === true ? 1 : 0,        
-      }
-    }, [quaterly_slno,  bill_date,bill_due_date,bill_number,bill_entered_date,file_upload_status,payed_status,bill_amount])
-       const submitModal = useCallback(
-        (e) => {
-            e.preventDefault()
-              
-            const InsertTarrifModal = async (patchdata) => {
+const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, quaterlyCount, setQuaterlyCount }) => {
 
-      const result = await axioslogin.patch('/tarrifDetails/updateQuaterlybillModal', patchdata)
-      const { message, success } = result.data
-      if (success === 2) {
-          succesNotify(message)
-          reset()
-        handleClose()
-        setCount(count - 1)
-      } else if (success === 0) {
-        infoNotify(message)
-      } else {
-        infoNotify(message)
-      }
-        } 
-            if (bill_amount !== '') { 
-         
-              InsertTarrifModal(patchdata)
-                    reset()                
-                         
-            }
-            else {
-              infoNotify("Please  fill the fields")
-          }
-           
-        },
-      [patchdata, handleClose,bill_amount,setCount,count],
-      )
-  
-  return (
-      <Fragment  >
-       
-          <Dialog
-              open={open}
-              onClose={handleClose}            
-              maxWidth="lg"           
-                 >
-              < DialogContent
-                  sx={{
-                      width: 600,
-                      height: 550,
-                      // backgroundColor: ' pink',             
-                      
-                  }}  
-                  >                 
-                                        
-                  <Box sx={{
-                      width: '100%', 
-                      // borderRadius: 1, border: '0.1px solid #454545'
-                  }}>
-                  <Box id="alert-dialog-slide-descriptiona"
-                      sx={{ fontWeight: 'bold', height: '50px', pt: 2, color: '#0074B7', textAlign: 'center', }}>
-                                Add Quaterly Details
-                  </Box>  
-                
-              <Box sx={{
-                  width: '100%',
-                  height: '92%',                  
-                  borderRadius: 1,
-                  // backgroundColor:'pink',
-                  // pt: 1, 
-                  
-                      }}>  
-                       
-                          
-                              <Box sx={{
-                              //    flex:1,
-                              width: '100%',
-                                  height:'30%',
-                              // backgroundColor:'lightgrey',
-                              border: .5, borderColor: '#BBC8DE', borderRadius: 1.5,
-                              ml:4,
-                              margin: 'auto',
-                             
-                          }}>   
-                        <Box
-                                  sx={{ pt: .5, display: 'flex',  }}>
-                                  <Box sx={{flex:.3,pl:1}}>
-                            <CssVarsProvider>
-                                <Typography sx={{ fontSize: 15 }}>Device name</Typography>
-                                    </CssVarsProvider>
-                                    </Box>
-                              
-                                  <Box sx={{
-                                    //   backgroundColor: 'red',
-                                      flex: 1
-                                  }}>
-                                    <CssVarsProvider>
-                                      <Typography sx={{ fontSize: 15 }}>:&nbsp;
-                                          {device_name}
-                                      </Typography>
-                                      </CssVarsProvider>
-                                      </Box>
-                              </Box>                                                    
-                              <Box
-                                  sx={{ pt: .5, display: 'flex',  }}>
-                                  <Box sx={{flex:.3,pl:1}}>
-                            <CssVarsProvider>
-                                <Typography sx={{ fontSize: 15 }}>Device type</Typography>
-                                    </CssVarsProvider>
-                                    </Box>
-                              
-                                  <Box sx={{
-                                    //   backgroundColor: 'red',
-                                      flex: 1
-                                  }}>
-                                    <CssVarsProvider>
-                                      <Typography sx={{ fontSize: 15 }}>:&nbsp;
-                                          {device_type_name}
-                                      </Typography>
-                                      </CssVarsProvider>
-                                      </Box>
-                                </Box>  
-                                <Box
-                                  sx={{ pt: .5, display: 'flex',  }}>
-                                  <Box sx={{flex:.3,pl:1}}>
-                            <CssVarsProvider>
-                                <Typography sx={{ fontSize: 15 }}>Department</Typography>
-                                    </CssVarsProvider>
-                                    </Box>
-                              
-                                  <Box sx={{
-                                    //   backgroundColor: 'red',
-                                      flex: 1
-                                  }}>
-                                    <CssVarsProvider>
-                                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{dept_name}                                     
-                                      </Typography>
-                                      </CssVarsProvider>
-                                      </Box>
-                                </Box> 
-                                <Box
-                                  sx={{ pt: .5, display: 'flex',  }}>
-                                  <Box sx={{flex:.3,pl:1}}>
-                            <CssVarsProvider>
-                                <Typography sx={{ fontSize: 15 }}>Receiver Name</Typography>
-                                    </CssVarsProvider>
-                                    </Box>
-                              
-                                  <Box sx={{
-                                    //   backgroundColor: 'red',
-                                      flex: 1
-                                  }}>
-                                    <CssVarsProvider>
-                                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{reciver_name}                                     
-                                      </Typography>
-                                      </CssVarsProvider>
-                                      </Box>
-                                </Box> 
-                                <Box
-                                  sx={{ pt: .5, display: 'flex',  }}>
-                                  <Box sx={{flex:.3,pl:1}}>
-                            <CssVarsProvider>
-                                <Typography sx={{ fontSize: 15 }}>Sim Operator</Typography>
-                                    </CssVarsProvider>
-                                    </Box>
-                              
-                                  <Box sx={{
-                                    //   backgroundColor: 'red',
-                                      flex: 1
-                                  }}>
-                                    <CssVarsProvider>
-                                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{providername}                                     
-                                      </Typography>
-                                      </CssVarsProvider>
-                                      </Box>
-                                </Box>  
-                                <Box
-                                  sx={{ pt: .5, display: 'flex',  }}>
-                                  <Box sx={{flex:.3,pl:1}}>
-                            <CssVarsProvider>
-                                <Typography sx={{ fontSize: 15 }}>Amount</Typography>
-                                    </CssVarsProvider>
-                                    </Box>
-                              
-                                  <Box sx={{
-                                    //   backgroundColor: 'red',
-                                      flex: 1
-                                  }}>
-                                    <CssVarsProvider>
-                                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{amount}                                     
-                                      </Typography>
-                                      </CssVarsProvider>
-                                      </Box>
-                                </Box> 
-                       
-                             
-                      
-                       
-                           
-                              </Box>  
-                              
-                         
-  
-                          <Box sx={{
-                              width: '100%',
-                              height: '70%',
-                              // backgroundColor:'red'
-                              border: .5, borderColor: '#BBC8DE', borderRadius: 1.5,
-                              // pt:2,
-                              // margin: 'auto',
-                              mt:.5,
-                          }}> 
-                
-                          <Box sx={{
-                      width: "100%",
-                      display: "flex",
-                      // backgroundColor: 'orange',
-                          // margin: 'auto',
-                      pt:1
-                    }}>
-                       <Box
-                      sx={{
-                                    
-                                          flex: .3,
-                                          pt:.8,
-                                          // backgroundColor: 'blue',
-                                      ml:1
-                                  }}>
-                          <CssVarsProvider>
-                              <Typography sx={{ fontSize: 15,  }}>Bill Amount </Typography>
-                          </CssVarsProvider>
-                      </Box>
-                      <Box
-                                  sx={{
-                                  height: '25%', 
-                                          flex: 1,
-                                          pr:1
-                                      // pl:.2
-                                      // backgroundColor: 'red'
-                                  }}>
-                           <TextFieldCustom
-                              placeholder="Bill Amount"
-                              type="text"
-                              size="sm"
-                              name="bill_amount"
-                              value={bill_amount}
-                              onchange={billAddModalUpdate}
-                          ></TextFieldCustom> 
-                          </Box>                       
-                          </Box>
-                          <Box sx={{
-                      width: "100%",
-                      display: "flex",
-                      // backgroundColor: 'orange',
-                          margin: 'auto',
-                      pt:.5
-                    }}>
-                       <Box
-                      sx={{
-                                      pt:.5,
-                                          flex: .3,
-                          ml:1,
-                                      // backgroundColor: 'blue'
-                                  }}>
-                          <CssVarsProvider>
-                              <Typography sx={{ fontSize: 15, }}>Bill Date</Typography>
-                          </CssVarsProvider>
-                      </Box>
-                      <Box
-                                  sx={{
-                                      height: '25%', 
-                                      flex: 1,
-                                      pr:1
-                                  // pl:.2
-                                  // backgroundColor: 'red'
-                                  }}>
-                           <TextFieldCustom
-                              // placeholder="Device No./Sim No."
-                              type="date"
-                              size="sm"
-                              name="bill_date"
-                              value={bill_date}
-                              onchange={billAddModalUpdate}
-                          ></TextFieldCustom> 
-                          </Box>                       
-                              </Box>
-                              <Box sx={{
-                      width: "100%",
-                      display: "flex",
-                      // backgroundColor: 'orange',
-                          margin: 'auto',
-                      pt:.5
-                    }}>
-                       <Box
-                      sx={{
-                                                   pt:.5,
-                                                   flex: .3,
-                                                   ml:1,
-                                                               // backgroundColor: 'blue'
-                                  }}>
-                          <CssVarsProvider>
-                              <Typography sx={{ fontSize: 15}}>Bill Due Date</Typography>
-                          </CssVarsProvider>
-                      </Box>
-                      <Box
-                                  sx={{
-                                      height: '25%', 
-                                      flex: 1,
-                                      pr:1
-                                  // pl:.2
-                                  // backgroundColor: 'red'
-                                  }}>
-                           <TextFieldCustom
-                              // placeholder="Device No./Sim No."
-                              type="date"
-                              size="sm"
-                              name="bill_due_date"
-                              value={bill_due_date}
-                              onchange={billAddModalUpdate}
-                          ></TextFieldCustom> 
-                          </Box>                       
-                          </Box>
-                      
-                          <Box sx={{
-                      width: "100%",
-                      display: "flex",
-                      // backgroundColor: 'orange',
-                          margin: 'auto',
-                      pt:.5
-                    }}>
-                       <Box
-                      sx={{
-                                                   pt:.8,
-                                                   flex: .3,
-                                                   ml:1,
-                                                               // backgroundColor: 'blue'
-                                  }}>
-                          <CssVarsProvider>
-                              <Typography sx={{ fontSize: 15, }}>Bill No.</Typography>
-                          </CssVarsProvider>
-                      </Box>
-                      <Box
-                                  sx={{
-                                      height: '25%', 
-                                      flex: 1,
-                                      pr:1
-                                      // backgroundColor: 'red'
-                                  }}>
-                           <TextFieldCustom
-                              placeholder="Bill Number"
-                              type="text"
-                              size="sm"
-                              name="bill_number"
-                              value={bill_number}
-                              onchange={billAddModalUpdate}
-                          ></TextFieldCustom> 
-                          </Box>                       
-                          </Box>
-                          <Box sx={{
-                      width: "100%",
-                      display: "flex",
-                      // backgroundColor: 'orange',
-                          margin: 'auto',
-                      // pt:.5
-                    }}>
-                       <Box
-                      sx={{
-                                                 pt:1,
-                                                 flex: .3,
-                                          ml: 1,
-                                                 
-                                                          //    backgroundColor: 'blue'
-                                  }}>
-                          <CssVarsProvider>
-                              <Typography sx={{ fontSize: 15, }}>Bill Payed Date</Typography>
-                          </CssVarsProvider>
-                      </Box>
-                      <Box
-                                  sx={{
-                                      height: '25%', 
-                                      flex: 1,
-                                          pr: 1,
-                                      pt:.5
-                                  }}>
-                           <TextFieldCustom
-                              // placeholder="Device No./Sim No."
-                              type="date"
-                              size="sm"
-                              name="bill_entered_date"
-                              value={bill_entered_date}
-                              onchange={billAddModalUpdate}
-                          ></TextFieldCustom> 
-                          </Box>                       
-                      </Box>
-                     
-                          <Box sx={{flex:2,ml:1 ,mt:1,height:45,border:1.5,borderStyle:'dashed',borderColor:'#BBC8DE',pl:3,pt:1,mr:1}}>
-                               
-                          
-                                     
-                                  
-                                
-                                      
-          <Typography >
-          <DriveFolderUploadIcon sx={{ color: '#145DA0', size: 'lg', width: 30, height: 30 }} />&nbsp;upload file </Typography>
-                         
-                     </Box>
-                  
-                      <Box sx={{
-                          // backgroundColor: 'lightgrey',
-                                  display: 'flex',
-                                  height: 30, width: 300,
-                                  pt: 1,                                    
-                                  pl:7,
-                                  margin: 'auto'
-                              }} >
-                          <Box  >
-                          <CusCheckBox
-                          color="primary"
-                          size="md"
-                          name="file_upload_status"
-                          value={file_upload_status}
-                          checked={file_upload_status}
-                          onCheked={billAddModalUpdate}
-                      ></CusCheckBox>
-                                  </Box>
-                                  &nbsp;
-                          <Box sx={{ flex: .7 }}>
-                              
-                          <CssVarsProvider>
-                              <Typography sx={{ fontSize: 15 }}>File Upload Status</Typography>
-                          </CssVarsProvider>
-                                  </Box>
-                                
-                       
-                     
-                      
-                              </Box>
-                              <Box sx={{
-                          // backgroundColor: 'lightgrey',
-                                  display: 'flex',
-                                  height: 50,
-                                  width: 300,
-                                  pt: 1,
-                                   pl:7,
-                                  margin: 'auto'
-                          
-                              }} >
-                              <Box >
-                          <CusCheckBox
-                         color="primary"
-                          size="md"
-                          name="payed_status"
-                          value={payed_status}
-                          checked={payed_status}
-                          onCheked={billAddModalUpdate}
-                                      ></CusCheckBox>
-                                        &nbsp;
-                          </Box>
-                          <Box  sx={{flex:.4,}}>
-                          <CssVarsProvider>
-                              <Typography sx={{ fontSize: 15 }}>Payed Status</Typography>
-                          </CssVarsProvider>
-                          </Box>
-  
-                     </Box>
-                </Box>
-                  </Box>
-                  
-  
-                      </Box>
-              </DialogContent>
-              <DialogActions>
-                      <Button 
-                      onClick={submitModal}
-                      sx={{color:"#0074B7",fontWeight:'bold'}}
-                      >Save</Button>
-                  <Button 
-                      sx={{color:"#0074B7",fontWeight:'bold'}}
-                      onClick={handleClose}
-                      
-                      >Cancel</Button>
-                  </DialogActions>
-          </Dialog>
-      </Fragment >
+
+  const [selectFile, setSelectFile] = useState([]);
+  const { device_type_name, dept_name, reciver_name, providername, amount, device_name, quaterly_slno, bill_amount, bill_date, bill_due_date, bill_number, bill_entered_date, } = getarry
+  const [billAddModal, setbillAddModal] = useState({
+
+    billAmount: bill_amount !== null ? bill_amount : '',
+    billDate: bill_date !== null ? bill_date : '',
+    billDueDate: bill_due_date !== null ? bill_due_date : '',
+    billNo: bill_number !== null ? bill_number : '',
+    billPayedDate: bill_entered_date !== null ? bill_entered_date : '',
+    payed_status: false,
+
+
+
+  })
+  const { billAmount, billDate, billDueDate, billNo, billPayedDate,
+  } = billAddModal
+
+
+  const billAddModalUpdate = useCallback(
+    (e) => {
+      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+      setbillAddModal({ ...billAddModal, [e.target.name]: value })
+    },
+    [billAddModal],
   )
+
+  const reset = () => {
+    const formdata = {
+
+      billAmount: '',
+      billDate: '',
+      billDueDate: '',
+      billNo: '',
+      billPayedDate: '',
+      // file_upload_status: false,
+      payed_status: false,
+    }
+    setbillAddModal(formdata)
+    setSelectFile(null)
   }
+
+  const patchdata = useMemo(() => {
+
+    return {
+      quaterly_slno: quaterly_slno,
+      bill_amount: billAmount,
+      bill_date: billDate,
+      bill_due_date: billDueDate,
+      bill_number: billNo,
+      bill_entered_date: billPayedDate === '' ? null : billPayedDate,
+      payed_status: billPayedDate === '' ? 0 : 1,
+    }
+  }, [quaterly_slno, billDate, billDueDate, billNo, billPayedDate, billAmount,])
+
+  const handleFileChange = useCallback((e) => {
+    const newFiles = [...selectFile]
+    newFiles.push(e.target.files[0])
+    setSelectFile(newFiles)
+  }, [selectFile, setSelectFile])
+
+  const handleImageUpload = useCallback(async (imageFile) => {
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    }
+    const compressedFile = await imageCompression(imageFile, options)
+    return compressedFile
+  }, []);
+
+
+
+
+  const submitModal = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      const UpdateTariffModal = async (patchdata) => {
+        const result = await axioslogin.patch('/tarrifDetails/updateQuaterlybillModal', patchdata)
+        return result.data
+
+      }
+      const InsertFile = async (selectFile) => {
+
+
+        try {
+          const formData = new FormData();
+          formData.append('id', quaterly_slno);
+
+          for (const file of selectFile) {
+            if (file.type.startsWith('image')) {
+              const compressedFile = await handleImageUpload(file);
+              formData.append('files', compressedFile, compressedFile.name);
+            } else {
+              formData.append('files', file, file.name);
+            }
+          }
+
+
+          // Use the Axios instance and endpoint that matches your server setup
+          const uploadResult = await axioslogin.post('/ItImageUpload/uploadFile/Quaterly', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+
+
+          const { success, message } = uploadResult.data;
+
+          if (success === 1) {
+            succesNotify(message);
+            setQuaterlyCount(quaterlyCount + 1);
+            reset();
+          } else {
+            warningNotify(message);
+          }
+        } catch (error) {
+          warningNotify('An error occurred during file upload.');
+
+        }
+
+      };
+      if (billAmount !== '' && billDate !== '' && billDueDate !== '' && billNo !== '') {
+
+        UpdateTariffModal(patchdata)
+          .then((val) => {
+            const { message, success } = val;
+
+            if (success === 2) {
+              if (selectFile.length !== 0) {
+
+                // Call the handleUpload function to upload files
+                InsertFile(selectFile);
+                // // handleUpload(val);
+                setQuaterlyCount(quaterlyCount + 1)
+                reset();
+
+              }
+              succesNotify(message);
+              handleClose()
+              setQuaterlyCount(quaterlyCount + 1)
+              reset();
+
+            }
+
+            else if (success === 0) {
+              infoNotify(message);
+            } else {
+              infoNotify(message);
+            }
+          });
+
+
+
+      }
+      if (billAmount === '') {
+        infoNotify("Please enter bill amount");
+      }
+      else if (billDate === '') {
+        infoNotify("Please enter the bill date");
+      }
+      else if (billDueDate === '') {
+        infoNotify("Please enter the bill due date");
+      }
+      else if (billNo === '') {
+        infoNotify("Please enter the bill number");
+      }
+
+
+    },
+    [patchdata, handleClose, billNo, billDueDate, billDate, setQuaterlyCount, billAmount, quaterlyCount, handleImageUpload, quaterly_slno, selectFile])
+
+  const handleRemoveFile = (index) => {
+    setSelectFile((prevFiles) => {
+      const updatedFiles = [...prevFiles];
+      updatedFiles.splice(index, 1); // Remove the file at the specified index
+      return updatedFiles;
+    });
+  };
+
+  return (
+    <Fragment  >
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        maxWidth="lg"
+      >
+        < DialogContent
+          sx={{
+            width: 600,
+            height: 550,
+            // backgroundColor: ' pink',             
+
+          }}
+        >
+
+          <Box sx={{
+            width: '100%',
+            // borderRadius: 1, border: '0.1px solid #454545'
+          }}>
+            <Box id="alert-dialog-slide-descriptiona"
+              sx={{ fontWeight: 'bold', height: '50px', pt: 2, color: '#0074B7', textAlign: 'center', }}>
+              Add Quaterly Details
+            </Box>
+
+            <Box sx={{
+              width: '100%',
+              height: '92%',
+              borderRadius: 1,
+              // backgroundColor:'pink',
+              // pt: 1, 
+
+            }}>
+
+
+              <Box sx={{
+                //    flex:1,
+                width: '100%',
+                height: '30%',
+                // backgroundColor:'lightgrey',
+                border: .5, borderColor: '#BBC8DE', borderRadius: 1.5,
+                ml: 4,
+                margin: 'auto',
+
+              }}>
+                <Box
+                  sx={{ pt: .5, display: 'flex', }}>
+                  <Box sx={{ flex: .3, pl: 1 }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15 }}>Device name</Typography>
+                    </CssVarsProvider>
+                  </Box>
+
+                  <Box sx={{
+                    //   backgroundColor: 'red',
+                    flex: 1
+                  }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15 }}>:&nbsp;
+                        {device_name}
+                      </Typography>
+                    </CssVarsProvider>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{ pt: .5, display: 'flex', }}>
+                  <Box sx={{ flex: .3, pl: 1 }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15 }}>Device type</Typography>
+                    </CssVarsProvider>
+                  </Box>
+
+                  <Box sx={{
+                    //   backgroundColor: 'red',
+                    flex: 1
+                  }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15 }}>:&nbsp;
+                        {device_type_name}
+                      </Typography>
+                    </CssVarsProvider>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{ pt: .5, display: 'flex', }}>
+                  <Box sx={{ flex: .3, pl: 1 }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15 }}>Department</Typography>
+                    </CssVarsProvider>
+                  </Box>
+
+                  <Box sx={{
+                    //   backgroundColor: 'red',
+                    flex: 1
+                  }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{dept_name}
+                      </Typography>
+                    </CssVarsProvider>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{ pt: .5, display: 'flex', }}>
+                  <Box sx={{ flex: .3, pl: 1 }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15 }}>Receiver Name</Typography>
+                    </CssVarsProvider>
+                  </Box>
+
+                  <Box sx={{
+                    //   backgroundColor: 'red',
+                    flex: 1
+                  }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{reciver_name}
+                      </Typography>
+                    </CssVarsProvider>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{ pt: .5, display: 'flex', }}>
+                  <Box sx={{ flex: .3, pl: 1 }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15 }}>Sim Operator</Typography>
+                    </CssVarsProvider>
+                  </Box>
+
+                  <Box sx={{
+                    //   backgroundColor: 'red',
+                    flex: 1
+                  }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{providername}
+                      </Typography>
+                    </CssVarsProvider>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{ pt: .5, display: 'flex', }}>
+                  <Box sx={{ flex: .3, pl: 1 }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15 }}>Amount</Typography>
+                    </CssVarsProvider>
+                  </Box>
+
+                  <Box sx={{
+                    //   backgroundColor: 'red',
+                    flex: 1
+                  }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{amount}
+                      </Typography>
+                    </CssVarsProvider>
+                  </Box>
+                </Box>
+
+
+
+
+
+              </Box>
+
+
+
+              <Box sx={{
+                width: '100%',
+                height: '70%',
+                // backgroundColor:'red'
+                border: .5, borderColor: '#BBC8DE', borderRadius: 1.5,
+                // pt:2,
+                // margin: 'auto',
+                mt: .5,
+              }}>
+
+                <Box sx={{
+                  width: "100%",
+                  display: "flex",
+                  // backgroundColor: 'orange',
+                  // margin: 'auto',
+                  pt: 1
+                }}>
+                  <Box
+                    sx={{
+
+                      flex: .3,
+                      pt: .8,
+                      // backgroundColor: 'blue',
+                      ml: 1
+                    }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15, }}>Bill Amount </Typography>
+                    </CssVarsProvider>
+                  </Box>
+                  <Box
+                    sx={{
+                      height: '25%',
+                      flex: 1,
+                      pr: 1
+                      // pl:.2
+                      // backgroundColor: 'red'
+                    }}>
+                    <TextFieldCustom
+                      placeholder="Bill Amount"
+                      type="text"
+                      size="sm"
+                      name="billAmount"
+                      value={billAmount}
+                      onchange={billAddModalUpdate}
+                    ></TextFieldCustom>
+                  </Box>
+                </Box>
+                <Box sx={{
+                  width: "100%",
+                  display: "flex",
+                  // backgroundColor: 'orange',
+                  margin: 'auto',
+                  pt: .5
+                }}>
+                  <Box
+                    sx={{
+                      pt: .5,
+                      flex: .3,
+                      ml: 1,
+                      // backgroundColor: 'blue'
+                    }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15, }}>Bill Date</Typography>
+                    </CssVarsProvider>
+                  </Box>
+                  <Box
+                    sx={{
+                      height: '25%',
+                      flex: 1,
+                      pr: 1
+                      // pl:.2
+                      // backgroundColor: 'red'
+                    }}>
+                    <TextFieldCustom
+                      // placeholder="Device No./Sim No."
+                      type="date"
+                      size="sm"
+                      name="billDate"
+                      value={billDate}
+                      onchange={billAddModalUpdate}
+                    ></TextFieldCustom>
+                  </Box>
+                </Box>
+                <Box sx={{
+                  width: "100%",
+                  display: "flex",
+                  // backgroundColor: 'orange',
+                  margin: 'auto',
+                  pt: .5
+                }}>
+                  <Box
+                    sx={{
+                      pt: .5,
+                      flex: .3,
+                      ml: 1,
+                      // backgroundColor: 'blue'
+                    }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15 }}>Bill Due Date</Typography>
+                    </CssVarsProvider>
+                  </Box>
+                  <Box
+                    sx={{
+                      height: '25%',
+                      flex: 1,
+                      pr: 1
+                      // pl:.2
+                      // backgroundColor: 'red'
+                    }}>
+                    <TextFieldCustom
+                      // placeholder="Device No./Sim No."
+                      type="date"
+                      size="sm"
+                      name="billDueDate"
+                      value={billDueDate}
+                      onchange={billAddModalUpdate}
+                    ></TextFieldCustom>
+                  </Box>
+                </Box>
+
+                <Box sx={{
+                  width: "100%",
+                  display: "flex",
+                  // backgroundColor: 'orange',
+                  margin: 'auto',
+                  pt: .5
+                }}>
+                  <Box
+                    sx={{
+                      pt: .8,
+                      flex: .3,
+                      ml: 1,
+                      // backgroundColor: 'blue'
+                    }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15, }}>Bill No.</Typography>
+                    </CssVarsProvider>
+                  </Box>
+                  <Box
+                    sx={{
+                      height: '25%',
+                      flex: 1,
+                      pr: 1
+                      // backgroundColor: 'red'
+                    }}>
+                    <TextFieldCustom
+                      placeholder="Bill Number"
+                      type="text"
+                      size="sm"
+                      name="billNo"
+                      value={billNo}
+                      onchange={billAddModalUpdate}
+                    ></TextFieldCustom>
+                  </Box>
+                </Box>
+                <Box sx={{
+                  width: "100%",
+                  display: "flex",
+                  // backgroundColor: 'orange',
+                  margin: 'auto',
+                  // pt:.5
+                }}>
+                  <Box
+                    sx={{
+                      pt: 1,
+                      flex: .3,
+                      ml: 1,
+
+                      //    backgroundColor: 'blue'
+                    }}>
+                    <CssVarsProvider>
+                      <Typography sx={{ fontSize: 15, }}>Bill Payed Date</Typography>
+                    </CssVarsProvider>
+                  </Box>
+                  <Box
+                    sx={{
+                      height: '25%',
+                      flex: 1,
+                      pr: 1,
+                      pt: .5
+                    }}>
+                    <TextFieldCustom
+                      // placeholder="Device No./Sim No."
+                      type="date"
+                      size="sm"
+                      name="billPayedDate"
+                      value={billPayedDate}
+                      onchange={billAddModalUpdate}
+                    ></TextFieldCustom>
+                  </Box>
+                </Box>
+
+                <Box sx={{ flex: 2, m: 1, height: 45, border: 1.5, borderStyle: 'dashed', borderColor: '#BBC8DE', pl: 3, }}>
+
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <CssVarsProvider>
+                      <Typography   >upload file</Typography>
+                    </CssVarsProvider>
+                    <label htmlFor="file-input">
+                      <CustomeToolTip title="upload">
+                        <IconButton color="primary" aria-label="upload file" component="span">
+                          <DriveFolderUploadIcon sx={{ color: '#145DA0', size: 'lg', width: 30, height: 30 }} />
+                        </IconButton>
+                      </CustomeToolTip>
+                    </label>
+
+
+                    <input
+                      id="file-input"
+                      type="file"
+                      accept=".jpg, .jpeg, .png, .pdf"
+                      style={{ display: 'none' }}
+                      // onChange={uploadFile}
+                      onChange={handleFileChange}
+                      name="file"
+                      multiple // Add this attribute to allow multiple file selections
+                    />
+
+
+
+                    {selectFile && selectFile.map((file, index) => (
+                      <Box sx={{ display: "flex", flexDirection: "row", ml: 2, backgroundColor: '#D6E2E8' }} key={index} >
+                        <Box >{file.name}</Box>
+                        <Box sx={{ ml: .3 }}><CloseIcon sx={{ height: '18px', width: '20px', cursor: 'pointer' }}
+                          onClick={() => handleRemoveFile(index)} /></Box>
+
+                      </Box>
+                    ))}
+                    {/* </Box> */}
+
+
+
+                    {/* ... */}
+
+                  </Box>
+
+                </Box>
+                <Box sx={{
+                  // backgroundColor: 'lightgrey',
+                  display: 'flex',
+                  height: 50,
+                  width: 300,
+                  pt: 1,
+                  pl: 7,
+                  margin: 'auto'
+
+                }} >
+
+
+                </Box>
+              </Box>
+            </Box>
+
+
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={submitModal}
+            sx={{ color: "#0074B7", fontWeight: 'bold' }}
+          >Save</Button>
+          <Button
+            sx={{ color: "#0074B7", fontWeight: 'bold' }}
+            onClick={handleClose}
+
+          >Cancel</Button>
+        </DialogActions>
+      </Dialog>
+    </Fragment >
+  )
+}
 
 
 
