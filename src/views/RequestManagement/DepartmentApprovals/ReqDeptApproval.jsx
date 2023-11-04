@@ -23,13 +23,7 @@ const ReqDeptApproval = () => {
         return state.LoginUserData.empid
     })
 
-    //redux for geting login section id
-    const secid = useSelector((state) => {
-        return state.LoginUserData.empsecid
-    })
-
     const [deptsecArry, setdeptSecArry] = useState([])
-    console.log(deptsecArry);
 
     useEffect(() => {
         const getdetptsections = async (id) => {
@@ -45,7 +39,6 @@ const ReqDeptApproval = () => {
         }
         getdetptsections(id)
     }, [id])
-
 
 
     useEffect(() => {

@@ -11,6 +11,7 @@ import { editicon } from 'src/color/Color';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
 import DeptApprovModel from '../DepartmentApprovals/DeptApprovModel'
+import { axioslogin } from 'src/views/Axios/Axios'
 
 const InchargeApprovalTable = () => {
 
@@ -23,14 +24,28 @@ const InchargeApprovalTable = () => {
         return state.LoginUserData.empid
     })
 
-    //redux for geting login section id
-    const secid = useSelector((state) => {
-        return state.LoginUserData.empsecid
-    })
+    const [deptsecArry, setdeptSecArry] = useState([])
+
+
+    useEffect(() => {
+        const getdetptsections = async (id) => {
+            const result = await axioslogin.get(`/common/getdeptHoddeptsec/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                console.log(data);
+                const xx = data.map((val) => {
+                    return val.dept_section
+                })
+                setdeptSecArry(xx)
+            }
+        }
+        getdetptsections(id)
+    }, [id])
+
     useEffect(() => {
         dispatch(getInchargeHodData(id))
-        dispatch(getReqApprovDept(secid))
-    }, [dispatch, id, secid, count])
+        dispatch(getReqApprovDept(deptsecArry))
+    }, [dispatch, id, deptsecArry, count])
 
     const HodIncharge = useSelector((state) => {
         return state.setInchargeHodData.InchargeHoddata
