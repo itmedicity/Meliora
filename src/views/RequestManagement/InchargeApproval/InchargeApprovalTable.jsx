@@ -29,7 +29,7 @@ const InchargeApprovalTable = () => {
 
     useEffect(() => {
         const getdetptsections = async (id) => {
-            const result = await axioslogin.get(`/common/getdeptHoddeptsec/${id}`)
+            const result = await axioslogin.get(`/common/getdeptInchargedeptsec/${id}`)
             const { success, data } = result.data
             if (success === 1) {
                 console.log(data);
