@@ -116,7 +116,6 @@ const BackupMast = () => {
     }, [backupType, backupname, location, ipadd1, compname1, physicalLoc1,
         ipadd2, compname2, physicalLoc2, scheduleType, scheduleTime, days, id])
 
-    console.log(postdata);
     const patchdata = useMemo(() => {
         return {
             backup_slno: backup_slno,
@@ -332,7 +331,7 @@ const BackupMast = () => {
                 }
             }
         }
-    }, [postdata, count, patchdata, edit, inactivedatas, scheduleType, scheduleTime,
+    }, [postdata, count, patchdata, edit, inactivedatas, scheduleType, scheduleTime, backupType,
         backup_selected_date, days, backup_slno, id, backupname, reset])
     return (
         //  sx={{ height: window.innerHeight }}

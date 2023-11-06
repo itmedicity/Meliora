@@ -111,8 +111,14 @@ const DMSDataCollectModel = ({ open, setOpen, datas, count, setCount }) => {
         deptRequest(postData).then((val) => {
             const { message, success } = val.data
             if (success === 1) {
-
-                datacollectdetail()
+                if (dataPost.length !== 0) {
+                    datacollectdetail()
+                }
+                else {
+                    succesNotify(message)
+                    reset()
+                    setCount(count + 1)
+                }
             } else if (success === 0) {
                 infoNotify(message)
             } else {

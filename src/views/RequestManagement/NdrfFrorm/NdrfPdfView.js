@@ -10,7 +10,8 @@ export const pdfdownloadTable = (data, dataPost, inchargesign, hodsign, omsign, 
         ndrf_smo_approv, ndrf_smo_remarks, ndrf_som_aprrov_date, ndrf_cao_approve,
         ndrf_cao_approve_remarks, ndrf_cao_approv_date, ndrf_ed_approve, ndrf_ed_approve_remarks,
         ndrf_ed_approve_date, inchuser, hoduser, omuser, smouser, caouser, requser, category,
-        total_approx_cost, eduser
+        total_approx_cost, eduser, ndrf_mast_slno, ndrf_date
+
     } = data[0]
 
     var doc = {
@@ -99,10 +100,16 @@ export const pdfdownloadTable = (data, dataPost, inchargesign, hodsign, omsign, 
                         { text: req_dept, fontSize: 8, font: 'Roboto' },
                         { text: 'Category', fontSize: 8, font: 'Roboto' },
                         { text: category, fontSize: 8, font: 'Roboto' }],
-                        [{ text: 'Date', fontSize: 8, font: 'Roboto' },
-                        { text: reqdate !== null ? format(new Date(reqdate), 'dd-MM-yyyy hh:mm:ss') : "Not Updated", fontSize: 8, font: 'Roboto' },
-                        { text: 'Request No', fontSize: 8, font: 'Roboto' },
-                        { text: req_slno, fontSize: 8, font: 'Roboto' }]
+                        [{ text: 'Request No', fontSize: 8, font: 'Roboto' },
+                        { text: req_slno, fontSize: 8, font: 'Roboto' },
+                        { text: 'Date', fontSize: 8, font: 'Roboto' },
+                        { text: reqdate !== null ? format(new Date(reqdate), 'dd-MM-yyyy hh:mm:ss') : "Not Updated", fontSize: 8, font: 'Roboto' }
+                        ],
+                        [{ text: 'NDRF No', fontSize: 8, font: 'Roboto' },
+                        { text: ndrf_mast_slno, fontSize: 8, font: 'Roboto' },
+                        { text: 'Date', fontSize: 8, font: 'Roboto' },
+                        { text: ndrf_date !== null ? format(new Date(ndrf_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated", fontSize: 8, font: 'Roboto' }
+                        ],
                     ]
                 }
             },
