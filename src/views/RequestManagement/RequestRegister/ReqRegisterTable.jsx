@@ -29,7 +29,7 @@ const ReqRegisterTable = ({ count, rowSelect }) => {
         {
             headerName: 'Edit', minWidth: 80,
             cellRenderer: params => {
-                if (params.data.manag_operation_approv !== null) {
+                if (params.data.hod_approve !== null) {
                     return <IconButton disabled
                         sx={{ color: editicon, paddingY: 0.5 }}>
                         <EditOutlinedIcon />

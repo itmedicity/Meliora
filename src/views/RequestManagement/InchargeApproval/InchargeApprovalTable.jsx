@@ -32,7 +32,6 @@ const InchargeApprovalTable = () => {
             const result = await axioslogin.get(`/common/getdeptInchargedeptsec/${id}`)
             const { success, data } = result.data
             if (success === 1) {
-                console.log(data);
                 const xx = data.map((val) => {
                     return val.dept_section
                 })
@@ -74,7 +73,7 @@ const InchargeApprovalTable = () => {
     const [columnInch] = useState([
         {
             headerName: 'Action', minWidth: 100, cellRenderer: params => {
-                if (params.data.hod_approve !== null) {
+                if (params.data.hod_approve !== null && params.data.hod_req === 1) {
                     return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
                         <PublishedWithChangesOutlinedIcon />
                     </IconButton>

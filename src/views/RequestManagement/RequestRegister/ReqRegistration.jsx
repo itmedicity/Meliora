@@ -22,6 +22,7 @@ import { format } from 'date-fns'
 import _ from 'underscore'
 import DeptSecUnderDept from 'src/views/CommonSelectCode/DeptSecUnderDept'
 import { getDeptSecInchHod } from 'src/redux/actions/DeptSecInchHod.action'
+
 // import imageCompression from 'browser-image-compression';
 // import UploadFileIcon from '@mui/icons-material/UploadFile'
 // import CloseIcon from '@mui/icons-material/Close';
@@ -139,7 +140,9 @@ const ReqRegistration = () => {
     }, [HodIncharge])
 
     const deptsecHodInch = useSelector((state) => state.setDeptSecInchHod.deptSecInchHodList, _.isEqual)
+    //HOD
     const object1 = deptsecHodInch.filter(obj => obj.auth_post === 1 ? obj.emp_id : null);
+    //Incharge
     const object2 = deptsecHodInch.filter(obj => obj.auth_post === 2 ? obj.emp_id : null);
 
     const updateExpectedDate = (e) => {
@@ -427,13 +430,13 @@ const ReqRegistration = () => {
             needed: needed,
             request_dept_slno: dept,
             request_deptsec_slno: deptSec,
-            location: location,
+            location: location === '' ? null : location,
             create_user: id,
             remarks: remarks !== '' ? remarks : '',
             total_approx_cost: totalApproxCost,
             expected_date: startdate,
             user_deptsec: empsecid,
-            category: category,
+            category: category === '' ? null : category,
             emergency: emergency === false ? 0 : 1
         }
     }, [actual_require, needed, dept, deptSec, category, location, id, remarks, startdate,
@@ -575,11 +578,11 @@ const ReqRegistration = () => {
                 cao_approve_req: 1,
                 ed_approve_req: null,
                 incharge_user: isIncharge === 1 ? id : ishod === 1 ? id : null,
-                hod_user: ishod === 1 ? id : null,
+                hod_user: null,
                 incharge_approve: isIncharge === 1 ? 1 : ishod === 1 ? 1 : null,
-                hod_approve: 0,
+                hod_approve: null,
                 incharge_apprv_date: isIncharge === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : ishod === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
-                hod_approve_date: ishod === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+                hod_approve_date: null,
             }
             //Postdata department have incharge and Hod then check isicharge or ishod
             const ApprovalDataNoInch = {
@@ -603,22 +606,23 @@ const ReqRegistration = () => {
             const ApprDataCheckHod = {
                 req_slno: reqno,
                 incharge_req: 1,
-                hod_req: 1,
+                hod_req: object1.length === 0 ? 0 : null,
                 dms_req: depttype === 1 ? 1 : 0,
                 ms_approve_req: depttype === 1 ? 1 : 0,
                 manag_operation_req: 1,
                 senior_manage_req: 1,
                 cao_approve_req: 1,
                 ed_approve_req: null,
-                incharge_user: id,
+                incharge_user: null,
                 hod_user: ishod === 1 ? id : null,
-                incharge_approve: 0,
+                incharge_approve: null,
                 hod_approve: object1.length === 0 ? 1 : null,
-                incharge_apprv_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-                hod_approve_date: object1.length === 0 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+                incharge_apprv_date: null,
+                hod_approve_date: null,
             }
 
             if (isIncharge === 0 && ishod === 0) {
+
                 const result = await axioslogin.post('/requestRegister/postReqApproval', ApprovalDataNoInch);
                 return result.data
 
@@ -628,7 +632,6 @@ const ReqRegistration = () => {
                 return result.data
             }
             else {
-
                 const result = await axioslogin.post('/requestRegister/postReqApproval', ApprovalData);
                 return result.data
             }
