@@ -606,7 +606,7 @@ const ReqRegistration = () => {
             const ApprDataCheckHod = {
                 req_slno: reqno,
                 incharge_req: 1,
-                hod_req: object1.length === 0 ? 0 : null,
+                hod_req: object1.length === 0 ? 0 : 1,
                 dms_req: depttype === 1 ? 1 : 0,
                 ms_approve_req: depttype === 1 ? 1 : 0,
                 manag_operation_req: 1,

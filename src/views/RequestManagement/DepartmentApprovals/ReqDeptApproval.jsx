@@ -29,7 +29,7 @@ const InchargeApprovalTable = () => {
 
     useEffect(() => {
         const getdetptsections = async (id) => {
-            const result = await axioslogin.get(`/common/getdeptInchargedeptsec/${id}`)
+            const result = await axioslogin.get(`/common/getdeptHoddeptsec/${id}`)
             const { success, data } = result.data
             if (success === 1) {
                 const xx = data.map((val) => {
@@ -131,7 +131,7 @@ const InchargeApprovalTable = () => {
 
     return (
         <CardCloseOnly
-            title="Incharge Approval"
+            ttitle="Hod Approval"
             close={backtoSetting}
         >
             {model === 1 ?

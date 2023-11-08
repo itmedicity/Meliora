@@ -160,7 +160,7 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
             setDetailAnalis('')
         }
         const updateInchApproval = async (patchdataOm) => {
-            const result = await axioslogin.patch('/requestRegister/approval/om', patchdataOm);
+            const result = await axioslogin.patch('/requestRegister/approval/ms', patchdataOm);
             const { success, message } = result.data;
             if (success === 2) {
                 succesNotify(message)
