@@ -1,7 +1,7 @@
 import { Box, Tooltip, Typography, IconButton, Input, Button } from '@mui/material'
 import React, { useCallback, memo, useEffect, useState, useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import AssetCategorySelect from 'src/views/CommonSelectCode/AssetCategorySelect'
 import AssetGroupSlect from 'src/views/CommonSelectCode/AssetGroupSlect'
 import CardMaster from 'src/views/Components/CardMaster'
@@ -259,38 +259,27 @@ const ItemNameCreation = () => {
   //   setBasedis(e.target.value.toLocaleUpperCase())
   // }, [])
 
-  const updateItemCreation = useCallback(
-    (e) => {
-      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-      setItem({ ...item, [e.target.name]: value })
-    },
-    [item],
-  )
+  const updateItemCreation = useCallback((e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    setItem({ ...item, [e.target.name]: value })
+  }, [item],)
 
+  const [order, setOrder] = useState({
+    asset_order: '',
+    item_oder: '',
+    category_order: '',
+    subCat_order: '',
+    group_order: '',
+    subGrup_order: '',
+    manufct_order: '',
+    model_order: '',
+    modelNo_order: '',
+    uom_order: '',
+  })
 
-  // const [order, setOrder] = useState({
-  //   asset_order: 1,
-  //   item_oder: 2,
-  //   category_order: 3,
-  //   subCat_order: 4,
-  //   group_order: 5,
-  //   subGrup_order: 6,
-  //   manufct_order: 7,
-  //   model_order: 8,
-  //   modelNo_order: 9,
-  //   uom_order: 10,
-  // })
+  const { asset_order, item_oder, category_order, subCat_order, group_order, subGrup_order, manufct_order,
+    model_order, modelNo_order, uom_order } = order
 
-  // const { asset_order, item_oder, category_order, subCat_order, group_order, subGrup_order, manufct_order,
-  //   model_order, modelNo_order, uom_order } = order
-
-  // const updateOrder = useCallback(
-  //   (e) => {
-  //     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-  //     setOrder({ ...order, [e.target.name]: value })
-  //   },
-  //   [order],
-  // )
   useEffect(() => {
     if (assettype !== 0) {
       setAssetNameDis(assetName)
@@ -330,35 +319,46 @@ const ItemNameCreation = () => {
   const [itemNamee, setItemNamee] = useState('')
 
   useEffect(() => {
-    let arrayys = [{ status: assetTypeStatus, name: assetNameDis },
-    { status: itemTypeStatus, name: itemNameDis }, { status: subcatStatus, name: subcatDis }, { status: categoryStatus, name: categoryDis },
-    { status: groupStatus, name: groupDis },
-    { status: subgroupStatus, name: subgroupDis }, { status: manufactureStatus, name: manufactureDis },
-    { status: modelStatus, name: modelDis }, { status: submodelStatus, name: submodelDis },
-    { status: modelNoStatus, name: modelNoDis }, { status: uomStatus, name: uomDis },
-    { status: baseStatus, name: baseDis }]
 
+    // if(subCat_order===)
+    let arrayys = [{ order: asset_order, status: assetTypeStatus, name: assetNameDis },
+    { order: item_oder, status: itemTypeStatus, name: itemNameDis },
+    { order: category_order, status: categoryStatus, name: categoryDis },
+    { order: subCat_order, status: subcatStatus, name: subcatDis },
+    { order: group_order, status: groupStatus, name: groupDis },
+    { order: subGrup_order, status: subgroupStatus, name: subgroupDis },
+    { order: manufct_order, status: manufactureStatus, name: manufactureDis },
+    { order: model_order, status: modelStatus, name: modelDis },
+    // { order: asset_order, status: submodelStatus, name: submodelDis },
+    { order: modelNo_order, status: modelNoStatus, name: modelNoDis },
+    { order: uom_order, status: uomStatus, name: uomDis },
+      // { order: asset_order, status: baseStatus, name: baseDis }
+    ]
+    //Remove Unchecked feilds
     let filterName = arrayys?.filter((e) => e.name !== null && e.status === true);
-
-    let stringName = filterName?.map((e) => e.name).join(' ')
+    //Sort By given Order
+    let sortArry = filterName.sort((a, b) => a.order - b.order)
+    //Joining
+    let stringName = sortArry?.map((e) => e.name).join(' ')
     setItemNamee(stringName)
   }, [assetTypeStatus, assetNameDis, itemTypeStatus, itemNameDis, categoryStatus, categoryDis,
     subcatStatus, subcatDis, groupStatus, groupDis, subgroupStatus, subgroupDis, manufactureStatus,
     manufactureDis, modelStatus, modelDis, submodelStatus, submodelDis, modelNoStatus, modelNoDis,
-    uomStatus, uomDis, baseStatus, baseDis])
+    uomStatus, uomDis, baseStatus, baseDis, asset_order, item_oder, category_order, subCat_order,
+    group_order, subGrup_order, manufct_order, model_order, modelNo_order, uom_order])
 
   const postdata = useMemo(() => {
     return {
-      item_asset_type_slno: assettype,
-      item_type_slno: itemtype,
-      item_category_slno: category,
-      item_subcategory_slno: subcategory,
-      item_group_slno: group,
-      item_uom_slno: uom,
-      item_model_slno: model,
-      item_submodel_slno: submodel,
-      item_subgroup_slno: subgroup,
-      item_manufactures_slno: manufacture,
+      item_asset_type_slno: assettype === 0 ? null : assettype,
+      item_type_slno: itemtype === 0 ? null : itemtype,
+      item_category_slno: category === 0 ? null : category,
+      item_subcategory_slno: subcategory === 0 ? null : subcategory,
+      item_group_slno: group === 0 ? null : group,
+      item_uom_slno: uom === 0 ? null : uom,
+      item_model_slno: model === 0 ? null : model,
+      item_submodel_slno: submodel === 0 ? null : submodel,
+      item_subgroup_slno: subgroup === 0 ? null : subgroup,
+      item_manufactures_slno: manufacture === 0 ? null : manufacture,
       item_name: itemNamee,
       item_base_name: item_base_name,
       item_model_num: modelNo !== '' ? modelNo.toLocaleUpperCase() : null,
@@ -373,16 +373,16 @@ const ItemNameCreation = () => {
   const patchdata = useMemo(() => {
     return {
       item_creation_slno: item_creation_slno,
-      item_asset_type_slno: assettype,
-      item_type_slno: itemtype,
-      item_category_slno: category,
-      item_subcategory_slno: subcategory,
-      item_group_slno: group,
-      item_uom_slno: uom,
-      item_model_slno: model,
-      item_submodel_slno: submodel,
-      item_subgroup_slno: subgroup,
-      item_manufactures_slno: manufacture,
+      item_asset_type_slno: assettype === 0 ? null : assettype,
+      item_type_slno: itemtype === 0 ? null : itemtype,
+      item_category_slno: category === 0 ? null : category,
+      item_subcategory_slno: subcategory === 0 ? null : subcategory,
+      item_group_slno: group === 0 ? null : group,
+      item_uom_slno: uom === 0 ? null : uom,
+      item_model_slno: model === 0 ? null : model,
+      item_submodel_slno: submodel === 0 ? null : submodel,
+      item_subgroup_slno: subgroup === 0 ? null : subgroup,
+      item_manufactures_slno: manufacture === 0 ? null : manufacture,
       item_name: itemNamee,
       item_base_name: item_base_name,
       item_model_num: modelNo !== '' ? modelNo.toLocaleUpperCase() : null,
@@ -467,6 +467,20 @@ const ItemNameCreation = () => {
     setitem_base_name('')
     setBasedis('')
     setbaseStatus(true)
+    const orderReset = {
+      asset_order: '',
+      item_oder: '',
+      category_order: '',
+      subCat_order: '',
+      group_order: '',
+      subGrup_order: '',
+      manufct_order: '',
+      model_order: '',
+      modelNo_order: '',
+      uom_order: '',
+    }
+    setOrder(orderReset)
+
   }, [setItem, setCount, setValue, setItemtype, setAssetType, setCategory, setSubcategory, setGroup, setSubGroup, setManufacture, setUOM,
     setModel, setSubmodel, setModelNo, setItemNamee, setAssetName, setItemName, setCategoryName, setSubcatName, setGroupName,
     setSubgroupName, setModelName, setSubmodelName, setUomName, setManufactureName, setAssetTypeStatus, setItemTypeSatus, setCategorySatus,
@@ -556,10 +570,7 @@ const ItemNameCreation = () => {
       }
       else UpdateItem(patchdata)
       reset()
-    },
-
-    [postdata, value, count, patchdata, reset, selectFile, assetName, itemName],
-  )
+    }, [postdata, value, count, patchdata, reset, selectFile, assetName, itemName],)
 
   const rowSelect = useCallback((params) => {
     setValue(1)
@@ -569,6 +580,7 @@ const ItemNameCreation = () => {
       item_uom_slno, item_manufactures_slno, item_name, item_base_name, item_model_num,
       item_specific_one, item_specific_two, item_creation_status, asset_spare
     } = data[0]
+
     const frmdata = {
       item_creation_slno: item_creation_slno,
       item_specific_one: item_specific_one,
@@ -579,14 +591,14 @@ const ItemNameCreation = () => {
     setItem(frmdata)
     setAssetType(item_asset_type_slno)
     setItemtype(item_type_slno)
-    setCategory(item_category_slno)
-    setSubcategory(item_subcategory_slno)
-    setGroup(item_group_slno)
-    setSubGroup(item_subgroup_slno)
-    setManufacture(item_manufactures_slno)
-    setUOM(item_uom_slno)
-    setModel(item_model_slno)
-    setSubmodel(item_submodel_slno)
+    setCategory(item_category_slno === null ? 0 : item_category_slno)
+    setSubcategory(item_subcategory_slno === null ? 0 : item_subcategory_slno)
+    setGroup(item_group_slno === null ? 0 : item_group_slno)
+    setSubGroup(item_subgroup_slno === null ? 0 : item_subgroup_slno)
+    setManufacture(item_manufactures_slno === null ? 0 : item_manufactures_slno)
+    setUOM(item_uom_slno === null ? 0 : item_uom_slno)
+    setModel(item_model_slno === null ? 0 : item_model_slno)
+    setSubmodel(item_submodel_slno === null ? 0 : item_submodel_slno)
     setItemNamee(item_name)
     setModelNo(item_model_num !== null ? item_model_num : '')
     setasset(asset_spare === 1 ? true : false)
@@ -708,6 +720,35 @@ const ItemNameCreation = () => {
     setCheckExsitOpen(true)
   }, [])
 
+  const updateOrder = useCallback((e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    if (/[0-9]/.test(value) === true) {
+      if (value > 0 && value <= 10) {
+        const newValue = parseInt(value)
+        if (asset_order !== newValue && item_oder !== newValue && category_order !== newValue
+          && subCat_order !== newValue && group_order !== newValue && subGrup_order !== newValue &&
+          manufct_order !== newValue && model_order !== newValue && modelNo_order !== newValue &&
+          uom_order !== newValue) {
+          setOrder({ ...order, [e.target.name]: newValue })
+        }
+        else {
+          warningNotify("Do Not enter same values")
+        }
+      }
+      else {
+        warningNotify("Enter number In Between 1 and 10")
+      }
+    }
+    else {
+      warningNotify("Please Enter number")
+    }
+
+  }, [order, asset_order, item_oder, category_order, subCat_order, group_order, subGrup_order,
+    manufct_order, model_order, modelNo_order, uom_order])
+
+
+
+
   return (
     <Box>
       <CardMaster
@@ -763,14 +804,13 @@ const ItemNameCreation = () => {
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
             <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, height: "1%", pt: 0.1, textAlign: "center" }}>
-              {/* <TextFieldCustom
+              <TextFieldCustom
                 type="text"
                 size="sm"
-                placeholder="Order"
                 name="asset_order"
                 value={asset_order}
                 onchange={updateOrder}
-              ></TextFieldCustom> */}
+              ></TextFieldCustom>
             </Box>
             <Box sx={{ pl: 0.8, pt: 0.8 }}>
               <CusCheckBox
@@ -802,14 +842,13 @@ const ItemNameCreation = () => {
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
             <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
-              {/* <TextFieldCustom
+              <TextFieldCustom
                 type="text"
                 size="sm"
-                placeholder="Order"
                 name="item_oder"
                 value={item_oder}
                 onchange={updateOrder}
-              ></TextFieldCustom> */}
+              ></TextFieldCustom>
             </Box>
             <Box sx={{ pl: 0.8, pt: 0.8 }}>
               <CusCheckBox
@@ -840,14 +879,13 @@ const ItemNameCreation = () => {
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
             <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
-              {/* <TextFieldCustom
+              <TextFieldCustom
                 type="text"
                 size="sm"
-                placeholder="Order"
                 name="category_order"
                 value={category_order}
                 onchange={updateOrder}
-              ></TextFieldCustom> */}
+              ></TextFieldCustom>
             </Box>
             <Box sx={{ pl: 0.8, pt: 0.8 }}>
               <CusCheckBox
@@ -883,14 +921,13 @@ const ItemNameCreation = () => {
           </Box> */}
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
             <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
-              {/* <TextFieldCustom
+              <TextFieldCustom
                 type="text"
                 size="sm"
-                placeholder="Order"
                 name="subCat_order"
                 value={subCat_order}
                 onchange={updateOrder}
-              ></TextFieldCustom> */}
+              ></TextFieldCustom>
             </Box>
             <Box sx={{ pl: 0.8, pt: 0.8 }}>
               <CusCheckBox
@@ -922,14 +959,13 @@ const ItemNameCreation = () => {
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
             <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
-              {/* <TextFieldCustom
+              <TextFieldCustom
                 type="text"
                 size="sm"
-                placeholder="Order"
                 name="group_order"
                 value={group_order}
                 onchange={updateOrder}
-              ></TextFieldCustom> */}
+              ></TextFieldCustom>
             </Box>
             <Box sx={{ pl: 0.8, pt: 0.8 }}>
               <CusCheckBox
@@ -959,14 +995,13 @@ const ItemNameCreation = () => {
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
             <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
-              {/* <TextFieldCustom
+              <TextFieldCustom
                 type="text"
                 size="sm"
-                placeholder="Order"
                 name="subGrup_order"
                 value={subGrup_order}
                 onchange={updateOrder}
-              ></TextFieldCustom> */}
+              ></TextFieldCustom>
             </Box>
             <Box sx={{ pl: 0.8, pt: 0.8 }}>
               <CusCheckBox
@@ -999,14 +1034,13 @@ const ItemNameCreation = () => {
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
             <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
-              {/* <TextFieldCustom
+              <TextFieldCustom
                 type="text"
                 size="sm"
-                placeholder="Order"
                 name="manufct_order"
                 value={manufct_order}
                 onchange={updateOrder}
-              ></TextFieldCustom> */}
+              ></TextFieldCustom>
             </Box>
             <Box sx={{ pl: 0.8, pt: 0.8 }}>
               <CusCheckBox
@@ -1038,14 +1072,13 @@ const ItemNameCreation = () => {
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
             <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
-              {/* <TextFieldCustom
+              <TextFieldCustom
                 type="text"
                 size="sm"
-                placeholder="Order"
                 name="model_order"
                 value={model_order}
                 onchange={updateOrder}
-              ></TextFieldCustom> */}
+              ></TextFieldCustom>
             </Box>
             <Box sx={{ pl: 0.8, pt: 0.8 }}>
               <CusCheckBox
@@ -1078,8 +1111,7 @@ const ItemNameCreation = () => {
               <TextFieldCustom
                 type="text"
                 size="sm"
-                placeholder="Order"
-                name="asset_order"
+                              name="asset_order"
                 value={asset_order}
                 onchange={updateOrder}
               ></TextFieldCustom>
@@ -1115,14 +1147,13 @@ const ItemNameCreation = () => {
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
             <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
-              {/* <TextFieldCustom
+              <TextFieldCustom
                 type="text"
                 size="sm"
-                placeholder="Order"
                 name="modelNo_order"
                 value={modelNo_order}
                 onchange={updateOrder}
-              ></TextFieldCustom> */}
+              ></TextFieldCustom>
             </Box>
             <Box sx={{ pl: 0.8, pt: 0.8 }}>
               <CusCheckBox
@@ -1148,20 +1179,18 @@ const ItemNameCreation = () => {
               ></TextFieldCustom>
             </Box>
             <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
-
             </Box>
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
             <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
-              {/* <TextFieldCustom
+              <TextFieldCustom
                 type="text"
                 size="sm"
-                placeholder="Order"
                 name="uom_order"
                 value={uom_order}
                 onchange={updateOrder}
-              ></TextFieldCustom> */}
+              ></TextFieldCustom>
             </Box>
             <Box sx={{ pl: 0.8, pt: 0.8 }}>
               <CusCheckBox

@@ -99,7 +99,6 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare }) => {
                                     <th style={{ width: '30%', align: "center" }}>Department</th>
                                     <th style={{ width: '30%', align: "center" }}>Department Section</th>
                                     <th style={{ width: '60%', align: "center" }}>Item Name</th>
-                                    <th style={{ width: '10%', align: "center" }}>Add Details</th>
                                     <th style={{ width: '10%', align: "center" }}>Delete</th>
                                 </tr>
                             </thead>
@@ -131,7 +130,6 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare }) => {
                                     <th style={{ width: '30%', align: "center" }}>Department</th>
                                     <th style={{ width: '30%', align: "center" }}>Department Section</th>
                                     <th style={{ width: '60%', align: "center" }}>Item Name</th>
-                                    <th style={{ width: '10%', align: "center" }}>Add Details</th>
                                     <th style={{ width: '10%', align: "center" }}>Delete</th>
                                 </tr>
                             </thead>

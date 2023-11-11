@@ -79,7 +79,8 @@ export const am_setting_two = [
     { to: '/Home/ItemType', name: 'Item Type', slno: 24 },
     { to: '/Home/AssetGroup', name: 'Group ', slno: 27 },
     { to: '/Home/PrimaryCustodian', name: 'Primary Custodian ', slno: 129 },
-    { to: '/Home/AssetModel', name: 'Model', slno: 138 }
+    { to: '/Home/AssetModel', name: 'Model', slno: 138 },
+    { to: '/Home/AssetRackMast', name: 'Asset Rack Master', slno: 161 },
 ]
 
 export const am_setting_three = [

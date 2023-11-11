@@ -119,7 +119,7 @@ const ItemListViewDept = () => {
     }, [])
 
     const backtoSetting = useCallback(() => {
-        history.push('/Home/Settings')
+        history.push('/Home')
     }, [history])
 
     return (
