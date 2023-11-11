@@ -156,12 +156,12 @@ const DMSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
 
     const patchdataOm = useMemo(() => {
         return {
-            manag_operation_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
-            manag_operation_remarks: approve === true ? remark : reject === true ? rejectremark : pending === true ? holdremark : null,
-            om_detial_analysis: approve === true ? detailAnalis : null,
-            om_approv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            dms_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            dms_remarks: approve === true ? remark : reject === true ? rejectremark : pending === true ? holdremark : null,
+            dms_detail_analysis: approve === true ? detailAnalis : null,
+            dms_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
             req_approv_slno: req_approv_slno,
-            manag_operation_user: id,
+            dms_user: id,
             req_slno: req_slno
         }
     }, [approve, reject, pending, remark, rejectremark, holdremark, req_slno, req_approv_slno, detailAnalis, id])
@@ -179,7 +179,7 @@ const DMSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
             setDetailAnalis('')
         }
         const updateInchApproval = async (patchdataOm) => {
-            const result = await axioslogin.patch('/requestRegister/approval/om', patchdataOm);
+            const result = await axioslogin.patch('/requestRegister/approval/dms', patchdataOm);
             const { success, message } = result.data;
             if (success === 2) {
                 succesNotify(message)
