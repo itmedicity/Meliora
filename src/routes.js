@@ -155,6 +155,9 @@ const PasswordManagementCredentialType = React.lazy(() => import('./views/Master
 const BackupScheduleType = React.lazy(() => import('./views/Master/BackupMaster/ScheduleType/ScheduleTypeMast'))
 const BackupScheduleTime = React.lazy(() => import('./views/Master/BackupMaster/ScheduleTime/ScheduleTimeMast'))
 const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDetails/BackupMast'))
+const AssetRackMast = React.lazy(() => import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster'))
+const AssetDeptTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DeptTransfer'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -314,6 +317,9 @@ const routes = [
   { path: '/Home/ScheduleTime', exact: true, name: 'Backup Schedule Time', component: BackupScheduleTime },
   { path: '/Home/BackupMast', exact: true, name: 'Backup Details', component: Backupmast },
   { path: '/Home/CredentialType', exact: true, name: 'Credential Type', component: PasswordManagementCredentialType },
+  { path: '/Home/AssetRackMast', exact: true, name: 'Asset Rack Master', component: AssetRackMast },
+  { path: '/Home/DeptTransfer', exact: true, name: 'Asset Rack Master', component: AssetDeptTransfer }
+
 
 ]
 

@@ -2,11 +2,10 @@ import React, { useEffect, memo, useState, Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/'
-import { getRoomBasedOnDeptSec } from 'src/redux/actions/AmRoomDeptSecBased.action';
 import { useDispatch } from 'react-redux'
+import { getSpareItemBasedSection } from 'src/redux/actions/AmSpareItemSelectBasedSec.action'
 
-const AmDeptSectionSele = ({ deptsec, setDeptSec, setDeptSecName }) => {
-
+const AmDeptSecSelectSpare = ({ deptsec, setDeptSec }) => {
     const dispatch = useDispatch();
     const deptsecList = useSelector((state) => state.getDeptsectionDept?.deptsectiondeptList)
     const [models, setModels] = useState([{ sec_id: 0, sec_name: '' }])
@@ -15,21 +14,25 @@ const AmDeptSectionSele = ({ deptsec, setDeptSec, setDeptSecName }) => {
 
     useEffect(() => {
         if (value !== null) {
+            dispatch(getSpareItemBasedSection(value.sec_id))
             setValue(value)
             setDeptSec(value.sec_id)
-            setDeptSecName(value.sec_name)
-            dispatch(getRoomBasedOnDeptSec(value.sec_id))
         } else {
             setDeptSec(0)
-            setDeptSecName('')
         }
         return
-    }, [value, setDeptSec, dispatch, setDeptSecName])
+    }, [value, setDeptSec, dispatch])
 
 
     useEffect(() => {
         deptsecList.length > 0 && setModels(deptsecList)
+        deptsecList.length === 0 && setModels(deptsecList)
+        deptsecList.length === 0 && setValue([{ sec_id: 0, sec_name: '' }])
+        deptsecList.length === 0 && setInputValue('')
     }, [deptsecList])
+
+
+
     return (
         <Fragment >
             <CssVarsProvider>
@@ -38,7 +41,7 @@ const AmDeptSectionSele = ({ deptsec, setDeptSec, setDeptSecName }) => {
                         "--Input-minHeight": "29px"
                     }}
                     value={deptsec === 0 ? models : value}
-                    placeholder="Select Model"
+                    placeholder="SelectDepartment Section"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);
@@ -60,4 +63,4 @@ const AmDeptSectionSele = ({ deptsec, setDeptSec, setDeptSecName }) => {
     )
 }
 
-export default memo(AmDeptSectionSele)
+export default memo(AmDeptSecSelectSpare)

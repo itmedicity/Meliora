@@ -6,13 +6,15 @@ import { getInchargeHodData } from 'src/redux/actions/InchargeHodChecks.action'
 import { getReqApprovDept } from 'src/redux/actions/ReqAppovDept.action'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
-import DeptApprovModel from './DeptApprovModel'
 import { IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
+import DeptApprovModel from '../DepartmentApprovals/DeptApprovModel'
+import { axioslogin } from 'src/views/Axios/Axios'
 
-const ReqDeptApproval = () => {
+const InchargeApprovalTable = () => {
+
     /*** Initializing */
     const history = useHistory();
     const dispatch = useDispatch();
@@ -22,14 +24,27 @@ const ReqDeptApproval = () => {
         return state.LoginUserData.empid
     })
 
-    //redux for geting login section id
-    const secid = useSelector((state) => {
-        return state.LoginUserData.empsecid
-    })
+    const [deptsecArry, setdeptSecArry] = useState([])
+
+
+    useEffect(() => {
+        const getdetptsections = async (id) => {
+            const result = await axioslogin.get(`/common/getdeptHoddeptsec/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const xx = data.map((val) => {
+                    return val.dept_section
+                })
+                setdeptSecArry(xx)
+            }
+        }
+        getdetptsections(id)
+    }, [id])
+
     useEffect(() => {
         dispatch(getInchargeHodData(id))
-        dispatch(getReqApprovDept(secid))
-    }, [dispatch, id, secid, count])
+        dispatch(getReqApprovDept(deptsecArry))
+    }, [dispatch, id, deptsecArry, count])
 
     const HodIncharge = useSelector((state) => {
         return state.setInchargeHodData.InchargeHoddata
@@ -50,15 +65,15 @@ const ReqDeptApproval = () => {
         }
     }, [HodIncharge])
 
-    const hod = tabledata.filter((val) => {
-        return val.hod_req === 1 && val.incharge_approve === 1
+    const incharge = tabledata.filter((val) => {
+        return val.incharge_req === 1
     })
 
     //column title setting
-    const [columnHod] = useState([
+    const [columnInch] = useState([
         {
-            headerName: 'Action', minWidth: 80, cellRenderer: params => {
-                if (params.data.manag_operation_approv !== null) {
+            headerName: 'Action', minWidth: 100, cellRenderer: params => {
+                if (params.data.hod_approve !== null && params.data.hod_req === 1) {
                     return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
                         <PublishedWithChangesOutlinedIcon />
                     </IconButton>
@@ -72,10 +87,18 @@ const ReqDeptApproval = () => {
                 }
             }
         },
-        { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
-        { headerName: "Actual Requirement", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
+        { headerName: "Req.Slno", field: "req_slno", minWidth: 150 },
+        { headerName: "Actual Requirement", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 350, filter: "true" },
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Req. Date", field: "req_date", minWidth: 250 },
+        { headerName: "Inch.Appr.Status", field: "approve_incharge", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
+        { headerName: "Incharge Remarks", field: "incharge_remarks", autoHeight: true, wrapText: true, minWidth: 350, filter: "true" },
+        { headerName: "Hod.Approve Status", field: "approve_hod", minWidth: 150, wrapText: true, },
+        { headerName: "Hod Remarks", field: "hod_remarks", minWidth: 300, wrapText: true, },
+        { headerName: "DMS.Approve Status", field: "approve_dms", minWidth: 150, wrapText: true, },
+        { headerName: "DMS Remarks", field: "remarks_dms", minWidth: 300, wrapText: true, },
+        { headerName: "MS.Approve Status", field: "approve_ms", minWidth: 150, wrapText: true, },
+        { headerName: "MS Remarks", field: "remark_ms", minWidth: 300, wrapText: true, },
         { headerName: "OM Approve Status", field: "manag_operation_approvs", minWidth: 150, wrapText: true, },
         { headerName: "OM Remarks", field: "manag_operation_remarks", minWidth: 300, wrapText: true, },
         { headerName: "SMO Approve Status", field: "senior_manage_approvs", minWidth: 150, wrapText: true, },
@@ -86,6 +109,7 @@ const ReqDeptApproval = () => {
         { headerName: "ED/MD Remarks", field: "ed_approve_remarks", minWidth: 300, wrapText: true, },
 
     ])
+
     const [model, setmodel] = useState(0)
     const [open, setOpen] = useState(false);
     const [datas, setdatas] = useState([])
@@ -104,9 +128,10 @@ const ReqDeptApproval = () => {
         history.push('/Home')
     }, [history])
 
+
     return (
         <CardCloseOnly
-            title="Hod Approval"
+            ttitle="Hod Approval"
             close={backtoSetting}
         >
             {model === 1 ?
@@ -118,14 +143,16 @@ const ReqDeptApproval = () => {
                     count={count}
                     setCount={setCount}
                     id={id} /> : null}
+
             <Box sx={{ p: 1 }}>
                 <CusAgGridForMain
-                    columnDefs={columnHod}
-                    tableData={hod}
+                    columnDefs={columnInch}
+                    tableData={incharge}
+
                 />
             </Box>
         </CardCloseOnly>
     )
 }
 
-export default memo(ReqDeptApproval)
+export default memo(InchargeApprovalTable)

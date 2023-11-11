@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import React, { useCallback, memo, useState, useEffect } from 'react'
+import React, { useCallback, memo, useState, useEffect, Fragment } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
@@ -12,8 +12,8 @@ import { getReqApprovDMS } from 'src/redux/actions/DMSApproval.action'
 import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone';
 import DMSDataCollectModel from './DMSDataCollectModel'
 import DMSApprovalModel from './DMSApprovalModel'
-import { Fragment } from 'react'
-
+import { Typography } from '@mui/material'
+import CropSquareIcon from '@mui/icons-material/CropSquare';
 
 const DmsApprovalTable = () => {
     /*** Initializing */
@@ -73,9 +73,7 @@ const DmsApprovalTable = () => {
         { headerName: "CAO/COO/MD Remarks", field: "cao_approve_remarks", minWidth: 300, wrapText: true, },
         { headerName: "ED/MD Approve Status", field: "ed_approves", minWidth: 180, wrapText: true, },
         { headerName: "ED/MD Remarks", field: "ed_approve_remarks", minWidth: 300, wrapText: true, },
-
     ])
-
 
     //Data set for edit
     const DMSApproval = useCallback((params) => {
@@ -86,7 +84,6 @@ const DmsApprovalTable = () => {
     }, [])
 
     const MessageSend = useCallback((params) => {
-
         setOpen(true)
         const data = params.api.getSelectedRows()
         setdatas(data);
@@ -97,7 +94,13 @@ const DmsApprovalTable = () => {
     const backtoSetting = useCallback(() => {
         history.push('/Home')
     }, [history])
-
+    const getRowStyle = params => {
+        if (params.data.dms_approve === 3) {
+            return { background: '#F7E987' };
+        } else if (params.data.dms_approve === 2) {
+            return { background: '#9D5353' };
+        }
+    };
 
     return (
         <CardCloseOnly
@@ -127,7 +130,37 @@ const DmsApprovalTable = () => {
                 <CusAgGridForMain
                     columnDefs={column}
                     tableData={tabledata}
+                    getRowStyle={getRowStyle}
                 />
+            </Box>
+
+            <Box sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                //   /  justifyContent: "flex-start"
+            }}>
+                <Box sx={{ display: "flex" }}>
+                    <IconButton >
+                        <CropSquareIcon sx={{ background: "#9D5353", pr: 5 }} />
+                    </IconButton>
+                </Box>
+                <Box sx={{ display: "flex", fontWeight: 400, pl: 1, pt: 1.2 }}>
+                    <Typography >
+                        Reject
+                    </Typography>
+                </Box>
+                <Box sx={{ display: "flex" }}>
+                    <IconButton >
+                        <CropSquareIcon sx={{ background: "#F7E987", pr: 5 }} />
+                    </IconButton>
+                </Box>
+                <Box sx={{ display: "flex", fontWeight: 400, pl: 1, pt: 1.2 }}>
+                    <Typography >
+                        On-Hold
+                    </Typography>
+                </Box>
+
             </Box>
 
         </CardCloseOnly>

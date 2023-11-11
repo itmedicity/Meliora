@@ -5,7 +5,6 @@ import { CssVarsProvider } from '@mui/joy/'
 import { getDesignation } from 'src/redux/actions/DeptSecDept.action';
 import { useDispatch } from 'react-redux'
 
-
 const AmDepartmentSelecct = ({ department, setDepartment, setDeptName }) => {
     const dispatch = useDispatch();
 

@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 const BackupTypeSelect = ({ backupType, setBackupType }) => {
     const backupTypeList = useMemo(() => {
         return [
-            // { id: 0, label: 'Select' },
+            { label: 'Select', id: 0 },
             { label: 'IIS Backup', id: 1 },
             { label: 'Database Backup', id: 2 },
             { label: 'Share Folder Backup', id: 3 },

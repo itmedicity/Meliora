@@ -2,34 +2,37 @@ import React, { useEffect, memo, useState, Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/'
-import { getRoomBasedOnDeptSec } from 'src/redux/actions/AmRoomDeptSecBased.action';
 import { useDispatch } from 'react-redux'
 
-const AmDeptSectionSele = ({ deptsec, setDeptSec, setDeptSecName }) => {
+const AmSpareItemListDeptSecBsed = ({ item, setItem }) => {
 
     const dispatch = useDispatch();
-    const deptsecList = useSelector((state) => state.getDeptsectionDept?.deptsectiondeptList)
-    const [models, setModels] = useState([{ sec_id: 0, sec_name: '' }])
+    const AssetItemList = useSelector((state) => state.getSpareItemBasedSection?.SpareItemBasedSectionList)
+    const [models, setModels] = useState([{ item_creatspare_creation_slnoion_slno: 0, item_name: 'Select Item name' }])
     const [value, setValue] = useState(models[0]);
     const [inputValue, setInputValue] = useState('');
-
+    console.log(AssetItemList);
     useEffect(() => {
         if (value !== null) {
             setValue(value)
-            setDeptSec(value.sec_id)
-            setDeptSecName(value.sec_name)
-            dispatch(getRoomBasedOnDeptSec(value.sec_id))
+            setItem(value.spare_creation_slno
+            )
         } else {
-            setDeptSec(0)
-            setDeptSecName('')
+            setItem(0)
         }
         return
-    }, [value, setDeptSec, dispatch, setDeptSecName])
-
+    }, [value, setItem, dispatch])
 
     useEffect(() => {
-        deptsecList.length > 0 && setModels(deptsecList)
-    }, [deptsecList])
+
+        AssetItemList.length > 0 && setModels(AssetItemList)
+        AssetItemList.length === 0 && setModels(AssetItemList)
+        AssetItemList.length === 0 && setValue([{ spare_creation_slno: 0, item_name: 'Select Item name' }])
+        AssetItemList.length === 0 && setInputValue('')
+
+    }, [AssetItemList])
+
+
     return (
         <Fragment >
             <CssVarsProvider>
@@ -37,8 +40,8 @@ const AmDeptSectionSele = ({ deptsec, setDeptSec, setDeptSecName }) => {
                     sx={{
                         "--Input-minHeight": "29px"
                     }}
-                    value={deptsec === 0 ? models : value}
-                    placeholder="Select Model"
+                    value={item === 0 ? models : value}
+                    placeholder="Select Item name"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);
@@ -51,8 +54,8 @@ const AmDeptSectionSele = ({ deptsec, setDeptSec, setDeptSecName }) => {
                     loadingText="Loading..."
                     freeSolo
                     // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
-                    isOptionEqualToValue={(option, value) => option.sec_name === value.sec_name}
-                    getOptionLabel={option => option.sec_name || ''}
+                    isOptionEqualToValue={(option, value) => option.item_name === value.item_name}
+                    getOptionLabel={option => option.item_name || ''}
                     options={models}
                 />
             </CssVarsProvider>
@@ -60,4 +63,4 @@ const AmDeptSectionSele = ({ deptsec, setDeptSec, setDeptSecName }) => {
     )
 }
 
-export default memo(AmDeptSectionSele)
+export default memo(AmSpareItemListDeptSecBsed)

@@ -127,6 +127,7 @@ import { getSubmodel } from './AmSubModelListReducer'
 import { getDeviceType } from './ItCommunicationDeviceType.Reducer'
 import { getCustodianDept } from './AmCustodianDept.Reducer'
 import { getItemBasedSection } from './AmItemSelectBsedSec.Reducer'
+import { getSpareItemBasedSection } from './AmSpareItemSelectBasedSec.Reducer'
 import { getScheduleType } from './BackupScheduleType.Reducer';
 import { getScheduleTime } from './BackupScheduleTime.Reducer';
 import { getBackupDetails, getEmployeeBackup } from './BackupDetails.Reducers';
@@ -143,6 +144,9 @@ import {
     getDaysDetails
 } from './BackupDash.Reducer';
 import { getPasswordCredential } from './ItPasswordCredential.Reducer'
+import { getRackList } from './AmRackList.Reducer'
+import { getRoomBasedOnDeptSec } from './AmRoomDeptSecBased.Reducer'
+
 
 
 const reducer = combineReducers({
@@ -278,7 +282,7 @@ const reducer = combineReducers({
     getDeviceType,
     getCustodianDept,
     getItemBasedSection,
-
+    getSpareItemBasedSection,
     getScheduleType,
     getScheduleTime,
     getBackupDetails,
@@ -293,6 +297,9 @@ const reducer = combineReducers({
     getWeeklyDetails,
     getSelectedDaysDetails,
     getDaysDetails,
-    getPasswordCredential
+    getPasswordCredential,
+    getRackList,
+    getRoomBasedOnDeptSec
+
 })
 export default reducer;

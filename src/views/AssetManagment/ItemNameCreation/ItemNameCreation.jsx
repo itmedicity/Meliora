@@ -1,7 +1,7 @@
 import { Box, Tooltip, Typography, IconButton, Input, Button } from '@mui/material'
 import React, { useCallback, memo, useEffect, useState, useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import AssetCategorySelect from 'src/views/CommonSelectCode/AssetCategorySelect'
 import AssetGroupSlect from 'src/views/CommonSelectCode/AssetGroupSlect'
 import CardMaster from 'src/views/Components/CardMaster'
@@ -15,7 +15,7 @@ import AssetSubGroupSelect from 'src/views/CommonSelectCode/AssetSubGroupSelect'
 import AssetManufactureSelect from 'src/views/CommonSelectCode/AssetManufactureSelect'
 import AssetUOMSelect from 'src/views/CommonSelectCode/AssetUOMSelect'
 import AssetModelSelect from 'src/views/CommonSelectCode/AssetModelSelect'
-import AmSubmodelSelect from 'src/views/CommonSelectCode/AmSubmodelSelect'
+// import AmSubmodelSelect from 'src/views/CommonSelectCode/AmSubmodelSelect'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 // import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined'
 import imageCompression from 'browser-image-compression';
@@ -96,7 +96,7 @@ const ItemNameCreation = () => {
   const [baseDis, setBasedis] = useState('')
   const [manufactureDis, setManufactureDis] = useState(manufactureName)
   const [modelNoDis, setModelNoDis] = useState(modelNo)
-  const [asset, setasset] = useState(false)
+  const [asset, setasset] = useState(true)
   const [spare, setSpare] = useState(false)
   const [checkExist, setCheckexist] = useState(0)
   const [checkExistOpen, setCheckExsitOpen] = useState(false)
@@ -114,6 +114,8 @@ const ItemNameCreation = () => {
     item_creation_status,
   } = item
   const [item_base_name, setitem_base_name] = useState('')
+
+
 
   const updateAsset = useCallback((e) => {
     if (e.target.checked === true) {
@@ -198,15 +200,15 @@ const ItemNameCreation = () => {
       setModelDis('')
     }
   }, [modelName])
-  const updateSubModelStatus = useCallback((e) => {
-    if (e.target.checked === true) {
-      setSubModelstatus(true)
-      setSubModelDis(submodelName)
-    } else if (e.target.checked === false) {
-      setSubModelstatus(false)
-      setSubModelDis('')
-    }
-  }, [submodelName])
+  // const updateSubModelStatus = useCallback((e) => {
+  //   if (e.target.checked === true) {
+  //     setSubModelstatus(true)
+  //     setSubModelDis(submodelName)
+  //   } else if (e.target.checked === false) {
+  //     setSubModelstatus(false)
+  //     setSubModelDis('')
+  //   }
+  // }, [submodelName])
   const updateUOMsatus = useCallback((e) => {
     if (e.target.checked === true) {
       setUOMstatus(true)
@@ -242,28 +244,41 @@ const ItemNameCreation = () => {
     setModelNoDis(e.target.value.toLocaleUpperCase())
   }, [])
 
-  const updateBasesatus = useCallback((e) => {
-    if (e.target.checked === true) {
-      setbaseStatus(true)
-      setBasedis(item_base_name)
-    } else if (e.target.checked === false) {
-      setbaseStatus(false)
-      setBasedis('')
-    }
-  }, [item_base_name])
+  // const updateBasesatus = useCallback((e) => {
+  //   if (e.target.checked === true) {
+  //     setbaseStatus(true)
+  //     setBasedis(item_base_name)
+  //   } else if (e.target.checked === false) {
+  //     setbaseStatus(false)
+  //     setBasedis('')
+  //   }
+  // }, [item_base_name])
 
-  const updateBaseName = useCallback((e) => {
-    setitem_base_name(e.target.value.toLocaleUpperCase())
-    setBasedis(e.target.value.toLocaleUpperCase())
-  }, [])
+  // const updateBaseName = useCallback((e) => {
+  //   setitem_base_name(e.target.value.toLocaleUpperCase())
+  //   setBasedis(e.target.value.toLocaleUpperCase())
+  // }, [])
 
-  const updateItemCreation = useCallback(
-    (e) => {
-      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-      setItem({ ...item, [e.target.name]: value })
-    },
-    [item],
-  )
+  const updateItemCreation = useCallback((e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    setItem({ ...item, [e.target.name]: value })
+  }, [item],)
+
+  const [order, setOrder] = useState({
+    asset_order: '',
+    item_oder: '',
+    category_order: '',
+    subCat_order: '',
+    group_order: '',
+    subGrup_order: '',
+    manufct_order: '',
+    model_order: '',
+    modelNo_order: '',
+    uom_order: '',
+  })
+
+  const { asset_order, item_oder, category_order, subCat_order, group_order, subGrup_order, manufct_order,
+    model_order, modelNo_order, uom_order } = order
 
   useEffect(() => {
     if (assettype !== 0) {
@@ -304,35 +319,46 @@ const ItemNameCreation = () => {
   const [itemNamee, setItemNamee] = useState('')
 
   useEffect(() => {
-    let arrayys = [{ status: assetTypeStatus, name: assetNameDis },
-    { status: itemTypeStatus, name: itemNameDis }, { status: categoryStatus, name: categoryDis },
-    { status: subcatStatus, name: subcatDis }, { status: groupStatus, name: groupDis },
-    { status: subgroupStatus, name: subgroupDis }, { status: manufactureStatus, name: manufactureDis },
-    { status: modelStatus, name: modelDis }, { status: submodelStatus, name: submodelDis },
-    { status: modelNoStatus, name: modelNoDis }, { status: uomStatus, name: uomDis },
-    { status: baseStatus, name: baseDis }]
 
+    // if(subCat_order===)
+    let arrayys = [{ order: asset_order, status: assetTypeStatus, name: assetNameDis },
+    { order: item_oder, status: itemTypeStatus, name: itemNameDis },
+    { order: category_order, status: categoryStatus, name: categoryDis },
+    { order: subCat_order, status: subcatStatus, name: subcatDis },
+    { order: group_order, status: groupStatus, name: groupDis },
+    { order: subGrup_order, status: subgroupStatus, name: subgroupDis },
+    { order: manufct_order, status: manufactureStatus, name: manufactureDis },
+    { order: model_order, status: modelStatus, name: modelDis },
+    // { order: asset_order, status: submodelStatus, name: submodelDis },
+    { order: modelNo_order, status: modelNoStatus, name: modelNoDis },
+    { order: uom_order, status: uomStatus, name: uomDis },
+      // { order: asset_order, status: baseStatus, name: baseDis }
+    ]
+    //Remove Unchecked feilds
     let filterName = arrayys?.filter((e) => e.name !== null && e.status === true);
-
-    let stringName = filterName?.map((e) => e.name).join(' ')
+    //Sort By given Order
+    let sortArry = filterName.sort((a, b) => a.order - b.order)
+    //Joining
+    let stringName = sortArry?.map((e) => e.name).join(' ')
     setItemNamee(stringName)
   }, [assetTypeStatus, assetNameDis, itemTypeStatus, itemNameDis, categoryStatus, categoryDis,
     subcatStatus, subcatDis, groupStatus, groupDis, subgroupStatus, subgroupDis, manufactureStatus,
     manufactureDis, modelStatus, modelDis, submodelStatus, submodelDis, modelNoStatus, modelNoDis,
-    uomStatus, uomDis, baseStatus, baseDis])
+    uomStatus, uomDis, baseStatus, baseDis, asset_order, item_oder, category_order, subCat_order,
+    group_order, subGrup_order, manufct_order, model_order, modelNo_order, uom_order])
 
   const postdata = useMemo(() => {
     return {
-      item_asset_type_slno: assettype,
-      item_type_slno: itemtype,
-      item_category_slno: category,
-      item_subcategory_slno: subcategory,
-      item_group_slno: group,
-      item_uom_slno: uom,
-      item_model_slno: model,
-      item_submodel_slno: submodel,
-      item_subgroup_slno: subgroup,
-      item_manufactures_slno: manufacture,
+      item_asset_type_slno: assettype === 0 ? null : assettype,
+      item_type_slno: itemtype === 0 ? null : itemtype,
+      item_category_slno: category === 0 ? null : category,
+      item_subcategory_slno: subcategory === 0 ? null : subcategory,
+      item_group_slno: group === 0 ? null : group,
+      item_uom_slno: uom === 0 ? null : uom,
+      item_model_slno: model === 0 ? null : model,
+      item_submodel_slno: submodel === 0 ? null : submodel,
+      item_subgroup_slno: subgroup === 0 ? null : subgroup,
+      item_manufactures_slno: manufacture === 0 ? null : manufacture,
       item_name: itemNamee,
       item_base_name: item_base_name,
       item_model_num: modelNo !== '' ? modelNo.toLocaleUpperCase() : null,
@@ -347,16 +373,16 @@ const ItemNameCreation = () => {
   const patchdata = useMemo(() => {
     return {
       item_creation_slno: item_creation_slno,
-      item_asset_type_slno: assettype,
-      item_type_slno: itemtype,
-      item_category_slno: category,
-      item_subcategory_slno: subcategory,
-      item_group_slno: group,
-      item_uom_slno: uom,
-      item_model_slno: model,
-      item_submodel_slno: submodel,
-      item_subgroup_slno: subgroup,
-      item_manufactures_slno: manufacture,
+      item_asset_type_slno: assettype === 0 ? null : assettype,
+      item_type_slno: itemtype === 0 ? null : itemtype,
+      item_category_slno: category === 0 ? null : category,
+      item_subcategory_slno: subcategory === 0 ? null : subcategory,
+      item_group_slno: group === 0 ? null : group,
+      item_uom_slno: uom === 0 ? null : uom,
+      item_model_slno: model === 0 ? null : model,
+      item_submodel_slno: submodel === 0 ? null : submodel,
+      item_subgroup_slno: subgroup === 0 ? null : subgroup,
+      item_manufactures_slno: manufacture === 0 ? null : manufacture,
       item_name: itemNamee,
       item_base_name: item_base_name,
       item_model_num: modelNo !== '' ? modelNo.toLocaleUpperCase() : null,
@@ -434,13 +460,27 @@ const ItemNameCreation = () => {
     dispatch(getUOM())
     dispatch(getAmManufacture())
     dispatch(getAmModel())
-    setasset(false)
+    setasset(true)
     setSpare(false)
     setCheckexist(0)
     setCheckExsitOpen(false)
     setitem_base_name('')
     setBasedis('')
     setbaseStatus(true)
+    const orderReset = {
+      asset_order: '',
+      item_oder: '',
+      category_order: '',
+      subCat_order: '',
+      group_order: '',
+      subGrup_order: '',
+      manufct_order: '',
+      model_order: '',
+      modelNo_order: '',
+      uom_order: '',
+    }
+    setOrder(orderReset)
+
   }, [setItem, setCount, setValue, setItemtype, setAssetType, setCategory, setSubcategory, setGroup, setSubGroup, setManufacture, setUOM,
     setModel, setSubmodel, setModelNo, setItemNamee, setAssetName, setItemName, setCategoryName, setSubcatName, setGroupName,
     setSubgroupName, setModelName, setSubmodelName, setUomName, setManufactureName, setAssetTypeStatus, setItemTypeSatus, setCategorySatus,
@@ -530,10 +570,7 @@ const ItemNameCreation = () => {
       }
       else UpdateItem(patchdata)
       reset()
-    },
-
-    [postdata, value, count, patchdata, reset, selectFile, assetName, itemName],
-  )
+    }, [postdata, value, count, patchdata, reset, selectFile, assetName, itemName],)
 
   const rowSelect = useCallback((params) => {
     setValue(1)
@@ -543,6 +580,7 @@ const ItemNameCreation = () => {
       item_uom_slno, item_manufactures_slno, item_name, item_base_name, item_model_num,
       item_specific_one, item_specific_two, item_creation_status, asset_spare
     } = data[0]
+
     const frmdata = {
       item_creation_slno: item_creation_slno,
       item_specific_one: item_specific_one,
@@ -553,14 +591,14 @@ const ItemNameCreation = () => {
     setItem(frmdata)
     setAssetType(item_asset_type_slno)
     setItemtype(item_type_slno)
-    setCategory(item_category_slno)
-    setSubcategory(item_subcategory_slno)
-    setGroup(item_group_slno)
-    setSubGroup(item_subgroup_slno)
-    setManufacture(item_manufactures_slno)
-    setUOM(item_uom_slno)
-    setModel(item_model_slno)
-    setSubmodel(item_submodel_slno)
+    setCategory(item_category_slno === null ? 0 : item_category_slno)
+    setSubcategory(item_subcategory_slno === null ? 0 : item_subcategory_slno)
+    setGroup(item_group_slno === null ? 0 : item_group_slno)
+    setSubGroup(item_subgroup_slno === null ? 0 : item_subgroup_slno)
+    setManufacture(item_manufactures_slno === null ? 0 : item_manufactures_slno)
+    setUOM(item_uom_slno === null ? 0 : item_uom_slno)
+    setModel(item_model_slno === null ? 0 : item_model_slno)
+    setSubmodel(item_submodel_slno === null ? 0 : item_submodel_slno)
     setItemNamee(item_name)
     setModelNo(item_model_num !== null ? item_model_num : '')
     setasset(asset_spare === 1 ? true : false)
@@ -635,10 +673,10 @@ const ItemNameCreation = () => {
     setSubGroupFlag(1)
     setSubGroupOpen(true)
   }
-  const SubModeell = () => {
-    setSubModelFlag(1)
-    setSubModelOpen(true)
-  }
+  // const SubModeell = () => {
+  //   setSubModelFlag(1)
+  //   setSubModelOpen(true)
+  // }
 
   const handleClose = useCallback(() => {
     setAssetTypeFlag(0)
@@ -682,6 +720,35 @@ const ItemNameCreation = () => {
     setCheckExsitOpen(true)
   }, [])
 
+  const updateOrder = useCallback((e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    if (/[0-9]/.test(value) === true) {
+      if (value > 0 && value <= 10) {
+        const newValue = parseInt(value)
+        if (asset_order !== newValue && item_oder !== newValue && category_order !== newValue
+          && subCat_order !== newValue && group_order !== newValue && subGrup_order !== newValue &&
+          manufct_order !== newValue && model_order !== newValue && modelNo_order !== newValue &&
+          uom_order !== newValue) {
+          setOrder({ ...order, [e.target.name]: newValue })
+        }
+        else {
+          warningNotify("Do Not enter same values")
+        }
+      }
+      else {
+        warningNotify("Enter number In Between 1 and 10")
+      }
+    }
+    else {
+      warningNotify("Please Enter number")
+    }
+
+  }, [order, asset_order, item_oder, category_order, subCat_order, group_order, subGrup_order,
+    manufct_order, model_order, modelNo_order, uom_order])
+
+
+
+
   return (
     <Box>
       <CardMaster
@@ -701,463 +768,562 @@ const ItemNameCreation = () => {
         {ModelFlag === 1 ? <ModelModal open={ModelOpen} handleClose={handleClose} /> : null}
         {SubGroupFlag === 1 ? <SubGroupModal open={SubGroupOpen} handleClose={handleClose} /> : null}
         {SubModelFlag === 1 ? <SubModelModal open={SubModelOpen} handleClose={handleClose} /> : null}
-        <Box sx={{ width: '40%', display: 'flex', pt: 2.5, margin: 'auto ', pl: 13 }}>
 
-          <Box sx={{ pl: 0.8, }}>
-            <CusCheckBox
-              label="Asset"
-              color="primary"
-              size="md"
-              name="asset"
-              value={asset}
-              checked={asset}
-              onCheked={updateAsset}
-            ></CusCheckBox>
-          </Box>
-          <Box sx={{ pl: 0.8, }}>
-            <CusCheckBox
-              label="Spare"
-              color="primary"
-              size="md"
-              name="spare"
-              value={spare}
-              checked={spare}
-              onCheked={updateSpare}
-            ></CusCheckBox>
-          </Box>
-          <Box sx={{ width: '80%', pl: 0.8, }}>
-            <Button onClick={checkExistOtNot} variant="contained"
-              size="small" color="primary">List</Button>
+        <Box sx={{ width: { sm: "95%", md: "85%", lg: "50%", xl: "50%", xxl: "50%" }, display: 'flex', pt: 2.5, margin: 'auto ', pl: 13, flexDirection: 'column' }}>
+
+
+          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 0 }}>
+            <Box sx={{ pl: 10, width: '20%' }}>
+              <CusCheckBox
+                label="Asset"
+                color="primary"
+                size="md"
+                name="asset"
+                value={asset}
+                checked={asset}
+                onCheked={updateAsset}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ pl: 10, width: '20%' }}>
+              <CusCheckBox
+                label="Spare"
+                color="primary"
+                size="md"
+                name="spare"
+                value={spare}
+                checked={spare}
+                onCheked={updateSpare}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ pl: 10, width: '50%', pb: 1 }}>
+              <Button onClick={checkExistOtNot} variant="contained"
+                size="small" color="primary">Search</Button>
+            </Box>
           </Box>
 
-        </Box>
-        <Box sx={{ width: '50%', display: 'flex', pt: 2.5, margin: 'auto ' }}>
-          <Box sx={{ pl: 0.8, }}>
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="assetTypeStatus"
-              value={assetTypeStatus}
-              checked={assetTypeStatus}
-              onCheked={updateAssetTypeStatus}
-            ></CusCheckBox>
+
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
+            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, height: "1%", pt: 0.1, textAlign: "center" }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                name="asset_order"
+                value={asset_order}
+                onchange={updateOrder}
+              ></TextFieldCustom>
+            </Box>
+            <Box sx={{ pl: 0.8, pt: 0.8 }}>
+              <CusCheckBox
+                color="primary"
+                size="md"
+                name="assetTypeStatus"
+                value={assetTypeStatus}
+                checked={assetTypeStatus}
+                onCheked={updateAssetTypeStatus}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+              <Typography>Asset type</Typography>
+            </Box>
+            <Box sx={{ width: '55%', pt: 0.5 }}>
+              <AmAssetTypeSelect
+                assettype={assettype}
+                setAssetType={setAssetType}
+                setName={setAssetName}
+                assetName={assetName}
+              />
+            </Box>
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+              <Tooltip title="Add " placement="top">
+                <AddCircleOutlineIcon onClick={() => modelAsset()} />
+              </Tooltip>
+            </Box>
           </Box>
-          <Box sx={{ width: '20%', pl: 1, }} >
-            <Typography>Asset type</Typography>
+
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
+            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                name="item_oder"
+                value={item_oder}
+                onchange={updateOrder}
+              ></TextFieldCustom>
+            </Box>
+            <Box sx={{ pl: 0.8, pt: 0.8 }}>
+              <CusCheckBox
+                color="primary"
+                size="md"
+                name="itemTypeStatus"
+                value={itemTypeStatus}
+                checked={itemTypeStatus}
+                onCheked={updateItemStatus}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+              <Typography>Item Type</Typography>
+            </Box>
+            <Box sx={{ width: '55%', pt: 0.5 }}>
+              <AssetItemSelect
+                itemtype={itemtype}
+                setItemtype={setItemtype}
+                setName={setItemName}
+                itemName={itemName} />
+            </Box>
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+              <Tooltip title="Add " placement="top">
+                <AddCircleOutlineIcon onClick={() => modelItem()} />
+              </Tooltip>
+            </Box>
           </Box>
-          <Box sx={{ width: '55%', }}>
-            <AmAssetTypeSelect
-              assettype={assettype}
-              setAssetType={setAssetType}
-              setName={setAssetName}
-              assetName={assetName}
-            />
-          </Box>
-          <Box sx={{ width: '5%', pl: 1, }} >
-            <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => modelAsset()} />
-            </Tooltip>
-          </Box>
-        </Box>
-        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}>
-          <Box sx={{ pl: 0.8, pt: 1.3, }}>
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="itemTypeStatus"
-              value={itemTypeStatus}
-              checked={itemTypeStatus}
-              onCheked={updateItemStatus}
-            ></CusCheckBox>
-          </Box>
-          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
-            <Typography>Item Type</Typography>
-          </Box>
-          <Box sx={{ width: '55%', pt: 1.3, }}>
-            <AssetItemSelect
-              itemtype={itemtype}
-              setItemtype={setItemtype}
-              setName={setItemName}
-              itemName={itemName} />
-          </Box>
-          <Box sx={{ width: '5%', pl: 1, pt: 1.3, }}>
-            <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => modelItem()} />
-            </Tooltip>
-          </Box>
-        </Box>
-        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}>
-          <Box sx={{ pl: 0.8, pt: 1.3, }} >
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="categoryStatus"
-              value={categoryStatus}
-              checked={categoryStatus}
-              onCheked={updateCategoryStatus}
-            ></CusCheckBox>
-          </Box>
-          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }} >
-            <Typography>Category</Typography>
-          </Box>
-          <Box sx={{ width: '55%', pt: 1.3, }}>
-            <AssetCategorySelect
-              category={category}
-              setCategory={setCategory}
-              setName={setCategoryName}
-              categoryName={categoryName}
-            />
-          </Box>
-          <Box sx={{ width: '5%', pl: 1, pt: 1.3, }}>
-            <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => modelCategory()} />
-            </Tooltip>
+
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
+            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                name="category_order"
+                value={category_order}
+                onchange={updateOrder}
+              ></TextFieldCustom>
+            </Box>
+            <Box sx={{ pl: 0.8, pt: 0.8 }}>
+              <CusCheckBox
+                color="primary"
+                size="md"
+                name="categoryStatus"
+                value={categoryStatus}
+                checked={categoryStatus}
+                onCheked={updateCategoryStatus}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+              <Typography>Category</Typography>
+            </Box>
+            <Box sx={{ width: '55%', pt: 0.5 }}>
+              <AssetCategorySelect
+                category={category}
+                setCategory={setCategory}
+                setName={setCategoryName}
+                categoryName={categoryName}
+              />
+            </Box>
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+              <Tooltip title="Add " placement="top">
+                <AddCircleOutlineIcon onClick={() => modelCategory()} />
+              </Tooltip>
+            </Box>
           </Box>
           {/* <Box sx={{ width: '5%', pt: 1.3, }}>
             <Tooltip title="View " placement="top">
               <RemoveRedEyeOutlinedIcon />
             </Tooltip>
           </Box> */}
-        </Box>
-        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}>
-          <Box sx={{ pl: 0.8, pt: 1.3, }}>
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="subcatStatus"
-              value={subcatStatus}
-              checked={subcatStatus}
-              onCheked={updateSubcatStatus}
-            ></CusCheckBox>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
+            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                name="subCat_order"
+                value={subCat_order}
+                onchange={updateOrder}
+              ></TextFieldCustom>
+            </Box>
+            <Box sx={{ pl: 0.8, pt: 0.8 }}>
+              <CusCheckBox
+                color="primary"
+                size="md"
+                name="subcatStatus"
+                value={subcatStatus}
+                checked={subcatStatus}
+                onCheked={updateSubcatStatus}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+              <Typography>Subcategory</Typography>
+            </Box>
+            <Box sx={{ width: '55%', pt: 0.5 }}>
+              <AssetSubcategorySelect
+                category={category}
+                subcategory={subcategory}
+                setSubcategory={setSubcategory}
+                setName={setSubcatName}
+              />
+            </Box>
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+              <Tooltip title="Add " placement="top">
+                <AddCircleOutlineIcon onClick={() => modelSubCategory()} />
+              </Tooltip>
+            </Box>
           </Box>
-          <Box sx={{ width: '20%', pl: 1, pt: 1.3 }}>
-            <Typography>Subcategory</Typography>
-          </Box>
-          <Box sx={{ width: '55%', pt: 1.3 }}>
-            <AssetSubcategorySelect
-              category={category}
-              subcategory={subcategory}
-              setSubcategory={setSubcategory}
-              setName={setSubcatName}
-            />
-          </Box>
-          <Box sx={{ width: '5%', pl: 1, pt: 1.3, }}>
-            <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => modelSubCategory()} />
-            </Tooltip>
-          </Box>
-          {/* <Box sx={{ width: '5%', pt: 1.3, }}>
-            <Tooltip title="View " placement="top">
-              <RemoveRedEyeOutlinedIcon />
-            </Tooltip>
-          </Box> */}
-        </Box>
-        <Box sx={{ width: '50%', display: 'flex', margin: 'auto' }}>
-          <Box sx={{ pl: 0.8, pt: 1.3 }} >
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="groupStatus"
-              value={groupStatus}
-              checked={groupStatus}
-              onCheked={updateGroupStatus}
-            ></CusCheckBox>
-          </Box>
-          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
-            <Typography>Group</Typography>
-          </Box>
-          <Box sx={{ width: '55%', pt: 1.3 }}>
-            <AssetGroupSlect
-              group={group}
-              setGroup={setGroup}
-              groupName={groupName}
-              setName={setGroupName} />
-          </Box>
-          <Box sx={{ width: '5%', pl: 1, pt: 1.3, }} >
-            <Tooltip title="Add  " placement="top">
-              <AddCircleOutlineIcon onClick={() => modelGroup()} />
-            </Tooltip>
-          </Box>
-          {/* <Box sx={{ width: '5%', pt: 1.3, }}>
-            <Tooltip title="View " placement="top">
-              <RemoveRedEyeOutlinedIcon />
-            </Tooltip>
-          </Box> */}
-        </Box>
 
-        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}>
-          <Box sx={{ pl: 0.8, pt: 1.3, }}>
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="subgroupStatus"
-              value={subgroupStatus}
-              checked={subgroupStatus}
-              onCheked={updateSubGroupStatus}
-            ></CusCheckBox>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
+            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                name="group_order"
+                value={group_order}
+                onchange={updateOrder}
+              ></TextFieldCustom>
+            </Box>
+            <Box sx={{ pl: 0.8, pt: 0.8 }}>
+              <CusCheckBox
+                color="primary"
+                size="md"
+                name="groupStatus"
+                value={groupStatus}
+                checked={groupStatus}
+                onCheked={updateGroupStatus}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+              <Typography>Group</Typography>
+            </Box>
+            <Box sx={{ width: '55%', pt: 0.5 }}>
+              <AssetGroupSlect
+                group={group}
+                setGroup={setGroup}
+                groupName={groupName}
+                setName={setGroupName} />
+            </Box>
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+              <Tooltip title="Add  " placement="top">
+                <AddCircleOutlineIcon onClick={() => modelGroup()} />
+              </Tooltip>
+            </Box>
           </Box>
-          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
-            <Typography>Subgroup</Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
+            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                name="subGrup_order"
+                value={subGrup_order}
+                onchange={updateOrder}
+              ></TextFieldCustom>
+            </Box>
+            <Box sx={{ pl: 0.8, pt: 0.8 }}>
+              <CusCheckBox
+                color="primary"
+                size="md"
+                name="subgroupStatus"
+                value={subgroupStatus}
+                checked={subgroupStatus}
+                onCheked={updateSubGroupStatus}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+              <Typography>Subgroup</Typography>
+            </Box>
+            <Box sx={{ width: '55%', pt: 0.5 }}>
+              <AssetSubGroupSelect
+                setSubGroup={setSubGroup}
+                group={group}
+                setName={setSubgroupName}
+                subgroup={subgroup}
+                subgroupName={subgroupName}
+              />
+            </Box>
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+              <Tooltip title="Add " placement="top">
+                <AddCircleOutlineIcon onClick={() => SubgroupModal()} />
+              </Tooltip>
+            </Box>
           </Box>
-          <Box sx={{ width: '55%', pt: 1.3, }}>
-            <AssetSubGroupSelect
-              setSubGroup={setSubGroup}
-              group={group}
-              setName={setSubgroupName}
-              subgroup={subgroup}
-              subgroupName={subgroupName}
-            />
-          </Box>
-          <Box sx={{ width: '5%', pl: 1, pt: 1 }} >
-            <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => SubgroupModal()} />
-            </Tooltip>
-          </Box>
-          {/* <Box sx={{ width: '5%', pt: 1, }}>
-            <Tooltip title="View " placement="top">
-              <RemoveRedEyeOutlinedIcon />
-            </Tooltip>
-          </Box> */}
-        </Box><Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}       >
-          <Box sx={{ pl: 0.8, pt: 1.3, }}      >
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="manufactureStatus"
-              value={manufactureStatus}
-              checked={manufactureStatus}
-              onCheked={updateManufactureStatus}
-            ></CusCheckBox>
-          </Box>
-          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
-            <Typography>Manufacture</Typography>
-          </Box>
-          <Box sx={{ width: '55%', pt: 1.3, }}>
-            <AssetManufactureSelect
-              manufacture={manufacture}
-              setManufacture={setManufacture}
-              setName={setManufactureName}
-              manufactureName={manufactureName}
-            />
-          </Box>
-          <Box sx={{ width: '5%', pl: 1, pt: 1, }}>
-            <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => modelManufacture()} />
-            </Tooltip>
-          </Box>
-        </Box>
-        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }} >
-          <Box sx={{ pl: 0.8, pt: 1.3, }}>
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="modelStatus"
-              value={modelStatus}
-              checked={modelStatus}
-              onCheked={updateModelStatus}
-            ></CusCheckBox>
-          </Box>
-          <Box sx={{ width: '20%', pl: 1, pt: 1.3 }}>
-            <Typography>Model</Typography>
-          </Box>
-          <Box sx={{ width: '55%', pt: 1.3, }}>
-            <AssetModelSelect
-              model={model}
-              setModel={setModel}
-              setName={setModelName}
-              modelName={modelName} />
-          </Box>
-          <Box sx={{ width: '5%', pl: 1, pt: 1, }}>
-            <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => modelModal()} />
-            </Tooltip>
-          </Box>
-          {/* <Box sx={{ width: '5%', pt: 1, }}>
-            <Tooltip title="View " placement="top">
-              <RemoveRedEyeOutlinedIcon />
-            </Tooltip>
-          </Box> */}
-        </Box>
-        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}  >
-          <Box sx={{ pl: 0.8, pt: 1.3, }}>
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="submodelStatus"
-              value={submodelStatus}
-              checked={submodelStatus}
-              onCheked={updateSubModelStatus}
-            ></CusCheckBox>
-          </Box>
-          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
-            <Typography>Submodel</Typography>
-          </Box>
-          <Box sx={{ width: '55%', pt: 1.3, }}>
-            <AmSubmodelSelect
-              submodel={submodel}
-              setSubmodel={setSubmodel}
-              model={model}
-              setName={setSubmodelName}
-              submodelName={submodelName}
-            />
-          </Box>
-          <Box sx={{ width: '5%', pl: 1, pt: 1, }}>
-            <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => SubModeell()} />
-            </Tooltip>
-          </Box>
-          {/* <Box sx={{ width: '5%', pt: 1, }}>
-            <Tooltip title="View " placement="top">
-              <RemoveRedEyeOutlinedIcon />
-            </Tooltip>
-          </Box> */}
-        </Box>
 
-        <Box sx={{ width: '50%', display: 'flex', margin: 'auto', }}  >
-          <Box sx={{ pl: 0.8, pt: 1.3, }}>
-            <CusCheckBox
-              color="primary"
-              size="md"
-              name="modelNoStatus"
-              value={modelNoStatus}
-              checked={modelNoStatus}
-              onCheked={updateModelNoStatus}
-            ></CusCheckBox>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
+            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                name="manufct_order"
+                value={manufct_order}
+                onchange={updateOrder}
+              ></TextFieldCustom>
+            </Box>
+            <Box sx={{ pl: 0.8, pt: 0.8 }}>
+              <CusCheckBox
+                color="primary"
+                size="md"
+                name="manufactureStatus"
+                value={manufactureStatus}
+                checked={manufactureStatus}
+                onCheked={updateManufactureStatus}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+              <Typography>Manufacture</Typography>
+            </Box>
+            <Box sx={{ width: '55%', pt: 0.5 }}>
+              <AssetManufactureSelect
+                manufacture={manufacture}
+                setManufacture={setManufacture}
+                setName={setManufactureName}
+                manufactureName={manufactureName}
+              />
+            </Box>
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+              <Tooltip title="Add " placement="top">
+                <AddCircleOutlineIcon onClick={() => modelManufacture()} />
+              </Tooltip>
+            </Box>
           </Box>
-          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
-            <Typography>Model No.</Typography>
+
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
+            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                name="model_order"
+                value={model_order}
+                onchange={updateOrder}
+              ></TextFieldCustom>
+            </Box>
+            <Box sx={{ pl: 0.8, pt: 0.8 }}>
+              <CusCheckBox
+                color="primary"
+                size="md"
+                name="modelStatus"
+                value={modelStatus}
+                checked={modelStatus}
+                onCheked={updateModelStatus}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+              <Typography>Model</Typography>
+            </Box>
+            <Box sx={{ width: '55%', pt: 0.5 }}>
+              <AssetModelSelect
+                model={model}
+                setModel={setModel}
+                setName={setModelName}
+                modelName={modelName} />
+            </Box>
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+              <Tooltip title="Add " placement="top">
+                <AddCircleOutlineIcon onClick={() => modelModal()} />
+              </Tooltip>
+            </Box>
           </Box>
-          <Box sx={{ width: '55%', pt: 1.3, }}>
+          {/* <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
+            <Box sx={{ pl: 0.8, width: { sm: "7%", md: "7%", lg: "5%" }, pt: 0.1 }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                              name="asset_order"
+                value={asset_order}
+                onchange={updateOrder}
+              ></TextFieldCustom>
+            </Box>
+            <Box sx={{ pl: 0.8, pt: 0.8 }}>
+              <CusCheckBox
+                color="primary"
+                size="md"
+                name="submodelStatus"
+                value={submodelStatus}
+                checked={submodelStatus}
+                onCheked={updateSubModelStatus}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+              <Typography>Submodel</Typography>
+            </Box>
+            <Box sx={{ width: '55%', pt: 0.5 }}>
+              <AmSubmodelSelect
+                submodel={submodel}
+                setSubmodel={setSubmodel}
+                model={model}
+                setName={setSubmodelName}
+                submodelName={submodelName}
+              />
+            </Box>
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+              <Tooltip title="Add " placement="top">
+                <AddCircleOutlineIcon onClick={() => SubModeell()} />
+              </Tooltip>
+            </Box>
+          </Box> */}
+
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
+            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                name="modelNo_order"
+                value={modelNo_order}
+                onchange={updateOrder}
+              ></TextFieldCustom>
+            </Box>
+            <Box sx={{ pl: 0.8, pt: 0.8 }}>
+              <CusCheckBox
+                color="primary"
+                size="md"
+                name="modelNoStatus"
+                value={modelNoStatus}
+                checked={modelNoStatus}
+                onCheked={updateModelNoStatus}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+              <Typography>Model No.</Typography>
+            </Box>
+            <Box sx={{ width: '55%', pt: 0.5 }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                placeholder="Model Number"
+                name="modelNo"
+                value={modelNo}
+                onchange={updateModelNo}
+              ></TextFieldCustom>
+            </Box>
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            </Box>
+          </Box>
+
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
+            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+              <TextFieldCustom
+                type="text"
+                size="sm"
+                name="uom_order"
+                value={uom_order}
+                onchange={updateOrder}
+              ></TextFieldCustom>
+            </Box>
+            <Box sx={{ pl: 0.8, pt: 0.8 }}>
+              <CusCheckBox
+                color="primary"
+                size="md"
+                name="uomStatus"
+                value={uomStatus}
+                checked={uomStatus}
+                onCheked={updateUOMsatus}
+              ></CusCheckBox>
+            </Box>
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+              <Typography>U.O.M</Typography>
+            </Box>
+            <Box sx={{ width: '55%', pt: 0.5 }}>
+              <AssetUOMSelect
+                uom={uom}
+                setUOM={setUOM}
+                setName={setUomName}
+                uomName={uomName} />
+            </Box>
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+              <Tooltip title="Add " placement="top">
+                <AddCircleOutlineIcon onClick={() => modelUOM()} />
+              </Tooltip>
+            </Box>
+          </Box>
+          {/* <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
+            <Box sx={{ display: 'flex', width: '82%', pt: 1, margin: 'auto' }}>
+              <Box sx={{ pl: 1.9, }}>
+                <CusCheckBox
+                  color="primary"
+                  size="md"
+                  name="baseStatus"
+                  value={baseStatus}
+                  checked={baseStatus}
+                  onCheked={updateBasesatus}
+                ></CusCheckBox>
+              </Box>
+              <Box sx={{ width: '13%', ml: 0.5 }}   >
+                <Typography>Base name</Typography>
+              </Box>
+              <Box sx={{ width: '90%' }}>
+                <TextFieldCustom
+                  type="text"
+                  size="sm"
+                  name="item_base_name"
+                  value={item_base_name}
+                  onchange={updateBaseName}
+                ></TextFieldCustom>
+              </Box>
+            </Box>
+          </Box> */}
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 20, pt: 1, justifyContent: "space-evenly" }}>
+          <Box sx={{ width: "12%", }}>
+            <Typography>Item Name</Typography>
+          </Box>
+          <Box sx={{ width: "80%", }}>
             <TextFieldCustom
               type="text"
               size="sm"
-              placeholder="Model Number"
-              name="modelNo"
-              value={modelNo}
-              onchange={updateModelNo}
+              name="itemNamee"
+              value={itemNamee}
             ></TextFieldCustom>
           </Box>
         </Box>
 
-        <Box sx={{ width: '50%', display: 'flex', margin: 'auto' }}>
-          <Box sx={{ pl: 0.8, pt: 1.3, }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 20, pt: 1, justifyContent: "space-evenly" }}>
+
+          <Box sx={{ width: "12%", }}>
+            <Typography>Specification 1</Typography>
+          </Box>
+          <Box sx={{ width: "80%", }}>
+            <CssVarsProvider>
+              <Textarea
+                type="text"
+                size="sm"
+                placeholder="Specification 1"
+                variant="outlined"
+                minRows={2}
+                maxRows={4}
+                name="item_specific_one"
+                value={item_specific_one}
+                onChange={(e) => updateItemCreation(e)}
+              >
+              </Textarea>
+            </CssVarsProvider>
+          </Box>
+
+
+        </Box>
+
+
+        <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 20, pt: 1, justifyContent: "space-evenly" }}>
+
+          <Box sx={{ width: "12%", }}>
+            <Typography>Specification 2</Typography>
+          </Box>
+          <Box sx={{ width: "80%", }}>
+            <CssVarsProvider>
+              <Textarea
+                type="text"
+                size="sm"
+                placeholder="Specification 2"
+                variant="outlined"
+                minRows={2}
+                maxRows={4}
+                name="item_specific_two"
+                value={item_specific_two}
+                onChange={(e) => updateItemCreation(e)}
+              >
+              </Textarea>
+            </CssVarsProvider>
+          </Box>
+
+
+        </Box>
+
+        <Box sx={{ display: 'flex', flexDirection: 'row', width: '70%', pl: 15, pt: 1, justifyContent: "space-evenly" }}>
+          <Box sx={{ width: '15%', margin: 'auto', pl: 2.3 }}      >
             <CusCheckBox
+              label="Status"
               color="primary"
               size="md"
-              name="uomStatus"
-              value={uomStatus}
-              checked={uomStatus}
-              onCheked={updateUOMsatus}
+              name="item_creation_status"
+              value={item_creation_status}
+              checked={item_creation_status}
+              onCheked={updateItemCreation}
             ></CusCheckBox>
           </Box>
-          <Box sx={{ width: '20%', pl: 1, pt: 1.3, }}>
-            <Typography>U.O.M</Typography>
-          </Box>
-          <Box sx={{ width: '55%', pt: 1.3, }}>
-            <AssetUOMSelect
-              uom={uom}
-              setUOM={setUOM}
-              setName={setUomName}
-              uomName={uomName} />
-          </Box>
-          <Box sx={{ width: '5%', pl: 1, pt: 1, }}>
-            <Tooltip title="Add " placement="top">
-              <AddCircleOutlineIcon onClick={() => modelUOM()} />
-            </Tooltip>
-          </Box>
-        </Box>
-
-        <Box sx={{ display: 'flex', width: '80%', ml: 15 }}>
-          <Box sx={{ display: 'flex', width: '82%', pt: 1, margin: 'auto' }}>
-            <Box sx={{ pl: 1.9, }}>
-              <CusCheckBox
-                color="primary"
-                size="md"
-                name="baseStatus"
-                value={baseStatus}
-                checked={baseStatus}
-                onCheked={updateBasesatus}
-              ></CusCheckBox>
-            </Box>
-            <Box sx={{ width: '13%', ml: 0.5 }}   >
-              <Typography>Base name</Typography>
-            </Box>
-            <Box sx={{ width: '90%' }}>
-              <TextFieldCustom
-                type="text"
-                size="sm"
-                name="item_base_name"
-                value={item_base_name}
-                onchange={updateBaseName}
-              ></TextFieldCustom>
-            </Box>
-          </Box>
-        </Box>
-
-        <Box sx={{ display: 'flex', width: '80%', ml: 14 }}>
-          <Box sx={{ display: 'flex', width: '84%', pt: 1, margin: 'auto' }}>
-            <Box sx={{ width: '15%', ml: 4 }}   >
-              <Typography>Specification 1</Typography>
-            </Box>
-            <Box sx={{ width: '83%' }}>
-              <CssVarsProvider>
-                <Textarea
-                  type="text"
-                  size="sm"
-                  placeholder="Specification 1"
-                  variant="outlined"
-                  minRows={2}
-                  maxRows={4}
-                  name="item_specific_one"
-                  value={item_specific_one}
-                  onChange={(e) => updateItemCreation(e)}
-                >
-                </Textarea>
-              </CssVarsProvider>
-            </Box>
-          </Box>
-        </Box>
-
-        <Box sx={{ display: 'flex', width: '80%', ml: 14 }}>
-          <Box sx={{ display: 'flex', width: '84%', pt: 1, margin: 'auto' }}>
-            <Box sx={{ width: '15%', ml: 4 }}   >
-              <Typography>Specification 2</Typography>
-            </Box>
-            <Box sx={{ width: '83%' }}>
-              <CssVarsProvider>
-                <Textarea
-                  type="text"
-                  size="sm"
-                  placeholder="Specification 2"
-                  variant="outlined"
-                  minRows={2}
-                  maxRows={4}
-                  name="item_specific_two"
-                  value={item_specific_two}
-                  onChange={(e) => updateItemCreation(e)}
-                >
-                </Textarea>
-              </CssVarsProvider>
-            </Box>
-          </Box>
-        </Box>
-
-        <Box sx={{ display: 'flex', width: '85%', ml: 20 }}>
-          <Box sx={{ display: 'flex', width: '90%', pt: 1, margin: 'auto' }}>
-            <Box sx={{ width: '13%', ml: 10, mr: 2 }}   >
-              <Typography>Item creation</Typography>
-            </Box>
-            <Box sx={{ width: '83%' }}>
-              <TextFieldCustom
-                type="text"
-                size="sm"
-                name="itemNamee"
-                value={itemNamee}
-              ></TextFieldCustom>
-            </Box>
-          </Box>
-          <Box sx={{ display: 'flex', width: '200px' }}>
-            <Box sx={{ pt: 1 }}>
+          <Box sx={{ display: 'flex', width: "75%" }}>
+            <Box sx={{}}>
               <label htmlFor="file-input">
                 <CustomeToolTip title="upload">
                   <IconButton color="primary" aria-label="upload file" component="span">
@@ -1178,17 +1344,7 @@ const ItemNameCreation = () => {
             </Box>
           </Box>
         </Box>
-        <Box sx={{ width: '65%', margin: 'auto' }}      >
-          <CusCheckBox
-            label="Status"
-            color="primary"
-            size="md"
-            name="item_creation_status"
-            value={item_creation_status}
-            checked={item_creation_status}
-            onCheked={updateItemCreation}
-          ></CusCheckBox>
-        </Box>
+
       </CardMaster >
       <Box sx={{ width: '100%' }}>
         <ItemNameCreationTable count={count} rowSelect={rowSelect} />

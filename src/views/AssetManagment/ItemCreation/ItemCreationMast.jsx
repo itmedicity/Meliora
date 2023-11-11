@@ -77,31 +77,60 @@ const ItemCreationMast = () => {
       submodel !== 0 || manufacture !== 0 || modelNumber !== '') {
       getItemdata(postdata)
 
-    }
-    else {
+    } else {
       warningNotify("Please Select Any Options")
     }
-
-
   }, [postdata, category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber])
+
   const [flag, setFlag] = useState(0)
 
   const [selectData, setSelectData] = useState([])
   const [dataAdd, setDataAdd] = useState(0)
 
+  const [department, setDepartment] = useState(0)
+  const [deptsec, setDeptSec] = useState(0)
+  const [deptName, setDeptName] = useState('')
+  const [deptSecName, setDeptSecName] = useState('')
+  const [custodiandept, setCustodianDept] = useState(0)
+  const [custdeptName, setcustdeptname] = useState('')
+  const [rackno, setrackNo] = useState(0)
+  const [rackname, setrackName] = useState('')
+  const [roomNo, setRoomNo] = useState(0)
+  const [roonName, setRoomName] = useState('')
+  const [count, setCount] = useState('')
+
+  const reset = useCallback(() => {
+    setDepartment(0)
+    setDeptSec(0)
+    setDeptName('')
+    setDeptSecName('')
+    setCustodianDept(0)
+    setcustdeptname('')
+    setrackNo(0)
+    setrackName('')
+    setRoomNo(0)
+    setRoomName('')
+    setCount('')
+  }, [])
+
+
+  useEffect(() => {
+    setFlag(0)
+    setDataAdd(0)
+  }, [category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber])
 
   const rowSelect = useCallback((val) => {
+    reset()
+    setSelectData([])
     setSelectData(val);
     setDataAdd(dataAdd + 1)
 
-  }, [dataAdd, setDataAdd])
+  }, [dataAdd, setDataAdd, reset])
 
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history.push('/Home')
   }, [history])
 
-
-  const [disArry, setDisArry] = useState([])
   return (
     <Box sx={{
       display: 'flex',
@@ -214,8 +243,29 @@ const ItemCreationMast = () => {
           {
             dataAdd !== 0 ?
               <ItemAddingComp selectData={selectData}
-                setDisArry={setDisArry}
-                disArry={disArry} />
+                department={department}
+                setDepartment={setDepartment}
+                deptsec={deptsec}
+                setDeptSec={setDeptSec}
+                deptName={deptName}
+                setDeptName={setDeptName}
+                deptSecName={deptSecName}
+                setDeptSecName={setDeptSecName}
+                custodiandept={custodiandept}
+                setCustodianDept={setCustodianDept}
+                custdeptName={custdeptName}
+                setcustdeptname={setcustdeptname}
+                rackno={rackno}
+                setrackNo={setrackNo}
+                rackname={rackname}
+                setrackName={setrackName}
+                roomNo={roomNo}
+                setRoomNo={setRoomNo}
+                roonName={roonName}
+                setRoomName={setRoomName}
+                count={count}
+                setCount={setCount}
+              />
               : null
           }
 
