@@ -7,9 +7,9 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
-import PasswordDeviceTypeTable from './PasswordDeviceTypeTable'
+import PasswordCredentialTable from './PasswordCredentialTable'
 
-const PasswordDeviceType = () => {
+const PasswordCredentialType = () => {
     const [value, setValue] = useState(0)
     const [count, setCount] = useState(0)
     const history = useHistory()
@@ -17,64 +17,62 @@ const PasswordDeviceType = () => {
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
-    const [deviceType, setDeviceType] = useState({
-        device_type_slno: '',
-        device_type_name: '',
-        device_type_status: false,
+    const [credential, setcredential] = useState({
+        credential_slno: '',
+        credential_name: '',
+        credential_status: false,
     })
-    const { device_type_slno, device_type_name, device_type_status } = deviceType
-    const updateDeviceType = useCallback(
+    const { credential_slno, credential_name, credential_status } = credential
+    const updatecredential = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-            setDeviceType({ ...deviceType, [e.target.name]: value })
+            setcredential({ ...credential, [e.target.name]: value })
         },
-        [deviceType],
+        [credential],
     )
     const postdata = useMemo(() => {
         return {
-            device_type_name: device_type_name,
-            device_type_status: device_type_status === true ? 1 : 0,
+            credential_name: credential_name,
+            credential_status: credential_status === true ? 1 : 0,
             create_user: id
         }
-    }, [device_type_name, device_type_status, id])
+    }, [credential_name, credential_status, id])
     const patchdata = useMemo(() => {
         return {
-            device_type_slno: device_type_slno,
-            device_type_name: device_type_name,
-            device_type_status: device_type_status === true ? 1 : 0,
+            credential_slno: credential_slno,
+            credential_name: credential_name,
+            credential_status: credential_status === true ? 1 : 0,
             edit_user: id
 
         }
-    }, [device_type_slno, device_type_name, device_type_status, id])
+    }, [credential_slno, credential_name, credential_status, id])
     const rowSelect = useCallback((params) => {
         setValue(1)
         const data = params.api.getSelectedRows()
-        const { device_type_slno, device_type_name, device_type_status } = data[0]
+        const { credential_slno, credential_name, credential_status } = data[0]
         const frmdata = {
-            device_type_slno: device_type_slno,
-            device_type_name: device_type_name,
-            device_type_status: device_type_status === 1 ? true : false,
+            credential_slno: credential_slno,
+            credential_name: credential_name,
+            credential_status: credential_status === 1 ? true : false,
         }
-        setDeviceType(frmdata)
+        setcredential(frmdata)
     }, [])
     const reset = useCallback(() => {
         const frmdata = {
-            device_type_slno: '',
-            device_type_name: '',
-            device_type_status: false,
+            credential_slno: '',
+            credential_name: '',
+            credential_status: false,
         }
-        setDeviceType(frmdata)
+        setcredential(frmdata)
         setCount(0)
         setValue(0)
-    }, [setDeviceType, setCount, setValue]);
+    }, [setcredential, setCount, setValue]);
 
-    const submitdeviceType = useCallback(
+    const submitcredential = useCallback(
         (e) => {
             e.preventDefault()
-
-            const InsertdeviceType = async (postdata) => {
-                const result = await axioslogin.post('/PasswordDeviceType/insert', postdata)
-
+            const Insertcredential = async (postdata) => {
+                const result = await axioslogin.post('/PasswordCredentialType/insert', postdata)
                 const { message, success } = result.data
                 if (success === 1) {
                     succesNotify(message)
@@ -86,8 +84,8 @@ const PasswordDeviceType = () => {
                     infoNotify(message)
                 }
             }
-            const deviceTypeUpdate = async (patchdata) => {
-                const result = await axioslogin.patch('/PasswordDeviceType/update', patchdata)
+            const credentialUpdate = async (patchdata) => {
+                const result = await axioslogin.patch('/PasswordCredentialType/update', patchdata)
                 const { message, success } = result.data
                 if (success === 2) {
                     succesNotify(message)
@@ -99,23 +97,20 @@ const PasswordDeviceType = () => {
                     infoNotify(message)
                 }
             }
-
             if (value === 0) {
-                if (device_type_name !== '') {
-                    InsertdeviceType(postdata)
-
+                if (credential_name !== '') {
+                    Insertcredential(postdata)
                 }
                 else {
-                    infoNotify("Please Enter Device Type")
+                    infoNotify("Please fill the feild")
                 }
             }
             else {
-                deviceTypeUpdate(patchdata)
+                credentialUpdate(patchdata)
             }
         },
-        [postdata, value, patchdata, reset, count, device_type_name],
+        [postdata, value, patchdata, reset, count, credential_name],
     )
-
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
@@ -124,8 +119,8 @@ const PasswordDeviceType = () => {
     }, [reset])
     return (
         <CardMaster
-            title="Password Management Device type"
-            submit={submitdeviceType}
+            title="Credential Type Master"
+            submit={submitcredential}
             close={backtoSetting}
             refresh={refreshWindow}
         >
@@ -133,12 +128,12 @@ const PasswordDeviceType = () => {
                 <Box sx={{ width: '30%', p: 1 }}>
                     <Box>
                         <TextFieldCustom
-                            placeholder="Device Type"
+                            placeholder="Credential"
                             type="text"
                             size="sm"
-                            name="device_type_name"
-                            value={device_type_name}
-                            onchange={updateDeviceType}
+                            name="credential_name"
+                            value={credential_name}
+                            onchange={updatecredential}
                         ></TextFieldCustom>
                     </Box>
                     <Box sx={{ pt: 1 }}>
@@ -146,20 +141,20 @@ const PasswordDeviceType = () => {
                             label="status"
                             color="primary"
                             size="md"
-                            name="device_type_status"
-                            value={device_type_status}
-                            checked={device_type_status}
-                            onCheked={updateDeviceType}
+                            name="credential_status"
+                            value={credential_status}
+                            checked={credential_status}
+                            onCheked={updatecredential}
                         ></CusCheckBox>
                     </Box>
                 </Box>
                 <Box sx={{ width: '70%' }}>
-                    <PasswordDeviceTypeTable count={count} rowSelect={rowSelect} />
+                    <PasswordCredentialTable count={count} rowSelect={rowSelect} />
                 </Box>
             </Box>
         </CardMaster>
     )
 }
 
+export default memo(PasswordCredentialType)
 
-export default memo(PasswordDeviceType)

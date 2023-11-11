@@ -4,11 +4,11 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 import EditButton from 'src/views/Components/EditButton'
 
-const PasswordDeviceTypeTable = ({ count, rowSelect }) => {
+const PasswordCredentialTable = ({ count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
     const [column] = useState([
-        { headerName: 'SlNo', field: 'device_type_slno' },
-        { headerName: 'Device type', field: 'device_type_name' },
+        { headerName: 'SlNo', field: 'credential_slno' },
+        { headerName: 'Device type', field: 'credential_name' },
         { headerName: 'Status', field: 'status' },
         {
             headerName: 'Action',
@@ -17,7 +17,7 @@ const PasswordDeviceTypeTable = ({ count, rowSelect }) => {
     ])
     useEffect(() => {
         const setModel = async () => {
-            const result = await axioslogin.get('PasswordDeviceType/view')
+            const result = await axioslogin.get('PasswordCredentialType/view')
             const { success, data } = result.data
             if (success === 2) {
                 setTabledata(data)
@@ -30,4 +30,4 @@ const PasswordDeviceTypeTable = ({ count, rowSelect }) => {
     return <CusAgGridMast columnDefs={column} tableData={tabledata} />
 }
 
-export default memo(PasswordDeviceTypeTable)
+export default memo(PasswordCredentialTable)

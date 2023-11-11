@@ -142,6 +142,7 @@ import {
     getSelectedDaysDetails,
     getDaysDetails
 } from './BackupDash.Reducer';
+import { getPasswordCredential } from './ItPasswordCredential.Reducer'
 
 
 const reducer = combineReducers({
@@ -291,6 +292,7 @@ const reducer = combineReducers({
     getWeeklyBackup,
     getWeeklyDetails,
     getSelectedDaysDetails,
-    getDaysDetails
+    getDaysDetails,
+    getPasswordCredential
 })
 export default reducer;

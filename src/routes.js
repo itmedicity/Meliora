@@ -151,7 +151,7 @@ const DeviceType = React.lazy(() => import('./views/Master/ItMasters/communicati
 const WifiManageMenT = React.lazy(() => import('./views/ItManagement/WifiManagement/WifiManageMentMains'))
 const CustodianDeptmt = React.lazy(() => import('./views/Master/AssetMasters/CustodianDepartment/CustodianDeptMast'))
 const AssetItemListView = React.lazy(() => import('./views/AssetManagment/ItemListView/ItemListViewDept'))
-const PasswordManagementDeviceType = React.lazy(() => import('./views/Master/ItMasters/passwordManagement/PasswordDeviceType'))
+const PasswordManagementCredentialType = React.lazy(() => import('./views/Master/ItMasters/passwordManagement/PasswordCredentialType'))
 const BackupScheduleType = React.lazy(() => import('./views/Master/BackupMaster/ScheduleType/ScheduleTypeMast'))
 const BackupScheduleTime = React.lazy(() => import('./views/Master/BackupMaster/ScheduleTime/ScheduleTimeMast'))
 const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDetails/BackupMast'))
@@ -309,10 +309,11 @@ const routes = [
   { path: '/Home/WifiManageMenT', exact: true, name: 'Wifi Management', component: WifiManageMenT },
   { path: '/Home/CusodianDepartment', exact: true, name: 'Custodian Department', component: CustodianDeptmt },
   { path: '/Home/AssetItemListView', exact: true, name: 'Asset Item List View', component: AssetItemListView },
-  { path: '/Home/PasswordManagementDeviceType', exact: true, name: 'DeviceType PasswordManagement', component: PasswordManagementDeviceType },
+  // { path: '/Home/PasswordManagementDeviceType', exact: true, name: 'DeviceType PasswordManagement', component: PasswordManagementDeviceType },
   { path: '/Home/ScheduleType', exact: true, name: 'Backup Schedule Type', component: BackupScheduleType },
   { path: '/Home/ScheduleTime', exact: true, name: 'Backup Schedule Time', component: BackupScheduleTime },
   { path: '/Home/BackupMast', exact: true, name: 'Backup Details', component: Backupmast },
+  { path: '/Home/CredentialType', exact: true, name: 'Credential Type', component: PasswordManagementCredentialType },
 
 ]
 

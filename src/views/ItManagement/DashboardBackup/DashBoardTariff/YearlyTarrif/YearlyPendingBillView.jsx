@@ -67,18 +67,14 @@ const YearlyPendingBillView = ({ setBackdashboard, setyearlyPendingBill, YearlyP
           bill_number: val.bill_number,
           bill_due_date: val.bill_due_date
         }
-
         return obj
       })
-
       setTabledata(arr)
     }
   }, [YearlyPendingData])
   return (
     <Paper>
-
       <CardMasterClose
-        // title={MonthlyTarriff }
         style={{ overflow: 'hidden' }}
         close={backtoSetting}
       >
@@ -89,7 +85,6 @@ const YearlyPendingBillView = ({ setBackdashboard, setyearlyPendingBill, YearlyP
           count={count}
           getarry={getarry} editFlag={editFlag} /> : null}
         <Typography sx={{ fontWeight: 10, fontSize: 28, fontFamily: 'Anton', color: '#003060' }}>Add Yearly Pending Bills</Typography>
-        {/* <MonthlyTable editForSelect={editForSelect} /> */}
         <CssVarsProvider>
           <Paper variant="outlined" sx={{ maxHeight: 720, maxWidth: '100%', overflow: 'auto' }}>
             <CssVarsProvider>
@@ -98,7 +93,6 @@ const YearlyPendingBillView = ({ setBackdashboard, setyearlyPendingBill, YearlyP
                 <thead>
                   <tr>
                     <th style={{ width: '4%' }}>Add</th>
-                    {/* <th style={{width:'5%'}}>Action</th> */}
                     <th style={{ width: '5%' }} >SlNo</th>
                     <th style={{ width: '9%', }}>Device Name</th>
                     <th >Device Type</th>
@@ -107,25 +101,18 @@ const YearlyPendingBillView = ({ setBackdashboard, setyearlyPendingBill, YearlyP
                     <th>Reciever Emp ID</th>
                     <th>Sim Operator</th>
                     <th>Amount</th>
-
-
-
                   </tr>
                 </thead>
-
                 <tbody>
-
                   {
                     tabledata.map((val, index) => {
                       return <tr key={index}
                         style={{ height: 8, background: val.payed_status === null ? '#D6DBDF' : val.payed_status === 0 ? '#D6DBDF' : 'transparent' }}>
                         <td>
-
                           <PlaylistAddCircleIcon sx={{ cursor: 'pointer' }} size={6}
                             onClick={() => editForSelect(val)}
                           />
                         </td>
-
                         <td> {index + 1}</td>
                         <td>{val.device_name}</td>
                         <td> {val.device_type_name}</td>
@@ -134,26 +121,14 @@ const YearlyPendingBillView = ({ setBackdashboard, setyearlyPendingBill, YearlyP
                         <td> {val.receiver_emp_id}</td>
                         <td> {val.providername}</td>
                         <td> {val.amount}</td>
-
-
-
                       </tr>
-
                     })}
-
-
                 </tbody>
-
-
-
               </Table>
             </CssVarsProvider>
           </Paper>
-
         </CssVarsProvider>
-
       </CardMasterClose>
-
     </Paper>
   )
 }

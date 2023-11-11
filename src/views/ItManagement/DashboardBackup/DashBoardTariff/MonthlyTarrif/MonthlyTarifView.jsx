@@ -143,7 +143,7 @@ const MonthlyTarifView = ({ monthlydata, setBackdashboard, setmonthly, setMonthl
               selectedMonthlyBillImages={selectedMonthlyBillImages} getarry={getarry} /> : null}
           <CssVarsProvider>
             <Box sx={{ display: 'flex' }}>
-              <Box sx={{ flex: 5, }}><Typography sx={{ fontWeight: 10, fontSize: 28, fontFamily: 'Anton', color: '#003060' }}>Monthly Tarrif </Typography></Box>
+              <Box sx={{ flex: 5, }}><Typography sx={{ fontWeight: 10, fontSize: 28, fontFamily: 'Anton', color: '#003060' }}>Monthly Tariff </Typography></Box>
               <Paper sx={{ width: 30, height: 20, backgroundColor: '#D6DBDF', mt: 1 }}></Paper><Box sx={{ flex: 1, pl: 1, pt: .5 }}> pending bill</Box>
             </Box>
             <Paper variant="outlined" sx={{ maxHeight: 750, maxWidth: '100%', overflow: 'auto' }}>

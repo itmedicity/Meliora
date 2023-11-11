@@ -40,14 +40,12 @@ const YearlyTariffView = ({ yearlydata, setBackdashboard, setyearly, yearCount, 
   }, [])
 
   const fileView = async (val) => {
-
     const { yearly_slno } = val;
     setgetarry(val);
     setAddModalFlag(0);
     setaddModalOpen(false);
     setimageViewModalFlag(0); // Initialize imageViewModalFlag to 0 initially
     setimageViewModalOpen(false); // Close the modal if it was open
-
     try {
       const result = await axioslogin.get(`/ItImageUpload/uploadFile/getYearlyBillImages/${yearly_slno}`);
       const { success } = result.data;
@@ -58,7 +56,6 @@ const YearlyTariffView = ({ yearlydata, setBackdashboard, setyearly, yearCount, 
           return `http://192.168.22.9/NAS/YearlyBll/${yearly_slno}/${fileName}`;
         });
         setImageUrls(fileUrls);
-
         // Open the modal only if there are files
         if (fileUrls.length > 0) {
           setimageViewModalFlag(1);
@@ -74,8 +71,6 @@ const YearlyTariffView = ({ yearlydata, setBackdashboard, setyearly, yearCount, 
       warningNotify('Error in fetching files:', error);
     }
   }
-
-
   useEffect(() => {
     if (yearlydata.length !== 0) {
       const arr = yearlydata?.map((val) => {
@@ -136,7 +131,7 @@ const YearlyTariffView = ({ yearlydata, setBackdashboard, setyearly, yearCount, 
           selectedYearlyBillImage={selectedYearlyBillImage} getarry={getarry} /> : null}
       <CssVarsProvider>
         <Box sx={{ display: 'flex' }}>
-          <Box sx={{ flex: 5 }}><Typography sx={{ fontWeight: 10, fontSize: 28, fontFamily: 'Anton', color: '#003060' }}>Yearly Tarrif </Typography></Box>
+          <Box sx={{ flex: 5 }}><Typography sx={{ fontWeight: 10, fontSize: 28, fontFamily: 'Anton', color: '#003060' }}>Yearly Tariff </Typography></Box>
           <Paper sx={{ width: 30, height: 20, backgroundColor: '#D6DBDF', mt: 1 }}></Paper>
           <Box sx={{ flex: 1, pl: 1, pt: .5 }}> pending bill</Box>
         </Box>
@@ -147,12 +142,10 @@ const YearlyTariffView = ({ yearlydata, setBackdashboard, setyearly, yearCount, 
                 <tr>
                   <th style={{ width: 50 }} >SlNo</th>
                   <th style={{ width: 60 }}>Action</th>
-
                   <th style={{ width: 80 }}>Bills View</th>
                   <th style={{ width: 200, }}>Sim Operator</th>
                   <th style={{ width: 180, }}>Sim Mobile No</th>
                   <th style={{ width: 150, }}>Tarrif Amount</th>
-                  {/* <th style={{ width: 150, }}>Bill Payed</th> */}
                   <th style={{ width: 150, }}>Bill Amount</th>
                   <th style={{ width: 180, }} >Bill Date</th>
                   <th style={{ width: 180, }} >Bill Due Date</th>
@@ -171,9 +164,7 @@ const YearlyTariffView = ({ yearlydata, setBackdashboard, setyearly, yearCount, 
                     return <tr key={index}
                       style={{ height: 8, background: val.payed_status === null ? '#D6DBDF' : val.payed_status === 0 ? '#D6DBDF' : 'transparent' }}>
                       <td> {index + 1}</td>
-
                       <td><EditIcon sx={{ cursor: 'pointer', color: '#055C9D' }} size={6} onClick={() => editForSelect(val)} /></td>
-
                       <td style={{ cursor: 'pointer', textAlign: 'center' }}>
                         <PermMediaIcon style={{ height: '20px', width: '20px', color: '#41729F' }}
                           onClick={() => fileView(val)} />

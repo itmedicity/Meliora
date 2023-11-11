@@ -44,7 +44,7 @@ const CommunicationDevice = () => {
   }, [])
 
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history.push('/Home/DashboardBackup')
   }, [history])
 
   return (
@@ -54,7 +54,6 @@ const CommunicationDevice = () => {
       >
         {AddModalFlag === 1 ? <ModalCommunicationDevice open={addModalOpen} handleClose={handleClose} setCount={setCount}
           count={count}
-          // getarry={getarry}
           editFlag={editFlag} /> : null}
         {editModalFlag === 1 ? <CommunicationModalEdit open={editModalOpen} handleClose={handleClose}
           setCount={setCount}
