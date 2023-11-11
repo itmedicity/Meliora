@@ -11,7 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 
 const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
-    const { am_item_map_slno, assetno } = detailArry
+    const { am_item_map_slno, assetno, am_asset_old_no } = detailArry
     const { am_manufacture_no } = grndetailarry
 
     // Get login user emp_id
@@ -37,11 +37,11 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
             const frmdata = {
                 manufacturslno: am_manufacture_no !== undefined ? am_manufacture_no : '',
                 asset_no: assetno !== null ? assetno : '',
-                asset_noold: assetno !== null ? assetno : '',
+                asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
             }
             setUserdata(frmdata);
         }
-    }, [am_manufacture_no, assetno])
+    }, [am_manufacture_no, assetno, am_asset_old_no])
 
     const postdata = useMemo(() => {
         return {
@@ -170,7 +170,7 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                             size="sm"
                             name="asset_noold"
                             value={asset_noold}
-                            disabled={disableflag}
+                            onchange={updateDeviceDetails}
                         ></TextFieldCustom>
                     </Box>
                 </Box>

@@ -13,8 +13,14 @@ import { useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import AmCustodianDeptsele from 'src/views/CommonSelectCode/AmCustodianDeptsele'
+import AssetRackSelect from 'src/views/CommonSelectCode/AssetRackSelect'
+import { getRackList } from 'src/redux/actions/AmRackList.action'
+import AmRoomSelecDeptSecBased from 'src/views/CommonSelectCode/AmRoomSelecDeptSecBased'
 
-const ItemAddingComp = ({ selectData }) => {
+const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDeptSec,
+    deptName, setDeptName, deptSecName, setDeptSecName, custodiandept, setCustodianDept,
+    custdeptName, setcustdeptname, rackno, setrackNo, rackname, setrackName, roomNo,
+    setRoomNo, roonName, setRoomName, count, setCount, }) => {
     // Get login user emp_id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -22,13 +28,8 @@ const ItemAddingComp = ({ selectData }) => {
     const { slno, Item_name, type } = selectData
     const dispatch = useDispatch();
 
-    const [department, setDepartment] = useState(0)
-    const [deptsec, setDeptSec] = useState(0)
-    const [deptName, setDeptName] = useState('')
-    const [deptSecName, setDeptSecName] = useState('')
-    const [count, setCount] = useState('')
-    const [custodiandept, setCustodianDept] = useState(0)
-    const [custdeptName, setcustdeptname] = useState('')
+
+
     const [firstName, setFirstName] = useState('')
     const [secondname, setSecondName] = useState('')
     const [assetno, setassetNo] = useState('')
@@ -53,17 +54,18 @@ const ItemAddingComp = ({ selectData }) => {
     useEffect(() => {
         dispatch(getDepartment())
         dispatch(getCustodianDept())
+        dispatch(getRackList())
         setFlag(0)
         setDisable(0)
         setCount('')
-    }, [dispatch, selectData])
+    }, [dispatch, selectData, setCount])
 
     const [flag, setFlag] = useState(0)
     const [disable, setDisable] = useState(0)
     const updateItemCount = useCallback((e) => {
         setCount(e.target.value)
 
-    }, [])
+    }, [setCount])
 
     const mapArry = Array.from({ length: count }, (_, index) => index);
 
@@ -73,6 +75,8 @@ const ItemAddingComp = ({ selectData }) => {
             item_creation_slno: slno,
             item_dept_slno: department,
             item_deptsec_slno: deptsec,
+            item_room_slno: roomNo === 0 ? null : roomNo,
+            item_rack_slno: rackno === 0 ? null : rackno,
             item_create_status: 1,
             item_custodian_dept: custodiandept,
             item_asset_no: assetno,
@@ -84,6 +88,8 @@ const ItemAddingComp = ({ selectData }) => {
             spare_creation_slno: slno,
             spare_dept_slno: department,
             spare_deptsec_slno: deptsec,
+            spare_room_slno: roomNo === 0 ? null : roomNo,
+            spare_rack_slno: rackno === 0 ? null : rackno,
             spare_create_status: 1,
             spare_custodian_dept: custodiandept,
             spare_asset_no: assetno,
@@ -96,6 +102,8 @@ const ItemAddingComp = ({ selectData }) => {
             item_creation_slno: slno,
             item_dept_slno: department,
             item_deptsec_slno: deptsec,
+            item_room_slno: roomNo === 0 ? null : roomNo,
+            item_rack_slno: rackno === 0 ? null : rackno,
             item_create_status: 1,
             item_custodian_dept: custodiandept,
             item_asset_no: assetno,
@@ -103,13 +111,15 @@ const ItemAddingComp = ({ selectData }) => {
             create_user: id
         }
 
-    }, [slno, department, deptsec, custodiandept, assetno, id])
+    }, [slno, department, deptsec, roomNo, rackno, custodiandept, assetno, id])
 
     const spareaddMoreItem = useMemo(() => {
         return {
             spare_creation_slno: slno,
             spare_dept_slno: department,
             spare_deptsec_slno: deptsec,
+            spare_room_slno: roomNo === 0 ? null : roomNo,
+            spare_rack_slno: rackno === 0 ? null : rackno,
             spare_create_status: 1,
             spare_custodian_dept: custodiandept,
             spare_asset_no: assetno,
@@ -117,7 +127,7 @@ const ItemAddingComp = ({ selectData }) => {
             create_user: id
         }
 
-    }, [slno, department, deptsec, custodiandept, assetno, id])
+    }, [slno, department, deptsec, roomNo, rackno, custodiandept, assetno, id])
 
     const getPostData = useMemo(() => {
         return {
@@ -146,7 +156,7 @@ const ItemAddingComp = ({ selectData }) => {
             return result
         }
 
-        if (department !== 0 && deptsec !== 0) {
+        if (department !== 0 && deptsec !== 0 && mapArry.length !== 0 && custodiandept !== 0 && roomNo !== 0) {
             if (type === 1) {
                 insertItem(postData).then((val) => {
                     const { message, success } = val.data
@@ -175,14 +185,13 @@ const ItemAddingComp = ({ selectData }) => {
                 })
             }
         } else {
-            warningNotify("Please Select Deoartment and Dep")
+            warningNotify("Please Select Department,Department section,Custodian Department and Give Count")
         }
 
-    }, [postData, department, deptsec, type, sparepostData])
+    }, [postData, department, deptsec, type, sparepostData, mapArry, custodiandept, roomNo])
 
 
     const updateclick = useCallback(() => {
-
         const insertItemAdditional = async (addMoreItem) => {
             const result = await axioslogin.post('/itemCreationDeptmap/insertItemAdditional', addMoreItem)
             const { message, success } = result.data
@@ -210,16 +219,19 @@ const ItemAddingComp = ({ selectData }) => {
                 infoNotify(message)
             }
         }
-
-        if (type === 1) {
-            insertItemAdditional(addMoreItem)
-            setFlag(0)
+        if (department !== 0 && deptsec !== 0 && mapArry.length !== 0 && custodiandept !== 0) {
+            if (type === 1) {
+                insertItemAdditional(addMoreItem)
+                setFlag(0)
+            }
+            else {
+                insertSpareItemAdditional(spareaddMoreItem)
+            }
+        } else {
+            warningNotify("Department,Department section,Room,Custodian Department and Give Count Must be Choosen")
         }
-        else {
-            insertSpareItemAdditional(spareaddMoreItem)
-        }
 
-    }, [addMoreItem, spareaddMoreItem, type])
+    }, [addMoreItem, spareaddMoreItem, type, department, deptsec, mapArry, custodiandept])
 
 
     return (
@@ -231,7 +243,6 @@ const ItemAddingComp = ({ selectData }) => {
                     <Typography >{Item_name}</Typography>
                 </Box>
             </Box>
-
 
             <Box sx={{
                 display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
@@ -278,6 +289,45 @@ const ItemAddingComp = ({ selectData }) => {
                     </Box>
                 </Box>
                 <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Room</Typography>
+                    <Box>
+                        {disable === 0 ?
+
+                            <AmRoomSelecDeptSecBased
+                                roomNo={roomNo}
+                                setRoomNo={setRoomNo}
+                                setRoomName={setRoomName}
+                            /> :
+                            <TextFieldCustom
+                                type="text"
+                                size="sm"
+                                disabled={true}
+                                name="roonName"
+                                value={roonName}
+                            />
+                        }
+                    </Box>
+                </Box>
+                <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Rack</Typography>
+                    <Box>
+                        {disable === 0 ?
+                            <AssetRackSelect
+                                rackno={rackno}
+                                setrackNo={setrackNo}
+                                setrackName={setrackName}
+                            /> :
+                            <TextFieldCustom
+                                type="text"
+                                size="sm"
+                                disabled={true}
+                                name="rackname"
+                                value={rackname}
+                            />
+                        }
+                    </Box>
+                </Box>
+                <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
                     <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Custodian Department</Typography>
                     <Box>
                         {disable === 0 ?
@@ -300,7 +350,7 @@ const ItemAddingComp = ({ selectData }) => {
                     </Box>
                 </Box>
 
-                <Box sx={{ display: 'flex', width: '10%', p: 0.5, flexDirection: 'column' }} >
+                <Box sx={{ display: 'flex', width: '8%', p: 0.5, flexDirection: 'column' }} >
                     <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Count</Typography>
                     <Box>
                         {
