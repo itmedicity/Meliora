@@ -26,26 +26,18 @@ const BillFileQuaterly = ({ open, handleClose, imageUrls }) => {
                             height: '50px',
                             color: '#0074B7',
                             fontSize: 20
-
                         }}>
                             Bill View
                         </Box>
                         <Box sx={{
-
-
                             marginLeft: 'auto',
-
-
-
                         }}>
                             <CloseIcon sx={{ fontSize: 30, color: '#0074B7', cursor: 'pointer' }} onClick={handleClose} />
                         </Box>
                     </Box>
                     <Box sx={{ mt: 1, gap: 5 }}>
                         {imageUrls.map((imageUrl, index) => (
-
                             < img alt="quaterly bill"
-
                                 key={index}
                                 src={imageUrl}
                                 height={820}

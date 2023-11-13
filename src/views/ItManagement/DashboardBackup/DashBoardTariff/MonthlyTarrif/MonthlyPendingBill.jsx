@@ -4,8 +4,9 @@ import { Paper, Typography, } from '@mui/material';
 import { CssVarsProvider, Table } from '@mui/joy';
 import PlaylistAddCircleIcon from '@mui/icons-material/PlaylistAddCircle';
 import TarrifModalBillAdds from './TarrifModalBillAdds';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
-const MonthlyPendingBill = ({ setBackdashboard, setmonthlyPendingBill, MonthlyPendingData,
+const MonthlyPendingBill = ({ setmonthlyPendingBill, MonthlyPendingData,
   setMonthlyCount, monthlyCount
 }) => {
 
@@ -15,6 +16,7 @@ const MonthlyPendingBill = ({ setBackdashboard, setmonthlyPendingBill, MonthlyPe
   const [editFlag, setEditFalg] = useState(0)
   const [count, setCount] = useState(0)
   const [tabledata, setTabledata] = useState([])
+  const history = useHistory()
 
   const handleClose = useCallback(() => {
     setAddModalFlag(0)
@@ -28,10 +30,10 @@ const MonthlyPendingBill = ({ setBackdashboard, setmonthlyPendingBill, MonthlyPe
     setaddModalOpen(true)
   }, [])
 
-  const backtoSetting = useCallback(() => {
-    setBackdashboard(1)
+  const backtoDash = useCallback(() => {
+    history.push('/Home/DashboardBackup')
     setmonthlyPendingBill(0)
-  }, [setBackdashboard, setmonthlyPendingBill])
+  }, [history, setmonthlyPendingBill])
 
   useEffect(() => {
     if (MonthlyPendingData.length !== 0) {
@@ -83,7 +85,7 @@ const MonthlyPendingBill = ({ setBackdashboard, setmonthlyPendingBill, MonthlyPe
       <CardMasterClose
         // title={MonthlyTarriff }
         style={{ overflow: 'hidden' }}
-        close={backtoSetting}
+        close={backtoDash}
       >
         {AddModalFlag === 1 ? <TarrifModalBillAdds open={addModalOpen} handleClose={handleClose} MonthlyPendingData={MonthlyPendingData}
           monthlyCount={monthlyCount} setMonthlyCount={setMonthlyCount}

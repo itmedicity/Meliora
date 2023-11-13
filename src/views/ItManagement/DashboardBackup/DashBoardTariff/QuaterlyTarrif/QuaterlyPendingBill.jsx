@@ -4,14 +4,16 @@ import { Paper, Typography, } from '@mui/material';
 import { CssVarsProvider, Table } from '@mui/joy';
 import PlaylistAddCircleIcon from '@mui/icons-material/PlaylistAddCircle';
 import QuaterlyBillAddModal from './QuaterlyBillAddModal';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
-const QuaterlyPendingBill = ({ setBackdashboard, setquaterlyPendingBill, QuaterlyPendingData, quaterlyCount, setQuaterlyCount }) => {
+const QuaterlyPendingBill = ({ setquaterlyPendingBill, QuaterlyPendingData, quaterlyCount, setQuaterlyCount }) => {
   const [addModalOpen, setaddModalOpen] = useState(false)
   const [AddModalFlag, setAddModalFlag] = useState(0)
   const [getarry, setgetarry] = useState([])
   const [editFlag, setEditFalg] = useState(0)
   const [count, setCount] = useState(0)
   const [tabledata, setTabledata] = useState([])
+  const history = useHistory()
 
   const handleClose = useCallback(() => {
     setAddModalFlag(0)
@@ -25,10 +27,10 @@ const QuaterlyPendingBill = ({ setBackdashboard, setquaterlyPendingBill, Quaterl
     setaddModalOpen(true)
   }, [])
 
-  const backtoSetting = useCallback(() => {
-    setBackdashboard(1)
+  const backtoDash = useCallback(() => {
+    history.push('/Home/DashboardBackup')
     setquaterlyPendingBill(0)
-  }, [setBackdashboard, setquaterlyPendingBill])
+  }, [history, setquaterlyPendingBill])
 
   useEffect(() => {
     if (QuaterlyPendingData.length !== 0) {
@@ -80,7 +82,7 @@ const QuaterlyPendingBill = ({ setBackdashboard, setquaterlyPendingBill, Quaterl
       <CardMasterClose
         // title={MonthlyTarriff }
         style={{ overflow: 'hidden' }}
-        close={backtoSetting}
+        close={backtoDash}
       >
         {AddModalFlag === 1 ? <QuaterlyBillAddModal open={addModalOpen} handleClose={handleClose}
           quaterlyCount={quaterlyCount}

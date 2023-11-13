@@ -14,7 +14,7 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 import TarrifDropDown from './TarrifDropDown';
 import ProviderDropDown from './ProviderDropDown';
 import { useSelector } from 'react-redux';
-// import { format } from 'date-fns';
+
 
 const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
 }) => {
@@ -28,9 +28,7 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
     const [tarrif, setTarrif] = useState(0)
     const [provider, setProvider] = useState(0)
 
-
     const [communicationDeviceModal, setcommunicationDeviceModal] = useState({
-
         device_slno: '',
         reciver_name: '',
         contact_no: '',
@@ -45,11 +43,9 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
         receiver_emp_id: '',
         device_name: '',
         issue_status: false,
-        sim_status: false,
-
     })
     const { reciver_name, contact_no, ima, sim_number, issue_date, asset_no, amount,
-        issue_status, sim_status, device_ima, device_num, sim_mobile_num, receiver_emp_id, device_name } = communicationDeviceModal
+        issue_status, device_ima, device_num, sim_mobile_num, receiver_emp_id, device_name } = communicationDeviceModal
 
     const DeviceTypeUpdate = useCallback(
         (e) => {
@@ -58,9 +54,7 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
         },
         [communicationDeviceModal],
     )
-
     const reset = () => {
-
         const formdata = {
             device_slno: '',
             device_name: '',
@@ -80,43 +74,37 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
             device_num: '',
             sim_mobile_num: '',
             receiver_emp_id: '',
-            issue_status: false,
-            sim_status: false,
+            issue_status: false
         }
         setcommunicationDeviceModal(formdata)
     }
 
     const postdata = useMemo(() => {
-
         return {
-
-            reciver_name: reciver_name,
-            contact_no: contact_no,
-            ima: ima,
-            sim_number: sim_number,
-            provider: provider,
+            reciver_name: reciver_name === '' ? null : reciver_name,
+            contact_no: contact_no === '' ? null : contact_no,
+            ima: ima === '' ? null : ima,
+            sim_number: sim_number === '' ? null : sim_number,
+            provider: provider === 0 ? null : provider,
             issue_date: issue_date === '' ? null : issue_date,
-            asset_no: asset_no,
-            tarrif: tarrif,
-            amount: amount,
-            device_type_slno: deviceType,
-            department: department,
-            location: location,
-            device_ima: device_ima,
-            device_num: device_num,
-            sim_mobile_num: sim_mobile_num,
-            receiver_emp_id: receiver_emp_id,
-            device_name: device_name,
+            asset_no: asset_no === '' ? null : asset_no,
+            tarrif: tarrif === 0 ? null : tarrif,
+            amount: amount === '' ? null : amount,
+            device_type_slno: deviceType === 0 ? null : deviceType,
+            department: department === 0 ? null : department,
+            location: location === 0 ? null : location,
+            device_ima: device_ima === '' ? null : device_ima,
+            device_num: device_num === '' ? null : device_num,
+            sim_mobile_num: sim_mobile_num === '' ? null : sim_mobile_num,
+            receiver_emp_id: receiver_emp_id === '' ? null : receiver_emp_id,
+            device_name: device_name === '' ? null : device_name,
             issue_status: issue_status === true ? 1 : 0,
-            sim_status: sim_status === true ? 1 : 0,
             create_user: id,
             edit_user: issue_status === 1 ? id : null,
         }
     }, [reciver_name, contact_no, ima, sim_number, provider, issue_date, asset_no,
-        tarrif, amount, deviceType, issue_status, sim_status, department, location,
+        tarrif, amount, deviceType, issue_status, department, location,
         device_ima, device_num, sim_mobile_num, receiver_emp_id, device_name, id])
-
-
     const submitDeviceType = useCallback(
         (e) => {
             e.preventDefault()
@@ -133,7 +121,6 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
             if (sim_mobile_num !== '') {
                 if (!isValidMobileNumber(sim_mobile_num)) {
                     infoNotify("Please enter a valid 10-digit SIM mobile number");
-                    return; // Stop further processing if the number is invalid
                 }
             }
             if (amount !== '' && !containsOnlyDigits(amount)) {
@@ -148,17 +135,13 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                 infoNotify("Please enter the receiver name with alphabetic characters only");
                 return; // Stop further processing if the name is invalid
             }
-
-
             const InsertDeviceType = async (postdata) => {
-
                 const result = await axioslogin.post('/communicationDeviceDetails/insert', postdata)
                 const { message, success } = result.data
                 if (success === 1) {
                     succesNotify(message)
                     setCount(count + 1)
                     handleClose()
-                    reset()
                 } else if (success === 0) {
                     infoNotify(message)
                 } else {
@@ -166,13 +149,11 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                 }
             }
 
-            if (tarrif !== '' && amount !== '' && device_name !== '' && reciver_name !== ''
+            if (tarrif !== 0 && amount !== '' && device_name !== '' && reciver_name !== ''
                 && receiver_emp_id !== '' && deviceType !== 0 && department !== 0 && location !== 0) {
                 InsertDeviceType(postdata);
-
-                reset();
+                reset()
             } else {
-
                 if (device_name === '') {
                     infoNotify("Please enter the device name");
                 }
@@ -182,7 +163,7 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                 else if (receiver_emp_id === '') {
                     infoNotify("Please enter the receiver employee ID");
                 }
-                else if (tarrif === '') {
+                else if (tarrif === 0) {
                     infoNotify("Please choose a tarrif");
                 }
                 else if (amount === '') {
@@ -198,20 +179,15 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                     infoNotify("Please select the department section");
                 }
             }
-
         },
         [count, postdata, handleClose, device_name, reciver_name, receiver_emp_id, tarrif, amount, sim_mobile_num, contact_no, deviceType, department, location, setCount],
     )
-
     return (
-
         <Fragment  >
-            {/* <ToastContainer />                */}
             <Dialog
                 open={open}
                 onClose={handleClose}
                 maxWidth="lg"
-
             >
                 < DialogContent
                     sx={{
@@ -221,125 +197,79 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                 >
                     <Box sx={{
                         width: '100%',
-                        // height: '100%',
-                        // borderRadius: 1, border: '0.1px solid #454545'
                     }}>
                         <Box id="alert-dialog-slide-descriptiona"
                             sx={{ fontWeight: 'bold', height: '50px', pt: 2, color: '#004F76', textAlign: 'center', }}>
                             Add Communication Device Details
                         </Box>
-
                         <Box sx={{
-                            //    flex:1,
                             width: '100%',
-                            // height:'30%',
-                            // backgroundColor:'lightgrey',
-                            border: .5, borderColor: '#9DBED1', borderRadius: 1,
-                            // mt:.5,
-                            // margin: 'auto',
-
+                            border: .5, borderColor: '#9DBED1', borderRadius: 1
                         }}>
-
-
-
                             <Box sx={{
-                                //    flex:1,
                                 width: '100%',
                                 height: '30%',
-                                // backgroundColor:'lightgrey',
-                                // border: .5, borderColor: '#9DBED1', borderRadius: 1,
                                 mt: .5,
                                 pt: .5
-
-                                // margin: 'auto',
-
                             }}>
                                 <CssVarsProvider>
                                     <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D', }}>Location</Typography>
-
                                 </CssVarsProvider>
-
                                 <Box
                                     sx={{ pt: 1, display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1,
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, }}>Department *</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .7,
                                         mr: 1, ml: 1
-
                                     }}>
-
                                         <DepartmentSelect value={department} setValue={setDepartment} />
-
                                     </Box>
                                 </Box>
-                                <Box
-                                    sx={{ display: 'flex', }}>
+                                <Box sx={{ display: 'flex', }}>
                                     <Box sx={{
-                                        flex: .2, pl: 1,
-                                        // backgroundColor: 'blue'
+                                        flex: .2, pl: 1
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>Section</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .7,
                                         mr: 1,
                                         mb: .5,
                                         pt: 1, ml: 1
-
                                     }}>
-
                                         <DeptSecUnderDept dept={department} value={location} setValue={setLocation} />
-
                                     </Box>
                                 </Box>
-
                             </Box>
                             <Box sx={{
-                                //    flex:1,
                                 width: '100%',
-                                // height:'30%',
-                                // backgroundColor:'lightgrey',
-                                // border: .5, borderColor: '#9DBED1', borderRadius: 1,
                                 mt: .5,
-                                // margin: 'auto',
-
                             }}>
                                 <CssVarsProvider>
                                     <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Device details</Typography>
-
                                 </CssVarsProvider>
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: 1.5
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, }}>Device Name *</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .7,
                                         mr: 1,
                                         pt: 1, ml: 1
-
                                     }}>
-
                                         <TextFieldCustom
                                             placeholder="Device Name"
                                             type="text"
@@ -348,52 +278,40 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                                             value={device_name}
                                             onchange={DeviceTypeUpdate}
                                         ></TextFieldCustom>
-
                                     </Box>
                                 </Box>
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: .9
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, }}>Device type *</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
                                         flex: .7,
                                         mr: 1,
                                         mb: .5,
                                         pt: 1, ml: 1
-
-
                                     }}>
-
                                         <ItCommunicationDeviceTypeSelect value={deviceType} setValue={setDeviceType} />
-
                                     </Box>
                                 </Box>
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: .5
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>Device slno./IMA</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .7,
                                         mr: 1,
                                         mb: .5, ml: 1
-
                                     }}>
-
                                         <TextFieldCustom
                                             placeholder="Device Sl No./IMA"
                                             type="text"
@@ -402,26 +320,21 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                                             value={device_ima}
                                             onchange={DeviceTypeUpdate}
                                         ></TextFieldCustom>
-
                                     </Box>
                                 </Box>
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: .5
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>Device Number</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .7,
                                         mr: 1,
                                         mb: .5, ml: 1
-
                                     }}>
                                         <TextFieldCustom
                                             placeholder="Device No."
@@ -431,40 +344,29 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                                             value={device_num}
                                             onchange={DeviceTypeUpdate}
                                         ></TextFieldCustom>
-
                                     </Box>
                                 </Box>
-
-
                             </Box>
                             <Box sx={{
-
-                                width: '100%',
-
-
+                                width: '100%'
                             }}>
                                 <CssVarsProvider>
                                     <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Sim Details</Typography>
                                 </CssVarsProvider>
-
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: 1
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>SIM slno./IMA</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .7,
                                         mr: 1,
                                         mb: .5,
                                         pt: .5, ml: 1
-
                                     }}>
                                         <TextFieldCustom
                                             placeholder="SIM Serial No./IMA"
@@ -474,26 +376,21 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                                             value={ima}
                                             onchange={DeviceTypeUpdate}
                                         ></TextFieldCustom>
-
                                     </Box>
                                 </Box>
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: .5
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>SIM Number</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .7,
                                         mr: 1,
                                         mb: .5, ml: 1
-
                                     }}>
                                         <TextFieldCustom
                                             placeholder=" SIM Number"
@@ -503,51 +400,41 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                                             value={sim_number}
                                             onchange={DeviceTypeUpdate}
                                         ></TextFieldCustom>
-
                                     </Box>
                                 </Box>
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: .5
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>SIM Operator</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .7,
                                         mr: 1,
                                         mb: .5,
                                         pt: .5, ml: 1
-
                                     }}>
                                         <ProviderDropDown
                                             value={provider}
                                             setValue={setProvider} />
-
                                     </Box>
                                 </Box>
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: .5
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>SIM Mobile No.</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .4,
                                         mr: 1,
                                         mb: .5, ml: 1
-
                                     }}>
                                         <TextFieldCustom
                                             placeholder="SIM mobile No."
@@ -557,73 +444,50 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                                             value={sim_mobile_num}
                                             onchange={DeviceTypeUpdate}
                                         ></TextFieldCustom>
-
                                     </Box>
                                 </Box>
-
                             </Box>
-                            {/* ///////// */}
-
-                            {/* ///////////// */}
-
-
                             <Box sx={{
-                                //    flex:1,
                                 width: '100%',
                                 height: '30%',
-                                // backgroundColor:'lightgrey',
-                                // border: .5, borderColor: '#9DBED1', borderRadius: 1,
                                 mt: .5,
-                                // margin: 'auto',
-
                             }}>
                                 <CssVarsProvider>
                                     <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Tarrif details</Typography>
                                 </CssVarsProvider>
-
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: 1
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>Tarrif * </Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .7,
                                         mr: 1,
                                         mb: .5,
                                         pt: 1,
                                         ml: 1
-
                                     }}>
-
                                         <TarrifDropDown value={tarrif} setValue={setTarrif} />
-
                                     </Box>
                                 </Box>
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: .5
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>Tariff Amount *</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .4,
                                         mr: 1,
                                         mb: .5,
                                         ml: 1
-
                                     }}>
                                         <TextFieldCustom
                                             placeholder=" Amount. Rs."
@@ -633,21 +497,13 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                                             value={amount}
                                             onchange={DeviceTypeUpdate}
                                         ></TextFieldCustom>
-
                                     </Box>
                                 </Box>
-
                             </Box>
-
                             <Box sx={{
-                                //    flex:1,
                                 width: '100%',
                                 height: '30%',
-                                // backgroundColor:'lightgrey',
-                                // border: .5, borderColor: '#9DBED1', borderRadius: 1,
                                 mt: .5,
-                                // margin: 'auto',
-
                             }}>
                                 <CssVarsProvider>
                                     <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Asset number</Typography>
@@ -656,20 +512,16 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: .5
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>Asset Number</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .7,
                                         mr: 1,
                                         mb: .5,
                                         ml: 1
-
                                     }}>
                                         <TextFieldCustom
                                             placeholder="Asset No."
@@ -681,42 +533,29 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                                         ></TextFieldCustom>
                                     </Box>
                                 </Box>
-
                             </Box>
-
                             <Box sx={{
-                                //    flex:1,
                                 width: '100%',
-                                // height:'30%',
-                                // backgroundColor:'lightgrey',
-                                // border: .5, borderColor: '#9DBED1', borderRadius: 1,
                                 mt: .5,
-                                // margin: 'auto',
-
                             }}>
                                 <CssVarsProvider>
                                     <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Recievers details</Typography>
                                 </CssVarsProvider>
-
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: 1.5
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>Reciever EmpID*</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .4,
                                         mr: 1,
                                         mb: .5,
                                         pt: 1,
                                         ml: 1.1
-
                                     }}>
                                         <TextFieldCustom
                                             placeholder="Emp.ID"
@@ -732,21 +571,16 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: .5
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>Reciever Name *</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .7,
                                         mr: 1,
                                         mb: .5,
                                         ml: 1
-
-
                                     }}>
                                         <TextFieldCustom
                                             placeholder=" Name"
@@ -762,20 +596,16 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: .5
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>Reciever Ph No.</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .4,
                                         mr: 1,
                                         mb: .5,
                                         ml: 1
-
                                     }}>
                                         <TextFieldCustom
                                             placeholder="Contact No"
@@ -787,116 +617,40 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                                         ></TextFieldCustom>
                                     </Box>
                                 </Box>
-
                             </Box>
                             <Box sx={{
-                                //    flex:1,
                                 width: '100%',
-                                // height:'30%',
-                                // backgroundColor:'lightgrey',
-                                // border: .5, borderColor: '#9DBED1', borderRadius: 1,
                                 mt: .5,
-                                // margin: 'auto',
-
                             }}>
                                 <CssVarsProvider>
                                     <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Issued details</Typography>
-
                                 </CssVarsProvider>
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         flex: .2, pl: 1, pt: .5
-                                        // backgroundColor: 'blue'
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15 }}>Issued Date</Typography>
                                         </CssVarsProvider>
                                     </Box>
-
                                     <Box sx={{
-                                        // backgroundColor: 'red',
                                         flex: .4,
                                         mr: 1,
                                         mb: .5,
                                         ml: 1
-
                                     }}>
                                         <TextFieldCustom
-                                            // placeholder="Contact No."
                                             type="date"
                                             size="sm"
                                             name="issue_date"
                                             value={issue_date}
                                             onchange={DeviceTypeUpdate}
                                         ></TextFieldCustom>
-
                                     </Box>
                                 </Box>
-                                {/* <Box sx={{ display: 'flex', py: 2, margin: 'auto', width: '30%' }}>
-
-                                    <CusCheckBox
-                                        color="primary"
-                                        size="md"
-                                        name="issue_status"
-                                        value={issue_status}
-                                        checked={issue_status}
-                                        onCheked={DeviceTypeUpdate}
-                                    ></CusCheckBox>
-
-                                    <CssVarsProvider>
-                                        <Typography sx={{ fontSize: 15, pl: 1, }}>Issued Status</Typography>
-                                    </CssVarsProvider>
-
-                                </Box> */}
-
                             </Box>
-
-                            {/* <Box sx={{
-                        // backgroundColor: 'orange',
-                        display: 'flex', height: 50, width: 400,
-                        pt:1,
-                        margin: 'auto'
-                    }} >
-                        <Box sx={{ flex: .3 ,}}>
-                            
-                        <CssVarsProvider>
-                            <Typography sx={{ fontSize: 15 }}>Sim Status</Typography>
-                        </CssVarsProvider>
                         </Box>
-                        <Box sx={{ flex: .4 ,}} >
-                        <CusCheckBox
-                        color="primary"
-                        size="md"
-                        name="sim_status"
-                        value={sim_status}
-                        checked={sim_status}
-                        onCheked={DeviceTypeUpdate}
-                    ></CusCheckBox>
-                        </Box>
-                        <Box  sx={{flex:.3,}}>
-                        <CssVarsProvider>
-                            <Typography sx={{ fontSize: 15 }}>Issued Status</Typography>
-                        </CssVarsProvider>
-                        </Box>
-                        <Box sx={{flex:.3}}>
-                        <CusCheckBox
-                        color="primary"
-                        size="md"
-                        name="issue_status"
-                        value={issue_status}
-                        checked={issue_status}
-                        onCheked={DeviceTypeUpdate}
-                    ></CusCheckBox>
-                        </Box>
-                    
-                    </Box> */}
-
-                        </Box>
-
-
-
-
                     </Box>
                 </DialogContent>
                 <DialogActions>
@@ -907,7 +661,6 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                     <Button
                         sx={{ color: "#004F76", fontWeight: 'bold' }}
                         onClick={handleClose}
-
                     >Cancel</Button>
                 </DialogActions>
             </Dialog>

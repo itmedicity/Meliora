@@ -157,7 +157,7 @@ export const it_setting_one = [
 
 export const it_setting_two = [
 
-    { to: '/Home/PasswordManagementDeviceType', name: 'Password Device Type ', slno: 160 },
+    { to: '/Home/CredentialType', name: 'Credential Type', slno: 160 },
     { to: '/Home/ScheduleType', name: 'Backup Schedule Type', slno: 152 },
 ]
 export const it_setting_three = [

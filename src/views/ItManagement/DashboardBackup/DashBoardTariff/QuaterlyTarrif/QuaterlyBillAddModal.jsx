@@ -12,27 +12,26 @@ import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/Common
 import imageCompression from 'browser-image-compression';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import CloseIcon from '@mui/icons-material/Close';
+import { useSelector } from 'react-redux'
 
-const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, quaterlyCount, setQuaterlyCount }) => {
+const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQuaterlyCount }) => {
 
 
   const [selectFile, setSelectFile] = useState([]);
+  const id = useSelector((state) => {
+    return state.LoginUserData.empid
+  })
   const { device_type_name, dept_name, reciver_name, providername, amount, device_name, quaterly_slno, bill_amount, bill_date, bill_due_date, bill_number, bill_entered_date, } = getarry
   const [billAddModal, setbillAddModal] = useState({
-
     billAmount: bill_amount !== null ? bill_amount : '',
     billDate: bill_date !== null ? bill_date : '',
     billDueDate: bill_due_date !== null ? bill_due_date : '',
     billNo: bill_number !== null ? bill_number : '',
     billPayedDate: bill_entered_date !== null ? bill_entered_date : '',
     payed_status: false,
-
-
-
   })
   const { billAmount, billDate, billDueDate, billNo, billPayedDate,
   } = billAddModal
-
 
   const billAddModalUpdate = useCallback(
     (e) => {
@@ -41,24 +40,19 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
     },
     [billAddModal],
   )
-
-  const reset = () => {
-    const formdata = {
-
-      billAmount: '',
-      billDate: '',
-      billDueDate: '',
-      billNo: '',
-      billPayedDate: '',
-      // file_upload_status: false,
-      payed_status: false,
-    }
-    setbillAddModal(formdata)
-    setSelectFile(null)
-  }
-
+  // const reset = () => {
+  //   const formdata = {
+  //     billAmount: '',
+  //     billDate: '',
+  //     billDueDate: '',
+  //     billNo: '',
+  //     billPayedDate: '',
+  //     payed_status: false,
+  //   }
+  //   setbillAddModal(formdata)
+  //   setSelectFile(null)
+  // }
   const patchdata = useMemo(() => {
-
     return {
       quaterly_slno: quaterly_slno,
       bill_amount: billAmount,
@@ -67,15 +61,14 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
       bill_number: billNo,
       bill_entered_date: billPayedDate === '' ? null : billPayedDate,
       payed_status: billPayedDate === '' ? 0 : 1,
+      edit_user: id
     }
-  }, [quaterly_slno, billDate, billDueDate, billNo, billPayedDate, billAmount,])
-
+  }, [quaterly_slno, billDate, billDueDate, billNo, billPayedDate, billAmount, id])
   const handleFileChange = useCallback((e) => {
     const newFiles = [...selectFile]
     newFiles.push(e.target.files[0])
     setSelectFile(newFiles)
   }, [selectFile, setSelectFile])
-
   const handleImageUpload = useCallback(async (imageFile) => {
     const options = {
       maxSizeMB: 1,
@@ -85,26 +78,17 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
   }, []);
-
-
-
-
   const submitModal = useCallback(
     (e) => {
       e.preventDefault()
-
       const UpdateTariffModal = async (patchdata) => {
         const result = await axioslogin.patch('/tarrifDetails/updateQuaterlybillModal', patchdata)
         return result.data
-
       }
       const InsertFile = async (selectFile) => {
-
-
         try {
           const formData = new FormData();
           formData.append('id', quaterly_slno);
-
           for (const file of selectFile) {
             if (file.type.startsWith('image')) {
               const compressedFile = await handleImageUpload(file);
@@ -113,63 +97,47 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
               formData.append('files', file, file.name);
             }
           }
-
-
           // Use the Axios instance and endpoint that matches your server setup
           const uploadResult = await axioslogin.post('/ItImageUpload/uploadFile/Quaterly', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
           });
-
-
           const { success, message } = uploadResult.data;
-
           if (success === 1) {
             succesNotify(message);
             setQuaterlyCount(quaterlyCount + 1);
-            reset();
+            // reset();
           } else {
             warningNotify(message);
           }
         } catch (error) {
           warningNotify('An error occurred during file upload.');
-
         }
-
       };
       if (billAmount !== '' && billDate !== '' && billDueDate !== '' && billNo !== '') {
-
         UpdateTariffModal(patchdata)
           .then((val) => {
             const { message, success } = val;
-
             if (success === 2) {
               if (selectFile.length !== 0) {
-
                 // Call the handleUpload function to upload files
                 InsertFile(selectFile);
                 // // handleUpload(val);
                 setQuaterlyCount(quaterlyCount + 1)
-                reset();
-
+                // reset();
               }
               succesNotify(message);
               handleClose()
               setQuaterlyCount(quaterlyCount + 1)
-              reset();
-
+              // reset();
             }
-
             else if (success === 0) {
               infoNotify(message);
             } else {
               infoNotify(message);
             }
           });
-
-
-
       }
       if (billAmount === '') {
         infoNotify("Please enter bill amount");
@@ -183,11 +151,8 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
       else if (billNo === '') {
         infoNotify("Please enter the bill number");
       }
-
-
     },
     [patchdata, handleClose, billNo, billDueDate, billDate, setQuaterlyCount, billAmount, quaterlyCount, handleImageUpload, quaterly_slno, selectFile])
-
   const handleRemoveFile = (index) => {
     setSelectFile((prevFiles) => {
       const updatedFiles = [...prevFiles];
@@ -195,10 +160,8 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
       return updatedFiles;
     });
   };
-
   return (
-    <Fragment  >
-
+    <Fragment>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -208,39 +171,26 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
           sx={{
             width: 600,
             height: 550,
-            // backgroundColor: ' pink',             
-
           }}
         >
-
           <Box sx={{
             width: '100%',
-            // borderRadius: 1, border: '0.1px solid #454545'
           }}>
             <Box id="alert-dialog-slide-descriptiona"
               sx={{ fontWeight: 'bold', height: '50px', pt: 2, color: '#0074B7', textAlign: 'center', }}>
               Add Quaterly Details
             </Box>
-
             <Box sx={{
               width: '100%',
               height: '92%',
               borderRadius: 1,
-              // backgroundColor:'pink',
-              // pt: 1, 
-
             }}>
-
-
               <Box sx={{
-                //    flex:1,
                 width: '100%',
                 height: '30%',
-                // backgroundColor:'lightgrey',
                 border: .5, borderColor: '#BBC8DE', borderRadius: 1.5,
                 ml: 4,
                 margin: 'auto',
-
               }}>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
@@ -249,9 +199,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       <Typography sx={{ fontSize: 15 }}>Device name</Typography>
                     </CssVarsProvider>
                   </Box>
-
                   <Box sx={{
-                    //   backgroundColor: 'red',
                     flex: 1
                   }}>
                     <CssVarsProvider>
@@ -268,9 +216,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       <Typography sx={{ fontSize: 15 }}>Device type</Typography>
                     </CssVarsProvider>
                   </Box>
-
                   <Box sx={{
-                    //   backgroundColor: 'red',
                     flex: 1
                   }}>
                     <CssVarsProvider>
@@ -287,9 +233,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       <Typography sx={{ fontSize: 15 }}>Department</Typography>
                     </CssVarsProvider>
                   </Box>
-
                   <Box sx={{
-                    //   backgroundColor: 'red',
                     flex: 1
                   }}>
                     <CssVarsProvider>
@@ -305,9 +249,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       <Typography sx={{ fontSize: 15 }}>Receiver Name</Typography>
                     </CssVarsProvider>
                   </Box>
-
                   <Box sx={{
-                    //   backgroundColor: 'red',
                     flex: 1
                   }}>
                     <CssVarsProvider>
@@ -323,9 +265,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       <Typography sx={{ fontSize: 15 }}>Sim Operator</Typography>
                     </CssVarsProvider>
                   </Box>
-
                   <Box sx={{
-                    //   backgroundColor: 'red',
                     flex: 1
                   }}>
                     <CssVarsProvider>
@@ -341,9 +281,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       <Typography sx={{ fontSize: 15 }}>Amount</Typography>
                     </CssVarsProvider>
                   </Box>
-
                   <Box sx={{
-                    //   backgroundColor: 'red',
                     flex: 1
                   }}>
                     <CssVarsProvider>
@@ -352,38 +290,23 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                     </CssVarsProvider>
                   </Box>
                 </Box>
-
-
-
-
-
               </Box>
-
-
-
               <Box sx={{
                 width: '100%',
                 height: '70%',
-                // backgroundColor:'red'
                 border: .5, borderColor: '#BBC8DE', borderRadius: 1.5,
-                // pt:2,
-                // margin: 'auto',
                 mt: .5,
               }}>
 
                 <Box sx={{
                   width: "100%",
                   display: "flex",
-                  // backgroundColor: 'orange',
-                  // margin: 'auto',
                   pt: 1
                 }}>
                   <Box
                     sx={{
-
                       flex: .3,
                       pt: .8,
-                      // backgroundColor: 'blue',
                       ml: 1
                     }}>
                     <CssVarsProvider>
@@ -395,8 +318,6 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       height: '25%',
                       flex: 1,
                       pr: 1
-                      // pl:.2
-                      // backgroundColor: 'red'
                     }}>
                     <TextFieldCustom
                       placeholder="Bill Amount"
@@ -411,7 +332,6 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                 <Box sx={{
                   width: "100%",
                   display: "flex",
-                  // backgroundColor: 'orange',
                   margin: 'auto',
                   pt: .5
                 }}>
@@ -420,7 +340,6 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       pt: .5,
                       flex: .3,
                       ml: 1,
-                      // backgroundColor: 'blue'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill Date</Typography>
@@ -431,11 +350,8 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       height: '25%',
                       flex: 1,
                       pr: 1
-                      // pl:.2
-                      // backgroundColor: 'red'
                     }}>
                     <TextFieldCustom
-                      // placeholder="Device No./Sim No."
                       type="date"
                       size="sm"
                       name="billDate"
@@ -447,7 +363,6 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                 <Box sx={{
                   width: "100%",
                   display: "flex",
-                  // backgroundColor: 'orange',
                   margin: 'auto',
                   pt: .5
                 }}>
@@ -456,7 +371,6 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       pt: .5,
                       flex: .3,
                       ml: 1,
-                      // backgroundColor: 'blue'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15 }}>Bill Due Date</Typography>
@@ -467,11 +381,8 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       height: '25%',
                       flex: 1,
                       pr: 1
-                      // pl:.2
-                      // backgroundColor: 'red'
                     }}>
                     <TextFieldCustom
-                      // placeholder="Device No./Sim No."
                       type="date"
                       size="sm"
                       name="billDueDate"
@@ -480,11 +391,9 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                     ></TextFieldCustom>
                   </Box>
                 </Box>
-
                 <Box sx={{
                   width: "100%",
                   display: "flex",
-                  // backgroundColor: 'orange',
                   margin: 'auto',
                   pt: .5
                 }}>
@@ -493,7 +402,6 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       pt: .8,
                       flex: .3,
                       ml: 1,
-                      // backgroundColor: 'blue'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill No.</Typography>
@@ -504,7 +412,6 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       height: '25%',
                       flex: 1,
                       pr: 1
-                      // backgroundColor: 'red'
                     }}>
                     <TextFieldCustom
                       placeholder="Bill Number"
@@ -519,17 +426,13 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                 <Box sx={{
                   width: "100%",
                   display: "flex",
-                  // backgroundColor: 'orange',
                   margin: 'auto',
-                  // pt:.5
                 }}>
                   <Box
                     sx={{
                       pt: 1,
                       flex: .3,
                       ml: 1,
-
-                      //    backgroundColor: 'blue'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill Payed Date</Typography>
@@ -543,7 +446,6 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       pt: .5
                     }}>
                     <TextFieldCustom
-                      // placeholder="Device No./Sim No."
                       type="date"
                       size="sm"
                       name="billPayedDate"
@@ -552,12 +454,10 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                     ></TextFieldCustom>
                   </Box>
                 </Box>
-
-                <Box sx={{ flex: 2, m: 1, height: 45, border: 1.5, borderStyle: 'dashed', borderColor: '#BBC8DE', pl: 3, }}>
-
+                <Box sx={{ flex: 2, m: 1, height: 45, border: 1.5, borderStyle: 'dashed', borderColor: '#BBC8DE', pl: 1, }}>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <CssVarsProvider>
-                      <Typography   >upload file</Typography>
+                      <Typography   >upload bill</Typography>
                     </CssVarsProvider>
                     <label htmlFor="file-input">
                       <CustomeToolTip title="upload">
@@ -566,8 +466,6 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                         </IconButton>
                       </CustomeToolTip>
                     </label>
-
-
                     <input
                       id="file-input"
                       type="file"
@@ -578,43 +476,26 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
                       name="file"
                       multiple // Add this attribute to allow multiple file selections
                     />
-
-
-
                     {selectFile && selectFile.map((file, index) => (
                       <Box sx={{ display: "flex", flexDirection: "row", ml: 2, backgroundColor: '#D6E2E8' }} key={index} >
                         <Box >{file.name}</Box>
                         <Box sx={{ ml: .3 }}><CloseIcon sx={{ height: '18px', width: '20px', cursor: 'pointer' }}
                           onClick={() => handleRemoveFile(index)} /></Box>
-
                       </Box>
                     ))}
-                    {/* </Box> */}
-
-
-
-                    {/* ... */}
-
                   </Box>
-
                 </Box>
                 <Box sx={{
-                  // backgroundColor: 'lightgrey',
                   display: 'flex',
                   height: 50,
                   width: 300,
                   pt: 1,
                   pl: 7,
                   margin: 'auto'
-
                 }} >
-
-
                 </Box>
               </Box>
             </Box>
-
-
           </Box>
         </DialogContent>
         <DialogActions>
@@ -625,15 +506,11 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, count, setCount, qua
           <Button
             sx={{ color: "#0074B7", fontWeight: 'bold' }}
             onClick={handleClose}
-
           >Cancel</Button>
         </DialogActions>
       </Dialog>
     </Fragment >
   )
 }
-
-
-
 
 export default memo(QuaterlyBillAddModal)

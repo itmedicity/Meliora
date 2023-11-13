@@ -12,11 +12,15 @@ import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/Common
 import imageCompression from 'browser-image-compression';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import CloseIcon from '@mui/icons-material/Close';
+import { useSelector } from 'react-redux'
 
 
 const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, monthlyCount }) => {
 
   const [selectFile, setSelectFile] = useState([]);
+  const id = useSelector((state) => {
+    return state.LoginUserData.empid
+  })
 
   const { device_type_name, dept_name, reciver_name, providername, amount, device_name, monthly_slno, bill_amount, bill_date, bill_due_date, bill_number, bill_entered_date,
   } = getarry
@@ -38,18 +42,18 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
     },
     [billAddModal],
   )
-  const reset = () => {
-    const formdata = {
-      billAmount: '',
-      billDate: '',
-      billDueDate: '',
-      billNo: '',
-      billPayedDate: '',
-      payed_status: false,
-    }
-    setbillAddModal(formdata)
-    setSelectFile(null)
-  }
+  // const reset = () => {
+  //   const formdata = {
+  //     billAmount: '',
+  //     billDate: '',
+  //     billDueDate: '',
+  //     billNo: '',
+  //     billPayedDate: '',
+  //     payed_status: false,
+  //   }
+  //   setbillAddModal(formdata)
+  //   setSelectFile(null)
+  // }
   const patchdata = useMemo(() => {
     return {
       monthly_slno: monthly_slno,
@@ -59,9 +63,10 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
       bill_number: billNo,
       bill_entered_date: billPayedDate === '' ? null : billPayedDate,
       payed_status: billPayedDate === '' ? 0 : 1,
-      // selectFile: selectFile !== '' ? selectFile : []
+      edit_user: id
+
     }
-  }, [monthly_slno, billDate, billDueDate, billNo, billPayedDate, billAmount])
+  }, [monthly_slno, billDate, billDueDate, billNo, billPayedDate, billAmount, id])
 
   const handleFileChange = useCallback((e) => {
     const newFiles = [...selectFile]
@@ -111,7 +116,7 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
         if (success === 1) {
           succesNotify(message);
           setMonthlyCount(monthlyCount + 1);
-          reset();
+          // reset();
         } else {
           warningNotify(message);
         }
@@ -130,7 +135,7 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
             succesNotify(message);
             handleClose()
             setMonthlyCount(monthlyCount + 1)
-            reset()
+            // reset()
           }
           else if (success === 0) {
             infoNotify(message);
@@ -321,8 +326,6 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                 <Box sx={{
                   width: "100%",
                   display: "flex",
-                  // backgroundColor: 'orange',
-                  // margin: 'auto',
                   pt: 1
                 }}>
                   <Box
@@ -330,7 +333,6 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
 
                       flex: .3,
                       pt: .8,
-                      // backgroundColor: 'blue',
                       ml: 1
                     }}>
                     <CssVarsProvider>
@@ -342,8 +344,6 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                       height: '25%',
                       flex: 1,
                       pr: 1
-                      // pl:.2
-                      // backgroundColor: 'red'
                     }}>
                     <TextFieldCustom
                       placeholder="Bill Amount"
@@ -358,7 +358,6 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                 <Box sx={{
                   width: "100%",
                   display: "flex",
-                  // backgroundColor: 'orange',
                   margin: 'auto',
                   pt: .5
                 }}>
@@ -367,7 +366,6 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                       pt: .5,
                       flex: .3,
                       ml: 1,
-                      // backgroundColor: 'blue'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill Date</Typography>
@@ -378,11 +376,8 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                       height: '25%',
                       flex: 1,
                       pr: 1
-                      // pl:.2
-                      // backgroundColor: 'red'
                     }}>
                     <TextFieldCustom
-                      // placeholder="Device No./Sim No."
                       type="date"
                       size="sm"
                       name="billDate"
@@ -394,7 +389,6 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                 <Box sx={{
                   width: "100%",
                   display: "flex",
-                  // backgroundColor: 'orange',
                   margin: 'auto',
                   pt: .5
                 }}>
@@ -403,7 +397,6 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                       pt: .5,
                       flex: .3,
                       ml: 1,
-                      // backgroundColor: 'blue'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15 }}>Bill Due Date</Typography>
@@ -414,11 +407,8 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                       height: '25%',
                       flex: 1,
                       pr: 1
-                      // pl:.2
-                      // backgroundColor: 'red'
                     }}>
                     <TextFieldCustom
-                      // placeholder="Device No./Sim No."
                       type="date"
                       size="sm"
                       name="billDueDate"
@@ -431,7 +421,6 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                 <Box sx={{
                   width: "100%",
                   display: "flex",
-                  // backgroundColor: 'orange',
                   margin: 'auto',
                   pt: .5
                 }}>
@@ -440,7 +429,6 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                       pt: .8,
                       flex: .3,
                       ml: 1,
-                      // backgroundColor: 'blue'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill No.</Typography>
@@ -451,7 +439,6 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                       height: '25%',
                       flex: 1,
                       pr: 1
-                      // backgroundColor: 'red'
                     }}>
                     <TextFieldCustom
                       placeholder="Bill Number"
@@ -466,7 +453,6 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                 <Box sx={{
                   width: "100%",
                   display: "flex",
-                  // backgroundColor: 'orange',
                   margin: 'auto',
                   // pt:.5
                 }}>
@@ -474,9 +460,7 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                     sx={{
                       pt: 1,
                       flex: .3,
-                      ml: 1,
-
-                      //    backgroundColor: 'blue'
+                      ml: 1
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill Payed Date</Typography>
@@ -490,7 +474,6 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                       pt: .5
                     }}>
                     <TextFieldCustom
-                      // placeholder="Device No./Sim No."
                       type="date"
                       size="sm"
                       name="billPayedDate"
@@ -500,11 +483,11 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                   </Box>
                 </Box>
 
-                <Box sx={{ flex: 2, m: 1, height: 45, border: 1.5, borderStyle: 'dashed', borderColor: '#BBC8DE', pl: 3, }}>
+                <Box sx={{ flex: 2, m: 1, height: 45, border: 1.5, borderStyle: 'dashed', borderColor: '#BBC8DE', pl: 1, }}>
 
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <CssVarsProvider>
-                      <Typography   >upload file</Typography>
+                      <Typography   >upload bill</Typography>
                     </CssVarsProvider>
                     <label htmlFor="file-input">
                       <CustomeToolTip title="upload">
@@ -520,13 +503,10 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                       type="file"
                       accept=".jpg, .jpeg, .png, .pdf"
                       style={{ display: 'none' }}
-                      // onChange={uploadFile}
                       onChange={handleFileChange}
                       name="file"
                       multiple // Add this attribute to allow multiple file selections
                     />
-
-
 
                     {selectFile && selectFile.map((file, index) => (
                       <Box sx={{ display: "flex", flexDirection: "row", ml: 2, backgroundColor: '#D6E2E8' }} key={index} >
@@ -536,18 +516,10 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
 
                       </Box>
                     ))}
-                    {/* </Box> */}
-
-
-
-                    {/* ... */}
 
                   </Box>
-
                 </Box>
-
                 <Box sx={{
-                  // backgroundColor: 'lightgrey',
                   display: 'flex',
                   height: 40,
                   width: 300,
@@ -556,28 +528,10 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
                   margin: 'auto'
 
                 }} >
-                  {/* <Box >
-                    <CusCheckBox
-                      color="primary"
-                      size="md"
-                      name="payed_status"
-                      value={payed_status}
-                      checked={payed_status}
-                      onCheked={billAddModalUpdate}
-                    ></CusCheckBox>
-                    &nbsp;
-                  </Box> */}
-                  {/* <Box >
-                    <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}> Bill Payed Status</Typography>
-                    </CssVarsProvider>
-                  </Box> */}
 
                 </Box>
               </Box>
             </Box>
-
-
           </Box>
         </DialogContent>
         <DialogActions>
@@ -588,7 +542,6 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
           <Button
             sx={{ color: "#0074B7", fontWeight: 'bold' }}
             onClick={handleClose}
-
           >Cancel</Button>
         </DialogActions>
       </Dialog>

@@ -8,8 +8,9 @@ import PermMediaIcon from '@mui/icons-material/PermMedia'
 import ImageView from './ImageView'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
-const MonthlyTarifView = ({ monthlydata, setBackdashboard, setmonthly, setMonthlyCount, monthlyCount }) => {
+const MonthlyTarifView = ({ monthlydata, setmonthly, setMonthlyCount, monthlyCount }) => {
 
   const [selectedMonthlyBillImages, setSelectedMonthlyBillImages] = useState([]);
   const [tabledata, setTabledata] = useState([])
@@ -21,6 +22,7 @@ const MonthlyTarifView = ({ monthlydata, setBackdashboard, setmonthly, setMonthl
   const [getarry, setgetarry] = useState([])
   const [editFlag, setEditFalg] = useState(0)
   const [imageUrls, setImageUrls] = useState([]);
+  const history = useHistory()
 
 
   const handleClose = useCallback(() => {
@@ -125,14 +127,14 @@ const MonthlyTarifView = ({ monthlydata, setBackdashboard, setmonthly, setMonthl
     }
   }, [monthlydata])
 
-  const backtoSetting = useCallback(() => {
-    setBackdashboard(1)
+  const backtoDash = useCallback(() => {
+    history.push('/Home/DashboardBackup')
     setmonthly(0)
-  }, [setBackdashboard, setmonthly])
+  }, [history, setmonthly])
   return (
     <Fragment>
       <Box >
-        <CardMasterClose close={backtoSetting} sx={{ height: 100 }}>
+        <CardMasterClose close={backtoDash} sx={{ height: 100 }}>
           {AddModalFlag === 1 ? <TarrifModalBillEdits open={addModalOpen} handleClose={handleClose}
             setMonthlyCount={setMonthlyCount}
             monthlyCount={monthlyCount}
@@ -143,7 +145,7 @@ const MonthlyTarifView = ({ monthlydata, setBackdashboard, setmonthly, setMonthl
               selectedMonthlyBillImages={selectedMonthlyBillImages} getarry={getarry} /> : null}
           <CssVarsProvider>
             <Box sx={{ display: 'flex' }}>
-              <Box sx={{ flex: 5, }}><Typography sx={{ fontWeight: 10, fontSize: 28, fontFamily: 'Anton', color: '#003060' }}>Monthly Tarrif </Typography></Box>
+              <Box sx={{ flex: 5, }}><Typography sx={{ fontWeight: 10, fontSize: 28, fontFamily: 'Anton', color: '#003060' }}>Monthly Tariff </Typography></Box>
               <Paper sx={{ width: 30, height: 20, backgroundColor: '#D6DBDF', mt: 1 }}></Paper><Box sx={{ flex: 1, pl: 1, pt: .5 }}> pending bill</Box>
             </Box>
             <Paper variant="outlined" sx={{ maxHeight: 750, maxWidth: '100%', overflow: 'auto' }}>

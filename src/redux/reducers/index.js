@@ -143,8 +143,10 @@ import {
     getSelectedDaysDetails,
     getDaysDetails
 } from './BackupDash.Reducer';
+import { getPasswordCredential } from './ItPasswordCredential.Reducer'
 import { getRackList } from './AmRackList.Reducer'
 import { getRoomBasedOnDeptSec } from './AmRoomDeptSecBased.Reducer'
+
 
 
 const reducer = combineReducers({
@@ -295,7 +297,9 @@ const reducer = combineReducers({
     getWeeklyDetails,
     getSelectedDaysDetails,
     getDaysDetails,
+    getPasswordCredential,
     getRackList,
     getRoomBasedOnDeptSec
+
 })
 export default reducer;
