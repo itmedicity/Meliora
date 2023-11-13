@@ -41,8 +41,7 @@ const CommunicationDevice = () => {
     setEditFalg(1)
     seteditModalFlag(1)
     seteditModalOpen(true)
-  }, [])
-
+  }, [setgetarry])
   const backtoSetting = useCallback(() => {
     history.push('/Home/DashboardBackup')
   }, [history])

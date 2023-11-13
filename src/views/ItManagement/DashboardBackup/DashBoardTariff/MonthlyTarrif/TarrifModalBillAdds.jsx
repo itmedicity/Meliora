@@ -42,18 +42,18 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
     },
     [billAddModal],
   )
-  const reset = () => {
-    const formdata = {
-      billAmount: '',
-      billDate: '',
-      billDueDate: '',
-      billNo: '',
-      billPayedDate: '',
-      payed_status: false,
-    }
-    setbillAddModal(formdata)
-    setSelectFile(null)
-  }
+  // const reset = () => {
+  //   const formdata = {
+  //     billAmount: '',
+  //     billDate: '',
+  //     billDueDate: '',
+  //     billNo: '',
+  //     billPayedDate: '',
+  //     payed_status: false,
+  //   }
+  //   setbillAddModal(formdata)
+  //   setSelectFile(null)
+  // }
   const patchdata = useMemo(() => {
     return {
       monthly_slno: monthly_slno,
@@ -116,7 +116,7 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
         if (success === 1) {
           succesNotify(message);
           setMonthlyCount(monthlyCount + 1);
-          reset();
+          // reset();
         } else {
           warningNotify(message);
         }
@@ -135,7 +135,7 @@ const TarrifModalBillAdds = ({ open, handleClose, getarry, setMonthlyCount, mont
             succesNotify(message);
             handleClose()
             setMonthlyCount(monthlyCount + 1)
-            reset()
+            // reset()
           }
           else if (success === 0) {
             infoNotify(message);

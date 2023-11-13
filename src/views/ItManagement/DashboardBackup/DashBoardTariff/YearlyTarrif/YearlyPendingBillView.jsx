@@ -4,14 +4,16 @@ import { Paper, Typography, } from '@mui/material';
 import { CssVarsProvider, Table } from '@mui/joy';
 import PlaylistAddCircleIcon from '@mui/icons-material/PlaylistAddCircle';
 import YearlyBillAddModal from './YearlyBillAddModal';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
-const YearlyPendingBillView = ({ setBackdashboard, setyearlyPendingBill, YearlyPendingData, yearCount, setYearCount }) => {
+const YearlyPendingBillView = ({ setyearlyPendingBill, YearlyPendingData, yearCount, setYearCount }) => {
   const [addModalOpen, setaddModalOpen] = useState(false)
   const [AddModalFlag, setAddModalFlag] = useState(0)
   const [getarry, setgetarry] = useState([])
   const [editFlag, setEditFalg] = useState(0)
   const [count, setCount] = useState(0)
   const [tabledata, setTabledata] = useState([])
+  const history = useHistory()
 
   const handleClose = useCallback(() => {
     setAddModalFlag(0)
@@ -25,10 +27,10 @@ const YearlyPendingBillView = ({ setBackdashboard, setyearlyPendingBill, YearlyP
     setaddModalOpen(true)
   }, [])
 
-  const backtoSetting = useCallback(() => {
-    setBackdashboard(1)
+  const backtoDash = useCallback(() => {
+    history.push('/Home/DashboardBackup')
     setyearlyPendingBill(0)
-  }, [setBackdashboard, setyearlyPendingBill])
+  }, [history, setyearlyPendingBill])
   useEffect(() => {
     if (YearlyPendingData.length !== 0) {
       const arr = YearlyPendingData?.map((val) => {
@@ -76,7 +78,7 @@ const YearlyPendingBillView = ({ setBackdashboard, setyearlyPendingBill, YearlyP
     <Paper>
       <CardMasterClose
         style={{ overflow: 'hidden' }}
-        close={backtoSetting}
+        close={backtoDash}
       >
         {AddModalFlag === 1 ? <YearlyBillAddModal open={addModalOpen} handleClose={handleClose}
           yearCount={yearCount}

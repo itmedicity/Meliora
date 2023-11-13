@@ -32,21 +32,18 @@ const CommunicationDeviceTable = ({ count, rowSelect }) => {
               val.provider === 4 ? 'Bsnl' : val.provider === 5 ? 'Reliance Communications' : val.provider === 6 ? 'Aircel' :
                 val.provider === 7 ? 'Tata Docomo' : val.provider === 8 ? 'BSNL Mobile' : val.provider === 9 ? 'MNTL' :
                   val.provider === 10 ? 'Tata Teleservices' : val.provider === 11 ? 'Telenor India' : val.provider === 12 ? 'MTS India' : 'NIL',
-            isssued_deligate: val.isssued_deligate,
             issue_date: val.issue_date,
             asset_no: val.asset_no,
             sim: val.sim,
             issue: val.issue,
             tarrif: val.tarrif,
-            sim_status: val.sim_status,
             issue_status: val.issue_status,
             tarrifname: val.tarrif === 1 ? 'Monthly' : val.tarrif === 2 ? 'Quarterly' : val.tarrif === 3 ? 'Yearly' : 'NIL',
             amount: val.amount,
             device_ima: val.device_ima,
             device_num: val.device_num,
             sim_mobile_num: val.sim_mobile_num,
-            receiver_emp_id: val.receiver_emp_id,
-            issuerr_emp_id: val.issuerr_emp_id,
+            receiver_emp_id: val.receiver_emp_id
           }
           return obj
         })

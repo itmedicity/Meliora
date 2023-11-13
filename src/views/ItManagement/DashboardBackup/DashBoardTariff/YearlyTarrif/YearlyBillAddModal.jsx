@@ -43,18 +43,18 @@ const YearlyBillAddModal = ({ open, handleClose, getarry, yearCount, setYearCoun
     [billAddModal],
   )
 
-  const reset = () => {
-    const formdata = {
-      billAmount: '',
-      billDate: '',
-      billDueDate: '',
-      billNo: '',
-      billPayedDate: '',
-      payed_status: false,
-    }
-    setbillAddModal(formdata)
-    setSelectFile(null)
-  }
+  // const reset = () => {
+  //   const formdata = {
+  //     billAmount: '',
+  //     billDate: '',
+  //     billDueDate: '',
+  //     billNo: '',
+  //     billPayedDate: '',
+  //     payed_status: false,
+  //   }
+  //   setbillAddModal(formdata)
+  //   setSelectFile(null)
+  // }
 
   const patchdata = useMemo(() => {
     return {
@@ -119,7 +119,7 @@ const YearlyBillAddModal = ({ open, handleClose, getarry, yearCount, setYearCoun
           if (success === 1) {
             succesNotify(message);
             setYearCount(yearCount + 1);
-            reset();
+            // reset();
           } else {
             warningNotify(message);
           }
@@ -135,12 +135,12 @@ const YearlyBillAddModal = ({ open, handleClose, getarry, yearCount, setYearCoun
               if (selectFile.length !== 0) {
                 InsertFile(selectFile);
                 setYearCount(yearCount + 1)
-                reset();
+                // reset();
               }
               succesNotify(message);
               handleClose()
               setYearCount(yearCount + 1)
-              reset();
+              // reset();
             }
             else if (success === 0) {
               infoNotify(message);

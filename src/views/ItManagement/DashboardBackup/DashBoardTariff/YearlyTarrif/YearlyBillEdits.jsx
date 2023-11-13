@@ -38,18 +38,18 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
     },
     [billEditModal],
   )
-  const reset = () => {
-    const formdata = {
-      bill_amount: '',
-      bill_date: '',
-      bill_due_date: '',
-      bill_number: '',
-      bill_entered_date: '',
-      file_upload_status: false,
-      payed_status: false,
-    }
-    setbillEditModal(formdata)
-  }
+  // const reset = () => {
+  //   const formdata = {
+  //     bill_amount: '',
+  //     bill_date: '',
+  //     bill_due_date: '',
+  //     bill_number: '',
+  //     bill_entered_date: '',
+  //     file_upload_status: false,
+  //     payed_status: false,
+  //   }
+  //   setbillEditModal(formdata)
+  // }
   const patchdata = useMemo(() => {
     return {
       yearly_slno: yearly_slno,
@@ -105,7 +105,7 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
           if (success === 1) {
             succesNotify(message);
             setYearCount(yearCount + 1);
-            reset();
+            // reset();
           } else {
             warningNotify(message);
           }
@@ -122,12 +122,12 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
                 // Call the handleUpload function to upload files
                 InsertFile(selectFile);
                 setYearCount(yearCount + 1)
-                reset();
+                // reset();
               }
               succesNotify(message);
               handleClose()
               setYearCount(yearCount + 1)
-              reset();
+              // reset();
             }
             else if (success === 0) {
               infoNotify(message);

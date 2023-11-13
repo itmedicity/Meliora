@@ -40,18 +40,18 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
     },
     [billAddModal],
   )
-  const reset = () => {
-    const formdata = {
-      billAmount: '',
-      billDate: '',
-      billDueDate: '',
-      billNo: '',
-      billPayedDate: '',
-      payed_status: false,
-    }
-    setbillAddModal(formdata)
-    setSelectFile(null)
-  }
+  // const reset = () => {
+  //   const formdata = {
+  //     billAmount: '',
+  //     billDate: '',
+  //     billDueDate: '',
+  //     billNo: '',
+  //     billPayedDate: '',
+  //     payed_status: false,
+  //   }
+  //   setbillAddModal(formdata)
+  //   setSelectFile(null)
+  // }
   const patchdata = useMemo(() => {
     return {
       quaterly_slno: quaterly_slno,
@@ -107,7 +107,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
           if (success === 1) {
             succesNotify(message);
             setQuaterlyCount(quaterlyCount + 1);
-            reset();
+            // reset();
           } else {
             warningNotify(message);
           }
@@ -125,12 +125,12 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
                 InsertFile(selectFile);
                 // // handleUpload(val);
                 setQuaterlyCount(quaterlyCount + 1)
-                reset();
+                // reset();
               }
               succesNotify(message);
               handleClose()
               setQuaterlyCount(quaterlyCount + 1)
-              reset();
+              // reset();
             }
             else if (success === 0) {
               infoNotify(message);

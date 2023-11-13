@@ -8,9 +8,10 @@ import PermMediaIcon from '@mui/icons-material/PermMedia';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode'
 import BillFileQuaterly from './BillFileQuaterly';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 
-const QuaterlyTariffView = ({ quaterlydata, setBackdashboard, setquarterly, quaterlyCount, setQuaterlyCount }) => {
+const QuaterlyTariffView = ({ quaterlydata, setquarterly, quaterlyCount, setQuaterlyCount }) => {
 
   const [selectedQuaterlyBillImage, setselectedQuaterlyBillImage] = useState([]);
   const [tabledata, setTabledata] = useState([])
@@ -22,6 +23,7 @@ const QuaterlyTariffView = ({ quaterlydata, setBackdashboard, setquarterly, quat
   const [getarry, setgetarry] = useState([])
   const [editFlag, setEditFalg] = useState(0)
   const [imageUrls, setImageUrls] = useState([]);
+  const history = useHistory()
 
   const handleClose = useCallback(() => {
     setAddModalFlag(0)
@@ -122,12 +124,12 @@ const QuaterlyTariffView = ({ quaterlydata, setBackdashboard, setquarterly, quat
     }
   }, [quaterlydata])
 
-  const backtoSetting = useCallback(() => {
-    setBackdashboard(1)
+  const backtoDash = useCallback(() => {
+    history.push('/Home/DashboardBackup')
     setquarterly(0)
-  }, [setBackdashboard, setquarterly])
+  }, [history, setquarterly])
   return (
-    <CardMasterClose close={backtoSetting}>
+    <CardMasterClose close={backtoDash}>
       {AddModalFlag === 1 ? <QuaterlyBillEditModal open={addModalOpen} handleClose={handleClose}
         quaterlyCount={quaterlyCount}
         setQuaterlyCount={setQuaterlyCount}

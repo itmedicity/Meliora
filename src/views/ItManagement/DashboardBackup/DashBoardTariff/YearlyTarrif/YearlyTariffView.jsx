@@ -8,8 +8,9 @@ import PermMediaIcon from '@mui/icons-material/PermMedia';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import FileViewYearly from './FileViewYearly';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
-const YearlyTariffView = ({ yearlydata, setBackdashboard, setyearly, yearCount, setYearCount }) => {
+const YearlyTariffView = ({ yearlydata, setyearly, yearCount, setYearCount }) => {
 
   const [selectedYearlyBillImage, setselectedYearlyBillImage] = useState([]);
   const [tabledata, setTabledata] = useState([])
@@ -21,6 +22,7 @@ const YearlyTariffView = ({ yearlydata, setBackdashboard, setyearly, yearCount, 
   const [getarry, setgetarry] = useState([])
   const [editFlag, setEditFalg] = useState(0)
   const [imageUrls, setImageUrls] = useState([]);
+  const history = useHistory()
 
   const handleClose = useCallback(() => {
     setAddModalFlag(0)
@@ -119,12 +121,12 @@ const YearlyTariffView = ({ yearlydata, setBackdashboard, setyearly, yearCount, 
       setTabledata(arr)
     }
   }, [yearlydata])
-  const backtoSetting = useCallback(() => {
-    setBackdashboard(1)
+  const backtoDash = useCallback(() => {
+    history.push('/Home/DashboardBackup')
     setyearly(0)
-  }, [setBackdashboard, setyearly])
+  }, [history, setyearly])
   return (
-    <CardMasterClose close={backtoSetting}>
+    <CardMasterClose close={backtoDash}>
       {AddModalFlag === 1 ? <YearlyBillEdits open={addModalOpen} handleClose={handleClose} yearCount={yearCount} setYearCount={setYearCount}
         setCount={setCount} count={count} getarry={getarry} editFlag={editFlag} /> :
         imageViewModalFlag === 1 ? <FileViewYearly imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
