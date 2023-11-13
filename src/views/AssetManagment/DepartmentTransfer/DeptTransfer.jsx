@@ -12,6 +12,7 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import AmDepartmentSelWOName from 'src/views/CommonSelectCode/AmDepartmentSelWOName';
 import AmDeptSecSelectWOName from 'src/views/CommonSelectCode/AmDeptSecSelectWOName';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const DeptTransfer = () => {
     const history = useHistory()
@@ -99,6 +100,7 @@ const DeptTransfer = () => {
         setTransferData(restdata)
         setTransDept(0)
         setTransDeptSec(0)
+        setAssetNo('')
     }, [])
 
     const updateDeptTransfer = useCallback(() => {
@@ -120,6 +122,10 @@ const DeptTransfer = () => {
         }
     }, [patchData, transDept, transDeptSec, reset])
 
+    const referesh = useCallback(() => {
+        reset()
+    }, [reset])
+
     const backtoSetting = useCallback(() => {
         history.push('/Home')
     }, [history])
@@ -135,7 +141,7 @@ const DeptTransfer = () => {
                 flexWrap: 'wrap',
                 m: 0
             }} >
-                <Box sx={{ width: '60%', display: 'flex', pt: 2.5, margin: 'auto ', pl: 13 }}>
+                <Box sx={{ width: '60%', display: 'flex', pt: 2.5, margin: 'auto ', pl: 10 }}>
                     <Box sx={{ pl: 0.8, width: "15%", cursor: "pointer" }}>
                         <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Asset No</Typography>
                     </Box>
@@ -148,9 +154,14 @@ const DeptTransfer = () => {
                             onchange={updateAssetNo}
                         ></TextFieldCustom>
                     </Box>
-                    <Box sx={{ width: '3%', pl: 1 }}>
+                    <Box sx={{ width: '3%', pl: 1, pr: 0.5 }}>
                         <CusIconButton size="sm" variant="outlined" clickable="true" color="primary" onClick={search} >
                             <SearchOutlinedIcon fontSize='small' />
+                        </CusIconButton>
+                    </Box>
+                    <Box sx={{ width: '3%', pl: 3 }}>
+                        <CusIconButton size="sm" variant="outlined" clickable="true" color="primary" onClick={referesh} >
+                            <RefreshIcon fontSize='small' />
                         </CusIconButton>
                     </Box>
                 </Box>
