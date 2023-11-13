@@ -769,7 +769,7 @@ const ItemNameCreation = () => {
         {SubGroupFlag === 1 ? <SubGroupModal open={SubGroupOpen} handleClose={handleClose} /> : null}
         {SubModelFlag === 1 ? <SubModelModal open={SubModelOpen} handleClose={handleClose} /> : null}
 
-        <Box sx={{ width: { sm: "95%", md: "85%", lg: "50%", xl: "50%", xxl: "50%" }, display: 'flex', pt: 2.5, margin: 'auto ', pl: 13, flexDirection: 'column' }}>
+        <Box sx={{ width: { sm: "100%", md: "80%", lg: "80%", xl: "50%", xxl: "50%" }, display: 'flex', pt: 2.5, margin: 'auto ', pl: 13, flexDirection: 'column' }}>
 
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 0 }}>
@@ -803,7 +803,7 @@ const ItemNameCreation = () => {
 
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, height: "1%", pt: 0.1, textAlign: "center" }}>
+            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, height: "1%", pt: 0.1, textAlign: "center" }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -841,7 +841,7 @@ const ItemNameCreation = () => {
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -878,7 +878,7 @@ const ItemNameCreation = () => {
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -919,8 +919,8 @@ const ItemNameCreation = () => {
               <RemoveRedEyeOutlinedIcon />
             </Tooltip>
           </Box> */}
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around", }}>
+            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -958,7 +958,7 @@ const ItemNameCreation = () => {
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -994,7 +994,7 @@ const ItemNameCreation = () => {
             </Box>
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -1033,7 +1033,7 @@ const ItemNameCreation = () => {
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -1071,7 +1071,7 @@ const ItemNameCreation = () => {
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -1146,7 +1146,7 @@ const ItemNameCreation = () => {
           </Box> */}
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -1183,7 +1183,7 @@ const ItemNameCreation = () => {
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "9%", md: "9%", lg: "6%" }, pt: 0.1 }}>
+            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -1245,11 +1245,11 @@ const ItemNameCreation = () => {
             </Box>
           </Box> */}
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 20, pt: 1, justifyContent: "space-evenly" }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 19, pt: 1, justifyContent: "space-evenly" }}>
           <Box sx={{ width: "12%", }}>
             <Typography>Item Name</Typography>
           </Box>
-          <Box sx={{ width: "80%", }}>
+          <Box sx={{ width: "80%", pl: 2.3 }}>
             <TextFieldCustom
               type="text"
               size="sm"
@@ -1261,7 +1261,7 @@ const ItemNameCreation = () => {
 
         <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 20, pt: 1, justifyContent: "space-evenly" }}>
 
-          <Box sx={{ width: "12%", }}>
+          <Box sx={{ width: "15%", }}>
             <Typography>Specification 1</Typography>
           </Box>
           <Box sx={{ width: "80%", }}>
@@ -1287,7 +1287,7 @@ const ItemNameCreation = () => {
 
         <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 20, pt: 1, justifyContent: "space-evenly" }}>
 
-          <Box sx={{ width: "12%", }}>
+          <Box sx={{ width: "15%", }}>
             <Typography>Specification 2</Typography>
           </Box>
           <Box sx={{ width: "80%", }}>

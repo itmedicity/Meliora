@@ -14,8 +14,8 @@ const AmRoomSelecDeptSecBased = ({ roomNo, setRoomNo, setRoomName }) => {
     useEffect(() => {
         if (value !== null) {
             setValue(value)
-            setRoomNo(value.dept_id)
-            setRoomName(value.dept_name)
+            setRoomNo(value.rm_room_slno)
+            setRoomName(value.rm_room_name)
         } else {
             setRoomNo(0)
             setRoomName('')

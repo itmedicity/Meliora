@@ -155,7 +155,7 @@ const ItemListViewDept = () => {
                                         onCheked={updateAsset}
                                     ></CusCheckBox>
                                 </Box>
-                                <Box sx={{ pl: 0.8, }}>
+                                <Box sx={{ pl: 2, }}>
                                     <CusCheckBox
                                         label="Spare"
                                         color="primary"

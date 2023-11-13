@@ -94,8 +94,8 @@ const ModelForItemExistOrNot = ({ open, handleClose }) => {
                 <Sheet
                     variant="outlined"
                     sx={{
-                        minWidth: "45%", borderRadius: 'md', p: 3, boxShadow: 'lg', height: 600,
-                        maxWidth: 400
+                        minWidth: "70%", borderRadius: 'md', p: 3, boxShadow: 'lg', height: 800,
+                        maxWidth: "90%"
                     }}
                 >
                     <Box sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}>
@@ -192,7 +192,7 @@ const ModelForItemExistOrNot = ({ open, handleClose }) => {
                             </Box>
 
                             {flag === 1 ? <Box sx={{
-                                minHeight: 80, maxHeight: 200,
+                                minHeight: 80, maxHeight: 300,
                                 overflow: 'auto', p: 1
                             }} >
 
@@ -214,7 +214,7 @@ const ModelForItemExistOrNot = ({ open, handleClose }) => {
                                                         minHeight: 2
                                                     }}
                                                 >
-                                                    <td> {val.item_creation_slno}</td>
+                                                    <td> {index + 1}</td>
                                                     <td> {val.item_name}</td>
                                                     <td> {val.asset_spare === 1 ? "Asset" : val.asset_spare === 2 ? "Spare" : "Not Given"}</td>
                                                 </tr>
