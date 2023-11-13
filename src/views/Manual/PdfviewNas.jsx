@@ -50,8 +50,14 @@ const PdfviewNas = ({ pdfDis }) => {
                                             type="application/pdf"
                                             height={850}
                                             width="100%" />
-                                        :
-                                        null
+                                        : pdfDis === 6 ?
+                                            <embed
+                                                id="pdf-embed"
+                                                src={"http://192.168.10.88:9090/fileshows/Abbreviation.pdf#toolbar=0&navpanes=0&view=FitH"}
+                                                type="application/pdf"
+                                                height={850}
+                                                width="100%" />
+                                            : null
                 }
             </Box>
         </Fragment>

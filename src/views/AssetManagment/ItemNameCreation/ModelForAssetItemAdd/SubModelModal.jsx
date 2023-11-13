@@ -11,15 +11,16 @@ import { CssVarsProvider, Typography } from '@mui/joy'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { axioslogin } from 'src/views/Axios/Axios';
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-import { useSelector } from 'react-redux'
+import { useSelector ,useDispatch} from 'react-redux'
 import AssetModelSelWithoutName from 'src/views/CommonSelectCode/AssetModelSelWithoutName';
-
+import { getSubmodel } from 'src/redux/actions/AmSubmodelList.action';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
 
 const SubModelModal=({ open, handleClose, })=> {
+    const dispatch = useDispatch()
     const [model, setModel] = useState(0)
     // Get login user emp_id
     const id = useSelector((state) => {
@@ -63,6 +64,7 @@ const SubModelModal=({ open, handleClose, })=> {
               const result = await axioslogin.post('/submodel/insert', postdata)
               const { message, success } = result.data
               if (success === 1) {
+                dispatch(getSubmodel(model))
                   succesNotify(message)
                   reset()
                   handleClose()
@@ -79,7 +81,7 @@ const SubModelModal=({ open, handleClose, })=> {
               infoNotify("Please Enter SubModel")
           }
       },
-      [postdata, handleClose, submodel_name],
+      [postdata, handleClose,model, dispatch,submodel_name]
   )
   
   

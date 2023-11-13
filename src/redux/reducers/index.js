@@ -124,6 +124,28 @@ import { getAmManufacture } from './AmManufactureList.Reducer'
 import { getAmModel } from './AmModelList.Reducer'
 import { getUOM } from './AmUOMList.Reducer'
 import { getSubmodel } from './AmSubModelListReducer'
+import { getDeviceType } from './ItCommunicationDeviceType.Reducer'
+import { getCustodianDept } from './AmCustodianDept.Reducer'
+import { getItemBasedSection } from './AmItemSelectBsedSec.Reducer'
+import { getSpareItemBasedSection } from './AmSpareItemSelectBasedSec.Reducer'
+import { getScheduleType } from './BackupScheduleType.Reducer';
+import { getScheduleTime } from './BackupScheduleTime.Reducer';
+import { getBackupDetails, getEmployeeBackup } from './BackupDetails.Reducers';
+import {
+    getDailyCount,
+    getDayDetails,
+    getMonthlyCount,
+    getMonthDetails,
+    getYearlyBackup,
+    getYearDetails,
+    getWeeklyBackup,
+    getWeeklyDetails,
+    getSelectedDaysDetails,
+    getDaysDetails
+} from './BackupDash.Reducer';
+import { getRackList } from './AmRackList.Reducer'
+import { getRoomBasedOnDeptSec } from './AmRoomDeptSecBased.Reducer'
+
 
 const reducer = combineReducers({
     changeState,
@@ -255,8 +277,25 @@ const reducer = combineReducers({
     getAmModel,
     getSubmodel,
     getUOM,
-
-
-
+    getDeviceType,
+    getCustodianDept,
+    getItemBasedSection,
+    getSpareItemBasedSection,
+    getScheduleType,
+    getScheduleTime,
+    getBackupDetails,
+    getDailyCount,
+    getDayDetails,
+    getEmployeeBackup,
+    getMonthlyCount,
+    getMonthDetails,
+    getYearlyBackup,
+    getYearDetails,
+    getWeeklyBackup,
+    getWeeklyDetails,
+    getSelectedDaysDetails,
+    getDaysDetails,
+    getRackList,
+    getRoomBasedOnDeptSec
 })
 export default reducer;

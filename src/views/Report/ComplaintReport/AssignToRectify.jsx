@@ -21,8 +21,8 @@ const AssignToRectify = () => {
     const history = useHistory();
     const [exports, setexport] = useState(0)
     const [dateset, SetDate] = useState({
-        start_date: new Date(),
-        end_date: new Date()
+        start_date: format(new Date(), 'dd-MM-yyyy'),
+        end_date: format(new Date(), 'dd-MM-yyyy')
     })
     const [open, setOpen] = useState(false)
     const { start_date, end_date } = dateset;
@@ -59,6 +59,7 @@ const AssignToRectify = () => {
                         date: format(new Date(val.compalint_date), 'dd-MM-yyyy'),
                         location: val.location !== null ? val.location : "Not Given",
                         desc: val.complaint_desc,
+                        createuser: val.createuser,
                         category: val.complaint_type_name !== null ? val.complaint_type_name : "Not Given",
                         priority: val.cm_priority_desc !== null ? val.cm_priority_desc : "Not Given",
                         assigndate: val.assigned_date !== null ? format(new Date(val.assigned_date), 'dd-MM-yyyy H:mm:ss') : "Not Given",
@@ -89,6 +90,7 @@ const AssignToRectify = () => {
         { headerName: "Complaint Description", field: "desc", autoHeight: true, wrapText: true, minWidth: 300 },
         { headerName: "Category", field: "category", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
+        { headerName: "Req.User", field: "createuser", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Assigning Time ", field: "assigndate", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Rectification Time", field: "rectify_time", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "TAT Time(G_H)", field: "tat", autoHeight: true, wrapText: true, minWidth: 100, filter: "true" },

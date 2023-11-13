@@ -211,7 +211,12 @@ const SuperisorList = () => {
         },
         { headerName: "Request Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Assign Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, filter: true, wrapText: true }
+        { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, filter: true, wrapText: true },
+        { headerName: "Remark", field: "rectify_pending_hold_remarks", autoHeight: true, filter: true, wrapText: true }
+
+
+
+
     ])
     //When we click on assist this table  will show
     const [assitantaccept] = useState([
@@ -999,7 +1004,7 @@ const SuperisorList = () => {
                                     mt: 1,
                                 }} >
                                     <CusCheckBox
-                                        label="Employee Trasfer"
+                                        label="Employee Transfer"
                                         color="danger"
                                         size="md"
                                         name="empTras"

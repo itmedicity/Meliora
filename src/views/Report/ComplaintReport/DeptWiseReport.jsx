@@ -10,6 +10,7 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import CusIconButton from '../../Components/CusIconButton';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
+import { format } from 'date-fns';
 // import DownloadIcon from '@mui/icons-material/Download'
 // import CustomeToolTip from '../../Components/CustomeToolTip'
 // import { ActionTyps } from 'src/redux/constants/action.type'
@@ -20,8 +21,8 @@ const DeptWiseReport = () => {
     const [open, setOpen] = useState(false)
 
     const [dateset, SetDate] = useState({
-        start_date: new Date(),
-        end_date: new Date()
+        start_date: format(new Date(), 'dd-MM-yyyy'),
+        end_date: format(new Date(), 'dd-MM-yyyy')
     })
 
     const { start_date, end_date } = dateset;

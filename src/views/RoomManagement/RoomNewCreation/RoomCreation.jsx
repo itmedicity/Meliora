@@ -14,6 +14,7 @@ import InsideBluidBlockSelect from 'src/views/CommonSelectCode/InsideBluidBlockS
 import { CssVarsProvider, Typography } from '@mui/joy'
 import BuildingSelectWithoutName from 'src/views/CommonSelectCode/BuildingSelectWithoutName'
 import BuildBlockSelect from 'src/views/CommonSelectCode/BuildBlockSelect'
+import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect'
 
 const RoomCreation = () => {
   const history = useHistory()
@@ -28,7 +29,7 @@ const RoomCreation = () => {
   const [BlockName, setBlockName] = useState('')
   const [floorShort, setFloorShort] = useState('')
   const [subroom, setSubRoom] = useState('')
-
+  const [outlet, setOutlet] = useState(0)
   const [start, setStart] = useState(0)
   const [end, setEnd] = useState(0)
   const [lastRoom, setLastRoom] = useState(0)
@@ -38,9 +39,10 @@ const RoomCreation = () => {
     rm_room_slno: '',
     rm_room_name: '',
     rm_room_status: false,
+    rm_room_no_dis: ''
   })
 
-  const { rm_room_slno, rm_room_name, rm_room_status } = room
+  const { rm_room_slno, rm_room_name, rm_room_status, rm_room_no_dis } = room
   const updateRoom = useCallback(
     (e) => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -63,8 +65,10 @@ const RoomCreation = () => {
       rm_insidebuilldblock_slno: insideBuildBlock,
       rm_roomtype_slno: roomType,
       rm_category_slno: roomCategory,
+      rm_outlet_slno: outlet,
       rm_room_status: rm_room_status === true ? 1 : 0,
       actual_rm_no: lastRoom + 1,
+      rm_room_no_dis: rm_room_no_dis
     }
   }, [
     rm_room_name,
@@ -76,8 +80,10 @@ const RoomCreation = () => {
     BlockName,
     roomType,
     roomCategory,
+    outlet,
     rm_room_status,
     lastRoom,
+    rm_room_no_dis
   ])
 
   const patchdata = useMemo(() => {
@@ -92,7 +98,9 @@ const RoomCreation = () => {
       rm_insidebuilldblock_slno: insideBuildBlock,
       rm_roomtype_slno: roomType,
       rm_category_slno: roomCategory,
+      rm_outlet_slno: outlet,
       rm_room_status: rm_room_status === true ? 1 : 0,
+      rm_room_no_dis: rm_room_no_dis
     }
   }, [
     rm_room_slno,
@@ -105,13 +113,16 @@ const RoomCreation = () => {
     floorShort,
     roomType,
     roomCategory,
+    outlet,
     rm_room_status,
+    rm_room_no_dis
   ])
   const reset = async () => {
     const frmdata = {
       rm_room_slno: '',
       rm_room_name: '',
       rm_room_status: false,
+      rm_room_no_dis: ''
     }
     setRoom(frmdata)
     setFloorData(0)
@@ -123,6 +134,7 @@ const RoomCreation = () => {
     setRoomType(0)
     setCategory(0)
     setCount(0)
+    setOutlet(0)
   }
 
   const insertdata = useMemo(() => {
@@ -236,12 +248,14 @@ const RoomCreation = () => {
       rm_roomtype_slno,
       rm_room_status,
       rm_category_slno,
+      rm_outlet_slno, rm_room_no_dis
     } = data[0]
 
     const frmdata = {
       rm_room_slno: rm_room_slno,
       rm_room_name: rm_room_name,
       rm_room_status: rm_room_status === 1 ? true : false,
+      rm_room_no_dis: rm_room_no_dis
     }
     setRoom(frmdata)
     setFloorData(rm_room_floor_slno)
@@ -250,6 +264,8 @@ const RoomCreation = () => {
     setInsideBuildBlck(rm_insidebuilldblock_slno)
     setRoomType(rm_roomtype_slno)
     setCategory(rm_category_slno)
+    setOutlet(rm_outlet_slno)
+
   }, [])
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
@@ -257,7 +273,7 @@ const RoomCreation = () => {
 
   return (
     <CardMaster
-      title="Room Master"
+      title="Room/Hall/Dormitory/Corridor Master"
       submit={sumbitRoom}
       close={backtoSetting}
       refresh={refreshWindow}
@@ -298,6 +314,9 @@ const RoomCreation = () => {
                 buildno={building}
               />
             </Box>
+            <Box sx={{ pt: 1.5 }}>
+              <DeptSectionSelect value={outlet} setValue={setOutlet} />
+            </Box>
             <Box sx={{ pt: 1 }}>
               <TextFieldCustom
                 placeholder="Room Name"
@@ -308,7 +327,16 @@ const RoomCreation = () => {
                 onchange={updateRoom}
               ></TextFieldCustom>
             </Box>
-
+            <Box sx={{ pt: 1 }}>
+              <TextFieldCustom
+                placeholder="Room Number"
+                type="text"
+                size="sm"
+                name="rm_room_no_dis"
+                value={rm_room_no_dis}
+                onchange={updateRoom}
+              ></TextFieldCustom>
+            </Box>
             <Box sx={{ pt: 1, display: 'flex', flexDirection: 'row' }}>
               <Box sx={{ pt: 0.5 }}>
                 <CssVarsProvider>

@@ -1,4 +1,4 @@
-import { Box, Paper, IconButton } from '@mui/material'
+import { Box, Paper, IconButton, } from '@mui/material'
 import React, { useCallback, memo, useState, useMemo, useEffect, Fragment } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import { useHistory } from 'react-router-dom'
@@ -23,12 +23,19 @@ import _ from 'underscore'
 import DeptSecUnderDept from 'src/views/CommonSelectCode/DeptSecUnderDept'
 import { getDeptSecInchHod } from 'src/redux/actions/DeptSecInchHod.action'
 
+// import imageCompression from 'browser-image-compression';
+// import UploadFileIcon from '@mui/icons-material/UploadFile'
+// import CloseIcon from '@mui/icons-material/Close';
+// import ReqImageDisplayModal from './ReqImageDisplayModal'
+// import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+
 const ReqRegistration = () => {
     /*** Initializing */
     const history = useHistory();
     const dispatch = useDispatch();
     //state for Actual requirement
     const [actual_require, setActual_require] = useState('')
+    // const [selectFile, setSelectFile] = useState([])
     const updateactual_require = useCallback((e) => {
         setActual_require(e.target.value)
     }, [])
@@ -70,7 +77,7 @@ const ReqRegistration = () => {
         item_qty: '',
         item_unit: '',
         item_spec: '',
-        approx_cost: ''
+        approx_cost: 0
     })
     //Destructuring
     const { item_desc, item_brand, item_qty, item_unit, item_spec, approx_cost } = itemstate
@@ -133,7 +140,9 @@ const ReqRegistration = () => {
     }, [HodIncharge])
 
     const deptsecHodInch = useSelector((state) => state.setDeptSecInchHod.deptSecInchHodList, _.isEqual)
+    //HOD
     const object1 = deptsecHodInch.filter(obj => obj.auth_post === 1 ? obj.emp_id : null);
+    //Incharge
     const object2 = deptsecHodInch.filter(obj => obj.auth_post === 2 ? obj.emp_id : null);
 
     const updateExpectedDate = (e) => {
@@ -250,7 +259,7 @@ const ReqRegistration = () => {
                         item_qty: '',
                         item_unit: '',
                         item_spec: '',
-                        approx_cost: ''
+                        approx_cost: 0
                     }
                     setItemState(resetarrray)
                     setItemSlno(item_slno + 1)
@@ -278,14 +287,14 @@ const ReqRegistration = () => {
                     item_qty: '',
                     item_unit: '',
                     item_spec: '',
-                    approx_cost: ''
+                    approx_cost: 0
                 }
                 setItemState(resetarrray)
             }
         }
     }
 
-    const AddItem = () => {
+    const AddItem = useCallback(() => {
         if (item_desc === '') {
             warningNotify("Please Add Item Desription")
         }
@@ -307,7 +316,7 @@ const ReqRegistration = () => {
                 const datass = [...dataPost, newdata]
                 if (datass.length !== 0) {
                     setdataPost(datass)
-                    const xx = approx_cost !== 0 ? totalApproxCost + parseInt(approx_cost) : totalApproxCost
+                    const xx = approx_cost !== 0 ? totalApproxCost + parseInt(approx_cost) : 0
                     setTotalCost(xx)
                     const resetarrray = {
                         item_desc: '',
@@ -315,7 +324,7 @@ const ReqRegistration = () => {
                         item_qty: '',
                         item_unit: '',
                         item_spec: '',
-                        approx_cost: ''
+                        approx_cost: 0
                     }
                     setItemState(resetarrray)
                     setItemSlno(item_slno + 1)
@@ -345,14 +354,15 @@ const ReqRegistration = () => {
                     item_qty: '',
                     item_unit: '',
                     item_spec: '',
-                    approx_cost: ''
+                    approx_cost: 0
                 }
                 setItemState(resetarrray)
                 setItemSlno(0)
                 setArryUpdate(0)
             }
         }
-    }
+    }, [totalApproxCost, approx_cost, setArryUpdate, dataPost, arrayupdate, item_brand, item_desc,
+        item_unit, item_qty, item_spec, editdata, item_slno])
 
     //itemm array delete button click item delete
     const deleteSelect = useCallback((params) => {
@@ -420,13 +430,13 @@ const ReqRegistration = () => {
             needed: needed,
             request_dept_slno: dept,
             request_deptsec_slno: deptSec,
-            location: location,
+            location: location === '' ? null : location,
             create_user: id,
             remarks: remarks !== '' ? remarks : '',
             total_approx_cost: totalApproxCost,
             expected_date: startdate,
             user_deptsec: empsecid,
-            category: category,
+            category: category === '' ? null : category,
             emergency: emergency === false ? 0 : 1
         }
     }, [actual_require, needed, dept, deptSec, category, location, id, remarks, startdate,
@@ -456,76 +466,101 @@ const ReqRegistration = () => {
         }
     }, [msgShow])
 
+    // //* Reset function
+    const reset = useCallback(() => {
+        setActual_require('')
+        setNeeded('')
+        setLocation('')
+        setRemarks('')
+        setdept(0)
+        setdeptSec(0)
+        setTableDis(0)
+        setTotalCost(0)
+        setValue(0)
+        setReqSlno(0)
+        setPatchInserDetl(0)
+        setMsgShow(0)
+        setStartdate(format(new Date(), "yyyy-MM-dd"))
+        setCount(0)
+        setItemSlno(1)
+        setDisEstimate(0)
+        setCategory('')
+        setEstimate(false)
+        const resetdata = {
+            item_desc: '',
+            item_brand: '',
+            item_qty: '',
+            item_unit: '',
+            item_spec: '',
+            approx_cost: ''
+        }
+        setItemState(resetdata)
+        setdataPost([])
+        // setSelectFile([])
+        // setImgFlag(0)
+    }, [])
+
+    // const uploadFile = useCallback(async (e) => {
+    //     const newFiles = [...selectFile]
+    //     newFiles.push(e.target.files[0])
+    //     setSelectFile(newFiles)
+    // }, [selectFile, setSelectFile])
+
+    // const handleImageUpload = useCallback(async (imageFile) => {
+    //     const options = {
+    //         maxSizeMB: 2,
+    //         maxWidthOrHeight: 1920,
+    //         useWebWorker: true,
+    //     }
+    //     const compressedFile = await imageCompression(imageFile, options)
+    //     return compressedFile
+    // }, []);
+
+    // const handleRemoveFile = (index) => {
+    //     setSelectFile((prevFiles) => {
+    //         const updatedFiles = [...prevFiles];
+    //         updatedFiles.splice(index, 1); // Remove the file at the specified index
+    //         return updatedFiles;
+    //     });
+    // };
+
+    // const ViewImage = useCallback(() => {
+    //     setImageShowFlag(1)
+    //     setImageShow(true)
+    // }, [])
+
+    // const handleClose = useCallback(() => {
+    //     setImageShowFlag(0)
+    //     setImageShow(false)
+    // }, [])
+
     /*** usecallback function for form submitting */
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
-        // //* Reset function
-        const reset = () => {
-            setActual_require('')
-            setNeeded('')
-            setLocation('')
-            setRemarks('')
-            setdept(0)
-            setdeptSec(0)
-            setTableDis(0)
-            setTotalCost(0)
-            setValue(0)
-            setReqSlno(0)
-            setPatchInserDetl(0)
-            setMsgShow(0)
-            setStartdate(format(new Date(), "yyyy-MM-dd"))
-            setCount(0)
-            setMsgShow(0)
-            setItemSlno(1)
-            setDisEstimate(0)
-            setCategory('')
-            setEstimate(false)
-            const resetdata = {
-                item_desc: '',
-                item_brand: '',
-                item_qty: '',
-                item_unit: '',
-                item_spec: '',
-                approx_cost: ''
-            }
-            setItemState(resetdata)
-            setdataPost([])
-        }
+
         /**** insert function for use call back     */
-
-
         const InsertFun = async (postData) => {
             const result = await axioslogin.post('/requestRegister', postData);
             return result.data
         }
         //** Inset api for detail */
         const InsertFundetl = async (insertid) => {
-            if (dataPost.length !== 0) {
-                const postdataDetl = dataPost && dataPost.map((val) => {
-                    return {
-                        req_slno: insertid,
-                        item_slno: val.item_slno,
-                        item_desc: val.item_desc,
-                        item_brand: val.item_brand,
-                        item_unit: val.item_unit,
-                        item_qnty: val.item_qnty,
-                        item_specification: val.item_specification,
-                        aprox_cost: val.aprox_cost,
-                        item_status: 1,
-                        create_user: id
-                    }
-                })
-                const result = await axioslogin.post('/requestRegister/postDetails', postdataDetl);
-                const { message, success } = result.data;
-                if (success === 1) {
-                    succesNotify(message)
-                    reset()
-                    setCount(count + 1)
+            const postdataDetl = dataPost && dataPost.map((val) => {
+                return {
+                    req_slno: insertid,
+                    item_slno: val.item_slno,
+                    item_desc: val.item_desc,
+                    item_brand: val.item_brand,
+                    item_unit: val.item_unit,
+                    item_qnty: val.item_qnty,
+                    item_specification: val.item_specification,
+                    aprox_cost: val.aprox_cost,
+                    item_status: 1,
+                    create_user: id
                 }
-                else {
-                    infoNotify("Datas Not Inserted in Detail Table")
-                }
-            }
+            })
+            const result = await axioslogin.post('/requestRegister/postDetails', postdataDetl);
+            return result.data
         }
 
         //** Inset api for Approval */
@@ -543,11 +578,11 @@ const ReqRegistration = () => {
                 cao_approve_req: 1,
                 ed_approve_req: null,
                 incharge_user: isIncharge === 1 ? id : ishod === 1 ? id : null,
-                hod_user: ishod === 1 ? id : null,
+                hod_user: null,
                 incharge_approve: isIncharge === 1 ? 1 : ishod === 1 ? 1 : null,
-                hod_approve: ishod === 1 ? 1 : null,
+                hod_approve: null,
                 incharge_apprv_date: isIncharge === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : ishod === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
-                hod_approve_date: ishod === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+                hod_approve_date: null,
             }
             //Postdata department have incharge and Hod then check isicharge or ishod
             const ApprovalDataNoInch = {
@@ -571,22 +606,23 @@ const ReqRegistration = () => {
             const ApprDataCheckHod = {
                 req_slno: reqno,
                 incharge_req: 1,
-                hod_req: 1,
+                hod_req: object1.length === 0 ? 0 : 1,
                 dms_req: depttype === 1 ? 1 : 0,
                 ms_approve_req: depttype === 1 ? 1 : 0,
                 manag_operation_req: 1,
                 senior_manage_req: 1,
                 cao_approve_req: 1,
                 ed_approve_req: null,
-                incharge_user: id,
+                incharge_user: null,
                 hod_user: ishod === 1 ? id : null,
-                incharge_approve: 1,
+                incharge_approve: null,
                 hod_approve: object1.length === 0 ? 1 : null,
-                incharge_apprv_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-                hod_approve_date: object1.length === 0 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+                incharge_apprv_date: null,
+                hod_approve_date: null,
             }
 
             if (isIncharge === 0 && ishod === 0) {
+
                 const result = await axioslogin.post('/requestRegister/postReqApproval', ApprovalDataNoInch);
                 return result.data
 
@@ -667,20 +703,75 @@ const ReqRegistration = () => {
             }
         }
 
+        // const FileInsert = async (selectFile, insetid) => {
+        //     try {
+        //         const formData = new FormData();
+        //         formData.append('id', insetid);
+        //         for (const file of selectFile) {
+        //             if (file.type.startsWith('image')) {
+        //                 const compressedFile = await handleImageUpload(file);
+        //                 formData.append('files', compressedFile, compressedFile.name);
+        //             } else {
+        //                 formData.append('files', file, file.name);
+        //             }
+        //         }
+        //         // Use the Axios instance and endpoint that matches your server setup
+        //         const result = await axioslogin.post('/CrfImageUpload/crfRegistration', formData, {
+        //             headers: {
+        //                 'Content-Type': 'multipart/form-data',
+        //             },
+        //         });
+
+        //         const { success, message } = result.data;
+        //         if (success === 1) {
+        //             succesNotify(message);
+        //             reset();
+        //         } else {
+        //             warningNotify(message);
+        //         }
+        //     } catch (error) {
+        //         warningNotify('An error occurred during file upload.');
+
+        //     }
+        // }
+
+
         //** Call insert and detail api by using then. for getting insert id */
         if (value === 0) {
             InsertFun(postData).then((values) => {
                 const { success, message, insetid } = values
                 if (success === 1) {
                     InsertApproval(insetid).then((value) => {
-                        const { message } = value
-                        if (dataPost.length !== 0) {
-                            InsertFundetl(insetid);
+                        const { success, message } = value
+                        if (success === 1) {
+                            if (dataPost.length !== 0) {
+                                InsertFundetl(insetid).then((valu) => {
+                                    const { message, success } = valu;
+                                    if (success === 1) {
+                                        // if (selectFile.length !== 0) {
+                                        //     FileInsert(selectFile, insetid)
+                                        // }
+                                        succesNotify(message)
+                                        reset()
+                                        setCount(count + 1)
+                                    }
+                                    else {
+                                        infoNotify("Datas Not Inserted in Detail Table")
+                                    }
+                                })
+                            }
+
+                            else {
+                                // if (selectFile.length !== 0) {
+                                //     FileInsert(selectFile, insetid)
+                                // }
+                                succesNotify(message)
+                                setCount(count + 1)
+                                reset()
+                            }
                         }
                         else {
-                            succesNotify(message)
-                            setCount(count + 1)
-                            reset()
+                            infoNotify(message)
                         }
                     })
                 }
@@ -715,16 +806,23 @@ const ReqRegistration = () => {
                 }
             })
         }
-    }, [postData, dataPost, id, count, object1, object2, patchData, reqSlno,
+    }, [postData, dataPost, id, count, object1, object2, patchData, reqSlno, reset,
         patchInserDetl, value, ishod, isIncharge, depttype, getDataDetl])
 
+    // const [imageshowFlag, setImageShowFlag] = useState(0)
+
+    // const [imageshow, setImageShow] = useState(false)
+
+    // const [imgFlag, setImgFlag] = useState(0)
+
+    // const [imagearray, setImageArry] = useState([])
 
     //Data set for edit
     const rowSelect = useCallback((params) => {
         setValue(1);
         const data = params.api.getSelectedRows()
         const { req_slno, actual_requirement, location, request_dept_slno, category,
-            needed, request_deptsec_slno, remarks, expected_date, total_approx_cost
+            needed, request_deptsec_slno, remarks, expected_date, total_approx_cost,
         } = data[0]
         setActual_require(actual_requirement)
         setNeeded(needed)
@@ -736,6 +834,8 @@ const ReqRegistration = () => {
         setTotalCost(total_approx_cost)
         setCategory(category)
         setReqSlno(req_slno)
+        // setImgFlag(image_status)
+
         const InsertFun = async (req_slno) => {
             const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
             const { success, data } = result.data
@@ -751,7 +851,21 @@ const ReqRegistration = () => {
                 setPatchInserDetl(1)
             }
         }
+
+        // const getImage = async (req_slno) => {
+        //     const result = await axioslogin.get(`/CrfImageUpload/crfRegimageGet/${req_slno}`)
+        //     const { success, data } = result.data
+        //     if (success === 1) {
+        //         const fileNames = data;
+        //         const fileUrls = fileNames.map((fileName) => {
+        //             return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+        //         });
+        //         setImageArry(fileUrls);
+        //         setImgFlag(image_status)
+        //     }
+        // }
         InsertFun(req_slno)
+        // getImage(req_slno)
     }, [])
 
     //close button function
@@ -760,36 +874,12 @@ const ReqRegistration = () => {
     }, [history])
     //fn for entire state referesh
     const refreshWindow = useCallback(() => {
-        setActual_require('')
-        setNeeded('')
-        setLocation('')
-        setRemarks('')
-        setdept(0)
-        setdeptSec(0)
-        setTableDis(0)
-        setTotalCost(0)
-        setValue(0)
-        setReqSlno(0)
-        setPatchInserDetl(0)
-        setMsgShow(0)
-        setStartdate(format(new Date(), "yyyy-MM-dd"))
-        setCount(0)
-        setMsgShow(0)
-        setItemSlno(1)
-        setDisEstimate(0)
-        setCategory('')
-        setEstimate(false)
-        const resetdata = {
-            item_desc: '',
-            item_brand: '',
-            item_qty: '',
-            item_unit: '',
-            item_spec: '',
-            approx_cost: ''
-        }
-        setItemState(resetdata)
-        setdataPost([])
-    }, [])
+        reset()
+    }, [reset])
+
+
+
+
 
     return (
         <Fragment>
@@ -799,6 +889,7 @@ const ReqRegistration = () => {
                 close={backtoSetting}
                 refresh={refreshWindow}
             >
+                {/* {imageshowFlag === 1 ? <ReqImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} /> : null} */}
                 <Box sx={{ width: "100%" }}>
                     {/* 1st section starts */}
                     <Paper sx={{
@@ -1144,21 +1235,14 @@ const ReqRegistration = () => {
                                                     </IconButton>
                                                 </Box>
                                             </Box>
-
                                         </Box>
-
-
-
-
                                 }
-
 
                                 {tableDis === 1 ?
                                     <Box sx={{
                                         width: "100%",
                                         display: "flex",
                                         flexDirection: "column",
-
                                     }}>
                                         {
                                             detldept === 1 ?
@@ -1173,24 +1257,8 @@ const ReqRegistration = () => {
                                                 />
                                         }
                                     </Box> : null}
-
-
-
                             </Paper> : null
-
                     }
-
-
-
-
-
-
-
-
-
-
-
-
 
                     {/** 4th Section*/}
                     <Paper sx={{
@@ -1222,73 +1290,112 @@ const ReqRegistration = () => {
                                     />
                                 </Box>
                             </Box>
-
                             <Box sx={{
-                                width: "10%",
-                                display: "flex", pl: 2, pt: 4,
-                                flexDirection: "column"
+                                width: "80%",
+                                display: "flex", flex: 1, pl: 2,
+                                flexDirection: "row"
                             }}>
-                                <CusCheckBox
-                                    variant="outlined"
-                                    color="danger"
-                                    size="md"
-                                    name="estimate"
-                                    label="Emergency"
-                                    value={emergency}
-                                    onCheked={updateEmergency}
-                                    checked={emergency}
-                                />
-                            </Box>
+                                <Box sx={{
+                                    width: "50%",
+                                    display: "flex", pl: 2, pt: 4,
+                                    flexDirection: "column"
+                                }}>
+                                    <CusCheckBox
+                                        variant="outlined"
+                                        color="danger"
+                                        size="md"
+                                        name="estimate"
+                                        label="Emergency"
+                                        value={emergency}
+                                        onCheked={updateEmergency}
+                                        checked={emergency}
+                                    />
 
-
-                            {
-                                emergency === true ?
-                                    <Box sx={{
-                                        width: "50%",
-                                        display: "flex",
-                                        flexDirection: "column"
-                                    }}>
-                                        <CustomPaperTitle heading="Remarks" />
+                                </Box>
+                                {
+                                    emergency === true ?
                                         <Box sx={{
-                                            display: 'flex',
-                                            p: 0.5,
-                                            width: '100%'
-                                        }} >
-                                            <CustomTextarea
-                                                required
+                                            width: "50%",
+                                            display: "flex",
+                                            flexDirection: "column"
+                                        }}>
+                                            <CustomPaperTitle heading="Remarks" />
+                                            <Box sx={{
+                                                display: 'flex',
+                                                p: 0.5,
+                                                width: '100%'
+                                            }} >
+                                                <CustomTextarea
+                                                    required
+                                                    type="text"
+                                                    size="sm"
+                                                    style={{
+                                                        width: "100%",
+                                                        height: 50,
+                                                    }}
+                                                    value={remarks}
+                                                    onchange={updateRemarks}
+                                                />
+                                            </Box>
+                                        </Box> : null
+                                }
+
+                                {
+                                    detldept === 1 ?
+                                        <Box sx={{
+                                            width: "25%",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            pr: 1, pt: 0.5
+                                        }}>
+                                            <CustomPaperTitle heading="Total Approx.Cost" />
+                                            <TextFieldCustom
                                                 type="text"
                                                 size="sm"
-                                                style={{
-                                                    width: "100%",
-                                                    height: 50,
-                                                }}
-                                                value={remarks}
-                                                onchange={updateRemarks}
+                                                name="totalApproxCost"
+                                                value={totalApproxCost}
+                                                disabled={true}
                                             />
+
+                                        </Box> : null
+                                }
+                            </Box>
+                            {/* <Box sx={{ display: 'flex', width: '200px', pt: 1 }}>
+                                <Box sx={{ pt: 1 }}>
+                                    <label htmlFor="file-input">
+                                        <CustomeToolTip title="upload">
+                                            <IconButton color="primary" aria-label="upload file" component="span">
+                                                <UploadFileIcon />
+                                            </IconButton>
+                                        </CustomeToolTip>
+                                    </label>
+                                    <Input
+                                        id="file-input"
+                                        type="file"
+                                        accept=".jpg, .jpeg, .png, .pdf"
+                                        style={{ display: 'none' }}
+                                        onChange={uploadFile}
+                                    />
+                                </Box>
+                                {
+                                    selectFile && selectFile.map((val, index) => {
+                                        return <Box sx={{ display: "flex", flexDirection: "row", ml: 2, pt: 2 }}
+                                            key={index} >
+                                            <Box >{val.name}</Box>
+                                            <Box sx={{ ml: .3 }}><CloseIcon sx={{ height: '18px', width: '20px', cursor: 'pointer' }}
+                                                onClick={() => handleRemoveFile(index)}
+                                            /></Box>
+
                                         </Box>
-                                    </Box> : null
-                            }
+                                    }
+                                    )}
+                            </Box> */}
 
+                            {/* {imgFlag === 1 ? <Box sx={{ display: 'flex', width: "10%", height: 55, pt: 3 }}>
+                                <Button onClick={ViewImage} variant="contained"
+                                    size="small" color="primary">View Image</Button>
 
-                            {
-                                detldept === 1 ?
-                                    <Box sx={{
-                                        width: "15%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        pr: 1, pt: 0.5
-                                    }}>
-                                        <CustomPaperTitle heading="Total Approx.Cost" />
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="totalApproxCost"
-                                            value={totalApproxCost}
-                                            disabled={true}
-                                        />
-
-                                    </Box> : null
-                            }
+                            </Box> : null} */}
                         </Box>
                     </Paper>
                 </Box >

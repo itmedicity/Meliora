@@ -1,7 +1,7 @@
-import React, { memo, useMemo ,useCallback,useState} from 'react'
+import React, { memo, useMemo, useCallback, useState } from 'react'
 import CategoryTable from './CategoryTable'
 import CardMaster from 'src/views/Components/CardMaster'
-import { Box,Input,IconButton } from '@mui/material'
+import { Box, Input, IconButton } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -18,10 +18,10 @@ const CategoryMaster = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const [selectFile, setSelectFile] = useState(null)
-    // Get login user emp_id
-    const id = useSelector((state) => {
-      return state.LoginUserData.empid
-     })
+  // Get login user emp_id
+  const id = useSelector((state) => {
+    return state.LoginUserData.empid
+  })
   const [category, setCategory] = useState({
     category_slno: '',
     category_name: '',
@@ -52,7 +52,7 @@ const CategoryMaster = () => {
       category_status: category_status === true ? 1 : 0,
       create_user: id
     }
-  }, [category_name, category_status,id])
+  }, [category_name, category_status, id])
   const patchdata = useMemo(() => {
     return {
       category_slno: category_slno,
@@ -60,7 +60,7 @@ const CategoryMaster = () => {
       category_status: category_status === true ? 1 : 0,
       edit_user: id
     }
-  }, [category_slno, category_name, category_status,id])
+  }, [category_slno, category_name, category_status, id])
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
@@ -71,7 +71,7 @@ const CategoryMaster = () => {
       category_status: category_status === 1 ? true : false,
     }
     setCategory(frmdata)
-  }, [])  
+  }, [])
   const uploadFile = async (event) => {
     const file = event.target.files[0];
     setSelectFile(file);
@@ -88,7 +88,7 @@ const CategoryMaster = () => {
 
       const InsertCategory = async (postdata) => {
         const result = await axioslogin.post('/amcategory/insert', postdata)
-        return result.data       
+        return result.data
       }
       const CategoryUpdate = async (patchdata) => {
         const result = await axioslogin.patch('/amcategory/update', patchdata)
@@ -116,16 +116,16 @@ const CategoryMaster = () => {
         }
       }
       if (value === 0) {
-        if ( category_name !== '') {
+        if (category_name !== '') {
           InsertCategory(postdata).then((val) => {
             const { message, success, insertid } = val
             if (success === 1) {
-              
+
               if (selectFile !== null) {
                 //File upload Api and post data
-              const formData = new FormData()
-              formData.append('id', insertid)
-              formData.append('file', selectFile, selectFile.name)
+                const formData = new FormData()
+                formData.append('id', insertid)
+                formData.append('file', selectFile, selectFile.name)
                 FileInsert(formData)
               }
               else {
@@ -139,18 +139,18 @@ const CategoryMaster = () => {
             } else {
               infoNotify(message)
             }
-          }) 
+          })
         }
         else {
-          infoNotify("Please Enter Category") 
+          infoNotify("Please Enter Category")
         }
-     
-      }  else {
+
+      } else {
         CategoryUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count,selectFile,category_name],
-  )  
+    [postdata, value, patchdata, count, selectFile, category_name],
+  )
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
   }, [history])
@@ -196,27 +196,27 @@ const CategoryMaster = () => {
               ></CusCheckBox>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <CssVarsProvider>
-              <Typography  >Upload file</Typography>
-            </CssVarsProvider>
-            <label htmlFor="file-input">
-              <CustomeToolTip title="upload">
-                <IconButton color="primary" aria-label="upload file" component="span">
-                  <UploadFileIcon />
-                </IconButton>
-              </CustomeToolTip>
-            </label>
-            <Input
-              id="file-input"
-              type="file"
-              accept=".jpg, .jpeg, .png, .pdf"
-              style={{ display: 'none' }}
-              onChange={uploadFile}
+              <CssVarsProvider>
+                <Typography  >Upload file</Typography>
+              </CssVarsProvider>
+              <label htmlFor="file-input">
+                <CustomeToolTip title="upload">
+                  <IconButton color="primary" aria-label="upload file" component="span">
+                    <UploadFileIcon />
+                  </IconButton>
+                </CustomeToolTip>
+              </label>
+              <Input
+                id="file-input"
+                type="file"
+                accept=".jpg, .jpeg, .png, .pdf"
+                style={{ display: 'none' }}
+                onChange={uploadFile}
               />
-                 <Box sx={{ pt:2,fontWeight:2}}>
-            {selectFile && <p > {selectFile.name}</p>}
+              <Box sx={{ pt: 2, fontWeight: 2 }}>
+                {selectFile && <p > {selectFile.name}</p>}
+              </Box>
             </Box>
-          </Box>  
           </Box>
           <Box sx={{ width: '70%' }}>
             <CategoryTable count={count} rowSelect={rowSelect} />

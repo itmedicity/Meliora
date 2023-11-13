@@ -1,5 +1,5 @@
 import { Box, Paper } from '@mui/material'
-import React,{ useCallback,useState,useEffect,memo } from 'react'
+import React, { useCallback, useState, useEffect, memo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
@@ -39,7 +39,7 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
 
   const ClosePage = useCallback(() => {
     setFoolrList(0)
-  }, [setFoolrList])  
+  }, [setFoolrList])
   return (
     <>
       {roomList === 1 ? (

@@ -11,15 +11,17 @@ import { CssVarsProvider, Typography } from '@mui/joy'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { axioslogin } from 'src/views/Axios/Axios';
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-import { useSelector } from 'react-redux'
+import { useSelector ,useDispatch} from 'react-redux'
 import AssetCategorySelWithoutName from 'src/views/CommonSelectCode/AssetCategorySelWithoutName';
-
+import { getAmSubcategory } from 'src/redux/actions/AmSubcategoryList.action';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
 
 const SubcategoryModal = ({ open, handleClose, }) => {
+
+    const dispatch = useDispatch();
     const [category, setCategory] = useState(0)
   // Get login user emp_id
   const id = useSelector((state) => {
@@ -63,6 +65,7 @@ const submitSubCategory = useCallback(
             const result = await axioslogin.post('/subcategory/insert', postdata)
             const { message, success } = result.data
             if (success === 1) {
+                dispatch(getAmSubcategory(category))
                 succesNotify(message)
                 reset()
                 handleClose()
@@ -79,7 +82,7 @@ const submitSubCategory = useCallback(
             infoNotify("Please Enter Subcategory")
         }
     },
-    [postdata, handleClose, subcategory_name],
+    [postdata, handleClose,dispatch, category,subcategory_name],
 )
 
 

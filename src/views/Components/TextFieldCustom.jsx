@@ -11,7 +11,7 @@ const TextFieldCustom = ({
   style,
   onchange,
   value,
-  min,
+  min, slotProps,
   defaultValue, name, disabled
 }) => {
   // --- size --> sm,lg,md Default medium Size
@@ -26,6 +26,7 @@ const TextFieldCustom = ({
       <CssVarsProvider>
         <FormControl size={size}>
           <Input
+            slotProps={slotProps}
             placeholder={placeholder}
             type={type}
             startDecorator={startDecorator}

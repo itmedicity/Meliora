@@ -142,6 +142,22 @@ const AssetModel = React.lazy(() => import('./views/Master/AssetMasters/AssetMod
 const AssetSubModel = React.lazy(() => import('./views/Master/AssetMasters/AssetSubModel/AssetSubModel'))
 const RoomAsset = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardRoomAsset'))
 const ItemCreation = React.lazy(() => import('./views/AssetManagment/ItemCreation/ItemCreationMast'))
+const DashboardBackup = React.lazy(() => import('./views/ItManagement/DashboardBackup/Newdashboard'))
+const PasswordManagement = React.lazy(() => import('./views/ItManagement/PasswordManagement/PasswordManagement'))
+const CommunicationDevice = React.lazy(() => import('./views/ItManagement/CommunicationDeviceDetails/CommunicationDevice'))
+const BackupChecks = React.lazy(() => import('./views/ItManagement/BackupChecksAndMonitoring/BackupChecks'))
+const NetWorkIP = React.lazy(() => import('./views/ItManagement/IPaddressDetails/NetworkIPaddress'))
+const DeviceType = React.lazy(() => import('./views/Master/ItMasters/communicationDevice/DeviceTypeMaster'))
+const WifiManageMenT = React.lazy(() => import('./views/ItManagement/WifiManagement/WifiManageMentMains'))
+const CustodianDeptmt = React.lazy(() => import('./views/Master/AssetMasters/CustodianDepartment/CustodianDeptMast'))
+const AssetItemListView = React.lazy(() => import('./views/AssetManagment/ItemListView/ItemListViewDept'))
+const PasswordManagementDeviceType = React.lazy(() => import('./views/Master/ItMasters/passwordManagement/PasswordDeviceType'))
+const BackupScheduleType = React.lazy(() => import('./views/Master/BackupMaster/ScheduleType/ScheduleTypeMast'))
+const BackupScheduleTime = React.lazy(() => import('./views/Master/BackupMaster/ScheduleTime/ScheduleTimeMast'))
+const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDetails/BackupMast'))
+const AssetRackMast = React.lazy(() => import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster'))
+const AssetDeptTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DeptTransfer'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -286,7 +302,23 @@ const routes = [
   { path: '/Home/AssetModel', exact: true, name: 'Asset Model', component: AssetModel },
   { path: '/Home/AssetSubModel', exact: true, name: 'Asset SubModel', component: AssetSubModel },
   { path: '/Home/RoomAsset', exact: true, name: 'Room Asset', component: RoomAsset },
-  { path: '/Home/ItemCreation', exact: true, name: 'item Creation', component: ItemCreation }
+  { path: '/Home/ItemCreation', exact: true, name: 'item Creation', component: ItemCreation },
+  { path: '/Home/DashboardBackup', exact: true, name: 'Dashboard Backup', component: DashboardBackup },
+  { path: '/Home/PasswordManagement', exact: true, name: 'Password Management', component: PasswordManagement },
+  { path: '/Home/CommunicationDevice', exact: true, name: 'Communication Device Details', component: CommunicationDevice },
+  { path: '/Home/BackupChecks', exact: true, name: 'Backup Checks & Monitoring', component: BackupChecks },
+  { path: '/Home/NetworkIP', exact: true, name: 'IP Address Details', component: NetWorkIP },
+  { path: '/Home/DeviceType', exact: true, name: 'Device Type', component: DeviceType },
+  { path: '/Home/WifiManageMenT', exact: true, name: 'Wifi Management', component: WifiManageMenT },
+  { path: '/Home/CusodianDepartment', exact: true, name: 'Custodian Department', component: CustodianDeptmt },
+  { path: '/Home/AssetItemListView', exact: true, name: 'Asset Item List View', component: AssetItemListView },
+  { path: '/Home/PasswordManagementDeviceType', exact: true, name: 'DeviceType PasswordManagement', component: PasswordManagementDeviceType },
+  { path: '/Home/ScheduleType', exact: true, name: 'Backup Schedule Type', component: BackupScheduleType },
+  { path: '/Home/ScheduleTime', exact: true, name: 'Backup Schedule Time', component: BackupScheduleTime },
+  { path: '/Home/BackupMast', exact: true, name: 'Backup Details', component: Backupmast },
+  { path: '/Home/AssetRackMast', exact: true, name: 'Asset Rack Master', component: AssetRackMast },
+  { path: '/Home/DeptTransfer', exact: true, name: 'Asset Rack Master', component: AssetDeptTransfer }
+
 ]
 
 export default routes

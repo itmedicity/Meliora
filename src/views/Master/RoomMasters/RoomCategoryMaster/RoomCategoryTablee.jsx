@@ -11,15 +11,16 @@ const RoomCategoryTablee = ({ count, rowSelect }) => {
   const [tabledata, setTabledata] = useState([])
 
   const [column] = useState([
-    { headerName: 'SlNo', field: 'rm_roomcategory_slno' },
-    { headerName: 'Room Category name', field: 'rm_roomcategory_name' },
-    { headerName: 'Room Category  alias', field: 'rm_roomcategory_alias' },
-    { headerName: 'Room Category  number', field: 'rm_roomcategory_no' },
-    { headerName: 'Status', field: 'status' },
     {
       headerName: 'Action',
       cellRenderer: (params) => <EditButton onClick={() => rowSelect(params)} />,
     },
+    { headerName: 'SlNo', field: 'rm_roomcategory_slno', wrapText: true, minWidth: 50 },
+    { headerName: 'Category name', field: 'rm_roomcategory_name', wrapText: true, minWidth: 250 },
+    { headerName: 'Category  alias', field: 'rm_roomcategory_alias', wrapText: true, minWidth: 100 },
+    { headerName: 'Category  number', field: 'rm_roomcategory_no', wrapText: true, minWidth: 100 },
+    { headerName: 'Status', field: 'status', wrapText: true, minWidth: 100 },
+
   ])
   useEffect(() => {
     const getRoomCategory = async () => {

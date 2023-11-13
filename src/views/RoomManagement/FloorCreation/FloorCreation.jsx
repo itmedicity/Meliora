@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, memo } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import FloorCreationTable from './FloorCreationTable'
@@ -301,4 +301,4 @@ const FloorCreation = () => {
   )
 }
 
-export default FloorCreation
+export default memo(FloorCreation)

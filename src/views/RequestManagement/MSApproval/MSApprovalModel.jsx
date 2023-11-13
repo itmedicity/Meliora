@@ -137,12 +137,12 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
 
     const patchdataOm = useMemo(() => {
         return {
-            manag_operation_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
-            manag_operation_remarks: approve === true ? remark : reject === true ? rejectremark : pending === true ? holdremark : null,
-            om_detial_analysis: approve === true ? detailAnalis : null,
-            om_approv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            ms_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            ms_approve_remark: approve === true ? remark : reject === true ? rejectremark : pending === true ? holdremark : null,
+            ms_detail_analysis: approve === true ? detailAnalis : null,
+            ms_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
             req_approv_slno: req_approv_slno,
-            manag_operation_user: id,
+            ms_approve_user: id,
             req_slno: req_slno
         }
     }, [approve, reject, pending, remark, rejectremark, holdremark, req_slno, req_approv_slno, detailAnalis, id])
@@ -160,7 +160,7 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
             setDetailAnalis('')
         }
         const updateInchApproval = async (patchdataOm) => {
-            const result = await axioslogin.patch('/requestRegister/approval/om', patchdataOm);
+            const result = await axioslogin.patch('/requestRegister/approval/ms', patchdataOm);
             const { success, message } = result.data;
             if (success === 2) {
                 succesNotify(message)

@@ -13,9 +13,16 @@ const CardMasterClose = ({ children, title, close, contentStyle }) => {
   return (
     <Fragment>
       <ThemeProvider theme={theme}>
-        <Card sx={{ borderRadius: 0, boxShadow: 1 }}>
+        <Card sx={{
+          display: 'flex',
+          flexGrow: 1,
+          borderRadius: 0,
+          flexDirection: 'column'
+        }}>
           <CustomCardHeaderOne title={title} onClickClose={close} cardStyle={{}} />
-          <CardContent sx={contentStyle}>{children}</CardContent>
+          <CardContent sx={{ ...contentStyle, height: window.innerHeight - 85, overflow: 'auto' }}>
+            {children}
+          </CardContent>
           <CardActions
             sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }}
             disableSpacing={false}
