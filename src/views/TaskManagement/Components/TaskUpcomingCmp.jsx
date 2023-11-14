@@ -4,7 +4,6 @@ import { memo } from 'react'
 import Table from '@mui/joy/Table';
 import Button from '@mui/joy/Button';
 import AddIcon from '@mui/icons-material/Add';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import TaskTableRow from './TaskTableRow';
 import { innerHeight } from 'src/views/Constant/Constant';
 

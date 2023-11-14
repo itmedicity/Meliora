@@ -1,5 +1,4 @@
 import { Box } from '@mui/joy'
-import { Paper } from '@mui/material';
 import React, { memo } from 'react'
 import { innerHeight } from 'src/views/Constant/Constant';
 import DashBordTile from '../Components/DashBordTile';

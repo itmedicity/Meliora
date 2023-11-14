@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/joy'
+import { Box, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 import React, { memo } from 'react'
 import { taskColor } from '../Styles/taskColor'

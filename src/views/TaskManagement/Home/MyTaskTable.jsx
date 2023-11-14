@@ -1,15 +1,10 @@
 import { CssVarsProvider, LinearProgress } from '@mui/joy'
-import Table from '@mui/joy/Table'
 import Box from '@mui/joy/Box'
 import React, { memo, lazy, Suspense } from 'react'
-import Chip from '@mui/joy/Chip';
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
 import Tab, { tabClasses } from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
-import Typography from '@mui/joy/Typography';
-import Input from '@mui/joy/Input';
-import SearchRounded from '@mui/icons-material/SearchRounded';
 import { taskColor } from '../Styles/taskColor';
 import Avatar from '@mui/joy/Avatar';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
@@ -19,7 +14,7 @@ import LockIcon from '@mui/icons-material/Lock';
 const TaskUpcomingCmp = lazy(() => import('../Components/TaskUpcomingCmp'))
 
 const MyTaskTable = () => {
-    const [index, setIndex] = React.useState(0);
+
     return (
         <Box
             sx={{
