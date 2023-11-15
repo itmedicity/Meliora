@@ -69,7 +69,7 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag }) => {
 
     return (
         <CardMasterClose
-            title="Item Details Add"
+            title="Asset Details Add"
             close={BackToPage}
         >
             <Paper sx={{ display: 'flex', flex: 1, width: '100%' }}>

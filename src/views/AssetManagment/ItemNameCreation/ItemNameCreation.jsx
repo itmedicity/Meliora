@@ -752,7 +752,7 @@ const ItemNameCreation = () => {
   return (
     <Box>
       <CardMaster
-        title="Item Name Creation"
+        title="Asset Name Creation"
         submit={sumbitItemCreation}
         close={backtoSetting}
         refresh={refreshWindow}
@@ -833,8 +833,8 @@ const ItemNameCreation = () => {
                 assetName={assetName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
-              <Tooltip title="Add " placement="top">
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
+              <Tooltip title="Add" placement="top"  >
                 <AddCircleOutlineIcon onClick={() => modelAsset()} />
               </Tooltip>
             </Box>
@@ -870,7 +870,7 @@ const ItemNameCreation = () => {
                 setName={setItemName}
                 itemName={itemName} />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelItem()} />
               </Tooltip>
@@ -908,7 +908,7 @@ const ItemNameCreation = () => {
                 categoryName={categoryName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelCategory()} />
               </Tooltip>
@@ -950,7 +950,7 @@ const ItemNameCreation = () => {
                 setName={setSubcatName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelSubCategory()} />
               </Tooltip>
@@ -987,7 +987,7 @@ const ItemNameCreation = () => {
                 groupName={groupName}
                 setName={setGroupName} />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add  " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelGroup()} />
               </Tooltip>
@@ -1025,7 +1025,7 @@ const ItemNameCreation = () => {
                 subgroupName={subgroupName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => SubgroupModal()} />
               </Tooltip>
@@ -1063,7 +1063,7 @@ const ItemNameCreation = () => {
                 manufactureName={manufactureName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelManufacture()} />
               </Tooltip>
@@ -1100,7 +1100,7 @@ const ItemNameCreation = () => {
                 setName={setModelName}
                 modelName={modelName} />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelModal()} />
               </Tooltip>
@@ -1212,7 +1212,7 @@ const ItemNameCreation = () => {
                 setName={setUomName}
                 uomName={uomName} />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelUOM()} />
               </Tooltip>
@@ -1247,7 +1247,7 @@ const ItemNameCreation = () => {
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 19, pt: 1, justifyContent: "space-evenly" }}>
           <Box sx={{ width: "12%", }}>
-            <Typography>Item Name</Typography>
+            <Typography>Asset Name</Typography>
           </Box>
           <Box sx={{ width: "80%", pl: 2.3 }}>
             <TextFieldCustom

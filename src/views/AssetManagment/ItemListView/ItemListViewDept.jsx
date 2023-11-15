@@ -25,24 +25,24 @@ const ItemListViewDept = () => {
     const [item, setItem] = useState(0)
     const [asset, setasset] = useState(true)
     const [spare, setSpare] = useState(false)
+
     const postdata = useMemo(() => {
         return {
-            item_dept_slno: department,
-            item_deptsec_slno: deptsec,
-            item_creation_slno: item
+            item_dept_slno: department !== undefined ? department : 0,
+            item_deptsec_slno: deptsec !== undefined ? deptsec : 0,
+            item_creation_slno: item !== undefined ? item : 0
         }
     }, [department, deptsec, item])
     const postdataSpare = useMemo(() => {
         return {
-            spare_dept_slno: department,
-            spare_deptsec_slno: deptsec,
-            spare_creation_slno: item
+            spare_dept_slno: department !== undefined ? department : 0,
+            spare_deptsec_slno: deptsec !== undefined ? deptsec : 0,
+            spare_creation_slno: item !== undefined ? item : 0
         }
     }, [department, deptsec, item])
 
     const [displayarry, setDisArry] = useState([])
     const [flag, setFlag] = useState(0)
-
 
     const updateAsset = useCallback((e) => {
         if (e.target.checked === true) {
@@ -100,7 +100,7 @@ const ItemListViewDept = () => {
                 setFlag(0)
             }
         }
-        if (department !== 0 && deptsec !== 0) {
+        if (department !== 0 && department !== undefined) {
             if (asset === true) {
                 getdata(postdata)
             }
@@ -108,7 +108,10 @@ const ItemListViewDept = () => {
                 getdataSpareItem(postdataSpare)
             }
         }
-    }, [postdata, postdataSpare, department, deptsec, asset])
+        else {
+            warningNotify("Please select department")
+        }
+    }, [postdata, postdataSpare, department, asset])
 
     const [detailArry, setDetailArry] = useState([])
     const [detailflag, setDetailflag] = useState(0)
@@ -118,9 +121,20 @@ const ItemListViewDept = () => {
         setDetailflag(1)
     }, [])
 
+    const reset = useCallback(() => {
+        setDepartment(0)
+        setDeptSec(0)
+        setItem(0)
+        setasset(true)
+        setSpare(true)
+        setDetailArry([])
+        setDetailflag(0)
+    }, [])
+
     const backtoSetting = useCallback(() => {
+        reset()
         history.push('/Home')
-    }, [history])
+    }, [history, reset])
 
     return (
         < Box sx={{
@@ -134,7 +148,7 @@ const ItemListViewDept = () => {
                     <ItemDetailAdd detailArry={detailArry} setDetailflag={setDetailflag} />
                     :
                     <CardMasterClose
-                        title="Item Location List"
+                        title="Asset Location List"
                         close={backtoSetting}
                     >
                         <Box sx={{
