@@ -7,7 +7,7 @@ const AmTransactions = [
     {
         men_slno: 144,
         component: CNavItem,
-        name: 'Item Name Creation',
+        name: 'Asset Name Creation',
         to: '/Home/ItemNameCreation',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
@@ -15,21 +15,21 @@ const AmTransactions = [
     {
         men_slno: 145,
         component: CNavItem,
-        name: 'Item Opening Entry',
+        name: 'Asset Opening Entry',
         to: '/Home/ItemCreation',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
         men_slno: 155,
         component: CNavItem,
-        name: 'Item Location List',
+        name: 'Asset Detail Entry',
         to: '/Home/AssetItemListView',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
         men_slno: 163,
         component: CNavItem,
-        name: 'Department Transfer',
+        name: 'Asset Transfer',
         to: '/Home/DeptTransfer',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
