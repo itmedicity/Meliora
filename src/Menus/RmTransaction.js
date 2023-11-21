@@ -26,19 +26,20 @@ const RmTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
-        men_slno: 45,
-        component: CNavItem,
-        name: 'Room ',
-        to: '/Home/RoomCreation',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-    {
         men_slno: 46,
         component: CNavItem,
         name: 'Sub Room Creation',
         to: '/Home/SubRoomCreation',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+    {
+        men_slno: 45,
+        component: CNavItem,
+        name: 'Room ',
+        to: '/Home/RoomCreation',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
 
 ]
 

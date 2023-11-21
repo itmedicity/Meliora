@@ -9,6 +9,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
 
     const [disArry, setDisArry] = useState([])
+
     useEffect(() => {
         if (displayarry.length !== 0) {
             if (asset === true) {

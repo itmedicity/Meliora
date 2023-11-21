@@ -39,7 +39,7 @@ import SubcategoryModal from './ModelForAssetItemAdd/SubcategoryModal'
 import GroupModal from './ModelForAssetItemAdd/GroupModal'
 import ModelModal from './ModelForAssetItemAdd/ModelModal'
 import SubGroupModal from './ModelForAssetItemAdd/SubGroupModal'
-import SubModelModal from './ModelForAssetItemAdd/SubModelModal'
+// import SubModelModal from './ModelForAssetItemAdd/SubModelModal'
 import { CssVarsProvider } from '@mui/joy'
 import Textarea from '@mui/joy/Textarea';
 import ModelForItemExistOrNot from './ModelForItemExistOrNot'
@@ -632,8 +632,8 @@ const ItemNameCreation = () => {
   const [ModelFlag, setModelFlag] = useState(0)
   const [SubGroupOpen, setSubGroupOpen] = useState(false)
   const [SubGroupFlag, setSubGroupFlag] = useState(0)
-  const [SubModelOpen, setSubModelOpen] = useState(false)
-  const [SubModelFlag, setSubModelFlag] = useState(0)
+  // const [SubModelOpen, setSubModelOpen] = useState(false)
+  // const [SubModelFlag, setSubModelFlag] = useState(0)
 
 
 
@@ -679,31 +679,8 @@ const ItemNameCreation = () => {
   // }
 
   const handleClose = useCallback(() => {
-    setAssetTypeFlag(0)
-    setAssetTypeOpen(false)
-    setItemTypeOpen(0)
-    setItemTypeFlag(false)
-    setUOMflag(0)
-    setUOMopen(false)
-    setManufactureFlag(0)
-    setManufactureOpen(false)
-    setCategoryFlag(0)
-    setCategoryOpen(false)
-    setSubCategoryFlag(0)
-    setSubCategoryOpen(false)
-    setGroupFlag(0)
-    setGroupOpen(false)
-    setModelFlag(0)
-    setModelOpen(false)
-    setSubGroupFlag(0)
-    setSubGroupOpen(false)
-    setSubModelFlag(0)
-    setSubModelOpen(false)
-    setCheckExsitOpen(false)
-  }, [setAssetTypeOpen, setAssetTypeFlag, setItemTypeOpen, setItemTypeFlag, setUOMflag, setUOMopen, setManufactureFlag, setManufactureOpen,
-    setCategoryFlag, setCategoryOpen, setSubCategoryFlag, setSubCategoryOpen, setGroupFlag, setGroupOpen, setModelFlag, setModelOpen,
-    setSubGroupFlag, setSubGroupOpen, setSubModelFlag, setSubModelOpen, setCheckExsitOpen
-  ])
+    reset()
+  }, [reset])
 
   useEffect(() => {
     dispatch(getAmAssetType())
@@ -747,8 +724,6 @@ const ItemNameCreation = () => {
     manufct_order, model_order, modelNo_order, uom_order])
 
 
-
-
   return (
     <Box>
       <CardMaster
@@ -767,11 +742,9 @@ const ItemNameCreation = () => {
         {GroupFlag === 1 ? <GroupModal open={GroupOpen} handleClose={handleClose} /> : null}
         {ModelFlag === 1 ? <ModelModal open={ModelOpen} handleClose={handleClose} /> : null}
         {SubGroupFlag === 1 ? <SubGroupModal open={SubGroupOpen} handleClose={handleClose} /> : null}
-        {SubModelFlag === 1 ? <SubModelModal open={SubModelOpen} handleClose={handleClose} /> : null}
+        {/* {SubModelFlag === 1 ? <SubModelModal open={SubModelOpen} handleClose={handleClose} /> : null} */}
 
         <Box sx={{ width: { sm: "100%", md: "80%", lg: "80%", xl: "50%", xxl: "50%" }, display: 'flex', pt: 2.5, margin: 'auto ', pl: 13, flexDirection: 'column' }}>
-
-
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 0 }}>
             <Box sx={{ pl: 10, width: '20%' }}>
               <CusCheckBox
@@ -800,7 +773,6 @@ const ItemNameCreation = () => {
                 size="small" color="primary">Search</Button>
             </Box>
           </Box>
-
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
             <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, height: "1%", pt: 0.1, textAlign: "center" }}>
@@ -1260,7 +1232,6 @@ const ItemNameCreation = () => {
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 20, pt: 1, justifyContent: "space-evenly" }}>
-
           <Box sx={{ width: "15%", }}>
             <Typography>Specification 1</Typography>
           </Box>
@@ -1280,13 +1251,8 @@ const ItemNameCreation = () => {
               </Textarea>
             </CssVarsProvider>
           </Box>
-
-
         </Box>
-
-
         <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 20, pt: 1, justifyContent: "space-evenly" }}>
-
           <Box sx={{ width: "15%", }}>
             <Typography>Specification 2</Typography>
           </Box>

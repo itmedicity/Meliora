@@ -15,8 +15,8 @@ import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { format } from 'date-fns'
 
 
-const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar }) => {
-    const { am_item_map_slno } = detailArry
+const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar, assetSpare }) => {
+    const { am_item_map_slno, am_spare_item_map_slno } = detailArry
     const { guarenty_status, warrenty_status, from_date, to_date, troll_free, ph_one, ph_two, address } = warGararry
     // const [selectFile, setSelectFile] = useState(null)
     // Get login user emp_id
@@ -122,6 +122,25 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar }) => {
     }, [am_item_map_slno, warrantyStatus, garantyStatus, fromdate, toDate, trollFree, phone1,
         phone2, adress, id])
 
+    const postDataSpare = useMemo(() => {
+
+        return {
+            am_spare_item_map_slno: am_spare_item_map_slno,
+            warrenty_status: warrantyStatus === true ? 1 : 0,
+            guarenty_status: garantyStatus === true ? 1 : 0,
+            from_date: fromdate,
+            to_date: toDate,
+            troll_free: trollFree,
+            ph_one: phone1,
+            ph_two: phone2,
+            address: adress,
+            file_upload_status: 1,
+            // file_upload_status: selectFile !== null ? 1 : 0,
+            create_user: id
+        }
+    }, [am_spare_item_map_slno, warrantyStatus, garantyStatus, fromdate, toDate, trollFree, phone1,
+        phone2, adress, id])
+
 
     const patchdata = useMemo(() => {
         return {
@@ -141,7 +160,23 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar }) => {
     }, [am_item_map_slno, warrantyStatus, garantyStatus, fromdate, toDate, trollFree, phone1,
         phone2, adress, id])
 
-
+    const patchdataSpare = useMemo(() => {
+        return {
+            warrenty_status: warrantyStatus === true ? 1 : 0,
+            guarenty_status: garantyStatus === true ? 1 : 0,
+            from_date: fromdate,
+            to_date: toDate,
+            troll_free: trollFree,
+            ph_one: phone1,
+            ph_two: phone2,
+            address: adress,
+            file_upload_status: 1,
+            // file_upload_status: selectFile !== null ? 1 : 0,
+            edit_user: id,
+            am_spare_item_map_slno: am_spare_item_map_slno,
+        }
+    }, [am_spare_item_map_slno, warrantyStatus, garantyStatus, fromdate, toDate, trollFree, phone1,
+        phone2, adress, id])
     const reset = useCallback(() => {
         const frmdata = {
             fromdate: '',
@@ -168,8 +203,24 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar }) => {
                 infoNotify(message)
             }
         }
-        InsertItemDetail(postData);
-    }, [postData, setWarGar])
+
+        const InsertItemDetailSpare = async (postDataSpare) => {
+            const result = await axioslogin.post('/ItemMapDetails/WarentGraruntyInsertSpare', postDataSpare)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNotify(message)
+                setWarGar(1)
+            } else {
+                infoNotify(message)
+            }
+        }
+        if (assetSpare === 1) {
+            InsertItemDetail(postData);
+        } else {
+            InsertItemDetailSpare(postDataSpare)
+        }
+
+    }, [postData, setWarGar, assetSpare, postDataSpare])
 
 
     const EditWarGarDetails = useCallback((e) => {
@@ -198,8 +249,32 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar }) => {
             }
         }
 
-        const updateGRNDetails = async (billpatchData) => {
-            const result = await axioslogin.patch('/ItemMapDetails/WarentGraruntyUpdate', billpatchData);
+        const checkinsertOrNotSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { warrenty_status, guarenty_status, from_date, to_date, troll_free, ph_one,
+                    ph_two, address, file_upload_status } = data[0]
+                const frmdata = {
+                    warrantyStatus: warrenty_status === 1 ? setwarrantyStatus(true) : setwarrantyStatus(false),
+                    garantyStatus: guarenty_status === 1 ? setgarantyStatus(true) : setgarantyStatus(false),
+                    fromdate: from_date !== null ? format(new Date(from_date), "yyyy-MM-dd") : '',
+                    toDate: to_date !== null ? format(new Date(to_date), "yyyy-MM-dd") : '',
+                    trollFree: troll_free,
+                    phone1: ph_one,
+                    phone2: ph_two,
+                    adress: address,
+                    imageStatus: file_upload_status
+                }
+                setUserdata(frmdata);
+            }
+            else {
+                warningNotify("Data Not Saved Yet")
+            }
+        }
+
+        const updateGRNDetails = async (patchdata) => {
+            const result = await axioslogin.patch('/ItemMapDetails/WarentGraruntyUpdate', patchdata);
             const { message, success } = result.data;
             if (success === 2) {
                 succesNotify(message)
@@ -209,14 +284,35 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar }) => {
             }
         }
 
+        const updateGRNDetailsSpare = async (patchdataSpare) => {
+            const result = await axioslogin.patch('/ItemMapDetails/WarentGraruntyUpdateSpare', patchdataSpare);
+            const { message, success } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+            }
+            else {
+                warningNotify(message)
+            }
+        }
         if (fromdate === '' && toDate === '' && trollFree === '' && phone1 === '' && phone2 === '' &&
             adress === '') {
-            checkinsertOrNot(am_item_map_slno)
+            if (assetSpare === 1) {
+                checkinsertOrNot(am_item_map_slno)
+            } else {
+                checkinsertOrNotSpare(am_spare_item_map_slno)
+            }
+
         }
         else {
-            updateGRNDetails(patchdata)
+            if (assetSpare === 1) {
+                updateGRNDetails(patchdata)
+            } else {
+                updateGRNDetailsSpare(patchdataSpare)
+            }
+
         }
-    }, [am_item_map_slno, patchdata, fromdate, toDate, trollFree, phone1, phone2, adress])
+    }, [am_item_map_slno, patchdata, fromdate, toDate, trollFree, phone1, phone2, adress, assetSpare,
+        am_spare_item_map_slno, patchdataSpare])
 
     const WarGarReferesh = useCallback(() => {
         reset()

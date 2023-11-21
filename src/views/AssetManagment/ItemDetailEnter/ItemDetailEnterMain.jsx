@@ -10,15 +10,38 @@ import WarrentyGrauntyComp from './WarrentyGrauntyComp'
 import AMCPMComp from './AMCPMComp'
 import LeaseDetails from './LeaseDetails'
 
-const ItemDetailEnterMain = ({ detailArry, setDetailflag }) => {
+const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare }) => {
 
-    const { am_item_map_slno } = detailArry
+    const { am_item_map_slno, am_spare_item_map_slno } = detailArry
     const [exist, setExist] = useState(0)
     const [grndetailarry, setGrnDetailArry] = useState({})
     const [wargar, setWarGar] = useState(0)
     const [warGararry, setwarGarArry] = useState({})
     const [amcPm, setAmcPm] = useState(0)
     const [amcPmarry, setAmcPmArry] = useState({})
+    // const [custodian, setCustodian] = useState('')
+    // const [custodianNo, setCustodianNo] = useState(0)
+
+    // useEffect(() => {
+    //     const getDeptsecbsdcustodian = async (item_custodian_dept) => {
+    //         const result = await axioslogin.get(`/ItemMapDetails/getdeptsecBsedonCustdept/${item_custodian_dept}`);
+    //         const { success, data } = result.data
+    //         if (success === 1) {
+    //             const { am_custodian_deptsec_slno, sec_name } = data[0]
+    //             setCustodianNo(am_custodian_deptsec_slno)
+    //             setCustodian(sec_name.toLocaleUpperCase())
+    //         }
+    //     }
+    //     if (assetSpare === 1) {
+    //         getDeptsecbsdcustodian(item_custodian_dept)
+    //     } else {
+    //         getDeptsecbsdcustodian(spare_custodian_dept)
+    //     }
+
+    // }, [assetSpare, item_custodian_dept, spare_custodian_dept])
+
+
+
     useEffect(() => {
         const checkinsertOrNotDetail = async (am_item_map_slno) => {
             const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`);
@@ -58,10 +81,58 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag }) => {
                 setAmcPmArry([])
             }
         }
-        checkinsertOrNotDetail(am_item_map_slno)
-        checkinsertOrNotWarGar(am_item_map_slno)
-        checkinsertOrNotAMCPM(am_item_map_slno)
-    }, [am_item_map_slno])
+
+        const checkinsertOrNotDetailSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                setExist(1)
+                setGrnDetailArry(data[0])
+            }
+            else {
+                setExist(0)
+                setGrnDetailArry([])
+            }
+        }
+
+        const checkinsertOrNotWarGarSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                setWarGar(1)
+                setwarGarArry(data[0])
+            }
+            else {
+                setWarGar(0)
+                setwarGarArry([])
+            }
+        }
+
+        const checkinsertOrNotAMCPMSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/AmcPmInsertOrNotSpare/${am_spare_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                setAmcPm(1)
+                setAmcPmArry(data[0])
+            }
+            else {
+                setAmcPm(0)
+                setAmcPmArry([])
+            }
+        }
+
+        if (assetSpare === 1) {
+            checkinsertOrNotDetail(am_item_map_slno)
+            checkinsertOrNotWarGar(am_item_map_slno)
+            checkinsertOrNotAMCPM(am_item_map_slno)
+        }
+        else {
+            checkinsertOrNotDetailSpare(am_spare_item_map_slno)
+            checkinsertOrNotWarGarSpare(am_spare_item_map_slno)
+            checkinsertOrNotAMCPMSpare(am_spare_item_map_slno)
+        }
+
+    }, [am_item_map_slno, assetSpare, am_spare_item_map_slno])
 
     const BackToPage = useCallback(() => {
         setDetailflag(0)
@@ -79,41 +150,41 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag }) => {
                     {/* GRN Detail */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         GRN Details</Typography>
-                    <GRNDeailtsComp detailArry={detailArry}
+                    <GRNDeailtsComp detailArry={detailArry} assetSpare={assetSpare}
                         grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
                     {/* Bill Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         Bill Details</Typography>
-                    <BillDetailsComp detailArry={detailArry}
+                    <BillDetailsComp detailArry={detailArry} assetSpare={assetSpare}
                         grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
 
                     {/* Device Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         Device Details</Typography>
-                    <DEviceDetailsComp detailArry={detailArry}
+                    <DEviceDetailsComp detailArry={detailArry} assetSpare={assetSpare}
                         grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
 
                     {/*  OwnerShip Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         OwnerShip Details</Typography>
-                    <OwnerShipDetailsComp detailArry={detailArry}
+                    <OwnerShipDetailsComp detailArry={detailArry} assetSpare={assetSpare}
                         grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
 
                     {/*  Lease Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         Lease Details</Typography>
-                    <LeaseDetails detailArry={detailArry}
+                    <LeaseDetails detailArry={detailArry} assetSpare={assetSpare}
                         grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
                     {/*  Warrenty/ Grarunty Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                        Warrenty/Grarunty  Details</Typography>
+                        Warranty/Guarantee Details</Typography>
                     <WarrentyGrauntyComp detailArry={detailArry} warGararry={warGararry}
-                        wargar={wargar} setWarGar={setWarGar} />
+                        wargar={wargar} setWarGar={setWarGar} assetSpare={assetSpare} />
 
                     {/*  AMC/PM Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         AMC/PM  Details</Typography>
-                    <AMCPMComp detailArry={detailArry} amcPmarry={amcPmarry}
+                    <AMCPMComp detailArry={detailArry} amcPmarry={amcPmarry} assetSpare={assetSpare}
                         amcPm={amcPm} setAmcPm={setAmcPm} />
                 </Box>
             </Paper>
