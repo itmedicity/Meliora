@@ -72,13 +72,13 @@ export const am_setting_one = [
     { to: '/Home/SubCategory', name: 'Sub Category', slno: 26 },
     { to: '/Home/Manufacture', name: 'Manufacture', slno: 29 },
     { to: '/Home/UnitOfMeasurement', name: 'Unit Of Measurement', slno: 137 },
-    { to: '/Home/CusodianDepartment', name: 'Custodian Department', slno: 154 },
+
 ]
 
 export const am_setting_two = [
     { to: '/Home/ItemType', name: 'Item Type', slno: 24 },
     { to: '/Home/AssetGroup', name: 'Group ', slno: 27 },
-    { to: '/Home/PrimaryCustodian', name: 'Primary Custodian ', slno: 129 },
+    // { to: '/Home/PrimaryCustodian', name: 'Primary Custodian ', slno: 129 },
     { to: '/Home/AssetModel', name: 'Model', slno: 138 },
     { to: '/Home/AssetRackMast', name: 'Asset Rack Master', slno: 161 },
 ]
@@ -86,13 +86,14 @@ export const am_setting_two = [
 export const am_setting_three = [
     { to: '/Home/ItemCategory', name: 'Category ', slno: 25 },
     { to: '/Home/SubGroup', name: 'Sub Group', slno: 28 },
-    { to: '/Home/SecondaryCustodian', name: 'Secondary Custodian', slno: 130 },
-    { to: '/Home/AssetSubModel', name: 'SubModel ', slno: 139 }
+    // { to: '/Home/SecondaryCustodian', name: 'Secondary Custodian', slno: 130 },
+    { to: '/Home/AssetSubModel', name: 'SubModel ', slno: 139 },
+    { to: '/Home/CusodianDepartment', name: 'Custodian Department', slno: 154 },
 ]
 
 //Room Master Menu
 export const rm_setting_one = [
-    { to: '/Home/Building', name: 'Building', slno: 30 },
+    // { to: '/Home/Building', name: 'Building', slno: 30 },
     { to: '/Home/Campus', name: 'Campus', slno: 116 },
     { to: '/Home/InsideBuilding', name: 'Inside Building Block', slno: 119 },
 
@@ -100,14 +101,14 @@ export const rm_setting_one = [
 ]
 
 export const rm_setting_two = [
-    { to: '/Home/Floor', name: 'Floor', slno: 31 },
+    // { to: '/Home/Floor', name: 'Floor', slno: 31 },
     { to: '/Home/BuildingMast', name: 'Building', slno: 117 },
     { to: '/Home/RoomCategoryMaster', name: 'Nomenclature Category ', slno: 122 }
 
     // { to: '/Home/FloorMast', name: 'Floor Master', slno: 120 }
 ]
 export const rm_setting_three = [
-    { to: '/Home/RoomType', name: 'Room Type', slno: 32 },
+    // { to: '/Home/RoomType', name: 'Room Type', slno: 32 },
     { to: '/Home/BuildingBlockMaster', name: 'Building Block', slno: 118 },
     { to: '/Home/RoomTypeMaster', name: 'Nomenclature Type ', slno: 121 }
 

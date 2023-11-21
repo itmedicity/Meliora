@@ -28,8 +28,6 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
     const { slno, Item_name, type } = selectData
     const dispatch = useDispatch();
 
-
-
     const [firstName, setFirstName] = useState('')
     const [secondname, setSecondName] = useState('')
     const [assetno, setassetNo] = useState('')

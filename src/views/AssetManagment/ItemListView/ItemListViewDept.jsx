@@ -25,7 +25,7 @@ const ItemListViewDept = () => {
     const [item, setItem] = useState(0)
     const [asset, setasset] = useState(true)
     const [spare, setSpare] = useState(false)
-
+    const [assetSpare, setassetSpare] = useState(0)
     const postdata = useMemo(() => {
         return {
             item_dept_slno: department !== undefined ? department : 0,
@@ -49,10 +49,12 @@ const ItemListViewDept = () => {
             setasset(true)
             setSpare(false)
             setFlag(0)
+            setassetSpare(1)
         } else if (e.target.checked === false) {
             setasset(false)
             setSpare(true)
             setFlag(0)
+            setassetSpare(2)
         }
     }, [])
     const updateSpare = useCallback((e) => {
@@ -60,10 +62,12 @@ const ItemListViewDept = () => {
             setSpare(true)
             setasset(false)
             setFlag(0)
+            setassetSpare(2)
         } else if (e.target.checked === false) {
             setasset(true)
             setSpare(false)
             setFlag(0)
+            setassetSpare(1)
         }
     }, [])
 
@@ -145,7 +149,7 @@ const ItemListViewDept = () => {
         }}>
             {
                 detailflag === 1 ?
-                    <ItemDetailAdd detailArry={detailArry} setDetailflag={setDetailflag} />
+                    <ItemDetailAdd detailArry={detailArry} setDetailflag={setDetailflag} assetSpare={assetSpare} />
                     :
                     <CardMasterClose
                         title="Asset Location List"

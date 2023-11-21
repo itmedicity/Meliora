@@ -13,8 +13,8 @@ import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/Common
 import { format } from 'date-fns'
 
 
-const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
-    const { am_item_map_slno } = detailArry
+const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpare }) => {
+    const { am_item_map_slno, am_spare_item_map_slno } = detailArry
     const { am_grn_no, am_grn_date } = grndetailarry
 
     // Get login user emp_id
@@ -69,6 +69,14 @@ const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
         }
     }, [grnNo, grndate, am_item_map_slno, id])
 
+    const grnPostDataSpare = useMemo(() => {
+        return {
+            am_spare_item_map_slno: am_spare_item_map_slno,
+            am_grn_no: grnNo,
+            am_grn_date: grndate,
+            create_user: id
+        }
+    }, [grnNo, grndate, am_spare_item_map_slno, id])
 
     const patchData = useMemo(() => {
         return {
@@ -78,6 +86,15 @@ const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
             am_item_map_slno: am_item_map_slno
         }
     }, [grnNo, grndate, id, am_item_map_slno])
+
+    const patchDataSpare = useMemo(() => {
+        return {
+            am_grn_no: grnNo,
+            am_grn_date: grndate,
+            edit_user: id,
+            am_spare_item_map_slno: am_spare_item_map_slno
+        }
+    }, [grnNo, grndate, id, am_spare_item_map_slno])
 
     const reset = () => {
         const frmdata = {
@@ -102,13 +119,48 @@ const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                 infoNotify(message)
             }
         }
-        InsertItemDetail(grnPostData);
-    }, [grnPostData, setExist])
+        const InsertItemDetailSpare = async (grnPostDataSpare) => {
+            const result = await axioslogin.post('/ItemMapDetails/GRNDetailsInsertSpare', grnPostDataSpare)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNotify(message)
+                setExist(1)
+            } else {
+                infoNotify(message)
+            }
+        }
+        if (assetSpare === 1) {
+            InsertItemDetail(grnPostData);
+        } else {
+            InsertItemDetailSpare(grnPostDataSpare)
+        }
+
+    }, [grnPostData, setExist, assetSpare, grnPostDataSpare])
 
     const EditDetails = useCallback((e) => {
         e.preventDefault()
         const checkinsertOrNot = async (am_item_map_slno) => {
             const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { am_grn_no, am_grn_date } = data[0]
+                const frmdata = {
+                    searchgrnFromDate: '',
+                    searchgrnToDate: '',
+                    searchgrnAlready: '',
+                    grnNo: am_grn_no !== null ? am_grn_no : '',
+                    grndate: am_grn_date !== null ? format(new Date(am_grn_date), "yyyy-MM-dd") : ''
+                }
+                setUserdata(frmdata);
+
+            }
+            else {
+                warningNotify("Data Not Saved Yet")
+            }
+        }
+
+        const checkinsertOrNotSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
             const { success, data } = result.data
             if (success === 1) {
                 const { am_grn_no, am_grn_date } = data[0]
@@ -134,14 +186,33 @@ const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                 succesNotify(message)
             }
         }
-        if (grnNo === '' && grndate === '') {
-            checkinsertOrNot(am_item_map_slno)
-        }
-        else {
-            updateGRNDetails(patchData)
+
+        const updateGRNDetailsSpare = async (patchDataSpare) => {
+            const result = await axioslogin.patch('/ItemMapDetails/GRNDetailsUpdateSpare', patchDataSpare);
+            const { message, success } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+            }
         }
 
-    }, [grnNo, grndate, am_item_map_slno, patchData])
+        if (grnNo === '' && grndate === '') {
+            if (assetSpare === 1) {
+                checkinsertOrNot(am_item_map_slno)
+            }
+            else {
+                checkinsertOrNotSpare(am_spare_item_map_slno)
+            }
+        }
+        else {
+            if (assetSpare === 1) {
+                updateGRNDetails(patchData)
+            }
+            else {
+                updateGRNDetailsSpare(patchDataSpare)
+            }
+        }
+
+    }, [grnNo, grndate, am_item_map_slno, patchData, assetSpare, am_spare_item_map_slno, patchDataSpare])
 
     const refreshBilldetail = useCallback(() => {
         reset()

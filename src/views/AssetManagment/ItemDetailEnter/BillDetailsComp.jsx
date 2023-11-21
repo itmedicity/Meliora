@@ -14,8 +14,8 @@ import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/Common
 import { format } from 'date-fns'
 
 
-const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
-    const { am_item_map_slno } = detailArry
+const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpare }) => {
+    const { am_item_map_slno, am_spare_item_map_slno } = detailArry
     const { am_bill_no, am_bill_date, am_bill_amount, am_bill_vendor_detail, am_bill_image } = grndetailarry
     // const [selectFile, setSelectFile] = useState(null)
     // Get login user emp_id
@@ -83,6 +83,19 @@ const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
         }
     }, [am_item_map_slno, billNo, billDate, billamount, bill_vendor_detail, id])
 
+    const billpostDataSpare = useMemo(() => {
+        return {
+            am_spare_item_map_slno: am_spare_item_map_slno,
+            am_bill_no: billNo,
+            am_bill_date: billDate,
+            am_bill_amount: billamount,
+            am_bill_vendor_detail: bill_vendor_detail,
+            am_bill_image: 1,
+            // am_bill_image: selectFile !== null ? 1 : 0,
+            create_user: id
+        }
+    }, [am_spare_item_map_slno, billNo, billDate, billamount, bill_vendor_detail, id])
+
     const billpatchData = useMemo(() => {
         return {
             am_bill_no: billNo,
@@ -95,6 +108,20 @@ const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
             am_item_map_slno: am_item_map_slno
         }
     }, [billNo, billDate, billamount, bill_vendor_detail, id, am_item_map_slno])
+
+    const billpatchDataSpare = useMemo(() => {
+        return {
+            am_bill_no: billNo,
+            am_bill_date: billDate,
+            am_bill_amount: billamount,
+            am_bill_vendor_detail: bill_vendor_detail,
+            am_bill_image: 1,
+            // am_bill_image: selectFile !== null ? 1 : 0,
+            edit_user: id,
+            am_spare_item_map_slno: am_spare_item_map_slno
+        }
+    }, [billNo, billDate, billamount, bill_vendor_detail, id, am_spare_item_map_slno])
+
 
     const reset = () => {
         const frmdata = {
@@ -119,14 +146,48 @@ const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                 infoNotify(message)
             }
         }
-        InsertItemDetail(billpostData);
+        const InsertItemDetailSpare = async (billpostDataSpare) => {
+            const result = await axioslogin.post('/ItemMapDetails/BillDetailsInsertSpare', billpostDataSpare)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNotify(message)
+                setExist(1)
+            } else {
+                infoNotify(message)
+            }
+        }
+        if (assetSpare === 1) {
+            InsertItemDetail(billpostData);
+        } else {
+            InsertItemDetailSpare(billpostDataSpare)
+        }
 
-    }, [billpostData, setExist])
+
+    }, [billpostData, setExist, assetSpare, billpostDataSpare])
 
     const EditDetails = useCallback((e) => {
         e.preventDefault()
         const checkinsertOrNot = async (am_item_map_slno) => {
             const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { am_bill_no, am_bill_date, am_bill_amount, am_bill_vendor_detail, am_bill_image } = data[0]
+                const frmdata = {
+                    billNo: am_bill_no !== null ? am_bill_no : '',
+                    billDate: am_bill_date !== null ? format(new Date(am_bill_date), "yyyy-MM-dd") : '',
+                    billamount: am_bill_amount !== null ? am_bill_amount : '',
+                    bill_vendor_detail: am_bill_vendor_detail !== null ? am_bill_vendor_detail : '',
+                    billImage: am_bill_image !== null ? am_bill_image : 0
+                }
+                setBillData(frmdata);
+            }
+            else {
+                warningNotify("Data Not Saved Yet")
+            }
+        }
+
+        const checkinsertOrNotSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
             const { success, data } = result.data
             if (success === 1) {
                 const { am_bill_no, am_bill_date, am_bill_amount, am_bill_vendor_detail, am_bill_image } = data[0]
@@ -155,14 +216,38 @@ const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
             }
         }
 
-        if (billNo === '' && billDate === '' && billamount === '' && bill_vendor_detail === '') {
-            checkinsertOrNot(am_item_map_slno)
-        }
-        else {
-            updateGRNDetails(billpatchData)
+        const updateGRNDetailsSpare = async (billpatchDataSpare) => {
+            const result = await axioslogin.patch('/ItemMapDetails/BillDetailsUpdateSpare', billpatchDataSpare);
+            const { message, success } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+            }
+            else {
+                warningNotify(message)
+            }
         }
 
-    }, [billNo, billDate, billamount, bill_vendor_detail, am_item_map_slno, billpatchData])
+
+
+        if (billNo === '' && billDate === '' && billamount === '' && bill_vendor_detail === '') {
+            if (assetSpare === 1) {
+                checkinsertOrNot(am_item_map_slno)
+            } else {
+                checkinsertOrNotSpare(am_spare_item_map_slno)
+            }
+
+        }
+        else {
+            if (assetSpare === 1) {
+                updateGRNDetails(billpatchData)
+            } else {
+                updateGRNDetailsSpare(billpatchDataSpare)
+            }
+
+        }
+
+    }, [billNo, billDate, billamount, bill_vendor_detail, am_item_map_slno, billpatchData, assetSpare,
+        am_spare_item_map_slno, billpatchDataSpare])
 
 
     const BillRefresh = useCallback(() => {

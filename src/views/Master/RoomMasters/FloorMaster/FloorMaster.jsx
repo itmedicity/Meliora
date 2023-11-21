@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState, memo } from 'react'
 import { useHistory } from 'react-router-dom';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
@@ -191,4 +191,4 @@ const FloorMaster = () => {
         </CardMaster>
     )
 }
-export default FloorMaster
+export default memo(FloorMaster)

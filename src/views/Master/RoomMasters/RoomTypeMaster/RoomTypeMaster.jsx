@@ -1,16 +1,14 @@
 import { Box } from '@mui/material'
 import React from 'react'
-import { useMemo } from 'react'
-import { useCallback } from 'react'
-import { useState } from 'react'
+import { useMemo, useCallback, memo, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-
 import RoomTypeTablee from './RoomTypeTablee'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { useSelector } from 'react-redux'
 
 const RoomTypeMaster = () => {
   const history = useHistory()
@@ -24,30 +22,27 @@ const RoomTypeMaster = () => {
     rm_roomtype_status: false,
     rm_roomtype_type: false
   })
-  const {
-    rm_roomtype_slno,
-    rm_roomtype_name,
-    rm_roomtype_alias,
-    rm_roomtype_no,
-    rm_roomtype_status,
-    rm_roomtype_type
-  } = roomType
-  const updateRoomType = useCallback(
-    (e) => {
-      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-      setRoomType({ ...roomType, [e.target.name]: value })
-    },
-    [roomType],
-  )
+  const { rm_roomtype_slno, rm_roomtype_name, rm_roomtype_alias, rm_roomtype_no,
+    rm_roomtype_status, rm_roomtype_type } = roomType
+  const updateRoomType = useCallback((e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    setRoomType({ ...roomType, [e.target.name]: value })
+  }, [roomType])
+
+  // Get login user emp_id
+  const id = useSelector((state) => {
+    return state.LoginUserData.empid
+  })
   const postdata = useMemo(() => {
     return {
       rm_roomtype_name: rm_roomtype_name,
       rm_roomtype_alias: rm_roomtype_alias,
       rm_roomtype_no: rm_roomtype_no,
       rm_roomtype_status: rm_roomtype_status === true ? 1 : 0,
-      rm_roomtype_type: rm_roomtype_type === true ? 1 : 0
+      rm_roomtype_type: rm_roomtype_type === true ? 1 : 0,
+      create_user: id
     }
-  }, [rm_roomtype_name, rm_roomtype_alias, rm_roomtype_no, rm_roomtype_status, rm_roomtype_type])
+  }, [rm_roomtype_name, rm_roomtype_alias, rm_roomtype_no, rm_roomtype_status, rm_roomtype_type, id])
 
   const patchdata = useMemo(() => {
     return {
@@ -56,9 +51,10 @@ const RoomTypeMaster = () => {
       rm_roomtype_alias: rm_roomtype_alias,
       rm_roomtype_no: rm_roomtype_no,
       rm_roomtype_status: rm_roomtype_status === true ? 1 : 0,
-      rm_roomtype_type: rm_roomtype_type === true ? 1 : 0
+      rm_roomtype_type: rm_roomtype_type === true ? 1 : 0,
+      edit_user: id
     }
-  }, [rm_roomtype_slno, rm_roomtype_name, rm_roomtype_alias, rm_roomtype_no, rm_roomtype_status, rm_roomtype_type])
+  }, [rm_roomtype_slno, rm_roomtype_name, rm_roomtype_alias, rm_roomtype_no, rm_roomtype_status, rm_roomtype_type, id])
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
   }, [history])
@@ -79,14 +75,8 @@ const RoomTypeMaster = () => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
-    const {
-      rm_roomtype_slno,
-      rm_roomtype_name,
-      rm_roomtype_alias,
-      rm_roomtype_no,
-      rm_roomtype_status,
-      rm_roomtype_type
-    } = data[0]
+    const { rm_roomtype_slno, rm_roomtype_name, rm_roomtype_alias, rm_roomtype_no,
+      rm_roomtype_status, rm_roomtype_type } = data[0]
 
     const frmdata = {
       rm_roomtype_slno: rm_roomtype_slno,
@@ -98,43 +88,40 @@ const RoomTypeMaster = () => {
     }
     setRoomType(frmdata)
   }, [])
-  const sumbitRoomType = useCallback(
-    (e) => {
-      e.preventDefault()
-      const InsertRoomtype = async (postdata) => {
-        const result = await axioslogin.post('/roomtypeMaster/insert', postdata)
-        const { message, success } = result.data
-        if (success === 1) {
-          succesNotify(message)
-          setCount(count + 1)
-          reset()
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
-      }
-      const UpdateRoomType = async (patchdata) => {
-        const result = await axioslogin.patch('/roomtypeMaster/update', patchdata)
-        const { message, success } = result.data
-        if (success === 2) {
-          succesNotify(message)
-          setCount(count + 1)
-          reset()
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
-      }
-      if (value === 0) {
-        InsertRoomtype(postdata)
+  const sumbitRoomType = useCallback((e) => {
+    e.preventDefault()
+    const InsertRoomtype = async (postdata) => {
+      const result = await axioslogin.post('/roomtypeMaster/insert', postdata)
+      const { message, success } = result.data
+      if (success === 1) {
+        succesNotify(message)
+        setCount(count + 1)
+        reset()
+      } else if (success === 0) {
+        infoNotify(message)
       } else {
-        UpdateRoomType(patchdata)
+        infoNotify(message)
       }
-    },
-    [postdata, value, patchdata, count],
-  )
+    }
+    const UpdateRoomType = async (patchdata) => {
+      const result = await axioslogin.patch('/roomtypeMaster/update', patchdata)
+      const { message, success } = result.data
+      if (success === 2) {
+        succesNotify(message)
+        setCount(count + 1)
+        reset()
+      } else if (success === 0) {
+        infoNotify(message)
+      } else {
+        infoNotify(message)
+      }
+    }
+    if (value === 0) {
+      InsertRoomtype(postdata)
+    } else {
+      UpdateRoomType(patchdata)
+    }
+  }, [postdata, value, patchdata, count])
   const refreshWindow = useCallback(() => {
     const frmdata = {
       rm_roomtype_slno: '',
@@ -221,4 +208,4 @@ const RoomTypeMaster = () => {
   )
 }
 
-export default RoomTypeMaster
+export default memo(RoomTypeMaster)

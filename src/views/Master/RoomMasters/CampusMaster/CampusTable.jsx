@@ -1,6 +1,5 @@
 import React from 'react'
-import { useEffect, memo } from 'react'
-import { useState } from 'react'
+import { useEffect, memo, useState } from 'react'
 import EditButton from 'src/views/Components/EditButton'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'

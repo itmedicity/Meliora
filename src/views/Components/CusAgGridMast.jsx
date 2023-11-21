@@ -35,7 +35,7 @@ const CusAgGridMast = ({ columnDefs, tableData, onSelectionChanged, columnTypes,
                 <Box
                     className="ag-theme-alpine ListItemScrol"
                     sx={{
-                        height: 300,
+                        height: 400,
                         width: "100%"
                     }}
                 >
