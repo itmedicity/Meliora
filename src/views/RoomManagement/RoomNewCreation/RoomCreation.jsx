@@ -284,15 +284,14 @@ const RoomCreation = () => {
               />
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <RmRoomTypeSelect value={roomType} setValue={setRoomType} buildno={building} />
-            </Box>
-
-            <Box sx={{ pt: 1.5 }}>
               <RmRoomCategorySelect
                 value={roomCategory}
                 setValue={setCategory}
                 buildno={building}
               />
+            </Box>
+            <Box sx={{ pt: 1.5 }}>
+              <RmRoomTypeSelect value={roomType} setValue={setRoomType} buildno={building} />
             </Box>
             <Box sx={{ pt: 1.5 }}>
               <DeptSectionSelect value={outlet} setValue={setOutlet} />

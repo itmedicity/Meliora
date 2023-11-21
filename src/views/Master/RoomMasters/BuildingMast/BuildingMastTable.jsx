@@ -10,7 +10,7 @@ const BuildingMastTable = ({ count, rowSelect }) => {
 
   const [column] = useState([
     { headerName: 'SlNo', field: 'rm_building_slno' },
-    { headerName: 'Building name', field: 'rm_building_name' },
+    { headerName: 'Building name', field: 'rm_building_name', minWidth: 350 },
     { headerName: 'Building alias', field: 'rm_building_alias' },
     { headerName: 'Building number', field: 'rm_building_no' },
     { headerName: 'Status', field: 'status' },
