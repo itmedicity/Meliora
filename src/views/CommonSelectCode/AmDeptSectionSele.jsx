@@ -18,7 +18,10 @@ const AmDeptSectionSele = ({ deptsec, setDeptSec, setDeptSecName }) => {
             setValue(value)
             setDeptSec(value.sec_id)
             setDeptSecName(value.sec_name)
-            dispatch(getRoomBasedOnDeptSec(value.sec_id))
+            if (value.sec_id !== 0) {
+                dispatch(getRoomBasedOnDeptSec(value.sec_id))
+            }
+
         } else {
             setDeptSec(0)
             setDeptSecName('')

@@ -5,8 +5,8 @@ import { CssVarsProvider } from '@mui/joy/'
 import { getSubRoomBasedOnRoom } from 'src/redux/actions/AmSubRoomBsdRoom.action';
 import { useDispatch } from 'react-redux'
 
+const AmRoomSelWONameUDepSec = ({ roomNo, setRoomNo }) => {
 
-const AmRoomSelecDeptSecBased = ({ roomNo, setRoomNo, setRoomName }) => {
 
     const dispatch = useDispatch();
     const RoomListDeptSecBasd = useSelector((state) => state.getRoomBasedOnDeptSec?.RoomBasedDeptSectionList)
@@ -19,17 +19,16 @@ const AmRoomSelecDeptSecBased = ({ roomNo, setRoomNo, setRoomName }) => {
         if (value !== null) {
             setValue(value)
             setRoomNo(value.rm_room_slno)
-            setRoomName(value.rm_room_name)
             if (value.rm_room_slno !== 0) {
                 dispatch(getSubRoomBasedOnRoom(value.rm_room_slno))
             }
 
         } else {
             setRoomNo(0)
-            setRoomName('')
+
         }
         return
-    }, [value, setRoomNo, setRoomName, dispatch])
+    }, [value, setRoomNo, dispatch])
 
 
     useEffect(() => {
@@ -66,4 +65,4 @@ const AmRoomSelecDeptSecBased = ({ roomNo, setRoomNo, setRoomName }) => {
     )
 }
 
-export default memo(AmRoomSelecDeptSecBased)
+export default memo(AmRoomSelWONameUDepSec)

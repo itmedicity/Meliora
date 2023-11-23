@@ -12,12 +12,11 @@ const NewSubRoomTable = ({ count, rowSelect }) => {
             headerName: 'Action', minWidth: 100,
             cellRenderer: (params) => <EditButton onClick={() => rowSelect(params)} />,
         },
-        { headerName: 'SlNo', field: 'rm_room_slno', wrapText: true, minWidth: 70 },
+        { headerName: 'SlNo', field: 'subroom_slno', wrapText: true, minWidth: 70 },
         { headerName: 'SubRoom Name', field: 'subroom_name', wrapText: true, minWidth: 250 },
         { headerName: 'SubRoom Number', field: 'subroom_no', wrapText: true, minWidth: 150 },
         { headerName: 'Room Name', field: 'rm_room_name', wrapText: true, minWidth: 150 },
-        { headerName: 'Status', field: 'status', wrapText: true, minWidth: 100 },
-
+        { headerName: 'Status', field: 'status', wrapText: true, minWidth: 100 }
     ])
     useEffect(() => {
         const getFloorData = async () => {

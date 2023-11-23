@@ -19,7 +19,6 @@ const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName, buildblock
       const { success, data } = result.data
       if (success === 2) {
         setRoomArry(data)
-
         const a = data.map((val) => {
           const obj = {
             blockno: val.rm_insidebuilldblock_slno,
@@ -41,6 +40,7 @@ const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName, buildblock
   const CloseRoom = useCallback(() => {
     setRoomList(0)
   }, [setRoomList])
+
   return (
     <>
       {assetList === 1 ? (
@@ -60,8 +60,7 @@ const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName, buildblock
         >
           <Box
             sx={{
-              width: '100%',
-              margin: 'auto',
+              width: '100%', margin: 'auto',
             }}
           >
             <Paper sx={{ overflow: 'hidden', px: 1 }} variant="outlined">
@@ -71,38 +70,22 @@ const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName, buildblock
                     <Paper
                       key={val.blockno}
                       sx={{
-                        minHeight: 50,
-                        margin: 'auto',
-                        textAlign: 'center',
-                        my: 1,
-                        overflow: 'hidden',
+                        minHeight: 50, margin: 'auto', textAlign: 'center', my: 1, overflow: 'hidden',
                       }}
                     >
                       <Box
                         sx={{
-                          backgroundColor: 'ButtonFace',
-                          textTransform: 'capitalize',
-                          fontFamily: 'cursive',
-                          fontSize: 13,
-                          textAlign: 'left',
-                          pl: 2,
-                          border: 0.2,
-                          borderColor: 'transparent',
-                          borderBottomColor: 'lightgrey',
-                        }}
-                      >
+                          backgroundColor: 'ButtonFace', textTransform: 'capitalize', fontFamily: 'cursive',
+                          fontSize: 13, textAlign: 'left', pl: 2, border: 0.2,
+                          borderColor: 'transparent', borderBottomColor: 'lightgrey',
+                        }}>
                         {val?.blockname?.toLowerCase()}
-
                       </Box>
 
                       <Box
                         padding={0.5}
                         sx={{
-                          display: 'flex',
-                          width: "100%",
-                          flexDirection: 'row',
-                          overflow: 'hidden',
-                          flexWrap: 'wrap',
+                          display: 'flex', width: "100%", flexDirection: 'row', overflow: 'hidden', flexWrap: 'wrap',
                         }}
                       >
                         <DashBoardRoomSort blockno={val.blockno}

@@ -19,28 +19,6 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare }) => {
     const [warGararry, setwarGarArry] = useState({})
     const [amcPm, setAmcPm] = useState(0)
     const [amcPmarry, setAmcPmArry] = useState({})
-    // const [custodian, setCustodian] = useState('')
-    // const [custodianNo, setCustodianNo] = useState(0)
-
-    // useEffect(() => {
-    //     const getDeptsecbsdcustodian = async (item_custodian_dept) => {
-    //         const result = await axioslogin.get(`/ItemMapDetails/getdeptsecBsedonCustdept/${item_custodian_dept}`);
-    //         const { success, data } = result.data
-    //         if (success === 1) {
-    //             const { am_custodian_deptsec_slno, sec_name } = data[0]
-    //             setCustodianNo(am_custodian_deptsec_slno)
-    //             setCustodian(sec_name.toLocaleUpperCase())
-    //         }
-    //     }
-    //     if (assetSpare === 1) {
-    //         getDeptsecbsdcustodian(item_custodian_dept)
-    //     } else {
-    //         getDeptsecbsdcustodian(spare_custodian_dept)
-    //     }
-
-    // }, [assetSpare, item_custodian_dept, spare_custodian_dept])
-
-
 
     useEffect(() => {
         const checkinsertOrNotDetail = async (am_item_map_slno) => {
@@ -131,7 +109,6 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare }) => {
             checkinsertOrNotWarGarSpare(am_spare_item_map_slno)
             checkinsertOrNotAMCPMSpare(am_spare_item_map_slno)
         }
-
     }, [am_item_map_slno, assetSpare, am_spare_item_map_slno])
 
     const BackToPage = useCallback(() => {

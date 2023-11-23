@@ -25,7 +25,7 @@ const ItemListViewDept = () => {
     const [item, setItem] = useState(0)
     const [asset, setasset] = useState(true)
     const [spare, setSpare] = useState(false)
-    const [assetSpare, setassetSpare] = useState(0)
+    const [assetSpare, setassetSpare] = useState(1)
     const postdata = useMemo(() => {
         return {
             item_dept_slno: department !== undefined ? department : 0,
@@ -82,7 +82,6 @@ const ItemListViewDept = () => {
             if (success === 1) {
                 setDisArry(data)
                 setFlag(1)
-
             }
             else {
                 warningNotify("No data for Selected Condition")

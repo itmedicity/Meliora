@@ -7,7 +7,7 @@ const RoomTypeTable = ({ count, rowSelect }) => {
     //state for setting table data
     const [tabledata, setTabledata] = useState([])
     const [column] = useState([
-        { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
+        { headerName: 'Action', minWidth: 80, cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
         { headerName: "SlNo", field: "rmc_type", wrapText: true, minWidth: 300 },
         { headerName: "Description", field: "rmc_desc", wrapText: true, minWidth: 300 },
         { headerName: "Room", field: "rtc_desc", wrapText: true, minWidth: 300 },

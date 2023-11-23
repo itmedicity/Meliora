@@ -26,11 +26,18 @@ const AmTransactions = [
         to: '/Home/AssetItemListView',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+    // {
+    //     men_slno: 163,
+    //     component: CNavItem,
+    //     name: 'Asset Transfer',
+    //     to: '/Home/DeptTransfer',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
     {
         men_slno: 163,
         component: CNavItem,
-        name: 'Asset Transfer',
-        to: '/Home/DeptTransfer',
+        name: 'Asset New Transfer',
+        to: '/Home/AssetDeptTransfer',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 ]
