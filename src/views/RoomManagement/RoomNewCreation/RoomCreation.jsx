@@ -185,14 +185,7 @@ const RoomCreation = () => {
     e.preventDefault()
     const InsertRoom = async (postdata) => {
       const result = await axioslogin.post('/roomnewcreation/insert', postdata)
-      const { message, success, insetid } = result.data
-      if (success === 1) {
-        return insetid
-      } else if (success === 0) {
-        infoNotify(message)
-      } else {
-        infoNotify(message)
-      }
+      return result.data
     }
     const UpdateRoom = async (patchdata) => {
       const result = await axioslogin.patch('/roomnewcreation/update', patchdata)
@@ -210,9 +203,16 @@ const RoomCreation = () => {
     if (value === 0) {
       if (start <= lastRoom && lastRoom <= end) {
         InsertRoom(postdata).then((val) => {
-          succesNotify('Room Created Successfully')
-          setCount(count + 1)
-          reset()
+          const { success } = val
+          if (success === 1) {
+            succesNotify("Room created successfully")
+            setCount(count + 1)
+            reset()
+          } else if (success === 0) {
+            infoNotify("Error Occured")
+          } else {
+            infoNotify("Error Occured")
+          }
         })
       } else {
         infoNotify('No Room Available in Selected Floor')

@@ -1,48 +1,41 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
 import { Box, Typography, Paper } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
+import { useState } from 'react';
+import { axioslogin } from 'src/views/Axios/Axios';
 
 
-const OwnerShipDetailsComp = ({ detailArry }) => {
+const OwnerShipDetailsComp = ({ detailArry, assetSpare }) => {
+    const { am_item_map_slno, am_spare_item_map_slno } = detailArry
+    const [primary, setPrimary] = useState('')
+    const [secondary, setSecondary] = useState('')
 
-    const { am_custodian_name } = detailArry
+    useEffect(() => {
+        const getDeptsecbsdcustodian = async (am_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/getdeptsecBsedonCustdept/${am_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { prim_cus, second_cus } = data[0]
+                setPrimary(prim_cus.toLocaleUpperCase())
+                setSecondary(second_cus.toLocaleUpperCase())
+            }
+        }
 
-
-    // const [custodian, setCustodian] = useState('')
-    // const [secondaryCustodian, setSecondaryCustodian] = useState(0)
-
-
-    // useEffect(() => {
-    //     const getDeptsecbsdcustodian = async (item_custodian_dept) => {
-    //         const result = await axioslogin.get(`/ItemMapDetails/getdeptsecBsedonCustdept/${item_custodian_dept}`);
-    //         const { success, data } = result.data
-    //         if (success === 1) {
-
-    //             const { am_custodian_deptsec_slno, sec_name } = data[0]
-    //             setCustodian(sec_name.toLocaleUpperCase())
-    //         }
-
-    //     }
-    //     if (exist === 0) {
-    //         if (assetSpare === 1) {
-    //             getDeptsecbsdcustodian(item_custodian_dept)
-    //         } else {
-    //             getDeptsecbsdcustodian(spare_custodian_dept)
-    //         }
-    //     } else {
-
-    //     }
-
-
-    // }, [assetSpare, item_custodian_dept, spare_custodian_dept])
-
-
-
-
-
-
-
-
+        const getDeptsecbsdcustodianSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/getdeptsecBsedonCustdeptSpare/${am_spare_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { prim_cus, second_cus } = data[0]
+                setPrimary(prim_cus.toLocaleUpperCase())
+                setSecondary(second_cus.toLocaleUpperCase())
+            }
+        }
+        if (assetSpare === 1) {
+            getDeptsecbsdcustodian(am_item_map_slno)
+        } else {
+            getDeptsecbsdcustodianSpare(am_spare_item_map_slno)
+        }
+    }, [assetSpare, am_item_map_slno, am_spare_item_map_slno])
 
     return (
         <Paper sx={{ overflow: 'auto', border: 1, mb: 1 }}>
@@ -55,8 +48,8 @@ const OwnerShipDetailsComp = ({ detailArry }) => {
                         <TextFieldCustom
                             type="text"
                             size="sm"
-                            name="am_custodian_name"
-                            value={am_custodian_name}
+                            name="primary"
+                            value={primary}
                             disabled={true}
                         ></TextFieldCustom>
                     </Box>
@@ -67,8 +60,8 @@ const OwnerShipDetailsComp = ({ detailArry }) => {
                         <TextFieldCustom
                             type="text"
                             size="sm"
-                            name="am_custodian_name"
-                            value={am_custodian_name}
+                            name="secondary"
+                            value={secondary}
                             disabled={true}
                         ></TextFieldCustom>
                     </Box>

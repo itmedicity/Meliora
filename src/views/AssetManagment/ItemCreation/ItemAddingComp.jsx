@@ -16,11 +16,14 @@ import AmCustodianDeptsele from 'src/views/CommonSelectCode/AmCustodianDeptsele'
 import AssetRackSelect from 'src/views/CommonSelectCode/AssetRackSelect'
 import { getRackList } from 'src/redux/actions/AmRackList.action'
 import AmRoomSelecDeptSecBased from 'src/views/CommonSelectCode/AmRoomSelecDeptSecBased'
+import AmsubRoomSeleDepdRoom from 'src/views/CommonSelectCode/AmsubRoomSeleDepdRoom'
 
 const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDeptSec,
     deptName, setDeptName, deptSecName, setDeptSecName, custodiandept, setCustodianDept,
     custdeptName, setcustdeptname, rackno, setrackNo, rackname, setrackName, roomNo,
-    setRoomNo, roonName, setRoomName, count, setCount, }) => {
+    setRoomNo, roonName, setRoomName, count, setCount, setCustodianDeptSec, custodiandeptSec,
+    subRoomNo, setSubRoomNo, subRoomName, setSubRoomName }) => {
+
     // Get login user emp_id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -32,14 +35,12 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
     const [secondname, setSecondName] = useState('')
     const [assetno, setassetNo] = useState('')
 
-
     useEffect(() => {
         if (custodiandept !== 0) {
             if (type === 1) {
                 let array = [firstName, secondname]
                 let filterName = array?.filter((e) => e !== null);
                 let stringName = filterName?.map((e) => e).join('/')
-
                 setassetNo(stringName)
             }
             else {
@@ -74,9 +75,11 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
             item_dept_slno: department,
             item_deptsec_slno: deptsec,
             item_room_slno: roomNo === 0 ? null : roomNo,
+            item_subroom_slno: subRoomNo === 0 ? null : subRoomNo,
             item_rack_slno: rackno === 0 ? null : rackno,
             item_create_status: 1,
             item_custodian_dept: custodiandept,
+            item_custodian_dept_sec: custodiandeptSec,
             item_asset_no: assetno,
             create_user: id
         }
@@ -87,9 +90,11 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
             spare_dept_slno: department,
             spare_deptsec_slno: deptsec,
             spare_room_slno: roomNo === 0 ? null : roomNo,
+            spare_subroom_slno: subRoomNo === 0 ? null : subRoomNo,
             spare_rack_slno: rackno === 0 ? null : rackno,
             spare_create_status: 1,
             spare_custodian_dept: custodiandept,
+            spare_custodian_dept_sec: custodiandeptSec,
             spare_asset_no: assetno,
             create_user: id
         }
@@ -101,15 +106,17 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
             item_dept_slno: department,
             item_deptsec_slno: deptsec,
             item_room_slno: roomNo === 0 ? null : roomNo,
+            item_subroom_slno: subRoomNo === 0 ? null : subRoomNo,
             item_rack_slno: rackno === 0 ? null : rackno,
             item_create_status: 1,
             item_custodian_dept: custodiandept,
+            item_custodian_dept_sec: custodiandeptSec,
             item_asset_no: assetno,
             item_asset_no_only: assetno,
             create_user: id
         }
 
-    }, [slno, department, deptsec, roomNo, rackno, custodiandept, assetno, id])
+    }, [slno, department, deptsec, roomNo, subRoomNo, rackno, custodiandept, custodiandeptSec, assetno, id])
 
     const spareaddMoreItem = useMemo(() => {
         return {
@@ -117,15 +124,17 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
             spare_dept_slno: department,
             spare_deptsec_slno: deptsec,
             spare_room_slno: roomNo === 0 ? null : roomNo,
+            spare_subroom_slno: subRoomNo === 0 ? null : subRoomNo,
             spare_rack_slno: rackno === 0 ? null : rackno,
             spare_create_status: 1,
             spare_custodian_dept: custodiandept,
+            spare_custodian_dept_sec: custodiandeptSec,
             spare_asset_no: assetno,
             spare_asset_no_only: assetno,
             create_user: id
         }
 
-    }, [slno, department, deptsec, roomNo, rackno, custodiandept, assetno, id])
+    }, [slno, department, deptsec, roomNo, subRoomNo, rackno, custodiandept, custodiandeptSec, assetno, id])
 
     const getPostData = useMemo(() => {
         return {
@@ -142,6 +151,7 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
             spare_deptsec_slno: deptsec
         }
     }, [slno, department, deptsec])
+
 
     const AddMultiple = useCallback(() => {
         const insertItem = async (postData) => {
@@ -185,7 +195,6 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
         } else {
             warningNotify("Please Select Department,Department section,Custodian Department and Give Count")
         }
-
     }, [postData, department, deptsec, type, sparepostData, mapArry, custodiandept, roomNo])
 
 
@@ -307,6 +316,26 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
                     </Box>
                 </Box>
                 <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Sub Room</Typography>
+                    <Box>
+                        {disable === 0 ?
+
+                            <AmsubRoomSeleDepdRoom
+                                subRoomNo={subRoomNo}
+                                setSubRoomNo={setSubRoomNo}
+                                setSubRoomName={setSubRoomName}
+                            /> :
+                            <TextFieldCustom
+                                type="text"
+                                size="sm"
+                                disabled={true}
+                                name="subRoomName"
+                                value={subRoomName}
+                            />
+                        }
+                    </Box>
+                </Box>
+                <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
                     <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Rack</Typography>
                     <Box>
                         {disable === 0 ?
@@ -336,6 +365,7 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
                                 setcustdeptname={setcustdeptname}
                                 setFirstName={setFirstName}
                                 setSecondName={setSecondName}
+                                setCustodianDeptSec={setCustodianDeptSec}
                             /> :
                             <TextFieldCustom
                                 type="text"

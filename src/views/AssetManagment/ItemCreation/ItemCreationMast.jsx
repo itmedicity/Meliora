@@ -125,10 +125,13 @@ const ItemCreationMast = () => {
   const [deptSecName, setDeptSecName] = useState('')
   const [custodiandept, setCustodianDept] = useState(0)
   const [custdeptName, setcustdeptname] = useState('')
+  const [custodiandeptSec, setCustodianDeptSec] = useState(0)
   const [rackno, setrackNo] = useState(0)
   const [rackname, setrackName] = useState('')
   const [roomNo, setRoomNo] = useState(0)
   const [roonName, setRoomName] = useState('')
+  const [subRoomNo, setSubRoomNo] = useState(0)
+  const [subRoomName, setSubRoomName] = useState('')
   const [count, setCount] = useState('')
 
   const reset = useCallback(() => {
@@ -138,6 +141,7 @@ const ItemCreationMast = () => {
     setDeptSecName('')
     setCustodianDept(0)
     setcustdeptname('')
+    setCustodianDeptSec(0)
     setrackNo(0)
     setrackName('')
     setRoomNo(0)
@@ -152,6 +156,7 @@ const ItemCreationMast = () => {
     setDeptSecName('')
     setCustodianDept(0)
     setcustdeptname('')
+    setCustodianDeptSec(0)
     setrackNo(0)
     setrackName('')
     setRoomNo(0)
@@ -379,32 +384,23 @@ const ItemCreationMast = () => {
           {
             dataAdd !== 0 ?
               <ItemAddingComp selectData={selectData}
-                department={department}
-                setDepartment={setDepartment}
-                deptsec={deptsec}
-                setDeptSec={setDeptSec}
-                deptName={deptName}
-                setDeptName={setDeptName}
-                deptSecName={deptSecName}
-                setDeptSecName={setDeptSecName}
-                custodiandept={custodiandept}
-                setCustodianDept={setCustodianDept}
-                custdeptName={custdeptName}
-                setcustdeptname={setcustdeptname}
-                rackno={rackno}
-                setrackNo={setrackNo}
-                rackname={rackname}
-                setrackName={setrackName}
-                roomNo={roomNo}
-                setRoomNo={setRoomNo}
-                roonName={roonName}
-                setRoomName={setRoomName}
-                count={count}
-                setCount={setCount}
+                department={department} setDepartment={setDepartment}
+                deptsec={deptsec} setDeptSec={setDeptSec}
+                deptName={deptName} setDeptName={setDeptName}
+                deptSecName={deptSecName} setDeptSecName={setDeptSecName}
+                custodiandept={custodiandept} setCustodianDept={setCustodianDept}
+                custdeptName={custdeptName} setcustdeptname={setcustdeptname}
+                rackno={rackno} setrackNo={setrackNo}
+                rackname={rackname} setrackName={setrackName}
+                roomNo={roomNo} setRoomNo={setRoomNo}
+                roonName={roonName} setRoomName={setRoomName}
+                count={count} setCount={setCount}
+                custodiandeptSec={custodiandeptSec} setCustodianDeptSec={setCustodianDeptSec}
+                subRoomNo={subRoomNo} setSubRoomNo={setSubRoomNo}
+                subRoomName={subRoomName} setSubRoomName={setSubRoomName}
               />
               : null
           }
-
         </Box >
       </CardMasterClose >
     </Box >

@@ -1,40 +1,32 @@
 import React, { useEffect, memo, useState, Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import Autocomplete from '@mui/joy/Autocomplete';
-import { CssVarsProvider } from '@mui/joy/'
-import { getSubRoomBasedOnRoom } from 'src/redux/actions/AmSubRoomBsdRoom.action';
+import { CssVarsProvider } from '@mui/joy/';
 import { useDispatch } from 'react-redux'
 
-
-const AmRoomSelecDeptSecBased = ({ roomNo, setRoomNo, setRoomName }) => {
+const AmsubRoomSeleDepdRoom = ({ subRoomNo, setSubRoomNo, setSubRoomName }) => {
 
     const dispatch = useDispatch();
-    const RoomListDeptSecBasd = useSelector((state) => state.getRoomBasedOnDeptSec?.RoomBasedDeptSectionList)
-    const [roomList, setRoomList] = useState([{ rm_room_slno: 0, rm_room_name: '' }])
-    const [value, setValue] = useState(roomList[0]);
+    const SubRoomListRoomBasd = useSelector((state) => state.getSubRoomBasedOnRoom?.SubRoomBasedRoomList)
+    const [subroomList, setSubRoomList] = useState([{ subroom_slno: 0, subroom_name: '' }])
+    const [value, setValue] = useState(subroomList[0]);
     const [inputValue, setInputValue] = useState('');
-
 
     useEffect(() => {
         if (value !== null) {
             setValue(value)
-            setRoomNo(value.rm_room_slno)
-            setRoomName(value.rm_room_name)
-            if (value.rm_room_slno !== 0) {
-                dispatch(getSubRoomBasedOnRoom(value.rm_room_slno))
-            }
-
+            setSubRoomNo(value.subroom_slno)
+            setSubRoomName(value.subroom_name)
         } else {
-            setRoomNo(0)
-            setRoomName('')
+            setSubRoomNo(0)
+            setSubRoomName('')
         }
         return
-    }, [value, setRoomNo, setRoomName, dispatch])
-
+    }, [value, setSubRoomNo, setSubRoomName, dispatch])
 
     useEffect(() => {
-        RoomListDeptSecBasd.length > 0 && setRoomList(RoomListDeptSecBasd)
-    }, [RoomListDeptSecBasd])
+        SubRoomListRoomBasd.length > 0 && setSubRoomList(SubRoomListRoomBasd)
+    }, [SubRoomListRoomBasd])
 
     return (
         <Fragment >
@@ -43,7 +35,7 @@ const AmRoomSelecDeptSecBased = ({ roomNo, setRoomNo, setRoomName }) => {
                     sx={{
                         "--Input-minHeight": "29px"
                     }}
-                    value={roomNo === 0 ? roomList : value}
+                    value={subRoomNo === 0 ? subroomList : value}
                     placeholder="Select Group"
                     clearOnBlur
                     onChange={(event, newValue) => {
@@ -57,13 +49,13 @@ const AmRoomSelecDeptSecBased = ({ roomNo, setRoomNo, setRoomName }) => {
                     loadingText="Loading..."
                     freeSolo
                     // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
-                    isOptionEqualToValue={(option, value) => option.rm_room_name === value.rm_room_name}
-                    getOptionLabel={option => option.rm_room_name || ''}
-                    options={roomList}
+                    isOptionEqualToValue={(option, value) => option.subroom_name === value.subroom_name}
+                    getOptionLabel={option => option.subroom_name || ''}
+                    options={subroomList}
                 />
             </CssVarsProvider>
         </Fragment>
     )
 }
 
-export default memo(AmRoomSelecDeptSecBased)
+export default memo(AmsubRoomSeleDepdRoom)
