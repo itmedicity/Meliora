@@ -1,19 +1,17 @@
 import React, { memo, Fragment } from 'react'
-import { editicon } from 'src/color/Color'
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 
-const ItemApprovalCmp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdelete }) => {
+const ItemApprovalCmp = ({ dataPost }) => {
 
-    //array data delete
-    const rowSelect = (id) => {
-        const newdata = dataPost.filter((val) => {
-            return val.item_slno !== id
-        })
-        setdataPost(newdata)
+    // //array data delete
+    // const rowSelect = (id) => {
+    //     const newdata = dataPost.filter((val) => {
+    //         return val.item_slno !== id
+    //     })
+    //     setdataPost(newdata)
 
-    }
+    // }
 
 
     return (
@@ -32,7 +30,7 @@ const ItemApprovalCmp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdel
                             <TableCell align="center">Unit</TableCell>
                             <TableCell align="center">Specification</TableCell>
                             <TableCell align="center">approx.cost </TableCell>
-                            <TableCell align="center">Action</TableCell>
+                            {/* <TableCell align="center">Action</TableCell> */}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -51,13 +49,13 @@ const ItemApprovalCmp = ({ dataPost, setdataPost, dataPostdelete, setdataPostdel
                                 <TableCell align="center">{val.item_unit}</TableCell>
                                 <TableCell align="center">{val.item_specification}</TableCell>
                                 <TableCell align="center">{val.aprox_cost}</TableCell>
-                                <TableCell align="center">
+                                {/* <TableCell align="center">
                                     <IconButton
                                         sx={{ color: editicon, paddingY: 0.01 }}
                                         onClick={() => rowSelect(val.item_slno)} >
                                         <DeleteIcon size={6} />
                                     </IconButton >
-                                </TableCell>
+                                </TableCell> */}
                             </TableRow>
                         })}
                     </TableBody>

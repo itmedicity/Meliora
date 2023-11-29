@@ -29,15 +29,19 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
             <Modal aria-labelledby="modal-title"
                 aria-describedby="modal-desc"
                 open={open}
-                sx={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                sx={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', maxHeight: 700, }}>
                 <Sheet
                     variant="outlined"
                     sx={{
-                        minWidth: "30%", borderRadius: 'md', p: 3, boxShadow: 'lg', height: 600,
-                        maxWidth: 300
+                        minWidth: "30%", borderRadius: 'md', p: 3, boxShadow: 'lg', minHeight: 500,
+                        maxWidth: 300, maxHeight: 700,
                     }}
                 >
-                    <Box sx={{ width: '100%', flex: 1, height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}>
+                    <Box sx={{
+                        width: '100%', flex: 1, borderRadius: 1,
+                        border: '0.1px solid #454545', minHeight: 500, margin: "auto",
+                        height: window.innerHeight - 350, overflowX: "auto", '::-webkit-scrollbar': { display: "none" }
+                    }}>
                         {disArry && disArry.map((value, index) => (
                             <Box key={index} sx={{ display: 'flex', flexDirection: "column" }}>
                                 <embed

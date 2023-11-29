@@ -5,12 +5,12 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import { TypoHeadColor } from 'src/color/Color'
 
-const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject, remark,
-    updateRemark, rejectremark, updateRejectRemark, holdremark, updateHoldRemark, detailAnalis,
-    updatePending, updatedetailAnalis, pending }) => {
+const ApprovalCompnt = ({ heading, approve, reject, pending, updateApprove, updateReject, remark,
+    updateRemark, detailAnalis, updatePending, updatedetailAnalis }) => {
 
 
     return (
+
         <Fragment>
             <Box sx={{ width: "100%", }}>
                 <Box sx={{ pt: 0.5 }}>
@@ -22,10 +22,7 @@ const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject,
                 {
                     reject === true ?
                         <Box sx={{
-                            display: 'flex',
-                            width: '100%',
-                            fontSize: 15,
-                            flexDirection: "column",
+                            display: 'flex', width: '100%', fontSize: 15, flexDirection: "column",
                         }}>
                             <CssVarsProvider>
                                 <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject </Typography>
@@ -41,20 +38,16 @@ const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject,
                                     mt: 5
                                 }}
                                 placeholder="Reject Remark"
-                                value={rejectremark}
-                                onchange={updateRejectRemark}
+                                value={remark}
+                                onchange={updateRemark}
                             />
                         </Box> :
                         pending === true ?
-
                             <Box sx={{
-                                display: 'flex',
-                                width: '100%',
-                                fontSize: 15,
-                                flexDirection: "column",
+                                display: 'flex', width: '100%', fontSize: 15, flexDirection: "column",
                             }}>
                                 <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold </Typography>
+                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold  </Typography>
                                 </CssVarsProvider>
                                 <CustomTextarea
                                     required
@@ -63,19 +56,17 @@ const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject,
                                     style={{
                                         width: "100%",
                                         height: 70,
-                                        boardColor: "#E0E0E0"
+                                        boardColor: "#E0E0E0",
+                                        mt: 5
                                     }}
                                     placeholder="On-Hold Remarks"
-                                    value={holdremark}
-                                    onchange={updateHoldRemark}
+                                    value={remark}
+                                    onchange={updateRemark}
                                 />
-
-                            </Box> :
+                            </Box>
+                            :
                             <Box sx={{
-                                display: 'flex',
-                                width: '100%',
-                                fontSize: 15,
-                                flexDirection: "column",
+                                display: 'flex', width: '100%', fontSize: 15, flexDirection: "column",
                             }}>
                                 <CssVarsProvider>
                                     <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description </Typography>
@@ -111,13 +102,8 @@ const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject,
                                 />
                             </Box>
                 }
-
                 <Box sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: 'center',
-
+                    width: "100%", display: "flex", flexDirection: "row", justifyContent: 'center',
                 }}>
                     <Box sx={{ width: "20%", pr: 1, mt: 1 }}>
                         <CusCheckBox
@@ -152,10 +138,9 @@ const ApprovalCompnt = ({ heading, approve, reject, updateApprove, updateReject,
                             onCheked={updatePending}
                         />
                     </Box>
-
                 </Box>
             </Box>
-        </Fragment >
+        </Fragment>
     )
 }
 

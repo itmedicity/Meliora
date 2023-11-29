@@ -63,7 +63,7 @@ const CrmTransactions = [
     {
         men_slno: 98,
         component: CNavItem,
-        name: 'CAO/COO/MS Approval',
+        name: 'CAO/COO Approval',
         to: '/Home/Req.CAOApproval',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
@@ -77,7 +77,7 @@ const CrmTransactions = [
     {
         men_slno: 99,
         component: CNavItem,
-        name: 'ED/MD Approval',
+        name: 'ED Approval',
         to: '/Home/Req.EDApproval',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
