@@ -25,7 +25,7 @@ import { getAmModel } from 'src/redux/actions/AmModelList.action'
 import { getAmManufacture } from 'src/redux/actions/AmManufactureList.actions'
 import Table from '@mui/joy/Table';
 
-const ModelForItemExistOrNot = ({ open, handleClose }) => {
+const ModelForItemExistOrNot = ({ open, handleClose, assetOrSpare }) => {
 
     const dispatch = useDispatch();
     const [category, setCategory] = useState(0)
@@ -56,10 +56,10 @@ const ModelForItemExistOrNot = ({ open, handleClose }) => {
             item_model_slno: model,
             item_submodel_slno: submodel,
             item_manufactures_slno: manufacture,
-            item_model_num: modelNumber !== '' ? modelNumber : null
+            item_model_num: modelNumber !== '' ? modelNumber : null,
+            asset_spare: assetOrSpare
         }
-    }, [category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber])
-
+    }, [category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber, assetOrSpare])
 
     const search = useCallback(() => {
         const getItemdata = async (postdata) => {
@@ -79,8 +79,8 @@ const ModelForItemExistOrNot = ({ open, handleClose }) => {
         if (category !== 0 || subcategory !== 0 || group !== 0 || subgroup !== 0 || model !== 0 ||
             submodel !== 0 || manufacture !== 0 || modelNumber !== '') {
             getItemdata(postdata)
-        }
-        else {
+
+        } else {
             warningNotify("Please Select Any Options")
         }
     }, [postdata, category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber])
@@ -94,7 +94,7 @@ const ModelForItemExistOrNot = ({ open, handleClose }) => {
                 <Sheet
                     variant="outlined"
                     sx={{
-                        minWidth: "70%", borderRadius: 'md', p: 3, boxShadow: 'lg', height: 800,
+                        minWidth: "70%", borderRadius: 'md', p: 3, boxShadow: 'lg', height: 600,
                         maxWidth: "90%"
                     }}
                 >

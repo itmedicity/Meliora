@@ -32,3 +32,9 @@ export const cms_three = [
 
 
 ]
+
+export const am_one = [
+    { to: '/Home/AssetItemReport', name: 'Asset Item Report', slno: 166 },
+
+
+]

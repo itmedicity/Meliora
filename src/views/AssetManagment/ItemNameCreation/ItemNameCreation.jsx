@@ -100,6 +100,7 @@ const ItemNameCreation = () => {
   const [spare, setSpare] = useState(false)
   const [checkExist, setCheckexist] = useState(0)
   const [checkExistOpen, setCheckExsitOpen] = useState(false)
+  const [assetOrSpare, setAssetOrSpare] = useState(1)
   const [item, setItem] = useState({
     item_creation_slno: '',
     item_name: '',
@@ -121,18 +122,22 @@ const ItemNameCreation = () => {
     if (e.target.checked === true) {
       setasset(true)
       setSpare(false)
+      setAssetOrSpare(1)
     } else if (e.target.checked === false) {
       setasset(false)
       setSpare(false)
+      setAssetOrSpare(0)
     }
   }, [])
   const updateSpare = useCallback((e) => {
     if (e.target.checked === true) {
       setSpare(true)
       setasset(false)
+      setAssetOrSpare(2)
     } else if (e.target.checked === false) {
       setasset(false)
       setSpare(false)
+      setAssetOrSpare(0)
     }
   }, [])
 
@@ -480,7 +485,6 @@ const ItemNameCreation = () => {
       uom_order: '',
     }
     setOrder(orderReset)
-
   }, [setItem, setCount, setValue, setItemtype, setAssetType, setCategory, setSubcategory, setGroup, setSubGroup, setManufacture, setUOM,
     setModel, setSubmodel, setModelNo, setItemNamee, setAssetName, setItemName, setCategoryName, setSubcatName, setGroupName,
     setSubgroupName, setModelName, setSubmodelName, setUomName, setManufactureName, setAssetTypeStatus, setItemTypeSatus, setCategorySatus,
@@ -679,8 +683,25 @@ const ItemNameCreation = () => {
   // }
 
   const handleClose = useCallback(() => {
-    reset()
-  }, [reset])
+    setAssetTypeFlag(0)
+    setAssetTypeOpen(false)
+    setItemTypeOpen(false)
+    setItemTypeFlag(1)
+    setUOMopen(false)
+    setUOMflag(1)
+    setManufactureOpen(false)
+    setManufactureFlag(1)
+    setCategoryOpen(false)
+    setCategoryFlag(1)
+    setSubCategoryOpen(false)
+    setSubCategoryFlag(1)
+    setGroupOpen(false)
+    setGroupFlag(1)
+    setModelOpen(false)
+    setModelFlag(1)
+    setSubGroupOpen(false)
+    setSubGroupFlag(1)
+  }, [])
 
   useEffect(() => {
     dispatch(getAmAssetType())
@@ -732,7 +753,7 @@ const ItemNameCreation = () => {
         close={backtoSetting}
         refresh={refreshWindow}
       >
-        {checkExist === 1 ? <ModelForItemExistOrNot open={checkExistOpen} handleClose={handleClose} /> : null}
+        {checkExist === 1 ? <ModelForItemExistOrNot assetOrSpare={assetOrSpare} open={checkExistOpen} handleClose={handleClose} /> : null}
         {AssetTypeFlag === 1 ? <AssetTypeAddModel open={AssetTypeOpen} handleClose={handleClose} /> : null}
         {ItemTypeFlag === 1 ? <ItemTypeAddModel open={ItemTypeOpen} handleClose={handleClose} /> : null}
         {UOMflag === 1 ? <UomAddmodal open={UOMopen} handleClose={handleClose} /> : null}

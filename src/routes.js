@@ -88,7 +88,7 @@ const InPatientList = React.lazy(() => import('./views/dashboard/DietDashViews/T
 const DietPlannedList = React.lazy(() => import('./views/dashboard/DietDashViews/DietPalnnedList'))
 const DietPlanPending = React.lazy(() => import('./views/dashboard/DietDashViews/DietPlanPendingList'))
 const RequestRegister = React.lazy(() => import('./views/RequestManagement/RequestRegister/ReqRegistration'))
-const ReqDepartmentApproval = React.lazy(() => import('./views/RequestManagement/DepartmentApprovals/ReqDeptApproval'))
+const ReqDepartmentApproval = React.lazy(() => import('./views/RequestManagement/DepartmentApprovals/HodApprovalTable'))
 const ReqOMApproval = React.lazy(() => import('./views/RequestManagement/OMApproval/OmApproval'))
 const ReqSMOApproval = React.lazy(() => import('./views/RequestManagement/SMOApproval/SmoApproval'))
 const ReqCAOApproval = React.lazy(() => import('./views/RequestManagement/CAOApproval/CAOApproval'))
@@ -157,6 +157,7 @@ const BackupScheduleTime = React.lazy(() => import('./views/Master/BackupMaster/
 const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDetails/BackupMast'))
 const AssetRackMast = React.lazy(() => import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster'))
 const AssetDepartmentTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DepartAssetTransfer'))
+const AssetItemReport = React.lazy(() => import('./views/Report/AssetReport/AssetItemReport'))
 
 
 const routes = [
@@ -318,7 +319,8 @@ const routes = [
   { path: '/Home/BackupMast', exact: true, name: 'Backup Details', component: Backupmast },
   { path: '/Home/CredentialType', exact: true, name: 'Credential Type', component: PasswordManagementCredentialType },
   { path: '/Home/AssetRackMast', exact: true, name: 'Asset Rack Master', component: AssetRackMast },
-  { path: '/Home/AssetDeptTransfer', exact: true, name: 'Asset Department Transfer', component: AssetDepartmentTransfer }
+  { path: '/Home/AssetDeptTransfer', exact: true, name: 'Asset Department Transfer', component: AssetDepartmentTransfer },
+  { path: '/Home/AssetItemReport', exact: true, name: 'Asset Item Report', component: AssetItemReport }
 
 ]
 

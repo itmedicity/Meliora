@@ -14,9 +14,9 @@ import DeptApprovModel from '../DepartmentApprovals/DeptApprovModel'
 import { axioslogin } from 'src/views/Axios/Axios'
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 import DescriptionIcon from '@mui/icons-material/Description';
-import CloseDetailsModal from './CloseDetailsModal'
+import CloseDetailsModal from '../InchargeApproval/CloseDetailsModal'
 
-const InchargeApprovalTable = () => {
+const HodApprovalTable = () => {
 
     /*** Initializing */
     const history = useHistory();
@@ -28,10 +28,13 @@ const InchargeApprovalTable = () => {
     })
 
     const [deptsecArry, setdeptSecArry] = useState([])
+    const [isIncharge, setincharge] = useState(0)
+    const [ishod, setHod] = useState(0)
+    const [HodData, setHodData] = useState([])
 
     useEffect(() => {
         const getdetptsections = async (id) => {
-            const result = await axioslogin.get(`/common/getdeptInchargedeptsec/${id}`)
+            const result = await axioslogin.get(`/common/getdeptHoddeptsec/${id}`)
             const { success, data } = result.data
             if (success === 1) {
                 const xx = data.map((val) => {
@@ -52,9 +55,6 @@ const InchargeApprovalTable = () => {
         return state.setInchargeHodData.InchargeHoddata
     })
 
-    const [isIncharge, setincharge] = useState(0)
-    const [ishod, setHod] = useState(0)
-
     const tabledata = useSelector((state) => {
         return state.setReqApprvDept.ReqApprvDeptdata
     })
@@ -67,12 +67,11 @@ const InchargeApprovalTable = () => {
         }
     }, [HodIncharge])
 
-
-    const [InchargeData, setInchargeData] = useState([])
     useEffect(() => {
         const incharge = tabledata.filter((val) => {
-            return val.incharge_req === 1
+            return val.hod_req === 1
         })
+
         if (incharge.length !== 0) {
             const datas = incharge.map((val) => {
                 const obj = {
@@ -102,13 +101,14 @@ const InchargeApprovalTable = () => {
                     incharge_remark: val.incharge_remarks !== null ? val.incharge_remarks : "Not Updated",
                     inch_detial_analysis: val.inch_detial_analysis,
                     incharge_apprv_date: val.incharge_apprv_date,
-                    incharge_user: val.incharge_user,
+                    incharge_user: val.incharge_user !== null ? val.incharge_user.toLowerCase() : "Not Updated",
                     hod_req: val.hod_req,
                     hod_approve: val.hod_approve,
                     hod: val.hod_approve === 1 ? "Approved" : val.hod_approve === 2 ? "Reject" :
                         val.hod_approve === 3 ? "On-Hold" : "Not Updated",
                     hod_remarks: val.hod_remarks !== null ? val.hod_remarks : "Not Updated",
                     hod_detial_analysis: val.hod_detial_analysis,
+                    dms_req: val.dms_req,
                     dms_approve: val.dms_approve,
                     dms: val.dms_approve === 1 ? "Approved" : val.dms_approve === 2 ? "Reject" :
                         val.dms_approve === 3 ? "On-Hold" : "Not Updated",
@@ -117,6 +117,7 @@ const InchargeApprovalTable = () => {
                     ms: val.ms_approve === 1 ? "Approved" : val.ms_approve === 2 ? "Reject" :
                         val.ms_approve === 3 ? "On-Hold" : "Not Updated",
                     ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : "Not Updated",
+                    manag_operation_req: val.manag_operation_req,
                     manag_operation_approv: val.manag_operation_approv,
                     om: val.manag_operation_approv === 1 ? "Approved" : val.manag_operation_approv === 2 ? "Reject" :
                         val.manag_operation_approv === 3 ? "On-Hold" : "Not Updated",
@@ -146,15 +147,19 @@ const InchargeApprovalTable = () => {
                 return obj
             })
 
-            setInchargeData(datas)
+            setHodData(datas)
         }
     }, [tabledata])
 
     //column title setting
-    const [columnInch] = useState([
+    const [columnHod] = useState([
         {
             headerName: 'Action', minWidth: 100, cellRenderer: params => {
-                if (params.data.hod_approve !== null && params.data.hod_req === 1) {
+                if (params.data.manag_operation_approv !== null && params.data.manag_operation_req === 1) {
+                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
+                        <PublishedWithChangesOutlinedIcon />
+                    </IconButton>
+                } else if (params.data.dms_approve !== null && params.data.dms_req === 1) {
                     return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
                         <PublishedWithChangesOutlinedIcon />
                     </IconButton>
@@ -162,7 +167,8 @@ const InchargeApprovalTable = () => {
                     return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
                         <PublishedWithChangesOutlinedIcon />
                     </IconButton>
-                } else {
+                }
+                else {
                     return <IconButton onClick={() => rowSelect(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
                         <CustomeToolTip title="Approval">
@@ -232,6 +238,7 @@ const InchargeApprovalTable = () => {
         setCloseModalFlag(1)
         setCloseData(data)
     }, [])
+
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home')
@@ -248,12 +255,10 @@ const InchargeApprovalTable = () => {
             return { background: '#a1887f' };
         }
     };
-
     return (
         <Fragment>
-
             <CardCloseOnly
-                title="Incharge Approval"
+                title="Hod Approval"
                 close={backtoSetting}
             >
                 {model === 1 ?
@@ -265,7 +270,6 @@ const InchargeApprovalTable = () => {
                         count={count}
                         setCount={setCount}
                         id={id} /> : null}
-
                 {
                     CloseModalFlag === 1 ?
                         <CloseDetailsModal
@@ -279,13 +283,12 @@ const InchargeApprovalTable = () => {
                 }
                 <Box sx={{ p: 1 }}>
                     <CusAgGridForMain
-                        columnDefs={columnInch}
-                        tableData={InchargeData}
+                        columnDefs={columnHod}
+                        tableData={HodData}
                         getRowStyle={getRowStyle}
                     />
                 </Box>
             </CardCloseOnly>
-
             <Box sx={{
                 width: "100%",
                 display: "flex",
@@ -324,7 +327,8 @@ const InchargeApprovalTable = () => {
                 </Box>
             </Box>
         </Fragment>
+
     )
 }
 
-export default memo(InchargeApprovalTable)
+export default memo(HodApprovalTable)
