@@ -87,12 +87,7 @@ const OnHoldPendingEmpWiseList = React.lazy(() => import('./views/dashboard/Comp
 const InPatientList = React.lazy(() => import('./views/dashboard/DietDashViews/TotalInpatientList'))
 const DietPlannedList = React.lazy(() => import('./views/dashboard/DietDashViews/DietPalnnedList'))
 const DietPlanPending = React.lazy(() => import('./views/dashboard/DietDashViews/DietPlanPendingList'))
-const RequestRegister = React.lazy(() => import('./views/RequestManagement/RequestRegister/ReqRegistration'))
-const ReqDepartmentApproval = React.lazy(() => import('./views/RequestManagement/DepartmentApprovals/HodApprovalTable'))
-const ReqOMApproval = React.lazy(() => import('./views/RequestManagement/OMApproval/OmApproval'))
-const ReqSMOApproval = React.lazy(() => import('./views/RequestManagement/SMOApproval/SmoApproval'))
-const ReqCAOApproval = React.lazy(() => import('./views/RequestManagement/CAOApproval/CAOApproval'))
-const ReqEDApproval = React.lazy(() => import('./views/RequestManagement/EDApproval/EDApproval'))
+
 const NDRFform = React.lazy(() => import('./views/RequestManagement/NdrfFrorm/NdrfFrom'))
 const HallBooking = React.lazy(() => import('./views/HallBooking/HallBookingRegister'))
 const Hallmaster = React.lazy(() => import('./views/Master/HallMaster/Hallmaster'))
@@ -119,11 +114,10 @@ const FloorCreation = React.lazy(() => import('./views/RoomManagement/FloorCreat
 const RoomNewCreation = React.lazy(() => import('./views/RoomManagement/RoomNewCreation/RoomCreation'))
 const TeamMaster = React.lazy(() => import('./views/Master/TaskManagement/TaskTeamMaster/TeamMast'))
 const TaskHomePage = React.lazy(() => import('./views/TaskManagement/Home/TaskHomePage'))
-const DMSApproval = React.lazy(() => import('./views/RequestManagement/DMSApproval/DmsApprovalTable'))
 const CRFDataCollection = React.lazy(() => import('./views/RequestManagement/CRFDataCollection/CrfDataCollectnTable'))
 const RoomDashBoard = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardMain'))
-const CRFIncharge = React.lazy(() => import('./views/RequestManagement/InchargeApproval/InchargeApprovalTable'))
-const CRFMSApproval = React.lazy(() => import('./views/RequestManagement/MSApproval/MSApprovalTable'))
+
+
 const RequstToAssign = React.lazy(() => import('./views/Report/ComplaintReport/RequstToAssign'))
 const RequestToRectify = React.lazy(() => import('./views/Report/ComplaintReport/RequestToRectifctn'))
 const RequestToVerify = React.lazy(() => import('./views/Report/ComplaintReport/RequestToVerfy'))
@@ -158,6 +152,17 @@ const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDe
 const AssetRackMast = React.lazy(() => import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster'))
 const AssetDepartmentTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DepartAssetTransfer'))
 const AssetItemReport = React.lazy(() => import('./views/Report/AssetReport/AssetItemReport'))
+
+const RequestRegister = React.lazy(() => import('./views/RequestManagement/RequestRegister/ReqRegistration'))
+const CRFIncharge = React.lazy(() => import('./views/RequestManagement/InchargeApproval/InchargeApprovalTable'))
+const ReqDepartmentApproval = React.lazy(() => import('./views/RequestManagement/DepartmentApprovals/HodApprovalTable'))
+const DMSApproval = React.lazy(() => import('./views/RequestManagement/DMSCrfApproval/DMSCrfTable'))
+const CRFMSApproval = React.lazy(() => import('./views/RequestManagement/MSApproval/MSApprovalTable'))
+
+const ReqOMApproval = React.lazy(() => import('./views/RequestManagement/OMApproval/OmApproval'))
+const ReqSMOApproval = React.lazy(() => import('./views/RequestManagement/SMOApproval/SmoApproval'))
+const ReqCAOApproval = React.lazy(() => import('./views/RequestManagement/CAOApproval/CAOApproval'))
+const ReqEDApproval = React.lazy(() => import('./views/RequestManagement/EDApproval/EDApproval'))
 
 
 const routes = [
@@ -249,12 +254,6 @@ const routes = [
   { path: "/Home/DashBoard/InPatientList", exact: true, name: "InPatientList View", component: InPatientList },
   { path: '/Home/DietPlannedList', exact: true, name: 'DietPlannedList View', component: DietPlannedList },
   { path: '/Home/DietPlanPending', exact: true, name: 'DietPlanPending View', component: DietPlanPending },
-  { path: '/Home/RequestRegister', exact: true, name: 'Request Register', component: RequestRegister },
-  { path: '/Home/Req.DepartmentApproval', exact: true, name: 'Request Departmental Approval', component: ReqDepartmentApproval },
-  { path: '/Home/Req.OMApproval', exact: true, name: 'Request OM Approval', component: ReqOMApproval },
-  { path: '/Home/Req.SMOApproval', exact: true, name: 'Request SMO Approval', component: ReqSMOApproval },
-  { path: '/Home/Req.CAOApproval', exact: true, name: 'Request CAO/MS/COO Approval', component: ReqCAOApproval },
-  { path: '/Home/Req.EDApproval', exact: true, name: 'Request ED/MD Approval', component: ReqEDApproval },
   { path: '/Home/NDRF', exact: true, name: 'NDRF Form', component: NDRFform },
   { path: '/Home/HallBooking', exact: true, name: 'Hall Booking', component: HallBooking },
   { path: '/Home/Hallmaster', exact: true, name: "Hall master", component: Hallmaster },
@@ -281,11 +280,11 @@ const routes = [
   { path: '/Home/RoomCreationSideNav', exact: true, name: 'Room New Creation', component: RoomNewCreation },
   { path: '/Home/TeamMaster', exact: true, name: 'Team Master', component: TeamMaster },
   { path: '/Home/TaskHome', exact: true, name: 'Task management Home', component: TaskHomePage },
-  { path: '/Home/DMSApproval', exact: true, name: 'DMS Approval', component: DMSApproval },
+
   { path: '/Home/CrfDataCollection', exact: true, name: 'CRF data Collection', component: CRFDataCollection },
   { path: '/Home/RoomDashBoard', exact: true, name: 'Room Dashboard', component: RoomDashBoard },
-  { path: '/Home/CRFInchargeApproval', exact: true, name: 'CRF Incharge Approval', component: CRFIncharge },
-  { path: '/Home/CrfMSApproval', exact: true, name: 'CRF MS Approval', component: CRFMSApproval },
+
+
   { path: '/Home/RequstToAssign', exact: true, name: 'Request To Assign Report', component: RequstToAssign },
   { path: '/Home/RequestToRectify', exact: true, name: 'Request To Rectification Report', component: RequestToRectify },
   { path: '/Home/RequestToVerify', exact: true, name: 'Request To Verification Report', component: RequestToVerify },
@@ -320,8 +319,17 @@ const routes = [
   { path: '/Home/CredentialType', exact: true, name: 'Credential Type', component: PasswordManagementCredentialType },
   { path: '/Home/AssetRackMast', exact: true, name: 'Asset Rack Master', component: AssetRackMast },
   { path: '/Home/AssetDeptTransfer', exact: true, name: 'Asset Department Transfer', component: AssetDepartmentTransfer },
-  { path: '/Home/AssetItemReport', exact: true, name: 'Asset Item Report', component: AssetItemReport }
+  { path: '/Home/AssetItemReport', exact: true, name: 'Asset Item Report', component: AssetItemReport },
 
+  { path: '/Home/RequestRegister', exact: true, name: 'Request Register', component: RequestRegister },
+  { path: '/Home/CRFInchargeApproval', exact: true, name: 'CRF Incharge Approval', component: CRFIncharge },
+  { path: '/Home/Req.DepartmentApproval', exact: true, name: 'Request Departmental Approval', component: ReqDepartmentApproval },
+  { path: '/Home/DMSApproval', exact: true, name: 'DMS Approval', component: DMSApproval },
+  { path: '/Home/CrfMSApproval', exact: true, name: 'CRF MS Approval', component: CRFMSApproval },
+  { path: '/Home/Req.OMApproval', exact: true, name: 'Request OM Approval', component: ReqOMApproval },
+  { path: '/Home/Req.SMOApproval', exact: true, name: 'Request SMO Approval', component: ReqSMOApproval },
+  { path: '/Home/Req.CAOApproval', exact: true, name: 'Request CAO/MS/COO Approval', component: ReqCAOApproval },
+  { path: '/Home/Req.EDApproval', exact: true, name: 'Request ED/MD Approval', component: ReqEDApproval },
 ]
 
 export default routes

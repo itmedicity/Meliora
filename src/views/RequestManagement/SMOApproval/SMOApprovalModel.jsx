@@ -9,8 +9,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify } from 'src/views/Common/CommonCode'
-import ApprovalCompnt from '../DMS Approval/DepartmentApproval/ApprovalCompnt';
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import ApprovalCompnt from '../DepartmentApprovals/ApprovalCompnt';
 import { useSelector } from 'react-redux'
 import _ from 'underscore'
 import { CssVarsProvider, Typography } from '@mui/joy'
@@ -171,8 +171,19 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                 reset()
             }
         }
-        updateInchApproval(patchdataSMO)
-    }, [patchdataSMO, setOpen, count, setCount])
+        if (approve !== false || reject !== false || pending !== false) {
+            if (detailAnalis !== '' && (remark !== '' || rejectremark !== '' || holdremark !== '')) {
+                updateInchApproval(patchdataSMO)
+            }
+            else {
+                warningNotify("Detail Analysis must be Entered")
+            }
+        } else {
+            warningNotify("Please Select any status")
+        }
+
+
+    }, [patchdataSMO, setOpen, count, setCount, remark, detailAnalis, rejectremark, holdremark])
     // reset 
     const Close = useCallback(() => {
         setOpen(false)

@@ -17,7 +17,6 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import CloseDetailsModal from '../InchargeApproval/CloseDetailsModal'
 
 const HodApprovalTable = () => {
-
     /*** Initializing */
     const history = useHistory();
     const dispatch = useDispatch();
@@ -76,8 +75,8 @@ const HodApprovalTable = () => {
             const datas = incharge.map((val) => {
                 const obj = {
                     req_slno: val.req_slno,
-                    actual_requirement: val.actual_requirement,
-                    needed: val.needed,
+                    actual_requirement: val.actual_requirement !== null ? val.actual_requirement : "Not Updated",
+                    needed: val.needed !== null ? val.needed : "Not Updated",
                     request_dept_slno: val.request_dept_slno,
                     request_deptsec_slno: val.request_deptsec_slno,
                     dept_name: val.dept_name,
@@ -138,11 +137,11 @@ const HodApprovalTable = () => {
                     md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Reject" :
                         val.md_approve === 3 ? "On-Hold" : "Not Updated",
                     md_approve_remarks: val.md_approve_remarks,
-                    crf_close: val.crf_close,
-                    crf_close_remark: val.crf_close_remark,
-                    crf_closed_one: val.crf_closed_one,
-                    close_user: val.close_user,
-                    close_date: val.close_date,
+                    crf_close: val.crf_close !== null ? val.crf_close : "Not Updated",
+                    crf_close_remark: val.crf_close_remark !== null ? val.crf_close_remark : "Not Updated",
+                    crf_closed_one: val.crf_closed_one !== null ? val.crf_closed_one : "Not Updated",
+                    close_user: val.close_user !== null ? val.close_user : "Not Updated",
+                    close_date: val.close_date !== null ? val.close_date : "Not Updated",
                 }
                 return obj
             })
