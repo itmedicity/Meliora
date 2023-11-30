@@ -621,44 +621,44 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                                         /> : null
                                                 }
                                                 <Divider />
-                                                <Box sx={{
-                                                    width: "100%",
-                                                    display: "flex",
-                                                    flexDirection: "row",
-                                                    pl: 2, pt: 0, fontSize: 15
-                                                }}>
-                                                    <Box sx={{ width: "20%", mt: 1 }}>
-                                                        <CusCheckBox
-                                                            label="Close CRF"
-                                                            color="primary"
-                                                            size="md"
-                                                            name="closeCrf"
-                                                            value={closeCrf}
-                                                            checked={closeCrf}
-                                                            onCheked={updateCrf}
-                                                        />
-                                                    </Box>
-                                                    {closeCrf === true ?
-                                                        <Box sx={{ width: "60%", mt: 1 }}>
-                                                            <CustomTextarea
-                                                                required
-                                                                type="text"
-                                                                size="sm"
-                                                                style={{
-                                                                    width: "100%",
-                                                                    height: 70,
-                                                                    boardColor: "#E0E0E0"
-                                                                }}
-                                                                placeholder=" Remarks"
-                                                                value={Closeremark}
-                                                                onchange={updateCloseRemark}
+                                                <Paper variant='outlined' sx={{ mt: 1 }} >
+                                                    <Box sx={{
+                                                        width: "100%",
+                                                        display: "flex",
+                                                        flexDirection: "row",
+                                                        pl: 2, pt: 0, fontSize: 15
+                                                    }}>
+                                                        <Box sx={{ width: "20%", mt: 1 }}>
+                                                            <CusCheckBox
+                                                                label="Close CRF"
+                                                                color="primary"
+                                                                size="md"
+                                                                name="closeCrf"
+                                                                value={closeCrf}
+                                                                checked={closeCrf}
+                                                                onCheked={updateCrf}
                                                             />
-                                                        </Box> : null
-                                                    }
+                                                        </Box>
+                                                        {closeCrf === true ?
+                                                            <Box sx={{ width: "60%", mt: 1 }}>
+                                                                <CustomTextarea
+                                                                    required
+                                                                    type="text"
+                                                                    size="sm"
+                                                                    style={{
+                                                                        width: "100%",
+                                                                        height: 70,
+                                                                        boardColor: "#E0E0E0"
+                                                                    }}
+                                                                    placeholder=" Remarks"
+                                                                    value={Closeremark}
+                                                                    onchange={updateCloseRemark}
+                                                                />
+                                                            </Box> : null
+                                                        }
 
-
-                                                </Box>
-
+                                                    </Box>
+                                                </Paper>
 
                                             </Box>
                                                 :

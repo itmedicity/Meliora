@@ -583,8 +583,8 @@ const ReqRegistration = () => {
     //Request insertt
     const postData = useMemo(() => {
         return {
-            actual_requirement: actual_require,
-            needed: needed,
+            actual_requirement: actual_require === '' ? null : actual_require,
+            needed: needed === '' ? null : needed,
             request_dept_slno: dept,
             request_deptsec_slno: deptSec,
             location: location === '' ? null : location,

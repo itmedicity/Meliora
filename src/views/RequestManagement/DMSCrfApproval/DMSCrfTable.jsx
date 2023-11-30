@@ -14,11 +14,12 @@ import { Typography } from '@mui/material'
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CloseDetailsModal from '../InchargeApproval/CloseDetailsModal'
-import DMSApproveModal from '../DMSCrfApproval/DMSApproveModal'
-import CRFDataColectRequestModal from '../DMSCrfApproval/CRFDataColectRequestModal'
+import DMSApproveModal from './DMSApproveModal'
+import CRFDataColectRequestModal from './CRFDataColectRequestModal'
 
 
-const MSApprovalTable = () => {
+const DMSCrfTable = () => {
+
     /*** Initializing */
     const history = useHistory();
     const dispatch = useDispatch();
@@ -79,13 +80,10 @@ const MSApprovalTable = () => {
                         val.dms_approve === 3 ? "On-Hold" : "Not Updated",
                     dms_remarks: val.dms_remarks !== null ? val.dms_remarks : "Not Updated",
                     dms_detail_analysis: val.dms_detail_analysis !== null ? val.dms_detail_analysis : "Not Updated",
-                    dms_approve_date: val.dms_approve_date,
-                    dms_user: val.dms_user,
                     ms_approve: val.ms_approve,
                     ms: val.ms_approve === 1 ? "Approved" : val.ms_approve === 2 ? "Reject" :
                         val.ms_approve === 3 ? "On-Hold" : "Not Updated",
                     ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : "Not Updated",
-                    ms_detail_analysis: val.ms_detail_analysis !== null ? val.ms_detail_analysis : "Not Updated",
                     manag_operation_req: val.manag_operation_req,
                     manag_operation_approv: val.manag_operation_approv,
                     om: val.manag_operation_approv === 1 ? "Approved" : val.manag_operation_approv === 2 ? "Reject" :
@@ -229,7 +227,7 @@ const MSApprovalTable = () => {
 
     return (
         <CardCloseOnly
-            title="MS Approval"
+            title="DMS Approval"
             close={backtoSetting}
         >
 
@@ -311,4 +309,4 @@ const MSApprovalTable = () => {
     )
 }
 
-export default memo(MSApprovalTable)
+export default memo(DMSCrfTable)

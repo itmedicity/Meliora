@@ -9,8 +9,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify } from 'src/views/Common/CommonCode'
-import ApprovalCompnt from '../DMS Approval/DepartmentApproval/ApprovalCompnt';
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import ApprovalCompnt from '../DepartmentApprovals/ApprovalCompnt';
 import { useSelector } from 'react-redux'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import Divider from '@mui/material/Divider';
@@ -189,8 +189,18 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
                 reset()
             }
         }
-        updateInchApproval(patchdataOm)
-    }, [patchdataOm, count, setCount, setOpen])
+        if (approve !== false || reject !== false || pending !== false) {
+            if (detailAnalis !== '' && (remark !== '' || rejectremark !== '' || holdremark !== '')) {
+                updateInchApproval(patchdataOm)
+            }
+            else {
+                warningNotify("Detail Analysis must be Entered")
+            }
+        } else {
+            warningNotify("Please Select any status")
+        }
+
+    }, [patchdataOm, count, setCount, setOpen, remark, detailAnalis, rejectremark, holdremark])
     // reset 
     const Close = useCallback(() => {
         setOpen(false)

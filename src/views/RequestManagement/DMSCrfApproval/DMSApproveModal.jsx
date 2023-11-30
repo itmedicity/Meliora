@@ -26,20 +26,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
-
-const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
+const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
 
     const { req_slno, req_date, actual_requirement, needed, location, dept_name, req_userdeptsec,
         expected_date, req_user, userdeptsec, image_status, incharge_approve, incharge_req,
         incharge, incharge_remark, inch_detial_analysis, incharge_apprv_date, incharge_user, hod_req,
         hod_approve, hod, hod_remarks, hod_detial_analysis, hod_approve_date, category,
-        hod_user, dms_approve, dms_remarks, dms_detail_analysis, dms_approve_date, dms_user,
-        ms, ms_approve, ms_approve_remark, ms_detail_analysis } = datas[0]
+        hod_user, dms_approve, dms_remarks, dms_detail_analysis } = datas[0]
     const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
     const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
     const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy') : "Not Updated"
     const hodApprovdate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy') : "Not Updated"
-    const dmsApprovdate = dms_approve_date !== null ? format(new Date(dms_approve_date), 'dd-MM-yyyy') : "Not Updated"
 
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
 
@@ -186,12 +183,12 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
 
 
     useEffect(() => {
-        if (ms_approve !== null) {
-            setRemark(ms_approve_remark)
-            setApprove(ms_approve === 1 ? true : false)
-            setReject(ms_approve === 2 ? true : false)
-            setPending(ms_approve === 3 ? true : false)
-            setDetailAnalis(ms_detail_analysis)
+        if (dms_approve !== null) {
+            setRemark(dms_remarks)
+            setApprove(dms_approve === 1 ? true : false)
+            setReject(dms_approve === 2 ? true : false)
+            setPending(dms_approve === 3 ? true : false)
+            setDetailAnalis(dms_detail_analysis)
         }
         else {
             setRemark('')
@@ -200,7 +197,7 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
             setReject(false)
             setDetailAnalis('')
         }
-    }, [ms_approve_remark, ms_approve, ms_detail_analysis])
+    }, [dms_remarks, dms_approve, dms_detail_analysis])
 
     // reset 
     const ModalClose = useCallback(() => {
@@ -220,21 +217,21 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
         setOpen(false)
     }, [setOpen])
 
-    const patchdataMS = useMemo(() => {
+    const patchdataDMS = useMemo(() => {
         return {
-            ms_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
-            ms_approve_remark: reject === true || pending === true || approve === true ? remark : null,
-            ms_detail_analysis: approve === true ? detailAnalis : null,
-            ms_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            ms_approve_user: id,
+            dms_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            dms_remarks: reject === true || pending === true || approve === true ? remark : null,
+            dms_detail_analysis: approve === true ? detailAnalis : null,
+            dms_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            dms_user: id,
             req_slno: req_slno
         }
     }, [approve, reject, pending, remark, req_slno, detailAnalis, id])
 
     const submit = useCallback((e) => {
         e.preventDefault();
-        const updateInchApproval = async (patchdataMS) => {
-            const result = await axioslogin.patch('/requestRegister/approval/ms', patchdataMS);
+        const updateInchApproval = async (patchdataDMS) => {
+            const result = await axioslogin.patch('/requestRegister/approval/dms', patchdataDMS);
             const { success, message } = result.data;
             if (success === 2) {
                 succesNotify(message)
@@ -244,8 +241,10 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                 warningNotify(message)
             }
         }
-        updateInchApproval(patchdataMS)
-    }, [patchdataMS, count, setCount, ModalClose])
+        updateInchApproval(patchdataDMS)
+    }, [patchdataDMS, count, setCount, ModalClose])
+
+
 
 
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -262,15 +261,19 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
         setImageShow(false)
     }, [])
 
-
     return (
+
         <Fragment>
             <ToastContainer />
+
             {
+
                 enable === 1 ? <CrfDataCollectNotOkModal open={open} setOpen={setOpen} setEnable={setEnable} />
                     :
                     <Box>
+
                         {imageshowFlag === 1 ? <ReqImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
+
                         <Dialog
                             open={open}
                             TransitionComponent={Transition}
@@ -599,7 +602,7 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
 
                                                         : <Box>
                                                             <CssVarsProvider>
-                                                                <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Requested By Incharge </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Requested By HOD </Typography>
                                                             </CssVarsProvider>
                                                         </Box>
 
@@ -771,8 +774,7 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
 
 
         </Fragment >
-
     )
 }
 
-export default MSApprovalModel
+export default memo(DMSApproveModal)

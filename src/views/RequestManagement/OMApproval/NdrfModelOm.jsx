@@ -11,7 +11,7 @@ import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
-import ItemApprovalCmp from '../DMS Approval/DepartmentApproval/ItemApprovalCmp';
+import ItemApprovalCmp from '../DepartmentApprovals/ItemApprovalCmp';
 import _ from 'underscore'
 import NdrfApprovalCompnt from '../NdrfFrorm/NdrfApprovalCompnt';
 import { CssVarsProvider, Typography } from '@mui/joy'

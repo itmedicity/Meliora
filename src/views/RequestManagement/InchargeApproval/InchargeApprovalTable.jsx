@@ -77,8 +77,8 @@ const InchargeApprovalTable = () => {
             const datas = incharge.map((val) => {
                 const obj = {
                     req_slno: val.req_slno,
-                    actual_requirement: val.actual_requirement,
-                    needed: val.needed,
+                    actual_requirement: val.actual_requirement !== null ? val.actual_requirement : "Not Updated",
+                    needed: val.needed !== null ? val.needed : "Not Updated",
                     request_dept_slno: val.request_dept_slno,
                     request_deptsec_slno: val.request_deptsec_slno,
                     dept_name: val.dept_name,
