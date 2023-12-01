@@ -609,13 +609,7 @@ const CRFDataColectRequestModal = ({ open, setOpen, datas, count, setCount }) =>
                         <Button onClick={ModalClose} color="secondary" >Cancel</Button>
                     </DialogActions>
                 </Dialog>
-
-
             </Box>
-
-
-
-
         </Fragment>
     )
 }

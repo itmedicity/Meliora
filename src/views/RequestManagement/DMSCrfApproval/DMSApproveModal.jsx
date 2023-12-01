@@ -241,11 +241,49 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
                 warningNotify(message)
             }
         }
-        updateInchApproval(patchdataDMS)
-    }, [patchdataDMS, count, setCount, ModalClose])
+
+        const updateClosedCrf = async (crfClosePatch) => {
+            const result = await axioslogin.patch('/requestRegister/crfClose', crfClosePatch);
+            const { success, message } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+                setCount(count + 1)
+                ModalClose()
+            }
+            else {
+                warningNotify(message)
+            }
+        }
 
 
+        if (closeCrf === true) {
+            if (Closeremark !== "") {
+                const crfClosePatch = {
+                    crf_close: 1,
+                    crf_close_remark: Closeremark,
+                    crf_close_user: id,
+                    crf_closed_one: "HOD",
+                    close_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                    req_slno: req_slno
+                }
+                updateClosedCrf(crfClosePatch)
+            } else {
+                warningNotify("Please Enter Close Remarks")
+            }
+        } else {
+            if (approve !== false || reject !== false || pending !== false) {
+                if (detailAnalis !== '' && remark !== '') {
+                    updateInchApproval(patchdataDMS)
+                } else {
+                    warningNotify("Detail Analysis must be Entered")
+                }
+            } else {
+                warningNotify("Please Select any status")
+            }
+        }
 
+    }, [patchdataDMS, count, setCount, ModalClose, closeCrf, Closeremark, approve, reject, pending,
+        remark, detailAnalis, id, req_slno])
 
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imageshow, setImageShow] = useState(false)

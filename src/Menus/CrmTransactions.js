@@ -68,10 +68,10 @@ const CrmTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
-        men_slno: 100,
+        men_slno: 164,
         component: CNavItem,
-        name: 'NDRF Form',
-        to: '/Home/NDRF',
+        name: 'MD Approval',
+        to: '/Home/Req.MDApproval',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
@@ -81,8 +81,13 @@ const CrmTransactions = [
         to: '/Home/Req.EDApproval',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
-
-
+    {
+        men_slno: 100,
+        component: CNavItem,
+        name: 'NDRF Form',
+        to: '/Home/NDRF',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
 ]
 
 export default CrmTransactions;

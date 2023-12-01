@@ -200,7 +200,8 @@ const OmApprovModel = ({ open, setOpen, datas, count, setCount }) => {
             warningNotify("Please Select any status")
         }
 
-    }, [patchdataOm, count, setCount, setOpen, remark, detailAnalis, rejectremark, holdremark])
+    }, [patchdataOm, count, setCount, setOpen, remark, detailAnalis, rejectremark, holdremark,
+        approve, reject, pending])
     // reset 
     const Close = useCallback(() => {
         setOpen(false)

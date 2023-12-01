@@ -1110,55 +1110,6 @@ const EDNdrfAppModel = ({ open, setOpen, datas, count, setCount }) => {
             </Dialog>
         </Fragment >
 
-
-        //     </Box  ndrfcaodate>
-
-        //     <Paper sx={{
-        //         width: '100%', height: 50, pl: 0.5, fontSize: 15,
-        //         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-        //     }} variant='outlined'>
-        //         {ndrf_smo_remarks}
-        //     </Paper>
-        // </Box>
-
-        // <Box sx={{
-        //     width: "100%",
-        //     display: "flex",
-        //     pl: 1, pr: 0.5, pt: 0.6,
-        //     flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-        // }}>
-        //     <Box
-        //         sx={{
-        //             // pl: 1,
-        //             display: "flex",
-        //             flexDirection: 'row',
-        //             justifyContent: "space-between"
-        //         }}>
-        //         <Typography sx={{ fontSize: 15 }}>CAO/COO/MS: {ndrf_cao_approve !== null ?
-        //             ndrf_cao_approve === 1 ? "Appoved" : ndrf_cao_approve === 2 ? "Reject" : "Onhold" : "Not Updated"}</Typography>
-        //         {
-        //             ndrf_cao_approv_date !== null ? <Box
-        //                 sx={{
-        //                     display: "flex",
-        //                     flexDirection: 'row',
-        //                     justifyContent: "space-evenly",
-        //                     pr: 2
-        //                 }}>
-        //                 <Typography sx={{ fontSize: 13, pr: 0.5 }}>{ndrf_cao_approv_date !== null ? ndrf_cao_approv_date : "Not Update"}</Typography>
-        //                 <Typography sx={{ fontSize: 13, textTransform: "capitalize" }}>  /  {caouser !== null ? caouser.toLowerCase() : null} </Typography>
-        //             </Box> : null
-        //         }
-
-        //     </Box>
-
-        //     <Paper sx={{
-        //         width: '100%', height: 50, pl: 0.5, fontSize: 15,
-        //         overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-        //     }} variant='outlined'>
-        //         {ndrf_cao_approve_remarks}
-
-
-
     )
 }
 

@@ -183,7 +183,8 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
         }
 
 
-    }, [patchdataSMO, setOpen, count, setCount, remark, detailAnalis, rejectremark, holdremark])
+    }, [patchdataSMO, setOpen, count, setCount, remark, detailAnalis, rejectremark, holdremark,
+        approve, reject, pending])
     // reset 
     const Close = useCallback(() => {
         setOpen(false)

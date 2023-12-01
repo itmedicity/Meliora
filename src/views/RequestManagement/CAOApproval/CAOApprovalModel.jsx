@@ -163,6 +163,7 @@ const CEOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
             cao_approv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
             req_approv_slno: req_approv_slno,
             ed_approve_req: edapprov === true ? 1 : 0,
+            md_approve_req: edapprov === true ? 1 : 0,
             cao_user: id,
             req_slno: req_slno
         }
@@ -201,7 +202,8 @@ const CEOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
         }
 
 
-    }, [patchdataCEO, setCount, count, setOpen, remark, detailAnalis, rejectremark, holdremark])
+    }, [patchdataCEO, setCount, count, setOpen, remark, detailAnalis, rejectremark, holdremark, reject
+        , approve, pending,])
     // reset 
     const Close = useCallback(() => {
         setOpen(false)
@@ -754,7 +756,7 @@ const CEOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                 }}>
                                     <Box sx={{ width: "100%", mt: 1 }}>
                                         <CusCheckBox
-                                            label="ED Approval Needed"
+                                            label="ED & MD Approval Needed"
                                             color="primary"
                                             size="md"
                                             name="edapprov"

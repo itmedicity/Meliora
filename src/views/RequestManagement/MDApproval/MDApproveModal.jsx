@@ -22,7 +22,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const EDApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
+
+const MDApproveModal = ({ open, setOpen, datas, count, setCount }) => {
 
     const { req_slno, req_date, actual_requirement, needed, location, expected_date, approve_incharge,
         incharge_remarks, hod_remarks, req_approv_slno, approve_hod, manag_operation_approvs,
@@ -143,11 +144,11 @@ const EDApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
 
     const patchdataED = useMemo(() => {
         return {
-            ed_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
-            ed_approve_remarks: approve === true ? remark : reject === true ? rejectremark : pending === true ? holdremark : null,
-            ed_detial_analysis: approve === true ? detailAnalis : null,
-            ed_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            ed_user: id,
+            md_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            md_approve_remarks: approve === true ? remark : reject === true ? rejectremark : pending === true ? holdremark : null,
+            md_detial_analysis: approve === true ? detailAnalis : null,
+            md_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            md_user: id,
             req_approv_slno: req_approv_slno,
             req_slno: req_slno
         }
@@ -198,8 +199,6 @@ const EDApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
         setHoldRemark('')
         setDetailAnalis('')
     }, [setOpen])
-
-
     return (
         <Fragment>
             <ToastContainer />
@@ -819,4 +818,4 @@ const EDApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
     )
 }
 
-export default memo(EDApprovalModel)
+export default memo(MDApproveModal)
