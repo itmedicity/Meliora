@@ -39,7 +39,7 @@ const NdrfFrom = () => {
     const [column] = useState([
         {
             headerName: 'Action', minWidth: 100, cellRenderer: params => {
-                if (params.data.ndrf_ed_approve !== null) {
+                if (params.data.ndrf_ed_approve !== null && params.data.ndrf_md_approve !== null) {
                     return <IconButton onClick={() => pdfselect(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
                         <CustomeToolTip title="pdf">

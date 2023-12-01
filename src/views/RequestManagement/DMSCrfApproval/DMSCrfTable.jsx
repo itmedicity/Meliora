@@ -16,7 +16,8 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import CloseDetailsModal from '../InchargeApproval/CloseDetailsModal'
 import DMSApproveModal from './DMSApproveModal'
 import CRFDataColectRequestModal from './CRFDataColectRequestModal'
-
+import SubtitlesOffIcon from '@mui/icons-material/SubtitlesOff';
+import HigherApproveModal from './HigherApproveModal'
 
 const DMSCrfTable = () => {
 
@@ -80,10 +81,16 @@ const DMSCrfTable = () => {
                         val.dms_approve === 3 ? "On-Hold" : "Not Updated",
                     dms_remarks: val.dms_remarks !== null ? val.dms_remarks : "Not Updated",
                     dms_detail_analysis: val.dms_detail_analysis !== null ? val.dms_detail_analysis : "Not Updated",
+                    dms_approve_date: val.dms_approve_date,
+                    dms_user: val.dms_user,
+                    ms_approve_req: val.ms_approve_req,
                     ms_approve: val.ms_approve,
                     ms: val.ms_approve === 1 ? "Approved" : val.ms_approve === 2 ? "Reject" :
                         val.ms_approve === 3 ? "On-Hold" : "Not Updated",
                     ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : "Not Updated",
+                    ms_detail_analysis: val.ms_detail_analysis !== null ? val.ms_detail_analysis : "Not Updated",
+                    ms_approve_date: val.ms_approve_date,
+                    ms_user: val.ms_user,
                     manag_operation_req: val.manag_operation_req,
                     manag_operation_approv: val.manag_operation_approv,
                     om: val.manag_operation_approv === 1 ? "Approved" : val.manag_operation_approv === 2 ? "Reject" :
@@ -128,10 +135,20 @@ const DMSCrfTable = () => {
                     return <IconButton onClick={() => CloseReason(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
                         <CustomeToolTip title="Close Detail">
+                            <SubtitlesOffIcon />
+                        </CustomeToolTip>
+                    </IconButton>
+                }
+                else if (params.data.ms_approve !== null) {
+                    return <IconButton onClick={() => HigherDone(params)}
+                        sx={{ color: editicon, paddingY: 0.5 }} >
+                        <CustomeToolTip title="MS Approval done so you cant edit">
                             <DescriptionIcon />
                         </CustomeToolTip>
                     </IconButton>
-                } else {
+
+                }
+                else {
                     return < Fragment >
                         <IconButton onClick={() => MessageSend(params)}
                             sx={{ color: editicon, paddingY: 0.5 }} >
@@ -185,6 +202,10 @@ const DMSCrfTable = () => {
     const [msgSendModalFlag, setmsgSendModalFlag] = useState(0)
     const [msgSendData, setmsgSendData] = useState([])
 
+    const [HigherModal, setHigherModal] = useState(false)
+    const [HigherModalFlag, setHigherModalFlag] = useState(0)
+    const [HigherData, setHigherData] = useState([])
+
 
     const DMSApproval = useCallback((params) => {
         const data = params.api.getSelectedRows()
@@ -200,8 +221,6 @@ const DMSCrfTable = () => {
         setmsgSendModalFlag(1)
     }, [])
 
-
-
     const CloseReason = useCallback((params) => {
         const data = params.api.getSelectedRows()
         setCloseModal(true)
@@ -209,6 +228,12 @@ const DMSCrfTable = () => {
         setCloseData(data)
     }, [])
 
+    const HigherDone = useCallback((params) => {
+        const data = params.api.getSelectedRows()
+        setHigherModal(true)
+        setHigherModalFlag(1)
+        setHigherData(data)
+    }, [])
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home')
@@ -230,7 +255,14 @@ const DMSCrfTable = () => {
             title="DMS Approval"
             close={backtoSetting}
         >
-
+            {HigherModalFlag === 1 ?
+                <HigherApproveModal
+                    open={HigherModal}
+                    setOpen={setHigherModal}
+                    datas={HigherData}
+                    count={count}
+                    setCount={setCount}
+                /> : null}
             {msgSendModalFlag === 1 ?
                 <CRFDataColectRequestModal
                     open={msgSendModal}

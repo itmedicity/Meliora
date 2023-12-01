@@ -5,18 +5,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import { getReqApprovOthers } from 'src/redux/actions/ReqApprovOtherDept.action'
-import EDApprovalModel from './EDApprovalModel';
 import { IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { getNdrfList } from 'src/redux/actions/NdrfList.action'
-import EDNdrfAppModel from './EDNdrfAppModel'
+import MDApproveModal from './MDApproveModal'
+import MDNdrfModal from './MDNdrfModal'
 
 
-const EDApproval = () => {
 
+const MDApprovalTable = () => {
     /*** Initializing */
     const history = useHistory();
     const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const EDApproval = () => {
     })
 
     const ed = tabledata.filter((val) => {
-        return val.ed_approve_req === 1
+        return val.md_approve_req === 1
     })
 
     const updateNdrf = useCallback((e) => {
@@ -154,18 +154,18 @@ const EDApproval = () => {
 
     return (
         <CardCloseOnly
-            title="Executive Director Approval"
+            title="Managing Director Approval"
             close={backtoSetting}
         >
             {model === 1 ?
-                <EDApprovalModel
+                <MDApproveModal
                     open={open}
                     setOpen={setOpen}
                     datas={datas}
                     count={count}
                     setCount={setCount}
                 /> : model === 2 ?
-                    <EDNdrfAppModel
+                    <MDNdrfModal
                         open={open}
                         setOpen={setOpen}
                         datas={datas}
@@ -219,4 +219,4 @@ const EDApproval = () => {
     )
 }
 
-export default memo(EDApproval)
+export default memo(MDApprovalTable)

@@ -14,9 +14,10 @@ import { Typography } from '@mui/material'
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CloseDetailsModal from '../InchargeApproval/CloseDetailsModal'
-import DMSApproveModal from '../DMSCrfApproval/DMSApproveModal'
 import CRFDataColectRequestModal from '../DMSCrfApproval/CRFDataColectRequestModal'
-
+import MSApprovalModel from './MSApprovalModel'
+import HigherApproveModal from '../DMSCrfApproval/HigherApproveModal'
+import SubtitlesOffIcon from '@mui/icons-material/SubtitlesOff';
 
 const MSApprovalTable = () => {
     /*** Initializing */
@@ -35,8 +36,13 @@ const MSApprovalTable = () => {
     const [dmsData, setDmsData] = useState([])
 
     useEffect(() => {
-        if (tabledata.length !== 0) {
-            const datas = tabledata.map((val) => {
+
+        const incharge = tabledata.filter((val) => {
+            return val.dms_approve === 1 && val.req_status !== 'C'
+        })
+
+        if (incharge.length !== 0) {
+            const datas = incharge.map((val) => {
                 const obj = {
                     req_slno: val.req_slno,
                     actual_requirement: val.actual_requirement !== null ? val.actual_requirement : "Not Updated",
@@ -86,6 +92,8 @@ const MSApprovalTable = () => {
                         val.ms_approve === 3 ? "On-Hold" : "Not Updated",
                     ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : "Not Updated",
                     ms_detail_analysis: val.ms_detail_analysis !== null ? val.ms_detail_analysis : "Not Updated",
+                    ms_approve_date: val.ms_approve_date,
+                    ms_user: val.ms_user,
                     manag_operation_req: val.manag_operation_req,
                     manag_operation_approv: val.manag_operation_approv,
                     om: val.manag_operation_approv === 1 ? "Approved" : val.manag_operation_approv === 2 ? "Reject" :
@@ -130,10 +138,20 @@ const MSApprovalTable = () => {
                     return <IconButton onClick={() => CloseReason(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
                         <CustomeToolTip title="Close Detail">
+                            <SubtitlesOffIcon />
+                        </CustomeToolTip>
+                    </IconButton>
+                }
+                else if (params.data.ms_approve !== null) {
+                    return <IconButton onClick={() => HigherDone(params)}
+                        sx={{ color: editicon, paddingY: 0.5 }} >
+                        <CustomeToolTip title="MS Approval done so you cant edit">
                             <DescriptionIcon />
                         </CustomeToolTip>
                     </IconButton>
-                } else {
+
+                }
+                else {
                     return < Fragment >
                         <IconButton onClick={() => MessageSend(params)}
                             sx={{ color: editicon, paddingY: 0.5 }} >
@@ -187,6 +205,9 @@ const MSApprovalTable = () => {
     const [msgSendModalFlag, setmsgSendModalFlag] = useState(0)
     const [msgSendData, setmsgSendData] = useState([])
 
+    const [HigherModal, setHigherModal] = useState(false)
+    const [HigherModalFlag, setHigherModalFlag] = useState(0)
+    const [HigherData, setHigherData] = useState([])
 
     const DMSApproval = useCallback((params) => {
         const data = params.api.getSelectedRows()
@@ -202,13 +223,18 @@ const MSApprovalTable = () => {
         setmsgSendModalFlag(1)
     }, [])
 
-
-
     const CloseReason = useCallback((params) => {
         const data = params.api.getSelectedRows()
         setCloseModal(true)
         setCloseModalFlag(1)
         setCloseData(data)
+    }, [])
+
+    const HigherDone = useCallback((params) => {
+        const data = params.api.getSelectedRows()
+        setHigherModal(true)
+        setHigherModalFlag(1)
+        setHigherData(data)
     }, [])
 
     //close button function
@@ -232,7 +258,14 @@ const MSApprovalTable = () => {
             title="MS Approval"
             close={backtoSetting}
         >
-
+            {HigherModalFlag === 1 ?
+                <HigherApproveModal
+                    open={HigherModal}
+                    setOpen={setHigherModal}
+                    datas={HigherData}
+                    count={count}
+                    setCount={setCount}
+                /> : null}
             {msgSendModalFlag === 1 ?
                 <CRFDataColectRequestModal
                     open={msgSendModal}
@@ -242,7 +275,7 @@ const MSApprovalTable = () => {
                     setCount={setCount}
                 /> : null}
             {dmsApproveModalFlag === 1 ?
-                <DMSApproveModal
+                <MSApprovalModel
                     open={dmsApproveModal}
                     setOpen={setDmsapprovModall}
                     datas={dmsApproveData}

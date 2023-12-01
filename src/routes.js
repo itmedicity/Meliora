@@ -163,7 +163,7 @@ const ReqOMApproval = React.lazy(() => import('./views/RequestManagement/OMAppro
 const ReqSMOApproval = React.lazy(() => import('./views/RequestManagement/SMOApproval/SmoApproval'))
 const ReqCAOApproval = React.lazy(() => import('./views/RequestManagement/CAOApproval/CAOApproval'))
 const ReqEDApproval = React.lazy(() => import('./views/RequestManagement/EDApproval/EDApproval'))
-
+const ReqMDApproval = React.lazy(() => import('./views/RequestManagement/MDApproval/MDApprovalTable'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -312,7 +312,6 @@ const routes = [
   { path: '/Home/WifiManageMenT', exact: true, name: 'Wifi Management', component: WifiManageMenT },
   { path: '/Home/CusodianDepartment', exact: true, name: 'Custodian Department', component: CustodianDeptmt },
   { path: '/Home/AssetItemListView', exact: true, name: 'Asset Item List View', component: AssetItemListView },
-  // { path: '/Home/PasswordManagementDeviceType', exact: true, name: 'DeviceType PasswordManagement', component: PasswordManagementDeviceType },
   { path: '/Home/ScheduleType', exact: true, name: 'Backup Schedule Type', component: BackupScheduleType },
   { path: '/Home/ScheduleTime', exact: true, name: 'Backup Schedule Time', component: BackupScheduleTime },
   { path: '/Home/BackupMast', exact: true, name: 'Backup Details', component: Backupmast },
@@ -330,6 +329,7 @@ const routes = [
   { path: '/Home/Req.SMOApproval', exact: true, name: 'Request SMO Approval', component: ReqSMOApproval },
   { path: '/Home/Req.CAOApproval', exact: true, name: 'Request CAO/MS/COO Approval', component: ReqCAOApproval },
   { path: '/Home/Req.EDApproval', exact: true, name: 'Request ED/MD Approval', component: ReqEDApproval },
+  { path: '/Home/Req.MDApproval', exact: true, name: 'Request ED/MD Approval', component: ReqMDApproval }
 ]
 
 export default routes

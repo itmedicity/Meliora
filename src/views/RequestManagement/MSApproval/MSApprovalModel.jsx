@@ -21,7 +21,7 @@ import ApprovalCompnt from '../DepartmentApprovals/ApprovalCompnt';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import CustomTextarea from 'src/views/Components/CustomTextarea';
-import CrfDataCollectNotOkModal from './CrfDataCollectNotOkModal';
+import CrfDataCollectNotOkModal from '../DMSCrfApproval/CrfDataCollectNotOkModal';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -33,8 +33,8 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
         expected_date, req_user, userdeptsec, image_status, incharge_approve, incharge_req,
         incharge, incharge_remark, inch_detial_analysis, incharge_apprv_date, incharge_user, hod_req,
         hod_approve, hod, hod_remarks, hod_detial_analysis, hod_approve_date, category,
-        hod_user, dms_approve, dms_remarks, dms_detail_analysis, dms_approve_date, dms_user,
-        ms, ms_approve, ms_approve_remark, ms_detail_analysis } = datas[0]
+        hod_user, dms, dms_approve, dms_remarks, dms_detail_analysis, dms_approve_date, dms_user,
+        ms_approve, ms_approve_remark, ms_detail_analysis } = datas[0]
     const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
     const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
     const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy') : "Not Updated"
@@ -244,8 +244,49 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                 warningNotify(message)
             }
         }
-        updateInchApproval(patchdataMS)
-    }, [patchdataMS, count, setCount, ModalClose])
+
+        const updateClosedCrf = async (crfClosePatch) => {
+            const result = await axioslogin.patch('/requestRegister/crfClose', crfClosePatch);
+            const { success, message } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+                setCount(count + 1)
+                ModalClose()
+            }
+            else {
+                warningNotify(message)
+            }
+        }
+
+        if (closeCrf === true) {
+            if (Closeremark !== "") {
+                const crfClosePatch = {
+                    crf_close: 1,
+                    crf_close_remark: Closeremark,
+                    crf_close_user: id,
+                    crf_closed_one: "HOD",
+                    close_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                    req_slno: req_slno
+                }
+                updateClosedCrf(crfClosePatch)
+            } else {
+                warningNotify("Please Enter Close Remarks")
+            }
+        } else {
+            if (approve !== false || reject !== false || pending !== false) {
+                if (detailAnalis !== '' && remark !== '') {
+                    updateInchApproval(patchdataMS)
+                } else {
+                    warningNotify("Detail Analysis must be Entered")
+                }
+            } else {
+                warningNotify("Please Select any status")
+            }
+        }
+
+
+    }, [patchdataMS, count, setCount, ModalClose, closeCrf, Closeremark, approve, reject, pending,
+        remark, detailAnalis, id, req_slno])
 
 
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -476,26 +517,28 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                                 /> : null}
 
                                             </Box>
-                                            <CssVarsProvider>
-                                                <Typography sx={{ fontSize: 15, textTransform: "capitalize", }}>
-                                                    After Data Collection</Typography>
-                                            </CssVarsProvider>
-                                            <Box sx={{
-                                                width: "100%",
-                                                display: "flex",
-                                                p: 0.5,
-                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                            }}>
-                                                {
-                                                    colectDetlCheck === 1 ?
+
+                                            {
+
+                                                colectDetlCheck === 1 ? <Box>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, textTransform: "capitalize", }}>
+                                                            After Data Collection</Typography>
+                                                    </CssVarsProvider>
+                                                    <Box sx={{
+                                                        width: "100%",
+                                                        display: "flex",
+                                                        p: 0.5,
+                                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                                    }}>
                                                         <ItemApprovalCmp
                                                             dataPost={datacollectdata}
                                                             setdataPost={setdataPost}
-                                                        /> : null
+                                                        />
+                                                    </Box></Box>
+                                                    : null
+                                            }
 
-                                                }
-
-                                            </Box>
 
                                         </Box>
                                     </Paper>
@@ -529,6 +572,7 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                                     {incharge_req === 1 ?
                                                         <Box sx={{ width: "100%" }}>
                                                             <Box sx={{
+                                                                pl: 1,
                                                                 width: "100%",
                                                                 display: "flex",
                                                                 flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
@@ -538,7 +582,7 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                                                     sx={{
                                                                         display: "flex",
                                                                         flexDirection: 'row',
-                                                                        justifyContent: "space-between"
+                                                                        justifyContent: "space-between",
                                                                     }}>
                                                                     <CssVarsProvider>
                                                                         <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Incharge :
@@ -636,7 +680,7 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                                                 </Typography>
                                                             </CssVarsProvider>
                                                             {
-                                                                hod_approve_date !== null ? <Box
+                                                                dms_approve_date !== null ? <Box
                                                                     sx={{
                                                                         display: "flex",
                                                                         flexDirection: 'row',
@@ -645,7 +689,7 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                                                     }}>
                                                                     <CssVarsProvider>
                                                                         <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
-                                                                            {hodApprovdate}</Typography>
+                                                                            {dmsApprovdate}</Typography>
                                                                         <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
                                                                         <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
                                                                             {hod_user} </Typography>
@@ -687,6 +731,118 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                         </Box>
                                     </Paper>
                                 </Box>
+
+                                <Box sx={{ width: "100%", mt: 0 }}>
+                                    <Paper variant='outlined' sx={{ mt: 1 }} >
+                                        <Box sx={{
+                                            width: "100%",
+                                            display: "flex",
+                                            flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                        }}>
+
+
+                                            <Box sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                pl: 0.2, pr: 0.5,
+                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                            }}>
+                                                <Box
+                                                    sx={{ pr: 9 }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontWeight: 900, fontSize: 14, color: TypoHeadColor }} >DMS Approval</Typography>
+                                                    </CssVarsProvider>
+                                                </Box>
+
+                                            </Box>
+                                            {
+
+                                                dms_approve !== null ?
+                                                    <Box sx={{
+                                                        width: "100%",
+                                                        display: "flex",
+                                                        pl: 1, pr: 0.5, pb: 0.5,
+                                                        flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                                    }}>
+                                                        <Box
+                                                            sx={{
+                                                                // pl: 1,
+                                                                display: "flex",
+                                                                flexDirection: 'row',
+                                                                justifyContent: "space-between"
+                                                            }}>
+
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Head Of the Department :
+                                                                    {
+                                                                        dms_approve === 1 ?
+                                                                            <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {dms}
+                                                                            </Typography> : dms_approve === 2 ?
+                                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {dms}
+                                                                                </Typography> : dms_approve === 3 ?
+                                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {dms}
+                                                                                    </Typography> : null
+                                                                    }
+                                                                </Typography>
+                                                            </CssVarsProvider>
+                                                            {
+                                                                hod_approve_date !== null ? <Box
+                                                                    sx={{
+                                                                        display: "flex",
+                                                                        flexDirection: 'row',
+                                                                        justifyContent: "space-evenly",
+                                                                        pr: 2
+                                                                    }}>
+                                                                    <CssVarsProvider>
+                                                                        <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                                            {hodApprovdate}</Typography>
+                                                                        <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                                        <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                                            {dms_user} </Typography>
+                                                                    </CssVarsProvider>   </Box> : null
+                                                            }
+
+                                                        </Box>
+                                                        {
+                                                            dms_approve === 1 ? <Box sx={{ width: "100%" }}>
+                                                                <CssVarsProvider>
+                                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
+                                                                    <Typography ml={10} sx={{ fontSize: 15 }} >{dms_remarks} </Typography>
+                                                                </CssVarsProvider>
+                                                                <CssVarsProvider>
+                                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
+                                                                    <Typography ml={10} sx={{ fontSize: 15 }} >{dms_detail_analysis} </Typography>
+                                                                </CssVarsProvider> </Box> :
+                                                                dms_approve === 2 ? <Box sx={{ width: "100%" }}>
+                                                                    <CssVarsProvider>
+                                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
+                                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{dms_remarks} </Typography>
+                                                                    </CssVarsProvider>
+                                                                </Box> :
+                                                                    dms_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                                        <CssVarsProvider>
+                                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{dms_remarks} </Typography>
+                                                                        </CssVarsProvider>
+                                                                    </Box> : null
+                                                        }
+                                                    </Box>
+
+
+                                                    :
+                                                    <Box>
+                                                        <CssVarsProvider>
+                                                            <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Approval Not Done </Typography>
+                                                        </CssVarsProvider>
+                                                    </Box>
+
+
+                                            }
+
+                                        </Box>
+                                    </Paper>
+                                </Box>
+
                                 {closeCrf === false ?
                                     <Box sx={{ width: "100%", mt: 0 }}>
                                         <Paper variant='outlined' sx={{ mt: 1 }} >
@@ -700,7 +856,7 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                                         pl: 1, pr: 1
                                                     }}>
                                                     <ApprovalCompnt
-                                                        heading="DMS Approval"
+                                                        heading="MS Approval"
                                                         approve={approve}
                                                         reject={reject}
                                                         pending={pending}
@@ -763,11 +919,9 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                             </DialogActions>
                         </Dialog >
 
-                    </Box>
+                    </Box >
 
             }
-
-            {/* } */}
 
 
         </Fragment >
@@ -775,4 +929,4 @@ const MSApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
     )
 }
 
-export default MSApprovalModel
+export default memo(MSApprovalModel)
