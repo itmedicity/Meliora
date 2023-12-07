@@ -164,6 +164,7 @@ const ReqSMOApproval = React.lazy(() => import('./views/RequestManagement/SMOApp
 const ReqCAOApproval = React.lazy(() => import('./views/RequestManagement/CAOApproval/CAOApproval'))
 const ReqEDApproval = React.lazy(() => import('./views/RequestManagement/EDApproval/EDApproval'))
 const ReqMDApproval = React.lazy(() => import('./views/RequestManagement/MDApproval/MDApprovalTable'))
+const NdrfPurchase = React.lazy(() => import('./views/RequestManagement/NdrfPurchase/NdrfPurchaseTable'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -328,8 +329,9 @@ const routes = [
   { path: '/Home/Req.OMApproval', exact: true, name: 'Request OM Approval', component: ReqOMApproval },
   { path: '/Home/Req.SMOApproval', exact: true, name: 'Request SMO Approval', component: ReqSMOApproval },
   { path: '/Home/Req.CAOApproval', exact: true, name: 'Request CAO/MS/COO Approval', component: ReqCAOApproval },
-  { path: '/Home/Req.EDApproval', exact: true, name: 'Request ED/MD Approval', component: ReqEDApproval },
-  { path: '/Home/Req.MDApproval', exact: true, name: 'Request ED/MD Approval', component: ReqMDApproval }
+  { path: '/Home/Req.EDApproval', exact: true, name: 'Request ED Approval', component: ReqEDApproval },
+  { path: '/Home/Req.MDApproval', exact: true, name: 'Request MD Approval', component: ReqMDApproval },
+  { path: '/Home/NdrfPurchase', exact: true, name: 'Request Purchase', component: NdrfPurchase }
 ]
 
 export default routes

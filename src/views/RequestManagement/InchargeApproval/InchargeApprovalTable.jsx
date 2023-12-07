@@ -10,11 +10,11 @@ import { IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
-import DeptApprovModel from '../DepartmentApprovals/DeptApprovModel'
 import { axioslogin } from 'src/views/Axios/Axios'
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CloseDetailsModal from './CloseDetailsModal'
+import InchargeApprovModal from './InchargeApprovModal'
 
 const InchargeApprovalTable = () => {
 
@@ -257,7 +257,7 @@ const InchargeApprovalTable = () => {
                 close={backtoSetting}
             >
                 {model === 1 ?
-                    <DeptApprovModel open={open}
+                    <InchargeApprovModal open={open}
                         setOpen={setOpen}
                         isIncharge={isIncharge}
                         ishod={ishod}

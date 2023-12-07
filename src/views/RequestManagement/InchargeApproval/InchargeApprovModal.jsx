@@ -7,12 +7,12 @@ import Button from '@mui/material/Button';
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import ApprovalCompnt from './ApprovalCompnt';
+import ApprovalCompnt from '../DepartmentApprovals/ApprovalCompnt';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { useEffect } from 'react';
-import ItemApprovalCmp from './ItemApprovalCmp';
+import ItemApprovalCmp from '../DepartmentApprovals/ItemApprovalCmp';
 import { CssVarsProvider, Typography } from '@mui/joy'
 import { TypoHeadColor } from 'src/color/Color'
 import ReqImageDisplayModal from '../RequestRegister/ReqImageDisplayModal';
@@ -23,24 +23,25 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCount, id }) => {
+
+const InchargeApprovModal = ({ open, setOpen, isIncharge, ishod, datas, count, setCount, id }) => {
+
     const { req_slno, req_date, actual_requirement, needed, location, dept_name, req_userdeptsec,
-        expected_date, req_user, userdeptsec, image_status, incharge_approve,
-        incharge, incharge_remark, inch_detial_analysis, incharge_apprv_date, incharge_user,
-        hod_approve, hod_remarks, hod_detial_analysis, req_approv_slno, category, } = datas[0]
+        expected_date, req_user, userdeptsec, image_status, incharge_approve, incharge_remark,
+        inch_detial_analysis, req_approv_slno, category, } = datas[0]
     const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
     const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
-    const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy') : "Not Updated"
 
     useEffect(() => {
-        if ((hod_approve !== null) && (ishod === 1)) {
-            setRemark(hod_remarks !== null ? hod_remarks : '')
-            setApprove(hod_approve === 1 ? true : false)
-            setReject(hod_approve === 2 ? true : false)
-            setPending(hod_approve === 3 ? true : false)
-            setDetailAnalis(hod_approve === 1 ? hod_detial_analysis : null)
+        if ((incharge_approve !== null) && (isIncharge === 1)) {
+            setRemark(incharge_remark !== null ? incharge_remark : '')
+            setApprove(incharge_approve === 1 ? true : false)
+            setReject(incharge_approve === 2 ? true : false)
+            setPending(incharge_approve === 3 ? true : false)
+            setDetailAnalis(incharge_approve === 1 ? inch_detial_analysis : '')
         }
-    }, [hod_approve, hod_remarks, hod_detial_analysis, ishod])
+
+    }, [incharge_approve, inch_detial_analysis, incharge_remark, isIncharge])
 
 
     //state for Remarks
@@ -147,7 +148,6 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
         }
     }, [])
 
-
     const submit = useCallback((e) => {
         e.preventDefault();
         const reset = () => {
@@ -158,9 +158,8 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
             setRemark('')
             setDetailAnalis('')
         }
-
-        const updatehodApproval = async (patchdatahod) => {
-            const result = await axioslogin.patch('/requestRegister/approval/hod', patchdatahod);
+        const updateInchApproval = async (patchdatainch) => {
+            const result = await axioslogin.patch('/requestRegister/approval/incharge', patchdatainch);
             const { success, message } = result.data;
             if (success === 2) {
                 succesNotify(message)
@@ -185,6 +184,16 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
             }
         }
 
+        const patchdatainch = {
+            incharge_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            incharge_remarks: reject === true || pending === true || approve === true ? remark : null,
+            inch_detial_analysis: approve === true ? detailAnalis : null,
+            incharge_apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            req_approv_slno: req_approv_slno,
+            incharge_user: id,
+            req_slno: req_slno
+        }
+
 
         if (closeCrf === true) {
             if (Closeremark !== "") {
@@ -202,26 +211,12 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
             }
         }
         else {
-            const patchdatahod = {
-                hod_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
-                hod_remarks: reject === true || pending === true || approve === true ? remark : null,
-                hod_detial_analysis: approve === true ? detailAnalis : null,
-                hod_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-                req_approv_slno: req_approv_slno,
-                hod_user: id,
-                req_slno: req_slno
-            }
             if (approve !== false || reject !== false || pending !== false) {
-                if (approve === true) {
-                    if (detailAnalis !== '' && remark !== '') {
-                        updatehodApproval(patchdatahod)
-                    } else {
-                        warningNotify("Detail Analysis && Remarks must be Entered")
-                    }
+                if (remark !== '') {
+                    updateInchApproval(patchdatainch)
                 } else {
-                    updatehodApproval(patchdatahod)
+                    warningNotify("Justification must be Entered")
                 }
-
             } else {
                 warningNotify("Please Select any status")
             }
@@ -254,8 +249,9 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
     }, [])
 
 
-    return (
 
+
+    return (
         <Fragment>
             <ToastContainer />
             {imageshowFlag === 1 ? <ReqImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
@@ -470,7 +466,6 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                     <Box sx={{ width: "100%", mt: 0, }}>
                         <Paper variant='outlined' sx={{ mt: 1 }} >
                             <Box sx={{
-                                p: 1,
                                 width: "100%",
                                 display: "flex",
                                 flexDirection: 'column',
@@ -489,96 +484,10 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                         </CssVarsProvider>
                                     </Box>
 
-                                </Box>
-                                <Box sx={{ width: "100%" }}>
-                                    <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                    }}>
-
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: 'row',
-                                                justifyContent: "space-between"
-                                            }}>
-                                            <CssVarsProvider>
-                                                <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Incharge :
-                                                    {
-                                                        incharge_approve === 1 ?
-                                                            <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }} color="success" variant="outlined"> {incharge}
-                                                            </Typography> : incharge_approve === 2 ?
-                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }} color="danger" variant="outlined"> {incharge}
-                                                                </Typography> : incharge_approve === 3 ?
-                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }} color="primary" variant="outlined"> {incharge}
-                                                                    </Typography> : null
-                                                    }
-                                                </Typography>
-                                            </CssVarsProvider>
-                                            {
-                                                incharge_apprv_date !== null ? <Box
-                                                    sx={{
-                                                        display: "flex",
-                                                        flexDirection: 'row',
-                                                        justifyContent: "space-evenly",
-                                                        pr: 2
-                                                    }}>
-                                                    <CssVarsProvider>
-                                                        <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
-                                                            {inchargeApprovdate}</Typography>
-                                                        <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
-                                                        <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
-                                                            {incharge_user} </Typography>
-                                                    </CssVarsProvider>   </Box> : null
-                                            }
-                                        </Box>
-                                        {
-                                            incharge_approve === 1 ? <Box sx={{ width: "100%" }}>
-                                                <CssVarsProvider>
-                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
-                                                    <Typography ml={10} sx={{ fontSize: 15 }} >{incharge_remark} </Typography>
-                                                </CssVarsProvider>
-                                                <CssVarsProvider>
-                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
-                                                    <Typography ml={10} sx={{ fontSize: 15 }} >{inch_detial_analysis} </Typography>
-                                                </CssVarsProvider> </Box> :
-                                                incharge_approve === 2 ? <Box sx={{ width: "100%" }}>
-                                                    <CssVarsProvider>
-                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
-                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{incharge_remark} </Typography>
-                                                    </CssVarsProvider>
-                                                </Box> :
-                                                    incharge_approve === 3 ? <Box sx={{ width: "100%" }}>
-                                                        <CssVarsProvider>
-                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
-                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{incharge_remark} </Typography>
-                                                        </CssVarsProvider>
-                                                    </Box> : null
-                                        }
-                                    </Box>
-                                </Box>
-                            </Box>
-                        </Paper>
-                    </Box>
-
-                    {
-                        closeCrf === false ?
-                            <Box sx={{ width: "100%", mt: 0, }}>
-                                <Paper variant='outlined' sx={{ mt: 1 }} >
-                                    <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        flexDirection: 'column',
-                                    }}>
-                                        <Box sx={{
-                                            width: "100%",
-                                            display: "flex",
-                                            p: 1,
-                                            flexDirection: 'column',
-                                        }}>
+                                    {
+                                        closeCrf === false ?
                                             <ApprovalCompnt
-                                                heading="Hod Approval"
+                                                heading="Incharge Approval"
                                                 approve={approve}
                                                 reject={reject}
                                                 pending={pending}
@@ -589,14 +498,13 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                                 updateApprove={updateApprove}
                                                 updateReject={updateReject}
                                                 updatePending={updatePending}
-                                            />
-                                        </Box>
-                                    </Box>
-                                </Paper>
-                            </Box> : null
+                                            /> : null
+                                    }
 
-                    }
-
+                                </Box>
+                            </Box>
+                        </Paper>
+                    </Box>
                     <Paper variant='outlined' sx={{ mt: 1 }} >
                         <Box sx={{
                             width: "100%",
@@ -645,4 +553,4 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
     )
 }
 
-export default memo(DeptApprovModel)
+export default memo(InchargeApprovModal)

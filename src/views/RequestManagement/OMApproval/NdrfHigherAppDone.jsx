@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState, memo, useEffect, useMemo } from 'react'
+import React, { Fragment, useCallback, useState, memo, useEffect } from 'react'
 import Slide from '@mui/material/Slide';
 import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
@@ -9,22 +9,19 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify } from 'src/views/Common/CommonCode'
-import { useSelector } from 'react-redux'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import Divider from '@mui/material/Divider';
 import { TypoHeadColor } from 'src/color/Color'
-import _ from 'underscore'
 import ItemApprovalCmp from '../DepartmentApprovals/ItemApprovalCmp';
 import ReqImageDisplayModal from '../RequestRegister/ReqImageDisplayModal';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import NdrfApprovalCompnt from '../NdrfFrorm/NdrfApprovalCompnt';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
+const NdrfHigherAppDone = ({ open, setOpen, datas }) => {
 
-const NdrfModelCao = ({ open, setOpen, datas, count, setCount }) => {
+
     const { req_slno, reqcreate, ndrf_mast_slno, ndrfcreate, actual_requirement, needed, location, dept_name, req_userdeptsec,
         expected_date, req_user, userdeptsec, image_status, incharge_approve, incharge_req,
         incharge, incharge_remark, inch_detial_analysis, incharge_apprv_date, incharge_user,
@@ -38,7 +35,9 @@ const NdrfModelCao = ({ open, setOpen, datas, count, setCount }) => {
         ed_approve_remarks, ed_detial_analysis, md_user, ed_user, ed_approve_date, ed_approve_req,
         md_approve_req, ndrf_om_remarks, ndrf_om_approv, ndrfom_approv_date, ndrf_om_user, ndrfOM,
         ndrf_smo_approv, ndrfSMO, ndrf_smo_remarks, ndrf_som_aprrov_date, ndrf_smo_user, ndrf_cao_approve,
-        ndrf_cao_approve_remarks
+        ndrf_cao_approve_remarks, ndrf_cao_approv_date, ndrfCOO, ndrf_cao_user,
+        ndrf_md_approve, ndrf_md_approve_remarks, ndrfMD, ndrf_md_approve_date, ndrf_md_user,
+        ndrf_ed_approve, ndrfED, ndrf_ed_approve_remarks, ndrf_ed_approve_date, ndrf_ed_user,
     } = datas[0]
 
     const reqdate = reqcreate !== null ? format(new Date(reqcreate), 'dd-MM-yyyy') : "Not Updated"
@@ -53,24 +52,23 @@ const NdrfModelCao = ({ open, setOpen, datas, count, setCount }) => {
     const mddate = md_approve_date !== null ? format(new Date(md_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
     const eddate = ed_approve_date !== null ? format(new Date(ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
 
-    const nrdfCreate = ndrfcreate !== null ? format(new Date(ndrfcreate), 'dd-MM-yyyy') : "Not Updated"
+    const nrdfCreate = ndrfcreate !== null ? format(new Date(ndrfcreate), 'dd-MM-yyy') : "Not Updated"
     const ndrfOmdate = ndrfom_approv_date !== null ? format(new Date(ndrfom_approv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
     const ndrfSmodate = ndrf_som_aprrov_date !== null ? format(new Date(ndrf_som_aprrov_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
+    const ndrfCoodate = ndrf_cao_approv_date !== null ? format(new Date(ndrf_cao_approv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
+    const ndrfEddate = ndrf_ed_approve_date !== null ? format(new Date(ndrf_ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
+    const ndrfMddate = ndrf_md_approve_date !== null ? format(new Date(ndrf_md_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
 
-    //redux for geting login id
-    const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
+
     //state for Remarks
     const [dataPost, setdataPost] = useState([])
     const [tableDis, setTableDis] = useState(0)
-    const [approve, setApprove] = useState(false)
-    const [reject, setReject] = useState(false)
-    const [pending, setPending] = useState(false)
     const [datacollectdata, setDataCollectData] = useState([])
     const [colectDetlCheck, setCollectDetailCheck] = useState(0)
-
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imageshow, setImageShow] = useState(false)
     const [imagearray, setImageArry] = useState([])
+
 
     const ViewImage = useCallback(() => {
         setImageShowFlag(1)
@@ -81,73 +79,6 @@ const NdrfModelCao = ({ open, setOpen, datas, count, setCount }) => {
         setImageShowFlag(0)
         setImageShow(false)
     }, [])
-
-
-    const updateApprove = useCallback((e) => {
-        if (e.target.checked === true) {
-            setApprove(true)
-            setReject(false)
-            setPending(false)
-        }
-        else {
-            setApprove(false)
-            setReject(false)
-            setPending(false)
-            setRemark('')
-        }
-    }, [])
-    const updateReject = useCallback((e) => {
-        if (e.target.checked === true) {
-            setReject(true)
-            setApprove(false)
-            setPending(false)
-            setRemark('')
-        }
-        else {
-            setApprove(false)
-            setReject(false)
-            setPending(false)
-            setRemark('')
-        }
-    }, [])
-
-    const updatePending = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPending(true)
-            setApprove(false)
-            setReject(false)
-            setRemark('')
-        }
-        else {
-            setPending(false)
-            setApprove(false)
-            setReject(false)
-            setRemark('')
-        }
-    }, [])
-
-    //state for Remarks
-    const [remark, setRemark] = useState('')
-    const updateRemark = useCallback((e) => {
-        setRemark(e.target.value)
-    }, [])
-
-
-    useEffect(() => {
-        if (ndrf_cao_approve !== null) {
-            setRemark(ndrf_cao_approve_remarks)
-            setApprove(ndrf_cao_approve === 1 ? true : false)
-            setReject(ndrf_cao_approve === 2 ? true : false)
-            setPending(ndrf_cao_approve === 3 ? true : false)
-
-        }
-        else {
-            setRemark('')
-            setPending(false)
-            setApprove(false)
-            setReject(false)
-        }
-    }, [ndrf_cao_approve, ndrf_cao_approve_remarks])
 
     useEffect(() => {
         const InsertFun = async (req_slno) => {
@@ -196,50 +127,18 @@ const NdrfModelCao = ({ open, setOpen, datas, count, setCount }) => {
         setOpen(false)
         setdataPost([])
         setTableDis(0)
-        setApprove(false)
-        setReject(false)
-        setPending(false)
         setDataCollectData([])
         setCollectDetailCheck(0)
-        setRemark('')
         setImageShowFlag(0)
         setImageShow(false)
         setImageArry([])
-
     }, [setOpen])
-
-    const patchdataCAO = useMemo(() => {
-        return {
-            ndrf_cao_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
-            ndrf_cao_approve_remarks: remark,
-            ndrf_cao_approv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            ndrf_cao_user: id,
-            ndrf_mast_slno: ndrf_mast_slno
-        }
-    }, [approve, reject, pending, remark, ndrf_mast_slno, id])
-
-    const submit = useCallback((e) => {
-        e.preventDefault();
-
-        const updateInchApproval = async (patchdataCAO) => {
-            const result = await axioslogin.patch('/ndrf/approval/cao', patchdataCAO);
-            const { success, message } = result.data;
-            if (success === 2) {
-                succesNotify(message)
-                setCount(count + 1)
-                ModalClose()
-            }
-        }
-        updateInchApproval(patchdataCAO)
-    }, [patchdataCAO, setCount, count, ModalClose])
-
 
     return (
         <Fragment>
             <ToastContainer />
             <Box>
                 {imageshowFlag === 1 ? <ReqImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
-
 
                 <Dialog
                     open={open}
@@ -1344,7 +1243,7 @@ const NdrfModelCao = ({ open, setOpen, datas, count, setCount }) => {
                                     display: "flex",
                                     flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
                                 }}>
-                                    {ndrf_om_approv !== null ?
+                                    {ndrf_smo_approv !== null ?
 
                                         <Box>
                                             <Box
@@ -1430,35 +1329,266 @@ const NdrfModelCao = ({ open, setOpen, datas, count, setCount }) => {
                                     display: "flex",
                                     flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
                                 }}>
+                                    {ndrf_cao_approve !== null ?
 
-                                    <Box
-                                        sx={{
-                                            pl: 1, pr: 0.5, pt: 0.3
-                                        }}>
-                                        <NdrfApprovalCompnt
-                                            heading="NDRF Approval CAO/COO"
-                                            approve={approve}
-                                            reject={reject}
-                                            pending={pending}
-                                            remark={remark}
-                                            updateRemark={updateRemark}
-                                            updateApprove={updateApprove}
-                                            updateReject={updateReject}
-                                            updatePending={updatePending}
-                                        />
-                                    </Box>
+                                        <Box>
+                                            <Box
+                                                sx={{
+                                                    pl: 1, pr: 1,
+                                                    display: "flex",
+                                                    flexDirection: 'row',
+                                                    justifyContent: "space-between"
+                                                }}>
+
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >NDRF Senior Operation Manager:
+
+                                                        {
+                                                            ndrf_cao_approve === 1 ?
+                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {ndrfCOO}
+                                                                </Typography> : ndrf_cao_approve === 2 ?
+                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {ndrfCOO}
+                                                                    </Typography> : ndrf_cao_approve === 3 ?
+                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {ndrfCOO}
+                                                                        </Typography> : null
+                                                        }
+                                                    </Typography>
+                                                </CssVarsProvider>
+                                                {
+                                                    ndrf_som_aprrov_date !== null ? <Box
+                                                        sx={{
+                                                            display: "flex",
+                                                            flexDirection: 'row',
+                                                            justifyContent: "space-evenly",
+                                                            pr: 2
+                                                        }}>
+                                                        <CssVarsProvider>
+                                                            <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                                {ndrfCoodate}</Typography>
+                                                            <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                            <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                                {ndrf_cao_user} </Typography>
+                                                        </CssVarsProvider>   </Box> : null
+                                                }
+
+                                            </Box>
+                                            {
+                                                ndrf_cao_approve === 1 ? <Box sx={{ width: "100%", pl: 1 }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Approval: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{ndrf_cao_approve_remarks} </Typography>
+                                                    </CssVarsProvider>
+                                                </Box> :
+                                                    ndrf_cao_approve === 2 ? <Box sx={{ width: "100%" }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{ndrf_cao_approve_remarks} </Typography>
+                                                        </CssVarsProvider>
+                                                    </Box> :
+                                                        ndrf_cao_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15 }} >{ndrf_cao_approve_remarks} </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box> : <Box>
+                                                            <CssVarsProvider>
+                                                                <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Approval Not Done </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box>
+                                            }
+
+                                        </Box>
+                                        : <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15, fontWeight: 600, pl: 1 }} >COO/CAO Approval not done</Typography>
+                                        </CssVarsProvider>
+
+                                    }
+
                                 </Box>
                             </Paper>
                         </Box>
+
+                        <Box sx={{ width: "100%", mt: 0 }}>
+                            <Paper variant='outlined' sx={{ mt: 1 }} >
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                }}>
+                                    {ndrf_md_approve !== null ?
+
+                                        <Box>
+                                            <Box
+                                                sx={{
+                                                    pl: 1, pr: 1,
+                                                    display: "flex",
+                                                    flexDirection: 'row',
+                                                    justifyContent: "space-between"
+                                                }}>
+
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >NDRF Approval MD:
+
+                                                        {
+                                                            ndrf_md_approve === 1 ?
+                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {ndrfMD}
+                                                                </Typography> : ndrf_md_approve === 2 ?
+                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {ndrfMD}
+                                                                    </Typography> : ndrf_md_approve === 3 ?
+                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {ndrfMD}
+                                                                        </Typography> : null
+                                                        }
+                                                    </Typography>
+                                                </CssVarsProvider>
+                                                {
+                                                    ndrf_md_approve_date !== null ? <Box
+                                                        sx={{
+                                                            display: "flex",
+                                                            flexDirection: 'row',
+                                                            justifyContent: "space-evenly",
+                                                            pr: 2
+                                                        }}>
+                                                        <CssVarsProvider>
+                                                            <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                                {ndrfMddate}</Typography>
+                                                            <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                            <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                                {ndrf_md_user} </Typography>
+                                                        </CssVarsProvider>   </Box> : null
+                                                }
+
+                                            </Box>
+                                            {
+                                                ndrf_md_approve === 1 ? <Box sx={{ width: "100%", pl: 1 }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Approval: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{ndrf_md_approve_remarks} </Typography>
+                                                    </CssVarsProvider>
+                                                </Box> :
+                                                    ndrf_md_approve === 2 ? <Box sx={{ width: "100%" }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{ndrf_md_approve_remarks} </Typography>
+                                                        </CssVarsProvider>
+                                                    </Box> :
+                                                        ndrf_md_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15 }} >{ndrf_md_approve_remarks} </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box> : <Box>
+                                                            <CssVarsProvider>
+                                                                <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Approval Not Done </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box>
+                                            }
+
+                                        </Box>
+                                        : <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15, fontWeight: 600, pl: 1 }} >COO/CAO Approval not done</Typography>
+                                        </CssVarsProvider>
+
+                                    }
+
+                                </Box>
+                            </Paper>
+                        </Box>
+
+                        <Box sx={{ width: "100%", mt: 0 }}>
+                            <Paper variant='outlined' sx={{ mt: 1 }} >
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                }}>
+                                    {ndrf_ed_approve !== null ?
+
+                                        <Box>
+                                            <Box
+                                                sx={{
+                                                    pl: 1, pr: 1,
+                                                    display: "flex",
+                                                    flexDirection: 'row',
+                                                    justifyContent: "space-between"
+                                                }}>
+
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >NDRF Approval ED:
+
+                                                        {
+                                                            ndrf_ed_approve === 1 ?
+                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {ndrfED}
+                                                                </Typography> : ndrf_ed_approve === 2 ?
+                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {ndrfED}
+                                                                    </Typography> : ndrf_ed_approve === 3 ?
+                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {ndrfED}
+                                                                        </Typography> : null
+                                                        }
+                                                    </Typography>
+                                                </CssVarsProvider>
+                                                {
+                                                    ndrf_ed_approve_date !== null ? <Box
+                                                        sx={{
+                                                            display: "flex",
+                                                            flexDirection: 'row',
+                                                            justifyContent: "space-evenly",
+                                                            pr: 2
+                                                        }}>
+                                                        <CssVarsProvider>
+                                                            <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                                {ndrfEddate}</Typography>
+                                                            <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                            <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                                {ndrf_ed_user} </Typography>
+                                                        </CssVarsProvider>   </Box> : null
+                                                }
+
+                                            </Box>
+                                            {
+                                                ndrf_ed_approve === 1 ? <Box sx={{ width: "100%", pl: 1 }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Approval: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{ndrf_ed_approve_remarks} </Typography>
+                                                    </CssVarsProvider>
+                                                </Box> :
+                                                    ndrf_ed_approve === 2 ? <Box sx={{ width: "100%" }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{ndrf_ed_approve_remarks} </Typography>
+                                                        </CssVarsProvider>
+                                                    </Box> :
+                                                        ndrf_ed_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15 }} >{ndrf_ed_approve_remarks} </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box> : <Box>
+                                                            <CssVarsProvider>
+                                                                <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Approval Not Done </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box>
+                                            }
+
+                                        </Box>
+                                        : <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15, fontWeight: 600, pl: 1 }} >ED Approval not done</Typography>
+                                        </CssVarsProvider>
+
+                                    }
+
+                                </Box>
+                            </Paper>
+                        </Box>
+
                     </DialogContent>
                     <DialogActions>
-                        <Button color="secondary" onClick={submit} >Save</Button>
                         <Button onClick={ModalClose} color="secondary" >Cancel</Button>
                     </DialogActions>
                 </Dialog>
             </Box>
         </Fragment>
+
     )
 }
 
-export default memo(NdrfModelCao)
+export default memo(NdrfHigherAppDone)
