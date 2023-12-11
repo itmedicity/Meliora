@@ -15,15 +15,15 @@ const RoomUnderLocation = ({ roomNo, setRoomNo }) => {
             setValue(newObj)
         }
     }, [roomNo, RoomListDeptSecBasd])
-    useEffect(() => {
-        if (value !== null) {
-            setValue(value)
-            setRoomNo(value.rm_room_slno)
-        } else {
-            setRoomNo(0)
-        }
-        return
-    }, [value, setRoomNo, setValue])
+    // useEffect(() => {
+    //     if (value !== null) {
+    //         setValue(value)
+    //         setRoomNo(value.rm_room_slno)
+    //     } else {
+    //         setRoomNo(0)
+    //     }
+    //     return
+    // }, [value, setRoomNo, setValue])
 
 
     useEffect(() => {
@@ -42,6 +42,7 @@ const RoomUnderLocation = ({ roomNo, setRoomNo }) => {
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);
+                        setRoomNo(newValue.rm_room_slno)
                     }}
                     inputValue={inputValue}
                     onInputChange={(event, newInputValue) => {

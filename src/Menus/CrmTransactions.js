@@ -88,6 +88,15 @@ const CrmTransactions = [
         to: '/Home/NDRF',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+
+    {
+        men_slno: 165,
+        component: CNavItem,
+        name: 'NDRF Purchase',
+        to: '/Home/NdrfPurchase',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
 ]
 
 export default CrmTransactions;

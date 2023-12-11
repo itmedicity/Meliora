@@ -97,7 +97,6 @@ const NewSubRoomMast = () => {
     }, [])
 
 
-
     const sumbitsubRoom = useCallback((e) => {
 
         const InsertRoom = async (postdata) => {
@@ -140,7 +139,7 @@ const NewSubRoomMast = () => {
         setValue(1)
         const data = params.api.getSelectedRows()
         const { subroom_slno, sub_rm_loctaion, rm_room_slno, sub_rm_category_slno, sub_rm_roomtype_slno,
-            subroom_name, subroom_no, subroom_oldno, subroom_status, } = data[0]
+            subroom_name, subroom_no, subroom_oldno, subroom_status } = data[0]
         setRoomNo(rm_room_slno)
         setRoomType(sub_rm_roomtype_slno)
         setCategory(sub_rm_category_slno)

@@ -272,11 +272,17 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
             }
         } else {
             if (approve !== false || reject !== false || pending !== false) {
-                if (detailAnalis !== '' && remark !== '') {
-                    updateInchApproval(patchdataDMS)
+                if (approve === true) {
+                    if (detailAnalis !== '' && remark !== '') {
+                        updateInchApproval(patchdataDMS)
+                    } else {
+                        warningNotify("Detail Analysis && Remarks must be Entered")
+                    }
+
                 } else {
-                    warningNotify("Detail Analysis must be Entered")
+                    updateInchApproval(patchdataDMS)
                 }
+
             } else {
                 warningNotify("Please Select any status")
             }
