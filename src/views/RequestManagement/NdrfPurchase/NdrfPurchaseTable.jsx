@@ -15,8 +15,8 @@ import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { urlExist } from 'src/views/Constant/Constant'
 import ProfilePicDefault from 'src/assets/images/nosigature.jpg'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { pdfdownloadTable } from '../NdrfFrorm/NdrfPdfView'
-import { pdfdownload } from '../NdrfFrorm/NdrfPdfWithoutTable'
+import { ndrfpdfdownloadwithouttable } from '../NdrfPdfComponent/NdrfPdfWotTable'
+import { ndrfpdfdownloadwithtable } from '../NdrfPdfComponent/NdrfPdfWithTable'
 
 
 const NdrfPurchaseTable = () => {
@@ -35,7 +35,6 @@ const NdrfPurchaseTable = () => {
     const ndrftable = useSelector((state) => {
         return state.setNdrfList.NdrfListdata
     })
-
 
     useEffect(() => {
         if (ndrftable.length !== 0) {
@@ -235,8 +234,8 @@ const NdrfPurchaseTable = () => {
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
         { headerName: "Req.Department", field: "req_dept", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
         { headerName: "Req.DeptSec", field: "req_deptsec", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
-        { headerName: "Req.Date", field: "reqdate", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
-        { headerName: "Exp.DeptSec", field: "expdate", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
+        { headerName: "Req.Date", field: "reqcreate", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
+        { headerName: "Exp.DeptSec", field: "expected_date", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
         { headerName: "NDRF Date", field: "ndrf_date", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
         { headerName: "Remarks", field: "remarks", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
     ])
@@ -261,12 +260,12 @@ const NdrfPurchaseTable = () => {
     const [pdf, setPdf] = useState(0)
     const [dataPost, setdataPost] = useState([])
     const [datapdf, setDataPdf] = useState([])
-
+    const [datacollectdata, setDataCollectData] = useState([])
 
 
     const pdfselect = async (params) => {
         const data = params.api.getSelectedRows()
-        const { req_slno, incharge_user, hod_user, ndrf_om_user, ndrf_smo_user,
+        const { req_slno, ndrf_mast_slno, incharge_user, hod_user, ndrf_om_user, ndrf_smo_user,
             ndrf_cao_user, ndrf_ed_user } = data[0]
         setDataPdf(data)
         const getInchargeSign = async () => {
@@ -354,14 +353,31 @@ const NdrfPurchaseTable = () => {
             getSMOSign()
             getCAOSign()
             getEDSign()
-            const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setdataPost(data)
+            const InsertFun = async (req_slno) => {
+                const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setdataPost(data)
+                }
+                else {
+                    setdataPost([])
+                }
             }
-            else {
-                setdataPost([])
+
+            const getDataCollectCompleteDetails = async (ndrf_mast_slno) => {
+                const result = await axioslogin.get(`/ndrf/getItemListDataCollect/${ndrf_mast_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setDataCollectData(data)
+                }
+                else {
+                    setDataCollectData([])
+                }
             }
+
+
+            InsertFun(req_slno)
+            getDataCollectCompleteDetails(ndrf_mast_slno)
         }
         setPdf(1)
     }
@@ -374,17 +390,17 @@ const NdrfPurchaseTable = () => {
 
     useEffect(() => {
         if (pdf !== 0 && Object.keys(dataPost).length !== 0) {
-            pdfdownloadTable(datapdf, dataPost, inchargesign, hodsign, omsign,
+            ndrfpdfdownloadwithtable(datapdf, dataPost, datacollectdata, inchargesign, hodsign, omsign,
                 smosign, caosign, edsign)
             setPdf(0)
         }
         else if (pdf !== 0) {
-            pdfdownload(datapdf, inchargesign, hodsign, omsign,
+            ndrfpdfdownloadwithouttable(datapdf, inchargesign, hodsign, omsign,
                 smosign, caosign, edsign)
             setPdf(0)
         }
 
-    }, [pdf, dataPost, inchargesign, hodsign, omsign, smosign, caosign, edsign, datapdf])
+    }, [pdf, dataPost, datacollectdata, inchargesign, hodsign, omsign, smosign, caosign, edsign, datapdf])
 
     return (
         <CardCloseOnly
