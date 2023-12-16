@@ -368,7 +368,7 @@ const NdrfFrom = () => {
             setPdf(0)
         }
 
-    }, [pdf, dataPost, inchargesign, hodsign, omsign, smosign, caosign, edsign, datapdf])
+    }, [pdf, dataPost, datacollectdata, inchargesign, hodsign, omsign, smosign, caosign, edsign, datapdf])
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home')

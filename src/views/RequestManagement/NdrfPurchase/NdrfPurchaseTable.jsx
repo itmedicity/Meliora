@@ -17,7 +17,8 @@ import ProfilePicDefault from 'src/assets/images/nosigature.jpg'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { ndrfpdfdownloadwithouttable } from '../NdrfPdfComponent/NdrfPdfWotTable'
 import { ndrfpdfdownloadwithtable } from '../NdrfPdfComponent/NdrfPdfWithTable'
-
+import ShopIcon from '@mui/icons-material/Shop';
+import NdrfPurchasePoaddModal from './NdrfPurchasePoaddModal'
 
 const NdrfPurchaseTable = () => {
 
@@ -36,6 +37,7 @@ const NdrfPurchaseTable = () => {
         return state.setNdrfList.NdrfListdata
     })
 
+    console.log(ndrftable);
     useEffect(() => {
         if (ndrftable.length !== 0) {
             const datas = ndrftable.map((val) => {
@@ -190,7 +192,14 @@ const NdrfPurchaseTable = () => {
 
                     ndrf_purchase: val.ndrf_purchase,
                     ndrf_purchase_acknolwdge: val.ndrf_purchase_acknolwdge,
-
+                    purchase_date: val.purchase_date,
+                    expected_purchase_date: val.expected_purchase_date,
+                    purchase_user: val.purchase_user ? val.purchase_user.toLowerCase() : "Not Updated",
+                    ndrf_po_close: val.ndrf_po_close,
+                    ndrf_po_close_remarks: val.ndrf_po_close_remarks,
+                    ndrf_po_close_user: val.ndrf_po_close_user ? val.ndrf_po_close_user.toLowerCase() : "Not Updated",
+                    ndrf_po_close_date: val.ndrf_po_close_date,
+                    ndrf_po_add: val.ndrf_po_add
                 }
                 return obj
             })
@@ -202,17 +211,27 @@ const NdrfPurchaseTable = () => {
     const [columnndrf] = useState([
 
         {
-            headerName: 'Action', minWidth: 120, cellRenderer: params => {
-                return <IconButton onClick={() => ndrfSelect(params)}
-                    sx={{ color: editicon, paddingY: 0.5 }} >
-                    <CustomeToolTip title="Acknowledgement">
+            headerName: 'Action', minWidth: 100, cellRenderer: params => {
+
+                if (params.data.ndrf_po_add !== 1) {
+                    return <IconButton onClick={() => ndrfSelect(params)}
+                        sx={{ color: editicon, paddingY: 0.5 }} >
+                        <CustomeToolTip title="Acknowledgement">
+                            <ReplayCircleFilledIcon />
+                        </CustomeToolTip>
+                    </IconButton>
+                } else {
+                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
                         <ReplayCircleFilledIcon />
-                    </CustomeToolTip>
-                </IconButton>
+                    </IconButton>
+
+                }
+
             }
         },
+
         {
-            headerName: 'Action', minWidth: 100, cellRenderer: params => {
+            headerName: 'Pdf', minWidth: 80, cellRenderer: params => {
                 if (params.data.ndrf_purchase === 1) {
                     return <IconButton onClick={() => pdfselect(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
@@ -223,6 +242,24 @@ const NdrfPurchaseTable = () => {
                 } else {
                     return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
                         <DownloadForOfflineIcon />
+                    </IconButton>
+
+                }
+
+            }
+        },
+        {
+            headerName: 'PO Add', minWidth: 100, cellRenderer: params => {
+                if (params.data.ndrf_purchase === 1) {
+                    return <IconButton onClick={() => POAdding(params)}
+                        sx={{ color: editicon, paddingY: 0.5 }} >
+                        <CustomeToolTip title="PO Add">
+                            <ShopIcon color='primary' />
+                        </CustomeToolTip>
+                    </IconButton>
+                } else {
+                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
+                        <ShopIcon />
                     </IconButton>
 
                 }
@@ -249,6 +286,17 @@ const NdrfPurchaseTable = () => {
         setCloseModal(true)
         setCloseModalFlag(1)
         setCloseData(data)
+    }, [])
+
+    const [POAddModal, setPOAddModal] = useState(false)
+    const [POAddModalFlag, setPOAddModalFlag] = useState(0)
+    const [POAddData, setPoAddDAta] = useState([])
+
+    const POAdding = useCallback((params) => {
+        const data = params.api.getSelectedRows()
+        setPOAddModal(true)
+        setPOAddModalFlag(1)
+        setPoAddDAta(data)
     }, [])
 
     const [inchargesign, setInchargeSign] = useState(ProfilePicDefault)
@@ -415,6 +463,17 @@ const NdrfPurchaseTable = () => {
                     count={count}
                     setCount={setCount}
                 /> : null}
+
+            {
+                POAddModalFlag === 1 ?
+                    <NdrfPurchasePoaddModal
+                        open={POAddModal}
+                        setOpen={setPOAddModal}
+                        datas={POAddData}
+                        count={count}
+                        setCount={setCount}
+                    /> : null
+            }
             <Box sx={{ p: 1 }}>
                 <CusAgGridForMain
                     columnDefs={columnndrf}

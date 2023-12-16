@@ -9,6 +9,7 @@ import OwnerShipDetailsComp from './OwnerShipDetailsComp'
 import WarrentyGrauntyComp from './WarrentyGrauntyComp'
 import AMCPMComp from './AMCPMComp'
 import LeaseDetails from './LeaseDetails'
+import SpecDetailsComp from './SpecDetailsComp'
 
 const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare }) => {
 
@@ -109,7 +110,8 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare }) => {
             checkinsertOrNotWarGarSpare(am_spare_item_map_slno)
             checkinsertOrNotAMCPMSpare(am_spare_item_map_slno)
         }
-    }, [am_item_map_slno, assetSpare, am_spare_item_map_slno])
+    }, [am_item_map_slno, assetSpare, am_spare_item_map_slno, setAmcPmArry, setGrnDetailArry, setwarGarArry,
+    ])
 
     const BackToPage = useCallback(() => {
         setDetailflag(0)
@@ -163,6 +165,14 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare }) => {
                         AMC/PM  Details</Typography>
                     <AMCPMComp detailArry={detailArry} amcPmarry={amcPmarry} assetSpare={assetSpare}
                         amcPm={amcPm} setAmcPm={setAmcPm} />
+
+                    {/*  Spec Details */}
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        Specification  Details</Typography>
+
+                    <SpecDetailsComp detailArry={detailArry} />
+
+
                 </Box>
             </Paper>
         </CardMasterClose>

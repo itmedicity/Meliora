@@ -14,9 +14,8 @@ import CusCheckBox from 'src/views/Components/CusCheckBox';
 // import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { format } from 'date-fns'
 
-const AMCPMComp = ({ detailArry, amcPmarry, amcPm, setAmcPm, assetSpare }) => {
+const AMCPMComp = ({ detailArry, amcPm, setAmcPm, assetSpare }) => {
     const { am_item_map_slno, am_spare_item_map_slno } = detailArry
-    const { amc_status, cmc_status, amc_from, amc_to, contact_address, amc_file_status } = amcPmarry
     // const [selectFile, setSelectFile] = useState(null)
     // Get login user emp_id
     const id = useSelector((state) => {
@@ -61,38 +60,75 @@ const AMCPMComp = ({ detailArry, amcPmarry, amcPm, setAmcPm, assetSpare }) => {
         FileStatus: '',
         address: '',
         instalationDate: '',
-        dueDate: ''
+        dueDate: '',
+        amc_from: '',
+        amc_to: '',
+        contact_address: ''
     })
 
     //Destructuring
 
-    const { fromDate, toDate, amcFileStatus, address, instalationDate, dueDate } = userdata
+    const { fromDate, toDate, amcFileStatus, address, instalationDate, dueDate, amc_from,
+        amc_to, contact_address } = userdata
     const updateAMCCMC = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setUserdata({ ...userdata, [e.target.name]: value })
     }, [userdata])
 
     useEffect(() => {
-        const frmdata = {
-            fromDate: amc_from,
-            toDate: amc_to,
-            FileStatus: '',
-            address: contact_address,
+        const checkinsertOrNotAMCPM = async (am_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/AmcPmInsertOrNot/${am_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { amc_status, cmc_status, amc_from, amc_to, contact_address, pm_status,
+                    instalation_date, due_date } = data[0]
+
+                const frmdata = {
+                    fromDate: amc_from,
+                    toDate: amc_to,
+                    FileStatus: '',
+                    address: contact_address,
+                    instalationDate: instalation_date !== null ? (format(new Date(instalation_date), "yyyy-MM-dd")) : '',
+                    dueDate: due_date !== null ? (format(new Date(due_date), "yyyy-MM-dd")) : '',
+                    amc_from: amc_from !== null ? (format(new Date(amc_from), "yyyy-MM-dd")) : '',
+                    amc_to: amc_to !== null ? (format(new Date(amc_to), "yyyy-MM-dd")) : '',
+                    contact_address: contact_address
+                }
+                setUserdata(frmdata)
+                setcmcStatus(cmc_status === 1 ? true : false)
+                setamcStatus(amc_status === 1 ? true : false)
+                setPmStatus(pm_status === 1 ? true : false)
+            }
+            else {
+                const frmdata = {
+                    fromDate: '',
+                    toDate: '',
+                    FileStatus: '',
+                    address: '',
+                    instalationDate: '',
+                    dueDate: '',
+                    amc_from: '',
+                    amc_to: '',
+                    contact_address: ''
+                }
+                setUserdata(frmdata)
+                setcmcStatus(false)
+                setamcStatus(false)
+                setPmStatus(false)
+            }
         }
-        setUserdata(frmdata)
-        setcmcStatus(cmc_status === 1 ? true : false)
-        setamcStatus(amc_status === 1 ? true : false)
 
+        checkinsertOrNotAMCPM(am_item_map_slno)
 
-    }, [amc_status, cmc_status, amc_from, amc_to, contact_address, amc_file_status])
+    }, [amcPm, am_item_map_slno])
 
     const postdata = useMemo(() => {
         return {
             am_item_map_slno: am_item_map_slno,
             amc_status: amcStatus === true ? 1 : 0,
             cmc_status: cmcStatus === true ? 1 : 0,
-            amc_from: fromDate,
-            amc_to: toDate,
+            amc_from: fromDate !== '' ? fromDate : null,
+            amc_to: toDate !== '' ? toDate : null,
             contact_address: address,
             amc_file_status: amcFileStatus,
             instalation_date: instalationDate,
@@ -108,8 +144,8 @@ const AMCPMComp = ({ detailArry, amcPmarry, amcPm, setAmcPm, assetSpare }) => {
             am_spare_item_map_slno: am_spare_item_map_slno,
             amc_status: amcStatus === true ? 1 : 0,
             cmc_status: cmcStatus === true ? 1 : 0,
-            amc_from: fromDate,
-            amc_to: toDate,
+            amc_from: fromDate !== '' ? fromDate : null,
+            amc_to: toDate !== '' ? toDate : null,
             contact_address: address,
             amc_file_status: amcFileStatus,
             instalation_date: instalationDate,
@@ -125,8 +161,8 @@ const AMCPMComp = ({ detailArry, amcPmarry, amcPm, setAmcPm, assetSpare }) => {
             am_item_map_slno: am_item_map_slno,
             amc_status: amcStatus === true ? 1 : 0,
             cmc_status: cmcStatus === true ? 1 : 0,
-            amc_from: fromDate,
-            amc_to: toDate,
+            amc_from: fromDate !== '' ? fromDate : null,
+            amc_to: toDate !== '' ? toDate : null,
             contact_address: address,
             amc_file_status: amcFileStatus,
             instalation_date: instalationDate,
@@ -143,8 +179,8 @@ const AMCPMComp = ({ detailArry, amcPmarry, amcPm, setAmcPm, assetSpare }) => {
             am_spare_item_map_slno: am_spare_item_map_slno,
             amc_status: amcStatus === true ? 1 : 0,
             cmc_status: cmcStatus === true ? 1 : 0,
-            amc_from: fromDate,
-            amc_to: toDate,
+            amc_from: fromDate !== '' ? fromDate : null,
+            amc_to: toDate !== '' ? toDate : null,
             contact_address: address,
             amc_file_status: amcFileStatus,
             instalation_date: instalationDate,
