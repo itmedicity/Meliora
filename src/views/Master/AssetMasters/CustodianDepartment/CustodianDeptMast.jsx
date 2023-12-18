@@ -109,7 +109,7 @@ const CustodianDeptMast = () => {
         const InsertCustodiandept = async (postdata) => {
             const result = await axioslogin.post('/CustodianDeptMast/insert', postdata)
             const { message, success } = result.data
-            if (success === 2) {
+            if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1)
                 reset()

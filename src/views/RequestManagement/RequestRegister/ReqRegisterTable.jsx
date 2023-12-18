@@ -42,6 +42,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
                     remarks: val.remarks,
                     req_date: val.req_date,
                     expected_date: val.expected_date,
+                    status: val.rm_ndrf === 1 ? "NDRF" : "CRF",
                     incharge_approve: val.incharge_approve,
                     incharge_req: val.incharge_req,
                     incharge: val.incharge_approve === 1 ? "Approved" : val.incharge_approve === 2 ? "Reject" :
@@ -105,6 +106,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
             }
         },
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
+        { headerName: "Status", field: "status", minWidth: 120 },
         { headerName: "Purpose", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Justification", field: "needed", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },

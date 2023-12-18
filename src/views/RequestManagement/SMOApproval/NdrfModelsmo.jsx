@@ -9,7 +9,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify } from 'src/views/Common/CommonCode'
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import Divider from '@mui/material/Divider';
@@ -231,8 +231,18 @@ const NdrfModelsmo = ({ open, setOpen, datas, count, setCount }) => {
                 ModalClose()
             }
         }
-        updateInchApproval(patchdataSMO)
-    }, [patchdataSMO, setCount, count, ModalClose])
+
+        if (approve !== false || reject !== false || pending !== false) {
+            if (remark !== '') {
+                updateInchApproval(patchdataSMO)
+            } else {
+                warningNotify("Please Enter Remarks")
+            }
+        } else {
+            warningNotify("Please Select any status")
+        }
+
+    }, [patchdataSMO, setCount, count, ModalClose, approve, reject, pending, remark])
 
     return (
 

@@ -5,6 +5,14 @@ import CIcon from '@coreui/icons-react'
 
 const CrmTransactions = [
     {
+        men_slno: 168,
+        component: CNavItem,
+        name: 'CRF DashBoard',
+        to: '/Home/CrfDashboard',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
+    {
         men_slno: 94,
         component: CNavItem,
         name: 'CRF Registration',

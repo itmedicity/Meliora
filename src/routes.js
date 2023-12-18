@@ -158,13 +158,14 @@ const CRFIncharge = React.lazy(() => import('./views/RequestManagement/InchargeA
 const ReqDepartmentApproval = React.lazy(() => import('./views/RequestManagement/DepartmentApprovals/HodApprovalTable'))
 const DMSApproval = React.lazy(() => import('./views/RequestManagement/DMSCrfApproval/DMSCrfTable'))
 const CRFMSApproval = React.lazy(() => import('./views/RequestManagement/MSApproval/MSApprovalTable'))
-
 const ReqOMApproval = React.lazy(() => import('./views/RequestManagement/OMApproval/OmApproval'))
 const ReqSMOApproval = React.lazy(() => import('./views/RequestManagement/SMOApproval/SmoApproval'))
 const ReqCAOApproval = React.lazy(() => import('./views/RequestManagement/CAOApproval/CAOApproval'))
 const ReqEDApproval = React.lazy(() => import('./views/RequestManagement/EDApproval/EDApproval'))
 const ReqMDApproval = React.lazy(() => import('./views/RequestManagement/MDApproval/MDApprovalTable'))
 const NdrfPurchase = React.lazy(() => import('./views/RequestManagement/NdrfPurchase/NdrfPurchaseTable'))
+const CRFDashboard = React.lazy(() => import('./views/RequestManagement/CRFDashboard/CrdDashboardMain'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -331,7 +332,8 @@ const routes = [
   { path: '/Home/Req.CAOApproval', exact: true, name: 'Request CAO/MS/COO Approval', component: ReqCAOApproval },
   { path: '/Home/Req.EDApproval', exact: true, name: 'Request ED Approval', component: ReqEDApproval },
   { path: '/Home/Req.MDApproval', exact: true, name: 'Request MD Approval', component: ReqMDApproval },
-  { path: '/Home/NdrfPurchase', exact: true, name: 'Request Purchase', component: NdrfPurchase }
+  { path: '/Home/NdrfPurchase', exact: true, name: 'Request Purchase', component: NdrfPurchase },
+  { path: '/Home/CrfDashboard', exact: true, name: 'CRF Dashboard', component: CRFDashboard }
 ]
 
 export default routes

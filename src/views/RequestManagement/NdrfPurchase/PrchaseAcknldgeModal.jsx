@@ -9,7 +9,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify } from 'src/views/Common/CommonCode'
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import Divider from '@mui/material/Divider';
@@ -201,8 +201,19 @@ const PrchaseAcknldgeModal = ({ open, setOpen, datas, count, setCount }) => {
                 ModalClose()
             }
         }
-        updateInchApproval(patchdataPurchase)
-    }, [patchdataPurchase, setCount, count, ModalClose])
+        if (approve === true) {
+            if (remark !== '' && expDate !== '') {
+                updateInchApproval(patchdataPurchase)
+
+            } else {
+                warningNotify("Plase enter remark and expected date")
+            }
+        } else {
+            warningNotify("Please Select Acknowledgement")
+        }
+
+
+    }, [patchdataPurchase, setCount, count, ModalClose, remark, expDate, approve])
 
 
     return (

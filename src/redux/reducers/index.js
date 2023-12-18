@@ -147,7 +147,10 @@ import { getPasswordCredential } from './ItPasswordCredential.Reducer'
 import { getRackList } from './AmRackList.Reducer'
 import { getRoomBasedOnDeptSec } from './AmRoomDeptSecBased.Reducer'
 import { getSubRoomBasedOnRoom } from './AmSubRoomBsdRoom.Reducer'
-
+import { setClinicalCrfPending } from './CrfDashboardClinical.Reducer'
+import { setNonClinicalCrfPending } from './CrfDashboardNonClinical.Reducer'
+import { setClinicalNDRFPending } from './NdrfDashboardClinical.Reducer'
+import { setNonClinicalNDRFPending } from './NdrfDashboardNonClinical.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -300,7 +303,12 @@ const reducer = combineReducers({
     getPasswordCredential,
     getRackList,
     getRoomBasedOnDeptSec,
-    getSubRoomBasedOnRoom
+    getSubRoomBasedOnRoom,
+    setClinicalCrfPending,
+    setNonClinicalCrfPending,
+    setClinicalNDRFPending,
+    setNonClinicalNDRFPending
+
 
 })
 export default reducer;

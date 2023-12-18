@@ -902,68 +902,73 @@ const ReqRegistration = () => {
 
         //** Call insert and detail api by using then. for getting insert id */
         if (value === 0) {
-            InsertFun(postData).then((values) => {
-                const { success, message, insetid } = values
-                if (success === 1) {
-                    InsertApproval(insetid).then((value) => {
-                        const { success, message } = value
-                        if (success === 1) {
-                            if (dataPost.length !== 0) {
-                                InsertFundetl(insetid).then((valu) => {
-                                    const { success } = valu;
-                                    if (success === 1) {
-                                        if (selectFile.length !== 0) {
-                                            FileInsert(selectFile, insetid).then((val) => {
-                                                const { success, message } = val
-                                                if (success === 1) {
-                                                    succesNotify("Request Registred successfully ans also File uploaded")
-                                                    reset()
-                                                    setCount(count + 1)
-                                                }
-                                                else {
-                                                    warningNotify(message)
-                                                }
-                                            })
-                                        } else {
-                                            succesNotify("Request Registred successfully ans also File uploaded")
-                                            reset()
-                                            setCount(count + 1)
-                                        }
-                                    }
-                                    else {
-                                        infoNotify("Datas Not Inserted in Detail Table")
-                                    }
-                                })
-                            }
-                            else {
-                                if (selectFile.length !== 0) {
-                                    FileInsert(selectFile, insetid).then((val) => {
-                                        const { success, message } = val
+            if (emergency === true && remarks !== '') {
+                InsertFun(postData).then((values) => {
+                    const { success, message, insetid } = values
+                    if (success === 1) {
+                        InsertApproval(insetid).then((value) => {
+                            const { success, message } = value
+                            if (success === 1) {
+                                if (dataPost.length !== 0) {
+                                    InsertFundetl(insetid).then((valu) => {
+                                        const { success } = valu;
                                         if (success === 1) {
-                                            succesNotify("Request Registred successfully ans also File uploaded")
-                                            reset()
-                                            setCount(count + 1)
+                                            if (selectFile.length !== 0) {
+                                                FileInsert(selectFile, insetid).then((val) => {
+                                                    const { success, message } = val
+                                                    if (success === 1) {
+                                                        succesNotify("Request Registred successfully ans also File uploaded")
+                                                        reset()
+                                                        setCount(count + 1)
+                                                    }
+                                                    else {
+                                                        warningNotify(message)
+                                                    }
+                                                })
+                                            } else {
+                                                succesNotify("Request Registred successfully ans also File uploaded")
+                                                reset()
+                                                setCount(count + 1)
+                                            }
                                         }
                                         else {
-                                            warningNotify(message)
+                                            infoNotify("Datas Not Inserted in Detail Table")
                                         }
                                     })
-                                } else {
-                                    succesNotify("Request Registred successfully ans also File uploaded")
-                                    reset()
-                                    setCount(count + 1)
+                                }
+                                else {
+                                    if (selectFile.length !== 0) {
+                                        FileInsert(selectFile, insetid).then((val) => {
+                                            const { success, message } = val
+                                            if (success === 1) {
+                                                succesNotify("Request Registred successfully ans also File uploaded")
+                                                reset()
+                                                setCount(count + 1)
+                                            }
+                                            else {
+                                                warningNotify(message)
+                                            }
+                                        })
+                                    } else {
+                                        succesNotify("Request Registred successfully ans also File uploaded")
+                                        reset()
+                                        setCount(count + 1)
+                                    }
                                 }
                             }
-                        }
-                        else {
-                            infoNotify(message)
-                        }
-                    })
-                }
-                else {
-                    infoNotify(message)
-                }
-            })
+                            else {
+                                infoNotify(message)
+                            }
+                        })
+                    }
+                    else {
+                        infoNotify(message)
+                    }
+                })
+            } else {
+                warningNotify("Plase Eneter Emergency Remarks")
+            }
+
         }
         else {
             updateFun(patchData).then((values) => {
@@ -990,7 +995,8 @@ const ReqRegistration = () => {
             })
         }
     }, [postData, dataPost, id, count, object1, object2, patchData, reqSlno, reset, editAddArry,
-        value, ishod, isIncharge, depttype, getDataDetl, handleImageUpload, selectFile])
+        value, ishod, isIncharge, depttype, getDataDetl, handleImageUpload, selectFile, emergency,
+        remarks])
 
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imageshow, setImageShow] = useState(false)

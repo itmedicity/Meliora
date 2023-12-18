@@ -16,7 +16,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const ItemQrDisplayModel = ({ open, handleClose, assetNo, dueDate }) => {
 
-    const pmDueDate = dueDate !== null ? format(new Date(dueDate), "yyyy/MM/dd") : ''
+    const pmDueDate = dueDate !== null ? format(new Date(dueDate), "dd/MM/yyyy") : ''
     const ref = useRef();
     const handlePrint = useReactToPrint({
         content: () => ref.current,
@@ -64,8 +64,8 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo, dueDate }) => {
                                         style={{
                                             width: 145,
                                             fontSize: 12,
-                                            fontWeight: 700,
-                                            fontFamily: 'initial',
+                                            fontWeight: 800,
+                                            fontFamily: 'Arial, Helvetica, sans-serif',
                                             textAlign: 'center',
                                             marginTop: -2
                                         }}
@@ -76,8 +76,8 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo, dueDate }) => {
                                                 style={{
                                                     width: 145,
                                                     fontSize: 12,
-                                                    fontWeight: 700,
-                                                    fontFamily: 'initial',
+                                                    fontWeight: 800,
+                                                    fontFamily: 'Arial, Helvetica, sans-serif',
                                                     textAlign: 'center',
                                                     marginTop: -2
                                                 }}
@@ -102,8 +102,8 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo, dueDate }) => {
                                         style={{
                                             width: 110,
                                             fontSize: 12,
-                                            fontWeight: 700,
-                                            fontFamily: 'initial',
+                                            fontWeight: 800,
+                                            fontFamily: 'Arial, Helvetica, sans-serif',
                                             textAlign: 'center',
                                             marginTop: -2
                                         }}
@@ -114,8 +114,8 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo, dueDate }) => {
                                                 style={{
                                                     width: 110,
                                                     fontSize: 12,
-                                                    fontWeight: 700,
-                                                    fontFamily: 'initial',
+                                                    fontWeight: 800,
+                                                    fontFamily: 'Arial, Helvetica, sans-serif',
                                                     textAlign: 'center',
                                                     marginTop: -2
                                                 }}
