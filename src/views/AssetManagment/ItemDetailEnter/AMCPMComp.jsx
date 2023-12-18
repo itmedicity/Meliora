@@ -117,10 +117,10 @@ const AMCPMComp = ({ detailArry, amcPm, setAmcPm, assetSpare }) => {
                 setPmStatus(false)
             }
         }
-
-        checkinsertOrNotAMCPM(am_item_map_slno)
-
-    }, [amcPm, am_item_map_slno])
+        if (assetSpare === 1) {
+            checkinsertOrNotAMCPM(am_item_map_slno)
+        }
+    }, [amcPm, am_item_map_slno, assetSpare])
 
     const postdata = useMemo(() => {
         return {

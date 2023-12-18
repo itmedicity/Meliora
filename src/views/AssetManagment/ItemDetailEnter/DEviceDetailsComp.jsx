@@ -10,9 +10,9 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import EditIcon from '@mui/icons-material/Edit';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 
-const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpare }) => {
-    const { am_item_map_slno, assetno, am_asset_old_no, am_spare_item_map_slno } = detailArry
-    const { am_manufacture_no } = grndetailarry
+const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
+    const { am_item_map_slno, am_spare_item_map_slno } = detailArry
+
 
     // Get login user emp_id
     const id = useSelector((state) => {
@@ -25,6 +25,7 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist, assetSp
         asset_noold: '',
     })
 
+
     //Destructuring
     const { manufacturslno, asset_no, asset_noold } = userdata
     const updateDeviceDetails = useCallback((e) => {
@@ -33,15 +34,40 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist, assetSp
     }, [userdata])
 
     useEffect(() => {
-        if (am_manufacture_no !== undefined || assetno !== undefined) {
-            const frmdata = {
-                manufacturslno: am_manufacture_no !== undefined ? am_manufacture_no : '',
-                asset_no: assetno !== null ? assetno : '',
-                asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
+
+        const checkinsertOrNotDetail = async (am_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { am_manufacture_no, am_asset_no, am_asset_old_no } = data[0]
+                const frmdata = {
+                    manufacturslno: am_manufacture_no !== null ? am_manufacture_no : '',
+                    asset_no: am_asset_no !== null ? am_asset_no : '',
+                    asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
+                }
+                setUserdata(frmdata);
             }
-            setUserdata(frmdata);
         }
-    }, [am_manufacture_no, assetno, am_asset_old_no])
+        const checkinsertOrNotDetailSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { am_manufacture_no, am_asset_no, am_asset_old_no } = data[0]
+                const frmdata = {
+                    manufacturslno: am_manufacture_no !== undefined ? am_manufacture_no : '',
+                    asset_no: am_asset_no !== null ? am_asset_no : '',
+                    asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
+                }
+                setUserdata(frmdata);
+            }
+        }
+        if (assetSpare === 1) {
+            checkinsertOrNotDetail(am_item_map_slno)
+        } else {
+            checkinsertOrNotDetailSpare(am_spare_item_map_slno)
+        }
+
+    }, [am_item_map_slno, am_spare_item_map_slno, assetSpare, setUserdata])
 
     const postdata = useMemo(() => {
         return {

@@ -122,7 +122,8 @@ const SpecDetailsComp = ({ detailArry }) => {
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1)
-                // SpecReferesh();
+                setSpecificData([]);
+                setSpecificTable(0)
             } else if (success === 0) {
                 infoNotify(message)
             } else {
