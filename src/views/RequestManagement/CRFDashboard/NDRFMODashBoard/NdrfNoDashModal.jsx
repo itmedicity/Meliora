@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState, memo, useEffect, useMemo } from 'react'
+import React, { Fragment, useCallback, useState, memo, useMemo } from 'react'
 import Slide from '@mui/material/Slide';
 import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
@@ -10,21 +10,22 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react';
 import { CssVarsProvider, Typography } from '@mui/joy'
-import Divider from '@mui/material/Divider';
 import { TypoHeadColor } from 'src/color/Color'
-import _ from 'underscore'
-import ItemApprovalCmp from '../DepartmentApprovals/ItemApprovalCmp';
-import ReqImageDisplayModal from '../RequestRegister/ReqImageDisplayModal';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import NdrfApprovalCompnt from '../NdrfFrorm/NdrfApprovalCompnt';
+import ReqImageDisplayModal from '../../RequestRegister/ReqImageDisplayModal';
+import { useSelector } from 'react-redux'
+import ItemApprovalCmp from '../../DepartmentApprovals/ItemApprovalCmp';
+import _ from 'underscore'
+import Divider from '@mui/material/Divider';
+import NdrfApprovalCompnt from '../../NdrfFrorm/NdrfApprovalCompnt';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
 
-const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
+const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
 
     const { req_slno, reqcreate, ndrf_mast_slno, ndrfcreate, actual_requirement, needed, location, dept_name, req_userdeptsec,
         expected_date, req_user, userdeptsec, image_status, incharge_approve, incharge_req,
@@ -39,7 +40,6 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
         ed_approve_remarks, ed_detial_analysis, md_user, ed_user, ed_approve_date, ed_approve_req,
         md_approve_req, ndrf_om_remarks, ndrf_om_approv
     } = datas[0]
-
 
     const reqdate = reqcreate !== null ? format(new Date(reqcreate), 'dd-MM-yyyy') : "Not Updated"
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
@@ -243,6 +243,7 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
 
 
     }, [patchdataOM, ModalClose, setCount, count, approve, reject, pending, remark])
+
 
 
     return (
@@ -1297,8 +1298,7 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
                 </Dialog>
             </Box>
         </Fragment>
-
     )
 }
 
-export default memo(NdrfModelOm)
+export default memo(NdrfNoDashModal)

@@ -98,10 +98,10 @@ const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpar
 
     const billpatchData = useMemo(() => {
         return {
-            am_bill_no: billNo,
-            am_bill_date: billDate,
-            am_bill_amount: billamount,
-            am_bill_vendor_detail: bill_vendor_detail,
+            am_bill_no: billNo !== '' ? billNo : null,
+            am_bill_date: billDate !== '' ? billDate : null,
+            am_bill_amount: billamount !== '' ? billamount : null,
+            am_bill_vendor_detail: bill_vendor_detail !== '' ? bill_vendor_detail : null,
             am_bill_image: 1,
             // am_bill_image: selectFile !== null ? 1 : 0,
             edit_user: id,
@@ -111,10 +111,10 @@ const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpar
 
     const billpatchDataSpare = useMemo(() => {
         return {
-            am_bill_no: billNo,
-            am_bill_date: billDate,
-            am_bill_amount: billamount,
-            am_bill_vendor_detail: bill_vendor_detail,
+            am_bill_no: billNo !== '' ? billNo : null,
+            am_bill_date: billDate !== '' ? billDate : null,
+            am_bill_amount: billamount !== '' ? billamount : null,
+            am_bill_vendor_detail: bill_vendor_detail !== '' ? bill_vendor_detail : null,
             am_bill_image: 1,
             // am_bill_image: selectFile !== null ? 1 : 0,
             edit_user: id,

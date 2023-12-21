@@ -6,10 +6,6 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export const ndrfpdfdownloadwithtable = (data, dataPost, datacollectdata, inchargesign, hodsign, omsign, smosign, caosign, edsign) => {
 
-    console.log("dataPost", dataPost);
-
-    console.log("datacollectdata", datacollectdata);
-
     const { req_slno, reqcreate, ndrf_mast_slno, ndrfcreate, actual_requirement, needed, location, dept_name,
         total_approx_cost, remarks, expected_date, req_user, incharge_approve,
         incharge, incharge_remark, incharge_apprv_date, incharge_user,

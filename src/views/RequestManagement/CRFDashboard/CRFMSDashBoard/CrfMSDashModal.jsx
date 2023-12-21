@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState, memo, useEffect, useMemo } from 'react'
+import React, { Fragment, useCallback, useState, memo, useMemo } from 'react'
 import Slide from '@mui/material/Slide';
 import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
@@ -10,33 +10,35 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react';
 import { CssVarsProvider, Typography } from '@mui/joy'
-import Divider from '@mui/material/Divider';
 import { TypoHeadColor } from 'src/color/Color'
-import _ from 'underscore'
-import ItemApprovalCmp from '../DepartmentApprovals/ItemApprovalCmp';
-import ReqImageDisplayModal from '../RequestRegister/ReqImageDisplayModal';
-import ApprovalCompnt from '../DepartmentApprovals/ApprovalCompnt';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import CusCheckBox from 'src/views/Components/CusCheckBox';
-import CustomTextarea from 'src/views/Components/CustomTextarea';
-import CrfDataCollectNotOkModal from './CrfDataCollectNotOkModal';
+import ApprovalCompnt from '../../DepartmentApprovals/ApprovalCompnt';
+import ReqImageDisplayModal from '../../RequestRegister/ReqImageDisplayModal';
+import { useSelector } from 'react-redux'
+import ItemApprovalCmp from '../../DepartmentApprovals/ItemApprovalCmp';
+import _ from 'underscore'
+import Divider from '@mui/material/Divider';
+import CrfDataCollectNotOkModal from '../../DMSCrfApproval/CrfDataCollectNotOkModal';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
+
+const CrfMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
 
     const { req_slno, req_date, actual_requirement, needed, location, dept_name, req_userdeptsec,
         expected_date, req_user, userdeptsec, image_status, incharge_approve, incharge_req,
         incharge, incharge_remark, inch_detial_analysis, incharge_apprv_date, incharge_user, hod_req,
         hod_approve, hod, hod_remarks, hod_detial_analysis, hod_approve_date, category,
-        hod_user, dms_approve, dms_remarks, dms_detail_analysis } = datas[0]
+        hod_user, dms, dms_approve, dms_remarks, dms_detail_analysis, dms_approve_date, dms_user,
+        ms_approve, ms_approve_remark, ms_detail_analysis } = datas[0]
     const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
     const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
     const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy') : "Not Updated"
     const hodApprovdate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy') : "Not Updated"
+    const dmsApprovdate = dms_approve_date !== null ? format(new Date(dms_approve_date), 'dd-MM-yyyy') : "Not Updated"
 
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
 
@@ -93,11 +95,6 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
     const [remark, setRemark] = useState('')
     const updateRemark = useCallback((e) => {
         setRemark(e.target.value)
-    }, [])
-
-    const [Closeremark, setCloseRemark] = useState('')
-    const updateCloseRemark = useCallback((e) => {
-        setCloseRemark(e.target.value)
     }, [])
 
     const [detailAnalis, setDetailAnalis] = useState('')
@@ -168,27 +165,13 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
         getDataCollectCompleteDetails(req_slno)
     }, [req_slno])
 
-    const [closeCrf, setCloseCrf] = useState(false)
-
-    const updateCrf = useCallback((e) => {
-        if (e.target.checked === true) {
-            setCloseCrf(true)
-        }
-        else {
-            setCloseCrf(false)
-        }
-    }, [])
-
-
-
-
     useEffect(() => {
-        if (dms_approve !== null) {
-            setRemark(dms_remarks)
-            setApprove(dms_approve === 1 ? true : false)
-            setReject(dms_approve === 2 ? true : false)
-            setPending(dms_approve === 3 ? true : false)
-            setDetailAnalis(dms_detail_analysis)
+        if (ms_approve !== null) {
+            setRemark(ms_approve_remark)
+            setApprove(ms_approve === 1 ? true : false)
+            setReject(ms_approve === 2 ? true : false)
+            setPending(ms_approve === 3 ? true : false)
+            setDetailAnalis(ms_approve === 1 ? ms_detail_analysis : '')
         }
         else {
             setRemark('')
@@ -197,7 +180,7 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
             setReject(false)
             setDetailAnalis('')
         }
-    }, [dms_remarks, dms_approve, dms_detail_analysis])
+    }, [ms_approve_remark, ms_approve, ms_detail_analysis])
 
     // reset 
     const ModalClose = useCallback(() => {
@@ -208,30 +191,28 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
         setReject(false)
         setPending(false)
         setRemark('')
-        setCloseRemark('')
         setDetailAnalis('')
-        setCloseCrf(false)
         setImageShowFlag(0)
         setImageShow(false)
         setImageArry([])
         setOpen(false)
     }, [setOpen])
 
-    const patchdataDMS = useMemo(() => {
+    const patchdataMS = useMemo(() => {
         return {
-            dms_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
-            dms_remarks: reject === true || pending === true || approve === true ? remark : null,
-            dms_detail_analysis: approve === true ? detailAnalis : null,
-            dms_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            dms_user: id,
+            ms_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            ms_approve_remark: reject === true || pending === true || approve === true ? remark : null,
+            ms_detail_analysis: approve === true ? detailAnalis : null,
+            ms_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            ms_approve_user: id,
             req_slno: req_slno
         }
     }, [approve, reject, pending, remark, req_slno, detailAnalis, id])
 
     const submit = useCallback((e) => {
         e.preventDefault();
-        const updateInchApproval = async (patchdataDMS) => {
-            const result = await axioslogin.patch('/requestRegister/approval/dms', patchdataDMS);
+        const updateInchApproval = async (patchdataMS) => {
+            const result = await axioslogin.patch('/requestRegister/approval/ms', patchdataMS);
             const { success, message } = result.data;
             if (success === 2) {
                 succesNotify(message)
@@ -242,54 +223,26 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
             }
         }
 
-        const updateClosedCrf = async (crfClosePatch) => {
-            const result = await axioslogin.patch('/requestRegister/crfClose', crfClosePatch);
-            const { success, message } = result.data;
-            if (success === 2) {
-                succesNotify(message)
-                setCount(count + 1)
-                ModalClose()
-            }
-            else {
-                warningNotify(message)
-            }
-        }
-
-
-        if (closeCrf === true) {
-            if (Closeremark !== "") {
-                const crfClosePatch = {
-                    crf_close: 1,
-                    crf_close_remark: Closeremark,
-                    crf_close_user: id,
-                    crf_closed_one: "HOD",
-                    close_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-                    req_slno: req_slno
-                }
-                updateClosedCrf(crfClosePatch)
-            } else {
-                warningNotify("Please Enter Close Remarks")
-            }
-        } else {
-            if (approve !== false || reject !== false || pending !== false) {
-                if (approve === true) {
-                    if (detailAnalis !== '' && remark !== '') {
-                        updateInchApproval(patchdataDMS)
-                    } else {
-                        warningNotify("Detail Analysis && Remarks must be Entered")
-                    }
-
+        if (approve !== false || reject !== false || pending !== false) {
+            if (approve === true) {
+                if (detailAnalis !== '' && remark !== '') {
+                    updateInchApproval(patchdataMS)
                 } else {
-                    updateInchApproval(patchdataDMS)
+                    warningNotify("Detail Analysis && Remarks must be Entered")
                 }
-
             } else {
-                warningNotify("Please Select any status")
+                updateInchApproval(patchdataMS)
             }
+
+        } else {
+            warningNotify("Please Select any status")
         }
 
-    }, [patchdataDMS, count, setCount, ModalClose, closeCrf, Closeremark, approve, reject, pending,
-        remark, detailAnalis, id, req_slno])
+
+
+    }, [patchdataMS, count, setCount, ModalClose, approve, reject, pending,
+        remark, detailAnalis])
+
 
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imageshow, setImageShow] = useState(false)
@@ -306,18 +259,13 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
     }, [])
 
     return (
-
         <Fragment>
             <ToastContainer />
-
             {
-
                 enable === 1 ? <CrfDataCollectNotOkModal open={open} setOpen={setOpen} setEnable={setEnable} />
                     :
                     <Box>
-
                         {imageshowFlag === 1 ? <ReqImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
-
                         <Dialog
                             open={open}
                             TransitionComponent={Transition}
@@ -523,26 +471,28 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
                                                 /> : null}
 
                                             </Box>
-                                            <CssVarsProvider>
-                                                <Typography sx={{ fontSize: 15, textTransform: "capitalize", }}>
-                                                    After Data Collection</Typography>
-                                            </CssVarsProvider>
-                                            <Box sx={{
-                                                width: "100%",
-                                                display: "flex",
-                                                p: 0.5,
-                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                            }}>
-                                                {
-                                                    colectDetlCheck === 1 ?
+
+                                            {
+
+                                                colectDetlCheck === 1 ? <Box>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, textTransform: "capitalize", }}>
+                                                            After Data Collection</Typography>
+                                                    </CssVarsProvider>
+                                                    <Box sx={{
+                                                        width: "100%",
+                                                        display: "flex",
+                                                        p: 0.5,
+                                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                                    }}>
                                                         <ItemApprovalCmp
                                                             dataPost={datacollectdata}
                                                             setdataPost={setdataPost}
-                                                        /> : null
+                                                        />
+                                                    </Box></Box>
+                                                    : null
+                                            }
 
-                                                }
-
-                                            </Box>
 
                                         </Box>
                                     </Paper>
@@ -576,6 +526,7 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
                                                     {incharge_req === 1 ?
                                                         <Box sx={{ width: "100%" }}>
                                                             <Box sx={{
+                                                                pl: 1,
                                                                 width: "100%",
                                                                 display: "flex",
                                                                 flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
@@ -585,7 +536,7 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
                                                                     sx={{
                                                                         display: "flex",
                                                                         flexDirection: 'row',
-                                                                        justifyContent: "space-between"
+                                                                        justifyContent: "space-between",
                                                                     }}>
                                                                     <CssVarsProvider>
                                                                         <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Incharge :
@@ -646,7 +597,7 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
 
                                                         : <Box>
                                                             <CssVarsProvider>
-                                                                <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Requested By HOD </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Requested By Incharge </Typography>
                                                             </CssVarsProvider>
                                                         </Box>
 
@@ -734,75 +685,114 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
                                         </Box>
                                     </Paper>
                                 </Box>
-                                {closeCrf === false ?
-                                    <Box sx={{ width: "100%", mt: 0 }}>
-                                        <Paper variant='outlined' sx={{ mt: 1 }} >
-                                            <Box sx={{
-                                                width: "100%",
-                                                display: "flex",
-                                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                            }}>
-                                                <Box
-                                                    sx={{
-                                                        pl: 1, pr: 1
-                                                    }}>
-                                                    <ApprovalCompnt
-                                                        heading="DMS Approval"
-                                                        approve={approve}
-                                                        reject={reject}
-                                                        pending={pending}
-                                                        remark={remark}
-                                                        detailAnalis={detailAnalis}
-                                                        updatedetailAnalis={updatedetailAnalis}
-                                                        updateRemark={updateRemark}
-                                                        updateApprove={updateApprove}
-                                                        updateReject={updateReject}
-                                                        updatePending={updatePending}
-                                                    />
-                                                </Box>
-                                            </Box>
-                                        </Paper>
-                                    </Box> : null
-                                }
 
-                                <Divider />
-                                <Paper variant='outlined' sx={{ mt: 1 }} >
-                                    <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        pl: 2, pt: 0, fontSize: 15
-                                    }}>
-                                        <Box sx={{ width: "20%", mt: 1 }}>
-                                            <CusCheckBox
-                                                label="Close CRF"
-                                                color="primary"
-                                                size="md"
-                                                name="closeCrf"
-                                                value={closeCrf}
-                                                checked={closeCrf}
-                                                onCheked={updateCrf}
-                                            />
+                                <Box sx={{ width: "100%", mt: 0 }}>
+                                    <Paper variant='outlined' sx={{ mt: 1 }} >
+                                        <Box sx={{
+                                            width: "100%",
+                                            display: "flex",
+                                            flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                        }}>
+
+                                            <Box
+                                                sx={{
+                                                    pl: 1, pr: 1,
+                                                    display: "flex",
+                                                    flexDirection: 'row',
+                                                    justifyContent: "space-between"
+                                                }}>
+
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >DMS :
+
+                                                        {
+                                                            dms_approve === 1 ?
+                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {dms}
+                                                                </Typography> : dms_approve === 2 ?
+                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {dms}
+                                                                    </Typography> : dms_approve === 3 ?
+                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {dms}
+                                                                        </Typography> : null
+                                                        }
+                                                    </Typography>
+                                                </CssVarsProvider>
+                                                {
+                                                    dms_approve_date !== null ? <Box
+                                                        sx={{
+                                                            display: "flex",
+                                                            flexDirection: 'row',
+                                                            justifyContent: "space-evenly",
+                                                            pr: 2
+                                                        }}>
+                                                        <CssVarsProvider>
+                                                            <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                                {dmsApprovdate}</Typography>
+                                                            <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                            <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                                {dms_user} </Typography>
+                                                        </CssVarsProvider>   </Box> : null
+                                                }
+
+                                            </Box>
+                                            {
+                                                dms_approve === 1 ? <Box sx={{ width: "100%", pl: 1 }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{dms_remarks} </Typography>
+                                                    </CssVarsProvider>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{dms_detail_analysis} </Typography>
+                                                    </CssVarsProvider> </Box> :
+                                                    dms_approve === 2 ? <Box sx={{ width: "100%" }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{dms_remarks} </Typography>
+                                                        </CssVarsProvider>
+                                                    </Box> :
+                                                        dms_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15 }} >{dms_remarks} </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box> : <Box>
+                                                            <CssVarsProvider>
+                                                                <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Approval Not Done </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box>
+                                            }
+
                                         </Box>
-                                        {closeCrf === true ?
-                                            <Box sx={{ width: "60%", mt: 1 }}>
-                                                <CustomTextarea
-                                                    required
-                                                    type="text"
-                                                    size="sm"
-                                                    style={{
-                                                        width: "100%",
-                                                        height: 70,
-                                                        boardColor: "#E0E0E0"
-                                                    }}
-                                                    placeholder=" Remarks"
-                                                    value={Closeremark}
-                                                    onchange={updateCloseRemark}
+                                    </Paper>
+                                </Box>
+                                <Box sx={{ width: "100%", mt: 0 }}>
+                                    <Paper variant='outlined' sx={{ mt: 1 }} >
+                                        <Box sx={{
+                                            width: "100%",
+                                            display: "flex",
+                                            flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                        }}>
+                                            <Box
+                                                sx={{
+                                                    pl: 1, pr: 1
+                                                }}>
+                                                <ApprovalCompnt
+                                                    heading="MS Approval"
+                                                    approve={approve}
+                                                    reject={reject}
+                                                    pending={pending}
+                                                    remark={remark}
+                                                    detailAnalis={detailAnalis}
+                                                    updatedetailAnalis={updatedetailAnalis}
+                                                    updateRemark={updateRemark}
+                                                    updateApprove={updateApprove}
+                                                    updateReject={updateReject}
+                                                    updatePending={updatePending}
                                                 />
-                                            </Box> : null
-                                        }
-                                    </Box>
-                                </Paper>
+                                            </Box>
+                                        </Box>
+                                    </Paper>
+                                </Box>
                             </DialogContent>
                             <DialogActions>
                                 <Button color="secondary" onClick={submit} >Save</Button>
@@ -810,12 +800,10 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
                             </DialogActions>
                         </Dialog >
 
-                    </Box>
-
+                    </Box >
             }
-
         </Fragment >
     )
 }
 
-export default memo(DMSApproveModal)
+export default memo(CrfMSDashModal)

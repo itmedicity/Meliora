@@ -77,7 +77,6 @@ const SmoApproval = () => {
     const ndrftable = useSelector((state) => {
         return state.setNdrfList.NdrfListdata
     })
-    console.log(ndrftable);
 
     useEffect(() => {
         if (tabledata.length !== 0) {

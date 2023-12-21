@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState, memo, useEffect, useMemo } from 'react'
+import React, { Fragment, useCallback, useState, memo, useMemo } from 'react'
 import Slide from '@mui/material/Slide';
 import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
@@ -10,21 +10,22 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react';
 import { CssVarsProvider, Typography } from '@mui/joy'
-import Divider from '@mui/material/Divider';
 import { TypoHeadColor } from 'src/color/Color'
-import _ from 'underscore'
-import ItemApprovalCmp from '../DepartmentApprovals/ItemApprovalCmp';
-import ReqImageDisplayModal from '../RequestRegister/ReqImageDisplayModal';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import NdrfApprovalCompnt from '../NdrfFrorm/NdrfApprovalCompnt';
+import ReqImageDisplayModal from '../../RequestRegister/ReqImageDisplayModal';
+import { useSelector } from 'react-redux'
+import ItemApprovalCmp from '../../DepartmentApprovals/ItemApprovalCmp';
+import _ from 'underscore'
+import Divider from '@mui/material/Divider';
+import NdrfApprovalCompnt from '../../NdrfFrorm/NdrfApprovalCompnt';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
 
-const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
+const NdrfSMODashModal = ({ open, setOpen, datas, count, setCount }) => {
 
     const { req_slno, reqcreate, ndrf_mast_slno, ndrfcreate, actual_requirement, needed, location, dept_name, req_userdeptsec,
         expected_date, req_user, userdeptsec, image_status, incharge_approve, incharge_req,
@@ -37,7 +38,8 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
         cao_approve, cao, cao_approve_remarks, ceo_detial_analysis, cao_approv_date, cao_user,
         md_approve, md, md_approve_remarks, md_detial_analysis, md_approve_date, ed_approve, ed,
         ed_approve_remarks, ed_detial_analysis, md_user, ed_user, ed_approve_date, ed_approve_req,
-        md_approve_req, ndrf_om_remarks, ndrf_om_approv
+        md_approve_req, ndrf_om_remarks, ndrf_om_approv, ndrfom_approv_date, ndrf_om_user, ndrfOM,
+        ndrf_smo_approv, ndrf_smo_remarks,
     } = datas[0]
 
 
@@ -54,6 +56,7 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
     const eddate = ed_approve_date !== null ? format(new Date(ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
 
     const nrdfCreate = ndrfcreate !== null ? format(new Date(ndrfcreate), 'dd-MM-yyyy') : "Not Updated"
+    const ndrfOmdate = ndrfom_approv_date !== null ? format(new Date(ndrfom_approv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
 
     //redux for geting login id
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
@@ -130,23 +133,6 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
         setRemark(e.target.value)
     }, [])
 
-
-    useEffect(() => {
-        if (ndrf_om_approv !== null) {
-            setRemark(ndrf_om_remarks)
-            setApprove(ndrf_om_approv === 1 ? true : false)
-            setReject(ndrf_om_approv === 2 ? true : false)
-            setPending(ndrf_om_approv === 3 ? true : false)
-
-        }
-        else {
-            setRemark('')
-            setPending(false)
-            setApprove(false)
-            setReject(false)
-        }
-    }, [ndrf_om_approv, ndrf_om_remarks])
-
     useEffect(() => {
         const InsertFun = async (req_slno) => {
             const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
@@ -207,22 +193,37 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
 
     }, [setOpen])
 
-    const patchdataOM = useMemo(() => {
+    useEffect(() => {
+        if (ndrf_smo_approv !== null) {
+            setRemark(ndrf_smo_remarks)
+            setApprove(ndrf_smo_approv === 1 ? true : false)
+            setReject(ndrf_smo_approv === 2 ? true : false)
+            setPending(ndrf_smo_approv === 3 ? true : false)
+
+        }
+        else {
+            setRemark('')
+            setPending(false)
+            setApprove(false)
+            setReject(false)
+        }
+    }, [ndrf_smo_approv, ndrf_smo_remarks])
+
+
+    const patchdataSMO = useMemo(() => {
         return {
-            ndrf_om_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
-            ndrf_om_remarks: remark,
-            ndrfom_approv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            ndrf_om_user: id,
+            ndrf_smo_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            ndrf_smo_remarks: remark,
+            ndrf_som_aprrov_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            ndrf_smo_user: id,
             ndrf_mast_slno: ndrf_mast_slno
         }
     }, [approve, reject, pending, remark, ndrf_mast_slno, id])
 
-
     const submit = useCallback((e) => {
         e.preventDefault();
-
-        const updateNdrfOMApproval = async (patchdataOM) => {
-            const result = await axioslogin.patch('/ndrf/approval/om', patchdataOM);
+        const updateInchApproval = async (patchdataSMO) => {
+            const result = await axioslogin.patch('/ndrf/approval/smo', patchdataSMO);
             const { success, message } = result.data;
             if (success === 2) {
                 succesNotify(message)
@@ -233,7 +234,7 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
 
         if (approve !== false || reject !== false || pending !== false) {
             if (remark !== '') {
-                updateNdrfOMApproval(patchdataOM)
+                updateInchApproval(patchdataSMO)
             } else {
                 warningNotify("Please Enter Remarks")
             }
@@ -241,8 +242,7 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
             warningNotify("Please Select any status")
         }
 
-
-    }, [patchdataOM, ModalClose, setCount, count, approve, reject, pending, remark])
+    }, [patchdataSMO, setCount, count, ModalClose, approve, reject, pending, remark])
 
 
     return (
@@ -403,7 +403,7 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
                                             width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15, textTransform: "capitalize",
                                             overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                                         }} variant='none'>
-                                            {dept_name !== null ? dept_name.toLowerCase() : "Not Updated"}
+                                            {dept_name}
                                         </Paper>
                                     </Box>
                                     <Box sx={{
@@ -1269,13 +1269,102 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
                                     display: "flex",
                                     flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
                                 }}>
+                                    {ndrf_om_approv !== null ?
+
+                                        <Box>
+                                            <Box
+                                                sx={{
+                                                    pl: 1, pr: 1,
+                                                    display: "flex",
+                                                    flexDirection: 'row',
+                                                    justifyContent: "space-between"
+                                                }}>
+
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >NDRF Operation Manager:
+
+                                                        {
+                                                            ndrf_om_approv === 1 ?
+                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {ndrfOM}
+                                                                </Typography> : ndrf_om_approv === 2 ?
+                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {ndrfOM}
+                                                                    </Typography> : ndrf_om_approv === 3 ?
+                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {ndrfOM}
+                                                                        </Typography> : null
+                                                        }
+                                                    </Typography>
+                                                </CssVarsProvider>
+                                                {
+                                                    ndrfom_approv_date !== null ? <Box
+                                                        sx={{
+                                                            display: "flex",
+                                                            flexDirection: 'row',
+                                                            justifyContent: "space-evenly",
+                                                            pr: 2
+                                                        }}>
+                                                        <CssVarsProvider>
+                                                            <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                                {ndrfOmdate}</Typography>
+                                                            <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                            <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                                {ndrf_om_user} </Typography>
+                                                        </CssVarsProvider>   </Box> : null
+                                                }
+
+                                            </Box>
+                                            {
+                                                ndrf_om_approv === 1 ? <Box sx={{ width: "100%", pl: 1 }}>
+                                                    <CssVarsProvider>
+                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Approval: </Typography>
+                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{ndrf_om_remarks} </Typography>
+                                                    </CssVarsProvider>
+                                                </Box> :
+                                                    ndrf_om_approv === 2 ? <Box sx={{ width: "100%" }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{ndrf_om_remarks} </Typography>
+                                                        </CssVarsProvider>
+                                                    </Box> :
+                                                        ndrf_om_approv === 3 ? <Box sx={{ width: "100%" }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15 }} >{ndrf_om_remarks} </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box> : <Box>
+                                                            <CssVarsProvider>
+                                                                <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Approval Not Done </Typography>
+                                                            </CssVarsProvider>
+                                                        </Box>
+                                            }
+
+                                        </Box>
+                                        : <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15, fontWeight: 600, pl: 1 }} >Operation Manager Approval not done</Typography>
+                                        </CssVarsProvider>
+
+                                    }
+
+                                </Box>
+                            </Paper>
+                        </Box>
+
+
+
+
+                        <Box sx={{ width: "100%", mt: 0 }}>
+                            <Paper variant='outlined' sx={{ mt: 1 }} >
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                }}>
 
                                     <Box
                                         sx={{
                                             pl: 1, pr: 0.5, pt: 0.3
                                         }}>
                                         <NdrfApprovalCompnt
-                                            heading="NDRF Approval Operation Managers"
+                                            heading="NDRF Approval Senior Manager Operations"
                                             approve={approve}
                                             reject={reject}
                                             pending={pending}
@@ -1297,8 +1386,7 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
                 </Dialog>
             </Box>
         </Fragment>
-
     )
 }
 
-export default memo(NdrfModelOm)
+export default memo(NdrfSMODashModal)

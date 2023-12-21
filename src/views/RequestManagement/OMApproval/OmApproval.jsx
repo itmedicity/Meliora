@@ -585,9 +585,6 @@ const OmApproval = () => {
         }
     };
 
-
-
-
     return (
         <CardCloseOnly
             title="Operation Manager Documentation"
