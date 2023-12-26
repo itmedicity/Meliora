@@ -33,9 +33,7 @@ const NdrfHigherAppDone = ({ open, setOpen, datas }) => {
         cao_approve, cao, cao_approve_remarks, ceo_detial_analysis, cao_approv_date, cao_user,
         md_approve, md, md_approve_remarks, md_detial_analysis, md_approve_date, ed_approve, ed,
         ed_approve_remarks, ed_detial_analysis, md_user, ed_user, ed_approve_date, ed_approve_req,
-        md_approve_req, ndrf_om_remarks, ndrf_om_approv, ndrfom_approv_date, ndrf_om_user, ndrfOM,
-        ndrf_smo_approv, ndrfSMO, ndrf_smo_remarks, ndrf_som_aprrov_date, ndrf_smo_user, ndrf_cao_approve,
-        ndrf_cao_approve_remarks, ndrf_cao_approv_date, ndrfCOO, ndrf_cao_user,
+        md_approve_req, ndrf_cao_approve, ndrf_cao_approve_remarks, ndrf_cao_approv_date, ndrfCOO, ndrf_cao_user,
         ndrf_md_approve, ndrf_md_approve_remarks, ndrfMD, ndrf_md_approve_date, ndrf_md_user,
         ndrf_ed_approve, ndrfED, ndrf_ed_approve_remarks, ndrf_ed_approve_date, ndrf_ed_user,
     } = datas[0]
@@ -53,8 +51,6 @@ const NdrfHigherAppDone = ({ open, setOpen, datas }) => {
     const eddate = ed_approve_date !== null ? format(new Date(ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
 
     const nrdfCreate = ndrfcreate !== null ? format(new Date(ndrfcreate), 'dd-MM-yyy') : "Not Updated"
-    const ndrfOmdate = ndrfom_approv_date !== null ? format(new Date(ndrfom_approv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
-    const ndrfSmodate = ndrf_som_aprrov_date !== null ? format(new Date(ndrf_som_aprrov_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
     const ndrfCoodate = ndrf_cao_approv_date !== null ? format(new Date(ndrf_cao_approv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
     const ndrfEddate = ndrf_ed_approve_date !== null ? format(new Date(ndrf_ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
     const ndrfMddate = ndrf_md_approve_date !== null ? format(new Date(ndrf_md_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
@@ -1149,7 +1145,7 @@ const NdrfHigherAppDone = ({ open, setOpen, datas }) => {
                                 </Box>
                             </Paper>
                         </Box>
-                        <Box sx={{ width: "100%", mt: 0 }}>
+                        {/* <Box sx={{ width: "100%", mt: 0 }}>
                             <Paper variant='outlined' sx={{ mt: 1 }} >
                                 <Box sx={{
                                     width: "100%",
@@ -1233,10 +1229,10 @@ const NdrfHigherAppDone = ({ open, setOpen, datas }) => {
 
                                 </Box>
                             </Paper>
-                        </Box>
+                        </Box> */}
 
 
-                        <Box sx={{ width: "100%", mt: 0 }}>
+                        {/* <Box sx={{ width: "100%", mt: 0 }}>
                             <Paper variant='outlined' sx={{ mt: 1 }} >
                                 <Box sx={{
                                     width: "100%",
@@ -1320,7 +1316,7 @@ const NdrfHigherAppDone = ({ open, setOpen, datas }) => {
 
                                 </Box>
                             </Paper>
-                        </Box>
+                        </Box> */}
 
                         <Box sx={{ width: "100%", mt: 0 }}>
                             <Paper variant='outlined' sx={{ mt: 1 }} >
@@ -1341,7 +1337,7 @@ const NdrfHigherAppDone = ({ open, setOpen, datas }) => {
                                                 }}>
 
                                                 <CssVarsProvider>
-                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >NDRF Senior Operation Manager:
+                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >NDRF CAO/COO:
 
                                                         {
                                                             ndrf_cao_approve === 1 ?
@@ -1355,7 +1351,7 @@ const NdrfHigherAppDone = ({ open, setOpen, datas }) => {
                                                     </Typography>
                                                 </CssVarsProvider>
                                                 {
-                                                    ndrf_som_aprrov_date !== null ? <Box
+                                                    ndrf_cao_approv_date !== null ? <Box
                                                         sx={{
                                                             display: "flex",
                                                             flexDirection: 'row',
@@ -1485,7 +1481,7 @@ const NdrfHigherAppDone = ({ open, setOpen, datas }) => {
 
                                         </Box>
                                         : <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15, fontWeight: 600, pl: 1 }} >COO/CAO Approval not done</Typography>
+                                            <Typography sx={{ fontSize: 15, fontWeight: 600, pl: 1 }} >MD Approval not done</Typography>
                                         </CssVarsProvider>
 
                                     }

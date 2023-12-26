@@ -5,21 +5,16 @@ import { Typography } from '@mui/joy'
 import CloseIcon from '@mui/icons-material/Close';
 import CusIconButton from 'src/views/Components/CusIconButton';
 import { warningNotify } from 'src/views/Common/CommonCode';
-import NdrfMODashTable from './NDRFMODashBoard/NdrfMODashTable';
-import NdrfSMODashTable from './NDRFSMODashBoard/NdrfSMODashTable';
 import NdrfCOODashTable from './NDRFCOODashBoard/NdrfCOODashTable';
 import NdrfMDDashTable from './NDRFMDDashBoard/NdrfMDDashTable';
 import NdrfEDDashTable from './NDRFEDDashBoard/NdrfEDDashTable';
 import NdrfPODashTable from './NDRFPODashBoard/NdrfPODashTable';
 import NdrfPurAckDashTable from './NDRFPurAckDashBoard/NdrfPurAckDashTable';
+import PurAckedNDRFTable from './PurAckedNDRFDashBoard/PurAckedNDRFTable';
 
 const ClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount }) => {
 
     const [wherePending, setWherePending] = useState(0)
-
-    const MOPending = data && data.filter((val) => val.ndrf_om_approv === null)
-
-    const SMOPending = data && data.filter((val) => val.ndrf_smo_approv === null)
 
     const CAOCOOPending = data && data.filter((val) => val.ndrf_cao_approve === null)
 
@@ -31,26 +26,11 @@ const ClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount
 
     const POPending = data && data.filter((val) => val.ndrf_po_add !== 1)
 
+    const PurchaseAckged = data && data.filter((val) => val.ndrf_purchase === 1)
 
-    const crfPendingClinicalMO = useCallback(() => {
-        if (MOPending.length !== 0) {
-            setWherePending(1)
-        } else {
-            warningNotify("No NDRF For Manager Opration Approval Pending")
-            setWherePending(0)
-        }
-    }, [MOPending])
-    const crfPendingClinicalSMO = useCallback(() => {
-        if (SMOPending.length !== 0) {
-            setWherePending(2)
-        } else {
-            warningNotify("No NDRF For Senior Manager Operation Approval Pending")
-            setWherePending(0)
-        }
-    }, [SMOPending])
     const crfPendingClinicalCOOCAO = useCallback(() => {
         if (CAOCOOPending.length !== 0) {
-            setWherePending(3)
+            setWherePending(1)
         } else {
             warningNotify("No NDRF For CAO/COO Approval Pending")
             setWherePending(0)
@@ -59,7 +39,7 @@ const ClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount
 
     const crfPendingClinicalMD = useCallback(() => {
         if (MDPending.length !== 0) {
-            setWherePending(4)
+            setWherePending(2)
         } else {
             warningNotify("No NDRF For MD Approval Pending")
             setWherePending(0)
@@ -67,7 +47,7 @@ const ClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount
     }, [MDPending])
     const crfPendingClinicalED = useCallback(() => {
         if (EDPending.length !== 0) {
-            setWherePending(5)
+            setWherePending(3)
         } else {
             warningNotify("No NDRF For ED Approval Pending")
             setWherePending(0)
@@ -76,7 +56,7 @@ const ClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount
 
     const NdrfPendingClinicalPurchaseAck = useCallback(() => {
         if (PurchaseAckPending.length !== 0) {
-            setWherePending(6)
+            setWherePending(4)
         } else {
             warningNotify("No NDRF For Purchase Pending")
             setWherePending(0)
@@ -85,7 +65,7 @@ const ClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount
 
     const NdrfPendingClinicalPO = useCallback(() => {
         if (POPending.length !== 0) {
-            setWherePending(7)
+            setWherePending(5)
         } else {
             warningNotify("No NDRF For PO Pending")
             setWherePending(0)
@@ -93,6 +73,14 @@ const ClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount
     }, [POPending])
 
 
+    const NdrfClinicalPurchaseAckdged = useCallback(() => {
+        if (PurchaseAckged.length !== 0) {
+            setWherePending(6)
+        } else {
+            warningNotify("No NDRF For PO Pending")
+            setWherePending(0)
+        }
+    }, [PurchaseAckged])
 
     const close = useCallback(() => {
         setClinicalCrfFlag(0)
@@ -126,9 +114,9 @@ const ClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount
                 }}
             >
 
-                <Box sx={{ pl: 1, color: '#262065', display: 'flex', pt: 0.3 }} >Clical NDRF Dashboard</Box>
+                <Box sx={{ width: "95%", pl: 1, color: '#262065', display: 'flex', pt: 0.3 }} >Clical NDRF Dashboard</Box>
 
-                <Box sx={{ pl: 173 }}>
+                <Box sx={{ width: "5%" }}>
                     <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={close}>
                         <CloseIcon fontSize='small' />
                     </CusIconButton>
@@ -154,121 +142,7 @@ const ClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount
                     //backgroundColor: '#ffffff',
                     overflow: 'hidden',
                 }} >
-                    <Paper sx={{
-                        width: '1%',
 
-                    }}
-                        variant='none'></Paper>
-                    <Paper
-                        sx={{
-                            width: '23%', pl: 0.5,
-                            height: 160,
-                            backgroundColor: taskColor.bgIndigo,
-                            border: 1,
-                            padding: 2,
-                            borderColor: taskColor.indigoDark,
-                            cursor: 'grab',
-                            ":hover": {
-                                borderColor: '#7D18EA'
-                            }
-                        }}
-                        variant='outlined'
-                    >
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                height: '30%',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                textAlign: "center",
-                                fontWeight: 600,
-                                fontSize: 16,
-                                fontSmooth: 'auto',
-                                color: taskColor.FontindigoDark
-                            }}
-                        >Manager Operations Pending</Box>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                height: '50%',
-                                fontSize: 48,
-                                fontWeight: 500,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                color: taskColor.FontindigoDark,
-                            }}
-                        >
-                            <Typography
-                                sx={{
-                                    cursor: 'pointer',
-                                    ":hover": {
-                                        transition: 300,
-                                        textShadow: '#939498 1px 0 5px'
-                                    }
-                                }}
-                                onClick={() => crfPendingClinicalMO()}
-                            >{MOPending.length}</Typography>
-                        </Box>
-
-                    </Paper>
-
-                    <Paper sx={{
-                        width: '1%',
-
-                    }}
-                        variant='none'></Paper>
-                    <Paper
-                        sx={{
-                            width: '23%',
-                            height: 160, pl: 1,
-                            backgroundColor: taskColor.bgIndigo,
-                            border: 1,
-                            padding: 2,
-                            borderColor: taskColor.indigoDark,
-                            cursor: 'grab',
-                            ":hover": {
-                                borderColor: '#7D18EA'
-                            }
-                        }}
-                        variant='outlined'
-                    >
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                height: '30%',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                textAlign: "center",
-                                fontWeight: 600,
-                                fontSize: 16,
-                                fontSmooth: 'auto',
-                                color: taskColor.FontindigoDark
-                            }}
-                        >Senior Manager Operations Pending</Box>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                height: '50%',
-                                fontSize: 48,
-                                fontWeight: 500,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                color: taskColor.FontindigoDark,
-                            }}
-                        >
-                            <Typography
-                                sx={{
-                                    cursor: 'pointer',
-                                    ":hover": {
-                                        transition: 300,
-                                        textShadow: '#939498 1px 0 5px'
-                                    }
-                                }}
-                                onClick={() => crfPendingClinicalSMO()}
-                            >{SMOPending.length}</Typography>
-                        </Box>
-
-                    </Paper>
                     <Paper sx={{
                         width: '1%',
 
@@ -381,18 +255,8 @@ const ClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount
                         </Box>
 
                     </Paper>
-                </Box>
-                <Box sx={{
-                    display: 'flex',
-                    flex: 1,
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    padding: 1,
-                    //backgroundColor: '#ffffff',
-                    overflow: 'hidden',
-                }} >
                     <Paper sx={{
-                        width: '12%',
+                        width: '1%',
 
                     }}
                         variant='none'></Paper>
@@ -505,9 +369,20 @@ const ClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount
                         </Box>
 
                     </Paper>
+                </Box>
+                <Box sx={{
+                    display: 'flex',
+                    flex: 1,
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    padding: 1,
+                    //backgroundColor: '#ffffff',
+                    overflow: 'hidden',
+                }} >
+
 
                     <Paper sx={{
-                        width: '1%',
+                        width: '25%',
 
                     }}
                         variant='none'></Paper>
@@ -561,41 +436,91 @@ const ClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount
                             >{POPending.length}</Typography>
                         </Box>
                     </Paper>
+                    <Paper sx={{
+                        width: '1%',
+
+                    }}
+                        variant='none'></Paper>
+                    <Paper
+                        sx={{
+                            width: '23%', pl: 0.5,
+                            height: 160,
+                            backgroundColor: taskColor.bgIndigo,
+                            border: 1,
+                            padding: 2,
+                            borderColor: taskColor.indigoDark,
+                            cursor: 'grab',
+                            ":hover": {
+                                borderColor: '#7D18EA'
+                            }
+                        }}
+                        variant='outlined'
+                    >
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                height: '30%',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                textAlign: "center",
+                                fontWeight: 600,
+                                fontSize: 16,
+                                fontSmooth: 'auto',
+                                color: taskColor.FontindigoDark
+                            }}
+                        >Purchase Acknowledged</Box>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                height: '50%',
+                                fontSize: 48,
+                                fontWeight: 500,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                color: taskColor.FontindigoDark,
+                            }}
+                        >
+                            <Typography
+                                sx={{
+                                    cursor: 'pointer',
+                                    ":hover": {
+                                        transition: 300,
+                                        textShadow: '#939498 1px 0 5px'
+                                    }
+                                }}
+                                onClick={() => NdrfClinicalPurchaseAckdged()}
+                            >{PurchaseAckged.length}</Typography>
+                        </Box>
+
+                    </Paper>
                 </Box>
             </Paper>
 
             {wherePending === 1 ?
                 <Box>
-                    <NdrfMODashTable subDaFlag={subDaFlag} tabledata={MOPending}
+                    <NdrfCOODashTable subDaFlag={subDaFlag} tabledata={CAOCOOPending}
                         count={count} setCount={setCount} />
-                </Box>
-                :
-                wherePending === 2 ?
+                </Box> : wherePending === 2 ?
                     <Box>
-                        <NdrfSMODashTable subDaFlag={subDaFlag} tabledata={SMOPending}
+                        <NdrfMDDashTable subDaFlag={subDaFlag} tabledata={MDPending}
                             count={count} setCount={setCount} />
                     </Box> : wherePending === 3 ?
                         <Box>
-                            <NdrfCOODashTable subDaFlag={subDaFlag} tabledata={CAOCOOPending}
+                            <NdrfEDDashTable subDaFlag={subDaFlag} tabledata={EDPending}
                                 count={count} setCount={setCount} />
                         </Box> : wherePending === 4 ?
                             <Box>
-                                <NdrfMDDashTable subDaFlag={subDaFlag} tabledata={MDPending}
+                                <NdrfPurAckDashTable subDaFlag={subDaFlag} tabledata={PurchaseAckPending}
                                     count={count} setCount={setCount} />
                             </Box> : wherePending === 5 ?
                                 <Box>
-                                    <NdrfEDDashTable subDaFlag={subDaFlag} tabledata={EDPending}
+                                    <NdrfPODashTable subDaFlag={subDaFlag} tabledata={POPending}
                                         count={count} setCount={setCount} />
                                 </Box> : wherePending === 6 ?
                                     <Box>
-                                        <NdrfPurAckDashTable subDaFlag={subDaFlag} tabledata={PurchaseAckPending}
+                                        <PurAckedNDRFTable subDaFlag={subDaFlag} tabledata={PurchaseAckged}
                                             count={count} setCount={setCount} />
-                                    </Box> : wherePending === 7 ?
-                                        <Box>
-                                            <NdrfPODashTable subDaFlag={subDaFlag} tabledata={POPending}
-                                                count={count} setCount={setCount} />
-                                        </Box> :
-                                        null
+                                    </Box> : null
 
             }
 

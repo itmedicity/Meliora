@@ -11,6 +11,8 @@ import { getdataCollectionCRF } from 'src/redux/actions/CRFDataCollectionDept.ac
 import _ from 'underscore'
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import CRFDataCollectinModel from './CRFDataCollectinModel'
+import CropSquareIcon from '@mui/icons-material/CropSquare';
+import { Typography } from '@mui/material'
 
 const CrfDataCollectnTable = () => {
 
@@ -23,11 +25,11 @@ const CrfDataCollectnTable = () => {
     const [open, setOpen] = useState(false);
     const [datas, setdatas] = useState([])
 
-    const empdept = useSelector((state) => state.LoginUserData.empdept, _.isEqual)
-    useEffect(() => {
-        dispatch(getdataCollectionCRF(empdept))
+    const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
 
-    }, [dispatch, count, empdept])
+    useEffect(() => {
+        dispatch(getdataCollectionCRF(empdeptsec))
+    }, [dispatch, count, empdeptsec])
 
     const tabledata = useSelector((state) => {
         return state.setdataCollectionCRF.dataCollectionCrfList
@@ -83,6 +85,15 @@ const CrfDataCollectnTable = () => {
         history.push('/Home')
     }, [history])
 
+    const getRowStyle = params => {
+        if (params.data.crf_dept_remarks === null) {
+            return { background: '#81d4fa' };
+        }
+        else {
+            return { background: '#81d4fa' };
+        }
+
+    };
 
     return (
         <CardCloseOnly
@@ -105,7 +116,34 @@ const CrfDataCollectnTable = () => {
                 <CusAgGridForMain
                     columnDefs={column}
                     tableData={tabledata}
+                    getRowStyle={getRowStyle}
                 />
+            </Box>
+            <Box sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+            }}>
+                <Box sx={{ display: "flex" }}>
+                    <IconButton >
+                        <CropSquareIcon sx={{ background: '#81d4fa', pr: 5 }} />
+                    </IconButton>
+                </Box>
+                <Box sx={{ display: "flex", fontWeight: 400, pl: 1, pt: 1.2 }}>
+                    <Typography >
+                        Data already Given
+                    </Typography>
+                </Box>
+                <Box sx={{ display: "flex" }}>
+                    <IconButton >
+                        <CropSquareIcon sx={{ background: '#fff59d', pr: 5 }} />
+                    </IconButton>
+                </Box>
+                <Box sx={{ display: "flex", fontWeight: 400, pl: 1, pt: 1.2 }}>
+                    <Typography >
+                        Data Not Given
+                    </Typography>
+                </Box>
             </Box>
         </CardCloseOnly>
     )

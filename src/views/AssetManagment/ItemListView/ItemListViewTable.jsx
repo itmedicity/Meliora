@@ -58,13 +58,13 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
     }, [displayarry, asset])
 
     const [flag, setFlag] = useState(0)
-    const [assetNo, setassetNo] = useState('')
-    const [dueDate, setDueDate] = useState('')
+    const [selectedData, setSelectedData] = useState([])
     const [open, setOpen] = useState(false)
+
+
+
     const modeldisplay = useCallback((val) => {
-        const { assetno, due_date } = val
-        setassetNo(assetno)
-        setDueDate(due_date)
+        setSelectedData(val)
         setFlag(1)
         setOpen(true)
     }, [])
@@ -75,7 +75,8 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
 
     return (
         <Paper sx={{ height: 700, overflow: 'auto', border: 1 }}>
-            {flag === 1 ? <ItemQrDisplayModel open={open} handleClose={handleClose} assetNo={assetNo} dueDate={dueDate} /> : null}
+            {flag === 1 ? <ItemQrDisplayModel open={open} handleClose={handleClose} selectedData={selectedData}
+            /> : null}
             < CssVarsProvider >
                 <Table stickyHeader>
                     <thead>

@@ -11,7 +11,7 @@ import AMCPMComp from './AMCPMComp'
 import LeaseDetails from './LeaseDetails'
 import SpecDetailsComp from './SpecDetailsComp'
 
-const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare }) => {
+const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender, render }) => {
 
     const { am_item_map_slno, am_spare_item_map_slno } = detailArry
     const [exist, setExist] = useState(0)
@@ -164,7 +164,7 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare }) => {
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         AMC/PM  Details</Typography>
                     <AMCPMComp detailArry={detailArry} amcPmarry={amcPmarry} assetSpare={assetSpare}
-                        amcPm={amcPm} setAmcPm={setAmcPm} />
+                        amcPm={amcPm} setAmcPm={setAmcPm} setRender={setRender} render={render} />
 
                     {/*  Spec Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >

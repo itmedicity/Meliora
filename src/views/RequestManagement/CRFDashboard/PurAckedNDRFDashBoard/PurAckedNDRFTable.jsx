@@ -3,13 +3,13 @@ import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
 import { IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
-import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
 import { Box } from '@mui/material'
-import NdrfEDDashModal from './NdrfEDDashModal';
 import { Typography } from '@mui/joy'
+import PurAckedNdrfModal from './PurAckedNdrfModal';
+import SummarizeIcon from '@mui/icons-material/Summarize';
 
-const NdrfEDDashTable = ({ subDaFlag, tabledata, count, setCount }) => {
-    const [edData, setEDdata] = useState([])
+const PurAckedNDRFTable = ({ subDaFlag, tabledata, count, setCount }) => {
+    const [omData, setOmdata] = useState([])
     useEffect(() => {
 
         if (tabledata.length !== 0) {
@@ -183,13 +183,12 @@ const NdrfEDDashTable = ({ subDaFlag, tabledata, count, setCount }) => {
                 return obj
             })
 
-            setEDdata(datas)
+            setOmdata(datas)
         }
         else {
-            setEDdata([])
+            setOmdata([])
         }
     }, [tabledata, count])
-
 
     const [columnClinical] = useState([
 
@@ -197,13 +196,12 @@ const NdrfEDDashTable = ({ subDaFlag, tabledata, count, setCount }) => {
             headerName: 'Action', minWidth: 100, cellRenderer: params => {
                 return <IconButton onClick={() => rowSelect(params)}
                     sx={{ color: editicon, paddingY: 0.5 }} >
-                    <CustomeToolTip title="Approval">
-                        <PublishedWithChangesOutlinedIcon />
+                    <CustomeToolTip title="View">
+                        <SummarizeIcon />
                     </CustomeToolTip>
                 </IconButton>
             }
         },
-
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
         { headerName: "NDRF.Slno", field: "ndrf_mast_slno", minWidth: 120 },
         { headerName: "Purpose", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
@@ -211,10 +209,6 @@ const NdrfEDDashTable = ({ subDaFlag, tabledata, count, setCount }) => {
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Req. Date", field: "reqcreate", minWidth: 200 },
         { headerName: "NDRF. Date", field: "ndrfcreate", minWidth: 200 },
-        // { headerName: "NDRF MO.Status", field: "ndrfOM", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        // { headerName: "NDRF MO.Remark", field: "ndrfOMRemark", minWidth: 250, wrapText: true, },
-        // { headerName: "NDRF SMO.Status", field: "ndrfSMO", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        // { headerName: "NDRF SMO.Remark", field: "ndrfSMORemark", minWidth: 250, wrapText: true, },
         { headerName: "NDRF CAOO/COO.Status", field: "ndrfCOO", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "NDRF CAOO/COO.Remark", field: "ndrfCAORemark", minWidth: 250, wrapText: true, },
         { headerName: "NDRF MD.Status", field: "ndrfED", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
@@ -242,16 +236,18 @@ const NdrfEDDashTable = ({ subDaFlag, tabledata, count, setCount }) => {
     ])
 
     const [columnNonClinical] = useState([
+
         {
             headerName: 'Action', minWidth: 100, cellRenderer: params => {
                 return <IconButton onClick={() => rowSelect(params)}
                     sx={{ color: editicon, paddingY: 0.5 }} >
-                    <CustomeToolTip title="Approval">
-                        <PublishedWithChangesOutlinedIcon />
+                    <CustomeToolTip title="View">
+                        <SummarizeIcon />
                     </CustomeToolTip>
                 </IconButton>
             }
         },
+
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
         { headerName: "NDRF.Slno", field: "ndrf_mast_slno", minWidth: 120 },
         { headerName: "Purpose", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
@@ -259,10 +255,6 @@ const NdrfEDDashTable = ({ subDaFlag, tabledata, count, setCount }) => {
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Req. Date", field: "reqcreate", minWidth: 200 },
         { headerName: "NDRF. Date", field: "ndrfcreate", minWidth: 200 },
-        // { headerName: "NDRF MO.Status", field: "ndrfOM", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        // { headerName: "NDRF MO.Remark", field: "ndrfOMRemark", minWidth: 250, wrapText: true, },
-        // { headerName: "NDRF SMO.Status", field: "ndrfSMO", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        // { headerName: "NDRF SMO.Remark", field: "ndrfSMORemark", minWidth: 250, wrapText: true, },
         { headerName: "NDRF CAOO/COO.Status", field: "ndrfCOO", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "NDRF CAOO/COO.Remark", field: "ndrfCAORemark", minWidth: 250, wrapText: true, },
         { headerName: "NDRF MD.Status", field: "ndrfED", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
@@ -286,43 +278,44 @@ const NdrfEDDashTable = ({ subDaFlag, tabledata, count, setCount }) => {
     ])
 
 
-    const [edApproveModal, setEDapprovModall] = useState(false)
-    const [edApproveModalFlag, setEDApproveModalFlag] = useState(0)
-    const [edApproveData, setEDApproveData] = useState([])
+    const [acknowlgedModal, setacknowlgedModall] = useState(false)
+    const [acknowlgedModalFlag, setacknowlgedModalFlag] = useState(0)
+    const [acknowlgedData, setacknowlgedData] = useState([])
 
     //Data set for edit
     const rowSelect = useCallback((params) => {
         const data = params.api.getSelectedRows()
-        setEDApproveData(data);
-        setEDapprovModall(true)
-        setEDApproveModalFlag(1)
+        setacknowlgedData(data);
+        setacknowlgedModall(true)
+        setacknowlgedModalFlag(1)
     }, [])
+
 
     return (
         <Fragment>
-            {edApproveModalFlag === 1 ? <NdrfEDDashModal
-                open={edApproveModal} setOpen={setEDapprovModall}
-                datas={edApproveData} count={count} setCount={setCount}
+            {acknowlgedModalFlag === 1 ? <PurAckedNdrfModal
+                open={acknowlgedModal} setOpen={setacknowlgedModall}
+                datas={acknowlgedData} count={count} setCount={setCount}
             /> : null}
             {
                 subDaFlag === 2 ?
                     <Box sx={{ pt: 1 }}>
                         <Typography sx={{ fontSize: 15, pl: 2, color: "#D0A2F7", fontWeight: 700 }}>
-                            Table For ED Pending :</Typography>
+                            Table For Purchase Acknowledgement Done :</Typography>
                         <CusAgGridForMain
                             columnDefs={columnClinical}
-                            tableData={edData}
+                            tableData={omData}
                         /> </Box> : subDaFlag === 4 ?
                         <Box sx={{ pt: 1 }}>
                             <Typography sx={{ fontSize: 15, pl: 2, color: "#D0A2F7", fontWeight: 700 }}>
-                                Table For ED Pending :</Typography>
+                                Table For Purchase Acknowledgement Done :</Typography>
                             <CusAgGridForMain
                                 columnDefs={columnNonClinical}
-                                tableData={edData}
+                                tableData={omData}
                             /></Box> : null
             }
         </Fragment>
     )
 }
 
-export default memo(NdrfEDDashTable)
+export default memo(PurAckedNDRFTable)

@@ -304,26 +304,15 @@ const MDApproveModal = ({ open, setOpen, datas, count, setCount }) => {
             }
         } else {
             if (approve !== false || reject !== false || pending !== false) {
-                if (approve !== false) {
-                    if (detailAnalis !== '' && remark !== '') {
-                        updateMDApproval(patchdataMD)
-                    }
-                    else {
-                        warningNotify("Detail Analysis && Remarks must be Entered")
-                    }
-                }
-                else {
-                    updateMDApproval(patchdataMD)
-                }
+                updateMDApproval(patchdataMD)
 
             } else {
                 warningNotify("Please Select any status")
             }
         }
 
-
-    }, [patchdataMD, setCount, count, remark, detailAnalis, closeCrf, Closeremark,
-        approve, reject, pending, ModalClose, req_slno, id])
+    }, [patchdataMD, setCount, count, closeCrf, Closeremark, approve, reject, pending, ModalClose,
+        req_slno, id])
 
     return (
 

@@ -159,9 +159,9 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 }}
             >
 
-                <Box sx={{ pl: 1, color: '#262065', display: 'flex', pt: 0.3 }} >Clical CRF Dashboard</Box>
+                <Box sx={{ width: "95%", pl: 1, color: '#262065', display: 'flex', pt: 0.3 }} >Clical CRF Dashboard</Box>
 
-                <Box sx={{ pl: 175 }}>
+                <Box sx={{ width: "5%", }}>
                     <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={close}>
                         <CloseIcon fontSize='small' />
                     </CusIconButton>

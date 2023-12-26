@@ -15,11 +15,11 @@ import { CssVarsProvider, Typography } from '@mui/joy'
 import Divider from '@mui/material/Divider';
 import { TypoHeadColor } from 'src/color/Color'
 import _ from 'underscore'
-import CrfDepartmentSelect from 'src/views/CommonSelectCode/CrfDepartmentSelect';
 import ItemApprovalCmp from '../DepartmentApprovals/ItemApprovalCmp';
 import ReqImageDisplayModal from '../RequestRegister/ReqImageDisplayModal';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import CustomTextarea from 'src/views/Components/CustomTextarea';
+import DeptSectionSelectMulti from 'src/views/CommonSelectCode/DeptSectionSelectMulti';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -575,8 +575,7 @@ const CRFDataColectRequestModal = ({ open, setOpen, datas, count, setCount }) =>
                                     <Box
                                         sx={{ width: "30%", pt: 1, pl: 1, pb: 0.5 }}
                                     >
-                                        <CrfDepartmentSelect value={crfdept} setValue={serCrfDept} />
-
+                                        <DeptSectionSelectMulti deptSec={crfdept} SetDeptSec={serCrfDept} />
                                     </Box>
 
                                 </Box>

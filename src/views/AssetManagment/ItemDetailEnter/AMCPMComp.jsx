@@ -305,7 +305,6 @@ const AMCPMComp = ({ detailArry, amcPm, setAmcPm, assetSpare }) => {
             const { message, success } = result.data;
             if (success === 2) {
                 succesNotify(message)
-
             }
         }
         const updateAMCPMDetailsSpare = async (patchDataSpare) => {
@@ -313,7 +312,6 @@ const AMCPMComp = ({ detailArry, amcPm, setAmcPm, assetSpare }) => {
             const { message, success } = result.data;
             if (success === 2) {
                 succesNotify(message)
-
             }
         }
         if (amc_from === '' && amc_to === '' && contact_address === '') {
