@@ -304,24 +304,14 @@ const EDApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
             }
         } else {
             if (approve !== false || reject !== false || pending !== false) {
-                if (approve !== false) {
-                    if (detailAnalis !== '' && remark !== '') {
-                        updateEDApproval(patchdataED)
-                    }
-                    else {
-                        warningNotify("Detail Analysis && Remarks must be Entered")
-                    }
-                }
-                else {
-                    updateEDApproval(patchdataED)
-                }
+                updateEDApproval(patchdataED)
 
             } else {
                 warningNotify("Please Select any status")
             }
         }
-    }, [patchdataED, setCount, count, remark, detailAnalis, closeCrf, Closeremark,
-        approve, reject, pending, ModalClose, req_slno, id])
+    }, [patchdataED, setCount, count, closeCrf, Closeremark, approve, reject, pending, ModalClose,
+        req_slno, id])
 
     return (
         <Fragment>

@@ -164,7 +164,7 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
             return result
         }
 
-        if (department !== 0 && deptsec !== 0 && mapArry.length !== 0 && custodiandept !== 0 && roomNo !== 0) {
+        if (department !== 0 && deptsec !== 0 && mapArry.length !== 0 && custodiandept !== 0) {
             if (type === 1) {
                 insertItem(postData).then((val) => {
                     const { message, success } = val.data
@@ -195,7 +195,7 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
         } else {
             warningNotify("Please Select Department,Department section,Custodian Department and Give Count")
         }
-    }, [postData, department, deptsec, type, sparepostData, mapArry, custodiandept, roomNo])
+    }, [postData, department, deptsec, type, sparepostData, mapArry, custodiandept])
 
 
     const updateclick = useCallback(() => {

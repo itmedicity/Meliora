@@ -1286,29 +1286,16 @@ const NdrfModelOm = ({ open, setOpen, datas, count, setCount }) => {
                                             updatePending={updatePending}
                                         />
                                     </Box>
-
-
-
                                 </Box>
                             </Paper>
                         </Box>
-
-
                     </DialogContent>
                     <DialogActions>
                         <Button color="secondary" onClick={submit} >Save</Button>
                         <Button onClick={ModalClose} color="secondary" >Cancel</Button>
                     </DialogActions>
                 </Dialog>
-
-
-
-
             </Box>
-
-
-
-
         </Fragment>
 
     )

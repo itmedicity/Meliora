@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useRef } from 'react'
+import React, { Fragment, memo, useEffect, useRef, useState } from 'react'
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -9,18 +9,55 @@ import { Box } from '@mui/material'
 import { useReactToPrint } from 'react-to-print';
 import { QRCodeSVG } from 'qrcode.react';
 import { format } from 'date-fns'
+import { axioslogin } from 'src/views/Axios/Axios';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
 
-const ItemQrDisplayModel = ({ open, handleClose, assetNo, dueDate }) => {
-
-    const pmDueDate = dueDate !== null ? format(new Date(dueDate), "dd/MM/yyyy") : ''
+const ItemQrDisplayModel = ({ open, handleClose, selectedData }) => {
+    const { am_item_map_slno, am_spare_item_map_slno, assetno } = selectedData
+    // const pmDueDate = dueDate !== null ? format(new Date(dueDate), "dd/MM/yyyy") : ''
     const ref = useRef();
     const handlePrint = useReactToPrint({
         content: () => ref.current,
     });
+
+    const [dueDate, setDueDate] = useState('')
+    useEffect(() => {
+        const checkinsertOrNotAMCPM = async (am_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/AmcPmInsertOrNot/${am_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { due_date } = data[0]
+                const pmDueDate = due_date !== null ? format(new Date(due_date), "dd/MM/yyyy") : ''
+                setDueDate(pmDueDate)
+            }
+            else {
+                setDueDate('')
+            }
+        }
+
+        const checkinsertOrNotAMCPMSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/AmcPmInsertOrNotSpare/${am_spare_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { due_date } = data[0]
+                const pmDueDate = due_date !== null ? format(new Date(due_date), "dd/MM/yyyy") : ''
+                setDueDate(pmDueDate)
+            }
+            else {
+                setDueDate('')
+            }
+        }
+
+        if (am_item_map_slno !== undefined) {
+            checkinsertOrNotAMCPM(am_item_map_slno)
+        } else if (am_spare_item_map_slno !== undefined) {
+            checkinsertOrNotAMCPMSpare(am_spare_item_map_slno)
+        }
+    }, [am_item_map_slno, am_spare_item_map_slno])
+
 
     return (
         <Fragment>
@@ -50,7 +87,7 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo, dueDate }) => {
                                 {/* <QRCodeCanvas value="https://reactjs.org/" /> */}
                                 <div style={{ display: 'flex', flexDirection: 'column', }}>
                                     <QRCodeSVG
-                                        value={assetNo}
+                                        value={assetno}
                                         size={100}
                                         level='Q'
                                         includeMargin={false}
@@ -69,9 +106,9 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo, dueDate }) => {
                                             textAlign: 'center',
                                             marginTop: -2
                                         }}
-                                    >{assetNo}</div>
+                                    >{assetno}</div>
                                     {
-                                        dueDate !== null ?
+                                        dueDate !== '' ?
                                             <div
                                                 style={{
                                                     width: 145,
@@ -81,13 +118,13 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo, dueDate }) => {
                                                     textAlign: 'center',
                                                     marginTop: -2
                                                 }}
-                                            >PM:{pmDueDate}</div> : null
+                                            >PM:{dueDate}</div> : null
                                     }
 
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', }} >
                                     <QRCodeSVG
-                                        value={assetNo}
+                                        value={assetno}
                                         size={100}
                                         level='Q'
                                         includeMargin={false}
@@ -107,9 +144,9 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo, dueDate }) => {
                                             textAlign: 'center',
                                             marginTop: -2
                                         }}
-                                    >{assetNo}</div>
+                                    >{assetno}</div>
                                     {
-                                        dueDate !== null ?
+                                        dueDate !== '' ?
                                             <div
                                                 style={{
                                                     width: 110,
@@ -119,7 +156,7 @@ const ItemQrDisplayModel = ({ open, handleClose, assetNo, dueDate }) => {
                                                     textAlign: 'center',
                                                     marginTop: -2
                                                 }}
-                                            >PM:{pmDueDate}</div> : null
+                                            >PM:{dueDate}</div> : null
                                     }
                                 </div>
                             </div>

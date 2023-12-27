@@ -32,6 +32,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
         hic_policy_name: '',
         compalint_date: ''
     })
+    const [assignRemark, SetAssignRemark] = useState('')
     //destrucutring
     const { complaint_slno, complaint_desc,
         sec_name, em_name, date, Time, compalint_status
@@ -64,7 +65,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
     useEffect(() => {
         const rectifyfunction = () => {
             const { complaint_slno, complaint_desc, req_type_name, complaint_dept_name, complaint_type_name, hic_policy_name, compalint_date, sec_name, em_name,
-                date, Time, compalint_status, cm_rectify_status, rectify_pending_hold_remarks
+                date, Time, compalint_status, complaint_remark, cm_rectify_status, rectify_pending_hold_remarks
             } = detail[0]
             const frmdata = {
                 complaint_slno: complaint_slno,
@@ -84,6 +85,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
             setHold(cm_rectify_status === 'O' ? true : false);
             setPendhold(rectify_pending_hold_remarks)
             setPending(cm_rectify_status === 'P' ? true : false);
+            SetAssignRemark(complaint_remark === null ? "Not Given" : complaint_remark)
         }
         rectifyfunction()
     }, [detail])
@@ -201,6 +203,8 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
         setSelect(false)
         setEmployee([])
     };
+
+    console.log("assignRemark", assignRemark);
     return (
         <Fragment>
             <ToastContainer />
@@ -286,6 +290,28 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                         width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
                                     }} >
                                         <Typography>{date} & {Time}</Typography>
+                                    </Box>
+                                    <Box>
+                                    </Box>
+                                </Box>
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                    p: 0.5,
+                                    mt: 1
+                                }}>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+                                        <Typography>Assign Remarks</Typography>
+                                    </Box>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+                                        <Typography>{assignRemark}</Typography>
                                     </Box>
                                     <Box>
                                     </Box>

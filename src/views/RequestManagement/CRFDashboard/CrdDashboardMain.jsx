@@ -10,6 +10,7 @@ import NonClinicalCrfDash from './NonClinicalCrfDash';
 import ClinicalNdrfDash from './ClinicalNdrfDash';
 import { getClinicalNDRFPending } from 'src/redux/actions/NdrfDashboardClinical.action';
 import { getNonClinicalNDRFPending } from 'src/redux/actions/NdrfDashboardNonClinical.action';
+import NonClinicalNdrfDash from './NonClinicalNdrfDash';
 
 
 const CrdDashboardMain = () => {
@@ -17,14 +18,14 @@ const CrdDashboardMain = () => {
     /*** Initializing */
     const dispatch = useDispatch();
     const [subDaFlag, setClinicalCrfFlag] = useState(0)
-
+    const [count, setCount] = useState(0)
 
     useEffect(() => {
         dispatch(getClinicalCrfPending())
         dispatch(getNonClinicalCrfPending())
         dispatch(getClinicalNDRFPending())
         dispatch(getNonClinicalNDRFPending())
-    }, [dispatch])
+    }, [dispatch, count])
 
 
     const ClinicalCRFPending = useSelector((state) => {
@@ -62,13 +63,22 @@ const CrdDashboardMain = () => {
         setClinicalCrfFlag(4)
     }, [])
 
-
     return (
         <Fragment>
-            {subDaFlag === 1 ? <ClinicalCrfDash setClinicalCrfFlag={setClinicalCrfFlag} data={ClinicalCRFPending} /> :
-                subDaFlag === 2 ? <ClinicalNdrfDash setClinicalCrfFlag={setClinicalCrfFlag} data={ClinicalNDRFPending} /> :
-                    subDaFlag === 3 ? <NonClinicalCrfDash setClinicalCrfFlag={setClinicalCrfFlag} data={NonClinicalCRFPending} /> :
-                        subDaFlag === 4 ? <NonClinicalCrfDash setClinicalCrfFlag={setClinicalCrfFlag} data={NonClinicalNDRFPending} /> :
+            {subDaFlag === 1 ?
+                <ClinicalCrfDash setClinicalCrfFlag={setClinicalCrfFlag}
+                    subDaFlag={subDaFlag} data={ClinicalCRFPending}
+                    count={count} setCount={setCount} /> :
+                subDaFlag === 2 ? <ClinicalNdrfDash setClinicalCrfFlag={setClinicalCrfFlag}
+                    subDaFlag={subDaFlag} data={ClinicalNDRFPending}
+                    count={count} setCount={setCount} /> :
+                    subDaFlag === 3 ?
+                        <NonClinicalCrfDash setClinicalCrfFlag={setClinicalCrfFlag}
+                            subDaFlag={subDaFlag} data={NonClinicalCRFPending}
+                            count={count} setCount={setCount} /> :
+                        subDaFlag === 4 ? <NonClinicalNdrfDash setClinicalCrfFlag={setClinicalCrfFlag}
+                            subDaFlag={subDaFlag} data={NonClinicalNDRFPending}
+                            count={count} setCount={setCount} /> :
                             < Box
                                 sx={{
                                     display: 'flex',

@@ -37,7 +37,6 @@ const NdrfPurchaseTable = () => {
         return state.setNdrfList.NdrfListdata
     })
 
-    console.log(ndrftable);
     useEffect(() => {
         if (ndrftable.length !== 0) {
             const datas = ndrftable.map((val) => {

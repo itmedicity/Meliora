@@ -43,7 +43,6 @@ const ItemListViewDept = () => {
 
     const [displayarry, setDisArry] = useState([])
     const [flag, setFlag] = useState(0)
-
     const updateAsset = useCallback((e) => {
         if (e.target.checked === true) {
             setasset(true)
@@ -75,6 +74,7 @@ const ItemListViewDept = () => {
     useEffect(() => {
         dispatch(getDepartment())
     }, [dispatch])
+
     const search = useCallback(() => {
         const getdata = async (postdata) => {
             const result = await axioslogin.post(`/itemCreationDeptmap/getItemsFronList`, postdata);
@@ -124,7 +124,8 @@ const ItemListViewDept = () => {
         setDetailflag(1)
     }, [])
 
-    const reset = useCallback(() => {
+
+    const backtoSetting = useCallback(() => {
         setDepartment(0)
         setDeptSec(0)
         setItem(0)
@@ -132,12 +133,8 @@ const ItemListViewDept = () => {
         setSpare(true)
         setDetailArry([])
         setDetailflag(0)
-    }, [])
-
-    const backtoSetting = useCallback(() => {
-        reset()
         history.push('/Home')
-    }, [history, reset])
+    }, [history])
 
     return (
         < Box sx={{
@@ -148,7 +145,8 @@ const ItemListViewDept = () => {
         }}>
             {
                 detailflag === 1 ?
-                    <ItemDetailAdd detailArry={detailArry} setDetailflag={setDetailflag} assetSpare={assetSpare} />
+                    <ItemDetailAdd detailArry={detailArry} setDetailflag={setDetailflag} assetSpare={assetSpare}
+                    />
                     :
                     <CardMasterClose
                         title="Asset Location List"

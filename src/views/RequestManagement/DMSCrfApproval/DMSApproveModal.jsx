@@ -108,6 +108,8 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
     const [datacollectdata, setDataCollectData] = useState([])
     const [colectDetlCheck, setCollectDetailCheck] = useState(0)
 
+    const [dataColeReq, setDataColReq] = useState([])
+
     useEffect(() => {
         const InsertFun = async (req_slno) => {
             const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
@@ -137,16 +139,24 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
             const result = await axioslogin.get(`/requestRegister/DataCollectComplete/${req_slno}`)
             const { success, data } = result.data
             if (success === 1) {
+                console.log(data);
+                console.log("glh");
                 const xx = data && data.filter((val) => val.crf_dept_status === 0)
+                const yy = data && data.filter((val) => val.crf_dept_status === 1)
+                console.log(yy);
                 if (xx.length !== 0) {
                     setEnable(1)
                 }
                 else {
                     setEnable(0)
                 }
+                if (yy.length !== 0) {
+                    setDataColReq(yy)
+                }
             }
             else {
                 setEnable(0)
+
             }
         }
 
@@ -166,7 +176,7 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
         InsertFun(req_slno)
         getImage(req_slno)
         getDataCollectCompleteDetails(req_slno)
-    }, [req_slno])
+    }, [req_slno, setDataColReq])
 
     const [closeCrf, setCloseCrf] = useState(false)
 
@@ -813,9 +823,6 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
                     </Box>
 
             }
-
-            {/* } */}
-
 
         </Fragment >
     )

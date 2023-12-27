@@ -701,6 +701,8 @@ const ItemNameCreation = () => {
     setModelFlag(1)
     setSubGroupOpen(false)
     setSubGroupFlag(1)
+    setCheckExsitOpen(false)
+    setCheckexist(1)
   }, [])
 
   useEffect(() => {
