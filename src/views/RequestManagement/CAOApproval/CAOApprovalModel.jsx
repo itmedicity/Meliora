@@ -151,7 +151,8 @@ const CAOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
         }
     }, [cao_approve, cao_approve_remarks, ceo_detial_analysis, ed_approve_req, md_approve_req])
 
-
+    const [datacolflag, setDataColFlag] = useState(0)
+    const [datacolData, setDataColData] = useState([])
     useEffect(() => {
         const InsertFun = async (req_slno) => {
             const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
@@ -181,11 +182,20 @@ const CAOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
             const { success, data } = result.data
             if (success === 1) {
                 const xx = data && data.filter((val) => val.crf_dept_status === 0)
+                const yy = data && data.filter((val) => val.crf_dept_status === 1)
                 if (xx.length !== 0) {
                     setEnable(1)
                 }
                 else {
                     setEnable(0)
+                }
+                if (yy.length !== 0) {
+                    setDataColFlag(1)
+                    setDataColData(yy)
+                }
+                else {
+                    setDataColFlag(0)
+                    setDataColData([])
                 }
             }
             else {
@@ -573,7 +583,141 @@ const CAOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                         </Box>
                                     </Paper>
                                 </Box>
+                                {datacolflag === 1 ?
+                                    <Box sx={{ width: "100%", mt: 0 }}>
+                                        <Paper variant='outlined' sx={{ mt: 1 }} >
+                                            <Box sx={{
+                                                width: "100%",
+                                                display: "flex",
+                                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                            }}>
+                                                <Box sx={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    pl: 0.2, pr: 0.5,
+                                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                                }}>
+                                                    <Box
+                                                        sx={{ pr: 9 }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ pl: 1, fontWeight: 900, fontSize: 14, color: TypoHeadColor }} >Data Collection Details</Typography>
+                                                        </CssVarsProvider>
+                                                    </Box>
+                                                </Box>
+                                                {datacolData && datacolData.map((val, index) => {
+                                                    return <Box key={index}>
+                                                        <Box sx={{
+                                                            width: "100%",
+                                                            display: "flex",
+                                                            flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                                        }}>
+                                                            <Box sx={{
+                                                                width: "100%", display: "flex", p: 0.5,
+                                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                                            }}>
+                                                                <Box
+                                                                    sx={{ width: "25%", }}>
+                                                                    <CssVarsProvider>
+                                                                        <Typography sx={{ pl: 1, fontSize: 15 }}>Requested Remarks</Typography>
+                                                                    </CssVarsProvider>
+                                                                </Box>
+                                                                <Paper sx={{
+                                                                    width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15, textTransform: "capitalize",
+                                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                                }} variant='none'>
+                                                                    {val.crf_req_remark}
+                                                                </Paper>
+                                                            </Box>
+                                                            <Box sx={{
+                                                                width: "100%", display: "flex", p: 0.5,
+                                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                                            }}>
+                                                                <Box
+                                                                    sx={{ width: "25%", }}>
+                                                                    <CssVarsProvider>
+                                                                        <Typography sx={{ pl: 1, fontSize: 15 }}>Requested To</Typography>
+                                                                    </CssVarsProvider>
+                                                                </Box>
+                                                                <Paper sx={{
+                                                                    width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15, textTransform: "capitalize",
+                                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                                }} variant='none'>
+                                                                    {val.data_entered}
+                                                                </Paper>
+                                                            </Box>
+                                                            <Box sx={{
+                                                                width: "100%", display: "flex", p: 0.5,
+                                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                                            }}>
+                                                                <Box
+                                                                    sx={{ width: "25%", }}>
+                                                                    <CssVarsProvider>
+                                                                        <Typography sx={{ pl: 1, fontSize: 15 }}>Requested Details</Typography>
+                                                                    </CssVarsProvider>
+                                                                </Box>
+                                                                <Paper sx={{
+                                                                    width: '25%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15, textTransform: "capitalize",
+                                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                                }} variant='none'>
+                                                                    {val.req_user}
+                                                                </Paper>
+                                                                <Paper sx={{
+                                                                    width: '20%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15, textTransform: "capitalize",
+                                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                                }} variant='none'>
+                                                                    {val.create_date}
+                                                                </Paper>
+                                                            </Box>
 
+                                                            <Box sx={{
+                                                                width: "100%", display: "flex", p: 0.5,
+                                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                                            }}>
+                                                                <Box
+                                                                    sx={{ width: "25%", }}>
+                                                                    <CssVarsProvider>
+                                                                        <Typography sx={{ pl: 1, fontSize: 15 }}>Data Collection Reply</Typography>
+                                                                    </CssVarsProvider>
+                                                                </Box>
+                                                                <Paper sx={{
+                                                                    width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15, textTransform: "capitalize",
+                                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                                }} variant='none'>
+                                                                    {val.crf_dept_remarks}
+                                                                </Paper>
+                                                            </Box>
+                                                            <Box sx={{
+                                                                width: "100%", display: "flex", p: 0.5,
+                                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+
+                                                            }}>
+                                                                <Box
+                                                                    sx={{ width: "25%", }}>
+                                                                    <CssVarsProvider>
+                                                                        <Typography sx={{ pl: 1, fontSize: 15 }}>Reply Details</Typography>
+                                                                    </CssVarsProvider>
+                                                                </Box>
+                                                                <Paper sx={{
+                                                                    width: '25%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15, textTransform: "capitalize",
+                                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                                }} variant='none'>
+                                                                    {val.datagive_user}
+                                                                </Paper>
+                                                                <Paper sx={{
+                                                                    width: '20%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15, textTransform: "capitalize",
+                                                                    overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
+                                                                }} variant='none'>
+                                                                    {val.update_date}
+                                                                </Paper>
+                                                            </Box>
+
+                                                        </Box>
+                                                    </Box>
+                                                })}
+                                            </Box>
+                                        </Paper>
+                                    </Box> : null
+                                }
 
                                 <Box sx={{ width: "100%", mt: 0 }}>
                                     <Paper variant='outlined' sx={{ mt: 1 }} >
