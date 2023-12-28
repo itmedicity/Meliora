@@ -12,6 +12,7 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
         if (images.length !== 0) {
             const disimage = images.map((val) => {
                 const parts = val.split('/');
+                // console.log(parts);
                 const fileNamePart = parts[parts.length - 1];
                 const obj = {
                     imageName: fileNamePart,
@@ -23,7 +24,7 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
         }
     }, [images])
 
-
+    // console.log("disArry", disArry);
     return (
         <CssVarsProvider>
             <Modal aria-labelledby="modal-title"
@@ -33,7 +34,7 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
                 <Sheet
                     variant="outlined"
                     sx={{
-                        minWidth: "30%", borderRadius: 'md', p: 3, boxShadow: 'lg', minHeight: 500,
+                        minWidth: "50%", borderRadius: 'md', p: 3, boxShadow: 'lg', minHeight: 500,
                         maxWidth: 300, maxHeight: 700,
                     }}
                 >
@@ -46,8 +47,10 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
                             <Box key={index} sx={{ display: 'flex', flexDirection: "column" }}>
                                 <embed
                                     alt="CRF Image"
+                                    // type="application/pdf"
                                     src={value.url}
-                                    height={200}
+                                    width="100%"
+                                    height="100%"
                                     style={{ maxWidth: '100%', maxHeight: '100%', margin: '6px', }}
                                 />
                                 {value.imageName}

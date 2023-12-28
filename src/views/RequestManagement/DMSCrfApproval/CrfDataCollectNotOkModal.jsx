@@ -12,12 +12,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
-const CrfDataCollectNotOkModal = ({ open, setOpen, setEnable }) => {
+const CrfDataCollectNotOkModal = ({ open, setOpen, setEnable, }) => {
+
 
     const Close = () => {
         setOpen(false)
         setEnable(0)
     }
+
+
 
     return (
         <Fragment>
