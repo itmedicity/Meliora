@@ -80,7 +80,8 @@ const SmoApproval = () => {
 
     useEffect(() => {
         if (tabledata.length !== 0) {
-            const datas = tabledata.map((val) => {
+            const SMOPending = tabledata && tabledata.filter((val) => val.senior_manage_approv === null)
+            const datas = SMOPending.map((val) => {
                 const obj = {
                     req_slno: val.req_slno,
                     actual_requirement: val.actual_requirement !== null ? val.actual_requirement : "Not Updated",

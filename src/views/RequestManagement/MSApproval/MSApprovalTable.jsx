@@ -38,7 +38,7 @@ const MSApprovalTable = () => {
     useEffect(() => {
 
         const incharge = tabledata.filter((val) => {
-            return val.req_status !== 'C'
+            return val.req_status !== 'C' && val.ms_approve === null
         })
 
         if (incharge.length !== 0) {

@@ -157,6 +157,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
             setPending(false)
             setRemark('')
             setDetailAnalis('')
+            setCloseRemark('')
         }
 
         const updatehodApproval = async (patchdatahod) => {

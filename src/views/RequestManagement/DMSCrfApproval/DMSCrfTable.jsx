@@ -38,7 +38,9 @@ const DMSCrfTable = () => {
 
     useEffect(() => {
         if (tabledata.length !== 0) {
-            const datas = tabledata.map((val) => {
+
+            const DMSPending = tabledata && tabledata.filter((val) => val.dms_approve === null)
+            const datas = DMSPending.map((val) => {
                 const obj = {
                     req_slno: val.req_slno,
                     actual_requirement: val.actual_requirement !== null ? val.actual_requirement : "Not Updated",
