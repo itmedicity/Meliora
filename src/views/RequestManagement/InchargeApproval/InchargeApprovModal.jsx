@@ -157,6 +157,13 @@ const InchargeApprovModal = ({ open, setOpen, isIncharge, ishod, datas, count, s
             setPending(false)
             setRemark('')
             setDetailAnalis('')
+            setCloseRemark('')
+            setdataPost([])
+            setTableDis(0)
+            setCloseCrf(false)
+            setImageShowFlag(0)
+            setImageShow(false)
+            setImageArry([])
         }
         const updateInchApproval = async (patchdatainch) => {
             const result = await axioslogin.patch('/requestRegister/approval/incharge', patchdatainch);
@@ -225,15 +232,7 @@ const InchargeApprovModal = ({ open, setOpen, isIncharge, ishod, datas, count, s
     }, [approve, reject, pending, remark, detailAnalis, req_slno,
         req_approv_slno, count, setCount, setOpen, id, Closeremark, closeCrf])
 
-    // reset 
-    const Close = useCallback(() => {
-        setOpen(false)
-        setApprove(false)
-        setReject(false)
-        setPending(false)
-        setRemark('')
-        setDetailAnalis('')
-    }, [setOpen])
+
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imageshow, setImageShow] = useState(false)
     const [imagearray, setImageArry] = useState([])
@@ -249,7 +248,22 @@ const InchargeApprovModal = ({ open, setOpen, isIncharge, ishod, datas, count, s
     }, [])
 
 
-
+    // reset 
+    const Close = useCallback(() => {
+        setOpen(false)
+        setApprove(false)
+        setReject(false)
+        setPending(false)
+        setRemark('')
+        setDetailAnalis('')
+        setCloseRemark('')
+        setdataPost([])
+        setTableDis(0)
+        setCloseCrf(false)
+        setImageShowFlag(0)
+        setImageShow(false)
+        setImageArry([])
+    }, [setOpen])
 
     return (
         <Fragment>

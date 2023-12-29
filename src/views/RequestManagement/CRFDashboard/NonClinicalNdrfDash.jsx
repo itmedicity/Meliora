@@ -115,7 +115,7 @@ const NonClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCo
                 }}
             >
 
-                <Box sx={{ width: "95%", pl: 1, color: '#262065', display: 'flex', pt: 0.3 }} >Clical NDRF Dashboard</Box>
+                <Box sx={{ width: "95%", pl: 1, color: '#262065', display: 'flex', pt: 0.3 }} >Non Clinical NDRF Dashboard</Box>
 
                 <Box sx={{ width: "5%" }}>
                     <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={close}>
@@ -170,6 +170,7 @@ const NonClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCo
                                 height: '30%',
                                 justifyContent: 'center',
                                 alignItems: 'center',
+                                textAlign: "center",
                                 fontWeight: 600,
                                 fontSize: 16,
                                 fontSmooth: 'auto',
@@ -226,6 +227,7 @@ const NonClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCo
                                 height: '30%',
                                 justifyContent: 'center',
                                 alignItems: 'center',
+                                textAlign: "center",
                                 fontWeight: 600,
                                 fontSize: 16,
                                 fontSmooth: 'auto',
@@ -282,6 +284,7 @@ const NonClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCo
                                 height: '30%',
                                 justifyContent: 'center',
                                 alignItems: 'center',
+                                textAlign: "center",
                                 fontWeight: 600,
                                 fontSize: 16,
                                 fontSmooth: 'auto',
@@ -408,6 +411,7 @@ const NonClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCo
                                 height: '30%',
                                 justifyContent: 'center',
                                 alignItems: 'center',
+                                textAlign: "center",
                                 fontWeight: 600,
                                 fontSize: 16,
                                 fontSmooth: 'auto',

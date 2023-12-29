@@ -81,7 +81,10 @@ const OmApproval = () => {
 
     useEffect(() => {
         if (tabledata.length !== 0) {
-            const datas = tabledata.map((val) => {
+
+            const MOPending = tabledata && tabledata.filter((val) => val.manag_operation_approv === null)
+
+            const datas = MOPending.map((val) => {
                 const obj = {
                     req_slno: val.req_slno,
                     actual_requirement: val.actual_requirement !== null ? val.actual_requirement : "Not Updated",

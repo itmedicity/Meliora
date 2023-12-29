@@ -696,8 +696,11 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                                                     {val.update_date}
                                                                 </Paper>
                                                             </Box>
-
                                                         </Box>
+                                                        <Divider
+                                                            // variant="middle"
+                                                            sx={{ my: 0.8 }} />
+
                                                     </Box>
                                                 })}
                                             </Box>

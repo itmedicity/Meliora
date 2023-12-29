@@ -76,12 +76,10 @@ const CEOApproval = () => {
     const ndrftable = useSelector((state) => {
         return state.setNdrfList.NdrfListdata
     })
-
-
-
     useEffect(() => {
         if (tabledata.length !== 0) {
-            const datas = tabledata.map((val) => {
+            const COOPending = tabledata && tabledata.filter((val) => val.cao_approve === null)
+            const datas = COOPending.map((val) => {
                 const obj = {
                     req_slno: val.req_slno,
                     actual_requirement: val.actual_requirement !== null ? val.actual_requirement : "Not Updated",
@@ -196,7 +194,8 @@ const CEOApproval = () => {
             setCOOdata(datas)
         }
         if (ndrftable.length !== 0) {
-            const datas = ndrftable.map((val) => {
+            const COOPending = ndrftable && ndrftable.filter((val) => val.ndrf_cao_approve === null)
+            const datas = COOPending.map((val) => {
                 const obj = {
                     ndrf_mast_slno: val.ndrf_mast_slno,
                     req_slno: val.req_slno,

@@ -75,7 +75,7 @@ const EDApproval = () => {
     useEffect(() => {
         if (tabledata.length !== 0) {
             const mddata = tabledata.filter((val) => {
-                return val.md_approve_req === 1
+                return val.md_approve_req === 1 && val.ed_approve === null
             })
             const datas = mddata.map((val) => {
                 const obj = {
@@ -189,7 +189,8 @@ const EDApproval = () => {
             setEDdata(datas)
         }
         if (ndrftable.length !== 0) {
-            const datas = ndrftable.map((val) => {
+            const EDNDRFPending = ndrftable && ndrftable.filter((val) => val.ndrf_ed_approve === null)
+            const datas = EDNDRFPending.map((val) => {
                 const obj = {
                     ndrf_mast_slno: val.ndrf_mast_slno,
                     req_slno: val.req_slno,
