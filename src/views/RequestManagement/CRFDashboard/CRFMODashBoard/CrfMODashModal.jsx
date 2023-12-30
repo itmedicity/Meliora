@@ -245,6 +245,23 @@ const CrfMODashModal = ({ open, setOpen, datas, count, setCount }) => {
         }
     }, [approve, reject, pending, remark, req_slno, detailAnalis, id])
 
+
+    const patchdataHODOm = useMemo(() => {
+        return {
+            hod_approve: 1,
+            hod_remarks: "Approval Done By Manager Operations",
+            hod_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            hod_user: id,
+            manag_operation_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            manag_operation_remarks: reject === true || pending === true || approve === true ? remark : null,
+            om_detial_analysis: approve === true ? detailAnalis : null,
+            om_approv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            manag_operation_user: id,
+            req_slno: req_slno
+        }
+    }, [approve, reject, pending, remark, req_slno, detailAnalis, id])
+
+
     const submit = useCallback((e) => {
         e.preventDefault();
 
@@ -258,10 +275,26 @@ const CrfMODashModal = ({ open, setOpen, datas, count, setCount }) => {
             }
         }
 
+        const updateOMOverRideApproval = async (patchdataHODOm) => {
+            const result = await axioslogin.patch('/crfDashBoard/approval/om', patchdataHODOm);
+            const { success, message } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+                setCount(count + 1)
+                ModalClose()
+            }
+        }
+
         if (approve !== false || reject !== false || pending !== false) {
             if (approve !== false) {
                 if (detailAnalis !== '' && remark !== '') {
-                    updateOMApproval(patchdataOm)
+                    if (hod_approve === null) {
+                        updateOMOverRideApproval(patchdataHODOm)
+                    }
+                    else {
+                        updateOMApproval(patchdataOm)
+                    }
+
                 }
                 else {
                     warningNotify("Detail Analysis && Remarks must be Entered")
@@ -277,7 +310,7 @@ const CrfMODashModal = ({ open, setOpen, datas, count, setCount }) => {
 
 
     }, [patchdataOm, count, setCount, remark, detailAnalis,
-        approve, reject, pending, ModalClose])
+        approve, reject, pending, patchdataHODOm, ModalClose, hod_approve])
 
 
     return (

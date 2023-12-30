@@ -218,6 +218,22 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
         }
     }, [approve, reject, pending, remark, req_slno, detailAnalis, id])
 
+    const patchdataHodNotDMS = useMemo(() => {
+        return {
+            hod_approve: 1,
+            hod_remarks: "Approval Done By DMS",
+            hod_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            hod_user: id,
+            dms_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            dms_remarks: reject === true || pending === true || approve === true ? remark : null,
+            dms_detail_analysis: approve === true ? detailAnalis : null,
+            dms_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            dms_user: id,
+            req_slno: req_slno
+        }
+    }, [approve, reject, pending, remark, req_slno, detailAnalis, id])
+
+
     const submit = useCallback((e) => {
         e.preventDefault();
         const updateInchApproval = async (patchdataDMS) => {
@@ -231,11 +247,30 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                 warningNotify(message)
             }
         }
+        const updateDMSOverRideApproval = async (patchdataHodNotDMS) => {
+            const result = await axioslogin.patch('/crfDashBoard/approval/dms', patchdataHodNotDMS);
+            const { success, message } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+                setCount(count + 1)
+                ModalClose()
+            } else {
+                warningNotify(message)
+            }
+        }
+
 
         if (approve !== false || reject !== false || pending !== false) {
             if (approve === true) {
                 if (detailAnalis !== '' && remark !== '') {
-                    updateInchApproval(patchdataDMS)
+                    if (hod_approve === null) {
+                        updateDMSOverRideApproval(patchdataHodNotDMS)
+
+                    } else {
+                        updateInchApproval(patchdataDMS)
+
+                    }
+
                 } else {
                     warningNotify("Detail Analysis && Remarks must be Entered")
                 }
@@ -250,7 +285,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
 
 
     }, [patchdataDMS, count, setCount, ModalClose, approve, reject, pending,
-        remark, detailAnalis])
+        remark, detailAnalis, hod_approve, patchdataHodNotDMS])
 
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imageshow, setImageShow] = useState(false)

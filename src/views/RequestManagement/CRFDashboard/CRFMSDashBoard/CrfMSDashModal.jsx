@@ -221,10 +221,38 @@ const CrfMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
         }
     }, [approve, reject, pending, remark, req_slno, detailAnalis, id])
 
+
+    const patchdataHodNotMS = useMemo(() => {
+        return {
+            hod_approve: 1,
+            hod_remarks: "Approval Done By MS",
+            hod_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            hod_user: id,
+            ms_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            ms_approve_remark: reject === true || pending === true || approve === true ? remark : null,
+            ms_detail_analysis: approve === true ? detailAnalis : null,
+            ms_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            ms_approve_user: id,
+            req_slno: req_slno
+        }
+    }, [approve, reject, pending, remark, req_slno, detailAnalis, id])
+
+
     const submit = useCallback((e) => {
         e.preventDefault();
-        const updateInchApproval = async (patchdataMS) => {
+        const updateMSApproval = async (patchdataMS) => {
             const result = await axioslogin.patch('/requestRegister/approval/ms', patchdataMS);
+            const { success, message } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+                setCount(count + 1)
+                ModalClose()
+            } else {
+                warningNotify(message)
+            }
+        }
+        const updateMSOverRideApproval = async (patchdataHodNotMS) => {
+            const result = await axioslogin.patch('/crfDashBoard/approval/ms', patchdataHodNotMS);
             const { success, message } = result.data;
             if (success === 2) {
                 succesNotify(message)
@@ -238,12 +266,18 @@ const CrfMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
         if (approve !== false || reject !== false || pending !== false) {
             if (approve === true) {
                 if (detailAnalis !== '' && remark !== '') {
-                    updateInchApproval(patchdataMS)
+                    if (hod_approve === null) {
+                        updateMSOverRideApproval(patchdataHodNotMS)
+                    }
+                    else {
+                        updateMSApproval(patchdataMS)
+                    }
+
                 } else {
                     warningNotify("Detail Analysis && Remarks must be Entered")
                 }
             } else {
-                updateInchApproval(patchdataMS)
+                updateMSApproval(patchdataMS)
             }
 
         } else {
@@ -253,7 +287,7 @@ const CrfMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
 
 
     }, [patchdataMS, count, setCount, ModalClose, approve, reject, pending,
-        remark, detailAnalis])
+        remark, detailAnalis, hod_approve, patchdataHodNotMS])
 
 
     const [imageshowFlag, setImageShowFlag] = useState(0)
