@@ -212,7 +212,7 @@ const NdrfPurchaseTable = () => {
         {
             headerName: 'Action', minWidth: 100, cellRenderer: params => {
 
-                if (params.data.ndrf_po_add !== 1) {
+                if (params.data.ndrf_po_add !== 1 && params.data.ndrf_md_approve === 1 && params.data.ndrf_ed_approve === 1) {
                     return <IconButton onClick={() => ndrfSelect(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
                         <CustomeToolTip title="Acknowledgement">

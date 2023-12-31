@@ -242,6 +242,22 @@ const CrfSMODashModal = ({ open, setOpen, datas, count, setCount }) => {
         }
     }, [approve, reject, pending, remark, detailAnalis, req_slno, id])
 
+    const patchdataHodNotSMO = useMemo(() => {
+        return {
+            hod_approve: 1,
+            hod_remarks: "Approval Done By Senior mAnager Operation",
+            hod_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            hod_user: id,
+            senior_manage_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            senior_manage_remarks: reject === true || pending === true || approve === true ? remark : null,
+            smo_detial_analysis: approve === true ? detailAnalis : null,
+            som_aprrov_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            senior_manage_user: id,
+            req_slno: req_slno
+        }
+    }, [approve, reject, pending, remark, detailAnalis, req_slno, id])
+
+
     const submit = useCallback((e) => {
         e.preventDefault();
         const updateSmoApproval = async (patchdataSMO) => {
@@ -253,11 +269,24 @@ const CrfSMODashModal = ({ open, setOpen, datas, count, setCount }) => {
                 ModalClose()
             }
         }
-
+        const updateSmoOverRideApproval = async (patchdataHodNotSMO) => {
+            const result = await axioslogin.patch('/crfDashBoard/approval/som', patchdataHodNotSMO);
+            const { success, message } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+                setCount(count + 1)
+                ModalClose()
+            }
+        }
         if (approve !== false || reject !== false || pending !== false) {
             if (approve !== false) {
                 if (detailAnalis !== '' && remark !== '') {
-                    updateSmoApproval(patchdataSMO)
+                    if (hod_approve === null) {
+                        updateSmoOverRideApproval(patchdataHodNotSMO)
+                    }
+                    else {
+                        updateSmoApproval(patchdataSMO)
+                    }
                 }
                 else {
                     warningNotify("Detail Analysis && Remarks must be Entered")
@@ -266,13 +295,12 @@ const CrfSMODashModal = ({ open, setOpen, datas, count, setCount }) => {
             else {
                 updateSmoApproval(patchdataSMO)
             }
-
         } else {
             warningNotify("Please Select any status")
         }
 
     }, [patchdataSMO, count, setCount, remark, detailAnalis,
-        approve, reject, pending, ModalClose])
+        approve, reject, pending, ModalClose, patchdataHodNotSMO, hod_approve])
 
     return (
 

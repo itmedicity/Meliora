@@ -261,6 +261,24 @@ const CrfCOODashModal = ({ open, setOpen, datas, count, setCount }) => {
         }
     }, [approve, reject, pending, edapprov, remark, detailAnalis, req_slno, id])
 
+    const patchdataHODNotCOO = useMemo(() => {
+        return {
+            hod_approve: 1,
+            hod_remarks: "Approval Done By COO",
+            hod_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            hod_user: id,
+            cao_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            cao_approve_remarks: reject === true || pending === true || approve === true ? remark : null,
+            ceo_detial_analysis: approve === true ? detailAnalis : null,
+            cao_approv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            ed_approve_req: edapprov === true ? 1 : 0,
+            md_approve_req: edapprov === true ? 1 : 0,
+            cao_user: id,
+            req_slno: req_slno
+        }
+    }, [approve, reject, pending, edapprov, remark, detailAnalis, req_slno, id])
+
+
     const submit = useCallback((e) => {
         e.preventDefault();
         const updateCOOApproval = async (patchdataCOO) => {
@@ -273,10 +291,25 @@ const CrfCOODashModal = ({ open, setOpen, datas, count, setCount }) => {
             }
         }
 
+        const updateCOOOverRideApproval = async (patchdataHODNotCOO) => {
+            const result = await axioslogin.patch('/crfDashBoard/approval/ceo', patchdataHODNotCOO);
+            const { success, message } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+                setCount(count + 1)
+                ModalClose()
+            }
+        }
+
         if (approve !== false || reject !== false || pending !== false) {
             if (approve !== false) {
                 if (detailAnalis !== '' && remark !== '') {
-                    updateCOOApproval(patchdataCOO)
+                    if (hod_approve === null) {
+                        updateCOOOverRideApproval(patchdataHODNotCOO)
+                    }
+                    else {
+                        updateCOOApproval(patchdataCOO)
+                    }
                 }
                 else {
                     warningNotify("Detail Analysis && Remarks must be Entered")
@@ -291,7 +324,7 @@ const CrfCOODashModal = ({ open, setOpen, datas, count, setCount }) => {
         }
 
     }, [patchdataCOO, count, setCount, remark, detailAnalis,
-        approve, reject, pending, ModalClose])
+        approve, reject, pending, ModalClose, patchdataHODNotCOO, hod_approve])
 
 
     return (
