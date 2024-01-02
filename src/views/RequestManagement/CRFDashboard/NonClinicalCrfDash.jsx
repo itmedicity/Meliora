@@ -13,9 +13,15 @@ import CrfCOODashTable from './CRFCOODashBoard/CrfCOODashTable';
 import CrfMDDashTable from './CRFMDDashBoard/CrfMDDashTable';
 import CrfEDDashTable from './CRFEDDashBoard/CrfEDDashTable';
 import NDRFgenPendDashTable from './NDRFGenPendingDashBoard/NDRFgenPendDashTable';
+import _ from 'underscore'
+import { useSelector } from 'react-redux'
+import NDRFgenPendTable from './NDRFgenPendingEDDashBord/NDRFgenPendTable';
 
 const NonClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount }) => {
     const [wherePending, setWherePending] = useState(0)
+
+    //redux for geting login id
+    const em_id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
 
     const InchargePending = data && data.filter((val) => val.incharge_approve === null)
 
@@ -83,7 +89,7 @@ const NonClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCou
         if (MDPending.length !== 0) {
             setWherePending(6)
         } else {
-            warningNotify("No CRF For HOD Approval Pending")
+            warningNotify("No CRF For ND Approval Pending")
             setWherePending(0)
         }
     }, [MDPending])
@@ -91,7 +97,7 @@ const NonClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCou
         if (EDPending.length !== 0) {
             setWherePending(7)
         } else {
-            warningNotify("No CRF For HOD Approval Pending")
+            warningNotify("No CRF For ED Approval Pending")
             setWherePending(0)
         }
     }, [EDPending])
@@ -100,7 +106,7 @@ const NonClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCou
         if (NDRFGenPending.length !== 0) {
             setWherePending(8)
         } else {
-            warningNotify("No CRF For HOD Approval Pending")
+            warningNotify("No CRF For NDRF Generation Pending")
             setWherePending(0)
         }
     }, [NDRFGenPending])
@@ -671,9 +677,31 @@ const NonClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCou
                                                 count={count} setCount={setCount} />
                                         </Box> : wherePending === 8 ?
                                             <Box>
-                                                <NDRFgenPendDashTable subDaFlag={subDaFlag} tabledata={NDRFGenPending}
-                                                    count={count} setCount={setCount} />
-                                            </Box> : null
+                                                {em_id === 2605 ?
+                                                    < Box >
+                                                        <NDRFgenPendTable subDaFlag={subDaFlag} tabledata={NDRFGenPending}
+                                                            count={count} setCount={setCount}
+                                                        />
+                                                    </Box> : em_id === 2604 ?
+                                                        < Box >
+                                                            <NDRFgenPendTable subDaFlag={subDaFlag} tabledata={NDRFGenPending}
+                                                                count={count} setCount={setCount}
+                                                            />
+                                                        </Box> :
+                                                        em_id === 1851 ?
+                                                            < Box >
+                                                                <NDRFgenPendTable subDaFlag={subDaFlag} tabledata={NDRFGenPending}
+                                                                    count={count} setCount={setCount}
+                                                                />
+                                                            </Box> :
+                                                            < Box >
+                                                                <NDRFgenPendDashTable subDaFlag={subDaFlag} tabledata={NDRFGenPending}
+                                                                    count={count} setCount={setCount}
+                                                                />
+                                                            </Box>
+                                                }
+                                            </Box>
+                                            : null
 
             }
 

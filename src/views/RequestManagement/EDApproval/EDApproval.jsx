@@ -75,7 +75,7 @@ const EDApproval = () => {
     useEffect(() => {
         if (tabledata.length !== 0) {
             const mddata = tabledata.filter((val) => {
-                return val.md_approve_req === 1 && val.ed_approve === null
+                return val.md_approve_req === 1 && val.req_status !== 'C' && val.rm_ndrf === 0
             })
             const datas = mddata.map((val) => {
                 const obj = {
@@ -189,7 +189,7 @@ const EDApproval = () => {
             setEDdata(datas)
         }
         if (ndrftable.length !== 0) {
-            const EDNDRFPending = ndrftable && ndrftable.filter((val) => val.ndrf_ed_approve === null)
+            const EDNDRFPending = ndrftable && ndrftable.filter((val) => val.ndrf_ed_approve !== 1)
             const datas = EDNDRFPending.map((val) => {
                 const obj = {
                     ndrf_mast_slno: val.ndrf_mast_slno,
@@ -479,10 +479,10 @@ const EDApproval = () => {
 
 
     const getRowStyle = params => {
-        if (params.data.req_status === "R") {
+        if (params.data.ndrf_ed_approve === 2) {
             return { background: '#81d4fa' };
         }
-        else if (params.data.req_status === "P") {
+        else if (params.data.ndrf_ed_approve === 3) {
             return { background: '#fff59d' };
         }
         else if (params.data.crf_close === 1) {
@@ -574,6 +574,7 @@ const EDApproval = () => {
                 <CusAgGridForMain
                     columnDefs={columnndrf}
                     tableData={ndrfData}
+                    getRowStyle={getRowStyle}
                 />
             </Box>}
             <Box sx={{

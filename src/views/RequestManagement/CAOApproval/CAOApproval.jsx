@@ -78,7 +78,8 @@ const CEOApproval = () => {
     })
     useEffect(() => {
         if (tabledata.length !== 0) {
-            const COOPending = tabledata && tabledata.filter((val) => val.cao_approve === null)
+            const COOPending = tabledata && tabledata.filter((val) => val.req_status !== 'C' &&
+                val.rm_ndrf === 0)
             const datas = COOPending.map((val) => {
                 const obj = {
                     req_slno: val.req_slno,
