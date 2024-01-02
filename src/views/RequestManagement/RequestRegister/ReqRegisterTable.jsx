@@ -72,10 +72,31 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
                     cao: val.cao_approve === 1 ? "Approved" : val.cao_approve === 2 ? "Reject" :
                         val.cao_approve === 3 ? "On-Hold" : "Not Updated",
                     cao_approve_remarks: val.cao_approve_remarks !== null ? val.cao_approve_remarks : "Not Updated",
+
+                    md_approve: val.md_approve,
+                    md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Reject" :
+                        val.md_approve === 3 ? "On-Hold" : "Not Updated",
+                    md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : "Not Updated",
+
                     ed_approve: val.ed_approve,
                     ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Reject" :
                         val.ed_approve === 3 ? "On-Hold" : "Not Updated",
                     ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
+
+
+                    ndrf_coo: val.ndrf_cao_approve === 1 ? "Approved" : val.ndrf_cao_approve === 2 ? "Reject" :
+                        val.ndrf_cao_approve === 3 ? "On-Hold" : "Not Updated",
+                    ndrf_coo_remarks: val.ndrf_cao_approve_remarks !== null ? val.ndrf_cao_approve_remarks : "Not Updated",
+
+                    ndrf_ed: val.ndrf_ed_approve === 1 ? "Approved" : val.ndrf_ed_approve === 2 ? "Reject" :
+                        val.ndrf_ed_approve === 3 ? "On-Hold" : "Not Updated",
+                    ndrf_ed_approve_remarks: val.ndrf_ed_approve_remarks !== null ? val.ndrf_ed_approve_remarks : "Not Updated",
+
+                    ndrf_md: val.ndrf_md_approve === 1 ? "Approved" : val.ndrf_md_approve === 2 ? "Reject" :
+                        val.ndrf_md_approve === 3 ? "On-Hold" : "Not Updated",
+                    ndrf_md_remarks: val.ndrf_md_approve_remarks !== null ? val.ndrf_md_approve_remarks : "Not Updated",
+
+
                 }
                 return obj
             })
@@ -112,21 +133,31 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Req. Date", field: "req_date", minWidth: 200 },
         { headerName: "Inch.Status", field: "incharge", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "Inch.Remark", field: "incharge_remark", minWidth: 250, wrapText: true, },
+        { headerName: "Inch.Remark", field: "incharge_remark", autoHeight: true, minWidth: 250, wrapText: true, },
         { headerName: "Hod.Status", field: "hod", minWidth: 150, wrapText: true, },
-        { headerName: "Hod.Remark", field: "hod_remarks", minWidth: 250, wrapText: true, },
+        { headerName: "Hod.Remark", field: "hod_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
         { headerName: "DMS.Status", field: "dms", minWidth: 150, wrapText: true, },
-        { headerName: "DMS.Remark", field: "dms_remarks", minWidth: 250, wrapText: true, },
+        { headerName: "DMS.Remark", field: "dms_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
         { headerName: "MS.Status", field: "ms", minWidth: 150, wrapText: true, },
-        { headerName: "MS.Remark", field: "ms_approve_remark", minWidth: 250, wrapText: true, },
+        { headerName: "MS.Remark", field: "ms_approve_remark", autoHeight: true, minWidth: 250, wrapText: true, },
         { headerName: "OM Status", field: "om", minWidth: 150, wrapText: true, },
-        { headerName: "OM.Remark", field: "manag_operation_remarks", minWidth: 250, wrapText: true, },
+        { headerName: "OM.Remark", field: "manag_operation_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
         { headerName: "SMO Status", field: "smo", minWidth: 150, wrapText: true, },
-        { headerName: "SMO.Remark", field: "senior_manage_remarks", minWidth: 250, wrapText: true, },
+        { headerName: "SMO.Remark", field: "senior_manage_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
         { headerName: "CAO/COO Status", field: "cao", minWidth: 180, wrapText: true, },
-        { headerName: "CAO/COO.Remark", field: "cao_approve_remarks", minWidth: 250, wrapText: true, },
-        { headerName: "ED/MD  Status", field: "ed", minWidth: 150, wrapText: true, },
-        { headerName: "ED/MD.Remark", field: "ed_approve_remarks", minWidth: 250, wrapText: true, },
+        { headerName: "CAO/COO.Remark", field: "cao_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+        { headerName: "MD  Status", field: "md", minWidth: 150, wrapText: true, },
+        { headerName: "MD.Remark", field: "md_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+        { headerName: "ED  Status", field: "ed", minWidth: 150, wrapText: true, },
+        { headerName: "ED.Remark", field: "ed_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+
+        { headerName: "NDRF CAO/COO Status", field: "ndrf_coo", minWidth: 180, wrapText: true, },
+        { headerName: "NDRF CAO/COO.Remark", field: "ndrf_coo_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+        { headerName: "NDRF MD  Status", field: "ndrf_md", autoHeight: true, minWidth: 150, wrapText: true, },
+        { headerName: "NDRF MD.Remark", field: "ndrf_md_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+        { headerName: "NDRF ED  Status", field: "ndrf_ed", minWidth: 150, wrapText: true, },
+        { headerName: "NDRF ED.Remark", field: "ndrf_ed_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+
     ])
 
     const [columnIncharge] = useState([

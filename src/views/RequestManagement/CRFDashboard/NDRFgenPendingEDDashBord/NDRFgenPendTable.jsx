@@ -1,9 +1,15 @@
-import React, { Fragment, memo, useState, useEffect } from 'react'
+import React, { Fragment, memo, useState, useEffect, useCallback } from 'react'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
 import { Box } from '@mui/material'
 import { Typography } from '@mui/joy'
+import { IconButton } from '@mui/material';
+import { editicon } from 'src/color/Color';
+import CustomeToolTip from 'src/views/Components/CustomeToolTip';
+import SummarizeIcon from '@mui/icons-material/Summarize';
+import NDRFGenModal from './NDRFGenModal';
 
-const NDRFgenPendDashTable = ({ subDaFlag, tabledata, count }) => {
+
+const NDRFgenPendTable = ({ subDaFlag, tabledata, count, setCount }) => {
 
     const [edData, setEDdata] = useState([])
     useEffect(() => {
@@ -30,6 +36,10 @@ const NDRFgenPendDashTable = ({ subDaFlag, tabledata, count }) => {
                     req_approv_slno: val.req_approv_slno,
                     req_status: val.req_status,
                     req_user: val.req_user,
+                    ndactual_requirement: val.actual_requirement,
+                    ndneeded: val.needed,
+                    rm_ndrf: val.rm_ndrf,
+
                     incharge_approve: val.incharge_approve,
                     incharge_req: val.incharge_req,
                     incharge: val.incharge_approve === 1 ? "Approved" : val.incharge_approve === 2 ? "Reject" :
@@ -126,7 +136,17 @@ const NDRFgenPendDashTable = ({ subDaFlag, tabledata, count }) => {
 
 
     const [columnClinical] = useState([
-
+        {
+            headerName: 'NDRF', minWidth: 100,
+            cellRenderer: params => {
+                return <IconButton onClick={() => ndrfconvert(params)}
+                    sx={{ color: editicon, paddingY: 0.5 }} >
+                    <CustomeToolTip title="NDRF">
+                        <SummarizeIcon />
+                    </CustomeToolTip>
+                </IconButton>
+            }
+        },
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
         { headerName: "Purpose", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Justification", field: "needed", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
@@ -153,7 +173,17 @@ const NDRFgenPendDashTable = ({ subDaFlag, tabledata, count }) => {
     ])
 
     const [columnNonClinical] = useState([
-
+        {
+            headerName: 'NDRF', minWidth: 100,
+            cellRenderer: params => {
+                return <IconButton onClick={() => ndrfconvert(params)}
+                    sx={{ color: editicon, paddingY: 0.5 }} >
+                    <CustomeToolTip title="NDRF">
+                        <SummarizeIcon />
+                    </CustomeToolTip>
+                </IconButton>
+            }
+        },
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
         { headerName: "Purpose", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Justification", field: "needed", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
@@ -175,9 +205,31 @@ const NDRFgenPendDashTable = ({ subDaFlag, tabledata, count }) => {
         { headerName: "ED.Remark", field: "ed_approve_remarks", minWidth: 250, wrapText: true, },
     ])
 
+    const [cooNdrfModal, setCOONdrfModal] = useState(false)
+    const [cooNdrfModalFlag, setCOONdrfModalFlag] = useState(0)
+    const [cooNdrfModalData, setCOONdrfModalData] = useState([])
+
+    const ndrfconvert = useCallback((params) => {
+        const data = params.api.getSelectedRows()
+        setCOONdrfModal(true)
+        setCOONdrfModalFlag(1)
+        setCOONdrfModalData(data)
+    }, [])
+
+
 
     return (
         <Fragment>
+            {
+                cooNdrfModalFlag === 1 ? <NDRFGenModal
+                    open={cooNdrfModal}
+                    setOpen={setCOONdrfModal}
+                    datas={cooNdrfModalData}
+                    count={count}
+                    setCount={setCount}
+
+                /> : null
+            }
             {
                 subDaFlag === 1 ?
                     <Box sx={{ pt: 1 }}>
@@ -199,4 +251,4 @@ const NDRFgenPendDashTable = ({ subDaFlag, tabledata, count }) => {
     )
 }
 
-export default memo(NDRFgenPendDashTable)
+export default memo(NDRFgenPendTable)

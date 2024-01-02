@@ -73,7 +73,7 @@ const MDApprovalTable = () => {
     useEffect(() => {
         if (tabledata.length !== 0) {
             const mddata = tabledata.filter((val) => {
-                return val.md_approve_req === 1 && val.md_approve === null
+                return val.md_approve_req === 1 && val.req_status !== 'C' && val.rm_ndrf === 0
             })
             const datas = mddata.map((val) => {
                 const obj = {
@@ -187,7 +187,7 @@ const MDApprovalTable = () => {
             setMDdata(datas)
         }
         if (ndrftable.length !== 0) {
-            const MDNDRFPending = ndrftable && ndrftable.filter((val) => val.ndrf_md_approve === null)
+            const MDNDRFPending = ndrftable && ndrftable.filter((val) => val.ndrf_md_approve !== 1)
             const datas = MDNDRFPending.map((val) => {
                 const obj = {
                     ndrf_mast_slno: val.ndrf_mast_slno,
@@ -477,10 +477,10 @@ const MDApprovalTable = () => {
 
 
     const getRowStyle = params => {
-        if (params.data.req_status === "R") {
+        if (params.data.ndrf_md_approve === 2) {
             return { background: '#81d4fa' };
         }
-        else if (params.data.req_status === "P") {
+        else if (params.data.ndrf_md_approve === 3) {
             return { background: '#fff59d' };
         }
         else if (params.data.crf_close === 1) {
@@ -570,6 +570,7 @@ const MDApprovalTable = () => {
                 <CusAgGridForMain
                     columnDefs={columnndrf}
                     tableData={ndrfData}
+                    getRowStyle={getRowStyle}
                 />
             </Box>}
             <Box sx={{

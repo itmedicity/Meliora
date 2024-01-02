@@ -63,13 +63,22 @@ const CrfDataCollectnTable = () => {
         { headerName: "Hod.Approve Status", field: "approve_hod", minWidth: 150, wrapText: true, },
         { headerName: "Hod Remarks", field: "hod_remarks", minWidth: 300, wrapText: true, },
         { headerName: "OM Approve Status", field: "manag_operation_approvs", minWidth: 150, wrapText: true, },
-        { headerName: "OM Remarks", field: "manag_operation_remarks", minWidth: 300, wrapText: true, },
+        { headerName: "OM Remarks", field: "manag_operation_remarks", autoHeight: true, minWidth: 300, wrapText: true, },
         { headerName: "SMO Approve Status", field: "senior_manage_approvs", minWidth: 150, wrapText: true, },
-        { headerName: "SMO Remarks", field: "senior_manage_remarks", minWidth: 300, wrapText: true, },
+        { headerName: "SMO Remarks", field: "senior_manage_remarks", autoHeight: true, minWidth: 300, wrapText: true, },
         { headerName: "CAO/COO/MD Approve Status", field: "cao_approves", minWidth: 150, wrapText: true, },
-        { headerName: "CAO/COO/MD Remarks", field: "cao_approve_remarks", minWidth: 300, wrapText: true, },
-        { headerName: "ED/MD Approve Status", field: "ed_approves", minWidth: 150, wrapText: true, },
-        { headerName: "ED/MD Remarks", field: "ed_approve_remarks", minWidth: 300, wrapText: true, },
+        { headerName: "CAO/COO/MD Remarks", field: "cao_approve_remarks", autoHeight: true, minWidth: 300, wrapText: true, },
+        { headerName: "MD  Status", field: "md_approves", minWidth: 150, wrapText: true, },
+        { headerName: "MD.Remark", field: "md_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+        { headerName: "ED  Status", field: "ed_approves", minWidth: 150, wrapText: true, },
+        { headerName: "ED.Remark", field: "md_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+
+        { headerName: "NDRF CAO/COO Status", field: "ndrf_cao_approves", minWidth: 180, wrapText: true, },
+        { headerName: "NDRF CAO/COO.Remark", field: "ndrf_cao_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+        { headerName: "NDRF MD  Status", field: "ndrf_md_approves", minWidth: 150, wrapText: true, },
+        { headerName: "NDRF MD.Remark", field: "ndrf_md_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+        { headerName: "NDRF ED  Status", field: "ndrf_ed_approves", minWidth: 150, wrapText: true, },
+        { headerName: "NDRF ED.Remark", field: "ndrf_ed_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
     ])
 
 
