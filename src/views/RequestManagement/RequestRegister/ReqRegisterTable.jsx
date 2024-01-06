@@ -199,8 +199,17 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
         { headerName: "SMO.Remark", field: "senior_manage_remarks", minWidth: 150, wrapText: true, },
         { headerName: "CAO/COO Status", field: "cao", minWidth: 180, wrapText: true, },
         { headerName: "CAO/COO.Remark", field: "cao_approve_remarks", minWidth: 150, wrapText: true, },
-        { headerName: "ED/MD  Status", field: "ed", minWidth: 150, wrapText: true, },
-        { headerName: "ED/MD.Remark", field: "ed_approve_remarks", minWidth: 150, wrapText: true, },
+        { headerName: "MD  Status", field: "md", minWidth: 150, wrapText: true, },
+        { headerName: "MD.Remark", field: "md_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+        { headerName: "ED  Status", field: "ed", minWidth: 150, wrapText: true, },
+        { headerName: "ED.Remark", field: "ed_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+
+        { headerName: "NDRF CAO/COO Status", field: "ndrf_coo", minWidth: 180, wrapText: true, },
+        { headerName: "NDRF CAO/COO.Remark", field: "ndrf_coo_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+        { headerName: "NDRF MD  Status", field: "ndrf_md", autoHeight: true, minWidth: 150, wrapText: true, },
+        { headerName: "NDRF MD.Remark", field: "ndrf_md_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+        { headerName: "NDRF ED  Status", field: "ndrf_ed", minWidth: 150, wrapText: true, },
+        { headerName: "NDRF ED.Remark", field: "ndrf_ed_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
     ])
 
     return (

@@ -150,8 +150,8 @@ const BackupScheduleType = React.lazy(() => import('./views/Master/BackupMaster/
 const BackupScheduleTime = React.lazy(() => import('./views/Master/BackupMaster/ScheduleTime/ScheduleTimeMast'))
 const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDetails/BackupMast'))
 const AssetRackMast = React.lazy(() => import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster'))
-const AssetDepartmentTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DepartAssetTransfer'))
-const AssetItemReport = React.lazy(() => import('./views/Report/AssetReport/AssetItemReport'))
+const AssetDepartmentTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DeptTransfer'))
+const AssetItemReport = React.lazy(() => import('./views/Report/AssetReport/AllItemsReports'))
 
 const RequestRegister = React.lazy(() => import('./views/RequestManagement/RequestRegister/ReqRegistration'))
 const CRFIncharge = React.lazy(() => import('./views/RequestManagement/InchargeApproval/InchargeApprovalTable'))
@@ -165,6 +165,7 @@ const ReqEDApproval = React.lazy(() => import('./views/RequestManagement/EDAppro
 const ReqMDApproval = React.lazy(() => import('./views/RequestManagement/MDApproval/MDApprovalTable'))
 const NdrfPurchase = React.lazy(() => import('./views/RequestManagement/NdrfPurchase/NdrfPurchaseTable'))
 const CRFDashboard = React.lazy(() => import('./views/RequestManagement/CRFDashboard/CrdDashboardMain'))
+const DeptSecBasedItemReport = React.lazy(() => import('./views/Report/AssetReport/DeptSecBaseReport'))
 
 
 const routes = [
@@ -333,7 +334,9 @@ const routes = [
   { path: '/Home/Req.EDApproval', exact: true, name: 'Request ED Approval', component: ReqEDApproval },
   { path: '/Home/Req.MDApproval', exact: true, name: 'Request MD Approval', component: ReqMDApproval },
   { path: '/Home/NdrfPurchase', exact: true, name: 'Request Purchase', component: NdrfPurchase },
-  { path: '/Home/CrfDashboard', exact: true, name: 'CRF Dashboard', component: CRFDashboard }
+  { path: '/Home/CrfDashboard', exact: true, name: 'CRF Dashboard', component: CRFDashboard },
+
+  { path: '/Home/DeptSecBasedItemReport', exact: true, name: 'Department Section Based Item Report', component: DeptSecBasedItemReport }
 ]
 
 export default routes

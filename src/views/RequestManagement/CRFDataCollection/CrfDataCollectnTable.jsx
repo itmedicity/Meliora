@@ -34,12 +34,11 @@ const CrfDataCollectnTable = () => {
     const tabledata = useSelector((state) => {
         return state.setdataCollectionCRF.dataCollectionCrfList
     })
-
     //column title setting
     const [column] = useState([
         {
             headerName: 'Action', minWidth: 80, cellRenderer: params => {
-                if (params.data.senior_manage_approv !== null) {
+                if (params.data.crf_dept_status === 1) {
                     return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
                         <TextSnippetIcon />
                     </IconButton>
@@ -95,11 +94,11 @@ const CrfDataCollectnTable = () => {
     }, [history])
 
     const getRowStyle = params => {
-        if (params.data.crf_dept_remarks === null) {
+        if (params.data.crf_dept_status === 1) {
             return { background: '#81d4fa' };
         }
         else {
-            return { background: '#81d4fa' };
+            return { background: '#fff59d' };
         }
 
     };

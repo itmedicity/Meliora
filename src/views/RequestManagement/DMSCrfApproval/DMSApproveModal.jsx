@@ -22,6 +22,7 @@ import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import CustomTextarea from 'src/views/Components/CustomTextarea';
 import CrfDataCollectNotOkModal from './CrfDataCollectNotOkModal';
+import DataCollectedImageDispy from '../OMApproval/DataCollectedImageDispy';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -179,6 +180,36 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
         getDataCollectCompleteDetails(req_slno)
     }, [req_slno])
 
+    const [imageshowFlag, setImageShowFlag] = useState(0)
+    const [imageshow, setImageShow] = useState(false)
+    const [imagearray, setImageArry] = useState([])
+
+    const [collImageShowFlag, setCollImageShowFlag] = useState(0)
+    const [collImageShow, setCollImageShow] = useState(false)
+    const [dataCollSlno, setDataCollSlNo] = useState('')
+
+    const ViewImage = useCallback(() => {
+        setImageShowFlag(1)
+        setImageShow(true)
+    }, [])
+
+    const ViewImageDataColection = useCallback((val) => {
+        setDataCollSlNo(val);
+        setCollImageShowFlag(1)
+        setCollImageShow(true)
+    }, [])
+
+    const handleClose = useCallback(() => {
+        setImageShowFlag(0)
+        setImageShow(false)
+    }, [])
+
+    const handleCloseCollect = useCallback(() => {
+        setCollImageShowFlag(0)
+        setCollImageShow(false)
+
+    }, [])
+
     const [closeCrf, setCloseCrf] = useState(false)
 
     const updateCrf = useCallback((e) => {
@@ -302,19 +333,6 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
     }, [patchdataDMS, count, setCount, ModalClose, closeCrf, Closeremark, approve, reject, pending,
         remark, detailAnalis, id, req_slno])
 
-    const [imageshowFlag, setImageShowFlag] = useState(0)
-    const [imageshow, setImageShow] = useState(false)
-    const [imagearray, setImageArry] = useState([])
-
-    const ViewImage = useCallback(() => {
-        setImageShowFlag(1)
-        setImageShow(true)
-    }, [])
-
-    const handleClose = useCallback(() => {
-        setImageShowFlag(0)
-        setImageShow(false)
-    }, [])
 
     return (
 
@@ -323,10 +341,13 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
 
             {
 
-                enable === 1 ? <CrfDataCollectNotOkModal open={open} setOpen={setOpen} setEnable={setEnable} />
+                enable === 1 ? <CrfDataCollectNotOkModal open={open} setOpen={setOpen} setEnable={setEnable}
+                    req_slno={req_slno} />
                     :
                     <Box>
-
+                        {collImageShowFlag === 1 ? <DataCollectedImageDispy open={collImageShow} handleCloseCollect={handleCloseCollect}
+                            dataCollSlno={dataCollSlno} req_slno={req_slno}
+                        /> : null}
                         {imageshowFlag === 1 ? <ReqImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
 
                         <Dialog
@@ -685,8 +706,17 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
                                                                     {val.update_date}
                                                                 </Paper>
                                                             </Box>
+                                                            {val.data_coll_image_status === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 30, pl: 3 }}>
+                                                                <Button
+                                                                    onClick={() => ViewImageDataColection(val.crf_data_collect_slno)}
+                                                                    variant="contained"
+                                                                    color="primary">View Image</Button>
 
+                                                            </Box> : null}
                                                         </Box>
+                                                        <Divider
+                                                            // variant="middle"
+                                                            sx={{ my: 0.8 }} />
                                                     </Box>
                                                 })}
                                             </Box>

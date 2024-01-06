@@ -498,7 +498,8 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                                             {val.update_date}
                                                         </Paper>
                                                     </Box>
-
+                                                    <Divider
+                                                        sx={{ my: 0.8 }} />
                                                 </Box>
                                             </Box>
                                         })}

@@ -34,8 +34,8 @@ const CRFDataColectRequestModal = ({ open, setOpen, datas, count, setCount }) =>
 
     const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
     const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
-    const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy') : "Not Updated"
-    const hodApprovdate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy') : "Not Updated"
+    const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
+    const hodApprovdate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
 
     //redux for geting login id
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
@@ -564,7 +564,7 @@ const CRFDataColectRequestModal = ({ open, setOpen, datas, count, setCount }) =>
                                     flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                 }}>
                                     <Box
-                                        sx={{ width: "30%", pt: 1, pl: 1 }}
+                                        sx={{ width: "27%", pt: 1, pl: 1 }}
                                     >
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Collected Depatments: </Typography>
@@ -573,14 +573,14 @@ const CRFDataColectRequestModal = ({ open, setOpen, datas, count, setCount }) =>
                                     </Box>
 
                                     <Box
-                                        sx={{ width: "30%", pt: 1, pl: 1, pb: 0.5 }}
+                                        sx={{ width: "70%", pt: 1, pl: 1, pb: 0.5 }}
                                     >
                                         <DeptSectionSelectMulti deptSec={crfdept} SetDeptSec={serCrfDept} />
                                     </Box>
 
                                 </Box>
                                 <Box
-                                    sx={{ width: "80%", pt: 1, pl: 1 }}
+                                    sx={{ width: "97%", pt: 1, pl: 1 }}
                                 >
                                     <CssVarsProvider>
                                         <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Remarks </Typography>

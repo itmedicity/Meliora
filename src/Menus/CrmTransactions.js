@@ -71,7 +71,7 @@ const CrmTransactions = [
     {
         men_slno: 98,
         component: CNavItem,
-        name: 'CAO/COO Approval',
+        name: 'GM Operations Approval',
         to: '/Home/Req.CAOApproval',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },

@@ -11,8 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 
 const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
-    const { am_item_map_slno, am_spare_item_map_slno } = detailArry
-
+    const { am_item_map_slno, am_spare_item_map_slno, assetno } = detailArry
 
     // Get login user emp_id
     const id = useSelector((state) => {
@@ -21,7 +20,7 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
 
     const [userdata, setUserdata] = useState({
         manufacturslno: '',
-        asset_no: '',
+        asset_no: assetno,
         asset_noold: '',
     })
 
@@ -39,10 +38,10 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
             const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`);
             const { success, data } = result.data
             if (success === 1) {
-                const { am_manufacture_no, am_asset_no, am_asset_old_no } = data[0]
+                const { am_manufacture_no, am_asset_old_no } = data[0]
                 const frmdata = {
                     manufacturslno: am_manufacture_no !== null ? am_manufacture_no : '',
-                    asset_no: am_asset_no !== null ? am_asset_no : '',
+                    asset_no: assetno,
                     asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
                 }
                 setUserdata(frmdata);
@@ -67,7 +66,7 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
             checkinsertOrNotDetailSpare(am_spare_item_map_slno)
         }
 
-    }, [am_item_map_slno, am_spare_item_map_slno, assetSpare, setUserdata])
+    }, [am_item_map_slno, am_spare_item_map_slno, assetSpare, assetno, setUserdata])
 
     const postdata = useMemo(() => {
         return {

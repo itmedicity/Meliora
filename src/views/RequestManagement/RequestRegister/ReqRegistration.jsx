@@ -672,9 +672,21 @@ const ReqRegistration = () => {
     }, [])
 
     const uploadFile = useCallback(async (e) => {
-        const newFiles = [...selectFile]
-        newFiles.push(e.target.files[0])
-        setSelectFile(newFiles)
+        if (e.target.files[0].type === "application/pdf") {
+            if ((e.target.files[0].size) > 2000000) {
+                warningNotify("File Size Is to Large")
+            } else {
+                const newFiles = [...selectFile]
+                newFiles.push(e.target.files[0])
+                setSelectFile(newFiles)
+            }
+
+        } else {
+            const newFiles = [...selectFile]
+            newFiles.push(e.target.files[0])
+            setSelectFile(newFiles)
+        }
+
     }, [selectFile, setSelectFile])
 
     const handleImageUpload = useCallback(async (imageFile) => {
@@ -1629,6 +1641,7 @@ const ReqRegistration = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', width: '200px', pt: 1 }}>
                                     <Box sx={{ pt: 1 }}>
+                                        <CustomPaperTitle heading="Maximum Size 2MB" />
                                         <label htmlFor="file-input">
                                             <CustomeToolTip title="upload">
                                                 <IconButton color="primary" aria-label="upload file" component="span">

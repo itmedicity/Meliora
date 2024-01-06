@@ -319,7 +319,7 @@ const NonClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCou
                                 fontSmooth: 'auto',
                                 color: taskColor.FontindigoDark
                             }}
-                        >Manager Operation Pending</Box>
+                        >Materials Management Pending</Box>
                         <Box
                             sx={{
                                 display: 'flex',
@@ -444,7 +444,7 @@ const NonClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCou
                                 fontSmooth: 'auto',
                                 color: taskColor.FontindigoDark
                             }}
-                        >CAO/COO Pending</Box>
+                        >GM Operations Pending</Box>
                         <Box
                             sx={{
                                 display: 'flex',

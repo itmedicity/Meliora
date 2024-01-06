@@ -30,7 +30,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
         hod_approve, hod_remarks, hod_detial_analysis, req_approv_slno, category, } = datas[0]
     const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
     const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
-    const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy') : "Not Updated"
+    const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
 
     useEffect(() => {
         if ((hod_approve !== null) && (ishod === 1)) {

@@ -141,7 +141,7 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
                             <TableHead sx={{ border: "1px " }}>
                                 <TableRow  >
                                     <TableCell align="center" >Slno</TableCell>
-                                    <TableCell align="center" > Description</TableCell>
+                                    <TableCell align="left" > Description</TableCell>
                                     <TableCell align="center">Req. Brand</TableCell>
                                     <TableCell align="center">Qty</TableCell>
                                     <TableCell align="center">Unit</TableCell>
@@ -306,17 +306,7 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
                     </Box>
                 </Box>
                     : null}
-
-
-
-
-
-
             </Box>
-
-
-
-
         </Fragment>
     )
 }
