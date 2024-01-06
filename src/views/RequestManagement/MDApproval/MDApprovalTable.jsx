@@ -490,7 +490,7 @@ const MDApprovalTable = () => {
 
     return (
         <CardCloseOnly
-            title="Managing Director Approval"
+            title="Medical Director Approval"
             close={backtoSetting}
         >
             {CloseModalFlag === 1 ?

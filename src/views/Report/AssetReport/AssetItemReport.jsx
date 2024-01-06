@@ -1,12 +1,12 @@
-import React from 'react'
+// import React from 'react'
 
-const AssetItemReport = () => {
-    return (
-        <div>AssetItemReport</div>
-    )
-}
+// const AssetItemReport = () => {
+//     return (
+//         <div>AssetItemReport</div>
+//     )
+// }
 
-export default AssetItemReport
+// export default AssetItemReport
 
 
 // import React, { memo, useCallback, useEffect, useState, useMemo } from 'react'

@@ -36,5 +36,5 @@ export const cms_three = [
 export const am_one = [
     { to: '/Home/AssetItemReport', name: 'Asset Item Report', slno: 166 },
 
-
+    { to: '/Home/DeptSecBasedItemReport', name: 'Department Section Based Item Report', slno: 166 },
 ]

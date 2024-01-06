@@ -224,7 +224,7 @@ const CrfSMODashTable = ({ subDaFlag, tabledata, count, setCount }) => {
                 subDaFlag === 1 ?
                     <Box sx={{ pt: 1 }}>
                         <Typography sx={{ fontSize: 15, pl: 2, color: "#D0A2F7", fontWeight: 700 }}>
-                            Table For MO Pending :</Typography>
+                            Table For SMO Pending :</Typography>
                         <CusAgGridForMain
                             columnDefs={columnClinical}
                             tableData={smoData}
