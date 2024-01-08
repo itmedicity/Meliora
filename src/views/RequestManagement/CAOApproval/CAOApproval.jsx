@@ -579,7 +579,7 @@ const CEOApproval = () => {
 
     return (
         <CardCloseOnly
-            title="CAO/COO Approval"
+            title="GM Operations Approval"
             close={backtoSetting}
         >
             {CloseModalFlag === 1 ?
