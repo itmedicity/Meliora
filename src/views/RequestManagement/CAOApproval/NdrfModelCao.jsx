@@ -1445,7 +1445,7 @@ const NdrfModelCao = ({ open, setOpen, datas, count, setCount }) => {
                                             pl: 1, pr: 0.5, pt: 0.3
                                         }}>
                                         <NdrfApprovalCompnt
-                                            heading="NDRF Approval CAO/COO"
+                                            heading="NDRF Approval GM"
                                             approve={approve}
                                             reject={reject}
                                             pending={pending}

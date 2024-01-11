@@ -1024,7 +1024,7 @@ const NdrfCOODashModal = ({ open, setOpen, datas, count, setCount }) => {
                                         }}>
 
                                         <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >COO/CAO:
+                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >GM:
 
                                                 {
                                                     cao_approve === 1 ?
@@ -1446,7 +1446,7 @@ const NdrfCOODashModal = ({ open, setOpen, datas, count, setCount }) => {
                                             pl: 1, pr: 0.5, pt: 0.3
                                         }}>
                                         <NdrfApprovalCompnt
-                                            heading="NDRF Approval CAO/COO"
+                                            heading="NDRF Approval GM"
                                             approve={approve}
                                             reject={reject}
                                             pending={pending}

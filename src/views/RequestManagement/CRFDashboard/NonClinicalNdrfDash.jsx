@@ -33,7 +33,7 @@ const NonClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCo
         if (CAOCOOPending.length !== 0) {
             setWherePending(1)
         } else {
-            warningNotify("No NDRF For CAO/COO Approval Pending")
+            warningNotify("No NDRF For GM Approval Pending")
             setWherePending(0)
         }
     }, [CAOCOOPending])
@@ -176,7 +176,7 @@ const NonClinicalNdrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCo
                                 fontSmooth: 'auto',
                                 color: taskColor.FontindigoDark
                             }}
-                        >CAO/COO Pending</Box>
+                        >GM Pending</Box>
                         <Box
                             sx={{
                                 display: 'flex',
