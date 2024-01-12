@@ -225,21 +225,21 @@ const NdrfCOODashTable = ({ subDaFlag, tabledata, count, setCount }) => {
         { headerName: "NDRF ED.Remark", field: "ndrfMDRemark", minWidth: 250, wrapText: true, },
         { headerName: "Inch.Status", field: "incharge", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Inch.Remark", field: "incharge_remark", minWidth: 250, wrapText: true, },
-        { headerName: "Hod.Status", field: "hod", minWidth: 150, wrapText: true, },
+        { headerName: "Hod.Status", field: "hod", minWidth: 150, wrapText: true, filter: "true" },
         { headerName: "Hod.Remark", field: "hod_remarks", minWidth: 250, wrapText: true, },
-        { headerName: "DMS.Status", field: "dms", minWidth: 150, wrapText: true, },
+        { headerName: "DMS.Status", field: "dms", minWidth: 150, wrapText: true, filter: "true" },
         { headerName: "DMS.Remark", field: "dms_remarks", minWidth: 250, wrapText: true, },
-        { headerName: "MS.Status", field: "ms", minWidth: 150, wrapText: true, },
+        { headerName: "MS.Status", field: "ms", minWidth: 150, wrapText: true, filter: "true" },
         { headerName: "MS.Remark", field: "ms_approve_remark", minWidth: 250, wrapText: true, },
-        { headerName: "OM Status", field: "om", minWidth: 150, wrapText: true, },
+        { headerName: "OM Status", field: "om", minWidth: 150, wrapText: true, filter: "true" },
         { headerName: "OM.Remark", field: "manag_operation_remarks", minWidth: 250, wrapText: true, },
-        { headerName: "SMO Status", field: "smo", minWidth: 150, wrapText: true, },
+        { headerName: "SMO Status", field: "smo", minWidth: 150, wrapText: true, filter: "true" },
         { headerName: "SMO.Remark", field: "senior_manage_remarks", minWidth: 250, wrapText: true, },
-        { headerName: "CAO/COO Status", field: "cao", minWidth: 180, wrapText: true, },
-        { headerName: "CAO/COO.Remark", field: "cao_approve_remarks", minWidth: 250, wrapText: true, },
-        { headerName: "MD Status", field: "md", minWidth: 150, wrapText: true, },
+        { headerName: "GM Status", field: "cao", minWidth: 180, wrapText: true, filter: "true" },
+        { headerName: "GM.Remark", field: "cao_approve_remarks", minWidth: 250, wrapText: true, },
+        { headerName: "MD Status", field: "md", minWidth: 150, wrapText: true, filter: "true" },
         { headerName: "MD.Remark", field: "md_approve_remarks", minWidth: 250, wrapText: true, },
-        { headerName: "ED Status", field: "ed", minWidth: 150, wrapText: true, },
+        { headerName: "ED Status", field: "ed", minWidth: 150, wrapText: true, filter: "true" },
         { headerName: "ED.Remark", field: "ed_approve_remarks", minWidth: 250, wrapText: true, },
     ])
 
@@ -268,22 +268,22 @@ const NdrfCOODashTable = ({ subDaFlag, tabledata, count, setCount }) => {
         { headerName: "NDRF CAOO/COO.Status", field: "ndrfCOO", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "NDRF CAOO/COO.Remark", field: "ndrfCAORemark", minWidth: 250, wrapText: true, },
         { headerName: "NDRF MD.Status", field: "ndrfED", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: "NDRF MD.Remark", field: "ndrfEDRemark", minWidth: 250, wrapText: true, },
+        { headerName: "NDRF MD.Remark", field: "ndrfEDRemark", minWidth: 250, wrapText: true, filter: "true" },
         { headerName: "NDRF ED.Status", field: "ndrfMD", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "NDRF ED.Remark", field: "ndrfMDRemark", minWidth: 250, wrapText: true, },
+        { headerName: "NDRF ED.Remark", field: "ndrfMDRemark", minWidth: 250, wrapText: true, filter: "true" },
         { headerName: "Inch.Status", field: "incharge", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "Inch.Remark", field: "incharge_remark", minWidth: 250, wrapText: true, },
-        { headerName: "Hod.Status", field: "hod", minWidth: 150, wrapText: true, },
+        { headerName: "Inch.Remark", field: "incharge_remark", minWidth: 250, wrapText: true, filter: "true" },
+        { headerName: "Hod.Status", field: "hod", minWidth: 150, wrapText: true, filter: "true" },
         { headerName: "Hod.Remark", field: "hod_remarks", minWidth: 250, wrapText: true, },
-        { headerName: "OM Status", field: "om", minWidth: 150, wrapText: true, },
+        { headerName: "OM Status", field: "om", minWidth: 150, wrapText: true, filter: "true" },
         { headerName: "OM.Remark", field: "manag_operation_remarks", minWidth: 250, wrapText: true, },
-        { headerName: "SMO Status", field: "smo", minWidth: 150, wrapText: true, },
+        { headerName: "SMO Status", field: "smo", minWidth: 150, wrapText: true, filter: "true" },
         { headerName: "SMO.Remark", field: "senior_manage_remarks", minWidth: 250, wrapText: true, },
-        { headerName: "CAO/COO Status", field: "cao", minWidth: 180, wrapText: true, },
-        { headerName: "CAO/COO.Remark", field: "cao_approve_remarks", minWidth: 250, wrapText: true, },
-        { headerName: "MD Status", field: "md", minWidth: 150, wrapText: true, },
+        { headerName: "GM Status", field: "cao", minWidth: 180, wrapText: true, filter: "true" },
+        { headerName: "GM Remark", field: "cao_approve_remarks", minWidth: 250, wrapText: true, },
+        { headerName: "MD Status", field: "md", minWidth: 150, wrapText: true, filter: "true" },
         { headerName: "MD.Remark", field: "md_approve_remarks", minWidth: 250, wrapText: true, },
-        { headerName: "ED Status", field: "ed", minWidth: 150, wrapText: true, },
+        { headerName: "ED Status", field: "ed", minWidth: 150, wrapText: true, filter: "true" },
         { headerName: "ED.Remark", field: "ed_approve_remarks", minWidth: 250, wrapText: true, },
     ])
 
@@ -311,14 +311,14 @@ const NdrfCOODashTable = ({ subDaFlag, tabledata, count, setCount }) => {
                 subDaFlag === 2 ?
                     <Box sx={{ pt: 1 }}>
                         <Typography sx={{ fontSize: 15, pl: 2, color: "#D0A2F7", fontWeight: 700 }}>
-                            Table For COO Pending :</Typography>
+                            Table For GM Pending :</Typography>
                         <CusAgGridForMain
                             columnDefs={columnClinical}
                             tableData={cooData}
                         /></Box> : subDaFlag === 4 ?
                         <Box sx={{ pt: 1 }}>
                             <Typography sx={{ fontSize: 15, pl: 2, color: "#D0A2F7", fontWeight: 700 }}>
-                                Table For COO Pending :</Typography>
+                                Table For GM Pending :</Typography>
                             <CusAgGridForMain
                                 columnDefs={columnNonClinical}
                                 tableData={cooData}

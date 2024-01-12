@@ -1266,7 +1266,7 @@ const CAOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
                                                         pl: 1, pr: 1
                                                     }}>
                                                     <ApprovalCompnt
-                                                        heading="CAO/COO Approval"
+                                                        heading="GM Approval"
                                                         approve={approve}
                                                         reject={reject}
                                                         pending={pending}

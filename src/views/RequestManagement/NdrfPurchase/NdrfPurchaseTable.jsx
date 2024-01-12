@@ -232,7 +232,7 @@ const NdrfPurchaseTable = () => {
         {
             headerName: 'Pdf', minWidth: 80, cellRenderer: params => {
                 if (params.data.ndrf_purchase === 1) {
-                    return <IconButton onClick={() => pdfselect(params)}
+                    return <IconButton onClick={() => getPdfData(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
                         <CustomeToolTip title="pdf">
                             <DownloadForOfflineIcon color='primary' />
@@ -310,11 +310,16 @@ const NdrfPurchaseTable = () => {
     const [datacollectdata, setDataCollectData] = useState([])
 
 
-    const pdfselect = async (params) => {
+    const getPdfData = useCallback((params) => {
         const data = params.api.getSelectedRows()
+        pdfselect(data)
+
+    }, [])
+
+    const pdfselect = async (datas) => {
         const { req_slno, ndrf_mast_slno, incharge_user, hod_user, ndrf_om_user, ndrf_smo_user,
-            ndrf_cao_user, ndrf_ed_user } = data[0]
-        setDataPdf(data)
+            ndrf_cao_user, ndrf_ed_user } = datas[0]
+        setDataPdf(datas)
         const getInchargeSign = async () => {
             if (incharge_user > 0) {
                 const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + incharge_user}/signature/signature.jpg`);
@@ -393,6 +398,29 @@ const NdrfPurchaseTable = () => {
                 })
             }
         }
+
+        const InsertFun = async (req_slno) => {
+            const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setdataPost(data)
+            }
+            else {
+                setdataPost([])
+            }
+        }
+
+        const getDataCollectCompleteDetails = async (ndrf_mast_slno) => {
+            const result = await axioslogin.get(`/ndrf/getItemListDataCollect/${ndrf_mast_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setDataCollectData(data)
+            }
+            else {
+                setDataCollectData([])
+            }
+        }
+
         if (req_slno !== 0) {
             getInchargeSign()
             gethodSign()
@@ -400,27 +428,7 @@ const NdrfPurchaseTable = () => {
             getSMOSign()
             getCAOSign()
             getEDSign()
-            const InsertFun = async (req_slno) => {
-                const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    setdataPost(data)
-                }
-                else {
-                    setdataPost([])
-                }
-            }
 
-            const getDataCollectCompleteDetails = async (ndrf_mast_slno) => {
-                const result = await axioslogin.get(`/ndrf/getItemListDataCollect/${ndrf_mast_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    setDataCollectData(data)
-                }
-                else {
-                    setDataCollectData([])
-                }
-            }
 
 
             InsertFun(req_slno)
@@ -428,6 +436,8 @@ const NdrfPurchaseTable = () => {
         }
         setPdf(1)
     }
+
+
 
     //close button function
     const backtoSetting = useCallback(() => {

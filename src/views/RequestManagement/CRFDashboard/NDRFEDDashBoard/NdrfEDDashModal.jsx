@@ -236,16 +236,13 @@ const NdrfEDDashModal = ({ open, setOpen, datas, count, setCount }) => {
 
 
         if (approve !== false || reject !== false || pending !== false) {
-            if (remark !== '') {
-                updateInchApproval(patchdataED)
-            } else {
-                warningNotify("Please Enter Remarks")
-            }
+            updateInchApproval(patchdataED)
+
         } else {
             warningNotify("Please Select any status")
         }
 
-    }, [patchdataED, setCount, count, ModalClose, approve, reject, pending, remark])
+    }, [patchdataED, setCount, count, ModalClose, approve, reject, pending])
 
 
     return (
@@ -1456,7 +1453,7 @@ const NdrfEDDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                                 }}>
 
                                                 <CssVarsProvider>
-                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >NDRF CAO/COO:
+                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >NDRF GM:
 
                                                         {
                                                             ndrf_cao_approve === 1 ?

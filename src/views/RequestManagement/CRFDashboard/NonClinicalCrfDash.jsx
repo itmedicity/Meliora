@@ -80,7 +80,7 @@ const NonClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCou
         if (CAOCOOPending.length !== 0) {
             setWherePending(5)
         } else {
-            warningNotify("No CRF For CAO/COO Approval Pending")
+            warningNotify("No CRF For GM Approval Pending")
             setWherePending(0)
         }
     }, [CAOCOOPending])
