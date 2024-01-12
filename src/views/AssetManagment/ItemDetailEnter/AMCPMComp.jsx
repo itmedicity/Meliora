@@ -407,7 +407,7 @@ const AMCPMComp = ({ detailArry, amcPm, setAmcPm, assetSpare }) => {
                                 <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Contact Information</Typography>
                                 <Box>
                                     <TextFieldCustom
-                                        type="date"
+                                        type="text"
                                         size="sm"
                                         name="fromDate"
                                         value={fromDate}
