@@ -348,7 +348,8 @@ const CrfCOODashModal = ({ open, setOpen, datas, count, setCount }) => {
         <Fragment>
             <ToastContainer />
             {
-                enable === 1 ? <CrfDataCollectNotOkModal open={open} setOpen={setOpen} setEnable={setEnable} />
+                enable === 1 ? <CrfDataCollectNotOkModal open={open} setOpen={setOpen} setEnable={setEnable}
+                    req_slno={req_slno} />
                     :
                     <Box>
                         {collImageShowFlag === 1 ? <DataCollectedImageDispy open={collImageShow} handleCloseCollect={handleCloseCollect}
