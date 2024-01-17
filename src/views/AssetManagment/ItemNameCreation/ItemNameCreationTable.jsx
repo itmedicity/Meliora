@@ -46,6 +46,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
           item_specific_two: val.item_specific_two,
           item_model_num: val.item_model_num,
           asset_spare: val.asset_spare,
+          item_creation_status: val.item_creation_status,
 
         }
         return obj
