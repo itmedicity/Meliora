@@ -579,6 +579,7 @@ const ItemNameCreation = () => {
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
+    console.log(data);
     const { item_creation_slno, item_asset_type_slno, item_type_slno, item_category_slno,
       item_subcategory_slno, item_group_slno, item_subgroup_slno, item_model_slno, item_submodel_slno,
       item_uom_slno, item_manufactures_slno, item_name, item_base_name, item_model_num,
