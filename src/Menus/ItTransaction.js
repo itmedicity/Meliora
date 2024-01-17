@@ -44,10 +44,10 @@ const ITTransactions = [
     },
 
     {
-        men_slno: 158,
+        men_slno: 175,
         component: CNavItem,
-        name: 'Wifi Management',
-        to: '/Home/WifiManageMent',
+        name: 'SiM Details',
+        to: '/Home/ItSimdetails',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 ]

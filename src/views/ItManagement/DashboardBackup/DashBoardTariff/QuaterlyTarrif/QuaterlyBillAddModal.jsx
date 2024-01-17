@@ -40,18 +40,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
     },
     [billAddModal],
   )
-  // const reset = () => {
-  //   const formdata = {
-  //     billAmount: '',
-  //     billDate: '',
-  //     billDueDate: '',
-  //     billNo: '',
-  //     billPayedDate: '',
-  //     payed_status: false,
-  //   }
-  //   setbillAddModal(formdata)
-  //   setSelectFile(null)
-  // }
+
   const patchdata = useMemo(() => {
     return {
       quaterly_slno: quaterly_slno,
@@ -169,8 +158,8 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
       >
         < DialogContent
           sx={{
-            width: 600,
-            height: 550,
+            width: 700,
+            height: '35vw',
           }}
         >
           <Box sx={{
@@ -194,16 +183,16 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
               }}>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Device name</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Device name</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                         {device_name}
                       </Typography>
                     </CssVarsProvider>
@@ -211,16 +200,16 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Device type</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Device type</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                         {device_type_name}
                       </Typography>
                     </CssVarsProvider>
@@ -228,64 +217,64 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Department</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Department</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{dept_name}
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;{dept_name}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Receiver Name</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Receiver Name</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{reciver_name}
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;{reciver_name}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Sim Operator</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Sim Operator</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{providername}
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;{providername}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Amount</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Tariff Amount</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{amount}
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;{amount}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
@@ -307,7 +296,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
                     sx={{
                       flex: .3,
                       pt: .8,
-                      ml: 1
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill Amount </Typography>
@@ -317,7 +306,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1
+                      pr: 2
                     }}>
                     <TextFieldCustom
                       placeholder="Bill Amount"
@@ -339,7 +328,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
                     sx={{
                       pt: .5,
                       flex: .3,
-                      ml: 1,
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill Date</Typography>
@@ -349,7 +338,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1
+                      pr: 2
                     }}>
                     <TextFieldCustom
                       type="date"
@@ -364,13 +353,13 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
                   width: "100%",
                   display: "flex",
                   margin: 'auto',
-                  pt: .5
+                  pt: .5, pr: 1, justifyContent: 'right'
                 }}>
                   <Box
                     sx={{
                       pt: .5,
                       flex: .3,
-                      ml: 1,
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15 }}>Bill Due Date</Typography>
@@ -401,7 +390,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
                     sx={{
                       pt: .8,
                       flex: .3,
-                      ml: 1,
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill No.</Typography>
@@ -411,7 +400,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1
+                      pr: 2
                     }}>
                     <TextFieldCustom
                       placeholder="Bill Number"
@@ -432,7 +421,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
                     sx={{
                       pt: 1,
                       flex: .3,
-                      ml: 1,
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill Payed Date</Typography>
@@ -442,7 +431,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1,
+                      pr: 2,
                       pt: .5
                     }}>
                     <TextFieldCustom
@@ -457,7 +446,7 @@ const QuaterlyBillAddModal = ({ open, handleClose, getarry, quaterlyCount, setQu
                 <Box sx={{ flex: 2, m: 1, height: 45, border: 1.5, borderStyle: 'dashed', borderColor: '#BBC8DE', pl: 1, }}>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <CssVarsProvider>
-                      <Typography   >upload bill</Typography>
+                      <Typography sx={{ color: '#000C66' }}  >upload bill</Typography>
                     </CssVarsProvider>
                     <label htmlFor="file-input">
                       <CustomeToolTip title="upload">

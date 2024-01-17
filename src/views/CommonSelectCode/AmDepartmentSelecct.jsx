@@ -5,20 +5,31 @@ import { CssVarsProvider } from '@mui/joy/'
 import { getDesignation } from 'src/redux/actions/DeptSecDept.action';
 import { useDispatch } from 'react-redux'
 
+
 const AmDepartmentSelecct = ({ department, setDepartment, setDeptName }) => {
     const dispatch = useDispatch();
-
     const departmentList = useSelector((state) => state.getDepartment?.departmentList)
     const [models, setModels] = useState([{ dept_id: 0, dept_name: '' }])
     const [value, setValue] = useState(models[0]);
     const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
+        if (department !== 0) {
+            let newObj = departmentList?.find((e) => e.dept_id === department)
+            dispatch(getDesignation(department))
+            setValue(newObj)
+        }
+    }, [department, departmentList, dispatch])
+
+
+    useEffect(() => {
         if (value !== null) {
-            setValue(value)
-            dispatch(getDesignation(value.dept_id))
             setDepartment(value.dept_id)
             setDeptName(value.dept_name)
+            if (value.dept_id !== 0) {
+                dispatch(getDesignation(value.dept_id))
+            }
+
         } else {
             setDepartment(0)
             setDeptName('')

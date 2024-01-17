@@ -1,9 +1,9 @@
-import React, { Fragment, memo, useState, useCallback, useMemo } from 'react'
+import React, { Fragment, memo, useState, useCallback, useMemo, useEffect } from 'react'
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import { Box } from '@mui/material'
+import { Box, Divider } from '@mui/material'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import ItCommunicationDeviceTypeSelect from 'src/views/CommonSelectCode/ItCommunicationDeviceTypeSelect';
@@ -11,13 +11,21 @@ import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect';
 import DeptSecUnderDept from 'src/views/CommonSelectCode/DeptSecUnderDept';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
-import TarrifDropDown from './TarrifDropDown';
-import ProviderDropDown from './ProviderDropDown';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import CusCheckBox from 'src/views/Components/CusCheckBox';
+import { getDepartment } from 'src/redux/actions/Department.action';
 
 const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
 }) => {
+
+
+
+    const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        dispatch(getDepartment())
+    }, [dispatch,])
 
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -25,8 +33,8 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
     const [deviceType, setDeviceType] = useState(0)
     const [department, setDepartment] = useState(0)
     const [location, setLocation] = useState(0)
-    const [tarrif, setTarrif] = useState(0)
-    const [provider, setProvider] = useState(0)
+    // const [tarrif, setTarrif] = useState(0)
+    // const [provider, setProvider] = useState(0)
 
     const [communicationDeviceModal, setcommunicationDeviceModal] = useState({
         device_slno: '',
@@ -36,6 +44,7 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
         sim_number: '',
         issue_date: '',
         asset_no: '',
+        sim_status: false,
         amount: '',
         device_ima: '',
         device_num: '',
@@ -44,7 +53,7 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
         device_name: '',
         issue_status: false,
     })
-    const { reciver_name, contact_no, ima, sim_number, issue_date, asset_no, amount,
+    const { reciver_name, contact_no, ima, sim_number, issue_date, asset_no, sim_status, amount,
         issue_status, device_ima, device_num, sim_mobile_num, receiver_emp_id, device_name } = communicationDeviceModal
 
     const DeviceTypeUpdate = useCallback(
@@ -65,10 +74,11 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
             contact_no: '',
             ima: '',
             sim_number: '',
-            provider: '',
+            // provider: '',
             issue_date: '',
             asset_no: '',
-            tarrif: '',
+            sim_status: '',
+            // tarrif: '',
             amount: '',
             device_ima: '',
             device_num: '',
@@ -85,10 +95,11 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
             contact_no: contact_no === '' ? null : contact_no,
             ima: ima === '' ? null : ima,
             sim_number: sim_number === '' ? null : sim_number,
-            provider: provider === 0 ? null : provider,
+            // provider: provider === 0 ? null : provider,
             issue_date: issue_date === '' ? null : issue_date,
             asset_no: asset_no === '' ? null : asset_no,
-            tarrif: tarrif === 0 ? null : tarrif,
+            sim_status: sim_status === true ? 1 : 0,
+            // tarrif: tarrif === 0 ? null : tarrif,
             amount: amount === '' ? null : amount,
             device_type_slno: deviceType === 0 ? null : deviceType,
             department: department === 0 ? null : department,
@@ -102,8 +113,11 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
             create_user: id,
             edit_user: issue_status === 1 ? id : null,
         }
-    }, [reciver_name, contact_no, ima, sim_number, provider, issue_date, asset_no,
-        tarrif, amount, deviceType, issue_status, department, location,
+    }, [reciver_name, contact_no, ima, sim_number,
+        // provider,
+        issue_date, asset_no, sim_status,
+        // tarrif,
+        amount, deviceType, issue_status, department, location,
         device_ima, device_num, sim_mobile_num, receiver_emp_id, device_name, id])
     const submitDeviceType = useCallback(
         (e) => {
@@ -149,7 +163,9 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                 }
             }
 
-            if (tarrif !== 0 && amount !== '' && device_name !== '' && reciver_name !== ''
+            if (
+                // tarrif !== 0 &&
+                amount !== '' && device_name !== '' && reciver_name !== ''
                 && receiver_emp_id !== '' && deviceType !== 0 && department !== 0 && location !== 0) {
                 InsertDeviceType(postdata);
                 reset()
@@ -163,9 +179,9 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                 else if (receiver_emp_id === '') {
                     infoNotify("Please enter the receiver employee ID");
                 }
-                else if (tarrif === 0) {
-                    infoNotify("Please choose a tarrif");
-                }
+                // else if (tarrif === 0) {
+                //     infoNotify("Please choose a tarrif");
+                // }
                 else if (amount === '') {
                     infoNotify("Please enter the tarrif amount");
                 }
@@ -180,7 +196,9 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
                 }
             }
         },
-        [count, postdata, handleClose, device_name, reciver_name, receiver_emp_id, tarrif, amount, sim_mobile_num, contact_no, deviceType, department, location, setCount],
+        [count, postdata, handleClose, device_name, reciver_name, receiver_emp_id,
+            // tarrif,
+            amount, sim_mobile_num, contact_no, deviceType, department, location, setCount],
     )
     return (
         <Fragment  >
@@ -191,467 +209,384 @@ const ModalCommunicationDevice = ({ open, count, setCount, handleClose,
             >
                 < DialogContent
                     sx={{
-                        width: 650,
-                        height: 700,
+                        width: 850,
+                        height: '100vw',
                     }}
                 >
                     <Box sx={{
                         width: '100%',
+                        border: .5, borderColor: '#9DBED1', borderRadius: 1
                     }}>
                         <Box id="alert-dialog-slide-descriptiona"
-                            sx={{ fontWeight: 'bold', height: '50px', pt: 2, color: '#004F76', textAlign: 'center', }}>
+                            sx={{ fontWeight: 600, fontSize: 19, height: '50px', pt: 2, color: '#004F76', textAlign: 'center', }}>
                             Add Communication Device Details
                         </Box>
-                        <Box sx={{
-                            width: '100%',
-                            border: .5, borderColor: '#9DBED1', borderRadius: 1
-                        }}>
-                            <Box sx={{
-                                width: '100%',
-                                height: '30%',
-                                mt: .5,
-                                pt: .5
-                            }}>
-                                <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D', }}>Location</Typography>
-                                </CssVarsProvider>
-                                <Box
-                                    sx={{ pt: 1, display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1,
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15, }}>Department *</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .7,
-                                        mr: 1, ml: 1
-                                    }}>
-                                        <DepartmentSelect value={department} setValue={setDepartment} />
-                                    </Box>
+                        <Box>
+                            <CssVarsProvider>
+                                <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', mt: 2, fontFamily: 'Georgia' }}>
+                                    Location</Divider>
+                            </CssVarsProvider>
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, pt: 1, display: 'flex', justifyContent: 'right' }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>Department
+                                            <Typography sx={{ color: '#A30000' }}>*</Typography></Typography>
+                                    </CssVarsProvider>
                                 </Box>
-                                <Box sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Section</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .7,
-                                        mr: 1,
-                                        mb: .5,
-                                        pt: 1, ml: 1
-                                    }}>
-                                        <DeptSecUnderDept dept={department} value={location} setValue={setLocation} />
-                                    </Box>
+                                <Box sx={{ flex: 3, mt: 1, ml: 1 }}>
+
+                                    <DepartmentSelect value={department} setValue={setDepartment} />
+                                    {/* <TmDepartmentSelect
+                                        department={department}
+                                        setDepartment={setDepartment} /> */}
+
+
                                 </Box>
+                                <Box sx={{ flex: 1 }}></Box>
                             </Box>
-                            <Box sx={{
-                                width: '100%',
-                                mt: .5,
-                            }}>
-                                <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Device details</Typography>
-                                </CssVarsProvider>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: 1.5
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15, }}>Device Name *</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .7,
-                                        mr: 1,
-                                        pt: 1, ml: 1
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder="Device Name"
-                                            type="text"
-                                            size="sm"
-                                            name="device_name"
-                                            value={device_name}
-                                            onchange={DeviceTypeUpdate}
-                                        ></TextFieldCustom>
-                                    </Box>
+
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: .5, }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>Section
+                                            <Typography sx={{ color: '#5F093D' }}>
+                                                *
+                                            </Typography></Typography>
+                                    </CssVarsProvider>
                                 </Box>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: .9
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15, }}>Device type *</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .7,
-                                        mr: 1,
-                                        mb: .5,
-                                        pt: 1, ml: 1
-                                    }}>
-                                        <ItCommunicationDeviceTypeSelect value={deviceType} setValue={setDeviceType} />
-                                    </Box>
+                                <Box sx={{ flex: 3, mt: 1, ml: 1 }}>
+
+                                    {/* <TmDeptSectionSelect
+                                        deptsec={department}
+                                        setDeptSec={setLocation} /> */}
+
+                                    <DeptSecUnderDept dept={department} value={location} setValue={setLocation} />
+
+
                                 </Box>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: .5
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Device slno./IMA</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .7,
-                                        mr: 1,
-                                        mb: .5, ml: 1
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder="Device Sl No./IMA"
-                                            type="text"
-                                            size="sm"
-                                            name="device_ima"
-                                            value={device_ima}
-                                            onchange={DeviceTypeUpdate}
-                                        ></TextFieldCustom>
-                                    </Box>
-                                </Box>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: .5
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Device Number</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .7,
-                                        mr: 1,
-                                        mb: .5, ml: 1
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder="Device No."
-                                            type="text"
-                                            size="sm"
-                                            name="device_num"
-                                            value={device_num}
-                                            onchange={DeviceTypeUpdate}
-                                        ></TextFieldCustom>
-                                    </Box>
-                                </Box>
-                            </Box>
-                            <Box sx={{
-                                width: '100%'
-                            }}>
-                                <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Sim Details</Typography>
-                                </CssVarsProvider>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: 1
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>SIM slno./IMA</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .7,
-                                        mr: 1,
-                                        mb: .5,
-                                        pt: .5, ml: 1
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder="SIM Serial No./IMA"
-                                            type="text"
-                                            size="sm"
-                                            name="ima"
-                                            value={ima}
-                                            onchange={DeviceTypeUpdate}
-                                        ></TextFieldCustom>
-                                    </Box>
-                                </Box>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: .5
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>SIM Number</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .7,
-                                        mr: 1,
-                                        mb: .5, ml: 1
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder=" SIM Number"
-                                            type="text"
-                                            size="sm"
-                                            name="sim_number"
-                                            value={sim_number}
-                                            onchange={DeviceTypeUpdate}
-                                        ></TextFieldCustom>
-                                    </Box>
-                                </Box>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: .5
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>SIM Operator</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .7,
-                                        mr: 1,
-                                        mb: .5,
-                                        pt: .5, ml: 1
-                                    }}>
-                                        <ProviderDropDown
-                                            value={provider}
-                                            setValue={setProvider} />
-                                    </Box>
-                                </Box>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: .5
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>SIM Mobile No.</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .4,
-                                        mr: 1,
-                                        mb: .5, ml: 1
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder="SIM mobile No."
-                                            type="text"
-                                            size="sm"
-                                            name="sim_mobile_num"
-                                            value={sim_mobile_num}
-                                            onchange={DeviceTypeUpdate}
-                                        ></TextFieldCustom>
-                                    </Box>
-                                </Box>
-                            </Box>
-                            <Box sx={{
-                                width: '100%',
-                                height: '30%',
-                                mt: .5,
-                            }}>
-                                <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Tarrif details</Typography>
-                                </CssVarsProvider>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: 1
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Tarrif * </Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .7,
-                                        mr: 1,
-                                        mb: .5,
-                                        pt: 1,
-                                        ml: 1
-                                    }}>
-                                        <TarrifDropDown value={tarrif} setValue={setTarrif} />
-                                    </Box>
-                                </Box>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: .5
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Tariff Amount *</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .4,
-                                        mr: 1,
-                                        mb: .5,
-                                        ml: 1
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder=" Amount. Rs."
-                                            type="text"
-                                            size="sm"
-                                            name="amount"
-                                            value={amount}
-                                            onchange={DeviceTypeUpdate}
-                                        ></TextFieldCustom>
-                                    </Box>
-                                </Box>
-                            </Box>
-                            <Box sx={{
-                                width: '100%',
-                                height: '30%',
-                                mt: .5,
-                            }}>
-                                <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Asset number</Typography>
-                                </CssVarsProvider>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: .5
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Asset Number</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .7,
-                                        mr: 1,
-                                        mb: .5,
-                                        ml: 1
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder="Asset No."
-                                            type="text"
-                                            size="sm"
-                                            name="asset_no"
-                                            value={asset_no}
-                                            onchange={DeviceTypeUpdate}
-                                        ></TextFieldCustom>
-                                    </Box>
-                                </Box>
-                            </Box>
-                            <Box sx={{
-                                width: '100%',
-                                mt: .5,
-                            }}>
-                                <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Recievers details</Typography>
-                                </CssVarsProvider>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: 1.5
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Reciever EmpID*</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .4,
-                                        mr: 1,
-                                        mb: .5,
-                                        pt: 1,
-                                        ml: 1.1
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder="Emp.ID"
-                                            type="text"
-                                            size="sm"
-                                            name="receiver_emp_id"
-                                            value={receiver_emp_id}
-                                            onchange={DeviceTypeUpdate}
-                                        ></TextFieldCustom>
-                                    </Box>
-                                </Box>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: .5
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Reciever Name *</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .7,
-                                        mr: 1,
-                                        mb: .5,
-                                        ml: 1
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder=" Name"
-                                            type="text"
-                                            size="sm"
-                                            name="reciver_name"
-                                            value={reciver_name}
-                                            onchange={DeviceTypeUpdate}
-                                        ></TextFieldCustom>
-                                    </Box>
-                                </Box>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: .5
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Reciever Ph No.</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .4,
-                                        mr: 1,
-                                        mb: .5,
-                                        ml: 1
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder="Contact No"
-                                            type="text"
-                                            size="sm"
-                                            name="contact_no"
-                                            value={contact_no}
-                                            onchange={DeviceTypeUpdate}
-                                        ></TextFieldCustom>
-                                    </Box>
-                                </Box>
-                            </Box>
-                            <Box sx={{
-                                width: '100%',
-                                mt: .5,
-                            }}>
-                                <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Issued details</Typography>
-                                </CssVarsProvider>
-                                <Box
-                                    sx={{ display: 'flex', }}>
-                                    <Box sx={{
-                                        flex: .2, pl: 1, pt: .5
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Issued Date</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: .4,
-                                        mr: 1,
-                                        mb: .5,
-                                        ml: 1
-                                    }}>
-                                        <TextFieldCustom
-                                            type="date"
-                                            size="sm"
-                                            name="issue_date"
-                                            value={issue_date}
-                                            onchange={DeviceTypeUpdate}
-                                        ></TextFieldCustom>
-                                    </Box>
-                                </Box>
+                                <Box sx={{ flex: 1 }}></Box>
                             </Box>
                         </Box>
+                        <Box>
+                            <CssVarsProvider>
+                                <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', mt: 2, fontFamily: 'Georgia' }}>
+                                    Device Details</Divider>
+                            </CssVarsProvider>
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, display: 'flex', pt: 1.5, justifyContent: 'right' }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>Device Name
+                                            <Typography sx={{ color: '#5F093D' }}>
+                                                *
+                                            </Typography></Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ flex: 3, mt: 1, ml: 1 }}>
+                                    <TextFieldCustom
+                                        placeholder="Device Name"
+                                        type="text"
+                                        size="sm"
+                                        name="device_name"
+                                        value={device_name}
+                                        onchange={DeviceTypeUpdate}
+                                    ></TextFieldCustom>
+                                </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box>
+
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: .5 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>Device type<Typography sx={{ color: '#5F093D' }}>
+                                            *
+                                        </Typography></Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ flex: 3, mt: 1, ml: 1 }}>
+                                    <ItCommunicationDeviceTypeSelect value={deviceType} setValue={setDeviceType} />
+                                </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box>
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: .8 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>Device slno./IMA</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ flex: 3, mt: .5, ml: 1 }}>
+                                    <TextFieldCustom
+                                        placeholder="Device Sl No./IMA"
+                                        type="text"
+                                        size="sm"
+                                        name="device_ima"
+                                        value={device_ima}
+                                        onchange={DeviceTypeUpdate}
+                                    ></TextFieldCustom>
+                                </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box>
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: .5 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>Device Number</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ flex: 3, mt: .5, ml: 1 }}>
+                                    <TextFieldCustom
+                                        placeholder="Device No."
+                                        type="text"
+                                        size="sm"
+                                        name="device_num"
+                                        value={device_num}
+                                        onchange={DeviceTypeUpdate}
+                                    ></TextFieldCustom>
+                                </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box>
+                        </Box>
+                        <Box>
+                            <CssVarsProvider>
+                                <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', mt: 2, fontFamily: 'Georgia' }}>
+                                    Sim Details</Divider>
+                            </CssVarsProvider>
+
+
+                            {/* <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: 1.5 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>SIM slno./IMA</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ flex: 3, mt: 1, ml: 1 }}>
+                                    <TextFieldCustom
+                                        placeholder="SIM Serial No./IMA"
+                                        type="text"
+                                        size="sm"
+                                        name="ima"
+                                        value={ima}
+                                        onchange={DeviceTypeUpdate}
+                                    ></TextFieldCustom>
+                                </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box> */}
+
+                            {/* <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: .8 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>SIM Number</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ flex: 3, mt: .5, ml: 1 }}>
+                                    <TextFieldCustom
+                                        placeholder=" SIM Number"
+                                        type="text"
+                                        size="sm"
+                                        name="sim_number"
+                                        value={sim_number}
+                                        onchange={DeviceTypeUpdate}
+                                    ></TextFieldCustom>
+                                </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box> */}
+                            {/* <Box sx={{ display: 'flex', }}> */}
+                            {/* <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: .5 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>SIM Operator</Typography>
+                                    </CssVarsProvider>
+                                </Box> */}
+                            {/* <Box sx={{ flex: 3, ml: 1, mt: 1, }}> */}
+                            {/* <ProviderDropDown
+                                        value={provider}
+                                        setValue={setProvider} /> */}
+                            {/* </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box> */}
+                            {/* <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: .5 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>SIM Mobile No.</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ flex: 3, mt: .5, ml: 1 }}>
+                                    <TextFieldCustom
+                                        placeholder="SIM mobile No."
+                                        type="text"
+                                        size="sm"
+                                        name="sim_mobile_num"
+                                        value={sim_mobile_num}
+                                        onchange={DeviceTypeUpdate}
+                                    ></TextFieldCustom>
+                                </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box> */}
+                        </Box>
+                        <Box>
+                            {/* <CssVarsProvider>
+                                <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', mt: 2, fontFamily: 'Georgia' }}>
+                                    Tariff Details</Divider>
+                            </CssVarsProvider> */}
+                            {/* <Box sx={{ display: 'flex', }}> */}
+                            {/* <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: 1.5 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>Tarrif    <Typography sx={{ color: '#5F093D' }}>
+                                            *
+                                        </Typography> </Typography>
+                                    </CssVarsProvider>
+                                </Box> */}
+                            {/* <Box sx={{ flex: 3, mt: 2, ml: 1 }}> */}
+                            {/* <TarrifDropDown value={tarrif} setValue={setTarrif} /> */}
+                            {/* </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box> */}
+
+                            <Box sx={{ display: 'flex', }}>
+                                {/* <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: .5 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>Tariff Amount<Typography sx={{ color: '#5F093D' }}>
+                                            *
+                                        </Typography></Typography>
+                                    </CssVarsProvider>
+                                </Box> */}
+                                {/* <Box sx={{ flex: 3, mt: .1, ml: 1 }}>
+                                    <TextFieldCustom
+                                        placeholder=" Amount. Rs."
+                                        type="text"
+                                        size="sm"
+                                        name="amount"
+                                        value={amount}
+                                        onchange={DeviceTypeUpdate}
+                                    ></TextFieldCustom>
+                                </Box> */}
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box>
+                        </Box>
+                        <Box>
+                            <CssVarsProvider>
+                                <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', mt: 2, fontFamily: 'Georgia' }}>
+                                    Asset Details</Divider>
+                            </CssVarsProvider>
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: 1.5 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>Asset Number</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ flex: 3, mt: 1, ml: 1 }}>
+                                    <TextFieldCustom
+                                        placeholder="Asset No."
+                                        type="text"
+                                        size="sm"
+                                        name="asset_no"
+                                        value={asset_no}
+                                        onchange={DeviceTypeUpdate}
+                                    ></TextFieldCustom>
+                                </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box>
+                        </Box>
+                        <Box>
+                            <CssVarsProvider>
+                                <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', mt: 2, fontFamily: 'Georgia' }}>
+                                    Reciever&apos;s Details</Divider>
+                            </CssVarsProvider>
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: 1.5 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>Employee ID<Typography sx={{ color: '#5F093D' }}>
+                                            *
+                                        </Typography></Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ flex: 3, mt: 1, ml: 1 }}>
+                                    <TextFieldCustom
+                                        placeholder="Emp.ID"
+                                        type="text"
+                                        size="sm"
+                                        name="receiver_emp_id"
+                                        value={receiver_emp_id}
+                                        onchange={DeviceTypeUpdate}
+                                    ></TextFieldCustom>
+                                </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box>
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: .5 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}> Employee Name<Typography sx={{ color: '#5F093D' }}>
+                                            *
+                                        </Typography></Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ flex: 3, mt: .5, ml: 1 }}>
+                                    <TextFieldCustom
+                                        placeholder="Receiver name"
+                                        type="text"
+                                        size="sm"
+                                        name="reciver_name"
+                                        value={reciver_name}
+                                        onchange={DeviceTypeUpdate}
+                                    ></TextFieldCustom>
+                                </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box>
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: .5 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>Contact No.</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ flex: 3, ml: 1, mt: .5 }}>
+                                    <TextFieldCustom
+                                        placeholder="Contact No"
+                                        type="text"
+                                        size="sm"
+                                        name="contact_no"
+                                        value={contact_no}
+                                        onchange={DeviceTypeUpdate}
+                                    ></TextFieldCustom>
+                                </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box>
+                        </Box>
+                        <Box sx={{ mb: 2 }}>
+                            <CssVarsProvider>
+                                <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', mt: 2, fontFamily: 'Georgia' }}>
+                                    Issued Details</Divider>
+                            </CssVarsProvider>
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'right', pt: 1.5 }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15, color: '#000C66', }}>Issued Date</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ flex: 3, mt: 1, ml: 1 }}>
+                                    <TextFieldCustom
+                                        type="date"
+                                        size="sm"
+                                        name="issue_date"
+                                        value={issue_date}
+                                        onchange={DeviceTypeUpdate}
+                                    ></TextFieldCustom>
+                                </Box>
+                                <Box sx={{ flex: 1 }}></Box>
+                            </Box>
+                        </Box>
+                        <Box sx={{ flex: 1, display: 'flex', mb: 1 }}>
+                            <Box sx={{ flex: 2, display: 'flex', justifyContent: 'right', }}>
+                                <CusCheckBox
+                                    // label="Sim Status"
+                                    color="primary"
+                                    size="md"
+                                    name="sim_status"
+                                    value={sim_status}
+                                    checked={sim_status}
+                                    onCheked={DeviceTypeUpdate}
+                                ></CusCheckBox>
+                            </Box>
+                            <Box sx={{ pl: 1, flex: 3, color: '#000C66', fontFamily: 'Georgia' }}>Sim Status</Box>
+                        </Box>
                     </Box>
+
                 </DialogContent>
                 <DialogActions>
                     <Button

@@ -91,22 +91,19 @@ const MonthlyTarifView = ({ monthlydata, setmonthly, setMonthlyCount, monthlyCou
           sec_name: val.sec_name,
           reciver_name: val.reciver_name,
           contact_no: val.contact_no,
-          // ima: val.ima,
           sim_number: val.sim_number,
           provider: val.provider,
           providername: val.provider === 1 ? 'Vodafone Idea' : val.provider === 2 ? 'Airtel' : val.provider === 3 ? 'Jio' :
             val.provider === 4 ? 'Bsnl' : val.provider === 5 ? 'Reliance Communications' : val.provider === 6 ? 'Aircel' :
               val.provider === 7 ? 'Tata Docomo' : val.provider === 8 ? 'BSNL Mobile' : val.provider === 9 ? 'MNTL' :
-                val.provider === 10 ? 'Tata Teleservices' : val.provider === 11 ? 'Telenor India' : val.provider === 12 ? 'MTS India' : 'N/A',
+                val.provider === 10 ? 'Tata Teleservices' : val.provider === 11 ? 'Telenor India' : val.provider === 12 ? 'MTS India' : 'Not given',
           isssued_deligate: val.isssued_deligate,
           issue_date: val.issue_date,
           asset_no: val.asset_no,
-          // sim: val.sim,
-          // issue: val.issue,
           tarrif: val.tarrif,
           sim_status: val.sim_status,
           issue_status: val.issue_status,
-          tarrifname: val.tarrif === 1 ? 'Monthly' : val.tarrif === 2 ? 'Quarterly' : val.tarrif === 3 ? 'Yearly' : 'N/A',
+          tarrifname: val.tarrif === 1 ? 'Monthly' : val.tarrif === 2 ? 'Quarterly' : val.tarrif === 3 ? 'Yearly' : 'Not given',
           amount: val.amount,
           receiver_emp_id: val.receiver_emp_id,
           sim_mobile_num: val.sim_mobile_num,
@@ -119,7 +116,7 @@ const MonthlyTarifView = ({ monthlydata, setmonthly, setMonthlyCount, monthlyCou
           bill_number: val.bill_number,
           bill_due_date: val.bill_due_date,
           payed: val.payed,
-          // uploaded_bill: baseFileURL + val.monthly_slno + '.jpg'
+
         }
         return obj
       })
@@ -143,69 +140,76 @@ const MonthlyTarifView = ({ monthlydata, setmonthly, setMonthlyCount, monthlyCou
             getarry={getarry} editFlag={editFlag} /> :
             imageViewModalFlag === 1 ? <ImageView imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
               selectedMonthlyBillImages={selectedMonthlyBillImages} getarry={getarry} /> : null}
-          <CssVarsProvider>
-            <Box sx={{ display: 'flex' }}>
-              <Box sx={{ flex: 5, }}><Typography sx={{ fontWeight: 10, fontSize: 28, fontFamily: 'Anton', color: '#003060' }}>Monthly Tariff </Typography></Box>
-              <Paper sx={{ width: 30, height: 20, backgroundColor: '#D6DBDF', mt: 1 }}></Paper><Box sx={{ flex: 1, pl: 1, pt: .5 }}> pending bill</Box>
-            </Box>
-            <Paper variant="outlined" sx={{ maxHeight: 750, maxWidth: '100%', overflow: 'auto' }}>
-              <CssVarsProvider>
-                <Table padding={"none"} stickyHeader
-                  hoverRow>
-                  <thead>
-                    <tr>
-                      <th style={{ width: 50 }} >SlNo</th>
-                      <th style={{ width: 60 }}>Action</th>
-                      <th style={{ width: 80 }}>Bills View</th>
-                      <th style={{ width: 170, }}>Sim Operator</th>
-                      <th style={{ width: 170, }}>Sim Mobile No</th>
-                      <th style={{ width: 150, }}>Tarrif Amount</th>
-                      <th style={{ width: 150, }}>Bill Amount</th>
-                      <th style={{ width: 180, }} >Bill Date</th>
-                      <th style={{ width: 180, }} >Bill Due Date</th>
-                      <th style={{ width: 200, }}>Bill Number</th>
-                      <th style={{ width: 200, }}>Device Name</th>
-                      <th style={{ width: 200, }} >Device Type</th>
-                      <th style={{ width: 250, }}>Department</th>
-                      <th style={{ width: 250 }}>Location</th>
-                      <th style={{ width: 150, }}>Reciever Emp ID</th>
-                      <th style={{ width: 200, }}>Reciever Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      tabledata.map((val, index) => {
-                        return <tr key={index}
-                          style={{ height: 8, background: val.payed_status === null ? '#D6DBDF' : val.payed_status === 0 ? '#D6DBDF' : 'transparent' }}>
-                          <td> {index + 1}</td>
-                          <td>
-                            <EditIcon sx={{ cursor: 'pointer', color: '#055C9D' }} size={6} onClick={() => editForSelect(val)} />
-                          </td>
-                          <td style={{ cursor: 'pointer', textAlign: 'center' }}>
-                            <PermMediaIcon style={{ height: '20px', width: '20px', color: '#41729F' }}
-                              onClick={() => fileView(val)} />
-                          </td>
-                          <td> {val.providername}</td>
-                          <td>{val.sim_mobile_num || 'N/A'}</td>
-                          <td>{val.amount || 'N/A'}</td>
-                          <td>{val.bill_amount || 'N/A'}</td>
-                          <td>{val.bill_date || 'N/A'}</td>
-                          <td>{val.bill_due_date || 'N/A'}</td>
-                          <td>{val.bill_number || 'N/A'}</td>
-                          <td>{val.device_name || 'N/A'}</td>
-                          <td> {val.device_type_name || 'N/A'}</td>
-                          <td> {val.dept_name || 'N/A'}</td>
-                          <td>{val.sec_name || 'N/A'}</td>
-                          <td> {val.receiver_emp_id || 'N/A'}</td>
-                          <td> {val.reciver_name || 'N/A'}</td>
+          {tabledata.length !== 0 ?
+            <CssVarsProvider>
+              <Box sx={{ display: 'flex' }}>
+                <Box sx={{ flex: 5, }}><Typography sx={{ fontWeight: 10, fontSize: 28, fontFamily: 'Anton', color: '#003060' }}>Monthly Tariff </Typography></Box>
+                <Paper sx={{ width: 30, height: 20, backgroundColor: '#D6DBDF', mt: 1 }}></Paper><Box sx={{ flex: 1, pl: 1, pt: .5 }}> pending bill</Box>
+              </Box>
 
-                        </tr>
-                      })}
-                  </tbody>
-                </Table>
-              </CssVarsProvider>
-            </Paper>
-          </CssVarsProvider>
+              <Paper variant="outlined" sx={{ maxHeight: 750, maxWidth: '100%', overflow: 'auto' }}>
+                <CssVarsProvider>
+                  <Table padding={"none"} stickyHeader
+                    hoverRow>
+                    <thead>
+                      <tr>
+                        <th style={{ width: 50 }} >SlNo</th>
+                        <th style={{ width: 60 }}>Action</th>
+                        <th style={{ width: 80 }}>Bills View</th>
+                        <th style={{ width: 170, }}>Sim Operator</th>
+                        <th style={{ width: 170, }}>Sim Mobile No</th>
+                        <th style={{ width: 150, }}>Tarrif Amount</th>
+                        <th style={{ width: 150, }}>Bill Amount</th>
+                        <th style={{ width: 180, }} >Bill Date</th>
+                        <th style={{ width: 180, }} >Bill Due Date</th>
+                        <th style={{ width: 200, }}>Bill Number</th>
+                        <th style={{ width: 200, }}>Device Name</th>
+                        <th style={{ width: 200, }} >Device Type</th>
+                        <th style={{ width: 250, }}>Department</th>
+                        <th style={{ width: 250 }}>Location</th>
+                        <th style={{ width: 150, }}>Reciever Emp ID</th>
+                        <th style={{ width: 200, }}>Reciever Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        tabledata.map((val, index) => {
+                          return <tr key={index}
+                            style={{ height: 8, background: val.payed_status === null ? '#D6DBDF' : val.payed_status === 0 ? '#D6DBDF' : 'transparent' }}>
+                            <td> {index + 1}</td>
+                            <td>
+                              <EditIcon sx={{ cursor: 'pointer', color: '#055C9D' }} size={6} onClick={() => editForSelect(val)} />
+                            </td>
+                            <td style={{ cursor: 'pointer', textAlign: 'center' }}>
+                              <PermMediaIcon style={{ height: '20px', width: '20px', color: '#41729F' }}
+                                onClick={() => fileView(val)} />
+                            </td>
+                            <td> {val.providername}</td>
+                            <td>{val.sim_mobile_num || 'Not given'}</td>
+                            <td>{val.amount || 'Not given'}</td>
+                            <td>{val.bill_amount || 'Not given'}</td>
+                            <td>{val.bill_date || 'Not given'}</td>
+                            <td>{val.bill_due_date || 'Not given'}</td>
+                            <td>{val.bill_number || 'Not given'}</td>
+                            <td>{val.device_name || 'Not given'}</td>
+                            <td> {val.device_type_name || 'Not given'}</td>
+                            <td> {val.dept_name || 'Not given'}</td>
+                            <td>{val.sec_name || 'Not given'}</td>
+                            <td> {val.receiver_emp_id || 'Not given'}</td>
+                            <td> {val.reciver_name || 'Not given'}</td>
+
+                          </tr>
+                        })}
+                    </tbody>
+                  </Table>
+                </CssVarsProvider>
+              </Paper>
+
+            </CssVarsProvider>
+            : <Box sx={{ textAlign: 'center', mt: 15, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
+              Bills are Upto date
+
+            </Box>}
         </CardMasterClose>
       </Box>
     </Fragment>

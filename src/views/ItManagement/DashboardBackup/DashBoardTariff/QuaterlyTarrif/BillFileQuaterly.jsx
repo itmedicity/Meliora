@@ -14,7 +14,8 @@ const BillFileQuaterly = ({ open, handleClose, imageUrls }) => {
             <Dialog
                 open={open}
                 onClose={handleClose}
-                maxWidth="lg"
+                style={{ width: 900, margin: 'auto' }}
+                maxWidth={'90%'}
             >
                 <DialogContent sx={{
                     width: "100%",
@@ -36,15 +37,23 @@ const BillFileQuaterly = ({ open, handleClose, imageUrls }) => {
                         </Box>
                     </Box>
                     <Box sx={{ mt: 1, gap: 5 }}>
-                        {imageUrls.map((imageUrl, index) => (
-                            < img alt="quaterly bill"
-                                key={index}
-                                src={imageUrl}
-                                height={820}
-                                style={{ maxWidth: '100%', maxHeight: '100%', margin: '6px', }}
-                            />
-                        ))
+
+                        {imageUrls
+                            .map((imageUrl, index) => ({ imageUrl, index }))
+                            .sort((a, b) => b.index - a.index)
+                            .map((item) => (
+                                < img alt="monthly bill"
+                                    key={item.index}
+                                    src={item.imageUrl}
+                                    height={550}
+                                    // width={900}
+                                    style={{ maxWidth: '100%', maxHeight: '100%', margin: '6px', }}
+                                />
+                            ))
+
+
                         }
+
                     </Box>
                     <DialogActions>
                         <Button

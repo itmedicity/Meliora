@@ -146,6 +146,10 @@ import {
 import { getPasswordCredential } from './ItPasswordCredential.Reducer'
 import { getRackList } from './AmRackList.Reducer'
 import { getRoomBasedOnDeptSec } from './AmRoomDeptSecBased.Reducer'
+import { getDepartmentSubTask } from './TmDepartment.Reducer'
+import { getDepartmentSecSubTask } from './TmDeptSection.Reducer'
+import { getProjectList } from './TmProjectsList.Reducer'
+import { getGoalsList } from './TmGoalsList.Reducer'
 
 
 
@@ -299,7 +303,11 @@ const reducer = combineReducers({
     getDaysDetails,
     getPasswordCredential,
     getRackList,
-    getRoomBasedOnDeptSec
+    getRoomBasedOnDeptSec,
+    getDepartmentSubTask,
+    getDepartmentSecSubTask,
+    getProjectList,
+    getGoalsList
 
 })
 export default reducer;

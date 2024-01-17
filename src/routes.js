@@ -118,7 +118,6 @@ const RoomCategoryMaster = React.lazy(() => import('./views/Master/RoomMasters/R
 const FloorCreation = React.lazy(() => import('./views/RoomManagement/FloorCreation/FloorCreation'))
 const RoomNewCreation = React.lazy(() => import('./views/RoomManagement/RoomNewCreation/RoomCreation'))
 const TeamMaster = React.lazy(() => import('./views/Master/TaskManagement/TaskTeamMaster/TeamMast'))
-const TaskHomePage = React.lazy(() => import('./views/TaskManagement/Home/TaskHomePage'))
 const DMSApproval = React.lazy(() => import('./views/RequestManagement/DMSApproval/DmsApprovalTable'))
 const CRFDataCollection = React.lazy(() => import('./views/RequestManagement/CRFDataCollection/CrfDataCollectnTable'))
 const RoomDashBoard = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardMain'))
@@ -157,7 +156,13 @@ const BackupScheduleTime = React.lazy(() => import('./views/Master/BackupMaster/
 const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDetails/BackupMast'))
 const AssetRackMast = React.lazy(() => import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster'))
 const AssetDeptTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DeptTransfer'))
-
+const TaskManagementMainDashboard = React.lazy(() => import('./views/TaskManagement/TaskDashboard/TmDashboardMain'))
+const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/TaskCreationOuter/CreateMainTask'))
+const TaskManagementMainGoals = React.lazy(() => import('./views/TaskManagement/GoalsMaster/GoalsMaster'))
+const TaskManagementMainProject = React.lazy(() => import('./views/TaskManagement/ProjectMaster/ProjectMaster'))
+const TaskManagementDeptGoals = React.lazy(() => import('./views/TaskManagement/GoalsMaster/GoalsMasterDept'))
+const TaskManagementDeptProjects = React.lazy(() => import('./views/TaskManagement/ProjectMaster/ProjectMasterDept'))
+const ITSimDetails = React.lazy(() => import('./views/ItManagement/SimDetails/SimDetails'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -279,7 +284,6 @@ const routes = [
   { path: '/Home/FloorCreation', exact: true, name: 'Floor Creation', component: FloorCreation },
   { path: '/Home/RoomCreationSideNav', exact: true, name: 'Room New Creation', component: RoomNewCreation },
   { path: '/Home/TeamMaster', exact: true, name: 'Team Master', component: TeamMaster },
-  { path: '/Home/TaskHome', exact: true, name: 'Task management Home', component: TaskHomePage },
   { path: '/Home/DMSApproval', exact: true, name: 'DMS Approval', component: DMSApproval },
   { path: '/Home/CrfDataCollection', exact: true, name: 'CRF data Collection', component: CRFDataCollection },
   { path: '/Home/RoomDashBoard', exact: true, name: 'Room Dashboard', component: RoomDashBoard },
@@ -318,8 +322,14 @@ const routes = [
   { path: '/Home/BackupMast', exact: true, name: 'Backup Details', component: Backupmast },
   { path: '/Home/CredentialType', exact: true, name: 'Credential Type', component: PasswordManagementCredentialType },
   { path: '/Home/AssetRackMast', exact: true, name: 'Asset Rack Master', component: AssetRackMast },
-  { path: '/Home/DeptTransfer', exact: true, name: 'Asset Rack Master', component: AssetDeptTransfer }
-
+  { path: '/Home/DeptTransfer', exact: true, name: 'Asset Rack Master', component: AssetDeptTransfer },
+  { path: '/Home/TaskManagementDashboard', exact: true, name: 'TaskManagement Dashboard', component: TaskManagementMainDashboard },
+  { path: '/Home/TaskManagementCreateTask', exact: true, name: 'TaskManagement Create Task', component: TaskManagementMainCreateTask },
+  { path: '/Home/TaskManagementGoals', exact: true, name: 'TaskManagement Goals', component: TaskManagementMainGoals },
+  { path: '/Home/TaskManagementProject', exact: true, name: 'TaskManagement Project', component: TaskManagementMainProject },
+  { path: '/Home/TaskManagementDeptGoals', exact: true, name: 'TaskManagement Dept Goals', component: TaskManagementDeptGoals },
+  { path: '/Home/TaskManagementDeptProjects', exact: true, name: 'TaskManagement Dept Projects ', component: TaskManagementDeptProjects },
+  { path: '/Home/ItSimdetails', exact: true, name: 'It Sim Details', component: ITSimDetails }
 
 ]
 

@@ -591,6 +591,7 @@ const Newdashboard = () => {
     const [monthlyCount, setMonthlyCount] = useState(0)
     const [quaterlyCount, setQuaterlyCount] = useState(0)
     const [yearCount, setYearCount] = useState(0)
+
     const ViewMonthlyList = useCallback((e) => {
         setmonthly(1);
         setquarterly(0);
@@ -598,6 +599,7 @@ const Newdashboard = () => {
         setmonthlyPendingBill(0);
         setquaterlyPendingBill(0);
         setyearlyPendingBill(0);
+
     }, [])
     const ViewQuaterlyList = useCallback((e) => {
         setquarterly(1);
@@ -613,36 +615,52 @@ const Newdashboard = () => {
         setquarterly(0);
         setmonthlyPendingBill(0);
         setquaterlyPendingBill(0);
-        setyearlyPendingBill(0);;
+        setyearlyPendingBill(0);
+
     }, [])
 
     const MonthlyPendingData = monthlydata && monthlydata.filter((val) => val.payed_status !== 1)
     const MonthlyPendingBillList = useCallback((e) => {
-        setyearly(0);
-        setmonthly(0);
-        setquarterly(0);
-        setmonthlyPendingBill(1);
-        setquaterlyPendingBill(0);
-        setyearlyPendingBill(0);
-    }, [])
+        if (monthlydata.length === 0) {
+            infoNotify(" No Monthly Pending bills")
+        }
+        else {
+            setyearly(0);
+            setmonthly(0);
+            setquarterly(0);
+            setmonthlyPendingBill(1);
+            setquaterlyPendingBill(0);
+            setyearlyPendingBill(0);
+        }
+    }, [monthlydata])
     const QuaterlyPendingData = quaterlydata && quaterlydata.filter((val) => val.payed_status !== 1)
     const QuaterlyPendingBillList = useCallback((e) => {
-        setyearly(0);
-        setmonthly(0);
-        setquarterly(0);
-        setquaterlyPendingBill(1)
-        setmonthlyPendingBill(0)
-        setyearlyPendingBill(0)
-    }, [])
+        if (quaterlydata.length === 0) {
+            infoNotify("No Quaterly Pending Bills")
+        }
+        else {
+            setyearly(0);
+            setmonthly(0);
+            setquarterly(0);
+            setquaterlyPendingBill(1)
+            setmonthlyPendingBill(0)
+            setyearlyPendingBill(0)
+        }
+    }, [quaterlydata])
     const YearlyPendingData = yearlydata && yearlydata.filter((val) => val.payed_status !== 1)
     const YearlyPendingBillList = useCallback((e) => {
-        setyearly(0);
-        setmonthly(0);
-        setquarterly(0);
-        setquaterlyPendingBill(0)
-        setmonthlyPendingBill(0)
-        setyearlyPendingBill(1)
-    }, [])
+        if (yearlydata.length === 0) {
+            infoNotify("No Yearly pending bills ")
+        }
+        else {
+            setyearly(0);
+            setmonthly(0);
+            setquarterly(0);
+            setquaterlyPendingBill(0)
+            setmonthlyPendingBill(0)
+            setyearlyPendingBill(1)
+        }
+    }, [yearlydata])
     useEffect(() => {
         const monthlyy = format(new Date(startOfMonth(new Date())), "yyyy-MM-dd")
         const yearStart = format(new Date(startOfYear(new Date())), "yyyy-MM-dd")

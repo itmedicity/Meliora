@@ -1,0 +1,185 @@
+import React, { memo, useCallback, useEffect, useState } from 'react'
+import { Box, CssVarsProvider, Table } from '@mui/joy'
+import { Paper } from '@mui/material'
+import { axioslogin } from 'src/views/Axios/Axios'
+import { useSelector } from 'react-redux';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import { warningNotify } from 'src/views/Common/CommonCode';
+import ViewTaskImage from '../TaskCreationOuter/ViewTaskImage';
+import TaskStatusModal from './TaskStatusModal';
+import moment from 'moment';
+const OverDueTable = () => {
+    const [tableData, setTableData] = useState([])
+    const [masterData, setMasterData] = useState([])
+    const [viewOverDue, setViewOverDue] = useState(0)
+    const [getarry, setgetarry] = useState([])
+    const [selectedImages, setSelectedImages] = useState([]);
+    const [imageViewModalOpen, setimageViewModalOpen] = useState(false)
+    const [image, setimage] = useState(0)
+    const [imageUrls, setImageUrls] = useState([]);
+    const [editModalOpen, setEditModalOpen] = useState(false)
+    const [editModalFlag, setEditModalFlag] = useState(0)
+    const [tableCount, setTableCount] = useState(0)
+
+    // const dispatch = useDispatch();
+    // const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
+    // redux for geting login emp secid
+    const empsecid = useSelector((state) => {
+        return state.LoginUserData.empsecid
+    })
+
+    const rowSelectModal = useCallback((value) => {
+        setEditModalFlag(1)
+        setEditModalOpen(true)
+        setimageViewModalOpen(false)
+        setimage(0)
+        setMasterData(value)
+    }, [])
+
+    useEffect(() => {
+        const getOverDueTable = async () => {
+            const result = await axioslogin.get(`/TmTableView/departmentOverDue/${empsecid}`);
+            const { success, data } = result.data;
+            if (data.length !== 0) {
+                if (success === 2) {
+                    const arr = data?.map((val) => {
+                        const obj = {
+                            tm_task_slno: val.tm_task_slno,
+                            tm_task_name: val.tm_task_name,
+                            dept_name: val.dept_name,
+                            sec_name: val.sec_name,
+                            tm_assigne_emp: val.tm_assigne_emp,
+                            em_name: val.em_name,
+                            tm_task_dept: val.tm_task_dept,
+                            tm_task_dept_sec: val.tm_task_dept_sec,
+                            main_task_slno: val.main_task_slno,
+                            tm_task_due_date: val.tm_task_due_date,
+                            tm_task_description: val.tm_task_description
+                        }
+                        return obj
+                    })
+                    setTableData(arr)
+                    setViewOverDue(1)
+                } else {
+                }
+            } else {
+                setViewOverDue(0)
+            }
+        }
+        getOverDueTable(empsecid)
+    }, [empsecid, tableCount])
+    const handleClose = useCallback(() => {
+        setimage(0)
+        setimageViewModalOpen(false)
+        setImageUrls([])
+    }, [setImageUrls, setimage])
+
+    const fileView = async (val) => {
+        const { tm_task_slno } = val;
+        setgetarry(val);
+        setimage(0); // Initialize imageViewModalFlag to 0 initially
+        setimageViewModalOpen(false); // Close the modal if it was open
+
+        try {
+            const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`);
+            const { success } = result.data;
+            if (success === 1) {
+                const data = result.data;
+                const fileNames = data.data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `http://192.168.22.9/NAS/TaskManagement/${tm_task_slno}/${fileName}`;
+                });
+                setImageUrls(fileUrls);
+
+                // Open the modal only if there are files
+                if (fileUrls.length > 0) {
+                    setimage(1);
+                    setimageViewModalOpen(true);
+                    setSelectedImages(val);
+                } else {
+                    warningNotify("No Task Image attached");
+                }
+            } else {
+                warningNotify("No Task image attached");
+            }
+        } catch (error) {
+            warningNotify('Error in fetching files:', error);
+        }
+    }
+    return (
+        <Box>
+            {viewOverDue === 1 ?
+                <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '80%' }}>
+                    {editModalFlag === 1 ?
+                        // <ModalEditTask open={editModalOpen} masterData={masterData} setEditModalOpen={setEditModalOpen}
+                        //     setEditModalFlag={setEditModalFlag}
+                        //     tableCount={tableCount} setTableCount={setTableCount}
+                        // />
+                        <TaskStatusModal open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
+                            setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount} />
+                        : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
+                            selectedImages={selectedImages} getarry={getarry} /> : null}
+                    <CssVarsProvider>
+
+                        <Table padding={"none"} stickyHeader
+                            hoverRow>
+                            <thead >
+                                <tr >
+                                    <th style={{ width: 50, alignItems: 'center' }}>SlNo</th>
+                                    <th style={{ width: 75 }}>Action</th>
+                                    <th style={{ width: 55 }}>View</th>
+
+                                    <th style={{ width: 250 }}>Task name</th>
+                                    {/* <th style={{ minWidth: 150 }}>Department</th>
+                            <th style={{ minWidth: 150 }}>Section</th> */}
+                                    <th style={{ minWidth: 150 }}>Assignee</th>
+                                    <th style={{ minWidth: 60 }}>Due date</th>
+                                    <th style={{ minWidth: 250 }}>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tableData?.map((val, index) => {
+                                    return (
+                                        <tr key={index}
+                                            style={{
+                                                height: 8, background: val.main_task_slno !== null ? '#EBEFEE' : val.main_task_slno === 0 ? '#EBEFEE' : 'transparent',
+                                                minHeight: 5
+                                            }}
+                                        >
+                                            <td> {index + 1}</td>
+                                            <td>
+                                                <CheckCircleOutlineIcon
+                                                    sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                />
+                                            </td>
+                                            <td style={{ cursor: 'pointer', }}>
+                                                <ImageOutlinedIcon style={{ color: '#41729F' }}
+                                                    onClick={() => fileView(val)} />
+                                            </td>
+
+                                            <td> {val.tm_task_name || 'not given'}</td>
+                                            <td> {val.em_name || 'not given'}</td>
+                                            {/* <td> {val.sec_name || 'not given'}</td> */}
+                                            {/* <td> eg</td> */}
+                                            <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
+                                            <td> {val.tm_task_description || 'not given'}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </Table>
+                    </CssVarsProvider>
+                </Paper>
+
+                : <Box>
+                    <Box sx={{ textAlign: 'center', mt: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
+                        No dues!
+                    </Box>
+
+                </Box>}
+        </Box>
+    )
+}
+
+export default memo(OverDueTable)

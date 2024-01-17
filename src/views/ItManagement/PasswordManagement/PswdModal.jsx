@@ -1,10 +1,9 @@
 import React from 'react'
 import { Box, CssVarsProvider, Modal, ModalDialog, Sheet, Typography } from '@mui/joy'
 import PswdMasterTable from './PswdMasterTable';
-import { Paper } from '@mui/material';
 import { memo } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-const PswdModal = ({ open, handleClose, rowSelect, tabledata, setTabledata, count, setCount }) => {
+const PswdModal = ({ open, handleClose, rowSelect, tabledata, setTabledata, count, setCount, searchData }) => {
     return (
         <CssVarsProvider>
             <Modal
@@ -15,26 +14,34 @@ const PswdModal = ({ open, handleClose, rowSelect, tabledata, setTabledata, coun
             >
                 <ModalDialog variant="outlined"
                     sx={{
-                        width: "75%",
-                        height: '80%',
+                        width: "100%",
+                        height: '95%',
                         borderRadius: 'md',
                         p: 1,
                         boxShadow: 'lg',
                     }}>
-                    <Sheet >
-                        <Paper sx={{ display: 'flex' }}>
-                            <Box sx={{ textAlign: 'center', width: '100%' }}>
-                                <Typography sx={{ fontSize: 20, color: '#145DA0', }} >
-                                    Device Details
-                                </Typography>
-                            </Box>
-                            <Box>
-                                < CloseIcon sx={{ color: '#145DA0', cursor: 'pointer', size: 'lg', width: 30, height: 30 }} onClick={handleClose} />
-                            </Box>
-                        </Paper>
+                    <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                        <Box>< CloseIcon sx={{ color: '#5F093D', cursor: 'pointer', size: 'lg', }} onClick={handleClose} /></Box>
+                    </Box>
+                    <Sheet
+                        sx={{
+                            border: 1,
+                            borderColor: '#145DA0',
+                            height: '100%'
+                        }}>
+                        {/* <Box sx={{ display: 'flex' }}> */}
+                        <Box sx={{ textAlign: 'center', flex: 1, mt: 1 }}>
+                            <Typography sx={{ fontWeight: 500, fontSize: 30, color: '#5F093D', }} >
+                                Device Details
+                            </Typography>
+                        </Box>
+                        {/* <Box sx={{ height: 30, width: 32, m: 1, pl: .5, pb: 1, border: 1, borderColor: '#145DA0', borderRadius: 5 }}>
+                                < CloseIcon sx={{ color: '#145DA0', cursor: 'pointer', size: 'lg', }} onClick={handleClose} />
+                            </Box> */}
+                        {/* </Box> */}
                         <Box sx={{ pt: .5 }} >
                             <PswdMasterTable rowSelect={rowSelect} tabledata={tabledata} setTabledata={setTabledata}
-                                count={count} setCount={setCount} />
+                                count={count} setCount={setCount} searchData={searchData} />
                         </Box>
                     </Sheet>
                 </ModalDialog>
