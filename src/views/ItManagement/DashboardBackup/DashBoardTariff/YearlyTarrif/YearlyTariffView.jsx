@@ -131,66 +131,71 @@ const YearlyTariffView = ({ yearlydata, setyearly, yearCount, setYearCount }) =>
         setCount={setCount} count={count} getarry={getarry} editFlag={editFlag} /> :
         imageViewModalFlag === 1 ? <FileViewYearly imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
           selectedYearlyBillImage={selectedYearlyBillImage} getarry={getarry} /> : null}
-      <CssVarsProvider>
-        <Box sx={{ display: 'flex' }}>
-          <Box sx={{ flex: 5 }}><Typography sx={{ fontWeight: 10, fontSize: 28, fontFamily: 'Anton', color: '#003060' }}>Yearly Tariff </Typography></Box>
-          <Paper sx={{ width: 30, height: 20, backgroundColor: '#D6DBDF', mt: 1 }}></Paper>
-          <Box sx={{ flex: 1, pl: 1, pt: .5 }}> pending bill</Box>
-        </Box>
-        <Paper variant="outlined" sx={{ maxHeight: 720, maxWidth: '100%', overflow: 'auto' }}>
-          <CssVarsProvider>
-            <Table padding={"none"} stickyHeader hoverRow>
-              <thead>
-                <tr>
-                  <th style={{ width: 50 }} >SlNo</th>
-                  <th style={{ width: 60 }}>Action</th>
-                  <th style={{ width: 80 }}>Bills View</th>
-                  <th style={{ width: 200, }}>Sim Operator</th>
-                  <th style={{ width: 180, }}>Sim Mobile No</th>
-                  <th style={{ width: 150, }}>Tarrif Amount</th>
-                  <th style={{ width: 150, }}>Bill Amount</th>
-                  <th style={{ width: 180, }} >Bill Date</th>
-                  <th style={{ width: 180, }} >Bill Due Date</th>
-                  <th style={{ width: 200, }}>Bill Number</th>
-                  <th style={{ width: 200, }}>Device Name</th>
-                  <th style={{ width: 200, }} >Device Type</th>
-                  <th style={{ width: 250, }}>Department</th>
-                  <th style={{ width: 250 }}>Location</th>
-                  <th style={{ width: 150, }}>Reciever Emp ID</th>
-                  <th style={{ width: 200, }}>Reciever Name</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  tabledata.map((val, index) => {
-                    return <tr key={index}
-                      style={{ height: 8, background: val.payed_status === null ? '#D6DBDF' : val.payed_status === 0 ? '#D6DBDF' : 'transparent' }}>
-                      <td> {index + 1}</td>
-                      <td><EditIcon sx={{ cursor: 'pointer', color: '#055C9D' }} size={6} onClick={() => editForSelect(val)} /></td>
-                      <td style={{ cursor: 'pointer', textAlign: 'center' }}>
-                        <PermMediaIcon style={{ height: '20px', width: '20px', color: '#41729F' }}
-                          onClick={() => fileView(val)} />
-                      </td>
-                      <td> {val.providername}</td>
-                      <td>{val.sim_mobile_num || 'N/A'}</td>
-                      <td>{val.amount || 'N/A'}</td>
-                      <td>{val.bill_amount || 'N/A'}</td>
-                      <td>{val.bill_date || 'N/A'}</td>
-                      <td>{val.bill_due_date || 'N/A'}</td>
-                      <td>{val.bill_number || 'N/A'}</td>
-                      <td>{val.device_name || 'N/A'}</td>
-                      <td> {val.device_type_name || 'N/A'}</td>
-                      <td> {val.dept_name || 'N/A'}</td>
-                      <td>{val.sec_name || 'N/A'}</td>
-                      <td> {val.receiver_emp_id || 'N/A'}</td>
-                      <td> {val.reciver_name || 'N/A'}</td>
-                    </tr>
-                  })}
-              </tbody>
-            </Table>
-          </CssVarsProvider>
-        </Paper>
-      </CssVarsProvider>
+      {tabledata.length !== 0 ?
+        <CssVarsProvider>
+          <Box sx={{ display: 'flex' }}>
+            <Box sx={{ flex: 5 }}><Typography sx={{ fontWeight: 10, fontSize: 28, fontFamily: 'Anton', color: '#003060' }}>Yearly Tariff </Typography></Box>
+            <Paper sx={{ width: 30, height: 20, backgroundColor: '#D6DBDF', mt: 1 }}></Paper>
+            <Box sx={{ flex: 1, pl: 1, pt: .5 }}> pending bill</Box>
+          </Box>
+          <Paper variant="outlined" sx={{ maxHeight: 720, maxWidth: '100%', overflow: 'auto' }}>
+            <CssVarsProvider>
+              <Table padding={"none"} stickyHeader hoverRow>
+                <thead>
+                  <tr>
+                    <th style={{ width: 50 }} >SlNo</th>
+                    <th style={{ width: 60 }}>Action</th>
+                    <th style={{ width: 80 }}>Bills View</th>
+                    <th style={{ width: 200, }}>Sim Operator</th>
+                    <th style={{ width: 180, }}>Sim Mobile No</th>
+                    <th style={{ width: 150, }}>Tarrif Amount</th>
+                    <th style={{ width: 150, }}>Bill Amount</th>
+                    <th style={{ width: 180, }} >Bill Date</th>
+                    <th style={{ width: 180, }} >Bill Due Date</th>
+                    <th style={{ width: 200, }}>Bill Number</th>
+                    <th style={{ width: 200, }}>Device Name</th>
+                    <th style={{ width: 200, }} >Device Type</th>
+                    <th style={{ width: 250, }}>Department</th>
+                    <th style={{ width: 250 }}>Location</th>
+                    <th style={{ width: 150, }}>Reciever Emp ID</th>
+                    <th style={{ width: 200, }}>Reciever Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    tabledata.map((val, index) => {
+                      return <tr key={index}
+                        style={{ height: 8, background: val.payed_status === null ? '#D6DBDF' : val.payed_status === 0 ? '#D6DBDF' : 'transparent' }}>
+                        <td> {index + 1}</td>
+                        <td><EditIcon sx={{ cursor: 'pointer', color: '#055C9D' }} size={6} onClick={() => editForSelect(val)} /></td>
+                        <td style={{ cursor: 'pointer', textAlign: 'center' }}>
+                          <PermMediaIcon style={{ height: '20px', width: '20px', color: '#41729F' }}
+                            onClick={() => fileView(val)} />
+                        </td>
+                        <td> {val.providername}</td>
+                        <td>{val.sim_mobile_num || 'Not given'}</td>
+                        <td>{val.amount || 'Not given'}</td>
+                        <td>{val.bill_amount || 'Not given'}</td>
+                        <td>{val.bill_date || 'Not given'}</td>
+                        <td>{val.bill_due_date || 'Not given'}</td>
+                        <td>{val.bill_number || 'Not given'}</td>
+                        <td>{val.device_name || 'Not given'}</td>
+                        <td> {val.device_type_name || 'Not given'}</td>
+                        <td> {val.dept_name || 'Not given'}</td>
+                        <td>{val.sec_name || 'Not given'}</td>
+                        <td> {val.receiver_emp_id || 'Not given'}</td>
+                        <td> {val.reciver_name || 'Not given'}</td>
+                      </tr>
+                    })}
+                </tbody>
+              </Table>
+            </CssVarsProvider>
+          </Paper>
+        </CssVarsProvider>
+        : <Box sx={{ textAlign: 'center', mt: 15, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
+          Bills are Upto date
+
+        </Box>}
     </CardMasterClose>
   )
 }

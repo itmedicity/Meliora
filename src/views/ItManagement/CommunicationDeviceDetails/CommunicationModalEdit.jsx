@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import { Box, } from '@mui/material'
+import { Box, Divider, } from '@mui/material'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { axioslogin } from 'src/views/Axios/Axios';
@@ -35,17 +35,7 @@ const CommunicationModalEdit = ({ open, handleClose, getarry, count, setCount })
         },
         [issueEditModal],
     )
-    // const reset = () => {
-    //     const formdata = {
 
-    //         reciver_name: '',
-    //         contact_no: '',
-    //         issue_date: '',
-    //         receiver_emp_id: '',
-    //         issue_status: false
-    //     }
-    //     setissueEditModal(formdata)
-    // }
     const patchdata = useMemo(() => {
         return {
             device_slno: device_slno,
@@ -96,7 +86,6 @@ const CommunicationModalEdit = ({ open, handleClose, getarry, count, setCount })
             }
             if (recievName !== '' && recievID !== '') {
                 UpdateIssueModal(patchdata)
-                // reset()
             }
             else {
                 if (recievID === '') {
@@ -117,70 +106,71 @@ const CommunicationModalEdit = ({ open, handleClose, getarry, count, setCount })
                 maxWidth="lg"
             >
                 < DialogContent
-                    sx={{ width: 630, height: 730 }}>
+                    sx={{ width: 800, height: '100vw' }}>
                     <Box sx={{ width: '100%' }}>
-                        <Box id="alert-dialog-slide-descriptiona"
-                            sx={{ fontWeight: 'bold', height: '50px', pt: 2, color: '#004F76', textAlign: 'center', }}>
-                            Add Communication Device Details
-                        </Box>
+
                         <Box sx={{
-                            width: '100%',
-                            height: '92%',
                             borderRadius: 1
                         }}>
                             <Box sx={{
                                 width: '100%',
                                 border: .5, borderColor: '#9DBED1', borderRadius: 1
                             }}>
+                                <Box id="alert-dialog-slide-descriptiona"
+                                    sx={{ fontWeight: 600, fontSize: 18, pt: 2, color: '#004F76', textAlign: 'center', }}>
+                                    Edit Reciever Details
+                                </Box>
                                 <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D', pt: 1 }}>Asseted location</Typography>
+                                    <Divider textAlign="left" sx={{ fontWeight: 400, mx: 2, fontSize: 18, color: '#5F093D', mt: 2, fontFamily: 'Georgia' }}>
+                                        Asseted Location</Divider>
+
                                 </CssVarsProvider>
                                 <Box
                                     sx={{ pt: .5, display: 'flex', }}>
-                                    <Box sx={{ flex: .3, pl: 1 }}>
+                                    <Box sx={{ flex: 1, pr: 1, display: 'flex', justifyContent: 'right' }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>Department</Typography>
                                         </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{
-                                        flex: 1
-                                    }}>
+                                    <Box sx={{ flex: 3 }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                                                 {dept_name !== null ? dept_name : 'Not given'}
                                             </Typography>
                                         </CssVarsProvider>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <Box
                                     sx={{ pt: .5, display: 'flex', }}>
-                                    <Box sx={{ flex: .3, pl: 1 }}>
+                                    <Box sx={{ flex: 1, pr: 1, display: 'flex', justifyContent: 'right' }}>
                                         <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15, color: '#000C66' }}>Location</Typography>
+                                            <Typography sx={{ fontSize: 15, color: '#000C66' }}>Section</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: 1
+                                        flex: 3
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                                                 {sec_name !== null ? sec_name : 'Not given'}
                                             </Typography>
                                         </CssVarsProvider>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 18, pl: 1, pt: .5, color: '#5F093D' }}>Device details</Typography>
+                                    <Divider textAlign="left" sx={{ fontWeight: 400, mx: 2, fontSize: 18, color: '#5F093D', mt: 1, fontFamily: 'Georgia' }}>
+                                        Device Details</Divider>
+
                                 </CssVarsProvider>
                                 <Box
                                     sx={{ pt: .5, display: 'flex', }}>
-                                    <Box sx={{ flex: .3, pl: 1 }}>
+                                    <Box sx={{ flex: 1, pr: 1, display: 'flex', justifyContent: 'right' }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>Device name</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: 1
+                                        flex: 3
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
@@ -188,128 +178,131 @@ const CommunicationModalEdit = ({ open, handleClose, getarry, count, setCount })
                                             </Typography>
                                         </CssVarsProvider>
                                     </Box>
+                                    <Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <Box
                                     sx={{ pt: .5, display: 'flex', }}>
-                                    <Box sx={{ flex: .3, pl: 1 }}>
+                                    <Box sx={{ flex: 1, pr: 1, display: 'flex', justifyContent: 'right' }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>Device type</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: 1
+                                        flex: 3
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                                                 {device_type_name !== null ? device_type_name : 'Not given'}
                                             </Typography>
                                         </CssVarsProvider>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <Box
                                     sx={{ pt: .5, display: 'flex', }}>
-                                    <Box sx={{ flex: .3, pl: 1 }}>
+                                    <Box sx={{ flex: 1, pr: 1, display: 'flex', justifyContent: 'right' }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>Device Sl No./IM</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: 1
+                                        flex: 3
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                                                 {device_ima !== null ? device_ima : 'Not given'}
                                             </Typography>
                                         </CssVarsProvider>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <Box
                                     sx={{ pt: .5, display: 'flex', }}>
-                                    <Box sx={{ flex: .3, pl: 1 }}>
+                                    <Box sx={{ flex: 1, pr: 1, display: 'flex', justifyContent: 'right' }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>Device No.</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: 1
+                                        flex: 3
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                                                 {device_num !== null ? device_num : "Not given"}
                                             </Typography>
                                         </CssVarsProvider>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Sim details</Typography>
+                                    <Divider textAlign="left" sx={{ fontWeight: 400, mx: 2, fontSize: 18, color: '#5F093D', mt: 1, fontFamily: 'Georgia' }}>
+                                        Sim Details</Divider>
+
                                 </CssVarsProvider>
                                 <Box
                                     sx={{ pt: .5, display: 'flex', }}>
-                                    <Box sx={{ flex: .3, pl: 1 }}>
+                                    <Box sx={{ flex: 1, pr: 1, display: 'flex', justifyContent: 'right' }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>SIM Serial No./IMA</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: 1
+                                        flex: 3
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                                                 {ima !== null ? ima : 'Not given'}
                                             </Typography>
                                         </CssVarsProvider>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <Box
                                     sx={{ pt: .5, display: 'flex', }}>
-                                    <Box sx={{ flex: .3, pl: 1 }}>
+                                    <Box sx={{ flex: 1, pr: 1, display: 'flex', justifyContent: 'right' }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>SIM Number</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: 1
+                                        flex: 3
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                                                 {sim_number !== null ? sim_number : 'Not given'}
                                             </Typography>
                                         </CssVarsProvider>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <Box
                                     sx={{ pt: .5, display: 'flex', }}>
-                                    <Box sx={{ flex: .3, pl: 1 }}>
+                                    <Box sx={{ flex: 1, pr: 1, display: 'flex', justifyContent: 'right' }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>SIM Operator</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: 1
+                                        flex: 3
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                                                 {providername !== null ? providername : 'Not given'}
                                             </Typography>
                                         </CssVarsProvider>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <Box
                                     sx={{ pt: .5, display: 'flex', }}>
-                                    <Box sx={{ flex: .3, pl: 1 }}>
+                                    <Box sx={{ flex: 1, pr: 1, display: 'flex', justifyContent: 'right' }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>Sim mobile No.</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: 1
+                                        flex: 3
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                                                 {sim_mobile_num !== null ? sim_mobile_num : 'Not given'}
                                             </Typography>
                                         </CssVarsProvider>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <Box sx={{
                                     width: "100%",
@@ -318,83 +311,80 @@ const CommunicationModalEdit = ({ open, handleClose, getarry, count, setCount })
                                 }}>
                                 </Box>
                                 <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 18, pl: 1, color: '#5F093D' }}>Tarrif details</Typography>
+                                    <Divider textAlign="left" sx={{ fontWeight: 400, mx: 2, fontSize: 18, color: '#5F093D', mt: 1, fontFamily: 'Georgia' }}>
+                                        Tariff Details Location</Divider>
+
                                 </CssVarsProvider>
                                 <Box
                                     sx={{ display: 'flex', }}>
-                                    <Box sx={{ flex: .3, pl: 1 }}>
+                                    <Box sx={{ flex: 1, pr: 1, display: 'flex', justifyContent: 'right' }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>Tarrif</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: 1
+                                        flex: 3
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                                                 {tarrifname !== null ? tarrifname : 'Not given'}
                                             </Typography>
                                         </CssVarsProvider>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <Box
                                     sx={{ display: 'flex', }}>
-                                    <Box sx={{ flex: .3, pl: 1 }}>
+                                    <Box sx={{ flex: 1, pr: 1, display: 'flex', justifyContent: 'right' }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>Amount</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: 1
+                                        flex: 3
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                                                 {amount !== null ? amount : 'Not given'}
                                             </Typography>
                                         </CssVarsProvider>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 17, pl: 1, color: '#5F093D' }}>Asset Number</Typography>
+                                    <Divider textAlign="left" sx={{ fontWeight: 400, mx: 2, fontSize: 18, color: '#5F093D', mt: 2, fontFamily: 'Georgia' }}>
+                                        Asset Details</Divider>
                                 </CssVarsProvider>
                                 <Box
                                     sx={{ display: 'flex', }}>
-                                    <Box sx={{ flex: .3, pl: 1 }}>
+                                    <Box sx={{ flex: 1, pr: 1, display: 'flex', justifyContent: 'right' }}>
                                         <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15, color: '#000C66' }}>Asset No.</Typography>
+                                            <Typography sx={{ fontSize: 15, color: '#000C66', }}>Asset No.</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: 1
+                                        flex: 3
                                     }}>
                                         <CssVarsProvider>
                                             <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                                                 {asset_no !== null ? asset_no : 'Not given'}
                                             </Typography>
                                         </CssVarsProvider>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
-                            </Box>
-                            <Box sx={{
-                                width: '100%',
-                                border: .5, borderColor: '#9DBED1', borderRadius: 1,
-                                mt: .5,
-                                pt: .5
-                            }}>
                                 <CssVarsProvider>
-                                    <Typography sx={{ fontSize: 17, pl: 1, color: '#5F093D' }}>Recievers details</Typography>
+                                    <Divider textAlign="left" sx={{ fontWeight: 400, mx: 2, fontSize: 18, color: '#5F093D', mt: 1, fontFamily: 'Georgia' }}>
+                                        Reciever&apos;s details</Divider>
                                 </CssVarsProvider>
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
-                                        flex: .2, pl: 1, pt: 1,
+                                        flex: 1, pl: 1, pt: 1, display: 'flex', justifyContent: 'right'
                                     }}>
                                         <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Reciever Emp ID</Typography>
+                                            <Typography sx={{ fontSize: 15, color: '#000C66' }}>Employee ID</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: .4,
+                                        flex: 3,
                                         mb: .5,
                                         pt: .5,
                                         ml: 1
@@ -407,19 +397,19 @@ const CommunicationModalEdit = ({ open, handleClose, getarry, count, setCount })
                                             value={recievID}
                                             onchange={issueEditModalUpdate}
                                         ></TextFieldCustom>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
-                                        flex: .2, pl: 1,
+                                        flex: 1, pl: 1, display: 'flex', justifyContent: 'right'
                                     }}>
                                         <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Reciever Name</Typography>
+                                            <Typography sx={{ fontSize: 15, color: '#000C66' }}> Name</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: .7,
+                                        flex: 3,
                                         mb: .5,
                                         ml: 1
                                     }}>
@@ -431,19 +421,19 @@ const CommunicationModalEdit = ({ open, handleClose, getarry, count, setCount })
                                             value={recievName}
                                             onchange={issueEditModalUpdate}
                                         ></TextFieldCustom>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <Box
                                     sx={{ display: 'flex', }}>
                                     <Box sx={{
-                                        flex: .2, pl: 1,
+                                        flex: 1, pl: 1, display: 'flex', justifyContent: 'right'
                                     }}>
                                         <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Reciever Ph No</Typography>
+                                            <Typography sx={{ fontSize: 15, color: '#000C66' }}>Comtact No.</Typography>
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{
-                                        flex: .4,
+                                        flex: 3,
                                         ml: 1
                                     }}>
                                         <TextFieldCustom
@@ -454,7 +444,7 @@ const CommunicationModalEdit = ({ open, handleClose, getarry, count, setCount })
                                             value={recievContact}
                                             onchange={issueEditModalUpdate}
                                         ></TextFieldCustom>
-                                    </Box>
+                                    </Box><Box sx={{ flex: 1 }}></Box>
                                 </Box>
                                 <Box sx={{
                                     width: "100%",
@@ -467,19 +457,21 @@ const CommunicationModalEdit = ({ open, handleClose, getarry, count, setCount })
                                     width: '100%',
                                 }}>
                                     <CssVarsProvider>
-                                        <Typography sx={{ fontSize: 17, pl: 1, color: '#5F093D' }}>Issued details</Typography>
+                                        <Divider textAlign="left" sx={{ fontWeight: 400, mx: 2, fontSize: 18, color: '#5F093D', mt: 1, fontFamily: 'Georgia' }}>
+                                            Issued Details</Divider>
+
                                     </CssVarsProvider>
                                     <Box
                                         sx={{ display: 'flex', }}>
                                         <Box sx={{
-                                            flex: .2, pl: 1, pt: 1.5
+                                            flex: 1, pl: 1, pt: 1.5, display: 'flex', justifyContent: 'right'
                                         }}>
                                             <CssVarsProvider>
-                                                <Typography sx={{ fontSize: 15 }}>Issued Date</Typography>
+                                                <Typography sx={{ fontSize: 15, color: '#000C66' }}>Issued Date</Typography>
                                             </CssVarsProvider>
                                         </Box>
                                         <Box sx={{
-                                            flex: .4,
+                                            flex: 3,
                                             mr: 1,
                                             mb: .5,
                                             pt: 1,
@@ -492,7 +484,7 @@ const CommunicationModalEdit = ({ open, handleClose, getarry, count, setCount })
                                                 value={issuedDate}
                                                 onchange={issueEditModalUpdate}
                                             ></TextFieldCustom>
-                                        </Box>
+                                        </Box><Box sx={{ flex: 1 }}></Box>
                                     </Box>
                                     <Box sx={{ display: 'flex', py: 2, margin: 'auto', width: '40%' }}>
                                     </Box>

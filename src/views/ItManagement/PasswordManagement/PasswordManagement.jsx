@@ -37,6 +37,7 @@ const PasswordManagement = () => {
   const [AddModalFlag, setAddModalFlag] = useState(0)
   const [arry, setArry] = useState([])
   const [addNewInUpdate, setaddNewInUpdate] = useState([])
+  const [searchData, setSearchData] = useState(0)
 
   const id = useSelector((state) => {
     return state.LoginUserData.empid
@@ -94,6 +95,7 @@ const PasswordManagement = () => {
     const getMasterTable = async () => {
       const result = await axioslogin.get('PasswordManagementMain/masterView')
       const { success, data } = result.data
+
       if (success === 2) {
         const arr = data?.map((val) => {
           const obj = {
@@ -108,10 +110,16 @@ const PasswordManagement = () => {
             pswd_mast_location: val.sec_id,
             pswd_mast_location_name: val.sec_name,
             pswd_mast_description: val.pswd_mast_description,
+            psw_detail_username: val.psw_detail_username,
+            psw_detail_password: val.psw_detail_password
           }
           return obj
         })
+
+
         setTabledata(arr)
+        setSearchData(arr)
+
       } else {
         warningNotify('error occured')
       }
@@ -317,13 +325,8 @@ const PasswordManagement = () => {
       port: port,
       remarks: remarks,
     }
-    const containsOnlyDigits = (value) => /^\d+$/.test(value);
     if (pswd_mast_item_no !== '') {
-      if (user_name !== '' && password !== '' && credentialName !== '' && port !== '') {
-        if (port !== '' && !containsOnlyDigits(port)) {
-          infoNotify("Please enter port number in digits only");
-          return;
-        }
+      if (user_name !== '' && password !== '' && credentialName !== '') {
         if (tableEdit === 0) {
           const newarry = [...arry, frmdata]
           setArry(newarry)
@@ -398,7 +401,7 @@ const PasswordManagement = () => {
     return {
       pswd_mast_asset_no: pswd_mast_asset_no === 0 ? null : pswd_mast_asset_no,
       pswd_mast_categry_no: pswd_mast_categry_no === 0 ? null : pswd_mast_categry_no,
-      pswd_mast_group_no: pswd_mast_group_no === 0 ? null : pswd_mast_group_no,
+      pswd_mast_group_no: pswd_mast_group_no === '' ? null : pswd_mast_group_no,
       pswd_mast_item_no: pswd_mast_item_no === 0 ? null : pswd_mast_item_no,
       pswd_mast_location: pswd_mast_location === 0 ? null : pswd_mast_location,
       pswd_mast_description: pswd_mast_description === '' ? null : pswd_mast_description,
@@ -682,7 +685,8 @@ const PasswordManagement = () => {
           </Paper>
         </Box>
         <Box>
-          {AddModalFlag === 1 ? <PswdModal open={addModalOpen} handleClose={handleClose} rowSelect={rowSelect} tabledata={tabledata}
+          {AddModalFlag === 1 ? <PswdModal open={addModalOpen} handleClose={handleClose} rowSelect={rowSelect} tabledata={tabledata} searchData={searchData}
+
             setTabledata={setTabledata} count={count} setCount={setCount}
           /> : null}
         </Box>
@@ -721,8 +725,8 @@ const PasswordManagement = () => {
                     </Box>
                   </Paper>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '18vw' }}>
-                  <Box sx={{ width: 250, borderRadius: 2, border: .5, borderBlockColor: '#055C9D', }}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', ml: 4 }}>
+                  <Box sx={{ width: 80, borderRadius: 4, border: .5, borderColor: '#055C9D' }}>
                     <Box sx={{ textAlign: 'center', pt: 1, color: '#055C9D', }}>
                       <Typography sx={{ fontSize: 15 }}> view</Typography>
                     </Box>
@@ -829,7 +833,7 @@ const PasswordManagement = () => {
                 </Box>
               </Box>
 
-              <Box sx={{ display: 'flex', width: '75vw', margin: 'auto', pt: 4 }}>
+              <Box sx={{ display: 'flex', flex: 1, margin: 'auto', pt: 4, overflowX: 'auto', }}>
                 <Box>
                   <Box sx={{ pl: .5, color: '#003B73' }}>
                     <Typography>
@@ -854,14 +858,20 @@ const PasswordManagement = () => {
                         Description
                       </Typography>
                     </Box>
-                    <TextFieldCustom
-                      type="text"
-                      size="sm"
-                      placeholder="description"
-                      name="description"
-                      value={description}
-                      onchange={pswManagementUpdate}
-                    ></TextFieldCustom>
+                    <CssVarsProvider>
+                      <Textarea
+                        type="text"
+                        size="sm"
+                        placeholder="type here..."
+                        variant="outlined"
+                        minRows={1}
+                        maxRows={2}
+                        name="description"
+                        value={description}
+                        onChange={(e) => pswManagementUpdate(e)}
+                      >
+                      </Textarea>
+                    </CssVarsProvider>
                   </Box>
                 </Box>
                 <Box sx={{ flex: .5, pr: .5 }}>
@@ -909,9 +919,7 @@ const PasswordManagement = () => {
                     <Box sx={{ pl: .5, color: '#003B73' }}>
                       <Typography>
                         Port
-                        <Typography sx={{ color: '#A30000' }}>
-                          *
-                        </Typography>
+
                       </Typography>
                     </Box>
                     <TextFieldCustom
@@ -938,7 +946,7 @@ const PasswordManagement = () => {
                         placeholder="type here..."
                         variant="outlined"
                         minRows={1}
-                        maxRows={4}
+                        maxRows={2}
                         name="remarks"
                         value={remarks}
                         onChange={(e) => pswManagementUpdate(e)}

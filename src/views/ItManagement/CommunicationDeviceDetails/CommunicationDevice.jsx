@@ -14,7 +14,7 @@ import CommunicationModalEdit from './CommunicationModalEdit';
 
 const CommunicationDevice = () => {
   const iconStyle = {
-    color: '#0492C2', // Change this to the desired color
+    color: '#0492C2',
   };
   const [addModalOpen, setaddModalOpen] = useState(false)
   const [AddModalFlag, setAddModalFlag] = useState(0)
@@ -28,6 +28,7 @@ const CommunicationDevice = () => {
   const addModal = () => {
     setAddModalFlag(1)
     setaddModalOpen(true)
+
   }
   const handleClose = useCallback(() => {
     setAddModalFlag(0)
@@ -59,13 +60,13 @@ const CommunicationDevice = () => {
           count={count}
           getarry={getarry}
           editFlag={editFlag} /> : null}
-        <Typography sx={{ fontWeight: 10, fontSize: 28, fontFamily: 'Anton' }}>Communication Device Details</Typography>
-        <Typography sx={{ fontWeight: 5, fontSize: 21, fontFamily: 'Anton', color: '#0492C2' }}>Add&nbsp;
+        <Typography sx={{ fontWeight: 520, fontSize: 30, fontFamily: 'Georgia', color: '#003060' }}>Communication Device Details</Typography>
+        <Typography sx={{ fontWeight: 5, fontSize: 21, fontFamily: 'Georgia', color: '#0492C2' }}>Add&nbsp;
           <Tooltip title="Add " placement="top">
             <AddCircleOutlineIcon sx={{ cursor: 'pointer' }} style={iconStyle} onClick={() => addModal()} />
           </Tooltip>
         </Typography>&nbsp;
-        <CssVarsProvider  >
+        <CssVarsProvider>
           <CommunicationDeviceTable
             rowSelect={rowSelect}
             count={count}

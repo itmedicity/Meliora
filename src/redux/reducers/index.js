@@ -146,11 +146,16 @@ import {
 import { getPasswordCredential } from './ItPasswordCredential.Reducer'
 import { getRackList } from './AmRackList.Reducer'
 import { getRoomBasedOnDeptSec } from './AmRoomDeptSecBased.Reducer'
+import { getDepartmentSubTask } from './TmDepartment.Reducer'
+import { getDepartmentSecSubTask } from './TmDeptSection.Reducer'
+import { getProjectList } from './TmProjectsList.Reducer'
+import { getGoalsList } from './TmGoalsList.Reducer'
 import { getSubRoomBasedOnRoom } from './AmSubRoomBsdRoom.Reducer'
 import { setClinicalCrfPending } from './CrfDashboardClinical.Reducer'
 import { setNonClinicalCrfPending } from './CrfDashboardNonClinical.Reducer'
 import { setClinicalNDRFPending } from './NdrfDashboardClinical.Reducer'
 import { setNonClinicalNDRFPending } from './NdrfDashboardNonClinical.Reducer'
+
 
 const reducer = combineReducers({
     changeState,
@@ -303,11 +308,16 @@ const reducer = combineReducers({
     getPasswordCredential,
     getRackList,
     getRoomBasedOnDeptSec,
+    getDepartmentSubTask,
+    getDepartmentSecSubTask,
+    getProjectList,
+    getGoalsList,
     getSubRoomBasedOnRoom,
     setClinicalCrfPending,
     setNonClinicalCrfPending,
     setClinicalNDRFPending,
     setNonClinicalNDRFPending
+
 
 
 })

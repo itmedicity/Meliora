@@ -38,18 +38,7 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
     },
     [billEditModal],
   )
-  // const reset = () => {
-  //   const formdata = {
-  //     bill_amount: '',
-  //     bill_date: '',
-  //     bill_due_date: '',
-  //     bill_number: '',
-  //     bill_entered_date: '',
-  //     file_upload_status: false,
-  //     payed_status: false,
-  //   }
-  //   setbillEditModal(formdata)
-  // }
+
   const patchdata = useMemo(() => {
     return {
       yearly_slno: yearly_slno,
@@ -169,8 +158,8 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
       >
         < DialogContent
           sx={{
-            width: 600,
-            height: 590,
+            width: 700,
+            height: '35vw',
           }}
         >
           <Box sx={{
@@ -194,16 +183,16 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
               }}>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Device name</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Device name</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                         {device_name}
                       </Typography>
                     </CssVarsProvider>
@@ -211,16 +200,16 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Device type</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Device type</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                         {device_type_name}
                       </Typography>
                     </CssVarsProvider>
@@ -228,64 +217,64 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Department</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Department</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{dept_name}
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;{dept_name}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Receiver Name</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Receiver Name</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{reciver_name}
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;{reciver_name}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Sim Operator</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Sim Operator</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{providername}
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;{providername}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Amount</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Tariff Amount</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{amount}
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;{amount}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
@@ -305,8 +294,8 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
                   <Box
                     sx={{
                       flex: .3,
-                      pt: .8,
-                      ml: 1
+                      pt: .5,
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill Amount</Typography>
@@ -316,7 +305,7 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1
+                      pr: 2
                     }}>
                     <TextFieldCustom
                       placeholder="Bill Amount"
@@ -338,7 +327,7 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
                     sx={{
                       pt: 1,
                       flex: .3,
-                      ml: 1,
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill Date</Typography>
@@ -348,7 +337,7 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1
+                      pr: 2
                     }}>
                     <TextFieldCustom
                       type="date"
@@ -369,7 +358,7 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
                     sx={{
                       pt: .8,
                       flex: .3,
-                      ml: 1,
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15 }}>Bill Due Date</Typography>
@@ -379,7 +368,7 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1
+                      pr: 2
                     }}>
                     <TextFieldCustom
                       type="date"
@@ -400,7 +389,7 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
                     sx={{
                       pt: .5,
                       flex: .3,
-                      ml: 1,
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill No.</Typography>
@@ -410,7 +399,7 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1,
+                      pr: 2,
                     }}>
                     <TextFieldCustom
                       placeholder="Bill Number"
@@ -431,7 +420,7 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
                     sx={{
                       pt: 1,
                       flex: .3,
-                      ml: 1,
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill Payed Date</Typography>
@@ -441,7 +430,7 @@ const YearlyBillEdits = ({ open, handleClose, getarry, yearCount, setYearCount }
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1,
+                      pr: 2,
                       pt: .5
                     }}>
                     <TextFieldCustom

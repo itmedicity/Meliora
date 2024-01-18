@@ -179,8 +179,8 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
       >
         < DialogContent
           sx={{
-            width: 600,
-            height: 590,
+            width: 700,
+            height: '35vw',
           }}
         >
           <Box sx={{
@@ -205,16 +205,16 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
               }}>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Device name</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Device name</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                         {device_name}
                       </Typography>
                     </CssVarsProvider>
@@ -222,16 +222,16 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Device type</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Device type</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;
                         {device_type_name}
                       </Typography>
                     </CssVarsProvider>
@@ -239,25 +239,25 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Department</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Department</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{dept_name}
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;{dept_name}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Receiver Name</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Receiver Name</Typography>
                     </CssVarsProvider>
                   </Box>
 
@@ -265,16 +265,16 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{reciver_name}
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;{reciver_name}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Sim Operator</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Sim Operator</Typography>
                     </CssVarsProvider>
                   </Box>
 
@@ -282,23 +282,23 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{providername}
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;{providername}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
                 </Box>
                 <Box
                   sx={{ pt: .5, display: 'flex', }}>
-                  <Box sx={{ flex: .3, pl: 1 }}>
+                  <Box sx={{ flex: .3, pr: 1, display: 'flex', justifyContent: 'right' }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Amount</Typography>
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>Tarrif Amount</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{
                     flex: 1
                   }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>:&nbsp;{amount}
+                      <Typography sx={{ fontSize: 15, color: '#000C66' }}>:&nbsp;{amount}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
@@ -317,6 +317,7 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                 }}>
                   <Box
                     sx={{
+                      pr: 1, display: 'flex', justifyContent: 'right',
                       flex: .3,
                       pt: .8,
                       ml: 1
@@ -329,7 +330,7 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1
+                      pr: 2
                     }}>
                     <TextFieldCustom
                       placeholder="Bill Amount"
@@ -351,7 +352,7 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                     sx={{
                       pt: 1,
                       flex: .3,
-                      ml: 1,
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill Date</Typography>
@@ -361,7 +362,7 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1
+                      pr: 2
                     }}>
                     <TextFieldCustom
                       type="date"
@@ -382,17 +383,17 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                     sx={{
                       pt: .8,
                       flex: .3,
-                      ml: 1,
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>Bill Due Date</Typography>
+                      <Typography sx={{ fontSize: 15, }}>Bill Due Date</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1
+                      pr: 2
                     }}>
                     <TextFieldCustom
                       type="date"
@@ -414,7 +415,7 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                     sx={{
                       pt: .5,
                       flex: .3,
-                      ml: 1,
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill No.</Typography>
@@ -424,7 +425,7 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1,
+                      pr: 2,
                     }}>
                     <TextFieldCustom
                       placeholder="Bill Number"
@@ -446,7 +447,7 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                     sx={{
                       pt: 1,
                       flex: .3,
-                      ml: 1,
+                      ml: 1, pr: 1, display: 'flex', justifyContent: 'right'
                     }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, }}>Bill Payed Date</Typography>
@@ -456,7 +457,7 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                     sx={{
                       height: '25%',
                       flex: 1,
-                      pr: 1,
+                      pr: 2,
                       pt: .5
                     }}>
                     <TextFieldCustom
@@ -469,9 +470,9 @@ const TarrifModalBillEdits = ({ open, handleClose, getarry, monthlyCount, setMon
                   </Box>
                 </Box>
                 <Box sx={{ flex: 2, m: 1, height: 45, border: 1.5, borderStyle: 'dashed', borderColor: '#BBC8DE', pl: 1, }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', }}>
                     <CssVarsProvider>
-                      <Typography>upload bill</Typography>
+                      <Typography sx={{ color: '#000C66' }}>upload bill</Typography>
                     </CssVarsProvider>
                     <label htmlFor="file-input">
                       <CustomeToolTip title="upload">

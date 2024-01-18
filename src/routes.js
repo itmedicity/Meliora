@@ -87,7 +87,6 @@ const OnHoldPendingEmpWiseList = React.lazy(() => import('./views/dashboard/Comp
 const InPatientList = React.lazy(() => import('./views/dashboard/DietDashViews/TotalInpatientList'))
 const DietPlannedList = React.lazy(() => import('./views/dashboard/DietDashViews/DietPalnnedList'))
 const DietPlanPending = React.lazy(() => import('./views/dashboard/DietDashViews/DietPlanPendingList'))
-
 const NDRFform = React.lazy(() => import('./views/RequestManagement/NdrfFrorm/NdrfFrom'))
 const HallBooking = React.lazy(() => import('./views/HallBooking/HallBookingRegister'))
 const Hallmaster = React.lazy(() => import('./views/Master/HallMaster/Hallmaster'))
@@ -113,11 +112,8 @@ const RoomCategoryMaster = React.lazy(() => import('./views/Master/RoomMasters/R
 const FloorCreation = React.lazy(() => import('./views/RoomManagement/FloorCreation/FloorCreation'))
 const RoomNewCreation = React.lazy(() => import('./views/RoomManagement/RoomNewCreation/RoomCreation'))
 const TeamMaster = React.lazy(() => import('./views/Master/TaskManagement/TaskTeamMaster/TeamMast'))
-const TaskHomePage = React.lazy(() => import('./views/TaskManagement/Home/TaskHomePage'))
 const CRFDataCollection = React.lazy(() => import('./views/RequestManagement/CRFDataCollection/CrfDataCollectnTable'))
 const RoomDashBoard = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardMain'))
-
-
 const RequstToAssign = React.lazy(() => import('./views/Report/ComplaintReport/RequstToAssign'))
 const RequestToRectify = React.lazy(() => import('./views/Report/ComplaintReport/RequestToRectifctn'))
 const RequestToVerify = React.lazy(() => import('./views/Report/ComplaintReport/RequestToVerfy'))
@@ -150,9 +146,16 @@ const BackupScheduleType = React.lazy(() => import('./views/Master/BackupMaster/
 const BackupScheduleTime = React.lazy(() => import('./views/Master/BackupMaster/ScheduleTime/ScheduleTimeMast'))
 const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDetails/BackupMast'))
 const AssetRackMast = React.lazy(() => import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster'))
+const AssetDeptTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DeptTransfer'))
+const TaskManagementMainDashboard = React.lazy(() => import('./views/TaskManagement/TaskDashboard/TmDashboardMain'))
+const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/TaskCreationOuter/CreateMainTask'))
+const TaskManagementMainGoals = React.lazy(() => import('./views/TaskManagement/GoalsMaster/GoalsMaster'))
+const TaskManagementMainProject = React.lazy(() => import('./views/TaskManagement/ProjectMaster/ProjectMaster'))
+const TaskManagementDeptGoals = React.lazy(() => import('./views/TaskManagement/GoalsMaster/GoalsMasterDept'))
+const TaskManagementDeptProjects = React.lazy(() => import('./views/TaskManagement/ProjectMaster/ProjectMasterDept'))
+const ITSimDetails = React.lazy(() => import('./views/ItManagement/SimDetails/SimDetails'))
 const AssetDepartmentTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DeptTransfer'))
 const AssetItemReport = React.lazy(() => import('./views/Report/AssetReport/AllItemsReports'))
-
 const RequestRegister = React.lazy(() => import('./views/RequestManagement/RequestRegister/ReqRegistration'))
 const CRFIncharge = React.lazy(() => import('./views/RequestManagement/InchargeApproval/InchargeApprovalTable'))
 const ReqDepartmentApproval = React.lazy(() => import('./views/RequestManagement/DepartmentApprovals/HodApprovalTable'))
@@ -283,12 +286,9 @@ const routes = [
   { path: '/Home/FloorCreation', exact: true, name: 'Floor Creation', component: FloorCreation },
   { path: '/Home/RoomCreationSideNav', exact: true, name: 'Room New Creation', component: RoomNewCreation },
   { path: '/Home/TeamMaster', exact: true, name: 'Team Master', component: TeamMaster },
-  { path: '/Home/TaskHome', exact: true, name: 'Task management Home', component: TaskHomePage },
-
+  { path: '/Home/DMSApproval', exact: true, name: 'DMS Approval', component: DMSApproval },
   { path: '/Home/CrfDataCollection', exact: true, name: 'CRF data Collection', component: CRFDataCollection },
   { path: '/Home/RoomDashBoard', exact: true, name: 'Room Dashboard', component: RoomDashBoard },
-
-
   { path: '/Home/RequstToAssign', exact: true, name: 'Request To Assign Report', component: RequstToAssign },
   { path: '/Home/RequestToRectify', exact: true, name: 'Request To Rectification Report', component: RequestToRectify },
   { path: '/Home/RequestToVerify', exact: true, name: 'Request To Verification Report', component: RequestToVerify },
@@ -321,9 +321,16 @@ const routes = [
   { path: '/Home/BackupMast', exact: true, name: 'Backup Details', component: Backupmast },
   { path: '/Home/CredentialType', exact: true, name: 'Credential Type', component: PasswordManagementCredentialType },
   { path: '/Home/AssetRackMast', exact: true, name: 'Asset Rack Master', component: AssetRackMast },
+  { path: '/Home/DeptTransfer', exact: true, name: 'Asset Rack Master', component: AssetDeptTransfer },
+  { path: '/Home/TaskManagementDashboard', exact: true, name: 'TaskManagement Dashboard', component: TaskManagementMainDashboard },
+  { path: '/Home/TaskManagementCreateTask', exact: true, name: 'TaskManagement Create Task', component: TaskManagementMainCreateTask },
+  { path: '/Home/TaskManagementGoals', exact: true, name: 'TaskManagement Goals', component: TaskManagementMainGoals },
+  { path: '/Home/TaskManagementProject', exact: true, name: 'TaskManagement Project', component: TaskManagementMainProject },
+  { path: '/Home/TaskManagementDeptGoals', exact: true, name: 'TaskManagement Dept Goals', component: TaskManagementDeptGoals },
+  { path: '/Home/TaskManagementDeptProjects', exact: true, name: 'TaskManagement Dept Projects ', component: TaskManagementDeptProjects },
+  { path: '/Home/ItSimdetails', exact: true, name: 'It Sim Details', component: ITSimDetails },
   { path: '/Home/AssetDeptTransfer', exact: true, name: 'Asset Department Transfer', component: AssetDepartmentTransfer },
   { path: '/Home/AssetItemReport', exact: true, name: 'Asset Item Report', component: AssetItemReport },
-
   { path: '/Home/RequestRegister', exact: true, name: 'Request Register', component: RequestRegister },
   { path: '/Home/CRFInchargeApproval', exact: true, name: 'CRF Incharge Approval', component: CRFIncharge },
   { path: '/Home/Req.DepartmentApproval', exact: true, name: 'Request Departmental Approval', component: ReqDepartmentApproval },
@@ -336,7 +343,6 @@ const routes = [
   { path: '/Home/Req.MDApproval', exact: true, name: 'Request MD Approval', component: ReqMDApproval },
   { path: '/Home/NdrfPurchase', exact: true, name: 'Request Purchase', component: NdrfPurchase },
   { path: '/Home/CrfDashboard', exact: true, name: 'CRF Dashboard', component: CRFDashboard },
-
   { path: '/Home/DeptSecBasedItemReport', exact: true, name: 'Department Section Based Item Report', component: DeptSecBasedItemReport }
 ]
 
