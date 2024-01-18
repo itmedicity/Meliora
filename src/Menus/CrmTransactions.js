@@ -5,6 +5,14 @@ import CIcon from '@coreui/icons-react'
 
 const CrmTransactions = [
     {
+        men_slno: 168,
+        component: CNavItem,
+        name: 'CRF DashBoard',
+        to: '/Home/CrfDashboard',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
+    {
         men_slno: 94,
         component: CNavItem,
         name: 'CRF Registration',
@@ -63,8 +71,22 @@ const CrmTransactions = [
     {
         men_slno: 98,
         component: CNavItem,
-        name: 'CAO/COO/MS Approval',
+        name: 'GM Operations Approval',
         to: '/Home/Req.CAOApproval',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 164,
+        component: CNavItem,
+        name: 'MD Approval',
+        to: '/Home/Req.MDApproval',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 99,
+        component: CNavItem,
+        name: 'ED Approval',
+        to: '/Home/Req.EDApproval',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
@@ -74,14 +96,14 @@ const CrmTransactions = [
         to: '/Home/NDRF',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+
     {
-        men_slno: 99,
+        men_slno: 165,
         component: CNavItem,
-        name: 'ED/MD Approval',
-        to: '/Home/Req.EDApproval',
+        name: 'NDRF Purchase',
+        to: '/Home/NdrfPurchase',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
-
 
 ]
 

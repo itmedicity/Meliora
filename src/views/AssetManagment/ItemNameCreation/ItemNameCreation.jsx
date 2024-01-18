@@ -39,7 +39,7 @@ import SubcategoryModal from './ModelForAssetItemAdd/SubcategoryModal'
 import GroupModal from './ModelForAssetItemAdd/GroupModal'
 import ModelModal from './ModelForAssetItemAdd/ModelModal'
 import SubGroupModal from './ModelForAssetItemAdd/SubGroupModal'
-import SubModelModal from './ModelForAssetItemAdd/SubModelModal'
+// import SubModelModal from './ModelForAssetItemAdd/SubModelModal'
 import { CssVarsProvider } from '@mui/joy'
 import Textarea from '@mui/joy/Textarea';
 import ModelForItemExistOrNot from './ModelForItemExistOrNot'
@@ -100,6 +100,7 @@ const ItemNameCreation = () => {
   const [spare, setSpare] = useState(false)
   const [checkExist, setCheckexist] = useState(0)
   const [checkExistOpen, setCheckExsitOpen] = useState(false)
+  const [assetOrSpare, setAssetOrSpare] = useState(1)
   const [item, setItem] = useState({
     item_creation_slno: '',
     item_name: '',
@@ -121,18 +122,22 @@ const ItemNameCreation = () => {
     if (e.target.checked === true) {
       setasset(true)
       setSpare(false)
+      setAssetOrSpare(1)
     } else if (e.target.checked === false) {
       setasset(false)
       setSpare(false)
+      setAssetOrSpare(0)
     }
   }, [])
   const updateSpare = useCallback((e) => {
     if (e.target.checked === true) {
       setSpare(true)
       setasset(false)
+      setAssetOrSpare(2)
     } else if (e.target.checked === false) {
       setasset(false)
       setSpare(false)
+      setAssetOrSpare(0)
     }
   }, [])
 
@@ -480,7 +485,6 @@ const ItemNameCreation = () => {
       uom_order: '',
     }
     setOrder(orderReset)
-
   }, [setItem, setCount, setValue, setItemtype, setAssetType, setCategory, setSubcategory, setGroup, setSubGroup, setManufacture, setUOM,
     setModel, setSubmodel, setModelNo, setItemNamee, setAssetName, setItemName, setCategoryName, setSubcatName, setGroupName,
     setSubgroupName, setModelName, setSubmodelName, setUomName, setManufactureName, setAssetTypeStatus, setItemTypeSatus, setCategorySatus,
@@ -575,6 +579,7 @@ const ItemNameCreation = () => {
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
+    console.log(data);
     const { item_creation_slno, item_asset_type_slno, item_type_slno, item_category_slno,
       item_subcategory_slno, item_group_slno, item_subgroup_slno, item_model_slno, item_submodel_slno,
       item_uom_slno, item_manufactures_slno, item_name, item_base_name, item_model_num,
@@ -632,8 +637,8 @@ const ItemNameCreation = () => {
   const [ModelFlag, setModelFlag] = useState(0)
   const [SubGroupOpen, setSubGroupOpen] = useState(false)
   const [SubGroupFlag, setSubGroupFlag] = useState(0)
-  const [SubModelOpen, setSubModelOpen] = useState(false)
-  const [SubModelFlag, setSubModelFlag] = useState(0)
+  // const [SubModelOpen, setSubModelOpen] = useState(false)
+  // const [SubModelFlag, setSubModelFlag] = useState(0)
 
 
 
@@ -681,29 +686,25 @@ const ItemNameCreation = () => {
   const handleClose = useCallback(() => {
     setAssetTypeFlag(0)
     setAssetTypeOpen(false)
-    setItemTypeOpen(0)
-    setItemTypeFlag(false)
-    setUOMflag(0)
+    setItemTypeOpen(false)
+    setItemTypeFlag(1)
     setUOMopen(false)
-    setManufactureFlag(0)
+    setUOMflag(1)
     setManufactureOpen(false)
-    setCategoryFlag(0)
+    setManufactureFlag(1)
     setCategoryOpen(false)
-    setSubCategoryFlag(0)
+    setCategoryFlag(1)
     setSubCategoryOpen(false)
-    setGroupFlag(0)
+    setSubCategoryFlag(1)
     setGroupOpen(false)
-    setModelFlag(0)
+    setGroupFlag(1)
     setModelOpen(false)
-    setSubGroupFlag(0)
+    setModelFlag(1)
     setSubGroupOpen(false)
-    setSubModelFlag(0)
-    setSubModelOpen(false)
+    setSubGroupFlag(1)
     setCheckExsitOpen(false)
-  }, [setAssetTypeOpen, setAssetTypeFlag, setItemTypeOpen, setItemTypeFlag, setUOMflag, setUOMopen, setManufactureFlag, setManufactureOpen,
-    setCategoryFlag, setCategoryOpen, setSubCategoryFlag, setSubCategoryOpen, setGroupFlag, setGroupOpen, setModelFlag, setModelOpen,
-    setSubGroupFlag, setSubGroupOpen, setSubModelFlag, setSubModelOpen, setCheckExsitOpen
-  ])
+    setCheckexist(1)
+  }, [])
 
   useEffect(() => {
     dispatch(getAmAssetType())
@@ -747,17 +748,15 @@ const ItemNameCreation = () => {
     manufct_order, model_order, modelNo_order, uom_order])
 
 
-
-
   return (
     <Box>
       <CardMaster
-        title="Item Name Creation"
+        title="Asset Name Creation"
         submit={sumbitItemCreation}
         close={backtoSetting}
         refresh={refreshWindow}
       >
-        {checkExist === 1 ? <ModelForItemExistOrNot open={checkExistOpen} handleClose={handleClose} /> : null}
+        {checkExist === 1 ? <ModelForItemExistOrNot assetOrSpare={assetOrSpare} open={checkExistOpen} handleClose={handleClose} /> : null}
         {AssetTypeFlag === 1 ? <AssetTypeAddModel open={AssetTypeOpen} handleClose={handleClose} /> : null}
         {ItemTypeFlag === 1 ? <ItemTypeAddModel open={ItemTypeOpen} handleClose={handleClose} /> : null}
         {UOMflag === 1 ? <UomAddmodal open={UOMopen} handleClose={handleClose} /> : null}
@@ -767,11 +766,9 @@ const ItemNameCreation = () => {
         {GroupFlag === 1 ? <GroupModal open={GroupOpen} handleClose={handleClose} /> : null}
         {ModelFlag === 1 ? <ModelModal open={ModelOpen} handleClose={handleClose} /> : null}
         {SubGroupFlag === 1 ? <SubGroupModal open={SubGroupOpen} handleClose={handleClose} /> : null}
-        {SubModelFlag === 1 ? <SubModelModal open={SubModelOpen} handleClose={handleClose} /> : null}
+        {/* {SubModelFlag === 1 ? <SubModelModal open={SubModelOpen} handleClose={handleClose} /> : null} */}
 
         <Box sx={{ width: { sm: "100%", md: "80%", lg: "80%", xl: "50%", xxl: "50%" }, display: 'flex', pt: 2.5, margin: 'auto ', pl: 13, flexDirection: 'column' }}>
-
-
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 0 }}>
             <Box sx={{ pl: 10, width: '20%' }}>
               <CusCheckBox
@@ -800,7 +797,6 @@ const ItemNameCreation = () => {
                 size="small" color="primary">Search</Button>
             </Box>
           </Box>
-
 
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
             <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, height: "1%", pt: 0.1, textAlign: "center" }}>
@@ -833,8 +829,8 @@ const ItemNameCreation = () => {
                 assetName={assetName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
-              <Tooltip title="Add " placement="top">
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
+              <Tooltip title="Add" placement="top"  >
                 <AddCircleOutlineIcon onClick={() => modelAsset()} />
               </Tooltip>
             </Box>
@@ -870,7 +866,7 @@ const ItemNameCreation = () => {
                 setName={setItemName}
                 itemName={itemName} />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelItem()} />
               </Tooltip>
@@ -908,7 +904,7 @@ const ItemNameCreation = () => {
                 categoryName={categoryName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelCategory()} />
               </Tooltip>
@@ -950,7 +946,7 @@ const ItemNameCreation = () => {
                 setName={setSubcatName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelSubCategory()} />
               </Tooltip>
@@ -987,7 +983,7 @@ const ItemNameCreation = () => {
                 groupName={groupName}
                 setName={setGroupName} />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add  " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelGroup()} />
               </Tooltip>
@@ -1025,7 +1021,7 @@ const ItemNameCreation = () => {
                 subgroupName={subgroupName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => SubgroupModal()} />
               </Tooltip>
@@ -1063,7 +1059,7 @@ const ItemNameCreation = () => {
                 manufactureName={manufactureName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelManufacture()} />
               </Tooltip>
@@ -1100,7 +1096,7 @@ const ItemNameCreation = () => {
                 setName={setModelName}
                 modelName={modelName} />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelModal()} />
               </Tooltip>
@@ -1212,7 +1208,7 @@ const ItemNameCreation = () => {
                 setName={setUomName}
                 uomName={uomName} />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelUOM()} />
               </Tooltip>
@@ -1247,7 +1243,7 @@ const ItemNameCreation = () => {
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 19, pt: 1, justifyContent: "space-evenly" }}>
           <Box sx={{ width: "12%", }}>
-            <Typography>Item Name</Typography>
+            <Typography>Asset Name</Typography>
           </Box>
           <Box sx={{ width: "80%", pl: 2.3 }}>
             <TextFieldCustom
@@ -1260,7 +1256,6 @@ const ItemNameCreation = () => {
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 20, pt: 1, justifyContent: "space-evenly" }}>
-
           <Box sx={{ width: "15%", }}>
             <Typography>Specification 1</Typography>
           </Box>
@@ -1280,13 +1275,8 @@ const ItemNameCreation = () => {
               </Textarea>
             </CssVarsProvider>
           </Box>
-
-
         </Box>
-
-
         <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 20, pt: 1, justifyContent: "space-evenly" }}>
-
           <Box sx={{ width: "15%", }}>
             <Typography>Specification 2</Typography>
           </Box>

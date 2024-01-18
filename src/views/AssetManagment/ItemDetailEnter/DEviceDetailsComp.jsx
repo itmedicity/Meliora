@@ -10,9 +10,8 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import EditIcon from '@mui/icons-material/Edit';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 
-const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
-    const { am_item_map_slno, assetno, am_asset_old_no } = detailArry
-    const { am_manufacture_no } = grndetailarry
+const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
+    const { am_item_map_slno, am_spare_item_map_slno, assetno } = detailArry
 
     // Get login user emp_id
     const id = useSelector((state) => {
@@ -21,9 +20,10 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
 
     const [userdata, setUserdata] = useState({
         manufacturslno: '',
-        asset_no: '',
+        asset_no: assetno,
         asset_noold: '',
     })
+
 
     //Destructuring
     const { manufacturslno, asset_no, asset_noold } = userdata
@@ -33,15 +33,40 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
     }, [userdata])
 
     useEffect(() => {
-        if (am_manufacture_no !== undefined || assetno !== undefined) {
-            const frmdata = {
-                manufacturslno: am_manufacture_no !== undefined ? am_manufacture_no : '',
-                asset_no: assetno !== null ? assetno : '',
-                asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
+
+        const checkinsertOrNotDetail = async (am_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { am_manufacture_no, am_asset_old_no } = data[0]
+                const frmdata = {
+                    manufacturslno: am_manufacture_no !== null ? am_manufacture_no : '',
+                    asset_no: assetno,
+                    asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
+                }
+                setUserdata(frmdata);
             }
-            setUserdata(frmdata);
         }
-    }, [am_manufacture_no, assetno, am_asset_old_no])
+        const checkinsertOrNotDetailSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { am_manufacture_no, am_asset_no, am_asset_old_no } = data[0]
+                const frmdata = {
+                    manufacturslno: am_manufacture_no !== undefined ? am_manufacture_no : '',
+                    asset_no: am_asset_no !== null ? am_asset_no : '',
+                    asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
+                }
+                setUserdata(frmdata);
+            }
+        }
+        if (assetSpare === 1) {
+            checkinsertOrNotDetail(am_item_map_slno)
+        } else {
+            checkinsertOrNotDetailSpare(am_spare_item_map_slno)
+        }
+
+    }, [am_item_map_slno, am_spare_item_map_slno, assetSpare, assetno, setUserdata])
 
     const postdata = useMemo(() => {
         return {
@@ -53,6 +78,16 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
         }
     }, [am_item_map_slno, manufacturslno, asset_no, asset_noold, id])
 
+    const postdataSpare = useMemo(() => {
+        return {
+            am_spare_item_map_slno: am_spare_item_map_slno,
+            am_manufacture_no: manufacturslno,
+            am_asset_no: asset_no,
+            am_asset_old_no: asset_noold,
+            create_user: id
+        }
+    }, [am_spare_item_map_slno, manufacturslno, asset_no, asset_noold, id])
+
     const patchadata = useMemo(() => {
         return {
             am_manufacture_no: manufacturslno,
@@ -63,7 +98,15 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
         }
     }, [am_item_map_slno, manufacturslno, asset_no, asset_noold, id])
 
-
+    const patchadataSpare = useMemo(() => {
+        return {
+            am_manufacture_no: manufacturslno,
+            am_asset_no: asset_no,
+            am_asset_old_no: asset_noold,
+            edit_user: id,
+            am_spare_item_map_slno: am_spare_item_map_slno,
+        }
+    }, [am_spare_item_map_slno, manufacturslno, asset_no, asset_noold, id])
     const reset = useCallback(() => {
         const frmdata = {
             manufacturslno: '',
@@ -86,13 +129,44 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                 infoNotify(message)
             }
         }
-        InsertItemDetail(postdata);
-    }, [postdata, setExist])
+        const InsertItemDetailSpare = async (postdataSpare) => {
+            const result = await axioslogin.post('/ItemMapDetails/DeviceDetailsInsertSpare', postdataSpare)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNotify(message)
+                setExist(1)
+            } else {
+                infoNotify(message)
+            }
+        }
+        if (assetSpare === 1) {
+            InsertItemDetail(postdata);
+        } else {
+            InsertItemDetailSpare(postdataSpare)
+        }
+    }, [postdata, setExist, postdataSpare, assetSpare])
 
     const EditDetails = useCallback((e) => {
         e.preventDefault()
         const checkinsertOrNot = async (am_item_map_slno) => {
             const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { am_manufacture_no, am_asset_no, am_asset_old_no } = data[0]
+                const frmdata = {
+                    manufacturslno: am_manufacture_no !== null ? am_manufacture_no : '',
+                    asset_no: am_asset_no !== null ? am_asset_no : '',
+                    asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
+                }
+                setUserdata(frmdata);
+            }
+            else {
+                warningNotify("Data Not Saved Yet")
+            }
+        }
+
+        const checkinsertOrNotSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
             const { success, data } = result.data
             if (success === 1) {
                 const { am_manufacture_no, am_asset_no, am_asset_old_no } = data[0]
@@ -119,14 +193,35 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
             }
         }
 
-        if (manufacturslno === '' && asset_no === '' && asset_noold === '') {
-            checkinsertOrNot(am_item_map_slno)
-        }
-        else {
-            updateGRNDetails(patchadata)
+        const updateGRNDetailsSpare = async (patchadataSpare) => {
+            const result = await axioslogin.patch('/ItemMapDetails/DeviceDetailsUpdateSpare', patchadataSpare);
+            const { message, success } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+            }
+            else {
+                warningNotify(message)
+            }
         }
 
-    }, [manufacturslno, asset_no, asset_noold, am_item_map_slno, patchadata])
+        if (manufacturslno === '' && asset_no === '' && asset_noold === '') {
+            if (assetSpare === 1) {
+                checkinsertOrNot(am_item_map_slno)
+            } else { }
+            checkinsertOrNotSpare(am_spare_item_map_slno)
+
+        }
+        else {
+            if (assetSpare === 1) {
+                updateGRNDetails(patchadata)
+            } else {
+                updateGRNDetailsSpare(patchadataSpare)
+            }
+
+        }
+
+    }, [manufacturslno, asset_no, asset_noold, am_item_map_slno, patchadata, assetSpare,
+        am_spare_item_map_slno, patchadataSpare])
 
     const DeviceRefresh = useCallback(() => {
         reset()
@@ -139,7 +234,7 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                 display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
             }} >
                 <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }} >
-                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Manufacture slNo</Typography>
+                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Manufacture SlNo</Typography>
                     <Box>
                         <TextFieldCustom
                             type="text"
@@ -151,7 +246,11 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                     </Box>
                 </Box>
                 <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }} >
-                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Asset No</Typography>
+                    {
+                        assetSpare === 1 ? <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Asset No</Typography> :
+                            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Spare No</Typography>
+                    }
+
                     <Box>
                         <TextFieldCustom
                             type="text"
@@ -163,7 +262,9 @@ const DEviceDetailsComp = ({ detailArry, grndetailarry, exist, setExist }) => {
                     </Box>
                 </Box>
                 <Box sx={{ display: 'flex', width: '10%', p: 0.5, flexDirection: 'column', ml: 0.5 }} >
-                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Asset No Old</Typography>
+                    {assetSpare === 1 ? <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Asset No Old</Typography> :
+                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Spare No Old</Typography>}
+
                     <Box>
                         <TextFieldCustom
                             type="text"

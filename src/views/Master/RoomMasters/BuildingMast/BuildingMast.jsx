@@ -4,12 +4,11 @@ import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import BuildingMastTable from './BuildingMastTable'
-import { useState } from 'react'
-import { useCallback } from 'react'
+import { useState, memo, useCallback, useMemo } from 'react'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { useMemo } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { useSelector } from 'react-redux'
 
 const BuildingMast = () => {
   const history = useHistory()
@@ -22,20 +21,11 @@ const BuildingMast = () => {
     rm_building_no: '',
     rm_building_status: false,
   })
-  const {
-    rm_building_slno,
-    rm_building_name,
-    rm_building_alias,
-    rm_building_no,
-    rm_building_status,
-  } = building
-  const updateBuilding = useCallback(
-    (e) => {
-      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-      setBuilding({ ...building, [e.target.name]: value })
-    },
-    [building],
-  )
+  const { rm_building_slno, rm_building_name, rm_building_alias, rm_building_no, rm_building_status } = building
+  const updateBuilding = useCallback((e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    setBuilding({ ...building, [e.target.name]: value })
+  }, [building],)
   const reset = () => {
     const frmdata = {
       rm_building_slno: '',
@@ -48,14 +38,19 @@ const BuildingMast = () => {
     setCount(0)
     setValue(0)
   }
+  // Get login user emp_id
+  const id = useSelector((state) => {
+    return state.LoginUserData.empid
+  })
   const postdata = useMemo(() => {
     return {
       rm_building_name: rm_building_name,
       rm_building_alias: rm_building_alias,
       rm_building_no: rm_building_no,
       rm_building_status: rm_building_status === true ? 1 : 0,
+      create_user: id
     }
-  }, [rm_building_name, rm_building_alias, rm_building_no, rm_building_status])
+  }, [rm_building_name, rm_building_alias, rm_building_no, rm_building_status, id])
   const patchdata = useMemo(() => {
     return {
       rm_building_slno: rm_building_slno,
@@ -63,59 +58,52 @@ const BuildingMast = () => {
       rm_building_alias: rm_building_alias,
       rm_building_no: rm_building_no,
       rm_building_status: rm_building_status === true ? 1 : 0,
+      edit_user: id
     }
-  }, [rm_building_slno, rm_building_name, rm_building_alias, rm_building_no, rm_building_status])
+  }, [rm_building_slno, rm_building_name, rm_building_alias, rm_building_no, rm_building_status, id])
 
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')
   }, [history])
-  const sumbitBuilding = useCallback(
-    (e) => {
-      e.preventDefault()
-      const InsertBuilding = async (postdata) => {
-        const result = await axioslogin.post('/building/insert', postdata)
-        const { message, success } = result.data
-        if (success === 1) {
-          succesNotify(message)
-          setCount(count + 1)
-          reset()
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
-      }
-      const UpdateBuilding = async (patchdata) => {
-        const result = await axioslogin.patch('/building/update', patchdata)
-        const { message, success } = result.data
-        if (success === 2) {
-          succesNotify(message)
-          setCount(count + 1)
-          reset()
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
-      }
-      if (value === 0) {
-        InsertBuilding(postdata)
+  const sumbitBuilding = useCallback((e) => {
+    e.preventDefault()
+    const InsertBuilding = async (postdata) => {
+      const result = await axioslogin.post('/building/insert', postdata)
+      const { message, success } = result.data
+      if (success === 1) {
+        succesNotify(message)
+        setCount(count + 1)
+        reset()
+      } else if (success === 0) {
+        infoNotify(message)
       } else {
-        UpdateBuilding(patchdata)
+        infoNotify(message)
       }
-    },
-    [postdata, value, patchdata, count],
-  )
+    }
+    const UpdateBuilding = async (patchdata) => {
+      const result = await axioslogin.patch('/building/update', patchdata)
+      const { message, success } = result.data
+      if (success === 2) {
+        succesNotify(message)
+        setCount(count + 1)
+        reset()
+      } else if (success === 0) {
+        infoNotify(message)
+      } else {
+        infoNotify(message)
+      }
+    }
+    if (value === 0) {
+      InsertBuilding(postdata)
+    } else {
+      UpdateBuilding(patchdata)
+    }
+  }, [postdata, value, patchdata, count],)
   const rowSelect = useCallback((params) => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
-    const {
-      rm_building_slno,
-      rm_building_name,
-      rm_building_alias,
-      rm_building_no,
-      rm_building_status,
+    const { rm_building_slno, rm_building_name, rm_building_alias, rm_building_no, rm_building_status,
     } = data[0]
 
     const frmdata = {
@@ -199,4 +187,4 @@ const BuildingMast = () => {
   )
 }
 
-export default BuildingMast
+export default memo(BuildingMast)

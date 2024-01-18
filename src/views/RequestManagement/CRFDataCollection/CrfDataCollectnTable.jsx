@@ -11,6 +11,8 @@ import { getdataCollectionCRF } from 'src/redux/actions/CRFDataCollectionDept.ac
 import _ from 'underscore'
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import CRFDataCollectinModel from './CRFDataCollectinModel'
+import CropSquareIcon from '@mui/icons-material/CropSquare';
+import { Typography } from '@mui/material'
 
 const CrfDataCollectnTable = () => {
 
@@ -23,21 +25,20 @@ const CrfDataCollectnTable = () => {
     const [open, setOpen] = useState(false);
     const [datas, setdatas] = useState([])
 
-    const empdept = useSelector((state) => state.LoginUserData.empdept, _.isEqual)
-    useEffect(() => {
-        dispatch(getdataCollectionCRF(empdept))
+    const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
 
-    }, [dispatch, count, empdept])
+    useEffect(() => {
+        dispatch(getdataCollectionCRF(empdeptsec))
+    }, [dispatch, count, empdeptsec])
 
     const tabledata = useSelector((state) => {
         return state.setdataCollectionCRF.dataCollectionCrfList
     })
-
     //column title setting
     const [column] = useState([
         {
             headerName: 'Action', minWidth: 80, cellRenderer: params => {
-                if (params.data.senior_manage_approv !== null) {
+                if (params.data.crf_dept_status === 1) {
                     return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
                         <TextSnippetIcon />
                     </IconButton>
@@ -58,16 +59,25 @@ const CrfDataCollectnTable = () => {
         { headerName: "Req. Date", field: "req_date", minWidth: 180, autoHeight: true, wrapText: true, },
         { headerName: "Inch.Appr.Status", field: "approve_incharge", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Incharge Remarks", field: "incharge_remarks", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: "Hod.Approve Status", field: "approve_hod", minWidth: 150, wrapText: true, },
+        { headerName: "Hod.Approve Status", field: "approve_hod", minWidth: 150, wrapText: true, filter: "true" },
         { headerName: "Hod Remarks", field: "hod_remarks", minWidth: 300, wrapText: true, },
-        { headerName: "OM Approve Status", field: "manag_operation_approvs", minWidth: 150, wrapText: true, },
-        { headerName: "OM Remarks", field: "manag_operation_remarks", minWidth: 300, wrapText: true, },
-        { headerName: "SMO Approve Status", field: "senior_manage_approvs", minWidth: 150, wrapText: true, },
-        { headerName: "SMO Remarks", field: "senior_manage_remarks", minWidth: 300, wrapText: true, },
-        { headerName: "CAO/COO/MD Approve Status", field: "cao_approves", minWidth: 150, wrapText: true, },
-        { headerName: "CAO/COO/MD Remarks", field: "cao_approve_remarks", minWidth: 300, wrapText: true, },
-        { headerName: "ED/MD Approve Status", field: "ed_approves", minWidth: 150, wrapText: true, },
-        { headerName: "ED/MD Remarks", field: "ed_approve_remarks", minWidth: 300, wrapText: true, },
+        { headerName: "OM Approve Status", field: "manag_operation_approvs", minWidth: 150, wrapText: true, filter: "true" },
+        { headerName: "OM Remarks", field: "manag_operation_remarks", autoHeight: true, minWidth: 300, wrapText: true, },
+        { headerName: "SMO Approve Status", field: "senior_manage_approvs", minWidth: 150, wrapText: true, filter: "true" },
+        { headerName: "SMO Remarks", field: "senior_manage_remarks", autoHeight: true, minWidth: 300, wrapText: true, },
+        { headerName: "GM Approve Status", field: "cao_approves", minWidth: 150, wrapText: true, filter: "true" },
+        { headerName: "GM Remarks", field: "cao_approve_remarks", autoHeight: true, minWidth: 300, wrapText: true, },
+        { headerName: "MD  Status", field: "md_approves", minWidth: 150, wrapText: true, filter: "true" },
+        { headerName: "MD.Remark", field: "md_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+        { headerName: "ED  Status", field: "ed_approves", minWidth: 150, wrapText: true, filter: "true" },
+        { headerName: "ED.Remark", field: "md_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+
+        { headerName: "NDRF GM Status", field: "ndrf_cao_approves", minWidth: 180, wrapText: true, },
+        { headerName: "NDRF GM.Remark", field: "ndrf_cao_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+        { headerName: "NDRF MD  Status", field: "ndrf_md_approves", minWidth: 150, wrapText: true, filter: "true" },
+        { headerName: "NDRF MD.Remark", field: "ndrf_md_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
+        { headerName: "NDRF ED  Status", field: "ndrf_ed_approves", minWidth: 150, wrapText: true, filter: "true" },
+        { headerName: "NDRF ED.Remark", field: "ndrf_ed_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
     ])
 
 
@@ -83,6 +93,15 @@ const CrfDataCollectnTable = () => {
         history.push('/Home')
     }, [history])
 
+    const getRowStyle = params => {
+        if (params.data.crf_dept_status === 1) {
+            return { background: '#81d4fa' };
+        }
+        else {
+            return { background: '#fff59d' };
+        }
+
+    };
 
     return (
         <CardCloseOnly
@@ -105,7 +124,34 @@ const CrfDataCollectnTable = () => {
                 <CusAgGridForMain
                     columnDefs={column}
                     tableData={tabledata}
+                    getRowStyle={getRowStyle}
                 />
+            </Box>
+            <Box sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+            }}>
+                <Box sx={{ display: "flex" }}>
+                    <IconButton >
+                        <CropSquareIcon sx={{ background: '#81d4fa', pr: 5 }} />
+                    </IconButton>
+                </Box>
+                <Box sx={{ display: "flex", fontWeight: 400, pl: 1, pt: 1.2 }}>
+                    <Typography >
+                        Data already Given
+                    </Typography>
+                </Box>
+                <Box sx={{ display: "flex" }}>
+                    <IconButton >
+                        <CropSquareIcon sx={{ background: '#fff59d', pr: 5 }} />
+                    </IconButton>
+                </Box>
+                <Box sx={{ display: "flex", fontWeight: 400, pl: 1, pt: 1.2 }}>
+                    <Typography >
+                        Data Not Given
+                    </Typography>
+                </Box>
             </Box>
         </CardCloseOnly>
     )

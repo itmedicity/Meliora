@@ -21,9 +21,11 @@ function App() {
         <Switch>
           <Route exact path="/" name="Login Page" render={(props) => <Login {...props} />} />
           <Route path="/Home">
+
             <Protected cmp={DefaultLayout} />
             {/* <Protected /> */}
           </Route>
+          <Route path="/NotCorect"></Route>
         </Switch>
       </React.Suspense>
     </BrowserRouter>

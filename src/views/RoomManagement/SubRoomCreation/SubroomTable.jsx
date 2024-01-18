@@ -22,7 +22,7 @@ const SubroomTable = ({ count, rowSelect }) => {
             if (success === 1) {
                 setTabledata(data)
             } else {
-                warningNotify("Error occured contact EDP")
+                warningNotify("No Sub Room Created")
             }
         }
         getRoomcreation();

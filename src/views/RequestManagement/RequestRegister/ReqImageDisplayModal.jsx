@@ -12,6 +12,7 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
         if (images.length !== 0) {
             const disimage = images.map((val) => {
                 const parts = val.split('/');
+                // console.log(parts);
                 const fileNamePart = parts[parts.length - 1];
                 const obj = {
                     imageName: fileNamePart,
@@ -23,30 +24,43 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
         }
     }, [images])
 
-
+    // console.log("disArry", disArry);
     return (
         <CssVarsProvider>
             <Modal aria-labelledby="modal-title"
                 aria-describedby="modal-desc"
                 open={open}
-                sx={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                sx={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', maxHeight: 700, }}>
                 <Sheet
                     variant="outlined"
                     sx={{
-                        minWidth: "30%", borderRadius: 'md', p: 3, boxShadow: 'lg', height: 600,
-                        maxWidth: 300
+                        minWidth: "50%", borderRadius: 'md', p: 3, boxShadow: 'lg', minHeight: 500,
+                        maxWidth: 300, maxHeight: 700,
                     }}
                 >
-                    <Box sx={{ width: '100%', flex: 1, height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}>
+                    <Box sx={{
+                        width: '100%', flex: 1, borderRadius: 1,
+                        border: '0.1px solid #454545', minHeight: 500, margin: "auto",
+                        height: window.innerHeight - 350, overflowX: "auto", '::-webkit-scrollbar': { display: "none" }
+                    }}>
                         {disArry && disArry.map((value, index) => (
                             <Box key={index} sx={{ display: 'flex', flexDirection: "column" }}>
-                                <embed
-                                    alt="CRF Image"
-                                    src={value.url}
-                                    height={200}
-                                    style={{ maxWidth: '100%', maxHeight: '100%', margin: '6px', }}
-                                />
-                                {value.imageName}
+                                {
+                                    value.imageName.endsWith('.pdf') ? (
+                                        <embed
+                                            src={value.url}
+                                            type="application/pdf"
+                                            height={820}
+                                            width="100%"
+                                        />) : (
+                                        <img
+                                            alt=''
+                                            src={value.url}
+                                            height={820}
+                                            style={{ maxWidth: '100%', maxHeight: '100%' }}
+                                        />
+                                    )
+                                }
                             </Box>
                         ))
                         }

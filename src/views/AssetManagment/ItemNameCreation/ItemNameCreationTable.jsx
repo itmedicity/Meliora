@@ -46,6 +46,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
           item_specific_two: val.item_specific_two,
           item_model_num: val.item_model_num,
           asset_spare: val.asset_spare,
+          item_creation_status: val.item_creation_status,
 
         }
         return obj
@@ -55,8 +56,6 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
     }
   }, [tabledata])
 
-
-
   const [column] = useState([
     {
       headerName: 'Action',
@@ -65,7 +64,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
     },
     { headerName: 'SlNo', field: 'item_creation_slno', minWidth: 100 },
     { headerName: 'Asset/Spare', field: 'assetspare', minWidth: 200, autoHeight: true, filter: "true", },
-    { headerName: 'Item Name', field: 'item_name', minWidth: 300, autoHeight: true, filter: "true", wrapText: true, },
+    { headerName: 'Asset Name', field: 'item_name', minWidth: 300, autoHeight: true, filter: "true", wrapText: true, },
     { headerName: 'Asset Type', field: 'asset_type_name', minWidth: 200, autoHeight: true, filter: "true", wrapText: true, },
     { headerName: 'Item Type', field: 'item_type_name', minWidth: 250, autoHeight: true, filter: "true", wrapText: true, },
     { headerName: 'Category', field: 'category_name', minWidth: 200, autoHeight: true, filter: "true", wrapText: true, },

@@ -14,8 +14,8 @@ import CusCheckBox from 'src/views/Components/CusCheckBox';
 // import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { format } from 'date-fns'
 
-const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist }) => {
-    const { am_item_map_slno } = detailArry
+const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }) => {
+    const { am_item_map_slno, am_spare_item_map_slno } = detailArry
     const { am_lease_status, am_lease_from, am_lease_to, am_lease_amount, am_lease_image } = grndetailarry
     // const [leaseFile, setLeaseFile] = useState(null)
     // Get login user emp_id
@@ -72,6 +72,19 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist }) => {
         }
     }, [am_item_map_slno, LeaseStatus, fromDate, toDate, leaseAmount, id])
 
+    const postdataSpare = useMemo(() => {
+        return {
+            am_spare_item_map_slno: am_spare_item_map_slno,
+            am_lease_status: LeaseStatus === true ? 1 : 0,
+            am_lease_from: fromDate,
+            am_lease_to: toDate,
+            am_lease_amount: leaseAmount,
+            am_lease_image: 1,
+            // am_lease_image: leaseFile !== null ? 1 : 0,
+            create_user: id
+        }
+    }, [am_spare_item_map_slno, LeaseStatus, fromDate, toDate, leaseAmount, id])
+
     const patchData = useMemo(() => {
         return {
             am_lease_status: LeaseStatus === true ? 1 : 0,
@@ -84,6 +97,18 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist }) => {
             am_item_map_slno: am_item_map_slno
         }
     }, [am_item_map_slno, LeaseStatus, fromDate, toDate, leaseAmount, id])
+    const patchDataSpare = useMemo(() => {
+        return {
+            am_lease_status: LeaseStatus === true ? 1 : 0,
+            am_lease_from: fromDate,
+            am_lease_to: toDate,
+            am_lease_amount: leaseAmount,
+            am_lease_image: 1,
+            // am_lease_image: leaseFile !== null ? 1 : 0,
+            create_user: id,
+            am_spare_item_map_slno: am_spare_item_map_slno
+        }
+    }, [am_spare_item_map_slno, LeaseStatus, fromDate, toDate, leaseAmount, id])
 
     const reset = useCallback(() => {
         const frmdata = {
@@ -123,14 +148,49 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist }) => {
                 infoNotify(message)
             }
         }
-        InsertLeaseDetail(postdata);
-    }, [postdata, setExist])
+
+        const InsertLeaseDetailSpare = async (postdataSpare) => {
+            const result = await axioslogin.post('/ItemMapDetails/LeaseDetailsInsertSpare', postdataSpare)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNotify(message)
+                setExist(1)
+            } else {
+                infoNotify(message)
+            }
+        }
+
+        if (assetSpare === 1) {
+            InsertLeaseDetail(postdata);
+        } else {
+            InsertLeaseDetailSpare(postdataSpare)
+        }
+    }, [postdata, setExist, assetSpare, postdataSpare])
 
 
     const EditDetails = useCallback((e) => {
         e.preventDefault()
         const checkinsertOrNot = async (am_item_map_slno) => {
             const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { am_lease_status, am_lease_from, am_lease_to, am_lease_amount, am_lease_image } = data[0]
+                const frmdata = {
+                    fromDate: am_lease_from !== null ? format(new Date(am_lease_from), "yyyy-MM-dd") : '',
+                    toDate: am_lease_to !== null ? format(new Date(am_lease_to), "yyyy-MM-dd") : '',
+                    FileStatus: am_lease_image !== null ? am_lease_image : '',
+                    leaseAmount: am_lease_amount !== null ? am_lease_amount : '',
+                }
+                setUserdata(frmdata);
+                setLeaseStatus(am_lease_status === 1 ? true : false)
+            }
+            else {
+                warningNotify("Data Not Saved Yet")
+            }
+        }
+
+        const checkinsertOrNotSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
             const { success, data } = result.data
             if (success === 1) {
                 const { am_lease_status, am_lease_from, am_lease_to, am_lease_amount, am_lease_image } = data[0]
@@ -158,13 +218,34 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist }) => {
                 warningNotify(message)
             }
         }
+
+        const updateLeaseDetailsSpare = async (patchDataSpare) => {
+            const result = await axioslogin.patch('/ItemMapDetails/LeaseDetailsUpdate', patchDataSpare);
+            const { message, success } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+            }
+            else {
+                warningNotify(message)
+            }
+        }
+
         if (fromDate === '' && toDate === '' && leaseAmount === '') {
-            checkinsertOrNot(am_item_map_slno)
+            if (assetSpare === 1) {
+                checkinsertOrNot(am_item_map_slno)
+            } else {
+                checkinsertOrNotSpare(am_spare_item_map_slno)
+            }
         }
         else {
-            updateLeaseDetails(patchData)
+            if (assetSpare === 1) {
+                updateLeaseDetails(patchData)
+            } else {
+                updateLeaseDetailsSpare(patchDataSpare)
+            }
+
         }
-    }, [am_item_map_slno, fromDate, toDate, leaseAmount, patchData])
+    }, [am_item_map_slno, fromDate, toDate, leaseAmount, patchData, assetSpare, am_spare_item_map_slno, patchDataSpare])
 
     const DeviceRefresh = useCallback(() => {
         reset()

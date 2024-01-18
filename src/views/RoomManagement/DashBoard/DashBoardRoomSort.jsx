@@ -10,14 +10,13 @@ const DashBoardRoomSort = ({ blockno, data, setRoomNo, setRoomName, setAssetList
     }, [])
     setRoom(all)
   }, [blockno, data])
-  const asset = useCallback(
-    (data) => {
-      const { rm_room_slno, rm_room_name, rm_insidebuildblock_name } = data
-      setRoomNo(rm_room_slno)
-      setRoomName(rm_room_name)
-      setAssetList(1)
-      setBlockName(rm_insidebuildblock_name)
-    },
+  const asset = useCallback((data) => {
+    const { rm_room_slno, rm_room_name, rm_insidebuildblock_name } = data
+    setRoomNo(rm_room_slno)
+    setRoomName(rm_room_name)
+    setAssetList(1)
+    setBlockName(rm_insidebuildblock_name)
+  },
     [setRoomNo, setRoomName, setAssetList, setBlockName],
   )
 

@@ -9,6 +9,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
 
     const [disArry, setDisArry] = useState([])
+
     useEffect(() => {
         if (displayarry.length !== 0) {
             if (asset === true) {
@@ -26,7 +27,8 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
                         item_asset_no: val.item_asset_no,
                         item_asset_no_only: val.item_asset_no_only,
                         due_date: val.due_date,
-                        assetno: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0')
+                        assetno: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
+                        am_manufacture_no: val.am_manufacture_no
                     }
                     return obj
                 })
@@ -47,7 +49,8 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
                         spare_asset_no: val.spare_asset_no,
                         spare_asset_no_only: val.spare_asset_no_only,
                         due_date: val.due_date,
-                        assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0')
+                        assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
+                        am_manufacture_no: val.am_manufacture_no
                     }
                     return obj
                 })
@@ -57,13 +60,13 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
     }, [displayarry, asset])
 
     const [flag, setFlag] = useState(0)
-    const [assetNo, setassetNo] = useState('')
-    const [dueDate, setDueDate] = useState('')
+    const [selectedData, setSelectedData] = useState([])
     const [open, setOpen] = useState(false)
+
+
+
     const modeldisplay = useCallback((val) => {
-        const { assetno, due_date } = val
-        setassetNo(assetno)
-        setDueDate(due_date)
+        setSelectedData(val)
         setFlag(1)
         setOpen(true)
     }, [])
@@ -74,7 +77,8 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
 
     return (
         <Paper sx={{ height: 700, overflow: 'auto', border: 1 }}>
-            {flag === 1 ? <ItemQrDisplayModel open={open} handleClose={handleClose} assetNo={assetNo} dueDate={dueDate} /> : null}
+            {flag === 1 ? <ItemQrDisplayModel open={open} handleClose={handleClose} selectedData={selectedData}
+            /> : null}
             < CssVarsProvider >
                 <Table stickyHeader>
                     <thead>

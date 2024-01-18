@@ -95,11 +95,13 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare }) => {
                         <Table stickyHeader>
                             <thead>
                                 <tr>
-                                    <th style={{ width: '10%', align: "center" }}>Sl No</th>
-                                    <th style={{ width: '30%', align: "center" }}>Department</th>
-                                    <th style={{ width: '30%', align: "center" }}>Department Section</th>
-                                    <th style={{ width: '60%', align: "center" }}>Item Name</th>
                                     <th style={{ width: '10%', align: "center" }}>Delete</th>
+                                    <th style={{ width: '5%', align: "center" }}>Sl No</th>
+                                    <th style={{ width: '25%', align: "center" }}>Department</th>
+                                    <th style={{ width: '25%', align: "center" }}>Department Section</th>
+                                    <th style={{ width: '60%', align: "center" }}>Item Name</th>
+                                    <th style={{ width: '10%', align: "center" }}>Room</th>
+                                    <th style={{ width: '10%', align: "center" }}>Sub Room</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -112,11 +114,13 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare }) => {
                                             minHeight: 5
                                         }}
                                     >
+                                        <td><DeleteOutlineIcon size={6} onClick={() => deleteitem(val)} /></td>
                                         <td> {index + 1}</td>
                                         <td> {val.deptname}</td>
                                         <td> {val.secname}</td>
                                         <td> {val.item_name}</td>
-                                        <td><DeleteOutlineIcon size={6} onClick={() => deleteitem(val)} /></td>
+                                        <td> {val.rm_room_name}</td>
+                                        <td> {val.subroom_name}</td>
                                     </tr>
                                 })}
                             </tbody>
@@ -126,11 +130,13 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare }) => {
                         <Table stickyHeader>
                             <thead>
                                 <tr>
-                                    <th style={{ width: '10%', align: "center" }}>Sl No</th>
-                                    <th style={{ width: '30%', align: "center" }}>Department</th>
-                                    <th style={{ width: '30%', align: "center" }}>Department Section</th>
-                                    <th style={{ width: '60%', align: "center" }}>Item Name</th>
                                     <th style={{ width: '10%', align: "center" }}>Delete</th>
+                                    <th style={{ width: '5%', align: "center" }}>Sl No</th>
+                                    <th style={{ width: '25%', align: "center" }}>Department</th>
+                                    <th style={{ width: '25%', align: "center" }}>Department Section</th>
+                                    <th style={{ width: '60%', align: "center" }}>Item Name</th>
+                                    <th style={{ width: '10%', align: "center" }}>Room</th>
+                                    <th style={{ width: '10%', align: "center" }}>Sub Room</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -143,11 +149,13 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare }) => {
                                             minHeight: 5
                                         }}
                                     >
+                                        <td><DeleteOutlineIcon size={6} onClick={() => deleteitem(val)} /></td>
                                         <td> {index + 1}</td>
                                         <td> {val.deptname}</td>
                                         <td> {val.secname}</td>
                                         <td> {val.item_name}</td>
-                                        <td><DeleteOutlineIcon size={6} onClick={() => deleteitem(val)} /></td>
+                                        <td> {val.rm_room_name}</td>
+                                        <td> {val.subroom_name}</td>
                                     </tr>
                                 })}
                             </tbody>

@@ -4,7 +4,6 @@ import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/'
 import { getRoomBasedOnDeptSec } from 'src/redux/actions/AmRoomDeptSecBased.action';
 import { useDispatch } from 'react-redux'
-import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
 
 const AmDeptSectionSele = ({ deptsec, setDeptSec, setDeptSecName }) => {
 
@@ -19,8 +18,10 @@ const AmDeptSectionSele = ({ deptsec, setDeptSec, setDeptSecName }) => {
             setValue(value)
             setDeptSec(value.sec_id)
             setDeptSecName(value.sec_name)
-            dispatch(getDepartSecemployee(value.sec_id))
-            dispatch(getRoomBasedOnDeptSec(value.sec_id))
+            if (value.sec_id !== 0) {
+                dispatch(getRoomBasedOnDeptSec(value.sec_id))
+            }
+
         } else {
             setDeptSec(0)
             setDeptSecName('')
@@ -40,7 +41,7 @@ const AmDeptSectionSele = ({ deptsec, setDeptSec, setDeptSecName }) => {
                         "--Input-minHeight": "29px"
                     }}
                     value={deptsec === 0 ? models : value}
-                    placeholder="Select department section"
+                    placeholder="Select Department Section"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);

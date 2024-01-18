@@ -150,7 +150,11 @@ import { getDepartmentSubTask } from './TmDepartment.Reducer'
 import { getDepartmentSecSubTask } from './TmDeptSection.Reducer'
 import { getProjectList } from './TmProjectsList.Reducer'
 import { getGoalsList } from './TmGoalsList.Reducer'
-
+import { getSubRoomBasedOnRoom } from './AmSubRoomBsdRoom.Reducer'
+import { setClinicalCrfPending } from './CrfDashboardClinical.Reducer'
+import { setNonClinicalCrfPending } from './CrfDashboardNonClinical.Reducer'
+import { setClinicalNDRFPending } from './NdrfDashboardClinical.Reducer'
+import { setNonClinicalNDRFPending } from './NdrfDashboardNonClinical.Reducer'
 
 
 const reducer = combineReducers({
@@ -307,7 +311,14 @@ const reducer = combineReducers({
     getDepartmentSubTask,
     getDepartmentSecSubTask,
     getProjectList,
-    getGoalsList
+    getGoalsList,
+    getSubRoomBasedOnRoom,
+    setClinicalCrfPending,
+    setNonClinicalCrfPending,
+    setClinicalNDRFPending,
+    setNonClinicalNDRFPending
+
+
 
 })
 export default reducer;

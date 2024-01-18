@@ -1,6 +1,4 @@
-import React, { memo } from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
+import React, { memo, useState, useEffect } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'

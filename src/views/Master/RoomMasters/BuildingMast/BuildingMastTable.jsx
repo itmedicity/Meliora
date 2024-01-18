@@ -1,7 +1,5 @@
 import React from 'react'
-import { memo } from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { memo, useState, useEffect } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
@@ -12,7 +10,7 @@ const BuildingMastTable = ({ count, rowSelect }) => {
 
   const [column] = useState([
     { headerName: 'SlNo', field: 'rm_building_slno' },
-    { headerName: 'Building name', field: 'rm_building_name' },
+    { headerName: 'Building name', field: 'rm_building_name', minWidth: 350 },
     { headerName: 'Building alias', field: 'rm_building_alias' },
     { headerName: 'Building number', field: 'rm_building_no' },
     { headerName: 'Status', field: 'status' },

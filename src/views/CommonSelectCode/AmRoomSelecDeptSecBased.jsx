@@ -2,9 +2,13 @@ import React, { useEffect, memo, useState, Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/'
+import { getSubRoomBasedOnRoom } from 'src/redux/actions/AmSubRoomBsdRoom.action';
+import { useDispatch } from 'react-redux'
+
 
 const AmRoomSelecDeptSecBased = ({ roomNo, setRoomNo, setRoomName }) => {
 
+    const dispatch = useDispatch();
     const RoomListDeptSecBasd = useSelector((state) => state.getRoomBasedOnDeptSec?.RoomBasedDeptSectionList)
     const [roomList, setRoomList] = useState([{ rm_room_slno: 0, rm_room_name: '' }])
     const [value, setValue] = useState(roomList[0]);
@@ -16,12 +20,16 @@ const AmRoomSelecDeptSecBased = ({ roomNo, setRoomNo, setRoomName }) => {
             setValue(value)
             setRoomNo(value.rm_room_slno)
             setRoomName(value.rm_room_name)
+            if (value.rm_room_slno !== 0) {
+                dispatch(getSubRoomBasedOnRoom(value.rm_room_slno))
+            }
+
         } else {
             setRoomNo(0)
             setRoomName('')
         }
         return
-    }, [value, setRoomNo, setRoomName])
+    }, [value, setRoomNo, setRoomName, dispatch])
 
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { diet_one, diet_two, diet_three, cms_one, cms_two, cms_three } from './ReportsMenu'
+import { diet_one, diet_two, diet_three, cms_one, cms_two, cms_three, am_one } from './ReportsMenu'
 import { getMenuSlno } from '../views/Constant/Constant'
 import { Link } from 'react-router-dom'
 import { Card, CardContent, CardHeader } from '@mui/material'
@@ -12,6 +12,7 @@ const Reports = () => {
     const [cms_report_one, setcms_report_one] = useState();
     const [cms_report_two, setcms_report_two] = useState();
     const [cms_report_three, setcms_report_three] = useState();
+    const [am_report_one, setam_report_one] = useState();
     const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
@@ -32,6 +33,11 @@ const Reports = () => {
             setcms_report_two(Cms_report_two)
             const Cms_report_three = cms_three.filter(val => menuSlnoArray.includes(val.slno));
             setcms_report_three(Cms_report_three)
+
+            //Asset Management Report
+            const am_report_one = am_one.filter(val => menuSlnoArray.includes(val.slno));
+            setam_report_one(am_report_one)
+
             setCount(1)
         })
     }, [count])
@@ -112,9 +118,26 @@ const Reports = () => {
                     </div>
                 </div>
             </CardContent>
+            <CardHeader title={"Asset Management Report"}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
+                sx={{
+                    backgroundColor: cardActionBgClr,
+                    paddingY: 0.5,
+                }} />
+            <CardContent>
+                <div className="row" >
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                am_report_one && am_report_one.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </CardContent>
         </Card>
-
-
     )
 }
 
