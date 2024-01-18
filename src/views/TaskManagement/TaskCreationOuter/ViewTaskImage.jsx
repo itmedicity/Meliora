@@ -1,5 +1,4 @@
 import React, { Fragment, memo } from 'react'
-
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -7,6 +6,7 @@ import { Box, Button, CssVarsProvider } from '@mui/joy';
 import CloseIcon from '@mui/icons-material/Close';
 
 const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
+
     return (
         <Fragment>
             <Dialog

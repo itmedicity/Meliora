@@ -1,4 +1,4 @@
-import { Box, Button, CssVarsProvider, Textarea, Tooltip, Typography } from '@mui/joy'
+import { Box, Button, CssVarsProvider, Textarea, Typography } from '@mui/joy'
 import { Divider } from '@mui/material'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,15 +7,16 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import TmMultEmpSelectUnderDeptSec from 'src/views/CommonSelectCode/TmMultEmpSelectUnderDeptSec'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import PermMediaIcon from '@mui/icons-material/PermMedia';
-import imageCompression from 'browser-image-compression';
-import CloseIcon from '@mui/icons-material/Close';
+// import imageCompression from 'browser-image-compression';
+import CusCheckBox from 'src/views/Components/CusCheckBox'
 const AddSubTask = ({ tm_task_slno, setflag, tableCount, setTableCount }) => {
 
-    const [selectFile, setSelectFile] = useState([]);
+    // const [selectFile, setSelectFile] = useState([]);
     const [employeeSubTask, setEmployeeSubTask] = useState(0)
     const dispatch = useDispatch();
-
+    const [completed, setCompleted] = useState(false)
+    const [onProgress, setOnProgress] = useState(false)
+    const [checkFlag, setcheckFlag] = useState(0)
     const [subTaskMast, setSubTaskMast] = useState({
         tm_sub_task_slno: '',
         tm_subtask_name: '',
@@ -24,10 +25,38 @@ const AddSubTask = ({ tm_task_slno, setflag, tableCount, setTableCount }) => {
         tm_subtask_duedate: '',
         tm_subtask_description: '',
         main_task_slno: '',
-        tm_task_status: false
-    })
-    const { tm_subtask_name, tm_subtask_duedate, tm_subtask_description, tm_task_status } = subTaskMast
 
+    })
+    const { tm_subtask_name, tm_subtask_duedate, tm_subtask_description, } = subTaskMast
+
+
+    const ChangeCompleted = useCallback((e) => {
+        if (e.target.checked === true) {
+            setCompleted(true)
+            setOnProgress(false)
+            setcheckFlag(1)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setcheckFlag(0)
+
+        }
+    }, [])
+    const ChangeOnProgress = useCallback((e) => {
+
+        if (e.target.checked === true) {
+            setCompleted(false)
+            setOnProgress(true)
+            setcheckFlag(2)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setcheckFlag(0)
+
+        }
+    }, [])
     const SubTaskUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -60,39 +89,39 @@ const AddSubTask = ({ tm_task_slno, setflag, tableCount, setTableCount }) => {
             tm_task_dept_sec: empsecid === 0 ? null : empsecid,
             tm_task_due_date: tm_subtask_duedate === '' ? null : tm_subtask_duedate,
             tm_task_description: tm_subtask_description === '' ? null : tm_subtask_description,
-            tm_task_status: tm_task_status === true ? 1 : 0,
+            tm_task_status: checkFlag,
             create_user: id,
         }
-    }, [tm_task_slno, tm_subtask_name, empdept, empsecid, tm_subtask_duedate, tm_subtask_description, tm_task_status, id,])
+    }, [tm_task_slno, tm_subtask_name, empdept, empsecid, tm_subtask_duedate, tm_subtask_description, checkFlag, id,])
 
 
 
-    const handleRemoveFile = (index) => {
-        setSelectFile((prevFiles) => {
-            const updatedFiles = [...prevFiles];
-            updatedFiles.splice(index, 1); // Remove the file at the specified index
-            return updatedFiles;
-        });
-    };
+    // const handleRemoveFile = (index) => {
+    //     setSelectFile((prevFiles) => {
+    //         const updatedFiles = [...prevFiles];
+    //         updatedFiles.splice(index, 1); // Remove the file at the specified index
+    //         return updatedFiles;
+    //     });
+    // };
     const closeSubTask = useCallback((e) => {
         setflag(0)
     }, [setflag])
 
-    const handleFileChange = useCallback((e) => {
-        const newFiles = [...selectFile]
-        newFiles.push(e.target.files[0])
-        setSelectFile(newFiles)
-    }, [selectFile, setSelectFile])
+    // const handleFileChange = useCallback((e) => {
+    //     const newFiles = [...selectFile]
+    //     newFiles.push(e.target.files[0])
+    //     setSelectFile(newFiles)
+    // }, [selectFile, setSelectFile])
 
-    const handleImageUpload = useCallback(async (imageFile) => {
-        const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1920,
-            useWebWorker: true,
-        }
-        const compressedFile = await imageCompression(imageFile, options)
-        return compressedFile
-    }, []);
+    // const handleImageUpload = useCallback(async (imageFile) => {
+    //     const options = {
+    //         maxSizeMB: 1,
+    //         maxWidthOrHeight: 1920,
+    //         useWebWorker: true,
+    //     }
+    //     const compressedFile = await imageCompression(imageFile, options)
+    //     return compressedFile
+    // }, []);
 
     const addSubTaskData = useCallback((e) => {
         e.preventDefault()
@@ -104,29 +133,29 @@ const AddSubTask = ({ tm_task_slno, setflag, tableCount, setTableCount }) => {
             const result = await axioslogin.post('/taskManagement/insertSubtaskDetail', insertSubTaskDetail)
             return result.data
         }
-        const InsertFile = async (selectFile, insertId) => {
-            try {
-                const formData = new FormData();
-                formData.append('id', insertId);
-                for (const file of selectFile) {
-                    if (file.type.startsWith('image')) {
-                        const compressedFile = await handleImageUpload(file);
-                        formData.append('files', compressedFile, compressedFile.name);
-                    } else {
-                        formData.append('files', file, file.name);
-                    }
-                }
-                // Use the Axios instance and endpoint that matches your server setup
-                const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                });
-                return uploadResult.data;
-            } catch (error) {
-                warningNotify('An error occurred during file upload.');
-            }
-        };
+        // const InsertFile = async (selectFile, insertId) => {
+        //     try {
+        //         const formData = new FormData();
+        //         formData.append('id', insertId);
+        //         for (const file of selectFile) {
+        //             if (file.type.startsWith('image')) {
+        //                 const compressedFile = await handleImageUpload(file);
+        //                 formData.append('files', compressedFile, compressedFile.name);
+        //             } else {
+        //                 formData.append('files', file, file.name);
+        //             }
+        //         }
+        //         // Use the Axios instance and endpoint that matches your server setup
+        //         const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
+        //             headers: {
+        //                 'Content-Type': 'multipart/form-data',
+        //             },
+        //         });
+        //         return uploadResult.data;
+        //     } catch (error) {
+        //         warningNotify('An error occurred during file upload.');
+        //     }
+        // };
         if (tm_subtask_name !== '') {
             InsertMastSubTask(insertMastSubTask).then((value) => {
                 const { message, success, insertId } = value
@@ -144,49 +173,49 @@ const AddSubTask = ({ tm_task_slno, setflag, tableCount, setTableCount }) => {
                         InsertSubTaskDetail(insertSubTaskDetail).then((value) => {
                             const { message, success } = value
                             if (success === 1) {
-                                if (selectFile.length !== 0) {
-                                    InsertFile(selectFile, insertId).then((value) => {
-                                        const { success, message } = value
-                                        if (success === 1) {
-                                            succesNotify("Subtask Created with file attach Successfully")
-                                            setTableCount(tableCount + 1)
-                                            closeSubTask()
-                                        }
-                                        else {
-                                            warningNotify(message)
-                                        }
-                                    })
-                                }
-                                else {
-                                    succesNotify("Subtask Created Successfully")
-                                    setTableCount(tableCount + 1)
-                                    closeSubTask()
-                                }
+                                // if (selectFile.length !== 0) {
+                                //     InsertFile(selectFile, insertId).then((value) => {
+                                //         const { success, message } = value
+                                //         if (success === 1) {
+                                //             succesNotify("Subtask Created with file attach Successfully")
+                                //             setTableCount(tableCount + 1)
+                                //             closeSubTask()
+                                //         }
+                                //         else {
+                                //             warningNotify(message)
+                                //         }
+                                //     })
+                                // }
+                                // else {
+                                succesNotify("Subtask Created Successfully")
+                                setTableCount(tableCount + 1)
+                                closeSubTask()
+                                // }
                             }
                             else {
                                 warningNotify(message)
                             }
                         })
                     } else {
-                        if (selectFile.length !== 0) {
-                            InsertFile(selectFile, insertId).then((value) => {
-                                const { success, message } = value
-                                if (success === 1) {
-                                    succesNotify("Subtask Created with file attach Successfully")
-                                    setTableCount(tableCount + 1)
-                                    closeSubTask()
-                                }
-                                else {
-                                    warningNotify(message)
-                                }
-                            })
-                        }
+                        // if (selectFile.length !== 0) {
+                        //     InsertFile(selectFile, insertId).then((value) => {
+                        //         const { success, message } = value
+                        //         if (success === 1) {
+                        //             succesNotify("Subtask Created with file attach Successfully")
+                        //             setTableCount(tableCount + 1)
+                        //             closeSubTask()
+                        //         }
+                        //         else {
+                        //             warningNotify(message)
+                        //         }
+                        //     })
+                        // }
                         //No file
-                        else {
-                            succesNotify("Subtask Created Successfully")
-                            setTableCount(tableCount + 1)
-                            closeSubTask()
-                        }
+                        // else {
+                        succesNotify("Subtask Created Successfully")
+                        setTableCount(tableCount + 1)
+                        closeSubTask()
+                        // }
                     }
                 }
                 else {
@@ -196,7 +225,7 @@ const AddSubTask = ({ tm_task_slno, setflag, tableCount, setTableCount }) => {
         } else {
             infoNotify('please enter subtask name')
         }
-    }, [closeSubTask, id, insertMastSubTask, tm_subtask_name, selectFile, handleImageUpload, tableCount, setTableCount, employeeSubTask])
+    }, [closeSubTask, id, insertMastSubTask, tm_subtask_name, tableCount, setTableCount, employeeSubTask])
 
     return (
         <Box>
@@ -259,7 +288,6 @@ const AddSubTask = ({ tm_task_slno, setflag, tableCount, setTableCount }) => {
                         <TmMultEmpSelectUnderDeptSec
                             value={employeeSubTask}
                             setValue={setEmployeeSubTask}
-                        // setemployees={setEmpNameSubTask}
                         />
                     </Box>
                     <Box sx={{ mt: .5 }}>
@@ -285,7 +313,34 @@ const AddSubTask = ({ tm_task_slno, setflag, tableCount, setTableCount }) => {
                         >
                         </Textarea>
                     </Box>
-                    <Box sx={{ height: 50, mt: .5, border: 1, borderRadius: 4, borderStyle: 'dashed', display: 'flex', borderColor: '#C2D2D9', }}>
+                    <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
+                        <Box sx={{ pt: .5 }}>
+                            <CusCheckBox
+
+                                color="primary"
+                                size="md"
+                                name="completed"
+                                value={completed}
+                                checked={completed}
+                                onCheked={ChangeCompleted}
+                            ></CusCheckBox>
+                        </Box>
+                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
+
+                        <Box sx={{ pt: .5, ml: 5 }}>
+                            <CusCheckBox
+
+                                color="primary"
+                                size="md"
+                                name="onProgress"
+                                value={onProgress}
+                                checked={onProgress}
+                                onCheked={ChangeOnProgress}
+                            ></CusCheckBox>
+                        </Box>
+                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
+                    </Box>
+                    {/* <Box sx={{ height: 50, mt: .5, border: 1, borderRadius: 4, borderStyle: 'dashed', display: 'flex', borderColor: '#C2D2D9', }}>
                         <Box sx={{ display: 'flex', flex: 1, m: 1, border: .5, borderColor: '#B7CFDC', pl: 1, pt: .3, borderRadius: 4 }}>
                             <Typography sx={{ color: '#003B73' }}>fileUpload&nbsp;</Typography>
                             <CssVarsProvider>
@@ -316,7 +371,7 @@ const AddSubTask = ({ tm_task_slno, setflag, tableCount, setTableCount }) => {
                                 ))}
                             </Box>
                         </Box>
-                    </Box>
+                    </Box> */}
                 </Box>
                 <Box sx={{ flex: 2 }}></Box>
             </Box>

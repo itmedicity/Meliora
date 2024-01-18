@@ -1,4 +1,4 @@
-import { Box, Button, CssVarsProvider, Textarea, Typography, Tooltip } from '@mui/joy'
+import { Box, Button, CssVarsProvider, Textarea, Typography, } from '@mui/joy'
 import { Divider } from '@mui/material'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,35 +9,60 @@ import TmDepartmentSelectSubTask from 'src/views/CommonSelectCode/TmDepartmentSe
 import TmDeptSectionSubtask from 'src/views/CommonSelectCode/TmDeptSectionSubtask'
 import TmMultEmpSelectUnderDeptSec from 'src/views/CommonSelectCode/TmMultEmpSelectUnderDeptSec'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import imageCompression from 'browser-image-compression';
-import PermMediaIcon from '@mui/icons-material/PermMedia';
-import CloseIcon from '@mui/icons-material/Close';
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 const SubTasksEdit = ({ subTaskData, taskTableCount, settaskTableCount, setflag }) => {
 
     const { tm_task_slno, tm_task_status } = subTaskData
 
+
+
     const [departmentSubTask, setdepartmentSubTask] = useState(0)
     const [departmentSecSubTask, setdepartmentSecSubTask] = useState(0)
     const [employeeSubTask, setEmployeeSubTask] = useState(0)
-
+    const [completed, setCompleted] = useState(tm_task_status === 1 ? true : tm_task_status === 2 ? false : false)
+    const [onProgress, setOnProgress] = useState(tm_task_status === 2 ? true : tm_task_status === 1 ? false : false)
+    const [checkFlag, setcheckFlag] = useState(tm_task_status)
     const dispatch = useDispatch();
     const [empArry, setEmpArry] = useState([])
 
-    const [subtakUpdateFile, setsubtakUpdateFile] = useState([]);
+    // const [subtakUpdateFile, setsubtakUpdateFile] = useState([]);
 
     const [subTaskMast, setSubTaskMast] = useState({
         tm_task_slno: '',
         subTaskName: '',
         subTaskDueDate: '',
         subTaskDescription: '',
-        taskStatus: (tm_task_status === 1 ? true : false)
+        // taskStatus: (tm_task_status === 1 ? true : false)
     })
-    const { subTaskName, subTaskDueDate, subTaskDescription, taskStatus } = subTaskMast
+    const { subTaskName, subTaskDueDate, subTaskDescription, } = subTaskMast
 
-    // const closeSubTask = useCallback((e) => {
-    //     setflag(0)
-    // }, [setflag])
+    const ChangeCompleted = useCallback((e) => {
+        if (e.target.checked === true) {
+            setCompleted(true)
+            setOnProgress(false)
+            setcheckFlag(1)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setcheckFlag(0)
+
+        }
+    }, [])
+    const ChangeOnProgress = useCallback((e) => {
+
+        if (e.target.checked === true) {
+            setCompleted(false)
+            setOnProgress(true)
+            setcheckFlag(2)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setcheckFlag(0)
+
+        }
+    }, [])
 
     const SubTaskUpdate = useCallback(
         (e) => {
@@ -86,11 +111,13 @@ const SubTasksEdit = ({ subTaskData, taskTableCount, settaskTableCount, setflag 
                     subTaskName: tm_task_name,
                     subTaskDueDate: tm_task_due_date,
                     subTaskDescription: tm_task_description,
-                    taskStatus: (tm_task_status === 1 ? true : false)
+                    // checkFlag: (tm_task_status === 1 ? true : tm_task_status === 2 ? true : false)
                 }
                 setSubTaskMast(formdata)
                 setdepartmentSubTask(tm_task_dept)
                 setdepartmentSecSubTask(tm_task_dept_sec)
+                setCompleted(tm_task_status === 1 ? true : false)
+                setOnProgress(tm_task_status === 2 ? true : false)
             }
         }
         const getMastEmployee = async (tm_task_slno) => {
@@ -123,12 +150,13 @@ const SubTasksEdit = ({ subTaskData, taskTableCount, settaskTableCount, setflag 
             tm_task_description: subTaskDescription === '' ? null : subTaskDescription,
             tm_task_dept: departmentSubTask === 0 ? null : departmentSubTask,
             tm_task_dept_sec: departmentSecSubTask === 0 ? null : departmentSecSubTask,
-            tm_task_status: taskStatus === true ? 1 : 0,
+            tm_task_status: checkFlag,
             edit_user: id
         }
 
-    }, [tm_task_slno, subTaskName, subTaskDueDate, taskStatus, subTaskDescription,
+    }, [tm_task_slno, subTaskName, subTaskDueDate, checkFlag, subTaskDescription,
         departmentSubTask, departmentSecSubTask, id])
+
 
 
     const reset = useCallback(() => {
@@ -145,20 +173,21 @@ const SubTasksEdit = ({ subTaskData, taskTableCount, settaskTableCount, setflag 
         setEmployeeSubTask(0)
 
     }, [setSubTaskMast, setdepartmentSubTask, setdepartmentSecSubTask, setEmployeeSubTask,]);
-    const updateSubtaskFile = useCallback((e) => {
-        const newFiles = [...subtakUpdateFile]
-        newFiles.push(e.target.files[0])
-        setsubtakUpdateFile(newFiles)
-    }, [subtakUpdateFile, setsubtakUpdateFile])
-    const handleImageUpload = useCallback(async (imageFile) => {
-        const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1920,
-            useWebWorker: true,
-        }
-        const compressedFile = await imageCompression(imageFile, options)
-        return compressedFile
-    }, []);
+
+    // const updateSubtaskFile = useCallback((e) => {
+    //     const newFiles = [...subtakUpdateFile]
+    //     newFiles.push(e.target.files[0])
+    //     setsubtakUpdateFile(newFiles)
+    // }, [subtakUpdateFile, setsubtakUpdateFile])
+    // const handleImageUpload = useCallback(async (imageFile) => {
+    //     const options = {
+    //         maxSizeMB: 1,
+    //         maxWidthOrHeight: 1920,
+    //         useWebWorker: true,
+    //     }
+    //     const compressedFile = await imageCompression(imageFile, options)
+    //     return compressedFile
+    // }, []);
     const SubmitTask = useCallback((e) => {
         e.preventDefault()
         const UpdateTask = async (updateSubTask) => {
@@ -175,143 +204,124 @@ const SubTasksEdit = ({ subTaskData, taskTableCount, settaskTableCount, setflag 
             const result = await axioslogin.post(`/taskManagement/insertSubtaskDetail`, postEmpDetails);
             return result.data
         }
-        const InsertFile = async (subtakUpdateFile, tm_task_slno) => {
-            try {
-                const formData = new FormData();
-                formData.append('id', tm_task_slno);
-                for (const file of subtakUpdateFile) {
-                    if (file.type.startsWith('image')) {
-                        const compressedFile = await handleImageUpload(file);
-                        formData.append('files', compressedFile, compressedFile.name);
-                    } else {
-                        formData.append('files', file, file.name);
-                    }
-                }
-                // Use the Axios instance and endpoint that matches your server setup
-                const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                });
-                return uploadResult.data;
-            } catch (error) {
-                warningNotify('An error occurred during file upload.');
-            }
-        };
+        // const InsertFile = async (subtakUpdateFile, tm_task_slno) => {
+        //     try {
+        //         const formData = new FormData();
+        //         formData.append('id', tm_task_slno);
+        //         for (const file of subtakUpdateFile) {
+        //             if (file.type.startsWith('image')) {
+        //                 const compressedFile = await handleImageUpload(file);
+        //                 formData.append('files', compressedFile, compressedFile.name);
+        //             } else {
+        //                 formData.append('files', file, file.name);
+        //             }
+        //         }
+        //         // Use the Axios instance and endpoint that matches your server setup
+        //         const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
+        //             headers: {
+        //                 'Content-Type': 'multipart/form-data',
+        //             },
+        //         });
+        //         return uploadResult.data;
+        //     } catch (error) {
+        //         warningNotify('An error occurred during file upload.');
+        //     }
+        // };
 
         if (subTaskName !== '') {
             UpdateTask(updateSubTask).then((value) => {
                 const { message, success } = value
                 if (success === 2) {
 
-                    if (subtakUpdateFile.length !== 0) {
-                        InsertFile(subtakUpdateFile, tm_task_slno).then((value) => {
-                            const { success, message } = value
-                            if (success === 1) {
+                    // if (subtakUpdateFile.length !== 0) {
+                    //     InsertFile(subtakUpdateFile, tm_task_slno).then((value) => {
+                    //         const { success, message } = value
+                    //         if (success === 1) {
 
 
 
-                                if (employeeSubTask !== 0) {
-                                    Inactiveemp(inactive).then((value) => {
-                                        const { message, succes } = value
-                                        if (succes === 1) {
-                                            UpdateSubTaskDtl(postEmpDetails)
-                                            const { message, success } = value
-                                            if (success === 1) {
-                                                succesNotify(message)
-                                                settaskTableCount(taskTableCount + 1)
-                                                reset()
-                                                setflag(0)
-                                            }
-                                            // else {
-                                            //     warningNotify('failure in updating employee assign')
-                                            // }
-                                        }
-                                        else {
-                                            succesNotify(message)
-                                            settaskTableCount(taskTableCount + 1)
-                                            reset()
-                                            setflag(0)
-                                        }
-                                    })
-                                    succesNotify("Task Updated with file attach Successfully")
-                                    settaskTableCount(taskTableCount + 1)
-                                    reset()
-                                    setflag(0)
+                    //             if (employeeSubTask !== 0) {
+                    //                 Inactiveemp(inactive).then((value) => {
+                    //                     const { message, succes } = value
+                    //                     if (succes === 1) {
+                    //                         UpdateSubTaskDtl(postEmpDetails)
+                    //                         const { message, success } = value
+                    //                         if (success === 1) {
+                    //                             succesNotify(message)
+                    //                             settaskTableCount(taskTableCount + 1)
+                    //                             reset()
+                    //                             setflag(0)
+                    //                         }
+                    //                         // else {
+                    //                         //     warningNotify('failure in updating employee assign')
+                    //                         // }
+                    //                     }
+                    //                     else {
+                    //                         succesNotify(message)
+                    //                         settaskTableCount(taskTableCount + 1)
+                    //                         reset()
+                    //                         setflag(0)
+                    //                     }
+                    //                 })
+                    //                 succesNotify("Task Updated with file attach Successfully")
+                    //                 settaskTableCount(taskTableCount + 1)
+                    //                 reset()
+                    //                 setflag(0)
 
-                                } else {
+                    //             } else {
 
+                    //                 succesNotify(message)
+                    //                 settaskTableCount(taskTableCount + 1)
+                    //                 setflag(0)
+
+                    //             }
+                    //         }
+                    //         else {
+                    //             warningNotify(message)
+                    //         }
+                    //     })
+                    // }
+                    //WITHOUT FILE UPLOAD
+                    // else {
+
+
+                    if (employeeSubTask !== 0) {
+
+
+                        Inactiveemp(inactive).then((value) => {
+                            const { message, succes } = value
+                            if (succes === 1) {
+                                UpdateSubTaskDtl(postEmpDetails)
+                                const { message, success } = value
+                                if (success === 1) {
                                     succesNotify(message)
                                     settaskTableCount(taskTableCount + 1)
                                     setflag(0)
+                                    reset()
 
                                 }
-
-
-
-
+                                // else {
+                                //     warningNotify('failure in updating employee assign')
+                                // }
                             }
                             else {
-                                warningNotify(message)
+                                succesNotify(message)
+                                settaskTableCount(taskTableCount + 1)
+                                setflag(0)
+                                reset()
+
                             }
                         })
+                        succesNotify(message)
+                        settaskTableCount(taskTableCount + 1)
+                        setflag(0)
+                        reset()
+                    } else {
+                        succesNotify(message)
+                        settaskTableCount(taskTableCount + 1)
+                        setflag(0)
                     }
-                    //WITHOUT FILE UPLOAD
-                    else {
-
-
-                        if (employeeSubTask !== 0) {
-
-
-                            Inactiveemp(inactive).then((value) => {
-                                const { message, succes } = value
-                                if (succes === 1) {
-                                    UpdateSubTaskDtl(postEmpDetails)
-                                    const { message, success } = value
-                                    if (success === 1) {
-                                        succesNotify(message)
-                                        settaskTableCount(taskTableCount + 1)
-                                        setflag(0)
-                                        reset()
-
-                                    }
-                                    // else {
-                                    //     warningNotify('failure in updating employee assign')
-                                    // }
-                                }
-                                else {
-                                    succesNotify(message)
-                                    settaskTableCount(taskTableCount + 1)
-                                    setflag(0)
-                                    reset()
-
-                                }
-                            })
-                            succesNotify(message)
-                            settaskTableCount(taskTableCount + 1)
-                            setflag(0)
-                            reset()
-
-
-
-
-                        } else {
-
-                            succesNotify(message)
-                            settaskTableCount(taskTableCount + 1)
-                            setflag(0)
-
-                        }
-
-
-
-
-
-
-
-                    }
-
-
+                    // }
                 }
                 else {
                     warningNotify(message)
@@ -321,16 +331,15 @@ const SubTasksEdit = ({ subTaskData, taskTableCount, settaskTableCount, setflag 
         else {
             infoNotify('please Fill Mandatory Feilds')
         }
-    }, [updateSubTask, inactive, postEmpDetails, subtakUpdateFile, tm_task_slno, subTaskName, reset, settaskTableCount, setflag, handleImageUpload, taskTableCount,
-        employeeSubTask])
+    }, [updateSubTask, inactive, postEmpDetails, subTaskName, reset, settaskTableCount, setflag, taskTableCount, employeeSubTask])
 
-    const subtaskFileRemove = (index) => {
-        setsubtakUpdateFile((prevFiles) => {
-            const updatedFiles = [...prevFiles];
-            updatedFiles.splice(index, 1); // Remove the file at the specified index
-            return updatedFiles;
-        });
-    };
+    // const subtaskFileRemove = (index) => {
+    //     setsubtakUpdateFile((prevFiles) => {
+    //         const updatedFiles = [...prevFiles];
+    //         updatedFiles.splice(index, 1); // Remove the file at the specified index
+    //         return updatedFiles;
+    //     });
+    // };
 
 
     return (
@@ -438,7 +447,7 @@ const SubTasksEdit = ({ subTaskData, taskTableCount, settaskTableCount, setflag 
                         </CssVarsProvider>
                     </Box>
 
-                    <Box sx={{
+                    {/* <Box sx={{
                         height: 50, mt: .5, border: 1, borderRadius: 1, borderStyle: 'dashed', display: 'flex',
                         borderColor: '#C2D2D9',
                     }}>
@@ -478,20 +487,33 @@ const SubTasksEdit = ({ subTaskData, taskTableCount, settaskTableCount, setflag 
                             </Box>
                         </Box>
 
-                    </Box>
+                    </Box> */}
                     <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                         <Box sx={{ pt: .5 }}>
                             <CusCheckBox
 
                                 color="primary"
                                 size="md"
-                                name="taskStatus"
-                                value={taskStatus}
-                                checked={taskStatus}
-                                onCheked={SubTaskUpdate}
+                                name="completed"
+                                value={completed}
+                                checked={completed}
+                                onCheked={ChangeCompleted}
                             ></CusCheckBox>
                         </Box>
                         <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
+
+                        <Box sx={{ pt: .5, ml: 5 }}>
+                            <CusCheckBox
+
+                                color="primary"
+                                size="md"
+                                name="onProgress"
+                                value={onProgress}
+                                checked={onProgress}
+                                onCheked={ChangeOnProgress}
+                            ></CusCheckBox>
+                        </Box>
+                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
                     </Box>
                     <Box sx={{ pt: 1, }}>
                         <Box sx={{ margin: 'auto', width: 150, }}>

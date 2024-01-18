@@ -970,7 +970,8 @@ const TmDashboardMain = () => {
                                     <Box sx={{
                                         flex: 1,
                                         m: .5,
-                                        bgcolor: '#f4e8ff'
+                                        bgcolor: '#f4e8ff',
+                                        borderRadius: 2,
                                     }}>
                                         <CssVarsProvider>
                                             <List

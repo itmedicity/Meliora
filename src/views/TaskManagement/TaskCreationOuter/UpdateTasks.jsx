@@ -22,6 +22,7 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
     const { tm_task_slno, main_task_slno, tm_task_status, tm_project_slno } = TaskDataForEdit
 
 
+
     const dispatch = useDispatch();
     const [departmentMast, setdepartmentMast] = useState(0)
     const [departmentSecMast, setdepartmentSecMast] = useState(0)
@@ -29,16 +30,16 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
     const [empArry, setEmpArry] = useState([])
     const [selectTaskfile, setselectTaskfile] = useState([]);
     const [subTaskData, setsubTaskData] = useState([])
-
-    // const [projectz, setprojectz] = useState(0)
     const [projectz, setprojectz] = useState(tm_project_slno === null ? 0 : tm_project_slno)
-
+    const [completed, setCompleted] = useState(tm_task_status === 1 ? true : tm_task_status === 2 ? false : false)
+    const [onProgress, setOnProgress] = useState(tm_task_status === 2 ? true : tm_task_status === 1 ? false : false)
+    const [checkFlag, setcheckFlag] = useState(tm_task_status)
     const [taskData, setTaskData] = useState({
 
         taskName: '',
         dueDate: '',
         description: '',
-        taskStatus: (tm_task_status === 1 ? true : false)
+        // taskStatus: (tm_task_status === 1 ? true : tm_task_status === 2 ? true : false)
 
     })
     useEffect(() => {
@@ -48,7 +49,38 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
 
 
 
-    const { taskName, dueDate, description, taskStatus } = taskData
+
+    const ChangeCompleted = useCallback((e) => {
+        if (e.target.checked === true) {
+            setCompleted(true)
+            setOnProgress(false)
+            setcheckFlag(1)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setcheckFlag(0)
+
+        }
+    }, [])
+    const ChangeOnProgress = useCallback((e) => {
+
+        if (e.target.checked === true) {
+            setCompleted(false)
+            setOnProgress(true)
+            setcheckFlag(2)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setcheckFlag(0)
+
+        }
+    }, [])
+
+
+
+    const { taskName, dueDate, description, } = taskData
     const taskDataUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -72,14 +104,14 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                     taskName: tm_task_name,
                     dueDate: tm_task_due_date,
                     description: tm_task_description,
-                    taskStatus: (tm_task_status === 1 ? true : false),
                     edit_user: id
                 }
                 setTaskData(formdata)
                 setdepartmentMast(tm_task_dept)
                 setdepartmentSecMast(tm_task_dept_sec)
                 setprojectz(tm_project_slno)
-
+                setCompleted(tm_task_status === 1 ? true : false)
+                setOnProgress(tm_task_status === 2 ? true : false)
             }
         }
         const getMastEmployee = async (tm_task_slno) => {
@@ -121,12 +153,10 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
             tm_task_dept: departmentMast === 0 ? null : departmentMast,
             tm_task_dept_sec: departmentSecMast === 0 ? null : departmentSecMast,
             tm_project_slno: projectz === 0 ? null : projectz,
-            tm_task_status: taskStatus === true ? 1 : 0,
+            tm_task_status: checkFlag,
             edit_user: id
         }
-    }, [tm_task_slno, taskName, dueDate, taskStatus, description, departmentMast, departmentSecMast, projectz, id])
-
-
+    }, [tm_task_slno, taskName, dueDate, checkFlag, description, departmentMast, departmentSecMast, projectz, id])
 
 
     const postEmpDetails = employeeMast && employeeMast.map((val) => {
@@ -227,12 +257,7 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                         InsertFile(selectTaskfile, tm_task_slno).then((value) => {
                             const { success, message } = value
                             if (success === 1) {
-
-
-
-
                                 if (employeeMast !== 0) {
-
                                     Inactiveemp(inactive).then((value) => {
                                         const { message, succes } = value
                                         if (succes === 1) {
@@ -269,9 +294,6 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                                     setEditTaslFlag(0)
 
                                 }
-
-
-
                             }
                             else {
                                 warningNotify(message)
@@ -316,11 +338,7 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                             succesNotify(message)
                             settaskTableCount(taskTableCount + 1)
                             setEditTaslFlag(0)
-
                         }
-
-
-
                     }
                 }
                 else {
@@ -452,23 +470,6 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                             </Textarea>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
-                        <Box sx={{ pt: .5 }}>
-                            <CusCheckBox
-
-                                color="primary"
-                                size="md"
-                                name="taskStatus"
-                                value={taskStatus}
-                                checked={taskStatus}
-                                onCheked={taskDataUpdate}
-                            ></CusCheckBox>
-                        </Box>
-                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
-                    </Box>
-
-
-
 
                     <Box sx={{
                         fontFamily: 'Georgia',
@@ -509,6 +510,33 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                                 ))}
                             </Box>
                         </Box>
+                    </Box>
+                    <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
+                        <Box sx={{ pt: .5 }}>
+                            <CusCheckBox
+
+                                color="primary"
+                                size="md"
+                                name="completed"
+                                value={completed}
+                                checked={completed}
+                                onCheked={ChangeCompleted}
+                            ></CusCheckBox>
+                        </Box>
+                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
+
+                        <Box sx={{ pt: .5, ml: 5 }}>
+                            <CusCheckBox
+
+                                color="primary"
+                                size="md"
+                                name="onProgress"
+                                value={onProgress}
+                                checked={onProgress}
+                                onCheked={ChangeOnProgress}
+                            ></CusCheckBox>
+                        </Box>
+                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
                     </Box>
 
 

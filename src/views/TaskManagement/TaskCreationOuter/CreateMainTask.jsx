@@ -19,14 +19,13 @@ import UpdateTasks from './UpdateTasks';
 import PermMediaIcon from '@mui/icons-material/PermMedia';
 import TmProjectList from 'src/views/CommonSelectCode/TmProjectList';
 import { getProjectList } from 'src/redux/actions/TmProjectsList.action';
+import CusCheckBox from 'src/views/Components/CusCheckBox';
 const CreateMainTask = () => {
     const [department, setDepartment] = useState(0)
     const [deptsec, setDeptSec] = useState(0)
     const [flag, setflag] = useState(0)
     const [viewAllTask, setviewAllTask] = useState(0)
     const [employee, setEmployee] = useState([])
-    // const [employees, setemployees] = useState('')
-    // const [insertId, setInsertId] = useState(0)
     const [selectFile, setSelectFile] = useState([]);
     const [taskTableCount, settaskTableCount] = useState(0)
     const history = useHistory()
@@ -34,11 +33,45 @@ const CreateMainTask = () => {
     const [TaskDataForEdit, setTaskDataForEdit] = useState([])
     const [projectz, setprojectz] = useState(0)
 
+    const [completed, setCompleted] = useState(false)
+    const [onProgress, setOnProgress] = useState(false)
+    const [checkFlag, setcheckFlag] = useState(0)
+
+
+    const ChangeCompleted = useCallback((e) => {
+        if (e.target.checked === true) {
+            setCompleted(true)
+            setOnProgress(false)
+            setcheckFlag(1)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setcheckFlag(0)
+
+        }
+    }, [])
+    const ChangeOnProgress = useCallback((e) => {
+
+        if (e.target.checked === true) {
+            setCompleted(false)
+            setOnProgress(true)
+            setcheckFlag(2)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setcheckFlag(0)
+
+        }
+    }, [])
+
+
+
+
 
 
     const dispatch = useDispatch();
-
-
     useEffect(() => {
         dispatch(getDepartment())
     }, [dispatch,])
@@ -61,9 +94,11 @@ const CreateMainTask = () => {
         tm_task_due_date: '',
         tm_task_description: '',
         main_task_slno: '',
-        tm_task_status: false
+        // tm_task_status: false
     })
-    const { tm_task_name, tm_task_due_date, tm_task_description, main_task_slno, tm_task_status } = taskMast
+    const { tm_task_name, tm_task_due_date, tm_task_description, main_task_slno,
+        // tm_task_status
+    } = taskMast
     const MastUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -78,7 +113,8 @@ const CreateMainTask = () => {
             tm_task_dept_sec: deptsec === 0 ? null : deptsec,
             tm_task_due_date: tm_task_due_date === '' ? null : tm_task_due_date,
             tm_task_description: tm_task_description === '' ? null : tm_task_description,
-            tm_task_status: tm_task_status === true ? 1 : 0,
+            // tm_task_status: tm_task_status === true ? 1 : 0,
+            tm_task_status: checkFlag,
             tm_project_slno: projectz === 0 ? null : projectz,
             create_user: id,
             main_task_slno: main_task_slno,
@@ -88,7 +124,7 @@ const CreateMainTask = () => {
         deptsec,
         tm_task_due_date,
         tm_task_description,
-        tm_task_status,
+        checkFlag,
         main_task_slno,
         projectz,
         id])
@@ -97,7 +133,6 @@ const CreateMainTask = () => {
         setEditTaslFlag(1)
         setTaskDataForEdit(value)
         setflag(0)
-
     }, [setTaskDataForEdit, setflag, setEditTaslFlag])
 
 
@@ -118,7 +153,9 @@ const CreateMainTask = () => {
         setEmployee([])
         setSelectFile([])
         setprojectz(0)
-    }, [settaskMast, setDepartment, setDeptSec, setEmployee, setSelectFile, setprojectz]);
+        setCompleted(false)
+        setOnProgress(false)
+    }, [settaskMast, setDepartment, setDeptSec, setEmployee, setSelectFile, setprojectz, setOnProgress, setCompleted]);
 
     const handleFileChange = useCallback((e) => {
         const newFiles = [...selectFile]
@@ -408,6 +445,7 @@ const CreateMainTask = () => {
                                                 </Textarea>
                                             </CssVarsProvider>
                                         </Box>
+
                                         <Box sx={{
                                             height: 50, mt: .5, border: 1, borderRadius: 1, borderStyle: 'dashed', display: 'flex',
                                             borderColor: '#C2D2D9',
@@ -448,6 +486,33 @@ const CreateMainTask = () => {
                                                 </Box>
                                             </Box>
 
+                                        </Box>
+                                        <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
+                                            <Box sx={{ pt: .5 }}>
+                                                <CusCheckBox
+
+                                                    color="primary"
+                                                    size="md"
+                                                    name="completed"
+                                                    value={completed}
+                                                    checked={completed}
+                                                    onCheked={ChangeCompleted}
+                                                ></CusCheckBox>
+                                            </Box>
+                                            <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
+
+                                            <Box sx={{ pt: .5, ml: 5 }}>
+                                                <CusCheckBox
+
+                                                    color="primary"
+                                                    size="md"
+                                                    name="onProgress"
+                                                    value={onProgress}
+                                                    checked={onProgress}
+                                                    onCheked={ChangeOnProgress}
+                                                ></CusCheckBox>
+                                            </Box>
+                                            <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
                                         </Box>
                                         <Box sx={{ pt: 1, }}>
                                             <Box sx={{ margin: 'auto', width: '30%' }}>

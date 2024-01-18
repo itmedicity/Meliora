@@ -12,11 +12,12 @@ import LanIcon from '@mui/icons-material/Lan';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import EditSubTask from './EditSubTask';
 import AddSubTask from './AddSubTask';
+import PermMediaIcon from '@mui/icons-material/PermMedia';
 import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { getProjectList } from 'src/redux/actions/TmProjectsList.action';
 import TmProjectList from 'src/views/CommonSelectCode/TmProjectList';
-
+import imageCompression from 'browser-image-compression';
 const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount }) => {
 
     const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status } = masterData
@@ -31,20 +32,51 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const [arry, setArry] = useState([])
     const [flag, setflag] = useState(0)
     const [subTaskData, setsubTaskData] = useState([])
-
+    const [selectTaskfile, setselectTaskfile] = useState([]);
     const [projectz, setprojectz] = useState(tm_project_slno === null ? 0 : tm_project_slno)
 
-    // const [projectz, setprojectz] = useState(0)
+    const [completed, setCompleted] = useState(tm_task_status === 1 ? true : tm_task_status === 2 ? false : false)
+    const [onProgress, setOnProgress] = useState(tm_task_status === 2 ? true : tm_task_status === 1 ? false : false)
+    const [checkFlag, setcheckFlag] = useState(tm_task_status)
+
+
+    const ChangeCompleted = useCallback((e) => {
+        if (e.target.checked === true) {
+            setCompleted(true)
+            setOnProgress(false)
+            setcheckFlag(1)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setcheckFlag(0)
+
+        }
+    }, [])
+    const ChangeOnProgress = useCallback((e) => {
+
+        if (e.target.checked === true) {
+            setCompleted(false)
+            setOnProgress(true)
+            setcheckFlag(2)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setcheckFlag(0)
+
+        }
+    }, [])
 
     const [taskData, setTaskData] = useState({
         tm_task_slno: '',
         taskName: '',
         dueDate: '',
         description: '',
-        taskStatus: (tm_task_status === 1 ? true : false),
+        // taskStatus: (tm_task_status === 1 ? true : false),
 
     })
-    const { taskName, dueDate, description, taskStatus, } = taskData
+    const { taskName, dueDate, description, } = taskData
     const taskDataUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -92,12 +124,15 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                     taskName: tm_task_name,
                     dueDate: tm_task_due_date,
                     description: tm_task_description,
-                    taskStatus: (tm_task_status === 1 ? true : false),
+                    // taskStatus: (tm_task_status === 1 ? true : false),
+
                 }
                 setTaskData(formdata)
                 setdepartmentMast(empdept)
                 setdepartmentSecMast(empsecid)
                 setprojectz(tm_project_slno)
+                setCompleted(tm_task_status === 1 ? true : false)
+                setOnProgress(tm_task_status === 2 ? true : false)
             }
             else {
                 // setdepartmentMast(0)
@@ -140,11 +175,11 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             tm_task_description: description === '' ? null : description,
             tm_task_dept: departmentMast === 0 ? null : departmentMast,
             tm_task_dept_sec: departmentSecMast === 0 ? null : departmentSecMast,
-            tm_task_status: taskStatus === true ? 1 : 0,
+            tm_task_status: checkFlag,
             tm_project_slno: projectz === 0 ? null : projectz,
 
         }
-    }, [tm_task_slno, taskName, taskStatus, dueDate, description, departmentMast, departmentSecMast, projectz,])
+    }, [tm_task_slno, taskName, checkFlag, dueDate, description, departmentMast, departmentSecMast, projectz,])
 
 
 
@@ -180,6 +215,22 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     //     setTaskData('')
     // }, [setdepartmentMast, setdepartmentSecMast, setEmployeeMast, setEmployeeMast, setprojectz, setTaskData])
 
+    const handleTaskFileChange = useCallback((e) => {
+        const newFiles = [...selectTaskfile]
+        newFiles.push(e.target.files[0])
+        setselectTaskfile(newFiles)
+    }, [selectTaskfile, setselectTaskfile])
+
+
+    const handleImageUpload = useCallback(async (imageFile) => {
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        }
+        const compressedFile = await imageCompression(imageFile, options)
+        return compressedFile
+    }, []);
 
     const SubmitTask = useCallback((e) => {
         e.preventDefault()
@@ -195,43 +246,122 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             const result = await axioslogin.post(`/taskManagement/insertSubtaskDetail`, postEmpDetails);
             return result.data
         }
+        const InsertFile = async (selectTaskfile, tm_task_slno) => {
+            try {
+                const formData = new FormData();
+                formData.append('id', tm_task_slno);
+                for (const taskFile of selectTaskfile) {
+                    if (taskFile.type.startsWith('image')) {
+                        const compressedFile = await handleImageUpload(taskFile);
+                        formData.append('files', compressedFile, compressedFile.name);
+                    } else {
+                        formData.append('files', taskFile, taskFile.name);
+                    }
+                }
+                // Use the Axios instance and endpoint that matches your server setup
+                const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                return uploadResult.data;
+            } catch (error) {
+                warningNotify('An error occurred during file upload.');
+            }
+        };
+
         if (taskName !== '') {
             UpdateTask(updateMasterTask).then((value) => {
                 const { message, success } = value
                 if (success === 2) {
-                    if (employeeMast !== 0) {
-                        Inactiveemp(inactive).then((value) => {
-                            const { message, succes } = value
-                            if (succes === 1) {
-                                UpdateSubTaskDtl(postEmpDetails)
-                                const { message, success } = value
-                                if (success === 1) {
+                    if (selectTaskfile.length !== 0) {
+                        InsertFile(selectTaskfile, tm_task_slno).then((value) => {
+                            const { success, message } = value
+                            if (success === 1) {
+                                if (employeeMast !== 0) {
+                                    Inactiveemp(inactive).then((value) => {
+                                        const { message, succes } = value
+                                        if (succes === 1) {
+                                            UpdateSubTaskDtl(postEmpDetails)
+                                            const { message, success } = value
+                                            if (success === 1) {
+                                                succesNotify(message)
+                                                setTableCount(tableCount + 1)
+                                                handleEditClose()
+                                                // setEditTaslFlag(0)
+                                            }
+                                            else {
+                                                //     warningNotify('failure in updating employee assign')
+                                                handleEditClose()
+                                                setTableCount(tableCount + 1)
+                                                // setEditTaslFlag(0)
+                                            }
+                                        }
+                                        else {
+                                            succesNotify(message)
+                                            setTableCount(tableCount + 1)
+                                            handleEditClose()
+                                            // setEditTaslFlag(0)
+                                        }
+                                    })
+                                    succesNotify("Task Updated with file attach Successfully")
+                                    setTableCount(tableCount + 1)
+                                    handleEditClose()
+
+                                } else {
+
                                     succesNotify(message)
                                     setTableCount(tableCount + 1)
-                                    // reset()
                                     handleEditClose()
-                                } else {
-                                    setTableCount(tableCount + 1)
+
                                 }
-                                setTableCount(tableCount + 1)
+
+
+
                             }
                             else {
-                                succesNotify(message)
-                                handleEditClose()
-                                setTableCount(tableCount + 1)
-                                // reset()
+                                warningNotify(message)
                             }
                         })
-                        succesNotify(message)
-                        handleEditClose()
-                        setTableCount(tableCount + 1)
-                        // reset()
                     }
+
+                    //WITHOUT FILE UPLOAD
                     else {
-                        succesNotify(message)
-                        setTableCount(tableCount + 1)
-                        handleEditClose()
-                        // reset()
+                        if (employeeMast !== 0) {
+                            Inactiveemp(inactive).then((value) => {
+                                const { message, succes } = value
+                                if (succes === 1) {
+                                    UpdateSubTaskDtl(postEmpDetails)
+                                    const { message, success } = value
+                                    if (success === 1) {
+                                        succesNotify(message)
+                                        setTableCount(tableCount + 1)
+                                        // reset()
+                                        handleEditClose()
+                                    } else {
+                                        setTableCount(tableCount + 1)
+                                    }
+                                    setTableCount(tableCount + 1)
+                                }
+                                else {
+                                    succesNotify(message)
+                                    handleEditClose()
+                                    setTableCount(tableCount + 1)
+                                    // reset()
+                                }
+                            })
+                            succesNotify(message)
+                            handleEditClose()
+                            setTableCount(tableCount + 1)
+                            // reset()
+
+                        }
+                        else {
+                            succesNotify(message)
+                            setTableCount(tableCount + 1)
+                            handleEditClose()
+                            // reset()
+                        }
                     }
                 }
                 else {
@@ -241,7 +371,15 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         } else {
             infoNotify('please Fill Mandatory Feilds')
         }
-    }, [updateMasterTask, inactive, postEmpDetails, taskName, handleEditClose, tableCount, setTableCount, employeeMast])
+    }, [updateMasterTask, inactive, postEmpDetails, taskName, selectTaskfile, tm_task_slno, handleEditClose, handleImageUpload, tableCount, setTableCount, employeeMast])
+
+    const handleRemoveTaskFile = (index) => {
+        setselectTaskfile((prevTaskFiles) => {
+            const updatedFiles = [...prevTaskFiles];
+            updatedFiles.splice(index, 1); // Remove the file at the specified index
+            return updatedFiles;
+        });
+    };
 
     return (
         <Box>
@@ -365,37 +503,76 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                         >
                                         </Textarea>
                                     </Box>
+
+
+                                    <Box sx={{
+                                        fontFamily: 'Georgia',
+                                        height: 50, mt: .5, border: 1, borderRadius: 1, borderStyle: 'dashed', display: 'flex',
+                                        borderColor: '#C2D2D9',
+                                    }}>
+                                        <Box sx={{ color: '#003B73', display: 'flex', flex: 1, m: 1, border: .5, borderColor: '#B7CFDC', pl: 1, pt: .3, borderRadius: 2 }}>
+                                            <Typography>fileUpload&nbsp;</Typography>
+                                            <CssVarsProvider>
+                                                <label htmlFor="file-input">
+                                                    <Tooltip title="File Attach" placement="bottom" >
+
+                                                        <PermMediaIcon sx={{ color: '#738FA7', height: 25, width: 25, cursor: 'pointer', pr: .5 }} />
+                                                    </Tooltip>
+                                                </label>
+                                                <input
+                                                    id="file-input"
+                                                    type="file"
+                                                    accept=".jpg, .jpeg, .png, .pdf"
+                                                    style={{ display: 'none' }}
+                                                    onChange={handleTaskFileChange}
+                                                    name="selectTaskfile"
+                                                    multiple // Add this attribute to allow multiple file selections
+                                                />
+                                            </CssVarsProvider>
+                                        </Box>
+                                        <Box sx={{ flex: 4, overflowX: "scroll", overflow: 'hidden', }}>
+                                            <Box sx={{ display: 'flex' }}>
+                                                {selectTaskfile && selectTaskfile.map((taskFile, index) => (
+                                                    <Box sx={{
+                                                        display: "flex", flexDirection: "row", ml: .5, mt: 1.5,
+                                                        backgroundColor: '#C3CEDA', borderRadius: 2, px: .5,
+                                                    }} key={index} >
+                                                        <Box >{taskFile.name}</Box>
+                                                        <Box sx={{ ml: .3 }}><CloseIcon sx={{ height: '17px', width: '20px', cursor: 'pointer' }}
+                                                            onClick={() => handleRemoveTaskFile(index)} /></Box>
+                                                    </Box>
+                                                ))}
+                                            </Box>
+                                        </Box>
+                                    </Box>
                                     <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                                         <Box sx={{ pt: .5 }}>
-                                            {/* <input type="checkbox"
-
-                                                background='white'
-                                                border='0.5px solid  #C4C4C4'
-
-                                                style={{
-                                                    width: '18px',
-                                                    height: '18px'
-                                                }}
-                                                value={taskStatus}
-                                                name="taskStatus"
-                                                checked={taskStatus}
-                                                onChange={(e) => taskDataUpdate(e)}
-
-                                            >
-
-                                            </input> */}
-
                                             <CusCheckBox
+
                                                 color="primary"
                                                 size="md"
-                                                name="taskStatus"
-                                                value={taskStatus}
-                                                checked={taskStatus}
-                                                onCheked={taskDataUpdate}
+                                                name="completed"
+                                                value={completed}
+                                                checked={completed}
+                                                onCheked={ChangeCompleted}
                                             ></CusCheckBox>
                                         </Box>
-                                        <Box sx={{ pl: 1, color: '#003B73', fontFamily: 'Georgia' }}>Task Completed</Box>
+                                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
+
+                                        <Box sx={{ pt: .5, ml: 5 }}>
+                                            <CusCheckBox
+
+                                                color="primary"
+                                                size="md"
+                                                name="onProgress"
+                                                value={onProgress}
+                                                checked={onProgress}
+                                                onCheked={ChangeOnProgress}
+                                            ></CusCheckBox>
+                                        </Box>
+                                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
                                     </Box>
+
                                 </Box>
                                 <Box sx={{ flex: 1.5, mt: 2, ml: .5 }}>
                                     <Box sx={{ height: 50, margin: 'auto', }}>

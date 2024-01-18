@@ -11,6 +11,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import moment from 'moment';
 import ViewTaskImage from './ViewTaskImage';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
     const [departments, setDepartments] = useState(0)
     const [deptsecs, setDeptSecs] = useState(0)
@@ -53,7 +54,7 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
                         tm_task_status: val.tm_task_status,
                         tm_project_name: val.tm_project_name,
                         tm_project_slno: val.tm_project_slno,
-                        TaskStatus: val.tm_task_status === 1 ? 'Completed' : val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                        TaskStatus: val.tm_task_status === 1 ? 'Completed' : val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                     }
                     return obj
                 })
@@ -90,7 +91,7 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
                             tm_task_status: val.tm_task_status,
                             tm_project_name: val.tm_project_name,
                             tm_project_slno: val.tm_project_slno,
-                            TaskStatus: val.tm_task_status === 1 ? 'Completed' : val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                            TaskStatus: val.tm_task_status === 1 ? 'Completed' : val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 2 ? 'On Progress' : 'Incompleted',
                         }
                         return obj
                     })
@@ -134,7 +135,7 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
                 const data = result.data;
                 const fileNames = data.data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `http://192.168.22.9/NAS/TaskManagement/${tm_task_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/Meliora/TaskManagement/${tm_task_slno}/${fileName}`;
                 });
                 setImageUrls(fileUrls);
                 // Open the modal only if there are files
@@ -201,17 +202,18 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
                                 hoverRow>
                                 <thead>
                                     <tr>
-                                        <th style={{ width: 55, fontFamily: 'Georgia' }}>SlNo</th>
-                                        <th style={{ width: 70, fontFamily: 'Georgia' }}>Action</th>
-                                        <th style={{ width: 70, fontFamily: 'Georgia' }}>View</th>
-                                        <th style={{ width: 100, fontFamily: 'Georgia' }}>Status</th>
-                                        <th style={{ width: 250, fontFamily: 'Georgia' }}>Task name</th>
+
+                                        <th style={{ width: 50, fontFamily: 'Georgia' }}>SlNo</th>
+                                        <th style={{ width: 90, fontFamily: 'Georgia' }}>Action</th>
+                                        <th style={{ width: 60, fontFamily: 'Georgia' }}>View</th>
+                                        <th style={{ width: 90, fontFamily: 'Georgia' }}>Status</th>
+                                        <th style={{ width: 150, fontFamily: 'Georgia' }}>Task name</th>
                                         <th style={{ width: 150, fontFamily: 'Georgia' }}>Project</th>
                                         <th style={{ width: 250, fontFamily: 'Georgia' }}>Department</th>
                                         <th style={{ width: 250, fontFamily: 'Georgia' }}>Section</th>
-                                        <th style={{ width: 350, fontFamily: 'Georgia' }}>Assignee</th>
+                                        <th style={{ width: 180, fontFamily: 'Georgia' }}>Assignee</th>
                                         <th style={{ width: 100, fontFamily: 'Georgia' }}>Due date</th>
-                                        <th style={{ width: 550, fontFamily: 'Georgia' }}>Description</th>
+                                        <th style={{ width: 300, fontFamily: 'Georgia' }}>Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -238,7 +240,7 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
                                                 <td
                                                     style={{
                                                         color: val.tm_task_status === null ? '#5F093D' : val.tm_task_status === 0 ? '#5F093D'
-                                                            : val.tm_task_status === 1 ? 'green' : 'transparent', minHeight: 5
+                                                            : val.tm_task_status === 1 ? 'green' : val.tm_task_status === 2 ? '#9E3A14' : 'transparent', minHeight: 5
                                                     }}>{val.TaskStatus}</td>
                                                 <td> {val.tm_task_name || 'not given'}</td>
                                                 <td>{val.tm_project_name || 'not given'}</td>
