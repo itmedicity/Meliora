@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import ViewTaskImage from './ViewTaskImage';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 const ViewAllTask = ({ setviewAllTask, taskTableCount }) => {
     const [tabledata, setTableData] = useState([])
     const [department, setDepartment] = useState(0)
@@ -123,7 +124,7 @@ const ViewAllTask = ({ setviewAllTask, taskTableCount }) => {
                 const data = result.data;
                 const fileNames = data.data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `http://192.168.22.9/NAS/TaskManagement/${tm_task_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/Meliora/TaskManagement/${tm_task_slno}/${fileName}`;
                 });
                 setImageUrls(fileUrls);
 
@@ -219,16 +220,17 @@ const ViewAllTask = ({ setviewAllTask, taskTableCount }) => {
                             <Table padding={"none"} stickyHeader
                                 hoverRow>
                                 <thead>
-                                    <tr >
-                                        <th style={{ width: 60, fontFamily: 'Georgia' }}>SlNo</th>
-                                        <th style={{ width: 80, fontFamily: 'Georgia' }}>View</th>
-                                        <th style={{ width: 200, fontFamily: 'Georgia' }}>Status</th>
-                                        <th style={{ width: 300, fontFamily: 'Georgia' }}>Task name</th>
+                                    <tr>
+
+                                        <th style={{ width: 50, fontFamily: 'Georgia' }}>SlNo</th>
+                                        <th style={{ width: 60, fontFamily: 'Georgia' }}>View</th>
+                                        <th style={{ width: 90, fontFamily: 'Georgia' }}>Status</th>
+                                        <th style={{ width: 150, fontFamily: 'Georgia' }}>Task name</th>
                                         <th style={{ width: 250, fontFamily: 'Georgia' }}>Department</th>
                                         <th style={{ width: 250, fontFamily: 'Georgia' }}>Section</th>
-                                        <th style={{ width: 250, fontFamily: 'Georgia' }}>Assignee</th>
+                                        <th style={{ width: 180, fontFamily: 'Georgia' }}>Assignee</th>
                                         <th style={{ width: 100, fontFamily: 'Georgia' }}>Due date</th>
-                                        <th style={{ width: 500, fontFamily: 'Georgia' }}>Description</th>
+                                        <th style={{ width: 300, fontFamily: 'Georgia' }}>Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>

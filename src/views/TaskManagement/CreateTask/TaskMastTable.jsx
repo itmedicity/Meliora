@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import ViewTaskImage from '../TaskCreationOuter/ViewTaskImage';
 import moment from 'moment';
-// import _ from 'underscore';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 const TaskMastTable = ({ tableCount, setTableCount }) => {
 
     const [tabledata, setTabledata] = useState([])
@@ -85,9 +85,11 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
             const { success } = result.data;
             if (success === 1) {
                 const data = result.data;
+
                 const fileNames = data.data;
+
                 const fileUrls = fileNames.map((fileName) => {
-                    return `http://192.168.22.9/NAS/TaskManagement/${tm_task_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/Meliora/TaskManagement/${tm_task_slno}/${fileName}`;
                 });
                 setImageUrls(fileUrls);
                 // Open the modal only if there are files
@@ -129,13 +131,13 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                             <thead>
                                 <tr>
                                     <th style={{ width: 50 }}>SlNo</th>
-                                    <th style={{ width: 50 }} >Action</th>
-                                    <th style={{ width: 50 }}>View</th>
+                                    <th style={{ width: 60 }} >Action</th>
+                                    <th style={{ width: 60 }}>View</th>
                                     <th style={{ width: 150 }}>Task Name</th>
-                                    <th style={{ width: 100 }}>Project</th>
-                                    <th style={{ width: 350 }}>Assignee</th>
+                                    <th style={{ width: 150 }}>Project</th>
+                                    <th style={{ width: 150 }}>Assignee</th>
                                     <th style={{ width: 100 }}>Task Due Date</th>
-                                    <th style={{ width: 250 }}>Task Description</th>
+                                    <th style={{ width: 300 }}>Task Description</th>
                                 </tr>
                             </thead>
                             <tbody>
