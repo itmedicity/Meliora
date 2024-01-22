@@ -50,6 +50,14 @@ const ITTransactions = [
         to: '/Home/ItSimdetails',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+
+    {
+        men_slno: 158,
+        component: CNavItem,
+        name: 'Wifi Management',
+        to: '/Home/WifiManageMent',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
 ]
 
 export default ITTransactions;
