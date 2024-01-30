@@ -51,17 +51,17 @@ export const task_setting_three = [
 
 //Request Management Master Menu
 export const crm_setting_one = [
-    { to: '/Home/OMTableMast', name: 'OM Table Mast', slno: 107 },
+    { to: '/Home/EmergencyType', name: 'Emergency Type Mast', slno: 177 },
 ]
 
 export const crm_setting_two = [
-    { to: '/Home/OMEmpMapping', name: 'OM-Emp Mapping', slno: 108 },
 
+    { to: '/Home/OMTableMast', name: 'OM Table Mast', slno: 107 },
 
 ]
 
 export const crm_setting_three = [
-
+    { to: '/Home/OMEmpMapping', name: 'OM-Emp Mapping', slno: 108 },
 
 ]
 

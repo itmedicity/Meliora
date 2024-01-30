@@ -20,7 +20,7 @@ const CardMasterClose = ({ children, title, close, contentStyle }) => {
           flexDirection: 'column'
         }}>
           <CustomCardHeaderOne title={title} onClickClose={close} cardStyle={{}} />
-          <CardContent sx={{ ...contentStyle, height: window.innerHeight - 85, overflow: 'auto' }}>
+          <CardContent sx={{ ...contentStyle, height: window.innerHeight - 150, overflow: 'auto' }}>
             {children}
           </CardContent>
           <CardActions

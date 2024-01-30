@@ -333,7 +333,7 @@ const ModuleGroupMast = () => {
                                 </Grid>
                                 <Grid item xl={12} lg={12}>
                                     <CusCheckBox
-                                        label="NABH"
+                                        label="Quality Indicator"
                                         color="primary"
                                         size="md"
                                         name="nabh"
