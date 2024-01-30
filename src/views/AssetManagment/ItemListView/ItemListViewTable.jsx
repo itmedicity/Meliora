@@ -23,6 +23,7 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
                         secname: val.secname,
                         item_custodian_dept: val.item_custodian_dept,
                         am_custodian_name: val.am_custodian_name,
+                        category_name: val.category_name,
                         item_name: val.item_name,
                         item_asset_no: val.item_asset_no,
                         item_asset_no_only: val.item_asset_no_only,
@@ -43,6 +44,7 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
                         spare_deptsec_slno: val.spare_deptsec_slno,
                         deptname: val.deptname,
                         secname: val.secname,
+                        category_name: val.category_name,
                         spare_custodian_dept: val.spare_custodian_dept,
                         am_custodian_name: val.am_custodian_name,
                         item_name: val.item_name,
@@ -83,12 +85,13 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
                 <Table stickyHeader>
                     <thead>
                         <tr>
-                            <th style={{ width: '10%', align: "center" }}>Sl No</th>
+                            <th style={{ width: '6%', align: "center" }}>Sl No</th>
                             <th style={{ width: '25%', align: "center" }}>Department</th>
                             <th style={{ width: '25%', align: "center" }}>Department Section</th>
+                            <th style={{ width: '20%', align: "center" }}>Category</th>
                             <th style={{ width: '20%', align: "center" }}>Asset No</th>
                             <th style={{ width: '50%', align: "center" }}>Item Name</th>
-                            <th style={{ width: '10%', align: "center" }}>Add Details QR</th>
+                            <th style={{ width: '12%', align: "center" }}>Add Details</th>
                             <th style={{ width: '10%', align: "center" }}>Print QR</th>
                         </tr>
                     </thead>
@@ -104,6 +107,7 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
                                 <td> {index + 1}</td>
                                 <td> {val.deptname}</td>
                                 <td> {val.secname}</td>
+                                <td>{val.category_name}</td>
                                 <td>{val.assetno} </td>
                                 <td> {val.item_name}</td>
                                 <td>

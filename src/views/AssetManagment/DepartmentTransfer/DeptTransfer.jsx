@@ -13,6 +13,9 @@ import AmDepartmentSelWOName from 'src/views/CommonSelectCode/AmDepartmentSelWON
 import AmDeptSecSelectWOName from 'src/views/CommonSelectCode/AmDeptSecSelectWOName';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
+import AmRoomSelWONameUDepSec from 'src/views/CommonSelectCode/AmRoomSelWONameUDepSec';
+import AmSubRmSelWONamURoom from 'src/views/CommonSelectCode/AmSubRmSelWONamURoom';
+import { getRoomBasedOnDeptSec } from 'src/redux/actions/AmRoomDeptSecBased.action';
 
 const DeptTransfer = () => {
     const history = useHistory()
@@ -20,7 +23,8 @@ const DeptTransfer = () => {
     const [assetNo, setAssetNo] = useState('')
     const [transDept, setTransDept] = useState(0)
     const [transDeptSec, setTransDeptSec] = useState(0)
-
+    const [roomNo, setRoomNo] = useState(0)
+    const [subRoomNo, setSubRoomNo] = useState(0)
     const [transferData, setTransferData] = useState({
         am_item_map_slno: 0,
         item_name: '',
@@ -84,9 +88,11 @@ const DeptTransfer = () => {
         return {
             item_dept_slno: transDept,
             item_deptsec_slno: transDeptSec,
+            item_room_slno: roomNo !== 0 ? roomNo : null,
+            item_subroom_slno: subRoomNo !== 0 ? subRoomNo : null,
             am_item_map_slno: am_item_map_slno
         }
-    }, [transDept, transDeptSec, am_item_map_slno])
+    }, [transDept, transDeptSec, roomNo, subRoomNo, am_item_map_slno])
 
     const reset = useCallback(() => {
 
@@ -101,6 +107,8 @@ const DeptTransfer = () => {
         setTransDept(0)
         setTransDeptSec(0)
         setAssetNo('')
+        setRoomNo(0)
+        setSubRoomNo(0)
     }, [])
 
     const updateDeptTransfer = useCallback(() => {
@@ -130,6 +138,11 @@ const DeptTransfer = () => {
         history.push('/Home')
     }, [history])
 
+    useEffect(() => {
+        if (transDeptSec !== 0 && transDeptSec !== undefined) {
+            dispatch(getRoomBasedOnDeptSec(transDeptSec))
+        }
+    }, [transDeptSec, dispatch])
     return (
         <CardMasterClose
             title="Department Transfer"
@@ -230,32 +243,49 @@ const DeptTransfer = () => {
                     </Box>
                 </Box>
 
+
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'row',
                     width: '100%',
-                    pt: 1.5
+                    m: 0
                 }} >
-                    <Box sx={{ pl: 0.8, width: "10%", cursor: "pointer" }}>
+                    <Box sx={{ display: 'flex', width: '30%', p: 0.5, flexDirection: 'column', cursor: "pointer" }} >
                         <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Transfer Department</Typography>
+                        <Box>
+                            <AmDepartmentSelWOName
+                                department={transDept}
+                                setDepartment={setTransDept}
+                            />
+                        </Box>
                     </Box>
-                    <Box sx={{ pl: 0.8, width: "25%" }} >
-                        <AmDepartmentSelWOName
-                            department={transDept}
-                            setDepartment={setTransDept}
-                        />
+                    <Box sx={{ display: 'flex', width: '30%', p: 0.5, flexDirection: 'column', cursor: "pointer" }} >
+                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} > Transfer Department Section</Typography>
+                        <Box>
+                            <AmDeptSecSelectWOName
+                                deptsec={transDeptSec}
+                                setDeptSec={setTransDeptSec}
+                            />
+                        </Box>
                     </Box>
-                    <Box sx={{ pl: 0.8, width: "15%", cursor: "pointer" }}>
-                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Transfer Department Section</Typography>
+                    <Box sx={{ display: 'flex', width: '30%', p: 0.5, flexDirection: 'column', cursor: "pointer" }} >
+                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Transfer Room</Typography>
+                        <Box>
+                            <AmRoomSelWONameUDepSec
+                                roomNo={roomNo}
+                                setRoomNo={setRoomNo} />
+                        </Box>
                     </Box>
-                    <Box sx={{ pl: 0.8, width: "25%", cursor: "pointer" }} >
-                        <AmDeptSecSelectWOName
-                            deptsec={transDeptSec}
-                            setDeptSec={setTransDeptSec}
-                        />
+                    <Box sx={{ display: 'flex', width: '30%', p: 0.5, flexDirection: 'column', cursor: "pointer" }} >
+                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Transfer Room</Typography>
+                        <Box>
+                            <AmSubRmSelWONamURoom
+                                subRoomNo={subRoomNo}
+                                setSubRoomNo={setSubRoomNo}
+                            />
+                        </Box>
                     </Box>
-
-                    <Box sx={{ width: '3%', pl: 1 }}>
+                    <Box sx={{ width: '3%', pl: 1, pt: 3 }}>
                         <CusIconButton size="sm" variant="outlined" clickable="true" color="primary" onClick={updateDeptTransfer} >
                             <LibraryAddIcon fontSize='small' />
                         </CusIconButton>

@@ -78,8 +78,8 @@ const DeptSecBaseReport = () => {
     }, [postdata, department, deptsec])
 
     const [columnDefs] = useState([
-        { headerName: "SlNo", field: "slno", autoHeight: true, wrapText: true, minWidth: 100 },
-        { headerName: "Department Section", field: "secname", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+        { headerName: "SlNo", field: "slno", autoHeight: true, wrapText: true, minWidth: 70 },
+        { headerName: "Department Section", field: "secname", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
         { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, minWidth: 350 },
         { headerName: "Asset No", field: "assetno", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
         { headerName: "Room no", field: "rm_room_name", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },

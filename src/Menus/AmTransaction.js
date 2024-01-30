@@ -36,10 +36,17 @@ const AmTransactions = [
     {
         men_slno: 163,
         component: CNavItem,
-        name: 'Asset New Transfer',
+        name: 'Asset Transfer',
         to: '/Home/AssetDeptTransfer',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+    // {
+    //     men_slno: 178,
+    //     component: CNavItem,
+    //     name: 'Inter Department Transfer',
+    //     to: '/Home/AssetInterDeptTrans',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
 ]
 
 export default AmTransactions;

@@ -11,7 +11,7 @@ const AmSpareItemListDeptSecBsed = ({ item, setItem }) => {
     const [models, setModels] = useState([{ item_creatspare_creation_slnoion_slno: 0, item_name: 'Select Item name' }])
     const [value, setValue] = useState(models[0]);
     const [inputValue, setInputValue] = useState('');
-    console.log(AssetItemList);
+
     useEffect(() => {
         if (value !== null) {
             setValue(value)

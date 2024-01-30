@@ -41,7 +41,7 @@ const AssetUOMSelect = ({ uom, setUOM, setName }) => {
                         "--Input-minHeight": "29px"
                     }}
                     value={uom === 0 ? uoms : value}
-                    placeholder="Select Unit of Measurement"
+                    placeholder="Unit of Measurement"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);
