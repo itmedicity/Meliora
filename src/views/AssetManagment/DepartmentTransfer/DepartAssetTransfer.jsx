@@ -41,7 +41,9 @@ const DepartAssetTransfer = () => {
 
     useEffect(() => {
         dispatch(getDepartment())
-        dispatch(getRoomBasedOnDeptSec(sec_id))
+        if (sec_id !== 0) {
+            dispatch(getRoomBasedOnDeptSec(sec_id))
+        }
     }, [dispatch, sec_id])
 
     const search = useCallback(() => {

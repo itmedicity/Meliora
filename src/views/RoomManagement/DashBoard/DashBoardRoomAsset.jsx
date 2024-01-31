@@ -27,7 +27,21 @@ const DashBoardRoomAsset = ({ campusName, buildblockname, floorName, roomName, s
       const result = await axioslogin.get(`/getDashboardData/getRoomAsset/${RoomNo}`)
       const { success, data } = result.data
       if (success === 2) {
-        setRoomAsset(data)
+        const datas = data.map((val, index) => {
+          const obj = {
+            slno: index + 1,
+            am_item_map_slno: val.am_item_map_slno,
+            category_name: val.category_name,
+            cus_primary: val.cus_primary,
+            cus_second: val.cus_second,
+            item_name: val.item_name,
+            rm_room_name: val.rm_room_name,
+            subroom_name: val.subroom_name,
+            item_subroom_slno: val.item_subroom_slno
+          }
+          return obj
+        })
+        setRoomAsset(datas)
       } else {
         warningNotify('No Room under selected building')
       }

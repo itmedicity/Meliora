@@ -34,7 +34,7 @@ const AmSubRmSelWONamURoom = ({ subRoomNo, setSubRoomNo }) => {
                         "--Input-minHeight": "29px"
                     }}
                     value={subRoomNo === 0 ? subroomList : value}
-                    placeholder="Select Group"
+                    placeholder="Select Sub Room"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);

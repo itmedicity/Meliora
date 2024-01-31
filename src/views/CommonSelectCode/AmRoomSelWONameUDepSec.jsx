@@ -13,8 +13,6 @@ const AmRoomSelWONameUDepSec = ({ roomNo, setRoomNo }) => {
     const [roomList, setRoomList] = useState([{ rm_room_slno: 0, rm_room_name: '' }])
     const [value, setValue] = useState(roomList[0]);
     const [inputValue, setInputValue] = useState('');
-
-
     useEffect(() => {
         if (value !== null) {
             setValue(value)
@@ -43,7 +41,7 @@ const AmRoomSelWONameUDepSec = ({ roomNo, setRoomNo }) => {
                         "--Input-minHeight": "29px"
                     }}
                     value={roomNo === 0 ? roomList : value}
-                    placeholder="Select Group"
+                    placeholder="Select Room"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);
