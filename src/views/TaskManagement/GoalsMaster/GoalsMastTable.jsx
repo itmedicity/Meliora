@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider, Table, Typography, Tooltip } from '@mui/joy'
-import { Divider } from '@mui/material'
+import { Divider, Paper } from '@mui/material'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -134,20 +134,20 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                     </Box>
                 </Box>
                 {tabledata.length !== 0 ?
-                    <Box sx={{ m: 1 }}>
+                    <Paper variant="outlined" sx={{ height: 500, maxWidth: '100%', overflow: 'auto', m: .5, }}>
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader sx={{ backgroundColor: 'white' }}
+                            <Table padding={"none"} stickyHeader
                                 hoverRow>
                                 <thead>
                                     <tr>
-                                        <th style={{ width: 45, fontFamily: 'Georgia', }}>SlNo</th>
-                                        <th style={{ width: 55, fontFamily: 'Georgia', }}>Action</th>
-                                        <th style={{ width: 85, fontFamily: 'Georgia', }}>Status</th>
+                                        <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
+                                        <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
+                                        <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
                                         <th style={{ width: 200, fontFamily: 'Georgia', }}>Goals</th>
-                                        <th style={{ width: 200, fontFamily: 'Georgia', }}>Department</th>
-                                        <th style={{ width: 200, fontFamily: 'Georgia', }}>Section</th>
+                                        <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
+                                        <th style={{ width: 220, fontFamily: 'Georgia', }}>Section</th>
                                         <th style={{ width: 100, fontFamily: 'Georgia', }}>Due date</th>
-                                        <th style={{ width: 500, fontFamily: 'Georgia', }}>Description</th>
+                                        <th style={{ width: 350, fontFamily: 'Georgia', }}>Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -178,7 +178,7 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                                 </tbody>
                             </Table>
                         </CssVarsProvider>
-                    </Box> : <Box sx={{ textAlign: 'center', m: 5, pr: 20, fontWeight: 700, fontSize: 30, color: '#C7C8CB', }}>  No Goals set under section</Box>}
+                    </Paper> : <Box sx={{ textAlign: 'center', m: 5, pr: 20, fontWeight: 700, fontSize: 30, color: '#C7C8CB', }}>  No Goals set under section</Box>}
             </Box>
         </Box>
     )

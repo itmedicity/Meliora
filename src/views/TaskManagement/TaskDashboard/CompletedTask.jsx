@@ -28,9 +28,9 @@ const CompletedTask = ({ tableCount }) => {
 
     useEffect(() => {
         const getCompletedTable = async () => {
-
             const result = await axioslogin.get(`/TmTableView/departmentCompleted/${empsecid}`);
             const { success, data } = result.data;
+
             if (data.length !== 0) {
                 if (success === 2) {
                     const arr = data?.map((val) => {
@@ -103,52 +103,55 @@ const CompletedTask = ({ tableCount }) => {
             {image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                 selectedImages={selectedImages} getarry={getarry} /> : null}
             {viewCompleted === 1 ?
-                <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '80%' }}>
-                    <CssVarsProvider>
-                        <Table padding={"none"} stickyHeader
-                            hoverRow>
-                            <thead>
-                                <tr >
-                                    <th style={{ width: 50 }}>SlNo</th>
-                                    <th style={{ width: 50 }}>view</th>
-                                    <th style={{ width: 250 }}>Task name</th>
-                                    {/* <th style={{ minWidth: 150 }}>Department</th>
-                                    <th style={{ minWidth: 150 }}>Section</th> */}
-                                    <th style={{ minWidth: 150 }}>Assignee</th>
-                                    <th style={{ minWidth: 100 }}>Due date</th>
-                                    <th style={{ minWidth: 250 }}>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {tableData?.map((val, index) => {
-                                    return (
-                                        <tr key={index}
-                                            style={{
-                                                height: 8, background: val.main_task_slno !== null ? '#EBEFEE' : val.main_task_slno === 0 ? '#EBEFEE' : 'transparent',
-                                                minHeight: 5
-                                            }}
-                                        >
-                                            <td> {index + 1}</td>
-                                            <td style={{ cursor: 'pointer', }}>
-                                                <ImageOutlinedIcon sx={{ color: '#41729F' }}
-                                                    onClick={() => fileView(val)}
-                                                />
-                                            </td>
-                                            <td> {val.tm_task_name || 'not given'}</td>
-                                            <td> {val.em_name || 'not given'}</td>
-                                            <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
-                                            <td> {val.tm_task_description || 'not given'}</td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </Table>
-                    </CssVarsProvider>
-                </Paper>
-                : <Box sx={{ textAlign: 'center', mt: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
+                <Box variant="outlined" sx={{ height: 490, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 450, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
+                        <CssVarsProvider>
+                            <Table padding={"none"} stickyHeader
+                                hoverRow>
+                                <thead>
+                                    <tr >
+                                        <th style={{ width: 50 }}>#</th>
+                                        <th style={{ width: 50 }}>view</th>
+                                        <th style={{ width: 200 }}>Task name</th>
+                                        <th style={{ minWidth: 100 }}>Assignee</th>
+                                        <th style={{ width: 110 }}>Created Date</th>
+                                        <th style={{ minWidth: 100 }}>Due date</th>
+                                        <th style={{ minWidth: 250 }}>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {tableData?.map((val, index) => {
+                                        return (
+                                            <tr key={index}
+                                                style={{
+                                                    height: 8, background: val.main_task_slno !== null ? '#D8CEE6' : val.main_task_slno === 0 ? '#D8CEE6' : 'transparent',
+                                                    minHeight: 5
+                                                }}
+                                            >
+                                                <td> {index + 1}</td>
+                                                <td style={{ cursor: 'pointer', }}>
+                                                    <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                        onClick={() => fileView(val)}
+                                                    />
+                                                </td>
+                                                <td> {val.tm_task_name || 'not given'}</td>
+                                                <td> {val.em_name || 'not given'}</td>
+                                                <td> {moment(val.create_date).format('DD-MM-YYYY') || 'not given'}</td>
+                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
+                                                <td> {val.tm_task_description || 'not given'}</td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </Table>
+                        </CssVarsProvider>
+                    </Paper>
+                </Box>
+                : <Box sx={{ textAlign: 'center', mt: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB', height: 450, maxWidth: '100%', }}>
                     No Task Completed Yet!
 
-                </Box>}
+                </Box>
+            }
         </Box>
     )
 }

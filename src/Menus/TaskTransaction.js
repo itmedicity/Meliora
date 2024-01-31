@@ -53,6 +53,14 @@ const TaskTransaction = [
         to: '/Home/TaskManagementDeptProjects',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+    {
+        men_slno: 176,
+        component: CNavItem,
+        name: 'My Tasks',
+        to: '/Home/TaskManagementEmployeeTask',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
 
 ]
 

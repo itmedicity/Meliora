@@ -36,7 +36,7 @@ const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
                         </Box>
                     </Box>
                     <Box sx={{ mt: 1, gap: 5 }}>
-                        {imageUrls.map((imageUrl, index) => (
+                        {imageUrls.reverse().map((imageUrl, index) => (
                             < img alt="Task"
                                 key={index}
                                 src={imageUrl}

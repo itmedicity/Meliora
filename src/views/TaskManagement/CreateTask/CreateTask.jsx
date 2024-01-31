@@ -14,7 +14,6 @@ import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
 import PermMediaIcon from '@mui/icons-material/PermMedia';
 import TmProjectList from 'src/views/CommonSelectCode/TmProjectList';
 import { getProjectList } from 'src/redux/actions/TmProjectsList.action';
-import CusCheckBox from 'src/views/Components/CusCheckBox';
 
 const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTableCount }) => {
     const dispatch = useDispatch();
@@ -22,37 +21,6 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
     const [employee, setEmployee] = useState([])
     const [insertId, setInsertId] = useState(0)
     const [projectz, setprojectz] = useState(0)
-    const [completed, setCompleted] = useState(false)
-    const [onProgress, setOnProgress] = useState(false)
-    const [checkFlag, setcheckFlag] = useState(0)
-
-    const ChangeCompleted = useCallback((e) => {
-        if (e.target.checked === true) {
-            setCompleted(true)
-            setOnProgress(false)
-            setcheckFlag(1)
-        }
-        else {
-            setCompleted(false)
-            setOnProgress(false)
-            setcheckFlag(0)
-
-        }
-    }, [])
-    const ChangeOnProgress = useCallback((e) => {
-
-        if (e.target.checked === true) {
-            setCompleted(false)
-            setOnProgress(true)
-            setcheckFlag(2)
-        }
-        else {
-            setCompleted(false)
-            setOnProgress(false)
-            setcheckFlag(0)
-
-        }
-    }, [])
 
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -75,9 +43,6 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
         dispatch(getProjectList())
     }, [dispatch,])
 
-
-
-
     const [taskMast, settaskMast] = useState({
         tm_task_slno: '',
         tm_task_name: '',
@@ -85,9 +50,14 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
         tm_task_dept_sec: '',
         tm_task_due_date: '',
         tm_task_description: '',
-        main_task_slno: ''
+        tm_onhold_remarks: '',
+        tm_pending_remark: '',
+        tm_completed_remarks: '',
+        main_task_slno: '',
+        tm_task_status: 0
     })
-    const { tm_task_name, tm_task_due_date, tm_task_description, main_task_slno, } = taskMast
+    const { tm_task_name, tm_task_due_date, tm_task_description, main_task_slno, tm_onhold_remarks, tm_pending_remark, tm_completed_remarks,
+        tm_task_status } = taskMast
     const MastUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -110,12 +80,15 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
             tm_task_due_date: tm_task_due_date === '' ? null : tm_task_due_date,
             tm_task_description: tm_task_description,
             tm_project_slno: projectz === 0 ? null : projectz,
-            tm_task_status: checkFlag,
+            tm_pending_remark: tm_pending_remark === '' ? null : tm_pending_remark,
+            tm_onhold_remarks: tm_onhold_remarks === '' ? null : tm_onhold_remarks,
+            tm_completed_remarks: tm_completed_remarks === '' ? null : tm_completed_remarks,
+            tm_task_status: tm_task_status,
             create_user: id,
             main_task_slno: main_task_slno,
         }
-    }, [tm_task_name, empdept, empsecid, tm_task_due_date, tm_task_description, main_task_slno, projectz, checkFlag, id])
-
+    }, [tm_task_name, empdept, empsecid, tm_task_due_date, tm_task_description, main_task_slno, projectz, tm_task_status, tm_pending_remark, tm_onhold_remarks,
+        tm_completed_remarks, id])
 
     const handleFileChange = useCallback((e) => {
         const newFiles = [...selectFile]
@@ -175,6 +148,7 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
             InsertMastTask(insertMastTask).then((value) => {
                 const { message, success, insertId } = value
                 if (success === 1) {
+
                     setInsertId(insertId)
                     //check employee assigned
                     if (employee.length !== 0) {
@@ -235,6 +209,7 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                             succesNotify("Task Created Successfully")
                             setTableCount(tableCount + 1)
                             handleClose()
+
                         }
                     }
                 }
@@ -256,8 +231,8 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                 sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, }}>
                 <Box sx={{ margin: 'auto', }}>
                     <ModalDialog variant="outlined"
-                        sx={{ overflowY: 'scroll', width: '55vw' }}>
-                        <Box sx={{ minHeight: 590, border: .1, borderColor: '#D9E4EC', borderRadius: 5 }}>
+                        sx={{ overflowY: 'scroll', width: '65vw' }}>
+                        <Box sx={{ minHeight: 690, border: .1, borderColor: '#D9E4EC', borderRadius: 5 }}>
                             <Box sx={{ display: 'flex' }}>
                                 <Box sx={{ flex: 1, display: 'flex', justifyContent: "flex-end" }}>
                                     <Box sx={{ m: .5, borderRadius: 5, borderColor: '#D6E2E8' }}>
@@ -339,13 +314,12 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                             <TmMultEmpSelectUnderDeptSec
                                                 value={employee}
                                                 setValue={setEmployee}
-                                            // setemployees={setemployees}
                                             />
                                         </CssVarsProvider>
                                     </Box>
                                     <Box sx={{ pt: .3 }}>
                                         <TextFieldCustom
-                                            type="date"
+                                            type="datetime-local"
                                             size="sm"
                                             name="tm_task_due_date"
                                             value={tm_task_due_date}
@@ -402,33 +376,6 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                                 ))}
                                             </Box>
                                         </Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
-                                        <Box sx={{ pt: .5 }}>
-                                            <CusCheckBox
-
-                                                color="primary"
-                                                size="md"
-                                                name="completed"
-                                                value={completed}
-                                                checked={completed}
-                                                onCheked={ChangeCompleted}
-                                            ></CusCheckBox>
-                                        </Box>
-                                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
-
-                                        <Box sx={{ pt: .5, ml: 5 }}>
-                                            <CusCheckBox
-
-                                                color="primary"
-                                                size="md"
-                                                name="onProgress"
-                                                value={onProgress}
-                                                checked={onProgress}
-                                                onCheked={ChangeOnProgress}
-                                            ></CusCheckBox>
-                                        </Box>
-                                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
                                     </Box>
                                 </Box>
                                 <Box sx={{ flex: 1.5 }}>

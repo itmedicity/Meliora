@@ -10,7 +10,7 @@ import TmDeptSectionSubtask from 'src/views/CommonSelectCode/TmDeptSectionSubtas
 import TmMultEmpSelectUnderDeptSec from 'src/views/CommonSelectCode/TmMultEmpSelectUnderDeptSec'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 // import imageCompression from 'browser-image-compression';
-import CusCheckBox from 'src/views/Components/CusCheckBox'
+// import CusCheckBox from 'src/views/Components/CusCheckBox'
 const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag, }) => {
 
 
@@ -19,38 +19,38 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
     const [employeeSubTask, setEmployeeSubTask] = useState([])
     // const [subtaskFile, setSubtaskFile] = useState([]);
 
-    const [completed, setCompleted] = useState(false)
-    const [onProgress, setOnProgress] = useState(false)
-    const [checkFlag, setcheckFlag] = useState(0)
+    // const [completed, setCompleted] = useState(false)
+    // const [onProgress, setOnProgress] = useState(false)
+    // const [checkFlag, setcheckFlag] = useState(0)
 
 
-    const ChangeCompleted = useCallback((e) => {
-        if (e.target.checked === true) {
-            setCompleted(true)
-            setOnProgress(false)
-            setcheckFlag(1)
-        }
-        else {
-            setCompleted(false)
-            setOnProgress(false)
-            setcheckFlag(0)
+    // const ChangeCompleted = useCallback((e) => {
+    //     if (e.target.checked === true) {
+    //         setCompleted(true)
+    //         setOnProgress(false)
+    //         setcheckFlag(1)
+    //     }
+    //     else {
+    //         setCompleted(false)
+    //         setOnProgress(false)
+    //         setcheckFlag(0)
 
-        }
-    }, [])
-    const ChangeOnProgress = useCallback((e) => {
+    //     }
+    // }, [])
+    // const ChangeOnProgress = useCallback((e) => {
 
-        if (e.target.checked === true) {
-            setCompleted(false)
-            setOnProgress(true)
-            setcheckFlag(2)
-        }
-        else {
-            setCompleted(false)
-            setOnProgress(false)
-            setcheckFlag(0)
+    //     if (e.target.checked === true) {
+    //         setCompleted(false)
+    //         setOnProgress(true)
+    //         setcheckFlag(2)
+    //     }
+    //     else {
+    //         setCompleted(false)
+    //         setOnProgress(false)
+    //         setcheckFlag(0)
 
-        }
-    }, [])
+    //     }
+    // }, [])
 
     const dispatch = useDispatch();
 
@@ -67,10 +67,10 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
         tm_subtask_dept_sec: '',
         tm_subtask_duedate: '',
         tm_subtask_description: '',
-        // tm_task_status: false,
+        tm_task_status: 0,
         main_task_slno: ''
     })
-    const { tm_subtask_name, tm_subtask_duedate, tm_subtask_description, } = subTaskMast
+    const { tm_subtask_name, tm_subtask_duedate, tm_subtask_description, tm_task_status } = subTaskMast
     const SubTaskUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -87,7 +87,7 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
             tm_task_dept_sec: departmentSecSubTask === 0 ? null : departmentSecSubTask,
             tm_task_due_date: tm_subtask_duedate === '' ? null : tm_subtask_duedate,
             tm_task_description: tm_subtask_description === '' ? null : tm_subtask_description,
-            tm_task_status: checkFlag,
+            tm_task_status: tm_task_status,
             create_user: id,
         }
     }, [
@@ -97,7 +97,7 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
         departmentSecSubTask,
         tm_subtask_duedate,
         tm_subtask_description,
-        checkFlag,
+        tm_task_status,
         id,
     ])
 
@@ -247,13 +247,13 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
     //     });
     // };
     return (
-        <Box sx={{ bgcolor: '#F2F1F0' }} >
+        <Box sx={{ bgcolor: '#FEFCFF' }} >
             <Box>
                 <CssVarsProvider>
                     <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', mt: 2, fontFamily: 'Georgia' }}> Add Subtask</Divider>
                 </CssVarsProvider>
             </Box>
-            <Box sx={{ display: 'flex', bgcolor: '#F2F1F0' }}>
+            <Box sx={{ display: 'flex', bgcolor: '#FEFCFF' }}>
                 <Box sx={{ flex: 1, }}>
                     <Box sx={{ py: 1, pl: 2, fontSize: 15, mt: 1.5, display: 'flex', justifyContent: 'right', mr: 1, fontFamily: 'Georgia' }}>
                         <Typography sx={{ color: '#003B73' }}>
@@ -349,7 +349,7 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
                             </Textarea>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
+                    {/* <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                         <Box sx={{ pt: .5 }}>
                             <CusCheckBox
 
@@ -375,7 +375,11 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
                             ></CusCheckBox>
                         </Box>
                         <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
-                    </Box>
+                    </Box> */}
+
+
+
+
                     {/* <Box sx={{
                         height: 50, mt: .5, border: 1, borderRadius: 1, borderStyle: 'dashed', display: 'flex',
                         borderColor: '#C2D2D9',
