@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Box, CssVarsProvider, Typography, Tooltip, Table } from '@mui/joy';
-import { Divider } from '@mui/material';
+import { Divider, Paper } from '@mui/material';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import TmDepartmentSelect from 'src/views/CommonSelectCode/TmDepartmentSelect';
@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import moment from 'moment';
 import ViewTaskImage from './ViewTaskImage';
+import CircleIcon from '@mui/icons-material/Circle';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
@@ -54,7 +55,12 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
                         tm_task_status: val.tm_task_status,
                         tm_project_name: val.tm_project_name,
                         tm_project_slno: val.tm_project_slno,
-                        TaskStatus: val.tm_task_status === 1 ? 'Completed' : val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                        TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                            val.tm_task_status === 1 ? 'Completed' :
+                                val.tm_task_status === 2 ? 'On Progress' :
+                                    val.tm_task_status === 3 ? 'On Hold' :
+                                        val.tm_task_status === 4 ? 'Pending' :
+                                            val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                     }
                     return obj
                 })
@@ -91,7 +97,12 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
                             tm_task_status: val.tm_task_status,
                             tm_project_name: val.tm_project_name,
                             tm_project_slno: val.tm_project_slno,
-                            TaskStatus: val.tm_task_status === 1 ? 'Completed' : val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 2 ? 'On Progress' : 'Incompleted',
+                            TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                                val.tm_task_status === 1 ? 'Completed' :
+                                    val.tm_task_status === 2 ? 'On Progress' :
+                                        val.tm_task_status === 3 ? 'On Hold' :
+                                            val.tm_task_status === 4 ? 'Pending' :
+                                                val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                         }
                         return obj
                     })
@@ -160,7 +171,7 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
                 selectedImages={selectedImages} getarry={getarry} /> : null}
             <CssVarsProvider>
                 <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', mt: 2, fontFamily: 'Georgia' }}>TASKS</Divider>
-                <Box sx={{ width: '100%', backgroundColor: '#F2F1F0', borderTopLeftRadius: 5, borderTopRightRadius: 5, display: 'flex', }}>
+                <Box sx={{ width: '100%', backgroundColor: '#FEFCFF', borderTopLeftRadius: 5, borderTopRightRadius: 5, display: 'flex', }}>
                     <Box sx={{ flex: 1 }}></Box>
                     <Box sx={{ flex: 4, display: 'flex', margin: 'auto', pb: .5, }}>
                         <Box sx={{ flex: 2, py: .4 }}>
@@ -189,78 +200,87 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
                         </Box>
                     </Box>
                     <Box sx={{ flexGrow: 'right', display: 'flex', justifyContent: "flex-end", mt: 4, pr: 4, flex: 1, }}>
-                        <Box sx={{ borderRadius: 5, border: 1, borderColor: '#7CB7AF', width: 40, mb: .5, mt: 1, bgcolor: '#EBEFEE' }}></Box>
+
                         <Box sx={{ pl: .3, mt: 1, }}>
-                            <Typography sx={{ pl: .5, fontWeight: 500, color: '#003B73', }}>subtask</Typography>
+                            <CircleIcon sx={{ color: '#D8CEE6' }} />subtask&nbsp;&nbsp;
+
                         </Box>
                     </Box>
                 </Box>
-                <Box variant="outlined" sx={{ backgroundColor: '#F2F1F0', maxWidth: '100%', overflow: 'auto', px: 1.1, pb: 1, maxHeight: 400, minHeight: 100 }}>
+                <Box variant="outlined" sx={{ backgroundColor: '#FEFCFF', px: 1.1, maxHeight: 450, minHeight: 100 }}>
                     {tableData.length !== 0 ?
-                        <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader sx={{ backgroundColor: 'white' }}
-                                hoverRow>
-                                <thead>
-                                    <tr>
+                        <Paper variant="outlined" sx={{ maxHeight: 450, maxWidth: '100%', pb: 2, overflow: 'auto', mt: .5, bgcolor: 'white' }}>
+                            <CssVarsProvider>
+                                <Table padding={"none"} stickyHeader
+                                    hoverRow>
+                                    <thead>
+                                        <tr>
 
-                                        <th style={{ width: 50, fontFamily: 'Georgia' }}>SlNo</th>
-                                        <th style={{ width: 90, fontFamily: 'Georgia' }}>Action</th>
-                                        <th style={{ width: 60, fontFamily: 'Georgia' }}>View</th>
-                                        <th style={{ width: 90, fontFamily: 'Georgia' }}>Status</th>
-                                        <th style={{ width: 150, fontFamily: 'Georgia' }}>Task name</th>
-                                        <th style={{ width: 150, fontFamily: 'Georgia' }}>Project</th>
-                                        <th style={{ width: 250, fontFamily: 'Georgia' }}>Department</th>
-                                        <th style={{ width: 250, fontFamily: 'Georgia' }}>Section</th>
-                                        <th style={{ width: 180, fontFamily: 'Georgia' }}>Assignee</th>
-                                        <th style={{ width: 100, fontFamily: 'Georgia' }}>Due date</th>
-                                        <th style={{ width: 300, fontFamily: 'Georgia' }}>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {tableData?.map((val, index) => {
-                                        return (
-                                            <tr key={index}
-                                                style={{
-                                                    height: 8, background: val.main_task_slno !== null ? '#EBEFEE' : val.main_task_slno === 0 ? '#EBEFEE' : 'transparent',
-                                                    minHeight: 5
-                                                }}
-                                            >
-                                                <td> {index + 1}</td>
-                                                <td>
-                                                    <EditIcon
-                                                        sx={{ cursor: 'pointer' }}
-                                                        size={6} onClick={() => rowSelect(val)}
-                                                    />
-                                                </td>
-                                                <td style={{ cursor: 'pointer', }}>
-                                                    <ImageOutlinedIcon sx={{ color: '#41729F' }}
-                                                        onClick={() => fileView(val)}
-                                                    />
-                                                </td>
-                                                <td
+                                            <th style={{ width: 60, fontFamily: 'Georgia' }}>#</th>
+                                            <th style={{ width: 90, fontFamily: 'Georgia' }}>Action</th>
+                                            <th style={{ width: 60, fontFamily: 'Georgia' }}>View</th>
+                                            <th style={{ width: 100, fontFamily: 'Georgia' }}>Status</th>
+                                            <th style={{ width: 150, fontFamily: 'Georgia' }}>Task name</th>
+                                            <th style={{ width: 150, fontFamily: 'Georgia' }}>Project</th>
+                                            <th style={{ width: 250, fontFamily: 'Georgia' }}>Department</th>
+                                            <th style={{ width: 250, fontFamily: 'Georgia' }}>Section</th>
+                                            <th style={{ width: 180, fontFamily: 'Georgia' }}>Assignee</th>
+                                            <th style={{ width: 100, fontFamily: 'Georgia' }}>Due date</th>
+                                            <th style={{ width: 300, fontFamily: 'Georgia' }}>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {tableData?.map((val, index) => {
+                                            return (
+                                                <tr key={index}
                                                     style={{
-                                                        color: val.tm_task_status === null ? '#5F093D' : val.tm_task_status === 0 ? '#5F093D'
-                                                            : val.tm_task_status === 1 ? 'green' : val.tm_task_status === 2 ? '#9E3A14' : 'transparent', minHeight: 5
-                                                    }}>{val.TaskStatus}</td>
-                                                <td> {val.tm_task_name || 'not given'}</td>
-                                                <td>{val.tm_project_name || 'not given'}</td>
-                                                <td> {val.dept_name || 'not given'}</td>
-                                                <td> {val.sec_name || 'not given'}</td>
-                                                <td>{val.tm_detail_status === 1 ? val.em_name : val.tm_detail_status === null ? 'not given' : 'no'}</td>
-                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
-                                                <td> {val.tm_task_description || 'not given'}</td>
-                                            </tr>
-                                        )
-                                    })}
-                                </tbody>
-                            </Table>
-                        </CssVarsProvider>
+                                                        height: 8, background: val.main_task_slno !== null ? '#D8CEE6' : val.main_task_slno === 0 ? '#D8CEE6' : 'transparent',
+                                                        minHeight: 5
+                                                    }}
+                                                >
+                                                    <td> {index + 1}</td>
+                                                    <td>
+                                                        <EditIcon
+                                                            sx={{ cursor: 'pointer' }}
+                                                            size={6} onClick={() => rowSelect(val)}
+                                                        />
+                                                    </td>
+                                                    <td style={{ cursor: 'pointer', }}>
+                                                        <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                            onClick={() => fileView(val)}
+                                                        />
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            color: val.tm_task_status === null ? '#B95C50'
+                                                                : val.tm_task_status === 0 ? '#B95C50'
+                                                                    : val.tm_task_status === 1 ? '#94C973'
+                                                                        : val.tm_task_status === 2 ? '#EFD593'
+                                                                            : val.tm_task_status === 3 ? '#67595E'
+                                                                                : val.tm_task_status === 4 ? '#5885AF'
+                                                                                    : 'transparent', minHeight: 5,
+                                                            fontWeight: 500
+                                                        }}>{val.TaskStatus}</td>
+                                                    <td> {val.tm_task_name || 'not given'}</td>
+                                                    <td>{val.tm_project_name || 'not given'}</td>
+                                                    <td> {val.dept_name || 'not given'}</td>
+                                                    <td> {val.sec_name || 'not given'}</td>
+                                                    <td>{val.tm_detail_status === 1 ? val.em_name : val.tm_detail_status === null ? 'not given' : 'no'}</td>
+                                                    <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
+                                                    <td> {val.tm_task_description || 'not given'}</td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+                                </Table>
+                            </CssVarsProvider>
+                        </Paper>
                         : <Box sx={{ textAlign: 'center', mt: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
                             No task under section
                         </Box>}
                 </Box>
-            </CssVarsProvider>
-        </Box>
+            </CssVarsProvider >
+        </Box >
     )
 }
 

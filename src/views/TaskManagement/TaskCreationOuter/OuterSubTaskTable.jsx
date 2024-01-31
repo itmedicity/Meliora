@@ -27,15 +27,22 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
                         return {
                             tm_task_slno: val.tm_task_slno,
                             tm_task_name: val.tm_task_name,
-                            tm_subtask_dept: val.tm_subtask_dept,
+                            // tm_subtask_dept: val.tm_subtask_dept,
+                            tm_task_dept: val.tm_task_dept,
+                            tm_task_dept_sec: val.tm_task_dept_sec,
                             dept_name: val.dept_name,
                             sec_name: val.sec_name,
                             em_name: val.em_name,
-                            tm_subtask_dept_sec: val.tm_subtask_dept_sec,
+                            // tm_subtask_dept_sec: val.tm_subtask_dept_sec,
                             tm_task_due_date: val.tm_task_due_date,
                             tm_task_description: val.tm_task_description,
                             tm_task_status: val.tm_task_status,
-                            TaskStatus: val.tm_task_status === 1 ? 'Completed' : val.tm_task_status === 2 ? 'OnProgress' : val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                            TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                                val.tm_task_status === 1 ? 'Completed' :
+                                    val.tm_task_status === 2 ? 'On Progress' :
+                                        val.tm_task_status === 3 ? 'On Hold' :
+                                            val.tm_task_status === 4 ? 'Pending' :
+                                                val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                         }
                     })
 
@@ -87,7 +94,7 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
     }
 
     return (
-        <Box sx={{ backgroundColor: '#F2F1F0' }}>
+        <Box sx={{ backgroundColor: '#FEFCFF' }}>
 
             {viewSubTask === 1 ?
 
@@ -103,12 +110,12 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
                         <CssVarsProvider>
                             <Table padding={"none"} stickyHeader hoverRow>
                                 <thead>
-                                    <tr>
+                                    <tr style={{ background: '#D8CEE6' }}>
 
-                                        <th style={{ width: 50, fontFamily: 'Georgia' }}>SlNo</th>
+                                        <th style={{ width: 50, fontFamily: 'Georgia' }}>#</th>
                                         <th style={{ width: 60, fontFamily: 'Georgia' }} >Action</th>
                                         <th style={{ width: 60, fontFamily: 'Georgia' }} >View</th>
-                                        <th style={{ width: 90, fontFamily: 'Georgia' }}>Status</th>
+                                        <th style={{ width: 100, fontFamily: 'Georgia' }}>Status</th>
                                         <th style={{ width: 150, fontFamily: 'Georgia' }}>Subtask</th>
                                         <th style={{ width: 250, fontFamily: 'Georgia' }}>Department</th>
                                         <th style={{ width: 250, fontFamily: 'Georgia' }}>Location</th>
@@ -141,8 +148,14 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
 
                                                 <td
                                                     style={{
-                                                        color: val.tm_task_status === null ? '#5F093D' : val.tm_task_status === 0 ? '#5F093D'
-                                                            : val.tm_task_status === 1 ? 'green' : val.tm_task_status === 2 ? '#9E3A14' : 'transparent', minHeight: 5
+                                                        color: val.tm_task_status === null ? '#B95C50'
+                                                            : val.tm_task_status === 0 ? '#B95C50'
+                                                                : val.tm_task_status === 1 ? '#94C973'
+                                                                    : val.tm_task_status === 2 ? '#EFD593'
+                                                                        : val.tm_task_status === 3 ? '#67595E'
+                                                                            : val.tm_task_status === 4 ? '#5885AF'
+                                                                                : 'transparent', minHeight: 5,
+                                                        fontWeight: 500
                                                     }}>{val.TaskStatus}</td>
                                                 <td> {val.tm_task_name || 'not given'}</td>
                                                 <td> {val.dept_name || 'not given'}</td>

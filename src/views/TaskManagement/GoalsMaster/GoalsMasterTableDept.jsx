@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react'
 import { Box, CssVarsProvider, Table, } from '@mui/joy'
-import { Divider } from '@mui/material'
+import { Divider, Paper } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
@@ -50,21 +50,20 @@ const GoalsMasterTableDept = ({ rowSelect, tableCount }) => {
             {tabledata.length !== 0 ?
                 <Box>
                     <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', fontFamily: 'Georgia' }}>Goals</Divider>
-                    <Box sx={{ m: 1 }}>
+                    <Paper variant="outlined" sx={{ height: 500, maxWidth: '100%', overflow: 'auto', m: .5, }}>
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader sx={{ backgroundColor: 'white', }}
+                            <Table padding={"none"} stickyHeader
                                 hoverRow>
                                 <thead>
                                     <tr>
                                         <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
-                                        <th style={{ width: 75, fontFamily: 'Georgia', }}>Action</th>
-                                        <th style={{ width: 85, fontFamily: 'Georgia', }}>Status</th>
-                                        <th style={{ width: 400, fontFamily: 'Georgia', }}>Goals</th>
-                                        <th style={{ width: 250, fontFamily: 'Georgia', }}>Department</th>
-                                        <th style={{ width: 250, fontFamily: 'Georgia', }}>Section</th>
+                                        <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
+                                        <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
+                                        <th style={{ width: 200, fontFamily: 'Georgia', }}>Goals</th>
+                                        <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
+                                        <th style={{ width: 220, fontFamily: 'Georgia', }}>Section</th>
                                         <th style={{ width: 100, fontFamily: 'Georgia', }}>Due date</th>
-                                        <th style={{ width: 500, fontFamily: 'Georgia', }}>Description</th>
-
+                                        <th style={{ width: 350, fontFamily: 'Georgia', }}>Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -96,7 +95,7 @@ const GoalsMasterTableDept = ({ rowSelect, tableCount }) => {
                                 </tbody>
                             </Table>
                         </CssVarsProvider>
-                    </Box>
+                    </Paper>
                 </Box> :
                 <Box sx={{ textAlign: 'center', pr: 20, m: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB', }}>  No Goals set under section</Box>}
         </Box>

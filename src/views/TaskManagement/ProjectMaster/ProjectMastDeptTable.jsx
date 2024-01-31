@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react'
 import { Box, CssVarsProvider, Table } from '@mui/joy'
-import { Divider } from '@mui/material'
+import { Divider, Paper } from '@mui/material'
 // import _ from 'underscore';
 import { useSelector } from 'react-redux';
 import { axioslogin } from 'src/views/Axios/Axios';
@@ -47,25 +47,25 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
         getAllProjects(empsecid)
     }, [empsecid, tableCount])
     return (
-        <Box sx={{ mt: 1 }}>
+        <Box sx={{ mt: 1, flex: 1, }}>
             {tabledata.length !== 0 ?
                 <Box>
                     <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', fontFamily: 'Georgia' }}>Projects</Divider>
-                    <Box sx={{ m: 1 }}>
+
+                    <Paper variant="outlined" sx={{ maxHeight: 500, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader sx={{ backgroundColor: 'white' }}
+                            <Table padding={"none"} stickyHeader
                                 hoverRow>
                                 <thead>
                                     <tr>
-                                        <th style={{ width: 55, fontFamily: 'Georgia', }}>SlNo</th>
-                                        <th style={{ width: 80, fontFamily: 'Georgia', }}>Action</th>
+                                        <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
+                                        <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
                                         <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
                                         <th style={{ width: 200, fontFamily: 'Georgia', }}>Projects</th>
-                                        {/* <th style={{ width: 400, fontFamily: 'Georgia', }}>Goals</th> */}
-                                        <th style={{ width: 200, fontFamily: 'Georgia', }}>Department</th>
-                                        <th style={{ width: 200, fontFamily: 'Georgia', }}>Section</th>
+                                        <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
+                                        <th style={{ width: 220, fontFamily: 'Georgia', }}>Section</th>
                                         <th style={{ width: 100, fontFamily: 'Georgia', }}>Due date</th>
-                                        <th style={{ width: 500, fontFamily: 'Georgia', }}>Description</th>
+                                        <th style={{ width: 350, fontFamily: 'Georgia', }}>Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -85,7 +85,6 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
                                                             : val.tm_project_status === 1 ? 'green' : 'transparent', minHeight: 5
                                                     }}>{val.ProjectStatus}</td>
                                                 <td> {val.tm_project_name || 'not given'}</td>
-                                                {/* <td> {val.tm_project_name || 'not given'}</td> */}
                                                 <td> {val.dept_name || 'not given'}</td>
                                                 <td> {val.sec_name || 'not given'}</td>
                                                 <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY') || 'not given'}</td>
@@ -96,7 +95,8 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
                                 </tbody>
                             </Table>
                         </CssVarsProvider>
-                    </Box>
+                    </Paper>
+
                 </Box> :
                 <Box sx={{ textAlign: 'center', pr: 18, m: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB', }}>  No Project Under Section</Box>}
         </Box>

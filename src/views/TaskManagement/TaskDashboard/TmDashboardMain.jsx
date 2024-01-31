@@ -13,7 +13,6 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import UpdateOutlinedIcon from '@mui/icons-material/UpdateOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import RestartAltOutlinedIcon from '@mui/icons-material/RestartAltOutlined';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 import TmDashBoadTaskView from './TmDashBoadTaskView';
 import TmOverDueTask from './TmOverDueTask';
@@ -24,6 +23,8 @@ import TmGoalsView from './TmGoalsView';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify } from 'src/views/Common/CommonCode';
 import { useSelector } from 'react-redux';
+import LockResetIcon from '@mui/icons-material/LockReset';
+import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
 import _ from 'underscore';
 const TmDashboardMain = () => {
 
@@ -41,13 +42,17 @@ const TmDashboardMain = () => {
     const [employeeeCompleted, setemployeeeCompleted] = useState([])
     const [employeeOnProgress, setemployeeOnProgress] = useState([])
     const [employeeInComplete, setemployeeInComplete] = useState([])
+    const [employeeOnHold, setemployeeOnHold] = useState([])
+    const [employeeOnPending, setemployeeOnPending] = useState([])
     const [departmentTaskFlag, setdepartmentTaskFlag] = useState(0)
     const [deptTaskHeading, setdeptTaskHeading] = useState('')
     const [deptTableData, setdeptTableData] = useState([])
     const [deptCompleted, setdeptCompleted] = useState([])
     const [deptInComplete, setdeptInComplete] = useState([])
-    const [deptOverDue, setdeptOverDue] = useState([])
+    // const [deptOverDue, setdeptOverDue] = useState([])
     const [deptOnProgress, setdeptOnProgress] = useState([])
+    const [deptOnHold, setdeptOnHold] = useState([])
+    const [deptOnPending, setdeptOnPending] = useState([])
     const [projectHead, setprojectHead] = useState('')
     const [projectFlag, setprojectFlag] = useState(0)
     const [ProjTable, setProjTable] = useState([])
@@ -61,6 +66,9 @@ const TmDashboardMain = () => {
     const [goalsOverDue, setgoalsOverDue] = useState([])
     const [goalsOnProgress, setgoalsOnProgress] = useState([])
     const [tableCount, setTableCount] = useState(0)
+
+
+
 
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     //redux for geting login emp secid
@@ -159,6 +167,37 @@ const TmDashboardMain = () => {
             setTableDataEmployee(employeeOnProgress)
         }
     }, [employeeOnProgress])
+    const ViewOnHoldTask = useCallback((e) => {
+        if (employeeOnHold.length === 0) {
+            infoNotify('No Data')
+        } else {
+
+            setemployeeTaskFlag(1)
+            setempTaskHeading('On Hold')
+            setdepartmentTaskFlag(0)
+            setoverdueTaskFlag(0)
+            setprojectFlag(0)
+            setgoalsFlag(0)
+            setTableDataEmployee(employeeOnHold)
+        }
+    }, [employeeOnHold])
+
+
+    const ViewEmpPendingTask = useCallback((e) => {
+        if (employeeOnPending.length === 0) {
+            infoNotify('No Data')
+        } else {
+
+            setemployeeTaskFlag(1)
+            setempTaskHeading('Pending')
+            setdepartmentTaskFlag(0)
+            setoverdueTaskFlag(0)
+            setprojectFlag(0)
+            setgoalsFlag(0)
+            setTableDataEmployee(employeeOnPending)
+        }
+    }, [employeeOnPending])
+
     const ViewEmpOverDueTask = useCallback((e) => {
         if (employeeOverDue.length === 0) {
             infoNotify('No Data')
@@ -185,6 +224,33 @@ const TmDashboardMain = () => {
             setdeptTableData(deptOnProgress)
         }
     }, [deptOnProgress])
+
+    const ViewDeptOnHold = useCallback((e) => {
+        if (deptOnHold.length === 0) {
+            infoNotify('No Data')
+        } else {
+            setdepartmentTaskFlag(1)
+            setdeptTaskHeading('On Progress')
+            setoverdueTaskFlag(0)
+            setemployeeTaskFlag(0)
+            setprojectFlag(0)
+            setgoalsFlag(0)
+            setdeptTableData(deptOnHold)
+        }
+    }, [deptOnHold])
+    const ViewDeptPending = useCallback((e) => {
+        if (deptOnPending.length === 0) {
+            infoNotify('No Data')
+        } else {
+            setdepartmentTaskFlag(1)
+            setdeptTaskHeading('On Progress')
+            setoverdueTaskFlag(0)
+            setemployeeTaskFlag(0)
+            setprojectFlag(0)
+            setgoalsFlag(0)
+            setdeptTableData(deptOnPending)
+        }
+    }, [deptOnPending])
     const ViewDeptCompltTask = useCallback((e) => {
         if (deptCompleted.length === 0) {
             infoNotify('No Data')
@@ -211,19 +277,19 @@ const TmDashboardMain = () => {
             setdeptTableData(deptInComplete)
         }
     }, [deptInComplete])
-    const ViewDeptOverdueTask = useCallback((e) => {
-        if (deptOverDue.length === 0) {
-            infoNotify('No Data')
-        } else {
-            setdepartmentTaskFlag(1)
-            setdeptTaskHeading('Over Dues')
-            setoverdueTaskFlag(0)
-            setemployeeTaskFlag(0)
-            setprojectFlag(0)
-            setgoalsFlag(0)
-            setdeptTableData(deptOverDue)
-        }
-    }, [deptOverDue])
+    // const ViewDeptOverdueTask = useCallback((e) => {
+    //     if (deptOverDue.length === 0) {
+    //         infoNotify('No Data')
+    //     } else {
+    //         setdepartmentTaskFlag(1)
+    //         setdeptTaskHeading('Over Dues')
+    //         setoverdueTaskFlag(0)
+    //         setemployeeTaskFlag(0)
+    //         setprojectFlag(0)
+    //         setgoalsFlag(0)
+    //         setdeptTableData(deptOverDue)
+    //     }
+    // }, [deptOverDue])
     const ViewProjectOnProgess = useCallback((e) => {
         if (projOnProgress.length === 0) {
             infoNotify('No Data')
@@ -378,6 +444,27 @@ const TmDashboardMain = () => {
                 setemployeeOnProgress([])
             }
         }
+
+        const getEmpOnHoldTable = async () => {
+            const result = await axioslogin.get(`TmTableView/employeeOnHold/${id}`)
+            const { data, success } = result.data
+            if (success === 2) {
+                setemployeeOnHold(data)
+                // settaskTableCount(taskTableCount + 1)
+            } else {
+                setemployeeOnHold([])
+            }
+        }
+        const getEmpPendingTable = async () => {
+            const result = await axioslogin.get(`TmTableView/employeeOnPending/${id}`)
+            const { data, success } = result.data
+            if (success === 2) {
+                setemployeeOnPending(data)
+                // settaskTableCount(taskTableCount + 1)
+            } else {
+                setemployeeOnPending([])
+            }
+        }
         const getEmpInCompleteTable = async () => {
             const result = await axioslogin.get(`TmTableView/employeeInCompleted/${id}`)
             const { data, success } = result.data
@@ -388,6 +475,7 @@ const TmDashboardMain = () => {
                 setemployeeInComplete([])
             }
         }
+
         const getDeptCompleteTable = async () => {
             const result = await axioslogin.get(`TmTableView/departmentCompleted/${empsecid}`)
             const { data, success } = result.data
@@ -408,16 +496,16 @@ const TmDashboardMain = () => {
                 setdeptInComplete([])
             }
         }
-        const getDeptOverDueTable = async () => {
-            const result = await axioslogin.get(`TmTableView/departmentOverDue/${empsecid}`)
-            const { data, success } = result.data
-            if (success === 2) {
-                setdeptOverDue(data)
-                // settaskTableCount(taskTableCount + 1)
-            } else {
-                setdeptOverDue([])
-            }
-        }
+        // const getDeptOverDueTable = async () => {
+        //     const result = await axioslogin.get(`TmTableView/departmentOverDue/${empsecid}`)
+        //     const { data, success } = result.data
+        //     if (success === 2) {
+        //         setdeptOverDue(data)
+        //         // settaskTableCount(taskTableCount + 1)
+        //     } else {
+        //         setdeptOverDue([])
+        //     }
+        // }
         const getDeptOnProgressTable = async () => {
             const result = await axioslogin.get(`TmTableView/departmentOnProgress/${empsecid}`)
             const { data, success } = result.data
@@ -426,6 +514,26 @@ const TmDashboardMain = () => {
                 // settaskTableCount(taskTableCount + 1)
             } else {
                 setdeptOnProgress([])
+            }
+        }
+        const getDeptOnHoldTable = async () => {
+            const result = await axioslogin.get(`TmTableView/departmentOnHold/${empsecid}`)
+            const { data, success } = result.data
+            if (success === 2) {
+                setdeptOnHold(data)
+                // settaskTableCount(taskTableCount + 1)
+            } else {
+                setdeptOnHold([])
+            }
+        }
+        const getDeptPendingTable = async () => {
+            const result = await axioslogin.get(`TmTableView/departmentPending/${empsecid}`)
+            const { data, success } = result.data
+            if (success === 2) {
+                setdeptOnPending(data)
+                // settaskTableCount(taskTableCount + 1)
+            } else {
+                setdeptOnPending([])
             }
         }
         const getProjComplete = async () => {
@@ -495,10 +603,12 @@ const TmDashboardMain = () => {
         getOverDueEmpTable()
         getEmpCompletedTable()
         getEmpOnProgressTable()
+        getEmpOnHoldTable()
+        getEmpPendingTable()
         getEmpInCompleteTable()
         getDeptCompleteTable()
         getDeptInCompleteTable()
-        getDeptOverDueTable()
+        // getDeptOverDueTable()
         getDeptOnProgressTable()
         getProjComplete()
         getProjOnProgress()
@@ -506,6 +616,8 @@ const TmDashboardMain = () => {
         getGoalsCompleted()
         getGoalsOnProgress()
         getGoalsOverDue()
+        getDeptOnHoldTable()
+        getDeptPendingTable()
     }, [empsecid, tableCount, id])
     return (
         overdueTaskFlag === 1 ? <TmOverDueTask tabledata={tableData} overDueHeading={overDueHeading} empsecid={empsecid}
@@ -519,8 +631,8 @@ const TmDashboardMain = () => {
                         goalsFlag === 1 ? <TmGoalsView goalsTable={goalsTable} goalsHead={goalsHead}
                             setgoalsFlag={setgoalsFlag} /> :
                             <Box sx={{
-                                height: '46vw',
-                                borderRadius: 2, boxShadow: 2,
+                                height: '100%',
+                                borderRadius: 1, boxShadow: 2,
                             }}>
                                 <Box sx={{ display: 'flex', borderBottom: .1, borderColor: '#C5C5C5' }}>
                                     <Box sx={{ m: 1 }}><DashboardOutlinedIcon fontSize='medium' sx={{ color: '#262065' }} /></Box>
@@ -552,7 +664,7 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA', }}
+                                                                sx={{ bgcolor: 'white', }}
                                                             >
                                                                 <EventBusyIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
@@ -572,7 +684,7 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
                                                                 <TodayIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
@@ -590,7 +702,7 @@ const TmDashboardMain = () => {
                                                         <ListItemDecorator>
                                                             <Avatar
                                                                 color="neutral"
-                                                                sx={{ bgcolor: '#EAE7FA', }}
+                                                                sx={{ bgcolor: 'white', }}
                                                                 size="sm"
                                                                 variant="outlined"
                                                             >
@@ -614,7 +726,7 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
                                                                 <CalendarMonthIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
@@ -640,9 +752,30 @@ const TmDashboardMain = () => {
                                                 sx={{ borderRadius: 'lg', border: .1, borderColor: '#D396FF', }}
                                             >
                                                 <ListItem sx={{ color: '#5E376D', fontSize: 18, height: 55, fontWeight: 650 }}>
-                                                    EMPLOYEE TASK
+                                                    MY TASK
                                                 </ListItem>
                                                 <Box sx={{ maxHeight: 160, overflow: 'auto', }}>
+                                                    <ListDivider inset='gutter' />
+                                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
+                                                        onClick={(e) => {
+                                                            ViewEmpOverDueTask(e)
+                                                        }}>
+                                                        <ListItemDecorator>
+                                                            <Avatar
+                                                                color="neutral"
+                                                                size="sm"
+                                                                variant="outlined"
+                                                                sx={{ bgcolor: 'white' }}
+                                                            >
+                                                                <UpdateOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
+                                                            </Avatar>
+                                                        </ListItemDecorator>
+                                                        Overdue
+                                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
+                                                            {employeeOverDue.length}
+                                                        </Box>
+                                                    </ListItem>
+                                                    {/* ////////////////// */}
                                                     <ListDivider inset='gutter' />
                                                     <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
                                                         onClick={(e) => {
@@ -653,9 +786,9 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
-                                                                <RestartAltOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
+                                                                <RotateRightIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
                                                         </ListItemDecorator>
                                                         On progress
@@ -663,7 +796,52 @@ const TmDashboardMain = () => {
                                                             {employeeOnProgress.length}
                                                         </Box>
                                                     </ListItem>
-                                                    {/* <ListDivider inset='gutter' />
+                                                    {/* /////////////////// */}
+                                                    <ListDivider inset='gutter' />
+                                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
+                                                        onClick={(e) => {
+                                                            ViewOnHoldTask(e)
+                                                        }}>
+                                                        <ListItemDecorator>
+                                                            <Avatar
+                                                                color="neutral"
+                                                                size="sm"
+                                                                variant="outlined"
+                                                                sx={{ bgcolor: 'white' }}
+                                                            >
+
+                                                                <LockResetIcon sx={{ color: '#341948', width: 23, height: 23, }} />
+                                                            </Avatar>
+                                                        </ListItemDecorator>
+                                                        On Hold
+                                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
+                                                            {employeeOnHold.length}
+                                                        </Box>
+                                                    </ListItem>
+                                                    {/* //////////////////// */}
+                                                    <ListDivider inset='gutter' />
+                                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
+                                                        onClick={(e) => {
+                                                            ViewEmpPendingTask(e)
+                                                        }}>
+                                                        <ListItemDecorator>
+                                                            <Avatar
+                                                                color="neutral"
+                                                                size="sm"
+                                                                variant="outlined"
+                                                                sx={{ bgcolor: 'white' }}
+                                                            >
+
+                                                                <RunningWithErrorsIcon sx={{ color: '#341948', width: 23, height: 23, }} />
+                                                            </Avatar>
+                                                        </ListItemDecorator>
+                                                        Pending
+                                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
+                                                            {employeeOnPending.length}
+                                                        </Box>
+                                                    </ListItem>
+                                                    {/* //////////////////// */}
+                                                    <ListDivider inset='gutter' />
                                                     <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
                                                         onClick={(e) => {
                                                             ViewEmpCompletedTask(e)
@@ -673,7 +851,7 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
                                                                 <CheckCircleOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
@@ -682,7 +860,7 @@ const TmDashboardMain = () => {
                                                         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
                                                             {employeeeCompleted.length}
                                                         </Box>
-                                                    </ListItem> */}
+                                                    </ListItem>
                                                     <ListDivider inset='gutter' />
                                                     <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
                                                         onClick={(e) => {
@@ -693,7 +871,7 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
                                                                 <RotateRightIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
@@ -703,48 +881,8 @@ const TmDashboardMain = () => {
                                                             {employeeInComplete.length}
                                                         </Box>
                                                     </ListItem>
-                                                    <ListDivider inset='gutter' />
+                                                    {/* //////////////////////// */}
 
-                                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
-                                                        onClick={(e) => {
-                                                            ViewEmpOverDueTask(e)
-                                                        }}>
-                                                        <ListItemDecorator>
-                                                            <Avatar
-                                                                color="neutral"
-                                                                size="sm"
-                                                                variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
-                                                            >
-
-                                                                <UpdateOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
-                                                            </Avatar>
-                                                        </ListItemDecorator>
-                                                        Overdue
-                                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
-                                                            {employeeOverDue.length}
-                                                        </Box>
-                                                    </ListItem>
-                                                    <ListDivider inset='gutter' />
-                                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
-                                                        onClick={(e) => {
-                                                            ViewEmpCompletedTask(e)
-                                                        }}>
-                                                        <ListItemDecorator>
-                                                            <Avatar
-                                                                color="neutral"
-                                                                size="sm"
-                                                                variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
-                                                            >
-                                                                <CheckCircleOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
-                                                            </Avatar>
-                                                        </ListItemDecorator>
-                                                        Completed
-                                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
-                                                            {employeeeCompleted.length}
-                                                        </Box>
-                                                    </ListItem>
                                                 </Box>
                                             </List>
                                         </CssVarsProvider>
@@ -774,9 +912,9 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
-                                                                <RestartAltOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
+                                                                <RotateRightIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
                                                         </ListItemDecorator>
                                                         On progress
@@ -784,7 +922,47 @@ const TmDashboardMain = () => {
                                                             {deptOnProgress.length}
                                                         </Box>
                                                     </ListItem>
-                                                    {/* <ListDivider inset='gutter' />
+                                                    <ListDivider inset='gutter' />
+                                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
+                                                        onClick={(e) => {
+                                                            ViewDeptOnHold(e)
+                                                        }}>
+                                                        <ListItemDecorator>
+                                                            <Avatar
+                                                                color="neutral"
+                                                                size="sm"
+                                                                variant="outlined"
+                                                                sx={{ bgcolor: 'white' }}
+                                                            >
+                                                                <LockResetIcon sx={{ color: '#341948', width: 23, height: 23, }} />
+                                                            </Avatar>
+                                                        </ListItemDecorator>
+                                                        On Hold
+                                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
+                                                            {deptOnHold.length}
+                                                        </Box>
+                                                    </ListItem>
+                                                    <ListDivider inset='gutter' />
+                                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
+                                                        onClick={(e) => {
+                                                            ViewDeptPending(e)
+                                                        }}>
+                                                        <ListItemDecorator>
+                                                            <Avatar
+                                                                color="neutral"
+                                                                size="sm"
+                                                                variant="outlined"
+                                                                sx={{ bgcolor: 'white' }}
+                                                            >
+                                                                <RunningWithErrorsIcon sx={{ color: '#341948', width: 23, height: 23, }} />
+                                                            </Avatar>
+                                                        </ListItemDecorator>
+                                                        Pending
+                                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
+                                                            {deptOnPending.length}
+                                                        </Box>
+                                                    </ListItem>
+                                                    <ListDivider inset='gutter' />
                                                     <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
                                                         onClick={(e) => {
                                                             ViewDeptCompltTask(e)
@@ -794,7 +972,7 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
                                                                 <CheckCircleOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
@@ -803,8 +981,9 @@ const TmDashboardMain = () => {
                                                         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
                                                             {deptCompleted.length}
                                                         </Box>
-                                                    </ListItem> */}
+                                                    </ListItem>
                                                     <ListDivider inset='gutter' />
+
                                                     <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
                                                         onClick={(e) => {
                                                             ViewDeptInCompltTask(e)
@@ -814,7 +993,7 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
                                                                 <RotateRightIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
@@ -824,46 +1003,8 @@ const TmDashboardMain = () => {
                                                             {deptInComplete.length}
                                                         </Box>
                                                     </ListItem>
-                                                    <ListDivider inset='gutter' />
-                                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
-                                                        onClick={(e) => {
-                                                            ViewDeptOverdueTask(e)
-                                                        }}>
-                                                        <ListItemDecorator>
-                                                            <Avatar
-                                                                color="neutral"
-                                                                size="sm"
-                                                                variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
-                                                            >
-                                                                <UpdateOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
-                                                            </Avatar>
-                                                        </ListItemDecorator>
-                                                        Overdue
-                                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
-                                                            {deptOverDue.length}
-                                                        </Box>
-                                                    </ListItem>
-                                                    <ListDivider inset='gutter' />
-                                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
-                                                        onClick={(e) => {
-                                                            ViewDeptCompltTask(e)
-                                                        }}>
-                                                        <ListItemDecorator>
-                                                            <Avatar
-                                                                color="neutral"
-                                                                size="sm"
-                                                                variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
-                                                            >
-                                                                <CheckCircleOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
-                                                            </Avatar>
-                                                        </ListItemDecorator>
-                                                        Completed
-                                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
-                                                            {deptCompleted.length}
-                                                        </Box>
-                                                    </ListItem>
+
+
                                                 </Box>
                                             </List>
                                         </CssVarsProvider>
@@ -893,9 +1034,9 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
-                                                                <RestartAltOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
+                                                                <RotateRightIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
                                                         </ListItemDecorator>
                                                         On progress
@@ -913,7 +1054,7 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
                                                                 <CheckCircleOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
@@ -933,7 +1074,7 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
                                                                 <UpdateOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
@@ -953,7 +1094,7 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
                                                                 <CheckCircleOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
@@ -992,10 +1133,10 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
 
-                                                                <RestartAltOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
+                                                                <RotateRightIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
                                                         </ListItemDecorator>
                                                         On progress
@@ -1003,26 +1144,6 @@ const TmDashboardMain = () => {
                                                             {goalsOnProgress.length}
                                                         </Box>
                                                     </ListItem>
-                                                    {/* <ListDivider inset='gutter' />
-                                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
-                                                        onClick={(e) => {
-                                                            ViewGoalsComplete(e)
-                                                        }}>
-                                                        <ListItemDecorator>
-                                                            <Avatar
-                                                                color="neutral"
-                                                                size="sm"
-                                                                variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
-                                                            >
-                                                                <CheckCircleOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
-                                                            </Avatar>
-                                                        </ListItemDecorator>
-                                                        Completed
-                                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
-                                                            {goalsCompleted.length}
-                                                        </Box>
-                                                    </ListItem> */}
                                                     <ListDivider inset='gutter' />
                                                     <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
                                                         onClick={(e) => {
@@ -1033,7 +1154,7 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
                                                                 <UpdateOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
@@ -1053,7 +1174,7 @@ const TmDashboardMain = () => {
                                                                 color="neutral"
                                                                 size="sm"
                                                                 variant="outlined"
-                                                                sx={{ bgcolor: '#EAE7FA' }}
+                                                                sx={{ bgcolor: 'white' }}
                                                             >
                                                                 <CheckCircleOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
                                                             </Avatar>
@@ -1071,15 +1192,13 @@ const TmDashboardMain = () => {
                                 <Box sx={{
                                     borderRadius: 2,
                                     margin: 'auto',
-                                    flexGrow: 1,
-                                    height: '67%',
-                                    // bgcolor: 'red',
-                                    mt: 1,
-                                    mb: 2,
+                                    mx: .5,
                                     border: .1, borderColor: '#D396FF',
+
                                 }}>
                                     <TmDashBoadTaskView tableCount={tableCount} setTableCount={setTableCount} />
                                 </Box>
+                                <Box sx={{ height: 3 }}></Box>
                             </Box >
     )
 }

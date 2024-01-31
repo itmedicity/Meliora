@@ -156,7 +156,7 @@ const GoalsMasterDept = () => {
     }, [patchGoal, tableCount, tm_goal_name])
 
     return (
-        <Paper sx={{ width: '100%', bgcolor: '#F2F1F0', height: window.innerHeight }}>
+        <Paper sx={{ height: '100%', width: '100%', bgcolor: '#F2F1F0', }}>
             <Box sx={{ height: 35, backgroundColor: '#D9E4EC', display: 'flex' }}>
                 <Box sx={{ fontWeight: 600, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Create Goal</Box>
                 <Box><CusIconButton size="sm" variant="outlined" color="primary" >

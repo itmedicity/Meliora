@@ -169,7 +169,7 @@ const ReqMDApproval = React.lazy(() => import('./views/RequestManagement/MDAppro
 const NdrfPurchase = React.lazy(() => import('./views/RequestManagement/NdrfPurchase/NdrfPurchaseTable'))
 const CRFDashboard = React.lazy(() => import('./views/RequestManagement/CRFDashboard/CrdDashboardMain'))
 const DeptSecBasedItemReport = React.lazy(() => import('./views/Report/AssetReport/DeptSecBaseReport'))
-
+const TaskManagementEmployeeTask = React.lazy(() => import('./views/TaskManagement/EmployeeTaskList/EmpTaskDash'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -343,7 +343,8 @@ const routes = [
   { path: '/Home/Req.MDApproval', exact: true, name: 'Request MD Approval', component: ReqMDApproval },
   { path: '/Home/NdrfPurchase', exact: true, name: 'Request Purchase', component: NdrfPurchase },
   { path: '/Home/CrfDashboard', exact: true, name: 'CRF Dashboard', component: CRFDashboard },
-  { path: '/Home/DeptSecBasedItemReport', exact: true, name: 'Department Section Based Item Report', component: DeptSecBasedItemReport }
+  { path: '/Home/DeptSecBasedItemReport', exact: true, name: 'Department Section Based Item Report', component: DeptSecBasedItemReport },
+  { path: '/Home/TaskManagementEmployeeTask', exact: true, name: 'TaskManagement Employee Task', component: TaskManagementEmployeeTask }
 ]
 
 export default routes
