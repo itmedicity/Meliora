@@ -7,21 +7,26 @@ import TmMultEmpSelectUnderDeptSec from 'src/views/CommonSelectCode/TmMultEmpSel
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import { DialogActions } from '@mui/material';
 import { axioslogin } from 'src/views/Axios/Axios';
-import SubtaskTable from './SubtaskTable';
-import LanIcon from '@mui/icons-material/Lan';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
-import EditSubTask from './EditSubTask';
-import AddSubTask from './AddSubTask';
 import PermMediaIcon from '@mui/icons-material/PermMedia';
 import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { getProjectList } from 'src/redux/actions/TmProjectsList.action';
 import TmProjectList from 'src/views/CommonSelectCode/TmProjectList';
 import imageCompression from 'browser-image-compression';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import EmpProgressTable from '../EmployeeTaskList/EmpProgressTable';
+import AddSubTaskEmp from '../EmployeeTaskList/AddSubTaskEmp';
+import EditSubtaskEmp from '../EmployeeTaskList/EditSubtaskEmp';
+import SubtaskTableEmp from '../EmployeeTaskList/SubtaskTableEmp';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import moment from 'moment';
 const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount }) => {
 
-    const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status } = masterData
-
+    const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, em_name, create_date } = masterData
 
     const dispatch = useDispatch();
     const [departmentMast, setdepartmentMast] = useState(0)
@@ -34,49 +39,29 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const [subTaskData, setsubTaskData] = useState([])
     const [selectTaskfile, setselectTaskfile] = useState([]);
     const [projectz, setprojectz] = useState(tm_project_slno === null ? 0 : tm_project_slno)
-
-    const [completed, setCompleted] = useState(tm_task_status === 1 ? true : tm_task_status === 2 ? false : false)
-    const [onProgress, setOnProgress] = useState(tm_task_status === 2 ? true : tm_task_status === 1 ? false : false)
+    const [value, setvalue] = useState(0)
+    const [completed, setCompleted] = useState(tm_task_status === 1 ? true : tm_task_status === 2 ? false : tm_task_status === 3 ? false : tm_task_status === 4 ? false : false)
+    const [onProgress, setOnProgress] = useState(tm_task_status === 2 ? true : tm_task_status === 1 ? false : tm_task_status === 3 ? false : tm_task_status === 4 ? false : false)
+    const [onHold, setOnHold] = useState(tm_task_status === 3 ? true : tm_task_status === 1 ? false : tm_task_status === 2 ? false : tm_task_status === 4 ? false : false)
+    const [onPending, setOnPending] = useState(tm_task_status === 4 ? true : tm_task_status === 1 ? false : tm_task_status === 2 ? false : tm_task_status === 3 ? false : false)
     const [checkFlag, setcheckFlag] = useState(tm_task_status)
-
-
-    const ChangeCompleted = useCallback((e) => {
-        if (e.target.checked === true) {
-            setCompleted(true)
-            setOnProgress(false)
-            setcheckFlag(1)
-        }
-        else {
-            setCompleted(false)
-            setOnProgress(false)
-            setcheckFlag(0)
-
-        }
-    }, [])
-    const ChangeOnProgress = useCallback((e) => {
-
-        if (e.target.checked === true) {
-            setCompleted(false)
-            setOnProgress(true)
-            setcheckFlag(2)
-        }
-        else {
-            setCompleted(false)
-            setOnProgress(false)
-            setcheckFlag(0)
-
-        }
-    }, [])
-
+    const [subTask, setSubTask] = useState([])
+    const [viewSubTask, setViewSubTask] = useState(0)
+    const [tabledata, setTableData] = useState([])
+    const [progressCount, setprogressCount] = useState(0)
+    const [completeFlag, setCompleteFlag] = useState(0)
+    const [changeAssignee, setchangeAssignee] = useState(0)
+    const id = useSelector((state) => { return state.LoginUserData.empid })
     const [taskData, setTaskData] = useState({
         tm_task_slno: '',
         taskName: '',
         dueDate: '',
         description: '',
-        // taskStatus: (tm_task_status === 1 ? true : false),
-
+        pendingRemarks: '',
+        onHoldRemaks: '',
+        completedRemarks: '',
     })
-    const { taskName, dueDate, description, } = taskData
+    const { taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } = taskData
     const taskDataUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -84,22 +69,154 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         },
         [taskData],
     )
-    const id = useSelector((state) => {
-        return state.LoginUserData.empid
+
+    const ChangeCompleted = useCallback((e) => {
+        if (e.target.checked === true) {
+            setCompleted(true)
+            setOnProgress(false)
+            setOnHold(false)
+            setOnPending(false)
+            setcheckFlag(1)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setOnHold(false)
+            setOnPending(false)
+            setcheckFlag(0)
+        }
+    }, [])
+    const ChangeOnProgress = useCallback((e) => {
+        if (e.target.checked === true) {
+            setCompleted(false)
+            setOnProgress(true)
+            setOnHold(false)
+            setOnPending(false)
+            setcheckFlag(2)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setOnHold(false)
+            setOnPending(false)
+            setcheckFlag(0)
+        }
+    }, [])
+    const ChangeOnHold = useCallback((e) => {
+        if (e.target.checked === true) {
+            setCompleted(false)
+            setOnHold(true)
+            setOnProgress(false)
+            setOnPending(false)
+            setcheckFlag(3)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setOnHold(false)
+            setOnPending(false)
+            setcheckFlag(0)
+        }
+    }, [])
+    const ChangeOnPending = useCallback((e) => {
+        if (e.target.checked === true) {
+            setCompleted(false)
+            setOnProgress(false)
+            setOnHold(false)
+            setOnPending(true)
+            setcheckFlag(4)
+        }
+        else {
+            setCompleted(false)
+            setOnProgress(false)
+            setOnHold(false)
+            setOnPending(false)
+            setcheckFlag(0)
+        }
+    }, [])
+
+    const [taskProgress, setTaskProgress] = useState({
+        progress_slno: '',
+        tm_task_slno: tm_task_slno,
+        tm_task_status: checkFlag,
+        tm_progres_date: '',
+        progress_emp: id,
+        tm_task_progress: ''
     })
+
+    const { progress_slno, tm_progres_date, tm_task_progress, } = taskProgress
+
+    const ProgresssUpdate = useCallback(
+        (e) => {
+            const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+            setTaskProgress({ ...taskProgress, [e.target.name]: value })
+        },
+        [taskProgress],
+    )
+
+    const postProgress = useMemo(() => {
+        return {
+            tm_task_slno: tm_task_slno,
+            tm_task_status: checkFlag,
+            tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
+            progress_emp: id,
+            tm_task_progress: tm_task_progress === '' ? null : tm_task_progress,
+        }
+    }, [tm_task_slno, checkFlag, tm_progres_date, tm_task_progress, id])
+
+    const patchProgress = useMemo(() => {
+        return {
+            progress_slno: progress_slno,
+            tm_task_slno: tm_task_slno,
+            tm_task_status: checkFlag,
+            tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
+            progress_emp: id,
+            tm_task_progress: tm_task_progress,
+        }
+    }, [progress_slno, tm_task_slno, checkFlag, tm_progres_date, tm_task_progress, id])
+
+    const ProgressData = useMemo(() => {
+        return {
+            tm_task_slno: tm_task_slno
+        }
+    }, [tm_task_slno])
+
+    useEffect(() => {
+        const getProgress = async () => {
+            const result = await axioslogin.post('/taskManagement/viewProgress', ProgressData);
+            const { success, data } = result.data;
+            if (data.length !== 0) {
+                if (success === 2) {
+                    const arry = data?.map((val) => {
+                        const obj = {
+                            progress_slno: val.progress_slno,
+                            tm_task_slno: val.tm_task_slno,
+                            tm_task_status: val.tm_task_status,
+                            tm_progres_date: val.tm_progres_date,
+                            em_name: val.em_name,
+                            tm_task_progress: val.tm_task_progress
+                        }
+                        return obj
+                    })
+                    setTableData(arry)
+                } else {
+                    setTableData([])
+                    warningNotify('error occured')
+                }
+            }
+        }
+        getProgress(ProgressData)
+    }, [progressCount, tableCount, ProgressData])
+
     const secName = useSelector((state) => {
         return state.LoginUserData.empdeptsec
     })
     const empdept = useSelector((state) => {
         return state.LoginUserData.empdept
     })
-
-
-
     const empsecid = useSelector((state) => {
         return state.LoginUserData.empsecid
     })
-
     useEffect(() => {
         dispatch(getDepartSecemployee(empsecid))
     }, [dispatch, empsecid])
@@ -111,21 +228,99 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const handleEditClose = useCallback(() => {
         setEditModalFlag(0)
         setEditModalOpen(false)
-    }, [setEditModalOpen, setEditModalFlag])
+        setSubTask([])
+    }, [setEditModalOpen, setEditModalFlag, setSubTask])
+
+    const resetProgress = () => {
+        const form = {
+            progress_slno: '',
+            tm_progres_date: '',
+            tm_task_progress: '',
+        }
+        setTaskProgress(form)
+    }
+    const InsertProgress = useCallback((e) => {
+        e.preventDefault()
+        if (tm_progres_date !== '') {
+            const InsertMastProgress = async (postProgress) => {
+                const result = await axioslogin.post('/taskManagement/insertProgress', postProgress)
+
+                const { message, success } = result.data
+                if (success === 1) {
+                    succesNotify(message)
+                    setprogressCount(progressCount + 1)
+                    resetProgress()
+                } else if (success === 0) {
+                    infoNotify(message)
+                } else {
+                    infoNotify(message)
+                }
+            }
+            InsertMastProgress(postProgress)
+        } else {
+            infoNotify('Please Select Date For Entering Task Progress')
+        }
+    }, [postProgress, progressCount, tm_progres_date])
+
+    const rowSelect = useCallback((data) => {
+        setvalue(1)
+        const {
+            progress_slno,
+            tm_task_slno,
+            tm_task_status,
+            tm_progres_date,
+            progress_emp,
+            tm_task_progress
+        } = data
+        const frmdata = {
+            progress_slno: progress_slno,
+            tm_task_slno: tm_task_slno,
+            tm_task_status: tm_task_status,
+            tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
+            progress_emp: progress_emp,
+            tm_task_progress: tm_task_progress === '' ? null : tm_task_progress
+        }
+        setTaskProgress(frmdata)
+    }, [])
+
+    const UpdateProgress = useCallback((e) => {
+        e.preventDefault()
+        if (tm_progres_date !== '') {
+            const UpdateProgressMast = async (patchProgress) => {
+                const result = await axioslogin.patch('/taskManagement/updateProgress', patchProgress)
+                const { message, success } = result.data
+                if (success === 2) {
+                    succesNotify(message)
+                    setprogressCount(progressCount + 1)
+                    resetProgress()
+                    setvalue(0)
+                } else if (success === 0) {
+                    infoNotify(message)
+                } else {
+                    infoNotify(message)
+                }
+            }
+            UpdateProgressMast(patchProgress)
+        } else {
+            infoNotify('Please Select Date For Entering Task Progress')
+        }
+    }, [patchProgress, progressCount, tm_progres_date])
 
     useEffect(() => {
         const getMasterTask = async (tm_task_slno) => {
             const result = await axioslogin.get(`/taskManagement/viewMasterTaskByid/${tm_task_slno}`);
             const { success, data } = result.data;
             if (success === 2) {
-                const { tm_task_slno, tm_task_name, tm_task_due_date, tm_task_description, tm_project_slno, tm_task_status } = data[0]
+                const { tm_task_slno, tm_task_name, tm_task_due_date, tm_task_description, tm_project_slno, tm_task_status,
+                    tm_pending_remark, tm_onhold_remarks, tm_completed_remarks } = data[0]
                 const formdata = {
                     taskSlno: tm_task_slno,
                     taskName: tm_task_name,
                     dueDate: tm_task_due_date,
                     description: tm_task_description,
-                    // taskStatus: (tm_task_status === 1 ? true : false),
-
+                    pendingRemarks: tm_pending_remark,
+                    onHoldRemaks: tm_onhold_remarks,
+                    completedRemarks: tm_completed_remarks,
                 }
                 setTaskData(formdata)
                 setdepartmentMast(empdept)
@@ -135,10 +330,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                 setOnProgress(tm_task_status === 2 ? true : false)
             }
             else {
-                // setdepartmentMast(0)
-                // setdepartmentSecMast(0)
-                // setTaskData('')
-                // setprojectz(0)
                 setTaskData(false)
             }
         }
@@ -156,12 +347,14 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                     })
                     setEmpArry(setEmpData)
                 }
-
+            }
+            else {
+                setEmpArry([])
             }
         }
         getMasterTask(tm_task_slno)
         getMastEmployee(tm_task_slno);
-    }, [tm_task_slno, dispatch, empdept, empsecid, tm_project_slno, id])
+    }, [tm_task_slno, dispatch, empdept, empsecid, tm_project_slno, setEmpArry, id])
 
     const openAddSubtask = useCallback((e) => {
         setflag(1)
@@ -176,15 +369,15 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             tm_task_dept: departmentMast === 0 ? null : departmentMast,
             tm_task_dept_sec: departmentSecMast === 0 ? null : departmentSecMast,
             tm_task_status: checkFlag,
+            tm_pending_remark: pendingRemarks === '' ? null : pendingRemarks,
+            tm_onhold_remarks: onHoldRemaks === '' ? null : onHoldRemaks,
+            tm_completed_remarks: completedRemarks === '' ? null : completedRemarks,
             tm_project_slno: projectz === 0 ? null : projectz,
 
         }
-    }, [tm_task_slno, taskName, checkFlag, dueDate, description, departmentMast, departmentSecMast, projectz,])
-
-
+    }, [tm_task_slno, taskName, checkFlag, dueDate, description, departmentMast, departmentSecMast, pendingRemarks, onHoldRemaks, completedRemarks, projectz,])
 
     const postEmpDetails = employeeMast && employeeMast.map((val) => {
-
         return {
             tm_task_slno: tm_task_slno,
             tm_assigne_emp: val,
@@ -192,7 +385,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             tm_detl_create: id
         }
     })
-
     const inactive = empArry && empArry.map((val) => {
         return {
             tm_task_slno: tm_task_slno,
@@ -204,24 +396,11 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         setsubTaskData(value)
     }, [setsubTaskData])
 
-
-
-    // const reset = useCallback(() => {
-    //     setdepartmentMast(0)
-    //     setdepartmentSecMast(0)
-    //     setEmployeeMast(0)
-    //     setEmployeeMast(0)
-    //     setprojectz(0)
-    //     setTaskData('')
-    // }, [setdepartmentMast, setdepartmentSecMast, setEmployeeMast, setEmployeeMast, setprojectz, setTaskData])
-
     const handleTaskFileChange = useCallback((e) => {
         const newFiles = [...selectTaskfile]
         newFiles.push(e.target.files[0])
         setselectTaskfile(newFiles)
     }, [selectTaskfile, setselectTaskfile])
-
-
     const handleImageUpload = useCallback(async (imageFile) => {
         const options = {
             maxSizeMB: 1,
@@ -288,43 +467,31 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                 succesNotify(message)
                                                 setTableCount(tableCount + 1)
                                                 handleEditClose()
-                                                // setEditTaslFlag(0)
                                             }
                                             else {
                                                 //     warningNotify('failure in updating employee assign')
                                                 handleEditClose()
                                                 setTableCount(tableCount + 1)
-                                                // setEditTaslFlag(0)
                                             }
                                         }
                                         else {
                                             succesNotify(message)
-                                            setTableCount(tableCount + 1)
                                             handleEditClose()
-                                            // setEditTaslFlag(0)
                                         }
                                     })
                                     succesNotify("Task Updated with file attach Successfully")
-                                    setTableCount(tableCount + 1)
                                     handleEditClose()
-
                                 } else {
-
                                     succesNotify(message)
                                     setTableCount(tableCount + 1)
                                     handleEditClose()
-
                                 }
-
-
-
                             }
                             else {
                                 warningNotify(message)
                             }
                         })
                     }
-
                     //WITHOUT FILE UPLOAD
                     else {
                         if (employeeMast !== 0) {
@@ -336,31 +503,24 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     if (success === 1) {
                                         succesNotify(message)
                                         setTableCount(tableCount + 1)
-                                        // reset()
                                         handleEditClose()
                                     } else {
                                         setTableCount(tableCount + 1)
                                     }
-                                    setTableCount(tableCount + 1)
                                 }
                                 else {
                                     succesNotify(message)
                                     handleEditClose()
-                                    setTableCount(tableCount + 1)
-                                    // reset()
                                 }
                             })
                             succesNotify(message)
                             handleEditClose()
-                            setTableCount(tableCount + 1)
-                            // reset()
-
+                            // setTableCount(tableCount + 1)
                         }
                         else {
                             succesNotify(message)
                             setTableCount(tableCount + 1)
                             handleEditClose()
-                            // reset()
                         }
                     }
                 }
@@ -380,6 +540,10 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             return updatedFiles;
         });
     };
+    const changeEmp = useCallback((e) => {
+        setchangeAssignee(1)
+
+    }, [])
 
     return (
         <Box>
@@ -389,233 +553,480 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                 < ModalDialog
                     sx={{
                         overflowY: 'scroll',
-                        width: '55vw',
+                        width: '90vw',
+                        height: '60vw',
                     }}
                 >
-                    <Box>
-
-                        <Box sx={{ minHeight: 590, border: 1, borderColor: '#D9E4EC', borderRadius: 5 }}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', pt: 1, pr: .5 }}>
+                    <Box sx={{ borderRight: 1, borderLeft: 1, borderBottom: 1, borderColor: '#D9E4EC', }}>
+                        <Box sx={{
+                            width: "100%", backgroundColor: '#D9E4EC', height: 45,
+                            borderTop: 1, borderBlockColor: '#6AABD2', pt: 1, mt: .5,
+                            display: 'flex',
+                        }}>
+                            <Box sx={{ flex: 1 }}>
+                                <ModeEditIcon sx={{ height: '20px' }} />Task Status
+                            </Box>
+                            <Box sx={{ width: 35, mb: .3, display: 'flex', justifyContent: 'flex-end', mr: 1, pt: .8, pr: .6, bgcolor: 'white', borderRadius: 15 }}>
                                 <Tooltip title="Close">
-
                                     < CloseIcon sx={{ cursor: 'pointer', size: 'lg', height: 20, color: '#004F76' }}
                                         onClick={handleEditClose}
                                     />
                                 </Tooltip>
                             </Box>
-                            <Box sx={{
-                                width: "99%", backgroundColor: '#D9E4EC', height: 45,
-                                borderTop: 1, borderBlockColor: '#6AABD2', pt: 1, mx: .5, mt: .5
-                            }}>
-                                <ModeEditIcon sx={{ height: '20px' }} />edit Task
-                            </Box>
-
-                            <Box sx={{ display: 'flex', width: '100%', }}>
-                                <Box sx={{ flex: 1, }}>
-                                    <Box sx={{ pt: 2, pl: 2, fontSize: 18, mt: 1.2, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                                        <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Task Name
-                                        </Typography>
-                                    </Box>
-                                    {main_task_slno === null ?
-                                        <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: 1, fontFamily: 'Georgia' }}>
-                                            <Typography sx={{ color: '#003B73' }}>
-                                                Project
-                                            </Typography>
-                                        </Box> : null}
-                                    <Box sx={{ pt: 1, pl: 2, fontSize: 18, mt: 1.2, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                                        <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Department
-                                        </Typography>
-                                    </Box>
-                                    <Box sx={{ mt: .5, pl: 2, pt: 1.5, fontSize: 18, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                                        <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Assignee
-                                        </Typography>
-                                    </Box>
-                                    <Box sx={{ pl: 2, fontSize: 18, mt: 1.5, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                                        <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Due date
-                                        </Typography>
-                                    </Box>
-                                    <Box sx={{ pl: 2, fontSize: 18, mt: 2, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                                        <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Description
-                                        </Typography>
-                                    </Box>
+                        </Box>
+                        <Box sx={{ display: 'flex', width: '100%', }}>
+                            <Box sx={{ flex: 1.5, }}>
+                                <Box sx={{ pt: 2, pl: 2, fontSize: 18, mt: 1.2, display: 'flex', justifyContent: 'right', mr: 1 }}>
+                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                        Task Name
+                                    </Typography>
                                 </Box>
-                                <Box sx={{ flex: 3.5 }}>
-                                    <Box sx={{ mt: .5, pt: 1 }}>
-                                        <CssVarsProvider>
-                                            <Textarea
-                                                type="text"
-                                                size="sm"
-                                                placeholder="Task Name*"
-                                                variant="outlined"
-                                                name="taskName"
-                                                value={taskName}
-                                                maxRows={1}
-                                                onChange={(e) => taskDataUpdate(e)}
-                                                sx={{ fontSize: 22, color: '#003B73', }}
-                                            ></Textarea>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    {main_task_slno === null ?
-                                        <Box sx={{ mt: .5 }}>
-                                            <TmProjectList
-                                                projectz={projectz}
-                                                setprojectz={setprojectz} />
-                                        </Box> : null}
-                                    <Box sx={{ mt: .5 }}>
-                                        <TextFieldCustom
-                                            type="text"
-                                            name="secName"
-                                            value={secName}
-                                            disabled>
-                                        </TextFieldCustom>
-                                    </Box>
-                                    <Box sx={{ mt: .5 }}>
-                                        <TmMultEmpSelectUnderDeptSec
-                                            value={employeeMast}
-                                            setValue={setEmployeeMast}
-                                        />
-                                    </Box>
-                                    <Box sx={{ mt: .5 }}>
-                                        <TextFieldCustom
-                                            type="date"
-                                            size="sm"
-                                            name="dueDate"
-                                            value={dueDate}
-                                            onchange={taskDataUpdate}
-                                        ></TextFieldCustom>
-                                    </Box>
-                                    <Box sx={{ mt: .5 }}>
+                                {main_task_slno === null ?
+                                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: 2, height: 30, pt: 1, fontFamily: 'Georgia' }}>
+                                        <Typography sx={{ color: '#003B73' }}>
+                                            Project
+                                        </Typography>
+                                    </Box> : null}
+                                <Box sx={{ pt: 1, pl: 2, fontSize: 18, mt: 1.5, display: 'flex', justifyContent: 'right', mr: 1 }}>
+                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                        Department
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ pt: 1, pl: 2, fontSize: 18, mt: 1, display: 'flex', justifyContent: 'right', mr: 1 }}>
+                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                        Section
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ mt: .5, pl: 2, pt: 1.5, fontSize: 18, display: 'flex', justifyContent: 'right', mr: 1 }}>
+                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                        Assignee
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ pl: 2, fontSize: 18, mt: 1.5, display: 'flex', justifyContent: 'right', mr: 1, pt: .5 }}>
+                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                        Created date
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ pl: 2, fontSize: 18, mt: 1.5, display: 'flex', justifyContent: 'right', mr: 1 }}>
+                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                        Due date
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ pl: 2, fontSize: 18, mt: 2, display: 'flex', justifyContent: 'right', mr: 1 }}>
+                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                        Description
+                                    </Typography>
+                                </Box>
+                            </Box>
+                            <Box sx={{ flex: 6 }}>
+                                <Box sx={{ mt: .5, pt: 1 }}>
+                                    <CssVarsProvider>
                                         <Textarea
                                             type="text"
                                             size="sm"
-                                            placeholder="type here..."
+                                            placeholder="Task Name*"
                                             variant="outlined"
+                                            name="taskName"
+                                            value={taskName}
                                             minRows={2}
-                                            maxRows={4}
-                                            name="description"
-                                            value={description}
+                                            maxRows={2}
                                             onChange={(e) => taskDataUpdate(e)}
+                                            sx={{ fontSize: 15, color: '#003B73', }}
+                                        ></Textarea>
+                                    </CssVarsProvider>
+                                </Box>
+                                {main_task_slno === null ?
+                                    <Box sx={{ mt: .5 }}>
+                                        <TmProjectList
+                                            projectz={projectz}
+                                            setprojectz={setprojectz} />
+
+                                    </Box> : null}
+                                <Box sx={{ mt: .5 }}>
+                                    <TextFieldCustom
+                                        type="text"
+                                        name="dept_name"
+                                        value={dept_name}
+                                        disabled>
+                                    </TextFieldCustom>
+                                </Box>
+                                <Box sx={{ mt: .5 }}>
+                                    <TextFieldCustom
+                                        type="text"
+                                        name="secName"
+                                        value={secName}
+                                        disabled>
+                                    </TextFieldCustom>
+                                </Box>
+                                {changeAssignee === 0 ?
+                                    <Box sx={{ display: 'flex', mt: .5, }}>
+                                        <Box sx={{ flex: 1, mr: 1 }}><TextFieldCustom
+                                            type="text"
+                                            name="em_name"
+                                            value={em_name}
+                                            disabled
                                         >
-                                        </Textarea>
-                                    </Box>
+                                        </TextFieldCustom></Box>
 
-
-                                    <Box sx={{
-                                        fontFamily: 'Georgia',
-                                        height: 50, mt: .5, border: 1, borderRadius: 1, borderStyle: 'dashed', display: 'flex',
-                                        borderColor: '#C2D2D9',
-                                    }}>
-                                        <Box sx={{ color: '#003B73', display: 'flex', flex: 1, m: 1, border: .5, borderColor: '#B7CFDC', pl: 1, pt: .3, borderRadius: 2 }}>
-                                            <Typography>fileUpload&nbsp;</Typography>
-                                            <CssVarsProvider>
-                                                <label htmlFor="file-input">
-                                                    <Tooltip title="File Attach" placement="bottom" >
-
-                                                        <PermMediaIcon sx={{ color: '#738FA7', height: 25, width: 25, cursor: 'pointer', pr: .5 }} />
-                                                    </Tooltip>
-                                                </label>
-                                                <input
-                                                    id="file-input"
-                                                    type="file"
-                                                    accept=".jpg, .jpeg, .png, .pdf"
-                                                    style={{ display: 'none' }}
-                                                    onChange={handleTaskFileChange}
-                                                    name="selectTaskfile"
-                                                    multiple // Add this attribute to allow multiple file selections
-                                                />
-                                            </CssVarsProvider>
-                                        </Box>
-                                        <Box sx={{ flex: 4, overflowX: "scroll", overflow: 'hidden', }}>
-                                            <Box sx={{ display: 'flex' }}>
-                                                {selectTaskfile && selectTaskfile.map((taskFile, index) => (
-                                                    <Box sx={{
-                                                        display: "flex", flexDirection: "row", ml: .5, mt: 1.5,
-                                                        backgroundColor: '#C3CEDA', borderRadius: 2, px: .5,
-                                                    }} key={index} >
-                                                        <Box >{taskFile.name}</Box>
-                                                        <Box sx={{ ml: .3 }}><CloseIcon sx={{ height: '17px', width: '20px', cursor: 'pointer' }}
-                                                            onClick={() => handleRemoveTaskFile(index)} /></Box>
-                                                    </Box>
-                                                ))}
-                                            </Box>
-                                        </Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                                         <Box sx={{ pt: .5 }}>
-                                            <CusCheckBox
-
-                                                color="primary"
-                                                size="md"
-                                                name="completed"
-                                                value={completed}
-                                                checked={completed}
-                                                onCheked={ChangeCompleted}
-                                            ></CusCheckBox>
+                                            <Tooltip title="Change Assignees">
+                                                <ChangeCircleIcon sx={{ cursor: 'pointer' }}
+                                                    onClick={changeEmp} />
+                                            </Tooltip>
                                         </Box>
-                                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
-
-                                        <Box sx={{ pt: .5, ml: 5 }}>
-                                            <CusCheckBox
-
-                                                color="primary"
-                                                size="md"
-                                                name="onProgress"
-                                                value={onProgress}
-                                                checked={onProgress}
-                                                onCheked={ChangeOnProgress}
-                                            ></CusCheckBox>
-                                        </Box>
-                                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
-                                    </Box>
-
-                                </Box>
-                                <Box sx={{ flex: 1.5, mt: 2, ml: .5 }}>
-                                    <Box sx={{ height: 50, margin: 'auto', }}>
-                                        {main_task_slno === null ?
-                                            <Button variant="outlined" sx={{ fontSize: 14, width: 180, color: '#003B73' }}
-                                                onClick={openAddSubtask} >
-                                                <LanIcon sx={{ color: '#777180' }} />
-                                                &nbsp;Add Subtask</Button>
-                                            : <Box>
-                                            </Box>}
-                                    </Box>
-                                </Box>
-                            </Box>
-                            <Box>
-                                {
-                                    flag === 1 ?
-                                        <Box>
-                                            <AddSubTask
-                                                tm_task_slno={tm_task_slno}
-                                                setTableRendering={setTableRendering}
-                                                tableRendering={tableRendering}
-                                                setflag={setflag}
-                                                tableCount={tableCount}
-                                                setTableCount={setTableCount}
+                                    </Box> :
+                                    <Box sx={{ mt: .5, display: 'flex', }}>
+                                        <Box sx={{ flex: 1, border: .5, borderRadius: 6, borderColor: '#E4A58F' }}>
+                                            <TmMultEmpSelectUnderDeptSec
+                                                value={employeeMast}
+                                                setValue={setEmployeeMast}
                                             />
                                         </Box>
-                                        :
-                                        flag === 2 ?
+                                    </Box>
+                                }
+                                <Box sx={{ mt: .5 }}>
+                                    <TextFieldCustom
+                                        type="text"
+                                        name="create_date"
+                                        value={create_date}
+                                        disabled>
+                                    </TextFieldCustom>
+                                </Box>
+                                <Box sx={{ mt: .5 }}>
+                                    <TextFieldCustom
+                                        type="datetime-local"
+                                        size="sm"
+                                        name="dueDate"
+                                        value={dueDate}
+                                        onchange={taskDataUpdate}
+                                    ></TextFieldCustom>
+                                </Box>
+                                <Box sx={{ mt: .5 }}>
+                                    <Textarea
+                                        type="text"
+                                        size="sm"
+                                        placeholder="type here..."
+                                        variant="outlined"
+                                        minRows={2}
+                                        maxRows={2}
+                                        name="description"
+                                        value={description}
+                                        onChange={(e) => taskDataUpdate(e)}
+                                    >
+                                    </Textarea>
+                                </Box>
+                            </Box>
+                            <Box sx={{ flex: 9, ml: .5, }}></Box>
+                        </Box>
+                        <Box sx={{
+                            fontFamily: 'Georgia',
+                            height: 50, mt: .5, border: 1, borderRadius: 1, borderStyle: 'dashed', display: 'flex',
+                            borderColor: '#887BB0', mx: 2.3,
+                        }}>
+                            <Box sx={{
+                                color: '#003B73', display: 'flex', flex: 1, m: 1, border: .5, borderColor: '#B7CFDC', pl: 1, pt: .3,
+                                borderRadius: 2,
+                            }}>
+                                <Typography>fileUpload&nbsp;</Typography>
+                                <CssVarsProvider>
+                                    <label htmlFor="file-input">
+                                        <Tooltip title="File Attach" placement="bottom" >
+                                            <PermMediaIcon sx={{ color: '#738FA7', height: 25, width: 25, cursor: 'pointer', pr: .5 }} />
+                                        </Tooltip>
+                                    </label>
+                                    <input
+                                        id="file-input"
+                                        type="file"
+                                        accept=".jpg, .jpeg, .png, .pdf"
+                                        style={{ display: 'none' }}
+                                        onChange={handleTaskFileChange}
+                                        name="selectTaskfile"
+                                        multiple // Add this attribute to allow multiple file selections
+                                    />
+                                </CssVarsProvider>
+                            </Box>
+                            <Box sx={{ flex: 10, overflowX: "scroll", overflow: 'hidden', }}>
+                                <Box sx={{ display: 'flex' }}>
+                                    {selectTaskfile && selectTaskfile.map((taskFile, index) => (
+                                        <Box sx={{
+                                            display: "flex", flexDirection: "row", ml: .5, mt: 1.5,
+                                            backgroundColor: '#C3CEDA', borderRadius: 2, px: .5,
+                                        }} key={index} >
+                                            <Box >{taskFile.name}</Box>
+                                            <Box sx={{ ml: .3 }}><CloseIcon sx={{ height: '17px', width: '20px', cursor: 'pointer' }}
+                                                onClick={() => handleRemoveTaskFile(index)} /></Box>
+                                        </Box>
+                                    ))}
+                                </Box>
+                            </Box>
+                        </Box>
+                        <Box sx={{ m: 2, border: 1, borderColor: '#341948', borderRadius: 3 }}>
+                            <Typography sx={{ pl: 1.5, pt: .5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}>
+                                Task Progress
+                            </Typography>
+                            <EmpProgressTable
+                                tabledata={tabledata}
+                                rowSelect={rowSelect}
+                            />
+                        </Box>
+                        <Box sx={{ display: 'flex' }}>
+                            <Box sx={{ flex: 1, }}>
+
+
+                                {main_task_slno !== null ?
+                                    <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
+                                        <CusCheckBox
+                                            color="primary"
+                                            size="lg"
+                                            name="completed"
+                                            value={completed}
+                                            checked={completed}
+                                            onCheked={ChangeCompleted}
+                                        ></CusCheckBox>
+                                    </Box> :
+                                    <Box>
+                                        {completeFlag.length !== 0 ?
+                                            <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
+                                                <CusCheckBox
+                                                    color="primary"
+                                                    size="lg"
+                                                    name="completed"
+                                                    value={completed}
+                                                    checked={completed}
+                                                    disabled={true}
+                                                ></CusCheckBox>
+                                            </Box>
+                                            : <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
+                                                <CusCheckBox
+                                                    color="primary"
+                                                    size="lg"
+                                                    name="completed"
+                                                    value={completed}
+                                                    checked={completed}
+                                                    onCheked={ChangeCompleted}
+                                                ></CusCheckBox>
+                                            </Box>}
+                                    </Box>}
+
+
+                                <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                                    <CusCheckBox
+                                        color="primary"
+                                        size="lg"
+                                        name="onProgress"
+                                        value={onProgress}
+                                        checked={onProgress}
+                                        onCheked={ChangeOnProgress}
+                                    ></CusCheckBox>
+                                </Box>
+                                <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                                    <CusCheckBox
+                                        color="primary"
+                                        size="lg"
+                                        name="onHold"
+                                        value={onHold}
+                                        checked={onHold}
+                                        onCheked={ChangeOnHold}
+                                    ></CusCheckBox>
+                                </Box>
+                                <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                                    <CusCheckBox
+                                        color="primary"
+                                        size="lg"
+                                        name="onPending"
+                                        value={onPending}
+                                        checked={onPending}
+                                        onCheked={ChangeOnPending}
+                                    ></CusCheckBox>
+                                </Box>
+                            </Box>
+                            <Box sx={{ flex: 5, }}>
+                                <Box sx={{ pl: .8, pt: .5, color: '#000C66', fontFamily: 'Georgia', }}>
+                                    Task Completed
+                                </Box>
+                                <Box sx={{ pl: .8, pt: 1, color: '#000C66', fontFamily: 'Georgia', }}>
+                                    Task On Progress
+                                </Box>
+                                <Box sx={{ pl: .8, pt: 1, color: '#000C66', fontFamily: 'Georgia', }}>
+                                    Task On Hold
+                                </Box>
+                                <Box sx={{ pl: .8, pt: 1, color: '#000C66', fontFamily: 'Georgia', }}>
+                                    Task On Pending
+                                </Box>
+                            </Box>
+                            <Box sx={{ flex: 10, }}>
+                                {onHold === true ?
+                                    <Box sx={{ border: 1, borderRadius: 5, borderColor: '#D9E4EC' }}>
+                                        < Typography sx={{ pl: 1, fontSize: 20, }}>
+                                            On Hold Remarks
+                                        </Typography>
+                                        <Box sx={{ m: 1 }}>
+                                            <Textarea
+                                                type="text"
+                                                size="sm"
+                                                placeholder="type here..."
+                                                variant="outlined"
+                                                minRows={4}
+                                                maxRows={5}
+                                                name="onHoldRemaks"
+                                                value={onHoldRemaks}
+                                                onChange={taskDataUpdate}
+                                            >
+                                            </Textarea>
+                                        </Box>
+                                    </Box>
+                                    : null}
+                                {completed === true ?
+                                    <Box sx={{ border: 1, borderRadius: 5, borderColor: '#D9E4EC' }}>
+                                        < Typography sx={{ pl: 1, fontSize: 20, }}>
+                                            Completed Remarks
+                                        </Typography>
+                                        <Box sx={{ m: 1 }}>
+                                            <Textarea
+                                                type="text"
+                                                size="sm"
+                                                placeholder="type here..."
+                                                variant="outlined"
+                                                minRows={4}
+                                                maxRows={5}
+                                                name="completedRemarks"
+                                                value={completedRemarks}
+                                                onChange={taskDataUpdate}
+                                            >
+                                            </Textarea>
+                                        </Box>
+                                    </Box>
+                                    : null}
+                                {onPending === true ?
+                                    <Box sx={{ border: 1, borderRadius: 5, borderColor: '#D9E4EC' }}>
+                                        < Typography sx={{ pl: 1, fontSize: 20, }}>
+                                            Pending Remarks
+                                        </Typography>
+                                        <Box sx={{ m: 1 }}>
+                                            <Textarea
+                                                type="text"
+                                                size="sm"
+                                                placeholder="type here..."
+                                                variant="outlined"
+                                                minRows={4}
+                                                maxRows={5}
+                                                name="pendingRemarks"
+                                                value={pendingRemarks}
+                                                onChange={taskDataUpdate}
+                                            >
+                                            </Textarea>
+                                        </Box>
+                                    </Box>
+                                    : null}
+                            </Box>
+                            <Box sx={{ flex: 14, }}>
+                            </Box>
+                        </Box>
+                        {onProgress === true ?
+                            <Box sx={{ mx: 2, mt: 2, border: 1, borderColor: '#D9E4EC', borderRadius: 4 }}>
+                                < Typography sx={{ pl: 1, fontSize: 20, }}>
+                                    Task Progress
+                                </Typography>
+                                <Box sx={{ display: 'flex', }}>
+                                    <Box sx={{ flex: 4, pb: 1, }}>
+                                        < Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia', }}>
+                                            Progress Date
+                                        </Typography>
+                                        <Box sx={{ pl: 1 }}>
+                                            <TextFieldCustom
+                                                slotProps={{
+                                                    input: {
+                                                        max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                    },
+                                                }}
+                                                type="datetime-local"
+                                                size="sm"
+                                                name="tm_progres_date"
+                                                value={tm_progres_date}
+                                                onchange={ProgresssUpdate}
+                                            ></TextFieldCustom>
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ flex: 15, }}>
+                                        < Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia', }}>
+                                            Progress description
+                                        </Typography>
+                                        <Box sx={{ mx: 1, }}>
+                                            <Textarea
+                                                type="text"
+                                                size="sm"
+                                                placeholder="type here..."
+                                                variant="outlined"
+                                                minRows={1}
+                                                maxRows={2}
+                                                name="tm_task_progress"
+                                                value={tm_task_progress}
+                                                onChange={(e) => ProgresssUpdate(e)}
+                                            >
+                                            </Textarea>
+                                        </Box>
+                                        <Box sx={{ height: 3 }}></Box>
+                                    </Box>
+                                    <Box sx={{ pr: 1, pt: 4 }}>
+                                        {value === 0 ?
                                             <Box>
-                                                <EditSubTask setflag={setflag} subTaskData={subTaskData}
-                                                    setsubTaskData={setsubTaskData} setTableRendering={setTableRendering}
-                                                    tableRendering={tableRendering}
-                                                    tableCount={tableCount}
-                                                    setTableCount={setTableCount}
+                                                <AddCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
+                                                    onClick={InsertProgress}
+                                                />
+                                            </Box> :
+                                            value === 1 ? <Box>
+                                                <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
+                                                    onClick={UpdateProgress}
                                                 />
                                             </Box>
-                                            : null
-                                }
+                                                : null}
+                                    </Box>
+                                </Box>
                             </Box>
-                            <Box >
-                                {main_task_slno === null || main_task_slno === 0 ?
+                            : null}
+                        {main_task_slno === null ?
+                            <Box sx={{ m: 2, border: 1, borderColor: '#603A70', borderRadius: 3 }}>
+                                <Box sx={{
+                                    mt: 1, cursor: 'pointer', width: 150, height: 40, ml: 1, border: 1, borderColor: '#D9E4EC',
+                                    borderRadius: 5, pl: 1, pt: 1, color: '#774A62'
+                                }}
+                                    onClick={openAddSubtask}
+                                >
+                                    Add Subtask&nbsp;&nbsp;&nbsp;
+                                    {flag === 2 || flag === 1 ?
+                                        <RemoveIcon sx={{ fontSize: 25, color: '#004F76' }} /> :
+                                        flag === 0 ?
+                                            <AddIcon sx={{ fontSize: 25, color: '#004F76' }} /> : null}
+                                </Box>
+                                <Box sx={{ mt: 1, pl: 1, }}>
+                                    {
+                                        flag === 1 ?
+                                            <Box>
+                                                <AddSubTaskEmp
+                                                    tm_task_slno={tm_task_slno}
+                                                    setTableRendering={setTableRendering}
+                                                    tableRendering={tableRendering}
+                                                    setflag={setflag}
+                                                    tm_project_slno={tm_project_slno}
+                                                />
+                                            </Box> :
+                                            flag === 2 ?
+                                                <Box>
+                                                    <EditSubtaskEmp setflag={setflag} subTaskData={subTaskData}
+                                                        setsubTaskData={setsubTaskData}
+                                                        setTableRendering={setTableRendering}
+                                                        tableRendering={tableRendering}
+
+                                                    />
+                                                </Box>
+                                                : null
+                                    }
+                                </Box>
+                                <Box >
                                     <Box>
-                                        < SubtaskTable
+                                        < SubtaskTableEmp
+                                            completeFlag={completeFlag}
+                                            setCompleteFlag={setCompleteFlag}
                                             tableCount={tableCount}
                                             arry={arry}
                                             setArry={setArry}
@@ -624,11 +1035,16 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                             selectForEditsSubTask={selectForEditsSubTask}
                                             tableRendering={tableRendering}
                                             setTableRendering={setTableRendering}
+                                            subTask={subTask}
+                                            setSubTask={setSubTask}
+                                            viewSubTask={viewSubTask}
+                                            setViewSubTask={setViewSubTask}
                                         />
                                     </Box>
-                                    : <Box></Box>}
-                            </Box>
-                        </Box>
+                                </Box>
+                                <Box sx={{ height: 5, }}></Box>
+                            </Box> : null}
+                        <Box sx={{ height: 10 }}></Box>
                     </Box>
                     <DialogActions>
                         <Box sx={{ textAlign: 'right' }}>
@@ -646,8 +1062,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                     </DialogActions>
                 </ModalDialog>
             </Modal>
-        </Box>
+        </Box >
     )
 }
-
 export default memo(ModalEditTask)

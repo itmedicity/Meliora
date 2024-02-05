@@ -13,15 +13,13 @@ import OuterSubTaskTable from './OuterSubTaskTable';
 import SubTasksEdit from './SubTasksEdit';
 import PermMediaIcon from '@mui/icons-material/PermMedia';
 import imageCompression from 'browser-image-compression';
-import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { getProjectList } from 'src/redux/actions/TmProjectsList.action';
 import TmProjectList from 'src/views/CommonSelectCode/TmProjectList';
 import CloseIcon from '@mui/icons-material/Close';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, taskTableCount, settaskTableCount }) => {
 
-    const { tm_task_slno, main_task_slno, tm_task_status, tm_project_slno } = TaskDataForEdit
-
-
+    const { tm_task_slno, main_task_slno, tm_task_status, tm_project_slno, em_name } = TaskDataForEdit
 
     const dispatch = useDispatch();
     const [departmentMast, setdepartmentMast] = useState(0)
@@ -31,54 +29,15 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
     const [selectTaskfile, setselectTaskfile] = useState([]);
     const [subTaskData, setsubTaskData] = useState([])
     const [projectz, setprojectz] = useState(tm_project_slno === null ? 0 : tm_project_slno)
-    const [completed, setCompleted] = useState(tm_task_status === 1 ? true : tm_task_status === 2 ? false : false)
-    const [onProgress, setOnProgress] = useState(tm_task_status === 2 ? true : tm_task_status === 1 ? false : false)
-    const [checkFlag, setcheckFlag] = useState(tm_task_status)
+    const [changeAssignee, setchangeAssignee] = useState(0)
     const [taskData, setTaskData] = useState({
-
         taskName: '',
         dueDate: '',
         description: '',
-        // taskStatus: (tm_task_status === 1 ? true : tm_task_status === 2 ? true : false)
-
     })
     useEffect(() => {
         dispatch(getProjectList())
     }, [dispatch,])
-
-
-
-
-
-    const ChangeCompleted = useCallback((e) => {
-        if (e.target.checked === true) {
-            setCompleted(true)
-            setOnProgress(false)
-            setcheckFlag(1)
-        }
-        else {
-            setCompleted(false)
-            setOnProgress(false)
-            setcheckFlag(0)
-
-        }
-    }, [])
-    const ChangeOnProgress = useCallback((e) => {
-
-        if (e.target.checked === true) {
-            setCompleted(false)
-            setOnProgress(true)
-            setcheckFlag(2)
-        }
-        else {
-            setCompleted(false)
-            setOnProgress(false)
-            setcheckFlag(0)
-
-        }
-    }, [])
-
-
 
     const { taskName, dueDate, description, } = taskData
     const taskDataUpdate = useCallback(
@@ -98,7 +57,7 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
 
             if (success === 2) {
                 const { tm_task_slno, tm_task_name, tm_task_due_date, tm_task_description, tm_project_slno,
-                    tm_task_dept_sec, tm_task_dept, tm_task_status } = data[0]
+                    tm_task_dept_sec, tm_task_dept } = data[0]
                 const formdata = {
                     taskSlno: tm_task_slno,
                     taskName: tm_task_name,
@@ -110,14 +69,11 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                 setdepartmentMast(tm_task_dept)
                 setdepartmentSecMast(tm_task_dept_sec)
                 setprojectz(tm_project_slno)
-                setCompleted(tm_task_status === 1 ? true : false)
-                setOnProgress(tm_task_status === 2 ? true : false)
             }
         }
         const getMastEmployee = async (tm_task_slno) => {
             const result = await axioslogin.get(`/taskManagement/viewMasterEmpByid/${tm_task_slno}`);
             const { success, data } = result.data;
-
             if (data.length !== 0) {
                 if (success === 2) {
                     const setEmpData = data && data.map((val) => {
@@ -128,14 +84,11 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                         }
                     })
                     setEmpArry(setEmpData)
-
                 }
                 else {
                     setEmpArry([])
                 }
             }
-
-
         }
         getMasterTask(tm_task_slno)
         getMastEmployee(tm_task_slno);
@@ -153,11 +106,10 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
             tm_task_dept: departmentMast === 0 ? null : departmentMast,
             tm_task_dept_sec: departmentSecMast === 0 ? null : departmentSecMast,
             tm_project_slno: projectz === 0 ? null : projectz,
-            tm_task_status: checkFlag,
+            tm_task_status: tm_task_status,
             edit_user: id
         }
-    }, [tm_task_slno, taskName, dueDate, checkFlag, description, departmentMast, departmentSecMast, projectz, id])
-
+    }, [tm_task_slno, taskName, dueDate, tm_task_status, description, departmentMast, departmentSecMast, projectz, id])
 
     const postEmpDetails = employeeMast && employeeMast.map((val) => {
         return {
@@ -174,32 +126,25 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
         }
     })
     const resetSubtask = useCallback(() => {
-
         const resetMast = {
             tm_task_slno: '',
             taskName: '',
             dueDate: '',
             description: '',
             main_task_slno: '',
-
         }
         setTaskData(resetMast)
         setdepartmentMast(0)
         setdepartmentSecMast(0)
         setEmployeeMast([])
         setselectTaskfile([])
-
-
     }, [setTaskData, setdepartmentMast, setdepartmentSecMast, setEmployeeMast, setselectTaskfile,]);
-
-
 
     const handleTaskFileChange = useCallback((e) => {
         const newFiles = [...selectTaskfile]
         newFiles.push(e.target.files[0])
         setselectTaskfile(newFiles)
     }, [selectTaskfile, setselectTaskfile])
-
 
     const handleImageUpload = useCallback(async (imageFile) => {
         const options = {
@@ -278,13 +223,11 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                                         }
                                         else {
                                             succesNotify(message)
-                                            settaskTableCount(taskTableCount + 1)
                                             resetSubtask()
                                             setEditTaslFlag(0)
                                         }
                                     })
                                     succesNotify("Task Updated with file attach Successfully")
-                                    settaskTableCount(taskTableCount + 1)
                                     resetSubtask()
 
                                 } else {
@@ -302,10 +245,7 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                     }
                     //WITHOUT FILE UPLOAD
                     else {
-
                         if (employeeMast !== 0) {
-
-
                             Inactiveemp(inactive).then((value) => {
                                 const { message, succes } = value
                                 if (succes === 1) {
@@ -316,25 +256,22 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                                         settaskTableCount(taskTableCount + 1)
                                         setEditTaslFlag(0)
                                         resetSubtask()
+                                    } else {
+                                        settaskTableCount(taskTableCount + 1)
                                     }
-                                    // else {
-                                    //     warningNotify('failure in updating employee assign')
-                                    // }
                                 }
                                 else {
                                     succesNotify(message)
-                                    settaskTableCount(taskTableCount + 1)
+                                    // settaskTableCount(taskTableCount + 1)
                                     setEditTaslFlag(0)
                                     resetSubtask()
                                 }
                             })
                             succesNotify(message)
-                            settaskTableCount(taskTableCount + 1)
+                            // settaskTableCount(taskTableCount + 1)
                             setEditTaslFlag(0)
                             resetSubtask()
-
                         } else {
-
                             succesNotify(message)
                             settaskTableCount(taskTableCount + 1)
                             setEditTaslFlag(0)
@@ -362,45 +299,48 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
             return updatedFiles;
         });
     };
+    const changeEmp = useCallback((e) => {
+        setchangeAssignee(1)
+    }, [])
     return (
         <Box>
-            <Box sx={{ display: 'flex', bgcolor: '#F2F1F0' }}>
+            <Box sx={{ display: 'flex', bgcolor: '#FEFCFF' }}>
                 <Box sx={{ flex: 1, }}>
                     <Box sx={{ mt: 1.5, pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 40, pt: 1.5, fontFamily: 'Georgia' }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Task
+                            Task&nbsp;:
                         </Typography>
                     </Box>
                     {main_task_slno === null ?
-                        <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: .5, fontFamily: 'Georgia' }}>
+                        <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: 2.5, height: 30, pt: .5, fontFamily: 'Georgia' }}>
                             <Typography sx={{ color: '#003B73' }}>
-                                Project
+                                Project&nbsp;:
                             </Typography>
                         </Box> : null}
 
-                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: .5, fontFamily: 'Georgia' }}>
+                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 30, pt: 1, fontFamily: 'Georgia' }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Department
+                            Department&nbsp;:
                         </Typography>
                     </Box>
-                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: .5, fontFamily: 'Georgia' }}>
+                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .1, height: 30, pt: .8, fontFamily: 'Georgia' }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Section
+                            Section&nbsp;:
                         </Typography>
                     </Box>
-                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: .5, fontFamily: 'Georgia' }}>
+                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: 1, fontFamily: 'Georgia' }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Assignee
+                            Assignees&nbsp;:
                         </Typography>
                     </Box>
-                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: .5, fontFamily: 'Georgia' }}>
+                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: 1.5, fontFamily: 'Georgia' }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Due date
+                            Due date&nbsp;:
                         </Typography>
                     </Box>
-                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 35, pt: .5, fontFamily: 'Georgia' }}>
+                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 35, pt: 1.5, fontFamily: 'Georgia' }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Description
+                            Description&nbsp;:
                         </Typography>
                     </Box>
                 </Box>
@@ -414,9 +354,10 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                                 variant="outlined"
                                 name="taskName"
                                 value={taskName}
+                                minRows={2}
                                 maxRows={2}
                                 onChange={(e) => taskDataUpdate(e)}
-                                sx={{ fontSize: 20, color: '#05445E' }}
+                                sx={{ fontSize: 15, color: '#05445E' }}
                             ></Textarea>
                         </CssVarsProvider>
                     </Box>
@@ -436,18 +377,36 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                             deptsec={departmentSecMast}
                             setDeptSec={setdepartmentSecMast} />
                     </Box>
-                    <Box sx={{ flex: 1, pt: .3 }}>
-                        <CssVarsProvider>
-                            <TmMultEmpSelectUnderDeptSec
-                                value={employeeMast}
-                                setValue={setEmployeeMast}
-
-                            />
-                        </CssVarsProvider>
-                    </Box>
+                    {changeAssignee === 0 ?
+                        <Box sx={{ display: 'flex', mt: .5, }}>
+                            <Box sx={{ flex: 1, mr: 1 }}><TextFieldCustom
+                                type="text"
+                                name="em_name"
+                                value={em_name}
+                                disabled
+                            >
+                            </TextFieldCustom></Box>
+                            <Box sx={{ mt: .5 }}>
+                                <CssVarsProvider>
+                                    <Tooltip title="Change Assignees">
+                                        <ChangeCircleIcon sx={{ cursor: 'pointer' }}
+                                            onClick={changeEmp} />
+                                    </Tooltip>
+                                </CssVarsProvider>
+                            </Box>
+                        </Box>
+                        :
+                        <Box sx={{ flex: 1, mt: .5, border: .5, borderRadius: 2, borderColor: '#E4A58F' }}>
+                            <CssVarsProvider>
+                                <TmMultEmpSelectUnderDeptSec
+                                    value={employeeMast}
+                                    setValue={setEmployeeMast}
+                                />
+                            </CssVarsProvider>
+                        </Box>}
                     <Box sx={{ pt: .3 }}>
                         <TextFieldCustom
-                            type="date"
+                            type="datetime-local"
                             size="sm"
                             name="dueDate"
                             value={dueDate}
@@ -470,7 +429,6 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                             </Textarea>
                         </CssVarsProvider>
                     </Box>
-
                     <Box sx={{
                         fontFamily: 'Georgia',
                         height: 50, mt: .5, border: 1, borderRadius: 1, borderStyle: 'dashed', display: 'flex',
@@ -511,37 +469,6 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                             </Box>
                         </Box>
                     </Box>
-                    <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
-                        <Box sx={{ pt: .5 }}>
-                            <CusCheckBox
-
-                                color="primary"
-                                size="md"
-                                name="completed"
-                                value={completed}
-                                checked={completed}
-                                onCheked={ChangeCompleted}
-                            ></CusCheckBox>
-                        </Box>
-                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
-
-                        <Box sx={{ pt: .5, ml: 5 }}>
-                            <CusCheckBox
-
-                                color="primary"
-                                size="md"
-                                name="onProgress"
-                                value={onProgress}
-                                checked={onProgress}
-                                onCheked={ChangeOnProgress}
-                            ></CusCheckBox>
-                        </Box>
-                        <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
-                    </Box>
-
-
-
-
                     <Box sx={{ pt: 1, }}>
                         <Box sx={{ display: 'flex', margin: 'auto' }}>
                             <Box sx={{ width: 150, flex: 1.5, display: 'flex', justifyContent: 'right' }}>
@@ -573,7 +500,9 @@ const UpdateTasks = ({ TaskDataForEdit, setEditTaslFlag, reset, flag, setflag, t
                 {
                     flag === 1 ?
                         <Box>
-                            <AddSubTasks reset={reset} taskTableCount={taskTableCount} settaskTableCount={settaskTableCount} tm_task_slno={tm_task_slno} setflag={setflag} />
+                            <AddSubTasks
+                                tm_project_slno={tm_project_slno}
+                                reset={reset} taskTableCount={taskTableCount} settaskTableCount={settaskTableCount} tm_task_slno={tm_task_slno} setflag={setflag} />
                         </Box>
                         :
                         flag === 2 ?

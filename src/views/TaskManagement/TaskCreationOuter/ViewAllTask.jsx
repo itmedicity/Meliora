@@ -13,6 +13,8 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import ViewTaskImage from './ViewTaskImage';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import CircleIcon from '@mui/icons-material/Circle';
+import moment from 'moment';
 const ViewAllTask = ({ setviewAllTask, taskTableCount }) => {
     const [tabledata, setTableData] = useState([])
     const [department, setDepartment] = useState(0)
@@ -89,13 +91,21 @@ const ViewAllTask = ({ setviewAllTask, taskTableCount }) => {
                             main_task_slno: val.main_task_slno,
                             tm_task_description: val.tm_task_description,
                             tm_task_status: val.tm_task_status,
-                            TaskStatus: val.tm_task_status === 1 ? 'Completed' : val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                            create_date: val.create_date,
+                            TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                                val.tm_task_status === 1 ? 'Completed' :
+                                    val.tm_task_status === 2 ? 'On Progress' :
+                                        val.tm_task_status === 3 ? 'On Hold' :
+                                            val.tm_task_status === 4 ? 'Pending' :
+                                                val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                         }
                         return obj
                     })
+
                     setTableData(arry)
-                    // settaskTableCount(taskTableCount + 1)
-                } else {
+
+                }
+                else {
                     setTableData([])
                     warningNotify('error occured')
                 }
@@ -134,10 +144,10 @@ const ViewAllTask = ({ setviewAllTask, taskTableCount }) => {
                     setimageViewModalOpen(true);
                     setSelectedImages(val);
                 } else {
-                    warningNotify("No Task Image attached");
+                    warningNotify("No Image attached");
                 }
             } else {
-                warningNotify("No Task image attached");
+                warningNotify("No Image attached");
             }
         } catch (error) {
             warningNotify('Error in fetching files:', error);
@@ -153,7 +163,7 @@ const ViewAllTask = ({ setviewAllTask, taskTableCount }) => {
             title={'View All Task'} close={CloseTo}>
             {image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                 selectedImages={selectedImages} getarry={getarry} /> : null}
-            <Box sx={{ width: '100%', height: '90%', borderRadius: 2, margin: 'auto', border: .1, borderColor: '#D396FF', bgcolor: '#F9F9FB' }}>
+            <Box sx={{ width: '100%', height: 780, borderRadius: 2, margin: 'auto', border: .1, borderColor: '#D396FF', bgcolor: '#F9F9FB' }}>
                 <Box sx={{ width: '99.5%', ml: .5, mt: .5, borderRadius: 2, backgroundColor: '#D9E4EC' }}>
                     <Box sx={{ py: .5, pl: 1.5, display: 'flex' }}>
 
@@ -206,15 +216,13 @@ const ViewAllTask = ({ setviewAllTask, taskTableCount }) => {
 
                     </Box>
                     <Box sx={{ flexGrow: 'right', display: 'flex', mt: 4, mr: 1 }}>
-
-                        <Box sx={{ borderRadius: 1, width: 40, mb: 1, mt: 2, bgcolor: '#EBEFEE', border: 1, borderColor: '#7CB7AF' }}></Box>
                         <Box sx={{ pl: .3, mt: 1.5, }}>
-                            <Typography sx={{ pl: .5, fontWeight: 500, color: '#003B73', pt: .5 }}>subtask</Typography>
+                            <CircleIcon sx={{ color: '#D8CEE6' }} />subtask&nbsp;&nbsp;
                         </Box>
                     </Box>
                 </Box>
                 {tabledata.length !== 0 ?
-                    <Paper variant="outlined" sx={{ flex: 1, overflow: 'auto', m: 1, }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 620, flex: 1, overflow: 'auto', m: 1, }}>
 
                         <CssVarsProvider>
                             <Table padding={"none"} stickyHeader
@@ -222,15 +230,16 @@ const ViewAllTask = ({ setviewAllTask, taskTableCount }) => {
                                 <thead>
                                     <tr>
 
-                                        <th style={{ width: 50, fontFamily: 'Georgia' }}>SlNo</th>
+                                        <th style={{ width: 50, fontFamily: 'Georgia' }}>#</th>
                                         <th style={{ width: 60, fontFamily: 'Georgia' }}>View</th>
-                                        <th style={{ width: 90, fontFamily: 'Georgia' }}>Status</th>
+                                        <th style={{ width: 100, fontFamily: 'Georgia' }}>Status</th>
                                         <th style={{ width: 150, fontFamily: 'Georgia' }}>Task name</th>
                                         <th style={{ width: 250, fontFamily: 'Georgia' }}>Department</th>
                                         <th style={{ width: 250, fontFamily: 'Georgia' }}>Section</th>
                                         <th style={{ width: 180, fontFamily: 'Georgia' }}>Assignee</th>
-                                        <th style={{ width: 100, fontFamily: 'Georgia' }}>Due date</th>
-                                        <th style={{ width: 300, fontFamily: 'Georgia' }}>Description</th>
+                                        <th style={{ width: 130, fontFamily: 'Georgia' }}>Created date</th>
+                                        <th style={{ width: 130, fontFamily: 'Georgia' }}>Due date</th>
+                                        <th style={{ width: 350, fontFamily: 'Georgia' }}>Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -238,11 +247,7 @@ const ViewAllTask = ({ setviewAllTask, taskTableCount }) => {
                                         return (
                                             <tr key={index}
                                                 style={{
-                                                    height: 8, background: val.main_task_slno !== null ? '#EBEFEE' : val.main_task_slno === 0 ? '#EBEFEE' : 'transparent',
-
-                                                    // key={index}
-                                                    // sx={{
-                                                    '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
+                                                    height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent',
                                                     minHeight: 5
                                                 }}
                                             >
@@ -254,14 +259,20 @@ const ViewAllTask = ({ setviewAllTask, taskTableCount }) => {
                                                 </td>
                                                 <td
                                                     style={{
-                                                        color: val.tm_task_status === null ? '#5F093D' : val.tm_task_status === 0 ? '#5F093D'
-                                                            : val.tm_task_status === 1 ? 'green' : 'transparent', minHeight: 5
+                                                        color: val.tm_task_status === null ? '#311E26'
+                                                            : val.tm_task_status === 0 ? '#311E26'
+                                                                : val.tm_task_status === 1 ? '#94C973'
+                                                                    : val.tm_task_status === 2 ? '#EFD593'
+                                                                        : val.tm_task_status === 3 ? '#747474'
+                                                                            : val.tm_task_status === 4 ? '#5885AF'
+                                                                                : 'transparent', minHeight: 5
                                                     }}>{val.TaskStatus}</td>
                                                 <td> {val.tm_task_name || 'not given'}</td>
                                                 <td> {val.dept_name || 'not given'}</td>
                                                 <td> {val.sec_name || 'not given'}</td>
                                                 <td> {val.em_name || 'not given'}</td>
-                                                <td> {val.tm_task_due_date || 'not given'}</td>
+                                                <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )

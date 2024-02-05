@@ -178,7 +178,7 @@ const ProjectMasterDept = () => {
 
     return (
 
-        <Paper sx={{ width: '100%', bgcolor: '#F2F1F0', height: window.innerHeight }}>
+        <Paper sx={{ width: '100%', bgcolor: '#F2F1F0', height: '100%' }}>
             <Box sx={{ height: 35, backgroundColor: '#D9E4EC', display: 'flex' }}>
                 <Box sx={{ fontWeight: 600, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Create Project</Box>
                 <Box><CusIconButton size="sm" variant="outlined" color="primary" >
@@ -193,17 +193,17 @@ const ProjectMasterDept = () => {
                 <Box sx={{ flex: 1.5 }}>
                     <Box sx={{ mt: 2, pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 40, pt: 1.5, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Project
+                            Project*&nbsp;:
                         </Typography>
                     </Box>
-                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 30, pt: .8, fontFamily: 'Georgia', }}>
+                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 30, pt: .8, mt: 1.5, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Goal
+                            Goal&nbsp;:
                         </Typography>
                     </Box>
                     <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .8, height: 30, pt: .5, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Department Section
+                            Department Section&nbsp;:
                         </Typography>
                     </Box>
                     {/* <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: .5, fontFamily: 'Georgia', }}>
@@ -214,12 +214,12 @@ const ProjectMasterDept = () => {
 
                     <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .8, height: 30, pt: .8, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Due date
+                            Due date&nbsp;:
                         </Typography>
                     </Box>
                     <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 35, pt: .5, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Description
+                            Description&nbsp;:
                         </Typography>
                     </Box>
                 </Box>
@@ -229,13 +229,14 @@ const ProjectMasterDept = () => {
                             <Textarea
                                 type="text"
                                 size="sm"
-                                placeholder="Project*"
+                                placeholder="Project"
                                 variant="outlined"
                                 name="tm_project_name"
                                 value={tm_project_name}
-                                maxRows={1}
+                                minRows={2}
+                                maxRows={2}
                                 onChange={(e) => ProjectMastUpdate(e)}
-                                sx={{ fontSize: 22, color: '#05445E', }}
+                                sx={{ fontSize: 15, color: '#05445E', }}
                             ></Textarea>
                         </CssVarsProvider>
                     </Box>
@@ -263,7 +264,7 @@ const ProjectMasterDept = () => {
                     </Box> */}
                     <Box sx={{ pt: .3 }}>
                         <TextFieldCustom
-                            type="date"
+                            type="datetime-local"
                             size="sm"
                             name="tm_project_duedate"
                             value={tm_project_duedate}

@@ -3,12 +3,12 @@ import { Box, CssVarsProvider, Table } from '@mui/joy'
 import { Paper } from '@mui/material'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useSelector } from 'react-redux';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import EditIcon from '@mui/icons-material/Edit';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ViewTaskImage from '../TaskCreationOuter/ViewTaskImage';
-import TaskStatusModal from './TaskStatusModal';
 import moment from 'moment';
+import ModalEditTask from '../CreateTask/ModalEditTask';
 const OverDueTable = () => {
     const [tableData, setTableData] = useState([])
     const [masterData, setMasterData] = useState([])
@@ -98,10 +98,10 @@ const OverDueTable = () => {
                     setimageViewModalOpen(true);
                     setSelectedImages(val);
                 } else {
-                    warningNotify("No Task Image attached");
+                    warningNotify("No Image attached");
                 }
             } else {
-                warningNotify("No Task image attached");
+                warningNotify("No Image attached");
             }
         } catch (error) {
             warningNotify('Error in fetching files:', error);
@@ -110,75 +110,77 @@ const OverDueTable = () => {
     return (
         <Box>
             {viewOverDue === 1 ?
-                <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '80%' }}>
-                    {editModalFlag === 1 ?
-                        // <ModalEditTask open={editModalOpen} masterData={masterData} setEditModalOpen={setEditModalOpen}
-                        //     setEditModalFlag={setEditModalFlag}
-                        //     tableCount={tableCount} setTableCount={setTableCount}
-                        // />
-                        <TaskStatusModal open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
-                            setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount} />
-                        : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
-                            selectedImages={selectedImages} getarry={getarry} /> : null}
-                    <CssVarsProvider>
+                <Box variant="outlined" sx={{ height: 490, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 480, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
+                        {editModalFlag === 1 ?
+                            <ModalEditTask open={editModalOpen} masterData={masterData} setEditModalOpen={setEditModalOpen}
+                                setEditModalFlag={setEditModalFlag}
+                                tableCount={tableCount} setTableCount={setTableCount}
+                            />
+                            // <TaskStatusModal open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
+                            //     setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount} />
+                            :
+                            image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
+                                selectedImages={selectedImages} getarry={getarry} /> : null}
 
-                        <Table padding={"none"} stickyHeader
-                            hoverRow>
-                            <thead >
-                                <tr >
-                                    <th style={{ width: 50, alignItems: 'center' }}>SlNo</th>
-                                    <th style={{ width: 75 }}>Action</th>
-                                    <th style={{ width: 55 }}>View</th>
+                        <CssVarsProvider>
 
-                                    <th style={{ width: 250 }}>Task name</th>
-                                    {/* <th style={{ minWidth: 150 }}>Department</th>
+                            <Table padding={"none"} stickyHeader
+                                hoverRow>
+                                <thead >
+                                    <tr >
+                                        <th style={{ width: 50, alignItems: 'center' }}>#</th>
+                                        <th style={{ width: 75 }}>Action</th>
+                                        <th style={{ width: 55 }}>View</th>
+                                        <th style={{ width: 200 }}>Task name</th>
+                                        {/* <th style={{ minWidth: 150 }}>Department</th>
                             <th style={{ minWidth: 150 }}>Section</th> */}
-                                    <th style={{ minWidth: 150 }}>Assignee</th>
-                                    <th style={{ minWidth: 60 }}>Due date</th>
-                                    <th style={{ minWidth: 250 }}>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {tableData?.map((val, index) => {
-                                    return (
-                                        <tr key={index}
-                                            style={{
-                                                height: 8, background: val.main_task_slno !== null ? '#EBEFEE' : val.main_task_slno === 0 ? '#EBEFEE' : 'transparent',
-                                                minHeight: 5
-                                            }}
-                                        >
-                                            <td> {index + 1}</td>
-                                            <td>
-                                                <CheckCircleOutlineIcon
-                                                    sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
-                                                />
-                                            </td>
-                                            <td style={{ cursor: 'pointer', }}>
-                                                <ImageOutlinedIcon style={{ color: '#41729F' }}
-                                                    onClick={() => fileView(val)} />
-                                            </td>
+                                        <th style={{ minWidth: 100 }}>Assignee</th>
+                                        <th style={{ width: 110 }}>Created Date</th>
+                                        <th style={{ minWidth: 100 }}>Due date</th>
+                                        <th style={{ minWidth: 250 }}>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {tableData?.map((val, index) => {
+                                        return (
+                                            <tr key={index}
+                                                style={{ height: 8, background: val.main_task_slno !== null ? '#D8CEE6' : val.main_task_slno === 0 ? '#D8CEE6' : 'transparent', minHeight: 5 }}>
+                                                <td> {index + 1}</td>
+                                                <td>
+                                                    <EditIcon
+                                                        sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                    />
+                                                </td>
+                                                <td style={{ cursor: 'pointer', }}>
+                                                    <ImageOutlinedIcon style={{ color: '#41729F' }}
+                                                        onClick={() => fileView(val)} />
+                                                </td>
 
-                                            <td> {val.tm_task_name || 'not given'}</td>
-                                            <td> {val.em_name || 'not given'}</td>
-                                            {/* <td> {val.sec_name || 'not given'}</td> */}
-                                            {/* <td> eg</td> */}
-                                            <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
-                                            <td> {val.tm_task_description || 'not given'}</td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </Table>
-                    </CssVarsProvider>
-                </Paper>
-
+                                                <td> {val.tm_task_name || 'not given'}</td>
+                                                <td> {val.em_name || 'not given'}</td>
+                                                {/* <td> {val.sec_name || 'not given'}</td> */}
+                                                {/* <td> eg</td> */}
+                                                <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td> {val.tm_task_description || 'not given'}</td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </Table>
+                        </CssVarsProvider>
+                    </Paper>
+                </Box>
                 : <Box>
-                    <Box sx={{ textAlign: 'center', mt: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
+                    <Box sx={{
+                        textAlign: 'center', pt: 20, fontWeight: 700, fontSize: 30, color: '#C7C8CB', height: 480, maxWidth: '100%',
+                    }}>
                         No dues!
                     </Box>
 
                 </Box>}
-        </Box>
+        </Box >
     )
 }
 

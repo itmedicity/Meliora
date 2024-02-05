@@ -5,15 +5,17 @@ import Avatar from '@mui/joy/Avatar';
 import { Paper, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
-import TaskStatusModal from './TaskStatusModal';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import moment from 'moment';
+import EmpTaskStatus from '../EmployeeTaskList/EmpTaskStatus';
+
 
 const TmEmployeeTaskView = ({ tableCount, setTableCount, setemployeeTaskFlag, tableDataEmployee, empTaskHeading }) => {
 
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [editModalFlag, setEditModalFlag] = useState(0)
     const [masterData, setMasterData] = useState([])
+
 
 
     const history = useHistory()
@@ -30,6 +32,8 @@ const TmEmployeeTaskView = ({ tableCount, setTableCount, setemployeeTaskFlag, ta
         // setimage(0)
         setMasterData(value)
     }, [])
+
+
     return (
         <Box>
             <CardMasterClose
@@ -61,21 +65,29 @@ const TmEmployeeTaskView = ({ tableCount, setTableCount, setemployeeTaskFlag, ta
                     </Box>
                     <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: 1, maxHeight: '80%' }}>
                         {editModalFlag === 1 ?
-                            <TaskStatusModal open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
-                                setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount} />
-
+                            // <TaskStatusModal open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
+                            //     setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount} />
+                            // <ModalEditTask open={editModalOpen} masterData={masterData} setEditModalOpen={setEditModalOpen}
+                            //     setEditModalFlag={setEditModalFlag}
+                            //     tableCount={tableCount} setTableCount={setTableCount}
+                            // />
+                            <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
+                                setEditModalFlag={setEditModalFlag}
+                                tableCount={tableCount} setTableCount={setTableCount}
+                            />
                             : null}
                         <CssVarsProvider>
                             <Table padding={"none"} stickyHeader
                                 hoverRow>
                                 <thead>
                                     <tr >
-                                        <th style={{ width: 40 }}>SlNo</th>
+                                        <th style={{ width: 40 }}>#</th>
                                         <th style={{ width: 50 }}>Action</th>
                                         <th style={{ width: 200 }}>Task Name</th>
                                         {/* <th style={{ width: 150 }}>Department</th>
                                         <th style={{ width: 150 }}>Section</th> */}
                                         <th style={{ width: 200 }}>Assignee</th>
+                                        <th style={{ width: 100 }}>Created Date</th>
                                         <th style={{ width: 100 }}>Due date</th>
                                         <th style={{ width: 250 }}>Description</th>
                                     </tr>
@@ -85,11 +97,7 @@ const TmEmployeeTaskView = ({ tableCount, setTableCount, setemployeeTaskFlag, ta
                                         return (
                                             <tr
                                                 key={index}
-                                                sx={{
-                                                    '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
-                                                    minHeight: 5
-                                                }}
-                                            >
+                                                style={{ height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent', minHeight: 5 }}>
                                                 <td> {index + 1}</td>
                                                 <td>
                                                     <CheckCircleOutlineIcon
@@ -100,6 +108,7 @@ const TmEmployeeTaskView = ({ tableCount, setTableCount, setemployeeTaskFlag, ta
                                                 {/* <td> {val.dept_name || 'not given'}</td>
                                                 <td> {val.sec_name || 'not given'}</td> */}
                                                 <td> {val.em_name || 'not given'}</td>
+                                                <td> {moment(val.create_date).format('DD-MM-YYYY') || 'not given'}</td>
                                                 <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
                                                 <td> {val.tm_task_description || 'not given'}</td>
                                             </tr>

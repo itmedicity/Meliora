@@ -9,49 +9,13 @@ import TmDepartmentSelectSubTask from 'src/views/CommonSelectCode/TmDepartmentSe
 import TmDeptSectionSubtask from 'src/views/CommonSelectCode/TmDeptSectionSubtask'
 import TmMultEmpSelectUnderDeptSec from 'src/views/CommonSelectCode/TmMultEmpSelectUnderDeptSec'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-// import imageCompression from 'browser-image-compression';
-import CusCheckBox from 'src/views/Components/CusCheckBox'
-const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag, }) => {
+
+const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag, tm_project_slno }) => {
 
 
     const [departmentSubTask, setdepartmentSubTask] = useState(0)
     const [departmentSecSubTask, setdepartmentSecSubTask] = useState(0)
     const [employeeSubTask, setEmployeeSubTask] = useState([])
-    // const [subtaskFile, setSubtaskFile] = useState([]);
-
-    const [completed, setCompleted] = useState(false)
-    const [onProgress, setOnProgress] = useState(false)
-    const [checkFlag, setcheckFlag] = useState(0)
-
-
-    const ChangeCompleted = useCallback((e) => {
-        if (e.target.checked === true) {
-            setCompleted(true)
-            setOnProgress(false)
-            setcheckFlag(1)
-        }
-        else {
-            setCompleted(false)
-            setOnProgress(false)
-            setcheckFlag(0)
-
-        }
-    }, [])
-    const ChangeOnProgress = useCallback((e) => {
-
-        if (e.target.checked === true) {
-            setCompleted(false)
-            setOnProgress(true)
-            setcheckFlag(2)
-        }
-        else {
-            setCompleted(false)
-            setOnProgress(false)
-            setcheckFlag(0)
-
-        }
-    }, [])
-
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -67,10 +31,10 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
         tm_subtask_dept_sec: '',
         tm_subtask_duedate: '',
         tm_subtask_description: '',
-        // tm_task_status: false,
+        tm_task_status: 0,
         main_task_slno: ''
     })
-    const { tm_subtask_name, tm_subtask_duedate, tm_subtask_description, } = subTaskMast
+    const { tm_subtask_name, tm_subtask_duedate, tm_subtask_description, tm_task_status } = subTaskMast
     const SubTaskUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -87,7 +51,8 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
             tm_task_dept_sec: departmentSecSubTask === 0 ? null : departmentSecSubTask,
             tm_task_due_date: tm_subtask_duedate === '' ? null : tm_subtask_duedate,
             tm_task_description: tm_subtask_description === '' ? null : tm_subtask_description,
-            tm_task_status: checkFlag,
+            tm_task_status: tm_task_status,
+            tm_project_slno: tm_project_slno,
             create_user: id,
         }
     }, [
@@ -97,67 +62,26 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
         departmentSecSubTask,
         tm_subtask_duedate,
         tm_subtask_description,
-        checkFlag,
+        tm_task_status,
+        tm_project_slno,
         id,
     ])
-
-    // const handleSubTaskFile = useCallback((e) => {
-    //     const newSubFiles = [...subtaskFile]
-    //     newSubFiles.push(e.target.files[0])
-    //     setSubtaskFile(newSubFiles)
-    // }, [subtaskFile, setSubtaskFile])
-    // const handleImageUpload = useCallback(async (imageFile) => {
-    //     const options = {
-    //         maxSizeMB: 1,
-    //         maxWidthOrHeight: 1920,
-    //         useWebWorker: true,
-    //     }
-    //     const compressedFile = await imageCompression(imageFile, options)
-    //     return compressedFile
-    // }, []);
 
     const addSubTaskData = useCallback((e) => {
         e.preventDefault()
         const InsertMastSubTask = async (insertMastSubTask) => {
             const result = await axioslogin.post('/taskManagement/insertSubTask', insertMastSubTask)
             return result.data
-
         }
         const InsertSubTaskDetail = async (insertSubTaskDetail) => {
             const result = await axioslogin.post('/taskManagement/insertSubtaskDetail', insertSubTaskDetail)
             return result.data
         }
-        // const InsertSubfile = async (subtaskFile, insertId) => {
 
-        //     try {
-        //         const formData = new FormData();
-        //         formData.append('id', insertId);
-
-        //         for (const file of subtaskFile) {
-        //             if (file.type.startsWith('image')) {
-        //                 const compressedFile = await handleImageUpload(file);
-        //                 formData.append('files', compressedFile, compressedFile.name);
-        //             } else {
-        //                 formData.append('files', file, file.name);
-        //             }
-        //         }
-        //         // Use the Axios instance and endpoint that matches your server setup
-        //         const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
-        //             headers: {
-        //                 'Content-Type': 'multipart/form-data',
-        //             },
-        //         });
-        //         return uploadResult.data;
-        //     } catch (error) {
-        //         warningNotify('An error occurred during file upload.');
-        //     }
-        // };
         if (tm_subtask_name !== '') {
             InsertMastSubTask(insertMastSubTask).then((value) => {
                 const { message, success, insertId } = value
                 if (success === 1) {
-                    // setInsertsubId(insertId)
-                    //check employee assigned
                     if (employeeSubTask.length !== 0) {
                         const insertSubTaskDetail = employeeSubTask && employeeSubTask.map((val) => {
                             return {
@@ -170,26 +94,9 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
                         InsertSubTaskDetail(insertSubTaskDetail).then((value) => {
                             const { message, success } = value
                             if (success === 1) {
-                                // if (subtaskFile.length !== 0) {
-                                //     InsertSubfile(subtaskFile, insertId).then((value) => {
-                                //         const { success } = value
-                                //         if (success === 1) {
-                                //             succesNotify("Task Created with file attach Successfully")
-                                //             settaskTableCount(taskTableCount + 1)
-                                //             setflag(0)
-
-
-                                //         }
-                                //         else {
-                                //             warningNotify(message)
-                                //         }
-                                //     })
-                                // }
-                                // else {
                                 succesNotify("SubTask Created Successfully")
                                 settaskTableCount(taskTableCount + 1)
                                 setflag(0)
-                                // }
                             }
                             else {
                                 warningNotify(message)
@@ -198,30 +105,9 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
                     }
                     // No employee assined
                     else {
-                        //file attached check
-
-
-                        // if (subtaskFile.length !== 0) {
-                        //     InsertSubfile(subtaskFile, insertId).then((value) => {
-                        //         const { success, message } = value
-                        //         if (success === 1) {
-                        //             succesNotify("Subtask Created with file attach Successfully")
-                        //             settaskTableCount(taskTableCount + 1)
-                        //             setflag(0)
-
-                        //         }
-                        //         else {
-                        //             warningNotify(message)
-                        //         }
-                        //     })
-                        // }
-                        //No file
-                        // else {
                         succesNotify("SubTask Created Successfully")
                         settaskTableCount(taskTableCount + 1)
                         setflag(0)
-
-                        // }
                     }
 
                 }
@@ -233,34 +119,25 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
             infoNotify('please enter task name')
         }
     }, [insertMastSubTask,
-        // setInsertsubId,
         setflag,
-        // subtaskFile,
         taskTableCount, id, settaskTableCount, tm_subtask_name, employeeSubTask,
-        // handleImageUpload
     ])
-    // const handleSubTaskRemove = (index) => {
-    //     setSubtaskFile((prevFiles) => {
-    //         const updatedFiles = [...prevFiles];
-    //         updatedFiles.splice(index, 1); // Remove the file at the specified index
-    //         return updatedFiles;
-    //     });
-    // };
+
     return (
-        <Box sx={{ bgcolor: '#F2F1F0' }} >
+        <Box sx={{ bgcolor: '#FEFCFF' }} >
             <Box>
                 <CssVarsProvider>
                     <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', mt: 2, fontFamily: 'Georgia' }}> Add Subtask</Divider>
                 </CssVarsProvider>
             </Box>
-            <Box sx={{ display: 'flex', bgcolor: '#F2F1F0' }}>
+            <Box sx={{ display: 'flex', bgcolor: '#FEFCFF' }}>
                 <Box sx={{ flex: 1, }}>
                     <Box sx={{ py: 1, pl: 2, fontSize: 15, mt: 1.5, display: 'flex', justifyContent: 'right', mr: 1, fontFamily: 'Georgia' }}>
                         <Typography sx={{ color: '#003B73' }}>
                             Task
                         </Typography>
                     </Box>
-                    <Box sx={{ mt: .5, pl: 2, fontSize: 15, py: .5, display: 'flex', justifyContent: 'right', mr: 1, fontFamily: 'Georgia' }}>
+                    <Box sx={{ mt: 2.5, pl: 2, fontSize: 15, py: .5, display: 'flex', justifyContent: 'right', mr: 1, fontFamily: 'Georgia' }}>
                         <Typography sx={{ color: '#003B73' }}>
                             Department
                         </Typography>
@@ -296,9 +173,10 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
                                 variant="outlined"
                                 name="tm_subtask_name"
                                 value={tm_subtask_name}
-                                maxRows={1}
+                                minRows={2}
+                                maxRows={2}
                                 onChange={(e) => SubTaskUpdate(e)}
-                                sx={{ fontSize: 20, color: '#05445E' }}
+                                sx={{ fontSize: 15, color: '#05445E' }}
                             ></Textarea>
                         </CssVarsProvider>
                     </Box>
@@ -326,7 +204,7 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
                     </Box>
                     <Box sx={{ pt: .3 }}>
                         <TextFieldCustom
-                            type="date"
+                            type="datetime-local"
                             size="sm"
                             name="tm_subtask_duedate"
                             value={tm_subtask_duedate}
@@ -349,7 +227,7 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
                             </Textarea>
                         </CssVarsProvider>
                     </Box>
-                    <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
+                    {/* <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                         <Box sx={{ pt: .5 }}>
                             <CusCheckBox
 
@@ -375,7 +253,11 @@ const AddSubTasks = ({ tm_task_slno, settaskTableCount, taskTableCount, setflag,
                             ></CusCheckBox>
                         </Box>
                         <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
-                    </Box>
+                    </Box> */}
+
+
+
+
                     {/* <Box sx={{
                         height: 50, mt: .5, border: 1, borderRadius: 1, borderStyle: 'dashed', display: 'flex',
                         borderColor: '#C2D2D9',

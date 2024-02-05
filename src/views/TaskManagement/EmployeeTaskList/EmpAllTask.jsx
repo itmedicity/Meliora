@@ -1,38 +1,34 @@
+import { Box, CssVarsProvider, Table } from '@mui/joy'
+import { Paper } from '@mui/material'
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { Box, CssVarsProvider, Table } from '@mui/joy/'
+import { useSelector } from 'react-redux'
+import EditIcon from '@mui/icons-material/Edit'
+import _ from 'underscore';
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
-import { Paper } from '@mui/material';
-import ModalEditTask from './ModalEditTask';
-import { useSelector } from 'react-redux';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import ViewTaskImage from '../TaskCreationOuter/ViewTaskImage';
 import moment from 'moment';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import EditIcon from '@mui/icons-material/Edit'
-const TaskMastTable = ({ tableCount, setTableCount }) => {
+import EmpTaskStatus from './EmpTaskStatus'
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import ViewTaskImage from '../TaskCreationOuter/ViewTaskImage'
 
+const EmpAllTask = ({ tableCount, setTableCount }) => {
     const [tabledata, setTabledata] = useState([])
-    const [masterData, setMasterData] = useState([])
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [editModalFlag, setEditModalFlag] = useState(0)
+    const [masterData, setMasterData] = useState([])
     const [getarry, setgetarry] = useState([])
     const [selectedImages, setSelectedImages] = useState([]);
     const [imageViewModalOpen, setimageViewModalOpen] = useState(false)
     const [image, setimage] = useState(0)
     const [imageUrls, setImageUrls] = useState([]);
-    const [Upcomingview, setUpComingView] = useState(0)
-
-    const empsecid = useSelector((state) => {
-        return state.LoginUserData.empsecid
-    })
+    const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
 
     useEffect(() => {
         const getMasterTable = async () => {
-            const result = await axioslogin.get(`/taskManagement/viewMasterTaskBySecid/${empsecid}`);
+            const result = await axioslogin.get(`/TmTableView/employeeAllTask/${id}`);
             const { success, data } = result.data;
-
             if (data.length !== 0) {
                 if (success === 2) {
                     const arry = data?.map((val) => {
@@ -53,24 +49,31 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                             tm_project_name: val.tm_project_name,
                             tm_pending_remark: val.tm_pending_remark,
                             tm_onhold_remarks: val.tm_onhold_remarks,
-                            tm_completed_remarks: val.tm_completed_remarks,
-                            create_date: val.create_date
+                            create_date: val.create_date,
+                            tm_completed_remarks: val.tm_completed_remarks
                         }
                         return obj
                     })
                     setTabledata(arry)
-                    setUpComingView(1)
+                    // setUpComingView(1)
                 } else {
                     warningNotify('error occured')
                 }
             }
             else {
-                setUpComingView(0)
+                // setUpComingView(0)
             }
         }
-        getMasterTable(empsecid)
-    }, [empsecid, tableCount])
+        getMasterTable(id)
+    }, [id, tableCount])
 
+    const rowSelectModal = useCallback((value) => {
+        setEditModalFlag(1)
+        setEditModalOpen(true)
+        setimageViewModalOpen(false)
+        setimage(0)
+        setMasterData(value)
+    }, [])
     const handleClose = useCallback(() => {
         setimage(0)
         setEditModalOpen(false)
@@ -78,7 +81,6 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
         setimageViewModalOpen(false)
         setImageUrls([])
     }, [setimageViewModalOpen, setEditModalOpen, setImageUrls, setimage])
-
     const fileView = async (val) => {
         const { tm_task_slno } = val;
         setgetarry(val);
@@ -113,38 +115,32 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
             warningNotify('Error in fetching files:', error);
         }
     }
-    const rowSelectModal = useCallback((value) => {
-        setEditModalFlag(1)
-        setEditModalOpen(true)
-        setimageViewModalOpen(false)
-        setimage(0)
-        setMasterData(value)
-    }, [])
+
     return (
-        <Box >
-            {editModalFlag === 1 ?
-                <ModalEditTask open={editModalOpen} masterData={masterData} setEditModalOpen={setEditModalOpen}
-                    setEditModalFlag={setEditModalFlag}
-                    tableCount={tableCount} setTableCount={setTableCount}
-                /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
-                    selectedImages={selectedImages} getarry={getarry} /> : null}
-            {Upcomingview === 1 ?
-                <Box variant="outlined" sx={{ height: 460, width: '100%', overflow: 'auto', mt: .5, }}>
-                    <Paper variant="outlined" sx={{ maxHeight: 450, width: '100%', overflow: 'auto', mt: .5, }}>
+        <Box>
+            {tabledata.length !== 0 ?
+                <Box sx={{ height: 570, }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 530, maxWidth: '100%', overflow: 'auto', m: .5 }}>
+                        {/* <Paper sx={{ m: 1, height: 500, overflow: 'auto' }}> */}
+                        {editModalFlag === 1 ?
+                            <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
+                                setEditModalFlag={setEditModalFlag}
+                                tableCount={tableCount} setTableCount={setTableCount}
+                            /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
+                                selectedImages={selectedImages} getarry={getarry} /> : null}
                         <CssVarsProvider>
                             <Table padding={"none"} stickyHeader
                                 hoverRow>
                                 <thead>
                                     <tr>
-                                        <th style={{ width: 40 }}>#</th>
-                                        <th style={{ width: 70 }}>Status</th>
-                                        <th style={{ width: 60 }} >Action</th>
-                                        <th style={{ width: 60 }}>View</th>
-                                        <th style={{ width: 200 }}>Task Name</th>
-                                        <th style={{ width: 120 }}>Project</th>
-                                        <th style={{ width: 170 }}>Assignee</th>
-                                        <th style={{ width: 120 }}>Created Date</th>
-                                        <th style={{ width: 120 }}> Due Date</th>
+                                        <th style={{ width: 30 }}>#</th>
+                                        <th style={{ width: 45 }}>Status</th>
+                                        <th style={{ width: 40 }} >Action</th>
+                                        <th style={{ width: 40 }}>View</th>
+                                        <th style={{ width: 150 }}>Task Name</th>
+                                        {/* <th style={{ width: 100 }}>Assignee</th> */}
+                                        <th style={{ width: 100 }}>Created Date</th>
+                                        <th style={{ width: 100 }}>Due Date</th>
                                         <th style={{ width: 300 }}>Task Description</th>
                                     </tr>
                                 </thead>
@@ -155,7 +151,6 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                                                 style={{ height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent', minHeight: 5 }}>
                                                 <td> {index + 1}</td>
                                                 <td>
-
                                                     <RadioButtonCheckedIcon sx={{
                                                         color: val.tm_task_status === null ? '#311E26'
                                                             : val.tm_task_status === 0 ? '#311E26'
@@ -178,8 +173,8 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                                                     />
                                                 </td>
                                                 <td> {val.tm_task_name || 'not given'}</td>
-                                                <td> {val.tm_project_name || 'not given'}</td>
-                                                <td> {val.em_name || 'not given'}</td>
+                                                {/* <td> {val.tm_project_name || 'not given'}</td> */}
+                                                {/* <td> {val.em_name || 'not given'}</td> */}
                                                 <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {val.tm_task_description || 'not given'}</td>
@@ -191,10 +186,11 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                         </CssVarsProvider>
                     </Paper>
                 </Box>
-                : <Box sx={{ textAlign: 'center', pt: 18, height: 450, fontWeight: 700, fontSize: 30, color: '#C7C8CB', }}>
-                    No Task Created UnderSection!
+                : <Box sx={{ textAlign: 'center', pt: 25, height: 500, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
+                    No Assigned Task
                 </Box>}
-        </Box >
+        </Box>
     )
 }
-export default memo(TaskMastTable)
+
+export default memo(EmpAllTask)
