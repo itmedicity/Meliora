@@ -64,8 +64,6 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setoverdueTaskFla
                     </Box>
                     <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: 1, maxHeight: '80%' }}>
                         {editModalFlag === 1 ?
-                            // <TaskStatusModal open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
-                            //     setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount} />
                             <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                 setEditModalFlag={setEditModalFlag}
                                 tableCount={tableCount} setTableCount={setTableCount}
@@ -79,8 +77,6 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setoverdueTaskFla
                                         <th style={{ width: 40 }}>#</th>
                                         <th style={{ width: 50 }}>Action</th>
                                         <th style={{ width: 200 }}>Task name</th>
-                                        {/* <th style={{ width: 150 }}>Department</th>
-                                        <th style={{ width: 150 }}>Section</th> */}
                                         <th style={{ width: 200 }}>Assignee</th>
                                         <th style={{ width: 100 }}>Created Date</th>
                                         <th style={{ width: 100 }}>Due date</th>
@@ -91,7 +87,7 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setoverdueTaskFla
                                     {tabledata?.map((val, index) => {
                                         return (
                                             <tr key={index}
-                                                style={{ height: 8, background: val.main_task_slno !== null ? '#D8CEE6' : val.main_task_slno === 0 ? '#D8CEE6' : 'transparent', minHeight: 5 }}>
+                                                style={{ height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent', minHeight: 5 }}>
                                                 <td> {index + 1}</td>
                                                 <td>
                                                     <CheckCircleOutlineIcon
@@ -99,12 +95,9 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setoverdueTaskFla
                                                     />
                                                 </td>
                                                 <td> {val.tm_task_name || 'not given'}</td>
-                                                {/* <td> {val.dept_name || 'not given'}</td>
-                                                <td> {val.sec_name || 'not given'}</td> */}
                                                 <td> {val.em_name || 'not given'}</td>
                                                 <td> {moment(val.create_date).format('DD-MM-YYYY') || 'not given'}</td>
                                                 <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
-                                                {/* <td> {val.tm_task_due_date || 'not given'}</td> */}
                                                 <td> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )

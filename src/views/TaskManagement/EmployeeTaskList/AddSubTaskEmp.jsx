@@ -9,14 +9,10 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tableRendering, }) => {
-
-
+const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tableRendering, tm_project_slno }) => {
 
     const [employeeSubTask, setEmployeeSubTask] = useState(0)
     const dispatch = useDispatch();
-    // const [checkFlagSub, setcheckFlagSub] = useState(0)
-
     const [subTaskMast, setSubTaskMast] = useState({
         tm_sub_task_slno: '',
         tm_subtask_name: '',
@@ -70,12 +66,12 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
             tm_pending_remark: tm_sub_pending_remark === '' ? null : tm_sub_pending_remark,
             tm_onhold_remarks: tm_sub_onhold_remarks === '' ? null : tm_sub_onhold_remarks,
             tm_completed_remarks: tm_sub_completed_remarks === '' ? null : tm_sub_completed_remarks,
-            tm_project_slno: projectz,
+            tm_project_slno: tm_project_slno,
             tm_task_status: tm_task_status,
             create_user: id,
         }
     }, [tm_task_slno, tm_subtask_name, empdept, empsecid, tm_subtask_duedate, tm_subtask_description, tm_task_status, tm_sub_completed_remarks, tm_sub_pending_remark,
-        projectz, tm_sub_onhold_remarks, id,])
+        tm_project_slno, tm_sub_onhold_remarks, id,])
 
 
 
@@ -136,16 +132,17 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
             <Box sx={{ display: 'flex', }}>
                 <Box sx={{ flex: 1, mr: 1 }}>
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>
-                        Subtask Name
+                        Subtask Name*
                     </Box>
                     <Textarea
                         type="text"
                         size="sm"
-                        placeholder="Subtask Name*"
+                        placeholder="Subtask Name"
                         variant="outlined"
                         name="tm_subtask_name"
                         value={tm_subtask_name}
-                        maxRows={1}
+                        minRows={2}
+                        maxRows={2}
                         onChange={(e) => SubTaskUpdate(e)}
                     ></Textarea>
                 </Box>
@@ -153,12 +150,16 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>
                         Department
                     </Box>
-                    <TextFieldCustom
+                    <Textarea
                         type="text"
+                        size="sm"
+                        variant="outlined"
                         name="secName"
                         value={secName}
-                        disabled>
-                    </TextFieldCustom>
+                        disabled
+                        minRows={2}
+                        maxRows={2}></Textarea>
+
                 </Box>
                 <Box sx={{ flex: 1, mr: 1 }}>
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>
@@ -176,6 +177,7 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                     <TextFieldCustom
                         type="datetime-local"
                         size="sm"
+                        style={{ minHeight: 51 }}
                         name="tm_subtask_duedate"
                         value={tm_subtask_duedate}
                         onchange={SubTaskUpdate}
@@ -190,15 +192,15 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                         size="sm"
                         placeholder="type here..."
                         variant="outlined"
-                        minRows={1}
-                        maxRows={3}
+                        minRows={2}
+                        maxRows={2}
                         name="tm_subtask_description"
                         value={tm_subtask_description}
                         onChange={(e) => SubTaskUpdate(e)}
                     >
                     </Textarea>
                 </Box>
-                <Box sx={{ flex: .1, pr: 1, pt: 3 }}>
+                <Box sx={{ flex: .1, pr: 1, pt: 4 }}>
                     <AddCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
                         onClick={addSubTaskData} />
                 </Box>

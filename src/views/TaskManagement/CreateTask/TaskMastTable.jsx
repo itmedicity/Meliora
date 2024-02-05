@@ -104,10 +104,10 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                     setimageViewModalOpen(true);
                     setSelectedImages(val);
                 } else {
-                    warningNotify("No Task Image attached");
+                    warningNotify("No Image attached");
                 }
             } else {
-                warningNotify("No Task image attached");
+                warningNotify("No Image Attached");
             }
         } catch (error) {
             warningNotify('Error in fetching files:', error);
@@ -152,15 +152,15 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                                     {tabledata?.map((val, index) => {
                                         return (
                                             <tr key={index}
-                                                style={{ height: 8, background: val.main_task_slno !== null ? '#D8CEE6' : val.main_task_slno === 0 ? '#D8CEE6' : 'transparent', minHeight: 5 }}>
+                                                style={{ height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent', minHeight: 5 }}>
                                                 <td> {index + 1}</td>
                                                 <td>
 
                                                     <RadioButtonCheckedIcon sx={{
                                                         color: val.tm_task_status === null ? '#311E26'
                                                             : val.tm_task_status === 0 ? '#311E26'
-                                                                : val.tm_task_status === 1 ? '#94C973'
-                                                                    : val.tm_task_status === 2 ? '#EFD593'
+                                                                : val.tm_task_status === 1 ? '#59981A'
+                                                                    : val.tm_task_status === 2 ? '#D37506'
                                                                         : val.tm_task_status === 3 ? '#747474'
                                                                             : val.tm_task_status === 4 ? '#5885AF'
                                                                                 : 'transparent', minHeight: 5
@@ -191,7 +191,7 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                         </CssVarsProvider>
                     </Paper>
                 </Box>
-                : <Box sx={{ textAlign: 'center', mt: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB', height: 400, }}>
+                : <Box sx={{ textAlign: 'center', pt: 18, height: 450, fontWeight: 700, fontSize: 30, color: '#C7C8CB', }}>
                     No Task Created UnderSection!
                 </Box>}
         </Box >

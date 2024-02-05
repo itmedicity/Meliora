@@ -1,8 +1,6 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import List from '@mui/joy/List';
 import ListDivider from '@mui/joy/ListDivider';
-import ListItem from '@mui/joy/ListItem';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import { Box, CssVarsProvider, } from '@mui/joy'
 import Avatar from '@mui/joy/Avatar';
 import RestartAltOutlinedIcon from '@mui/icons-material/RestartAltOutlined';
@@ -35,10 +33,7 @@ const EmpTaskDash = () => {
     const [employeeOnHold, setemployeeOnHold] = useState([])
     const [employeeOnPending, setemployeeOnPending] = useState([])
 
-
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-
-    // const em_name = useSelector((state) => state.LoginUserData.em_name, _.isEqual)
 
     const ViewEmpCompletedTask = useCallback((e) => {
         if (employeeeCompleted.length === 0) {
@@ -100,7 +95,6 @@ const EmpTaskDash = () => {
     }, [
         employeeOnHold
     ])
-
     const ViewOnPendingTask = useCallback((e) => {
         if (employeeOnPending.length === 0) {
             infoNotify('No Data')
@@ -114,13 +108,7 @@ const EmpTaskDash = () => {
         employeeOnPending
     ])
 
-
-
-
-
-
     useEffect(() => {
-
         const getOverDueEmpTable = async () => {
             const result = await axioslogin.get(`TmTableView/employeeOverDue/${id}`)
             const { data, success } = result.data
@@ -191,38 +179,199 @@ const EmpTaskDash = () => {
 
     }, [tableCount, id])
 
-
-
-
-
     return (
         employeeTaskFlag === 1 ? <EmpTaskView
             setemployeeTaskFlag={setemployeeTaskFlag} empTaskHeading={empTaskHeading}
             tableDataEmployee={tableDataEmployee} tableCount={tableCount} setTableCount={setTableCount}
         /> :
-            <Paper sx={{}}>
+            <Paper >
                 <Box sx={{ display: 'flex', borderBottom: .1, borderColor: '#C5C5C5' }}>
                     <Box sx={{ m: 1 }}><DashboardOutlinedIcon fontSize='medium' sx={{ color: '#262065' }} /></Box>
                     <Box sx={{ m: 1, color: '#262065' }}>My DashBoard</Box>
                 </Box>
-                {/* ?????////////////////// */}
-
-                <Box sx={{ display: 'flex' }}>
+                <Box sx={{ display: 'flex', overflow: 'auto', flex: 1, }}>
                     <Box sx={{
                         flex: 1,
                         m: .5,
                         borderRadius: 2,
-                        bgcolor: '#f4e8ff'
+                        bgcolor: '#f4e8ff',
+                        border: 1, borderColor: '#D396FF',
                     }}>
                         <CssVarsProvider>
+                            <Box sx={{ flex: 1, height: 10 }}></Box>
                             <List
-                                variant="outlined"
-                                sx={{ borderRadius: 'lg', border: .1, borderColor: '#D396FF', }}
+                                orientation="horizontal"
+                                variant="plain"
+                                sx={{
+                                    // '--ListItemDecorator-size': '48px',
+                                    // '--ListItem-paddingY': '1rem',
+                                    borderRadius: 'sm',
+                                }}
                             >
-                                <ListItem sx={{ color: '#5E376D', fontSize: 18, height: 55, fontWeight: 650 }}>
-                                    MY TASK
-                                </ListItem>
-                                <Box sx={{ maxHeight: 160, overflow: 'auto', }}>
+                                <Box sx={{ mx: 1, flex: 1 }}>
+                                    <Box sx={{ flex: 1, height: 20 }}></Box>
+                                    <Box sx={{ flex: 1, textAlign: 'center' }}>
+                                        <RestartAltOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />Over Due
+                                    </Box>
+                                    <Box sx={{ flex: 1, height: 20 }}></Box>
+                                    <Box sx={{ display: 'flex', height: 80, cursor: 'pointer', }}>
+                                        <Box sx={{ flex: 1 }}></Box>
+                                        <Box>
+                                            <Avatar
+                                                color="neutral"
+                                                size="sm"
+                                                variant="outlined"
+                                                sx={{ bgcolor: 'white', width: 50, height: 50, }}
+                                                onClick={(e) => {
+                                                    ViewEmpOverDueTask(e)
+                                                }}
+                                            >
+                                                <Box sx={{ fontSize: 30, color: '#341948', }}>
+                                                    {employeeOverDue.length}
+                                                </Box>
+                                            </Avatar>
+                                        </Box>
+                                        <Box sx={{ flex: 1 }}></Box>
+                                    </Box>
+                                </Box>
+                                <ListDivider sx={{ bgcolor: '#d1c4e9' }} inset="gutter" />
+                                <Box sx={{ flex: 1, mx: 1, }}>
+                                    <Box sx={{ flex: 1, height: 20 }}></Box>
+                                    <Box sx={{ flex: 1, textAlign: 'center' }}>
+                                        <RotateRightIcon sx={{ color: '#341948', width: 23, height: 23, }} />On Progress
+                                    </Box>
+                                    <Box sx={{ flex: 1, height: 20 }}></Box>
+                                    <Box sx={{ display: 'flex', height: 80, cursor: 'pointer', }}>
+                                        <Box sx={{ flex: 1 }}></Box>
+                                        <Box>
+                                            <Avatar
+                                                color="neutral"
+                                                size="sm"
+                                                variant="outlined"
+                                                sx={{ bgcolor: 'white', width: 50, height: 50, }}
+                                                onClick={(e) => {
+                                                    ViewEmpOnProgressTask(e)
+                                                }}
+                                            >
+                                                <Box sx={{ fontSize: 30, color: '#341948', }}>
+                                                    {employeeOnProgress.length}
+                                                </Box>
+                                            </Avatar>
+                                        </Box>
+                                        <Box sx={{ flex: 1 }}></Box>
+                                    </Box>
+                                </Box>
+                                <ListDivider sx={{ bgcolor: '#d1c4e9' }} inset="gutter" />
+                                <Box sx={{ flex: 1, mx: 1, }}>
+                                    <Box sx={{ flex: 1, height: 20 }}></Box>
+                                    <Box sx={{ flex: 1, textAlign: 'center' }}>
+                                        <LockResetIcon sx={{ color: '#341948', width: 23, height: 23, }} />On Hold
+                                    </Box>
+                                    <Box sx={{ flex: 1, height: 20 }}></Box>
+                                    <Box sx={{ display: 'flex', height: 80, cursor: 'pointer', }}>
+                                        <Box sx={{ flex: 1 }}></Box>
+                                        <Box>
+                                            <Avatar
+                                                color="neutral"
+                                                size="sm"
+                                                variant="outlined"
+                                                sx={{ bgcolor: 'white', width: 50, height: 50, }}
+                                                onClick={(e) => {
+                                                    ViewOnHoldTask(e)
+                                                }}
+                                            >
+                                                <Box sx={{ fontSize: 30, color: '#341948', }}>
+                                                    {employeeOnHold.length}
+                                                </Box>
+                                            </Avatar>
+                                        </Box>
+                                        <Box sx={{ flex: 1 }}></Box>
+                                    </Box>
+                                </Box>
+                                <ListDivider sx={{ bgcolor: '#d1c4e9' }} inset="gutter" />
+                                <Box sx={{ flex: 1, mx: 1, }}>
+                                    <Box sx={{ flex: 1, height: 20 }}></Box>
+                                    <Box sx={{ flex: 1, textAlign: 'center' }}>
+                                        <RunningWithErrorsIcon sx={{ color: '#341948', width: 23, height: 23, }} />Pending
+                                    </Box>
+                                    <Box sx={{ flex: 1, height: 20 }}></Box>
+                                    <Box sx={{ display: 'flex', height: 80, cursor: 'pointer', }}>
+                                        <Box sx={{ flex: 1 }}></Box>
+                                        <Box>
+                                            <Avatar
+                                                color="neutral"
+                                                size="sm"
+                                                variant="outlined"
+                                                sx={{ bgcolor: 'white', width: 50, height: 50, }}
+                                                onClick={(e) => {
+                                                    ViewOnPendingTask(e)
+
+                                                }}
+                                            >
+                                                <Box sx={{ fontSize: 30, color: '#341948', }}>
+                                                    {employeeOnPending.length}
+                                                </Box>
+                                            </Avatar>
+                                        </Box>
+                                        <Box sx={{ flex: 1 }}></Box>
+                                    </Box>
+                                </Box>
+                                <ListDivider sx={{ bgcolor: '#d1c4e9' }} inset="gutter" />
+                                <Box sx={{ flex: 1, mx: 1, }}>
+                                    <Box sx={{ flex: 1, height: 20 }}></Box>
+                                    <Box sx={{ flex: 1, textAlign: 'center' }}>
+                                        <DataUsageIcon sx={{ color: '#341948', width: 23, height: 23, }} />In Completed
+                                    </Box>
+                                    <Box sx={{ flex: 1, height: 20 }}></Box>
+                                    <Box sx={{ display: 'flex', height: 80, cursor: 'pointer', }}>
+                                        <Box sx={{ flex: 1 }}></Box>
+                                        <Box>
+                                            <Avatar
+                                                color="neutral"
+                                                size="sm"
+                                                variant="outlined"
+                                                sx={{ bgcolor: 'white', width: 50, height: 50, }}
+                                                onClick={(e) => {
+                                                    ViewEmpInCompletedTask(e)
+                                                }}
+                                            >
+                                                <Box sx={{ fontSize: 30, color: '#341948', }}>
+                                                    {employeeInComplete.length}
+                                                </Box>
+                                            </Avatar>
+                                        </Box>
+                                        <Box sx={{ flex: 1 }}></Box>
+                                    </Box>
+                                </Box>
+                                <ListDivider sx={{ bgcolor: '#d1c4e9' }} inset="gutter" />
+                                <Box sx={{ flex: 1, mx: 1, }}>
+                                    <Box sx={{ flex: 1, height: 20 }}></Box>
+                                    <Box sx={{ flex: 1, textAlign: 'center' }}>
+                                        <CheckCircleOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />Completed
+                                    </Box>
+                                    <Box sx={{ flex: 1, height: 20 }}></Box>
+                                    <Box sx={{ display: 'flex', height: 80, cursor: 'pointer', }}>
+                                        <Box sx={{ flex: 1 }}></Box>
+                                        <Box>
+                                            <Avatar
+                                                color="neutral"
+                                                size="sm"
+                                                variant="outlined"
+                                                sx={{ bgcolor: 'white', width: 50, height: 50, }}
+                                                onClick={(e) => {
+                                                    ViewEmpCompletedTask(e)
+                                                }}
+                                            >
+                                                <Box sx={{ fontSize: 30, color: '#341948', }}>
+                                                    {employeeeCompleted.length}
+                                                </Box>
+                                            </Avatar>
+                                        </Box>
+                                        <Box sx={{ flex: 1 }}></Box>
+                                    </Box>
+                                </Box>
+
+                                {/* <Box sx={{ maxHeight: 160, overflow: 'auto', }}>
                                     <ListDivider inset='gutter' />
                                     <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
                                         onClick={(e) => {
@@ -240,9 +389,9 @@ const EmpTaskDash = () => {
                                         </ListItemDecorator>
                                         Overdue
                                         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 22, fontWeight: 700, pr: 1, }}>
-                                            {/* <Box sx={{ cursor: 'pointer', width: 35, color: '#341948', border: 1, borderRadius: 15, borderColor: '#5E376D', }}> */}
-                                            {employeeOverDue.length}
-                                            {/* </Box> */}
+                                            <Box sx={{ cursor: 'pointer', width: 35, color: '#341948', border: 1, borderRadius: 15, borderColor: '#5E376D', }}>
+                                                {employeeOverDue.length}
+                                            </Box>
 
                                         </Box>
                                     </ListItem>
@@ -348,16 +497,14 @@ const EmpTaskDash = () => {
                                             {employeeeCompleted.length}
                                         </Box>
                                     </ListItem>
-                                </Box>
+                                </Box> */}
                             </List>
+                            <Box sx={{ flex: 1, height: 10 }}></Box>
                         </CssVarsProvider>
                     </Box >
-                    <Box sx={{ flex: 2 }}></Box>
                 </Box>
-
-
-                <Box sx={{ mt: .3, mx: .5, border: 1, borderRadius: 2, borderColor: '#D396FF', p: .5, }}>
-                    <Box sx={{ border: 1, borderRadius: 4, p: .5, borderColor: '#D9E4EC', bgcolor: '', display: 'flex' }}>
+                <Box sx={{ mx: .5, border: 1, borderRadius: 2, borderColor: '#D396FF', p: .5, }}>
+                    <Box sx={{ border: 1, borderRadius: 4, p: .5, borderColor: '#D9E4EC', bgcolor: '#EAEFF4', display: 'flex' }}>
                         <CssVarsProvider>
                             <Avatar
                                 color="neutral"
@@ -366,25 +513,20 @@ const EmpTaskDash = () => {
                             >
                                 <AccountTreeIcon sx={{ fontSize: 23 }} />
                             </Avatar>
-
                         </CssVarsProvider>
                         <Box>
-                            {/* {em_name} */}
                         </Box>
                         <Box sx={{ pt: 1.5, pl: .5, fontWeight: 600, flex: 1, }}>
                             MY TASK
-
                         </Box>
-                        <Box sx={{ display: 'flex', flex: 2, mt: 1, pt: 2, justifyContent: 'flex-end', color: '#274472' }}>
-
+                        <Box sx={{ display: 'flex', flex: 2, mt: .5, pt: 2, justifyContent: 'flex-end', color: '#274472' }}>
                             {/* <RadioButtonCheckedIcon sx={{ color: '#BA0F30' }} />OverDue&nbsp;&nbsp;&nbsp;&nbsp; */}
-                            <RadioButtonCheckedIcon sx={{ color: '#EFD593' }} />On Progress&nbsp;&nbsp;&nbsp;&nbsp;
+                            <RadioButtonCheckedIcon sx={{ color: '#D37506' }} />On Progress&nbsp;&nbsp;&nbsp;&nbsp;
                             <RadioButtonCheckedIcon sx={{ color: '#747474' }} />On Hold&nbsp;&nbsp;&nbsp;&nbsp;
                             <RadioButtonCheckedIcon sx={{ color: '#5885AF' }} />On Pending&nbsp;&nbsp;&nbsp;&nbsp;
-                            <RadioButtonCheckedIcon sx={{ color: '#8E7161' }} />In Completed&nbsp;&nbsp;&nbsp;&nbsp;
-                            <RadioButtonCheckedIcon sx={{ color: '#94C973' }} />Completed&nbsp;&nbsp;
+                            <RadioButtonCheckedIcon sx={{ color: '#311E26' }} />In Completed&nbsp;&nbsp;&nbsp;&nbsp;
+                            <RadioButtonCheckedIcon sx={{ color: '#59981A' }} />Completed&nbsp;&nbsp;
                             <CircleIcon sx={{ color: '#D8CEE6' }} />subtask&nbsp;&nbsp;
-
                         </Box>
                     </Box>
                     <EmpAllTask tableCount={tableCount} setTableCount={setTableCount} />

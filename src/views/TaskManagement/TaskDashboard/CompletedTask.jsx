@@ -89,10 +89,10 @@ const CompletedTask = ({ tableCount }) => {
                     setimageViewModalOpen(true);
                     setSelectedImages(val);
                 } else {
-                    warningNotify("No Task Image attached");
+                    warningNotify("No Image attached");
                 }
             } else {
-                warningNotify("No Task image attached");
+                warningNotify("No Image attached");
             }
         } catch (error) {
             warningNotify('Error in fetching files:', error);
@@ -136,8 +136,8 @@ const CompletedTask = ({ tableCount }) => {
                                                 </td>
                                                 <td> {val.tm_task_name || 'not given'}</td>
                                                 <td> {val.em_name || 'not given'}</td>
-                                                <td> {moment(val.create_date).format('DD-MM-YYYY') || 'not given'}</td>
-                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
+                                                <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )
@@ -147,7 +147,7 @@ const CompletedTask = ({ tableCount }) => {
                         </CssVarsProvider>
                     </Paper>
                 </Box>
-                : <Box sx={{ textAlign: 'center', mt: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB', height: 450, maxWidth: '100%', }}>
+                : <Box sx={{ textAlign: 'center', pt: 20, fontWeight: 700, fontSize: 30, color: '#C7C8CB', height: 480, maxWidth: '100%', }}>
                     No Task Completed Yet!
 
                 </Box>

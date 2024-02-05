@@ -28,39 +28,44 @@ const DeptEmployeeTask = () => {
 
 
     return (
-        <Box variant="outlined" sx={{ height: 490, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
-            <Paper variant="outlined" sx={{ maxHeight: 480, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
-                <Table borderAxis='x'
-                >
-                    <thead>
-                        <tr>
-                            <th style={{ width: '4%', }}>#</th>
-                            <th style={{ width: '5%', }}>Id</th>
-                            <th style={{ width: '80%', textAlign: 'left', }}>Employee</th>
-                            <th style={{ width: '10%', textAlign: 'center', }}>Completed</th>
-                            <th style={{ width: '10%', textAlign: 'center', }}>Total</th>
+        <Box variant="outlined" sx={{ height: 490, width: '100%', overflow: 'auto', mt: .5, }}>
+            {allEmpTask.length !== 0 ?
+                <Paper variant="outlined" sx={{ maxHeight: 480, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
+                    <Table borderAxis='x'
+                    >
+                        <thead>
+                            <tr>
+                                <th style={{ width: '4%', }}>#</th>
+                                <th style={{ width: '5%', }}>Id</th>
+                                <th style={{ width: '80%', textAlign: 'left', }}>Employee</th>
+                                <th style={{ width: '10%', textAlign: 'center', }}>Completed</th>
+                                <th style={{ width: '10%', textAlign: 'center', }}>Total</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {allEmpTask?.map((val, index) => {
-                            return (
-                                <tr key={index}
-                                >
-                                    <td style={{ fontWeight: 600, }}> {index + 1}</td>
-                                    <td style={{ fontWeight: 600, }}> {val.emslno || 'not given'}</td>
-                                    <td style={{ fontWeight: 600, color: '#887BB0' }} ><PersonIcon sx={{ color: '#6A4973' }} /> {val.empname || 'not given'}</td>
-                                    <td style={{ textAlign: 'center', fontWeight: 600, color: 'green' }}>[
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {allEmpTask?.map((val, index) => {
+                                return (
+                                    <tr key={index}
+                                    >
+                                        <td style={{ fontWeight: 600, }}> {index + 1}</td>
+                                        <td style={{ fontWeight: 600, }}> {val.emslno || 'not given'}</td>
+                                        <td style={{ fontWeight: 600, color: '#887BB0' }} ><PersonIcon sx={{ color: '#6A4973' }} /> {val.empname || 'not given'}</td>
+                                        <td style={{ textAlign: 'center', fontWeight: 600, color: 'green' }}>[
 
-                                        {val.TC || '0'}]</td>
-                                    <td style={{ textAlign: 'center', fontWeight: 600, color: '#3B0404' }}> [{val.TT || '0'}]</td>
+                                            {val.TC || '0'}]</td>
+                                        <td style={{ textAlign: 'center', fontWeight: 600, color: '#3B0404' }}> [{val.TT || '0'}]</td>
 
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </Table>
-            </Paper>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </Table>
+                </Paper> :
+                <Box sx={{ textAlign: 'center', pt: 20, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
+                    No data
+                </Box>}
+
         </Box>
     )
 }

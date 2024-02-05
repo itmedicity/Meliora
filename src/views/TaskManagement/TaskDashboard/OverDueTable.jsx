@@ -98,10 +98,10 @@ const OverDueTable = () => {
                     setimageViewModalOpen(true);
                     setSelectedImages(val);
                 } else {
-                    warningNotify("No Task Image attached");
+                    warningNotify("No Image attached");
                 }
             } else {
-                warningNotify("No Task image attached");
+                warningNotify("No Image attached");
             }
         } catch (error) {
             warningNotify('Error in fetching files:', error);
@@ -161,8 +161,8 @@ const OverDueTable = () => {
                                                 <td> {val.em_name || 'not given'}</td>
                                                 {/* <td> {val.sec_name || 'not given'}</td> */}
                                                 {/* <td> eg</td> */}
-                                                <td> {moment(val.create_date).format('DD-MM-YYYY') || 'not given'}</td>
-                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
+                                                <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )
@@ -174,7 +174,7 @@ const OverDueTable = () => {
                 </Box>
                 : <Box>
                     <Box sx={{
-                        textAlign: 'center', pt: 15, fontWeight: 700, fontSize: 30, color: '#C7C8CB', height: 480, maxWidth: '100%',
+                        textAlign: 'center', pt: 20, fontWeight: 700, fontSize: 30, color: '#C7C8CB', height: 480, maxWidth: '100%',
                     }}>
                         No dues!
                     </Box>

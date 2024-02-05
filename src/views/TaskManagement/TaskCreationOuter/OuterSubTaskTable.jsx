@@ -27,15 +27,14 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
                         return {
                             tm_task_slno: val.tm_task_slno,
                             tm_task_name: val.tm_task_name,
-                            // tm_subtask_dept: val.tm_subtask_dept,
                             tm_task_dept: val.tm_task_dept,
                             tm_task_dept_sec: val.tm_task_dept_sec,
                             dept_name: val.dept_name,
                             sec_name: val.sec_name,
                             em_name: val.em_name,
-                            // tm_subtask_dept_sec: val.tm_subtask_dept_sec,
                             tm_task_due_date: val.tm_task_due_date,
                             tm_task_description: val.tm_task_description,
+                            create_date: val.create_date,
                             tm_task_status: val.tm_task_status,
                             TaskStatus: val.tm_task_status === 1 ? 'Completed' :
                                 val.tm_task_status === 1 ? 'Completed' :
@@ -105,7 +104,7 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
                         <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', fontFamily: 'Georgia' }}>SubTasks</Divider>
                     </Box>
                     <Paper variant="outlined" sx={{
-                        width: '100%', overflow: 'auto', m: 1, maxHeight: 320,
+                        width: '99%', overflow: 'auto', m: 1, maxHeight: 320,
                     }}>
                         <CssVarsProvider>
                             <Table padding={"none"} stickyHeader hoverRow>
@@ -113,14 +112,15 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
                                     <tr style={{ background: '#D8CEE6' }}>
 
                                         <th style={{ width: 50, fontFamily: 'Georgia' }}>#</th>
-                                        <th style={{ width: 60, fontFamily: 'Georgia' }} >Action</th>
+                                        <th style={{ width: 70, fontFamily: 'Georgia' }} >Action</th>
                                         <th style={{ width: 60, fontFamily: 'Georgia' }} >View</th>
                                         <th style={{ width: 100, fontFamily: 'Georgia' }}>Status</th>
                                         <th style={{ width: 150, fontFamily: 'Georgia' }}>Subtask</th>
                                         <th style={{ width: 250, fontFamily: 'Georgia' }}>Department</th>
                                         <th style={{ width: 250, fontFamily: 'Georgia' }}>Location</th>
                                         <th style={{ width: 150, fontFamily: 'Georgia' }}>Assignee</th>
-                                        <th style={{ width: 100, fontFamily: 'Georgia' }}>Due date</th>
+                                        <th style={{ width: 130, fontFamily: 'Georgia' }}>Created Date</th>
+                                        <th style={{ width: 130, fontFamily: 'Georgia' }}>Due date</th>
                                         <th style={{ width: 300, fontFamily: 'Georgia' }}>Description</th>
                                     </tr>
                                 </thead>
@@ -161,7 +161,8 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
                                                 <td> {val.dept_name || 'not given'}</td>
                                                 <td> {val.sec_name || 'not given'}</td>
                                                 <td> {val.em_name || 'not given'}</td>
-                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
+                                                <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {val.tm_task_description || 'not given'}</td>
 
                                             </tr>

@@ -104,11 +104,11 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                             </Box>
                             <Box sx={{ display: 'flex', flex: 2, pt: 1, justifyContent: 'flex-end', color: '#274472' }}>
                                 {/* <RadioButtonCheckedIcon sx={{ color: '#BA0F30' }} />OverDue&nbsp;&nbsp;&nbsp;&nbsp; */}
-                                <RadioButtonCheckedIcon sx={{ color: '#EFD593' }} />On Progress&nbsp;&nbsp;&nbsp;&nbsp;
+                                <RadioButtonCheckedIcon sx={{ color: '#D37506' }} />On Progress&nbsp;&nbsp;&nbsp;&nbsp;
                                 <RadioButtonCheckedIcon sx={{ color: '#747474' }} />On Hold&nbsp;&nbsp;&nbsp;&nbsp;
                                 <RadioButtonCheckedIcon sx={{ color: '#5885AF' }} />On Pending&nbsp;&nbsp;&nbsp;&nbsp;
                                 <RadioButtonCheckedIcon sx={{ color: '#311E26' }} />In Completed&nbsp;&nbsp;&nbsp;&nbsp;
-                                <RadioButtonCheckedIcon sx={{ color: '#94C973' }} />Completed&nbsp;&nbsp;
+                                <RadioButtonCheckedIcon sx={{ color: '#59981A' }} />Completed&nbsp;&nbsp;
                                 <CircleIcon sx={{ color: '#D8CEE6' }} />subtask&nbsp;&nbsp;
                             </Box>
                         </Box>

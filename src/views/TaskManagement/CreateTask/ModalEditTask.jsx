@@ -23,11 +23,10 @@ import SubtaskTableEmp from '../EmployeeTaskList/SubtaskTableEmp';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import moment from 'moment';
 const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount }) => {
 
-    const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, tm_completed_remarks, tm_onhold_remarks, tm_pending_remark, dept_name,
-        em_name, create_date } = masterData
-
+    const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, em_name, create_date } = masterData
 
     const dispatch = useDispatch();
     const [departmentMast, setdepartmentMast] = useState(0)
@@ -52,9 +51,25 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const [progressCount, setprogressCount] = useState(0)
     const [completeFlag, setCompleteFlag] = useState(0)
     const [changeAssignee, setchangeAssignee] = useState(0)
-    const id = useSelector((state) => {
-        return state.LoginUserData.empid
+    const id = useSelector((state) => { return state.LoginUserData.empid })
+    const [taskData, setTaskData] = useState({
+        tm_task_slno: '',
+        taskName: '',
+        dueDate: '',
+        description: '',
+        pendingRemarks: '',
+        onHoldRemaks: '',
+        completedRemarks: '',
     })
+    const { taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } = taskData
+    const taskDataUpdate = useCallback(
+        (e) => {
+            const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+            setTaskData({ ...taskData, [e.target.name]: value })
+        },
+        [taskData],
+    )
+
     const ChangeCompleted = useCallback((e) => {
         if (e.target.checked === true) {
             setCompleted(true)
@@ -120,26 +135,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         }
     }, [])
 
-    const [taskData, setTaskData] = useState({
-        tm_task_slno: '',
-        taskName: '',
-        dueDate: '',
-        pendingRemarks: tm_pending_remark,
-        onHoldRemaks: tm_onhold_remarks,
-        completedRemarks: tm_completed_remarks,
-        description: ''
-    })
-
-    const { taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } = taskData
-
-    const taskDataUpdate = useCallback(
-        (e) => {
-            const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-            setTaskData({ ...taskData, [e.target.name]: value })
-        },
-        [taskData],
-    )
-
     const [taskProgress, setTaskProgress] = useState({
         progress_slno: '',
         tm_task_slno: tm_task_slno,
@@ -150,7 +145,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     })
 
     const { progress_slno, tm_progres_date, tm_task_progress, } = taskProgress
-
 
     const ProgresssUpdate = useCallback(
         (e) => {
@@ -164,14 +158,11 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         return {
             tm_task_slno: tm_task_slno,
             tm_task_status: checkFlag,
-            // tm_progres_date: moment((tm_progres_date)).format('YYYY-MM-DD hh:mm'),
             tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
             progress_emp: id,
             tm_task_progress: tm_task_progress === '' ? null : tm_task_progress,
         }
     }, [tm_task_slno, checkFlag, tm_progres_date, tm_task_progress, id])
-
-
 
     const patchProgress = useMemo(() => {
         return {
@@ -216,7 +207,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         }
         getProgress(ProgressData)
     }, [progressCount, tableCount, ProgressData])
-
 
     const secName = useSelector((state) => {
         return state.LoginUserData.empdeptsec
@@ -321,14 +311,16 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             const result = await axioslogin.get(`/taskManagement/viewMasterTaskByid/${tm_task_slno}`);
             const { success, data } = result.data;
             if (success === 2) {
-                const { tm_task_slno, tm_task_name, tm_task_due_date, tm_task_description, tm_project_slno, tm_task_status, tm_onhold_remarks, tm_progress_remark } = data[0]
+                const { tm_task_slno, tm_task_name, tm_task_due_date, tm_task_description, tm_project_slno, tm_task_status,
+                    tm_pending_remark, tm_onhold_remarks, tm_completed_remarks } = data[0]
                 const formdata = {
                     taskSlno: tm_task_slno,
                     taskName: tm_task_name,
                     dueDate: tm_task_due_date,
                     description: tm_task_description,
-                    tm_progress_remark: tm_progress_remark,
-                    tm_onhold_remarks: tm_onhold_remarks
+                    pendingRemarks: tm_pending_remark,
+                    onHoldRemaks: tm_onhold_remarks,
+                    completedRemarks: tm_completed_remarks,
                 }
                 setTaskData(formdata)
                 setdepartmentMast(empdept)
@@ -566,7 +558,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                     }}
                 >
                     <Box sx={{ borderRight: 1, borderLeft: 1, borderBottom: 1, borderColor: '#D9E4EC', }}>
-
                         <Box sx={{
                             width: "100%", backgroundColor: '#D9E4EC', height: 45,
                             borderTop: 1, borderBlockColor: '#6AABD2', pt: 1, mt: .5,
@@ -583,7 +574,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                 </Tooltip>
                             </Box>
                         </Box>
-
                         <Box sx={{ display: 'flex', width: '100%', }}>
                             <Box sx={{ flex: 1.5, }}>
                                 <Box sx={{ pt: 2, pl: 2, fontSize: 18, mt: 1.2, display: 'flex', justifyContent: 'right', mr: 1 }}>
@@ -592,17 +582,17 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     </Typography>
                                 </Box>
                                 {main_task_slno === null ?
-                                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: 1, fontFamily: 'Georgia' }}>
+                                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: 2, height: 30, pt: 1, fontFamily: 'Georgia' }}>
                                         <Typography sx={{ color: '#003B73' }}>
                                             Project
                                         </Typography>
                                     </Box> : null}
-                                <Box sx={{ pt: 1, pl: 2, fontSize: 18, mt: 1.2, display: 'flex', justifyContent: 'right', mr: 1 }}>
+                                <Box sx={{ pt: 1, pl: 2, fontSize: 18, mt: 1.5, display: 'flex', justifyContent: 'right', mr: 1 }}>
                                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
                                         Department
                                     </Typography>
                                 </Box>
-                                <Box sx={{ pt: 1, pl: 2, fontSize: 18, mt: 1.2, display: 'flex', justifyContent: 'right', mr: 1 }}>
+                                <Box sx={{ pt: 1, pl: 2, fontSize: 18, mt: 1, display: 'flex', justifyContent: 'right', mr: 1 }}>
                                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
                                         Section
                                     </Typography>
@@ -638,9 +628,10 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                             variant="outlined"
                                             name="taskName"
                                             value={taskName}
-                                            maxRows={1}
+                                            minRows={2}
+                                            maxRows={2}
                                             onChange={(e) => taskDataUpdate(e)}
-                                            sx={{ fontSize: 22, color: '#003B73', }}
+                                            sx={{ fontSize: 15, color: '#003B73', }}
                                         ></Textarea>
                                     </CssVarsProvider>
                                 </Box>
@@ -780,18 +771,10 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                         </Box>
                         <Box sx={{ display: 'flex' }}>
                             <Box sx={{ flex: 1, }}>
-                                {completeFlag.length !== 0 ?
+
+
+                                {main_task_slno !== null ?
                                     <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
-                                        <CusCheckBox
-                                            color="primary"
-                                            size="lg"
-                                            name="completed"
-                                            value={completed}
-                                            checked={completed}
-                                            disabled
-                                        ></CusCheckBox>
-                                    </Box>
-                                    : <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
                                         <CusCheckBox
                                             color="primary"
                                             size="lg"
@@ -800,7 +783,32 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                             checked={completed}
                                             onCheked={ChangeCompleted}
                                         ></CusCheckBox>
+                                    </Box> :
+                                    <Box>
+                                        {completeFlag.length !== 0 ?
+                                            <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
+                                                <CusCheckBox
+                                                    color="primary"
+                                                    size="lg"
+                                                    name="completed"
+                                                    value={completed}
+                                                    checked={completed}
+                                                    disabled={true}
+                                                ></CusCheckBox>
+                                            </Box>
+                                            : <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
+                                                <CusCheckBox
+                                                    color="primary"
+                                                    size="lg"
+                                                    name="completed"
+                                                    value={completed}
+                                                    checked={completed}
+                                                    onCheked={ChangeCompleted}
+                                                ></CusCheckBox>
+                                            </Box>}
                                     </Box>}
+
+
                                 <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
                                     <CusCheckBox
                                         color="primary"
@@ -926,6 +934,11 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                         </Typography>
                                         <Box sx={{ pl: 1 }}>
                                             <TextFieldCustom
+                                                slotProps={{
+                                                    input: {
+                                                        max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                    },
+                                                }}
                                                 type="datetime-local"
                                                 size="sm"
                                                 name="tm_progres_date"
@@ -994,6 +1007,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                     setTableRendering={setTableRendering}
                                                     tableRendering={tableRendering}
                                                     setflag={setflag}
+                                                    tm_project_slno={tm_project_slno}
                                                 />
                                             </Box> :
                                             flag === 2 ?

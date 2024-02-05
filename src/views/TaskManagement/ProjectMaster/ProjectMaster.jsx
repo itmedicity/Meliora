@@ -199,33 +199,33 @@ const ProjectMaster = () => {
                 <Box sx={{ flex: 1.5 }}>
                     <Box sx={{ mt: 2, pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 40, pt: 1.5, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Project
+                            Project*&nbsp;:
                         </Typography>
                     </Box>
-                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 40, pt: .8, fontFamily: 'Georgia', }}>
+                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 40, pt: 1, mt: 1.5, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Goal
-                        </Typography>
-                    </Box>
-                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 30, fontFamily: 'Georgia', }}>
-                        <Typography sx={{ color: '#003B73' }}>
-                            Department
+                            Goal&nbsp;:
                         </Typography>
                     </Box>
                     <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 30, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Section
+                            Department&nbsp;:
+                        </Typography>
+                    </Box>
+                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 30, fontFamily: 'Georgia', }}>
+                        <Typography sx={{ color: '#003B73' }}>
+                            Section&nbsp;:
                         </Typography>
                     </Box>
 
                     <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 30, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Due date
+                            Due date&nbsp;:
                         </Typography>
                     </Box>
                     <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 35, pt: .5, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Description
+                            Description&nbsp;:
                         </Typography>
                     </Box>
                 </Box>
@@ -239,9 +239,10 @@ const ProjectMaster = () => {
                                 variant="outlined"
                                 name="tm_project_name"
                                 value={tm_project_name}
-                                maxRows={1}
+                                minRows={2}
+                                maxRows={2}
                                 onChange={(e) => ProjectMastUpdate(e)}
-                                sx={{ fontSize: 22, color: '#05445E' }}
+                                sx={{ fontSize: 15, color: '#05445E' }}
                             ></Textarea>
                         </CssVarsProvider>
                     </Box>
@@ -262,7 +263,7 @@ const ProjectMaster = () => {
                     </Box>
                     <Box sx={{ pt: .3 }}>
                         <TextFieldCustom
-                            type="date"
+                            type="datetime-local"
                             size="sm"
                             name="tm_project_duedate"
                             value={tm_project_duedate}

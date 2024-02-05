@@ -19,10 +19,6 @@ const GoalsMaster = () => {
     const [department, setDepartment] = useState(0)
     const [deptsec, setDeptSec] = useState(0)
     const [tableCount, setTableCount] = useState(0)
-
-
-
-
     const history = useHistory()
     const [value, setvalue] = useState(0)
     const dispatch = useDispatch();
@@ -30,9 +26,6 @@ const GoalsMaster = () => {
     useEffect(() => {
         dispatch(getDepartment())
     }, [dispatch,])
-
-
-
 
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -42,13 +35,11 @@ const GoalsMaster = () => {
         tm_goals_slno: '',
         tm_goal_name: '',
         tm_goal_duedate: '',
+        tm_goal_fromdate: '',
         tm_goal_description: '',
         tm_goal_status: false,
-
     })
-    const { tm_goals_slno, tm_goal_name, tm_goal_duedate, tm_goal_description, tm_goal_status } = goalMast
-
-
+    const { tm_goals_slno, tm_goal_name, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status } = goalMast
 
     const GoalsMastUpdate = useCallback(
         (e) => {
@@ -62,15 +53,13 @@ const GoalsMaster = () => {
             tm_goal_name: tm_goal_name,
             tm_goal_dept: department === 0 ? null : department,
             tm_goal_deptsec: deptsec === 0 ? null : deptsec,
+            tm_goal_fromdate: tm_goal_fromdate === '' ? null : tm_goal_fromdate,
             tm_goal_duedate: tm_goal_duedate === '' ? null : tm_goal_duedate,
             tm_goal_description: tm_goal_description === '' ? null : tm_goal_description,
             tm_goal_status: tm_goal_status === true ? 1 : 0,
             tm_goal_createuser: id,
-
         }
-    }, [tm_goal_name, department, deptsec, tm_goal_duedate, tm_goal_description, tm_goal_status, id])
-
-
+    }, [tm_goal_name, department, deptsec, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, id])
 
     const patchGoal = useMemo(() => {
         return {
@@ -78,17 +67,19 @@ const GoalsMaster = () => {
             tm_goal_name: tm_goal_name === '' ? null : tm_goal_name,
             tm_goal_dept: department === 0 ? null : department,
             tm_goal_deptsec: deptsec === 0 ? null : deptsec,
+            tm_goal_fromdate: tm_goal_fromdate === '' ? null : tm_goal_fromdate,
             tm_goal_duedate: tm_goal_duedate === '' ? null : tm_goal_duedate,
             tm_goal_description: tm_goal_description === '' ? null : tm_goal_description,
             tm_goal_status: tm_goal_status === true ? 1 : 0,
             tm_goal_edituser: id,
         }
-    }, [tm_goals_slno, tm_goal_name, department, deptsec, tm_goal_duedate, tm_goal_description, tm_goal_status, id])
+    }, [tm_goals_slno, tm_goal_name, department, deptsec, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, id])
 
     const reset = () => {
         const form = {
             tm_goals_slno: '',
             tm_goal_name: '',
+            tm_goal_fromdate: '',
             tm_goal_duedate: '',
             tm_goal_description: '',
         }
@@ -104,6 +95,7 @@ const GoalsMaster = () => {
             tm_goal_name,
             tm_goal_dept,
             tm_goal_deptsec,
+            tm_goal_fromdate,
             tm_goal_duedate,
             tm_goal_description,
             tm_goal_status
@@ -112,6 +104,7 @@ const GoalsMaster = () => {
         const frmdata = {
             tm_goals_slno: tm_goals_slno,
             tm_goal_name: tm_goal_name,
+            tm_goal_fromdate: tm_goal_fromdate === '' ? null : tm_goal_fromdate,
             tm_goal_duedate: tm_goal_duedate === '' ? null : tm_goal_duedate,
             tm_goal_description: tm_goal_description === '' ? null : tm_goal_description,
             tm_goal_status: tm_goal_status === 1 ? true : false,
@@ -188,27 +181,32 @@ const GoalsMaster = () => {
                 <Box sx={{ flex: 1.5 }}>
                     <Box sx={{ mt: 2, pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 40, pt: 1.5, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Goal
+                            Goal*&nbsp;:
                         </Typography>
                     </Box>
-                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .6, height: 30, fontFamily: 'Georgia', }}>
+                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: 2.5, height: 30, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Department
+                            Department&nbsp;:
                         </Typography>
                     </Box>
                     <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .2, height: 30, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Section
+                            Section&nbsp;:
                         </Typography>
                     </Box>
                     <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Due date
+                            From date&nbsp;:
+                        </Typography>
+                    </Box>
+                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, fontFamily: 'Georgia', }}>
+                        <Typography sx={{ color: '#003B73' }}>
+                            Due date&nbsp;:
                         </Typography>
                     </Box>
                     <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 35, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
-                            Description
+                            Description&nbsp;:
                         </Typography>
                     </Box>
                 </Box>
@@ -220,13 +218,14 @@ const GoalsMaster = () => {
                             <Textarea
                                 type="text"
                                 size="sm"
-                                placeholder="Goal*"
+                                placeholder="Goal"
                                 variant="outlined"
                                 name="tm_goal_name"
                                 value={tm_goal_name}
-                                maxRows={1}
+                                minRows={2}
+                                maxRows={2}
                                 onChange={(e) => GoalsMastUpdate(e)}
-                                sx={{ fontSize: 22, color: '#05445E', }}
+                                sx={{ fontSize: 15, color: '#05445E', }}
                             ></Textarea>
                         </CssVarsProvider>
                     </Box>
@@ -242,13 +241,23 @@ const GoalsMaster = () => {
                     </Box>
                     <Box sx={{ pt: .3 }}>
                         <TextFieldCustom
-                            type="date"
+                            type="datetime-local"
+                            size="sm"
+                            name="tm_goal_fromdate"
+                            value={tm_goal_fromdate}
+                            onchange={GoalsMastUpdate}
+                        ></TextFieldCustom>
+                    </Box>
+                    <Box sx={{ pt: .3 }}>
+                        <TextFieldCustom
+                            type="datetime-local"
                             size="sm"
                             name="tm_goal_duedate"
                             value={tm_goal_duedate}
                             onchange={GoalsMastUpdate}
                         ></TextFieldCustom>
                     </Box>
+
                     <Box sx={{ mt: .3 }}>
                         <CssVarsProvider>
                             <Textarea
