@@ -54,6 +54,19 @@ const DeptSectionMast = () => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setsecStatus(value)
     }, [])
+
+    const [levelOneStatus, setLevelOne] = useState(false);
+    const updateLevelOne = useCallback((e) => {
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        setLevelOne(value)
+    }, [])
+    const [levelTwoStatus, setLevelTwoStatus] = useState(false);
+    const updateLevelTwo = useCallback((e) => {
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        setLevelTwoStatus(value)
+    }, [])
+
+
     const [departmentsectionId, setDeptsectionId] = useState(0);
     useEffect(() => {
         getDepartmentsectionId().then((val) => {
@@ -72,26 +85,30 @@ const DeptSectionMast = () => {
             dept_id: department,
             dept_sub_sect: general === true ? 1 : ot === true ? 2 : icu === true ? 3 : er === true ? 4 : 0,
             sec_status: secstatus === true ? 1 : 0,
+            level_one: levelOneStatus,
+            level_two: levelTwoStatus,
             create_user: loginid,
             ou_code: outlet !== 0 ? outlet : null
         }
-    }, [secname, department, secstatus, general, ot, icu, er, outlet, loginid, departmentsectionId])
+    }, [secname, department, secstatus, general, ot, icu, er, outlet, levelOneStatus, levelTwoStatus, loginid, departmentsectionId])
     const patchdata = useMemo(() => {
         return {
             sec_name: secname,
             dept_id: department,
             dept_sub_sect: general === true ? 1 : ot === true ? 2 : icu === true ? 3 : er === true ? 4 : 0,
             sec_status: secstatus === true ? 1 : 0,
+            level_one: levelOneStatus,
+            level_two: levelTwoStatus,
             ou_code: outlet !== 0 ? outlet : null,
             edit_user: loginid,
             sec_id: id
         }
-    }, [secname, department, general, ot, icu, er, secstatus, id, outlet, loginid])
+    }, [secname, department, general, ot, icu, er, secstatus, levelOneStatus, levelTwoStatus, id, outlet, loginid])
     //data set for edit 
     const rowSelect = useCallback((params) => {
         setEdit(1);
         const data = params.api.getSelectedRows();
-        const { sec_name, dept_id, status, sec_id, dept_sub_sect, ou_code } = data[0]
+        const { sec_name, dept_id, status, sec_id, dept_sub_sect, ou_code, level_one, level_two } = data[0]
         const checkboxdata = {
             general: dept_sub_sect === 1 ? true : false,
             ot: dept_sub_sect === 2 ? true : false,
@@ -104,6 +121,8 @@ const DeptSectionMast = () => {
         setdeptsubtype(checkboxdata)
         setId(sec_id)
         setOutlet(ou_code)
+        setLevelOne(level_one === 0 ? false : true)
+        setLevelTwoStatus(level_two === 0 ? false : true)
     }, [])
     //reseting 
     const reset = useCallback(() => {
@@ -118,6 +137,8 @@ const DeptSectionMast = () => {
         setdeptsubtype(resetcheckbox)
         setsecStatus(false)
         updatesecName('')
+        setLevelOne(false)
+        setLevelTwoStatus(false)
     }, [setdeptsubtype])
     /*** usecallback function for form submitting */
     const submitDepartsection = useCallback((e) => {
@@ -181,6 +202,8 @@ const DeptSectionMast = () => {
         setdeptsubtype(resetcheckbox)
         updatesecName('')
         setsecStatus(false)
+        setLevelOne(false)
+        setLevelTwoStatus(false)
     }, [])
     return (
         <CardMaster
@@ -252,6 +275,29 @@ const DeptSectionMast = () => {
                                     value={general}
                                     checked={general}
                                     onCheked={updateSectionStatus}
+                                />
+                            </Grid>
+
+                            <Grid item lg={8} xl={8}>
+                                <CusCheckBox
+                                    label="Level 1"
+                                    color="primary"
+                                    size="md"
+                                    name="levelOneStatus"
+                                    value={levelOneStatus}
+                                    checked={levelOneStatus}
+                                    onCheked={updateLevelOne}
+                                />
+                            </Grid>
+                            <Grid item lg={8} xl={8}>
+                                <CusCheckBox
+                                    label="Level 2"
+                                    color="primary"
+                                    size="md"
+                                    name="levelTwoStatus"
+                                    value={levelTwoStatus}
+                                    checked={levelTwoStatus}
+                                    onCheked={updateLevelTwo}
                                 />
                             </Grid>
                             <Grid item lg={8} xl={8}>
