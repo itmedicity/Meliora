@@ -99,7 +99,7 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdepartmentTaskFlag
                                         return (
                                             <tr
                                                 key={index}
-                                                style={{ height: 8, background: val.main_task_slno !== null ? '#D8CEE6' : val.main_task_slno === 0 ? '#D8CEE6' : 'transparent', minHeight: 5 }}>
+                                                style={{ height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent', minHeight: 5 }}>
 
 
                                                 <td> {index + 1}</td>

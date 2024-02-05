@@ -277,7 +277,7 @@ const SubTasksEdit = ({ subTaskData, taskTableCount, settaskTableCount, setflag 
                             Task
                         </Typography>
                     </Box>
-                    <Box sx={{ mt: .5, pl: 2, fontSize: 15, py: .5, display: 'flex', justifyContent: 'right', mr: 1, fontFamily: 'Georgia' }}>
+                    <Box sx={{ mt: 2.5, pl: 2, fontSize: 15, py: .5, display: 'flex', justifyContent: 'right', mr: 1, fontFamily: 'Georgia' }}>
                         <Typography sx={{ color: '#003B73' }}>
                             Department
                         </Typography>
@@ -318,9 +318,10 @@ const SubTasksEdit = ({ subTaskData, taskTableCount, settaskTableCount, setflag 
                                 variant="outlined"
                                 name="subTaskName"
                                 value={subTaskName}
-                                maxRows={1}
+                                minRows={2}
+                                maxRows={2}
                                 onChange={(e) => SubTaskUpdate(e)}
-                                sx={{ fontSize: 20, color: '#05445E' }}
+                                sx={{ fontSize: 15, color: '#05445E' }}
                             ></Textarea>
                         </CssVarsProvider>
                     </Box>
@@ -349,7 +350,7 @@ const SubTasksEdit = ({ subTaskData, taskTableCount, settaskTableCount, setflag 
                             >
                             </TextFieldCustom></Box>
 
-                            <Box>
+                            <Box sx={{ pt: .6 }}>
                                 <CssVarsProvider>
                                     <Tooltip title="Change Assignees">
                                         <ChangeCircleIcon sx={{ cursor: 'pointer' }}
@@ -385,7 +386,7 @@ const SubTasksEdit = ({ subTaskData, taskTableCount, settaskTableCount, setflag 
                     </Box> */}
                     <Box sx={{ pt: .3 }}>
                         <TextFieldCustom
-                            type="date"
+                            type="datetime-local"
                             size="sm"
                             name="subTaskDueDate"
                             value={subTaskDueDate}

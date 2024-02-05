@@ -3,7 +3,6 @@ import { Box, Button, CssVarsProvider, Textarea, Tooltip, Typography } from '@mu
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { useDispatch, useSelector } from 'react-redux';
 import { getDepartment } from 'src/redux/actions/Department.action'
-import TmMultEmpSelectUnderDeptSec from 'src/views/CommonSelectCode/TmMultEmpSelectUnderDeptSec';
 import TmDepartmentSelect from 'src/views/CommonSelectCode/TmDepartmentSelect';
 import TmDeptSectionSelect from 'src/views/CommonSelectCode/TmDeptSectionSelect';
 import TableViewIcon from '@mui/icons-material/TableView';
@@ -19,6 +18,8 @@ import UpdateTasks from './UpdateTasks';
 import PermMediaIcon from '@mui/icons-material/PermMedia';
 import TmProjectList from 'src/views/CommonSelectCode/TmProjectList';
 import { getProjectList } from 'src/redux/actions/TmProjectsList.action';
+import TmMultipleEmployeeSelect from 'src/views/CommonSelectCode/TmMultipleEmployeeSelect';
+
 const CreateMainTask = () => {
     const [department, setDepartment] = useState(0)
     const [deptsec, setDeptSec] = useState(0)
@@ -31,42 +32,6 @@ const CreateMainTask = () => {
     const [editTaskFlag, setEditTaslFlag] = useState(0)
     const [TaskDataForEdit, setTaskDataForEdit] = useState([])
     const [projectz, setprojectz] = useState(0)
-    // const [completed, setCompleted] = useState(false)
-    // const [onProgress, setOnProgress] = useState(false)
-    // const [checkFlag, setcheckFlag] = useState(0)
-
-
-    // const ChangeCompleted = useCallback((e) => {
-    //     if (e.target.checked === true) {
-    //         setCompleted(true)
-    //         setOnProgress(false)
-    //         setcheckFlag(1)
-    //     }
-    //     else {
-    //         setCompleted(false)
-    //         setOnProgress(false)
-    //         setcheckFlag(0)
-
-    //     }
-    // }, [])
-    // const ChangeOnProgress = useCallback((e) => {
-
-    //     if (e.target.checked === true) {
-    //         setCompleted(false)
-    //         setOnProgress(true)
-    //         setcheckFlag(2)
-    //     }
-    //     else {
-    //         setCompleted(false)
-    //         setOnProgress(false)
-    //         setcheckFlag(0)
-
-    //     }
-    // }, [])
-
-
-
-
 
 
     const dispatch = useDispatch();
@@ -111,7 +76,6 @@ const CreateMainTask = () => {
             tm_task_dept_sec: deptsec === 0 ? null : deptsec,
             tm_task_due_date: tm_task_due_date === '' ? null : tm_task_due_date,
             tm_task_description: tm_task_description === '' ? null : tm_task_description,
-            // tm_task_status: tm_task_status === true ? 1 : 0,
             tm_task_status: tm_task_status,
             tm_project_slno: projectz === 0 ? null : projectz,
             create_user: id,
@@ -151,11 +115,8 @@ const CreateMainTask = () => {
         setEmployee([])
         setSelectFile([])
         setprojectz(0)
-        // setCompleted(false)
-        // setOnProgress(false)
-    }, [settaskMast, setDepartment, setDeptSec, setEmployee, setSelectFile, setprojectz,
-        // setOnProgress, setCompleted
-    ]);
+
+    }, [settaskMast, setDepartment, setDeptSec, setEmployee, setSelectFile, setprojectz]);
 
     const handleFileChange = useCallback((e) => {
         const newFiles = [...selectFile]
@@ -210,8 +171,6 @@ const CreateMainTask = () => {
         if (tm_task_name !== '') {
             InsertMastTask(insertMastTask).then((value) => {
                 const { message, success, insertId } = value
-
-
                 if (success === 1) {
                     if (employee.length !== 0) {
                         const insertTaskDetail = employee && employee.map((val) => {
@@ -232,8 +191,6 @@ const CreateMainTask = () => {
                                             succesNotify("Task Created with file attach Successfully")
                                             settaskTableCount(taskTableCount + 1)
                                             reset()
-
-
                                         }
                                         else {
                                             warningNotify(message)
@@ -245,8 +202,6 @@ const CreateMainTask = () => {
                                     settaskTableCount(taskTableCount + 1)
                                     reset()
                                 }
-
-
                             }
                             else {
                                 warningNotify(message)
@@ -296,12 +251,9 @@ const CreateMainTask = () => {
             return updatedFiles;
         });
     };
-
     const BackToDash = useCallback(() => {
         history.push('/Home/TaskManagementDashboard')
     }, [history])
-
-
 
     return (
         <Box sx={{ height: '100%', bgcolor: '#FEFCFF', boxShadow: 2 }}>
@@ -342,37 +294,37 @@ const CreateMainTask = () => {
                                     <Box sx={{ flex: 1, }}>
                                         <Box sx={{ mt: 1.5, pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 40, pt: 1.5, fontFamily: 'Georgia' }}>
                                             <Typography sx={{ color: '#003B73' }}>
-                                                Task
+                                                Task&nbsp;:
                                             </Typography>
                                         </Box>
-                                        <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 35, pt: .8, fontFamily: 'Georgia', }}>
+                                        <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 35, pt: .8, mt: 2, fontFamily: 'Georgia', }}>
                                             <Typography sx={{ color: '#003B73' }}>
-                                                Project
+                                                Project&nbsp;:
                                             </Typography>
                                         </Box>
                                         <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 30, mb: 1, fontFamily: 'Georgia', }}>
                                             <Typography sx={{ color: '#003B73' }}>
-                                                Department
+                                                Department&nbsp;:
                                             </Typography>
                                         </Box>
                                         <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 25, fontFamily: 'Georgia' }}>
                                             <Typography sx={{ color: '#003B73' }}>
-                                                Section
+                                                Section&nbsp;:
                                             </Typography>
                                         </Box>
                                         <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: .5, fontFamily: 'Georgia' }}>
                                             <Typography sx={{ color: '#003B73' }}>
-                                                Assignee
+                                                Assignee&nbsp;:
                                             </Typography>
                                         </Box>
                                         <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: .5, fontFamily: 'Georgia' }}>
                                             <Typography sx={{ color: '#003B73' }}>
-                                                Due date
+                                                Due date&nbsp;:
                                             </Typography>
                                         </Box>
                                         <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 35, pt: .5, fontFamily: 'Georgia' }}>
                                             <Typography sx={{ color: '#003B73' }}>
-                                                Description
+                                                Description&nbsp;:
                                             </Typography>
                                         </Box>
 
@@ -388,9 +340,10 @@ const CreateMainTask = () => {
                                                     variant="outlined"
                                                     name="tm_task_name"
                                                     value={tm_task_name}
+                                                    minRows={2}
                                                     maxRows={2}
                                                     onChange={(e) => MastUpdate(e)}
-                                                    sx={{ fontSize: 20, color: '#05445E' }}
+                                                    sx={{ fontSize: 15, color: '#05445E' }}
                                                 ></Textarea>
                                             </CssVarsProvider>
                                         </Box>
@@ -409,18 +362,26 @@ const CreateMainTask = () => {
                                                 deptsec={deptsec}
                                                 setDeptSec={setDeptSec} />
                                         </Box>
-                                        <Box sx={{ flex: 1, pt: .3 }}>
+                                        {/* <Box sx={{ flex: 1, pt: .5 }}>
                                             <CssVarsProvider>
                                                 <TmMultEmpSelectUnderDeptSec
                                                     value={employee}
                                                     setValue={setEmployee}
-                                                // setemployees={setemployees}
                                                 />
                                             </CssVarsProvider>
+                                        </Box> */}
+                                        <Box sx={{ flex: 1, mt: .5, pt: .5 }}>
+                                            {/* <CssVarsProvider> */}
+                                            <TmMultipleEmployeeSelect
+                                                empl={employee}
+                                                setEmpl={setEmployee}
+                                            />
+                                            {/* </CssVarsProvider> */}
                                         </Box>
+
                                         <Box sx={{ pt: .3 }}>
                                             <TextFieldCustom
-                                                type="date"
+                                                type="datetime-local"
                                                 size="sm"
                                                 name="tm_task_due_date"
                                                 value={tm_task_due_date}
@@ -483,35 +444,7 @@ const CreateMainTask = () => {
                                                     ))}
                                                 </Box>
                                             </Box>
-
                                         </Box>
-                                        {/* <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
-                                            <Box sx={{ pt: .5 }}>
-                                                <CusCheckBox
-
-                                                    color="primary"
-                                                    size="md"
-                                                    name="completed"
-                                                    value={completed}
-                                                    checked={completed}
-                                                    onCheked={ChangeCompleted}
-                                                ></CusCheckBox>
-                                            </Box>
-                                            <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
-
-                                            <Box sx={{ pt: .5, ml: 5 }}>
-                                                <CusCheckBox
-
-                                                    color="primary"
-                                                    size="md"
-                                                    name="onProgress"
-                                                    value={onProgress}
-                                                    checked={onProgress}
-                                                    onCheked={ChangeOnProgress}
-                                                ></CusCheckBox>
-                                            </Box>
-                                            <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
-                                        </Box> */}
                                         <Box sx={{ pt: 1, }}>
                                             <Box sx={{ margin: 'auto', width: '30%' }}>
                                                 <CssVarsProvider>
@@ -526,21 +459,6 @@ const CreateMainTask = () => {
                                 </Box>
                             }
                         </Box>
-                        {/* <Box sx={{ bgcolor: '#F2F1F0' }}>
-                            {
-                                flag === 1 ?
-                                    <Box >
-                                        <AddSubTasks
-                                            tm_task_slno={tm_task_slno}
-                                            setTableRendering={setTableRendering}
-                                            tableRendering={tableRendering}
-                                            setflag={setflag}
-
-                                        />
-                                    </Box>
-                                    : null
-                            }
-                        </Box> */}
                         <Box sx={{ backgroundColor: '#FEFCFF', pb: .5 }}>
                             <TaskSearchTable taskTableCount={taskTableCount} settaskTableCount={settaskTableCount} rowSelect={rowSelect}
                                 setEditTaslFlag={setEditTaslFlag} />

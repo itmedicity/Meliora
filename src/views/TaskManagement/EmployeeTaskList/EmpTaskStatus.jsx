@@ -17,18 +17,13 @@ import EditSubtaskEmp from './EditSubtaskEmp';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import imageCompression from 'browser-image-compression';
+import moment from 'moment';
 const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount }) => {
-
 
     const { tm_task_slno, tm_task_name, tm_task_description, tm_task_due_date, main_task_slno, sec_name, tm_task_dept, tm_task_dept_sec, tm_task_status, dept_name,
         tm_project_slno, tm_project_name, create_date, tm_onhold_remarks, tm_pending_remark, tm_completed_remarks, } = masterData
 
-    const id = useSelector((state) => {
-        return state.LoginUserData.empid
-    })
-
-
-
+    const id = useSelector((state) => { return state.LoginUserData.empid })
 
     const [completed, setCompleted] = useState(tm_task_status === 1 ? true : tm_task_status === 2 ? false : tm_task_status === 3 ? false : tm_task_status === 4 ? false : false)
     const [onProgress, setOnProgress] = useState(tm_task_status === 2 ? true : tm_task_status === 1 ? false : tm_task_status === 3 ? false : tm_task_status === 4 ? false : false)
@@ -48,12 +43,9 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const [viewSubTask, setViewSubTask] = useState(0)
     const [selectTaskfile, setselectTaskfile] = useState([]);
     const [updateTask, setupdateTask] = useState({
-
         pendingRemarks: tm_pending_remark,
         onHoldRemaks: tm_onhold_remarks,
         completedRemarks: tm_completed_remarks,
-
-
     })
     const { onHoldRemaks, pendingRemarks, completedRemarks } = updateTask
     const [completeFlag, setCompleteFlag] = useState(0)
@@ -358,20 +350,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
 
             }
         })
-        // const UpdateMastTask = async (updateMasterTask) => {
-        //     const result = await axioslogin.patch('/taskManagement/updateMasterTask', updateMasterTask)
-        //     const { message, success } = result.data
-        //     if (success === 2) {
-        //         succesNotify(message)
-        //         setTableCount(tableCount + 1)
-        //         handleEditClose()
-        //     } else if (success === 0) {
-        //         infoNotify(message)
-        //     } else {
-        //         infoNotify(message)
-        //     }
-        // }
-        // UpdateMastTask(updateMasterTask)
+
 
     }, [updateMasterTask, handleEditClose, completed, completedRemarks, onHold, onHoldRemaks, onPending, pendingRemarks, tableCount, selectTaskfile, tm_task_slno, handleImageUpload, setTableCount])
 
@@ -510,7 +489,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     <Box sx={{ flex: .1, }}>
                                     </Box>
                                     <Box sx={{ flex: 4 }}>
-                                        <Box sx={{ display: 'flex', fontFamily: 'Georgia', pt: 1, color: '#000C66' }}>
+                                        <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                                             <Box sx={{ flex: 1.5 }}>
                                                 Project
                                             </Box>
@@ -518,7 +497,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                 :&nbsp;{tm_project_name}
                                             </Box>
                                         </Box>
-                                        <Box sx={{ display: 'flex', fontFamily: 'Georgia', pt: 1, color: '#000C66' }}>
+                                        <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                                             <Box sx={{ flex: 1.5 }}>
                                                 Task Name
                                             </Box>
@@ -526,7 +505,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                 :&nbsp;{tm_task_name}
                                             </Box>
                                         </Box>
-                                        <Box sx={{ display: 'flex', fontFamily: 'Georgia', pt: 1, color: '#000C66' }}>
+                                        <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                                             <Box sx={{ flex: 1.5 }}>
                                                 Department
                                             </Box>
@@ -535,7 +514,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                             </Box>
                                         </Box>
 
-                                        <Box sx={{ display: 'flex', fontFamily: 'Georgia', pt: 1, color: '#000C66' }}>
+                                        <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                                             <Box sx={{ flex: 1.5 }}>
                                                 Section
                                             </Box>
@@ -544,7 +523,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                             </Box>
                                         </Box>
 
-                                        <Box sx={{ display: 'flex', fontFamily: 'Georgia', pt: 1, color: '#000C66' }}>
+                                        <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                                             <Box sx={{ flex: 1.5 }}>
                                                 Assignees
                                             </Box>
@@ -552,16 +531,16 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                 :&nbsp;{assignedEmp}
                                             </Box>
                                         </Box>
-                                        <Box sx={{ display: 'flex', fontFamily: 'Georgia', pt: 1, color: '#000C66' }}>
-                                            <Box sx={{ flex: 1.5 }}>
+                                        <Box sx={{ display: 'flex', pt: 1, color: '#000C66' }}>
+                                            <Box sx={{ flex: 1.5, fontFamily: 'Georgia', }}>
                                                 Created date
                                             </Box>
                                             <Box sx={{ flex: 8 }}>
                                                 :&nbsp;{create_date}
                                             </Box>
                                         </Box>
-                                        <Box sx={{ display: 'flex', fontFamily: 'Georgia', pt: 1, color: '#000C66' }}>
-                                            <Box sx={{ flex: 1.5 }}>
+                                        <Box sx={{ display: 'flex', pt: 1, color: '#000C66' }}>
+                                            <Box sx={{ flex: 1.5, fontFamily: 'Georgia', }}>
                                                 Due date
                                             </Box>
                                             <Box sx={{ flex: 8 }}>
@@ -570,7 +549,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                         </Box>
 
 
-                                        <Box sx={{ display: 'flex', fontFamily: 'Georgia', pt: 1, color: '#000C66' }}>
+                                        <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                                             <Box sx={{ flex: 1.5 }}>
                                                 Description
                                             </Box>
@@ -648,18 +627,9 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                 <Box sx={{ display: 'flex' }}>
                                     <Box sx={{ flex: 1, }}>
 
-                                        {completeFlag.length !== 0 ?
+
+                                        {main_task_slno !== null ?
                                             <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
-                                                <CusCheckBox
-                                                    color="primary"
-                                                    size="lg"
-                                                    name="completed"
-                                                    value={completed}
-                                                    checked={completed}
-                                                    disabled={true}
-                                                ></CusCheckBox>
-                                            </Box>
-                                            : <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
                                                 <CusCheckBox
                                                     color="primary"
                                                     size="lg"
@@ -668,6 +638,29 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                     checked={completed}
                                                     onCheked={ChangeCompleted}
                                                 ></CusCheckBox>
+                                            </Box> :
+                                            <Box>
+                                                {completeFlag.length !== 0 ?
+                                                    <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
+                                                        <CusCheckBox
+                                                            color="primary"
+                                                            size="lg"
+                                                            name="completed"
+                                                            value={completed}
+                                                            checked={completed}
+                                                            disabled={true}
+                                                        ></CusCheckBox>
+                                                    </Box>
+                                                    : <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
+                                                        <CusCheckBox
+                                                            color="primary"
+                                                            size="lg"
+                                                            name="completed"
+                                                            value={completed}
+                                                            checked={completed}
+                                                            onCheked={ChangeCompleted}
+                                                        ></CusCheckBox>
+                                                    </Box>}
                                             </Box>}
 
 
@@ -800,11 +793,11 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                 </Typography>
                                                 <Box sx={{ pl: 1 }}>
                                                     <TextFieldCustom
-                                                        // slotProps={{
-                                                        //     input: {
-                                                        //         max: moment(new Date()).format('YYYY-MM-DD'),
-                                                        //     },
-                                                        // }}
+                                                        slotProps={{
+                                                            input: {
+                                                                max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                            },
+                                                        }}
                                                         type="datetime-local"
                                                         size="sm"
                                                         name="ProgressDate"

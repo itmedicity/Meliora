@@ -11,6 +11,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SubTaskProgressTable from './SubTaskProgressTable';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import moment from 'moment';
 const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRendering }) => {
 
     const { tm_task_slno, tm_task_status, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, em_name, tm_project_slno } = subTaskData
@@ -501,7 +502,8 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         variant="outlined"
                         name="subTaskName"
                         value={subTaskName}
-                        maxRows={1}
+                        style={{ minHeight: 57 }}
+                        maxRows={2}
                         onChange={(e) => SubTaskUpdate(e)}
 
                     ></Textarea>
@@ -510,12 +512,13 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>
                         Department
                     </Box>
-                    <TextFieldCustom
+                    <Textarea
                         type="text"
                         name="secName"
                         value={secName}
+                        style={{ minHeight: 57 }}
                         disabled>
-                    </TextFieldCustom>
+                    </Textarea>
                 </Box>
 
                 <Box sx={{ flex: 1, mr: 1 }}>
@@ -528,15 +531,16 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                     /> */}
                     {changeAssignee === 0 ?
                         <Box sx={{ display: 'flex', }}>
-                            <Box sx={{ flex: 1, }}><TextFieldCustom
-                                type="text"
-                                name="em_name"
-                                value={em_name}
-                                disabled
-
-                            >
-                            </TextFieldCustom></Box>
-                            <Box sx={{ pt: .5 }}>
+                            <Box sx={{ flex: 1, }}>
+                                <Textarea
+                                    type="text"
+                                    name="em_name"
+                                    value={em_name}
+                                    disabled
+                                    style={{ minHeight: 57 }}
+                                >
+                                </Textarea></Box>
+                            <Box sx={{ pt: 2 }}>
                                 <Tooltip title="Change Assignees">
                                     <ChangeCircleIcon sx={{ cursor: 'pointer' }}
                                         onClick={changeEmp} />
@@ -554,11 +558,14 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         Due Date
                     </Box>
                     <TextFieldCustom
+
                         type="datetime-local"
                         size="sm"
                         name="subTaskDueDate"
                         value={subTaskDueDate}
                         onchange={SubTaskUpdate}
+                        disabled={true}
+                        style={{ minHeight: 57 }}
                     ></TextFieldCustom>
                 </Box>
                 <Box sx={{ flex: 1, mr: .5 }}>
@@ -570,7 +577,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         size="sm"
                         placeholder="type here..."
                         variant="outlined"
-                        minRows={1}
+                        style={{ minHeight: 57 }}
                         maxRows={3}
                         name="subTaskDescription"
                         value={subTaskDescription}
@@ -578,11 +585,15 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                     >
                     </Textarea>
                 </Box>
-                <Box sx={{ flex: .1, pr: 1, pt: 3 }}>
-                    <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
-                        onClick={SubmitTask}
-                    />
-                </Box>
+                {((onHoldSub !== true) && (completedSub !== true) && (onPendingSub !== true)) ?
+                    <Box sx={{ flex: .1, pr: 1, pt: 4.5 }}>
+                        <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
+                            onClick={SubmitTask}
+                        />
+                    </Box> :
+                    <Box sx={{ pr: .5 }}></Box>}
+
+
             </Box>
 
             <Box sx={{ display: 'flex', mt: 1 }}>
@@ -707,7 +718,16 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         </Box>
                         : null}
                 </Box>
-                <Box sx={{ flex: 14, }}></Box>
+
+                <Box sx={{ flex: 14, py: 7, pl: 1, }}>
+
+
+                    {((onHoldSub === true) || (completedSub === true) || (onPendingSub === true)) ?
+                        <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
+                            onClick={SubmitTask}
+                        /> : null}
+
+                </Box>
             </Box>
 
 
@@ -723,11 +743,11 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                             </Typography>
                             <Box sx={{ pl: 1 }}>
                                 <TextFieldCustom
-                                    // slotProps={{
-                                    //     input: {
-                                    //         max: moment(new Date()).format('YYYY-MM-DD'),
-                                    //     },
-                                    // }}
+                                    slotProps={{
+                                        input: {
+                                            max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                        },
+                                    }}
                                     type="datetime-local"
                                     size="sm"
                                     name="tm_progres_date"

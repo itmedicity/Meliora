@@ -228,30 +228,40 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                 aria-labelledby="modal-title"
                 aria-describedby="modal-desc"
                 open={open}
-                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, }}>
+                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
+
                 <Box sx={{ margin: 'auto', }}>
+
                     <ModalDialog variant="outlined"
-                        sx={{ overflowY: 'scroll', width: '65vw' }}>
-                        <Box sx={{ minHeight: 690, border: .1, borderColor: '#D9E4EC', borderRadius: 5 }}>
-                            <Box sx={{ display: 'flex' }}>
+                        sx={{ overflowY: 'scroll', width: 800 }}>
+                        <Box sx={{
+                            height: 700,
+                            // border: .1, borderColor: '#D9E4EC',
+                            borderRadius: 10
+                        }}>
+                            <Box sx={{ display: 'flex', pl: 1, fontSize: 20, fontWeight: 500, color: '#004F76' }}>
+                                <AssignmentIcon sx={{ pt: .6 }} />CREATE TASK
                                 <Box sx={{ flex: 1, display: 'flex', justifyContent: "flex-end" }}>
                                     <Box sx={{ m: .5, borderRadius: 5, borderColor: '#D6E2E8' }}>
                                         <Tooltip title="Close">
-                                            < CloseIcon sx={{ cursor: 'pointer', size: 'lg', width: 30, height: 20, color: '#004F76', }}
+                                            < CloseIcon sx={{ cursor: 'pointer', size: 'lg', width: 35, height: 25, color: '#004F76', }}
                                                 onClick={handleClose}
                                             />
                                         </Tooltip>
                                     </Box>
                                 </Box>
                             </Box>
-                            <Box sx={{ width: "99%", backgroundColor: '#D9E4EC', height: '45px', borderTop: 1, borderBlockColor: '#6AABD2', pt: 1, mx: .5 }}>
-                                <AssignmentIcon sx={{ height: '20px' }} />  TASK
+                            <Box sx={{
+                                width: "99%",
+                                borderTop: 1, borderBlockColor: '#6AABD2', pt: 1, mx: .5
+                            }}>
+                                {/* <AssignmentIcon sx={{ height: '20px' }} />  TASK */}
                             </Box>
                             <Box sx={{ display: 'flex', }}>
-                                <Box sx={{ flex: 1.8 }}>
-                                    <Box sx={{ mt: .5, pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 40, pt: 2, fontFamily: 'Georgia' }}>
+                                {/* <Box sx={{ flex: .5 }}>
+                                    <Box sx={{ mt: .5, pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 2, height: 40, pt: 2, fontFamily: 'Georgia' }}>
                                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Task
+                                            Task&nbsp;:
                                         </Typography>
                                     </Box>
                                     <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 30, pt: 2, fontFamily: 'Georgia', }}>
@@ -279,29 +289,44 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                             Description
                                         </Typography>
                                     </Box>
-                                </Box>
-                                <Box sx={{ flex: 3.5 }}>
+                                </Box> */}
+                                <Box sx={{ flex: 1, mx: 1 }}>
                                     <Box sx={{ mt: .5, pt: 1 }}>
+                                        <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
+                                            <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                                Task*&nbsp;:
+                                            </Typography>
+                                        </Box>
                                         <CssVarsProvider>
                                             <Textarea
                                                 type="text"
                                                 size="sm"
-                                                placeholder="Task Name*"
+                                                placeholder="Task Name"
                                                 variant="outlined"
                                                 name="tm_task_name"
                                                 value={tm_task_name}
                                                 maxRows={1}
                                                 onChange={(e) => MastUpdate(e)}
-                                                sx={{ fontSize: 22, color: '#003B73', flex: 1 }}
+                                                sx={{ fontSize: 18, color: '#003B73', flex: 1 }}
                                             ></Textarea>
                                         </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{ mt: .3 }}>
+                                    <Box sx={{ mt: 1.5 }}>
+                                        <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
+                                            <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                                Project&nbsp;:
+                                            </Typography>
+                                        </Box>
                                         <TmProjectList
                                             projectz={projectz}
                                             setprojectz={setprojectz} />
                                     </Box>
-                                    <Box sx={{ flex: 1, pt: .3 }}>
+                                    <Box sx={{ mt: 1.5 }}>
+                                        <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
+                                            <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                                Department Section&nbsp;:
+                                            </Typography>
+                                        </Box>
                                         <TextFieldCustom
                                             type="text"
                                             name="secName"
@@ -309,7 +334,12 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                             disabled>
                                         </TextFieldCustom>
                                     </Box>
-                                    <Box sx={{ flex: 1, pt: .3 }}>
+                                    <Box sx={{ mt: 1.5 }}>
+                                        <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
+                                            <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                                Assignees&nbsp;:
+                                            </Typography>
+                                        </Box>
                                         <CssVarsProvider>
                                             <TmMultEmpSelectUnderDeptSec
                                                 value={employee}
@@ -317,7 +347,12 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                             />
                                         </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{ pt: .3 }}>
+                                    <Box sx={{ mt: 1.5 }}>
+                                        <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
+                                            <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                                Due Date&nbsp;:
+                                            </Typography>
+                                        </Box>
                                         <TextFieldCustom
                                             type="datetime-local"
                                             size="sm"
@@ -326,14 +361,19 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                             onchange={MastUpdate}
                                         ></TextFieldCustom>
                                     </Box>
-                                    <Box sx={{ mt: .3 }}>
+                                    <Box sx={{ mt: 1.5 }}>
+                                        <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
+                                            <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                                Description&nbsp;:
+                                            </Typography>
+                                        </Box>
                                         <CssVarsProvider>
                                             <Textarea
                                                 type="text"
                                                 size="sm"
                                                 placeholder="type here..."
                                                 variant="outlined"
-                                                minRows={2}
+                                                minRows={3}
                                                 maxRows={4}
                                                 name="tm_task_description"
                                                 value={tm_task_description}
@@ -342,7 +382,7 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                             </Textarea>
                                         </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{ height: 50, mt: .5, border: 1, borderRadius: 4, borderStyle: 'dashed', display: 'flex', borderColor: '#C2D2D9', }}>
+                                    <Box sx={{ height: 50, mt: 1, border: 1, borderRadius: 4, borderStyle: 'dashed', display: 'flex', borderColor: '#C2D2D9', }}>
                                         <Box sx={{ display: 'flex', flex: 1, m: 1, border: .5, borderColor: '#B7CFDC', pl: 1, pt: .3, borderRadius: 4 }}>
                                             <Typography sx={{ color: '#003B73' }}>fileUpload&nbsp;</Typography>
                                             <CssVarsProvider>
@@ -378,11 +418,11 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                         </Box>
                                     </Box>
                                 </Box>
-                                <Box sx={{ flex: 1.5 }}>
-                                </Box>
+                                {/* <Box sx={{ flex: 1.5 }}>
+                                </Box> */}
                             </Box>
                         </Box>
-                        <Box sx={{ display: 'flex', justifyContent: "flex-end", height: '30px' }}>
+                        <Box sx={{ display: 'flex', justifyContent: "flex-end", height: 60, borderTop: 1, borderBlockColor: '#6AABD2', pt: 2 }}>
                             {insertId === 0 ?
                                 <Box sx={{ mr: .5, fontSize: 20, cursor: 'pointer', }}>
                                     <CssVarsProvider>

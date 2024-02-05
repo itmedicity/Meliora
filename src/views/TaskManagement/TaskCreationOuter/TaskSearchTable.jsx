@@ -78,41 +78,42 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
         const getMasterTable = async () => {
             const result = await axioslogin.get(`/taskManagement/viewTask`);
             const { success, data } = result.data;
-            if (data.length !== 0) {
-                if (success === 2) {
-                    const arry = data?.map((val) => {
-                        const obj = {
-                            tm_task_slno: val.tm_task_slno,
-                            tm_task_name: val.tm_task_name,
-                            dept_name: val.dept_name,
-                            sec_name: val.sec_name,
-                            tm_assigne_emp: val.tm_assigne_emp,
-                            em_name: val.em_name,
-                            tm_task_dept: val.tm_task_dept,
-                            tm_task_dept_sec: val.tm_task_dept_sec,
-                            main_task_slno: val.main_task_slno,
-                            tm_task_due_date: val.tm_task_due_date,
-                            tm_task_description: val.tm_task_description,
-                            tm_detail_status: val.tm_detail_status,
-                            tm_task_status: val.tm_task_status,
-                            tm_project_name: val.tm_project_name,
-                            tm_project_slno: val.tm_project_slno,
-                            TaskStatus: val.tm_task_status === 1 ? 'Completed' :
-                                val.tm_task_status === 1 ? 'Completed' :
-                                    val.tm_task_status === 2 ? 'On Progress' :
-                                        val.tm_task_status === 3 ? 'On Hold' :
-                                            val.tm_task_status === 4 ? 'Pending' :
-                                                val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
-                        }
-                        return obj
-                    })
-                    setTableData(arry)
+            // if (data.length !== 0) {
+            if (success === 2) {
+                const arry = data?.map((val) => {
+                    const obj = {
+                        tm_task_slno: val.tm_task_slno,
+                        tm_task_name: val.tm_task_name,
+                        dept_name: val.dept_name,
+                        sec_name: val.sec_name,
+                        tm_assigne_emp: val.tm_assigne_emp,
+                        em_name: val.em_name,
+                        tm_task_dept: val.tm_task_dept,
+                        tm_task_dept_sec: val.tm_task_dept_sec,
+                        main_task_slno: val.main_task_slno,
+                        tm_task_due_date: val.tm_task_due_date,
+                        tm_task_description: val.tm_task_description,
+                        tm_detail_status: val.tm_detail_status,
+                        tm_task_status: val.tm_task_status,
+                        tm_project_name: val.tm_project_name,
+                        tm_project_slno: val.tm_project_slno,
+                        create_date: val.create_date,
+                        TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                            val.tm_task_status === 1 ? 'Completed' :
+                                val.tm_task_status === 2 ? 'On Progress' :
+                                    val.tm_task_status === 3 ? 'On Hold' :
+                                        val.tm_task_status === 4 ? 'Pending' :
+                                            val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                    }
+                    return obj
+                })
+                setTableData(arry)
 
 
-                } else {
-                    setTableData([])
-                    warningNotify('error occured')
-                }
+                // } else {
+                //     setTableData([])
+                //     warningNotify('error occured')
+                // }
 
             } else {
                 setTableData([])
@@ -207,7 +208,7 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
                         </Box>
                     </Box>
                 </Box>
-                <Box variant="outlined" sx={{ backgroundColor: '#FEFCFF', px: 1.1, maxHeight: 450, minHeight: 100 }}>
+                <Box variant="outlined" sx={{ backgroundColor: '#FEFCFF', px: 1.1, height: 470 }}>
                     {tableData.length !== 0 ?
                         <Paper variant="outlined" sx={{ maxHeight: 450, maxWidth: '100%', pb: 2, overflow: 'auto', mt: .5, bgcolor: 'white' }}>
                             <CssVarsProvider>
@@ -225,8 +226,9 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
                                             <th style={{ width: 250, fontFamily: 'Georgia' }}>Department</th>
                                             <th style={{ width: 250, fontFamily: 'Georgia' }}>Section</th>
                                             <th style={{ width: 180, fontFamily: 'Georgia' }}>Assignee</th>
-                                            <th style={{ width: 100, fontFamily: 'Georgia' }}>Due date</th>
-                                            <th style={{ width: 300, fontFamily: 'Georgia' }}>Description</th>
+                                            <th style={{ width: 130, fontFamily: 'Georgia' }}>Created date</th>
+                                            <th style={{ width: 130, fontFamily: 'Georgia' }}>Due date</th>
+                                            <th style={{ width: 320, fontFamily: 'Georgia' }}>Description</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -234,7 +236,7 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
                                             return (
                                                 <tr key={index}
                                                     style={{
-                                                        height: 8, background: val.main_task_slno !== null ? '#D8CEE6' : val.main_task_slno === 0 ? '#D8CEE6' : 'transparent',
+                                                        height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent',
                                                         minHeight: 5
                                                     }}
                                                 >
@@ -266,7 +268,8 @@ const TaskSearchTable = ({ rowSelect, taskTableCount, setEditTaslFlag, }) => {
                                                     <td> {val.dept_name || 'not given'}</td>
                                                     <td> {val.sec_name || 'not given'}</td>
                                                     <td>{val.tm_detail_status === 1 ? val.em_name : val.tm_detail_status === null ? 'not given' : 'no'}</td>
-                                                    <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
+                                                    <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                    <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                     <td> {val.tm_task_description || 'not given'}</td>
                                                 </tr>
                                             )
