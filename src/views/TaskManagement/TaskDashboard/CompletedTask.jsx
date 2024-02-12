@@ -8,7 +8,7 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { memo } from 'react';
 import moment from 'moment';
-import ViewTaskImage from '../TaskCreationOuter/ViewTaskImage';
+import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 
 const CompletedTask = ({ tableCount }) => {
     const [tableData, setTableData] = useState([])
@@ -40,7 +40,7 @@ const CompletedTask = ({ tableCount }) => {
                             dept_name: val.dept_name,
                             sec_name: val.sec_name,
                             tm_assigne_emp: val.tm_assigne_emp,
-                            em_name: val.em_name,
+                            em_name: (val.em_name).toLowerCase(),
                             tm_task_dept: val.tm_task_dept,
                             tm_task_dept_sec: val.tm_task_dept_sec,
                             tm_task_due_date: val.tm_task_due_date,
@@ -103,8 +103,8 @@ const CompletedTask = ({ tableCount }) => {
             {image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                 selectedImages={selectedImages} getarry={getarry} /> : null}
             {viewCompleted === 1 ?
-                <Box variant="outlined" sx={{ height: 490, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
-                    <Paper variant="outlined" sx={{ maxHeight: 450, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
+                <Box variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', mt: .5, }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 660, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
                         <CssVarsProvider>
                             <Table padding={"none"} stickyHeader
                                 hoverRow>
@@ -113,10 +113,10 @@ const CompletedTask = ({ tableCount }) => {
                                         <th style={{ width: 50 }}>#</th>
                                         <th style={{ width: 50 }}>view</th>
                                         <th style={{ width: 200 }}>Task name</th>
-                                        <th style={{ minWidth: 100 }}>Assignee</th>
-                                        <th style={{ width: 110 }}>Created Date</th>
-                                        <th style={{ minWidth: 100 }}>Due date</th>
-                                        <th style={{ minWidth: 250 }}>Description</th>
+                                        <th style={{ width: 100 }}>Assignee</th>
+                                        <th style={{ width: 100 }}>Created Date</th>
+                                        <th style={{ width: 100 }}>Due date</th>
+                                        <th style={{ width: 250 }}>Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -134,11 +134,11 @@ const CompletedTask = ({ tableCount }) => {
                                                         onClick={() => fileView(val)}
                                                     />
                                                 </td>
-                                                <td> {val.tm_task_name || 'not given'}</td>
-                                                <td> {val.em_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
                                                 <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                <td> {val.tm_task_description || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )
                                     })}

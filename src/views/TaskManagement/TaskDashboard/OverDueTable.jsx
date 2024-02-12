@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import EditIcon from '@mui/icons-material/Edit';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { warningNotify } from 'src/views/Common/CommonCode';
-import ViewTaskImage from '../TaskCreationOuter/ViewTaskImage';
+import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import moment from 'moment';
 import ModalEditTask from '../CreateTask/ModalEditTask';
 const OverDueTable = () => {
@@ -50,7 +50,9 @@ const OverDueTable = () => {
                             dept_name: val.dept_name,
                             sec_name: val.sec_name,
                             tm_assigne_emp: val.tm_assigne_emp,
+                            // em_name: (val.em_name).toLowerCase(),
                             em_name: val.em_name,
+                            create_date: val.create_date,
                             tm_task_dept: val.tm_task_dept,
                             tm_task_dept_sec: val.tm_task_dept_sec,
                             main_task_slno: val.main_task_slno,
@@ -110,15 +112,13 @@ const OverDueTable = () => {
     return (
         <Box>
             {viewOverDue === 1 ?
-                <Box variant="outlined" sx={{ height: 490, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
-                    <Paper variant="outlined" sx={{ maxHeight: 480, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
+                <Box variant="outlined" sx={{ height: 660, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 650, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
                         {editModalFlag === 1 ?
                             <ModalEditTask open={editModalOpen} masterData={masterData} setEditModalOpen={setEditModalOpen}
                                 setEditModalFlag={setEditModalFlag}
                                 tableCount={tableCount} setTableCount={setTableCount}
                             />
-                            // <TaskStatusModal open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
-                            //     setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount} />
                             :
                             image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                                 selectedImages={selectedImages} getarry={getarry} /> : null}
@@ -133,12 +133,10 @@ const OverDueTable = () => {
                                         <th style={{ width: 75 }}>Action</th>
                                         <th style={{ width: 55 }}>View</th>
                                         <th style={{ width: 200 }}>Task name</th>
-                                        {/* <th style={{ minWidth: 150 }}>Department</th>
-                            <th style={{ minWidth: 150 }}>Section</th> */}
-                                        <th style={{ minWidth: 100 }}>Assignee</th>
-                                        <th style={{ width: 110 }}>Created Date</th>
-                                        <th style={{ minWidth: 100 }}>Due date</th>
-                                        <th style={{ minWidth: 250 }}>Description</th>
+                                        <th style={{ width: 100 }}>Assignee</th>
+                                        <th style={{ width: 100 }}>Created Date</th>
+                                        <th style={{ width: 100 }}>Due date</th>
+                                        <th style={{ width: 250 }}>Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -157,13 +155,11 @@ const OverDueTable = () => {
                                                         onClick={() => fileView(val)} />
                                                 </td>
 
-                                                <td> {val.tm_task_name || 'not given'}</td>
-                                                <td> {val.em_name || 'not given'}</td>
-                                                {/* <td> {val.sec_name || 'not given'}</td> */}
-                                                {/* <td> eg</td> */}
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
                                                 <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                <td> {val.tm_task_description || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )
                                     })}

@@ -21,7 +21,7 @@ const TaskTransaction = [
     {
         men_slno: 185,
         component: CNavItem,
-        name: 'Task List',
+        name: 'Create Task',
         to: '/Home/TaskManagementTaskLists',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
@@ -35,7 +35,7 @@ const TaskTransaction = [
     {
         men_slno: 170,
         component: CNavItem,
-        name: 'Create Task',
+        name: 'All Department Task',
         to: '/Home/TaskManagementCreateTask',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },

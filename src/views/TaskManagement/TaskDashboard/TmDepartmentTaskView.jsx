@@ -53,7 +53,7 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdepartmentTaskFlag
                     margin: 'auto',
                     border: .1, borderColor: '#D396FF',
                 }} >
-                    <Box sx={{ width: '99.5%', ml: .5, mt: .5, borderRadius: 2, backgroundColor: '#D9E4EC' }}>
+                    <Box sx={{ width: '99.5%', ml: .5, mt: .5, backgroundColor: '#D9E4EC' }}>
                         <Box sx={{ py: .5, pl: 1.5, display: 'flex' }}>
                             <Box>
                                 <CssVarsProvider>
@@ -70,10 +70,8 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdepartmentTaskFlag
                             <Typography sx={{ fontWeight: 550, pt: .5, pl: .5 }}>{deptTaskHeading}</Typography>
                         </Box>
                     </Box>
-                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: 1, maxHeight: '80%' }}>
+                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '80%' }}>
                         {editModalFlag === 1 ?
-                            // <TaskStatusModal open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
-                            //     setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount} />
                             <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                 setEditModalFlag={setEditModalFlag}
                                 tableCount={tableCount} setTableCount={setTableCount}
@@ -86,8 +84,6 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdepartmentTaskFlag
                                         <th style={{ width: 60 }}>#</th>
                                         <th style={{ width: 80 }}>Action</th>
                                         <th style={{ width: 250 }}>Task name</th>
-                                        {/* <th style={{ width: 250 }}>Department</th>
-                                        <th style={{ width: 250 }}>Section</th> */}
                                         <th style={{ width: 100 }}>Assignee</th>
                                         <th style={{ width: 100 }}>Created Date</th>
                                         <th style={{ width: 100 }}>Due date</th>
@@ -108,13 +104,11 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdepartmentTaskFlag
                                                         sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
-                                                <td> {val.tm_task_name || 'not given'}</td>
-                                                {/* <td> {val.dept_name || 'not given'}</td>
-                                                <td> {val.sec_name || 'not given'}</td> */}
-                                                <td> {val.em_name || 'not given'}</td>
-                                                <td> {moment(val.create_date).format('DD-MM-YYYY') || 'not given'}</td>
-                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
-                                                <td> {val.tm_task_description || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {moment(val.create_date).format('DD-MM-YYYY') || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )
                                     })}

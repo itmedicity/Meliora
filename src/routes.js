@@ -148,7 +148,9 @@ const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDe
 const AssetRackMast = React.lazy(() => import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster'))
 const AssetDeptTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DeptTransfer'))
 const TaskManagementMainDashboard = React.lazy(() => import('./views/TaskManagement/TaskDashboard/TmDashboardMain'))
-const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/TaskCreationOuter/CreateMainTask'))
+// const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/TaskCreationOuter/CreateMainTask'))
+
+
 const TaskManagementMainGoals = React.lazy(() => import('./views/TaskManagement/GoalsMaster/GoalsMaster'))
 const TaskManagementMainProject = React.lazy(() => import('./views/TaskManagement/ProjectMaster/ProjectMaster'))
 const TaskManagementDeptGoals = React.lazy(() => import('./views/TaskManagement/GoalsMaster/GoalsMasterDept'))
@@ -176,6 +178,7 @@ const AssetInterDeptTrans = React.lazy(() => import('./views/AssetManagment/Inte
 const TMdepartmentReport = React.lazy(() => import('./views/Report/TaskReport/DepartmentWise/DepartmentWiseTask'))
 const TMEmployeeReport = React.lazy(() => import('./views/Report/TaskReport/EmployeeWise/EmployeeeWiseTask'))
 const TaskManagementTaskLists = React.lazy(() => import('./views/TaskManagement/TaskDashboard/TmTaskList'))
+const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/AllDepartmentTask/AllDepartmentMain'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },

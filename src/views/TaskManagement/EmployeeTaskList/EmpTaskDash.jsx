@@ -108,6 +108,9 @@ const EmpTaskDash = () => {
         employeeOnPending
     ])
 
+
+
+
     useEffect(() => {
         const getOverDueEmpTable = async () => {
             const result = await axioslogin.get(`TmTableView/employeeOverDue/${id}`)
@@ -370,134 +373,6 @@ const EmpTaskDash = () => {
                                         <Box sx={{ flex: 1 }}></Box>
                                     </Box>
                                 </Box>
-
-                                {/* <Box sx={{ maxHeight: 160, overflow: 'auto', }}>
-                                    <ListDivider inset='gutter' />
-                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
-                                        onClick={(e) => {
-                                            ViewEmpOverDueTask(e)
-                                        }}>
-                                        <ListItemDecorator>
-                                            <Avatar
-                                                color="neutral"
-                                                size="sm"
-                                                variant="outlined"
-                                                sx={{ bgcolor: 'white', }}
-                                            >
-                                                <RestartAltOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
-                                            </Avatar>
-                                        </ListItemDecorator>
-                                        Overdue
-                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 22, fontWeight: 700, pr: 1, }}>
-                                            <Box sx={{ cursor: 'pointer', width: 35, color: '#341948', border: 1, borderRadius: 15, borderColor: '#5E376D', }}>
-                                                {employeeOverDue.length}
-                                            </Box>
-
-                                        </Box>
-                                    </ListItem>
-                                    <ListDivider inset='gutter' />
-                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
-                                        onClick={(e) => {
-                                            ViewEmpOnProgressTask(e)
-                                        }}>
-                                        <ListItemDecorator>
-                                            <Avatar
-                                                color="neutral"
-                                                size="sm"
-                                                variant="outlined"
-                                                sx={{ bgcolor: 'white' }}
-                                            >
-                                                <RotateRightIcon sx={{ color: '#341948', width: 23, height: 23, }} />
-                                            </Avatar>
-                                        </ListItemDecorator>
-                                        On Progress
-                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
-                                            {employeeOnProgress.length}
-                                        </Box>
-                                    </ListItem>
-                                    <ListDivider inset='gutter' />
-                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
-                                        onClick={(e) => {
-                                            ViewOnHoldTask(e)
-                                        }}>
-                                        <ListItemDecorator>
-                                            <Avatar
-                                                color="neutral"
-                                                sx={{ bgcolor: 'white', }}
-                                                size="sm"
-                                                variant="outlined"
-                                            >
-                                                <LockResetIcon sx={{ color: '#341948', width: 23, height: 23, }} />
-                                            </Avatar>
-                                        </ListItemDecorator>
-                                        On Hold
-                                        <Box sx={{ flexGrow: 1, display: 'flex', }}>
-                                            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
-                                                {employeeOnHold.length}
-                                            </Box>
-                                        </Box>
-                                    </ListItem>
-                                    <ListDivider inset='gutter' />
-                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
-                                        onClick={(e) => {
-                                            ViewOnPendingTask(e)
-                                        }}>
-                                        <ListItemDecorator>
-                                            <Avatar
-                                                color="neutral"
-                                                size="sm"
-                                                variant="outlined"
-                                                sx={{ bgcolor: 'white' }}
-                                            >
-                                                <RunningWithErrorsIcon sx={{ color: '#341948', width: 23, height: 23, }} />
-                                            </Avatar>
-                                        </ListItemDecorator>
-                                        Pending
-                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
-                                            {employeeOnPending.length}
-                                        </Box>
-                                    </ListItem>
-                                    <ListDivider inset='gutter' />
-                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
-                                        onClick={(e) => {
-                                            ViewEmpInCompletedTask(e)
-                                        }}>
-                                        <ListItemDecorator>
-                                            <Avatar
-                                                color="neutral"
-                                                size="sm"
-                                                variant="outlined"
-                                                sx={{ bgcolor: 'white' }}
-                                            >
-                                                <DataUsageIcon sx={{ color: '#341948', width: 23, height: 23, }} />
-                                            </Avatar>
-                                        </ListItemDecorator>
-                                        In Completed
-                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
-                                            {employeeInComplete.length}
-                                        </Box>
-                                    </ListItem>
-                                    <ListDivider inset='gutter' />
-                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
-                                        onClick={(e) => {
-                                            ViewEmpCompletedTask(e)
-                                        }}>
-                                        <ListItemDecorator>
-                                            <Avatar
-                                                color="neutral"
-                                                size="sm"
-                                                variant="outlined"
-                                                sx={{ bgcolor: 'white' }}
-                                            >
-                                                <CheckCircleOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
-                                            </Avatar>
-                                        </ListItemDecorator>
-                                        Completed
-                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
-                                            {employeeeCompleted.length}
-                                        </Box>
-                                    </ListItem>
-                                </Box> */}
                             </List>
                             <Box sx={{ flex: 1, height: 10 }}></Box>
                         </CssVarsProvider>

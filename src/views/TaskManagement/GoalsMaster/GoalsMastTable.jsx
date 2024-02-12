@@ -38,8 +38,8 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                     const obj = {
                         tm_goals_slno: val.tm_goals_slno,
                         tm_goal_name: val.tm_goal_name,
-                        dept_name: val.dept_name,
-                        sec_name: val.sec_name,
+                        dept_name: (val.dept_name).toLowerCase(),
+                        sec_name: (val.sec_name).toLowerCase(),
                         tm_goal_dept: val.tm_goal_dept,
                         tm_goal_deptsec: val.tm_goal_deptsec,
                         tm_goal_duedate: val.tm_goal_duedate,
@@ -67,8 +67,8 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                         const obj = {
                             tm_goals_slno: val.tm_goals_slno,
                             tm_goal_name: val.tm_goal_name,
-                            dept_name: val.dept_name,
-                            sec_name: val.sec_name,
+                            dept_name: (val.dept_name).toLowerCase(),
+                            sec_name: (val.sec_name).toLowerCase(),
                             tm_goal_dept: val.tm_goal_dept,
                             tm_goal_deptsec: val.tm_goal_deptsec,
                             tm_goal_fromdate: val.tm_goal_fromdate,
@@ -170,12 +170,12 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                                                             color: val.tm_goal_status === null ? '#5F093D' : val.tm_goal_status === 0 ? '#5F093D'
                                                                 : val.tm_goal_status === 1 ? 'green' : 'transparent', minHeight: 5
                                                         }}>{val.GoalStatus}</td>
-                                                    <td> {val.tm_goal_name || 'not given'}</td>
-                                                    <td> {val.dept_name || 'not given'}</td>
-                                                    <td> {val.sec_name || 'not given'}</td>
+                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_name || 'not given'}</td>
+                                                    <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td>
+                                                    <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td>
                                                     <td> {moment(val.tm_goal_fromdate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                     <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                    <td> {val.tm_goal_description || 'not given'}</td>
+                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_description || 'not given'}</td>
                                                 </tr>
                                             )
                                         })}

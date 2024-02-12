@@ -26,6 +26,8 @@ import { useSelector } from 'react-redux';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
 import _ from 'underscore';
+import DashboardTabs from '../DashEmpTaskList/DashboardTabs';
+
 const TmDashboardMain = () => {
 
     const [overDueHeading, setoverDueHeading] = useState('')
@@ -49,7 +51,6 @@ const TmDashboardMain = () => {
     const [deptTableData, setdeptTableData] = useState([])
     const [deptCompleted, setdeptCompleted] = useState([])
     const [deptInComplete, setdeptInComplete] = useState([])
-    // const [deptOverDue, setdeptOverDue] = useState([])
     const [deptOnProgress, setdeptOnProgress] = useState([])
     const [deptOnHold, setdeptOnHold] = useState([])
     const [deptOnPending, setdeptOnPending] = useState([])
@@ -279,19 +280,7 @@ const TmDashboardMain = () => {
             setdeptTableData(deptInComplete)
         }
     }, [deptInComplete])
-    // const ViewDeptOverdueTask = useCallback((e) => {
-    //     if (deptOverDue.length === 0) {
-    //         infoNotify('No Data')
-    //     } else {
-    //         setdepartmentTaskFlag(1)
-    //         setdeptTaskHeading('Over Dues')
-    //         setoverdueTaskFlag(0)
-    //         setemployeeTaskFlag(0)
-    //         setprojectFlag(0)
-    //         setgoalsFlag(0)
-    //         setdeptTableData(deptOverDue)
-    //     }
-    // }, [deptOverDue])
+
     const ViewProjectOnProgess = useCallback((e) => {
         if (projOnProgress.length === 0) {
             infoNotify('No Data')
@@ -524,16 +513,6 @@ const TmDashboardMain = () => {
                 setdeptInComplete([])
             }
         }
-        // const getDeptOverDueTable = async () => {
-        //     const result = await axioslogin.get(`TmTableView/departmentOverDue/${empsecid}`)
-        //     const { data, success } = result.data
-        //     if (success === 2) {
-        //         setdeptOverDue(data)
-        //         // settaskTableCount(taskTableCount + 1)
-        //     } else {
-        //         setdeptOverDue([])
-        //     }
-        // }
         const getDeptOnProgressTable = async () => {
             const result = await axioslogin.get(`TmTableView/departmentOnProgress/${empsecid}`)
             const { data, success } = result.data
@@ -656,7 +635,6 @@ const TmDashboardMain = () => {
         getEmpInCompleteTable()
         getDeptCompleteTable()
         getDeptInCompleteTable()
-        // getDeptOverDueTable()
         getDeptOnProgressTable()
         getProjComplete()
         getProjInComplete()
@@ -701,7 +679,7 @@ const TmDashboardMain = () => {
                                                 sx={{ borderRadius: 'lg', border: .1, borderColor: '#D396FF', }}
                                             >
                                                 <ListItem sx={{ color: '#5E376D', fontSize: 18, height: 55, fontWeight: 650 }}>
-                                                    OVER DUE TASK
+                                                    Over Due Task
                                                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end', fontSize: 30, mr: 1.5 }}>
                                                         {overdues.length}
                                                     </Box>
@@ -806,7 +784,7 @@ const TmDashboardMain = () => {
                                                 sx={{ borderRadius: 'lg', border: .1, borderColor: '#D396FF', }}
                                             >
                                                 <ListItem sx={{ color: '#5E376D', fontSize: 18, height: 55, fontWeight: 650 }}>
-                                                    MY TASK
+                                                    My Task
                                                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end', fontSize: 30, mr: 1.5 }}>
                                                         {employeeInComplete.length}
                                                     </Box>
@@ -956,7 +934,7 @@ const TmDashboardMain = () => {
                                                 sx={{ borderRadius: 'lg', border: .1, borderColor: '#D396FF', }}
                                             >
                                                 <ListItem sx={{ color: '#5E376D', fontSize: 18, height: 55, fontWeight: 650 }}>
-                                                    DEPARTMENT TASK
+                                                    Department Task
                                                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end', fontSize: 30, mr: 1.5 }}>
                                                         {/* <Box sx={{ border: 1, borderRadius: 20, width: 45 }}> */}
                                                         {deptInComplete.length}
@@ -1084,7 +1062,7 @@ const TmDashboardMain = () => {
                                                 sx={{ borderRadius: 'lg', border: .1, borderColor: '#D396FF', }}
                                             >
                                                 <ListItem sx={{ color: '#5E376D', fontSize: 18, height: 55, fontWeight: 650 }}>
-                                                    PROJECTS
+                                                    Projects
                                                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end', fontSize: 30, mr: 1.5 }}>
 
                                                         {projInCompleted.length}
@@ -1207,7 +1185,7 @@ const TmDashboardMain = () => {
                                                 sx={{ borderRadius: 'lg', border: .1, borderColor: '#D396FF', }}
                                             >
                                                 <ListItem sx={{ color: '#5E376D', fontSize: 18, height: 55, fontWeight: 650 }}>
-                                                    GOALS
+                                                    Goals
                                                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end', fontSize: 30, mr: 1.5 }}>
                                                         {goalsInCompleted.length}
                                                     </Box>
@@ -1300,15 +1278,8 @@ const TmDashboardMain = () => {
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
-                                <Box sx={{
-                                    // borderRadius: 2,
-                                    // margin: 'auto',
-                                    // mx: .5,
-                                    // border: .1, borderColor: '#D396FF',
-                                    height: '30vw'
-
-                                }}>
-                                    {/* <TmDashBoadTaskView tableCount={tableCount} setTableCount={setTableCount} /> */}
+                                <Box sx={{ border: 1, borderRadius: 4, p: .5, borderColor: '#D396FF', mx: .5, height: 560, }}>
+                                    <DashboardTabs />
                                 </Box>
                                 <Box sx={{ height: 3 }}></Box>
                             </Box >

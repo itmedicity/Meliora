@@ -1,15 +1,17 @@
-import React, { useCallback, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { Box, Table, CssVarsProvider } from '@mui/joy'
-import { Divider, Paper } from '@mui/material'
+import { Paper } from '@mui/material'
 import { useEffect } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import moment from 'moment';
 import EditIcon from '@mui/icons-material/Edit'
-import ViewTaskImage from './ViewTaskImage'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { warningNotify } from 'src/views/Common/CommonCode'
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount }) => {
+import ViewTaskImage from '../TaskFileView/ViewTaskImage'
+
+const SubTaskTableUnderTask = ({ tm_task_slno, selectForEditsSubTask, tableRendering }) => {
+
     const [viewSubTask, setViewSubTask] = useState(0)
     const [subTask, setSubTask] = useState([])
     const [selectedImages, setSelectedImages] = useState([]);
@@ -54,7 +56,7 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
             }
         }
         getSubTask(tm_task_slno)
-    }, [tm_task_slno, taskTableCount])
+    }, [tm_task_slno, tableRendering])
 
     const handleClose = useCallback(() => {
         setimage(0)
@@ -93,16 +95,11 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
     }
 
     return (
-        <Box sx={{ backgroundColor: '#FEFCFF' }}>
-
+        <Box sx={{}}>
             {viewSubTask === 1 ?
-
                 <Box>
                     {image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                         selectedImages={selectedImages} getarry={getarry} /> : null}
-                    <Box sx={{ pt: 2 }}>
-                        <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', fontFamily: 'Georgia' }}>SubTasks</Divider>
-                    </Box>
                     <Paper variant="outlined" sx={{
                         width: '99%', overflow: 'auto', m: 1, maxHeight: 320,
                     }}>
@@ -110,7 +107,6 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
                             <Table padding={"none"} stickyHeader hoverRow>
                                 <thead>
                                     <tr style={{ background: '#D8CEE6' }}>
-
                                         <th style={{ width: 50, fontFamily: 'Georgia' }}>#</th>
                                         <th style={{ width: 70, fontFamily: 'Georgia' }} >Action</th>
                                         <th style={{ width: 60, fontFamily: 'Georgia' }} >View</th>
@@ -145,7 +141,6 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
                                                         onClick={() => fileView(val)}
                                                     />
                                                 </td>
-
                                                 <td
                                                     style={{
                                                         color: val.tm_task_status === null ? '#B95C50'
@@ -164,7 +159,6 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
                                                 <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {val.tm_task_description || 'not given'}</td>
-
                                             </tr>
                                         )
                                     })}
@@ -175,8 +169,7 @@ const OuterSubTaskTable = ({ tm_task_slno, selectForEditsSubTask, taskTableCount
                 </Box>
                 : null}
         </Box >
-
     )
 }
 
-export default OuterSubTaskTable
+export default memo(SubTaskTableUnderTask)
