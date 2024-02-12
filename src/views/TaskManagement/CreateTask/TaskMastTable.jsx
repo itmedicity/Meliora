@@ -6,7 +6,7 @@ import { Paper } from '@mui/material';
 import ModalEditTask from './ModalEditTask';
 import { useSelector } from 'react-redux';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import ViewTaskImage from '../TaskCreationOuter/ViewTaskImage';
+import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import moment from 'moment';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
@@ -32,7 +32,6 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
         const getMasterTable = async () => {
             const result = await axioslogin.get(`/taskManagement/viewMasterTaskBySecid/${empsecid}`);
             const { success, data } = result.data;
-
             if (data.length !== 0) {
                 if (success === 2) {
                     const arry = data?.map((val) => {
@@ -43,6 +42,7 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                             sec_name: val.sec_name,
                             tm_assigne_emp: val.tm_assigne_emp,
                             em_name: val.em_name,
+                            // em_name: (val.em_name).toLowerCase(),
                             tm_task_dept: val.tm_task_dept,
                             tm_task_dept_sec: val.tm_task_dept_sec,
                             tm_task_due_date: val.tm_task_due_date,
@@ -91,9 +91,7 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
             const { success } = result.data;
             if (success === 1) {
                 const data = result.data;
-
                 const fileNames = data.data;
-
                 const fileUrls = fileNames.map((fileName) => {
                     return `${PUBLIC_NAS_FOLDER}/Meliora/TaskManagement/${tm_task_slno}/${fileName}`;
                 });
@@ -129,8 +127,8 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                 /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                     selectedImages={selectedImages} getarry={getarry} /> : null}
             {Upcomingview === 1 ?
-                <Box variant="outlined" sx={{ height: 460, width: '100%', overflow: 'auto', mt: .5, }}>
-                    <Paper variant="outlined" sx={{ maxHeight: 450, width: '100%', overflow: 'auto', mt: .5, }}>
+                <Box variant="outlined" sx={{ width: '100%', overflow: 'auto', mt: .5, }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 660, width: '100%', overflow: 'auto', mt: .5, }}>
                         <CssVarsProvider>
                             <Table padding={"none"} stickyHeader
                                 hoverRow>
@@ -177,12 +175,12 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                                                         onClick={() => fileView(val)}
                                                     />
                                                 </td>
-                                                <td> {val.tm_task_name || 'not given'}</td>
-                                                <td> {val.tm_project_name || 'not given'}</td>
-                                                <td> {val.em_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {(val.em_name || 'not given')}</td>
                                                 <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                <td> {val.tm_task_description || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )
                                     })}

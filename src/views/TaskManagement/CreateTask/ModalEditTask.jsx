@@ -26,7 +26,9 @@ import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import moment from 'moment';
 const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount }) => {
 
-    const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, em_name, create_date } = masterData
+    const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, em_name, create_date, tm_project_name } = masterData
+
+
 
     const dispatch = useDispatch();
     const [departmentMast, setdepartmentMast] = useState(0)
@@ -69,7 +71,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         },
         [taskData],
     )
-
     const ChangeCompleted = useCallback((e) => {
         if (e.target.checked === true) {
             setCompleted(true)
@@ -134,7 +135,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             setcheckFlag(0)
         }
     }, [])
-
     const [taskProgress, setTaskProgress] = useState({
         progress_slno: '',
         tm_task_slno: tm_task_slno,
@@ -143,9 +143,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         progress_emp: id,
         tm_task_progress: ''
     })
-
     const { progress_slno, tm_progres_date, tm_task_progress, } = taskProgress
-
     const ProgresssUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -153,7 +151,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         },
         [taskProgress],
     )
-
     const postProgress = useMemo(() => {
         return {
             tm_task_slno: tm_task_slno,
@@ -228,8 +225,10 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const handleEditClose = useCallback(() => {
         setEditModalFlag(0)
         setEditModalOpen(false)
-        setSubTask([])
-    }, [setEditModalOpen, setEditModalFlag, setSubTask])
+        // setSubTask([])
+    }, [setEditModalOpen, setEditModalFlag,
+        // setSubTask
+    ])
 
     const resetProgress = () => {
         const form = {
@@ -469,7 +468,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                 handleEditClose()
                                             }
                                             else {
-                                                //     warningNotify('failure in updating employee assign')
                                                 handleEditClose()
                                                 setTableCount(tableCount + 1)
                                             }
@@ -575,46 +573,57 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                             </Box>
                         </Box>
                         <Box sx={{ display: 'flex', width: '100%', }}>
-                            <Box sx={{ flex: 1.5, }}>
+                            <Box sx={{ flex: 2.5, }}>
                                 <Box sx={{ pt: 2, pl: 2, fontSize: 18, mt: 1.2, display: 'flex', justifyContent: 'right', mr: 1 }}>
                                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Task Name
+                                        Task Name&nbsp;:&nbsp;
                                     </Typography>
                                 </Box>
                                 {main_task_slno === null ?
-                                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: 2, height: 30, pt: 1, fontFamily: 'Georgia' }}>
+                                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: 2, height: 30, pt: 2, fontFamily: 'Georgia' }}>
                                         <Typography sx={{ color: '#003B73' }}>
-                                            Project
+                                            Project&nbsp;:&nbsp;
                                         </Typography>
-                                    </Box> : null}
-                                <Box sx={{ pt: 1, pl: 2, fontSize: 18, mt: 1.5, display: 'flex', justifyContent: 'right', mr: 1 }}>
+                                    </Box> :
+                                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: 2, height: 30, pt: 2, fontFamily: 'Georgia' }}>
+                                        <Typography sx={{ color: '#003B73' }}>
+                                            Project&nbsp;:&nbsp;
+                                        </Typography>
+                                    </Box>}
+                                <Box sx={{ pt: 2, pl: 2, fontSize: 18, mt: 1.5, display: 'flex', justifyContent: 'right', mr: 1 }}>
                                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Department
+                                        Department&nbsp;:&nbsp;
                                     </Typography>
                                 </Box>
                                 <Box sx={{ pt: 1, pl: 2, fontSize: 18, mt: 1, display: 'flex', justifyContent: 'right', mr: 1 }}>
                                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Section
+                                        Section&nbsp;:&nbsp;
                                     </Typography>
                                 </Box>
-                                <Box sx={{ mt: .5, pl: 2, pt: 1.5, fontSize: 18, display: 'flex', justifyContent: 'right', mr: 1 }}>
+                                {changeAssignee === 0 ?
+                                    <Box sx={{ mt: .8, pl: 2, pt: 1, fontSize: 18, display: 'flex', justifyContent: 'right', mr: 1 }}>
+                                        <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                            Assignee&nbsp;:&nbsp;
+                                        </Typography>
+                                    </Box> :
+                                    <Box sx={{ mt: 1.5, pl: 2, pt: 1, fontSize: 18, display: 'flex', justifyContent: 'right', mr: 1, height: 40 }}>
+                                        <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
+                                            Assignee&nbsp;:&nbsp;
+                                        </Typography>
+                                    </Box>}
+                                <Box sx={{ pl: 2, fontSize: 18, mt: 1.2, display: 'flex', justifyContent: 'right', mr: 1, pt: 1 }}>
                                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Assignee
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ pl: 2, fontSize: 18, mt: 1.5, display: 'flex', justifyContent: 'right', mr: 1, pt: .5 }}>
-                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Created date
+                                        Created date&nbsp;:&nbsp;
                                     </Typography>
                                 </Box>
                                 <Box sx={{ pl: 2, fontSize: 18, mt: 1.5, display: 'flex', justifyContent: 'right', mr: 1 }}>
                                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Due date
+                                        Due date&nbsp;:&nbsp;
                                     </Typography>
                                 </Box>
                                 <Box sx={{ pl: 2, fontSize: 18, mt: 2, display: 'flex', justifyContent: 'right', mr: 1 }}>
                                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Description
+                                        Description&nbsp;:&nbsp;
                                     </Typography>
                                 </Box>
                             </Box>
@@ -641,7 +650,15 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                             projectz={projectz}
                                             setprojectz={setprojectz} />
 
-                                    </Box> : null}
+                                    </Box> :
+                                    <Box sx={{ mt: .5 }}>
+                                        <TextFieldCustom
+                                            type="text"
+                                            name="tm_project_name"
+                                            value={tm_project_name}
+                                            disabled>
+                                        </TextFieldCustom>
+                                    </Box>}
                                 <Box sx={{ mt: .5 }}>
                                     <TextFieldCustom
                                         type="text"
@@ -716,49 +733,53 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     </Textarea>
                                 </Box>
                             </Box>
-                            <Box sx={{ flex: 9, ml: .5, }}></Box>
+                            <Box sx={{ flex: 2, }}></Box>
                         </Box>
-                        <Box sx={{
-                            fontFamily: 'Georgia',
-                            height: 50, mt: .5, border: 1, borderRadius: 1, borderStyle: 'dashed', display: 'flex',
-                            borderColor: '#887BB0', mx: 2.3,
-                        }}>
+                        <Box sx={{ display: 'flex', }}>
+                            <Box sx={{ flex: 2.2, }}></Box>
                             <Box sx={{
-                                color: '#003B73', display: 'flex', flex: 1, m: 1, border: .5, borderColor: '#B7CFDC', pl: 1, pt: .3,
-                                borderRadius: 2,
+                                fontFamily: 'Georgia',
+                                height: 50, mt: .5, border: 1, borderRadius: 1, borderStyle: 'dashed', display: 'flex',
+                                borderColor: '#887BB0', flex: 5.5
                             }}>
-                                <Typography>fileUpload&nbsp;</Typography>
-                                <CssVarsProvider>
-                                    <label htmlFor="file-input">
-                                        <Tooltip title="File Attach" placement="bottom" >
-                                            <PermMediaIcon sx={{ color: '#738FA7', height: 25, width: 25, cursor: 'pointer', pr: .5 }} />
-                                        </Tooltip>
-                                    </label>
-                                    <input
-                                        id="file-input"
-                                        type="file"
-                                        accept=".jpg, .jpeg, .png, .pdf"
-                                        style={{ display: 'none' }}
-                                        onChange={handleTaskFileChange}
-                                        name="selectTaskfile"
-                                        multiple // Add this attribute to allow multiple file selections
-                                    />
-                                </CssVarsProvider>
-                            </Box>
-                            <Box sx={{ flex: 10, overflowX: "scroll", overflow: 'hidden', }}>
-                                <Box sx={{ display: 'flex' }}>
-                                    {selectTaskfile && selectTaskfile.map((taskFile, index) => (
-                                        <Box sx={{
-                                            display: "flex", flexDirection: "row", ml: .5, mt: 1.5,
-                                            backgroundColor: '#C3CEDA', borderRadius: 2, px: .5,
-                                        }} key={index} >
-                                            <Box >{taskFile.name}</Box>
-                                            <Box sx={{ ml: .3 }}><CloseIcon sx={{ height: '17px', width: '20px', cursor: 'pointer' }}
-                                                onClick={() => handleRemoveTaskFile(index)} /></Box>
-                                        </Box>
-                                    ))}
+                                <Box sx={{
+                                    color: '#003B73', display: 'flex', flex: 1, m: 1, border: .5, borderColor: '#B7CFDC', pl: 1, pt: .3,
+                                    borderRadius: 2,
+                                }}>
+                                    <Typography>fileUpload&nbsp;</Typography>
+                                    <CssVarsProvider>
+                                        <label htmlFor="file-input">
+                                            <Tooltip title="File Attach" placement="bottom" >
+                                                <PermMediaIcon sx={{ color: '#738FA7', height: 25, width: 25, cursor: 'pointer', pr: .5 }} />
+                                            </Tooltip>
+                                        </label>
+                                        <input
+                                            id="file-input"
+                                            type="file"
+                                            accept=".jpg, .jpeg, .png, .pdf"
+                                            style={{ display: 'none' }}
+                                            onChange={handleTaskFileChange}
+                                            name="selectTaskfile"
+                                            multiple // Add this attribute to allow multiple file selections
+                                        />
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ flex: 10, overflowX: "scroll", overflow: 'hidden', }}>
+                                    <Box sx={{ display: 'flex' }}>
+                                        {selectTaskfile && selectTaskfile.map((taskFile, index) => (
+                                            <Box sx={{
+                                                display: "flex", flexDirection: "row", ml: .5, mt: 1.5,
+                                                backgroundColor: '#C3CEDA', borderRadius: 2, px: .5,
+                                            }} key={index} >
+                                                <Box >{taskFile.name}</Box>
+                                                <Box sx={{ ml: .3 }}><CloseIcon sx={{ height: '17px', width: '20px', cursor: 'pointer' }}
+                                                    onClick={() => handleRemoveTaskFile(index)} /></Box>
+                                            </Box>
+                                        ))}
+                                    </Box>
                                 </Box>
                             </Box>
+                            <Box sx={{ flex: 1.8, }}></Box>
                         </Box>
                         <Box sx={{ m: 2, border: 1, borderColor: '#341948', borderRadius: 3 }}>
                             <Typography sx={{ pl: 1.5, pt: .5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}>
@@ -771,8 +792,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                         </Box>
                         <Box sx={{ display: 'flex' }}>
                             <Box sx={{ flex: 1, }}>
-
-
                                 {main_task_slno !== null ?
                                     <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
                                         <CusCheckBox
@@ -986,18 +1005,30 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                             : null}
                         {main_task_slno === null ?
                             <Box sx={{ m: 2, border: 1, borderColor: '#603A70', borderRadius: 3 }}>
-                                <Box sx={{
-                                    mt: 1, cursor: 'pointer', width: 150, height: 40, ml: 1, border: 1, borderColor: '#D9E4EC',
-                                    borderRadius: 5, pl: 1, pt: 1, color: '#774A62'
-                                }}
-                                    onClick={openAddSubtask}
-                                >
-                                    Add Subtask&nbsp;&nbsp;&nbsp;
-                                    {flag === 2 || flag === 1 ?
-                                        <RemoveIcon sx={{ fontSize: 25, color: '#004F76' }} /> :
-                                        flag === 0 ?
-                                            <AddIcon sx={{ fontSize: 25, color: '#004F76' }} /> : null}
-                                </Box>
+                                {completed === true ?
+                                    <Box>
+                                        <Tooltip title='unable to add a subtask to a completed task' placement='top-start'>
+                                            <Box sx={{
+                                                mt: 1, cursor: 'grab', width: 150, height: 40, ml: 1, border: 1, borderColor: '#D9E4EC',
+                                                borderRadius: 5, pl: 1, pt: .8,
+                                            }}
+                                            >
+                                                Add Subtask&nbsp;<AddIcon />
+                                            </Box>
+                                        </Tooltip>
+                                    </Box> :
+                                    <Box sx={{
+                                        mt: 1, cursor: 'pointer', width: 150, height: 40, ml: 1, border: 1, borderColor: '#D9E4EC',
+                                        borderRadius: 5, pl: 1, pt: 1, color: '#774A62'
+                                    }}
+                                        onClick={openAddSubtask}
+                                    >
+                                        Add Subtask&nbsp;&nbsp;&nbsp;
+                                        {flag === 2 || flag === 1 ?
+                                            <RemoveIcon sx={{ fontSize: 25, color: '#004F76' }} /> :
+                                            flag === 0 ?
+                                                <AddIcon sx={{ fontSize: 25, color: '#004F76' }} /> : null}
+                                    </Box>}
                                 <Box sx={{ mt: 1, pl: 1, }}>
                                     {
                                         flag === 1 ?
@@ -1043,6 +1074,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     </Box>
                                 </Box>
                                 <Box sx={{ height: 5, }}></Box>
+
                             </Box> : null}
                         <Box sx={{ height: 10 }}></Box>
                     </Box>

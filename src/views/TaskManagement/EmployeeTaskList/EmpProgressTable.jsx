@@ -5,13 +5,7 @@ import moment from 'moment';
 import EditIcon from '@mui/icons-material/Edit'
 const EmpProgressTable = ({ tabledata, rowSelect }) => {
 
-
-
-
     return (
-        // <Box>
-
-
 
         <Paper variant="outlined" sx={{ width: '99%', m: 1, overflow: 'auto', maxHeight: 300 }}>
             {tabledata.length !== 0 ?
@@ -40,8 +34,8 @@ const EmpProgressTable = ({ tabledata, rowSelect }) => {
                                             />
                                         </td>
                                         <td> {moment(val.tm_progres_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                        <td> {val.em_name || 'not given'}</td>
-                                        <td> {val.tm_task_progress || 'not given'}</td>
+                                        <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
+                                        <td style={{ textTransform: 'capitalize' }}> {val.tm_task_progress || 'not given'}</td>
 
 
                                         {/* <td> {val.tm_project_description || 'not given'}</td> */}

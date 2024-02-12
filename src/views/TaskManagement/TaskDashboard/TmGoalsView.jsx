@@ -43,7 +43,7 @@ const TmGoalsView = ({ goalsTable, goalsHead, setgoalsFlag, }) => {
                     margin: 'auto',
                     border: .1, borderColor: '#D396FF',
                 }} >
-                    <Box sx={{ width: '99.5%', ml: .5, mt: .5, borderRadius: 2, backgroundColor: '#D9E4EC' }}>
+                    <Box sx={{ width: '99.5%', ml: .5, mt: .5, backgroundColor: '#D9E4EC' }}>
                         <Box sx={{ py: .5, pl: 1.5, display: 'flex' }}>
                             <Box>
                                 <CssVarsProvider>
@@ -61,7 +61,7 @@ const TmGoalsView = ({ goalsTable, goalsHead, setgoalsFlag, }) => {
                         </Box>
 
                     </Box>
-                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: 1, maxHeight: '80%' }}>
+                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '80%' }}>
                         {editModalFlag === 1 ?
                             <GoalStatusModal open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                 setEditModalFlag={setEditModalFlag}

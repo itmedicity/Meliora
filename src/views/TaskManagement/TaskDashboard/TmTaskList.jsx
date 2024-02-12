@@ -24,9 +24,8 @@ const TmTaskList = () => {
                         </Tooltip>
                     </CssVarsProvider>
                 </CusIconButton>
-
             </Box>
-            <Box sx={{ mt: 1.5 }}>
+            <Box sx={{ mt: .5 }}>
                 <TmDashBoadTaskView tableCount={tableCount} setTableCount={setTableCount} />
             </Box>
 

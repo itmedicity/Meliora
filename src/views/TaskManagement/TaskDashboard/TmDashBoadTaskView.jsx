@@ -26,7 +26,6 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
 
     return (
         <Box >
-
             <CssVarsProvider>
                 {AddModalFlag === 1 ? <CreateTask open={addModalOpen}
                     tableCount={tableCount} setTableCount={setTableCount}
@@ -48,7 +47,7 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                         sx={{
                             p: 0.5,
                             gap: 0.5,
-                            borderRadius: 'xl',
+                            borderRadius: 2,
                             bgcolor: 'background.level1',
                             [`& .${tabClasses.root}[aria-selected="true"]`]: {
                                 boxShadow: 'sm',
@@ -83,13 +82,14 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                                 </Box>
                                 <Box
                                     sx={{
-                                        display: 'flex'
+                                        display: 'flex',
+
                                     }}
                                 >
-                                    <Tab disableIndicator >All Task</Tab>
-                                    <Tab disableIndicator >Over due</Tab>
-                                    <Tab disableIndicator >Completed</Tab>
-                                    <Tab disableIndicator >Employee Task</Tab>
+                                    <Tab disableIndicator sx={{ borderRadius: 20 }}>All Task</Tab>
+                                    <Tab disableIndicator sx={{ borderRadius: 20 }}>Over due</Tab>
+                                    <Tab disableIndicator sx={{ borderRadius: 20 }}>Completed</Tab>
+                                    <Tab disableIndicator sx={{ borderRadius: 20 }}>Employee Task</Tab>
                                 </Box>
                             </Box>
                         </Box>
@@ -100,7 +100,7 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                     }} >
                         <Box sx={{ display: 'flex' }}>
                             <Box >
-                                <Button onClick={addModal} variant="plain" startDecorator={<AddIcon />} size="sm" >Create task</Button>
+                                <Button onClick={addModal} variant="plain" startDecorator={<AddIcon />} size="md" sx={{ width: 200, justifyContent: 'left' }}>Create task</Button>
                             </Box>
                             <Box sx={{ display: 'flex', flex: 2, pt: 1, justifyContent: 'flex-end', color: '#274472' }}>
                                 {/* <RadioButtonCheckedIcon sx={{ color: '#BA0F30' }} />OverDue&nbsp;&nbsp;&nbsp;&nbsp; */}

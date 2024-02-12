@@ -39,8 +39,8 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                     const obj = {
                         tm_project_slno: val.tm_project_slno,
                         tm_project_name: val.tm_project_name,
-                        dept_name: val.dept_name,
-                        sec_name: val.sec_name,
+                        dept_name: (val.dept_name).toLowerCase(),
+                        sec_name: (val.sec_name).toLowerCase(),
                         tm_project_dept: val.tm_project_dept,
                         tm_project_deptsec: val.tm_project_deptsec,
                         tm_project_duedate: val.tm_project_duedate,
@@ -68,8 +68,8 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                         const obj = {
                             tm_project_slno: val.tm_project_slno,
                             tm_project_name: val.tm_project_name,
-                            dept_name: val.dept_name,
-                            sec_name: val.sec_name,
+                            dept_name: (val.dept_name).toLowerCase(),
+                            sec_name: (val.sec_name).toLowerCase(),
                             tm_project_dept: val.tm_project_dept,
                             tm_project_deptsec: val.tm_project_deptsec,
                             tm_project_duedate: val.tm_project_duedate,
@@ -177,12 +177,11 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                                                         color: val.tm_project_status === null ? '#5F093D' : val.tm_project_status === 0 ? '#5F093D'
                                                             : val.tm_project_status === 1 ? 'green' : 'transparent', minHeight: 5
                                                     }}>{val.ProjectStatus}</td>
-                                                <td> {val.tm_project_name || 'not given'}</td>
-                                                <td> {val.dept_name || 'not given'}</td>
-                                                <td> {val.sec_name || 'not given'}</td>
-                                                {/* <td> {val.tm_project_duedate || 'not given'}</td> */}
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td>
                                                 <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                <td> {val.tm_project_description || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_description || 'not given'}</td>
                                             </tr>
                                         )
                                     })}
