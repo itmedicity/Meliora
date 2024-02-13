@@ -6,7 +6,8 @@ import {
     crm_setting_one, crm_setting_two, crm_setting_three, task_setting_one, task_setting_two, task_setting_three,
     userManagement_one, userManagement_two, userManagement_three, am_setting_one, am_setting_two, am_setting_three,
     rm_setting_one, rm_setting_two, rm_setting_three, dm_setting_one, dm_setting_two, dm_setting_three,
-    we_setting_one, we_setting_two, hall_booking_one, it_setting_one, it_setting_two, it_setting_three
+    we_setting_one, we_setting_two, hall_booking_one, it_setting_one, it_setting_two, it_setting_three,
+    qi_setting_one, qi_setting_two, qi_setting_three
 } from './SettingsMenu';
 import { Card, CardContent, CardHeader } from '@mui/material';
 import { titleTypography, cardActionBgClr } from 'src/color/Color';
@@ -42,6 +43,9 @@ const Settings = () => {
     const [itMast_secOne, setitMast_secOne] = useState();
     const [itMast_secTwo, setitMast_secTwo] = useState();
     const [itMast_secThree, setitMast_secThree] = useState();
+    const [qiMast_secOne, setqiMast_secOne] = useState();
+    const [qiMast_secTwo, setqiMast_secTwo] = useState();
+    const [qiMast_secThree, setqiMast_secThree] = useState();
     const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
@@ -123,6 +127,13 @@ const Settings = () => {
             const it_setting_section_three = it_setting_three.filter(val => menuSlnoArray.includes(val.slno));
             setitMast_secThree(it_setting_section_three)
 
+            //Quality Indicators
+            const qi_setting_section_one = qi_setting_one.filter(val => menuSlnoArray.includes(val.slno));
+            setqiMast_secOne(qi_setting_section_one)
+            const qi_setting_section_two = qi_setting_two.filter(val => menuSlnoArray.includes(val.slno));
+            setqiMast_secTwo(qi_setting_section_two)
+            const qi_setting_section_three = qi_setting_three.filter(val => menuSlnoArray.includes(val.slno));
+            setqiMast_secThree(qi_setting_section_three)
 
             //User Rights 
             const user_setting_section_one = userManagement_one.filter(val => menuSlnoArray.includes(val.slno));
@@ -479,6 +490,44 @@ const Settings = () => {
                         <ul className="list-group list-group-flush">
                             {
                                 itMast_secThree && itMast_secThree.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </CardContent>
+
+            <CardHeader title={"Quality Indicators"}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
+                sx={{
+                    backgroundColor: cardActionBgClr,
+                    paddingY: 0.5,
+                }} />
+            <CardContent>
+                <div className="row" >
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                qiMast_secOne && qiMast_secOne.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                qiMast_secTwo && qiMast_secTwo.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                qiMast_secThree && qiMast_secThree.map((val) => {
                                     return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
                                 })
                             }
