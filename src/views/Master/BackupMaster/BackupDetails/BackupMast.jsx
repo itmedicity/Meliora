@@ -29,6 +29,7 @@ const BackupMast = () => {
     const [backupType, setBackupType] = useState(0)
     const [scheduleType, setScheduleType] = useState(0)
     const [scheduleTime, setScheduleTime] = useState([])
+    const [editScheduleType, seteditScheduleType] = useState(0)
     const [days, setdays] = useState(0)
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
@@ -85,6 +86,7 @@ const BackupMast = () => {
         setEdit(0)
         setCount(0)
         setdays(0)
+        seteditScheduleType(0)
     }, [setBackupstore, setBackupType, setScheduleType, setScheduleTime, setEdit, setCount, setdays])
     const UpdateBackupChecksDetails = useCallback(
         (e) => {
@@ -142,6 +144,13 @@ const BackupMast = () => {
             edit_user: id
         }
     }, [backup_slno, id])
+
+    const deletedata = useMemo(() => {
+        return {
+            backup_slno: backup_slno
+        }
+    }, [backup_slno])
+
     const rowSelect = useCallback((data) => {
         setEdit(1)
         const {
@@ -175,12 +184,14 @@ const BackupMast = () => {
         setBackupType(backup_type)
         setScheduleType(backup_schedule_type)
         setdays(selected_days)
+        seteditScheduleType(backup_schedule_type)
         // const selectedScheduleTime = Array.isArray(backup_schedule_time)
         //     ? backup_schedule_time
         //     : [backup_schedule_time];
 
         // setScheduleTime(selectedScheduleTime);
     }, [])
+
     const BackupChecksDetails = useCallback((e) => {
         if (backupType === 0) {
             infoNotify("Please Select Valid Backup Type")
@@ -215,19 +226,39 @@ const BackupMast = () => {
                                 create_user: id
                             }
                         })
-                        if (scheduleType !== 5) {
+
+                        if (scheduleType === 1) {
                             const InsertScheduleTime = async (postdatas) => {
                                 const result = await axioslogin.post('/backupdetails/detailInsert', postdatas);
-                                const { message, success } = result.data;
-                                if (success === 1) {
-                                    succesNotify(message)
-                                    setCount(count + 1);
-                                    reset()
-                                }
+                                return result.data
                             }
-                            InsertScheduleTime(postdatas)
+                            InsertScheduleTime(postdatas).then((item) => {
+                                const { success, time_id } = item
+                                if (success === 1) {
+                                    const dailydata = scheduleTime?.map((val) => {
+                                        return {
+                                            time_slno: time_id,
+                                            backup_slno: insert_id,
+                                            backup_daily_date: moment(new Date()).format('YYYY-MM-DD'),
+                                            backup_schedule_time: val,
+                                            verify_status: 0,
+                                            create_user: id
+                                        }
+                                    })
+                                    const InsertBackupDaily = async (dailydata) => {
+                                        const result = await axioslogin.post('/backupdetails/daydetails', dailydata);
+                                        const { message, success } = result.data;
+                                        if (success === 1) {
+                                            succesNotify(message)
+                                            setCount(count + 1);
+                                            reset()
+                                        }
+                                    }
+                                    InsertBackupDaily(dailydata)
+                                }
+                            })
                         }
-                        else {
+                        else if (scheduleType === 5) {
                             const startdate = moment(new Date()).format('YYYY-MM-DD')
                             const insertdata = {
                                 backup_slno: insert_id,
@@ -248,6 +279,18 @@ const BackupMast = () => {
                             }
                             InsertSelectedDays(insertdata)
                         }
+                        else {
+                            const InsertScheduleTime = async (postdatas) => {
+                                const result = await axioslogin.post('/backupdetails/detailInsert', postdatas);
+                                const { message, success } = result.data;
+                                if (success === 1) {
+                                    succesNotify(message)
+                                    setCount(count + 1);
+                                    reset()
+                                }
+                            }
+                            InsertScheduleTime(postdatas)
+                        }
                     }
                     else if (success === 0) {
                         infoNotify(message);
@@ -258,7 +301,153 @@ const BackupMast = () => {
                 })
             }
             else {
-                if (scheduleType !== 5) {
+                if (scheduleType === 1) {
+                    const DeleteDetails = async (deletedata) => {
+                        const result = await axioslogin.post('/backupdetails/daydelete', deletedata);
+                        const { success } = result.data;
+                        if (success === 2) {
+                            // succesNotify(message)
+                        }
+                    }
+                    DeleteDetails(deletedata)
+                    const inactiveScheduleTime = async (inactivedatas) => {
+                        const result = await axioslogin.patch('/backupdetails/inactive', inactivedatas);
+                        return result.data
+                    }
+                    inactiveScheduleTime(inactivedatas).then((val) => {
+                        const { message, success } = val
+                        if (success === 2) {
+                            UpdateDetailsMast(patchdata).then((value) => {
+                                const { success } = value
+                                if (success === 2) {
+                                    const patchdatas = scheduleTime?.map((val) => {
+                                        return {
+                                            backup_slno: backup_slno,
+                                            backup_name: backupname,
+                                            backup_schedule_type: scheduleType,
+                                            backup_schedule_time: val,
+                                            status: 1,
+                                            create_user: id
+                                        }
+                                    })
+                                    const InsertScheduleTime = async (patchdatas) => {
+                                        const result = await axioslogin.post('/backupdetails/detailInsert', patchdatas);
+                                        return result.data;
+                                    }
+                                    InsertScheduleTime(patchdatas).then((item) => {
+                                        const { success, time_id } = item
+                                        if (success === 1) {
+                                            const dailydata = scheduleTime?.map((val) => {
+                                                return {
+                                                    time_slno: time_id,
+                                                    backup_slno: backup_slno,
+                                                    backup_daily_date: moment(new Date()).format('YYYY-MM-DD'),
+                                                    backup_schedule_time: val,
+                                                    verify_status: 0,
+                                                    create_user: id
+                                                }
+                                            })
+                                            const InsertBackupDaily = async (dailydata) => {
+                                                const result = await axioslogin.post('/backupdetails/daydetails', dailydata);
+                                                const { message, success } = result.data;
+                                                if (success === 1) {
+                                                    succesNotify(message)
+                                                    setCount(count + 1);
+                                                    reset()
+                                                }
+                                            }
+                                            InsertBackupDaily(dailydata)
+                                        }
+                                    })
+                                }
+                            })
+
+                        }
+                        else if (success === 0) {
+                            infoNotify(message);
+                        }
+                        else {
+                            infoNotify(message)
+                        }
+                    })
+                }
+                else if (scheduleType === 5) {
+                    UpdateDetailsMast(patchdata).then((value) => {
+                        const { success, message } = value
+                        if (success === 2) {
+                            const updatedata = {
+                                backup_slno: backup_slno,
+                                selected_days: days,
+                                due_date: moment(addDays(new Date(backup_selected_date), days)).format('YYYY-MM-DD'),
+                                edit_user: id
+                            }
+                            const updateSelectedDays = async (updatedata) => {
+                                const result = await axioslogin.patch('/backupdetails/updatedays', updatedata);
+                                const { message, success } = result.data;
+                                if (success === 2) {
+                                    succesNotify(message)
+                                    setCount(count + 1);
+                                    reset()
+                                }
+                            }
+                            updateSelectedDays(updatedata)
+                        }
+                        else if (success === 0) {
+                            infoNotify(message);
+                        }
+                        else {
+                            infoNotify(message)
+                        }
+                    })
+                }
+                else {
+                    if (editScheduleType !== scheduleType) {
+                        if (editScheduleType === 1) {
+                            const DeleteDetails = async (deletedata) => {
+                                const result = await axioslogin.post('/backupdetails/daydelete', deletedata);
+                                const { success } = result.data;
+                                if (success === 2) {
+
+                                }
+                            }
+                            DeleteDetails(deletedata)
+                        }
+                        else if (editScheduleType === 2) {
+                            const DeleteDetails = async (deletedata) => {
+                                const result = await axioslogin.post('/backupdetails/monthdelete', deletedata);
+                                const { success } = result.data;
+                                if (success === 2) {
+                                }
+                            }
+                            DeleteDetails(deletedata)
+                        }
+                        else if (editScheduleType === 3) {
+                            const DeleteDetails = async (deletedata) => {
+                                const result = await axioslogin.post('/backupdetails/weekdelete', deletedata);
+                                const { success } = result.data;
+                                if (success === 2) {
+                                }
+                            }
+                            DeleteDetails(deletedata)
+                        }
+
+                        else if (editScheduleType === 4) {
+                            const DeleteDetails = async (deletedata) => {
+                                const result = await axioslogin.post('/backupdetails/yeardelete', deletedata);
+                                const { success } = result.data;
+                                if (success === 2) {
+                                }
+                            }
+                            DeleteDetails(deletedata)
+                        }
+                        else {
+
+                        }
+
+                    } else {
+
+                    }
+
                     const inactiveScheduleTime = async (inactivedatas) => {
                         const result = await axioslogin.patch('/backupdetails/inactive', inactivedatas);
                         return result.data
@@ -300,39 +489,11 @@ const BackupMast = () => {
                         }
                     })
                 }
-                else {
-                    UpdateDetailsMast(patchdata).then((value) => {
-                        const { success, message } = value
-                        if (success === 2) {
-                            const updatedata = {
-                                backup_slno: backup_slno,
-                                selected_days: days,
-                                due_date: moment(addDays(new Date(backup_selected_date), days)).format('YYYY-MM-DD'),
-                                edit_user: id
-                            }
-                            const updateSelectedDays = async (updatedata) => {
-                                const result = await axioslogin.patch('/backupdetails/updatedays', updatedata);
-                                const { message, success } = result.data;
-                                if (success === 2) {
-                                    succesNotify(message)
-                                    setCount(count + 1);
-                                    reset()
-                                }
-                            }
-                            updateSelectedDays(updatedata)
-                        }
-                        else if (success === 0) {
-                            infoNotify(message);
-                        }
-                        else {
-                            infoNotify(message)
-                        }
-                    })
-                }
             }
         }
     }, [postdata, count, patchdata, edit, inactivedatas, scheduleType, scheduleTime, backupType,
-        backup_selected_date, days, backup_slno, id, backupname, reset])
+        backup_selected_date, days, backup_slno, id, backupname, reset, deletedata, editScheduleType])
+
     return (
         //  sx={{ height: window.innerHeight }}
         <Box >

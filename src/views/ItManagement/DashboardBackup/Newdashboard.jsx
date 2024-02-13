@@ -120,12 +120,86 @@ const Newdashboard = () => {
     const weekdetails = useSelector((state) => state?.getWeeklyDetails?.WeekInit)
     const selecteddays = useSelector((state) => state?.getSelectedDaysDetails?.Daysinitial)
     const daysdata = useSelector((state) => state?.getDaysDetails?.DaysData)
+
+    // for daily update
+    useEffect(() => {
+        const getdata = async () => {
+            const result = await axioslogin.get('/backupdash/lastday')
+            const { success, data } = result.data
+            if (success === 2) {
+                const lastBackup = data[0];
+                if (lastBackup.last_backup_date === null) {
+                    const dayrange = eachDayOfInterval({ start: new Date(), end: new Date() })
+                    const newdata = dayrange?.map((val) => {
+                        return {
+                            backup_date: moment(new Date(val)).format('YYYY-MM-DD')
+                        }
+                    })
+                    setDaysList(newdata);
+                }
+                else {
+                    if (lastBackup.last_backup_date === format(new Date(), "yyyy-MM-dd")) {
+
+                    }
+                    else {
+                        const dayrange = eachDayOfInterval({ start: addDays(new Date(lastBackup.last_backup_date), 1), end: new Date() })
+                        const newdata = dayrange?.map((val) => {
+                            return {
+                                backup_date: moment(new Date(val)).format('YYYY-MM-DD')
+                            }
+                        })
+                        setDaysList(newdata);
+                    }
+                }
+            }
+        }
+        getdata()
+    }, [])
+    useEffect(() => {
+        if (dailycount.length !== 0) {
+            const postdata = dailycount?.map((val) => {
+                const item = daysList?.map((value) => {
+                    return {
+                        time_slno: val.time_slno,
+                        backup_slno: val.backup_slno,
+                        backup_daily_date: moment(new Date(value.backup_date)).format('YYYY-MM-DD'),
+                        backup_schedule_time: val.backup_schedule_time,
+                        verify_status: 0,
+                        create_user: id
+                    }
+                })
+                return item
+            })
+            const InsertArry = [];
+            for (const innerArray of postdata) {
+                for (const obj of innerArray) {
+                    InsertArry.push(obj);
+                }
+            }
+            const InsertBackupDaily = async (InsertArry) => {
+                const result = await axioslogin.post('/backupdash/insertdaily', InsertArry);
+                const { success } = result.data;
+                if (success === 1) {
+                    setCount(count + 1);
+                }
+                else {
+                    return 0
+                }
+            }
+            InsertBackupDaily(InsertArry)
+        }
+    }, [dailycount, daysList, id, count])
+
     useEffect(() => {
         if (daysdetails.length !== 0 || count !== 0) {
             const newdata = daysdetails.filter((val) => val.backup_daily_date === moment(new Date()).format('YYYY-MM-DD'))
             setDayData(newdata)
             const currentcount = daysdetails.filter((val) => val.verify_status === 0 && val.backup_daily_date === moment(new Date()).format('YYYY-MM-DD'))
-            setDayscount(currentcount)
+            if (currentcount.length === 0) {
+                setDayscount(0)
+            } else {
+                setDayscount(currentcount.length)
+            }
             const duedata = daysdetails.filter((val) => val.verify_status === 0 && val.backup_daily_date < moment(new Date()).format('YYYY-MM-DD'))
             setDueData(duedata)
             const errordata = daysdetails.filter((val) => val.verify_status === 2 && val.backup_daily_date <= moment(new Date()).format('YYYY-MM-DD'))
@@ -172,6 +246,8 @@ const Newdashboard = () => {
         setDayFlag(5)
 
     }, [])
+
+    // for week
     useEffect(() => {
         if (weeklycount.length !== 0) {
             const getendOfWeek = endOfWeek(new Date())
@@ -221,7 +297,11 @@ const Newdashboard = () => {
                     return 0
                 }
             })
-            setweekcount(countdata)
+            if (countdata.length === 0) {
+                setweekcount(0)
+            } else {
+                setweekcount(countdata.length)
+            }
             const duedata = weekdetails.filter((val) => val.verify_status === 0 && val.backup_weekly_date < moment(new Date(getstartOfWeek)).format('YYYY-MM-DD'))
             setWeekduedata(duedata)
             const errordata = weekdetails.filter((val) => val.verify_status === 2 && val.backup_weekly_date <= moment(new Date()).format('YYYY-MM-DD'))
@@ -267,6 +347,8 @@ const Newdashboard = () => {
     const WeekVerificationReport = useCallback(() => {
         setWeekflag(5)
     }, [])
+
+    // for selected days
     useEffect(() => {
         if (daysdata.length !== 0) {
             const getdata = async () => {
@@ -307,7 +389,11 @@ const Newdashboard = () => {
             const newdata = selecteddays.filter((val) => (val.verify_status === 0 || 1) && (val.due_date === moment(new Date()).format('YYYY-MM-DD')))
             setdaysNow(newdata)
             const countdata = selecteddays.filter((val) => (val.verify_status === 0) && (val.due_date === moment(new Date()).format('YYYY-MM-DD')))
-            setAltcount(countdata)
+            if (countdata.length === 0) {
+                setAltcount(0)
+            } else {
+                setAltcount(countdata.length)
+            }
             const duedata = selecteddays.filter((val) => val.verify_status === 0 && val.due_date < moment(new Date()).format('YYYY-MM-DD'))
             setdaysdue(duedata)
             const errordata = selecteddays.filter((val) => val.verify_status === 2 && val.due_date <= moment(new Date()).format('YYYY-MM-DD'))
@@ -355,74 +441,8 @@ const Newdashboard = () => {
     const getVerificationReport = useCallback(() => {
         setdaysflag(5)
     }, [])
-    useEffect(() => {
-        const getdata = async () => {
-            const result = await axioslogin.get('/backupdash/lastday')
-            const { success, data } = result.data
-            if (success === 2) {
-                const lastBackup = data[0];
-                if (lastBackup.last_backup_date === null) {
-                    const dayrange = eachDayOfInterval({ start: new Date(), end: new Date() })
-                    const newdata = dayrange?.map((val) => {
-                        return {
-                            backup_date: moment(new Date(val)).format('YYYY-MM-DD')
-                        }
-                    })
-                    setDaysList(newdata);
-                }
-                else {
-                    if (lastBackup.last_backup_date === format(new Date(), "yyyy-MM-dd")) {
 
-                    }
-                    else {
-                        const dayrange = eachDayOfInterval({ start: addDays(new Date(lastBackup.last_backup_date), 1), end: new Date() })
-
-                        const newdata = dayrange?.map((val) => {
-                            return {
-                                backup_date: moment(new Date(val)).format('YYYY-MM-DD')
-                            }
-                        })
-                        setDaysList(newdata);
-                    }
-                }
-            }
-        }
-        getdata()
-    }, [])
-    useEffect(() => {
-        if (dailycount.length !== 0) {
-            const postdata = dailycount?.map((val) => {
-                const item = daysList?.map((value) => {
-                    return {
-                        time_slno: val.time_slno,
-                        backup_slno: val.backup_slno,
-                        backup_daily_date: moment(new Date(value.backup_date)).format('YYYY-MM-DD'),
-                        backup_schedule_time: val.backup_schedule_time,
-                        verify_status: 0,
-                        create_user: id
-                    }
-                })
-                return item
-            })
-            const InsertArry = [];
-            for (const innerArray of postdata) {
-                for (const obj of innerArray) {
-                    InsertArry.push(obj);
-                }
-            }
-            const InsertBackupDaily = async (InsertArry) => {
-                const result = await axioslogin.post('/backupdash/insertdaily', InsertArry);
-                const { success } = result.data;
-                if (success === 1) {
-                    setCount(count + 1);
-                }
-                else {
-                    return 0
-                }
-            }
-            InsertBackupDaily(InsertArry)
-        }
-    }, [dailycount, daysList, id, count])
+    // for month
     useEffect(() => {
         if (monthlycount.length !== 0) {
             const postdata = monthlycount?.map((val) => {
@@ -448,37 +468,17 @@ const Newdashboard = () => {
             InsertBackupMonthly(postdata)
         }
     }, [monthlycount, id, count])
-    useEffect(() => {
-        if (yearlycounts.length !== 0) {
-            const postdata = yearlycounts?.map((val) => {
-                return {
-                    time_slno: val.time_slno,
-                    backup_slno: val.backup_slno,
-                    backup_yearly_date: moment(new Date()).format('YYYY-01-01'),
-                    backup_schedule_time: val.backup_schedule_time,
-                    verify_status: 0,
-                    create_user: id
-                }
-            })
-            const InsertBackupYearly = async (postdata) => {
-                const result = await axioslogin.post('/backupdash/insertyearly', postdata);
-                const { success } = result.data;
-                if (success === 1) {
-                    setCount(count + 1);
-                }
-                else {
-                    return 0
-                }
-            }
-            InsertBackupYearly(postdata)
-        }
-    }, [yearlycounts, id, count])
+
     useEffect(() => {
         if (monthdetails.length !== 0) {
             const newdata = monthdetails.filter((val) => val.backup_monthly_date === moment(new Date()).format('YYYY-MM-01'))
             setMonthdata(newdata)
             const countmonth = monthdetails.filter((val) => val.verify_status === 0 && val.backup_monthly_date === moment(new Date()).format('YYYY-MM-01'))
-            setMonthcount(countmonth)
+            if (countmonth.length === 0) {
+                setMonthcount(0)
+            } else {
+                setMonthcount(countmonth.length)
+            }
             const duedata = monthdetails.filter((val) => val.verify_status === 0 && val.backup_monthly_date < moment(new Date()).format('YYYY-MM-01'))
             setDueMonthdata(duedata)
             const errordata = monthdetails.filter((val) => val.verify_status === 2 && val.backup_monthly_date <= moment(new Date()).format('YYYY-MM-01'))
@@ -520,15 +520,48 @@ const Newdashboard = () => {
             setMonthflag(4)
         }
     }, [monthlycount])
+
     const MonthVerificationReport = useCallback(() => {
         setMonthflag(5)
     }, [])
+
+    // for year
+    useEffect(() => {
+        if (yearlycounts.length !== 0) {
+            const postdata = yearlycounts?.map((val) => {
+                return {
+                    time_slno: val.time_slno,
+                    backup_slno: val.backup_slno,
+                    backup_yearly_date: moment(new Date()).format('YYYY-01-01'),
+                    backup_schedule_time: val.backup_schedule_time,
+                    verify_status: 0,
+                    create_user: id
+                }
+            })
+            const InsertBackupYearly = async (postdata) => {
+                const result = await axioslogin.post('/backupdash/insertyearly', postdata);
+                const { success } = result.data;
+                if (success === 1) {
+                    setCount(count + 1);
+                }
+                else {
+                    return 0
+                }
+            }
+            InsertBackupYearly(postdata)
+        }
+    }, [yearlycounts, id, count])
+
     useEffect(() => {
         if (yeardetails.length !== 0) {
             const newdata = yeardetails.filter((val) => val.backup_yearly_date === moment(new Date()).format('YYYY-01-01'))
             setYeardata(newdata)
             const countyear = yeardetails.filter((val) => val.verify_status === 0 && val.backup_yearly_date === moment(new Date()).format('YYYY-01-01'))
-            setyearcount(countyear)
+            if (countyear.length === 0) {
+                setyearcount(0)
+            } else {
+                setyearcount(countyear.length)
+            }
             const duedata = yeardetails.filter((val) => val.verify_status === 0 && val.backup_yearly_date < moment(new Date()).format('YYYY-01-01'))
             setdueYearData(duedata)
             const errordata = yeardetails.filter((val) => val.verify_status === 2 && val.backup_yearly_date <= moment(new Date()).format('YYYY-01-01'))
@@ -874,121 +907,87 @@ const Newdashboard = () => {
                                                                                                                 <Box sx={{ pl: 0.2 }} >
                                                                                                                     <Typography sx={{ pl: 1 }}>Daily</Typography>
                                                                                                                 </Box>
-                                                                                                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Today&apos;s Backup</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={DailyCountDetails}
-                                                                                                                                    >
-                                                                                                                                        {dayscount.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={DueCountDetails}
-                                                                                                                                    >
-                                                                                                                                        {dueData.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={BackupError}
-                                                                                                                                    >
-                                                                                                                                        {errorData.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={BackupTomorrow}
-                                                                                                                                    >
-                                                                                                                                        {dailycount.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, justifyContent: 'center', pr: 1 }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 280,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            justifyContent: 'center',
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
+                                                                                                                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Today&apos;s Backup</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={DailyCountDetails}
+                                                                                                                                >
+                                                                                                                                    {dayscount}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={DueCountDetails}
+                                                                                                                                >
+                                                                                                                                    {dueData.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={BackupError}
+                                                                                                                                >
+                                                                                                                                    {errorData.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={BackupTomorrow}
+                                                                                                                                >
+                                                                                                                                    {dailycount.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2, justifyContent: 'center'
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1, px: 6 }}>
                                                                                                                             <CssVarsProvider>
                                                                                                                                 <Button variant="outlined" sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
                                                                                                                                     onClick={ViewVerificationReport}
                                                                                                                                 >Verification Report</Button>
                                                                                                                             </CssVarsProvider>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
                                                                                                                 </Box>
                                                                                                             </Paper>
                                                                                                             {/* weekly */}
@@ -996,242 +995,174 @@ const Newdashboard = () => {
                                                                                                                 <Box sx={{ pl: 0.2 }} >
                                                                                                                     <Typography sx={{ pl: 1 }}>Weekly</Typography>
                                                                                                                 </Box>
-                                                                                                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Current week</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={WeeklyCountDetails}
-                                                                                                                                    >
-                                                                                                                                        {weekcount.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={DueWeekDetails}
-                                                                                                                                    >
-                                                                                                                                        {weekduedata.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={WeekBackupError}
-                                                                                                                                    >
-                                                                                                                                        {weekerrordata.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={BackupWeekTomorrow}
-                                                                                                                                    >
-                                                                                                                                        {weeklycount.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, justifyContent: 'center' }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 280,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            justifyContent: 'center',
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
+                                                                                                                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Current week</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={WeeklyCountDetails}
+                                                                                                                                >
+                                                                                                                                    {weekcount}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={DueWeekDetails}
+                                                                                                                                >
+                                                                                                                                    {weekduedata.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={WeekBackupError}
+                                                                                                                                >
+                                                                                                                                    {weekerrordata.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={BackupWeekTomorrow}
+                                                                                                                                >
+                                                                                                                                    {weeklycount.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2, justifyContent: 'center'
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1, px: 6 }}>
                                                                                                                             <CssVarsProvider>
                                                                                                                                 <Button variant="outlined" sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
                                                                                                                                     onClick={WeekVerificationReport}
                                                                                                                                 >Verification Report</Button>
                                                                                                                             </CssVarsProvider>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
                                                                                                                 </Box>
                                                                                                             </Paper>
+
                                                                                                             {/* Monthly */}
                                                                                                             <Paper variant="outlined" sx={{ py: 0.5, height: 100 }}>
                                                                                                                 <Box sx={{ pl: 0.2 }} >
                                                                                                                     <Typography sx={{ pl: 1 }}>Monthly</Typography>
                                                                                                                 </Box>
-                                                                                                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Current Month</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={MonthlyDetails}
-                                                                                                                                    >
-                                                                                                                                        {monthcount.length}</Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={DueMonthDetails}
-                                                                                                                                    >
-                                                                                                                                        {dueMonthdata.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={MonthBackupError}
-                                                                                                                                    >
-                                                                                                                                        {ErrorMonthdata.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={NextMonthBackupDetails}
-                                                                                                                                    >
-                                                                                                                                        {monthlycount.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, justifyContent: 'center' }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 280,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            justifyContent: 'center',
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
+                                                                                                                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Current Month</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={MonthlyDetails}>
+                                                                                                                                    {monthcount}</Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={DueMonthDetails}
+                                                                                                                                >
+                                                                                                                                    {dueMonthdata.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={MonthBackupError}
+                                                                                                                                >
+                                                                                                                                    {ErrorMonthdata.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={NextMonthBackupDetails}
+                                                                                                                                >
+                                                                                                                                    {monthlycount.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2, justifyContent: 'center'
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1, px: 6 }}>
                                                                                                                             <CssVarsProvider>
                                                                                                                                 <Button variant="outlined" sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
                                                                                                                                     onClick={MonthVerificationReport}
                                                                                                                                 >Verification Report</Button>
                                                                                                                             </CssVarsProvider>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
                                                                                                                 </Box>
                                                                                                             </Paper>
                                                                                                             {/* Yearly */}
@@ -1239,120 +1170,85 @@ const Newdashboard = () => {
                                                                                                                 <Box sx={{ pl: 0.2 }} >
                                                                                                                     <Typography sx={{ pl: 1 }}>Yearly</Typography>
                                                                                                                 </Box>
-                                                                                                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Current Year</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={YearlyDetails}
-                                                                                                                                    >
-                                                                                                                                        {yearcount.length}</Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={DueYearDetails}
-                                                                                                                                    >
-                                                                                                                                        {dueYearData.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Backup Error</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={YearBackupErrorDetails}
-                                                                                                                                    >
-                                                                                                                                        {errorYearData.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={NextYearBackupDetails}
-                                                                                                                                    >
-                                                                                                                                        {yearlycounts.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, justifyContent: 'center' }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 280,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            justifyContent: 'center',
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
+                                                                                                                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Current Year</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={YearlyDetails}>
+                                                                                                                                    {yearcount}</Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={DueYearDetails}
+                                                                                                                                >
+                                                                                                                                    {dueYearData.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={YearBackupErrorDetails}
+                                                                                                                                >
+                                                                                                                                    {errorYearData.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={NextYearBackupDetails}
+                                                                                                                                >
+                                                                                                                                    {yearlycounts.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2, justifyContent: 'center'
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1, px: 6 }}>
                                                                                                                             <CssVarsProvider>
                                                                                                                                 <Button variant="outlined" sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
                                                                                                                                     onClick={YearlyVerificationReport}
                                                                                                                                 >Verification Report</Button>
                                                                                                                             </CssVarsProvider>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
                                                                                                                 </Box>
                                                                                                             </Paper>
                                                                                                             {/* Selected days */}
@@ -1360,122 +1256,88 @@ const Newdashboard = () => {
                                                                                                                 <Box sx={{ pl: 0.2 }} >
                                                                                                                     <Typography sx={{ pl: 1 }}>Alternative Days</Typography>
                                                                                                                 </Box>
-                                                                                                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Today&apos;s Backup</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={SelectedDaysDetails}
-                                                                                                                                    >
-                                                                                                                                        {altcount.length}</Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={DueSelectedDays}
-                                                                                                                                    >
-                                                                                                                                        {daysdue.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={ErrorSelectedDays}
-                                                                                                                                    >
-                                                                                                                                        {dayserror.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 300,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
-                                                                                                                            <Box sx={{ flex: 3, pt: 1 }}>
-                                                                                                                                <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
-                                                                                                                            </Box>
-                                                                                                                            <Box sx={{ flex: 1, pt: 0.3 }}>
-                                                                                                                                <CssVarsProvider>
-                                                                                                                                    <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                                                                                                                                        onClick={NextSelectedDays}
-                                                                                                                                    >
-                                                                                                                                        {daysnext.length}
-                                                                                                                                    </Button>
-                                                                                                                                </CssVarsProvider>
-                                                                                                                            </Box>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
-                                                                                                                    <Box sx={{ px: 1, flex: 1, justifyContent: 'center' }}>
-                                                                                                                        <Paper variant="outlined" sx={{
-                                                                                                                            width: 280,
-                                                                                                                            height: 60,
-                                                                                                                            display: "flex",
-                                                                                                                            p: 1,
-                                                                                                                            borderRadius: 2,
-                                                                                                                            justifyContent: 'center',
-                                                                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                                                                                                                        }}
-                                                                                                                        >
+                                                                                                                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Today&apos;s Backup</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={SelectedDaysDetails}>
+                                                                                                                                    {altcount}</Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={DueSelectedDays}
+                                                                                                                                >
+                                                                                                                                    {daysdue.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={ErrorSelectedDays}
+                                                                                                                                >
+                                                                                                                                    {dayserror.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                                                                                                                            <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1 }}>
+                                                                                                                            <CssVarsProvider>
+                                                                                                                                <Button variant="outlined" sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                                                                                                                                    onClick={NextSelectedDays}
+                                                                                                                                >
+                                                                                                                                    {daysnext.length}
+                                                                                                                                </Button>
+                                                                                                                            </CssVarsProvider>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
+                                                                                                                    <Paper variant="outlined" sx={{
+                                                                                                                        flex: 1, mx: 1.5, width: 300,
+                                                                                                                        height: 60, display: "flex", borderRadius: 2, justifyContent: 'center'
+                                                                                                                    }}>
+                                                                                                                        <Box sx={{ flex: 1, pt: 1, px: 6 }}>
                                                                                                                             <CssVarsProvider>
                                                                                                                                 <Button variant="outlined" sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
                                                                                                                                     onClick={getVerificationReport}
                                                                                                                                 >Verification Report</Button>
                                                                                                                             </CssVarsProvider>
-                                                                                                                        </Paper>
-                                                                                                                    </Box>
+                                                                                                                        </Box>
+                                                                                                                    </Paper>
                                                                                                                 </Box>
                                                                                                             </Paper>
+
 
                                                                                                             {/* communication device details */}
                                                                                                             <Paper sx={{ mt: 2 }}>
@@ -1754,7 +1616,7 @@ const Newdashboard = () => {
 
 
 
-                                                                                                        </CardMasterClose>
+                                                                                                        </CardMasterClose >
                 }
             </Paper >
             {/* /////////////////////////////////////////////////////////////////////////////////// */}

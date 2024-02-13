@@ -14,16 +14,16 @@ const BackupMastTable = ({ count, EditBackup }) => {
     return (
         <Fragment>
             <Paper sx={{ height: 465, overflow: 'auto', px: 1.5 }}>
-                <Table borderAxis="both" padding={"none"} stickyHeader>
+                <Table borderAxis="both" padding={"none"} stickyHeader sx={{ overflow: 'auto' }}>
                     <thead>
                         <tr style={{ height: 5 }}>
                             <th rowSpan={2} style={{ width: 60, textAlign: 'center' }}>Action</th>
                             <th rowSpan={2} style={{ width: 150, textAlign: 'center' }}>Backup Type</th>
                             <th rowSpan={2} style={{ width: 110, textAlign: 'center' }}>Backup Name</th>
                             <th rowSpan={2} style={{ width: 125, textAlign: 'center' }}>Backup Location</th>
-                            <th colSpan={3} style={{ textAlign: 'center' }}>Backup Device Details</th>
-                            <th colSpan={3} style={{ textAlign: 'center' }}>  Backup Transferred Device Details  </th>
-                            <th colSpan={2} style={{ textAlign: 'center' }}>Backup Schedule </th>
+                            <th colSpan={3} style={{ width: 350, textAlign: 'center' }}>Backup Device Details</th>
+                            <th colSpan={3} style={{ width: 350, textAlign: 'center' }}>  Backup Transferred Device Details  </th>
+                            <th colSpan={2} style={{ width: 300, textAlign: 'center' }}>Backup Schedule </th>
                         </tr>
                         <tr sx={{ height: 5 }} size='small'>
                             <th style={{ textAlign: 'center' }}>IP Address </th>
