@@ -3,13 +3,14 @@ import { Box, CssVarsProvider, Table } from '@mui/joy/'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import { Paper } from '@mui/material';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ModalEditTask from './ModalEditTask';
 import { useSelector } from 'react-redux';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import ViewTaskImage from '../TaskCreationOuter/ViewTaskImage';
+import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import moment from 'moment';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import EditIcon from '@mui/icons-material/Edit'
 const TaskMastTable = ({ tableCount, setTableCount }) => {
 
     const [tabledata, setTabledata] = useState([])
@@ -41,6 +42,7 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                             sec_name: val.sec_name,
                             tm_assigne_emp: val.tm_assigne_emp,
                             em_name: val.em_name,
+                            // em_name: (val.em_name).toLowerCase(),
                             tm_task_dept: val.tm_task_dept,
                             tm_task_dept_sec: val.tm_task_dept_sec,
                             tm_task_due_date: val.tm_task_due_date,
@@ -49,6 +51,10 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                             tm_task_status: val.tm_task_status,
                             tm_project_slno: val.tm_project_slno,
                             tm_project_name: val.tm_project_name,
+                            tm_pending_remark: val.tm_pending_remark,
+                            tm_onhold_remarks: val.tm_onhold_remarks,
+                            tm_completed_remarks: val.tm_completed_remarks,
+                            create_date: val.create_date
                         }
                         return obj
                     })
@@ -85,9 +91,7 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
             const { success } = result.data;
             if (success === 1) {
                 const data = result.data;
-
                 const fileNames = data.data;
-
                 const fileUrls = fileNames.map((fileName) => {
                     return `${PUBLIC_NAS_FOLDER}/Meliora/TaskManagement/${tm_task_slno}/${fileName}`;
                 });
@@ -98,17 +102,16 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                     setimageViewModalOpen(true);
                     setSelectedImages(val);
                 } else {
-                    warningNotify("No Task Image attached");
+                    warningNotify("No Image attached");
                 }
             } else {
-                warningNotify("No Task image attached");
+                warningNotify("No Image Attached");
             }
         } catch (error) {
             warningNotify('Error in fetching files:', error);
         }
     }
     const rowSelectModal = useCallback((value) => {
-
         setEditModalFlag(1)
         setEditModalOpen(true)
         setimageViewModalOpen(false)
@@ -116,7 +119,7 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
         setMasterData(value)
     }, [])
     return (
-        <Box>
+        <Box >
             {editModalFlag === 1 ?
                 <ModalEditTask open={editModalOpen} masterData={masterData} setEditModalOpen={setEditModalOpen}
                     setEditModalFlag={setEditModalFlag}
@@ -124,52 +127,70 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                 /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                     selectedImages={selectedImages} getarry={getarry} /> : null}
             {Upcomingview === 1 ?
-                <Paper variant="outlined" sx={{ maxHeight: 450, maxWidth: '100%', overflow: 'auto', m: .5 }}>
-                    <CssVarsProvider>
-                        <Table padding={"none"} stickyHeader
-                            hoverRow>
-                            <thead>
-                                <tr>
-                                    <th style={{ width: 50 }}>SlNo</th>
-                                    <th style={{ width: 60 }} >Action</th>
-                                    <th style={{ width: 60 }}>View</th>
-                                    <th style={{ width: 150 }}>Task Name</th>
-                                    <th style={{ width: 150 }}>Project</th>
-                                    <th style={{ width: 150 }}>Assignee</th>
-                                    <th style={{ width: 100 }}>Task Due Date</th>
-                                    <th style={{ width: 300 }}>Task Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {tabledata?.map((val, index) => {
-                                    return (
-                                        <tr key={index}
-                                            style={{ height: 8, background: val.main_task_slno !== null ? '#EBEFEE' : val.main_task_slno === 0 ? '#EBEFEE' : 'transparent', minHeight: 5 }}>
-                                            <td> {index + 1}</td>
-                                            <td>
-                                                <CheckCircleOutlineIcon
-                                                    sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
-                                                />
-                                            </td>
-                                            <td style={{ cursor: 'pointer', }}>
-                                                <ImageOutlinedIcon sx={{ color: '#41729F' }}
-                                                    onClick={() => fileView(val)}
-                                                />
-                                            </td>
-                                            <td> {val.tm_task_name || 'not given'}</td>
-                                            <td> {val.tm_project_name || 'not given'}</td>
-                                            <td> {val.em_name || 'not given'}</td>
-                                            <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
-                                            <td> {val.tm_task_description || 'not given'}</td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </Table>
-                    </CssVarsProvider>
-                </Paper>
-                : <Box sx={{ textAlign: 'center', mt: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
-                    No UpComing!
+                <Box variant="outlined" sx={{ width: '100%', overflow: 'auto', mt: .5, }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 660, width: '100%', overflow: 'auto', mt: .5, }}>
+                        <CssVarsProvider>
+                            <Table padding={"none"} stickyHeader
+                                hoverRow>
+                                <thead>
+                                    <tr>
+                                        <th style={{ width: 40 }}>#</th>
+                                        <th style={{ width: 70 }}>Status</th>
+                                        <th style={{ width: 60 }} >Action</th>
+                                        <th style={{ width: 60 }}>View</th>
+                                        <th style={{ width: 200 }}>Task Name</th>
+                                        <th style={{ width: 120 }}>Project</th>
+                                        <th style={{ width: 170 }}>Assignee</th>
+                                        <th style={{ width: 120 }}>Created Date</th>
+                                        <th style={{ width: 120 }}> Due Date</th>
+                                        <th style={{ width: 300 }}>Task Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {tabledata?.map((val, index) => {
+                                        return (
+                                            <tr key={index}
+                                                style={{ height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent', minHeight: 5 }}>
+                                                <td> {index + 1}</td>
+                                                <td>
+
+                                                    <RadioButtonCheckedIcon sx={{
+                                                        color: val.tm_task_status === null ? '#311E26'
+                                                            : val.tm_task_status === 0 ? '#311E26'
+                                                                : val.tm_task_status === 1 ? '#59981A'
+                                                                    : val.tm_task_status === 2 ? '#D37506'
+                                                                        : val.tm_task_status === 3 ? '#747474'
+                                                                            : val.tm_task_status === 4 ? '#5885AF'
+                                                                                : 'transparent', minHeight: 5
+                                                    }}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <EditIcon
+                                                        sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                    />
+                                                </td>
+                                                <td style={{ cursor: 'pointer', }}>
+                                                    <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                        onClick={() => fileView(val)}
+                                                    />
+                                                </td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {(val.em_name || 'not given')}</td>
+                                                <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </Table>
+                        </CssVarsProvider>
+                    </Paper>
+                </Box>
+                : <Box sx={{ textAlign: 'center', pt: 18, height: 450, fontWeight: 700, fontSize: 30, color: '#C7C8CB', }}>
+                    No Task Created UnderSection!
                 </Box>}
         </Box >
     )

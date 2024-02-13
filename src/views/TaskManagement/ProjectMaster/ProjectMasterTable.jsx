@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider, Table, Typography, Tooltip } from '@mui/joy'
-import { Divider } from '@mui/material'
+import { Divider, Paper } from '@mui/material'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -39,8 +39,8 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                     const obj = {
                         tm_project_slno: val.tm_project_slno,
                         tm_project_name: val.tm_project_name,
-                        dept_name: val.dept_name,
-                        sec_name: val.sec_name,
+                        dept_name: (val.dept_name).toLowerCase(),
+                        sec_name: (val.sec_name).toLowerCase(),
                         tm_project_dept: val.tm_project_dept,
                         tm_project_deptsec: val.tm_project_deptsec,
                         tm_project_duedate: val.tm_project_duedate,
@@ -68,8 +68,8 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                         const obj = {
                             tm_project_slno: val.tm_project_slno,
                             tm_project_name: val.tm_project_name,
-                            dept_name: val.dept_name,
-                            sec_name: val.sec_name,
+                            dept_name: (val.dept_name).toLowerCase(),
+                            sec_name: (val.sec_name).toLowerCase(),
                             tm_project_dept: val.tm_project_dept,
                             tm_project_deptsec: val.tm_project_deptsec,
                             tm_project_duedate: val.tm_project_duedate,
@@ -140,56 +140,57 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                 </Box>
             </Box>
             {tabledata.length !== 0 ?
-                <Box sx={{ m: 1 }}>
-                    <CssVarsProvider>
-                        <Table padding={"none"} stickyHeader sx={{ backgroundColor: 'white' }}
-                            hoverRow>
-                            <thead>
-                                <tr>
-                                    <th style={{ width: 55, fontFamily: 'Georgia', }}>SlNo</th>
-                                    <th style={{ width: 80, fontFamily: 'Georgia', }}>Action</th>
-                                    <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
-                                    <th style={{ width: 200, fontFamily: 'Georgia', }}>Projects </th>
-                                    <th style={{ width: 200, fontFamily: 'Georgia', }}>Department</th>
-                                    <th style={{ width: 200, fontFamily: 'Georgia', }}>Section</th>
-                                    <th style={{ width: 100, fontFamily: 'Georgia', }}>Due date</th>
-                                    <th style={{ width: 500, fontFamily: 'Georgia', }}>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {tabledata?.map((val, index) => {
-                                    return (
-                                        <tr key={index}
-                                            style={{
-                                                // height: 8, background: val.main_task_slno !== null ? '#EBEFEE' : val.main_task_slno === 0 ? '#EBEFEE' : 'transparent', minHeight: 5
-                                            }}
-                                        >
-                                            <td> {index + 1}</td>
-                                            <td>
-                                                <EditIcon
-                                                    sx={{ cursor: 'pointer' }} size={6}
-                                                    onClick={() => rowSelect(val)}
-                                                />
-                                            </td>
-                                            <td
+                <Box sx={{ height: 500, }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 500, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
+                        <CssVarsProvider>
+                            <Table padding={"none"} stickyHeader
+                                hoverRow>
+                                <thead>
+                                    <tr>
+                                        <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
+                                        <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
+                                        <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
+                                        <th style={{ width: 200, fontFamily: 'Georgia', }}>Projects</th>
+                                        <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
+                                        <th style={{ width: 220, fontFamily: 'Georgia', }}>Section</th>
+                                        <th style={{ width: 120, fontFamily: 'Georgia', }}>Due date</th>
+                                        <th style={{ width: 350, fontFamily: 'Georgia', }}>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {tabledata?.map((val, index) => {
+                                        return (
+                                            <tr key={index}
                                                 style={{
-                                                    color: val.tm_project_status === null ? '#5F093D' : val.tm_project_status === 0 ? '#5F093D'
-                                                        : val.tm_project_status === 1 ? 'green' : 'transparent', minHeight: 5
-                                                }}>{val.ProjectStatus}</td>
-                                            <td> {val.tm_project_name || 'not given'}</td>
-                                            <td> {val.dept_name || 'not given'}</td>
-                                            <td> {val.sec_name || 'not given'}</td>
-                                            {/* <td> {val.tm_project_duedate || 'not given'}</td> */}
-                                            <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY') || 'not given'}</td>
-                                            <td> {val.tm_project_description || 'not given'}</td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </Table>
-                    </CssVarsProvider>
+                                                    // height: 8, background: val.main_task_slno !== null ? '#EBEFEE' : val.main_task_slno === 0 ? '#EBEFEE' : 'transparent', minHeight: 5
+                                                }}
+                                            >
+                                                <td> {index + 1}</td>
+                                                <td>
+                                                    <EditIcon
+                                                        sx={{ cursor: 'pointer' }} size={6}
+                                                        onClick={() => rowSelect(val)}
+                                                    />
+                                                </td>
+                                                <td
+                                                    style={{
+                                                        color: val.tm_project_status === null ? '#5F093D' : val.tm_project_status === 0 ? '#5F093D'
+                                                            : val.tm_project_status === 1 ? 'green' : 'transparent', minHeight: 5
+                                                    }}>{val.ProjectStatus}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td>
+                                                <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_description || 'not given'}</td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </Table>
+                        </CssVarsProvider>
+                    </Paper>
                 </Box>
-                : <Box sx={{ textAlign: 'center', m: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB', }}>  No Pjojects set under section</Box>}
+                : <Box sx={{ height: 500, textAlign: 'center', m: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB', }}>  No Pjojects set under section</Box>}
         </Box>
     )
 }

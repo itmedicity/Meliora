@@ -41,8 +41,9 @@ const TmMultEmpSelectUnderDeptSec = ({ value, setValue }) => {
 
     return (
         <Autocomplete
-            placeholder="Assignee"
+            placeholder="Add Assignee"
             multiple
+            style={{ minHeight: 51 }}
             value={selectedValues}
             clearOnBlur
             onChange={(_, newValue) => {

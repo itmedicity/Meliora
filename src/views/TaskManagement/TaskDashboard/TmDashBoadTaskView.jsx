@@ -6,18 +6,18 @@ import TabPanel from '@mui/joy/TabPanel';
 import Avatar from '@mui/joy/Avatar';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import LockIcon from '@mui/icons-material/Lock';
-import { Box, CssVarsProvider, LinearProgress, Button, Typography } from '@mui/joy';
+import { Box, CssVarsProvider, LinearProgress, Button } from '@mui/joy';
 import AddIcon from '@mui/icons-material/Add';
 import CreateTask from '../CreateTask/CreateTask';
 import TaskMastTable from '../CreateTask/TaskMastTable';
 import OverDueTable from './OverDueTable';
 import CompletedTask from './CompletedTask';
-
+import CircleIcon from '@mui/icons-material/Circle';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import DeptEmployeeTask from './DeptEmployeeTask';
 const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
     const [addModalOpen, setaddModalOpen] = useState(false)
     const [AddModalFlag, setAddModalFlag] = useState(0)
-    // const [tableCount, setTableCount] = useState(0)
-    // const [upComingCount, setUpcomingCount] = useState(0)
     const addModal = useCallback(() => {
         setAddModalFlag(1)
         setaddModalOpen(true)
@@ -25,8 +25,7 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
 
 
     return (
-        <Box>
-
+        <Box >
             <CssVarsProvider>
                 {AddModalFlag === 1 ? <CreateTask open={addModalOpen}
                     tableCount={tableCount} setTableCount={setTableCount}
@@ -39,9 +38,8 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                     size="sm"
                     sx={{
                         display: 'flex',
-
                         mt: .5,
-                        // bgcolor: 'pink',
+
                     }}
                 >
                     <TabList
@@ -49,7 +47,7 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                         sx={{
                             p: 0.5,
                             gap: 0.5,
-                            borderRadius: 'xl',
+                            borderRadius: 2,
                             bgcolor: 'background.level1',
                             [`& .${tabClasses.root}[aria-selected="true"]`]: {
                                 boxShadow: 'sm',
@@ -67,6 +65,7 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
 
+
                             }} >
                                 <Avatar
                                     color="neutral"
@@ -83,13 +82,14 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                                 </Box>
                                 <Box
                                     sx={{
-                                        display: 'flex'
+                                        display: 'flex',
+
                                     }}
                                 >
-                                    <Tab disableIndicator >Upcoming</Tab>
-                                    <Tab disableIndicator >Over due</Tab>
-                                    <Tab disableIndicator >Completed</Tab>
-                                    {/* <Tab disableIndicator >All Task</Tab> */}
+                                    <Tab disableIndicator sx={{ borderRadius: 20 }}>All Task</Tab>
+                                    <Tab disableIndicator sx={{ borderRadius: 20 }}>Over due</Tab>
+                                    <Tab disableIndicator sx={{ borderRadius: 20 }}>Completed</Tab>
+                                    <Tab disableIndicator sx={{ borderRadius: 20 }}>Employee Task</Tab>
                                 </Box>
                             </Box>
                         </Box>
@@ -100,22 +100,21 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                     }} >
                         <Box sx={{ display: 'flex' }}>
                             <Box >
-                                <Button onClick={addModal} variant="plain" startDecorator={<AddIcon />} size="sm" >Create task</Button>
+                                <Button onClick={addModal} variant="plain" startDecorator={<AddIcon />} size="md" sx={{ width: 200, justifyContent: 'left' }}>Create task</Button>
                             </Box>
-                            <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end', mr: 1 }}>
-
-                                <Box sx={{ borderRadius: 2, width: 40, mb: .5, mt: 1, bgcolor: '#EBEFEE', border: 1, borderColor: '#7CB7AF' }}></Box>
-                                <Box sx={{ pl: .3, }}>
-                                    <Typography sx={{ pl: .5, fontWeight: 500, color: '#003B73', pt: .5 }}>subtask</Typography>
-                                </Box>
+                            <Box sx={{ display: 'flex', flex: 2, pt: 1, justifyContent: 'flex-end', color: '#274472' }}>
+                                {/* <RadioButtonCheckedIcon sx={{ color: '#BA0F30' }} />OverDue&nbsp;&nbsp;&nbsp;&nbsp; */}
+                                <RadioButtonCheckedIcon sx={{ color: '#D37506' }} />On Progress&nbsp;&nbsp;&nbsp;&nbsp;
+                                <RadioButtonCheckedIcon sx={{ color: '#747474' }} />On Hold&nbsp;&nbsp;&nbsp;&nbsp;
+                                <RadioButtonCheckedIcon sx={{ color: '#5885AF' }} />On Pending&nbsp;&nbsp;&nbsp;&nbsp;
+                                <RadioButtonCheckedIcon sx={{ color: '#311E26' }} />In Completed&nbsp;&nbsp;&nbsp;&nbsp;
+                                <RadioButtonCheckedIcon sx={{ color: '#59981A' }} />Completed&nbsp;&nbsp;
+                                <CircleIcon sx={{ color: '#D8CEE6' }} />subtask&nbsp;&nbsp;
                             </Box>
                         </Box>
-
                         <Suspense fallback={<LinearProgress size="sm" variant="plain" />} >
                             <TaskMastTable
                                 tableCount={tableCount} setTableCount={setTableCount}
-                            // upComingCount={upComingCount} setUpcomingCount={setUpcomingCount}
-                            // taskTableCount={taskTableCount} settaskTableCount={settaskTableCount}
                             />
                         </Suspense>
                     </TabPanel>
@@ -123,7 +122,6 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                         <Suspense fallback={<LinearProgress size="sm" variant="plain" />} >
                             <OverDueTable
                                 tableCount={tableCount}
-                            // taskTableCount={taskTableCount} settaskTableCount={settaskTableCount}
                             />
                         </Suspense>
                     </TabPanel>
@@ -131,19 +129,14 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                         <Suspense fallback={<LinearProgress size="sm" variant="plain" />} >
                             <CompletedTask
                                 tableCount={tableCount}
-
                             />
                         </Suspense>
                     </TabPanel>
-                    {/* <TabPanel value={2}>
+                    <TabPanel value={3}>
                         <Suspense fallback={<LinearProgress size="sm" variant="plain" />} >
-                            <OverDueTable
-                                tableCount={tableCount}
-                            // taskTableCount={taskTableCount} settaskTableCount={settaskTableCount}
-                            />
+                            <DeptEmployeeTask />
                         </Suspense>
-                    </TabPanel> */}
-
+                    </TabPanel>
                 </Tabs>
             </CssVarsProvider>
         </Box >

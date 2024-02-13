@@ -148,7 +148,9 @@ const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDe
 const AssetRackMast = React.lazy(() => import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster'))
 const AssetDeptTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DeptTransfer'))
 const TaskManagementMainDashboard = React.lazy(() => import('./views/TaskManagement/TaskDashboard/TmDashboardMain'))
-const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/TaskCreationOuter/CreateMainTask'))
+// const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/TaskCreationOuter/CreateMainTask'))
+
+
 const TaskManagementMainGoals = React.lazy(() => import('./views/TaskManagement/GoalsMaster/GoalsMaster'))
 const TaskManagementMainProject = React.lazy(() => import('./views/TaskManagement/ProjectMaster/ProjectMaster'))
 const TaskManagementDeptGoals = React.lazy(() => import('./views/TaskManagement/GoalsMaster/GoalsMasterDept'))
@@ -169,6 +171,7 @@ const ReqMDApproval = React.lazy(() => import('./views/RequestManagement/MDAppro
 const NdrfPurchase = React.lazy(() => import('./views/RequestManagement/NdrfPurchase/NdrfPurchaseTable'))
 const CRFDashboard = React.lazy(() => import('./views/RequestManagement/CRFDashboard/CrdDashboardMain'))
 const DeptSecBasedItemReport = React.lazy(() => import('./views/Report/AssetReport/DeptSecBaseReport'))
+const TaskManagementEmployeeTask = React.lazy(() => import('./views/TaskManagement/EmployeeTaskList/EmpTaskDash'))
 const EmergencyTypeMast = React.lazy(() => import('./views/Master/RequestManagement/EmergencyTypeMast/EmergencyTypeMast'))
 const CrfNewReqRegister = React.lazy(() => import('./views/CentralRequestManagement/CRFRequestMaster/CrfRequestMaster'))
 const AssetInterDeptTrans = React.lazy(() => import('./views/AssetManagment/InterDeptTransfer/InterDeptTransfer'))
@@ -178,7 +181,10 @@ const QIdetails = React.lazy(() => import('./views/QualityIndicator/QualityIndic
 const QIReport = React.lazy(() => import('./views/QualityIndicator/QIDailyReportView'))
 const QIMonthEndoscopy = React.lazy(() => import('./views/QualityIndicator/EndoscopyDetails/QIMonthlyReport'))
 
-
+const TMdepartmentReport = React.lazy(() => import('./views/Report/TaskReport/DepartmentWise/DepartmentWiseTask'))
+const TMEmployeeReport = React.lazy(() => import('./views/Report/TaskReport/EmployeeWise/EmployeeeWiseTask'))
+const TaskManagementTaskLists = React.lazy(() => import('./views/TaskManagement/TaskDashboard/TmTaskList'))
+const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/AllDepartmentTask/AllDepartmentMain'))
 
 
 const routes = [
@@ -354,18 +360,19 @@ const routes = [
   { path: '/Home/NdrfPurchase', exact: true, name: 'Request Purchase', component: NdrfPurchase },
   { path: '/Home/CrfDashboard', exact: true, name: 'CRF Dashboard', component: CRFDashboard },
   { path: '/Home/DeptSecBasedItemReport', exact: true, name: 'Department Section Based Item Report', component: DeptSecBasedItemReport },
-
-
+  { path: '/Home/TaskManagementEmployeeTask', exact: true, name: 'TaskManagement Employee Task', component: TaskManagementEmployeeTask },
   { path: '/Home/EmergencyType', exact: true, name: 'Emmergency Type Master', component: EmergencyTypeMast },
   { path: '/Home/CrfNewRequestRegister', exact: true, name: 'CRF Nw Request Register', component: CrfNewReqRegister },
   { path: '/Home/AssetInterDeptTrans', exact: true, name: 'Asset Inter Departme', component: AssetInterDeptTrans },
-
-
   { path: '/Home/QualityDept', excat: true, name: 'Quality Indicator Departments', component: QualityDepartment },
   { path: '/Home/QualityIndicator', exact: true, name: 'Quality Indicator List', component: QualityIndicator },
   { path: '/Home/QIDetails', exact: true, name: 'Quality Indicator Data', component: QIdetails },
   { path: '/Home/QIDailyReport', exact: true, name: 'QI Daily Report', component: QIReport },
   { path: '/Home/QIMonthlyReport', exact: true, name: 'QI Monthly Report', component: QIMonthEndoscopy },
+  { path: '/Home/TMdepartmentReport', exact: true, name: 'TM department Report', component: TMdepartmentReport },
+  { path: '/Home/TMEmployeeReport', exact: true, name: 'TM employee Report', component: TMEmployeeReport },
+  { path: '/Home/TaskManagementTaskLists', exact: true, name: 'TaskManagement TaskList', component: TaskManagementTaskLists }
+
 ]
 
 export default routes

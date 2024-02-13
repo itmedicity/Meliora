@@ -38,3 +38,11 @@ export const am_one = [
 
     { to: '/Home/DeptSecBasedItemReport', name: 'Department Section Based Item Report', slno: 166 },
 ]
+
+
+export const tm_one = [
+    { to: '/Home/TMdepartmentReport', name: 'Department wise Report', slno: 183 },
+    { to: '/Home/TMEmployeeReport', name: 'Employee wise Report', slno: 184 },
+
+
+]

@@ -19,9 +19,23 @@ const TaskTransaction = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
-        men_slno: 170,
+        men_slno: 185,
         component: CNavItem,
         name: 'Create Task',
+        to: '/Home/TaskManagementTaskLists',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 176,
+        component: CNavItem,
+        name: 'My Tasks',
+        to: '/Home/TaskManagementEmployeeTask',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 170,
+        component: CNavItem,
+        name: 'All Department Task',
         to: '/Home/TaskManagementCreateTask',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
@@ -53,6 +67,9 @@ const TaskTransaction = [
         to: '/Home/TaskManagementDeptProjects',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+
+
+
 
 ]
 
