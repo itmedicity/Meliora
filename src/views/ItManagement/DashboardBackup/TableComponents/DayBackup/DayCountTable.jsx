@@ -70,7 +70,7 @@ const DayCountTable = ({ dayTabledata, dayflag, setDaytabflag, count, setCount }
                                     </Paper>
                                     : null
                         }
-                        <Paper variant="outlined" sx={{ minHeight: 780, overflow: 'auto' }}>
+                        <Paper variant="outlined" sx={{ overflow: 'auto' }}>
                             <CssVarsProvider>
                                 <Table borderAxis="both" padding={"none"} stickyHeader >
                                     <thead style={{ alignItems: 'center' }}>

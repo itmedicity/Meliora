@@ -163,7 +163,7 @@ const VerificationDaysTable = ({ setdaysflag }) => {
                             </Box>
                         </Box>
                     </Paper>
-                    <Box variant="outlined" sx={{ minHeight: 780, overflow: 'auto', mt: 0.5 }}>
+                    <Box variant="outlined" sx={{ overflow: 'auto', mt: 0.5 }}>
                         <CssVarsProvider>
                             <Table borderAxis="both" padding={"none"} stickyHeader >
                                 <thead>

@@ -23,7 +23,7 @@ const NextDayBackupTable = ({ dailycount, setDayFlag }) => {
                     <Paper>
                         <Typography sx={{ fontWeight: 10, fontSize: 18 }}>UpComing Backups on Next Day</Typography>
                     </Paper>
-                    <Paper variant="outlined" sx={{ minHeight: 780, overflow: 'auto' }}>
+                    <Paper variant="outlined" sx={{ overflow: 'auto' }}>
                         <CssVarsProvider>
                             <Table borderAxis="both" padding={"none"} stickyHeader >
                                 <thead>
