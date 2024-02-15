@@ -2095,10 +2095,10 @@
     "prop-types" "^15.8.1"
     "react-is" "^18.2.0"
 
-"@mui/x-charts@^6.19.3":
-  "integrity" "sha512-VxF+mHXtmR2LxalH2KRzF4gLT6KFDbYMvis6rkcyr+w6J17KBxMsEGx8V0nn1CIEslzcSXgbv41jIzodhiFyMQ=="
-  "resolved" "https://registry.npmjs.org/@mui/x-charts/-/x-charts-6.19.3.tgz"
-  "version" "6.19.3"
+"@mui/x-charts@^6.19.4":
+  "integrity" "sha512-0kNg/6jVuG4GoZbV6qb9pYmL8Bhor1m55VIuVlu3p9WdsZFLUyksS4r08viII3YMxosl6MJdFnEfMjWJDAswXw=="
+  "resolved" "https://registry.npmjs.org/@mui/x-charts/-/x-charts-6.19.4.tgz"
+  "version" "6.19.4"
   dependencies:
     "@babel/runtime" "^7.23.2"
     "@mui/base" "^5.0.0-beta.22"
