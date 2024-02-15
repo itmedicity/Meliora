@@ -16,8 +16,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
 
     const { tm_task_slno, tm_task_status, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, em_name, tm_project_slno } = subTaskData
 
-
-
     const [employeeSubTask, setEmployeeSubTask] = useState(0)
     const dispatch = useDispatch();
     const [empArry, setEmpArry] = useState([])
@@ -35,9 +33,9 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         subTaskName: '',
         subTaskDueDate: '',
         subTaskDescription: '',
-        onholdremarksSub: tm_onhold_remarks,
-        completedremarksSub: tm_completed_remarks,
-        pendingremarkSub: tm_pending_remark,
+        onholdremarksSub: '',
+        completedremarksSub: '',
+        pendingremarkSub: '',
 
     })
     const { subTaskName, subTaskDueDate, subTaskDescription, onholdremarksSub, completedremarksSub, pendingremarkSub } = subTaskMast
@@ -56,7 +54,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             setOnHoldSub(false)
             setOnPendingSub(false)
             setcheckFlagSub(0)
-
         }
     }, [])
     const ChangeOnProgressSub = useCallback((e) => {
@@ -74,7 +71,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             setOnHoldSub(false)
             setOnPendingSub(false)
             setcheckFlagSub(0)
-
         }
     }, [])
     const ChangeOnHoldSub = useCallback((e) => {
@@ -92,7 +88,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             setOnHoldSub(false)
             setOnPendingSub(false)
             setcheckFlagSub(0)
-
         }
     }, [])
 
@@ -110,7 +105,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             setOnHoldSub(false)
             setOnPendingSub(false)
             setcheckFlagSub(0)
-
         }
     }, [])
 
@@ -165,10 +159,10 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                     tm_task_slno: tm_task_slno,
                     subTaskName: tm_task_name,
                     subTaskDueDate: tm_task_due_date,
-                    subTaskDescription: tm_task_description,
-                    onholdremarksSub: tm_onhold_remarks,
-                    completedremarksSub: tm_completed_remarks,
-                    pendingremarkSub: tm_pending_remark
+                    subTaskDescription: (tm_task_description ? tm_task_description : ''),
+                    onholdremarksSub: (tm_onhold_remarks ? tm_onhold_remarks : ''),
+                    completedremarksSub: (tm_completed_remarks ? tm_completed_remarks : ''),
+                    pendingremarkSub: (tm_pending_remark ? tm_pending_remark : ''),
                 }
                 setSubTaskMast(formdata)
                 setCompletedSub(tm_task_status === 1 ? true : false)
@@ -210,10 +204,8 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             tm_project_slno: tm_project_slno,
             tm_task_status: checkFlagSub,
             edit_user: id
-
         }
     }, [tm_task_slno, subTaskName, subTaskDueDate, subTaskDescription, empdept, empsecid, checkFlagSub, completedremarksSub, pendingremarkSub, tm_project_slno, onholdremarksSub, id])
-
 
     const reset = useCallback(() => {
         const frmdata = {
@@ -224,14 +216,12 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             onholdremarksSub: '',
             completedremarksSub: '',
             pendingremarkSub: ''
-
         }
         setSubTaskMast(frmdata)
         setEmployeeSubTask(0)
         setOnProgressSub(false)
         setCompletedSub(false)
     }, [setSubTaskMast, setEmployeeSubTask, setCompletedSub, setOnProgressSub]);
-
 
     const [taskProgressSub, setTaskProgressSub] = useState({
         progress_slno: '',
@@ -240,8 +230,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         tm_progres_date: '',
         progress_emp: id,
         tm_task_progress: ''
-
-
     })
     const { progress_slno, tm_progres_date, tm_task_progress } = taskProgressSub
     const ProgresssUpdateSub = useCallback(
@@ -251,7 +239,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         },
         [taskProgressSub],
     )
-
     const postProgressSub = useMemo(() => {
         return {
             tm_task_slno: tm_task_slno,
@@ -259,14 +246,10 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
             progress_emp: id,
             tm_task_progress: tm_task_progress === '' ? null : tm_task_progress,
-
-
         }
     }, [tm_task_slno, checkFlagSub, tm_progres_date, tm_task_progress, id])
 
-
     const patchProgressSub = useMemo(() => {
-
         return {
             progress_slno: progress_slno,
             tm_task_slno: tm_task_slno,
@@ -286,7 +269,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         const getProgress = async () => {
             const result = await axioslogin.post('/taskManagement/viewSubProgress', ProgressDataSub);
             const { success, data } = result.data;
-
             if (data.length !== 0) {
                 if (success === 2) {
                     const arry = data?.map((val) => {
@@ -297,8 +279,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                             tm_progres_date: val.tm_progres_date,
                             em_name: val.em_name,
                             tm_task_progress: val.tm_task_progress
-
-
                         }
                         return obj
                     })
@@ -312,8 +292,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         getProgress(ProgressDataSub)
     }, [progressCountSub, ProgressDataSub])
 
-
-
     const resetProgressSub = () => {
         const form = {
             progress_slno: '',
@@ -321,14 +299,12 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             tm_task_progress: '',
         }
         setTaskProgressSub(form)
-
     }
     const InsertProgressSub = useCallback((e) => {
         e.preventDefault()
         if (tm_progres_date !== '') {
             const InsertMastProgress = async (postProgressSub) => {
                 const result = await axioslogin.post('/taskManagement/insertProgress', postProgressSub)
-
                 const { message, success } = result.data
                 if (success === 1) {
                     succesNotify(message)
@@ -346,9 +322,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         }
     }, [postProgressSub, progressCountSub, tm_progres_date])
     const rowSelectSubProgress = useCallback((data) => {
-
         setvalueSubProgress(1)
-
         const {
             progress_slno,
             tm_task_slno,
@@ -356,11 +330,9 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             tm_progres_date,
             progress_emp,
             tm_task_progress
-
         } = data
 
         const frmdata = {
-
             progress_slno: progress_slno,
             tm_task_slno: tm_task_slno,
             tm_task_status: tm_task_status,
@@ -369,7 +341,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             tm_task_progress: tm_task_progress === '' ? null : tm_task_progress
         }
         setTaskProgressSub(frmdata)
-
     }, [])
     const UpdateProgressSub = useCallback((e) => {
         e.preventDefault()
@@ -503,7 +474,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         name="subTaskName"
                         value={subTaskName}
                         style={{ minHeight: 57 }}
-                        maxRows={2}
+                        maxRows={3}
                         onChange={(e) => SubTaskUpdate(e)}
 
                     ></Textarea>
@@ -732,7 +703,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
 
 
             {onProgressSub === true ?
-                <Box sx={{ mr: 2, ml: 1, mt: 2, border: 1, borderColor: '#C383B5', borderRadius: 4, }}>
+                <Box sx={{ mr: 2, ml: 1, mt: 2, border: 1, borderColor: '#710019', borderRadius: 4, }}>
                     < Typography sx={{ pl: 1, fontSize: 20, color: '#000C66', fontFamily: 'Georgia', pt: .5 }}>
                         Subtask Progress
                     </Typography>

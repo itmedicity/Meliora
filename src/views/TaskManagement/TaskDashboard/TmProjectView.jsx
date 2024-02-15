@@ -9,7 +9,7 @@ import moment from 'moment';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ProjectStatusModal from './ProjectStatusModal';
 
-const TmProjectView = ({ setprojectFlag, projectHead, ProjTable }) => {
+const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTableCount }) => {
 
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [editModalFlag, setEditModalFlag] = useState(0)
@@ -18,8 +18,8 @@ const TmProjectView = ({ setprojectFlag, projectHead, ProjTable }) => {
     const history = useHistory()
     const backtoDash = useCallback(() => {
         history.push('/Home/TaskManagementDashboard')
-        setprojectFlag(0)
-    }, [history, setprojectFlag])
+        setprjFlag(0)
+    }, [history, setprjFlag])
 
 
 
@@ -38,9 +38,7 @@ const TmProjectView = ({ setprojectFlag, projectHead, ProjTable }) => {
                 title={'PROJECT'}>
                 <Box sx={{
                     width: '100%',
-                    height: '90%',
-                    borderRadius: 2,
-                    margin: 'auto',
+                    height: '100%',
                     border: .1, borderColor: '#D396FF',
                 }} >
                     <Box sx={{ width: '99.5%', ml: .5, mt: .5, backgroundColor: '#D9E4EC' }}>
@@ -60,24 +58,22 @@ const TmProjectView = ({ setprojectFlag, projectHead, ProjTable }) => {
                             <Typography sx={{ fontWeight: 550, pt: .5, pl: .5 }}>{projectHead}</Typography>
                         </Box>
                     </Box>
-                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '80%' }}>
+                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '93%' }}>
                         {editModalFlag === 1 ?
-                            <ProjectStatusModal open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
-
-                                setEditModalFlag={setEditModalFlag}
+                            <ProjectStatusModal
+                                open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
+                                setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount}
                             />
                             : null}
                         <CssVarsProvider>
                             <Table padding={"none"} stickyHeader
                                 hoverRow>
                                 <thead>
-                                    <tr >
-
+                                    <tr>
                                         <th style={{ width: 30 }}>SlNo</th>
                                         <th style={{ width: 30 }}>Action</th>
+                                        <th style={{ width: 100 }}>Status</th>
                                         <th style={{ width: 200 }}>Projects</th>
-                                        {/* <th style={{ width: 150 }}>Department</th>
-                                        <th style={{ width: 150 }}>Section</th> */}
                                         <th style={{ width: 100 }}>Due date</th>
                                         <th style={{ width: 250 }}>Description</th>
                                     </tr>
@@ -98,11 +94,16 @@ const TmProjectView = ({ setprojectFlag, projectHead, ProjTable }) => {
                                                         sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
-                                                <td> {val.tm_project_name || 'not given'}</td>
-                                                {/* <td> {val.dept_name || 'not given'}</td>
-                                                <td> {val.sec_name || 'not given'}</td> */}
+                                                <td
+                                                    style={{
+                                                        color: val.tm_project_status === 0 ? '#311E26'
+                                                            : val.tm_project_status === 1 ? '#94C973'
+                                                                : 'transparent', minHeight: 5,
+                                                        fontWeight: 700
+                                                    }}>{val.tm_project_status === 0 ? 'Incompleted' : val.tm_project_status === 1 ? 'Completed' : 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                                                 <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY') || 'not given'}</td>
-                                                <td> {val.tm_project_description || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_description || 'not given'}</td>
                                             </tr>
                                         )
                                     })}

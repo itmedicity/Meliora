@@ -348,58 +348,6 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                         </Box>
                         <Box sx={{ display: 'flex', width: '100%', }}>
                             <Box sx={{ flex: .5, }}>
-                                {/* <Box sx={{ pt: 2, pl: 2, fontSize: 18, mt: 1, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Task Name&nbsp;:&nbsp;
-                                    </Typography>
-                                </Box>
-                                {main_task_slno === null ?
-                                    <Box sx={{
-                                        pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: 2.5, height: 40, pt: 1, fontFamily: 'Georgia',
-
-                                    }}>
-                                        <Typography sx={{ color: '#003B73' }}>
-                                            Project&nbsp;:&nbsp;
-                                        </Typography>
-                                    </Box> :
-                                    <Box sx={{
-                                        pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: 2.5, height: 40, pt: 1, fontFamily: 'Georgia',
-
-                                    }}>
-                                        <Typography sx={{ color: '#003B73' }}>
-                                            Project&nbsp;:&nbsp;
-                                        </Typography>
-                                    </Box>}
-                                <Box sx={{ pt: .3, pl: 2, fontSize: 18, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Department&nbsp;:&nbsp;
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ pt: .8, pl: 2, fontSize: 18, mt: .5, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Section&nbsp;:&nbsp;
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ mt: .5, pl: 2, pt: 1, fontSize: 18, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Assignee&nbsp;:&nbsp;
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ pl: 2, fontSize: 18, mt: 1.8, display: 'flex', justifyContent: 'right', mr: 1, pt: .5 }}>
-                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Created date&nbsp;:&nbsp;
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ pl: 2, fontSize: 18, mt: 1.5, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Due date&nbsp;:&nbsp;
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ pl: 2, fontSize: 18, mt: 2, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Description&nbsp;:&nbsp;
-                                    </Typography>
-                                </Box> */}
                             </Box>
                             <Box sx={{
                                 flex: 8,
@@ -501,9 +449,7 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                                                 />
                                             </Box>
                                         </Box>
-                                    </Box>
-                                }
-
+                                    </Box>}
                                 <Box sx={{ display: 'flex', mt: 1.5 }}>
                                     <Box sx={{ flex: 1, mr: 1 }}>
                                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
@@ -601,12 +547,7 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                                 border: 1,
                                 borderColor: '#603A70',
                                 borderRadius: 3,
-
-                                // borderRadius: 5,
                                 boxShadow: '1px 1px 4px #887BB0',
-                                padding: '1em',
-
-
                             }}>
                                 {completed === true ?
                                     <Box>

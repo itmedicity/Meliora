@@ -59,7 +59,6 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                         tm_task_name: val.tm_task_name,
                         dept_name: (val.dept_name).toLowerCase(),
                         sec_name: (val.sec_name).toLowerCase(),
-                        // em_name: (val.em_name).toLowerCase(),
                         em_name: (val.em_name),
                         tm_assigne_emp: val.tm_assigne_emp,
                         tm_task_dept: val.tm_task_dept,
@@ -71,6 +70,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                         tm_task_status: val.tm_task_status,
                         tm_project_name: val.tm_project_name,
                         tm_project_slno: val.tm_project_slno,
+                        create_date: val.create_date,
                         TaskStatus: val.tm_task_status === 1 ? 'Completed' :
                             val.tm_task_status === 1 ? 'Completed' :
                                 val.tm_task_status === 2 ? 'On Progress' :
@@ -93,8 +93,6 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
         const getMasterTable = async () => {
             const result = await axioslogin.get(`/taskManagement/viewTask`);
             const { success, data } = result.data;
-
-            // if (data.length !== 0) {
             if (success === 2) {
                 const arry = data?.map((val) => {
                     const obj = {
@@ -102,7 +100,6 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                         tm_task_name: val.tm_task_name,
                         dept_name: (val.dept_name).toLowerCase(),
                         sec_name: (val.sec_name).toLowerCase(),
-                        // em_name: (val.em_name).toLowerCase(),
                         em_name: (val.em_name),
                         tm_assigne_emp: val.tm_assigne_emp,
                         tm_task_dept: val.tm_task_dept,
@@ -125,10 +122,6 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                     return obj
                 })
                 setTableData(arry)
-                // } else {
-                //     setTableData([])
-                //     warningNotify('error occured')
-                // }
             } else {
                 setTableData([])
             }
@@ -195,17 +188,17 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                 /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                     selectedImages={selectedImages} getarry={getarry} /> : null}
             <CssVarsProvider>
-                <Box sx={{ backgroundColor: '#FEFCFF', display: 'flex', bgcolor: 'background.level1', }}>
+                <Box sx={{ backgroundColor: '#FEFCFF', display: 'flex', }}>
                     <Box sx={{ flex: 1 }}></Box>
-                    <Box sx={{ flex: 4, display: 'flex', margin: 'auto', }}>
+                    <Box sx={{ flex: 4, display: 'flex', }}>
                         <Box sx={{ flex: 2, py: .4 }}>
-                            <Typography sx={{ pl: .5, fontWeight: 600, fontSize: 18, color: '#003B73', fontFamily: 'Georgia' }}>Department</Typography>
+                            <Typography sx={{ pl: 1, fontWeight: 600, fontSize: 18, color: '#003B73', fontFamily: 'Georgia' }}>Department</Typography>
                             <TmDepartmentSelect
                                 department={departments}
                                 setDepartment={setDepartments} />
                         </Box>
                         <Box sx={{ flex: 2, py: .4, pl: .4 }}>
-                            <Typography sx={{ pl: .5, fontWeight: 600, color: '#003B73', fontSize: 18, fontFamily: 'Georgia' }}>Section</Typography>
+                            <Typography sx={{ pl: 1, fontWeight: 600, color: '#003B73', fontSize: 18, fontFamily: 'Georgia' }}>Section</Typography>
                             <TmDeptSectionSelect
                                 deptsec={deptsecs}
                                 setDeptSec={setDeptSecs} />
@@ -239,75 +232,76 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                 </Box>
             </CssVarsProvider>
             {tableData.length !== 0 ?
-                <Paper sx={{ overflow: 'auto', height: 580 }}>
-                    <Table padding={"none"} stickyHeader
-                        hoverRow>
-                        <thead>
-                            <tr>
-                                <th style={{ width: 60, fontFamily: 'Georgia' }}>#</th>
-                                <th style={{ width: 90, fontFamily: 'Georgia' }}>Action</th>
-                                <th style={{ width: 60, fontFamily: 'Georgia' }}>View</th>
-                                <th style={{ width: 100, fontFamily: 'Georgia' }}>Status</th>
-                                <th style={{ width: 250, fontFamily: 'Georgia' }}>Task name</th>
-                                <th style={{ width: 250, fontFamily: 'Georgia' }}>Project</th>
-                                <th style={{ width: 250, fontFamily: 'Georgia' }}>Department</th>
-                                <th style={{ width: 250, fontFamily: 'Georgia' }}>Section</th>
-                                <th style={{ width: 250, fontFamily: 'Georgia' }}>Assignee</th>
-                                <th style={{ width: 130, fontFamily: 'Georgia' }}>Created date</th>
-                                <th style={{ width: 130, fontFamily: 'Georgia' }}>Due date</th>
-                                <th style={{ width: 320, fontFamily: 'Georgia' }}>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tableData?.map((val, index) => {
-                                return (
-                                    <tr key={index}
-                                        style={{
-                                            height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent',
-                                            minHeight: 5
-                                        }}
-                                    >
-                                        <td> {index + 1}</td>
-                                        <td>
-                                            <EditIcon
-                                                sx={{ cursor: 'pointer' }}
-                                                size={6}
-                                                onClick={() => rowSelectModal(val)}
-                                            />
-                                        </td>
-                                        <td style={{ cursor: 'pointer', }}>
-                                            <ImageOutlinedIcon sx={{ color: '#41729F' }}
-                                                onClick={() => fileView(val)}
-                                            />
-                                        </td>
-                                        <td
+                <Box sx={{ height: 605 }}>
+                    <Paper sx={{ overflow: 'auto', maxHeight: 605, bgcolor: 'white' }}>
+                        <Table padding={"none"} stickyHeader
+                            hoverRow>
+                            <thead style={{ bgcolor: 'white' }}>
+                                <tr>
+                                    <th style={{ width: 60, fontFamily: 'Georgia' }}>#</th>
+                                    <th style={{ width: 90, fontFamily: 'Georgia' }}>Action</th>
+                                    <th style={{ width: 60, fontFamily: 'Georgia' }}>View</th>
+                                    <th style={{ width: 100, fontFamily: 'Georgia' }}>Status</th>
+                                    <th style={{ width: 350, fontFamily: 'Georgia' }}>Task name</th>
+                                    <th style={{ width: 350, fontFamily: 'Georgia' }}>Project</th>
+                                    <th style={{ width: 250, fontFamily: 'Georgia' }}>Department</th>
+                                    <th style={{ width: 250, fontFamily: 'Georgia' }}>Section</th>
+                                    <th style={{ width: 250, fontFamily: 'Georgia' }}>Assignee</th>
+                                    <th style={{ width: 130, fontFamily: 'Georgia' }}>Created date</th>
+                                    <th style={{ width: 130, fontFamily: 'Georgia' }}>Due date</th>
+                                    <th style={{ width: 320, fontFamily: 'Georgia' }}>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tableData?.map((val, index) => {
+                                    return (
+                                        <tr key={index}
                                             style={{
-                                                color: val.tm_task_status === null ? '#B95C50'
-                                                    : val.tm_task_status === 0 ? '#B95C50'
-                                                        : val.tm_task_status === 1 ? '#94C973'
-                                                            : val.tm_task_status === 2 ? '#EFD593'
-                                                                : val.tm_task_status === 3 ? '#67595E'
-                                                                    : val.tm_task_status === 4 ? '#5885AF'
-                                                                        : 'transparent', minHeight: 5,
-                                                fontWeight: 500
-                                            }}>{val.TaskStatus}</td>
-                                        <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
-                                        <td style={{ textTransform: 'capitalize' }}>{val.tm_project_name || 'not given'}</td>
-                                        <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td>
-                                        <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td>
-                                        {/* <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td> */}
-                                        <td style={{ textTransform: 'capitalize' }}>{val.tm_detail_status === 1 ? val.em_name :
-                                            val.tm_detail_status === null ? 'not assigned' : 'not given'}</td>
-                                        <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                        <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                        <td> {val.tm_task_description || 'not given'}</td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </Table>
-                </Paper>
-                : <Box sx={{ textAlign: 'center', pt: 25, fontWeight: 700, fontSize: 30, color: '#C7C8CB', height: 500 }}>
+                                                height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent',
+                                                minHeight: 5
+                                            }}
+                                        >
+                                            <td> {index + 1}</td>
+                                            <td>
+                                                <EditIcon
+                                                    sx={{ cursor: 'pointer' }}
+                                                    size={6}
+                                                    onClick={() => rowSelectModal(val)}
+                                                />
+                                            </td>
+                                            <td style={{ cursor: 'pointer', }}>
+                                                <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                    onClick={() => fileView(val)}
+                                                />
+                                            </td>
+                                            <td
+                                                style={{
+                                                    color: val.tm_task_status === null ? '#311E26'
+                                                        : val.tm_task_status === 0 ? '#311E26'
+                                                            : val.tm_task_status === 1 ? '#94C973'
+                                                                : val.tm_task_status === 2 ? '#D37506'
+                                                                    : val.tm_task_status === 3 ? '#67595E'
+                                                                        : val.tm_task_status === 4 ? '#5885AF'
+                                                                            : 'transparent', minHeight: 5,
+                                                    fontWeight: 700
+                                                }}>{val.TaskStatus}</td>
+                                            <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
+                                            <td style={{ textTransform: 'capitalize' }}>{val.tm_project_name || 'not given'}</td>
+                                            <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td>
+                                            <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td>
+                                            <td style={{ textTransform: 'capitalize' }}>{val.tm_detail_status === 1 ? val.em_name :
+                                                val.tm_detail_status === null ? 'not assigned' : 'not given'}</td>
+                                            <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                            <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                            <td> {val.tm_task_description || 'not given'}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </Table>
+                    </Paper>
+                </Box>
+                : <Box sx={{ textAlign: 'center', pt: 25, fontWeight: 700, fontSize: 30, color: '#C7C8CB', height: 600 }}>
                     No task under section
                 </Box>}
         </Box>

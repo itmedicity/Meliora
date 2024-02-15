@@ -22,10 +22,7 @@ const CreateTaskInAllDepartment = ({ open, setAddModalFlag, setaddModalOpen, set
     const [projectz, setprojectz] = useState(0)
     const [employee, setEmployee] = useState([])
     const [selectFile, setSelectFile] = useState([]);
-    const id = useSelector((state) => {
-        return state.LoginUserData.empid
-    })
-
+    const id = useSelector((state) => { return state.LoginUserData.empid })
     const [taskMast, settaskMast] = useState({
         tm_task_slno: '',
         tm_task_name: '',
@@ -108,7 +105,6 @@ const CreateTaskInAllDepartment = ({ open, setAddModalFlag, setaddModalOpen, set
             return updatedFiles;
         });
     };
-
     const SubmitTask = useCallback((e) => {
         e.preventDefault()
         const InsertMastTask = async (insertMastTask) => {
@@ -260,7 +256,7 @@ const CreateTaskInAllDepartment = ({ open, setAddModalFlag, setaddModalOpen, set
                                                 variant="outlined"
                                                 name="tm_task_name"
                                                 value={tm_task_name}
-                                                maxRows={1}
+                                                maxRows={3}
                                                 onChange={(e) => MastUpdate(e)}
                                                 sx={{ fontSize: 18, color: '#003B73', flex: 1 }}
                                             ></Textarea>

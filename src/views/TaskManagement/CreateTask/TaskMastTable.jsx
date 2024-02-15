@@ -37,12 +37,11 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                     const arry = data?.map((val) => {
                         const obj = {
                             tm_task_slno: val.tm_task_slno,
-                            tm_task_name: val.tm_task_name,
                             dept_name: val.dept_name,
                             sec_name: val.sec_name,
                             tm_assigne_emp: val.tm_assigne_emp,
                             em_name: val.em_name,
-                            // em_name: (val.em_name).toLowerCase(),
+                            tm_task_name: (val.tm_task_name).toLowerCase(),
                             tm_task_dept: val.tm_task_dept,
                             tm_task_dept_sec: val.tm_task_dept_sec,
                             tm_task_due_date: val.tm_task_due_date,
@@ -54,7 +53,13 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                             tm_pending_remark: val.tm_pending_remark,
                             tm_onhold_remarks: val.tm_onhold_remarks,
                             tm_completed_remarks: val.tm_completed_remarks,
-                            create_date: val.create_date
+                            create_date: val.create_date,
+                            TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                                val.tm_task_status === 1 ? 'Completed' :
+                                    val.tm_task_status === 2 ? 'On Progress' :
+                                        val.tm_task_status === 3 ? 'On Hold' :
+                                            val.tm_task_status === 4 ? 'Pending' :
+                                                val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                         }
                         return obj
                     })
@@ -127,22 +132,22 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                 /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                     selectedImages={selectedImages} getarry={getarry} /> : null}
             {Upcomingview === 1 ?
-                <Box variant="outlined" sx={{ width: '100%', overflow: 'auto', mt: .5, }}>
-                    <Paper variant="outlined" sx={{ maxHeight: 660, width: '100%', overflow: 'auto', mt: .5, }}>
+                <Box variant="outlined" sx={{ overflow: 'auto', height: 700 }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 695, width: '100%', overflow: 'auto', mt: .5, }}>
                         <CssVarsProvider>
                             <Table padding={"none"} stickyHeader
                                 hoverRow>
                                 <thead>
                                     <tr>
-                                        <th style={{ width: 40 }}>#</th>
-                                        <th style={{ width: 70 }}>Status</th>
+                                        <th style={{ width: 50 }}>#</th>
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 60 }}>View</th>
-                                        <th style={{ width: 200 }}>Task Name</th>
-                                        <th style={{ width: 120 }}>Project</th>
+                                        <th style={{ width: 170 }}>Status</th>
+                                        <th style={{ width: 300 }}>Task Name</th>
+                                        <th style={{ width: 300 }}>Project</th>
                                         <th style={{ width: 170 }}>Assignee</th>
-                                        <th style={{ width: 120 }}>Created Date</th>
-                                        <th style={{ width: 120 }}> Due Date</th>
+                                        <th style={{ width: 150 }}>Created Date</th>
+                                        <th style={{ width: 150 }}> Due Date</th>
                                         <th style={{ width: 300 }}>Task Description</th>
                                     </tr>
                                 </thead>
@@ -153,19 +158,6 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                                                 style={{ height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent', minHeight: 5 }}>
                                                 <td> {index + 1}</td>
                                                 <td>
-
-                                                    <RadioButtonCheckedIcon sx={{
-                                                        color: val.tm_task_status === null ? '#311E26'
-                                                            : val.tm_task_status === 0 ? '#311E26'
-                                                                : val.tm_task_status === 1 ? '#59981A'
-                                                                    : val.tm_task_status === 2 ? '#D37506'
-                                                                        : val.tm_task_status === 3 ? '#747474'
-                                                                            : val.tm_task_status === 4 ? '#5885AF'
-                                                                                : 'transparent', minHeight: 5
-                                                    }}
-                                                    />
-                                                </td>
-                                                <td>
                                                     <EditIcon
                                                         sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
@@ -175,6 +167,27 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                                                         onClick={() => fileView(val)}
                                                     />
                                                 </td>
+                                                <td
+                                                    style={{
+                                                        color: val.tm_task_status === null ? '#311E26'
+                                                            : val.tm_task_status === 0 ? '#311E26'
+                                                                : val.tm_task_status === 1 ? '#94C973'
+                                                                    : val.tm_task_status === 2 ? '#D37506'
+                                                                        : val.tm_task_status === 3 ? '#67595E'
+                                                                            : val.tm_task_status === 4 ? '#5885AF'
+                                                                                : 'transparent', minHeight: 5,
+                                                        fontWeight: 700
+                                                    }}><RadioButtonCheckedIcon sx={{
+                                                        color: val.tm_task_status === null ? '#311E26'
+                                                            : val.tm_task_status === 0 ? '#311E26'
+                                                                : val.tm_task_status === 1 ? '#59981A'
+                                                                    : val.tm_task_status === 2 ? '#D37506'
+                                                                        : val.tm_task_status === 3 ? '#747474'
+                                                                            : val.tm_task_status === 4 ? '#5885AF'
+                                                                                : 'transparent', minHeight: 5
+                                                    }} />&nbsp;{val.TaskStatus}</td>
+
+
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {(val.em_name || 'not given')}</td>
@@ -189,7 +202,7 @@ const TaskMastTable = ({ tableCount, setTableCount }) => {
                         </CssVarsProvider>
                     </Paper>
                 </Box>
-                : <Box sx={{ textAlign: 'center', pt: 18, height: 450, fontWeight: 700, fontSize: 30, color: '#C7C8CB', }}>
+                : <Box sx={{ textAlign: 'center', pt: 18, height: 695, fontWeight: 700, fontSize: 30, color: '#C7C8CB', }}>
                     No Task Created UnderSection!
                 </Box>}
         </Box >

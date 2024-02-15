@@ -35,8 +35,7 @@ const AllDepartmentMain = () => {
                 setAddModalFlag={setAddModalFlag} setaddModalOpen={setaddModalOpen}
             />
                 : null}
-
-            <Paper sx={{ height: '45vw' }}>
+            <Paper >
                 <Box sx={{ height: 35, borderBottom: 1, borderColor: 'lightgrey', display: 'flex', justifyContent: "flex-end", pb: .5 }}>
                     <CusIconButton size="sm" variant="outlined" color="primary"  >
                         <CssVarsProvider>
@@ -48,7 +47,7 @@ const AllDepartmentMain = () => {
                         </CssVarsProvider>
                     </CusIconButton>
                 </Box>
-                <Box>
+                <Box sx={{ mt: .5, border: .1, borderRadius: 1, borderColor: '#D396FF', p: .5 }}>
                     <CssVarsProvider>
                         <Tabs
                             aria-label="Basic tabs"
@@ -56,7 +55,6 @@ const AllDepartmentMain = () => {
                             size="sm"
                             sx={{
                                 display: 'flex',
-                                mt: .5,
                             }}
                         >
                             <TabList
@@ -69,13 +67,10 @@ const AllDepartmentMain = () => {
                                     [`& .${tabClasses.root}[aria-selected="true"]`]: {
                                         boxShadow: 'sm',
                                         bgcolor: 'background.surface',
-
                                     },
                                 }}
                             >
-                                <Box
-                                    sx={{ display: 'flex', }}
-                                >
+                                <Box sx={{ display: 'flex', }}>
                                     <Box sx={{
                                         display: 'flex',
                                         width: 75,
@@ -95,11 +90,7 @@ const AllDepartmentMain = () => {
                                             <Box sx={{ fontWeight: 700, fontSize: 18, fontSmooth: 'always', pr: 0.5 }} >All Department Task</Box>
                                             <LockIcon />
                                         </Box>
-                                        <Box
-                                            sx={{
-                                                display: 'flex'
-                                            }}
-                                        >
+                                        <Box sx={{ display: 'flex' }}>
                                             <Tab disableIndicator >All Task</Tab>
                                         </Box>
                                     </Box>
@@ -111,10 +102,11 @@ const AllDepartmentMain = () => {
                                     variant="plain" startDecorator={<AddIcon />} size="md" sx={{ width: 150, justifyContent: 'left' }}>Create task</Button>
                             </Box>
                             <TabPanel value={0} sx={{
-                                border: 1,
-                                borderRadius: 6,
+                                border: 2,
+                                borderRadius: 10,
                                 borderColor: 'background.level1',
                                 flex: 1,
+                                bgcolor: '#F8FAFD'
                             }} >
                                 <Suspense fallback={<LinearProgress variant="plain" />} >
                                     <AllTaskView

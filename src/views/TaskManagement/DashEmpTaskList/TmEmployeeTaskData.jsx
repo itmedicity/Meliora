@@ -78,7 +78,7 @@ const TmEmployeeTaskData = () => {
                                     <PersonIcon />
                                 </Avatar>
                                 <Tooltip title="Employee" >
-                                    <Box sx={{ flex: 1.1, textTransform: 'uppercase' }}>
+                                    <Box sx={{ flex: 1.1, textTransform: 'capitalize' }}>
                                         <Typography>{val.empname}</Typography>
                                     </Box>
                                 </Tooltip>

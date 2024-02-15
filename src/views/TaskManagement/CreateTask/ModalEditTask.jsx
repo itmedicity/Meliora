@@ -28,8 +28,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
 
     const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, em_name, create_date, tm_project_name } = masterData
 
-
-
     const dispatch = useDispatch();
     const [departmentMast, setdepartmentMast] = useState(0)
     const [departmentSecMast, setdepartmentSecMast] = useState(0)
@@ -315,11 +313,11 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                 const formdata = {
                     taskSlno: tm_task_slno,
                     taskName: tm_task_name,
-                    dueDate: tm_task_due_date,
-                    description: tm_task_description,
-                    pendingRemarks: tm_pending_remark,
-                    onHoldRemaks: tm_onhold_remarks,
-                    completedRemarks: tm_completed_remarks,
+                    dueDate: (tm_task_due_date ? tm_task_due_date : ''),
+                    description: (tm_task_description ? tm_task_description : ''),
+                    pendingRemarks: (tm_pending_remark ? tm_pending_remark : ''),
+                    onHoldRemaks: (tm_onhold_remarks ? tm_onhold_remarks : ''),
+                    completedRemarks: (tm_completed_remarks ? tm_completed_remarks : ''),
                 }
                 setTaskData(formdata)
                 setdepartmentMast(empdept)
@@ -346,10 +344,11 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                     })
                     setEmpArry(setEmpData)
                 }
+                else {
+                    setEmpArry([])
+                }
             }
-            else {
-                setEmpArry([])
-            }
+
         }
         getMasterTask(tm_task_slno)
         getMastEmployee(tm_task_slno);
@@ -638,7 +637,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                             name="taskName"
                                             value={taskName}
                                             minRows={2}
-                                            maxRows={2}
+                                            maxRows={3}
                                             onChange={(e) => taskDataUpdate(e)}
                                             sx={{ fontSize: 15, color: '#003B73', }}
                                         ></Textarea>
@@ -781,7 +780,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                             </Box>
                             <Box sx={{ flex: 1.8, }}></Box>
                         </Box>
-                        <Box sx={{ m: 2, border: 1, borderColor: '#341948', borderRadius: 3 }}>
+                        <Box sx={{ m: 2, border: 1, borderColor: '#710019', borderRadius: 3 }}>
                             <Typography sx={{ pl: 1.5, pt: .5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}>
                                 Task Progress
                             </Typography>
@@ -1004,7 +1003,13 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                             </Box>
                             : null}
                         {main_task_slno === null ?
-                            <Box sx={{ m: 2, border: 1, borderColor: '#603A70', borderRadius: 3 }}>
+                            <Box sx={{
+                                m: 2,
+                                border: 1,
+                                borderColor: '#603A70',
+                                borderRadius: 3,
+                                boxShadow: '1px 1px 4px #887BB0',
+                            }}>
                                 {completed === true ?
                                     <Box>
                                         <Tooltip title='unable to add a subtask to a completed task' placement='top-start'>
@@ -1024,9 +1029,9 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                         onClick={openAddSubtask}
                                     >
                                         Add Subtask&nbsp;&nbsp;&nbsp;
-                                        {flag === 2 || flag === 1 ?
+                                        {flag === 1 ?
                                             <RemoveIcon sx={{ fontSize: 25, color: '#004F76' }} /> :
-                                            flag === 0 ?
+                                            flag === 0 || flag === 2 ?
                                                 <AddIcon sx={{ fontSize: 25, color: '#004F76' }} /> : null}
                                     </Box>}
                                 <Box sx={{ mt: 1, pl: 1, }}>

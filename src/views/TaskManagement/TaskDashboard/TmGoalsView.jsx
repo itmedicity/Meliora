@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import moment from 'moment';
 import GoalStatusModal from './GoalStatusModal';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-const TmGoalsView = ({ goalsTable, goalsHead, setgoalsFlag, }) => {
+const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableCount }) => {
 
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [editModalFlag, setEditModalFlag] = useState(0)
@@ -21,8 +21,8 @@ const TmGoalsView = ({ goalsTable, goalsHead, setgoalsFlag, }) => {
     const history = useHistory()
     const backtoDash = useCallback(() => {
         history.push('/Home/TaskManagementDashboard')
-        setgoalsFlag(0)
-    }, [history, setgoalsFlag])
+        setflagGoal(0)
+    }, [history, setflagGoal])
 
 
 
@@ -38,9 +38,7 @@ const TmGoalsView = ({ goalsTable, goalsHead, setgoalsFlag, }) => {
                 title={'GOALS'}>
                 <Box sx={{
                     width: '100%',
-                    height: '90%',
-                    borderRadius: 2,
-                    margin: 'auto',
+                    height: '100%',
                     border: .1, borderColor: '#D396FF',
                 }} >
                     <Box sx={{ width: '99.5%', ml: .5, mt: .5, backgroundColor: '#D9E4EC' }}>
@@ -61,10 +59,10 @@ const TmGoalsView = ({ goalsTable, goalsHead, setgoalsFlag, }) => {
                         </Box>
 
                     </Box>
-                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '80%' }}>
+                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '93%' }}>
                         {editModalFlag === 1 ?
                             <GoalStatusModal open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
-                                setEditModalFlag={setEditModalFlag}
+                                setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount}
                             />
                             : null}
                         <CssVarsProvider>
@@ -76,9 +74,8 @@ const TmGoalsView = ({ goalsTable, goalsHead, setgoalsFlag, }) => {
 
                                         <th style={{ width: 30 }}>SlNo</th>
                                         <th style={{ width: 50 }}>Action</th>
+                                        <th style={{ width: 100 }}>Status</th>
                                         <th style={{ width: 200 }}>Goal</th>
-                                        {/* <th style={{ width: 150 }}>Department</th>
-                                        <th style={{ width: 150 }}>Section</th> */}
                                         <th style={{ width: 100 }}>Due date</th>
                                         <th style={{ width: 250 }}>Description</th>
                                     </tr>
@@ -100,9 +97,15 @@ const TmGoalsView = ({ goalsTable, goalsHead, setgoalsFlag, }) => {
                                                         sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
+                                                <td
+                                                    style={{
+                                                        color: val.tm_goal_status === null ? '#311E26'
+                                                            : val.tm_goal_status === 0 ? '#311E26'
+                                                                : val.tm_goal_status === 1 ? '#94C973'
+                                                                    : 'transparent', minHeight: 5,
+                                                        fontWeight: 700
+                                                    }}>{val.tm_goal_status === 0 ? 'Incompleted' : val.tm_goal_status === 1 ? 'Completed' : 'not given'}</td>
                                                 <td> {val.tm_goal_name || 'not given'}</td>
-                                                {/* <td> {val.dept_name || 'not given'}</td>
-                                                <td> {val.sec_name || 'not given'}</td> */}
                                                 <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY') || 'not given'}</td>
                                                 <td> {val.tm_goal_description || 'not given'}</td>
                                             </tr>

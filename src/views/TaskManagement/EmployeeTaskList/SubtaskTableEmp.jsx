@@ -59,7 +59,7 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
         <Box>
             {subTask.length !== 0 ?
 
-                <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', mx: 1, maxHeight: 300, my: 1 }}>
+                <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', mx: 1, maxHeight: 400, my: 1 }}>
                     <CssVarsProvider>
                         <Table stickyHeader hoverRow>
                             <thead>
