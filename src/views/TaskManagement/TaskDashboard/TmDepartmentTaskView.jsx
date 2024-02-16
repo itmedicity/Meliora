@@ -10,13 +10,11 @@ import { getReqRegistListByDept } from 'src/redux/actions/ReqRegisterListByDept.
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import moment from 'moment';
 import EmpTaskStatus from '../EmployeeTaskList/EmpTaskStatus';
-const TmDepartmentTaskView = ({ tableCount, setTableCount, setdepartmentTaskFlag, deptTableData, deptTaskHeading }) => {
-
+const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTableData, deptTaskHeading }) => {
 
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [editModalFlag, setEditModalFlag] = useState(0)
     const [masterData, setMasterData] = useState([])
-
 
     const history = useHistory()
     const dispatch = useDispatch();
@@ -25,12 +23,9 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdepartmentTaskFlag
         return state.LoginUserData.empsecid
     })
 
-
     const rowSelectModal = useCallback((value) => {
         setEditModalFlag(1)
         setEditModalOpen(true)
-        // setimageViewModalOpen(false)
-        // setimage(0)
         setMasterData(value)
     }, [])
 
@@ -39,8 +34,8 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdepartmentTaskFlag
     }, [dispatch, empsecid,])
     const backtoDash = useCallback(() => {
         history.push('/Home/TaskManagementDashboard')
-        setdepartmentTaskFlag(0)
-    }, [history, setdepartmentTaskFlag])
+        setdeptFlag(0)
+    }, [history, setdeptFlag])
     return (
         <Box>
             <CardMasterClose
@@ -48,9 +43,8 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdepartmentTaskFlag
                 title={'DEPARTMENT TASK'}>
                 <Box sx={{
                     width: '100%',
-                    height: '90%',
-                    borderRadius: 2,
-                    margin: 'auto',
+                    height: '100%',
+                    borderRadius: 0,
                     border: .1, borderColor: '#D396FF',
                 }} >
                     <Box sx={{ width: '99.5%', ml: .5, mt: .5, backgroundColor: '#D9E4EC' }}>
@@ -70,7 +64,7 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdepartmentTaskFlag
                             <Typography sx={{ fontWeight: 550, pt: .5, pl: .5 }}>{deptTaskHeading}</Typography>
                         </Box>
                     </Box>
-                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '80%' }}>
+                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '93%', }}>
                         {editModalFlag === 1 ?
                             <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                 setEditModalFlag={setEditModalFlag}
@@ -81,13 +75,15 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdepartmentTaskFlag
                             <Table padding={"none"} stickyHeader>
                                 <thead>
                                     <tr >
-                                        <th style={{ width: 60 }}>#</th>
-                                        <th style={{ width: 80 }}>Action</th>
-                                        <th style={{ width: 250 }}>Task name</th>
-                                        <th style={{ width: 100 }}>Assignee</th>
-                                        <th style={{ width: 100 }}>Created Date</th>
-                                        <th style={{ width: 100 }}>Due date</th>
-                                        <th style={{ width: 250 }}>Description</th>
+                                        <th style={{ width: 50 }}>#</th>
+                                        <th style={{ width: 60 }} >Action</th>
+                                        <th style={{ width: 120 }}>Status</th>
+                                        <th style={{ width: 300 }}>Task Name</th>
+                                        <th style={{ width: 300 }}>Project</th>
+                                        <th style={{ width: 170 }}>Assignee</th>
+                                        <th style={{ width: 150 }}>Created Date</th>
+                                        <th style={{ width: 150 }}> Due Date</th>
+                                        <th style={{ width: 300 }}>Task Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -104,7 +100,21 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdepartmentTaskFlag
                                                         sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
+                                                <td
+                                                    style={{
+                                                        color: val.tm_task_status === null ? '#311E26'
+                                                            : val.tm_task_status === 0 ? '#311E26'
+                                                                : val.tm_task_status === 1 ? '#94C973'
+                                                                    : val.tm_task_status === 2 ? '#D37506'
+                                                                        : val.tm_task_status === 3 ? '#67595E'
+                                                                            : val.tm_task_status === 4 ? '#5885AF'
+                                                                                : 'transparent', minHeight: 5,
+                                                        fontWeight: 700
+                                                    }}>{val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
+                                                        val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
+                                                            val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {moment(val.create_date).format('DD-MM-YYYY') || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>

@@ -26,7 +26,10 @@ const EmpProjectTaskDetails = ({ val }) => {
                 empProject && empProject.map((val) => {
                     return <AccordionDetails key={val.tm_project_slno} sx={{ mx: 3 }} >
                         <Stack>
-                            <FormControl orientation="horizontal" sx={{ borderBottom: 1, borderColor: '#B7CFDC', height: 65, pl: 2, bgcolor: '#EAEFF2', overflow: 'auto' }}>
+                            <FormControl orientation="horizontal" sx={{
+                                height: 65, pl: 2, bgcolor: '#EAEFF2', overflow: 'auto',
+                                borderBottom: 1, borderRadius: 5, borderColor: '#B7CFDC',
+                            }}>
                                 <FormLabel sx={{ fontSize: 15, flex: 3, textTransform: 'capitalize' }}> {val.tm_project_name}</FormLabel>
                                 <Tooltip title="Project Due Date">
                                     <FormLabel sx={{ fontSize: 15, flex: 1, cursor: 'grab' }}> {val.tm_project_duedate}</FormLabel>

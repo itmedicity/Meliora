@@ -14,7 +14,6 @@ const EditSubTaskInAllDept = ({ subTaskData, tableRendering, setTableRendering, 
 
     const { tm_task_slno, tm_task_status, em_name, create_date } = subTaskData
 
-
     const [departmentSubTask, setdepartmentSubTask] = useState(0)
     const [departmentSecSubTask, setdepartmentSecSubTask] = useState(0)
     const [employeeSubTask, setEmployeeSubTask] = useState(0)
@@ -195,36 +194,6 @@ const EditSubTaskInAllDept = ({ subTaskData, tableRendering, setTableRendering, 
             bgcolor: '#fafafa'
         }}>
             <Box sx={{ flex: 1, }}>
-                {/* <Box sx={{ pt: 2, pl: 2, fontSize: 18, mt: 1.2, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Task Name&nbsp;:&nbsp;
-                    </Typography>
-                </Box>
-                <Box sx={{ pt: 1, pl: 2, fontSize: 18, mt: 2.5, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Department&nbsp;:&nbsp;
-                    </Typography>
-                </Box>
-                <Box sx={{ pt: 1.2, pl: 2, fontSize: 18, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Section&nbsp;:&nbsp;
-                    </Typography>
-                </Box>
-                <Box sx={{ mt: .5, pl: 2, pt: 1.5, fontSize: 18, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Assignee&nbsp;:&nbsp;
-                    </Typography>
-                </Box>
-                <Box sx={{ pl: 2, fontSize: 18, mt: 3, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Due date&nbsp;:&nbsp;
-                    </Typography>
-                </Box>
-                <Box sx={{ pl: 2, fontSize: 18, mt: 1, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Description&nbsp;:&nbsp;
-                    </Typography>
-                </Box> */}
             </Box>
             <Box sx={{ flex: 8 }}>
                 <Box sx={{ mt: .5, pt: 1 }}>

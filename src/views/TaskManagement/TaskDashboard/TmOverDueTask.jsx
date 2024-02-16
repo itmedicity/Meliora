@@ -9,16 +9,19 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import moment from 'moment';
 import EmpTaskStatus from '../EmployeeTaskList/EmpTaskStatus';
 
-const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setoverdueTaskFlag, overDueHeading, }) => {
+const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overDueHeading,
+}) => {
 
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [editModalFlag, setEditModalFlag] = useState(0)
     const [masterData, setMasterData] = useState([])
+
+
     const history = useHistory()
     const backtoDash = useCallback(() => {
         history.push('/Home/TaskManagementDashboard')
-        setoverdueTaskFlag(0)
-    }, [history, setoverdueTaskFlag])
+        setDueFlag(0)
+    }, [history, setDueFlag])
 
     const rowSelectModal = useCallback((value) => {
         setEditModalFlag(1)
@@ -33,9 +36,8 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setoverdueTaskFla
                 title={'OVER DUE TASK'}>
                 <Box sx={{
                     width: '100%',
-                    height: '90%',
-                    borderRadius: 2,
-                    margin: 'auto',
+                    height: '100%',
+                    borderRadius: 0,
                     border: .1, borderColor: '#D396FF',
                 }}>
                     <Box sx={{ width: '99.5%', ml: .5, mt: .5, backgroundColor: '#D9E4EC' }}>
@@ -55,7 +57,7 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setoverdueTaskFla
                             <Typography sx={{ fontWeight: 550, pt: .5, pl: .5 }}>{overDueHeading}</Typography>
                         </Box>
                     </Box>
-                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '80%' }}>
+                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '93%' }}>
                         {editModalFlag === 1 ?
                             <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                 setEditModalFlag={setEditModalFlag}
@@ -67,14 +69,15 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setoverdueTaskFla
                                 hoverRow>
                                 <thead>
                                     <tr >
-                                        <th style={{ width: 40 }}>#</th>
-                                        <th style={{ width: 50 }}>Action</th>
-                                        <th style={{ width: 200 }}>Status</th>
-                                        <th style={{ width: 200 }}>Task name</th>
-                                        <th style={{ width: 200 }}>Assignee</th>
-                                        <th style={{ width: 100 }}>Created Date</th>
-                                        <th style={{ width: 100 }}>Due date</th>
-                                        <th style={{ width: 250 }}>Description</th>
+                                        <th style={{ width: 50 }}>#</th>
+                                        <th style={{ width: 60 }} >Action</th>
+                                        <th style={{ width: 120 }}>Status</th>
+                                        <th style={{ width: 300 }}>Task Name</th>
+                                        <th style={{ width: 300 }}>Project</th>
+                                        <th style={{ width: 170 }}>Assignee</th>
+                                        <th style={{ width: 150 }}>Created Date</th>
+                                        <th style={{ width: 150 }}> Due Date</th>
+                                        <th style={{ width: 300 }}>Task Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -93,15 +96,16 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setoverdueTaskFla
                                                         color: val.tm_task_status === null ? '#311E26'
                                                             : val.tm_task_status === 0 ? '#311E26'
                                                                 : val.tm_task_status === 1 ? '#94C973'
-                                                                    : val.tm_task_status === 2 ? '#EFD593'
-                                                                        : val.tm_task_status === 3 ? '#A49393'
+                                                                    : val.tm_task_status === 2 ? '#D37506'
+                                                                        : val.tm_task_status === 3 ? '#67595E'
                                                                             : val.tm_task_status === 4 ? '#5885AF'
                                                                                 : 'transparent', minHeight: 5,
-                                                        fontWeight: 600,
+                                                        fontWeight: 700
                                                     }}>{val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
                                                         val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                             val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
                                                 <td> {moment(val.create_date).format('DD-MM-YYYY') || 'not given'}</td>
                                                 <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
