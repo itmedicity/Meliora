@@ -68,7 +68,6 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
 
     const mapArry = Array.from({ length: count }, (_, index) => index);
 
-
     const postData = mapArry && mapArry.map((val) => {
         return {
             item_creation_slno: slno,
