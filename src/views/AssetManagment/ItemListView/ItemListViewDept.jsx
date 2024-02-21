@@ -119,8 +119,9 @@ const ItemListViewDept = () => {
     const [detailArry, setDetailArry] = useState([])
     const [detailflag, setDetailflag] = useState(0)
 
-    const AddDetails = useCallback((value) => {
-        setDetailArry(value)
+    const AddDetails = useCallback((params) => {
+        const data = params.api.getSelectedRows()
+        setDetailArry(data[0])
         setDetailflag(1)
     }, [])
 
@@ -247,13 +248,9 @@ const ItemListViewDept = () => {
                                 </Box>
                             </Box>
                         </Box>
-                        {flag === 1 ? <Box sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            pt: 2
-                        }} >
+                        {flag === 1 ?
                             <ItemListViewTable asset={asset} displayarry={displayarry} AddDetails={AddDetails} />
-                        </Box> : null}
+                            : null}
                     </CardMasterClose>
             }
         </Box >

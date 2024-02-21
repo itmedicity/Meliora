@@ -184,6 +184,18 @@ const QIMonthEndoscopy = React.lazy(() => import('./views/QualityIndicator/Endos
 const TMdepartmentReport = React.lazy(() => import('./views/Report/TaskReport/DepartmentWise/DepartmentWiseTask'))
 const TMEmployeeReport = React.lazy(() => import('./views/Report/TaskReport/EmployeeWise/EmployeeeWiseTask'))
 const TaskManagementTaskLists = React.lazy(() => import('./views/TaskManagement/TaskDashboard/TmTaskList'))
+
+const CRFNewIncharge = React.lazy(() => import('./views/CentralRequestManagement/CrfInchargeApproval/CrfInchargeAppvable'))
+const CRFNewHOD = React.lazy(() => import('./views/CentralRequestManagement/CrfHodApproval/CrfHodApproval'))
+const CRFNewDMS = React.lazy(() => import('./views/CentralRequestManagement/CrfDmsApproval/CrfDMSApproval'))
+const CRFNewMS = React.lazy(() => import('./views/CentralRequestManagement/CrfMsApproval/CrfMSApproval'))
+const CRFNewMO = React.lazy(() => import('./views/CentralRequestManagement/CrfMOApproval/CrfMOApproval'))
+const CRFNewSMO = React.lazy(() => import('./views/CentralRequestManagement/CrfSMOApproval/CrfSMOApproval'))
+const CRFNewGM = React.lazy(() => import('./views/CentralRequestManagement/CrfGMApproval/CrfGMApproval'))
+const CRFNewMD = React.lazy(() => import('./views/CentralRequestManagement/CrfMDApproval/CrfMDApproval'))
+const CRFNewED = React.lazy(() => import('./views/CentralRequestManagement/CrfEDApproval/CrfEDApproval'))
+const CRFNewDashboard = React.lazy(() => import('./views/CentralRequestManagement/CrfDashboardNew/CrfDashboardMain'))
+
 const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/AllDepartmentTask/AllDepartmentMain'))
 
 
@@ -371,7 +383,20 @@ const routes = [
   { path: '/Home/QIMonthlyReport', exact: true, name: 'QI Monthly Report', component: QIMonthEndoscopy },
   { path: '/Home/TMdepartmentReport', exact: true, name: 'TM department Report', component: TMdepartmentReport },
   { path: '/Home/TMEmployeeReport', exact: true, name: 'TM employee Report', component: TMEmployeeReport },
-  { path: '/Home/TaskManagementTaskLists', exact: true, name: 'TaskManagement TaskList', component: TaskManagementTaskLists }
+  { path: '/Home/TaskManagementTaskLists', exact: true, name: 'TaskManagement TaskList', component: TaskManagementTaskLists },
+  { path: '/Home/CRFNewInchargeApproval', exact: true, name: 'CRF New Incharge Approval', component: CRFNewIncharge },
+  { path: '/Home/CRFNewHODApproval', exact: true, name: 'CRF New HOD Approval', component: CRFNewHOD },
+
+  { path: '/Home/CRFNewDMSApproval', exact: true, name: 'CRF New DMS Approval', component: CRFNewDMS },
+  { path: '/Home/CRFNewMSApproval', exact: true, name: 'CRF New MS Approval', component: CRFNewMS },
+  { path: '/Home/CRFNewOMApproval', exact: true, name: 'CRF New DMS Approval', component: CRFNewMO },
+  { path: '/Home/CRFNewSMOApproval', exact: true, name: 'CRF New MS Approval', component: CRFNewSMO },
+  { path: '/Home/CRFNewGMApproval', exact: true, name: 'CRF New DMS Approval', component: CRFNewGM },
+  { path: '/Home/CRFNewMDApproval', exact: true, name: 'CRF New MS Approval', component: CRFNewMD },
+  { path: '/Home/CRFNewEDApproval', exact: true, name: 'CRF New MS Approval', component: CRFNewED },
+  { path: '/Home/CrfNewDashBoard', exact: true, name: 'CRF New MS Approval', component: CRFNewDashboard },
+
+
 
 ]
 
