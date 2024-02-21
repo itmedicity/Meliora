@@ -113,6 +113,7 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
     }, [am_item_map_slno, assetSpare, am_spare_item_map_slno, setAmcPmArry, setGrnDetailArry, setwarGarArry,
     ])
 
+
     const BackToPage = useCallback(() => {
         setDetailflag(0)
     }, [setDetailflag])
@@ -150,10 +151,16 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                         grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
 
                     {/*  Lease Details */}
-                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                        Lease Details</Typography>
-                    <LeaseDetails detailArry={detailArry} assetSpare={assetSpare}
-                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
+                    {
+                        assetSpare === 1 ?
+                            <Box>
+                                <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                                    Lease Details</Typography>
+                                <LeaseDetails detailArry={detailArry} assetSpare={assetSpare}
+                                    grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
+                            </Box> : null
+                    }
+
                     {/*  Warrenty/ Grarunty Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         Warranty/Guarantee Details</Typography>
@@ -161,16 +168,22 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                         wargar={wargar} setWarGar={setWarGar} assetSpare={assetSpare} />
 
                     {/*  AMC/PM Details */}
-                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                        AMC/PM  Details</Typography>
-                    <AMCPMComp detailArry={detailArry} amcPmarry={amcPmarry} assetSpare={assetSpare}
-                        amcPm={amcPm} setAmcPm={setAmcPm} setRender={setRender} render={render} />
+                    {
+                        assetSpare === 1 ?
+                            <Box>
+                                <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                                    AMC/PM  Details</Typography>
+                                <AMCPMComp detailArry={detailArry} amcPmarry={amcPmarry} assetSpare={assetSpare}
+                                    amcPm={amcPm} setAmcPm={setAmcPm} setRender={setRender} render={render} />
+                            </Box>
+                            : null
+                    }
+
 
                     {/*  Spec Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         Specification  Details</Typography>
-
-                    <SpecDetailsComp detailArry={detailArry} />
+                    <SpecDetailsComp detailArry={detailArry} assetSpare={assetSpare} />
 
 
                 </Box>

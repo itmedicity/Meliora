@@ -23,7 +23,7 @@ import { Box, Typography } from '@mui/material'
 import TaskTransaction from 'src/Menus/TaskTransaction'
 import AmTransactions from 'src/Menus/AmTransaction'
 import ITTransactions from 'src/Menus/ItTransaction'
-import CrmNewTransaction from 'src/Menus/CrmNewTransaction'
+// import CrmNewTransaction from 'src/Menus/CrmNewTransaction'
 import QualityTransactions from 'src/Menus/QualityTransaction'
 
 const AppSidebar = () => {
@@ -33,7 +33,7 @@ const AppSidebar = () => {
   const [nurseStation, setNurseStation] = useState()
   const [cmtransact, setCmTransact] = useState()
   const [crmtransact, setCrmTransact] = useState()
-  const [crmnewtransact, setCrmNewTransact] = useState()
+  // const [crmnewtransact, setCrmNewTransact] = useState()
   // const [diettransact, setDietTransact] = useState()
   const [rmtransact, setRmTransact] = useState()
   const [amtransact, setAmTransact] = useState()
@@ -78,12 +78,12 @@ const AppSidebar = () => {
       items: crmtransact
     },
 
-    {
-      slno: 3,
-      component: CNavGroup,
-      name: 'Central Request management',
-      items: crmnewtransact
-    },
+    // {
+    //   slno: 3,
+    //   component: CNavGroup,
+    //   name: 'Central Request management',
+    //   items: crmnewtransact
+    // },
     //Room Management System Menu Start from Here
     {
       slno: 5,
@@ -162,8 +162,8 @@ const AppSidebar = () => {
         setCmTransact(newCmTransaction)
         const newCrmTransaction = CrmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setCrmTransact(newCrmTransaction)
-        const newCrmNewTransaction = CrmNewTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
-        setCrmNewTransact(newCrmNewTransaction)
+        // const newCrmNewTransaction = CrmNewTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
+        // setCrmNewTransact(newCrmNewTransaction)
         // const newDietTransaction = DietTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         // setDietTransact(newDietTransaction)
         const newRmTransaction = RmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));

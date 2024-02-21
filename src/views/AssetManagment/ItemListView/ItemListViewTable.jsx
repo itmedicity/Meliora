@@ -1,10 +1,12 @@
-import React, { useEffect, memo, useCallback, useState } from 'react'
-import { CssVarsProvider } from '@mui/joy/'
-import Table from '@mui/joy/Table';
-import { Paper } from '@mui/material';
+import React, { useEffect, memo, useCallback, useState, Fragment } from 'react'
 import ItemQrDisplayModel from './ItemQrDisplayModel';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import DescriptionIcon from '@mui/icons-material/Description';
+import { Box } from '@mui/material'
+import CusAgGridForMain from 'src/views/Components/CusAgGridForMain';
+import { IconButton } from '@mui/material';
+import { editicon } from 'src/color/Color';
+import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 
 const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
 
@@ -13,8 +15,9 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
     useEffect(() => {
         if (displayarry.length !== 0) {
             if (asset === true) {
-                const xx = displayarry.map((val) => {
+                const xx = displayarry.map((val, index) => {
                     const obj = {
+                        slno: index + 1,
                         am_item_map_slno: val.am_item_map_slno,
                         item_creation_slno: val.item_creation_slno,
                         item_dept_slno: val.item_dept_slno,
@@ -29,15 +32,17 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
                         item_asset_no_only: val.item_asset_no_only,
                         due_date: val.due_date,
                         assetno: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
-                        am_manufacture_no: val.am_manufacture_no
+                        am_manufacture_no: val.am_manufacture_no,
+                        serialno: val.am_manufacture_no !== null ? val.am_manufacture_no : "Not Updated"
                     }
                     return obj
                 })
                 setDisArry(xx)
             }
             else {
-                const xx = displayarry.map((val) => {
+                const xx = displayarry.map((val, index) => {
                     const obj = {
+                        slno: index + 1,
                         am_spare_item_map_slno: val.am_spare_item_map_slno,
                         spare_creation_slno: val.spare_creation_slno,
                         spare_dept_slno: val.spare_dept_slno,
@@ -52,7 +57,8 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
                         spare_asset_no_only: val.spare_asset_no_only,
                         due_date: val.due_date,
                         assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
-                        am_manufacture_no: val.am_manufacture_no
+                        am_manufacture_no: val.am_manufacture_no,
+                        serialno: val.am_manufacture_no !== null ? val.am_manufacture_no : "Not Updated"
                     }
                     return obj
                 })
@@ -65,10 +71,9 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
     const [selectedData, setSelectedData] = useState([])
     const [open, setOpen] = useState(false)
 
-
-
-    const modeldisplay = useCallback((val) => {
-        setSelectedData(val)
+    const modeldisplay = useCallback((params) => {
+        const data = params.api.getSelectedRows()
+        setSelectedData(data[0])
         setFlag(1)
         setOpen(true)
     }, [])
@@ -77,52 +82,51 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
         setOpen(false)
     }, [setOpen])
 
+
+    //column title setting
+    const [column] = useState([
+        { headerName: "Sl No", field: "slno", minWidth: 100 },
+        // { headerName: "Department", field: "deptname", minWidth: 250 },
+        { headerName: "Department Section", field: "secname", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
+        { headerName: "Category", field: "category_name", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+        { headerName: "Asset No", field: "assetno", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
+        { headerName: "Serial No", field: "serialno", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
+        { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, minWidth: 350, filter: "true" },
+        {
+            headerName: 'Add Details', minWidth: 120, cellRenderer: (params) => {
+                return <IconButton onClick={() => AddDetails(params)}
+                    sx={{ color: editicon, paddingY: 0.5 }} >
+                    <CustomeToolTip title="Add Details">
+                        <DescriptionIcon />
+                    </CustomeToolTip>
+                </IconButton>
+            }
+        },
+        {
+            headerName: 'QR Code', minWidth: 50, cellRenderer: (params) => {
+                return <IconButton onClick={() => modeldisplay(params)}
+                    sx={{ color: editicon, paddingY: 0.5 }} >
+                    <CustomeToolTip title="QR Code">
+                        <QrCode2Icon />
+                    </CustomeToolTip>
+                </IconButton>
+            }
+        },
+
+    ])
+
+
     return (
-        <Paper sx={{ height: 700, overflow: 'auto', border: 1 }}>
+        <Fragment>
             {flag === 1 ? <ItemQrDisplayModel open={open} handleClose={handleClose} selectedData={selectedData}
             /> : null}
-            < CssVarsProvider >
-                <Table stickyHeader>
-                    <thead>
-                        <tr>
-                            <th style={{ width: '6%', align: "center" }}>Sl No</th>
-                            <th style={{ width: '25%', align: "center" }}>Department</th>
-                            <th style={{ width: '25%', align: "center" }}>Department Section</th>
-                            <th style={{ width: '20%', align: "center" }}>Category</th>
-                            <th style={{ width: '20%', align: "center" }}>Asset No</th>
-                            <th style={{ width: '50%', align: "center" }}>Item Name</th>
-                            <th style={{ width: '12%', align: "center" }}>Add Details</th>
-                            <th style={{ width: '10%', align: "center" }}>Print QR</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {disArry && disArry.map((val, index) => {
-                            return <tr
-                                key={index}
-                                sx={{
-                                    '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
-                                    minHeight: 5
-                                }}
-                            >
-                                <td> {index + 1}</td>
-                                <td> {val.deptname}</td>
-                                <td> {val.secname}</td>
-                                <td>{val.category_name}</td>
-                                <td>{val.assetno} </td>
-                                <td> {val.item_name}</td>
-                                <td>
-                                    <DescriptionIcon size={6} onClick={() => AddDetails(val)} />
-                                </td>
-                                <td>
-                                    <QrCode2Icon size={6} onClick={() => modeldisplay(val)} />
-                                </td>
-                            </tr>
-                        })}
-                    </tbody>
-                </Table>
-            </CssVarsProvider>
-        </Paper >
+            <Box sx={{ pt: 1 }}>
+                <CusAgGridForMain
+                    columnDefs={column}
+                    tableData={disArry}
+                />
+            </Box>
+        </Fragment>
     )
 }
-
 export default memo(ItemListViewTable)
