@@ -185,7 +185,7 @@ const CRFNewSMO = React.lazy(() => import('./views/CentralRequestManagement/CrfS
 const CRFNewGM = React.lazy(() => import('./views/CentralRequestManagement/CrfGMApproval/CrfGMApproval'))
 const CRFNewMD = React.lazy(() => import('./views/CentralRequestManagement/CrfMDApproval/CrfMDApproval'))
 const CRFNewED = React.lazy(() => import('./views/CentralRequestManagement/CrfEDApproval/CrfEDApproval'))
-
+const CRFNewDashboard = React.lazy(() => import('./views/CentralRequestManagement/CrfDashboardNew/CrfDashboardMain'))
 
 
 const routes = [
@@ -378,7 +378,7 @@ const routes = [
   { path: '/Home/CRFNewGMApproval', exact: true, name: 'CRF New DMS Approval', component: CRFNewGM },
   { path: '/Home/CRFNewMDApproval', exact: true, name: 'CRF New MS Approval', component: CRFNewMD },
   { path: '/Home/CRFNewEDApproval', exact: true, name: 'CRF New MS Approval', component: CRFNewED },
-
+  { path: '/Home/CrfNewDashBoard', exact: true, name: 'CRF New MS Approval', component: CRFNewDashboard },
 
 
 
