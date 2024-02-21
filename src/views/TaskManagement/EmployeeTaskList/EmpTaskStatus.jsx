@@ -23,6 +23,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const { tm_task_slno, tm_task_name, tm_task_description, tm_task_due_date, main_task_slno, sec_name, tm_task_dept, tm_task_dept_sec, tm_task_status, dept_name,
         tm_project_slno, tm_project_name, create_date, tm_onhold_remarks, tm_pending_remark, tm_completed_remarks, } = masterData
 
+
     const id = useSelector((state) => { return state.LoginUserData.empid })
 
     const [completed, setCompleted] = useState(tm_task_status === 1 ? true : tm_task_status === 2 ? false : tm_task_status === 3 ? false : tm_task_status === 4 ? false : false)
@@ -43,9 +44,9 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const [viewSubTask, setViewSubTask] = useState(0)
     const [selectTaskfile, setselectTaskfile] = useState([]);
     const [updateTask, setupdateTask] = useState({
-        pendingRemarks: tm_pending_remark,
-        onHoldRemaks: tm_onhold_remarks,
-        completedRemarks: tm_completed_remarks,
+        pendingRemarks: (tm_pending_remark ? tm_pending_remark : ''),
+        onHoldRemaks: (tm_onhold_remarks ? tm_onhold_remarks : ''),
+        completedRemarks: (tm_completed_remarks ? tm_completed_remarks : ''),
     })
     const { onHoldRemaks, pendingRemarks, completedRemarks } = updateTask
     const [completeFlag, setCompleteFlag] = useState(0)
@@ -280,7 +281,6 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
 
 
 
-
     const UpdateStatus = useCallback((e) => {
         e.preventDefault()
 
@@ -319,7 +319,8 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                     InsertFile(selectTaskfile, tm_task_slno).then((value) => {
                         const { success } = value
                         if (success === 1) {
-                            if ((completed === true && completedRemarks === null) || (onHold === true && onHoldRemaks === null) || (onPending === true && pendingRemarks === null)) {
+                            if ((completed === true && completedRemarks === null) ||
+                                (onHold === true && onHoldRemaks === null) || (onPending === true && pendingRemarks === null)) {
                                 infoNotify('please enter Remarks')
                             } else {
 
@@ -329,6 +330,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                             }
 
                         } else {
+                            setTableCount(tableCount + 1)
 
                         }
                     })
@@ -352,8 +354,8 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         })
 
 
-    }, [updateMasterTask, handleEditClose, completed, completedRemarks, onHold, onHoldRemaks, onPending, pendingRemarks, tableCount, selectTaskfile, tm_task_slno, handleImageUpload, setTableCount])
-
+    }, [updateMasterTask, handleEditClose, completed, completedRemarks, onHold, onHoldRemaks, onPending, pendingRemarks, tableCount, selectTaskfile,
+        tm_task_slno, handleImageUpload, setTableCount])
 
 
     const resetProgress = () => {
@@ -485,89 +487,81 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                 </Box>
                             </Box>
                             <Box>
-                                <Box sx={{ display: 'flex', width: '100%', mt: 1 }}>
-                                    <Box sx={{ flex: .1, }}>
-                                    </Box>
-                                    <Box sx={{ flex: 4 }}>
-                                        <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
-                                            <Box sx={{ flex: 1.5 }}>
-                                                Project
-                                            </Box>
-                                            <Box sx={{ flex: 8 }}>
-                                                :&nbsp;{tm_project_name}
-                                            </Box>
+                                {/* <Box sx={{ display: 'flex', width: '100%', mt: 1 }}> */}
+                                <Box sx={{ flex: 1, mt: .5 }}>
+                                    <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
+                                        <Box sx={{ flex: .9, ml: 3 }}>
+                                            Project
                                         </Box>
-                                        <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
-                                            <Box sx={{ flex: 1.5 }}>
-                                                Task Name
-                                            </Box>
-                                            <Box sx={{ flex: 8 }}>
-                                                :&nbsp;{tm_task_name}
-                                            </Box>
-                                        </Box>
-                                        <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
-                                            <Box sx={{ flex: 1.5 }}>
-                                                Department
-                                            </Box>
-                                            <Box sx={{ flex: 8 }}>
-                                                :&nbsp;{dept_name}
-                                            </Box>
-                                        </Box>
-
-                                        <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
-                                            <Box sx={{ flex: 1.5 }}>
-                                                Section
-                                            </Box>
-                                            <Box sx={{ flex: 8 }}>
-                                                :&nbsp;{sec_name}
-                                            </Box>
-                                        </Box>
-
-                                        <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
-                                            <Box sx={{ flex: 1.5 }}>
-                                                Assignees
-                                            </Box>
-                                            <Box sx={{ flex: 8, color: '#970C10' }}>
-                                                :&nbsp;{assignedEmp}
-                                            </Box>
-                                        </Box>
-                                        <Box sx={{ display: 'flex', pt: 1, color: '#000C66' }}>
-                                            <Box sx={{ flex: 1.5, fontFamily: 'Georgia', }}>
-                                                Created date
-                                            </Box>
-                                            <Box sx={{ flex: 8 }}>
-                                                :&nbsp;{create_date}
-                                            </Box>
-                                        </Box>
-                                        <Box sx={{ display: 'flex', pt: 1, color: '#000C66' }}>
-                                            <Box sx={{ flex: 1.5, fontFamily: 'Georgia', }}>
-                                                Due date
-                                            </Box>
-                                            <Box sx={{ flex: 8 }}>
-                                                :&nbsp;{tm_task_due_date}
-                                            </Box>
-                                        </Box>
-
-
-                                        <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
-                                            <Box sx={{ flex: 1.5 }}>
-                                                Description
-                                            </Box>
-                                            <Box sx={{ flex: 8, }}>
-                                                :&nbsp;{tm_task_description}
-                                            </Box>
+                                        <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>
+                                            :&nbsp;{tm_project_name}
                                         </Box>
                                     </Box>
-                                    <Box sx={{ flex: 4, }}>
-                                        <Box sx={{ display: 'flex', fontFamily: 'Georgia', pt: 1, color: '#000C66' }}>
-                                            <Box sx={{ flex: 1.5 }}>
-                                            </Box>
-                                            <Box sx={{ flex: 8 }}>
+                                    <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
+                                        <Box sx={{ flex: .9, ml: 3 }}>
+                                            Task Name
+                                        </Box>
+                                        <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>
+                                            :&nbsp;{tm_task_name}
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
+                                        <Box sx={{ flex: .9, ml: 3 }}>
+                                            Department
+                                        </Box>
+                                        <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>
+                                            :&nbsp;{dept_name}
+                                        </Box>
+                                    </Box>
 
-                                            </Box>
+                                    <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
+                                        <Box sx={{ flex: .9, ml: 3 }}>
+                                            Section
+                                        </Box>
+                                        <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>
+                                            :&nbsp;{sec_name}
+                                        </Box>
+                                    </Box>
+
+                                    <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
+                                        <Box sx={{ flex: .9, ml: 3 }}>
+                                            Assignees
+                                        </Box>
+                                        <Box sx={{ flex: 8, color: '#970C10', textTransform: 'capitalize', mr: 2 }}>
+                                            :&nbsp;{assignedEmp}
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', pt: 1, color: '#000C66' }}>
+                                        <Box sx={{ flex: .9, ml: 3, fontFamily: 'Georgia', }}>
+                                            Created date
+                                        </Box>
+                                        <Box sx={{ flex: 8, mr: 2 }}>
+                                            :&nbsp;{create_date}
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', pt: 1, color: '#000C66' }}>
+                                        <Box sx={{ flex: .9, ml: 3, fontFamily: 'Georgia', }}>
+                                            Due date
+                                        </Box>
+                                        <Box sx={{ flex: 8, mr: 2 }}>
+                                            :&nbsp;{tm_task_due_date}
+                                        </Box>
+                                    </Box>
+
+
+                                    <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
+                                        <Box sx={{ flex: .9, ml: 3 }}>
+                                            Description
+                                        </Box>
+                                        <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>
+                                            :&nbsp;{tm_task_description}
                                         </Box>
                                     </Box>
                                 </Box>
+                                {/* <Box sx={{ flex: 1, bgcolor: 'yellow' }}>
+
+                                    </Box> */}
+                                {/* </Box> */}
 
 
                                 <Box sx={{
@@ -616,7 +610,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
 
 
 
-                                <Box sx={{ m: 2, border: 1, borderColor: '#341948', borderRadius: 3 }}>
+                                <Box sx={{ m: 2, border: 1, borderColor: '#710019', borderRadius: 3 }}>
                                     <Typography sx={{ pl: 1.5, pt: .5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}>
                                         Task Progress
                                     </Typography>
@@ -844,19 +838,39 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     </Box>
                                     : null}
                                 {main_task_slno === null ?
-                                    <Box sx={{ m: 2, border: 1, borderColor: '#603A70', borderRadius: 3 }}>
-                                        <Box sx={{
-                                            mt: 1, cursor: 'pointer', width: 150, height: 40, ml: 1, border: 1, borderColor: '#D9E4EC',
-                                            borderRadius: 5, pl: 1, pt: 1, color: '#774A62'
-                                        }}
-                                            onClick={openAddSubtask}
-                                        >
-                                            Add Subtask&nbsp;&nbsp;&nbsp;
-                                            {flag === 2 || flag === 1 ?
-                                                <RemoveIcon sx={{ fontSize: 25, color: '#004F76' }} /> :
-                                                flag === 0 ?
-                                                    <AddIcon sx={{ fontSize: 25, color: '#004F76' }} /> : null}
-                                        </Box>
+                                    <Box sx={{
+                                        m: 2,
+                                        border: 1,
+                                        borderColor: '#603A70',
+                                        borderRadius: 3,
+                                        boxShadow: '1px 1px 4px #887BB0',
+                                    }}>
+
+
+                                        {completed === true ?
+                                            <Box>
+                                                <Tooltip title='unable to add a subtask to a completed task' placement='top-start'>
+                                                    <Box sx={{
+                                                        mt: 1, cursor: 'grab', width: 150, height: 40, ml: 1, border: 1, borderColor: '#D9E4EC',
+                                                        borderRadius: 5, pl: 1, pt: .8,
+                                                    }}
+                                                    >
+                                                        Add Subtask&nbsp;<AddIcon />
+                                                    </Box>
+                                                </Tooltip>
+                                            </Box> :
+                                            <Box sx={{
+                                                mt: 1, cursor: 'pointer', width: 150, height: 40, ml: 1, border: 1, borderColor: '#D9E4EC',
+                                                borderRadius: 5, pl: 1, pt: 1, color: '#774A62'
+                                            }}
+                                                onClick={openAddSubtask}
+                                            >
+                                                Add Subtask&nbsp;&nbsp;&nbsp;
+                                                {flag === 1 ?
+                                                    <RemoveIcon sx={{ fontSize: 25, color: '#004F76' }} /> :
+                                                    flag === 0 || flag === 2 ?
+                                                        <AddIcon sx={{ fontSize: 25, color: '#004F76' }} /> : null}
+                                            </Box>}
 
                                         <Box sx={{ mt: 1, pl: 1, }}>
 
@@ -913,12 +927,8 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                             />
                                         </Box>
 
-
-                                        <Box sx={{ height: 5, }}></Box>
-
                                     </Box> : null}
-                                <Box sx={{ height: 30, }}>
-
+                                <Box sx={{ height: 10, }}>
                                 </Box>
 
                             </Box>

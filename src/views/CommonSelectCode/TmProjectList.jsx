@@ -3,10 +3,7 @@ import { useSelector } from 'react-redux';
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/'
 
-
 const TmProjectList = ({ projectz, setprojectz }) => {
-
-
 
     const ProjectList = useSelector((state) => state.getProjectList?.ProjectList)
     const [projectx, setprojectx] = useState([{ tm_project_slno: 0, tm_project_name: '' }])
@@ -34,18 +31,18 @@ const TmProjectList = ({ projectz, setprojectz }) => {
         ProjectList.length > 0 && setprojectx(ProjectList)
     }, [ProjectList])
 
-
     return (
         <Fragment>
             <CssVarsProvider>
                 <Autocomplete
                     sx={{
-                        "--Input-minHeight": "29px"
-                    }}
+                        "--Input-minHeight": "29px",
 
+                    }}
                     value={projectz === 0 ? projectx : value}
                     placeholder="select project"
                     clearOnBlur
+                    style={{ minHeight: 40 }}
                     onChange={(event, newValue) => {
                         setValue(newValue);
                         Onclick(newValue);

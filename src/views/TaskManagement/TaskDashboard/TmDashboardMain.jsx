@@ -14,7 +14,6 @@ import RotateRightIcon from '@mui/icons-material/RotateRight';
 import UpdateOutlinedIcon from '@mui/icons-material/UpdateOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
-// import TmDashBoadTaskView from './TmDashBoadTaskView';
 import TmOverDueTask from './TmOverDueTask';
 import TmEmployeeTaskView from './TmEmployeeTaskView';
 import TmDepartmentTaskView from './TmDepartmentTaskView';
@@ -26,18 +25,18 @@ import { useSelector } from 'react-redux';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
 import _ from 'underscore';
+import DashboardTabs from '../DashEmpTaskList/DashboardTabs';
+
 const TmDashboardMain = () => {
 
     const [overDueHeading, setoverDueHeading] = useState('')
     const [overdueTaskFlag, setoverdueTaskFlag] = useState(0)
-    const [tableData, setTableData] = useState([])
     const [overdues, setOverdues] = useState([])
     const [overdueToday, setOverdueToday] = useState([])
     const [overDueNextWeek, setoverDueNextWeek] = useState([])
     const [overdueMonth, setoverdueMonth] = useState([])
     const [empTaskHeading, setempTaskHeading] = useState('')
     const [employeeTaskFlag, setemployeeTaskFlag] = useState(0)
-    const [tableDataEmployee, setTableDataEmployee] = useState([])
     const [employeeOverDue, setemployeeOverDue] = useState([])
     const [employeeeCompleted, setemployeeeCompleted] = useState([])
     const [employeeOnProgress, setemployeeOnProgress] = useState([])
@@ -46,157 +45,153 @@ const TmDashboardMain = () => {
     const [employeeOnPending, setemployeeOnPending] = useState([])
     const [departmentTaskFlag, setdepartmentTaskFlag] = useState(0)
     const [deptTaskHeading, setdeptTaskHeading] = useState('')
-    const [deptTableData, setdeptTableData] = useState([])
     const [deptCompleted, setdeptCompleted] = useState([])
     const [deptInComplete, setdeptInComplete] = useState([])
-    // const [deptOverDue, setdeptOverDue] = useState([])
     const [deptOnProgress, setdeptOnProgress] = useState([])
     const [deptOnHold, setdeptOnHold] = useState([])
     const [deptOnPending, setdeptOnPending] = useState([])
     const [projectHead, setprojectHead] = useState('')
     const [projectFlag, setprojectFlag] = useState(0)
-    const [ProjTable, setProjTable] = useState([])
     const [projCompleted, setprojCompleted] = useState([])
     const [projInCompleted, setprojInCompleted] = useState([])
     const [projOnProgress, setprojOnProgress] = useState([])
     const [projOverDue, setprojOverDue] = useState([])
     const [goalsFlag, setgoalsFlag] = useState(0)
     const [goalsHead, setgoalsHead] = useState('')
-    const [goalsTable, setgoalsTable] = useState([])
     const [goalsCompleted, setgoalsCompleted] = useState([])
     const [goalsInCompleted, setgoalsInCompleted] = useState([])
     const [goalsOverDue, setgoalsOverDue] = useState([])
     const [goalsOnProgress, setgoalsOnProgress] = useState([])
     const [tableCount, setTableCount] = useState(0)
-
-
-
+    const [dueFlag, setDueFlag] = useState(0)
+    const [flagTask, setflagTask] = useState(0)
+    const [deptFlag, setdeptFlag] = useState(0)
+    const [prjFlag, setprjFlag] = useState(0)
+    const [flagGoal, setflagGoal] = useState(0)
 
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     //redux for geting login emp secid
-    const empsecid = useSelector((state) => {
-        return state.LoginUserData.empsecid
-    })
+    const empsecid = useSelector((state) => { return state.LoginUserData.empsecid })
 
     const ViewOverDueTask = useCallback((e) => {
         if (overdues.length === 0) {
             infoNotify('No Dues')
         } else {
-            setTableCount(tableCount + 1)
             setoverdueTaskFlag(1)
+            setDueFlag(1)
             setoverDueHeading("Over Dues")
+            setemployeeTaskFlag(0)
             setdepartmentTaskFlag(0)
             setprojectFlag(0)
-            setTableData(overdues)
         }
-    }, [overdues, tableCount])
+    }, [overdues])
 
     const ViewOverDueTodayTask = useCallback((e) => {
         if (overdueToday.length === 0) {
             infoNotify('No Dues Today')
         } else {
-            setoverdueTaskFlag(1)
+            setoverdueTaskFlag(2)
+            setDueFlag(1)
             setoverDueHeading("Today's")
             setemployeeTaskFlag(0)
             setdepartmentTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setTableData(overdueToday)
         }
     }, [overdueToday])
     const ViewOverDueWeekTask = useCallback((e) => {
         if (overDueNextWeek.length === 0) {
             infoNotify('No Dues for Next Week')
         } else {
-            setoverdueTaskFlag(1)
+            setoverdueTaskFlag(3)
+            setDueFlag(1)
             setoverDueHeading("Next week's")
             setemployeeTaskFlag(0)
             setdepartmentTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setTableData(overDueNextWeek)
         }
     }, [overDueNextWeek])
     const ViewOverDueMonthTask = useCallback((e) => {
         if (overdueMonth.length === 0) {
             infoNotify('No Dues in Next Month')
         } else {
-            setoverdueTaskFlag(1)
+            setoverdueTaskFlag(4)
+            setDueFlag(1)
             setoverDueHeading("Upcoming Month's")
             setemployeeTaskFlag(0)
             setdepartmentTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setTableData(overdueMonth)
         }
     }, [overdueMonth])
+
     const ViewEmpCompletedTask = useCallback((e) => {
         if (employeeeCompleted.length === 0) {
             infoNotify('No Data')
         } else {
-            setoverdueTaskFlag(0)
             setemployeeTaskFlag(1)
+            setflagTask(1)
             setempTaskHeading('Completed')
             setdepartmentTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setTableDataEmployee(employeeeCompleted)
+            setoverdueTaskFlag(0)
         }
     }, [employeeeCompleted])
     const ViewEmpInCompletedTask = useCallback((e) => {
         if (employeeInComplete.length === 0) {
             infoNotify('No Data')
         } else {
-            setoverdueTaskFlag(0)
-            setemployeeTaskFlag(1)
+
+            setemployeeTaskFlag(2)
+            setflagTask(1)
             setempTaskHeading('Incompleted')
             setdepartmentTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setTableDataEmployee(employeeInComplete)
+            setoverdueTaskFlag(0)
         }
     }, [employeeInComplete])
     const ViewEmpOnProgressTask = useCallback((e) => {
         if (employeeOnProgress.length === 0) {
             infoNotify('No Data')
         } else {
-            setoverdueTaskFlag(0)
-            setemployeeTaskFlag(1)
+
+            setemployeeTaskFlag(3)
+            setflagTask(1)
             setempTaskHeading('On Progress')
             setdepartmentTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setTableDataEmployee(employeeOnProgress)
+            setoverdueTaskFlag(0)
         }
     }, [employeeOnProgress])
     const ViewOnHoldTask = useCallback((e) => {
         if (employeeOnHold.length === 0) {
             infoNotify('No Data')
         } else {
-
-            setemployeeTaskFlag(1)
+            setemployeeTaskFlag(4)
+            setflagTask(1)
             setempTaskHeading('On Hold')
             setdepartmentTaskFlag(0)
             setoverdueTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setTableDataEmployee(employeeOnHold)
         }
     }, [employeeOnHold])
-
 
     const ViewEmpPendingTask = useCallback((e) => {
         if (employeeOnPending.length === 0) {
             infoNotify('No Data')
         } else {
-
-            setemployeeTaskFlag(1)
+            setemployeeTaskFlag(5)
+            setflagTask(1)
             setempTaskHeading('Pending')
             setdepartmentTaskFlag(0)
             setoverdueTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setTableDataEmployee(employeeOnPending)
         }
     }, [employeeOnPending])
 
@@ -204,26 +199,27 @@ const TmDashboardMain = () => {
         if (employeeOverDue.length === 0) {
             infoNotify('No Data')
         } else {
-            setoverdueTaskFlag(0)
-            setemployeeTaskFlag(1)
+            setemployeeTaskFlag(6)
+            setflagTask(1)
             setempTaskHeading('Over Dues')
             setdepartmentTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setTableDataEmployee(employeeOverDue)
+            setoverdueTaskFlag(0)
         }
     }, [employeeOverDue])
+
     const ViewDeptOnProgressTask = useCallback((e) => {
         if (deptOnProgress.length === 0) {
             infoNotify('No Data')
         } else {
             setdepartmentTaskFlag(1)
+            setdeptFlag(1)
             setdeptTaskHeading('On Progress')
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setdeptTableData(deptOnProgress)
         }
     }, [deptOnProgress])
 
@@ -231,130 +227,122 @@ const TmDashboardMain = () => {
         if (deptOnHold.length === 0) {
             infoNotify('No Data')
         } else {
-            setdepartmentTaskFlag(1)
-            setdeptTaskHeading('On Progress')
+            setdepartmentTaskFlag(2)
+            setdeptFlag(1)
+            setdeptTaskHeading('On Hold')
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setdeptTableData(deptOnHold)
         }
     }, [deptOnHold])
     const ViewDeptPending = useCallback((e) => {
         if (deptOnPending.length === 0) {
             infoNotify('No Data')
         } else {
-            setdepartmentTaskFlag(1)
+            setdepartmentTaskFlag(3)
+            setdeptFlag(1)
             setdeptTaskHeading('On Progress')
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setdeptTableData(deptOnPending)
         }
     }, [deptOnPending])
     const ViewDeptCompltTask = useCallback((e) => {
         if (deptCompleted.length === 0) {
             infoNotify('No Data')
         } else {
-            setdepartmentTaskFlag(1)
+            setdepartmentTaskFlag(4)
+            setdeptFlag(1)
             setdeptTaskHeading('Completed')
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setdeptTableData(deptCompleted)
         }
     }, [deptCompleted])
     const ViewDeptInCompltTask = useCallback((e) => {
         if (deptInComplete.length === 0) {
             infoNotify('No Data')
         } else {
-            setdepartmentTaskFlag(1)
+            setdepartmentTaskFlag(5)
+            setdeptFlag(1)
             setdeptTaskHeading('InComplete')
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
-            setdeptTableData(deptInComplete)
         }
     }, [deptInComplete])
-    // const ViewDeptOverdueTask = useCallback((e) => {
-    //     if (deptOverDue.length === 0) {
-    //         infoNotify('No Data')
-    //     } else {
-    //         setdepartmentTaskFlag(1)
-    //         setdeptTaskHeading('Over Dues')
-    //         setoverdueTaskFlag(0)
-    //         setemployeeTaskFlag(0)
-    //         setprojectFlag(0)
-    //         setgoalsFlag(0)
-    //         setdeptTableData(deptOverDue)
-    //     }
-    // }, [deptOverDue])
+
     const ViewProjectOnProgess = useCallback((e) => {
         if (projOnProgress.length === 0) {
             infoNotify('No Data')
         } else {
+            setprojectFlag(1)
+            setprjFlag(1)
+            setprojectHead('On Progress')
+            setgoalsFlag(0)
             setdepartmentTaskFlag(0)
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
-            setprojectFlag(1)
-            setprojectHead('On Progress')
-            setgoalsFlag(0)
-            setProjTable(projOnProgress)
         }
     }, [projOnProgress])
     const ViewProjectComplete = useCallback((e) => {
         if (projCompleted.length === 0) {
             infoNotify('No Data')
         } else {
+
+            setprojectFlag(2)
+            setprjFlag(1)
+            setprojectHead('Completed')
+            setgoalsFlag(0)
             setdepartmentTaskFlag(0)
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
-            setprojectFlag(1)
-            setprojectHead('Completed')
-            setgoalsFlag(0)
-            setProjTable(projCompleted)
+
         }
     }, [projCompleted])
     const ViewProjectInComplete = useCallback((e) => {
         if (projInCompleted.length === 0) {
             infoNotify('No Data')
         } else {
+            setprojectFlag(3)
+            setprjFlag(1)
+            setprojectHead('InCompleted')
+            setgoalsFlag(0)
             setdepartmentTaskFlag(0)
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
-            setprojectFlag(1)
-            setprojectHead('Completed')
-            setgoalsFlag(0)
-            setProjTable(projInCompleted)
+
         }
     }, [projInCompleted])
     const ViewProjectOverDue = useCallback((e) => {
         if (projOverDue.length === 0) {
             infoNotify('No Data')
         } else {
+            setprojectFlag(4)
+            setprjFlag(1)
+            setprojectHead('Over Dues')
+            setgoalsFlag(0)
             setdepartmentTaskFlag(0)
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
-            setprojectFlag(1)
-            setprojectHead('Over Dues')
-            setgoalsFlag(0)
-            setProjTable(projOverDue)
         }
     }, [projOverDue])
+
     const ViewGoalsOnProgress = useCallback((e) => {
         if (goalsOnProgress.length === 0) {
             infoNotify('No Data')
         } else {
+            setgoalsFlag(1)
+            setflagGoal(1)
             setdepartmentTaskFlag(0)
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
             setprojectFlag(0)
-            setgoalsFlag(1)
             setgoalsHead('On Progress')
-            setgoalsTable(goalsOnProgress)
         }
     }, [goalsOnProgress])
     const ViewGoalsComplete = useCallback((e) => {
@@ -365,39 +353,37 @@ const TmDashboardMain = () => {
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
             setprojectFlag(0)
-            setgoalsFlag(1)
+            setgoalsFlag(2)
+            setflagGoal(1)
             setgoalsHead('Completed')
-            setgoalsTable(goalsCompleted)
         }
     }, [goalsCompleted])
     const ViewGoalsInComplete = useCallback((e) => {
         if (goalsInCompleted.length === 0) {
             infoNotify('No Data')
         } else {
+            setgoalsFlag(3)
+            setflagGoal(1)
             setdepartmentTaskFlag(0)
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
             setprojectFlag(0)
-            setgoalsFlag(1)
-            setgoalsHead('Completed')
-            setgoalsTable(goalsInCompleted)
+            setgoalsHead('InCompleted')
         }
     }, [goalsInCompleted])
     const ViewGoalsOverdue = useCallback((e) => {
         if (goalsOverDue.length === 0) {
             infoNotify('No Data')
         } else {
+            setgoalsFlag(4)
+            setflagGoal(1)
             setdepartmentTaskFlag(0)
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
             setprojectFlag(0)
-            setgoalsFlag(1)
             setgoalsHead('Over Dues')
-            setgoalsTable(goalsOverDue)
         }
     }, [goalsOverDue])
-
-
 
 
     useEffect(() => {
@@ -406,7 +392,6 @@ const TmDashboardMain = () => {
             const { success, data } = result.data
             if (success === 2) {
                 setOverdues(data)
-                // setTableCount(tableCount + 1)
             } else {
                 setOverdues([])
             }
@@ -416,7 +401,6 @@ const TmDashboardMain = () => {
             const { success, data } = result.data
             if (success === 2) {
                 setOverdueToday(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setOverdueToday([])
             }
@@ -427,7 +411,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setoverDueNextWeek(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setoverDueNextWeek([])
             }
@@ -437,7 +420,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setoverdueMonth(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setoverdueMonth([])
             }
@@ -447,7 +429,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setemployeeOverDue(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setemployeeOverDue([])
             }
@@ -457,7 +438,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setemployeeeCompleted(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setemployeeeCompleted([])
             }
@@ -467,7 +447,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setemployeeOnProgress(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setemployeeOnProgress([])
             }
@@ -478,7 +457,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setemployeeOnHold(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setemployeeOnHold([])
             }
@@ -488,7 +466,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setemployeeOnPending(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setemployeeOnPending([])
             }
@@ -498,7 +475,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setemployeeInComplete(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setemployeeInComplete([])
             }
@@ -509,7 +485,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setdeptCompleted(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setdeptCompleted([])
             }
@@ -519,27 +494,15 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setdeptInComplete(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setdeptInComplete([])
             }
         }
-        // const getDeptOverDueTable = async () => {
-        //     const result = await axioslogin.get(`TmTableView/departmentOverDue/${empsecid}`)
-        //     const { data, success } = result.data
-        //     if (success === 2) {
-        //         setdeptOverDue(data)
-        //         // settaskTableCount(taskTableCount + 1)
-        //     } else {
-        //         setdeptOverDue([])
-        //     }
-        // }
         const getDeptOnProgressTable = async () => {
             const result = await axioslogin.get(`TmTableView/departmentOnProgress/${empsecid}`)
             const { data, success } = result.data
             if (success === 2) {
                 setdeptOnProgress(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setdeptOnProgress([])
             }
@@ -549,7 +512,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setdeptOnHold(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setdeptOnHold([])
             }
@@ -559,7 +521,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setdeptOnPending(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setdeptOnPending([])
             }
@@ -569,7 +530,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setprojCompleted(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setprojCompleted([])
             }
@@ -579,7 +539,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setprojInCompleted(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setprojInCompleted([])
             }
@@ -589,7 +548,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setprojOnProgress(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setprojOnProgress([])
             }
@@ -599,7 +557,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setprojOverDue(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setprojOverDue([])
             }
@@ -609,7 +566,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setgoalsCompleted(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setgoalsCompleted([])
             }
@@ -619,7 +575,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setgoalsInCompleted(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setgoalsInCompleted([])
             }
@@ -629,7 +584,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setgoalsOnProgress(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setgoalsOnProgress([])
             }
@@ -639,7 +593,6 @@ const TmDashboardMain = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setgoalsOverDue(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setgoalsOverDue([])
             }
@@ -656,7 +609,6 @@ const TmDashboardMain = () => {
         getEmpInCompleteTable()
         getDeptCompleteTable()
         getDeptInCompleteTable()
-        // getDeptOverDueTable()
         getDeptOnProgressTable()
         getProjComplete()
         getProjInComplete()
@@ -668,18 +620,34 @@ const TmDashboardMain = () => {
         getGoalsOverDue()
         getDeptOnHoldTable()
         getDeptPendingTable()
-    }, [empsecid, tableCount, id])
+    }, [empsecid, tableCount, id,])
     return (
-        overdueTaskFlag === 1 ? <TmOverDueTask tabledata={tableData} overDueHeading={overDueHeading} empsecid={empsecid}
-            setoverdueTaskFlag={setoverdueTaskFlag} tableCount={tableCount} setTableCount={setTableCount} /> :
-            employeeTaskFlag === 1 ? <TmEmployeeTaskView empTaskHeading={empTaskHeading}
-                setemployeeTaskFlag={setemployeeTaskFlag} tableDataEmployee={tableDataEmployee} tableCount={tableCount} setTableCount={setTableCount} /> :
-                departmentTaskFlag === 1 ? <TmDepartmentTaskView deptTableData={deptTableData} deptTaskHeading={deptTaskHeading}
-                    setdepartmentTaskFlag={setdepartmentTaskFlag} tableCount={tableCount} setTableCount={setTableCount} /> :
-                    projectFlag === 1 ? <TmProjectView ProjTable={ProjTable} projectHead={projectHead}
-                        setprojectFlag={setprojectFlag} /> :
-                        goalsFlag === 1 ? <TmGoalsView goalsTable={goalsTable} goalsHead={goalsHead}
-                            setgoalsFlag={setgoalsFlag} /> :
+        dueFlag === 1 ? <TmOverDueTask
+            tabledata={overdueTaskFlag === 1 ? overdues : overdueTaskFlag === 2 ? overdueToday :
+                overdueTaskFlag === 3 ? overDueNextWeek : overdueTaskFlag === 4 ? overdueMonth : []}
+            overDueHeading={overDueHeading} empsecid={empsecid} setDueFlag={setDueFlag} tableCount={tableCount} setTableCount={setTableCount} /> :
+
+            flagTask === 1 ? <TmEmployeeTaskView
+                tableDataEmployee={employeeTaskFlag === 1 ? employeeeCompleted : employeeTaskFlag === 2 ? employeeInComplete :
+                    employeeTaskFlag === 3 ? employeeOnProgress : employeeTaskFlag === 4 ? employeeOnHold :
+                        employeeTaskFlag === 5 ? employeeOnPending : employeeTaskFlag === 6 ? employeeOverDue : []}
+                tableCount={tableCount} setTableCount={setTableCount} empTaskHeading={empTaskHeading} setflagTask={setflagTask} id={id} /> :
+
+                deptFlag === 1 ? <TmDepartmentTaskView
+                    deptTableData={departmentTaskFlag === 1 ? deptOnProgress : departmentTaskFlag === 2 ? deptOnHold :
+                        departmentTaskFlag === 3 ? deptOnPending : departmentTaskFlag === 4 ? deptCompleted :
+                            departmentTaskFlag === 5 ? deptInComplete : []}
+                    deptTaskHeading={deptTaskHeading} setdeptFlag={setdeptFlag} tableCount={tableCount} setTableCount={setTableCount} /> :
+
+                    prjFlag === 1 ? <TmProjectView
+                        ProjTable={projectFlag === 1 ? projOnProgress : projectFlag === 2 ? projCompleted :
+                            projectFlag === 3 ? projInCompleted : projectFlag === 4 ? projOverDue : []}
+                        projectHead={projectHead} setprjFlag={setprjFlag} tableCount={tableCount} setTableCount={setTableCount} /> :
+
+                        flagGoal === 1 ? <TmGoalsView
+                            goalsTable={goalsFlag === 1 ? goalsOnProgress : goalsFlag === 2 ? goalsCompleted :
+                                goalsFlag === 3 ? goalsInCompleted : goalsFlag === 4 ? goalsOverDue : []}
+                            goalsHead={goalsHead} setflagGoal={setflagGoal} tableCount={tableCount} setTableCount={setTableCount} /> :
                             <Box sx={{
                                 height: '100%',
                                 borderRadius: 1, boxShadow: 2,
@@ -701,7 +669,7 @@ const TmDashboardMain = () => {
                                                 sx={{ borderRadius: 'lg', border: .1, borderColor: '#D396FF', }}
                                             >
                                                 <ListItem sx={{ color: '#5E376D', fontSize: 18, height: 55, fontWeight: 650 }}>
-                                                    OVER DUE TASK
+                                                    Over Due Task
                                                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end', fontSize: 30, mr: 1.5 }}>
                                                         {overdues.length}
                                                     </Box>
@@ -806,7 +774,7 @@ const TmDashboardMain = () => {
                                                 sx={{ borderRadius: 'lg', border: .1, borderColor: '#D396FF', }}
                                             >
                                                 <ListItem sx={{ color: '#5E376D', fontSize: 18, height: 55, fontWeight: 650 }}>
-                                                    MY TASK
+                                                    My Task
                                                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end', fontSize: 30, mr: 1.5 }}>
                                                         {employeeInComplete.length}
                                                     </Box>
@@ -956,7 +924,7 @@ const TmDashboardMain = () => {
                                                 sx={{ borderRadius: 'lg', border: .1, borderColor: '#D396FF', }}
                                             >
                                                 <ListItem sx={{ color: '#5E376D', fontSize: 18, height: 55, fontWeight: 650 }}>
-                                                    DEPARTMENT TASK
+                                                    Department Task
                                                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end', fontSize: 30, mr: 1.5 }}>
                                                         {/* <Box sx={{ border: 1, borderRadius: 20, width: 45 }}> */}
                                                         {deptInComplete.length}
@@ -1084,7 +1052,7 @@ const TmDashboardMain = () => {
                                                 sx={{ borderRadius: 'lg', border: .1, borderColor: '#D396FF', }}
                                             >
                                                 <ListItem sx={{ color: '#5E376D', fontSize: 18, height: 55, fontWeight: 650 }}>
-                                                    PROJECTS
+                                                    Projects
                                                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end', fontSize: 30, mr: 1.5 }}>
 
                                                         {projInCompleted.length}
@@ -1111,26 +1079,6 @@ const TmDashboardMain = () => {
                                                             {projOnProgress.length}
                                                         </Box>
                                                     </ListItem>
-                                                    {/* <ListDivider inset='gutter' />
-                                                    <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
-                                                        onClick={(e) => {
-                                                            ViewProjectComplete(e)
-                                                        }}>
-                                                        <ListItemDecorator>
-                                                            <Avatar
-                                                                color="neutral"
-                                                                size="sm"
-                                                                variant="outlined"
-                                                                sx={{ bgcolor: 'white' }}
-                                                            >
-                                                                <CheckCircleOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />
-                                                            </Avatar>
-                                                        </ListItemDecorator>
-                                                        InCompleted
-                                                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end", fontSize: 20, fontWeight: 700, pr: 1 }}>
-                                                            {projInCompleted.length}
-                                                        </Box>
-                                                    </ListItem> */}
                                                     <ListDivider inset='gutter' />
                                                     <ListItem sx={{ color: '#5E376D', cursor: 'pointer' }}
                                                         onClick={(e) => {
@@ -1207,7 +1155,7 @@ const TmDashboardMain = () => {
                                                 sx={{ borderRadius: 'lg', border: .1, borderColor: '#D396FF', }}
                                             >
                                                 <ListItem sx={{ color: '#5E376D', fontSize: 18, height: 55, fontWeight: 650 }}>
-                                                    GOALS
+                                                    Goals
                                                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end', fontSize: 30, mr: 1.5 }}>
                                                         {goalsInCompleted.length}
                                                     </Box>
@@ -1300,15 +1248,8 @@ const TmDashboardMain = () => {
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
-                                <Box sx={{
-                                    // borderRadius: 2,
-                                    // margin: 'auto',
-                                    // mx: .5,
-                                    // border: .1, borderColor: '#D396FF',
-                                    height: '30vw'
-
-                                }}>
-                                    {/* <TmDashBoadTaskView tableCount={tableCount} setTableCount={setTableCount} /> */}
+                                <Box sx={{ border: 1, borderRadius: 4, p: .5, borderColor: '#D396FF', mx: .5, height: 560, }}>
+                                    <DashboardTabs />
                                 </Box>
                                 <Box sx={{ height: 3 }}></Box>
                             </Box >

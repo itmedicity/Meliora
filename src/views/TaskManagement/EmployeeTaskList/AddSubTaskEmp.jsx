@@ -142,7 +142,7 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                         name="tm_subtask_name"
                         value={tm_subtask_name}
                         minRows={2}
-                        maxRows={2}
+                        maxRows={5}
                         onChange={(e) => SubTaskUpdate(e)}
                     ></Textarea>
                 </Box>
@@ -193,7 +193,7 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                         placeholder="type here..."
                         variant="outlined"
                         minRows={2}
-                        maxRows={2}
+                        maxRows={5}
                         name="tm_subtask_description"
                         value={tm_subtask_description}
                         onChange={(e) => SubTaskUpdate(e)}

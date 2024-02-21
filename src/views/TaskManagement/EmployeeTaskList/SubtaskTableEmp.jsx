@@ -59,7 +59,7 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
         <Box>
             {subTask.length !== 0 ?
 
-                <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', mx: 1, maxHeight: 300, my: 1 }}>
+                <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', mx: 1, maxHeight: 400, my: 1 }}>
                     <CssVarsProvider>
                         <Table stickyHeader hoverRow>
                             <thead>
@@ -110,13 +110,13 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
                                                                             : 'transparent', minHeight: 5,
                                                     fontWeight: 600,
                                                 }}>{val.TaskStatus}</td>
-                                            <td> {val.tm_task_name || 'not given'}</td>
+                                            <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
                                             {/* <td> {val.dept_name || 'not given'}</td>
                                     <td> {val.sec_name || 'not given'}</td> */}
-                                            <td> {val.em_name || 'not given'}</td>
+                                            <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
                                             <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                            <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                            <td> {val.tm_task_description || 'not given'}</td>
+                                            <td > {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                            <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
                                         </tr>
                                     )
                                 })}

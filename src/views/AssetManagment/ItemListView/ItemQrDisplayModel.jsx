@@ -17,6 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const ItemQrDisplayModel = ({ open, handleClose, selectedData }) => {
     const { am_item_map_slno, am_spare_item_map_slno, assetno } = selectedData
+
     // const pmDueDate = dueDate !== null ? format(new Date(dueDate), "dd/MM/yyyy") : ''
     const ref = useRef();
     const handlePrint = useReactToPrint({

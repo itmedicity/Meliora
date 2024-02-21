@@ -13,7 +13,6 @@ import TaskMastTable from '../CreateTask/TaskMastTable';
 import OverDueTable from './OverDueTable';
 import CompletedTask from './CompletedTask';
 import CircleIcon from '@mui/icons-material/Circle';
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import DeptEmployeeTask from './DeptEmployeeTask';
 const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
     const [addModalOpen, setaddModalOpen] = useState(false)
@@ -25,8 +24,7 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
 
 
     return (
-        <Box >
-
+        <Box sx={{ m: .5, }}>
             <CssVarsProvider>
                 {AddModalFlag === 1 ? <CreateTask open={addModalOpen}
                     tableCount={tableCount} setTableCount={setTableCount}
@@ -48,7 +46,7 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                         sx={{
                             p: 0.5,
                             gap: 0.5,
-                            borderRadius: 'xl',
+                            borderRadius: 2,
                             bgcolor: 'background.level1',
                             [`& .${tabClasses.root}[aria-selected="true"]`]: {
                                 boxShadow: 'sm',
@@ -58,7 +56,7 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                         }}
                     >
                         <Box
-                            sx={{ display: 'flex' }}
+                            sx={{ display: 'flex', }}
                         >
                             <Box sx={{
                                 display: 'flex',
@@ -76,20 +74,21 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                                     <AccountTreeIcon sx={{ fontSize: 23 }} />
                                 </Avatar>
                             </Box>
-                            <Box>
+                            <Box >
                                 <Box sx={{ display: 'flex', alignItems: 'center' }} >
                                     <Box sx={{ fontWeight: 700, fontSize: 18, fontSmooth: 'always', pr: 0.5 }} >Department Tasks</Box>
                                     <LockIcon />
                                 </Box>
                                 <Box
                                     sx={{
-                                        display: 'flex'
+                                        display: 'flex',
+
                                     }}
                                 >
-                                    <Tab disableIndicator >All Task</Tab>
-                                    <Tab disableIndicator >Over due</Tab>
-                                    <Tab disableIndicator >Completed</Tab>
-                                    <Tab disableIndicator >Employee Task</Tab>
+                                    <Tab disableIndicator sx={{ borderRadius: 20 }}>All Task</Tab>
+                                    <Tab disableIndicator sx={{ borderRadius: 20 }}>Over due</Tab>
+                                    <Tab disableIndicator sx={{ borderRadius: 20 }}>Completed</Tab>
+                                    <Tab disableIndicator sx={{ borderRadius: 20 }}>Employee Task</Tab>
                                 </Box>
                             </Box>
                         </Box>
@@ -100,15 +99,9 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                     }} >
                         <Box sx={{ display: 'flex' }}>
                             <Box >
-                                <Button onClick={addModal} variant="plain" startDecorator={<AddIcon />} size="sm" >Create task</Button>
+                                <Button onClick={addModal} variant="plain" startDecorator={<AddIcon />} size="md" sx={{ width: 150, justifyContent: 'left' }}>Create task</Button>
                             </Box>
-                            <Box sx={{ display: 'flex', flex: 2, pt: 1, justifyContent: 'flex-end', color: '#274472' }}>
-                                {/* <RadioButtonCheckedIcon sx={{ color: '#BA0F30' }} />OverDue&nbsp;&nbsp;&nbsp;&nbsp; */}
-                                <RadioButtonCheckedIcon sx={{ color: '#D37506' }} />On Progress&nbsp;&nbsp;&nbsp;&nbsp;
-                                <RadioButtonCheckedIcon sx={{ color: '#747474' }} />On Hold&nbsp;&nbsp;&nbsp;&nbsp;
-                                <RadioButtonCheckedIcon sx={{ color: '#5885AF' }} />On Pending&nbsp;&nbsp;&nbsp;&nbsp;
-                                <RadioButtonCheckedIcon sx={{ color: '#311E26' }} />In Completed&nbsp;&nbsp;&nbsp;&nbsp;
-                                <RadioButtonCheckedIcon sx={{ color: '#59981A' }} />Completed&nbsp;&nbsp;
+                            <Box sx={{ display: 'flex', flex: 2, pt: 1, justifyContent: 'flex-end', color: '#274472', fontWeight: 600, }}>
                                 <CircleIcon sx={{ color: '#D8CEE6' }} />subtask&nbsp;&nbsp;
                             </Box>
                         </Box>
@@ -121,14 +114,14 @@ const TmDashBoadTaskView = ({ tableCount, setTableCount }) => {
                     <TabPanel value={1}>
                         <Suspense fallback={<LinearProgress size="sm" variant="plain" />} >
                             <OverDueTable
-                                tableCount={tableCount}
+                                tableCount={tableCount} setTableCount={setTableCount}
                             />
                         </Suspense>
                     </TabPanel>
                     <TabPanel value={2}>
                         <Suspense fallback={<LinearProgress size="sm" variant="plain" />} >
                             <CompletedTask
-                                tableCount={tableCount}
+                                tableCount={tableCount} setTableCount={setTableCount}
                             />
                         </Suspense>
                     </TabPanel>

@@ -11,7 +11,7 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import EmpTaskStatus from './EmpTaskStatus'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import ViewTaskImage from '../TaskCreationOuter/ViewTaskImage'
+import ViewTaskImage from '../TaskFileView/ViewTaskImage'
 
 const EmpAllTask = ({ tableCount, setTableCount }) => {
     const [tabledata, setTabledata] = useState([])
@@ -29,16 +29,18 @@ const EmpAllTask = ({ tableCount, setTableCount }) => {
         const getMasterTable = async () => {
             const result = await axioslogin.get(`/TmTableView/employeeAllTask/${id}`);
             const { success, data } = result.data;
+
             if (data.length !== 0) {
                 if (success === 2) {
                     const arry = data?.map((val) => {
                         const obj = {
                             tm_task_slno: val.tm_task_slno,
                             tm_task_name: val.tm_task_name,
-                            dept_name: val.dept_name,
-                            sec_name: val.sec_name,
-                            tm_assigne_emp: val.tm_assigne_emp,
+                            dept_name: (val.dept_name).toLowerCase(),
+                            sec_name: (val.sec_name).toLowerCase(),
+                            // em_name: (val.em_name).toLowerCase(),                            
                             em_name: val.em_name,
+                            tm_assigne_emp: val.tm_assigne_emp,
                             tm_task_dept: val.tm_task_dept,
                             tm_task_dept_sec: val.tm_task_dept_sec,
                             tm_task_due_date: val.tm_task_due_date,
@@ -50,7 +52,13 @@ const EmpAllTask = ({ tableCount, setTableCount }) => {
                             tm_pending_remark: val.tm_pending_remark,
                             tm_onhold_remarks: val.tm_onhold_remarks,
                             create_date: val.create_date,
-                            tm_completed_remarks: val.tm_completed_remarks
+                            tm_completed_remarks: val.tm_completed_remarks,
+                            TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                                val.tm_task_status === 1 ? 'Completed' :
+                                    val.tm_task_status === 2 ? 'On Progress' :
+                                        val.tm_task_status === 3 ? 'On Hold' :
+                                            val.tm_task_status === 4 ? 'Pending' :
+                                                val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                         }
                         return obj
                     })
@@ -74,6 +82,7 @@ const EmpAllTask = ({ tableCount, setTableCount }) => {
         setimage(0)
         setMasterData(value)
     }, [])
+
     const handleClose = useCallback(() => {
         setimage(0)
         setEditModalOpen(false)
@@ -119,9 +128,8 @@ const EmpAllTask = ({ tableCount, setTableCount }) => {
     return (
         <Box>
             {tabledata.length !== 0 ?
-                <Box sx={{ height: 570, }}>
-                    <Paper variant="outlined" sx={{ maxHeight: 530, maxWidth: '100%', overflow: 'auto', m: .5 }}>
-                        {/* <Paper sx={{ m: 1, height: 500, overflow: 'auto' }}> */}
+                <Box sx={{ height: 520, }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 520, maxWidth: '100%', overflow: 'auto', mt: .3 }}>
                         {editModalFlag === 1 ?
                             <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                 setEditModalFlag={setEditModalFlag}
@@ -133,14 +141,14 @@ const EmpAllTask = ({ tableCount, setTableCount }) => {
                                 hoverRow>
                                 <thead>
                                     <tr>
-                                        <th style={{ width: 30 }}>#</th>
-                                        <th style={{ width: 45 }}>Status</th>
-                                        <th style={{ width: 40 }} >Action</th>
-                                        <th style={{ width: 40 }}>View</th>
-                                        <th style={{ width: 150 }}>Task Name</th>
-                                        {/* <th style={{ width: 100 }}>Assignee</th> */}
-                                        <th style={{ width: 100 }}>Created Date</th>
-                                        <th style={{ width: 100 }}>Due Date</th>
+                                        <th style={{ width: 50 }}>#</th>
+                                        <th style={{ width: 60 }} >Action</th>
+                                        <th style={{ width: 60 }}>View</th>
+                                        <th style={{ width: 150 }}>Status</th>
+                                        <th style={{ width: 300 }}>Task Name</th>
+                                        <th style={{ width: 300 }}>Project</th>
+                                        <th style={{ width: 150 }}>Created Date</th>
+                                        <th style={{ width: 150 }}> Due Date</th>
                                         <th style={{ width: 300 }}>Task Description</th>
                                     </tr>
                                 </thead>
@@ -151,18 +159,6 @@ const EmpAllTask = ({ tableCount, setTableCount }) => {
                                                 style={{ height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent', minHeight: 5 }}>
                                                 <td> {index + 1}</td>
                                                 <td>
-                                                    <RadioButtonCheckedIcon sx={{
-                                                        color: val.tm_task_status === null ? '#311E26'
-                                                            : val.tm_task_status === 0 ? '#311E26'
-                                                                : val.tm_task_status === 1 ? '#59981A'
-                                                                    : val.tm_task_status === 2 ? '#D37506'
-                                                                        : val.tm_task_status === 3 ? '#747474'
-                                                                            : val.tm_task_status === 4 ? '#5885AF'
-                                                                                : 'transparent', minHeight: 5
-                                                    }}
-                                                    />
-                                                </td>
-                                                <td>
                                                     <EditIcon
                                                         sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
@@ -172,12 +168,31 @@ const EmpAllTask = ({ tableCount, setTableCount }) => {
                                                         onClick={() => fileView(val)}
                                                     />
                                                 </td>
-                                                <td> {val.tm_task_name || 'not given'}</td>
-                                                {/* <td> {val.tm_project_name || 'not given'}</td> */}
-                                                {/* <td> {val.em_name || 'not given'}</td> */}
+                                                <td
+                                                    style={{
+                                                        color: val.tm_task_status === null ? '#311E26'
+                                                            : val.tm_task_status === 0 ? '#311E26'
+                                                                : val.tm_task_status === 1 ? '#94C973'
+                                                                    : val.tm_task_status === 2 ? '#D37506'
+                                                                        : val.tm_task_status === 3 ? '#67595E'
+                                                                            : val.tm_task_status === 4 ? '#5885AF'
+                                                                                : 'transparent', minHeight: 5,
+                                                        fontWeight: 700
+                                                    }}><RadioButtonCheckedIcon sx={{
+                                                        color: val.tm_task_status === null ? '#311E26'
+                                                            : val.tm_task_status === 0 ? '#311E26'
+                                                                : val.tm_task_status === 1 ? '#59981A'
+                                                                    : val.tm_task_status === 2 ? '#D37506'
+                                                                        : val.tm_task_status === 3 ? '#747474'
+                                                                            : val.tm_task_status === 4 ? '#5885AF'
+                                                                                : 'transparent', minHeight: 5
+                                                    }} />&nbsp;{val.TaskStatus}</td>
+
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                                                 <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                <td> {val.tm_task_description || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )
                                     })}

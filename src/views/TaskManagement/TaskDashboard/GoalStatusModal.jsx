@@ -8,11 +8,9 @@ import { useSelector } from 'react-redux';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 
-const GoalStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOpen, }) => {
+const GoalStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOpen, setTableCount, tableCount }) => {
 
     const { tm_goals_slno, tm_goal_name, tm_goal_dept, tm_goal_deptsec, tm_goal_duedate, tm_goal_description, sec_name, dept_name, tm_goal_status } = masterData
-
-
 
     const [goalStatus, setgoalStatus] = useState(tm_goal_status === 1 ? true : false)
 
@@ -34,7 +32,6 @@ const GoalStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOpen,
     }, [])
     const UpdateGoal = useMemo(() => {
         return {
-
             tm_goals_slno: tm_goals_slno,
             tm_goal_name: tm_goal_name,
             tm_goal_dept: tm_goal_dept,
@@ -46,16 +43,14 @@ const GoalStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOpen,
         }
     }, [tm_goals_slno, tm_goal_name, tm_goal_dept, tm_goal_deptsec, tm_goal_duedate, tm_goal_description, goalStatus, id])
 
-
     const UpdateStatus = useCallback((e) => {
         e.preventDefault()
-
         const UpdateMastTask = async (UpdateGoal) => {
             const result = await axioslogin.patch('/taskManagement/updateDeptGoal', UpdateGoal)
             const { message, success } = result.data
             if (success === 2) {
                 succesNotify(message)
-                // setTableCount(tableCount + 1)
+                setTableCount(tableCount + 1)
                 handleEditClose()
             } else if (success === 0) {
                 infoNotify(message)
@@ -64,9 +59,7 @@ const GoalStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOpen,
             }
         }
         UpdateMastTask(UpdateGoal)
-
-    }, [UpdateGoal, handleEditClose])
-
+    }, [UpdateGoal, handleEditClose, tableCount, setTableCount])
 
     return (
         <Box>
