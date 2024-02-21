@@ -10,13 +10,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import CusIconButton from 'src/views/Components/CusIconButton'
 import ApprovalDetailComp from '../ComonComponent/ApprovalDetailComp'
 import ApproveButtonsCompnt from '../ComonComponent/ApproveButtonsCompnt'
-import CrmInchargeModal from './CrmInchargeModal'
-import InchargeCancel from './InchargeCancel'
-import { CssVarsProvider, Typography } from '@mui/joy'
-import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
+import CrfMOClose from './CrfMOClose'
+import CrfMOApprovalModal from './CrfMOApprovalModal'
 
 
-const CrfInchargeAppvable = () => {
+
+const CrfMOApproval = () => {
 
     /*** Initializing */
     const history = useHistory();
@@ -32,7 +31,7 @@ const CrfInchargeAppvable = () => {
             const { success, data } = result.data
             if (success === 1) {
                 const incharge = data.filter((val) => {
-                    return val.incharge_req === 1
+                    return val.dms_req === 1 && val.crf_close !== 1 && val.incharge_approve === 1
                 })
                 const datas = incharge.map((val) => {
                     const obj = {
@@ -68,23 +67,28 @@ const CrfInchargeAppvable = () => {
                             val.incharge_approve === 3 ? "On-Hold" : "Not Done",
                         incharge_remarks: val.incharge_remarks,
                         inch_detial_analysis: val.inch_detial_analysis,
-                        incharge_remark: val.incharge_remarks !== null ? val.incharge_remarks : "Not Updated",
+                        incharge_remark: val.incharge_remarks !== null ? val.incharge_remarks : '',
                         incharge_apprv_date: val.incharge_apprv_date,
                         incharge_user: val.incharge_user !== null ? val.incharge_user.toLowerCase() : '',
+
                         hod_req: val.hod_req,
                         hod_approve: val.hod_approve,
                         hod: val.hod_approve === 1 ? "Approved" : val.hod_approve === 2 ? "Reject" :
                             val.hod_approve === 3 ? "On-Hold" : "Not Done",
                         hod_remarks: val.hod_remarks !== null ? val.hod_remarks : "Not Done",
+                        hod_detial_analysis: val.hod_detial_analysis !== null ? val.hod_detial_analysis : "Not Done",
                         hod_approve_date: val.hod_approve_date,
                         hod_user: val.hod_user !== null ? val.hod_user.toLowerCase() : '',
+
                         dms_req: val.dms_req,
                         dms_approve: val.dms_approve,
                         dms: val.dms_approve === 1 ? "Approved" : val.dms_approve === 2 ? "Reject" :
                             val.dms_approve === 3 ? "On-Hold" : "Not Done",
-                        dms_remarks: val.dms_remarks !== null ? val.dms_remarks : "Not Updated",
+                        dms_remarks: val.dms_remarks !== null ? val.dms_remarks : '',
+                        dms_detail_analysis: val.dms_detail_analysis !== null ? val.dms_detail_analysis : '',
                         dms_approve_date: val.dms_approve_date,
                         dms_user: val.dms_user !== null ? val.dms_user.toLowerCase() : '',
+
                         ms_approve_req: val.ms_approve_req,
                         ms_approve: val.ms_approve,
                         ms: val.ms_approve === 1 ? "Approved" : val.ms_approve === 2 ? "Reject" :
@@ -92,10 +96,13 @@ const CrfInchargeAppvable = () => {
                         ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : "Not Updated",
                         ms_approve_date: val.ms_approve_date,
                         ms_approve_user: val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
+                        manag_operation_req: val.manag_operation_req,
+
                         manag_operation_approv: val.manag_operation_approv,
                         om: val.manag_operation_approv === 1 ? "Approved" : val.manag_operation_approv === 2 ? "Reject" :
                             val.manag_operation_approv === 3 ? "On-Hold" : "Not Done",
-                        manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : "Not Updated",
+                        manag_operation_remarks: val.manag_operation_remarks,
+                        om_detial_analysis: val.om_detial_analysis,
                         om_approv_date: val.om_approv_date,
                         manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
 
@@ -123,7 +130,8 @@ const CrfInchargeAppvable = () => {
                         ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
                         ed_approve_date: val.ed_approve_date,
                         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
-                        higher: val.hod_approve !== null ? 1 : 0
+                        higher: val.senior_manage_approv !== null ? 1 : 0
+
                     }
                     return obj
                 })
@@ -147,18 +155,21 @@ const CrfInchargeAppvable = () => {
         history.push('/Home')
     }, [history])
 
+
+
     return (
         <Fragment>
-            {cancelFlag === 1 ? <InchargeCancel open={cancelModal} setCancelData={setCancelData}
+
+            {cancelFlag === 1 ? <CrfMOClose open={cancelModal} setCancelData={setCancelData}
                 setCancelFlag={setCancelFlag} setCancelModal={setCancelModal}
                 count={count} setCount={setCount} cancelData={cancelData} /> : null}
 
-            {ApprovalFlag === 1 ? <CrmInchargeModal open={ApprovalModal} ApprovalData={ApprovalData}
+            {ApprovalFlag === 1 ? <CrfMOApprovalModal open={ApprovalModal} ApprovalData={ApprovalData}
                 setApprovalModal={setApprovalModal} setApprovalFlag={setApprovalFlag}
                 count={count} setCount={setCount} setApprovalData={setApprovalData} /> : null}
 
             <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
-                <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Incharge Approval</Box>
+                <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF Documentation</Box>
                 <Box>
                     <CusIconButton size="sm" variant="outlined" color="primary" onClick={backtoSetting} >
                         <CloseIcon fontSize='small' />
@@ -179,25 +190,6 @@ const CrfInchargeAppvable = () => {
                         }} variant='outlined'>
                             <MasterDetailCompnt val={val} />
                             <ApprovalDetailComp val={val} />
-                            {
-                                val.crf_close === 1 ?
-
-                                    <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        pl: 1, pt: 1,
-                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Box sx={{ pr: 1, width: "20%", display: 'flex' }}>
-                                                <Typography level="title-sm" sx={{ color: 'white' }}
-                                                    endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Request Closed By</Typography>
-                                                <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >{val.crf_closed_one}</Typography>
-                                            </Box>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    : null
-                            }
                             <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
                                 setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
                                 setCancelModal={setCancelModal} setApprovalData={setApprovalData}
@@ -210,4 +202,4 @@ const CrfInchargeAppvable = () => {
     )
 }
 
-export default memo(CrfInchargeAppvable)
+export default memo(CrfMOApproval)
