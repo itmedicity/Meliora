@@ -1,296 +1,176 @@
 import { Box, Paper, Stepper, Step } from '@mui/material'
 import React, { memo } from 'react'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
-import { CssVarsProvider, Typography } from '@mui/joy'
+import { CssVarsProvider, Tooltip, Typography } from '@mui/joy'
+import Button from '@mui/joy/Button';
+import ButtonGroup from '@mui/joy/ButtonGroup';
+import IconButton from '@mui/joy/IconButton';
+import Settings from '@mui/icons-material/Settings';
+import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
+import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
+import BackHandOutlinedIcon from '@mui/icons-material/BackHandOutlined';
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import LabelImportantOutlinedIcon from '@mui/icons-material/LabelImportantOutlined';
+import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
+import ArrowRightOutlinedIcon from '@mui/icons-material/ArrowRightOutlined';
+import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
+import ThumbDownOffAltOutlinedIcon from '@mui/icons-material/ThumbDownOffAltOutlined';
+import PauseCircleOutlineOutlinedIcon from '@mui/icons-material/PauseCircleOutlineOutlined';
+import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
+
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 const ApprovalDetailComp = ({ val }) => {
 
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down('xl'));
+
     const { incharge_req, incharge, hod_req, hod, dms_req,
         dms, ms_approve_req, ms, om, smo, gm, md, ed } = val
 
+    const approveComp = (val) => {
+        return val === 0 ? <Tooltip title="Approved" arrow color="success" size="sm" variant="solid" placement="top"><ThumbUpAltOutlinedIcon sx={{ color: 'green' }} /></Tooltip>
+            : val === 1 ? <Tooltip title="Not Approved" arrow color="danger" size="sm" variant="solid" placement="top"><ThumbDownOffAltOutlinedIcon sx={{ color: 'red' }} /></Tooltip>
+                : val === 2 ? <Tooltip title="On Hold" arrow color='warning' size="sm" variant="solid" placement="top"><BackHandOutlinedIcon sx={{ color: '#fd7e14' }} /></Tooltip>
+                    : <Tooltip title="Pending" arrow color="neutral" size="sm" variant="solid" placement="top"><PauseCircleOutlineOutlinedIcon sx={{ color: '#241915' }} /></Tooltip>
+    }
+
+    console.log(matches)
+
+    const array = [
+        // { name: "Incharge", app_status: 1, disable: 1 },
+        { name: "HOD", app_status: 2, disable: 1 },
+        { name: "DMS", app_status: 3, disable: 1 },
+        { name: "MS", app_status: 0, disable: 1 },
+        { name: "MO", app_status: 1, disable: 0 },
+        { name: "SMO", app_status: 2, disable: 0 },
+        { name: "GM", app_status: 3, disable: 0 },
+        { name: "ED", app_status: 0, disable: 0 },
+        { name: "MD", app_status: 1, disable: 0 },
+    ]
+
+
+    const array_purchase = [
+        { name: "CRF Acknowledge", app_status: 1, disable: 1 },
+        { name: "", app_status: 2, disable: 1 },
+        { name: "HOD", app_status: 2, disable: 1 },
+        { name: "DMS", app_status: 3, disable: 1 },
+        { name: "MS", app_status: 0, disable: 1 },
+        { name: "MO", app_status: 1, disable: 0 },
+        { name: "SMO", app_status: 2, disable: 0 },
+        { name: "GM", app_status: 3, disable: 0 },
+        { name: "ED", app_status: 0, disable: 0 },
+        { name: "MD", app_status: 1, disable: 0 },
+    ]
+
     return (
         <Box sx={{ pb: 2 }}>
-            <Stepper size="lg" sx={{
-                width: '100%',
-                backgroundColor: "#e3dcc8",
-                overflow: "auto", pr: 2
-            }}>
-                {incharge_req === 1 ?
-                    <Step
-                        completed
-                        orientation="vertical"
-                        color='blue'        >
-                        <Box sx={{ display: 'flex', width: '200px', }}>
-                            <Paper sx={{
-                                width: '100%', mt: 0.8, mb: 0.8,
-                                backgroundColor: 'rgb(187,188,188)',
-                                border: 0.5, borderColor: '#D4D7D7'
-                            }} variant='outlined'>
-                                < Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    pl: 1, pt: 0.5,
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                }}>
-                                    <CssVarsProvider>
-                                        <Box sx={{ pr: 1, width: "100%", display: 'flex' }}>
-                                            <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Incharge</Typography>
-                                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ textTransform: "capitalize" }} >{incharge}</Typography>
-                                        </Box>
-                                        {/* {
-                                            incharge_approve !== null ?
-                                                <Box sx={{ pr: 1, width: "100%", display: 'flex', flexDirection: "row" }}>
-                                                    <CssVarsProvider>
-                                                        <Box sx={{ width: "40%", }}>
-                                                            <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Remarks</Typography>
-                                                        </Box>
-                                                        <Box sx={{ width: "60%", }}>
-                                                            <Paper sx={{
-                                                                width: '100%', minHeight: 10, maxHeight: 70, p: 0.8,
-                                                                overflow: 'auto', '::-webkit-scrollbar': { display: "none" },
-                                                                backgroundColor: 'rgb(187,188,188)', border: 0.5, borderColor: '#D4D7D7'
-                                                            }} variant='none'>
-                                                                <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} >
-                                                                    {incharge_remark}
-                                                                </Typography>
-                                                            </Paper>
-                                                        </Box>
-                                                    </CssVarsProvider>
-                                                </Box>
-                                                : null
-                                        } */}
-                                    </CssVarsProvider>
-                                </Box>
-                            </Paper>
-                        </Box>
-                    </Step> : null
-                }
+            <CssVarsProvider>
+                {/* CRF FLOW START */}
+                <ButtonGroup
+                    buttonFlex={1}
+                    aria-label="outlined primary button group"
+                    color='success'
+                    disabled={false}
+                    orientation="horizontal"
+                    size="sm"
+                    spacing={0}
+                    variant='soft'
+                    sx={{
+                        p: 0.5,
+                        width: '100%',
+                        maxWidth: '100%',
+                        overflow: 'auto',
+                        color: 'ActiveCaption',
+                    }}
+                >
+                    {
+                        array?.map((e) => {
+                            return <>
+                                <Button
+                                    disabled={e.disable === 0 ? true : false}
+                                    startDecorator={
+                                        <Box color='#39302c' >
+                                            {e.name}
+                                            <ArrowRightOutlinedIcon sx={{ display: matches === true ? 'none' : 'inline-block' }} /></Box>
+                                    }
+                                    endDecorator={approveComp(e.app_status)}
+                                    sx={{ display: 'flex', justifyContent: 'space-evenly', minWidth: '10%' }}>
+                                </Button>
+                                <IconButton color='neutral' variant='solid' size='sm' ><ArrowForwardIosOutlinedIcon fontSize='small' sx={{ color: '#000000' }} /></IconButton>
+                            </>
+                        })
+                    }
 
-                {hod_req === 1 ?
-                    <Step
-                        completed
-                        orientation="vertical"
-                        color='blue'        >
-                        <Box sx={{ display: 'flex', width: '200px', }}>
-                            <Paper sx={{
-                                width: '100%', mt: 0.8, mb: 0.8,
-                                backgroundColor: 'rgb(187,188,188)',
-                                border: 0.5, borderColor: '#D4D7D7'
-                            }} variant='outlined'>
-                                < Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    pl: 1, pt: 0.5,
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                }}>
-                                    <CssVarsProvider>
-                                        <Box sx={{ pr: 1, width: "100%", display: 'flex' }}>
-                                            <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >HOD</Typography>
-                                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ textTransform: "capitalize" }} >{hod}</Typography>
-                                        </Box>
-                                    </CssVarsProvider>
-                                </Box>
-                            </Paper>
-                        </Box>
-                    </Step> : null
-                }
+                    {/* data collection */}
+                    <Button
+                        startDecorator={<Box color='#39302c' >Data Collection<ArrowRightOutlinedIcon sx={{ display: matches === true ? 'none' : 'inline-block' }} /></Box>}
+                        endDecorator={approveComp(1)}
+                        sx={{ display: 'flex', justifyContent: 'space-evenly', minWidth: '10%' }} >
+                    </Button>
+                    <IconButton>
+                        <AssignmentIndOutlinedIcon sx={{ color: '#000000' }} />
+                    </IconButton>
+                    {/* data collection */}
+                </ButtonGroup>
+                {/* CRF FLOW END */}
 
-                {dms_req === 1 ?
-                    <Step
-                        completed
-                        orientation="vertical"
-                        color='blue'        >
-                        <Box sx={{ display: 'flex', width: '200px', }}>
-                            <Paper sx={{
-                                width: '100%', mt: 0.8, mb: 0.8,
-                                backgroundColor: 'rgb(187,188,188)',
-                                border: 0.5, borderColor: '#D4D7D7'
-                            }} variant='outlined'>
-                                < Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    pl: 1, pt: 0.5,
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                }}>
-                                    <CssVarsProvider>
-                                        <Box sx={{ pr: 1, width: "100%", display: 'flex' }}>
-                                            <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >DMS</Typography>
-                                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ textTransform: "capitalize" }} >{dms}</Typography>
-                                        </Box>
-                                    </CssVarsProvider>
-                                </Box>
-                            </Paper>
-                        </Box>
-                    </Step> : null
-                }
+                {/* CRF PURCHASE FLOW START*/}
+                <ButtonGroup
+                    buttonFlex={1}
+                    aria-label="outlined primary button group"
+                    color='success'
+                    disabled={false}
+                    orientation="horizontal"
+                    size="sm"
+                    spacing={0}
+                    variant='soft'
+                    sx={{
+                        p: 0.5,
+                        width: '100%',
+                        maxWidth: '100%',
+                        overflow: 'auto',
+                        color: 'ActiveCaption'
+                        // resize: 'horizontal',
+                        // backgroundColor: '#474B4F'
+                    }}
+                >
+                    {
+                        array_purchase?.map((e) => {
+                            return <>
+                                <Button
+                                    disabled={e.disable === 0 ? true : false}
+                                    startDecorator={
+                                        <Box color='#39302c' >
+                                            {e.name}
+                                            <ArrowRightOutlinedIcon sx={{ display: matches === true ? 'none' : 'inline-block' }} /></Box>
+                                    }
+                                    endDecorator={approveComp(e.app_status)}
+                                    sx={{ display: 'flex', justifyContent: 'space-evenly', minWidth: '15%' }}>
+                                </Button>
+                                <IconButton color='neutral' variant='solid' ><ArrowForwardIosOutlinedIcon sx={{ color: '#000000' }} /></IconButton>
+                            </>
+                        })
+                    }
 
-                {ms_approve_req === 1 ?
-                    <Step
-                        completed
-                        orientation="vertical"
-                        color='blue'        >
-                        <Box sx={{ display: 'flex', width: '200px', }}>
-                            <Paper sx={{
-                                width: '100%', mt: 0.8, mb: 0.8,
-                                backgroundColor: 'rgb(187,188,188)',
-                                border: 0.5, borderColor: '#D4D7D7'
-                            }} variant='outlined'>
-                                < Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    pl: 1, pt: 0.5,
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                }}>
-                                    <CssVarsProvider>
-                                        <Box sx={{ pr: 1, width: "100%", display: 'flex' }}>
-                                            <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >MS</Typography>
-                                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ textTransform: "capitalize" }} >{ms}</Typography>
-                                        </Box>
-                                    </CssVarsProvider>
-                                </Box>
-                            </Paper>
-                        </Box>
-                    </Step> : null
-                }
-                <Step
-                    completed
-                    orientation="vertical"
-                    color='blue'        >
-                    <Box sx={{ display: 'flex', width: '200px', }}>
-                        <Paper sx={{
-                            width: '100%', mt: 0.8, mb: 0.8,
-                            backgroundColor: 'rgb(187,188,188)',
-                            border: 0.5, borderColor: '#D4D7D7'
-                        }} variant='outlined'>
-                            < Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                pl: 1, pt: 0.5,
-                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                            }}>
-                                <CssVarsProvider>
-                                    <Box sx={{ pr: 1, width: "100%", display: 'flex' }}>
-                                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >MO</Typography>
-                                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ textTransform: "capitalize" }} >{om}</Typography>
-                                    </Box>
-                                </CssVarsProvider>
-                            </Box>
-                        </Paper>
-                    </Box>
-                </Step>
+                    {/* data collection */}
+                    {/* <Button
+                        startDecorator={<Box color='#39302c' >Data Collection<ArrowRightOutlinedIcon sx={{ display: matches === true ? 'none' : 'inline-block' }} /></Box>}
+                        endDecorator={approveComp(1)}
+                        sx={{ display: 'flex', justifyContent: 'space-evenly' }} >
+                    </Button>
+                    <IconButton>
+                        <AssignmentIndOutlinedIcon sx={{ color: '#000000' }} />
+                    </IconButton> */}
+                    {/* data collection */}
 
-                <Step
-                    completed
-                    orientation="vertical"
-                    color='blue'        >
-                    <Box sx={{ display: 'flex', width: '200px', }}>
-                        <Paper sx={{
-                            width: '100%', mt: 0.8, mb: 0.8,
-                            backgroundColor: 'rgb(187,188,188)',
-                            border: 0.5, borderColor: '#D4D7D7'
-                        }} variant='outlined'>
-                            < Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                pl: 1, pt: 0.5,
-                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                            }}>
-                                <CssVarsProvider>
-                                    <Box sx={{ pr: 1, width: "100%", display: 'flex' }}>
-                                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >SMO</Typography>
-                                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ textTransform: "capitalize" }} >{smo}</Typography>
-                                    </Box>
+                </ButtonGroup>
+                {/* CRF PURCHASE FLOW END*/}
 
-                                </CssVarsProvider>
-                            </Box>
-                        </Paper>
-                    </Box>
-                </Step>
-
-
-                <Step
-                    completed
-                    orientation="vertical"
-                    color='blue'        >
-                    <Box sx={{ display: 'flex', width: '200px', }}>
-                        <Paper sx={{
-                            width: '100%', mt: 0.8, mb: 0.8,
-                            backgroundColor: 'rgb(187,188,188)',
-                            border: 0.5, borderColor: '#D4D7D7'
-                        }} variant='outlined'>
-                            < Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                pl: 1, pt: 0.5,
-                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                            }}>
-                                <CssVarsProvider>
-                                    <Box sx={{ pr: 1, width: "100%", display: 'flex' }}>
-                                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >GM</Typography>
-                                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ textTransform: "capitalize" }} >{gm}</Typography>
-                                    </Box>
-                                </CssVarsProvider>
-                            </Box>
-                        </Paper>
-                    </Box>
-                </Step>
-
-
-                <Step
-                    completed
-                    orientation="vertical"
-                    color='blue'        >
-                    <Box sx={{ display: 'flex', width: '200px', }}>
-                        <Paper sx={{
-                            width: '100%', mt: 0.8, mb: 0.8,
-                            backgroundColor: 'rgb(187,188,188)',
-                            border: 0.5, borderColor: '#D4D7D7'
-                        }} variant='outlined'>
-                            < Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                pl: 1, pt: 0.5,
-                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                            }}>
-                                <CssVarsProvider>
-                                    <Box sx={{ pr: 1, width: "100%", display: 'flex' }}>
-                                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >MD</Typography>
-                                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ textTransform: "capitalize" }} >{md}</Typography>
-                                    </Box>
-                                </CssVarsProvider>
-                            </Box>
-                        </Paper>
-                    </Box>
-                </Step>
-
-                <Step
-                    completed
-                    orientation="vertical"
-                    color='blue'        >
-                    <Box sx={{ display: 'flex', width: '200px', }}>
-                        <Paper sx={{
-                            width: '100%', mt: 0.8, mb: 0.8,
-                            backgroundColor: 'rgb(187,188,188)',
-                            border: 0.5, borderColor: '#D4D7D7'
-                        }} variant='outlined'>
-                            < Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                pl: 1, pt: 0.5,
-                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                            }}>
-                                <CssVarsProvider>
-                                    <Box sx={{ pr: 1, width: "100%", display: 'flex' }}>
-                                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >ED</Typography>
-                                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ textTransform: "capitalize" }} >{ed}</Typography>
-                                    </Box>
-                                </CssVarsProvider>
-                            </Box>
-                        </Paper>
-                    </Box>
-                </Step>
-            </Stepper>
+            </CssVarsProvider>
         </Box >
 
     )

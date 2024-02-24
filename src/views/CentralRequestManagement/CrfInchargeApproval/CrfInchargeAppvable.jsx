@@ -178,25 +178,25 @@ const CrfInchargeAppvable = () => {
                             backgroundColor: '#BBBCBC'
                         }} variant='outlined'>
                             <MasterDetailCompnt val={val} />
-                            <ApprovalDetailComp val={val} />
+                            {/* <ApprovalDetailComp val={val} /> */}
                             {
-                                val.crf_close === 1 ?
+                                // val.crf_close === 1 ?
 
-                                    <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        pl: 1, pt: 1,
-                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Box sx={{ pr: 1, width: "20%", display: 'flex' }}>
-                                                <Typography level="title-sm" sx={{ color: 'white' }}
-                                                    endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Request Closed By</Typography>
-                                                <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >{val.crf_closed_one}</Typography>
-                                            </Box>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    : null
+                                //     <Box sx={{
+                                //         width: "100%",
+                                //         display: "flex",
+                                //         pl: 1, pt: 1,
+                                //         flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                //     }}>
+                                //         <CssVarsProvider>
+                                //             <Box sx={{ pr: 1, width: "20%", display: 'flex' }}>
+                                //                 <Typography level="title-sm" sx={{ color: 'white' }}
+                                //                     endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Request Closed By</Typography>
+                                //                 <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >{val.crf_closed_one}</Typography>
+                                //             </Box>
+                                //         </CssVarsProvider>
+                                //     </Box>
+                                //     : null
                             }
                             <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
                                 setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
