@@ -1,6 +1,6 @@
-import { Box, Paper, IconButton } from '@mui/material'
+import { Box, Paper } from '@mui/material'
 import React, { useCallback, memo, useState, useEffect } from 'react'
-import { Chip, CssVarsProvider, Typography } from '@mui/joy'
+import { Chip, CssVarsProvider, Divider, IconButton, Typography } from '@mui/joy'
 import { axioslogin } from 'src/views/Axios/Axios';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ImageDisplayModal from '../CRFRequestMaster/ImageDisplayModal';
@@ -10,7 +10,18 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import { editicon } from 'src/color/Color'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
-
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
+import CategoryIcon from '@mui/icons-material/Category';
+import GppMaybeIcon from '@mui/icons-material/GppMaybe';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import FilePresentIcon from '@mui/icons-material/FilePresent';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import Person3Icon from '@mui/icons-material/Person3';
+import RequestPageIcon from '@mui/icons-material/RequestPage';
+import BalanceIcon from '@mui/icons-material/Balance';
 
 const MasterDetailCompnt = ({ val }) => {
 
@@ -59,106 +70,149 @@ const MasterDetailCompnt = ({ val }) => {
             {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose}
                 images={imagearray} /> : null}
 
-            <Box sx={{
-                width: "100%",
-                display: "flex",
-                pl: 1, pt: 1,
-                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-            }}>
-                <CssVarsProvider>
-                    <Box sx={{ pr: 1, width: "20%", display: 'flex' }}>
-                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Request No</Typography>
-                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >CRF/TMC/{req_slno}</Typography>
-                    </Box>
-                    <Box sx={{ pl: 4, width: "20%", display: 'flex' }}>
-                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Req.Date</Typography>
-                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >{req_date}</Typography>
-                    </Box>
-                    <Box sx={{ pl: 4, width: "30%", display: 'flex' }}>
-                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Department</Typography>
-                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{dept_name}</Typography>
-                    </Box>
-                    <Box sx={{ pl: 4, width: "30%", display: 'flex' }}>
-                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Department Section</Typography>
-                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{req_deptsec}</Typography>
-                    </Box>
-                </CssVarsProvider>
-            </Box >
-            {/* 2rnd Row */}
-            < Box sx={{
-                width: "100%",
-                display: "flex",
-                pl: 1, pt: 0.5,
-                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-            }}>
-                <CssVarsProvider>
-                    <Box sx={{ pr: 1, width: "20%", display: 'flex' }}>
-                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Location</Typography>
-                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{location}</Typography>
-
-                    </Box>
-                    <Box sx={{ pl: 4, width: "20%", display: 'flex' }}>
-                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Category</Typography>
-                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{category}</Typography>
-
-                    </Box>
-                    <Box sx={{ pl: 4, width: "30%", display: 'flex' }}>
-
-                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Emergency</Typography>
-                        <Typography
-                            level="body-lg"
-                            endDecorator={
+            <CssVarsProvider>
+                <Box sx={{
+                    width: "100%",
+                    display: "flex",
+                    pl: 1, pt: 1,
+                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', flexGrow: 1, flexWrap: 'wrap' }} >
+                        <Box sx={{ pr: 1, display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                            <AlignHorizontalLeftIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >CRF/TMC/{req_slno}</Typography>
+                            <CalendarMonthIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >{req_date}</Typography>
+                        </Box>
+                        <Box sx={{ pl: 4, display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                            <ApartmentIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >{dept_name}</Typography>
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={900} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >/</Typography>
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{req_deptsec}</Typography>
+                        </Box>
+                        <Box sx={{ pr: 1, display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                            <AddLocationAltIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{location}</Typography>
+                        </Box>
+                        <Box sx={{ pr: 1, display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                            <CategoryIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
+                            <Typography level='body-sm' textColor='common.white' fontWeight={500} sx={{ pt: 0.5, pr: 0.6, textTransform: "capitalize" }} >CRF category</Typography>
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={900} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >/</Typography>
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{category}</Typography>
+                        </Box>
+                        <Box sx={{ pr: 1, display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                            <GppMaybeIcon fontSize='large' sx={{ mx: 0.5, color: 'red' }} />
+                            <Typography
+                                level="body-lg"
+                                endDecorator={
+                                    emergency_flag === 1 ?
+                                        <Chip component="span" size="sm"
+                                            startDecorator={<CheckIcon color='success' sx={{ zIndex: 1, pointerEvents: 'none' }} />}
+                                            sx={{
+                                                "--Chip-minHeight": "9px",
+                                                "--Chip-paddingInline": "10px",
+                                                backgroundColor: '#D5F4B1'
+                                            }}
+                                        >
+                                            Yes
+                                        </Chip> :
+                                        <Chip component="span" size="sm"
+                                            startDecorator={<ClearOutlinedIcon sx={{ zIndex: 1, pointerEvents: 'none', color: 'red' }} />}
+                                            sx={{
+                                                "--Chip-minHeight": "9px",
+                                                "--Chip-paddingInline": "10px",
+                                                backgroundColor: '#F7D3D3'
+                                            }}
+                                        >
+                                            No
+                                        </Chip>
+                                }
+                                justifyContent="center"
+                            >
+                            </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                            <NotificationsActiveIcon fontSize='large' sx={{ mx: 0.5, }} color='primary' />
+                            <Typography level='body-sm' textColor='common.white' fontWeight={500} sx={{ pt: 0.5, pr: 0.6, textTransform: "capitalize" }} >Priority Type</Typography>
+                            {
                                 emergency_flag === 1 ?
-                                    <Chip component="span" size="sm"
-                                        startDecorator={<CheckIcon color='success' sx={{ zIndex: 1, pointerEvents: 'none' }} />}
-                                        sx={{
-                                            "--Chip-minHeight": "9px",
-                                            "--Chip-paddingInline": "10px",
-                                            backgroundColor: '#D5F4B1'
-                                        }}
-                                    >
-                                        Yes
-                                    </Chip> :
-                                    <Chip component="span" size="sm"
-                                        startDecorator={<ClearOutlinedIcon sx={{ zIndex: 1, pointerEvents: 'none', color: 'red' }} />}
-                                        sx={{
-                                            "--Chip-minHeight": "9px",
-                                            "--Chip-paddingInline": "10px",
-                                            backgroundColor: '#F7D3D3'
-                                        }}
-                                    >
-                                        No
-                                    </Chip>
+                                    <Box sx={{ display: 'flex' }}>
+                                        {/* <Typography color='warning' level="body-sm" variant="outlined" sx={{ ml: 1, borderRadius: 10, textTransform: 'capitalize' }} >{emer_type_name?.toLowerCase()}</Typography> */}
+                                        <Typography
+                                            level="body-lg"
+                                            endDecorator={
+                                                <Chip component="span" size="sm"
+                                                    // startDecorator={<CheckIcon color='success' sx={{ zIndex: 1, pointerEvents: 'none' }} />}
+                                                    sx={{
+                                                        "--Chip-minHeight": "9px",
+                                                        "--Chip-paddingInline": "10px",
+                                                        backgroundColor: '#D5F4B1',
+                                                    }}
+                                                >
+                                                    {emer_type_name?.toLowerCase()}
+                                                </Chip>
+                                            }
+                                            justifyContent="center"
+                                            sx={{ width: '100%' }}
+                                        >
+                                        </Typography>
+                                    </Box> : null
                             }
-                            justifyContent="center"
-                        >
-                        </Typography>
+                        </Box>
 
+                        <Box sx={{ pr: 1, display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                            <CalendarMonthIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, pr: 0.5 }} >CRF Excepted Date</Typography>
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={900} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >/</Typography>
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >{expected_date}</Typography>
+                        </Box>
+
+                        <Box sx={{ pr: 1, display: 'flex', alignItems: 'center', }}>
+                            <AccountBalanceIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
+                            <Typography level="title-sm" sx={{ color: 'white' }}
+                                endDecorator={<Typography level='body-sm' textColor='#3E3F40' fontWeight={900} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >/</Typography>} >
+                                Requested department</Typography>
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{user_deptsection}</Typography>
+                        </Box>
+
+                        <Box sx={{ pr: 1, display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                            <Person3Icon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
+                            <Typography level="title-sm" sx={{ color: 'white' }}
+                                endDecorator={<Typography level='body-sm' textColor='#3E3F40' fontWeight={900} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >/</Typography>} >
+                                Created User</Typography>
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{em_name}</Typography>
+                        </Box>
+
+                        {/* <Box sx={{ pr: 1, display: 'flex', alignItems: 'center', flexGrow: 1 }}> */}
+                        {
+                            // image_status === 1 ?
+                            //     <Box sx={{ height: 10, }}>
+                            //         <IconButton onClick={ViewImage}
+                            //             sx={{ color: 'palegreen', pt: 0 }} >
+                            //             <FilePresentIcon fontSize='large' />
+                            //         </IconButton>
+
+                            //         {/* <Button onClick={ViewImage} variant="contained"
+                            //     size="small" color="primary">View Image</Button> */}
+                            //     </Box> : <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ textTransform: "capitalize" }} >No</Typography>
+                        }
+                        {/* </Box> */}
                     </Box>
-                    {
-                        emergency_flag === 1 ?
-                            <Box sx={{ pl: 4, width: "30%", display: 'flex' }}>
-                                <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Emergency Type</Typography>
-                                <Typography color='warning' level="body-sm" variant="outlined" sx={{ ml: 1, borderRadius: 10 }} >{emer_type_name}</Typography>
+                </Box >
 
-                            </Box> : null
-                    }
-
-                </CssVarsProvider>
-            </Box >
-            {/* 3rd Row */}
-            < Box sx={{
-                width: "100%",
-                display: "flex",
-                pl: 1, pt: 0.5,
-                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-            }}>
-                <CssVarsProvider>
-                    <Box sx={{ width: "10%", }}>
-                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Actual Requirement</Typography>
-
+                {/* 3rd Row */}
+                < Box sx={{
+                    display: "flex",
+                    alignItems: 'center',
+                    pl: 1, pt: 0.5,
+                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                }}>
+                    <RequestPageIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
+                    <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                        <Typography level="title-sm" sx={{ color: 'white' }}
+                            endDecorator={<KeyboardArrowRightOutlinedIcon />} >Requirement</Typography>
                     </Box>
-                    <Box sx={{ width: "31%", }}>
+                    <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', }}>
                         <Paper sx={{
                             width: '100%', minHeight: 10, maxHeight: 70, p: 0.8,
                             overflow: 'auto', '::-webkit-scrollbar': { display: "none" },
@@ -169,11 +223,19 @@ const MasterDetailCompnt = ({ val }) => {
                             </Typography>
                         </Paper>
                     </Box>
-                    <Box sx={{ pl: 2, width: "11%", }}>
-                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Justification for need</Typography>
-
+                </Box >
+                < Box sx={{
+                    display: "flex",
+                    alignItems: 'center',
+                    pl: 1, pt: 0.5,
+                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                }}>
+                    <BalanceIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
+                    <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                        <Typography level="title-sm" sx={{ color: 'white' }}
+                            endDecorator={<KeyboardArrowRightOutlinedIcon />} >Justification</Typography>
                     </Box>
-                    <Box sx={{ width: "40%", }} >
+                    <Box sx={{ width: "40%", display: 'flex', alignItems: 'center', }} >
                         <Paper sx={{
                             width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15, textTransform: "capitalize",
                             overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
@@ -181,60 +243,9 @@ const MasterDetailCompnt = ({ val }) => {
                             {needed}
                         </Paper>
                     </Box>
-                </CssVarsProvider>
-            </Box >
 
-            {/* 4th Row */}
-            < Box sx={{
-                width: "100%",
-                display: "flex",
-                pl: 1, pt: 0.5, pb: 2,
-                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-            }}>
-
-                <Box sx={{ pr: 1, width: "20%", display: 'flex' }}>
-                    <CssVarsProvider>
-                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Expected Date</Typography>
-                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >{expected_date}</Typography>
-                    </CssVarsProvider>
-                </Box>
-
-                <Box sx={{ display: "flex", pl: 4, width: "20%", flexDirection: "row" }}>
-                    <Box>
-                        <CssVarsProvider>
-                            <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Attachment</Typography>
-                        </CssVarsProvider>
-                    </Box>{
-                        image_status === 1 ?
-                            <Box sx={{ height: 10, }}>
-
-                                <IconButton onClick={ViewImage}
-                                    sx={{ color: editicon, pt: 0 }} >
-                                    <CustomeToolTip title="View Image">
-                                        <VisibilityIcon size={15} />
-                                    </CustomeToolTip>
-                                </IconButton>
-
-                                {/* <Button onClick={ViewImage} variant="contained"
-                                    size="small" color="primary">View Image</Button> */}
-                            </Box> : <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ textTransform: "capitalize" }} >No</Typography>
-                    }
-                </Box>
-                <Box sx={{ pl: 4, width: "30%", display: 'flex' }}>
-                    <CssVarsProvider>
-                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Department Section</Typography>
-                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{user_deptsection}</Typography>
-                    </CssVarsProvider>
-                </Box>
-                <Box sx={{ pl: 4, width: "30%", display: 'flex' }}>
-                    <CssVarsProvider>
-                        <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Create User</Typography>
-                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{em_name}</Typography>
-                    </CssVarsProvider>
-                </Box>
-
-
-            </Box >
+                </Box >
+            </CssVarsProvider>
         </Box >
     )
 }
