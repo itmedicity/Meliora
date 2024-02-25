@@ -10,90 +10,81 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { CssVarsProvider, Typography } from '@mui/joy'
-import ReqItemDisplay from '../ComonComponent/ReqItemDisplay';
 import _ from 'underscore'
 import { useSelector } from 'react-redux'
 import { format } from 'date-fns';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
-import CustomTextarea from 'src/views/Components/CustomTextarea';
+import CrfReqDetailCmpnt from '../CRFRequestMaster/CrfReqDetailCmpnt';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const InchargeCancel = ({ open, setCancelData, setCancelModal, setCancelFlag, count, setCount, cancelData }) => {
 
-    const { req_slno, req_date, actual_requirement, needed, expdate, crf_close, crf_close_remark,
-    } = cancelData
+const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreData,
+    count, setCount }) => {
 
-    const [reqTableDis, setReqTableDis] = useState(0)
+    const { req_slno, req_date, actual_requirement, needed, expected_date,
+        crm_purchase_slno, store_receive, storeack_user, store_receive_date
+    } = storeData
 
-    const [detailData, setDetailData] = useState([])
+    const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
+    const [podetailFlag, setPOdetalFalg] = useState(0)
+    const [getpoDetaildata, setgetPodetailData] = useState([])
+    const [Acknowledgement, setAcknowledmnt] = useState(false)
 
-    const [Closeremark, setCloseRemark] = useState('')
-    const updateCloseRemark = useCallback((e) => {
-        setCloseRemark(e.target.value)
-    }, [])
-
-    const [closeCrf, setCloseCrf] = useState(false)
-    const updateCrf = useCallback((e) => {
+    const updateAcknowldge = useCallback((e) => {
         if (e.target.checked === true) {
-            setCloseCrf(true)
+            setAcknowledmnt(true)
         }
         else {
-            setCloseCrf(false)
+            setAcknowledmnt(false)
         }
     }, [])
 
-
     useEffect(() => {
-        setCloseCrf(crf_close === 1 ? true : false)
-        setCloseRemark(crf_close_remark !== null ? crf_close_remark : '')
-    }, [crf_close, crf_close_remark])
-
-    useEffect(() => {
-        const getItemDetails = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFRegister/getDetailItemList/${req_slno}`)
+        const getPODetails = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFPurchase/getPOList/${req_slno}`)
             const { success, data } = result.data
             if (success === 1) {
-                setReqTableDis(1)
-                setDetailData(data);
-            } else {
-                setReqTableDis(0)
+                setgetPodetailData(data)
+                setPOdetalFalg(1)
+            }
+            else {
+                setgetPodetailData([])
             }
         }
-        getItemDetails(req_slno)
+        getPODetails(req_slno)
     }, [req_slno])
 
-    const InchargeCloseData = useMemo(() => {
+    const StoreAcknoldgePatch = useMemo(() => {
         return {
-            crf_close: 1,
-            crf_close_remark: Closeremark,
-            crf_close_user: id,
-            crf_closed_one: "Incharge",
-            close_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            req_slno: req_slno
-
+            store_receive: Acknowledgement === true ? 1 : 0,
+            store_receive_user: id,
+            store_receive_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            crm_purchase_slno: crm_purchase_slno,
         }
-    }, [Closeremark, id, req_slno])
+    }, [crm_purchase_slno, id, Acknowledgement])
 
     const reset = useCallback(() => {
-        setReqTableDis(0)
-        setDetailData([])
-        setCloseRemark('')
-        setCloseCrf(false)
-        setCancelModal(false)
-        setCancelFlag(0)
-        setCancelData([])
-        setCount(0)
-    }, [setCancelFlag, setCount, setCancelModal, setCancelData])
+
+        setStoreFlag(0)
+        setStoreModal(false)
+        setStoreData([])
+        setPOdetalFalg(0)
+        setgetPodetailData([])
+        setAcknowledmnt(false)
+    }, [setStoreFlag, setStoreModal, setStoreData])
+
 
 
     const submit = useCallback(() => {
-        const updateClosedCrf = async (InchargeCloseData) => {
-            const result = await axioslogin.patch('/CRFRegisterApproval/crfClose', InchargeCloseData);
+
+
+        const updatePoApprovals = async (PoApprovalPatch) => {
+            const result = await axioslogin.patch('/newCRFPurchase/storedataUpdate', PoApprovalPatch);
             const { success, message } = result.data;
-            if (success === 2) {
+            if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1)
                 reset()
@@ -102,22 +93,28 @@ const InchargeCancel = ({ open, setCancelData, setCancelModal, setCancelFlag, co
                 warningNotify(message)
             }
         }
-        updateClosedCrf(InchargeCloseData)
 
-    }, [InchargeCloseData, setCount, count, reset])
+        if (Acknowledgement === true) {
+            updatePoApprovals(StoreAcknoldgePatch)
+        } else {
+            warningNotify("Please Acknow;edged")
+        }
+    }, [StoreAcknoldgePatch, Acknowledgement, setCount, count, reset])
 
     const ModalClose = useCallback(() => {
-        setReqTableDis(0)
-        setDetailData([])
-        setCloseRemark('')
-        setCloseCrf(false)
-        setCancelModal(false)
-        setCancelFlag(0)
-        setCancelData([])
-        setCount(0)
-    }, [setCancelFlag, setCancelModal, setCount, setCancelData])
+        reset()
+    }, [reset])
+
+
+    //column title setting
+    const [column] = useState([
+        { headerName: "PO Number", field: "po_number" },
+        { headerName: "PO Date", field: "po_date", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+
+    ])
 
     return (
+
         <Fragment>
             <ToastContainer />
             <Dialog
@@ -136,7 +133,7 @@ const InchargeCancel = ({ open, setCancelData, setCancelModal, setCancelFlag, co
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
-                        Incharge Cancel
+                        CRF Store Process
                     </DialogContentText>
 
                     <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "column" }}>
@@ -210,83 +207,109 @@ const InchargeCancel = ({ open, setCancelData, setCancelModal, setCancelFlag, co
                                     </Box>
                                 </Box>
 
-
                             </Box>
                         </Paper>
-                        {reqTableDis === 1 ?
-                            <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
-                                <Box sx={{
-                                    width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
-                                }}>
-                                    <CssVarsProvider>
-                                        <Typography sx={{ fontSize: 15 }}>Requested Items</Typography>
-                                    </CssVarsProvider>
-                                </Box>
-                                <ReqItemDisplay detailData={detailData}
-                                />
-                            </Paper> : <Box sx={{
-                                width: "100%", display: "flex", p: 0.5, pb: 0,
-                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                            }}>
-                                <Box sx={{ pr: 9 }}>
-                                    <CssVarsProvider>
-                                        <Typography sx={{ fontSize: 15 }}>Requested Items: Nill</Typography>
-                                    </CssVarsProvider>
-                                </Box>
-                            </Box>
-                        }
 
-                        <Paper variant='outlined' sx={{ mt: 1 }} >
-                            <Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: "row",
-                                pl: 2, pt: 0, fontSize: 15
-                            }}>
-                                <Box sx={{ width: "20%", mt: 1 }}>
-                                    <CusCheckBox
-                                        label="Close CRF"
-                                        color="primary"
-                                        size="md"
-                                        name="closeCrf"
-                                        value={closeCrf}
-                                        checked={closeCrf}
-                                        onCheked={updateCrf}
-                                    />
-                                </Box>
-                                {closeCrf === true ?
-                                    <Box sx={{ width: "60%", mt: 1 }}>
-                                        <CustomTextarea
-                                            required
-                                            type="text"
-                                            size="sm"
-                                            style={{
-                                                width: "100%",
-                                                height: 70,
-                                                boardColor: "#E0E0E0"
-                                            }}
-                                            placeholder=" Remarks"
-                                            value={Closeremark}
-                                            onchange={updateCloseRemark}
-                                        />
-                                    </Box> : null
+                        <Box sx={{ width: "100%", mt: 0 }}>
+                            <Paper variant='outlined' sx={{ mt: 1 }} >
+
+                                {
+                                    podetailFlag === 1 ?
+                                        <Box sx={{ width: "50%", pl: 5, pb: 2 }}> PO Details
+                                            <CrfReqDetailCmpnt
+                                                columnDefs={column}
+                                                tableData={getpoDetaildata}
+                                            />
+                                        </Box> : null
                                 }
 
-                            </Box>
-                        </Paper>
+
+                            </Paper>
+                        </Box>
+
+                        {store_receive !== 1 ?
+                            <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                                <Box sx={{
+                                    display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+                                }} >
+                                    <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
+                                        <CusCheckBox
+                                            label="Acknowledgement"
+                                            color="primary"
+                                            size="md"
+                                            name="Acknowledgement"
+                                            value={Acknowledgement}
+                                            checked={Acknowledgement}
+                                            onCheked={updateAcknowldge}
+                                        />
+                                    </Box>
+
+
+                                </Box>
+                            </Paper> :
+                            <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                                <Box sx={{
+                                    display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+                                }} >
+
+                                    <Box
+                                        sx={{
+                                            pl: 1, pr: 1,
+                                            display: "flex",
+                                            flexDirection: 'row',
+                                            justifyContent: "space-between"
+                                        }}>
+                                        <CssVarsProvider>
+                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Store:
+                                                {
+                                                    store_receive === 1 ?
+                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> Yes
+                                                        </Typography> : <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> No
+                                                        </Typography>
+                                                }
+                                            </Typography>
+                                        </CssVarsProvider>
+                                        {store_receive === 1 ?
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: 'row',
+                                                    justifyContent: "space-evenly",
+                                                    pr: 2
+                                                }}>
+                                                <CssVarsProvider>
+                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                        {store_receive_date}</Typography>
+                                                    <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                        {storeack_user} </Typography>
+                                                </CssVarsProvider>
+                                            </Box> : null
+                                        }
+                                    </Box>
+                                </Box>
+                            </Paper>
+
+
+                        }
+
+
+
 
                     </Box>
-
                 </DialogContent>
 
                 <DialogActions>
                     <Button color="secondary" onClick={submit} >Save</Button>
                     <Button onClick={ModalClose} color="secondary" >Cancel</Button>
                 </DialogActions>
-            </Dialog>
 
+
+            </Dialog>
         </Fragment>
+
+
     )
 }
 
-export default memo(InchargeCancel)
+export default memo(CrfStoreModal)

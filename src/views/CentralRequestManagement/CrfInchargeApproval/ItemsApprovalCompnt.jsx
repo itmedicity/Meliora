@@ -1,7 +1,6 @@
 import React, { Fragment, useCallback, useState, memo, useEffect } from 'react'
 import { Box, IconButton, Button } from '@mui/material'
 import { editicon } from 'src/color/Color'
-import DeleteIcon from '@mui/icons-material/Delete';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import CrfReqDetailCmpnt from '../CRFRequestMaster/CrfReqDetailCmpnt';
 import { axioslogin } from 'src/views/Axios/Axios';
@@ -127,15 +126,15 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                     </CustomeToolTip>
                 </IconButton>
         },
-        {
-            headerName: 'Delete', minWidth: 100, cellRenderer: params =>
-                <IconButton onClick={() => deleteSelect(params)}
-                    sx={{ color: editicon, pt: 0 }} >
-                    <CustomeToolTip title="Delete">
-                        <DeleteIcon size={15} />
-                    </CustomeToolTip>
-                </IconButton>
-        },
+        // {
+        //     headerName: 'Delete', minWidth: 100, cellRenderer: params =>
+        //         <IconButton onClick={() => deleteSelect(params)}
+        //             sx={{ color: editicon, pt: 0 }} >
+        //             <CustomeToolTip title="Delete">
+        //                 <DeleteIcon size={15} />
+        //             </CustomeToolTip>
+        //         </IconButton>
+        // },
 
 
         { headerName: "Slno", field: "slno", minWidth: 100, },
@@ -161,7 +160,6 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
             approve_item_specification, item_qnty_approved,
         } = data[0]
 
-        console.log(data);
         setEditEnable(1)
         const resetarrray = {
             item_desc: approve_item_desc,
@@ -180,10 +178,7 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
     }, [])
 
     const reset = useCallback(() => {
-
         setEditEnable(0)
-
-
         const resetarrray = {
             item_desc: '',
             item_brand: '',
@@ -197,33 +192,30 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
         setapprox_cost(0)
         setUOM(0)
         set_item_desc_actl('')
-
-
-
     }, [])
 
-    const deleteSelect = useCallback((params) => {
-        const data = params.api.getSelectedRows()
-        const { req_detl_slno } = data[0]
-        const deletePatch = {
-            approve_item_delete_who: "Incharge",
-            approve_item_delete_user: id,
-            req_detl_slno: req_detl_slno
-        }
+    // const deleteSelect = useCallback((params) => {
+    //     const data = params.api.getSelectedRows()
+    //     const { req_detl_slno } = data[0]
+    //     const deletePatch = {
+    //         approve_item_delete_who: "Incharge",
+    //         approve_item_delete_user: id,
+    //         req_detl_slno: req_detl_slno
+    //     }
 
-        const ItemDelete = async (deletePatch) => {
-            const result = await axioslogin.patch('/CRFRegisterApproval/InactiveItemDetail', deletePatch);
-            const { success, message } = result.data;
-            if (success === 1) {
-                succesNotify(message)
-                setCount(count + 1)
-            }
-            else {
-                warningNotify(message)
-            }
-        }
-        ItemDelete(deletePatch)
-    }, [count, setCount, id])
+    //     const ItemDelete = async (deletePatch) => {
+    //         const result = await axioslogin.patch('/CRFRegisterApproval/InactiveItemDetail', deletePatch);
+    //         const { success, message } = result.data;
+    //         if (success === 1) {
+    //             succesNotify(message)
+    //             setCount(count + 1)
+    //         }
+    //         else {
+    //             warningNotify(message)
+    //         }
+    //     }
+    //     ItemDelete(deletePatch)
+    // }, [count, setCount, id])
 
 
     const Approvefctn = useCallback(() => {
@@ -241,8 +233,6 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                 item_status_approved: 1,
                 req_detl_slno: reqDetailslno
             }
-            console.log(approvedata);
-
 
             const updateDetalReqApprov = async (approvedata) => {
                 const result = await axioslogin.patch('/CRFRegisterApproval/inchargeApporval/details', approvedata);
@@ -284,11 +274,8 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                 create_user: id,
                 req_detl_slno: reqDetailslno
             }
-            console.log(approvedataInsert);
-
 
             const DetailApprvInsert = async (reqDataPost) => {
-                console.log(reqDataPost);
                 const result = await axioslogin.post('/CRFRegisterApproval/DetailApprvInsert', reqDataPost);
                 const { success, message } = result.data;
                 if (success === 1) {
@@ -327,8 +314,6 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
             item_status_approved: 2,
             req_detl_slno: reqDetailslno
         }
-        console.log(rejectedata);
-
         const updateDetalReqApprov = async (rejectedata) => {
             const result = await axioslogin.patch('/CRFRegisterApproval/inchargeApporval/details', rejectedata);
             const { success, message } = result.data;
@@ -394,8 +379,6 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
             return { background: '#ba9f34' };
         }
     };
-
-
 
     return (
         <Fragment>

@@ -3,13 +3,13 @@ import React, { useCallback, memo, useState, useEffect } from 'react'
 import { Chip, CssVarsProvider, Typography } from '@mui/joy'
 import { axioslogin } from 'src/views/Axios/Axios';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import ImageDisplayModal from '../CRFRequestMaster/ImageDisplayModal';
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import { editicon } from 'src/color/Color'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
+import ReqImageDisModal from './ReqImageDisModal';
 
 
 const MasterDetailCompnt = ({ val }) => {
@@ -29,7 +29,7 @@ const MasterDetailCompnt = ({ val }) => {
 
     useEffect(() => {
         const getImage = async (req_slno) => {
-            const result = await axioslogin.get(`/CrfImageUpload/crfRegimageGet/${req_slno}`)
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
             const { success, data } = result.data
             if (success === 1) {
                 const fileNames = data;
@@ -56,7 +56,7 @@ const MasterDetailCompnt = ({ val }) => {
             display: "flex",
             flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
         }}>
-            {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose}
+            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
                 images={imagearray} /> : null}
 
             <Box sx={{
@@ -159,15 +159,18 @@ const MasterDetailCompnt = ({ val }) => {
 
                     </Box>
                     <Box sx={{ width: "31%", }}>
-                        <Paper sx={{
-                            width: '100%', minHeight: 10, maxHeight: 70, p: 0.8,
-                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" },
-                            backgroundColor: 'rgb(187,188,188)', border: 0.5, borderColor: '#D4D7D7'
-                        }} variant='none'>
-                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} >
-                                {actual_requirement}
-                            </Typography>
-                        </Paper>
+                        {actual_requirement !== null ?
+                            <Paper sx={{
+                                width: '100%', minHeight: 10, maxHeight: 70, p: 0.8,
+                                overflow: 'auto', '::-webkit-scrollbar': { display: "none" },
+                                backgroundColor: 'rgb(187,188,188)', border: 0.5, borderColor: '#D4D7D7'
+                            }} variant='none'>
+                                <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} >
+                                    {actual_requirement}
+                                </Typography>
+                            </Paper> : null
+                        }
+
                     </Box>
                     <Box sx={{ pl: 2, width: "11%", }}>
                         <Typography level="title-sm" sx={{ color: 'white' }} endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Justification for need</Typography>

@@ -12,6 +12,10 @@ import ApprovalDetailComp from '../ComonComponent/ApprovalDetailComp'
 import ApproveButtonsCompnt from '../ComonComponent/ApproveButtonsCompnt'
 import CrfMSClose from './CrfMSClose'
 import CrfMSApprovalModal from './CrfMSApprovalModal'
+import HigherAppDoneModal from '../ComonComponent/HigherAppDoneModal'
+import { CssVarsProvider, Typography } from '@mui/joy'
+import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
+
 
 const CrfMSApproval = () => {
     /*** Initializing */
@@ -147,6 +151,12 @@ const CrfMSApproval = () => {
     const [cancelFlag, setCancelFlag] = useState(0)
     const [cancelModal, setCancelModal] = useState(false)
     const [cancelData, setCancelData] = useState([])
+
+    const [DetailViewFlag, setDetailViewFlag] = useState(0)
+    const [DetailViewModal, setDetailViewModal] = useState(false)
+    const [DetailViewData, setDetailViewData] = useState([])
+
+
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home')
@@ -154,6 +164,11 @@ const CrfMSApproval = () => {
 
     return (
         <Fragment>
+            {DetailViewFlag === 1 ? <HigherAppDoneModal
+                open={DetailViewModal} setDetailViewModal={setDetailViewModal}
+                DetailViewData={DetailViewData} setDetailViewData={setDetailViewData}
+                setDetailViewFlag={setDetailViewFlag}
+            /> : null}
             {cancelFlag === 1 ? <CrfMSClose open={cancelModal} setCancelData={setCancelData}
                 setCancelFlag={setCancelFlag} setCancelModal={setCancelModal}
                 count={count} setCount={setCount} cancelData={cancelData} /> : null}
@@ -185,10 +200,30 @@ const CrfMSApproval = () => {
                         }} variant='outlined'>
                             <MasterDetailCompnt val={val} />
                             <ApprovalDetailComp val={val} />
+                            {
+                                val.crf_close === 1 ?
+
+                                    <Box sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        pl: 1, pt: 1,
+                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                    }}>
+                                        <CssVarsProvider>
+                                            <Box sx={{ pr: 1, width: "20%", display: 'flex' }}>
+                                                <Typography level="title-sm" sx={{ color: 'white' }}
+                                                    endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Request Closed By</Typography>
+                                                <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >{val.crf_closed_one}</Typography>
+                                            </Box>
+                                        </CssVarsProvider>
+                                    </Box>
+                                    : null
+                            }
                             <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
                                 setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
                                 setCancelModal={setCancelModal} setApprovalData={setApprovalData}
-                                setCancelData={setCancelData} />
+                                setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
+                                setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal} />
                         </Paper>
                     </Box>
                 })}
