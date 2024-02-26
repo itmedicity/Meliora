@@ -18,7 +18,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetailViewData, setDetailViewFlag }) => {
+const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetailViewData, setDetailViewFlag, user }) => {
 
     const { req_slno, req_date, actual_requirement, needed, expected_date, incharge_approve, incharge_req,
         inch_detial_analysis, incharge, incharge_remark, incharge_user, incharge_apprv_date, hod_req,
@@ -29,7 +29,8 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
         manag_operation_user, senior_manage_approv, smo, senior_manage_remarks, smo_detial_analysis,
         som_aprrov_date, senior_manage_user, gm_approve, gm, gm_approve_remarks, gm_detial_analysis,
         gm_approv_date, gm_user, md_approve, md_approve_remarks, md_detial_analysis, md_approve_date,
-        md, md_user, ed_approve_remarks, ed_approve_date, ed_detial_analysis, ed_approve, ed, ed_user
+        md, md_user, ed_approve_remarks, ed_approve_date, ed_detial_analysis, ed_approve, ed, ed_user,
+        store_receive
     } = DetailViewData
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
     const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
@@ -110,7 +111,11 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
 
 
 
+    const submit = useCallback(() => {
 
+
+
+    }, [])
 
 
 
@@ -149,7 +154,7 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
-                        MD Approval
+                        Details View
                     </DialogContentText>
 
                     <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "column" }}>
@@ -1101,7 +1106,7 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
                     </Box>
                 </DialogContent>
                 <DialogActions>
-
+                    {user === 1 && store_receive === 1 ? <Button onClick={submit} color="secondary" >Save</Button> : null}
                     <Button onClick={ModalClose} color="secondary" >Cancel</Button>
                 </DialogActions>
             </Dialog>

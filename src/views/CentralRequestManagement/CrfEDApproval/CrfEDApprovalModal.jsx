@@ -361,20 +361,12 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
             }
         } else {
             if (approve !== false || reject !== false || pending !== false) {
-                if (approve === true && detailAnalis !== '' && remark !== '') {
-                    updateEDApproval(EDPatchData)
-                }
-                else if ((reject === true && remark !== '') || (pending === true && remark !== '')) {
-                    updateEDApproval(EDPatchData)
-                }
-                else {
-                    warningNotify("Justification must be Entered")
-                }
+                updateEDApproval(EDPatchData)
             } else {
                 warningNotify("Please Select any status")
             }
         }
-    }, [approve, reject, pending, remark, detailAnalis, EDPatchData, setCount, count, reset,
+    }, [approve, reject, pending, EDPatchData, setCount, count, reset,
         datacollFlag, datacolectremark, crfdept, id, req_slno])
 
     const ModalClose = useCallback(() => {

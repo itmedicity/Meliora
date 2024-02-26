@@ -1,15 +1,9 @@
 import { Box, Paper } from '@mui/material'
-import React, { useCallback, memo, useState, useEffect } from 'react'
-import { Chip, CssVarsProvider, Divider, IconButton, Typography } from '@mui/joy'
-import { axioslogin } from 'src/views/Axios/Axios';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import React, { memo, } from 'react'
+import { Chip, CssVarsProvider, Typography } from '@mui/joy'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import { editicon } from 'src/color/Color'
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import CustomeToolTip from 'src/views/Components/CustomeToolTip';
-import ReqImageDisModal from './ReqImageDisModal';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
 import ApartmentIcon from '@mui/icons-material/Apartment';
@@ -17,7 +11,6 @@ import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import CategoryIcon from '@mui/icons-material/Category';
 import GppMaybeIcon from '@mui/icons-material/GppMaybe';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import FilePresentIcon from '@mui/icons-material/FilePresent';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import Person3Icon from '@mui/icons-material/Person3';
 import RequestPageIcon from '@mui/icons-material/RequestPage';
@@ -26,39 +19,7 @@ import BalanceIcon from '@mui/icons-material/Balance';
 const MasterDetailCompnt = ({ val }) => {
 
     const { req_slno, req_date, dept_name, req_deptsec, user_deptsection, actual_requirement, needed,
-        category, location, expected_date, emergency_flag, em_name, emer_type_name, image_status,
-    } = val
-
-    const [imageshowFlag, setImageShowFlag] = useState(0)
-    const [imageshow, setImageShow] = useState(false)
-    const [imagearray, setImageArry] = useState([])
-
-    const ViewImage = useCallback(() => {
-        setImageShowFlag(1)
-        setImageShow(true)
-    }, [])
-
-    useEffect(() => {
-        const getImage = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const fileNames = data;
-                const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
-                });
-                setImageArry(fileUrls);
-            }
-        }
-        if (imageshowFlag === 1) {
-            getImage(req_slno)
-        }
-    }, [imageshowFlag, req_slno])
-
-    const handleClose = useCallback(() => {
-        setImageShowFlag(0)
-        setImageShow(false)
-    }, [])
+        category, location, expected_date, emergency_flag, em_name, emer_type_name } = val
 
 
     return (
@@ -67,8 +28,7 @@ const MasterDetailCompnt = ({ val }) => {
             display: "flex",
             flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
         }}>
-            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
-                images={imagearray} /> : null}
+
 
             <CssVarsProvider>
                 <Box sx={{
@@ -182,21 +142,6 @@ const MasterDetailCompnt = ({ val }) => {
                                 Created User</Typography>
                             <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{em_name}</Typography>
                         </Box>
-
-                        {/* <Box sx={{ pr: 1, display: 'flex', alignItems: 'center', flexGrow: 1 }}> */}
-                        {
-                            // image_status === 1 ?
-                            //     <Box sx={{ height: 10, }}>
-                            //         <IconButton onClick={ViewImage}
-                            //             sx={{ color: 'palegreen', pt: 0 }} >
-                            //             <FilePresentIcon fontSize='large' />
-                            //         </IconButton>
-
-                            //         {/* <Button onClick={ViewImage} variant="contained"
-                            //     size="small" color="primary">View Image</Button> */}
-                            //     </Box> : <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ textTransform: "capitalize" }} >No</Typography>
-                        }
-                        {/* </Box> */}
                     </Box>
                 </Box >
 
@@ -219,7 +164,7 @@ const MasterDetailCompnt = ({ val }) => {
                             backgroundColor: 'rgb(187,188,188)', border: 0.5, borderColor: '#D4D7D7'
                         }} variant='none'>
                             <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} >
-                                {actual_requirement}
+                                {actual_requirement !== null ? actual_requirement : "Not Given"}
                             </Typography>
                         </Paper>
                     </Box>
@@ -240,7 +185,7 @@ const MasterDetailCompnt = ({ val }) => {
                             width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15, textTransform: "capitalize",
                             overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
                         }} variant='none'>
-                            {needed}
+                            {needed !== null ? needed : "Not Given"}
                         </Paper>
                     </Box>
 

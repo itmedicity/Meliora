@@ -655,16 +655,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                 </Box>
                                 <ApprovedItemListDis ApproveData={ApproveTableData}
                                 />
-                            </Paper> : <Box sx={{
-                                width: "100%", display: "flex", p: 0.5, pb: 0,
-                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                            }}>
-                                <Box sx={{ pr: 9 }}>
-                                    <CssVarsProvider>
-                                        <Typography sx={{ fontSize: 15 }}>Requested Items: Nill</Typography>
-                                    </CssVarsProvider>
-                                </Box>
-                            </Box>
+                            </Paper> : null
                         }
 
                         <Box sx={{ width: "100%", mt: 0 }}>
@@ -914,7 +905,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                         }
 
                         {
-                            quatation_calling_status !== 1 && ack_status === 1 ?
+                            quatation_calling_status !== 1 && ack_status === 1 && po_prepartion !== 1 ?
                                 <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                     <Box sx={{
                                         display: 'flex', flexDirection: 'row', flexWrap: 'wrap',

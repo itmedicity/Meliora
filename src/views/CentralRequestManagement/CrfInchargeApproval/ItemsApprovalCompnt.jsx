@@ -135,9 +135,8 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
         //             </CustomeToolTip>
         //         </IconButton>
         // },
-
-
-        { headerName: "Slno", field: "slno", minWidth: 100, },
+        { headerName: "#", field: "slno", minWidth: 100, },
+        { headerName: "Item Slno", field: "item_slno", minWidth: 100, },
         { headerName: "Old slno", field: "old_item_slno", minWidth: 100, },
         { headerName: "Description", field: "approve_item_desc", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Brand", field: "approve_item_brand", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
@@ -146,8 +145,6 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
         { headerName: "Specification", field: "approve_item_specification", minWidth: 250, },
         { headerName: "Unit Price", field: "approve_item_unit_price", minWidth: 150, },
         { headerName: "Approximate Cost", field: "approve_aprox_cost", minWidth: 200, },
-
-
     ])
 
     const [editEnable, setEditEnable] = useState(0)

@@ -12,7 +12,8 @@ const ApprovedItemListDis = ({ ApproveData }) => {
                     sx={{ border: "0.2px solid" }}>
                     <TableHead sx={{ border: "1px " }}>
                         <TableRow  >
-                            <TableCell align="center" >Slno</TableCell>
+                            <TableCell align="center" >#</TableCell>
+                            <TableCell align="center" >Item slno</TableCell>
                             <TableCell align="left" > Old Slno</TableCell>
                             <TableCell align="left" > Description</TableCell>
                             <TableCell align="center">Req. Brand</TableCell>
@@ -33,6 +34,7 @@ const ApprovedItemListDis = ({ ApproveData }) => {
                                 }}
                             >
                                 <TableCell align="center">{index + 1}</TableCell>
+                                <TableCell align="center">{val.item_slno}</TableCell>
                                 <TableCell align="left">{val.old_item_slno}</TableCell>
                                 <TableCell align="left">{val.approve_item_desc}</TableCell>
                                 <TableCell align="center">{val.approve_item_brand}</TableCell>

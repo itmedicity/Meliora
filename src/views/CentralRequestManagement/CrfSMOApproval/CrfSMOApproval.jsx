@@ -1,40 +1,69 @@
 import { Box, Paper } from '@mui/material'
 import React, { useCallback, memo, useState, Fragment, useEffect } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { useSelector } from 'react-redux'
-import _ from 'underscore'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import { useHistory } from 'react-router-dom'
 import MasterDetailCompnt from '../ComonComponent/MasterDetailCompnt'
 import CloseIcon from '@mui/icons-material/Close';
 import CusIconButton from 'src/views/Components/CusIconButton'
-import ApprovalDetailComp from '../ComonComponent/ApprovalDetailComp'
 import ApproveButtonsCompnt from '../ComonComponent/ApproveButtonsCompnt'
 import CrfSMOClose from './CrfSMOClose'
 import CrfSMOApprovalModal from './CrfSMOApprovalModal'
 import HigherAppDoneModal from '../ComonComponent/HigherAppDoneModal'
-import { CssVarsProvider, Typography } from '@mui/joy'
-import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
+import CusCheckBox from 'src/views/Components/CusCheckBox'
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import ReqImageDisModal from '../ComonComponent/ReqImageDisModal'
+import { ToastContainer } from 'react-toastify'
 
 const CrfSMOApproval = () => {
 
     /*** Initializing */
     const history = useHistory();
-    //redux for geting login id
-    //  const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-    const deptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
-    const [disData, setDisData] = useState([])
+
     const [count, setCount] = useState(0)
+    const [done, setDone] = useState(false)
+    const [pending, setPending] = useState(true)
+    const [check, setCheck] = useState(0)
+
+    const updatedone = useCallback((e) => {
+        if (e.target.checked === true) {
+            setDone(true)
+            setCheck(2)
+            setPending(false)
+        }
+        else {
+            setDone(false)
+            setCheck(0)
+            setPending(false)
+        }
+    }, [])
+    const updatependng = useCallback((e) => {
+        if (e.target.checked === true) {
+            setPending(true)
+            setCheck(1)
+            setDone(false)
+        }
+        else {
+            setDone(false)
+            setCheck(0)
+            setPending(false)
+        }
+    }, [])
+
+    const [pendingData, setPendingData] = useState([])
+    const [donedata, setDoneData] = useState([])
+
+
     useEffect(() => {
 
         const getReqDeptsecList = async () => {
-            const result = await axioslogin.get(`/newCRFRegister/getAllReqBasedDept/${deptsec}`)
+            const result = await axioslogin.get('/newCRFRegister/getApprovList/others');
             const { success, data } = result.data
             if (success === 1) {
-                const incharge = data.filter((val) => {
-                    return val.dms_req === 1 && val.crf_close !== 1 && val.incharge_approve === 1
+                const smolist = data.filter((val) => {
+                    return val.senior_manage_req === 1 && val.crf_close !== 1
                 })
-                const datas = incharge.map((val) => {
+                const datas = smolist.map((val) => {
                     const obj = {
                         req_slno: val.req_slno,
                         actual_requirement: val.actual_requirement,
@@ -131,18 +160,52 @@ const CrfSMOApproval = () => {
                         ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
                         ed_approve_date: val.ed_approve_date,
                         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
-                        higher: val.gm_approve !== null ? 1 : 0
+                        higher: val.gm_approve !== null ? 1 : 0,
+                        now_who: val.ed_approve !== null ? "ED" :
+                            val.md_approve !== null ? "MD" :
+                                val.gm_approve !== null ? "GM" :
+                                    val.senior_manage_approv !== null ? "SMO" :
+                                        val.manag_operation_approv !== null ? "MO" :
+                                            val.ms_approve !== null ? "MS" :
+                                                val.dms_approve !== null ? "DMS" :
+                                                    val.hod_approve !== null ? "HOD" :
+                                                        val.incharge_approve !== null ? "INCHARGE" :
+                                                            "Not Statrted",
+                        now_who_status: val.ed_approve !== null ? val.ed_approve :
+                            val.md_approve !== null ? val.md_approve :
+                                val.gm_approve !== null ? val.gm_approve :
+                                    val.senior_manage_approv !== null ? val.senior_manage_approv :
+                                        val.manag_operation_approv !== null ? val.manag_operation_approv :
+                                            val.ms_approve !== null ? val.ms_approve :
+                                                val.dms_approve !== null ? val.dms_approve :
+                                                    val.hod_approve !== null ? val.hod_approve :
+                                                        val.incharge_approve !== null ? val.incharge_approve :
+                                                            0
+
 
                     }
                     return obj
                 })
-                setDisData(datas)
+                const pendingList = datas.filter((val) => {
+                    return val.senior_manage_approv === null
+                })
+                if (pendingList.length !== 0) {
+                    setPendingData(pendingList)
+                }
+                else {
+                    warningNotify("No CRF For Pending")
+                }
+
+                const DoneList = datas.filter((val) => {
+                    return val.senior_manage_approv !== null
+                })
+                setDoneData(DoneList)
             } else {
-                warningNotify("Error occured contact EDP")
+                warningNotify("No CRF For Pending")
             }
         }
-        getReqDeptsecList(deptsec);
-    }, [deptsec, count])
+        getReqDeptsecList();
+    }, [count])
 
     const [ApprovalFlag, setApprovalFlag] = useState(0)
     const [ApprovalModal, setApprovalModal] = useState(false)
@@ -156,6 +219,36 @@ const CrfSMOApproval = () => {
     const [DetailViewModal, setDetailViewModal] = useState(false)
     const [DetailViewData, setDetailViewData] = useState([])
 
+    const [imageshowFlag, setImageShowFlag] = useState(0)
+    const [imageshow, setImageShow] = useState(false)
+    const [imageSlno, setImageSlno] = useState(0)
+    const [imagearray, setImageArry] = useState([])
+
+
+    useEffect(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
+                setImageArry(fileUrls);
+            }
+        }
+        if (imageshowFlag === 1) {
+            getImage(imageSlno)
+        }
+    }, [imageshowFlag, imageSlno])
+
+    const handleClose = useCallback(() => {
+        setImageShowFlag(0)
+        setImageShow(false)
+        setImageSlno(0)
+        setImageArry([])
+    }, [])
+
 
     //close button function
     const backtoSetting = useCallback(() => {
@@ -163,10 +256,9 @@ const CrfSMOApproval = () => {
     }, [history])
 
 
-
-
     return (
         <Fragment>
+            <ToastContainer />
             {DetailViewFlag === 1 ? <HigherAppDoneModal
                 open={DetailViewModal} setDetailViewModal={setDetailViewModal}
                 DetailViewData={DetailViewData} setDetailViewData={setDetailViewData}
@@ -180,6 +272,9 @@ const CrfSMOApproval = () => {
                 setApprovalModal={setApprovalModal} setApprovalFlag={setApprovalFlag}
                 count={count} setCount={setCount} setApprovalData={setApprovalData} /> : null}
 
+            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
+                images={imagearray} /> : null}
+
             <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
                 <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF Verification Approval</Box>
                 <Box>
@@ -188,48 +283,95 @@ const CrfSMOApproval = () => {
                     </CusIconButton>
                 </Box>
             </Box>
-            <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>
-
-                {disData && disData.map((val) => {
-                    return <Box key={val.req_slno} sx={{ width: "100%", }}>
-                        <Paper sx={{
-                            width: '100%',
-                            mt: 0.8,
-                            border: "2 solid #272b2f",
-                            borderRadius: 3,
-                            overflow: 'hidden',
-                            boxShadow: 1,
-                            backgroundColor: '#BBBCBC'
-                        }} variant='outlined'>
-                            <MasterDetailCompnt val={val} />
-                            <ApprovalDetailComp val={val} />
-                            {
-                                val.crf_close === 1 ?
-
-                                    <Box sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        pl: 1, pt: 1,
-                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                    }}>
-                                        <CssVarsProvider>
-                                            <Box sx={{ pr: 1, width: "20%", display: 'flex' }}>
-                                                <Typography level="title-sm" sx={{ color: 'white' }}
-                                                    endDecorator={<KeyboardArrowRightOutlinedIcon sx={{ color: 'white' }} />} >Request Closed By</Typography>
-                                                <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >{val.crf_closed_one}</Typography>
-                                            </Box>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    : null
-                            }
-                            <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
-                                setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
-                                setCancelModal={setCancelModal} setApprovalData={setApprovalData}
-                                setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
-                                setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal} />
-                        </Paper>
+            <Paper >
+                <Box sx={{
+                    width: "100%",
+                    pl: 1, pt: 0.5, pr: 1, pb: 0.5, flex: 1,
+                    display: "flex",
+                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                    justifyContent: 'center',
+                }}>
+                    <Box sx={{ width: "13%", pr: 1, mt: 1 }}>
+                        <CusCheckBox
+                            label="Pending"
+                            color="danger"
+                            size="md"
+                            name="pending"
+                            value={pending}
+                            checked={pending}
+                            onCheked={updatependng}
+                        />
                     </Box>
-                })}
+                    <Box sx={{ width: "13%", mt: 1 }}>
+                        <CusCheckBox
+                            label="All List"
+                            color="danger"
+                            size="md"
+                            name="done"
+                            value={done}
+                            checked={done}
+                            onCheked={updatedone}
+                        />
+                    </Box>
+                </Box>
+            </Paper>
+
+            <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>
+                {check === 2 ?
+                    <Box sx={{ width: "100%" }}>
+
+                        {donedata && donedata.map((val) => {
+                            return <Box key={val.req_slno} sx={{ width: "100%", }}>
+                                <Paper sx={{
+                                    width: '100%',
+                                    mt: 0.8,
+                                    border: "2 solid #272b2f",
+                                    borderRadius: 3,
+                                    overflow: 'hidden',
+                                    boxShadow: 1,
+                                    backgroundColor: '#BBBCBC'
+                                }} variant='outlined'>
+                                    <MasterDetailCompnt val={val} />
+                                    <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
+                                        setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
+                                        setCancelModal={setCancelModal} setApprovalData={setApprovalData}
+                                        setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
+                                        setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal}
+                                        setImageShowFlag={setImageShowFlag} setImageShow={setImageShow}
+                                        setImageSlno={setImageSlno}
+                                    />
+                                </Paper>
+                            </Box>
+                        })}
+                    </Box>
+
+                    :
+                    <Box>
+                        {pendingData && pendingData.map((val) => {
+                            return <Box key={val.req_slno} sx={{ width: "100%", }}>
+                                <Paper sx={{
+                                    width: '100%',
+                                    mt: 0.8,
+                                    border: "2 solid #272b2f",
+                                    borderRadius: 3,
+                                    overflow: 'hidden',
+                                    boxShadow: 1,
+                                    backgroundColor: '#BBBCBC'
+                                }} variant='outlined'>
+                                    <MasterDetailCompnt val={val} />
+                                    <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
+                                        setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
+                                        setCancelModal={setCancelModal} setApprovalData={setApprovalData}
+                                        setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
+                                        setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal}
+                                        setImageShowFlag={setImageShowFlag} setImageShow={setImageShow}
+                                        setImageSlno={setImageSlno}
+                                    />
+                                </Paper>
+                            </Box>
+                        })}
+                    </Box>
+                }
             </Box>
         </Fragment>
     )

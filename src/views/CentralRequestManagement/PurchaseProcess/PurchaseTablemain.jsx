@@ -9,6 +9,7 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import PurchaseApprovalButton from './PurchaseApprovalButton'
 import PurchaseModal from './PurchaseModal'
+import { ToastContainer } from 'react-toastify'
 
 
 const PurchaseTablemain = () => {
@@ -117,6 +118,7 @@ const PurchaseTablemain = () => {
 
     return (
         <Fragment>
+            <ToastContainer />
             {
                 puchaseFlag === 1 ? <PurchaseModal open={puchaseModal}
                     setpuchaseFlag={setpuchaseFlag} setpuchaseModal={setpuchaseModal}

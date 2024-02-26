@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import React, { useCallback, memo } from 'react'
+import React, { useCallback, memo, } from 'react'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import SubtitlesOffIcon from '@mui/icons-material/SubtitlesOff';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
@@ -8,18 +8,18 @@ import { Button, CssVarsProvider, Tooltip, Typography } from '@mui/joy';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import ButtonGroup from '@mui/joy/ButtonGroup';
-import IconButton from '@mui/joy/IconButton';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ThumbDownOffAltOutlinedIcon from '@mui/icons-material/ThumbDownOffAltOutlined';
 import PauseCircleOutlineOutlinedIcon from '@mui/icons-material/PauseCircleOutlineOutlined';
 import BackHandOutlinedIcon from '@mui/icons-material/BackHandOutlined';
-import { useState } from 'react';
 import DescriptionIcon from '@mui/icons-material/Description';
-const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag, setCancelModal,
-    setApprovalData, setCancelData, val, setDetailViewFlag, setDetailViewData, setDetailViewModal }) => {
-    const [crfStat, setCrfStatus] = useState(0)
 
-    const { higher, crf_close } = val
+
+const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag, setCancelModal,
+    setApprovalData, setCancelData, val, setDetailViewFlag, setDetailViewData, setDetailViewModal,
+    setImageShowFlag, setImageShow, setImageSlno }) => {
+
+    const { higher, crf_close, image_status, crf_closed_one, ed_approve, md_approve, now_who, now_who_status } = val
     const Approvalfctn = useCallback(() => {
         setApprovalFlag(1)
         setApprovalModal(true)
@@ -32,7 +32,6 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
         setCancelData(val)
     }, [setCancelFlag, setCancelModal, setCancelData, val])
 
-
     const DataViewfnctn = useCallback(() => {
         setDetailViewFlag(1)
         setDetailViewData(val)
@@ -41,11 +40,19 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
 
 
     const approveComp = (val) => {
-        return val === 0 ? <Tooltip title="Approved" arrow color="success" size="sm" variant="solid" placement="top"><ThumbUpAltOutlinedIcon sx={{ color: 'white' }} /></Tooltip>
-            : val === 1 ? <Tooltip title="Not Approved" arrow color="danger" size="sm" variant="solid" placement="top"><ThumbDownOffAltOutlinedIcon sx={{ color: 'white' }} /></Tooltip>
-                : val === 2 ? <Tooltip title="On Hold" arrow color='warning' size="sm" variant="solid" placement="top"><BackHandOutlinedIcon sx={{ color: 'white' }} /></Tooltip>
-                    : <Tooltip title="Pending" arrow color="neutral" size="sm" variant="solid" placement="top"><PauseCircleOutlineOutlinedIcon sx={{ color: 'white' }} /></Tooltip>
+        return val === 1 ? <Tooltip title="Approved" arrow color="success" size="sm" variant="solid" placement="top"><ThumbUpAltOutlinedIcon sx={{ color: 'white' }} /></Tooltip>
+            : val === 2 ? <Tooltip title="Reject" arrow color="danger" size="sm" variant="solid" placement="top"><ThumbDownOffAltOutlinedIcon sx={{ color: 'white' }} /></Tooltip>
+                : val === 3 ? <Tooltip title="On Hold" arrow color='warning' size="sm" variant="solid" placement="top"><PauseCircleOutlineOutlinedIcon sx={{ color: 'white' }} /></Tooltip>
+                    : <Tooltip title="Pending" arrow color="neutral" size="sm" variant="solid" placement="top">< BackHandOutlinedIcon sx={{ color: 'white' }} /></Tooltip>
     }
+
+    const ViewImage = useCallback(() => {
+        const { req_slno } = val
+        setImageShowFlag(1)
+        setImageShow(true)
+        setImageSlno(req_slno)
+    }, [val, setImageShowFlag, setImageShow, setImageSlno])
+
 
     return (
         <Box sx={{
@@ -53,6 +60,8 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
             display: 'flex', width: "100%",
             flexDirection: "row", pt: 0.5, pb: 0.5, justifyContent: 'space-between'
         }}>
+            {/* {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
+                images={imagearray} /> : null} */}
             <Box sx={{ display: 'flex', }} >
                 <Box>
                     {
@@ -97,47 +106,58 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                         >
                             <Button variant='solid' color='primary' >status</Button>
                             <Button
-                                startDecorator={<Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>HOD</Typography>}
-                                endDecorator={<Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>dsafsdasds</Typography>}
+                                startDecorator={<Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>{now_who}</Typography>}
+                                endDecorator={<Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>
+                                    {now_who_status === 1 ? "Approved" : now_who_status === 2 ? "Rejected" :
+                                        now_who_status === 3 ? "On-Hold" : "Not Started Yet"
+                                    }</Typography>}
                             />
                             <Button variant='solid'
-                                color={crfStat === 0 ? 'success' : crfStat === 1 ? 'danger' : crfStat === 2 ? 'primary' : crfStat === 3 ? 'warning' : 'neutral'}
+                                color={now_who_status === 1 ? 'success' : now_who_status === 2 ? 'danger' :
+                                    now_who_status === 3 ? 'warning' : 'neutral'}
                             >
-                                {approveComp(0)}
+                                {approveComp(now_who_status)}
                             </Button>
                         </ButtonGroup>
                     </Box>
-                    <Box sx={{ mx: 0.5 }}>
-                        <Button
-                            color="primary"
-                            onClick={function () { }}
-                            size="sm"
-                            variant="outlined"
-                        ><AttachFileIcon /></Button>
-                    </Box>
-                    <Box sx={{ mx: 0.5 }}>
-                        <Button
-                            color="danger"
-                            onClick={function () { }}
-                            size="sm"
-                            variant="outlined"
-                            startDecorator={<Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>InCharge</Typography>}
-                            endDecorator={<ThumbUpOffAltIcon />}
-                        >Closed CRF</Button>
-                    </Box>
-                    <Box sx={{ mx: 0.5 }}>
-                        <Button
-                            color="success"
-                            onClick={function () { }}
-                            size="sm"
-                            variant="outlined"
-                            endDecorator={<ThumbUpOffAltIcon />}
-                        >Approved CRF</Button>
-                    </Box>
-                </CssVarsProvider>
-            </Box>
+                    {image_status === 1 ?
+                        <Box sx={{ mx: 0.5 }}>
+                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewImage}  >
+                                <AttachFileIcon fontSize='small' sx={{ ml: 1 }} />
+                            </CusIconButton>
+                        </Box> : null
+                    }
+                    {
+                        crf_close === 1 ?
+                            <Box sx={{ mx: 0.5 }}>
+                                <Button
+                                    color="danger"
+                                    //  onClick={function () { }}
+                                    size="sm"
+                                    variant="outlined"
+                                    startDecorator={<Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>{crf_closed_one}</Typography>}
+                                    endDecorator={<ThumbUpOffAltIcon />}
+                                >Closed CRF</Button>
+                            </Box> : null
 
-        </Box>
+                    }
+                    {ed_approve === 1 && md_approve === 1 ?
+                        <Box sx={{ mx: 0.5 }}>
+                            <Button
+                                color="success"
+                                //  onClick={function () { }}
+                                size="sm"
+                                variant="outlined"
+                                endDecorator={<ThumbUpOffAltIcon />}
+                            >Approved CRF</Button>
+                        </Box> : null
+
+                    }
+
+                </CssVarsProvider>
+            </Box >
+
+        </Box >
     )
 }
 
