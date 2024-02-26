@@ -1,8 +1,6 @@
 import { Box, Paper } from '@mui/material'
 import React, { useCallback, memo, useState, Fragment, useEffect } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { useSelector } from 'react-redux'
-import _ from 'underscore'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import { useHistory } from 'react-router-dom'
 import MasterDetailCompnt from '../ComonComponent/MasterDetailCompnt'
@@ -21,9 +19,7 @@ const CrfDMSApproval = () => {
 
     /*** Initializing */
     const history = useHistory();
-    //redux for geting login id
-    //  const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-    const deptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+
     const [count, setCount] = useState(0)
 
     const [done, setDone] = useState(false)
@@ -206,8 +202,8 @@ const CrfDMSApproval = () => {
                 warningNotify("No CRF For Pending")
             }
         }
-        getReqDeptsecList(deptsec);
-    }, [deptsec, count])
+        getReqDeptsecList();
+    }, [count])
 
     const [ApprovalFlag, setApprovalFlag] = useState(0)
     const [ApprovalModal, setApprovalModal] = useState(false)

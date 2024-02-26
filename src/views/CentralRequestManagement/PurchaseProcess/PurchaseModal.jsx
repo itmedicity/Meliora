@@ -1072,7 +1072,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                                                         justifyContent: "space-between"
                                                                                                     }}>
                                                                                                     <CssVarsProvider>
-                                                                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quatation Fixing :
+                                                                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quatation Finalizing :
                                                                                                             {
                                                                                                                 quatation_fixing === 1 ?
                                                                                                                     <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> Yes

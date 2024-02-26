@@ -70,6 +70,9 @@ const PurchaseTablemain = () => {
                         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
                         ed_detial_analysis: val.ed_detial_analysis,
 
+                        edid: val.edid,
+                        mdid: val.mdid,
+
                         crm_purchase_slno: val.crm_purchase_slno,
                         ack_status: val.ack_status,
                         ack_remarks: val.ack_remarks,

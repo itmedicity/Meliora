@@ -19,7 +19,8 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
     setApprovalData, setCancelData, val, setDetailViewFlag, setDetailViewData, setDetailViewModal,
     setImageShowFlag, setImageShow, setImageSlno }) => {
 
-    const { higher, crf_close, image_status, crf_closed_one, ed_approve, md_approve, now_who, now_who_status } = val
+    const { higher, crf_close, image_status, crf_closed_one, ed_approve, md_approve,
+        now_who, now_who_status, emergency_flag } = val
     const Approvalfctn = useCallback(() => {
         setApprovalFlag(1)
         setApprovalModal(true)
@@ -56,13 +57,16 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
 
     return (
         <Box sx={{
-            height: 40, backgroundColor: "#f0f3f5",
+            height: 40, backgroundColor:
+                emergency_flag === 1 && md_approve !== 1 && ed_approve !== 1 ? "#edd8e0" :
+                    md_approve === 1 && ed_approve === 1 ? "#e6edd8" :
+                        "#f0f3f5",
             display: 'flex', width: "100%",
             flexDirection: "row", pt: 0.5, pb: 0.5, justifyContent: 'space-between'
         }}>
             {/* {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
                 images={imagearray} /> : null} */}
-            <Box sx={{ display: 'flex', }} >
+            < Box sx={{ display: 'flex', }} >
                 <Box>
                     {
                         higher === 1 ?
@@ -94,7 +98,7 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                         </Box>
                     </CustomeToolTip>
                 </Box>
-            </Box>
+            </Box >
 
             <Box sx={{ display: 'flex', mr: 1 }} >
                 <CssVarsProvider>
@@ -109,7 +113,7 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                                 startDecorator={<Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>{now_who}</Typography>}
                                 endDecorator={<Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>
                                     {now_who_status === 1 ? "Approved" : now_who_status === 2 ? "Rejected" :
-                                        now_who_status === 3 ? "On-Hold" : "Not Started Yet"
+                                        now_who_status === 3 ? "On-Hold" : ""
                                     }</Typography>}
                             />
                             <Button variant='solid'
