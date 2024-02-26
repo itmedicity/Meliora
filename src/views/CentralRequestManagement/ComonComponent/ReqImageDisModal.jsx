@@ -5,7 +5,8 @@ import { CssVarsProvider } from '@mui/joy';
 import { Box } from '@mui/material'
 import Button from '@mui/joy/Button';
 
-const ImageDisplayModal = ({ open, handleClose, images }) => {
+const ReqImageDisModal = ({ open, handleClose, images }) => {
+
 
     const [disArry, setDissArry] = useState([])
     useEffect(() => {
@@ -22,6 +23,7 @@ const ImageDisplayModal = ({ open, handleClose, images }) => {
             setDissArry(disimage)
         }
     }, [images])
+
 
 
     return (
@@ -74,4 +76,4 @@ const ImageDisplayModal = ({ open, handleClose, images }) => {
     )
 }
 
-export default memo(ImageDisplayModal)
+export default memo(ReqImageDisModal)

@@ -51,13 +51,13 @@ const CrmNewTransaction = [
         to: '/Home/CRFNewMSApproval',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
-    // {
-    //     men_slno: 125,
-    //     component: CNavItem,
-    //     name: 'CRF Data Collection',
-    //     to: '/Home/CrfDataCollection',
-    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    // },
+    {
+        men_slno: 200,
+        component: CNavItem,
+        name: 'CRF Data Collection',
+        to: '/Home/CrfNewDataCollection',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
     {
         men_slno: 194,
         component: CNavItem,
@@ -91,6 +91,27 @@ const CrmNewTransaction = [
         component: CNavItem,
         name: 'ED Approval',
         to: '/Home/CRFNewEDApproval',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 201,
+        component: CNavItem,
+        name: 'PDF View',
+        to: '/Home/CRFNewPdfView',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 202,
+        component: CNavItem,
+        name: 'CRF Purchase',
+        to: '/Home/CRFNewPurchase',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 203,
+        component: CNavItem,
+        name: 'CRF Store',
+        to: '/Home/CRFNewStore',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 ]

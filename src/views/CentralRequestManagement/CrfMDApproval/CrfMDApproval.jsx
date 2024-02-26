@@ -1,39 +1,68 @@
 import { Box, Paper } from '@mui/material'
 import React, { useCallback, memo, useState, Fragment, useEffect } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { useSelector } from 'react-redux'
-import _ from 'underscore'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import { useHistory } from 'react-router-dom'
 import MasterDetailCompnt from '../ComonComponent/MasterDetailCompnt'
 import CloseIcon from '@mui/icons-material/Close';
 import CusIconButton from 'src/views/Components/CusIconButton'
-import ApprovalDetailComp from '../ComonComponent/ApprovalDetailComp'
 import ApproveButtonsCompnt from '../ComonComponent/ApproveButtonsCompnt'
 import CrfMDClose from './CrfMDClose'
 import CrfMDApprovalModal from './CrfMDApprovalModal'
-
-
+import HigherAppDoneModal from '../ComonComponent/HigherAppDoneModal'
+import CusCheckBox from 'src/views/Components/CusCheckBox'
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import ReqImageDisModal from '../ComonComponent/ReqImageDisModal'
+import { ToastContainer } from 'react-toastify'
 
 const CrfMDApproval = () => {
 
     /*** Initializing */
     const history = useHistory();
-    //redux for geting login id
-    //  const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-    const deptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
-    const [disData, setDisData] = useState([])
+
     const [count, setCount] = useState(0)
+    const [done, setDone] = useState(false)
+    const [pending, setPending] = useState(true)
+    const [check, setCheck] = useState(0)
+
+    const updatedone = useCallback((e) => {
+        if (e.target.checked === true) {
+            setDone(true)
+            setCheck(2)
+            setPending(false)
+        }
+        else {
+            setDone(false)
+            setCheck(0)
+            setPending(false)
+        }
+    }, [])
+    const updatependng = useCallback((e) => {
+        if (e.target.checked === true) {
+            setPending(true)
+            setCheck(1)
+            setDone(false)
+        }
+        else {
+            setDone(false)
+            setCheck(0)
+            setPending(false)
+        }
+    }, [])
+
+    const [pendingData, setPendingData] = useState([])
+    const [donedata, setDoneData] = useState([])
+
     useEffect(() => {
 
         const getReqDeptsecList = async () => {
-            const result = await axioslogin.get(`/newCRFRegister/getAllReqBasedDept/${deptsec}`)
+            const result = await axioslogin.get('/newCRFRegister/getApprovList/others');
             const { success, data } = result.data
             if (success === 1) {
-                const incharge = data.filter((val) => {
-                    return val.incharge_approve === 1 && val.crf_close !== 1
+                const mdlist = data.filter((val) => {
+                    return val.md_approve_req === 1 && val.crf_close !== 1
                 })
-                const datas = incharge.map((val) => {
+                const datas = mdlist.map((val) => {
                     const obj = {
                         req_slno: val.req_slno,
                         actual_requirement: val.actual_requirement,
@@ -76,7 +105,7 @@ const CrfMDApproval = () => {
                         hod: val.hod_approve === 1 ? "Approved" : val.hod_approve === 2 ? "Reject" :
                             val.hod_approve === 3 ? "On-Hold" : "Not Done",
                         hod_remarks: val.hod_remarks !== null ? val.hod_remarks : "Not Done",
-                        hod_detial_analysis: val.hod_detial_analysis !== null ? val.hod_detial_analysis : "Not Done",
+                        hod_detial_analysis: val.hod_detial_analysis,
                         hod_approve_date: val.hod_approve_date,
                         hod_user: val.hod_user !== null ? val.hod_user.toLowerCase() : '',
 
@@ -84,8 +113,8 @@ const CrfMDApproval = () => {
                         dms_approve: val.dms_approve,
                         dms: val.dms_approve === 1 ? "Approved" : val.dms_approve === 2 ? "Reject" :
                             val.dms_approve === 3 ? "On-Hold" : "Not Done",
-                        dms_remarks: val.dms_remarks !== null ? val.dms_remarks : '',
-                        dms_detail_analysis: val.dms_detail_analysis !== null ? val.dms_detail_analysis : '',
+                        dms_remarks: val.dms_remarks,
+                        dms_detail_analysis: val.dms_detail_analysis,
                         dms_approve_date: val.dms_approve_date,
                         dms_user: val.dms_user !== null ? val.dms_user.toLowerCase() : '',
 
@@ -93,7 +122,7 @@ const CrfMDApproval = () => {
                         ms_approve: val.ms_approve,
                         ms: val.ms_approve === 1 ? "Approved" : val.ms_approve === 2 ? "Reject" :
                             val.ms_approve === 3 ? "On-Hold" : "Not Done",
-                        ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : "Not Updated",
+                        ms_approve_remark: val.ms_approve_remark,
                         ms_approve_date: val.ms_approve_date,
                         ms_approve_user: val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
                         ms_detail_analysis: val.ms_detail_analysis,
@@ -126,27 +155,64 @@ const CrfMDApproval = () => {
                         md_approve: val.md_approve,
                         md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Reject" :
                             val.md_approve === 3 ? "On-Hold" : "Not Done",
-                        md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : "Not Updated",
+                        md_approve_remarks: val.md_approve_remarks,
                         md_approve_date: val.md_approve_date,
                         md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
+                        md_detial_analysis: val.md_detial_analysis,
+
                         ed_approve: val.ed_approve,
                         ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Reject" :
                             val.ed_approve === 3 ? "On-Hold" : "Not Done",
                         ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
                         ed_approve_date: val.ed_approve_date,
                         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
-                        higher: 0
+                        ed_detial_analysis: val.ed_detial_analysis,
+                        higher: 0,
+                        now_who: val.ed_approve !== null ? "ED" :
+                            val.md_approve !== null ? "MD" :
+                                val.gm_approve !== null ? "GM" :
+                                    val.senior_manage_approv !== null ? "SMO" :
+                                        val.manag_operation_approv !== null ? "MO" :
+                                            val.ms_approve !== null ? "MS" :
+                                                val.dms_approve !== null ? "DMS" :
+                                                    val.hod_approve !== null ? "HOD" :
+                                                        val.incharge_approve !== null ? "INCHARGE" :
+                                                            "Not Statrted",
+                        now_who_status: val.ed_approve !== null ? val.ed_approve :
+                            val.md_approve !== null ? val.md_approve :
+                                val.gm_approve !== null ? val.gm_approve :
+                                    val.senior_manage_approv !== null ? val.senior_manage_approv :
+                                        val.manag_operation_approv !== null ? val.manag_operation_approv :
+                                            val.ms_approve !== null ? val.ms_approve :
+                                                val.dms_approve !== null ? val.dms_approve :
+                                                    val.hod_approve !== null ? val.hod_approve :
+                                                        val.incharge_approve !== null ? val.incharge_approve :
+                                                            0
+
 
                     }
                     return obj
                 })
-                setDisData(datas)
+                const pendingList = datas.filter((val) => {
+                    return val.md_approve === null
+                })
+                if (pendingList.length !== 0) {
+                    setPendingData(pendingList)
+                }
+                else {
+                    warningNotify("No CRF For Pending")
+                }
+
+                const DoneList = datas.filter((val) => {
+                    return val.md_approve !== null
+                })
+                setDoneData(DoneList)
             } else {
-                warningNotify("Error occured contact EDP")
+                warningNotify("No CRF For Pending")
             }
         }
-        getReqDeptsecList(deptsec);
-    }, [deptsec, count])
+        getReqDeptsecList();
+    }, [count])
 
     const [ApprovalFlag, setApprovalFlag] = useState(0)
     const [ApprovalModal, setApprovalModal] = useState(false)
@@ -155,6 +221,43 @@ const CrfMDApproval = () => {
     const [cancelFlag, setCancelFlag] = useState(0)
     const [cancelModal, setCancelModal] = useState(false)
     const [cancelData, setCancelData] = useState([])
+
+    const [DetailViewFlag, setDetailViewFlag] = useState(0)
+    const [DetailViewModal, setDetailViewModal] = useState(false)
+    const [DetailViewData, setDetailViewData] = useState([])
+
+    const [imageshowFlag, setImageShowFlag] = useState(0)
+    const [imageshow, setImageShow] = useState(false)
+    const [imageSlno, setImageSlno] = useState(0)
+    const [imagearray, setImageArry] = useState([])
+
+
+    useEffect(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
+                setImageArry(fileUrls);
+            }
+        }
+        if (imageshowFlag === 1) {
+            getImage(imageSlno)
+        }
+    }, [imageshowFlag, imageSlno])
+
+
+    const handleClose = useCallback(() => {
+        setImageShowFlag(0)
+        setImageShow(false)
+        setImageSlno(0)
+        setImageArry([])
+    }, [])
+
+
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home')
@@ -164,6 +267,12 @@ const CrfMDApproval = () => {
 
     return (
         <Fragment>
+            <ToastContainer />
+            {DetailViewFlag === 1 ? <HigherAppDoneModal
+                open={DetailViewModal} setDetailViewModal={setDetailViewModal}
+                DetailViewData={DetailViewData} setDetailViewData={setDetailViewData}
+                setDetailViewFlag={setDetailViewFlag}
+            /> : null}
             {cancelFlag === 1 ? <CrfMDClose open={cancelModal} setCancelData={setCancelData}
                 setCancelFlag={setCancelFlag} setCancelModal={setCancelModal}
                 count={count} setCount={setCount} cancelData={cancelData} /> : null}
@@ -171,6 +280,9 @@ const CrfMDApproval = () => {
             {ApprovalFlag === 1 ? <CrfMDApprovalModal open={ApprovalModal} ApprovalData={ApprovalData}
                 setApprovalModal={setApprovalModal} setApprovalFlag={setApprovalFlag}
                 count={count} setCount={setCount} setApprovalData={setApprovalData} /> : null}
+
+            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
+                images={imagearray} /> : null}
 
             <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
                 <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>MD Approval</Box>
@@ -180,27 +292,95 @@ const CrfMDApproval = () => {
                     </CusIconButton>
                 </Box>
             </Box>
-            <Box sx={{ height: window.innerHeight - 130, overflow: 'auto', }}>
-                {disData && disData.map((val) => {
-                    return <Box key={val.req_slno} sx={{ width: "100%", }}>
-                        <Paper sx={{
-                            width: '100%',
-                            mt: 0.8,
-                            border: "2 solid #272b2f",
-                            borderRadius: 3,
-                            overflow: 'hidden',
-                            boxShadow: 1,
-                            backgroundColor: '#BBBCBC'
-                        }} variant='outlined'>
-                            <MasterDetailCompnt val={val} />
-                            <ApprovalDetailComp val={val} />
-                            <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
-                                setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
-                                setCancelModal={setCancelModal} setApprovalData={setApprovalData}
-                                setCancelData={setCancelData} />
-                        </Paper>
+            <Paper >
+                <Box sx={{
+                    width: "100%",
+                    pl: 1, pt: 0.5, pr: 1, pb: 0.5, flex: 1,
+                    display: "flex",
+                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                    justifyContent: 'center',
+                }}>
+                    <Box sx={{ width: "13%", pr: 1, mt: 1 }}>
+                        <CusCheckBox
+                            label="Pending"
+                            color="danger"
+                            size="md"
+                            name="pending"
+                            value={pending}
+                            checked={pending}
+                            onCheked={updatependng}
+                        />
                     </Box>
-                })}
+                    <Box sx={{ width: "13%", mt: 1 }}>
+                        <CusCheckBox
+                            label="All List"
+                            color="danger"
+                            size="md"
+                            name="done"
+                            value={done}
+                            checked={done}
+                            onCheked={updatedone}
+                        />
+                    </Box>
+                </Box>
+            </Paper>
+
+            <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>
+                {check === 2 ?
+                    <Box sx={{ width: "100%" }}>
+
+                        {donedata && donedata.map((val) => {
+                            return <Box key={val.req_slno} sx={{ width: "100%", }}>
+                                <Paper sx={{
+                                    width: '100%',
+                                    mt: 0.8,
+                                    border: "2 solid #272b2f",
+                                    borderRadius: 3,
+                                    overflow: 'hidden',
+                                    boxShadow: 1,
+                                    backgroundColor: '#BBBCBC'
+                                }} variant='outlined'>
+                                    <MasterDetailCompnt val={val} />
+                                    <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
+                                        setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
+                                        setCancelModal={setCancelModal} setApprovalData={setApprovalData}
+                                        setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
+                                        setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal}
+                                        setImageShowFlag={setImageShowFlag} setImageShow={setImageShow}
+                                        setImageSlno={setImageSlno}
+                                    />
+                                </Paper>
+                            </Box>
+                        })}
+                    </Box>
+
+                    :
+                    <Box>
+                        {pendingData && pendingData.map((val) => {
+                            return <Box key={val.req_slno} sx={{ width: "100%", }}>
+                                <Paper sx={{
+                                    width: '100%',
+                                    mt: 0.8,
+                                    border: "2 solid #272b2f",
+                                    borderRadius: 3,
+                                    overflow: 'hidden',
+                                    boxShadow: 1,
+                                    backgroundColor: '#BBBCBC'
+                                }} variant='outlined'>
+                                    <MasterDetailCompnt val={val} />
+                                    <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
+                                        setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
+                                        setCancelModal={setCancelModal} setApprovalData={setApprovalData}
+                                        setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
+                                        setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal}
+                                        setImageShowFlag={setImageShowFlag} setImageShow={setImageShow}
+                                        setImageSlno={setImageSlno}
+                                    />
+                                </Paper>
+                            </Box>
+                        })}
+                    </Box>
+                }
             </Box>
         </Fragment>
     )

@@ -78,16 +78,12 @@ const CrfReqstTableView = ({ count, rowSelect, }) => {
                             val.ed_approve === 3 ? "On-Hold" : "Not Updated",
                         ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
 
-
-
-
-
                     }
                     return obj
                 })
                 setDisData(datas)
             } else {
-                warningNotify("Error occured contact EDP")
+                warningNotify("No CRF registred")
             }
         }
         getReqDeptsecList(empsecid);
@@ -139,14 +135,6 @@ const CrfReqstTableView = ({ count, rowSelect, }) => {
         { headerName: "MD.Remark", field: "md_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
         { headerName: "ED  Status", field: "ed", minWidth: 150, wrapText: true, },
         { headerName: "ED.Remark", field: "ed_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
-
-        { headerName: "NDRF GM Status", field: "ndrf_coo", minWidth: 180, wrapText: true, },
-        { headerName: "NDRF GM.Remark", field: "ndrf_coo_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
-        { headerName: "NDRF MD  Status", field: "ndrf_md", autoHeight: true, minWidth: 150, wrapText: true, },
-        { headerName: "NDRF MD.Remark", field: "ndrf_md_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
-        { headerName: "NDRF ED  Status", field: "ndrf_ed", minWidth: 150, wrapText: true, },
-        { headerName: "NDRF ED.Remark", field: "ndrf_ed_approve_remarks", autoHeight: true, minWidth: 250, wrapText: true, },
-
     ])
 
 

@@ -510,7 +510,7 @@ const CrfRequestMaster = () => {
 
     const handleImageUpload = useCallback(async (imageFile) => {
         const options = {
-            maxSizeMB: 2,
+            maxSizeMB: 25,
             maxWidthOrHeight: 1920,
             useWebWorker: true,
         }
@@ -641,6 +641,7 @@ const CrfRequestMaster = () => {
             const approvalData = {
                 req_slno: insertid,
                 incharge_req: levelOne === 1 ? 1 : 0,
+                incharge_approve: levelOne === 1 ? null : 1,
                 hod_req: levelTwo === 1 ? 1 : 0,
                 dms_req: deptType === 1 ? 1 : 0,
                 ms_approve_req: deptType === 1 ? 1 : 0,
@@ -1268,8 +1269,10 @@ const CrfRequestMaster = () => {
                                                         size="md"
                                                         style={{
                                                             width: "100%",
-                                                            height: 50,
+                                                            height: 30,
                                                         }}
+                                                        maxRows={1}
+
                                                         value={remarks}
                                                         onchange={updateRemarks}
                                                     />
@@ -1283,13 +1286,13 @@ const CrfRequestMaster = () => {
                                 <Box sx={{
                                     width: "30%", display: "flex", flexDirection: "row", pl: 1,
                                 }}>
-                                    <Box sx={{ display: 'flex', width: '200px', pt: 1 }}>
+                                    <Box sx={{ display: 'flex', width: '300px', pt: 4 }}>
                                         <Box >
-                                            <CustomPaperTitle heading="Maximum Size 2MB" />
                                             <label htmlFor="file-input">
                                                 <CustomeToolTip title="upload">
                                                     <IconButton color="primary" aria-label="upload file" component="span">
                                                         <UploadFileIcon />
+                                                        <CustomPaperTitle heading="Maximum Size 25MB" />
                                                     </IconButton>
                                                 </CustomeToolTip>
                                             </label>

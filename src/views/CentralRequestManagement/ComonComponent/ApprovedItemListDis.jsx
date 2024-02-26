@@ -1,7 +1,8 @@
 import React, { memo, Fragment } from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
-const ReqItemDisplay = ({ detailData }) => {
+const ApprovedItemListDis = ({ ApproveData }) => {
+
     return (
         <Fragment>
             <TableContainer sx={{ maxHeight: 250 }}>
@@ -11,17 +12,20 @@ const ReqItemDisplay = ({ detailData }) => {
                     sx={{ border: "0.2px solid" }}>
                     <TableHead sx={{ border: "1px " }}>
                         <TableRow  >
-                            <TableCell align="center" >Slno</TableCell>
+                            <TableCell align="center" >#</TableCell>
+                            <TableCell align="center" >Item slno</TableCell>
+                            <TableCell align="left" > Old Slno</TableCell>
                             <TableCell align="left" > Description</TableCell>
                             <TableCell align="center">Req. Brand</TableCell>
                             <TableCell align="center">Qty</TableCell>
                             <TableCell align="center">Unit</TableCell>
                             <TableCell align="center">Specification</TableCell>
                             <TableCell align="center">approx.cost </TableCell>
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {detailData && detailData.map((val, index) => {
+                        {ApproveData && ApproveData.map((val, index) => {
                             return <TableRow
                                 key={index}
                                 sx={{
@@ -30,12 +34,15 @@ const ReqItemDisplay = ({ detailData }) => {
                                 }}
                             >
                                 <TableCell align="center">{index + 1}</TableCell>
-                                <TableCell align="left">{val.item_desc}</TableCell>
-                                <TableCell align="center">{val.item_brand}</TableCell>
-                                <TableCell align="center">{val.item_qnty}</TableCell>
-                                <TableCell align="center">{val.item_unit}</TableCell>
-                                <TableCell align="center">{val.item_specification}</TableCell>
-                                <TableCell align="center">{val.aprox_cost}</TableCell>
+                                <TableCell align="center">{val.item_slno}</TableCell>
+                                <TableCell align="left">{val.old_item_slno}</TableCell>
+                                <TableCell align="left">{val.approve_item_desc}</TableCell>
+                                <TableCell align="center">{val.approve_item_brand}</TableCell>
+                                <TableCell align="center">{val.approve_item_unit}</TableCell>
+                                <TableCell align="center">{val.item_qnty_approved}</TableCell>
+                                <TableCell align="center">{val.approve_item_specification}</TableCell>
+                                <TableCell align="center">{val.approve_aprox_cost}</TableCell>
+
                             </TableRow>
                         })}
                     </TableBody>
@@ -45,4 +52,4 @@ const ReqItemDisplay = ({ detailData }) => {
     )
 }
 
-export default memo(ReqItemDisplay)
+export default memo(ApprovedItemListDis)
