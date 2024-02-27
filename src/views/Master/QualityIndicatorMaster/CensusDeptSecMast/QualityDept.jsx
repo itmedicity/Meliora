@@ -21,47 +21,58 @@ const QualityDept = () => {
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
     })
-    const [qtDepartment, setQtDepartment] = useState({
-        qi_dept_slno: '0',
-        qi_dept_name: '',
-        qi_dept_status: false,
+    const [censusNurs, setCensusNurs] = useState({
+        census_ns_slno: '0',
+        census_ns_name: '',
+        census_ns_code: '',
+        census_ou_code: '',
+        nursing_status: false,
     })
-    const { qi_dept_name, qi_dept_status, qi_dept_slno } = qtDepartment
-    const updateQtDepartment = useCallback((e) => {
+    const { census_ns_code, census_ns_name, census_ou_code, nursing_status, census_ns_slno } = censusNurs
+    const updateCensusNurs = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setQtDepartment({ ...qtDepartment, [e.target.name]: value })
-    }, [qtDepartment])
+        setCensusNurs({ ...censusNurs, [e.target.name]: value })
+    }, [censusNurs])
     const reset = () => {
         const formreset = {
-            qi_dept_name: '',
-            qi_dept_status: false,
+            census_ns_name: '',
+            census_ns_code: '',
+            census_ou_code: '',
+            nursing_status: false,
         }
-        setQtDepartment(formreset);
+        setCensusNurs(formreset);
         setCount(0)
         setValue(0)
     }
+
+    // census_ns_slno, census_ns_code, census_ou_code, nursing_status
+
     const postdata = useMemo(() => {
         return {
-            // qi_dept_slno: qi_dept_slno,
-            qi_dept_name: qi_dept_name,
-            qi_dept_status: qi_dept_status === true ? 1 : 0,
+            // census_ns_slno: census_ns_slno,
+            census_ns_name: census_ns_name,
+            census_ns_code: census_ns_code,
+            census_ou_code: census_ou_code,
+            nursing_status: nursing_status === true ? 1 : 0,
             create_user: id
         }
-    }, [qi_dept_name, qi_dept_status, id])
+    }, [census_ns_code, nursing_status, id, census_ou_code, census_ns_name])
 
     const patchdata = useMemo(() => {
         return {
-            qi_dept_slno: qi_dept_slno,
-            qi_dept_name: qi_dept_name,
-            qi_dept_status: qi_dept_status === true ? 1 : 0,
+            census_ns_slno: census_ns_slno,
+            census_ns_name: census_ns_name,
+            census_ns_code: census_ns_code,
+            census_ou_code: census_ou_code,
+            nursing_status: nursing_status === true ? 1 : 0,
             edit_user: id
         }
-    }, [qi_dept_slno, qi_dept_name, qi_dept_status, id])
+    }, [census_ns_slno, census_ns_code, census_ou_code, nursing_status, id, census_ns_name])
 
     const submitQualityDept = useCallback((e) => {
         e.preventDefault();
         const InsertDepartment = async (postdata) => {
-            const result = await axioslogin.post('/qualityDept/insert', postdata);
+            const result = await axioslogin.post('/censusNursingStat/insert', postdata);
             const { message, success } = result.data;
             if (success === 1) {
                 succesNotify(message)
@@ -74,10 +85,8 @@ const QualityDept = () => {
                 infoNotify(message)
             }
         }
-
-
         const updateDepartment = async (patchdata) => {
-            const result = await axioslogin.patch('/qualityDept/update', patchdata);
+            const result = await axioslogin.patch('/censusNursingStat/update', patchdata);
             const { message, success } = result.data;
             if (success === 2) {
                 succesNotify(message)
@@ -99,13 +108,15 @@ const QualityDept = () => {
     const rowSelect = useCallback((params) => {
         setValue(1)
         const data = params.api.getSelectedRows()
-        const { qi_dept_slno, qi_dept_name, status, } = data[0]
+        const { census_ns_slno, census_ns_name, census_ns_code, census_ou_code, status, } = data[0]
         const frmdata = {
-            qi_dept_slno: qi_dept_slno,
-            qi_dept_name: qi_dept_name,
-            qi_dept_status: status === 'Yes' ? true : false
+            census_ns_slno: census_ns_slno,
+            census_ns_name: census_ns_name,
+            census_ns_code: census_ns_code,
+            census_ou_code: census_ou_code,
+            nursing_status: status === 'Yes' ? true : false
         }
-        setQtDepartment(frmdata)
+        setCensusNurs(frmdata)
     }, [])
 
     const refreshWindow = useCallback(() => {
@@ -115,7 +126,7 @@ const QualityDept = () => {
 
     return (
         <CardMaster
-            title="Quality Indicator Departments"
+            title="Census Nursing Stations"
             submit={submitQualityDept}
             close={backtoSetting}
             refresh={refreshWindow}
@@ -124,23 +135,47 @@ const QualityDept = () => {
                 <Box sx={{ flex: 1, pr: 3 }}>
                     <Box>
                         <TextFieldCustom
-                            placeholder="Department Name"
+                            placeholder="Nursing Station Name"
                             type="text"
-                            size="sm"
-                            name="qi_dept_name"
-                            value={qi_dept_name}
-                            onchange={updateQtDepartment}
+                            size="md"
+                            name="census_ns_name"
+                            value={census_ns_name}
+                            onchange={updateCensusNurs}
                         />
                     </Box>
+                    <Box sx={{ display: 'flex', pt: 0.5 }}>
+                        <Box sx={{ flex: 1, pr: 0.3 }}>
+                            <TextFieldCustom
+                                placeholder="NS Code"
+                                type="text"
+                                size="md"
+                                name="census_ns_code"
+                                value={census_ns_code}
+                                onchange={updateCensusNurs}
+                            />
+                        </Box>
+                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                            <TextFieldCustom
+                                placeholder="OU Code"
+                                type="text"
+                                size="md"
+                                name="census_ou_code"
+                                value={census_ou_code}
+                                onchange={updateCensusNurs}
+                            />
+                        </Box>
+                    </Box>
+
+
                     <Box sx={{ pt: 1 }}>
                         <CusCheckBox
                             label="Status"
                             color="primary"
                             size="md"
-                            name="qi_dept_status"
-                            value={qi_dept_status}
-                            checked={qi_dept_status}
-                            onCheked={updateQtDepartment}
+                            name="nursing_status"
+                            value={nursing_status}
+                            checked={nursing_status}
+                            onCheked={updateCensusNurs}
                         />
                     </Box>
                 </Box>

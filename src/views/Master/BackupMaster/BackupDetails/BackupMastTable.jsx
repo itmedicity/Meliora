@@ -1,6 +1,5 @@
 import { Box, Table } from '@mui/joy'
 import React, { Fragment, memo } from 'react'
-import { Paper } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import EditIcon from '@mui/icons-material/Edit';
 import { getBackupDetails } from 'src/redux/actions/BackupDetails.action';
@@ -13,8 +12,8 @@ const BackupMastTable = ({ count, EditBackup }) => {
     const backup = useSelector((state) => state?.getBackupDetails.backupList)
     return (
         <Fragment>
-            <Paper sx={{ height: 465, overflow: 'auto', px: 1.5 }}>
-                <Table borderAxis="both" padding={"none"} stickyHeader sx={{ overflow: 'auto' }}>
+            <Box variant="none" sx={{ height: 420, overflow: 'auto', padding: 'none' }}>
+                <Table borderAxis="both" padding={"none"} stickyHeader >
                     <thead>
                         <tr style={{ height: 5 }}>
                             <th rowSpan={2} style={{ width: 60, textAlign: 'center' }}>Action</th>
@@ -39,7 +38,7 @@ const BackupMastTable = ({ count, EditBackup }) => {
                     <tbody size='small' style={{ height: 8 }}>
                         {backup.map((val) => (
                             <tr key={val.backup_slno} style={{ height: 8 }} size='small' >
-                                <td >
+                                <td size='sm' style={{ textAlign: 'center', fontSize: 13, height: 13 }}>
                                     <Box>
                                         <EditIcon
                                             size='small'
@@ -53,22 +52,22 @@ const BackupMastTable = ({ count, EditBackup }) => {
                                             }}
                                             onClick={(e) => EditBackup(val)} />
                                     </Box> </td>
-                                <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup'}</td>
-                                <td>{val.backup_name}</td>
-                                <td>{val.backup_location}</td>
-                                <td>{val.backup_device_ip}</td>
-                                <td>{val.backup_device_name}</td>
-                                <td>{val.backup_device_location}</td>
-                                <td>{val.transferred_device_ip}</td>
-                                <td>{val.transferred_device_name}</td>
-                                <td>{val.transferred_device_location}</td>
-                                <td>{val.schedule_type_name}</td>
-                                <td>{val.backup_schedule_type === 5 ? val.selected_days + " Days" : val.timedata}</td>
+                                <td size='sm' style={{ fontSize: 14, height: 13 }}>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup'}</td>
+                                <td size='sm' style={{ fontSize: 14, height: 13 }}>{val.backup_name}</td>
+                                <td size='sm' style={{ fontSize: 14, height: 13 }}>{val.backup_location}</td>
+                                <td size='sm' style={{ fontSize: 14, height: 13 }}>{val.backup_device_ip}</td>
+                                <td size='sm' style={{ fontSize: 14, height: 13 }}>{val.backup_device_name}</td>
+                                <td size='sm' style={{ fontSize: 14, height: 13 }}>{val.backup_device_location}</td>
+                                <td size='sm' style={{ fontSize: 14, height: 13 }}>{val.transferred_device_ip}</td>
+                                <td size='sm' style={{ fontSize: 14, height: 13 }}>{val.transferred_device_name}</td>
+                                <td size='sm' style={{ fontSize: 14, height: 13 }}>{val.transferred_device_location}</td>
+                                <td size='sm' style={{ fontSize: 14, height: 13 }}>{val.schedule_type_name}</td>
+                                <td size='sm' style={{ fontSize: 14, height: 13 }}>{val.backup_schedule_type === 5 ? val.selected_days + " Days" : val.timedata}</td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
-            </Paper >
+            </Box >
         </Fragment >
     )
 }

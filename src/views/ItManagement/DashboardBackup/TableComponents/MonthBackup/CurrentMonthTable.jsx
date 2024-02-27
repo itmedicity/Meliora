@@ -84,7 +84,7 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                                     <Typography sx={{ fontWeight: 10, fontSize: 18 }}>Monthly Backup Errors</Typography>
                                 </Paper>
                                 : null}
-                    <Paper variant="outlined" sx={{ overflow: 'auto' }}>
+                    <Paper variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220 }}>
                         <CssVarsProvider>
                             <Table borderAxis="both" padding={"none"} stickyHeader >
                                 <thead style={{ alignItems: 'center' }}>

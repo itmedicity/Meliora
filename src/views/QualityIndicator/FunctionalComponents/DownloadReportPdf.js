@@ -44,7 +44,7 @@ export const DownloadReportPdf = async (reportName, tableData, headerNames1, hea
                 alignment: 'center',
                 fontFamily: 'Calibri',
                 bold: true,
-                lineHeight: 2,
+                lineHeight: 1,
 
             },
             tableExample: {

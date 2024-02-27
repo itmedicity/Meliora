@@ -14,7 +14,7 @@ const BackupChecksTable = () => {
     }, [dispatch])
     return (
         <Box>
-            <Paper sx={{ maxHeight: 780, minHeight: 600, overflow: 'auto' }}>
+            <Paper sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220 }}>
                 <CssVarsProvider>
                     <Table borderAxis="both" padding={"none"} stickyHeader >
                         <thead>

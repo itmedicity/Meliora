@@ -39,7 +39,7 @@ const BackupTypeSelect = ({ backupType, setBackupType }) => {
                 <Autocomplete
                     sx={{
                         "--Input-minHeight": "29px",
-                        width: 755
+
                     }}
                     value={backupType === 0 ? backupTypeList : value}
                     placeholder="Select Backup Type"
