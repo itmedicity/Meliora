@@ -209,7 +209,6 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                             succesNotify("Task Created Successfully")
                             setTableCount(tableCount + 1)
                             handleClose()
-
                         }
                     }
                 }
@@ -231,14 +230,9 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                 sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
 
                 <Box sx={{ margin: 'auto', }}>
-
                     <ModalDialog variant="outlined"
                         sx={{ overflowY: 'scroll', width: 800 }}>
-                        <Box sx={{
-                            height: 700,
-                            // border: .1, borderColor: '#D9E4EC',
-                            borderRadius: 10
-                        }}>
+                        <Box sx={{ height: 700, borderRadius: 10 }}>
                             <Box sx={{ display: 'flex', pl: 1, fontSize: 20, fontWeight: 500, color: '#004F76' }}>
                                 <AssignmentIcon sx={{ pt: .6 }} />CREATE TASK
                                 <Box sx={{ flex: 1, display: 'flex', justifyContent: "flex-end" }}>
@@ -255,41 +249,8 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                 width: "99%",
                                 borderTop: 1, borderBlockColor: '#6AABD2', pt: 1, mx: .5
                             }}>
-                                {/* <AssignmentIcon sx={{ height: '20px' }} />  TASK */}
                             </Box>
                             <Box sx={{ display: 'flex', }}>
-                                {/* <Box sx={{ flex: .5 }}>
-                                    <Box sx={{ mt: .5, pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 2, height: 40, pt: 2, fontFamily: 'Georgia' }}>
-                                        <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Task&nbsp;:
-                                        </Typography>
-                                    </Box>
-                                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 30, pt: 2, fontFamily: 'Georgia', }}>
-                                        <Typography sx={{ color: '#003B73' }}>
-                                            Project
-                                        </Typography>
-                                    </Box>
-                                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: 2, fontFamily: 'Georgia' }}>
-                                        <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Department Section
-                                        </Typography>
-                                    </Box>
-                                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: 1, height: 30, pt: 2, fontFamily: 'Georgia' }}>
-                                        <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Assignee
-                                        </Typography>
-                                    </Box>
-                                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: 2, fontFamily: 'Georgia' }}>
-                                        <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Due date
-                                        </Typography>
-                                    </Box>
-                                    <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 35, pt: 2, fontFamily: 'Georgia' }}>
-                                        <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Description
-                                        </Typography>
-                                    </Box>
-                                </Box> */}
                                 <Box sx={{ flex: 1, mx: 1 }}>
                                     <Box sx={{ mt: .5, pt: 1 }}>
                                         <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
@@ -305,7 +266,7 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                                 variant="outlined"
                                                 name="tm_task_name"
                                                 value={tm_task_name}
-                                                maxRows={1}
+                                                maxRows={3}
                                                 onChange={(e) => MastUpdate(e)}
                                                 sx={{ fontSize: 18, color: '#003B73', flex: 1 }}
                                             ></Textarea>
@@ -418,8 +379,6 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                         </Box>
                                     </Box>
                                 </Box>
-                                {/* <Box sx={{ flex: 1.5 }}>
-                                </Box> */}
                             </Box>
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: "flex-end", height: 60, borderTop: 1, borderBlockColor: '#6AABD2', pt: 2 }}>

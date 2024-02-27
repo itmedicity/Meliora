@@ -28,9 +28,9 @@ const DeptEmployeeTask = () => {
 
 
     return (
-        <Box variant="outlined" sx={{ height: 490, width: '100%', overflow: 'auto', mt: .5, }}>
+        <Box variant="outlined" sx={{ height: 725, width: '100%', overflow: 'auto', }}>
             {allEmpTask.length !== 0 ?
-                <Paper variant="outlined" sx={{ maxHeight: 480, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
+                <Paper variant="outlined" sx={{ maxHeight: 720, maxWidth: '100%', overflow: 'auto', }}>
                     <Table borderAxis='x'
                     >
                         <thead>

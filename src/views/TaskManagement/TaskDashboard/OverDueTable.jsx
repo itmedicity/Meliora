@@ -9,6 +9,7 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import moment from 'moment';
 import ModalEditTask from '../CreateTask/ModalEditTask';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 const OverDueTable = () => {
     const [tableData, setTableData] = useState([])
     const [masterData, setMasterData] = useState([])
@@ -46,18 +47,26 @@ const OverDueTable = () => {
                     const arr = data?.map((val) => {
                         const obj = {
                             tm_task_slno: val.tm_task_slno,
-                            tm_task_name: val.tm_task_name,
+                            tm_task_name: (val.tm_task_name).toLowerCase(),
                             dept_name: val.dept_name,
                             sec_name: val.sec_name,
                             tm_assigne_emp: val.tm_assigne_emp,
-                            // em_name: (val.em_name).toLowerCase(),
                             em_name: val.em_name,
                             create_date: val.create_date,
+                            tm_project_slno: val.tm_project_slno,
+                            tm_project_name: val.tm_project_name,
                             tm_task_dept: val.tm_task_dept,
                             tm_task_dept_sec: val.tm_task_dept_sec,
                             main_task_slno: val.main_task_slno,
                             tm_task_due_date: val.tm_task_due_date,
-                            tm_task_description: val.tm_task_description
+                            tm_task_description: (val.tm_task_description).toLowerCase(),
+                            tm_task_status: val.tm_task_status,
+                            TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                                val.tm_task_status === 1 ? 'Completed' :
+                                    val.tm_task_status === 2 ? 'On Progress' :
+                                        val.tm_task_status === 3 ? 'On Hold' :
+                                            val.tm_task_status === 4 ? 'Pending' :
+                                                val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                         }
                         return obj
                     })
@@ -112,8 +121,8 @@ const OverDueTable = () => {
     return (
         <Box>
             {viewOverDue === 1 ?
-                <Box variant="outlined" sx={{ height: 660, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
-                    <Paper variant="outlined" sx={{ maxHeight: 650, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
+                <Box variant="outlined" sx={{ height: 725, maxWidth: '100%', overflow: 'auto', }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 720, maxWidth: '100%', overflow: 'auto', }}>
                         {editModalFlag === 1 ?
                             <ModalEditTask open={editModalOpen} masterData={masterData} setEditModalOpen={setEditModalOpen}
                                 setEditModalFlag={setEditModalFlag}
@@ -129,14 +138,16 @@ const OverDueTable = () => {
                                 hoverRow>
                                 <thead >
                                     <tr >
-                                        <th style={{ width: 50, alignItems: 'center' }}>#</th>
-                                        <th style={{ width: 75 }}>Action</th>
-                                        <th style={{ width: 55 }}>View</th>
-                                        <th style={{ width: 200 }}>Task name</th>
-                                        <th style={{ width: 100 }}>Assignee</th>
-                                        <th style={{ width: 100 }}>Created Date</th>
-                                        <th style={{ width: 100 }}>Due date</th>
-                                        <th style={{ width: 250 }}>Description</th>
+                                        <th style={{ width: 50 }}>#</th>
+                                        <th style={{ width: 60 }} >Action</th>
+                                        <th style={{ width: 60 }}>View</th>
+                                        <th style={{ width: 150 }}>Status</th>
+                                        <th style={{ width: 300 }}>Task Name</th>
+                                        <th style={{ width: 300 }}>Project</th>
+                                        <th style={{ width: 170 }}>Assignee</th>
+                                        <th style={{ width: 150 }}>Created Date</th>
+                                        <th style={{ width: 150 }}> Due Date</th>
+                                        <th style={{ width: 300 }}>Task Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -154,11 +165,31 @@ const OverDueTable = () => {
                                                     <ImageOutlinedIcon style={{ color: '#41729F' }}
                                                         onClick={() => fileView(val)} />
                                                 </td>
+                                                <td
+                                                    style={{
+                                                        color: val.tm_task_status === null ? '#311E26'
+                                                            : val.tm_task_status === 0 ? '#311E26'
+                                                                : val.tm_task_status === 1 ? '#94C973'
+                                                                    : val.tm_task_status === 2 ? '#D37506'
+                                                                        : val.tm_task_status === 3 ? '#67595E'
+                                                                            : val.tm_task_status === 4 ? '#5885AF'
+                                                                                : 'transparent', minHeight: 5,
+                                                        fontWeight: 700
+                                                    }}><RadioButtonCheckedIcon sx={{
+                                                        color: val.tm_task_status === null ? '#311E26'
+                                                            : val.tm_task_status === 0 ? '#311E26'
+                                                                : val.tm_task_status === 1 ? '#59981A'
+                                                                    : val.tm_task_status === 2 ? '#D37506'
+                                                                        : val.tm_task_status === 3 ? '#747474'
+                                                                            : val.tm_task_status === 4 ? '#5885AF'
+                                                                                : 'transparent', minHeight: 5
+                                                    }} />&nbsp;{val.TaskStatus}</td>
 
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
                                                 <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                <td style={{ textTransform: 'capitalize' }}> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td style={{ color: '#B32800', fontWeight: 500 }}> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )
@@ -170,7 +201,7 @@ const OverDueTable = () => {
                 </Box>
                 : <Box>
                     <Box sx={{
-                        textAlign: 'center', pt: 20, fontWeight: 700, fontSize: 30, color: '#C7C8CB', height: 480, maxWidth: '100%',
+                        textAlign: 'center', pt: 20, fontWeight: 700, fontSize: 30, color: '#C7C8CB', height: 725, maxWidth: '100%',
                     }}>
                         No dues!
                     </Box>

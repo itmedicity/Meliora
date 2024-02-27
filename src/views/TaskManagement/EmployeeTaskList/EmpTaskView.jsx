@@ -9,7 +9,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import moment from 'moment';
 import EmpTaskStatus from './EmpTaskStatus';
 
-const EmpTaskView = ({ tableCount, setTableCount, setemployeeTaskFlag, tableDataEmployee, empTaskHeading }) => {
+const EmpTaskView = ({ tableCount, setTableCount, setflag, tableDataEmployee, empTaskHeading }) => {
 
 
 
@@ -21,8 +21,8 @@ const EmpTaskView = ({ tableCount, setTableCount, setemployeeTaskFlag, tableData
     const history = useHistory()
     const backtoDash = useCallback(() => {
         history.push('/Home/TaskManagementEmployeeTask')
-        setemployeeTaskFlag(0)
-    }, [history, setemployeeTaskFlag])
+        setflag(0)
+    }, [history, setflag])
 
 
     const rowSelectModal = useCallback((value) => {
@@ -39,12 +39,11 @@ const EmpTaskView = ({ tableCount, setTableCount, setemployeeTaskFlag, tableData
                 close={backtoDash}>
                 <Box sx={{
                     width: '100%',
-                    height: '90%',
+                    height: '100%',
                     borderRadius: 2,
-                    margin: 'auto',
                     border: .1, borderColor: '#D396FF',
                 }} >
-                    <Box sx={{ width: '99.5%', ml: .5, mt: .5, backgroundColor: '#D9E4EC' }}>
+                    <Box sx={{ m: .5, backgroundColor: '#D9E4EC' }}>
                         <Box sx={{ py: .5, pl: 1.5, display: 'flex' }}>
                             <Box>
                                 <CssVarsProvider>
@@ -61,7 +60,7 @@ const EmpTaskView = ({ tableCount, setTableCount, setemployeeTaskFlag, tableData
                             <Typography sx={{ fontWeight: 550, pt: .5, pl: .5 }}>{empTaskHeading}</Typography>
                         </Box>
                     </Box>
-                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '80%' }}>
+                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: 718 }}>
                         {editModalFlag === 1 ?
                             <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                 setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount} />
@@ -98,7 +97,7 @@ const EmpTaskView = ({ tableCount, setTableCount, setemployeeTaskFlag, tableData
                                                         color: val.tm_task_status === null ? '#311E26'
                                                             : val.tm_task_status === 0 ? '#311E26'
                                                                 : val.tm_task_status === 1 ? '#94C973'
-                                                                    : val.tm_task_status === 2 ? '#EFD593'
+                                                                    : val.tm_task_status === 2 ? '#D37506'
                                                                         : val.tm_task_status === 3 ? '#A49393'
                                                                             : val.tm_task_status === 4 ? '#5885AF'
                                                                                 : 'transparent', minHeight: 5,

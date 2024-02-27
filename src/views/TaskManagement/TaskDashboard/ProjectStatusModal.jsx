@@ -49,13 +49,12 @@ const ProjectStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOp
 
     const UpdateStatus = useCallback((e) => {
         e.preventDefault()
-
         const UpdateMastTask = async (UpdateProject) => {
             const result = await axioslogin.patch('/taskManagement/updateProject', UpdateProject)
             const { message, success } = result.data
             if (success === 2) {
                 succesNotify(message)
-                // setTableCount(tableCount + 1)
+                setTableCount(tableCount + 1)
                 handleEditClose()
             } else if (success === 0) {
                 infoNotify(message)
@@ -65,7 +64,7 @@ const ProjectStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOp
         }
         UpdateMastTask(UpdateProject)
 
-    }, [UpdateProject, handleEditClose,])
+    }, [UpdateProject, handleEditClose, tableCount, setTableCount])
 
     return (
         <Box>

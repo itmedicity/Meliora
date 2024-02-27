@@ -13,7 +13,7 @@ const TmTaskList = () => {
         history.push(`/Home/TaskManagementDashboard`)
     }, [history])
     return (
-        <Paper sx={{ height: '45vw' }}>
+        <Paper sx={{ pb: .3, }}>
             <Box sx={{ height: 35, borderBottom: 1, borderColor: 'lightgrey', display: 'flex', justifyContent: "flex-end", pb: .5 }}>
                 <CusIconButton size="sm" variant="outlined" color="primary"  >
                     <CssVarsProvider>
@@ -25,7 +25,7 @@ const TmTaskList = () => {
                     </CssVarsProvider>
                 </CusIconButton>
             </Box>
-            <Box sx={{ mt: .5 }}>
+            <Box sx={{ mt: .5, border: .1, borderRadius: 1, borderColor: '#D396FF', }}>
                 <TmDashBoadTaskView tableCount={tableCount} setTableCount={setTableCount} />
             </Box>
 

@@ -2,15 +2,17 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Box, CssVarsProvider, Table } from '@mui/joy'
 import { Paper } from '@mui/material'
 import { axioslogin } from 'src/views/Axios/Axios'
-// import { format } from 'date-fns';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { useSelector } from 'react-redux';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { memo } from 'react';
 import moment from 'moment';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage';
+import ModalEditTask from '../CreateTask/ModalEditTask';
+import EditIcon from '@mui/icons-material/Edit'
 
-const CompletedTask = ({ tableCount }) => {
+const CompletedTask = ({ tableCount, setTableCount }) => {
     const [tableData, setTableData] = useState([])
     const [viewCompleted, setViewCompleted] = useState(0)
     const [getarry, setgetarry] = useState([])
@@ -18,25 +20,23 @@ const CompletedTask = ({ tableCount }) => {
     const [imageViewModalOpen, setimageViewModalOpen] = useState(false)
     const [image, setimage] = useState(0)
     const [imageUrls, setImageUrls] = useState([]);
-
-    // const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-    //redux for geting login emp secid
+    const [editModalOpen, setEditModalOpen] = useState(false)
+    const [editModalFlag, setEditModalFlag] = useState(0)
+    const [masterData, setMasterData] = useState([])
     const empsecid = useSelector((state) => {
         return state.LoginUserData.empsecid
     })
-
 
     useEffect(() => {
         const getCompletedTable = async () => {
             const result = await axioslogin.get(`/TmTableView/departmentCompleted/${empsecid}`);
             const { success, data } = result.data;
-
             if (data.length !== 0) {
                 if (success === 2) {
                     const arr = data?.map((val) => {
                         const obj = {
                             tm_task_slno: val.tm_task_slno,
-                            tm_task_name: val.tm_task_name,
+                            tm_task_name: (val.tm_task_name).toLowerCase(),
                             dept_name: val.dept_name,
                             sec_name: val.sec_name,
                             tm_assigne_emp: val.tm_assigne_emp,
@@ -44,9 +44,18 @@ const CompletedTask = ({ tableCount }) => {
                             tm_task_dept: val.tm_task_dept,
                             tm_task_dept_sec: val.tm_task_dept_sec,
                             tm_task_due_date: val.tm_task_due_date,
+                            tm_project_slno: val.tm_project_slno,
+                            tm_project_name: val.tm_project_name,
+                            create_date: val.create_date,
                             main_task_slno: val.main_task_slno,
-                            tm_task_description: val.tm_task_description,
+                            tm_task_description: (val.tm_task_description).toLowerCase(),
                             tm_task_status: val.tm_task_status,
+                            TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                                val.tm_task_status === 1 ? 'Completed' :
+                                    val.tm_task_status === 2 ? 'On Progress' :
+                                        val.tm_task_status === 3 ? 'On Hold' :
+                                            val.tm_task_status === 4 ? 'Pending' :
+                                                val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                         }
                         return obj
                     })
@@ -98,25 +107,38 @@ const CompletedTask = ({ tableCount }) => {
             warningNotify('Error in fetching files:', error);
         }
     }
+    const rowSelectModal = useCallback((value) => {
+        setEditModalFlag(1)
+        setEditModalOpen(true)
+        setMasterData(value)
+    }, [])
     return (
         <Box>
-            {image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
-                selectedImages={selectedImages} getarry={getarry} /> : null}
+            {editModalFlag === 1 ?
+                <ModalEditTask open={editModalOpen} masterData={masterData} setEditModalOpen={setEditModalOpen}
+                    setEditModalFlag={setEditModalFlag}
+                    tableCount={tableCount} setTableCount={setTableCount}
+                /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
+                    selectedImages={selectedImages} getarry={getarry} /> : null}
+
             {viewCompleted === 1 ?
-                <Box variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', mt: .5, }}>
-                    <Paper variant="outlined" sx={{ maxHeight: 660, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
+                <Box variant="outlined" sx={{ height: 725, maxWidth: '100%', overflow: 'auto', }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 720, maxWidth: '100%', overflow: 'auto', }}>
                         <CssVarsProvider>
                             <Table padding={"none"} stickyHeader
                                 hoverRow>
                                 <thead>
                                     <tr >
                                         <th style={{ width: 50 }}>#</th>
-                                        <th style={{ width: 50 }}>view</th>
-                                        <th style={{ width: 200 }}>Task name</th>
-                                        <th style={{ width: 100 }}>Assignee</th>
-                                        <th style={{ width: 100 }}>Created Date</th>
-                                        <th style={{ width: 100 }}>Due date</th>
-                                        <th style={{ width: 250 }}>Description</th>
+                                        <th style={{ width: 60 }} >Action</th>
+                                        <th style={{ width: 60 }}>View</th>
+                                        <th style={{ width: 150 }}>Status</th>
+                                        <th style={{ width: 300 }}>Task Name</th>
+                                        <th style={{ width: 300 }}>Project</th>
+                                        <th style={{ width: 170 }}>Assignee</th>
+                                        <th style={{ width: 150 }}>Created Date</th>
+                                        <th style={{ width: 150 }}> Due Date</th>
+                                        <th style={{ width: 300 }}>Task Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -129,12 +151,37 @@ const CompletedTask = ({ tableCount }) => {
                                                 }}
                                             >
                                                 <td> {index + 1}</td>
+                                                <td>
+                                                    <EditIcon
+                                                        sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                    />
+                                                </td>
                                                 <td style={{ cursor: 'pointer', }}>
                                                     <ImageOutlinedIcon sx={{ color: '#41729F' }}
                                                         onClick={() => fileView(val)}
                                                     />
                                                 </td>
+                                                <td
+                                                    style={{
+                                                        color: val.tm_task_status === null ? '#311E26'
+                                                            : val.tm_task_status === 0 ? '#311E26'
+                                                                : val.tm_task_status === 1 ? '#94C973'
+                                                                    : val.tm_task_status === 2 ? '#D37506'
+                                                                        : val.tm_task_status === 3 ? '#67595E'
+                                                                            : val.tm_task_status === 4 ? '#5885AF'
+                                                                                : 'transparent', minHeight: 5,
+                                                        fontWeight: 700
+                                                    }}><RadioButtonCheckedIcon sx={{
+                                                        color: val.tm_task_status === null ? '#311E26'
+                                                            : val.tm_task_status === 0 ? '#311E26'
+                                                                : val.tm_task_status === 1 ? '#59981A'
+                                                                    : val.tm_task_status === 2 ? '#D37506'
+                                                                        : val.tm_task_status === 3 ? '#747474'
+                                                                            : val.tm_task_status === 4 ? '#5885AF'
+                                                                                : 'transparent', minHeight: 5
+                                                    }} />&nbsp;{val.TaskStatus}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
                                                 <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
@@ -147,7 +194,7 @@ const CompletedTask = ({ tableCount }) => {
                         </CssVarsProvider>
                     </Paper>
                 </Box>
-                : <Box sx={{ textAlign: 'center', pt: 20, fontWeight: 700, fontSize: 30, color: '#C7C8CB', height: 480, maxWidth: '100%', }}>
+                : <Box sx={{ textAlign: 'center', pt: 20, fontWeight: 700, fontSize: 30, color: '#C7C8CB', height: 725, maxWidth: '100%', }}>
                     No Task Completed Yet!
 
                 </Box>

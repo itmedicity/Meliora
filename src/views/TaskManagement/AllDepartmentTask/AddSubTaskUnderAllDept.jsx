@@ -120,57 +120,13 @@ const AddSubTaskUnderAllDept = ({ tm_task_slno, tm_project_slno, setflag, tableR
 
     return (
         <Box sx={{
-            display: 'flex',
-            // mr: 2, ml: 2, my: 2,
-            mr: 1,
-            // borderRadius: 3,
-            // boxShadow: '.5px 1px 4px #887BB0',
-            // padding: '1em',
-            bgcolor: '#fafafa'
+            display: 'flex', mr: 1, bgcolor: '#fafafa'
 
         }}>
             <Box sx={{ flex: 1, }}>
-                {/* <Box sx={{ pt: 2, pl: 2, fontSize: 18, mt: 1.2, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Task Name&nbsp;:&nbsp;
-                    </Typography>
-                </Box>
-                <Box sx={{ pt: 1, pl: 2, fontSize: 18, mt: 2.5, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Department&nbsp;:&nbsp;
-                    </Typography>
-                </Box>
-                <Box sx={{ pt: 1.2, pl: 2, fontSize: 18, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Section&nbsp;:&nbsp;
-                    </Typography>
-                </Box>
-                <Box sx={{ mt: .5, pl: 2, pt: 1.5, fontSize: 18, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Assignee&nbsp;:&nbsp;
-                    </Typography>
-                </Box>
-                <Box sx={{ pl: 2, fontSize: 18, mt: 3, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Due date&nbsp;:&nbsp;
-                    </Typography>
-                </Box>
-                <Box sx={{ pl: 2, fontSize: 18, mt: 1, display: 'flex', justifyContent: 'right', mr: 1 }}>
-                    <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Description&nbsp;:&nbsp;
-                    </Typography>
-                </Box> */}
             </Box>
-            <Box sx={{
-                flex: 8, p: 2,
-                // border: 1,
-                borderRadius: 1,
-                // borderStyle: 'dashed',
-                // boxShadow: '1px 1px 4px #887BB0',
-                borderColor: '#887BB0',
-
-            }}>
-                <Box sx={{}}>
+            <Box sx={{ flex: 8, p: 2, borderRadius: 1, borderColor: '#887BB0' }}>
+                <Box>
                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
                         Subtask Name&nbsp;:&nbsp;
                     </Typography>
@@ -188,7 +144,6 @@ const AddSubTaskUnderAllDept = ({ tm_task_slno, tm_project_slno, setflag, tableR
                         ></Textarea>
                     </CssVarsProvider>
                 </Box>
-
                 <Box sx={{ display: 'flex', mt: .5 }}>
                     <Box sx={{ mt: .5, flex: 1, mr: .5 }}>
                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
@@ -209,18 +164,6 @@ const AddSubTaskUnderAllDept = ({ tm_task_slno, tm_project_slno, setflag, tableR
                         />
                     </Box>
                 </Box>
-                {/* <Box sx={{ mt: .5 }}>
-                    <TmDepartmentSelectSubTask
-                        departmentSub={departmentSubTask}
-                        setDepartmentSub={setdepartmentSubTask}
-                    />
-                </Box>
-                <Box sx={{ mt: .5 }}>
-                    <TmDeptSectionSubtask
-                        deptsecSub={departmentSecSubTask}
-                        setDeptSecSub={setdepartmentSecSubTask}
-                    />
-                </Box> */}
                 <Box sx={{ mt: 1, }}>
                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
                         Assignee&nbsp;:&nbsp;
