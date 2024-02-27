@@ -175,16 +175,14 @@ const TaskManagementEmployeeTask = React.lazy(() => import('./views/TaskManageme
 const EmergencyTypeMast = React.lazy(() => import('./views/Master/RequestManagement/EmergencyTypeMast/EmergencyTypeMast'))
 const CrfNewReqRegister = React.lazy(() => import('./views/CentralRequestManagement/CRFRequestMaster/CrfRequestMaster'))
 const AssetInterDeptTrans = React.lazy(() => import('./views/AssetManagment/InterDeptTransfer/InterDeptTransfer'))
-const QualityDepartment = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QualityDeptMast/QualityDept'))
+const CensusDptMast = React.lazy(() => import('./views/Master/QualityIndicatorMaster/CensusDeptSecMast/QualityDept'))
 const QualityIndicator = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QualityIndicatorsList/QualityIndicators'))
 const QIdetails = React.lazy(() => import('./views/QualityIndicator/QualityIndicatorDetails'))
-const QIReport = React.lazy(() => import('./views/QualityIndicator/QIDailyReportView'))
-const QIMonthEndoscopy = React.lazy(() => import('./views/QualityIndicator/EndoscopyDetails/QIMonthlyReport'))
-
+const QIDailyReport = React.lazy(() => import('./views/QualityIndicator/QIDailyReportView'))
+const QIMonthlyReport = React.lazy(() => import('./views/QualityIndicator/QIMonthlyReport'))
 const TMdepartmentReport = React.lazy(() => import('./views/Report/TaskReport/DepartmentWise/DepartmentWiseTask'))
 const TMEmployeeReport = React.lazy(() => import('./views/Report/TaskReport/EmployeeWise/EmployeeeWiseTask'))
 const TaskManagementTaskLists = React.lazy(() => import('./views/TaskManagement/TaskDashboard/TmTaskList'))
-
 const CRFNewIncharge = React.lazy(() => import('./views/CentralRequestManagement/CrfInchargeApproval/CrfInchargeAppvable'))
 const CRFNewHOD = React.lazy(() => import('./views/CentralRequestManagement/CrfHodApproval/CrfHodApproval'))
 const CRFNewDMS = React.lazy(() => import('./views/CentralRequestManagement/CrfDmsApproval/CrfDMSApproval'))
@@ -195,14 +193,14 @@ const CRFNewGM = React.lazy(() => import('./views/CentralRequestManagement/CrfGM
 const CRFNewMD = React.lazy(() => import('./views/CentralRequestManagement/CrfMDApproval/CrfMDApproval'))
 const CRFNewED = React.lazy(() => import('./views/CentralRequestManagement/CrfEDApproval/CrfEDApproval'))
 const CRFNewDashboard = React.lazy(() => import('./views/CentralRequestManagement/CrfDashboardNew/CrfDashboardMain'))
-
 const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/AllDepartmentTask/AllDepartmentMain'))
+const DailyCensus = React.lazy(() => (import('./views/DailyCensus/DailyCensusCreate/CensusCreate')))
+const DailyCensusReport = React.lazy(() => (import('./views/DailyCensus/DailyCensusReport/CensusReportView')))
 
 const CrfNewDataCollection = React.lazy(() => import('./views/CentralRequestManagement/CrfDatacollection/CrfDataCollectionTable'))
 const CRFNewPdfView = React.lazy(() => import('./views/CentralRequestManagement/CrfPdfView/CrfPdfViewMain'))
 const CRFNewPurchase = React.lazy(() => import('./views/CentralRequestManagement/PurchaseProcess/PurchaseTablemain'))
 const CRFNewStore = React.lazy(() => import('./views/CentralRequestManagement/CrfStoreProcess/CrfStoreProcessMain'))
-
 
 
 
@@ -385,17 +383,20 @@ const routes = [
   { path: '/Home/EmergencyType', exact: true, name: 'Emmergency Type Master', component: EmergencyTypeMast },
   { path: '/Home/CrfNewRequestRegister', exact: true, name: 'CRF Nw Request Register', component: CrfNewReqRegister },
   { path: '/Home/AssetInterDeptTrans', exact: true, name: 'Asset Inter Departme', component: AssetInterDeptTrans },
-  { path: '/Home/QualityDept', excat: true, name: 'Quality Indicator Departments', component: QualityDepartment },
+  { path: '/Home/CensusDept', excat: true, name: 'Daily Census Department Section', component: CensusDptMast },
   { path: '/Home/QualityIndicator', exact: true, name: 'Quality Indicator List', component: QualityIndicator },
   { path: '/Home/QIDetails', exact: true, name: 'Quality Indicator Data', component: QIdetails },
-  { path: '/Home/QIDailyReport', exact: true, name: 'QI Daily Report', component: QIReport },
-  { path: '/Home/QIMonthlyReport', exact: true, name: 'QI Monthly Report', component: QIMonthEndoscopy },
+  { path: '/Home/QIDailyReport', exact: true, name: 'QI Daily Report', component: QIDailyReport },
+  { path: '/Home/QIMonthlyReport', exact: true, name: 'QI Monthly Report', component: QIMonthlyReport },
   { path: '/Home/TMdepartmentReport', exact: true, name: 'TM department Report', component: TMdepartmentReport },
   { path: '/Home/TMEmployeeReport', exact: true, name: 'TM employee Report', component: TMEmployeeReport },
   { path: '/Home/TaskManagementTaskLists', exact: true, name: 'TaskManagement TaskList', component: TaskManagementTaskLists },
+
+  { path: '/Home/DailyCensus', exact: true, name: 'Daily Census Entry', component: DailyCensus },
+  { path: '/Home/DailyCensusReport', exact: true, name: 'Daily Census Report', component: DailyCensusReport },
+
   { path: '/Home/CRFNewInchargeApproval', exact: true, name: 'CRF New Incharge Approval', component: CRFNewIncharge },
   { path: '/Home/CRFNewHODApproval', exact: true, name: 'CRF New HOD Approval', component: CRFNewHOD },
-
   { path: '/Home/CRFNewDMSApproval', exact: true, name: 'CRF New DMS Approval', component: CRFNewDMS },
   { path: '/Home/CRFNewMSApproval', exact: true, name: 'CRF New MS Approval', component: CRFNewMS },
   { path: '/Home/CRFNewOMApproval', exact: true, name: 'CRF New DMS Approval', component: CRFNewMO },
@@ -408,6 +409,7 @@ const routes = [
   { path: '/Home/CRFNewPdfView', exact: true, name: 'CRF New PDF View', component: CRFNewPdfView },
   { path: '/Home/CRFNewPurchase', exact: true, name: 'CRF New Purchase', component: CRFNewPurchase },
   { path: '/Home/CRFNewStore', exact: true, name: 'CRF New Store', component: CRFNewStore },
+
 
 ]
 

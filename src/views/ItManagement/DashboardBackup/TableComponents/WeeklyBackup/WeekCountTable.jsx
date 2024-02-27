@@ -83,7 +83,7 @@ const WeekCountTable = ({ weektableData, setWeektabflag, weekflag, count, setCou
                                     <Typography sx={{ fontWeight: 10, fontSize: 18 }}>Weekly Backup Errors</Typography>
                                 </Paper>
                                 : null}
-                    <Paper variant="outlined" sx={{ overflow: 'auto' }}>
+                    <Paper variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220 }}>
                         <CssVarsProvider>
                             <Table borderAxis="both" padding={"none"} stickyHeader >
                                 <thead style={{ alignItems: 'center' }}>

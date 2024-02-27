@@ -169,8 +169,8 @@ export const it_setting_three = [
 
 //Quality Indicators0
 export const qi_setting_one = [
-    { to: '/Home/QualityDept', name: 'Quality Indicator Departments', slno: 179 },
-    { to: '/Home/QualityIndicator', name: 'Quality Indicator List', slno: 180 },
+    { to: '/Home/CensusDept', name: 'Census Nursing Station Mast', slno: 179 },
+    { to: '/Home/QualityIndicator', name: 'Quality Indicator List Mast', slno: 180 },
 ]
 
 export const qi_setting_two = [

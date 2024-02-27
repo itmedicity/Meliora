@@ -5,14 +5,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
 import { Paper } from '@mui/material';
 import CusIconButton from 'src/views/Components/CusIconButton';
-import { axioslogin } from 'src/views/Axios/Axios';
 import moment from 'moment';
 import { eachDayOfInterval, endOfMonth, startOfMonth } from 'date-fns';
-import { infoNotify } from 'src/views/Common/CommonCode';
+import { axioslogin } from 'src/views/Axios/Axios';
 import DailyReportOfQI from '../FunctionalComponents/DailyReportOfQI';
+import { infoNotify } from 'src/views/Common/CommonCode';
 
-const EndoscopyQIReport = ({ setReportViewFlag, qltyDept, processDate }) => {
-
+const EmergencyDailyReport = ({ setReportViewFlag, qltyDept, processDate }) => {
     const [indicatorList, setIndicatorList] = useState([])
     const [reportData, setreportData] = useState([])
     const [reportName, setReportName] = useState('')
@@ -50,24 +49,17 @@ const EndoscopyQIReport = ({ setReportViewFlag, qltyDept, processDate }) => {
             const { success, data } = value
             if (success === 1) {
                 setIndicatorList(data)
-                const getEndoscopyReport = async (searchdata) => {
-                    const result = await axioslogin.post('/qiendoscopy/endoReport', searchdata)
+                const getEmergencyReport = async (searchdata) => {
+                    const result = await axioslogin.post('/qiemergency/emerReport', searchdata)
                     const { success, data } = result.data
                     if (success === 1) {
                         const resultArray = daylist?.map((day) => {
-                            const reportArray = data.find((val) => moment(val.qi_date).format('DD-MM-YYYY') === day)
+                            const reportArray = data.find((val) => moment(val.qi_emergency_date).format('DD-MM-YYYY') === day)
                             return {
                                 date: day,
                                 total_patients: reportArray ? reportArray.total_patients : 0,
-                                total_error_report: reportArray ? reportArray.total_error_report : 0,
-                                total_redose: reportArray ? reportArray.total_redose : 0,
-                                total_sumof_time: reportArray ? reportArray.total_sumof_time : 0,
-                                total_ident_error: reportArray ? reportArray.total_ident_error : 0,
-                                total_falls: reportArray ? reportArray.total_falls : 0,
-                                total_sentinels_analyse: reportArray ? reportArray.total_sentinels_analyse : 0,
-                                total_sentinels_collect: reportArray ? reportArray.total_sentinels_collect : 0,
-                                total_near_misses: reportArray ? reportArray.total_near_misses : 0,
-                                total_incidents: reportArray ? reportArray.total_incidents : 0,
+                                total_time_taken: reportArray ? reportArray.total_time_taken : 0,
+                                total_patients_return: reportArray ? reportArray.total_patients_return : 0,
                             }
                         })
                         setreportData(resultArray)
@@ -76,7 +68,7 @@ const EndoscopyQIReport = ({ setReportViewFlag, qltyDept, processDate }) => {
                         setreportData([])
                     }
                 }
-                getEndoscopyReport(searchdata)
+                getEmergencyReport(searchdata)
             }
             else {
                 setIndicatorList([])
@@ -84,123 +76,38 @@ const EndoscopyQIReport = ({ setReportViewFlag, qltyDept, processDate }) => {
             }
         })
     }, [qltyDept, searchdata, startDate, endDate])
-
     const Reportview = useCallback((qi_slno, qi_name) => {
         if (reportData.length !== 0) {
             setReportName(qi_name)
-            if (qi_slno === 1) {
+            if (qi_slno === 8) {
                 const resultArray = reportData?.map((val, index) => {
                     return {
                         slno: index + 1,
                         date: val.date,
-                        data1: val.total_error_report,
+                        data1: val.total_time_taken,
                         data2: val.total_patients,
-                        data3: (val.total_patients !== 0 && val.total_error_report !== 0) ?
-                            (val.total_error_report / val.total_patients).toFixed(3) : 0
+                        data3: (val.total_patients !== 0 && val.total_time_taken !== 0) ?
+                            (val.total_time_taken / val.total_patients).toFixed(3) : 0
                     }
-
                 })
                 setTableData(resultArray)
-                setHeaderNames1('Total Number of Reporting Errors')
-                setHeaderNames2('Total Number Of Tests Performed')
+                setHeaderNames1('Total Sum of Time Taken for Assessment')
+                setHeaderNames2('Total Number Of Patients In Indoor/Emergency')
             }
-            else if (qi_slno === 2) {
+            else if (qi_slno === 9) {
                 const resultArray = reportData?.map((val, index) => {
                     return {
                         slno: index + 1,
                         date: val.date,
-                        data1: val.total_redose,
+                        data1: val.total_patients_return,
                         data2: val.total_patients,
-                        data3: (val.total_patients !== 0 && val.total_redose !== 0) ?
-                            (val.total_redose / val.total_patients).toFixed(3) : 0
+                        data3: (val.total_patients !== 0 && val.total_patients_return !== 0) ?
+                            (val.total_patients_return / val.total_patients).toFixed(3) : 0
                     }
-
                 })
                 setTableData(resultArray)
-                setHeaderNames1('Total Number of Re dos')
-                setHeaderNames2('Total Number Of Tests Performed')
-            }
-            else if (qi_slno === 3) {
-                const resultArray = reportData?.map((val, index) => {
-                    return {
-                        slno: index + 1,
-                        date: val.date,
-                        data1: val.total_sumof_time,
-                        data2: val.total_patients,
-                        data3: (val.total_patients !== 0 && val.total_sumof_time !== 0) ?
-                            (val.total_sumof_time / val.total_patients).toFixed(3) : 0
-                    }
-
-                })
-                setTableData(resultArray)
-                setHeaderNames1('Total Sum of Time')
-                setHeaderNames2('Total Number Of Patients Reported')
-            }
-
-            else if (qi_slno === 4) {
-                const resultArray = reportData?.map((val, index) => {
-                    return {
-                        slno: index + 1,
-                        date: val.date,
-                        data1: val.total_ident_error,
-                        data2: val.total_patients,
-                        data3: (val.total_patients !== 0 && val.total_ident_error !== 0) ?
-                            (val.total_ident_error / val.total_patients).toFixed(3) : 0
-                    }
-
-                })
-                setTableData(resultArray)
-                setHeaderNames1('Total Number of Patient Identification Errors')
-                setHeaderNames2('Total Number Of Patients')
-            }
-
-            else if (qi_slno === 5) {
-                const resultArray = reportData?.map((val, index) => {
-                    return {
-                        slno: index + 1,
-                        date: val.date,
-                        data1: val.total_falls,
-                        data2: val.total_patients,
-                        data3: (val.total_patients !== 0 && val.total_falls !== 0) ?
-                            (val.total_falls / val.total_patients).toFixed(3) : 0
-                    }
-
-                })
-                setTableData(resultArray)
-                setHeaderNames1('Total Number of Falls')
-                setHeaderNames2('Total Number Of Patient days')
-            }
-            else if (qi_slno === 6) {
-                const resultArray = reportData?.map((val, index) => {
-                    return {
-                        slno: index + 1,
-                        date: val.date,
-                        data1: val.total_sentinels_analyse,
-                        data2: val.total_sentinels_collect,
-                        data3: (val.total_sentinels_analyse !== 0 && val.total_sentinels_collect !== 0) ?
-                            (val.total_sentinels_analyse / val.total_sentinels_collect).toFixed(3) : 0
-                    }
-
-                })
-                setTableData(resultArray)
-                setHeaderNames1('Total Number of sentinel events analyzed within the defined time frame')
-                setHeaderNames2('Total Number Of sentinel event reported/collected')
-            }
-            else {
-                const resultArray = reportData?.map((val, index) => {
-                    return {
-                        slno: index + 1,
-                        date: val.date,
-                        data1: val.total_near_misses,
-                        data2: val.total_incidents,
-                        data3: (val.total_near_misses !== 0 && val.total_incidents !== 0) ?
-                            (val.total_near_misses / val.total_incidents).toFixed(3) : 0
-                    }
-
-                })
-                setTableData(resultArray)
-                setHeaderNames1('Total Number of near misses reported')
-                setHeaderNames2('Total Number Of incidents reported')
+                setHeaderNames1('Total No.Of returns to emergency within 72 hrs with similar presenting complaints')
+                setHeaderNames2('Total No.Of patients who have come to the emergency')
             }
             setTableFlag(1)
         }
@@ -209,9 +116,7 @@ const EndoscopyQIReport = ({ setReportViewFlag, qltyDept, processDate }) => {
             infoNotify("No Data Found")
             setTableData([])
         }
-        // setModalOpen(true)
     }, [reportData])
-
     return (
         <Fragment>
             <Box>
@@ -228,7 +133,7 @@ const EndoscopyQIReport = ({ setReportViewFlag, qltyDept, processDate }) => {
                             </Box>
                             <Box sx={{ flex: 1, fontSize: 17, pt: 0.8, pl: 1 }}>
                                 <Typography sx={{ color: 'darkgreen', fontWeight: 550 }}>
-                                    Endoscopy Daily Report
+                                    Emergency Daily Report
                                 </Typography>
                             </Box>
                             <Box sx={{ flex: 2, }}>
@@ -269,24 +174,10 @@ const EndoscopyQIReport = ({ setReportViewFlag, qltyDept, processDate }) => {
                             })}
                         </Paper>
                     </Box>
-
                 }
-                {/* 
-                {tableFlag === 1 ? <Paper>
-
-                    <DailyReportOfQI reportName={reportName} tableData={tableData} headerNames1={headerNames1} headerNames2={headerNames2}
-                        setTableFlag={setTableFlag} setTableData={setTableData} dateRange={dateRange} processDate={processDate} /> */}
-
-                {/* <CssVarsProvider>
-                        <ReportModal open={modalopen} handleClose={handleClose} reportName={reportName} tableData={tableData}
-                            headerNames1={headerNames1} headerNames2={headerNames2}
-                        />
-                    </CssVarsProvider> */}
-                {/* </Paper> : */}
-
             </Box>
         </Fragment>
     )
 }
 
-export default EndoscopyQIReport
+export default EmergencyDailyReport

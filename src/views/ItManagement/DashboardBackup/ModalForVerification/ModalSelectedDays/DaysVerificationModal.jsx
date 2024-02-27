@@ -191,7 +191,7 @@ const DaysVerificationModal = ({ open, handleClose, rowSelect, count, setCount }
             backup_slno: backupslno,
             selected_days: selected_days,
             backup_selected_date: startdate,
-            due_date: moment(addDays(new Date(startdate), selected_days)).format('YYYY-MM-DD'),
+            due_date: moment(addDays(new Date(startdate), (selected_days - 1))).format('YYYY-MM-DD'),
             verify_status: 0,
             create_user: id
         }

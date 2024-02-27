@@ -1,12 +1,11 @@
 import { Box, Button, CssVarsProvider, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
-import moment from 'moment'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt, setDailyDate, existData, existFlag }) => {
+const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt, endoexistData, endoFlag, setEndoExistData, setEndoFlag }) => {
     const [toterror, setToterror] = useState(0)
     const [errorResult, setErrorResult] = useState(0)
     const [totRedos, setTotRedos] = useState(0)
@@ -23,7 +22,6 @@ const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt,
     const [nearMisses, setNearMisses] = useState(0)
     const [totalIncidents, settotalIncidents] = useState(0)
     const [nearMissesResult, setNearMissesResult] = useState(0)
-    // const [existFlag, setExistFlag] = useState(0)
     const [endoqi_slno, setEndoQi_slno] = useState(0)
 
     const id = useSelector((state) => {
@@ -98,7 +96,7 @@ const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt,
         else {
             setSentinelAnalyse(inputdata);
             if (sentinelCollect !== 0) {
-                const result = (inputdata / sentinelCollect).toFixed(2);
+                const result = (inputdata / sentinelCollect).toFixed(3);
                 setsentinelResult(result);
             }
             else {
@@ -116,7 +114,7 @@ const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt,
         else {
             setSentinelCollect(inputdata);
             if (sentinelAnalyse !== 0) {
-                const result = (sentinelAnalyse / inputdata).toFixed(2);
+                const result = (sentinelAnalyse / inputdata).toFixed(3);
                 setsentinelResult(result);
             }
             else {
@@ -134,7 +132,7 @@ const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt,
         else {
             setNearMisses(inputdata);
             if (totalIncidents !== 0) {
-                const result = (inputdata / totalIncidents).toFixed(2);
+                const result = (inputdata / totalIncidents).toFixed(3);
                 setNearMissesResult(result);
             }
             else {
@@ -152,7 +150,7 @@ const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt,
         else {
             settotalIncidents(inputdata);
             if (nearMisses !== 0) {
-                const result = (nearMisses / inputdata).toFixed(2);
+                const result = (nearMisses / inputdata).toFixed(3);
                 setNearMissesResult(result);
             }
             else {
@@ -162,7 +160,6 @@ const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt,
     }, [nearMisses])
     useEffect(() => {
         if (totpatients !== 0) {
-
             setErrorResult((toterror / totpatients).toFixed(3))
             setredosResult((totRedos / totpatients).toFixed(3))
             setTimeResult((sumofTime / totpatients).toFixed(3))
@@ -188,11 +185,12 @@ const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt,
         setNearMisses(0)
         settotalIncidents(0)
         setNearMissesResult(0)
-        // setExistFlag(0)
+        setEndoFlag(0)
         setTotpatients(0)
         setCheckDpt(0)
-        setDailyDate(moment(new Date()).format('YYYY-MM-DD'))
-    }, [setTotpatients, setDailyDate, setCheckDpt])
+        // setEndoQi_slno(0)
+        setEndoExistData([])
+    }, [setTotpatients, setCheckDpt, setEndoExistData, setEndoFlag])
     const ResetData = useCallback(() => {
         reset()
     }, [reset])
@@ -215,10 +213,9 @@ const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt,
     }, [id, dailyDate, totpatients, toterror, totRedos, sumofTime, identError, totFalls, sentinelAnalyse,
         sentinelCollect, nearMisses, totalIncidents])
     useEffect(() => {
-
-        if (existData.length !== 0) {
+        if (Object.keys(endoexistData).length !== 0) {
             const { qi_daily_endos_slno, total_patients, total_error_report, total_redose, total_sumof_time, total_ident_error,
-                total_falls, total_sentinels_analyse, total_sentinels_collect, total_near_misses, total_incidents } = existData[0]
+                total_falls, total_sentinels_analyse, total_sentinels_collect, total_near_misses, total_incidents } = endoexistData[0]
             setEndoQi_slno(qi_daily_endos_slno)
             setTotpatients(total_patients)
             setToterror(total_error_report)
@@ -233,12 +230,20 @@ const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt,
             setFallsResult((total_falls / total_patients).toFixed(3))
             setSentinelAnalyse(total_sentinels_analyse)
             setSentinelCollect(total_sentinels_collect)
-            setsentinelResult((total_sentinels_analyse / total_sentinels_collect).toFixed(3))
+            if (total_sentinels_collect !== 0) {
+                setsentinelResult((total_sentinels_analyse / total_sentinels_collect).toFixed(3))
+            } else {
+                setsentinelResult(0)
+            }
             setNearMisses(total_near_misses)
             settotalIncidents(total_incidents)
-            setNearMissesResult((total_near_misses / total_incidents).toFixed(3))
+            if (total_incidents !== 0) {
+                setNearMissesResult((total_near_misses / total_incidents).toFixed(3))
+            }
+            else {
+                setNearMissesResult(0)
+            }
         }
-
         else {
             setToterror(0)
             setErrorResult(0)
@@ -257,7 +262,7 @@ const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt,
             settotalIncidents(0)
             setNearMissesResult(0)
         }
-    }, [existData, setTotpatients])
+    }, [endoexistData, setTotpatients])
     const patchdata = useMemo(() => {
         return {
             qi_date: dailyDate,
@@ -281,46 +286,57 @@ const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt,
         if (totpatients === 0) {
             infoNotify("Enter Patients Count")
         }
+        else if (toterror > totpatients) {
+            infoNotify("Total No.Of Reporting Error Cannot Exceed Total No.Of Patients Visited")
+        }
+        else if (totRedos > totpatients) {
+            infoNotify("Total No.Of Re dos Cannot Exceed Total No.Of Patients Visited")
+        }
+        else if (identError > totpatients) {
+            infoNotify("Total No.Of Patient Identification Errors Cannot Exceed Total No.Of Patients Visited")
+        }
+        else if (totFalls > totpatients) {
+            infoNotify("Total No.Of Falls Cannot Exceed Total No.Of Patients Visited")
+        }
+        else if (sentinelAnalyse > sentinelCollect) {
+            infoNotify("Total No.Of Sentinel Events Analysed Cannot Exceed Total No.Of Sentinel Event Reported/Collected ")
+        }
+        else if (nearMisses > totalIncidents) {
+            infoNotify("Total No.Of Near Misses Reported Cannot Exceed Total No.Of Incidents Reported")
+        }
         else {
             e.preventDefault();
-            const InsertData = async (postdata) => {
-                const result = await axioslogin.post('/qiendoscopy/savedata', postdata);
-                const { message, success } = result.data;
-                if (success === 1) {
-                    succesNotify(message)
-                    reset()
+            if (endoFlag === 0) {
+                const InsertData = async (postdata) => {
+                    const result = await axioslogin.post('/qiendoscopy/savedata', postdata);
+                    const { message, success } = result.data;
+                    if (success === 1) {
+                        succesNotify(message)
+                        reset()
+                    }
+                    else {
+                        infoNotify(message)
+                    }
                 }
-                else if (success === 0) {
-                    infoNotify(message)
-                }
-                else {
-
-                }
-            }
-            const UpdateData = async (patchdata) => {
-                const result = await axioslogin.patch('/qiendoscopy/update', patchdata);
-                const { message, success } = result.data;
-                if (success === 1) {
-                    succesNotify(message)
-                    reset()
-                }
-                else if (success === 0) {
-                    infoNotify(message)
-                }
-                else {
-
-                }
-            }
-            if (existFlag === 0) {
                 InsertData(postdata)
             }
             else {
+                const UpdateData = async (patchdata) => {
+                    const result = await axioslogin.patch('/qiendoscopy/update', patchdata);
+                    const { message, success } = result.data;
+                    if (success === 1) {
+                        succesNotify(message)
+                        reset()
+                    }
+                    else {
+                        infoNotify(message)
+                    }
+                }
                 UpdateData(patchdata)
             }
         }
-
-    }, [postdata, patchdata, existFlag, reset, totpatients])
-
+    }, [postdata, patchdata, endoFlag, reset, totpatients, toterror, totRedos, identError, totFalls,
+        sentinelAnalyse, sentinelCollect, nearMisses, totalIncidents])
     return (
         <Fragment>
             <Box>
@@ -691,7 +707,7 @@ const EndoscopyDetails = ({ totpatients, dailyDate, setTotpatients, setCheckDpt,
                 <Paper sx={{ height: 50, pt: 1, bgcolor: '#E8ECF3', display: "flex" }}>
                     <Box sx={{ display: "flex", justifyContent: 'flex-end', flex: 1, pr: 5 }}>
                         {
-                            existFlag === 0 ?
+                            endoFlag === 0 ?
                                 <Box sx={{}}>
                                     <CssVarsProvider>
                                         <Button variant="outlined" sx={{ fontSize: 16, color: '#004F76', width: 100, cursor: 'pointer' }}
