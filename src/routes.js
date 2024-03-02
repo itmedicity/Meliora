@@ -410,11 +410,7 @@ const routes = [
   { path: '/Home/CRFNewPurchase', exact: true, name: 'CRF New Purchase', component: CRFNewPurchase },
   { path: '/Home/CRFNewCRSStore', exact: true, name: 'CRF New CRS Store', component: CRFNewCRSStore },
   { path: '/Home/CRFNewStore', exact: true, name: 'CRF New Store', component: CRFNewStore },
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 6a29dd108a7afd19656c5ff3ba86acf62949ec7f
 ]
 
 export default routes
