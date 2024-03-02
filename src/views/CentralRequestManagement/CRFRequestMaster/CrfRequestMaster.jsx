@@ -80,7 +80,7 @@ const CrfRequestMaster = () => {
     const [dataPost, setdataPost] = useState([])
     const [arrayupdate, setArryUpdate] = useState(0)
     const [editdata, setEditdata] = useState([])
-    const [totalApproxCost, setTotalCost] = useState(0)
+    // const [totalApproxCost, setTotalCost] = useState(0)
     const [emergency, setEmergency] = useState(false)
     const [emerType, setEmerType] = useState(0)
     const [detailDataDis, setDetailDataDis] = useState([])
@@ -549,13 +549,13 @@ const CrfRequestMaster = () => {
             emergency_flag: emergency === true ? 1 : 0,
             emer_slno: emerType !== 0 ? emerType : null,
             emergeny_remarks: remarks !== '' ? remarks : null,
-            total_approx_cost: totalApproxCost,
+            // total_approx_cost: totalApproxCost,
             user_deptsec: deptsec,
             create_user: id
         }
 
     }, [dept, deptSec, actual_require, needed, category, location, startdate,
-        emergency, remarks, totalApproxCost, deptsec, id, emerType])
+        emergency, remarks, deptsec, id, emerType])
 
 
     const reqDataPatch = useMemo(() => {
@@ -570,14 +570,14 @@ const CrfRequestMaster = () => {
             emergency_flag: emergency === true ? 1 : 0,
             emer_slno: emerType !== 0 ? emerType : null,
             emergeny_remarks: remarks !== '' ? remarks : null,
-            total_approx_cost: totalApproxCost,
+            // total_approx_cost: totalApproxCost,
             user_deptsec: deptsec,
             edit_user: id,
             req_slno: reqSlno
         }
 
     }, [dept, deptSec, actual_require, needed, category, location, startdate,
-        emergency, remarks, totalApproxCost, deptsec, id, emerType, reqSlno])
+        emergency, remarks, deptsec, id, emerType, reqSlno])
 
 
 
@@ -605,7 +605,6 @@ const CrfRequestMaster = () => {
         setdataPost([])
         setArryUpdate(0)
         setEditdata([])
-        setTotalCost(0)
         setEmergency(false)
         setEmerType(0)
         const resetdata = {
@@ -834,7 +833,7 @@ const CrfRequestMaster = () => {
         setValue(1);
         const data = params.api.getSelectedRows()
         const { req_slno, actual_requirement, location, request_dept_slno, category, image_status,
-            needed, request_deptsec_slno, expected_date, total_approx_cost, emergency_flag,
+            needed, request_deptsec_slno, expected_date, emergency_flag,
             emer_slno, emergeny_remarks
         } = data[0]
 
@@ -846,7 +845,6 @@ const CrfRequestMaster = () => {
         setdept(request_dept_slno)
         setdeptSec(request_deptsec_slno)
         setStartdate(format(new Date(expected_date), "yyyy-MM-dd"))
-        setTotalCost(total_approx_cost)
         setReqSlno(req_slno)
         setImgFlag(image_status)
         setEmergency(emergency_flag === 1 ? true : false)
@@ -858,7 +856,7 @@ const CrfRequestMaster = () => {
         setdataPost([])
         setArryUpdate(0)
         setEditdata([])
-        setTotalCost(0)
+
 
         const resetdata = {
             item_desc: '',
@@ -1219,7 +1217,7 @@ const CrfRequestMaster = () => {
                                         />
                                     </Box>
                                 </Box>
-                                <Box sx={{
+                                {/* <Box sx={{
                                     width: "10%", display: "flex", flexDirection: "column",
                                 }}>
                                     <CustomPaperTitle heading="Total Approx.Cost" />
@@ -1231,7 +1229,7 @@ const CrfRequestMaster = () => {
                                             value={totalApproxCost}
                                         />
                                     </Box>
-                                </Box>
+                                </Box> */}
 
                                 <Box sx={{
                                     width: "50%", display: "flex", flexDirection: "row", pl: 1,

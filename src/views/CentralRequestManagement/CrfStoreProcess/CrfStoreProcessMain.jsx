@@ -128,7 +128,7 @@ const CrfStoreProcessMain = () => {
 
 
             <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
-                <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF Store</Box>
+                <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF CRS Store</Box>
                 <Box>
                     <CusIconButton size="sm" variant="outlined" color="primary" onClick={backtoSetting} >
                         <CloseIcon fontSize='small' />

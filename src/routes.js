@@ -200,8 +200,8 @@ const DailyCensusReport = React.lazy(() => (import('./views/DailyCensus/DailyCen
 const CrfNewDataCollection = React.lazy(() => import('./views/CentralRequestManagement/CrfDatacollection/CrfDataCollectionTable'))
 const CRFNewPdfView = React.lazy(() => import('./views/CentralRequestManagement/CrfPdfView/CrfPdfViewMain'))
 const CRFNewPurchase = React.lazy(() => import('./views/CentralRequestManagement/PurchaseProcess/PurchaseTablemain'))
-const CRFNewStore = React.lazy(() => import('./views/CentralRequestManagement/CrfStoreProcess/CrfStoreProcessMain'))
-
+const CRFNewCRSStore = React.lazy(() => import('./views/CentralRequestManagement/CrfStoreProcess/CrfStoreProcessMain'))
+const CRFNewStore = React.lazy(() => import('./views/CentralRequestManagement/CrfSubStores/CrfSubStoreMain'))
 
 
 
@@ -408,8 +408,8 @@ const routes = [
   { path: '/Home/CrfNewDataCollection', exact: true, name: 'CRF New Data Collection', component: CrfNewDataCollection },
   { path: '/Home/CRFNewPdfView', exact: true, name: 'CRF New PDF View', component: CRFNewPdfView },
   { path: '/Home/CRFNewPurchase', exact: true, name: 'CRF New Purchase', component: CRFNewPurchase },
+  { path: '/Home/CRFNewCRSStore', exact: true, name: 'CRF New CRS Store', component: CRFNewCRSStore },
   { path: '/Home/CRFNewStore', exact: true, name: 'CRF New Store', component: CRFNewStore },
-
 
 ]
 

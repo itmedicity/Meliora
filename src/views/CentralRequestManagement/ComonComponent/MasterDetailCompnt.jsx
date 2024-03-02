@@ -1,4 +1,4 @@
-import { Box, Paper } from '@mui/material'
+import { Box } from '@mui/material'
 import React, { memo, } from 'react'
 import { Chip, CssVarsProvider, Typography } from '@mui/joy'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
@@ -15,12 +15,13 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import Person3Icon from '@mui/icons-material/Person3';
 import RequestPageIcon from '@mui/icons-material/RequestPage';
 import BalanceIcon from '@mui/icons-material/Balance';
+import { format } from 'date-fns';
 
 const MasterDetailCompnt = ({ val }) => {
 
     const { req_slno, req_date, dept_name, req_deptsec, user_deptsection, actual_requirement, needed,
         category, location, expected_date, emergency_flag, em_name, emer_type_name } = val
-
+    const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
 
     return (
         <Box sx={{
@@ -71,17 +72,18 @@ const MasterDetailCompnt = ({ val }) => {
                                             sx={{
                                                 "--Chip-minHeight": "9px",
                                                 "--Chip-paddingInline": "10px",
-                                                backgroundColor: '#D5F4B1'
+                                                backgroundColor: '#F7D3D3'
                                             }}
                                         >
                                             Yes
                                         </Chip> :
                                         <Chip component="span" size="sm"
-                                            startDecorator={<ClearOutlinedIcon sx={{ zIndex: 1, pointerEvents: 'none', color: 'red' }} />}
+                                            startDecorator={<ClearOutlinedIcon sx={{ zIndex: 1, pointerEvents: 'none', color: 'green' }} />}
                                             sx={{
                                                 "--Chip-minHeight": "9px",
                                                 "--Chip-paddingInline": "10px",
-                                                backgroundColor: '#F7D3D3'
+
+                                                backgroundColor: '#D5F4B1'
                                             }}
                                         >
                                             No
@@ -106,7 +108,7 @@ const MasterDetailCompnt = ({ val }) => {
                                                     sx={{
                                                         "--Chip-minHeight": "9px",
                                                         "--Chip-paddingInline": "10px",
-                                                        backgroundColor: '#D5F4B1',
+                                                        backgroundColor: '#F7D3D3',
                                                     }}
                                                 >
                                                     {emer_type_name?.toLowerCase()}
@@ -124,7 +126,7 @@ const MasterDetailCompnt = ({ val }) => {
                             <CalendarMonthIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
                             <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, pr: 0.5 }} >CRF Excepted Date</Typography>
                             <Typography level='body-sm' textColor='#3E3F40' fontWeight={900} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >/</Typography>
-                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >{expected_date}</Typography>
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >{expdate}</Typography>
                         </Box>
 
                         <Box sx={{ pr: 1, display: 'flex', alignItems: 'center', }}>
@@ -158,15 +160,8 @@ const MasterDetailCompnt = ({ val }) => {
                             endDecorator={<KeyboardArrowRightOutlinedIcon />} >Requirement</Typography>
                     </Box>
                     <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', }}>
-                        <Paper sx={{
-                            width: '100%', minHeight: 10, maxHeight: 70, p: 0.8,
-                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" },
-                            backgroundColor: 'rgb(187,188,188)', border: 0.5, borderColor: '#D4D7D7'
-                        }} variant='none'>
-                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} >
-                                {actual_requirement !== null ? actual_requirement : "Not Given"}
-                            </Typography>
-                        </Paper>
+                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >
+                            {actual_requirement !== null ? actual_requirement : "Not Given"}</Typography>
                     </Box>
                 </Box >
                 < Box sx={{
@@ -181,12 +176,8 @@ const MasterDetailCompnt = ({ val }) => {
                             endDecorator={<KeyboardArrowRightOutlinedIcon />} >Justification</Typography>
                     </Box>
                     <Box sx={{ width: "40%", display: 'flex', alignItems: 'center', }} >
-                        <Paper sx={{
-                            width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15, textTransform: "capitalize",
-                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                        }} variant='none'>
-                            {needed !== null ? needed : "Not Given"}
-                        </Paper>
+                        <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >
+                            {needed !== null ? needed : "Not Given"}</Typography>
                     </Box>
 
                 </Box >
