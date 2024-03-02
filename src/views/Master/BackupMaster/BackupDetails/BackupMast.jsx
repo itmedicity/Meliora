@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Paper, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useEffect } from 'react';
 import { useMemo } from 'react';
 import { memo } from 'react';
@@ -264,7 +264,7 @@ const BackupMast = () => {
                                 backup_slno: insert_id,
                                 selected_days: days,
                                 backup_selected_date: startdate,
-                                due_date: moment(addDays(new Date(startdate), days)).format('YYYY-MM-DD'),
+                                due_date: moment(addDays(new Date(startdate), (days - 1))).format('YYYY-MM-DD'),
                                 verify_status: 0,
                                 create_user: id
                             }
@@ -301,15 +301,56 @@ const BackupMast = () => {
                 })
             }
             else {
-                if (scheduleType === 1) {
-                    const DeleteDetails = async (deletedata) => {
-                        const result = await axioslogin.post('/backupdetails/daydelete', deletedata);
-                        const { success } = result.data;
-                        if (success === 2) {
-                            // succesNotify(message)
+                if (editScheduleType !== scheduleType) {
+                    if (editScheduleType === 1) {
+                        const DeleteDetails = async (deletedata) => {
+                            const result = await axioslogin.post('/backupdetails/daydelete', deletedata);
+                            const { success } = result.data;
+                            if (success === 2) {
+
+                            }
                         }
+                        DeleteDetails(deletedata)
                     }
-                    DeleteDetails(deletedata)
+                    else if (editScheduleType === 2) {
+                        const DeleteDetails = async (deletedata) => {
+                            const result = await axioslogin.post('/backupdetails/monthdelete', deletedata);
+                            const { success } = result.data;
+                            if (success === 2) {
+                            }
+                        }
+                        DeleteDetails(deletedata)
+                    }
+                    else if (editScheduleType === 3) {
+                        const DeleteDetails = async (deletedata) => {
+                            const result = await axioslogin.post('/backupdetails/weekdelete', deletedata);
+                            const { success } = result.data;
+                            if (success === 2) {
+                            }
+                        }
+                        DeleteDetails(deletedata)
+                    }
+
+                    else if (editScheduleType === 4) {
+                        const DeleteDetails = async (deletedata) => {
+                            const result = await axioslogin.post('/backupdetails/yeardelete', deletedata);
+                            const { success } = result.data;
+                            if (success === 2) {
+                            }
+                        }
+                        DeleteDetails(deletedata)
+                    }
+                    else {
+                        const DeleteDetails = async (deletedata) => {
+                            const result = await axioslogin.post('/backupdetails/seldaysdelete', deletedata);
+                            const { success } = result.data;
+                            if (success === 2) {
+                            }
+                        }
+                        DeleteDetails(deletedata)
+                    }
+                }
+                if (scheduleType === 1) {
                     const inactiveScheduleTime = async (inactivedatas) => {
                         const result = await axioslogin.patch('/backupdetails/inactive', inactivedatas);
                         return result.data
@@ -375,22 +416,54 @@ const BackupMast = () => {
                     UpdateDetailsMast(patchdata).then((value) => {
                         const { success, message } = value
                         if (success === 2) {
-                            const updatedata = {
-                                backup_slno: backup_slno,
-                                selected_days: days,
-                                due_date: moment(addDays(new Date(backup_selected_date), days)).format('YYYY-MM-DD'),
-                                edit_user: id
-                            }
-                            const updateSelectedDays = async (updatedata) => {
-                                const result = await axioslogin.patch('/backupdetails/updatedays', updatedata);
-                                const { message, success } = result.data;
-                                if (success === 2) {
-                                    succesNotify(message)
-                                    setCount(count + 1);
-                                    reset()
+                            if (editScheduleType !== 5) {
+                                const inactiveScheduleTime = async (inactivedatas) => {
+                                    const result = await axioslogin.patch('/backupdetails/inactive', inactivedatas);
+                                    return result.data
                                 }
+                                inactiveScheduleTime(inactivedatas).then((val) => {
+                                    const { success } = val
+                                    if (success === 2) {
+                                        const startdate = moment(new Date()).format('YYYY-MM-DD')
+                                        const insertdata = {
+                                            backup_slno: backup_slno,
+                                            selected_days: days,
+                                            backup_selected_date: startdate,
+                                            due_date: moment(addDays(new Date(startdate), (days - 1))).format('YYYY-MM-DD'),
+                                            verify_status: 0,
+                                            create_user: id
+                                        }
+                                        const InsertSelectedDays = async (insertdata) => {
+                                            const result = await axioslogin.post('/backupdetails/add', insertdata);
+                                            const { message, success } = result.data;
+                                            if (success === 1) {
+                                                succesNotify(message)
+                                                setCount(count + 1);
+                                                reset()
+                                            }
+                                        }
+                                        InsertSelectedDays(insertdata)
+                                    }
+                                })
                             }
-                            updateSelectedDays(updatedata)
+                            else {
+                                const updatedata = {
+                                    backup_slno: backup_slno,
+                                    selected_days: days,
+                                    due_date: moment(addDays(new Date(backup_selected_date), (days - 1))).format('YYYY-MM-DD'),
+                                    edit_user: id
+                                }
+                                const updateSelectedDays = async (updatedata) => {
+                                    const result = await axioslogin.patch('/backupdetails/updatedays', updatedata);
+                                    const { message, success } = result.data;
+                                    if (success === 2) {
+                                        succesNotify(message)
+                                        setCount(count + 1);
+                                        reset()
+                                    }
+                                }
+                                updateSelectedDays(updatedata)
+                            }
                         }
                         else if (success === 0) {
                             infoNotify(message);
@@ -401,53 +474,6 @@ const BackupMast = () => {
                     })
                 }
                 else {
-                    if (editScheduleType !== scheduleType) {
-                        if (editScheduleType === 1) {
-                            const DeleteDetails = async (deletedata) => {
-                                const result = await axioslogin.post('/backupdetails/daydelete', deletedata);
-                                const { success } = result.data;
-                                if (success === 2) {
-
-                                }
-                            }
-                            DeleteDetails(deletedata)
-                        }
-                        else if (editScheduleType === 2) {
-                            const DeleteDetails = async (deletedata) => {
-                                const result = await axioslogin.post('/backupdetails/monthdelete', deletedata);
-                                const { success } = result.data;
-                                if (success === 2) {
-                                }
-                            }
-                            DeleteDetails(deletedata)
-                        }
-                        else if (editScheduleType === 3) {
-                            const DeleteDetails = async (deletedata) => {
-                                const result = await axioslogin.post('/backupdetails/weekdelete', deletedata);
-                                const { success } = result.data;
-                                if (success === 2) {
-                                }
-                            }
-                            DeleteDetails(deletedata)
-                        }
-
-                        else if (editScheduleType === 4) {
-                            const DeleteDetails = async (deletedata) => {
-                                const result = await axioslogin.post('/backupdetails/yeardelete', deletedata);
-                                const { success } = result.data;
-                                if (success === 2) {
-                                }
-                            }
-                            DeleteDetails(deletedata)
-                        }
-                        else {
-
-                        }
-
-                    } else {
-
-                    }
-
                     const inactiveScheduleTime = async (inactivedatas) => {
                         const result = await axioslogin.patch('/backupdetails/inactive', inactivedatas);
                         return result.data
@@ -497,206 +523,192 @@ const BackupMast = () => {
     return (
         //  sx={{ height: window.innerHeight }}
         <Box >
-            <Paper >
-                <CardMaster
-                    title="Backup Details"
-                    submit={BackupChecksDetails}
-                    close={backtoSetting}
-                    refresh={refreshWindow}
-                >
-                    <Box sx={{ display: "flex", flexDirection: 'row', justifyContent: "center", pt: 2 }}>
+            <CardMaster
+                title="Backup Details"
+                submit={BackupChecksDetails}
+                close={backtoSetting}
+                refresh={refreshWindow}
+            >
+                <Box sx={{ display: "flex", flexDirection: 'row', justifyContent: "center", }}>
 
-                        <Box sx={{ display: "flex", flexDirection: 'column', borderRadius: '1px', flex: 2 }}>   </Box>
-                        <Box sx={{ display: "flex", flexDirection: 'column', borderRadius: '1px', flex: 3 }}>
-                            <Box sx={{ display: "flex", flexDirection: 'row', width: "100%", alignItems: "center", pt: 0.5 }}>
-                                <Box sx={{ display: "flex", width: "24%", justifyContent: "flex-start" }}>
-                                    <Typography> Backup Type </Typography>
-                                </Box>
-                                <Box sx={{ width: "62%", pl: 2 }}>
-                                    <BackupTypeSelect
-                                        backupType={backupType}
-                                        setBackupType={setBackupType}
-                                    />
-                                </Box>
+                    <Box sx={{ flex: 0.5 }}>   </Box>
+                    <Box sx={{ flex: 3 }}>
+                        <Box sx={{ display: 'flex', pt: 0.5 }}>
+                            <Box sx={{ flex: 1, pt: 0.2, display: 'flex', justifyContent: 'flex-end' }}>
+                                <Typography>Backup Type </Typography>
                             </Box>
-                            <Box sx={{ display: "flex", flexDirection: 'row', width: "100%", alignItems: "center", pt: 0.5 }}>
-                                <Box sx={{ display: "flex", width: "24%", justifyContent: "flex-start" }}>
-                                    <Typography>  Backup Name</Typography>
-                                </Box>
-                                <Box sx={{ width: "62%", pl: 2 }}>
-                                    <TextFieldCustom style={{ width: 755 }}
-                                        type="text"
-                                        size="sm"
-                                        name="backupname"
-                                        value={backupname}
-                                        onchange={UpdateBackupChecksDetails}
-                                    >
-                                    </TextFieldCustom>
-                                </Box>
+                            <Box sx={{ flex: 3, pl: 2 }}>
+                                <BackupTypeSelect
+                                    backupType={backupType}
+                                    setBackupType={setBackupType}
+                                />
                             </Box>
-                            <Box
-                                sx={{ display: "flex", flexDirection: 'row', width: "100%", alignItems: "center", pt: 0.5 }}>
-                                <Box sx={{ display: "flex", width: "24%", justifyContent: "flex-start", }}>
-                                    <Typography>Backup Location</Typography>
-                                </Box>
-                                <Box sx={{ width: "62%", pl: 2 }}>
-                                    <TextFieldCustom
-                                        style={{ width: 755 }}
-                                        type="text"
-                                        size="sm"
-                                        name="location"
-                                        value={location}
-                                        onchange={UpdateBackupChecksDetails}
-                                    />
-                                </Box>
+                        </Box>
+                        <Box sx={{ display: 'flex', pt: 0.5 }}>
+                            <Box sx={{ flex: 1, pt: 0.6, display: 'flex', justifyContent: 'flex-end' }}>
+                                <Typography>Backup Name</Typography>
                             </Box>
-                            <Box sx={{ display: "flex", flexDirection: 'row', width: "100%", alignItems: "center", pt: 0.5 }}>
-                                <Box sx={{ display: "flex", width: "24%", justifyContent: "flex-start", pt: 2 }}>
-                                    <Typography>Backup Device Details</Typography>
-                                </Box>
-                                <Box sx={{ width: "62%", pl: 2 }}>
-                                    <Box sx={{ display: "flex", flexDirection: 'row' }}
-                                    >
-                                        <Box sx={{ display: "flex", flexDirection: 'column' }}>
-                                            <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
-                                                IP Address
-                                            </Typography>
-                                            <TextFieldCustom
-                                                style={{ width: 200 }}
-                                                type="text"
-                                                size="sm"
-                                                name="ipadd1"
-                                                value={ipadd1}
-                                                onchange={UpdateBackupChecksDetails}
-                                            />
-                                        </Box>
-                                        <Box sx={{ display: "flex", flexDirection: 'column', pl: 1 }}>
-                                            <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
-                                                Computer Name
-                                            </Typography>
-                                            <TextFieldCustom
-                                                style={{ width: 200 }}
-                                                type="text"
-                                                size="sm"
-                                                name="compname1"
-                                                value={compname1}
-                                                onchange={UpdateBackupChecksDetails}
-                                            />
-                                        </Box>
-                                        <Box sx={{ display: "flex", flexDirection: 'column', pl: 1 }}>
-                                            <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
-                                                Physical Location
-                                            </Typography>
-                                            <TextFieldCustom
-                                                style={{ width: 339 }}
-                                                type="text"
-                                                size="sm"
-                                                name="physicalLoc1"
-                                                value={physicalLoc1}
-                                                onchange={UpdateBackupChecksDetails}
-                                            />
-                                        </Box>
+                            <Box sx={{ flex: 3, pl: 2 }}>
+                                <TextFieldCustom
+                                    placeholder="Backup Name"
+                                    type="text"
+                                    size="sm"
+                                    name="backupname"
+                                    value={backupname}
+                                    onchange={UpdateBackupChecksDetails}
+                                />
+                            </Box>
+                        </Box>
+                        <Box sx={{ display: 'flex', pt: 0.5 }}>
+                            <Box sx={{ flex: 1, pt: 0.6, display: 'flex', justifyContent: 'flex-end' }}>
+                                <Typography>Backup Location</Typography>
+                            </Box>
+                            <Box sx={{ flex: 3, pl: 2 }}>
+                                <TextFieldCustom
+                                    placeholder="Backup Location"
+                                    type="text"
+                                    size="sm"
+                                    name="location"
+                                    value={location}
+                                    onchange={UpdateBackupChecksDetails}
+                                />
+                            </Box>
+                        </Box>
+                        <Box sx={{ display: 'flex', pt: 0.5 }}>
+                            <Box sx={{ flex: 1, pt: 0.5, display: 'flex', justifyContent: 'flex-end' }}>
+                                <Typography>Device Details</Typography>
+                            </Box>
+                            <Box sx={{ flex: 3, pl: 2 }}>
+                                <Box sx={{ display: "flex", }} >
+                                    <Box sx={{ flex: 1 }}>
+                                        {/* <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
+                                            IP Address
+                                        </Typography> */}
+                                        <TextFieldCustom
+                                            placeholder="IP Address"
+                                            type="text"
+                                            size="sm"
+                                            name="ipadd1"
+                                            value={ipadd1}
+                                            onchange={UpdateBackupChecksDetails}
+                                        />
                                     </Box>
-                                </Box>
-                            </Box>
-                            <Box sx={{ display: "flex", flexDirection: 'row', width: "100%", alignItems: "center", pt: 0.5 }}>
-                                <Box sx={{ display: "flex", width: "24%", justifyContent: "flex-start", pt: 2 }}>
-                                    <Typography>Backup Transferred Device</Typography>
-                                </Box>
-                                <Box sx={{ width: "62%", pl: 2 }}>
-                                    <Box sx={{ display: "flex", flexDirection: 'row' }}
-                                    >
-                                        <Box sx={{ display: "flex", flexDirection: 'column', }}>
-                                            <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
-                                                IP Address
-                                            </Typography>
-                                            <TextFieldCustom
-                                                style={{ width: 200 }}
-                                                type="text"
-                                                size="sm"
-                                                name="ipadd2"
-                                                value={ipadd2}
-                                                onchange={UpdateBackupChecksDetails}
-                                            />
-                                        </Box>
-                                        <Box sx={{ display: "flex", flexDirection: 'column', pl: 1 }}>
-                                            <Typography
-                                                align='left' sx={{ pl: 1, fontSize: '12px', }}>
-                                                Computer Name
-                                            </Typography>
-                                            <TextFieldCustom
-                                                style={{ width: 200 }}
-                                                type="text"
-                                                size="sm"
-                                                name="compname2"
-                                                value={compname2}
-                                                onchange={UpdateBackupChecksDetails}
-                                            />
-                                        </Box>
-                                        <Box
-                                            sx={{
-                                                display: "flex", flexDirection: 'column', pl: 1
-                                            }}>
-                                            <Typography
-                                                align='left'
-                                                sx={{ pl: 1, fontSize: '12px', }} >
-                                                Physical Location
-                                            </Typography>
-                                            <TextFieldCustom
-                                                style={{ width: 339 }}
-                                                type="text"
-                                                size="sm"
-                                                name="physicalLoc2"
-                                                value={physicalLoc2}
-                                                onchange={UpdateBackupChecksDetails}
-                                            />
-                                        </Box>
+                                    <Box sx={{ flex: 1, pl: 0.5 }}>
+                                        {/* <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
+                                            Computer Name
+                                        </Typography> */}
+                                        <TextFieldCustom
+                                            placeholder="Computer Name"
+                                            type="text"
+                                            size="sm"
+                                            name="compname1"
+                                            value={compname1}
+                                            onchange={UpdateBackupChecksDetails}
+                                        />
                                     </Box>
-                                </Box>
-                            </Box>
-                            <Box sx={{ display: "flex", flexDirection: 'row', width: "100%", alignItems: "center", pt: 0.5 }}>
-                                <Box sx={{ display: "flex", width: "24%", justifyContent: "flex-start" }}>
-                                    <Typography> Backup Schedule</Typography>
-                                </Box>
-                                <Box sx={{ width: "62%", pl: 2 }}>
-                                    <Box sx={{ display: "flex", flexDirection: 'row' }}>
-                                        <Box sx={{ display: "flex", flexDirection: 'column' }}>
-                                            <BackupScheduleSelect
-                                                scheduleType={scheduleType}
-                                                setScheduleType={setScheduleType}
-                                            />
-                                        </Box>
-                                        {scheduleType === 5 ?
-                                            <Box sx={{ display: "flex", flexDirection: 'column', pl: 1 }}>
-                                                <TextFieldCustom
-                                                    style={{ width: 339 }}
-                                                    type="text"
-                                                    size="sm"
-                                                    name="days"
-                                                    value={days}
-                                                    onchange={Selecteddayschange}
-                                                />
-                                            </Box> :
-                                            <Box sx={{ display: "flex", flexDirection: 'column', pl: 1, pt: 0.5 }}>
-                                                <BackupTimeSelect
-                                                    scheduleTime={scheduleTime}
-                                                    setScheduleTime={setScheduleTime}
-                                                />
-                                            </Box>
-                                        }
+                                    <Box sx={{ flex: 1, pl: 0.5 }}>
+                                        {/* <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
+                                            Physical Location
+                                        </Typography> */}
+                                        <TextFieldCustom
+                                            placeholder="Physical Location"
+                                            type="text"
+                                            size="sm"
+                                            name="physicalLoc1"
+                                            value={physicalLoc1}
+                                            onchange={UpdateBackupChecksDetails}
+                                        />
                                     </Box>
                                 </Box>
                             </Box>
                         </Box>
-                        <Box sx={{ display: "flex", flexDirection: 'column', borderRadius: '1px', flex: 2 }}>   </Box>
+                        <Box sx={{ display: 'flex', pt: 0.5 }}>
+                            <Box sx={{ flex: 1, pt: 0.5, display: 'flex', justifyContent: 'flex-end' }}>
+                                <Typography>Transferred Device</Typography>
+                            </Box>
+                            <Box sx={{ flex: 3, pl: 2 }}>
+                                <Box sx={{ display: "flex", }} >
+                                    <Box sx={{ flex: 1 }}>
+                                        {/* <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
+                                            IP Address
+                                        </Typography> */}
+                                        <TextFieldCustom
+                                            placeholder="IP Address"
+                                            type="text"
+                                            size="sm"
+                                            name="ipadd2"
+                                            value={ipadd2}
+                                            onchange={UpdateBackupChecksDetails}
+                                        />
+                                    </Box>
+                                    <Box sx={{ flex: 1, pl: 0.5 }}>
+                                        {/* <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
+                                            Computer Name
+                                        </Typography> */}
+                                        <TextFieldCustom
+                                            placeholder="Computer Name"
+                                            type="text"
+                                            size="sm"
+                                            name="compname2"
+                                            value={compname2}
+                                            onchange={UpdateBackupChecksDetails}
+                                        />
+                                    </Box>
+                                    <Box sx={{ flex: 1, pl: 0.5 }}>
+                                        {/* <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
+                                            Physical Location
+                                        </Typography> */}
+                                        <TextFieldCustom
+                                            placeholder="Physical Location"
+                                            type="text"
+                                            size="sm"
+                                            name="physicalLoc2"
+                                            value={physicalLoc2}
+                                            onchange={UpdateBackupChecksDetails}
+                                        />
+                                    </Box>
+                                </Box>
+                            </Box>
+                        </Box>
+                        <Box sx={{ display: 'flex', pt: 0.5 }}>
+                            <Box sx={{ flex: 1, pt: 0.5, display: 'flex', justifyContent: 'flex-end' }}>
+                                <Typography> Backup Schedule</Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', flex: 3, pl: 2 }}>
+                                <Box sx={{ flex: 1 }}>
+                                    <BackupScheduleSelect
+                                        scheduleType={scheduleType}
+                                        setScheduleType={setScheduleType}
+                                    />
+                                </Box>
+                                {scheduleType === 5 ?
+                                    <Box sx={{ flex: 1, pl: 0.5 }}>
+                                        <TextFieldCustom
+                                            type="text"
+                                            size="sm"
+                                            name="days"
+                                            value={days}
+                                            onchange={Selecteddayschange}
+                                        />
+                                    </Box> :
+                                    <Box sx={{ flex: 1, pl: 0.5, pt: 0.6 }}>
+                                        <BackupTimeSelect
+                                            scheduleTime={scheduleTime}
+                                            setScheduleTime={setScheduleTime}
+                                        />
+                                    </Box>
+                                }
+                            </Box>
+                        </Box>
                     </Box>
-                </CardMaster >
-                <Box sx={{ width: '100%', color: 'white' }}>
-                    <CssVarsProvider  >
-                        <BackupMastTable EditBackup={rowSelect} count={count} />
-                    </CssVarsProvider>
+                    <Box sx={{ flex: 1 }}>   </Box>
                 </Box>
-            </Paper>
+            </CardMaster >
+            <Box sx={{ display: 'flex', overflow: 'auto' }}>
+                <CssVarsProvider  >
+                    <BackupMastTable EditBackup={rowSelect} count={count} />
+                </CssVarsProvider>
+            </Box>
         </Box >
     )
 }

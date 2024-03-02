@@ -24,7 +24,8 @@ const BackupTimeSelect = ({ scheduleTime, setScheduleTime }) => {
                 {/* <CustomeToolTip title="Select Schedule Time"> */}
                 <FormControl fullWidth >
                     <Select
-                        sx={{ height: 26, lineHeight: 1.200, width: 338 }}
+                        sx={{ height: 28, lineHeight: 1.200, borderRadius: 1.5 }}
+                        placeholder="Select Schedule Time"
                         labelId="demo-multiple-name-label"
                         id="demo-multiple-name"
                         size="small"

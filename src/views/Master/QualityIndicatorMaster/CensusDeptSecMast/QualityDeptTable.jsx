@@ -7,7 +7,7 @@ const QualityDeptTable = ({ count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
     useEffect(() => {
         const getQtDepartment = async () => {
-            const result = await axioslogin.get('/qualityDept/select')
+            const result = await axioslogin.get('/censusNursingStat/select')
             const { success, data } = result.data
             if (success === 2) {
                 setTabledata(data)
@@ -17,9 +17,12 @@ const QualityDeptTable = ({ count, rowSelect }) => {
         }
         getQtDepartment();
     }, [count])
+
     const [column] = useState([
-        { headerName: "SlNo", field: "qi_dept_slno", width: 80, },
-        { headerName: "Department", field: "qi_dept_name", width: 150, filter: "true" },
+        { headerName: "Sl.No", field: "census_ns_slno", width: 80, },
+        { headerName: "Nursing Station Name", field: "census_ns_name", width: 150, filter: "true" },
+        { headerName: "NS CODE", field: "census_ns_code", width: 150, filter: "true" },
+        { headerName: "OU CODE", field: "census_ou_code", width: 150, filter: "true" },
         { headerName: "Status", field: "status", width: 100, },
         {
             headerName: 'Action',
@@ -29,6 +32,7 @@ const QualityDeptTable = ({ count, rowSelect }) => {
 
     return (
         <CusAgGridMast
+
             columnDefs={column}
             tableData={tabledata}
             onClick={rowSelect}

@@ -35,8 +35,7 @@ const BackupScheduleSelect = ({ scheduleType, setScheduleType }) => {
             <CssVarsProvider>
                 <Autocomplete
                     sx={{
-                        "--Input-minHeight": "29px",
-                        width: 409
+                        "--Input-minHeight": "32px",
                     }}
                     value={scheduleType === 0 ? type : value}
                     placeholder="Select Schedule Type"
