@@ -104,11 +104,17 @@ const CrmNewTransaction = [
     {
         men_slno: 202,
         component: CNavItem,
+        name: 'CRF CRS',
+        to: '/Home/CRFNewCRSStore',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 203,
+        component: CNavItem,
         name: 'CRF Store',
         to: '/Home/CRFNewStore',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
-
     // {
     //     men_slno: 2,
     //     component: CNavItem,

@@ -166,26 +166,44 @@ const CrfGMApproval = () => {
                         ed_approve_date: val.ed_approve_date,
                         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
                         higher: val.md_approve !== null ? 1 : val.ed_approve !== null ? 1 : 0,
-                        now_who: val.ed_approve !== null ? "ED" :
-                            val.md_approve !== null ? "MD" :
-                                val.gm_approve !== null ? "GM" :
-                                    val.senior_manage_approv !== null ? "SMO" :
-                                        val.manag_operation_approv !== null ? "MO" :
-                                            val.ms_approve !== null ? "MS" :
-                                                val.dms_approve !== null ? "DMS" :
-                                                    val.hod_approve !== null ? "HOD" :
-                                                        val.incharge_approve !== null ? "INCHARGE" :
-                                                            "Not Statrted",
-                        now_who_status: val.ed_approve !== null ? val.ed_approve :
-                            val.md_approve !== null ? val.md_approve :
-                                val.gm_approve !== null ? val.gm_approve :
-                                    val.senior_manage_approv !== null ? val.senior_manage_approv :
-                                        val.manag_operation_approv !== null ? val.manag_operation_approv :
-                                            val.ms_approve !== null ? val.ms_approve :
-                                                val.dms_approve !== null ? val.dms_approve :
-                                                    val.hod_approve !== null ? val.hod_approve :
-                                                        val.incharge_approve !== null ? val.incharge_approve :
-                                                            0
+                        now_who: val.po_to_supplier === 1 ? "PO Send to Supplier" :
+                            val.po_approva_level_two === 1 ? "PO MD & ED Level Approved" :
+                                val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
+                                    val.po_complete === 1 ? "PO Completed" :
+                                        val.po_prepartion === 1 ? "PO Prepairing" :
+                                            val.quatation_fixing === 1 ? "Po MD & ED Level Approved" :
+                                                val.quatation_negotiation === 1 ? "Po MD & ED Level Approved" :
+                                                    val.quatation_calling_status === 1 ? "PO Prepairing" :
+                                                        val.ack_status === 1 ? "Po MD & ED Level Approved" :
+                                                            val.ed_approve !== null ? "ED" :
+                                                                val.md_approve !== null ? "MD" :
+                                                                    val.gm_approve !== null ? "GM" :
+                                                                        val.senior_manage_approv !== null ? "SMO" :
+                                                                            val.manag_operation_approv !== null ? "MO" :
+                                                                                val.ms_approve !== null ? "MS" :
+                                                                                    val.dms_approve !== null ? "DMS" :
+                                                                                        val.hod_approve !== null ? "HOD" :
+                                                                                            val.incharge_approve !== null ? "INCHARGE" :
+                                                                                                "Not Statrted",
+                        now_who_status: val.po_to_supplier === 1 ? val.po_to_supplier :
+                            val.po_approva_level_two === 1 ? val.po_approva_level_two :
+                                val.po_approva_level_one === 1 ? val.po_approva_level_one :
+                                    val.po_complete === 1 ? val.po_complete :
+                                        val.po_prepartion === 1 ? val.po_prepartion :
+                                            val.quatation_fixing === 1 ? val.quatation_fixing :
+                                                val.quatation_negotiation === 1 ? val.quatation_negotiation :
+                                                    val.quatation_calling_status === 1 ? val.quatation_calling_status :
+                                                        val.ack_status === 1 ? val.ack_status :
+                                                            val.ed_approve !== null ? val.ed_approve :
+                                                                val.md_approve !== null ? val.md_approve :
+                                                                    val.gm_approve !== null ? val.gm_approve :
+                                                                        val.senior_manage_approv !== null ? val.senior_manage_approv :
+                                                                            val.manag_operation_approv !== null ? val.manag_operation_approv :
+                                                                                val.ms_approve !== null ? val.ms_approve :
+                                                                                    val.dms_approve !== null ? val.dms_approve :
+                                                                                        val.hod_approve !== null ? val.hod_approve :
+                                                                                            val.incharge_approve !== null ? val.incharge_approve :
+                                                                                                0
 
 
 
@@ -199,6 +217,7 @@ const CrfGMApproval = () => {
                     setPendingData(pendingList)
                 }
                 else {
+                    setPendingData([])
                     warningNotify("No CRF For Pending")
                 }
 
@@ -259,7 +278,7 @@ const CrfGMApproval = () => {
 
     //close button function
     const backtoSetting = useCallback(() => {
-        history.push('/Home')
+        history.push('/Home/CrfNewDashBoard')
     }, [history])
 
 

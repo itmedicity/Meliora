@@ -21,6 +21,7 @@ import { MdOutlineAddCircleOutline } from 'react-icons/md';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
 import CrfReqDetailCmpnt from '../CRFRequestMaster/CrfReqDetailCmpnt';
+import PurchaseStoreSlect from './PurchaseStoreSlect';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -114,11 +115,12 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
     const [podetailData, setpodetailData] = useState([])
     const [podetail, setPoDetails] = useState({
         po_number: '',
-        po_date: ''
+        po_date: '',
+        expectpo_date: ''
     })
 
     //Destructuring
-    const { po_number, po_date } = podetail
+    const { po_number, po_date, expectpo_date } = podetail
     const updatePoDetails = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setPoDetails({ ...podetail, [e.target.name]: value })
@@ -170,6 +172,11 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             setPoToSupplier(false)
         }
     }, [])
+
+    const [substoreSlno, setsubStoreSlno] = useState(0)
+    const [substoreName, setsubStoreName] = useState('')
+
+    const [storeName, setStoreName] = useState('')
 
     useEffect(() => {
         setPoLevelOne(po_approva_level_one === 1 ? true : false)
@@ -227,7 +234,21 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             const result = await axioslogin.get(`/newCRFPurchase/getPOList/${req_slno}`)
             const { success, data } = result.data
             if (success === 1) {
-                setgetPodetailData(data)
+
+                const datas = data && data.map((val) => {
+                    return {
+                        req_slno: val.req_slno,
+                        po_number: val.po_number,
+                        po_date: val.po_date,
+                        po_status: 1,
+                        expected_delivery: val.expected_delivery,
+                        supply_store: val.supply_store,
+                        sub_storename: val.sub_store_name,
+                        store_name: val.main_store
+                    }
+                })
+
+                setgetPodetailData(datas)
                 setPOdetalFalg(1)
                 setPoadding(true)
             }
@@ -244,6 +265,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
     }, [req_slno])
 
 
+
     const reset = useCallback(() => {
         setpuchaseFlag(0)
         setpuchaseModal(false)
@@ -256,26 +278,34 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         setAckRemark('')
     }, [setpuchaseFlag, setpuchaseModal, setpuchaseData])
 
+
     const AddItem = useCallback(() => {
 
         setPoDetlDis(1)
-        if (po_number !== '' && po_date !== '') {
+        if (po_number !== '' && po_date !== '' && expectpo_date !== '') {
             const newdata = {
                 id: Math.ceil(Math.random() * 1000),
                 req_slno: req_slno,
                 po_number: po_number,
                 po_date: po_date,
                 po_status: 1,
-
+                expected_delivery: expectpo_date,
+                supply_store: substoreSlno,
+                sub_storename: substoreName,
+                store_name: storeName
             }
             const datass = [...podetailData, newdata]
             if (datass.length !== 0) {
                 setpodetailData(datass)
                 const resetarrray = {
                     po_number: '',
-                    po_date: ''
+                    po_date: '',
+                    expectpo_date: ''
                 }
                 setPoDetails(resetarrray)
+                setsubStoreSlno(0)
+                setsubStoreName('')
+                setStoreName('')
             }
             else {
 
@@ -284,7 +314,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         else {
             warningNotify("Please Enter PO Details")
         }
-    }, [po_number, po_date, req_slno, podetailData])
+    }, [po_number, po_date, req_slno, podetailData, expectpo_date, substoreSlno, substoreName, storeName])
 
     const postPurchaseCrf = useMemo(() => {
         return {
@@ -332,9 +362,11 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             po_number: po_number,
             po_date: po_date,
             po_status: 1,
+            supply_store: substoreSlno,
+            expected_delivery: expectpo_date,
             create_user: id
         }
-    }, [po_date, id, po_number, req_slno])
+    }, [po_date, id, po_number, req_slno, substoreSlno, expectpo_date])
 
 
     const postdataDetl = podetailData && podetailData.map((val) => {
@@ -343,6 +375,8 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             po_number: val.po_number,
             po_date: val.po_date,
             po_status: 1,
+            supply_store: val.supply_store,
+            expected_delivery: val.expected_delivery,
             create_user: id
         }
     })
@@ -519,7 +553,9 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
     const [column] = useState([
         { headerName: "PO Number", field: "po_number" },
         { headerName: "PO Date", field: "po_date", autoHeight: true, wrapText: true, width: 250, filter: "true" },
-
+        { headerName: "Store", field: "sub_storename", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+        { headerName: "CRS Store", field: "store_name", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+        { headerName: "Expected Delivery Date", field: "expected_delivery", autoHeight: true, wrapText: true, width: 250, filter: "true" },
     ])
 
     const ModalClose = useCallback(() => {
@@ -633,7 +669,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                 </Box>
                                 <ReqItemDisplay detailData={detailData}
                                 />
-                            </Paper> : <Box sx={{
+                            </Paper> : <Paper variant='outlined' sx={{ p: 0, mt: 1 }}> <Box sx={{
                                 width: "100%", display: "flex", p: 0.5, pb: 0,
                                 flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                             }}>
@@ -643,6 +679,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                     </CssVarsProvider>
                                 </Box>
                             </Box>
+                            </Paper>
                         }
                         {ApproveTableDis === 1 ?
                             <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
@@ -1043,7 +1080,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                                     }} >
                                                                                         <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
                                                                                             <CusCheckBox
-                                                                                                label="Quatation Fixing"
+                                                                                                label="Quatation Finalizing"
                                                                                                 color="primary"
                                                                                                 size="md"
                                                                                                 name="QuatationFix"
@@ -1161,7 +1198,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                         flexDirection: 'row'
                                                     }}>
                                                         <Box sx={{
-                                                            width: "30%",
+                                                            width: "20%",
                                                             display: "flex",
                                                             pr: 1,
                                                             flexDirection: "column"
@@ -1177,7 +1214,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                         </Box>
 
                                                         <Box sx={{
-                                                            width: "25%",
+                                                            width: "15%",
                                                             display: "flex",
                                                             flexDirection: "column",
                                                             pr: 1
@@ -1192,6 +1229,58 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                             />
                                                         </Box>
                                                         <Box sx={{
+                                                            width: "20%",
+                                                            display: "flex",
+                                                            flexDirection: "column",
+                                                            pr: 1
+                                                        }}>
+                                                            <CustomPaperTitle heading="Select Store" />
+                                                            <Box sx={{
+                                                                pt: 1
+                                                            }}>
+                                                                <PurchaseStoreSlect
+                                                                    substoreSlno={substoreSlno} setsubStoreSlno={setsubStoreSlno}
+                                                                    setsubStoreName={setsubStoreName} setStoreName={setStoreName}
+
+                                                                />
+                                                            </Box>
+
+
+                                                        </Box>
+                                                        <Box sx={{
+                                                            width: "20%",
+                                                            display: "flex",
+                                                            flexDirection: "column",
+                                                            pr: 1
+                                                        }}>
+                                                            <CustomPaperTitle heading="Main Store" />
+                                                            <TextFieldCustom
+                                                                type="text"
+                                                                size="sm"
+                                                                name="storeName"
+                                                                value={storeName}
+                                                                disabled={true}
+                                                            />
+
+
+                                                        </Box>
+                                                        <Box sx={{
+                                                            width: "17%",
+                                                            display: "flex",
+                                                            flexDirection: "column",
+                                                            pr: 1
+                                                        }}>
+                                                            <CustomPaperTitle heading="Expected Delivery Date" />
+                                                            <TextFieldCustom
+                                                                type="date"
+                                                                size="sm"
+                                                                name="expectpo_date"
+                                                                value={expectpo_date}
+                                                                onchange={updatePoDetails}
+                                                            />
+                                                        </Box>
+
+                                                        <Box sx={{
                                                             width: "7%",
                                                             pt: 2
                                                         }}>
@@ -1205,7 +1294,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                     </Box>
 
                                                     {poDetlDis === 1 ?
-                                                        <Box sx={{ width: "50%", pl: 5, pb: 2 }}>Multiple added PO
+                                                        <Box sx={{ width: "100%", pl: 1, pb: 1, pr: 1 }}>
                                                             <CrfReqDetailCmpnt
                                                                 columnDefs={column}
                                                                 tableData={podetailData}
@@ -1215,7 +1304,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
                                                     {
                                                         podetailFlag === 1 ?
-                                                            <Box sx={{ width: "50%", pl: 5, pb: 2 }}> Already added PO
+                                                            <Box sx={{ width: "100%", pl: 1, pb: 1, pr: 1 }}>PO Details
                                                                 <CrfReqDetailCmpnt
                                                                     columnDefs={column}
                                                                     tableData={getpoDetaildata}
@@ -1250,7 +1339,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                             <Paper variant='outlined' sx={{ mt: 1 }} >
                                                 {
                                                     podetailFlag === 1 ?
-                                                        <Box sx={{ width: "50%", pl: 5, pb: 2 }}> Added PO
+                                                        <Box sx={{ width: "100%", pl: 5, pb: 2 }}> Added PO
                                                             <CrfReqDetailCmpnt
                                                                 columnDefs={column}
                                                                 tableData={getpoDetaildata}
@@ -1262,7 +1351,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                             <Paper variant='outlined' sx={{ mt: 1 }} >
                                                 <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
                                                     <CusCheckBox
-                                                        label="PO Approval Level 1"
+                                                        label="PO Approval Purchase Level"
                                                         color="primary"
                                                         size="md"
                                                         name="poLevelOne"
@@ -1274,7 +1363,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
                                                 <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
                                                     <CusCheckBox
-                                                        label="PO Approval Level 2"
+                                                        label="PO Approval ED & MD"
                                                         color="primary"
                                                         size="md"
                                                         name="poLevelTwo"
@@ -1296,18 +1385,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                     />
                                                 </Box>
                                             </Paper>
-
-
-
-
-
-
-                                        </Box>
-                                        :
-
-
-
-
+                                        </Box> :
 
                                         null
                         }
