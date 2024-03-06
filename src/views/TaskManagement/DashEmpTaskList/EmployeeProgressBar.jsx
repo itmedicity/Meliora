@@ -34,23 +34,24 @@ const EmployeeProgressBar = ({ val }) => {
 
     return (
         <Box>
-            <FormLabel sx={{ fontSize: 15, flex: 9 }}>
+            <FormLabel sx={{ fontSize: 12, flex: 9 }}>
                 <LinearProgress
                     determinate
                     variant="outlined"
                     color="neutral"
                     size="sm"
-                    thickness={16}
+                    thickness={6}
                     value={progress}
                     sx={{
-                        '--LinearProgress-radius': '20px',
-                        '--LinearProgress-thickness': '18px',
+                        '--LinearProgress-radius': '14px',
+                        '--LinearProgress-thickness': '14px',
                         bgcolor: 'white',
-                        color: '#1F3541'
+                        color: '#2B5434',
+                        height: 20
                     }}
                 >
                     <Typography
-                        fontSize={14}
+                        fontSize={13}
 
                         sx={{ mixBlendMode: 'difference', color: 'white' }}
                     >

@@ -21,7 +21,7 @@ import AddSubTaskUnderAllDept from './AddSubTaskUnderAllDept';
 import SubTaskTableUnderTask from './SubTaskTableUnderTask';
 import EditSubTaskInAllDept from './EditSubTaskInAllDept';
 
-const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, setTaskTableCount, taskTableCount }) => {
+const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, setTaskTableCount, taskTableCount, tableData, setTableData }) => {
 
     const { tm_task_slno, tm_task_dept, tm_task_dept_sec, main_task_slno, tm_project_slno, tm_task_status, em_name, tm_project_name,
         create_date, } = masterData
@@ -182,6 +182,13 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
         return compressedFile
     }, []);
 
+    const searchData = useMemo(() => {
+        return {
+            tm_task_dept: departmentMast,
+            tm_task_dept_sec: departmentSecMast
+        }
+    }, [departmentMast, departmentSecMast])
+
     const UpdateTaskData = useCallback((e) => {
         e.preventDefault()
         const UpdateTask = async (updateMasterTask) => {
@@ -189,12 +196,20 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
             return result.data
         }
         const Inactiveemp = async (inactive) => {
-            const result = await axioslogin.post(`/taskManagement/employeeInactive`, inactive);
+            const result = await axioslogin.post('/taskManagement/employeeInactive', inactive);
             return result.data
         }
         const UpdateSubTaskDtl = async (postEmpDetails) => {
-            const result = await axioslogin.post(`/taskManagement/insertSubtaskDetail`, postEmpDetails);
+            const result = await axioslogin.post('/taskManagement/insertDetail', postEmpDetails);
             return result.data
+        }
+        const getDeptTable = async () => {
+            const result = await axioslogin.post('/taskManagement/searchDeptAndSec', searchData)
+            const { success, data } = result.data
+            if (success === 2) {
+                setTableData(data)
+            }
+
         }
         const InsertFile = async (selectTaskfile, tm_task_slno) => {
             try {
@@ -219,7 +234,7 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                 warningNotify('An error occurred during file upload.');
             }
         };
-        if (taskName !== '') {
+        if ((taskName !== '') && (departmentMast !== 0) && (departmentSecMast !== 0) && (dueDate !== '')) {
             UpdateTask(updateMasterTask).then((value) => {
                 const { message, success } = value
                 if (success === 2) {
@@ -227,23 +242,34 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                         InsertFile(selectTaskfile, tm_task_slno).then((value) => {
                             const { success, message } = value
                             if (success === 1) {
-                                if (employeeMast !== 0) {
+                                if (employeeMast.length !== 0) {
                                     Inactiveemp(inactive).then((value) => {
                                         const { message, succes } = value
                                         if (succes === 1) {
                                             UpdateSubTaskDtl(postEmpDetails)
-                                            const { message, success } = value
+                                            const { success } = value
                                             if (success === 1) {
-                                                succesNotify(message)
-                                                setTaskTableCount(taskTableCount + 1)
-                                                resetSubtask()
-
-                                                handleEditClose()
+                                                // succesNotify(message)
+                                                // setTaskTableCount(taskTableCount + 1)
+                                                // resetSubtask()
+                                                // handleEditClose()
+                                                getDeptTable(searchData)
+                                                const { message, success } = value
+                                                if (success === 2) {
+                                                    succesNotify(message)
+                                                    setTaskTableCount(taskTableCount + 1)
+                                                    handleEditClose()
+                                                }
+                                                else {
+                                                    succesNotify(message)
+                                                    setTaskTableCount(taskTableCount + 1)
+                                                    handleEditClose()
+                                                }
                                             }
                                             else {
 
                                                 resetSubtask()
-                                                setTaskTableCount(taskTableCount + 1)
+                                                // setTaskTableCount(taskTableCount + 1)
                                                 handleEditClose()
                                             }
                                         }
@@ -269,18 +295,32 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                     }
                     //WITHOUT FILE UPLOAD
                     else {
-                        if (employeeMast !== 0) {
+                        if (employeeMast.length !== 0) {
                             Inactiveemp(inactive).then((value) => {
                                 const { message, succes } = value
                                 if (succes === 1) {
                                     UpdateSubTaskDtl(postEmpDetails)
-                                    const { message, success } = value
+                                    const { success } = value
                                     if (success === 1) {
-                                        succesNotify(message)
-                                        setTaskTableCount(taskTableCount + 1)
-                                        handleEditClose()
+                                        // succesNotify(message)
+                                        // setTaskTableCount(taskTableCount + 1)
+                                        // handleEditClose()
+                                        getDeptTable(searchData)
+                                        const { message, success } = value
+                                        if (success === 2) {
+                                            succesNotify(message)
+                                            setTaskTableCount(taskTableCount + 1)
+                                            handleEditClose()
+                                        }
+                                        else {
+                                            succesNotify(message)
+                                            setTaskTableCount(taskTableCount + 1)
+                                            handleEditClose()
+                                        }
                                     } else {
-                                        setTaskTableCount(taskTableCount + 1)
+                                        resetSubtask()
+                                        // setTaskTableCount(taskTableCount + 1)
+                                        handleEditClose()
                                     }
                                 }
                                 else {
@@ -290,11 +330,21 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                             })
                             succesNotify(message)
                             handleEditClose()
-
                         } else {
-                            succesNotify(message)
-                            setTaskTableCount(taskTableCount + 1)
-                            handleEditClose()
+                            // succesNotify(message)
+                            // setTaskTableCount(taskTableCount + 1)
+                            // handleEditClose()
+                            getDeptTable(searchData)
+                            const { message, success } = value
+                            if (success === 2) {
+                                succesNotify(message)
+                                setTaskTableCount(taskTableCount + 1)
+                                handleEditClose()
+                            }
+                            else {
+                                succesNotify(message)
+                                handleEditClose()
+                            }
                         }
                     }
                 }
@@ -303,10 +353,10 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                 }
             })
         } else {
-            infoNotify('please Fill Mandatory Feilds')
+            infoNotify('please Fill Mandatory Fields')
         }
-    }, [updateMasterTask, inactive, postEmpDetails, selectTaskfile, resetSubtask, handleImageUpload, taskName, tm_task_slno, setTaskTableCount,
-        handleEditClose, taskTableCount, employeeMast])
+    }, [updateMasterTask, inactive, postEmpDetails, selectTaskfile, resetSubtask, handleImageUpload, taskName, tm_task_slno, setTaskTableCount, departmentMast,
+        departmentSecMast, handleEditClose, taskTableCount, employeeMast, dueDate, searchData, setTableData])
     const handleRemoveTaskFile = (index) => {
         setselectTaskfile((prevTaskFiles) => {
             const updatedFiles = [...prevTaskFiles];
@@ -356,7 +406,7 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                             }}>
                                 <Box sx={{ mt: 2, pt: 1 }}>
                                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Task Name&nbsp;:&nbsp;
+                                        Task Name<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                     </Typography>
                                     <CssVarsProvider>
                                         <Textarea
@@ -400,7 +450,7 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                                 <Box sx={{ display: 'flex' }}>
                                     <Box sx={{ mt: 1, flex: 1, mr: 1 }}>
                                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Department&nbsp;:&nbsp;
+                                            Department<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                         </Typography>
                                         <TmDepartmentSelect
                                             department={departmentMast}
@@ -408,7 +458,7 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                                     </Box>
                                     <Box sx={{ mt: 1, flex: 1 }}>
                                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Section&nbsp;:&nbsp;
+                                            Section<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                         </Typography>
                                         <TmDeptSectionSelect
                                             deptsec={departmentSecMast}
@@ -418,7 +468,7 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                                 {changeAssignee === 0 ?
                                     <Box sx={{ mt: 1.5 }}>
                                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Assignee&nbsp;:&nbsp;
+                                            Assignee<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                         </Typography>
                                         <Box sx={{ display: 'flex', }}>
                                             <Box sx={{ flex: 1, mr: 1 }}><TextFieldCustom
@@ -439,7 +489,7 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                                     </Box> :
                                     <Box sx={{ mt: 1.5 }}>
                                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Assignee&nbsp;:&nbsp;
+                                            Assignee<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                         </Typography>
                                         <Box sx={{ display: 'flex', }}>
                                             <Box sx={{ flex: 1, border: .5, borderRadius: 6, borderColor: '#E4A58F' }}>
@@ -464,7 +514,7 @@ const EditModalDept = ({ open, setEditModalFlag, setEditModalOpen, masterData, s
                                     </Box>
                                     <Box sx={{ flex: 1 }}>
                                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Due date&nbsp;:&nbsp;
+                                            Due date<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                         </Typography>
                                         <TextFieldCustom
                                             type="datetime-local"

@@ -31,6 +31,13 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
         setEditModalOpen(true)
         setMasterData(value)
     }, [])
+
+    const isPastDue = (tm_task_due_date) => {
+        const today = new Date();
+        const due = new Date(tm_task_due_date);
+        return due < today
+    }
+
     return (
         <Box >
             <CardMasterClose
@@ -105,9 +112,21 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                                                                     : 'transparent', minHeight: 5,
                                                         fontWeight: 700
                                                     }}>{val.tm_goal_status === 0 ? 'Incompleted' : val.tm_goal_status === 1 ? 'Completed' : 'not given'}</td>
-                                                <td> {val.tm_goal_name || 'not given'}</td>
-                                                <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY') || 'not given'}</td>
-                                                <td> {val.tm_goal_description || 'not given'}</td>
+                                                {/* <td> {val.tm_goal_name || 'not given'}</td> */}
+                                                {val.tm_goal_status === 1 ?
+                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_name || 'not given'}</td> :
+                                                    <td style={{ color: isPastDue(val.tm_goal_duedate) ? '#970C10' : 'black' }}>
+                                                        {(val.tm_goal_name) || 'not given'}</td>}
+                                                {/* <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY') || 'not given'}</td> */}
+                                                {val.tm_goal_status === 1 ?
+                                                    <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY') || 'not given'}</td> :
+                                                    <td style={{ color: isPastDue(val.tm_goal_duedate) ? '#970C10' : 'black' }}>
+                                                        {moment(val.tm_goal_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
+                                                {/* <td> {val.tm_goal_description || 'not given'}</td> */}
+                                                {val.tm_goal_status === 1 ?
+                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_description || 'not given'}</td> :
+                                                    <td style={{ color: isPastDue(val.tm_goal_duedate) ? '#970C10' : 'black' }}>
+                                                        {(val.tm_goal_description) || 'not given'}</td>}
                                             </tr>
                                         )
                                     })}

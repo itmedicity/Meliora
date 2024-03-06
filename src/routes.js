@@ -171,7 +171,7 @@ const ReqMDApproval = React.lazy(() => import('./views/RequestManagement/MDAppro
 const NdrfPurchase = React.lazy(() => import('./views/RequestManagement/NdrfPurchase/NdrfPurchaseTable'))
 const CRFDashboard = React.lazy(() => import('./views/RequestManagement/CRFDashboard/CrdDashboardMain'))
 const DeptSecBasedItemReport = React.lazy(() => import('./views/Report/AssetReport/DeptSecBaseReport'))
-const TaskManagementEmployeeTask = React.lazy(() => import('./views/TaskManagement/EmployeeTaskList/EmpTaskDash'))
+const TaskManagementEmployeeTask = React.lazy(() => import('./views/TaskManagement/Mytask/EmpTaskDash'))
 const EmergencyTypeMast = React.lazy(() => import('./views/Master/RequestManagement/EmergencyTypeMast/EmergencyTypeMast'))
 const CrfNewReqRegister = React.lazy(() => import('./views/CentralRequestManagement/CRFRequestMaster/CrfRequestMaster'))
 const AssetInterDeptTrans = React.lazy(() => import('./views/AssetManagment/InterDeptTransfer/InterDeptTransfer'))

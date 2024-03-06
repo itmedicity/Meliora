@@ -13,7 +13,7 @@ import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage'
 
-const EmpOverDueTaskList = ({ tableCount, setTableCount }) => {
+const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcount, projectcount, setprojectcount }) => {
     const [tabledata, setTabledata] = useState([])
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [editModalFlag, setEditModalFlag] = useState(0)
@@ -27,7 +27,7 @@ const EmpOverDueTaskList = ({ tableCount, setTableCount }) => {
 
     useEffect(() => {
         const getMasterTable = async () => {
-            const result = await axioslogin.get(`/TmTableView/employeeOverDue/${id}`);
+            const result = await axioslogin.get(`/TmTableView/employeeCompleted/${id}`);
             const { success, data } = result.data;
 
             if (data.length !== 0) {
@@ -131,7 +131,8 @@ const EmpOverDueTaskList = ({ tableCount, setTableCount }) => {
                     <Paper variant="outlined" sx={{ maxHeight: 520, maxWidth: '100%', overflow: 'auto', mt: .3 }}>
                         {editModalFlag === 1 ?
                             <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
-                                setEditModalFlag={setEditModalFlag}
+                                setEditModalFlag={setEditModalFlag} taskcount={taskcount} settaskcount={settaskcount}
+                                projectcount={projectcount} setprojectcount={setprojectcount}
                                 tableCount={tableCount} setTableCount={setTableCount}
                             /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                                 selectedImages={selectedImages} getarry={getarry} /> : null}
@@ -190,7 +191,7 @@ const EmpOverDueTaskList = ({ tableCount, setTableCount }) => {
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                                                 <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                <td style={{ color: '#B32800', fontWeight: 500 }}> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )
@@ -201,10 +202,10 @@ const EmpOverDueTaskList = ({ tableCount, setTableCount }) => {
                     </Paper>
                 </Box>
                 : <Box sx={{ textAlign: 'center', pt: 25, height: 500, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
-                    No Dues
+                    No Task Completed Yet!
                 </Box>}
         </Box>
     )
 }
 
-export default memo(EmpOverDueTaskList)
+export default memo(EmpCompletedTaskList)

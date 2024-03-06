@@ -14,6 +14,7 @@ import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
 import PermMediaIcon from '@mui/icons-material/PermMedia';
 import TmProjectList from 'src/views/CommonSelectCode/TmProjectList';
 import { getProjectList } from 'src/redux/actions/TmProjectsList.action';
+import moment from 'moment';
 
 const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTableCount }) => {
     const dispatch = useDispatch();
@@ -144,16 +145,14 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                 warningNotify('An error occurred during file upload.');
             }
         };
-        if (tm_task_name !== '') {
+        if ((tm_task_name !== '') && (employee.length !== 0) && (tm_task_due_date !== '')) {
             InsertMastTask(insertMastTask).then((value) => {
                 const { message, success, insertId } = value
                 if (success === 1) {
-
                     setInsertId(insertId)
                     //check employee assigned
                     if (employee.length !== 0) {
                         const insertTaskDetail = employee && employee.map((val) => {
-
                             return {
                                 tm_task_slno: insertId,
                                 tm_assigne_emp: val,
@@ -217,9 +216,9 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                 }
             })
         } else {
-            infoNotify('Please Enter Task Name')
+            infoNotify('Please fill the mandatory fields')
         }
-    }, [handleClose, employee, handleImageUpload, id, insertMastTask, tm_task_name, selectFile, setInsertId, setTableCount, tableCount])
+    }, [handleClose, employee, handleImageUpload, id, insertMastTask, tm_task_name, selectFile, setInsertId, setTableCount, tableCount, tm_task_due_date])
 
     return (
         <CssVarsProvider>
@@ -255,7 +254,7 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                     <Box sx={{ mt: .5, pt: 1 }}>
                                         <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
                                             <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                                Task*&nbsp;:
+                                                Task<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                             </Typography>
                                         </Box>
                                         <CssVarsProvider>
@@ -298,7 +297,7 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                     <Box sx={{ mt: 1.5 }}>
                                         <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
                                             <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                                Assignees&nbsp;:
+                                                Assignees<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                             </Typography>
                                         </Box>
                                         <CssVarsProvider>
@@ -311,7 +310,7 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                     <Box sx={{ mt: 1.5 }}>
                                         <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
                                             <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                                Due Date&nbsp;:
+                                                Due Date<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                             </Typography>
                                         </Box>
                                         <TextFieldCustom
@@ -319,6 +318,11 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
                                             size="sm"
                                             name="tm_task_due_date"
                                             value={tm_task_due_date}
+                                            slotProps={{
+                                                input: {
+                                                    min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+                                                },
+                                            }}
                                             onchange={MastUpdate}
                                         ></TextFieldCustom>
                                     </Box>

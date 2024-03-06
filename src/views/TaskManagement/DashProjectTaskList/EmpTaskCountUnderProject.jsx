@@ -39,18 +39,18 @@ const EmpTaskCountUnderProject = ({ val }) => {
                     variant="outlined"
                     color="neutral"
                     size="sm"
-                    thickness={16}
+                    thickness={10}
                     value={progress}
                     sx={{
-                        '--LinearProgress-radius': '20px',
-                        '--LinearProgress-thickness': '18px',
+                        '--LinearProgress-radius': '12px',
+                        '--LinearProgress-thickness': '11px',
                         bgcolor: 'white',
-                        color: '#41729F'
+                        color: '#41729F',
+                        height: 17
                     }}
                 >
                     <Typography
-                        fontSize={14}
-
+                        fontSize={12}
                         sx={{ mixBlendMode: 'difference', color: 'white' }}
                     >
                         Progress &nbsp;
@@ -59,12 +59,12 @@ const EmpTaskCountUnderProject = ({ val }) => {
                 </LinearProgress>
             </FormLabel>
             <Tooltip title={'Completed Task'} placement="bottom">
-                <FormLabel sx={{ fontSize: 15, flex: 1, cursor: 'grab', color: 'green', }}>
+                <FormLabel sx={{ fontSize: 15, flex: .5, cursor: 'grab', color: 'green', display: 'flex', justifyContent: 'flex-end' }}>
                     ({complete})
                 </FormLabel>
             </Tooltip>
             <Tooltip title={'Total Task'} placement="bottom">
-                <FormLabel sx={{ fontSize: 15, flex: 1, cursor: 'grab', color: '#523A28', }}>
+                <FormLabel sx={{ fontSize: 15, flex: .5, cursor: 'grab', color: '#523A28', display: 'flex', justifyContent: 'flex-end' }}>
                     ({total})
                 </FormLabel>
             </Tooltip>
