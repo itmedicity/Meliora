@@ -35,7 +35,7 @@ const CrfReqDetailCmpnt = ({ columnDefs, tableData, onSelectionChanged, columnTy
                 <Box
                     className="ag-theme-alpine ListItemScrol"
                     sx={{
-                        height: 130,
+                        height: 150,
                         width: "100%"
                     }}
                 >

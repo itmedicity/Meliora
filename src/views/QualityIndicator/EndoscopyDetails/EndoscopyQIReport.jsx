@@ -39,9 +39,9 @@ const EndoscopyQIReport = ({ setReportViewFlag, qltyDept, processDate }) => {
             to: endDate
         }
     }, [startDate, endDate])
-
     useEffect(() => {
-        const daylist = dateRange?.map((val) => moment(val).format('DD-MM-YYYY'))
+        const dateName = eachDayOfInterval({ start: new Date(startDate), end: new Date(endDate) });
+        const daylist = dateName?.map((val) => moment(val).format('DD-MM-YYYY'))
         const getqualityindicators = async (qltyDept) => {
             const result = await axioslogin.get(`/qiendoscopy/getqi/${qltyDept}`)
             return result.data
@@ -83,7 +83,7 @@ const EndoscopyQIReport = ({ setReportViewFlag, qltyDept, processDate }) => {
                 setreportData([])
             }
         })
-    }, [dateRange, qltyDept, searchdata])
+    }, [qltyDept, searchdata, startDate, endDate])
 
     const Reportview = useCallback((qi_slno, qi_name) => {
         if (reportData.length !== 0) {
@@ -95,7 +95,7 @@ const EndoscopyQIReport = ({ setReportViewFlag, qltyDept, processDate }) => {
                         date: val.date,
                         data1: val.total_error_report,
                         data2: val.total_patients,
-                        data3: (val.total_patients !== 0 && val.total_error_report) ?
+                        data3: (val.total_patients !== 0 && val.total_error_report !== 0) ?
                             (val.total_error_report / val.total_patients).toFixed(3) : 0
                     }
 
@@ -218,7 +218,7 @@ const EndoscopyQIReport = ({ setReportViewFlag, qltyDept, processDate }) => {
                 {tableFlag === 1 ?
                     <Paper>
                         <DailyReportOfQI reportName={reportName} tableData={tableData} headerNames1={headerNames1} headerNames2={headerNames2}
-                            setTableFlag={setTableFlag} setTableData={setTableData} dateRange={dateRange} processDate={processDate} />
+                            setTableFlag={setTableFlag} setTableData={setTableData} processDate={processDate} dateRange={dateRange} />
 
                     </Paper> :
                     <Box sx={{ width: "100%", height: "100%" }}>
@@ -232,7 +232,7 @@ const EndoscopyQIReport = ({ setReportViewFlag, qltyDept, processDate }) => {
                                 </Typography>
                             </Box>
                             <Box sx={{ flex: 2, }}>
-                                <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20 }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.5 }}>
                                     <CusIconButton size="sm" variant="outlined" color="primary"  >
                                         <Tooltip title="Close" placement="bottom" >
                                             <CloseIcon sx={{ fontSize: 22 }} onClick={backtoHome} />
@@ -242,33 +242,31 @@ const EndoscopyQIReport = ({ setReportViewFlag, qltyDept, processDate }) => {
                             </Box>
                         </Paper>
 
-                        <Paper>
-                            <Box sx={{ m: 1, pb: 0.5 }}>
-                                {indicatorList?.map((val) => {
-                                    return (
-                                        <CssVarsProvider key={val.qi_slno}>
-                                            <Paper key={val.qi_slno}
-                                                onClick={() => Reportview(val.qi_slno, val.qi_name)}
-                                                style={{
+                        <Paper sx={{ m: 0.5, pb: 0.5 }}>
+                            {indicatorList?.map((val) => {
+                                return (
+                                    <CssVarsProvider key={val.qi_slno}>
+                                        <Paper key={val.qi_slno}
+                                            onClick={() => Reportview(val.qi_slno, val.qi_name)}
+                                            style={{
+                                                mx: 4,
+                                                margin: '6px',
+                                                padding: '10px',
+                                                backgroundColor: '#f5f5f5',
+                                                border: 'none',
+                                                borderRadius: '5px',
+                                                cursor: 'pointer',
+                                                textTransform: 'capitalize',
+                                                color: '#004d40',
+                                                fontSize: 16,
 
-                                                    margin: '6px',
-                                                    padding: '10px',
-                                                    backgroundColor: '#f5f5f5',
-                                                    border: 'none',
-                                                    borderRadius: '5px',
-                                                    cursor: 'pointer',
-                                                    textTransform: 'capitalize',
-                                                    color: '#004d40',
-                                                    fontSize: 16,
+                                            }}
+                                        >{val.qi_name}
 
-                                                }}
-                                            >{val.qi_name}
-
-                                            </Paper>
-                                        </CssVarsProvider>
-                                    )
-                                })}
-                            </Box>
+                                        </Paper>
+                                    </CssVarsProvider>
+                                )
+                            })}
                         </Paper>
                     </Box>
 

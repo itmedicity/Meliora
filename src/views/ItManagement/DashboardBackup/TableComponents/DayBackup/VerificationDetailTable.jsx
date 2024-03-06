@@ -165,17 +165,6 @@ const VerificationDetailTable = ({ setDayFlag }) => {
                                 </CssVarsProvider>
 
                             </Box>
-                            {/* <Box sx={{ pl: 2, pt: 1 }}>
-                                <CusCheckBox
-                                    label="All Select"
-                                    color="primary"
-                                    size="md"
-                                    name="allSelect"
-                                    value={allSelect}
-                                    checked={allSelect}
-                                    onCheked={AllSelectDetails}
-                                />
-                            </Box> */}
                             <Box sx={{ pl: 1, pt: 0.2 }}>
                                 <CssVarsProvider>
                                     <Button
@@ -199,7 +188,7 @@ const VerificationDetailTable = ({ setDayFlag }) => {
                             </Box>
                         </Box>
                     </Paper>
-                    <Box variant="outlined" sx={{ overflow: 'auto', mt: 0.5 }}>
+                    <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, mt: 0.5 }}>
                         <CssVarsProvider>
                             <Table borderAxis="both" padding={"none"} stickyHeader >
                                 <thead>

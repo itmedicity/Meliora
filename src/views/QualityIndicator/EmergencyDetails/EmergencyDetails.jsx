@@ -1,18 +1,18 @@
 import { Box, Button, CssVarsProvider, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
-import moment from 'moment'
-import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 
-const EmergencyDetails = ({ totpatients, setTotpatients, dailyDate, setDailyDate, existFlag, setCheckDpt, existData }) => {
+const EmergencyDetails = ({ totpatients, setTotpatients, dailyDate, emerFlag, setCheckDpt, emerExistData, setEmerExistdata, setEmerFlag }) => {
 
     const [sumOfTime, setSumOfTime] = useState(0)
     const [timeResult, settimeResult] = useState(0)
     const [returnPatients, setReturnPatients] = useState(0)
     const [returnResult, setReturnResult] = useState(0)
+    const [emergencySlno, setEmergencySlno] = useState(0)
 
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
@@ -49,38 +49,40 @@ const EmergencyDetails = ({ totpatients, setTotpatients, dailyDate, setDailyDate
         }
     }, [totpatients, sumOfTime, returnPatients])
     const reset = useCallback(() => {
+        setEmergencySlno(0)
         setSumOfTime(0)
         settimeResult(0)
         setReturnPatients(0)
         setReturnResult(0)
         setTotpatients(0)
         setCheckDpt(0)
-        setDailyDate(moment(new Date()).format('YYYY-MM-DD'))
-    }, [setTotpatients, setDailyDate, setCheckDpt])
+        setEmerExistdata([])
+        setEmerFlag(0)
+
+    }, [setTotpatients, setCheckDpt, setEmerExistdata, setEmerFlag])
     const ResetData = useCallback(() => {
         reset()
     }, [reset])
 
-
     useEffect(() => {
-
-        if (existData.length !== 0) {
-            const { total_patients, total_time_taken, total_patients_return } = existData[0]
+        if (emerExistData.length !== 0) {
+            const { qi_emergency_slno, total_patients, total_time_taken, total_patients_return } = emerExistData[0]
+            setEmergencySlno(qi_emergency_slno)
             setTotpatients(total_patients)
             setSumOfTime(total_time_taken)
-            settimeResult((total_time_taken / total_patients).toFixed(2))
+            settimeResult((total_time_taken / total_patients).toFixed(3))
             setReturnPatients(total_patients_return)
-            setReturnResult((total_patients_return / total_patients).toFixed(2))
+            setReturnResult((total_patients_return / total_patients).toFixed(3))
         }
         else {
-            setTotpatients(0)
+            setEmergencySlno(0)
             setSumOfTime(0)
             settimeResult(0)
             setReturnPatients(0)
             setReturnResult(0)
 
         }
-    }, [existData, setTotpatients])
+    }, [emerExistData, setTotpatients])
 
     const postdata = useMemo(() => {
         return {
@@ -91,9 +93,23 @@ const EmergencyDetails = ({ totpatients, setTotpatients, dailyDate, setDailyDate
             create_user: id
         }
     }, [id, dailyDate, totpatients, sumOfTime, returnPatients])
+
+    const patchdata = useMemo(() => {
+        return {
+            total_patients: totpatients,
+            total_time_taken: sumOfTime,
+            total_patients_return: returnPatients,
+            edit_user: id,
+            qi_emergency_slno: emergencySlno
+        }
+    }, [id, totpatients, sumOfTime, returnPatients, emergencySlno])
+
     const SaveDetails = useCallback((e) => {
         if (totpatients === 0) {
             infoNotify("Enter Patients Count")
+        }
+        else if (returnPatients > totpatients) {
+            infoNotify("Total No.Of Patients Return To Emergency Cannot Exceed Total Number of Patients Visited")
         }
         else {
             e.preventDefault();
@@ -104,35 +120,30 @@ const EmergencyDetails = ({ totpatients, setTotpatients, dailyDate, setDailyDate
                     succesNotify(message)
                     reset()
                 }
-                else if (success === 0) {
+                else {
                     infoNotify(message)
                 }
+            }
+            const UpdateData = async (patchdata) => {
+                const result = await axioslogin.patch('/qiemergency/update', patchdata);
+                const { message, success } = result.data;
+                if (success === 1) {
+                    succesNotify(message)
+                    reset()
+                }
                 else {
-
+                    infoNotify(message)
                 }
             }
-            // const UpdateData = async (patchdata) => {
-            //     const result = await axioslogin.patch('/qiemergency/update', patchdata);
-            //     const { message, success } = result.data;
-            //     if (success === 1) {
-            //         succesNotify(message)
-            //         reset()
-            //     }
-            //     else if (success === 0) {
-            //         infoNotify(message)
-            //     }
-            //     else {
-
-            //     }
-            // }
-            if (existFlag === 0) {
+            if (emerFlag === 0) {
                 InsertData(postdata)
             }
             else {
-                // UpdateData(patchdata)
+                UpdateData(patchdata)
             }
         }
-    }, [postdata, existFlag, totpatients, reset])
+    }, [postdata, emerFlag, totpatients, patchdata, reset, returnPatients])
+
     return (
         <Fragment>
             <Box>
@@ -244,7 +255,7 @@ const EmergencyDetails = ({ totpatients, setTotpatients, dailyDate, setDailyDate
                 <Paper sx={{ height: 50, pt: 1, bgcolor: '#E8ECF3', display: "flex" }}>
                     <Box sx={{ display: "flex", justifyContent: 'flex-end', flex: 1, pr: 5 }}>
                         {
-                            existFlag === 0 ?
+                            emerFlag === 0 ?
                                 <Box sx={{}}>
                                     <CssVarsProvider>
                                         <Button variant="outlined" sx={{ fontSize: 16, color: '#004F76', width: 100, cursor: 'pointer' }}
@@ -256,7 +267,7 @@ const EmergencyDetails = ({ totpatients, setTotpatients, dailyDate, setDailyDate
                                 <Box sx={{}}>
                                     <CssVarsProvider>
                                         <Button variant="outlined" sx={{ fontSize: 16, color: '#004F76', width: 100, cursor: 'pointer' }}
-                                        // onClick={SaveDetails}
+                                            onClick={SaveDetails}
                                         >
                                             Update</Button>
                                     </CssVarsProvider>
@@ -273,11 +284,8 @@ const EmergencyDetails = ({ totpatients, setTotpatients, dailyDate, setDailyDate
                         </Box>
                     </Box>
                 </Paper>
-
-
             </Box>
         </Fragment >
     )
 }
-
-export default EmergencyDetails
+export default memo(EmergencyDetails)

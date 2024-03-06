@@ -25,12 +25,21 @@ const ReportViewTable = ({ tableData, headerNames1, headerNames2 }) => {
         setCalculateTotal(fromdata)
     }, [tableData])
 
+    // style={{
+    //     width: 270,
+    //     borderColor: '#898A8B',
+    //     cursor: 'pointer',
+    //     ":hover": {
+    //         borderColor: 'orange',
+    //         boxShadow: 5,
+    //     }
+    // }}
+
     return (
         <Fragment>
-
             <Box variant="none" sx={{ height: '20vw', overflow: 'auto', padding: 'none' }}>
                 <CssVarsProvider>
-                    <Table borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter >
+                    <Table borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow >
                         <thead>
                             <tr style={{ height: 0.5 }}>
                                 <th size='sm' style={{ width: 50, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Date</th>
@@ -42,7 +51,12 @@ const ReportViewTable = ({ tableData, headerNames1, headerNames2 }) => {
                         <tbody size='small' style={{ maxHeight: 0.5 }}>
                             {tableData?.map((val, index) => {
                                 return (
-                                    < tr key={val.slno} style={{ maxHeight: 2 }} size='small' >
+                                    < tr key={val.slno} size='small'
+                                        style={{
+                                            maxHeight: 2,
+
+
+                                        }}  >
 
                                         <td size='sm' style={{ textAlign: 'center', fontSize: 14 }}>{val.date}</td>
                                         <td size='sm' style={{ textAlign: 'center', fontSize: 14 }}>{val.data1}</td>

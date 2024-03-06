@@ -24,7 +24,7 @@ const NexrYearTable = ({ nextyeardata, setYearflag }) => {
                     <Paper>
                         <Typography sx={{ fontWeight: 10, fontSize: 18 }}>UpComing Backups</Typography>
                     </Paper>
-                    <Paper variant="outlined" sx={{ overflow: 'auto' }}>
+                    <Paper variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220 }}>
                         <CssVarsProvider>
                             <Table borderAxis="both" padding={"none"} stickyHeader >
                                 <thead>

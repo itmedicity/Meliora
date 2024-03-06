@@ -900,7 +900,7 @@ const Newdashboard = () => {
                                                                                                         setCount={setCount}
                                                                                                         count={count} /> :
                                                                                                         <CardMasterClose close={backtoHome}>
-                                                                                                            <Box sx={{ p: 1 }}>
+                                                                                                            <Box sx={{ px: 1 }}>
                                                                                                                 <Typography sx={{ pl: 1, fontSize: 20 }}> Backup Checks & Monitoring</Typography>
                                                                                                             </Box>
                                                                                                             <Paper variant="outlined" sx={{ py: 0.5, height: 100 }}>
