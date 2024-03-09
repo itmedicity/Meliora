@@ -73,7 +73,7 @@ const AddSubTaskUnderAllDept = ({ tm_task_slno, tm_project_slno, setflag, tableR
             const result = await axioslogin.post('/taskManagement/insertSubtaskDetail', insertSubTaskDetail)
             return result.data
         }
-        if (tm_subtask_name !== '') {
+        if ((tm_subtask_name !== '') && (employeeSubTask.length !== 0) && (departmentSubTask !== 0) && (departmentSecSubTask !== 0) && (tm_subtask_duedate !== '')) {
             InsertMastSubTask(insertMastSubTask).then((value) => {
                 const { message, success, insertId } = value
                 if (success === 1) {
@@ -110,13 +110,9 @@ const AddSubTaskUnderAllDept = ({ tm_task_slno, tm_project_slno, setflag, tableR
                 }
             })
         } else {
-            infoNotify('please enter task name')
+            infoNotify('please fill the mandatory fields while adding subtask')
         }
-    }, [insertMastSubTask, id,
-        setflag,
-        setTableRendering, tableRendering,
-        tm_subtask_name, employeeSubTask,
-    ])
+    }, [insertMastSubTask, id, departmentSecSubTask, departmentSubTask, tm_subtask_duedate, setflag, setTableRendering, tableRendering, tm_subtask_name, employeeSubTask])
 
     return (
         <Box sx={{
@@ -128,7 +124,7 @@ const AddSubTaskUnderAllDept = ({ tm_task_slno, tm_project_slno, setflag, tableR
             <Box sx={{ flex: 8, p: 2, borderRadius: 1, borderColor: '#887BB0' }}>
                 <Box>
                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Subtask Name&nbsp;:&nbsp;
+                        Subtask Name<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                     </Typography>
                     <CssVarsProvider>
                         <Textarea
@@ -147,7 +143,7 @@ const AddSubTaskUnderAllDept = ({ tm_task_slno, tm_project_slno, setflag, tableR
                 <Box sx={{ display: 'flex', mt: .5 }}>
                     <Box sx={{ mt: .5, flex: 1, mr: .5 }}>
                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                            Department&nbsp;:&nbsp;
+                            Department<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                         </Typography>
                         <TmDepartmentSelectSubTask
                             departmentSub={departmentSubTask}
@@ -156,7 +152,7 @@ const AddSubTaskUnderAllDept = ({ tm_task_slno, tm_project_slno, setflag, tableR
                     </Box>
                     <Box sx={{ mt: .5, flex: 1, }}>
                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                            Section&nbsp;:&nbsp;
+                            Section<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                         </Typography>
                         <TmDeptSectionSubtask
                             deptsecSub={departmentSecSubTask}
@@ -166,7 +162,7 @@ const AddSubTaskUnderAllDept = ({ tm_task_slno, tm_project_slno, setflag, tableR
                 </Box>
                 <Box sx={{ mt: 1, }}>
                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Assignee&nbsp;:&nbsp;
+                        Assignee<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                     </Typography>
                     <TmMultEmpSelectUnderDeptSec
                         value={employeeSubTask}
@@ -175,7 +171,7 @@ const AddSubTaskUnderAllDept = ({ tm_task_slno, tm_project_slno, setflag, tableR
                 </Box>
                 <Box sx={{ mt: 1 }}>
                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                        Due date&nbsp;:&nbsp;
+                        Due date<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                     </Typography>
                     <TextFieldCustom
                         type="datetime-local"

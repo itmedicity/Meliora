@@ -18,7 +18,9 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import imageCompression from 'browser-image-compression';
 import moment from 'moment';
-const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount }) => {
+const EmpTaskStatus = ({
+    open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount, searchFlag, projectcount, setprojectcount,
+    taskcount, settaskcount }) => {
 
     const { tm_task_slno, tm_task_name, tm_task_description, tm_task_due_date, main_task_slno, sec_name, tm_task_dept, tm_task_dept_sec, tm_task_status, dept_name,
         tm_project_slno, tm_project_name, create_date, tm_onhold_remarks, tm_pending_remark, tm_completed_remarks, } = masterData
@@ -32,7 +34,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const [onPending, setOnPending] = useState(tm_task_status === 4 ? true : tm_task_status === 1 ? false : tm_task_status === 2 ? false : tm_task_status === 3 ? false : false)
     const [checkFlag, setcheckFlag] = useState(tm_task_status)
     const [assignedEmp, setAssignedEmp] = useState([])
-    const [tabledata, setTableData] = useState([])
+    const [progresstabledata, setprogresstabledata] = useState([])
     const [progressCount, setprogressCount] = useState(0)
     const [projectz, setprojectz] = useState(tm_project_slno === null ? 0 : tm_project_slno)
     const [value, setvalue] = useState(0)
@@ -50,6 +52,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     })
     const { onHoldRemaks, pendingRemarks, completedRemarks } = updateTask
     const [completeFlag, setCompleteFlag] = useState(0)
+
 
 
     const [taskProgress, setTaskProgress] = useState({
@@ -77,18 +80,14 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             tm_task_status: checkFlag,
             tm_progres_date: ProgressDate === '' ? null : ProgressDate,
             progress_emp: id,
+            main_task_slno: main_task_slno,
             tm_task_progress: progressDetails,
 
 
         }
-    }, [tm_task_slno, checkFlag, ProgressDate, progressDetails, id])
-
-
-
-
+    }, [tm_task_slno, checkFlag, ProgressDate, progressDetails, id, main_task_slno])
 
     const patchProgress = useMemo(() => {
-
         return {
             progress_slno: PrgSlNo,
             tm_task_slno: tm_task_slno,
@@ -98,9 +97,6 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             tm_task_progress: progressDetails,
         }
     }, [PrgSlNo, tm_task_slno, checkFlag, ProgressDate, progressDetails, id])
-
-
-
 
     const ProgressData = useMemo(() => {
         return {
@@ -123,22 +119,18 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                             em_name: val.em_name,
                             progress_emp: val.progress_emp,
                             tm_task_progress: val.tm_task_progress
-
-
                         }
                         return obj
                     })
-                    setTableData(arry)
+                    setprogresstabledata(arry)
                 } else {
-                    setTableData([])
+                    setprogresstabledata([])
                     warningNotify('error occured')
                 }
             }
         }
         getProgress(ProgressData)
     }, [progressCount, ProgressData])
-
-
 
     useEffect(() => {
         const getEmpName = async () => {
@@ -152,6 +144,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         }
         getEmpName(tm_task_slno)
     }, [tm_task_slno])
+
 
     const ChangeCompleted = useCallback((e) => {
         if (e.target.checked === true) {
@@ -171,7 +164,6 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         }
     }, [])
     const ChangeOnProgress = useCallback((e) => {
-
         if (e.target.checked === true) {
             setCompleted(false)
             setOnProgress(true)
@@ -185,11 +177,9 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             setOnHold(false)
             setOnPending(false)
             setcheckFlag(0)
-
         }
     }, [])
     const ChangeOnHold = useCallback((e) => {
-
         if (e.target.checked === true) {
             setCompleted(false)
             setOnHold(true)
@@ -203,7 +193,6 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             setOnHold(false)
             setOnPending(false)
             setcheckFlag(0)
-
         }
     }, [])
 
@@ -240,9 +229,6 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         return compressedFile
     }, []);
 
-
-
-
     const handleEditClose = useCallback(() => {
         setEditModalFlag(0)
         setEditModalOpen(false)
@@ -255,8 +241,6 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         },
         [updateTask],
     )
-
-
     const updateMasterTask = useMemo(() => {
         return {
             tm_task_slno: tm_task_slno,
@@ -275,20 +259,12 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     }, [tm_task_name, checkFlag, tm_task_dept, tm_task_dept_sec, tm_task_slno, onHoldRemaks, pendingRemarks, tm_task_due_date, completedRemarks, projectz,
         tm_task_description, id])
 
-
-
-
-
-
-
     const UpdateStatus = useCallback((e) => {
         e.preventDefault()
-
         const UpdateMastTask = async (updateMasterTask) => {
             const result = await axioslogin.patch('/taskManagement/updateMasterTask', updateMasterTask)
             return result.data
         }
-
         const InsertFile = async (selectTaskfile, tm_task_slno) => {
             try {
                 const formData = new FormData();
@@ -326,36 +302,36 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
 
                                 succesNotify("Task updated Successfully with file Upload")
                                 setTableCount(tableCount + 1)
+                                setprojectcount(projectcount + 1)
+                                settaskcount(taskcount + 1)
                                 handleEditClose()
                             }
-
                         } else {
                             setTableCount(tableCount + 1)
+                            setprojectcount(projectcount + 1)
+                            settaskcount(taskcount + 1)
 
                         }
                     })
-
                 }
                 else {
                     if ((completed === true && completedRemarks === null) || (onHold === true && onHoldRemaks === null) || (onPending === true && pendingRemarks === null)) {
                         infoNotify('please enter Remarks')
                     } else {
-
                         succesNotify(message)
                         setTableCount(tableCount + 1)
+                        setprojectcount(projectcount + 1)
+                        settaskcount(taskcount + 1)
                         handleEditClose()
                     }
-
                 }
             } else {
                 warningNotify('error in updation')
-
             }
         })
 
-
     }, [updateMasterTask, handleEditClose, completed, completedRemarks, onHold, onHoldRemaks, onPending, pendingRemarks, tableCount, selectTaskfile,
-        tm_task_slno, handleImageUpload, setTableCount])
+        tm_task_slno, handleImageUpload, setTableCount, projectcount, setprojectcount, settaskcount, taskcount])
 
 
     const resetProgress = () => {
@@ -372,10 +348,11 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         if (ProgressDate !== '') {
             const InsertMastProgress = async (postProgress) => {
                 const result = await axioslogin.post('/taskManagement/insertProgress', postProgress)
-
                 const { message, success } = result.data
                 if (success === 1) {
                     succesNotify(message)
+                    setprogressCount(progressCount + 1)
+                    setTableCount(tableCount + 1)
                     setprogressCount(progressCount + 1)
                     resetProgress()
                 } else if (success === 0) {
@@ -388,7 +365,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         } else {
             infoNotify('Please Select Date For Entering Task Progress')
         }
-    }, [postProgress, progressCount, ProgressDate])
+    }, [postProgress, setprogressCount, tableCount, setTableCount, progressCount, ProgressDate])
     const rowSelect = useCallback((data) => {
         setvalue(1)
 
@@ -614,7 +591,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     <Typography sx={{ pl: 1.5, pt: .5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}>
                                         Task Progress
                                     </Typography>
-                                    <EmpProgressTable tabledata={tabledata}
+                                    <EmpProgressTable progresstabledata={progresstabledata}
                                         rowSelect={rowSelect}
                                     />
                                 </Box>
@@ -656,10 +633,6 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                         ></CusCheckBox>
                                                     </Box>}
                                             </Box>}
-
-
-
-
 
                                         <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
                                             <CusCheckBox
@@ -824,12 +797,20 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                             <Box sx={{ pr: 1, pt: 4 }}>
                                                 {value === 0 ?
                                                     <Box>
-                                                        <AddCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
-                                                            onClick={InsertProgress} />
+                                                        <CssVarsProvider>
+                                                            <Tooltip title="add  progress">
+                                                                <AddCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
+                                                                    onClick={InsertProgress} />
+                                                            </Tooltip>
+                                                        </CssVarsProvider>
                                                     </Box> :
                                                     value === 1 ? <Box>
-                                                        <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
-                                                            onClick={UpdateProgress} />
+                                                        <CssVarsProvider>
+                                                            <Tooltip title="edit  progress">
+                                                                <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
+                                                                    onClick={UpdateProgress} />
+                                                            </Tooltip>
+                                                        </CssVarsProvider>
                                                     </Box>
                                                         : null}
 
@@ -879,9 +860,12 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                     <Box>
                                                         <AddSubTaskEmp
                                                             tm_task_slno={tm_task_slno}
+                                                            tm_task_due_date={tm_task_due_date}
                                                             tm_project_slno={tm_project_slno}
                                                             setTableRendering={setTableRendering}
                                                             tableRendering={tableRendering}
+                                                            tableCount={tableCount}
+                                                            setTableCount={setTableCount}
                                                             setflag={setflag}
                                                             setprojectz={setprojectz}
                                                             projectz={projectz}
@@ -896,8 +880,13 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                                 setsubTaskData={setsubTaskData}
                                                                 setTableRendering={setTableRendering}
                                                                 tableRendering={tableRendering}
+                                                                tableCount={tableCount}
+                                                                setTableCount={setTableCount}
                                                                 setprojectz={setprojectz}
                                                                 projectz={projectz}
+                                                                main_task_slno={main_task_slno}
+                                                                tm_task_due_date={tm_task_due_date}
+
 
                                                             />
                                                         </Box>

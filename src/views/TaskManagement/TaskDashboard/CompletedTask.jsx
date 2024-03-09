@@ -12,7 +12,7 @@ import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import ModalEditTask from '../CreateTask/ModalEditTask';
 import EditIcon from '@mui/icons-material/Edit'
 
-const CompletedTask = ({ tableCount, setTableCount }) => {
+const CompletedTask = ({ tableCount, setTableCount, statuscount, setstatuscount, taskcount, settaskcount }) => {
     const [tableData, setTableData] = useState([])
     const [viewCompleted, setViewCompleted] = useState(0)
     const [getarry, setgetarry] = useState([])
@@ -40,7 +40,8 @@ const CompletedTask = ({ tableCount, setTableCount }) => {
                             dept_name: val.dept_name,
                             sec_name: val.sec_name,
                             tm_assigne_emp: val.tm_assigne_emp,
-                            em_name: (val.em_name).toLowerCase(),
+                            // em_name: (val.em_name).toLowerCase(),
+                            em_name: val.em_name,
                             tm_task_dept: val.tm_task_dept,
                             tm_task_dept_sec: val.tm_task_dept_sec,
                             tm_task_due_date: val.tm_task_due_date,
@@ -48,7 +49,8 @@ const CompletedTask = ({ tableCount, setTableCount }) => {
                             tm_project_name: val.tm_project_name,
                             create_date: val.create_date,
                             main_task_slno: val.main_task_slno,
-                            tm_task_description: (val.tm_task_description).toLowerCase(),
+                            // tm_task_description: (val.tm_task_description).toLowerCase(),
+                            tm_task_description: val.tm_task_description,
                             tm_task_status: val.tm_task_status,
                             TaskStatus: val.tm_task_status === 1 ? 'Completed' :
                                 val.tm_task_status === 1 ? 'Completed' :
@@ -116,7 +118,8 @@ const CompletedTask = ({ tableCount, setTableCount }) => {
         <Box>
             {editModalFlag === 1 ?
                 <ModalEditTask open={editModalOpen} masterData={masterData} setEditModalOpen={setEditModalOpen}
-                    setEditModalFlag={setEditModalFlag}
+                    setEditModalFlag={setEditModalFlag} taskcount={taskcount} settaskcount={settaskcount}
+                    statuscount={statuscount} setstatuscount={setstatuscount}
                     tableCount={tableCount} setTableCount={setTableCount}
                 /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                     selectedImages={selectedImages} getarry={getarry} /> : null}
@@ -129,16 +132,16 @@ const CompletedTask = ({ tableCount, setTableCount }) => {
                                 hoverRow>
                                 <thead>
                                     <tr >
-                                        <th style={{ width: 50 }}>#</th>
+                                        <th style={{ width: 50, }}>#</th>
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 60 }}>View</th>
-                                        <th style={{ width: 150 }}>Status</th>
-                                        <th style={{ width: 300 }}>Task Name</th>
-                                        <th style={{ width: 300 }}>Project</th>
-                                        <th style={{ width: 170 }}>Assignee</th>
+                                        <th style={{ width: 170 }}>Status</th>
+                                        <th style={{ width: 450 }}>Task Name</th>
+                                        <th style={{ width: 450 }}>Project</th>
+                                        <th style={{ width: 200 }}>Assignee</th>
                                         <th style={{ width: 150 }}>Created Date</th>
                                         <th style={{ width: 150 }}> Due Date</th>
-                                        <th style={{ width: 300 }}>Task Description</th>
+                                        <th style={{ width: 500 }}>Task Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -146,7 +149,7 @@ const CompletedTask = ({ tableCount, setTableCount }) => {
                                         return (
                                             <tr key={index}
                                                 style={{
-                                                    height: 8, background: val.main_task_slno !== null ? '#D8CEE6' : val.main_task_slno === 0 ? '#D8CEE6' : 'transparent',
+                                                    height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent',
                                                     minHeight: 5
                                                 }}
                                             >

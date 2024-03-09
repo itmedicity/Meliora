@@ -32,6 +32,7 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
                             tm_project_description: val.tm_project_description,
                             tm_project_status: val.tm_project_status,
                             tm_goal_slno: val.tm_goal_slno,
+                            tm_goal_name: val.tm_goal_name,
                             ProjectStatus: val.tm_project_status === 1 ? 'Completed' : val.tm_project_status === 0 ? 'Incompleted' : 'Incompleted',
                         }
                         return obj
@@ -46,6 +47,12 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
         }
         getAllProjects(empsecid)
     }, [empsecid, tableCount])
+
+    const isPastDue = (tm_task_due_date) => {
+        const today = new Date();
+        const due = new Date(tm_task_due_date);
+        return due < today
+    }
     return (
         <Box sx={{ mt: 1, flex: 1, }}>
             {tabledata.length !== 0 ?
@@ -62,11 +69,13 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
                                             <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
                                             <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
                                             <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
-                                            <th style={{ width: 200, fontFamily: 'Georgia', }}>Projects</th>
+                                            <th style={{ width: 300, fontFamily: 'Georgia', }}>Goal</th>
+                                            <th style={{ width: 400, fontFamily: 'Georgia', }}>Projects</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Section</th>
-                                            <th style={{ width: 120, fontFamily: 'Georgia', }}>Due date</th>
-                                            <th style={{ width: 350, fontFamily: 'Georgia', }}>Description</th>
+                                            <th style={{ width: 150, fontFamily: 'Georgia', }}>Created date</th>
+                                            <th style={{ width: 150, fontFamily: 'Georgia', }}>Due date</th>
+                                            <th style={{ width: 400, fontFamily: 'Georgia', }}>Description</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -85,10 +94,16 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
                                                             color: val.tm_project_status === null ? '#5F093D' : val.tm_project_status === 0 ? '#5F093D'
                                                                 : val.tm_project_status === 1 ? 'green' : 'transparent', minHeight: 5
                                                         }}>{val.ProjectStatus}</td>
+                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_name || 'not given'}</td>
                                                     <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                                                     <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td>
                                                     <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td>
-                                                    <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                    <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                    {/* <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td> */}
+                                                    {val.tm_project_status === 1 ?
+                                                        <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY') || 'not given'}</td> :
+                                                        <td style={{ color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black' }}>
+                                                            {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
                                                     <td style={{ textTransform: 'capitalize' }}> {val.tm_project_description || 'not given'}</td>
                                                 </tr>
                                             )

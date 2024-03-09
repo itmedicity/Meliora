@@ -29,11 +29,11 @@ const TmProjectCircularProgress = ({ val, }) => {
     return (
         <Box>
             <Stack spacing={1}>
-                <CircularProgress size="lg" determinate
+                <CircularProgress size="md" determinate
                     sx={{ bgcolor: 'white' }}
                     value={progress}
                 >
-                    <Typography>
+                    <Typography sx={{ fontSize: 10 }}>
                         {progress}%
                     </Typography>
                 </CircularProgress>

@@ -1,5 +1,5 @@
-import { Box, Tooltip, Typography } from '@mui/joy'
-import React, { useEffect, useState } from 'react'
+import { Box, FormLabel, Tooltip, Typography } from '@mui/joy'
+import React, { memo, useEffect, useState } from 'react'
 import AccordionGroup from '@mui/joy/AccordionGroup';
 import Accordion from '@mui/joy/Accordion';
 import accordionDetailsClasses from '@mui/joy/AccordionDetails';
@@ -31,6 +31,11 @@ const TmProjectTaskData = () => {
         getAllProjectUnderSection(empsecid)
     }, [empsecid])
 
+    const isPastDue = (tm_task_due_date) => {
+        const today = new Date();
+        const due = new Date(tm_task_due_date);
+        return due < today
+    }
     return (
         <Box sx={{ height: 450, overflow: 'auto' }}>
             <AccordionGroup
@@ -58,11 +63,27 @@ const TmProjectTaskData = () => {
                                     <LanIcon />
                                 </Avatar>
                                 <Box sx={{ flex: 6, textTransform: 'capitalize' }}>
-                                    <Typography sx={{ fontSize: 15 }}>{val.tm_project_name}</Typography>
+                                    <Typography sx={{ fontSize: 14 }}>{val.tm_project_name}</Typography>
                                 </Box>
                                 <Box sx={{ flex: 1 }}>
-                                    <Tooltip title="Project Due Date" >
-                                        <Typography sx={{ fontSize: 15, cursor: 'grab' }}>{val.tm_project_duedate}</Typography>
+                                    <Tooltip title="Project created Date" >
+                                        <Typography sx={{ fontSize: 14, cursor: 'grab' }}>{val.create_date}</Typography>
+                                    </Tooltip>
+                                </Box>
+                                <Box sx={{ flex: 1 }}>
+                                    <Tooltip title="Project Due Date">
+                                        {val.tm_project_status === 1 ?
+                                            <FormLabel sx={{
+                                                fontSize: 14, flex: .8, textTransform: 'capitalize', cursor: 'grab',
+                                            }}>
+                                                {val.tm_project_duedate}
+                                            </FormLabel> :
+                                            <FormLabel sx={{
+                                                fontSize: 14, flex: .8, textTransform: 'capitalize', cursor: 'grab',
+                                                color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black'
+                                            }}>
+                                                {val.tm_project_duedate}
+                                            </FormLabel>}
                                     </Tooltip>
                                 </Box>
                                 <Box>
@@ -80,4 +101,4 @@ const TmProjectTaskData = () => {
     )
 }
 
-export default TmProjectTaskData
+export default memo(TmProjectTaskData)

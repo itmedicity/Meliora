@@ -4,11 +4,8 @@ import React, { useEffect, } from 'react'
 import EditIcon from '@mui/icons-material/Edit'
 import { axioslogin } from 'src/views/Axios/Axios';
 import moment from 'moment';
+
 const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag, tableRendering, setSubTask, subTask, setViewSubTask }) => {
-
-
-
-
 
     useEffect(() => {
         const getSubTask = async (tm_task_slno) => {
@@ -34,6 +31,7 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
                             tm_project_slno: val.tm_project_slno,
                             tm_completed_remarks: val.tm_completed_remarks,
                             create_date: val.create_date,
+                            main_task_slno: val.main_task_slno,
                             TaskStatus: val.tm_task_status === 1 ? 'Completed' :
                                 val.tm_task_status === 2 ? 'On Progress' :
                                     val.tm_task_status === 3 ? 'On Hold' :
@@ -45,7 +43,6 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
                     setViewSubTask(1)
                     const filterData = data && data.filter((val) => val.tm_task_status !== 1)
                     setCompleteFlag(filterData);
-
                 }
             }
             else {
@@ -55,10 +52,10 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
         }
         getSubTask(tm_task_slno)
     }, [tm_task_slno, tableRendering, setSubTask, setCompleteFlag, setViewSubTask])
+
     return (
         <Box>
             {subTask.length !== 0 ?
-
                 <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', mx: 1, maxHeight: 400, my: 1 }}>
                     <CssVarsProvider>
                         <Table stickyHeader hoverRow>
@@ -66,11 +63,8 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
                                 <tr>
                                     <th style={{ width: 50 }}>#</th>
                                     <th style={{ width: 60 }} >Action</th>
-                                    {/* <th style={{ width: 60 }}>View</th> */}
                                     <th style={{ width: 100 }}>status</th>
                                     <th style={{ width: 150 }}>Subtask</th>
-                                    {/* <th style={{ width: 250 }}>Department</th>
-                            <th style={{ width: 250 }}>Location</th> */}
                                     <th style={{ width: 150 }}>Assignee</th>
                                     <th style={{ width: 100 }}>created date</th>
                                     <th style={{ width: 100 }}>Due date</th>
@@ -93,12 +87,6 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
                                                     onClick={() => selectForEditsSubTask(val)}
                                                 />
                                             </td>
-                                            {/* <td style={{ cursor: 'pointer', }}>
-                                        <ImageOutlinedIcon sx={{ color: '#41729F' }}
-                                            onClick={() => fileView(val)}
-                                        />
-                                    </td> */}
-
                                             <td
                                                 style={{
                                                     color: val.tm_task_status === null ? '#311E26'
@@ -111,8 +99,6 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
                                                     fontWeight: 600,
                                                 }}>{val.TaskStatus}</td>
                                             <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
-                                            {/* <td> {val.dept_name || 'not given'}</td>
-                                    <td> {val.sec_name || 'not given'}</td> */}
                                             <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
                                             <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                             <td > {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
@@ -125,7 +111,6 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
                     </CssVarsProvider>
                 </Paper> :
                 <Box></Box>}
-
         </Box>
     )
 }

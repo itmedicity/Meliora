@@ -138,7 +138,7 @@ const CreateTaskInAllDepartment = ({ open, setAddModalFlag, setaddModalOpen, set
                 warningNotify('An error occurred during file upload.');
             }
         };
-        if (tm_task_name !== '') {
+        if ((tm_task_name !== '') && (employee.length !== 0) && (department !== 0) && (deptsec !== 0) && (tm_task_due_date !== '')) {
             InsertMastTask(insertMastTask).then((value) => {
                 const { message, success, insertId } = value
                 if (success === 1) {
@@ -211,9 +211,10 @@ const CreateTaskInAllDepartment = ({ open, setAddModalFlag, setaddModalOpen, set
                 }
             })
         } else {
-            infoNotify('Please Enter Task Name')
+            infoNotify('Please fill the mandatory fields')
         }
-    }, [insertMastTask, tm_task_name, selectFile, employee, handleImageUpload, id, taskTableCount, reset, setTaskTableCount, handleClose])
+    }, [insertMastTask, tm_task_name, selectFile, employee, handleImageUpload, id, taskTableCount, reset, setTaskTableCount, department, deptsec, tm_task_due_date,
+        handleClose])
 
     return (
         <CssVarsProvider>
@@ -245,7 +246,7 @@ const CreateTaskInAllDepartment = ({ open, setAddModalFlag, setaddModalOpen, set
                                     <Box sx={{ mt: .5, pt: 1 }}>
                                         <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
                                             <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                                Task*&nbsp;:
+                                                Task<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                             </Typography>
                                         </Box>
                                         <CssVarsProvider>
@@ -275,7 +276,7 @@ const CreateTaskInAllDepartment = ({ open, setAddModalFlag, setaddModalOpen, set
                                     <Box sx={{ mt: 1.5 }}>
                                         <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
                                             <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                                Department &nbsp;:
+                                                Department <Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                             </Typography>
                                         </Box>
                                         <TmDepartmentSelect
@@ -285,7 +286,7 @@ const CreateTaskInAllDepartment = ({ open, setAddModalFlag, setaddModalOpen, set
                                     <Box sx={{ mt: 1.5 }}>
                                         <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
                                             <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                                Section&nbsp;:
+                                                Section<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                             </Typography>
                                         </Box>
                                         <TmDeptSectionSelect
@@ -295,7 +296,7 @@ const CreateTaskInAllDepartment = ({ open, setAddModalFlag, setaddModalOpen, set
                                     <Box sx={{ mt: 1.5 }}>
                                         <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
                                             <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                                Assignees&nbsp;:
+                                                Assignees<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                             </Typography>
                                         </Box>
                                         <CssVarsProvider>
@@ -308,7 +309,7 @@ const CreateTaskInAllDepartment = ({ open, setAddModalFlag, setaddModalOpen, set
                                     <Box sx={{ mt: 1.5 }}>
                                         <Box sx={{ pl: .5, fontSize: 15, fontFamily: 'Georgia' }}>
                                             <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                                Due Date&nbsp;:
+                                                Due Date<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                                             </Typography>
                                         </Box>
                                         <TextFieldCustom

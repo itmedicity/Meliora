@@ -21,7 +21,6 @@ const EmpTaskDash = () => {
 
     const [employeeTaskFlag, setemployeeTaskFlag] = useState(0)
     const [empTaskHeading, setempTaskHeading] = useState('')
-    // const [tableDataEmployee, setTableDataEmployee] = useState([])
     const [tableCount, setTableCount] = useState(0)
     const [employeeOverDue, setemployeeOverDue] = useState([])
     const [employeeeCompleted, setemployeeeCompleted] = useState([])
@@ -180,10 +179,8 @@ const EmpTaskDash = () => {
     return (
         flag === 1 ? <EmpTaskView
             setflag={setflag} empTaskHeading={empTaskHeading}
-            // tableDataEmployee={tableDataEmployee}
             tableDataEmployee={employeeTaskFlag === 1 ? employeeeCompleted : employeeTaskFlag === 2 ? employeeInComplete : employeeTaskFlag === 3 ? employeeOnProgress :
                 employeeTaskFlag === 4 ? employeeOverDue : employeeTaskFlag === 5 ? employeeOnHold : employeeTaskFlag === 6 ? employeeOnPending : []}
-
             tableCount={tableCount} setTableCount={setTableCount}
         /> :
             <Paper >
@@ -200,7 +197,7 @@ const EmpTaskDash = () => {
                         border: 1, borderColor: '#D396FF',
                     }}>
                         <CssVarsProvider>
-                            <Box sx={{ flex: 1, height: 10 }}></Box>
+                            <Box sx={{ flex: 1, height: 5 }}></Box>
                             <List
                                 orientation="horizontal"
                                 variant="plain"
@@ -210,25 +207,25 @@ const EmpTaskDash = () => {
                                     borderRadius: 'sm',
                                 }}
                             >
-                                <Box sx={{ mx: 1, flex: 1 }}>
-                                    <Box sx={{ flex: 1, height: 20 }}></Box>
-                                    <Box sx={{ flex: 1, textAlign: 'center' }}>
-                                        <RestartAltOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />Over Due
+                                <Box sx={{ mx: 1, flex: 1, }}>
+                                    <Box sx={{ flex: 1, height: 20, }}></Box>
+                                    <Box sx={{ flex: 1, textAlign: 'center', fontSize: 15 }}>
+                                        <RestartAltOutlinedIcon sx={{ color: '#341948', width: 22, height: 22, }} />Over Due
                                     </Box>
-                                    <Box sx={{ flex: 1, height: 20 }}></Box>
-                                    <Box sx={{ display: 'flex', height: 80, cursor: 'pointer', }}>
+                                    <Box sx={{ flex: 1, height: 20, }}></Box>
+                                    <Box sx={{ display: 'flex', height: 70, cursor: 'pointer', }}>
                                         <Box sx={{ flex: 1 }}></Box>
                                         <Box>
                                             <Avatar
                                                 color="neutral"
                                                 size="sm"
                                                 variant="outlined"
-                                                sx={{ bgcolor: 'white', width: 50, height: 50, }}
+                                                sx={{ bgcolor: 'white', width: 40, height: 40, }}
                                                 onClick={(e) => {
                                                     ViewEmpOverDueTask(e)
                                                 }}
                                             >
-                                                <Box sx={{ fontSize: 30, color: '#341948', }}>
+                                                <Box sx={{ fontSize: 18, color: '#341948', }}>
                                                     {employeeOverDue.length}
                                                 </Box>
                                             </Avatar>
@@ -243,19 +240,19 @@ const EmpTaskDash = () => {
                                         <RotateRightIcon sx={{ color: '#341948', width: 23, height: 23, }} />On Progress
                                     </Box>
                                     <Box sx={{ flex: 1, height: 20 }}></Box>
-                                    <Box sx={{ display: 'flex', height: 80, cursor: 'pointer', }}>
+                                    <Box sx={{ display: 'flex', height: 70, cursor: 'pointer', }}>
                                         <Box sx={{ flex: 1 }}></Box>
                                         <Box>
                                             <Avatar
                                                 color="neutral"
                                                 size="sm"
                                                 variant="outlined"
-                                                sx={{ bgcolor: 'white', width: 50, height: 50, }}
+                                                sx={{ bgcolor: 'white', width: 40, height: 40, }}
                                                 onClick={(e) => {
                                                     ViewEmpOnProgressTask(e)
                                                 }}
                                             >
-                                                <Box sx={{ fontSize: 30, color: '#341948', }}>
+                                                <Box sx={{ fontSize: 18, color: '#341948', }}>
                                                     {employeeOnProgress.length}
                                                 </Box>
                                             </Avatar>
@@ -277,12 +274,12 @@ const EmpTaskDash = () => {
                                                 color="neutral"
                                                 size="sm"
                                                 variant="outlined"
-                                                sx={{ bgcolor: 'white', width: 50, height: 50, }}
+                                                sx={{ bgcolor: 'white', width: 40, height: 40, }}
                                                 onClick={(e) => {
                                                     ViewOnHoldTask(e)
                                                 }}
                                             >
-                                                <Box sx={{ fontSize: 30, color: '#341948', }}>
+                                                <Box sx={{ fontSize: 18, color: '#341948', }}>
                                                     {employeeOnHold.length}
                                                 </Box>
                                             </Avatar>
@@ -297,20 +294,20 @@ const EmpTaskDash = () => {
                                         <RunningWithErrorsIcon sx={{ color: '#341948', width: 23, height: 23, }} />Pending
                                     </Box>
                                     <Box sx={{ flex: 1, height: 20 }}></Box>
-                                    <Box sx={{ display: 'flex', height: 80, cursor: 'pointer', }}>
+                                    <Box sx={{ display: 'flex', height: 70, cursor: 'pointer', }}>
                                         <Box sx={{ flex: 1 }}></Box>
                                         <Box>
                                             <Avatar
                                                 color="neutral"
                                                 size="sm"
                                                 variant="outlined"
-                                                sx={{ bgcolor: 'white', width: 50, height: 50, }}
+                                                sx={{ bgcolor: 'white', width: 40, height: 40, }}
                                                 onClick={(e) => {
                                                     ViewOnPendingTask(e)
 
                                                 }}
                                             >
-                                                <Box sx={{ fontSize: 30, color: '#341948', }}>
+                                                <Box sx={{ fontSize: 18, color: '#341948', }}>
                                                     {employeeOnPending.length}
                                                 </Box>
                                             </Avatar>
@@ -325,19 +322,19 @@ const EmpTaskDash = () => {
                                         <DataUsageIcon sx={{ color: '#341948', width: 23, height: 23, }} />InCompleted
                                     </Box>
                                     <Box sx={{ flex: 1, height: 20 }}></Box>
-                                    <Box sx={{ display: 'flex', height: 80, cursor: 'pointer', }}>
+                                    <Box sx={{ display: 'flex', height: 70, cursor: 'pointer', }}>
                                         <Box sx={{ flex: 1 }}></Box>
                                         <Box>
                                             <Avatar
                                                 color="neutral"
                                                 size="sm"
                                                 variant="outlined"
-                                                sx={{ bgcolor: 'white', width: 50, height: 50, }}
+                                                sx={{ bgcolor: 'white', width: 40, height: 40, }}
                                                 onClick={(e) => {
                                                     ViewEmpInCompletedTask(e)
                                                 }}
                                             >
-                                                <Box sx={{ fontSize: 30, color: '#341948', }}>
+                                                <Box sx={{ fontSize: 18, color: '#341948', }}>
                                                     {employeeInComplete.length}
                                                 </Box>
                                             </Avatar>
@@ -352,19 +349,19 @@ const EmpTaskDash = () => {
                                         <CheckCircleOutlinedIcon sx={{ color: '#341948', width: 23, height: 23, }} />Completed
                                     </Box>
                                     <Box sx={{ flex: 1, height: 20 }}></Box>
-                                    <Box sx={{ display: 'flex', height: 80, cursor: 'pointer', }}>
+                                    <Box sx={{ display: 'flex', height: 70, cursor: 'pointer', }}>
                                         <Box sx={{ flex: 1 }}></Box>
                                         <Box>
                                             <Avatar
                                                 color="neutral"
                                                 size="sm"
                                                 variant="outlined"
-                                                sx={{ bgcolor: 'white', width: 50, height: 50, }}
+                                                sx={{ bgcolor: 'white', width: 40, height: 40, }}
                                                 onClick={(e) => {
                                                     ViewEmpCompletedTask(e)
                                                 }}
                                             >
-                                                <Box sx={{ fontSize: 30, color: '#341948', }}>
+                                                <Box sx={{ fontSize: 18, color: '#341948', }}>
                                                     {employeeeCompleted.length}
                                                 </Box>
                                             </Avatar>
@@ -373,7 +370,7 @@ const EmpTaskDash = () => {
                                     </Box>
                                 </Box>
                             </List>
-                            <Box sx={{ flex: 1, height: 10 }}></Box>
+                            <Box sx={{ flex: 1, height: 5 }}></Box>
                         </CssVarsProvider>
                     </Box >
                 </Box>

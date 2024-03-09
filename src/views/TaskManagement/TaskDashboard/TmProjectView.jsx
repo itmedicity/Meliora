@@ -29,6 +29,11 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
         setMasterData(value)
     }, [])
 
+    const isPastDue = (tm_task_due_date) => {
+        const today = new Date();
+        const due = new Date(tm_task_due_date);
+        return due < today
+    }
 
 
     return (
@@ -66,8 +71,7 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                             />
                             : null}
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader
-                                hoverRow>
+                            <Table padding={"none"} stickyHeader hoverRow>
                                 <thead>
                                     <tr>
                                         <th style={{ width: 30 }}>SlNo</th>
@@ -81,8 +85,7 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                                 <tbody>
                                     {ProjTable?.map((val, index) => {
                                         return (
-                                            <tr
-                                                key={index}
+                                            <tr key={index}
                                                 sx={{
                                                     '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
                                                     minHeight: 5
@@ -101,9 +104,20 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                                                                 : 'transparent', minHeight: 5,
                                                         fontWeight: 700
                                                     }}>{val.tm_project_status === 0 ? 'Incompleted' : val.tm_project_status === 1 ? 'Completed' : 'not given'}</td>
-                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
-                                                <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY') || 'not given'}</td>
-                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_description || 'not given'}</td>
+
+                                                {val.tm_project_status === 1 ?
+                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td> :
+                                                    <td style={{ color: isPastDue(val.tm_project_duedate) ? '#970C10' : 'black' }}>
+                                                        {(val.tm_project_name) || 'not given'}</td>}
+                                                {/* <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY') || 'not given'}</td> */}                                                {val.tm_project_status === 1 ?
+                                                    <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY') || 'not given'}</td> :
+                                                    <td style={{ color: isPastDue(val.tm_project_duedate) ? '#970C10' : 'black' }}>
+                                                        {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
+                                                {/* <td style={{ textTransform: 'capitalize' }}> {val.tm_project_description || 'not given'}</td> */}
+                                                {val.tm_project_status === 1 ?
+                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_project_description || 'not given'}</td> :
+                                                    <td style={{ color: isPastDue(val.tm_project_duedate) ? '#970C10' : 'black' }}>
+                                                        {(val.tm_project_description) || 'not given'}</td>}
                                             </tr>
                                         )
                                     })}
