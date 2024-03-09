@@ -12,6 +12,7 @@ import { getDepartment } from 'src/redux/actions/Department.action';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import EditIcon from '@mui/icons-material/Edit'
+import CusIconButton from 'src/views/Components/CusIconButton';
 const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
     const [tabledata, setTableData] = useState([])
     const [departments, setDepartments] = useState(0)
@@ -47,6 +48,8 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                         tm_project_description: val.tm_project_description,
                         tm_project_status: val.tm_project_status,
                         tm_goal_slno: val.tm_goal_slno,
+                        tm_goal_name: val.tm_goal_name,
+                        create_date: val.create_date,
                         ProjectStatus: val.tm_project_status === 1 ? 'Completed' : val.tm_project_status === 0 ? 'Incompleted' : 'Incompleted',
                     }
                     return obj
@@ -76,6 +79,8 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                             tm_project_description: val.tm_project_description,
                             tm_project_status: val.tm_project_status,
                             tm_goal_slno: val.tm_goal_slno,
+                            tm_goal_name: val.tm_goal_name,
+                            create_date: val.create_date,
                             ProjectStatus: val.tm_project_status === 1 ? 'Completed' : val.tm_project_status === 0 ? 'Incompleted' : 'Incompleted',
                         }
                         return obj
@@ -98,6 +103,12 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
         setDepartments(0)
         setDeptSecs(0)
     }, [])
+
+    const isPastDue = (tm_task_due_date) => {
+        const today = new Date();
+        const due = new Date(tm_task_due_date);
+        return due < today
+    }
     return (
         <Box sx={{ mt: 1 }}>
             <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', fontFamily: 'Georgia' }}>Projects</Divider>
@@ -116,25 +127,30 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                             deptsec={deptsecs}
                             setDeptSec={setDeptSecs} />
                     </Box>
-                    <Box sx={{ pt: 4, px: 1, flex: 1, }}>
-
-                        <CssVarsProvider>
-                            <Tooltip title="search" placement="top">
-                                <ContentPasteSearchIcon sx={{ color: '#274472', cursor: 'pointer' }}
-                                    onClick={DeptSearch}
-                                />
-                            </Tooltip>
-                        </CssVarsProvider>
-
-                        <CssVarsProvider  >
-                            <Tooltip title="Refresh" placement="top">
-                                <RefreshIcon sx={{ color: '#274472', cursor: 'pointer' }}
-                                    onClick={Refreshh}
-                                />
-                            </Tooltip>
-                        </CssVarsProvider>
+                    <Box sx={{ pt: 3.5, px: .5, flex: 1, display: 'flex' }}>
+                        <Box sx={{ pr: .5 }}>
+                            <CusIconButton size="sm" variant="outlined" color="primary"  >
+                                <CssVarsProvider>
+                                    <Tooltip title="search" placement="top">
+                                        <ContentPasteSearchIcon sx={{ color: '#274472', cursor: 'pointer' }}
+                                            onClick={DeptSearch}
+                                        />
+                                    </Tooltip>
+                                </CssVarsProvider>
+                            </CusIconButton>
+                        </Box>
+                        <Box sx={{ pr: .5 }}>
+                            <CusIconButton size="sm" variant="outlined" color="primary"  >
+                                <CssVarsProvider  >
+                                    <Tooltip title="Refresh" placement="top">
+                                        <RefreshIcon sx={{ color: '#274472', cursor: 'pointer' }}
+                                            onClick={Refreshh}
+                                        />
+                                    </Tooltip>
+                                </CssVarsProvider>
+                            </CusIconButton>
+                        </Box>
                     </Box>
-
                 </Box>
                 <Box sx={{ flex: 1, }}>
                 </Box>
@@ -150,11 +166,13 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                                         <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
                                         <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
                                         <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
+                                        <th style={{ width: 200, fontFamily: 'Georgia', }}>Goal</th>
                                         <th style={{ width: 200, fontFamily: 'Georgia', }}>Projects</th>
                                         <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
                                         <th style={{ width: 220, fontFamily: 'Georgia', }}>Section</th>
-                                        <th style={{ width: 120, fontFamily: 'Georgia', }}>Due date</th>
-                                        <th style={{ width: 350, fontFamily: 'Georgia', }}>Description</th>
+                                        <th style={{ width: 150, fontFamily: 'Georgia', }}>Created date</th>
+                                        <th style={{ width: 150, fontFamily: 'Georgia', }}>Due date</th>
+                                        <th style={{ width: 300, fontFamily: 'Georgia', }}>Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -177,10 +195,15 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                                                         color: val.tm_project_status === null ? '#5F093D' : val.tm_project_status === 0 ? '#5F093D'
                                                             : val.tm_project_status === 1 ? 'green' : 'transparent', minHeight: 5
                                                     }}>{val.ProjectStatus}</td>
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td>
-                                                <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                {val.tm_project_status === 1 ?
+                                                    <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY') || 'not given'}</td> :
+                                                    <td style={{ color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black' }}>
+                                                        {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_project_description || 'not given'}</td>
                                             </tr>
                                         )

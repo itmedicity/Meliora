@@ -24,11 +24,11 @@ const EmployeeUnderProject = ({ val }) => {
                 allProjEmp && allProjEmp.map((val) => {
                     return <AccordionDetails
                         key={val.tm_assigne_emp}
-                        sx={{ mx: 3 }} >
+                        sx={{ mx: 3, margin: '-6px' }}  >
                         <Stack>
-                            <FormControl orientation="horizontal" sx={{ borderBottom: 1, borderColor: '#B7CFDC', height: 50, pl: 2, bgcolor: '#EAEFF2', overflow: 'auto' }}>
+                            <FormControl orientation="horizontal" sx={{ borderBottom: 1, borderColor: '#B7CFDC', height: 40, pl: 2, bgcolor: '#EAEFF2', overflow: 'auto' }}>
                                 <Tooltip title="Assignee" >
-                                    <FormLabel sx={{ fontSize: 15, flex: 1, textTransform: 'capitalize', cursor: 'grab' }}>
+                                    <FormLabel sx={{ fontSize: 14, flex: 1.3, textTransform: 'capitalize', cursor: 'grab' }}>
                                         {val.em_name}
                                     </FormLabel>
                                 </Tooltip>

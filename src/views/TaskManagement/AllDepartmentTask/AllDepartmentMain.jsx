@@ -28,24 +28,33 @@ const AllDepartmentMain = () => {
         setaddModalOpen(true)
     }, [])
 
+
+
     return (
         <Box>
             {AddModalFlag === 1 ? <CreateTaskInAllDepartment open={addModalOpen}
                 taskTableCount={taskTableCount} setTaskTableCount={setTaskTableCount}
                 setAddModalFlag={setAddModalFlag} setaddModalOpen={setaddModalOpen}
+
             />
                 : null}
             <Paper >
-                <Box sx={{ height: 35, borderBottom: 1, borderColor: 'lightgrey', display: 'flex', justifyContent: "flex-end", pb: .5 }}>
-                    <CusIconButton size="sm" variant="outlined" color="primary"  >
-                        <CssVarsProvider>
-                            <Tooltip title="Close" placement="bottom">
-                                < CloseIcon sx={{ cursor: 'pointer', size: 'sm', width: 30, height: 20, color: '#004F76', }}
-                                    onClick={backToDash}
-                                />
-                            </Tooltip>
-                        </CssVarsProvider>
-                    </CusIconButton>
+                <Box sx={{ height: 35, borderBottom: 1, borderColor: 'lightgrey', display: 'flex', pb: .5 }}>
+
+                    <Box sx={{ flex: 1, pt: .8, pl: .5, color: '#C7C8CB' }}>
+                        All Department Task
+                    </Box>
+                    <Box sx={{ flex: 1, display: 'flex', justifyContent: "flex-end", }}>
+                        <CusIconButton size="sm" variant="outlined" color="primary"  >
+                            <CssVarsProvider>
+                                <Tooltip title="Close" placement="bottom">
+                                    < CloseIcon sx={{ cursor: 'pointer', size: 'sm', width: 30, height: 20, color: '#004F76', }}
+                                        onClick={backToDash}
+                                    />
+                                </Tooltip>
+                            </CssVarsProvider>
+                        </CusIconButton>
+                    </Box>
                 </Box>
                 <Box sx={{ mt: .5, border: .1, borderRadius: 1, borderColor: '#D396FF', p: .5 }}>
                     <CssVarsProvider>
@@ -96,10 +105,11 @@ const AllDepartmentMain = () => {
                                     </Box>
                                 </Box>
                             </TabList>
-                            <Box sx={{ pl: 1, my: 1 }}>
+                            <Box sx={{ pl: 1, my: 1, display: 'flex' }}>
                                 <Button
                                     onClick={addModal}
                                     variant="plain" startDecorator={<AddIcon />} size="md" sx={{ width: 150, justifyContent: 'left' }}>Create task</Button>
+
                             </Box>
                             <TabPanel value={0} sx={{
                                 border: 2,

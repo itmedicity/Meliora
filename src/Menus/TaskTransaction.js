@@ -32,25 +32,12 @@ const TaskTransaction = [
         to: '/Home/TaskManagementEmployeeTask',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+
     {
-        men_slno: 170,
+        men_slno: 174,
         component: CNavItem,
-        name: 'All Department Task',
-        to: '/Home/TaskManagementCreateTask',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-    {
-        men_slno: 171,
-        component: CNavItem,
-        name: 'Goals List',
-        to: '/Home/TaskManagementGoals',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-    {
-        men_slno: 172,
-        component: CNavItem,
-        name: 'Projects List',
-        to: '/Home/TaskManagementProject',
+        name: 'Projects',
+        to: '/Home/TaskManagementDeptProjects',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
@@ -61,12 +48,27 @@ const TaskTransaction = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
-        men_slno: 174,
+        men_slno: 170,
         component: CNavItem,
-        name: 'Projects',
-        to: '/Home/TaskManagementDeptProjects',
+        name: 'All Department Task',
+        to: '/Home/TaskManagementCreateTask',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+    {
+        men_slno: 171,
+        component: CNavItem,
+        name: 'All Department Goals',
+        to: '/Home/TaskManagementGoals',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 172,
+        component: CNavItem,
+        name: 'All Department Projects',
+        to: '/Home/TaskManagementProject',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
 
 
 

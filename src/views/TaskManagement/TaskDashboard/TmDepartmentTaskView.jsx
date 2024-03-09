@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getReqRegistListByDept } from 'src/redux/actions/ReqRegisterListByDept.action';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import moment from 'moment';
-import EmpTaskStatus from '../EmployeeTaskList/EmpTaskStatus';
+import EmpStatusUpdationinDash from '../Mytask/EmpStatusUpdationinDash';
 const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTableData, deptTaskHeading }) => {
 
     const [editModalOpen, setEditModalOpen] = useState(false)
@@ -36,6 +36,11 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
         history.push('/Home/TaskManagementDashboard')
         setdeptFlag(0)
     }, [history, setdeptFlag])
+    const isPastDue = (tm_task_due_date) => {
+        const today = new Date();
+        const due = new Date(tm_task_due_date);
+        return due < today
+    }
     return (
         <Box>
             <CardMasterClose
@@ -66,7 +71,7 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
                     </Box>
                     <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '93%', }}>
                         {editModalFlag === 1 ?
-                            <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
+                            <EmpStatusUpdationinDash open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                 setEditModalFlag={setEditModalFlag}
                                 tableCount={tableCount} setTableCount={setTableCount}
                             />
@@ -92,8 +97,6 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
                                             <tr
                                                 key={index}
                                                 style={{ height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent', minHeight: 5 }}>
-
-
                                                 <td> {index + 1}</td>
                                                 <td>
                                                     <CheckCircleOutlineIcon
@@ -113,12 +116,24 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
                                                     }}>{val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
                                                         val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                             val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
-                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
-                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
-                                                <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
-                                                <td style={{ textTransform: 'capitalize' }}> {moment(val.create_date).format('DD-MM-YYYY') || 'not given'}</td>
-                                                <td style={{ textTransform: 'capitalize' }}> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
-                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
+                                                {val.tm_task_status === 1 ?
+                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td> :
+                                                    <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}> {val.tm_task_name || 'not given'}</td>}
+                                                {val.tm_task_status === 1 ?
+                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td> :
+                                                    <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}> {val.tm_project_name || 'not given'}</td>}
+                                                {val.tm_task_status === 1 ?
+                                                    <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td> :
+                                                    <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>{val.em_name || 'not given'}</td>}
+                                                {val.tm_task_status === 1 ?
+                                                    <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td> :
+                                                    <td style={{ color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>{moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
+                                                {val.tm_task_status === 1 ?
+                                                    <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td> :
+                                                    <td style={{ color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>{moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
+                                                {val.tm_task_status === 1 ?
+                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td> :
+                                                    <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}> {val.tm_task_description || 'not given'}</td>}
                                             </tr>
                                         )
                                     })}

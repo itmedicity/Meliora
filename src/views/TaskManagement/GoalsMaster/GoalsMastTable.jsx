@@ -12,6 +12,7 @@ import moment from 'moment';
 // import _ from 'underscore';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import EditIcon from '@mui/icons-material/Edit'
+import CusIconButton from 'src/views/Components/CusIconButton';
 const GoalsMastTable = ({ tableCount, rowSelect }) => {
     const [tabledata, setTableData] = useState([])
     const [departments, setDepartments] = useState(0)
@@ -43,6 +44,7 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                         tm_goal_dept: val.tm_goal_dept,
                         tm_goal_deptsec: val.tm_goal_deptsec,
                         tm_goal_duedate: val.tm_goal_duedate,
+                        create_date: val.create_date,
                         tm_goal_description: val.tm_goal_description,
                         tm_goal_status: val.tm_goal_status,
                         GoalStatus: val.tm_goal_status === 1 ? 'Completed' : val.tm_goal_status === 0 ? 'Incompleted' : 'Incompleted',
@@ -73,6 +75,7 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                             tm_goal_deptsec: val.tm_goal_deptsec,
                             tm_goal_fromdate: val.tm_goal_fromdate,
                             tm_goal_duedate: val.tm_goal_duedate,
+                            create_date: val.create_date,
                             tm_goal_description: val.tm_goal_description,
                             tm_goal_status: val.tm_goal_status,
                             GoalStatus: val.tm_goal_status === 1 ? 'Completed' : val.tm_goal_status === 0 ? 'Incompleted' : 'Incompleted',
@@ -95,6 +98,12 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
         setDepartments(0)
         setDeptSecs(0)
     }, [])
+
+    const isPastDue = (tm_task_due_date) => {
+        const today = new Date();
+        const due = new Date(tm_task_due_date);
+        return due < today
+    }
     return (
         <Box sx={{ mt: 1 }}>
             <Box>
@@ -114,7 +123,7 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                                 deptsec={deptsecs}
                                 setDeptSec={setDeptSecs} />
                         </Box>
-                        <Box sx={{ pt: 4, px: 1, flex: 1, }}>
+                        {/* <Box sx={{ pt: 4, px: 1, flex: 1, }}>
                             <CssVarsProvider>
                                 <Tooltip title="search" placement="top">
                                     <ContentPasteSearchIcon sx={{ color: '#274472', cursor: 'pointer' }}
@@ -129,6 +138,30 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                                     />
                                 </Tooltip>
                             </CssVarsProvider>
+                        </Box> */}
+                        <Box sx={{ pt: 3.5, px: .5, flex: 1, display: 'flex' }}>
+                            <Box sx={{ pr: .5 }}>
+                                <CusIconButton size="sm" variant="outlined" color="primary"  >
+                                    <CssVarsProvider>
+                                        <Tooltip title="search" placement="top">
+                                            <ContentPasteSearchIcon sx={{ color: '#274472', cursor: 'pointer' }}
+                                                onClick={DeptSearch}
+                                            />
+                                        </Tooltip>
+                                    </CssVarsProvider>
+                                </CusIconButton>
+                            </Box>
+                            <Box sx={{ pr: .5 }}>
+                                <CusIconButton size="sm" variant="outlined" color="primary"  >
+                                    <CssVarsProvider  >
+                                        <Tooltip title="Refresh" placement="top">
+                                            <RefreshIcon sx={{ color: '#274472', cursor: 'pointer' }}
+                                                onClick={Refreshh}
+                                            />
+                                        </Tooltip>
+                                    </CssVarsProvider>
+                                </CusIconButton>
+                            </Box>
                         </Box>
                     </Box>
                     <Box sx={{ flex: 1, }}>
@@ -145,11 +178,12 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                                             <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
                                             <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
                                             <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
-                                            <th style={{ width: 200, fontFamily: 'Georgia', }}>Goals</th>
+                                            <th style={{ width: 300, fontFamily: 'Georgia', }}>Goals</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Section</th>
-                                            <th style={{ width: 120, fontFamily: 'Georgia', }}>From date</th>
-                                            <th style={{ width: 120, fontFamily: 'Georgia', }}>Due date</th>
+                                            <th style={{ width: 150, fontFamily: 'Georgia', }}> Created Date</th>
+                                            <th style={{ width: 150, fontFamily: 'Georgia', }}>From date</th>
+                                            <th style={{ width: 150, fontFamily: 'Georgia', }}>Due date</th>
                                             <th style={{ width: 350, fontFamily: 'Georgia', }}>Description</th>
                                         </tr>
                                     </thead>
@@ -173,8 +207,13 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                                                     <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_name || 'not given'}</td>
                                                     <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td>
                                                     <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td>
+                                                    <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                     <td> {moment(val.tm_goal_fromdate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                    <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                    {/* <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td> */}
+                                                    {val.tm_goal_status === 1 ?
+                                                        <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY') || 'not given'}</td> :
+                                                        <td style={{ color: isPastDue(val.tm_goal_duedate) ? '#B32800' : 'black' }}>
+                                                            {moment(val.tm_goal_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
                                                     <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_description || 'not given'}</td>
                                                 </tr>
                                             )

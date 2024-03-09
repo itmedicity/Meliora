@@ -1,4 +1,4 @@
-import { Box, Textarea, Tooltip, Typography } from '@mui/joy'
+import { Box, CssVarsProvider, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import TmMultEmpSelectUnderDeptSec from 'src/views/CommonSelectCode/TmMultEmpSelectUnderDeptSec'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -12,9 +12,9 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SubTaskProgressTable from './SubTaskProgressTable';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import moment from 'moment';
-const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRendering }) => {
+const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRendering, tableCount, setTableCount, tm_task_due_date }) => {
 
-    const { tm_task_slno, tm_task_status, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, em_name, tm_project_slno } = subTaskData
+    const { tm_task_slno, tm_task_status, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, em_name, tm_project_slno, main_task_slno } = subTaskData
 
     const [employeeSubTask, setEmployeeSubTask] = useState(0)
     const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
     const [checkFlagSub, setcheckFlagSub] = useState(tm_task_status)
     const [valueSubProgress, setvalueSubProgress] = useState(0)
     const [changeAssignee, setchangeAssignee] = useState(0)
-    const [subTaskMast, setSubTaskMast] = useState({
+    const [subTaskMast, setSubTaskMastEdit] = useState({
         tm_task_slno: '',
         subTaskName: '',
         subTaskDueDate: '',
@@ -36,7 +36,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         onholdremarksSub: '',
         completedremarksSub: '',
         pendingremarkSub: '',
-
     })
     const { subTaskName, subTaskDueDate, subTaskDescription, onholdremarksSub, completedremarksSub, pendingremarkSub } = subTaskMast
 
@@ -108,14 +107,12 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         }
     }, [])
 
-    const closeSubTask = useCallback((e) => {
-        setflag(0)
-    }, [setflag])
+
 
     const SubTaskUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-            setSubTaskMast({ ...subTaskMast, [e.target.name]: value })
+            setSubTaskMastEdit({ ...subTaskMast, [e.target.name]: value })
         },
         [subTaskMast],
     )
@@ -164,7 +161,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                     completedremarksSub: (tm_completed_remarks ? tm_completed_remarks : ''),
                     pendingremarkSub: (tm_pending_remark ? tm_pending_remark : ''),
                 }
-                setSubTaskMast(formdata)
+                setSubTaskMastEdit(formdata)
                 setCompletedSub(tm_task_status === 1 ? true : false)
                 setOnProgressSub(tm_task_status === 2 ? true : false)
                 setOnHoldSub(tm_task_status === 3 ? true : false)
@@ -202,26 +199,34 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             tm_onhold_remarks: onholdremarksSub === '' ? null : onholdremarksSub,
             tm_completed_remarks: completedremarksSub === '' ? null : completedremarksSub,
             tm_project_slno: tm_project_slno,
+            main_task_slno: main_task_slno,
             tm_task_status: checkFlagSub,
             edit_user: id
         }
-    }, [tm_task_slno, subTaskName, subTaskDueDate, subTaskDescription, empdept, empsecid, checkFlagSub, completedremarksSub, pendingremarkSub, tm_project_slno, onholdremarksSub, id])
+    }, [tm_task_slno, subTaskName, subTaskDueDate, subTaskDescription, empdept, empsecid, checkFlagSub, completedremarksSub, main_task_slno,
+        pendingremarkSub, tm_project_slno, onholdremarksSub, id])
 
     const reset = useCallback(() => {
         const frmdata = {
-            tm_sub_task_slno: '',
+            tm_task_slno: '',
             subTaskName: '',
             subTaskDueDate: '',
             subTaskDescription: '',
             onholdremarksSub: '',
             completedremarksSub: '',
-            pendingremarkSub: ''
+            pendingremarkSub: '',
         }
-        setSubTaskMast(frmdata)
-        setEmployeeSubTask(0)
+        setSubTaskMastEdit(frmdata)
+        setEmployeeSubTask([])
         setOnProgressSub(false)
         setCompletedSub(false)
-    }, [setSubTaskMast, setEmployeeSubTask, setCompletedSub, setOnProgressSub]);
+        setflag(0)
+    }, [setSubTaskMastEdit, setEmployeeSubTask, setCompletedSub, setOnProgressSub, setflag]);
+
+    // const closeSubTask = useCallback((e) => {
+    //     reset()
+    //     setflag(0)
+    // }, [setflag, reset])
 
     const [taskProgressSub, setTaskProgressSub] = useState({
         progress_slno: '',
@@ -232,6 +237,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         tm_task_progress: ''
     })
     const { progress_slno, tm_progres_date, tm_task_progress } = taskProgressSub
+
     const ProgresssUpdateSub = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -245,9 +251,10 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             tm_task_status: checkFlagSub,
             tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
             progress_emp: id,
+            main_task_slno: main_task_slno,
             tm_task_progress: tm_task_progress === '' ? null : tm_task_progress,
         }
-    }, [tm_task_slno, checkFlagSub, tm_progres_date, tm_task_progress, id])
+    }, [tm_task_slno, checkFlagSub, tm_progres_date, tm_task_progress, main_task_slno, id])
 
     const patchProgressSub = useMemo(() => {
         return {
@@ -366,9 +373,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         }
     }, [patchProgressSub, progressCountSub, tm_progres_date])
 
-
-
-
     const SubmitTask = useCallback((e) => {
         e.preventDefault()
         const UpdateTask = async (updateSubTask) => {
@@ -401,12 +405,13 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                                     } else {
                                         succesNotify(message)
                                         setTableRendering(tableRendering + 1)
-                                        closeSubTask()
+                                        setTableCount(tableCount + 1)
                                         reset()
                                     }
                                 }
                                 else {
                                     setTableRendering(tableRendering + 1)
+                                    setTableCount(tableCount + 1)
                                 }
                             }
                             else {
@@ -415,19 +420,12 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                                     infoNotify('please enter Remarks')
                                 } else {
                                     succesNotify(message)
-                                    closeSubTask()
                                     reset()
                                 }
                             }
                         })
-                        // if ((completedSub === true && completedremarksSub === null) || (onHoldSub === true && onholdremarksSub === null)
-                        //     || (onPendingSub === true && pendingremarkSub === null)) {
-                        //     infoNotify('please enter Remarks')
-                        // } else {
                         succesNotify(message)
-                        closeSubTask()
                         reset()
-                        // }
                     }
                     else {
                         if ((completedSub === true && completedremarksSub === null) || (onHoldSub === true && onholdremarksSub === null)
@@ -436,7 +434,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         } else {
                             succesNotify(message)
                             setTableRendering(tableRendering + 1)
-                            closeSubTask()
+                            setTableCount(tableCount + 1)
                             reset()
                         }
                     }
@@ -447,24 +445,22 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             })
         }
         else {
-            infoNotify('please Fill Mandatory Feilds')
+            infoNotify('please Fill Mandatory fields While Editing Subtask')
         }
-    }, [updateSubTask, inactive, postEmpDetails, subTaskName, tableRendering, setTableRendering, completedremarksSub, onHoldSub, onholdremarksSub, onPendingSub,
-        pendingremarkSub, reset, closeSubTask, completedSub, employeeSubTask])
+    }, [updateSubTask, inactive, postEmpDetails, subTaskName, tableRendering, setTableRendering, setTableCount, tableCount, completedremarksSub, onHoldSub, onholdremarksSub, onPendingSub,
+        pendingremarkSub, reset, completedSub, employeeSubTask])
 
     const changeEmp = useCallback((e) => {
         setchangeAssignee(1)
 
     }, [])
 
-
-
     return (
         <Box>
             <Box sx={{ display: 'flex', }}>
                 <Box sx={{ flex: 1, mr: 1 }}>
-                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>
-                        Subtask Name
+                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
+                        Subtask Name<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
                     <Textarea
                         type="text"
@@ -493,13 +489,9 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                 </Box>
 
                 <Box sx={{ flex: 1, mr: 1 }}>
-                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>
-                        Assignee
+                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
+                        Assignee<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
-                    {/* <TmMultEmpSelectUnderDeptSec
-                        value={employeeSubTask}
-                        setValue={setEmployeeSubTask}
-                    /> */}
                     {changeAssignee === 0 ?
                         <Box sx={{ display: 'flex', }}>
                             <Box sx={{ flex: 1, }}>
@@ -525,17 +517,22 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         />}
                 </Box>
                 <Box sx={{ flex: 1, mr: 1 }}>
-                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>
-                        Due Date
+                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
+                        Due Date<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
                     <TextFieldCustom
-
                         type="datetime-local"
                         size="sm"
                         name="subTaskDueDate"
                         value={subTaskDueDate}
                         onchange={SubTaskUpdate}
-                        disabled={true}
+                        // disabled={true}
+                        slotProps={{
+                            input: {
+                                min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
+                            },
+                        }}
                         style={{ minHeight: 57 }}
                     ></TextFieldCustom>
                 </Box>
@@ -563,10 +560,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         />
                     </Box> :
                     <Box sx={{ pr: .5 }}></Box>}
-
-
             </Box>
-
             <Box sx={{ display: 'flex', mt: 1 }}>
                 <Box sx={{ flex: 1, }}>
                     <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
@@ -689,19 +683,13 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         </Box>
                         : null}
                 </Box>
-
                 <Box sx={{ flex: 14, py: 7, pl: 1, }}>
-
-
                     {((onHoldSub === true) || (completedSub === true) || (onPendingSub === true)) ?
                         <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
                             onClick={SubmitTask}
                         /> : null}
-
                 </Box>
             </Box>
-
-
             {onProgressSub === true ?
                 <Box sx={{ mr: 2, ml: 1, mt: 2, border: 1, borderColor: '#710019', borderRadius: 4, }}>
                     < Typography sx={{ pl: 1, fontSize: 20, color: '#000C66', fontFamily: 'Georgia', pt: .5 }}>
@@ -742,7 +730,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                                     name="tm_task_progress"
                                     value={tm_task_progress}
                                     onChange={(e) => ProgresssUpdateSub(e)}
-
                                 >
                                 </Textarea>
                             </Box>
@@ -751,14 +738,22 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         <Box sx={{ pr: 1, pt: 4 }}>
                             {valueSubProgress === 0 ?
                                 <Box>
-                                    <AddCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
-                                        onClick={InsertProgressSub}
-                                    />
+                                    <CssVarsProvider>
+                                        <Tooltip title="add  progress">
+                                            <AddCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
+                                                onClick={InsertProgressSub}
+                                            />
+                                        </Tooltip>
+                                    </CssVarsProvider>
                                 </Box> :
                                 valueSubProgress === 1 ? <Box>
-                                    <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
-                                        onClick={UpdateProgressSub}
-                                    />
+                                    <CssVarsProvider>
+                                        <Tooltip title="edit  progress">
+                                            <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
+                                                onClick={UpdateProgressSub}
+                                            />
+                                        </Tooltip>
+                                    </CssVarsProvider>
                                 </Box>
                                     : null}
 
@@ -769,10 +764,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         rowSelectSubProgress={rowSelectSubProgress} />
                 </Box>
                 : null}
-
         </Box>
-
     )
 }
-
 export default memo(EditSubtaskEmp)

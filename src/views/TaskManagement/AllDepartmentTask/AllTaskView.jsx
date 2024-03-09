@@ -59,7 +59,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                         tm_task_name: val.tm_task_name,
                         dept_name: (val.dept_name).toLowerCase(),
                         sec_name: (val.sec_name).toLowerCase(),
-                        em_name: (val.em_name),
+                        em_name: val.em_name,
                         tm_assigne_emp: val.tm_assigne_emp,
                         tm_task_dept: val.tm_task_dept,
                         tm_task_dept_sec: val.tm_task_dept_sec,
@@ -71,12 +71,12 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                         tm_project_name: val.tm_project_name,
                         tm_project_slno: val.tm_project_slno,
                         create_date: val.create_date,
-                        TaskStatus: val.tm_task_status === 1 ? 'Completed' :
-                            val.tm_task_status === 1 ? 'Completed' :
-                                val.tm_task_status === 2 ? 'On Progress' :
-                                    val.tm_task_status === 3 ? 'On Hold' :
-                                        val.tm_task_status === 4 ? 'Pending' :
-                                            val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                        // TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                        //     val.tm_task_status === 1 ? 'Completed' :
+                        //         val.tm_task_status === 2 ? 'On Progress' :
+                        //             val.tm_task_status === 3 ? 'On Hold' :
+                        //                 val.tm_task_status === 4 ? 'Pending' :
+                        //                     val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                     }
                     return obj
                 })
@@ -100,7 +100,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                         tm_task_name: val.tm_task_name,
                         dept_name: (val.dept_name).toLowerCase(),
                         sec_name: (val.sec_name).toLowerCase(),
-                        em_name: (val.em_name),
+                        em_name: val.em_name,
                         tm_assigne_emp: val.tm_assigne_emp,
                         tm_task_dept: val.tm_task_dept,
                         tm_task_dept_sec: val.tm_task_dept_sec,
@@ -112,12 +112,12 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                         tm_project_name: val.tm_project_name,
                         tm_project_slno: val.tm_project_slno,
                         create_date: val.create_date,
-                        TaskStatus: val.tm_task_status === 1 ? 'Completed' :
-                            val.tm_task_status === 1 ? 'Completed' :
-                                val.tm_task_status === 2 ? 'On Progress' :
-                                    val.tm_task_status === 3 ? 'On Hold' :
-                                        val.tm_task_status === 4 ? 'Pending' :
-                                            val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                        // TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                        //     val.tm_task_status === 1 ? 'Completed' :
+                        //         val.tm_task_status === 2 ? 'On Progress' :
+                        //             val.tm_task_status === 3 ? 'On Hold' :
+                        //                 val.tm_task_status === 4 ? 'Pending' :
+                        //                     val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                     }
                     return obj
                 })
@@ -165,7 +165,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                     warningNotify("No Task Image attached");
                 }
             } else {
-                warningNotify("No Task image attached");
+                warningNotify("No image attached");
             }
         } catch (error) {
             warningNotify('Error in fetching files:', error);
@@ -179,16 +179,22 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
         setMasterData(value)
     }, [])
 
+    const isPastDue = (tm_task_due_date) => {
+        const today = new Date();
+        const due = new Date(tm_task_due_date);
+        return due < today
+    }
+
     return (
         <Box>
             {editModalFlag === 1 ?
                 <EditModalDept open={editModalOpen} masterData={masterData} setEditModalOpen={setEditModalOpen}
-                    setEditModalFlag={setEditModalFlag}
+                    setEditModalFlag={setEditModalFlag} tableData={tableData} setTableData={setTableData}
                     taskTableCount={taskTableCount} setTaskTableCount={setTaskTableCount}
                 /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                     selectedImages={selectedImages} getarry={getarry} /> : null}
             <CssVarsProvider>
-                <Box sx={{ backgroundColor: '#FEFCFF', display: 'flex', }}>
+                <Box sx={{ display: 'flex', }}>
                     <Box sx={{ flex: 1 }}></Box>
                     <Box sx={{ flex: 4, display: 'flex', }}>
                         <Box sx={{ flex: 2, py: .4 }}>
@@ -242,14 +248,14 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                                     <th style={{ width: 90, fontFamily: 'Georgia' }}>Action</th>
                                     <th style={{ width: 60, fontFamily: 'Georgia' }}>View</th>
                                     <th style={{ width: 100, fontFamily: 'Georgia' }}>Status</th>
-                                    <th style={{ width: 350, fontFamily: 'Georgia' }}>Task name</th>
-                                    <th style={{ width: 350, fontFamily: 'Georgia' }}>Project</th>
+                                    <th style={{ width: 450, fontFamily: 'Georgia' }}>Task name</th>
+                                    <th style={{ width: 450, fontFamily: 'Georgia' }}>Project</th>
                                     <th style={{ width: 250, fontFamily: 'Georgia' }}>Department</th>
                                     <th style={{ width: 250, fontFamily: 'Georgia' }}>Section</th>
                                     <th style={{ width: 250, fontFamily: 'Georgia' }}>Assignee</th>
                                     <th style={{ width: 130, fontFamily: 'Georgia' }}>Created date</th>
                                     <th style={{ width: 130, fontFamily: 'Georgia' }}>Due date</th>
-                                    <th style={{ width: 320, fontFamily: 'Georgia' }}>Description</th>
+                                    <th style={{ width: 500, fontFamily: 'Georgia' }}>Description</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -284,16 +290,48 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                                                                         : val.tm_task_status === 4 ? '#5885AF'
                                                                             : 'transparent', minHeight: 5,
                                                     fontWeight: 700
-                                                }}>{val.TaskStatus}</td>
-                                            <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
+                                                }}>  {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
+                                                    val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
+                                                        val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
+                                            {/* <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
                                             <td style={{ textTransform: 'capitalize' }}>{val.tm_project_name || 'not given'}</td>
                                             <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td>
                                             <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td>
                                             <td style={{ textTransform: 'capitalize' }}>{val.tm_detail_status === 1 ? val.em_name :
                                                 val.tm_detail_status === null ? 'not assigned' : 'not given'}</td>
                                             <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                            <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                            <td> {val.tm_task_description || 'not given'}</td>
+                                            {val.tm_task_status === 1 ?
+                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td> :
+                                                <td style={{ color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black' }}>
+                                                    {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
+                                            <td> {val.tm_task_description || 'not given'}</td> */}
+                                            {val.tm_task_status === 1 ?
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td> :
+                                                <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black' }}> {val.tm_task_name || 'not given'}</td>}
+                                            {val.tm_task_status === 1 ?
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td> :
+                                                <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black' }}> {val.tm_project_name || 'not given'}</td>}
+                                            {val.tm_task_status === 1 ?
+                                                <td style={{ textTransform: 'capitalize' }}>  {val.dept_name || 'not given'}</td> :
+                                                <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black' }}>  {val.dept_name || 'not given'}</td>}
+                                            {/* <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td> */}
+                                            {val.tm_task_status === 1 ?
+                                                <td style={{ textTransform: 'capitalize' }}>   {val.sec_name || 'not given'}</td> :
+                                                <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black' }}>   {val.sec_name || 'not given'}</td>}
+                                            {val.tm_task_status === 1 ?
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_detail_status === 1 ? val.em_name :
+                                                    val.tm_detail_status === null ? 'not assigned' : 'not given'}</td> :
+                                                <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black' }}>{val.tm_detail_status === 1 ? val.em_name :
+                                                    val.tm_detail_status === null ? 'not assigned' : 'not given'}</td>}
+                                            {val.tm_task_status === 1 ?
+                                                <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td> :
+                                                <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black' }}>{moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
+                                            {val.tm_task_status === 1 ?
+                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td> :
+                                                <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black' }}>{moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
+                                            {val.tm_task_status === 1 ?
+                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td> :
+                                                <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black' }}> {val.tm_task_description || 'not given'}</td>}
                                         </tr>
                                     )
                                 })}

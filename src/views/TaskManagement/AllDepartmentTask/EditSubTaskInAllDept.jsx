@@ -137,7 +137,7 @@ const EditSubTaskInAllDept = ({ subTaskData, tableRendering, setTableRendering, 
             const result = await axioslogin.post(`/taskManagement/insertSubtaskDetail`, postEmpDetails);
             return result.data
         }
-        if (subTaskName !== '') {
+        if ((subTaskName !== '') && (departmentSubTask !== 0) && (departmentSubTask !== 0) && (subTaskDueDate !== '')) {
             UpdateTask(updateSubTask).then((value) => {
                 const { message, success } = value
                 if (success === 2) {
@@ -179,9 +179,9 @@ const EditSubTaskInAllDept = ({ subTaskData, tableRendering, setTableRendering, 
             })
         }
         else {
-            infoNotify('please Fill Mandatory Feilds')
+            infoNotify('please fill mandatory fields while editing subtask')
         }
-    }, [updateSubTask, inactive, postEmpDetails, subTaskName, reset, setTableRendering, setflag, tableRendering, employeeSubTask])
+    }, [updateSubTask, inactive, postEmpDetails, subTaskName, reset, setTableRendering, setflag, tableRendering, subTaskDueDate, departmentSubTask, employeeSubTask])
 
     const changeEmp = useCallback((e) => {
         setchangeAssignee(1)
@@ -198,7 +198,7 @@ const EditSubTaskInAllDept = ({ subTaskData, tableRendering, setTableRendering, 
             <Box sx={{ flex: 8 }}>
                 <Box sx={{ mt: .5, pt: 1 }}>
                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia', pl: .5 }}>
-                        Subtask Name&nbsp;:&nbsp;
+                        Subtask Name<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                     </Typography>
                     <CssVarsProvider>
                         <Textarea
@@ -218,7 +218,7 @@ const EditSubTaskInAllDept = ({ subTaskData, tableRendering, setTableRendering, 
                 <Box sx={{ display: 'flex' }}>
                     <Box sx={{ mt: .5, flex: 1, mr: 1 }}>
                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia', pl: .5 }}>
-                            Department&nbsp;:&nbsp;
+                            Department<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                         </Typography>
                         <TmDepartmentSelectSubTask
                             departmentSub={departmentSubTask}
@@ -227,7 +227,7 @@ const EditSubTaskInAllDept = ({ subTaskData, tableRendering, setTableRendering, 
                     </Box>
                     <Box sx={{ mt: .5, flex: 1 }}>
                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                            Section&nbsp;:&nbsp;
+                            Section<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                         </Typography>
                         <TmDeptSectionSubtask
                             deptsecSub={departmentSecSubTask}
@@ -240,7 +240,7 @@ const EditSubTaskInAllDept = ({ subTaskData, tableRendering, setTableRendering, 
 
                     <Box sx={{ mt: 1 }}>
                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia', pl: .5 }}>
-                            Assignee&nbsp;:&nbsp;
+                            Assignee<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                         </Typography>
                         <Box sx={{ display: 'flex', mb: .2 }}>
 
@@ -264,7 +264,7 @@ const EditSubTaskInAllDept = ({ subTaskData, tableRendering, setTableRendering, 
                     :
                     <Box sx={{ mt: 1 }}>
                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia', pl: .5 }}>
-                            Assignee&nbsp;:&nbsp;
+                            Assignee<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                         </Typography>
                         <Box sx={{ flex: 1, border: .5, borderRadius: 2, borderColor: '#E4A58F' }}>
                             <CssVarsProvider>
@@ -293,7 +293,7 @@ const EditSubTaskInAllDept = ({ subTaskData, tableRendering, setTableRendering, 
                     </Box>
                     <Box sx={{ mt: .5, flex: 1 }}>
                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia', pl: .5 }}>
-                            Due date&nbsp;:&nbsp;
+                            Due date<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:
                         </Typography>
                         <TextFieldCustom
                             type="datetime-local"
