@@ -283,33 +283,39 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
         setPoDetlDis(1)
         if (po_number !== '' && po_date !== '' && expectpo_date !== '') {
-            const newdata = {
-                id: Math.ceil(Math.random() * 1000),
-                req_slno: req_slno,
-                po_number: po_number,
-                po_date: po_date,
-                po_status: 1,
-                expected_delivery: expectpo_date,
-                supply_store: substoreSlno,
-                sub_storename: substoreName,
-                store_name: storeName
-            }
-            const datass = [...podetailData, newdata]
-            if (datass.length !== 0) {
-                setpodetailData(datass)
-                const resetarrray = {
-                    po_number: '',
-                    po_date: '',
-                    expectpo_date: ''
-                }
-                setPoDetails(resetarrray)
-                setsubStoreSlno(0)
-                setsubStoreName('')
-                setStoreName('')
+            if (!/^[0-9]+$/.test(po_number)) {
+                warningNotify("PO number only number")
             }
             else {
+                const newdata = {
+                    id: Math.ceil(Math.random() * 1000),
+                    req_slno: req_slno,
+                    po_number: po_number,
+                    po_date: po_date,
+                    po_status: 1,
+                    expected_delivery: expectpo_date,
+                    supply_store: substoreSlno,
+                    sub_storename: substoreName,
+                    store_name: storeName
+                }
+                const datass = [...podetailData, newdata]
+                if (datass.length !== 0) {
+                    setpodetailData(datass)
+                    const resetarrray = {
+                        po_number: '',
+                        po_date: '',
+                        expectpo_date: ''
+                    }
+                    setPoDetails(resetarrray)
+                    setsubStoreSlno(0)
+                    setsubStoreName('')
+                    setStoreName('')
+                }
+                else {
 
+                }
             }
+
         }
         else {
             warningNotify("Please Enter PO Details")
