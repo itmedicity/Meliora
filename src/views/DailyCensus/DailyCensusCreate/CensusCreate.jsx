@@ -95,10 +95,11 @@ const CensusCreate = () => {
                         const { success } = val
                         if (success === 1) {
                             setCount(count + 1)
+                            setLoading(true)
                         }
                         else {
                         }
-                        setLoading(true)
+
                     })
                 }
             })
