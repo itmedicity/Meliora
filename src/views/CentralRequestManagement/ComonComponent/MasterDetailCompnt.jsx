@@ -19,7 +19,7 @@ import { format } from 'date-fns';
 
 const MasterDetailCompnt = ({ val }) => {
 
-    const { req_slno, req_date, dept_name, req_deptsec, user_deptsection, actual_requirement, needed,
+    const { req_slno, req_date, req_deptsec, user_deptsection, actual_requirement, needed,
         category, location, expected_date, emergency_flag, em_name, emer_type_name } = val
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
 
@@ -47,8 +47,8 @@ const MasterDetailCompnt = ({ val }) => {
                         </Box>
                         <Box sx={{ pl: 4, display: 'flex', alignItems: 'center', flexGrow: 1 }}>
                             <ApartmentIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
-                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >{dept_name}</Typography>
-                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={900} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >/</Typography>
+                            {/* <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >{dept_name}</Typography>
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={900} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >/</Typography> */}
                             <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{req_deptsec}</Typography>
                         </Box>
                         <Box sx={{ pr: 1, display: 'flex', alignItems: 'center', flexGrow: 1 }}>

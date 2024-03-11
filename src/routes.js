@@ -202,7 +202,7 @@ const CRFNewPdfView = React.lazy(() => import('./views/CentralRequestManagement/
 const CRFNewPurchase = React.lazy(() => import('./views/CentralRequestManagement/PurchaseProcess/PurchaseTablemain'))
 const CRFNewCRSStore = React.lazy(() => import('./views/CentralRequestManagement/CrfStoreProcess/CrfStoreProcessMain'))
 const CRFNewStore = React.lazy(() => import('./views/CentralRequestManagement/CrfSubStores/CrfSubStoreMain'))
-
+const IncHodAuthorization = React.lazy(() => import('./views/Master/AuthorizationMaster/AuthorizationMast'))
 
 
 
@@ -410,6 +410,7 @@ const routes = [
   { path: '/Home/CRFNewPurchase', exact: true, name: 'CRF New Purchase', component: CRFNewPurchase },
   { path: '/Home/CRFNewCRSStore', exact: true, name: 'CRF New CRS Store', component: CRFNewCRSStore },
   { path: '/Home/CRFNewStore', exact: true, name: 'CRF New Store', component: CRFNewStore },
+  { path: '/Home/Authorization', exact: true, name: 'Incharge/HOD Authorization', component: IncHodAuthorization },
 
 ]
 

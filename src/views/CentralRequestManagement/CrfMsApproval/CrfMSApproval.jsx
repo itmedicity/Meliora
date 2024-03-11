@@ -64,9 +64,7 @@ const CrfMSApproval = () => {
                         req_slno: val.req_slno,
                         actual_requirement: val.actual_requirement,
                         needed: val.needed,
-                        request_dept_slno: val.request_dept_slno,
                         request_deptsec_slno: val.request_deptsec_slno,
-                        dept_name: val.dept_name.toLowerCase(),
                         req_deptsec: val.req_deptsec.toLowerCase(),
                         user_deptsection: val.user_deptsection.toLowerCase(),
                         em_name: val.create_user.toLowerCase(),
@@ -156,7 +154,8 @@ const CrfMSApproval = () => {
                         ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
                         ed_approve_date: val.ed_approve_date,
                         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
-                        higher: val.manag_operation_approv !== null ? 1 : 0,
+                        higher: val.manag_operation_approv !== null ? 1 : val.senior_manage_approv !== null ? 1 :
+                            val.gm_approve !== null ? 1 : val.md_approve !== null ? 1 : val.ed_approve !== null ? 1 : 0,
                         now_who: val.po_to_supplier === 1 ? "PO Send to Supplier" :
                             val.po_approva_level_two === 1 ? "PO MD & ED Level Approved" :
                                 val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
@@ -202,7 +201,9 @@ const CrfMSApproval = () => {
                     return obj
                 })
                 const pendingList = datas.filter((val) => {
-                    return val.ms_approve === null
+                    return val.ms_approve === null && val.manag_operation_approv === null &&
+                        val.senior_manage_approv === null && val.gm_approve === null && val.ed_approve === null &&
+                        val.md_approve === null
                 })
                 if (pendingList.length !== 0) {
                     setPendingData(pendingList)
@@ -213,7 +214,9 @@ const CrfMSApproval = () => {
                 }
 
                 const DoneList = datas.filter((val) => {
-                    return val.ms_approve !== null
+                    return val.ms_approve !== null || val.manag_operation_approv !== null ||
+                        val.senior_manage_approv !== null || val.gm_approve !== null ||
+                        val.ed_approve !== null || val.md_approve !== null
                 })
                 setDoneData(DoneList)
             } else {

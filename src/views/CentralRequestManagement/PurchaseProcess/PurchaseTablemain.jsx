@@ -31,9 +31,7 @@ const PurchaseTablemain = () => {
                         req_slno: val.req_slno,
                         actual_requirement: val.actual_requirement,
                         needed: val.needed,
-                        request_dept_slno: val.request_dept_slno,
                         request_deptsec_slno: val.request_deptsec_slno,
-                        dept_name: val.dept_name.toLowerCase(),
                         req_deptsec: val.req_deptsec.toLowerCase(),
                         user_deptsection: val.user_deptsection.toLowerCase(),
                         em_name: val.create_user.toLowerCase(),
@@ -101,10 +99,10 @@ const PurchaseTablemain = () => {
                                 val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
                                     val.po_complete === 1 ? "PO Completed" :
                                         val.po_prepartion === 1 ? "PO Prepairing" :
-                                            val.quatation_fixing === 1 ? "Po MD & ED Level Approved" :
-                                                val.quatation_negotiation === 1 ? "Po MD & ED Level Approved" :
-                                                    val.quatation_calling_status === 1 ? "PO Prepairing" :
-                                                        val.ack_status === 1 ? "Po MD & ED Level Approved" :
+                                            val.quatation_fixing === 1 ? "Quatation Fixing" :
+                                                val.quatation_negotiation === 1 ? "Quatation Negotiation" :
+                                                    val.quatation_calling_status === 1 ? "Quatation Calling" :
+                                                        val.ack_status === 1 ? "Po Acknowledged" :
                                                             "Not Statrted Purchase Process",
                         now_who_status: val.po_to_supplier === 1 ? val.po_to_supplier :
                             val.po_approva_level_two === 1 ? val.po_approva_level_two :
@@ -169,7 +167,7 @@ const PurchaseTablemain = () => {
 
     //close button function
     const backtoSetting = useCallback(() => {
-        history.push('/Home')
+        history.push('/Home/CrfNewDashBoard')
     }, [history])
 
     return (

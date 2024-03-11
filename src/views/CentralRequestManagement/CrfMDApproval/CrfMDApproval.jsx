@@ -67,9 +67,7 @@ const CrfMDApproval = () => {
                         req_slno: val.req_slno,
                         actual_requirement: val.actual_requirement,
                         needed: val.needed,
-                        request_dept_slno: val.request_dept_slno,
                         request_deptsec_slno: val.request_deptsec_slno,
-                        dept_name: val.dept_name.toLowerCase(),
                         req_deptsec: val.req_deptsec.toLowerCase(),
                         user_deptsection: val.user_deptsection.toLowerCase(),
                         em_name: val.create_user.toLowerCase(),
@@ -167,7 +165,7 @@ const CrfMDApproval = () => {
                         ed_approve_date: val.ed_approve_date,
                         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
                         ed_detial_analysis: val.ed_detial_analysis,
-                        higher: 0,
+                        higher: val.md_approve !== null ? 1 : 0,
                         now_who: val.po_to_supplier === 1 ? "PO Send to Supplier" :
                             val.po_approva_level_two === 1 ? "PO MD & ED Level Approved" :
                                 val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
