@@ -8,11 +8,8 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 import { useSelector } from 'react-redux';
-
-const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, yestCount, count, setCount }) => {
-    const [existFlag, setExistFlag] = useState(0)
+const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, yest, count, setCount }) => {
     const [total, settotal] = useState(0)
-
     const [censusDetails, setSensusDetails] = useState({
         census_slno: 0,
         admission: 0,
@@ -22,7 +19,6 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
         death: 0
     })
     const { census_slno, admission, discharge, transferIn, transferOut, death } = censusDetails
-
     const UpdateSensusDetails = useCallback((e) => {
         const containsOnlyDigits = (value) => /^\d+$/.test(value);
         const inputdata = (e.target.value);
@@ -38,20 +34,17 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
     })
-
     useEffect(() => {
         const existSearch = {
             census_ns_slno: nsNo,
             census_date: moment(new Date(dailyDate)).format('YYYY-MM-DD')
         }
-
         const GetTodayData = async (existSearch) => {
             const result = await axioslogin.post('/qidailycensus/exist', existSearch);
             const { success, data } = result.data;
             if (success === 1) {
-                setExistFlag(1)
                 const { census_slno, total_admission, total_discharge, transfer_in, transfer_out,
-                    total_death, census_total } = data[0]
+                    total_death } = data[0]
                 const fromdata = {
                     census_slno: census_slno,
                     admission: total_admission,
@@ -62,23 +55,22 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                 }
 
                 setSensusDetails(fromdata)
-                settotal(census_total)
             }
             else {
-                setExistFlag(0)
-                const fromdata = {
-                    admission: 0,
-                    discharge: 0,
-                    transferIn: 0,
-                    transferOut: 0,
-                    death: 0
-                }
-                setSensusDetails(fromdata);
-                settotal(yestCount)
+                // setExistFlag(0)
+                // const fromdata = {
+                //     admission: 0,
+                //     discharge: 0,
+                //     transferIn: 0,
+                //     transferOut: 0,
+                //     death: 0
+                // }
+                // setSensusDetails(fromdata);
+                // settotal(yest)
             }
         }
         GetTodayData(existSearch)
-    }, [nsNo, dailyDate, yestCount])
+    }, [nsNo, dailyDate])
 
     const reset = useCallback(() => {
         const formreset = {
@@ -91,61 +83,60 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
         }
         setSensusDetails(formreset);
         settotal(0)
-
-        setExistFlag(0)
         handleClose()
     }, [handleClose])
     const ResetDetails = useCallback(() => {
         reset()
     }, [reset])
-    const postdata = useMemo(() => {
+    // const postdata = useMemo(() => {
+    //     return {
+    //         census_ns_slno: nsNo,
+    //         census_date: dailyDate,
+    //         yesterday_census: yest,
+    //         total_admission: admission === '' ? 0 : admission,
+    //         total_discharge: discharge === '' ? 0 : discharge,
+    //         transfer_in: transferIn === '' ? 0 : transferIn,
+    //         transfer_out: transferOut === '' ? 0 : transferOut,
+    //         total_death: death === '' ? 0 : death,
+    //         census_total: total,
+    //         create_user: id,
+    //         ora_admission: oraAdmis,
+    //         ora_discharge: oraDisch,
+    //         ora_death: oraDeath
+    //     }
+    // }, [nsNo, dailyDate, yest, admission, discharge, transferIn, transferOut, death, total, id, oraAdmis, oraDisch, oraDeath])
+    const patchdata = useMemo(() => {
         return {
             census_ns_slno: nsNo,
             census_date: dailyDate,
-            yesterday_census: yestCount,
+            yesterday_census: yest,
             total_admission: admission === '' ? 0 : admission,
             total_discharge: discharge === '' ? 0 : discharge,
             transfer_in: transferIn === '' ? 0 : transferIn,
             transfer_out: transferOut === '' ? 0 : transferOut,
             total_death: death === '' ? 0 : death,
             census_total: total,
-            create_user: id
-        }
-    }, [nsNo, dailyDate, yestCount, admission, discharge, transferIn, transferOut, death, total, id])
-
-    const patchdata = useMemo(() => {
-        return {
-            census_ns_slno: nsNo,
-            census_date: dailyDate,
-            yesterday_census: yestCount,
-            total_admission: admission,
-            total_discharge: discharge,
-            transfer_in: transferIn,
-            transfer_out: transferOut,
-            total_death: death,
-            census_total: total,
             edit_user: id,
             census_slno: census_slno
         }
-    }, [nsNo, dailyDate, yestCount, admission, discharge, transferIn, transferOut, death, total, id, census_slno])
-
+    }, [nsNo, dailyDate, yest, admission, discharge, transferIn, transferOut, death, total, id, census_slno])
     const SaveDetails = useCallback((e) => {
         if (total < 0) {
             infoNotify("Total No.Of Patients Not Lessthan zero")
         }
         else {
-            const InsertData = async (postdata) => {
-                const result = await axioslogin.post('/qidailycensus/save', postdata);
-                const { message, success } = result.data;
-                if (success === 1) {
-                    succesNotify(message)
-                    setCount(count + 1)
-                    reset()
-                }
-                else {
-                    infoNotify(message)
-                }
-            }
+            // const InsertData = async (postdata) => {
+            //     const result = await axioslogin.post('/qidailycensus/save', postdata);
+            //     const { message, success } = result.data;
+            //     if (success === 1) {
+            //         succesNotify(message)
+            //         setCount(count + 1)
+            //         reset()
+            //     }
+            //     else {
+            //         infoNotify(message)
+            //     }
+            // }
             const UpdateData = async (patchdata) => {
                 const result = await axioslogin.patch('/qidailycensus/update', patchdata);
                 const { message, success } = result.data;
@@ -158,20 +149,19 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                     infoNotify(message)
                 }
             }
+            UpdateData(patchdata)
+            // if (existFlag === 0) {
+            //     InsertData(postdata)
+            // } else {
 
-            if (existFlag === 0) {
-                InsertData(postdata)
-            } else {
-                UpdateData(patchdata)
-            }
+            // }
         }
 
-    }, [postdata, reset, existFlag, patchdata, count, setCount, total])
+    }, [reset, patchdata, count, setCount, total])
 
     useEffect(() => {
-        settotal((yestCount + (admission - discharge) + (transferIn - transferOut) - death))
-
-    }, [yestCount, admission, discharge, transferIn, transferOut, death])
+        settotal((yest + (admission - discharge) + (transferIn - transferOut) - death))
+    }, [yest, admission, discharge, transferIn, transferOut, death])
 
     return (
         <Fragment>
@@ -215,8 +205,8 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                                             disabled
                                             size="md"
                                             type="text"
-                                            name="yestCount"
-                                            value={yestCount}
+                                            name="yest"
+                                            value={yest}
                                         />
                                     </Box>
                                 </Box>
@@ -315,34 +305,18 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                             </Box>
                         </Box>
                         <Paper sx={{ display: 'flex', justifyContent: 'flex-end', bgcolor: '#DBE8D8' }}>
-                            {
-                                existFlag === 0 ?
-                                    <Box sx={{ pr: 0.4, py: 0.4 }}>
-                                        <CssVarsProvider>
-                                            <Button variant="outlined" sx={{
-                                                fontSize: 16, color: '#2C5E1A', width: 100, cursor: 'pointer',
-                                                borderRadius: 14, bgcolor: '#F7F8F8'
-                                            }}
-                                                onClick={SaveDetails}
-                                            >
-                                                Save
-                                            </Button>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    :
-                                    <Box sx={{ pr: 0.4, py: 0.4 }}>
-                                        <CssVarsProvider>
-                                            <Button variant="outlined" sx={{
-                                                fontSize: 16, color: '#2C5E1A', width: 100, cursor: 'pointer',
-                                                borderRadius: 14, bgcolor: '#F7F8F8'
-                                            }}
-                                                onClick={SaveDetails}
-                                            >
-                                                Update
-                                            </Button>
-                                        </CssVarsProvider>
-                                    </Box>
-                            }
+                            <Box sx={{ pr: 0.4, py: 0.4 }}>
+                                <CssVarsProvider>
+                                    <Button variant="outlined" sx={{
+                                        fontSize: 16, color: '#2C5E1A', width: 100, cursor: 'pointer',
+                                        borderRadius: 14, bgcolor: '#F7F8F8'
+                                    }}
+                                        onClick={SaveDetails}
+                                    >
+                                        Update
+                                    </Button>
+                                </CssVarsProvider>
+                            </Box>
                             <Box sx={{ pr: 1, py: 0.4 }}>
                                 <CssVarsProvider>
                                     <Button variant="outlined" sx={{
