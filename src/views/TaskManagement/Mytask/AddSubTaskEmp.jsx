@@ -1,4 +1,4 @@
-import { Box, Textarea, } from '@mui/joy'
+import { Box, CssVarsProvider, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action'
@@ -6,10 +6,10 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import TmMultEmpSelectUnderDeptSec from 'src/views/CommonSelectCode/TmMultEmpSelectUnderDeptSec'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import moment from 'moment'
 
-const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tableRendering, tm_project_slno }) => {
+const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tableRendering, tm_project_slno, tableCount, setTableCount, tm_task_due_date, }) => {
 
     const [employeeSubTask, setEmployeeSubTask] = useState(0)
     const dispatch = useDispatch();
@@ -26,10 +26,8 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
         projectz: projectz,
         tm_task_status: 0,
         main_task_slno: '',
-
     })
     const { tm_subtask_name, tm_subtask_duedate, tm_subtask_description, tm_sub_completed_remarks, tm_sub_pending_remark, tm_sub_onhold_remarks, tm_task_status } = subTaskMast
-
 
     const SubTaskUpdate = useCallback(
         (e) => {
@@ -38,7 +36,6 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
         },
         [subTaskMast],
     )
-
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
@@ -73,8 +70,6 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
     }, [tm_task_slno, tm_subtask_name, empdept, empsecid, tm_subtask_duedate, tm_subtask_description, tm_task_status, tm_sub_completed_remarks, tm_sub_pending_remark,
         tm_project_slno, tm_sub_onhold_remarks, id,])
 
-
-
     const closeSubTask = useCallback((e) => {
         setflag(0)
     }, [setflag])
@@ -89,7 +84,7 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
             return result.data
         }
 
-        if (tm_subtask_name !== '') {
+        if ((tm_subtask_name !== '') && (employeeSubTask !== 0) && (tm_subtask_duedate !== '')) {
             InsertMastSubTask(insertMastSubTask).then((value) => {
                 const { message, success, insertId } = value
                 if (success === 1) {
@@ -107,6 +102,7 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                             if (success === 1) {
                                 succesNotify("Subtask Created Successfully")
                                 setTableRendering(tableRendering + 1)
+                                setTableCount(tableCount + 1)
                                 closeSubTask()
                             }
                             else {
@@ -116,6 +112,7 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                     } else {
                         succesNotify("Subtask Created Successfully")
                         setTableRendering(tableRendering + 1)
+                        setTableCount(tableCount + 1)
                         closeSubTask()
                     }
                 }
@@ -124,15 +121,15 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                 }
             })
         } else {
-            infoNotify('please enter subtask name')
+            infoNotify('please fill mandatory fields  while adding subtask')
         }
-    }, [closeSubTask, id, insertMastSubTask, tm_subtask_name, tableRendering, setTableRendering, employeeSubTask])
+    }, [closeSubTask, id, insertMastSubTask, tm_subtask_name, tableRendering, setTableRendering, tableCount, setTableCount, employeeSubTask, tm_subtask_duedate])
     return (
         <Box>
             <Box sx={{ display: 'flex', }}>
                 <Box sx={{ flex: 1, mr: 1 }}>
-                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>
-                        Subtask Name*
+                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
+                        Subtask Name<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
                     <Textarea
                         type="text"
@@ -162,8 +159,8 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
 
                 </Box>
                 <Box sx={{ flex: 1, mr: 1 }}>
-                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>
-                        Assignee
+                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
+                        Assignee<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
                     <TmMultEmpSelectUnderDeptSec
                         value={employeeSubTask}
@@ -171,8 +168,8 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                     />
                 </Box>
                 <Box sx={{ flex: 1, mr: 1 }}>
-                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>
-                        Due Date
+                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
+                        Due Date<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
                     <TextFieldCustom
                         type="datetime-local"
@@ -180,6 +177,12 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                         style={{ minHeight: 51 }}
                         name="tm_subtask_duedate"
                         value={tm_subtask_duedate}
+                        slotProps={{
+                            input: {
+                                min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
+                            },
+                        }}
                         onchange={SubTaskUpdate}
                     ></TextFieldCustom>
                 </Box>
@@ -201,10 +204,16 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                     </Textarea>
                 </Box>
                 <Box sx={{ flex: .1, pr: 1, pt: 4 }}>
-                    <AddCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
-                        onClick={addSubTaskData} />
+                    <CssVarsProvider>
+                        <Tooltip title="add  subtask">
+                            <AddCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
+                                onClick={addSubTaskData} />
+                        </Tooltip>
+                    </CssVarsProvider>
+
                 </Box>
             </Box>
+            <Box sx={{ height: 8 }}></Box>
         </Box>
     )
 }

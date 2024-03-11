@@ -16,18 +16,19 @@ import TmProjectList from 'src/views/CommonSelectCode/TmProjectList';
 import imageCompression from 'browser-image-compression';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import EmpProgressTable from '../EmployeeTaskList/EmpProgressTable';
-import AddSubTaskEmp from '../EmployeeTaskList/AddSubTaskEmp';
-import EditSubtaskEmp from '../EmployeeTaskList/EditSubtaskEmp';
-import SubtaskTableEmp from '../EmployeeTaskList/SubtaskTableEmp';
+import EmpProgressTable from '../Mytask/EmpProgressTable';
+import AddSubTaskEmp from '../Mytask/AddSubTaskEmp';
+import EditSubtaskEmp from '../Mytask/EditSubtaskEmp';
+import SubtaskTableEmp from '../Mytask/SubtaskTableEmp';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import moment from 'moment';
-const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount }) => {
+const ModalEditTask = ({
+    open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount, searchFlag, setTabledata, taskcount, settaskcount, statuscount, setstatuscount }) => {
 
-    const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, em_name, create_date, tm_project_name } = masterData
 
+    const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, em_name, create_date, tm_project_name, tm_task_due_date } = masterData
     const dispatch = useDispatch();
     const [departmentMast, setdepartmentMast] = useState(0)
     const [departmentSecMast, setdepartmentSecMast] = useState(0)
@@ -37,7 +38,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const [arry, setArry] = useState([])
     const [flag, setflag] = useState(0)
     const [subTaskData, setsubTaskData] = useState([])
-    const [selectTaskfile, setselectTaskfile] = useState([]);
+    const [selectTaskfile, setselectTaskfile] = useState([])
     const [projectz, setprojectz] = useState(tm_project_slno === null ? 0 : tm_project_slno)
     const [value, setvalue] = useState(0)
     const [completed, setCompleted] = useState(tm_task_status === 1 ? true : tm_task_status === 2 ? false : tm_task_status === 3 ? false : tm_task_status === 4 ? false : false)
@@ -47,7 +48,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const [checkFlag, setcheckFlag] = useState(tm_task_status)
     const [subTask, setSubTask] = useState([])
     const [viewSubTask, setViewSubTask] = useState(0)
-    const [tabledata, setTableData] = useState([])
+    const [progresstabledata, setProgressTableData] = useState([])
     const [progressCount, setprogressCount] = useState(0)
     const [completeFlag, setCompleteFlag] = useState(0)
     const [changeAssignee, setchangeAssignee] = useState(0)
@@ -155,9 +156,10 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             tm_task_status: checkFlag,
             tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
             progress_emp: id,
+            main_task_slno: main_task_slno,
             tm_task_progress: tm_task_progress === '' ? null : tm_task_progress,
         }
-    }, [tm_task_slno, checkFlag, tm_progres_date, tm_task_progress, id])
+    }, [tm_task_slno, checkFlag, tm_progres_date, tm_task_progress, main_task_slno, id])
 
     const patchProgress = useMemo(() => {
         return {
@@ -193,9 +195,9 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                         }
                         return obj
                     })
-                    setTableData(arry)
+                    setProgressTableData(arry)
                 } else {
-                    setTableData([])
+                    setProgressTableData([])
                     warningNotify('error occured')
                 }
             }
@@ -223,10 +225,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const handleEditClose = useCallback(() => {
         setEditModalFlag(0)
         setEditModalOpen(false)
-        // setSubTask([])
-    }, [setEditModalOpen, setEditModalFlag,
-        // setSubTask
-    ])
+    }, [setEditModalOpen, setEditModalFlag,])
 
     const resetProgress = () => {
         const form = {
@@ -246,6 +245,8 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                 if (success === 1) {
                     succesNotify(message)
                     setprogressCount(progressCount + 1)
+                    setTableCount(tableCount + 1)
+                    setprogressCount(progressCount + 1)
                     resetProgress()
                 } else if (success === 0) {
                     infoNotify(message)
@@ -257,7 +258,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         } else {
             infoNotify('Please Select Date For Entering Task Progress')
         }
-    }, [postProgress, progressCount, tm_progres_date])
+    }, [postProgress, progressCount, tm_progres_date, setTableCount, tableCount])
 
     const rowSelect = useCallback((data) => {
         setvalue(1)
@@ -408,6 +409,12 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         const compressedFile = await imageCompression(imageFile, options)
         return compressedFile
     }, []);
+    const searchData = useMemo(() => {
+        return {
+            tm_task_dept_sec: empsecid,
+            tm_project_slno: projectz,
+        }
+    }, [projectz, empsecid,])
 
     const SubmitTask = useCallback((e) => {
         e.preventDefault()
@@ -416,12 +423,19 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             return result.data
         }
         const Inactiveemp = async (inactive) => {
-            const result = await axioslogin.post(`/taskManagement/employeeInactive`, inactive);
+            const result = await axioslogin.post('/taskManagement/employeeInactive', inactive);
             return result.data
         }
         const UpdateSubTaskDtl = async (postEmpDetails) => {
-            const result = await axioslogin.post(`/taskManagement/insertSubtaskDetail`, postEmpDetails);
+            const result = await axioslogin.post('/taskManagement/insertDetail', postEmpDetails);
             return result.data
+        }
+        const ProjectSearch = async (searchData) => {
+            const result = await axioslogin.post('/taskManagement/searchProjectAndEmployee', searchData)
+            const { success, data } = result.data;
+            if (success === 2) {
+                setTabledata(data)
+            }
         }
         const InsertFile = async (selectTaskfile, tm_task_slno) => {
             try {
@@ -447,88 +461,228 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             }
         };
 
-        if (taskName !== '') {
-            UpdateTask(updateMasterTask).then((value) => {
-                const { message, success } = value
-                if (success === 2) {
-                    if (selectTaskfile.length !== 0) {
-                        InsertFile(selectTaskfile, tm_task_slno).then((value) => {
-                            const { success, message } = value
-                            if (success === 1) {
-                                if (employeeMast !== 0) {
-                                    Inactiveemp(inactive).then((value) => {
-                                        const { message, succes } = value
-                                        if (succes === 1) {
-                                            UpdateSubTaskDtl(postEmpDetails)
-                                            const { message, success } = value
-                                            if (success === 1) {
-                                                succesNotify(message)
-                                                setTableCount(tableCount + 1)
-                                                handleEditClose()
+        if (searchFlag === 1) {
+            if ((taskName !== '') && (dueDate !== '')) {
+                UpdateTask(updateMasterTask).then((value) => {
+                    const { message, success } = value
+                    if (success === 2) {
+                        if (selectTaskfile.length !== 0) {
+                            InsertFile(selectTaskfile, tm_task_slno).then((value) => {
+                                const { success, message } = value
+                                if (success === 1) {
+                                    if (employeeMast !== 0) {
+                                        Inactiveemp(inactive).then((value) => {
+                                            const { message, succes } = value
+                                            if (succes === 1) {
+                                                UpdateSubTaskDtl(postEmpDetails)
+                                                const { message, succes } = value
+                                                if (succes === 1) {
+                                                    ProjectSearch(searchData)
+                                                    const { message, success } = value
+                                                    if (success === 2) {
+                                                        succesNotify(message)
+                                                        setTableCount(tableCount + 1)
+                                                        handleEditClose()
+                                                    }
+                                                    else {
+                                                        succesNotify(message)
+                                                        handleEditClose()
+                                                    }
+                                                }
+                                                else {
+                                                    succesNotify(message)
+                                                    handleEditClose()
+                                                    setTableCount(tableCount + 1)
+                                                }
                                             }
                                             else {
+                                                succesNotify(message)
                                                 handleEditClose()
-                                                setTableCount(tableCount + 1)
                                             }
+                                        })
+                                        succesNotify("Task Updated with file attach Successfully")
+                                        handleEditClose()
+                                    } else {
+                                        ProjectSearch(searchData)
+                                        const { message, success } = value
+                                        if (success === 2) {
+                                            setTableCount(tableCount + 1)
+                                            succesNotify(message)
+                                            handleEditClose()
                                         }
                                         else {
                                             succesNotify(message)
                                             handleEditClose()
                                         }
-                                    })
-                                    succesNotify("Task Updated with file attach Successfully")
-                                    handleEditClose()
-                                } else {
-                                    succesNotify(message)
-                                    setTableCount(tableCount + 1)
-                                    handleEditClose()
+                                    }
                                 }
+                                else {
+                                    warningNotify(message)
+                                }
+                            })
+                        }
+                        //WITHOUT FILE UPLOAD
+                        else {
+                            if (employeeMast !== 0) {
+                                Inactiveemp(inactive).then((value) => {
+                                    const { message, succes } = value
+                                    if (succes === 1) {
+                                        UpdateSubTaskDtl(postEmpDetails)
+                                        const { message, succes } = value
+                                        if (succes === 1) {
+                                            ProjectSearch(searchData)
+                                            const { message, success } = value
+                                            if (success === 2) {
+                                                setTableCount(tableCount + 1)
+                                                succesNotify(message)
+                                                handleEditClose()
+                                            }
+                                            else {
+                                                succesNotify(message)
+                                                handleEditClose()
+                                            }
+                                        } else {
+                                            succesNotify(message)
+                                            handleEditClose()
+                                            setTableCount(tableCount + 1)
+                                        }
+                                    }
+                                    else {
+                                        succesNotify(message)
+                                        handleEditClose()
+                                    }
+                                })
+                                succesNotify(message)
+                                handleEditClose()
                             }
                             else {
-                                warningNotify(message)
-                            }
-                        })
-                    }
-                    //WITHOUT FILE UPLOAD
-                    else {
-                        if (employeeMast !== 0) {
-                            Inactiveemp(inactive).then((value) => {
-                                const { message, succes } = value
-                                if (succes === 1) {
-                                    UpdateSubTaskDtl(postEmpDetails)
-                                    const { message, success } = value
-                                    if (success === 1) {
-                                        succesNotify(message)
-                                        setTableCount(tableCount + 1)
-                                        handleEditClose()
-                                    } else {
-                                        setTableCount(tableCount + 1)
-                                    }
+                                ProjectSearch(searchData)
+                                const { message, success } = value
+                                if (success === 2) {
+                                    setTableCount(tableCount + 1)
+                                    succesNotify(message)
+                                    handleEditClose()
                                 }
                                 else {
                                     succesNotify(message)
                                     handleEditClose()
                                 }
-                            })
-                            succesNotify(message)
-                            handleEditClose()
-                            // setTableCount(tableCount + 1)
-                        }
-                        else {
-                            succesNotify(message)
-                            setTableCount(tableCount + 1)
-                            handleEditClose()
+                            }
+
                         }
                     }
-                }
-                else {
-                    warningNotify(message)
-                }
-            })
+                    else {
+                        warningNotify(message)
+                    }
+                })
+            } else {
+                infoNotify('please Fill Mandatory Feilds')
+            }
+
+
         } else {
-            infoNotify('please Fill Mandatory Feilds')
+
+            if ((taskName !== '') && (dueDate !== '')) {
+                UpdateTask(updateMasterTask).then((value) => {
+                    const { message, success } = value
+                    if (success === 2) {
+                        if (selectTaskfile.length !== 0) {
+                            InsertFile(selectTaskfile, tm_task_slno).then((value) => {
+                                const { success, message } = value
+                                if (success === 1) {
+                                    if (employeeMast !== 0) {
+                                        Inactiveemp(inactive).then((value) => {
+                                            const { message, succes } = value
+                                            if (succes === 1) {
+                                                UpdateSubTaskDtl(postEmpDetails)
+                                                const { message, success } = value
+                                                if (success === 1) {
+                                                    succesNotify(message)
+                                                    setTableCount(tableCount + 1)
+                                                    settaskcount(taskcount + 1)
+                                                    setstatuscount(statuscount + 1)
+                                                    handleEditClose()
+                                                }
+                                                else {
+                                                    handleEditClose()
+                                                    setTableCount(tableCount + 1)
+                                                    settaskcount(taskcount + 1)
+                                                    setstatuscount(statuscount + 1)
+                                                }
+                                            }
+                                            else {
+                                                succesNotify(message)
+                                                handleEditClose()
+                                            }
+                                        })
+                                        succesNotify("Task Updated with file attach Successfully")
+                                        handleEditClose()
+                                    } else {
+                                        succesNotify(message)
+                                        setTableCount(tableCount + 1)
+                                        settaskcount(taskcount + 1)
+                                        setstatuscount(statuscount + 1)
+                                        handleEditClose()
+                                    }
+                                }
+                                else {
+                                    warningNotify(message)
+                                }
+                            })
+                        }
+                        //WITHOUT FILE UPLOAD
+                        else {
+                            if (employeeMast !== 0) {
+                                Inactiveemp(inactive).then((value) => {
+                                    const { message, succes } = value
+                                    if (succes === 1) {
+                                        UpdateSubTaskDtl(postEmpDetails)
+                                        const { message, success } = value
+                                        if (success === 1) {
+                                            setTableCount(tableCount + 1)
+                                            settaskcount(taskcount + 1)
+                                            setstatuscount(statuscount + 1)
+                                            succesNotify(message)
+                                            setTableCount(tableCount + 1)
+                                            handleEditClose()
+                                        } else {
+                                            handleEditClose()
+                                            setTableCount(tableCount + 1)
+                                            settaskcount(taskcount + 1)
+                                            setstatuscount(statuscount + 1)
+                                        }
+                                    }
+                                    else {
+                                        succesNotify(message)
+                                        handleEditClose()
+                                    }
+                                })
+                                succesNotify(message)
+                                handleEditClose()
+                                // setTableCount(tableCount + 1)
+                            }
+                            else {
+                                succesNotify(message)
+                                setTableCount(tableCount + 1)
+                                settaskcount(taskcount + 1)
+                                setstatuscount(statuscount + 1)
+                                handleEditClose()
+                            }
+
+                        }
+                    }
+                    else {
+                        warningNotify(message)
+                    }
+                })
+            } else {
+                infoNotify('please Fill Mandatory Feilds')
+            }
+
         }
-    }, [updateMasterTask, inactive, postEmpDetails, taskName, selectTaskfile, tm_task_slno, handleEditClose, handleImageUpload, tableCount, setTableCount, employeeMast])
+
+    }, [updateMasterTask, inactive, postEmpDetails, taskName, selectTaskfile, tm_task_slno, handleEditClose, handleImageUpload, tableCount, setTableCount, dueDate,
+        employeeMast, searchData, setTabledata, searchFlag, settaskcount, taskcount, setstatuscount, statuscount])
 
     const handleRemoveTaskFile = (index) => {
         setselectTaskfile((prevTaskFiles) => {
@@ -575,7 +729,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                             <Box sx={{ flex: 2.5, }}>
                                 <Box sx={{ pt: 2, pl: 2, fontSize: 18, mt: 1.2, display: 'flex', justifyContent: 'right', mr: 1 }}>
                                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Task Name&nbsp;:&nbsp;
+                                        Task Name <Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:&nbsp;
                                     </Typography>
                                 </Box>
                                 {main_task_slno === null ?
@@ -602,12 +756,12 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                 {changeAssignee === 0 ?
                                     <Box sx={{ mt: .8, pl: 2, pt: 1, fontSize: 18, display: 'flex', justifyContent: 'right', mr: 1 }}>
                                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Assignee&nbsp;:&nbsp;
+                                            Assignee<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:&nbsp;
                                         </Typography>
                                     </Box> :
                                     <Box sx={{ mt: 1.5, pl: 2, pt: 1, fontSize: 18, display: 'flex', justifyContent: 'right', mr: 1, height: 40 }}>
                                         <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                            Assignee&nbsp;:&nbsp;
+                                            Assignee<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:&nbsp;
                                         </Typography>
                                     </Box>}
                                 <Box sx={{ pl: 2, fontSize: 18, mt: 1.2, display: 'flex', justifyContent: 'right', mr: 1, pt: 1 }}>
@@ -617,7 +771,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                 </Box>
                                 <Box sx={{ pl: 2, fontSize: 18, mt: 1.5, display: 'flex', justifyContent: 'right', mr: 1 }}>
                                     <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                                        Due date&nbsp;:&nbsp;
+                                        Due date<Typography sx={{ color: '#B32800' }}>*</Typography>&nbsp;:&nbsp;
                                     </Typography>
                                 </Box>
                                 <Box sx={{ pl: 2, fontSize: 18, mt: 2, display: 'flex', justifyContent: 'right', mr: 1 }}>
@@ -650,14 +804,27 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                             setprojectz={setprojectz} />
 
                                     </Box> :
-                                    <Box sx={{ mt: .5 }}>
-                                        <TextFieldCustom
-                                            type="text"
-                                            name="tm_project_name"
-                                            value={tm_project_name}
-                                            disabled>
-                                        </TextFieldCustom>
-                                    </Box>}
+                                    <Box>
+                                        {tm_project_name === null ?
+                                            <Box sx={{ mt: .5 }}>
+                                                <TextFieldCustom
+                                                    type="text"
+                                                    name="tm_project_name"
+                                                    placeholder={'not given'}
+                                                    disabled>
+                                                </TextFieldCustom>
+                                            </Box>
+                                            : <Box sx={{ mt: .5 }}>
+                                                <TextFieldCustom
+                                                    type="text"
+                                                    name="tm_project_name"
+                                                    value={tm_project_name}
+                                                    disabled>
+                                                </TextFieldCustom>
+                                            </Box>}
+                                    </Box>
+
+                                }
                                 <Box sx={{ mt: .5 }}>
                                     <TextFieldCustom
                                         type="text"
@@ -785,7 +952,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                 Task Progress
                             </Typography>
                             <EmpProgressTable
-                                tabledata={tabledata}
+                                progresstabledata={progresstabledata}
                                 rowSelect={rowSelect}
                             />
                         </Box>
@@ -1040,10 +1207,16 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                             <Box>
                                                 <AddSubTaskEmp
                                                     tm_task_slno={tm_task_slno}
+                                                    tm_task_due_date={tm_task_due_date}
                                                     setTableRendering={setTableRendering}
                                                     tableRendering={tableRendering}
                                                     setflag={setflag}
                                                     tm_project_slno={tm_project_slno}
+                                                    setTabledata={setTabledata}
+                                                    tableCount={tableCount}
+                                                    setTableCount={setTableCount}
+                                                    searchFlag={searchFlag}
+
                                                 />
                                             </Box> :
                                             flag === 2 ?
@@ -1052,6 +1225,9 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                         setsubTaskData={setsubTaskData}
                                                         setTableRendering={setTableRendering}
                                                         tableRendering={tableRendering}
+                                                        tableCount={tableCount}
+                                                        setTableCount={setTableCount}
+                                                        tm_task_due_date={tm_task_due_date}
 
                                                     />
                                                 </Box>

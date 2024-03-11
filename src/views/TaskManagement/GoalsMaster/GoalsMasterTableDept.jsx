@@ -27,6 +27,7 @@ const GoalsMasterTableDept = ({ rowSelect, tableCount }) => {
                             sec_name: (val.sec_name).toLowerCase(),
                             tm_goal_dept: val.tm_goal_dept,
                             tm_goal_deptsec: val.tm_goal_deptsec,
+                            create_date: val.create_date,
                             tm_goal_duedate: val.tm_goal_duedate,
                             tm_goal_fromdate: val.tm_goal_fromdate,
                             tm_goal_description: val.tm_goal_description,
@@ -46,6 +47,11 @@ const GoalsMasterTableDept = ({ rowSelect, tableCount }) => {
         getGoalTable(empsecid)
     }, [empsecid, tableCount])
 
+    const isPastDue = (tm_task_due_date) => {
+        const today = new Date();
+        const due = new Date(tm_task_due_date);
+        return due < today
+    }
     return (
         <Box sx={{ mt: 1 }}>
             {tabledata.length !== 0 ?
@@ -61,11 +67,12 @@ const GoalsMasterTableDept = ({ rowSelect, tableCount }) => {
                                             <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
                                             <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
                                             <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
-                                            <th style={{ width: 200, fontFamily: 'Georgia', }}>Goals</th>
+                                            <th style={{ width: 300, fontFamily: 'Georgia', }}>Goals</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Section</th>
-                                            <th style={{ width: 120, fontFamily: 'Georgia', }}>From date</th>
-                                            <th style={{ width: 120, fontFamily: 'Georgia', }}>Due date</th>
+                                            <th style={{ width: 150, fontFamily: 'Georgia', }}> Created Date</th>
+                                            <th style={{ width: 150, fontFamily: 'Georgia', }}>From date</th>
+                                            <th style={{ width: 150, fontFamily: 'Georgia', }}>Due date</th>
                                             <th style={{ width: 350, fontFamily: 'Georgia', }}>Description</th>
                                         </tr>
                                     </thead>
@@ -89,8 +96,13 @@ const GoalsMasterTableDept = ({ rowSelect, tableCount }) => {
                                                     <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_name || 'not given'}</td>
                                                     <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td>
                                                     <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td>
+                                                    <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                     <td> {moment(val.tm_goal_fromdate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                    <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                    {/* <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td> */}
+                                                    {val.tm_goal_status === 1 ?
+                                                        <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY') || 'not given'}</td> :
+                                                        <td style={{ color: isPastDue(val.tm_goal_duedate) ? '#B32800' : 'black' }}>
+                                                            {moment(val.tm_goal_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
                                                     <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_description || 'not given'}</td>
                                                 </tr>
                                             )

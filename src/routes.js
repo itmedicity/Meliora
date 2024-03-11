@@ -171,7 +171,7 @@ const ReqMDApproval = React.lazy(() => import('./views/RequestManagement/MDAppro
 const NdrfPurchase = React.lazy(() => import('./views/RequestManagement/NdrfPurchase/NdrfPurchaseTable'))
 const CRFDashboard = React.lazy(() => import('./views/RequestManagement/CRFDashboard/CrdDashboardMain'))
 const DeptSecBasedItemReport = React.lazy(() => import('./views/Report/AssetReport/DeptSecBaseReport'))
-const TaskManagementEmployeeTask = React.lazy(() => import('./views/TaskManagement/EmployeeTaskList/EmpTaskDash'))
+const TaskManagementEmployeeTask = React.lazy(() => import('./views/TaskManagement/Mytask/EmpTaskDash'))
 const EmergencyTypeMast = React.lazy(() => import('./views/Master/RequestManagement/EmergencyTypeMast/EmergencyTypeMast'))
 const CrfNewReqRegister = React.lazy(() => import('./views/CentralRequestManagement/CRFRequestMaster/CrfRequestMaster'))
 const AssetInterDeptTrans = React.lazy(() => import('./views/AssetManagment/InterDeptTransfer/InterDeptTransfer'))
@@ -200,9 +200,9 @@ const DailyCensusReport = React.lazy(() => (import('./views/DailyCensus/DailyCen
 const CrfNewDataCollection = React.lazy(() => import('./views/CentralRequestManagement/CrfDatacollection/CrfDataCollectionTable'))
 const CRFNewPdfView = React.lazy(() => import('./views/CentralRequestManagement/CrfPdfView/CrfPdfViewMain'))
 const CRFNewPurchase = React.lazy(() => import('./views/CentralRequestManagement/PurchaseProcess/PurchaseTablemain'))
-const CRFNewStore = React.lazy(() => import('./views/CentralRequestManagement/CrfStoreProcess/CrfStoreProcessMain'))
-
-
+const CRFNewCRSStore = React.lazy(() => import('./views/CentralRequestManagement/CrfStoreProcess/CrfStoreProcessMain'))
+const CRFNewStore = React.lazy(() => import('./views/CentralRequestManagement/CrfSubStores/CrfSubStoreMain'))
+const IncHodAuthorization = React.lazy(() => import('./views/Master/AuthorizationMaster/AuthorizationMast'))
 
 
 
@@ -408,7 +408,10 @@ const routes = [
   { path: '/Home/CrfNewDataCollection', exact: true, name: 'CRF New Data Collection', component: CrfNewDataCollection },
   { path: '/Home/CRFNewPdfView', exact: true, name: 'CRF New PDF View', component: CRFNewPdfView },
   { path: '/Home/CRFNewPurchase', exact: true, name: 'CRF New Purchase', component: CRFNewPurchase },
+  { path: '/Home/CRFNewCRSStore', exact: true, name: 'CRF New CRS Store', component: CRFNewCRSStore },
   { path: '/Home/CRFNewStore', exact: true, name: 'CRF New Store', component: CRFNewStore },
+  { path: '/Home/Authorization', exact: true, name: 'Incharge/HOD Authorization', component: IncHodAuthorization },
+
 
 ]
 

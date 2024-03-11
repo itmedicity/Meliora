@@ -28,7 +28,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalFlag, count, setCount, setApprovalData }) => {
+const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalFlag, count, setCount,
+    setApprovalData }) => {
     const { req_slno, req_date, actual_requirement, needed, expected_date, incharge_approve, incharge_req,
         inch_detial_analysis, incharge, incharge_remark, incharge_user,
         incharge_apprv_date, hod_approve, hod_remark, hod_detial_analysis } = ApprovalData

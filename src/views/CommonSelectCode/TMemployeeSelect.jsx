@@ -32,11 +32,12 @@ const TMemployeeSelect = ({ employee, setEmployee }) => {
             <CssVarsProvider>
                 <Autocomplete
                     sx={{
-                        "--Input-minHeight": "29px"
+                        "--Input-minHeight": "25px"
                     }}
                     value={employee === 0 ? employees : value}
-                    placeholder="Select department section"
+                    placeholder="search employee"
                     clearOnBlur
+                    style={{ minHeight: 28 }}
                     onChange={(event, newValue) => {
                         setValue(newValue);
                         // setDeptSec(newValue.sec_id)

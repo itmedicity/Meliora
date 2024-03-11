@@ -14,6 +14,8 @@ import ReqItemDisplay from '../ComonComponent/ReqItemDisplay';
 import { format } from 'date-fns';
 import Divider from '@mui/material/Divider';
 import ApprovedItemListDis from './ApprovedItemListDis';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import ReqImageDisModal from './ReqImageDisModal';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -22,7 +24,7 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
 
     const { req_slno, req_date, actual_requirement, needed, expected_date, incharge_approve, incharge_req,
         inch_detial_analysis, incharge, incharge_remark, incharge_user, incharge_apprv_date, hod_req,
-        hod_approve, hod, hod_detial_analysis, hod_approve_date, hod_remarks, hod_user,
+        hod_approve, hod, hod_detial_analysis, hod_approve_date, hod_remarks, hod_user, image_status,
         dms_approve, dms, dms_remarks, dms_detail_analysis, dms_approve_date, dms_user,
         ms, ms_approve, ms_approve_remark, ms_detail_analysis, ms_approve_date, ms_approve_user,
         manag_operation_approv, om, manag_operation_remarks, om_detial_analysis, om_approv_date,
@@ -30,7 +32,6 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
         som_aprrov_date, senior_manage_user, gm_approve, gm, gm_approve_remarks, gm_detial_analysis,
         gm_approv_date, gm_user, md_approve, md_approve_remarks, md_detial_analysis, md_approve_date,
         md, md_user, ed_approve_remarks, ed_approve_date, ed_detial_analysis, ed_approve, ed, ed_user,
-        store_receive
     } = DetailViewData
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
     const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
@@ -107,25 +108,37 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
 
     }, [req_slno])
 
+    const [imageshowFlag, setImageShowFlag] = useState(0)
+    const [imageshow, setImageShow] = useState(false)
+    const [imagearray, setImageArry] = useState([])
 
 
-
-
-    const submit = useCallback(() => {
-
-
-
+    const ViewImage = useCallback(() => {
+        setImageShowFlag(1)
+        setImageShow(true)
     }, [])
+    useEffect(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
+                setImageArry(fileUrls);
+            }
+        }
+        if (imageshowFlag === 1) {
+            getImage(req_slno)
+        }
+    }, [imageshowFlag, req_slno])
 
 
-
-
-
-
-
-
-
-
+    const handleClose = useCallback(() => {
+        setImageShowFlag(0)
+        setImageShow(false)
+    }, [])
 
 
     const ModalClose = useCallback(() => {
@@ -138,6 +151,8 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
 
         <Fragment>
             <ToastContainer />
+            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
+                images={imagearray} /> : null}
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
@@ -227,7 +242,11 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
+                                {image_status === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                    <Button onClick={ViewImage} variant="contained"
+                                        color="primary">View Image</Button>
 
+                                </Box> : null}
                             </Box>
                         </Paper>
                         {reqTableDis === 1 ?
@@ -1106,7 +1125,7 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    {user === 1 && store_receive === 1 ? <Button onClick={submit} color="secondary" >Save</Button> : null}
+
                     <Button onClick={ModalClose} color="secondary" >Cancel</Button>
                 </DialogActions>
             </Dialog>

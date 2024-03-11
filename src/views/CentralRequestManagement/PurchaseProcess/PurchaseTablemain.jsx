@@ -10,7 +10,8 @@ import CusIconButton from 'src/views/Components/CusIconButton'
 import PurchaseApprovalButton from './PurchaseApprovalButton'
 import PurchaseModal from './PurchaseModal'
 import { ToastContainer } from 'react-toastify'
-
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import ReqImageDisModal from '../ComonComponent/ReqImageDisModal'
 
 const PurchaseTablemain = () => {
 
@@ -30,9 +31,7 @@ const PurchaseTablemain = () => {
                         req_slno: val.req_slno,
                         actual_requirement: val.actual_requirement,
                         needed: val.needed,
-                        request_dept_slno: val.request_dept_slno,
                         request_deptsec_slno: val.request_deptsec_slno,
-                        dept_name: val.dept_name.toLowerCase(),
                         req_deptsec: val.req_deptsec.toLowerCase(),
                         user_deptsection: val.user_deptsection.toLowerCase(),
                         em_name: val.create_user.toLowerCase(),
@@ -70,6 +69,9 @@ const PurchaseTablemain = () => {
                         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
                         ed_detial_analysis: val.ed_detial_analysis,
 
+                        edid: val.edid,
+                        mdid: val.mdid,
+
                         crm_purchase_slno: val.crm_purchase_slno,
                         ack_status: val.ack_status,
                         ack_remarks: val.ack_remarks,
@@ -88,16 +90,36 @@ const PurchaseTablemain = () => {
                         quatation_fixuser: val.quatation_fixuser !== null ? val.quatation_fixuser.toLowerCase() : '',
                         po_prepartion: val.po_prepartion,
                         po_complete: val.po_complete,
-
                         po_approva_level_one: val.po_approva_level_one,
                         po_approva_level_two: val.po_approva_level_two,
-                        po_to_supplier: val.po_to_supplier
+                        po_to_supplier: val.po_to_supplier,
 
+                        now_who: val.po_to_supplier === 1 ? "PO Send to Supplier" :
+                            val.po_approva_level_two === 1 ? "PO MD & ED Level Approved" :
+                                val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
+                                    val.po_complete === 1 ? "PO Completed" :
+                                        val.po_prepartion === 1 ? "PO Prepairing" :
+                                            val.quatation_fixing === 1 ? "Quatation Fixing" :
+                                                val.quatation_negotiation === 1 ? "Quatation Negotiation" :
+                                                    val.quatation_calling_status === 1 ? "Quatation Calling" :
+                                                        val.ack_status === 1 ? "Po Acknowledged" :
+                                                            "Not Statrted Purchase Process",
+                        now_who_status: val.po_to_supplier === 1 ? val.po_to_supplier :
+                            val.po_approva_level_two === 1 ? val.po_approva_level_two :
+                                val.po_approva_level_one === 1 ? val.po_approva_level_one :
+                                    val.po_complete === 1 ? val.po_complete :
+                                        val.po_prepartion === 1 ? val.po_prepartion :
+                                            val.quatation_fixing === 1 ? val.quatation_fixing :
+                                                val.quatation_negotiation === 1 ? val.quatation_negotiation :
+                                                    val.quatation_calling_status === 1 ? val.quatation_calling_status :
+                                                        val.ack_status === 1 ? val.ack_status :
+                                                            0
                     }
                     return obj
                 })
                 setDisData(datas)
             } else {
+                setDisData([])
                 warningNotify("Error occured contact EDP")
             }
         }
@@ -109,12 +131,44 @@ const PurchaseTablemain = () => {
     const [puchaseData, setpuchaseData] = useState([])
 
 
+
+    const [imageshowFlag, setImageShowFlag] = useState(0)
+    const [imageshow, setImageShow] = useState(false)
+    const [imageSlno, setImageSlno] = useState(0)
+    const [imagearray, setImageArry] = useState([])
+
+
+    useEffect(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
+                setImageArry(fileUrls);
+            }
+        }
+        if (imageshowFlag === 1) {
+            getImage(imageSlno)
+        }
+    }, [imageshowFlag, imageSlno])
+
+
+    const handleClose = useCallback(() => {
+        setImageShowFlag(0)
+        setImageShow(false)
+        setImageSlno(0)
+        setImageArry([])
+    }, [])
+
+
+
     //close button function
     const backtoSetting = useCallback(() => {
-        history.push('/Home')
+        history.push('/Home/CrfNewDashBoard')
     }, [history])
-
-
 
     return (
         <Fragment>
@@ -125,7 +179,8 @@ const PurchaseTablemain = () => {
                     puchaseData={puchaseData} setpuchaseData={setpuchaseData}
                     count={count} setCount={setCount} /> : null
             }
-
+            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
+                images={imagearray} /> : null}
 
             <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
                 <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF Purchase</Box>
@@ -151,7 +206,8 @@ const PurchaseTablemain = () => {
 
                             <PurchaseApprovalButton val={val}
                                 setpuchaseFlag={setpuchaseFlag} setpuchaseModal={setpuchaseModal}
-                                setpuchaseData={setpuchaseData} />
+                                setpuchaseData={setpuchaseData} setImageShowFlag={setImageShowFlag}
+                                setImageShow={setImageShow} setImageSlno={setImageSlno} />
 
                         </Paper>
                     </Box>

@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider, LinearProgress } from '@mui/joy'
-import React, { memo, Suspense } from 'react'
+import React, { memo, Suspense, useState } from 'react'
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
 import Tab, { tabClasses } from '@mui/joy/Tab';
@@ -11,7 +11,10 @@ import EmpAllTask from './EmpAllTask';
 import EmpCompletedTaskList from './EmpCompletedTaskList';
 import EmpOverDueTaskList from './EmpOverDueTaskList';
 import CircleIcon from '@mui/icons-material/Circle';
+import MyProgressView from './MyProgressView';
 const EmpDashboardTabs = ({ tableCount, setTableCount, }) => {
+    const [projectcount, setprojectcount] = useState(0)
+    const [taskcount, settaskcount] = useState(0)
     return (
         <Box>
             <CssVarsProvider>
@@ -21,20 +24,17 @@ const EmpDashboardTabs = ({ tableCount, setTableCount, }) => {
                     size="sm"
                     sx={{
                         display: 'flex',
-                        // mt: .5,
                     }}
                 >
                     <TabList
                         disableUnderline
                         sx={{
-
                             gap: 0.5,
                             p: 1,
                             bgcolor: 'background.level1',
                             [`& .${tabClasses.root}[aria-selected="true"]`]: {
                                 boxShadow: 'sm',
                                 bgcolor: 'background.surface',
-
                             },
                         }}
                     >
@@ -64,13 +64,7 @@ const EmpDashboardTabs = ({ tableCount, setTableCount, }) => {
                                     <Box sx={{ display: 'flex', alignItems: 'center' }} >
                                         <Box sx={{ fontWeight: 700, fontSize: 18, fontSmooth: 'always', pr: 0.5 }} >My Task</Box>
                                         <LockIcon />
-
                                     </Box>
-                                    {/* <Box
-                                    sx={{
-                                        display: 'flex',
-                                        bgcolor: 'yellow'
-                                    }}> */}
                                     <Box
                                         sx={{
                                             display: 'flex',
@@ -81,15 +75,11 @@ const EmpDashboardTabs = ({ tableCount, setTableCount, }) => {
                                         <Tab disableIndicator sx={{ borderRadius: 15 }}>All Task</Tab>
                                         <Tab disableIndicator sx={{ borderRadius: 15 }}>OverDue</Tab>
                                         <Tab disableIndicator sx={{ borderRadius: 15 }}>Completed</Tab>
-
+                                        <Tab disableIndicator sx={{ borderRadius: 15 }}>My Progress</Tab>
                                     </Box>
-                                    {/* <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-ends', bgcolor: 'yellow' }}><CircleIcon sx={{ color: '#D8CEE6' }} />subtask&nbsp;&nbsp;</Box>
-
-                                </Box> */}
-
                                 </Box>
                             </Box>
-                            <Box sx={{ flex: 1, height: 20, mt: 4, display: 'flex', justifyContent: 'flex-end', pt: .5 }}><CircleIcon sx={{ color: '#D8CEE6', width: 25, height: 25 }} />subtask&nbsp;&nbsp;</Box>
+                            <Box sx={{ flex: 1, mt: 4, display: 'flex', justifyContent: 'flex-end', pt: .5 }}><CircleIcon sx={{ color: '#D8CEE6', width: 25, height: 25 }} />subtask&nbsp;&nbsp;</Box>
                         </Box>
                     </TabList>
                     <TabPanel value={0} sx={{
@@ -99,19 +89,32 @@ const EmpDashboardTabs = ({ tableCount, setTableCount, }) => {
                         flex: 1,
                         flexGrow: 1,
                         overflow: 'auto',
+                        p: 0
                     }} >
                         <Suspense fallback={<LinearProgress variant="plain" />} >
-                            <EmpAllTask tableCount={tableCount} setTableCount={setTableCount} />
+                            <EmpAllTask tableCount={tableCount} setTableCount={setTableCount}
+                                taskcount={taskcount} settaskcount={settaskcount}
+                                projectcount={projectcount} setprojectcount={setprojectcount} />
                         </Suspense>
                     </TabPanel>
-                    <TabPanel value={1}>
+                    <TabPanel value={1}
+                        sx={{ p: 0 }}>
                         <Suspense fallback={<LinearProgress size="sm" variant="plain" />} >
-                            <EmpOverDueTaskList tableCount={tableCount} setTableCount={setTableCount} />
+                            <EmpOverDueTaskList tableCount={tableCount} setTableCount={setTableCount}
+                                taskcount={taskcount} settaskcount={settaskcount}
+                                projectcount={projectcount} setprojectcount={setprojectcount} />
                         </Suspense>
                     </TabPanel>
-                    <TabPanel value={2}>
+                    <TabPanel value={2} sx={{ p: 0 }}>
                         <Suspense fallback={<LinearProgress size="sm" variant="plain" />} >
-                            <EmpCompletedTaskList tableCount={tableCount} setTableCount={setTableCount} />
+                            <EmpCompletedTaskList tableCount={tableCount} setTableCount={setTableCount}
+                                taskcount={taskcount} settaskcount={settaskcount}
+                                projectcount={projectcount} setprojectcount={setprojectcount} />
+                        </Suspense>
+                    </TabPanel>
+                    <TabPanel value={3} sx={{ p: 0 }}>
+                        <Suspense fallback={<LinearProgress size="sm" variant="plain" />} >
+                            <MyProgressView tableCount={tableCount} setTableCount={setTableCount} />
                         </Suspense>
                     </TabPanel>
                 </Tabs>

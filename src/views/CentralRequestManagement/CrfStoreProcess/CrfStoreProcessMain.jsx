@@ -28,9 +28,7 @@ const CrfStoreProcessMain = () => {
                         req_slno: val.req_slno,
                         actual_requirement: val.actual_requirement,
                         needed: val.needed,
-                        request_dept_slno: val.request_dept_slno,
                         request_deptsec_slno: val.request_deptsec_slno,
-                        dept_name: val.dept_name.toLowerCase(),
                         req_deptsec: val.req_deptsec.toLowerCase(),
                         user_deptsection: val.user_deptsection.toLowerCase(),
                         em_name: val.create_user.toLowerCase(),
@@ -128,7 +126,7 @@ const CrfStoreProcessMain = () => {
 
 
             <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
-                <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF Store</Box>
+                <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF CRS Store</Box>
                 <Box>
                     <CusIconButton size="sm" variant="outlined" color="primary" onClick={backtoSetting} >
                         <CloseIcon fontSize='small' />

@@ -96,10 +96,10 @@ const ProjectStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOp
                                     <ModeEditIcon sx={{ height: '20px' }} />Update Status
                                 </Box>
 
-                                <Box sx={{ display: 'flex', width: '100%', mt: 2 }}>
-                                    <Box sx={{ flex: 1, }}>
+                                <Box sx={{ display: 'flex', mt: 2 }}>
+                                    <Box sx={{ flex: .5, }}>
                                     </Box>
-                                    <Box sx={{ flex: 4 }}>
+                                    <Box sx={{ flex: 10 }}>
                                         <Typography sx={{ color: '#44444C', fontFamily: 'Georgia', pl: .5 }}>
                                             Project
                                         </Typography>
@@ -113,7 +113,7 @@ const ProjectStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOp
                                                     disabled
                                                     name="tm_project_name"
                                                     value={tm_project_name}
-                                                    sx={{ fontSize: 22, color: '#05445E', }}
+                                                    sx={{ fontSize: 15, color: '#05445E', }}
                                                 ></Textarea>
                                             </CssVarsProvider>
                                         </Box>
@@ -184,7 +184,7 @@ const ProjectStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOp
                                             <Box sx={{ pl: 1, color: '#000C66', fontFamily: 'Georgia' }}>Project Completed</Box>
                                         </Box>
                                     </Box>
-                                    <Box sx={{ flex: 1, }}></Box>
+                                    <Box sx={{ flex: .5, }}></Box>
                                 </Box>
                             </Box>
                         </Box>

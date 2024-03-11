@@ -1,5 +1,5 @@
 import { Box, Tooltip } from '@mui/joy'
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
 import AccordionGroup from '@mui/joy/AccordionGroup';
@@ -12,6 +12,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { axioslogin } from 'src/views/Axios/Axios';
 import EmpProjectTaskDetails from './EmpProjectTaskDetails';
 import EmployeeProgressBar from './EmployeeProgressBar';
+import AllTaskListUnderProject from './AllTaskListUnderProject';
 
 const TmEmployeeTaskData = () => {
     const dispatch = useDispatch();
@@ -20,6 +21,10 @@ const TmEmployeeTaskData = () => {
     const [employees, setemployees] = useState([{ em_id: 0, em_name: '' }]);
     const [allEmpTask, setallEmpTask] = useState([])
     const [EmpDetalArry, setEmpDetalArry] = useState([])
+    const [modalFlag, setModalFlag] = useState(0)
+    const [modalOpen, setModalOpen] = useState(false)
+    const [employeeData, setEmployeeData] = useState([])
+
     useEffect(() => {
         dispatch(getDepartSecemployee(empsecid))
     }, [dispatch, empsecid])
@@ -48,15 +53,27 @@ const TmEmployeeTaskData = () => {
                     emslno: value.em_id,
                     empname: value.em_name,
                     TT: yy ? yy.TT : 0,
-                    TC: yy ? yy.TC : 0
+                    TC: yy ? yy.TC : 0,
                 }
             })
             setEmpDetalArry(xx);
         }
     }, [employees, allEmpTask])
 
+    const openModal = useCallback((value) => {
+        setEmployeeData(value)
+        setModalFlag(1)
+        setModalOpen(true)
+    }, [])
+
+
+
     return (
-        <Box sx={{ height: 450 }}>
+        <Box sx={{ height: 480 }}>
+            {modalFlag === 1 ?
+                <AllTaskListUnderProject
+                    open={modalOpen} setModalOpen={setModalOpen} allEmpTask={allEmpTask}
+                    setModalFlag={setModalFlag} employeeData={employeeData} /> : null}
             <AccordionGroup
                 variant="plain"
                 transition="0.2s"
@@ -72,27 +89,36 @@ const TmEmployeeTaskData = () => {
             >
                 {
                     EmpDetalArry && EmpDetalArry.map((val) => {
+
+
+                        let capEmpName = val.empname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
                         return <Accordion key={val.emslno} >
                             <AccordionSummary >
-                                <Avatar color='primary'  >
+                                <Avatar color='primary' size='sm'>
                                     <PersonIcon />
                                 </Avatar>
                                 <Tooltip title="Employee" >
-                                    <Box sx={{ flex: 1.1, textTransform: 'capitalize' }}>
-                                        <Typography>{val.empname}</Typography>
+                                    <Box sx={{ flex: 1.1, }}>
+                                        <Typography>{capEmpName}</Typography>
                                     </Box>
                                 </Tooltip>
 
-                                <Tooltip title="Project Progress" >
+                                <Tooltip title="Employee Progress" >
                                     <Box sx={{ flex: 6, }}>
                                         <EmployeeProgressBar val={val} />
                                     </Box>
                                 </Tooltip>
-                                <Tooltip title="Total Task" >
-                                    <Box sx={{ mr: 2, fontSize: 22, borderRadius: 8, pl: 1 }}>{val.TT}</Box>
+                                <Tooltip title="View Task" >
+                                    <Box
+                                        sx={{ mr: 2, fontSize: 15, borderRadius: 8, pl: 1, }}  >
+                                        <Box onClick={() => openModal(val)} variant='soft' sx={{
+                                            borderRadius: 25, bgcolor: '#ECE3F0', color: '#5E376D', fontWeight: 'bold',
+                                            width: 37, height: 36, pt: 1, pl: 1.5,
+                                        }} >{val.TT}</Box>
+                                    </Box>
                                 </Tooltip>
-                            </AccordionSummary >
 
+                            </AccordionSummary >
                             <EmpProjectTaskDetails val={val} />
 
                         </Accordion>

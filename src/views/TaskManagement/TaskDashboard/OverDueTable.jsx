@@ -10,7 +10,7 @@ import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import moment from 'moment';
 import ModalEditTask from '../CreateTask/ModalEditTask';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-const OverDueTable = () => {
+const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) => {
     const [tableData, setTableData] = useState([])
     const [masterData, setMasterData] = useState([])
     const [viewOverDue, setViewOverDue] = useState(0)
@@ -23,9 +23,6 @@ const OverDueTable = () => {
     const [editModalFlag, setEditModalFlag] = useState(0)
     const [tableCount, setTableCount] = useState(0)
 
-    // const dispatch = useDispatch();
-    // const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-    // redux for geting login emp secid
     const empsecid = useSelector((state) => {
         return state.LoginUserData.empsecid
     })
@@ -47,7 +44,8 @@ const OverDueTable = () => {
                     const arr = data?.map((val) => {
                         const obj = {
                             tm_task_slno: val.tm_task_slno,
-                            tm_task_name: (val.tm_task_name).toLowerCase(),
+                            // tm_task_name: (val.tm_task_name).toLowerCase(),
+                            tm_task_name: val.tm_task_name,
                             dept_name: val.dept_name,
                             sec_name: val.sec_name,
                             tm_assigne_emp: val.tm_assigne_emp,
@@ -59,7 +57,8 @@ const OverDueTable = () => {
                             tm_task_dept_sec: val.tm_task_dept_sec,
                             main_task_slno: val.main_task_slno,
                             tm_task_due_date: val.tm_task_due_date,
-                            tm_task_description: (val.tm_task_description).toLowerCase(),
+                            // tm_task_description: (val.tm_task_description).toLowerCase(),
+                            tm_task_description: val.tm_task_description,
                             tm_task_status: val.tm_task_status,
                             TaskStatus: val.tm_task_status === 1 ? 'Completed' :
                                 val.tm_task_status === 1 ? 'Completed' :
@@ -125,7 +124,8 @@ const OverDueTable = () => {
                     <Paper variant="outlined" sx={{ maxHeight: 720, maxWidth: '100%', overflow: 'auto', }}>
                         {editModalFlag === 1 ?
                             <ModalEditTask open={editModalOpen} masterData={masterData} setEditModalOpen={setEditModalOpen}
-                                setEditModalFlag={setEditModalFlag}
+                                setEditModalFlag={setEditModalFlag} taskcount={taskcount} settaskcount={settaskcount}
+                                statuscount={statuscount} setstatuscount={setstatuscount}
                                 tableCount={tableCount} setTableCount={setTableCount}
                             />
                             :
@@ -138,23 +138,24 @@ const OverDueTable = () => {
                                 hoverRow>
                                 <thead >
                                     <tr >
-                                        <th style={{ width: 50 }}>#</th>
+                                        <th style={{ width: 50, }}>#</th>
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 60 }}>View</th>
-                                        <th style={{ width: 150 }}>Status</th>
-                                        <th style={{ width: 300 }}>Task Name</th>
-                                        <th style={{ width: 300 }}>Project</th>
-                                        <th style={{ width: 170 }}>Assignee</th>
+                                        <th style={{ width: 170 }}>Status</th>
+                                        <th style={{ width: 450 }}>Task Name</th>
+                                        <th style={{ width: 450 }}>Project</th>
+                                        <th style={{ width: 200 }}>Assignee</th>
                                         <th style={{ width: 150 }}>Created Date</th>
                                         <th style={{ width: 150 }}> Due Date</th>
-                                        <th style={{ width: 300 }}>Task Description</th>
+                                        <th style={{ width: 500 }}>Task Description</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {tableData?.map((val, index) => {
                                         return (
                                             <tr key={index}
-                                                style={{ height: 8, background: val.main_task_slno !== null ? '#D8CEE6' : val.main_task_slno === 0 ? '#D8CEE6' : 'transparent', minHeight: 5 }}>
+                                                style={{ height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent', minHeight: 5 }}>
                                                 <td> {index + 1}</td>
                                                 <td>
                                                     <EditIcon
@@ -185,12 +186,12 @@ const OverDueTable = () => {
                                                                                 : 'transparent', minHeight: 5
                                                     }} />&nbsp;{val.TaskStatus}</td>
 
-                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
-                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
-                                                <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
-                                                <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                <td style={{ color: '#B32800', fontWeight: 500 }}> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize', color: '#970C10', }}> {val.tm_task_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize', color: '#970C10', }}> {val.tm_project_name || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize', color: '#970C10', }}> {val.em_name || 'not given'}</td>
+                                                <td style={{ color: '#970C10', }}> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td style={{ color: '#970C10', fontWeight: 600 }}> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                <td style={{ textTransform: 'capitalize', color: '#970C10', }}> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )
                                     })}
