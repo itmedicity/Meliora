@@ -29,7 +29,7 @@ const DataCollectedImageDispy = ({ open, handleCloseCollect, dataCollSlno, req_s
             if (success === 1) {
                 const fileNames = data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/Meliora/CRF/crf_registration/${req_slno}/datacollection/${dataCollSlno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/datacollection/${dataCollSlno}/${fileName}`;
                 });
                 setImageArry(fileUrls);
             }

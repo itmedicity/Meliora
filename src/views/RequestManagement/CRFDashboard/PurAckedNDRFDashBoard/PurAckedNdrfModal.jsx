@@ -100,7 +100,7 @@ const PurAckedNdrfModal = ({ open, setOpen, datas }) => {
             if (success === 1) {
                 const fileNames = data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/Meliora/CRF/crf_registration/${req_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
                 });
                 setImageArry(fileUrls);
             }
