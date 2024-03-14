@@ -16,9 +16,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
         setNsName(census_ns_name)
         setnsNo(census_ns_slno)
         setYestTotal(yesterday_census)
-
     }, [])
-
     const handleClose = useCallback(() => {
         setModalOpen(false)
         setModalFlag(0)
@@ -28,29 +26,32 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
             {modalFlag === 1 ? <ModalForDailyCensusEntry open={modalopen} handleClose={handleClose} dailyDate={dailyDate}
                 nsNo={nsNo} nsName={nsName} yest={yestTotal} count={count} setCount={setCount}
             /> : null}
-            <Box sx={{ pl: 0.5, flex: 1 }}>
-                <Box variant='elevation' overflow='hidden'  >
+            <Box sx={{ flex: 1 }}>
+                <Box overflow='hidden'  >
                     <TableContainer sx={{ maxHeight: window.innerHeight - 240 }}>
-                        <Table size='md' stickyHeader aria-label="sticky table" padding={"none"}  >
-                            <TableHead sx={{ height: 40 }}>
-                                <TableRow sx={{}}  >
-                                    <TableCell sx={{ width: 60, border: '0.5px solid lightgrey', textAlign: 'center' }}>Sl.No</TableCell>
-                                    <TableCell sx={{ width: 300, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center' }}>Nursing Station</TableCell>
-                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center' }}>Yesterday Census</TableCell>
-                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center' }}>Admission</TableCell>
-                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center' }}>HIS Admission</TableCell>
-                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center' }}>Discharge</TableCell>
-                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center' }}>HIS Discharge</TableCell>
-                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center' }}>Transfer In</TableCell>
-                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center' }}>Transfer Out</TableCell>
-                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center' }}>Death</TableCell>
-                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center' }}>HIS Death</TableCell>
-                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center' }}>Total</TableCell>
+                        <Table size='md' stickyHeader padding={"none"}  >
+
+                            <TableHead sx={{}}>
+                                <TableRow sx={{ height: 30 }} hover >
+                                    <TableCell rowSpan={2} sx={{ width: 60, border: '0.5px solid lightgrey', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Sl.No</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: 300, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Nursing Station</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>HIS Yesterday Census</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Yesterday Census</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>HIS Admission</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Admission</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>HIS Discharge</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Discharge</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Transfer In</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Transfer Out</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>HIS Death</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Death</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>HIS Total</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white', borderRight: '1px solid grey' }}>Total</TableCell>
                                 </TableRow >
                             </TableHead >
                             <TableBody >
                                 {censusData?.map((val, index) => {
-                                    return <TableRow key={val.census_ns_slno} hover sx={{ cursor: 'pointer' }}>
+                                    return <TableRow key={val.census_ns_slno} hover style={{ cursor: 'pointer', background: (val.update_status === 1) ? '#bdbdbd' : 'transparent' }}>
                                         <TableCell sx={{ borderLeft: '1px solid lightgrey', borderRight: '1px solid lightgrey', textAlign: 'center', height: 25 }}>{index + 1}</TableCell>
                                         <TableCell sx={{
                                             borderRight: '1px solid lightgrey', pl: 1, height: 25,
@@ -62,25 +63,29 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                                         }}
                                             onClick={() => Reportview(val.census_ns_slno, val.census_ns_name, val.yesterday_census)}>
                                             {val.census_ns_name}</TableCell>
+                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25, bgcolor: '#757575', color: 'white' }}>
+                                            {val.ora_yesterday}</TableCell>
                                         <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25 }}>
                                             {val.yesterday_census}</TableCell>
-                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25 }}>
-                                            {val.total_admission}</TableCell>
-                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25, bgcolor: '#eceff1' }}>
+                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25, bgcolor: '#757575', color: 'white' }}>
                                             {val.ora_admission}</TableCell>
                                         <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25 }}>
-                                            {val.total_discharge}</TableCell>
-                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25, bgcolor: '#eceff1' }}>
+                                            {val.total_admission}</TableCell>
+                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25, bgcolor: '#757575', color: 'white' }}>
                                             {val.ora_discharge}</TableCell>
+                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25 }}>
+                                            {val.total_discharge}</TableCell>
                                         <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25 }}>
                                             {val.transfer_in}</TableCell>
                                         <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25 }}>
                                             {val.transfer_out}</TableCell>
-                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25 }}>
-                                            {val.total_death}</TableCell>
-                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25, bgcolor: '#eceff1' }}>
+                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25, bgcolor: '#757575', color: 'white' }}>
                                             {val.ora_death}</TableCell>
                                         <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25 }}>
+                                            {val.total_death}</TableCell>
+                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25, bgcolor: '#757575', color: 'white' }}>
+                                            {val.ora_census_total}</TableCell>
+                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid grey', textAlign: 'center', height: 25 }}>
                                             {val.census_total}</TableCell>
                                     </TableRow>
                                 })}
