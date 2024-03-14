@@ -6,6 +6,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import EditIcon from '@mui/icons-material/Edit';
 import moment from 'moment';
+import CountDowncomponent from '../CountDown/CountDowncomponent';
 
 const GoalsMasterTableDept = ({ rowSelect, tableCount }) => {
     const [tabledata, setTabledata] = useState([])
@@ -67,13 +68,14 @@ const GoalsMasterTableDept = ({ rowSelect, tableCount }) => {
                                             <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
                                             <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
                                             <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
-                                            <th style={{ width: 300, fontFamily: 'Georgia', }}>Goals</th>
+                                            <th style={{ width: 250, fontFamily: 'Georgia', }}>CountDoun</th>
+                                            <th style={{ width: 500, fontFamily: 'Georgia', }}>Goals</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Section</th>
                                             <th style={{ width: 150, fontFamily: 'Georgia', }}> Created Date</th>
                                             <th style={{ width: 150, fontFamily: 'Georgia', }}>From date</th>
                                             <th style={{ width: 150, fontFamily: 'Georgia', }}>Due date</th>
-                                            <th style={{ width: 350, fontFamily: 'Georgia', }}>Description</th>
+                                            <th style={{ width: 600, fontFamily: 'Georgia', }}>Description</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -93,17 +95,47 @@ const GoalsMasterTableDept = ({ rowSelect, tableCount }) => {
                                                             color: val.tm_goal_status === null ? '#5F093D' : val.tm_goal_status === 0 ? '#5F093D'
                                                                 : val.tm_goal_status === 1 ? 'green' : 'transparent', minHeight: 5
                                                         }}> {val.GoalStatus || 'not given'}</td>
-                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_name || 'not given'}</td>
-                                                    <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td>
-                                                    <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td>
-                                                    <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                    <td> {moment(val.tm_goal_fromdate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                    {/* <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td> */}
+
+                                                    <td>
+                                                        {val.tm_goal_status !== 1 ?
+                                                            <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: .9 }}>
+                                                                <CountDowncomponent DueDates={val.tm_goal_duedate} />
+                                                            </Box> :
+                                                            <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
+                                                                <Box sx={{ flex: .5, }}></Box>
+                                                                <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;hh&nbsp;:00&nbsp;mm&nbsp;:00&nbsp;ss</Box>
+                                                                <Box sx={{ flex: .5 }}></Box>
+                                                            </Box>
+                                                        }
+                                                    </td>
+                                                    {val.tm_goal_status === 1 ?
+                                                        <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_name || 'not given'}</td> :
+                                                        <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_goal_duedate) ? '#B32800' : 'black' }}>
+                                                            {val.tm_goal_name || 'not given'}</td>}
+                                                    {val.tm_goal_status === 1 ?
+                                                        <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td> :
+                                                        <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_goal_duedate) ? '#B32800' : 'black' }}>
+                                                            {val.dept_name || 'not given'}</td>}
+                                                    {val.tm_goal_status === 1 ?
+                                                        <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td> :
+                                                        <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_goal_duedate) ? '#B32800' : 'black' }}>
+                                                            {val.sec_name || 'not given'}</td>}
+                                                    {val.tm_goal_status === 1 ?
+                                                        <td> {moment(val.create_date).format('DD-MM-YYYY') || 'not given'}</td> :
+                                                        <td style={{ color: isPastDue(val.tm_goal_duedate) ? '#B32800' : 'black' }}>
+                                                            {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
+                                                    {val.tm_goal_status === 1 ?
+                                                        <td> {moment(val.tm_goal_fromdate).format('DD-MM-YYYY') || 'not given'}</td> :
+                                                        <td style={{ color: isPastDue(val.tm_goal_duedate) ? '#B32800' : 'black' }}>
+                                                            {moment(val.tm_goal_fromdate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
                                                     {val.tm_goal_status === 1 ?
                                                         <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY') || 'not given'}</td> :
                                                         <td style={{ color: isPastDue(val.tm_goal_duedate) ? '#B32800' : 'black' }}>
                                                             {moment(val.tm_goal_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
-                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_description || 'not given'}</td>
+                                                    {val.tm_goal_status === 1 ?
+                                                        <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_description || 'not given'}</td> :
+                                                        <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_goal_duedate) ? '#B32800' : 'black' }}>
+                                                            {val.tm_goal_description || 'not given'}</td>}
                                                 </tr>
                                             )
                                         })}

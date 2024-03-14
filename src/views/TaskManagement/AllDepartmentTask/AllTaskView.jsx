@@ -18,6 +18,7 @@ import { getDepartment } from 'src/redux/actions/Department.action';
 import { getProjectList } from 'src/redux/actions/TmProjectsList.action';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import EditModalDept from './EditModalDept';
+import CountDowncomponent from '../CountDown/CountDowncomponent';
 
 const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
 
@@ -71,12 +72,6 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                         tm_project_name: val.tm_project_name,
                         tm_project_slno: val.tm_project_slno,
                         create_date: val.create_date,
-                        // TaskStatus: val.tm_task_status === 1 ? 'Completed' :
-                        //     val.tm_task_status === 1 ? 'Completed' :
-                        //         val.tm_task_status === 2 ? 'On Progress' :
-                        //             val.tm_task_status === 3 ? 'On Hold' :
-                        //                 val.tm_task_status === 4 ? 'Pending' :
-                        //                     val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                     }
                     return obj
                 })
@@ -248,6 +243,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                                     <th style={{ width: 90, fontFamily: 'Georgia' }}>Action</th>
                                     <th style={{ width: 60, fontFamily: 'Georgia' }}>View</th>
                                     <th style={{ width: 100, fontFamily: 'Georgia' }}>Status</th>
+                                    <th style={{ width: 250, fontFamily: 'Georgia' }}>CountDoun</th>
                                     <th style={{ width: 450, fontFamily: 'Georgia' }}>Task name</th>
                                     <th style={{ width: 450, fontFamily: 'Georgia' }}>Project</th>
                                     <th style={{ width: 250, fontFamily: 'Georgia' }}>Department</th>
@@ -293,18 +289,18 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                                                 }}>  {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
                                                     val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                         val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
-                                            {/* <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
-                                            <td style={{ textTransform: 'capitalize' }}>{val.tm_project_name || 'not given'}</td>
-                                            <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td>
-                                            <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td>
-                                            <td style={{ textTransform: 'capitalize' }}>{val.tm_detail_status === 1 ? val.em_name :
-                                                val.tm_detail_status === null ? 'not assigned' : 'not given'}</td>
-                                            <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                            {val.tm_task_status === 1 ?
-                                                <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td> :
-                                                <td style={{ color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black' }}>
-                                                    {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
-                                            <td> {val.tm_task_description || 'not given'}</td> */}
+                                            <td>
+                                                {val.tm_task_status !== 1 ?
+                                                    <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#5885AF', p: .5, flex: .9, }}>
+                                                        <CountDowncomponent DueDates={val.tm_task_due_date} />
+                                                    </Box> :
+                                                    <Box sx={{ display: 'flex', borderRadius: 3, border: .1, borderStyle: 'dashed', borderColor: '#5885AF', p: .5, flex: 1, }}>
+                                                        <Box sx={{ flex: .5, }}></Box>
+                                                        <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;hh&nbsp;:00&nbsp;mm&nbsp;:00&nbsp;ss</Box>
+                                                        <Box sx={{ flex: .5 }}></Box>
+                                                    </Box>
+                                                }
+                                            </td>
                                             {val.tm_task_status === 1 ?
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td> :
                                                 <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black' }}> {val.tm_task_name || 'not given'}</td>}

@@ -3,10 +3,9 @@ import { Paper } from '@mui/material'
 import React, { memo } from 'react'
 import moment from 'moment';
 import EditIcon from '@mui/icons-material/Edit'
-const EmpProgressTable = ({ progresstabledata, rowSelect }) => {
+const EmpProgressTable = ({ progresstabledata, rowSelect, }) => {
 
     return (
-
         <Paper variant="outlined" sx={{ width: '99%', m: 1, overflow: 'auto', maxHeight: 300 }}>
             {progresstabledata.length !== 0 ?
                 <Box>
@@ -47,11 +46,12 @@ const EmpProgressTable = ({ progresstabledata, rowSelect }) => {
                     </CssVarsProvider>
                 </Box> :
                 <Box sx={{ textAlign: 'center', my: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
+
                     No Progress Under Task
                 </Box>}
 
         </Paper>
-        // </Box>
+
     )
 }
 

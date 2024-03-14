@@ -30,8 +30,8 @@ const ITTransactions = [
     {
         men_slno: 149,
         component: CNavItem,
-        name: 'IP Address Details',
-        to: '/Home/NetworkIP',
+        name: 'Bills & Pays',
+        to: '/Home/BillAdds',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 

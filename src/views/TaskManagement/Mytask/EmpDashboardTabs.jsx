@@ -89,7 +89,8 @@ const EmpDashboardTabs = ({ tableCount, setTableCount, }) => {
                         flex: 1,
                         flexGrow: 1,
                         overflow: 'auto',
-                        p: 0
+                        p: 0,
+
                     }} >
                         <Suspense fallback={<LinearProgress variant="plain" />} >
                             <EmpAllTask tableCount={tableCount} setTableCount={setTableCount}

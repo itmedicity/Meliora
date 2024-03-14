@@ -8,9 +8,10 @@ import Avatar from '@mui/joy/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
 import { axioslogin } from 'src/views/Axios/Axios';
-import LanIcon from '@mui/icons-material/Lan';
+import AlignHorizontalRightRoundedIcon from '@mui/icons-material/AlignHorizontalRightRounded';
 import TmProjectCircularProgress from './TmProjectCircularProgress';
 import EmployeeUnderProject from './EmployeeUnderProject';
+import CountDowncomponent from '../CountDown/CountDowncomponent';
 
 const TmProjectTaskData = () => {
     const dispatch = useDispatch();
@@ -53,17 +54,29 @@ const TmProjectTaskData = () => {
             >
                 {
                     allProject && allProject.map((val) => {
-                        // const { tm_project_slno } = val
                         return <Accordion
                             key={val.tm_project_slno}
                         >
                             <AccordionSummary>
                                 <Avatar color='primary'  >
-
-                                    <LanIcon />
+                                    <AlignHorizontalRightRoundedIcon sx={{ width: 20, height: 20, color: '#435D84' }} />
                                 </Avatar>
-                                <Box sx={{ flex: 6, textTransform: 'capitalize' }}>
-                                    <Typography sx={{ fontSize: 14 }}>{val.tm_project_name}</Typography>
+                                <Tooltip title="Projects">
+                                    <Box sx={{ flex: 6, textTransform: 'capitalize' }}>
+                                        <Typography sx={{ fontSize: 14 }}>{val.tm_project_name}</Typography>
+                                    </Box>
+                                </Tooltip>
+                                <Box>
+                                    {val.tm_project_status !== 1 ?
+                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1 }}>
+                                            <CountDowncomponent DueDates={val.tm_project_duedate} />
+                                        </Box> :
+                                        <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
+                                            <Box sx={{ flex: 1, }}></Box>
+                                            <Box sx={{ flex: 1, color: 'green', }}>Completed</Box>
+                                            <Box sx={{ flex: 1 }}></Box>
+                                        </Box>
+                                    }
                                 </Box>
                                 <Box sx={{ flex: 1 }}>
                                     <Tooltip title="Project created Date" >

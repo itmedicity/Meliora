@@ -2,7 +2,8 @@ import { AccordionDetails, Box, FormLabel, Tooltip } from '@mui/joy';
 import React, { memo, useEffect, useMemo, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios';
 import OtherSubTask from './OtherSubTask';
-
+import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded';
+import CountDowncomponent from '../CountDown/CountDowncomponent';
 const SubTaskUnderTask = ({ val, emp_no }) => {
 
     const { tm_task_slno, } = val
@@ -10,7 +11,6 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
     const [empTask, setEmpTask] = useState([])
     const searchData = useMemo(() => {
         return {
-
             main_task_slno: tm_task_slno,
         }
     }, [tm_task_slno,])
@@ -23,10 +23,10 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                 const newData = data?.filter((val) => (val.tm_assigne_emp === emp_no))
                 setEmpTask(newData)
                 const othertask = data?.filter((val) => (val.tm_assigne_emp !== emp_no))
-                const xx = othertask.filter((val) => {
+                const othrData = othertask.filter((val) => {
                     return !newData.find((value) => value.tm_task_slno === val.tm_task_slno)
                 })
-                setOtherempTask(xx)
+                setOtherempTask(othrData)
             }
         }
         getEmpTask(searchData)
@@ -44,21 +44,21 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                     let create_empnamee = val.create_empname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
                     return <AccordionDetails key={val.tm_task_slno}
                         sx={{
-                            borderBottom: 1, borderLeft: 1, borderRight: 1, borderRadius: 1, borderColor: '#B7CFDC', height: 40, my: .5, mx: 1,
-                            bgcolor: '#D9E4EC', overflow: 'auto',
+                            borderLeft: 1, borderRight: 1, borderColor: '#BD97CB', height: 50, my: .5, mx: 1,
+                            bgcolor: '#ede7f6', overflow: 'auto',
                         }}>
                         <Box sx={{ display: 'flex', mt: .5 }}>
                             <Box >
                                 <Tooltip title="#" >
                                     <FormLabel sx={{
                                         color: 'white', width: 20, height: 15, fontSize: 10, bgcolor: '#52688F', display: 'flex',
-                                        justifyContent: 'center', mt: .5, mr: 1, ml: 1, fontWeight: 500,
+                                        justifyContent: 'center', fontWeight: 500, borderRadius: 10, mt: .5, mr: .5
                                     }}>
                                         {index + 1}
                                     </FormLabel>
                                 </Tooltip>
                             </Box>
-                            <Box sx={{ flex: 3.5, }}>
+                            <Box sx={{ flex: 4, }}>
                                 <Tooltip title="Subtask " >
                                     {val.tm_task_status === 1 ?
                                         <FormLabel sx={{
@@ -78,44 +78,54 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                                 <Tooltip title="Subtask Created by">
                                     <FormLabel sx={{
                                         fontSize: 13, flex: .5, cursor: 'grab', display: 'flex', justifyContent: 'center',
-                                        color: '#3B0404', textTransform: 'capitalize'
+                                        color: '#3B0404', textTransform: 'capitalize', mt: .5
                                     }}>
                                         {create_empnamee}</FormLabel>
                                 </Tooltip>
                             </Box>
-                            <Box sx={{ flex: 1 }}>
-                                <Tooltip title="Task Created Date" >
+                            {val.tm_task_status !== 1 ?
+                                <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1 }}>
+                                    <CountDowncomponent DueDates={val.tm_task_due_date} />
+                                </Box> :
+                                <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
+                                    <Box sx={{ flex: .5, }}></Box>
+                                    <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;hh&nbsp;:00&nbsp;mm&nbsp;:00&nbsp;ss</Box>
+                                    <Box sx={{ flex: .5 }}></Box>
+                                </Box>
+                            }
+                            <Box sx={{ flex: 1, ml: .5, pt: .5 }}>
+                                <Tooltip title="Subtask Created Date" >
                                     {val.tm_task_status === 1 ?
                                         <FormLabel sx={{
                                             fontSize: 13, flex: .5, textTransform: 'capitalize', cursor: 'grab',
                                         }}>
-                                            {val.create_date}
+                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} /> {val.create_date}
                                         </FormLabel> :
                                         <FormLabel sx={{
                                             fontSize: 13, flex: .5, textTransform: 'capitalize', cursor: 'grab',
                                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                         }}>
-                                            {val.create_date}
+                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />  {val.create_date}
                                         </FormLabel>}
                                 </Tooltip>
                             </Box>
-                            <Box sx={{ flex: 1, }}>
+                            <Box sx={{ flex: 1, pt: .5 }}>
                                 <Tooltip title="Subtask Due Date" >
                                     {val.tm_task_status === 1 ?
                                         <FormLabel sx={{
                                             fontSize: 13, textTransform: 'capitalize', cursor: 'grab',
                                         }}>
-                                            {val.tm_task_due_date}
+                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />  {val.tm_task_due_date}
                                         </FormLabel> :
                                         <FormLabel sx={{
                                             fontSize: 13, textTransform: 'capitalize', cursor: 'grab',
                                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                         }}>
-                                            {val.tm_task_due_date}
+                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} /> {val.tm_task_due_date}
                                         </FormLabel>}
                                 </Tooltip>
                             </Box>
-                            <Box sx={{ flex: .5, }}>
+                            <Box sx={{ flex: .5, pt: .5 }}>
                                 <Tooltip title="Subtask Status" >
                                     <FormLabel
                                         sx={{

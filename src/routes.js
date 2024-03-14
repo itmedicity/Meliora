@@ -136,7 +136,6 @@ const DashboardBackup = React.lazy(() => import('./views/ItManagement/DashboardB
 const PasswordManagement = React.lazy(() => import('./views/ItManagement/PasswordManagement/PasswordManagement'))
 const CommunicationDevice = React.lazy(() => import('./views/ItManagement/CommunicationDeviceDetails/CommunicationDevice'))
 const BackupChecks = React.lazy(() => import('./views/ItManagement/BackupChecksAndMonitoring/BackupChecks'))
-const NetWorkIP = React.lazy(() => import('./views/ItManagement/IPaddressDetails/NetworkIPaddress'))
 const DeviceType = React.lazy(() => import('./views/Master/ItMasters/communicationDevice/DeviceTypeMaster'))
 const WifiManageMenT = React.lazy(() => import('./views/ItManagement/WifiManagement/WifiManageMentMains'))
 const CustodianDeptmt = React.lazy(() => import('./views/Master/AssetMasters/CustodianDepartment/CustodianDeptMast'))
@@ -148,9 +147,6 @@ const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDe
 const AssetRackMast = React.lazy(() => import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster'))
 const AssetDeptTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DeptTransfer'))
 const TaskManagementMainDashboard = React.lazy(() => import('./views/TaskManagement/TaskDashboard/TmDashboardMain'))
-// const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/TaskCreationOuter/CreateMainTask'))
-
-
 const TaskManagementMainGoals = React.lazy(() => import('./views/TaskManagement/GoalsMaster/GoalsMaster'))
 const TaskManagementMainProject = React.lazy(() => import('./views/TaskManagement/ProjectMaster/ProjectMaster'))
 const TaskManagementDeptGoals = React.lazy(() => import('./views/TaskManagement/GoalsMaster/GoalsMasterDept'))
@@ -203,6 +199,7 @@ const CRFNewPurchase = React.lazy(() => import('./views/CentralRequestManagement
 const CRFNewCRSStore = React.lazy(() => import('./views/CentralRequestManagement/CrfStoreProcess/CrfStoreProcessMain'))
 const CRFNewStore = React.lazy(() => import('./views/CentralRequestManagement/CrfSubStores/CrfSubStoreMain'))
 
+const BillAdds = React.lazy(() => import('./views/ItManagement/BillAdd/BillAddsMain'))
 
 
 
@@ -346,7 +343,6 @@ const routes = [
   { path: '/Home/PasswordManagement', exact: true, name: 'Password Management', component: PasswordManagement },
   { path: '/Home/CommunicationDevice', exact: true, name: 'Communication Device Details', component: CommunicationDevice },
   { path: '/Home/BackupChecks', exact: true, name: 'Backup Checks & Monitoring', component: BackupChecks },
-  { path: '/Home/NetworkIP', exact: true, name: 'IP Address Details', component: NetWorkIP },
   { path: '/Home/DeviceType', exact: true, name: 'Device Type', component: DeviceType },
   { path: '/Home/WifiManageMenT', exact: true, name: 'Wifi Management', component: WifiManageMenT },
   { path: '/Home/CusodianDepartment', exact: true, name: 'Custodian Department', component: CustodianDeptmt },
@@ -410,6 +406,8 @@ const routes = [
   { path: '/Home/CRFNewPurchase', exact: true, name: 'CRF New Purchase', component: CRFNewPurchase },
   { path: '/Home/CRFNewCRSStore', exact: true, name: 'CRF New CRS Store', component: CRFNewCRSStore },
   { path: '/Home/CRFNewStore', exact: true, name: 'CRF New Store', component: CRFNewStore },
+
+  { path: '/Home/BillAdds', exact: true, name: 'IP Address Details', component: BillAdds },
 
 ]
 

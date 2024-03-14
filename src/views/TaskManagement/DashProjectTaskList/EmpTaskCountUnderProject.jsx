@@ -42,7 +42,7 @@ const EmpTaskCountUnderProject = ({ val }) => {
                     thickness={10}
                     value={progress}
                     sx={{
-                        '--LinearProgress-radius': '12px',
+                        '--LinearProgress-radius': '15px',
                         '--LinearProgress-thickness': '11px',
                         bgcolor: 'white',
                         color: '#41729F',

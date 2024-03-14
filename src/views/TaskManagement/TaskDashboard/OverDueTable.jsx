@@ -10,6 +10,7 @@ import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import moment from 'moment';
 import ModalEditTask from '../CreateTask/ModalEditTask';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import CountDowncomponent from '../CountDown/CountDowncomponent';
 const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) => {
     const [tableData, setTableData] = useState([])
     const [masterData, setMasterData] = useState([])
@@ -142,6 +143,7 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 60 }}>View</th>
                                         <th style={{ width: 170 }}>Status</th>
+                                        <th style={{ width: 250 }}>Time OverDue</th>
                                         <th style={{ width: 450 }}>Task Name</th>
                                         <th style={{ width: 450 }}>Project</th>
                                         <th style={{ width: 200 }}>Assignee</th>
@@ -185,7 +187,18 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                                                                             : val.tm_task_status === 4 ? '#5885AF'
                                                                                 : 'transparent', minHeight: 5
                                                     }} />&nbsp;{val.TaskStatus}</td>
-
+                                                <td>
+                                                    {val.tm_task_status !== 1 ?
+                                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#5885AF', p: .5, flex: .9, }}>
+                                                            <CountDowncomponent DueDates={val.tm_task_due_date} />
+                                                        </Box> :
+                                                        <Box sx={{ display: 'flex', borderRadius: 3, border: .1, borderStyle: 'dashed', borderColor: '#5885AF', p: .5, flex: 1, }}>
+                                                            <Box sx={{ flex: .5, }}></Box>
+                                                            <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;hh&nbsp;:00&nbsp;mm&nbsp;:00&nbsp;ss</Box>
+                                                            <Box sx={{ flex: .5 }}></Box>
+                                                        </Box>
+                                                    }
+                                                </td>
                                                 <td style={{ textTransform: 'capitalize', color: '#970C10', }}> {val.tm_task_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize', color: '#970C10', }}> {val.tm_project_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize', color: '#970C10', }}> {val.em_name || 'not given'}</td>

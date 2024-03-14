@@ -19,7 +19,13 @@ import CreateTask from './CreateTask';
 import AddIcon from '@mui/icons-material/Add';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import SelectTaskStatus from './SelectTaskStatus';
+import CountDowncomponent from '../CountDown/CountDowncomponent';
+
 const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount, taskcount, settaskcount }) => {
+
+
+    // import { useCountdown } from './hooks/useCountdown';
+
 
     const dispatch = useDispatch();
     const [tabledata, setTabledata] = useState([])
@@ -150,6 +156,21 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
         getTableTask(searchData)
     }, [searchData, tableCount, setTableCount])
 
+
+    // const [countDowns, setcountDowns] = useState([])
+    // const DueDate = new Date(val.tm_task_due_date)
+    // const currentTime = new Date()
+    // const timeDiff = DueDate - currentTime
+    // const daysLeft = Math.cell(timeDiff / (1000 * 60 * 60 * 24))
+
+
+
+
+
+
+
+
+
     useEffect(() => {
         const getMainTable = async () => {
             const result = await axioslogin.get(`/taskManagement/viewMasterTaskBySecid/${empsecid}`);
@@ -157,6 +178,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
             if (data.length !== 0) {
                 if (success === 2) {
                     const arry = data?.map((val) => {
+
                         const obj = {
                             tm_task_slno: val.tm_task_slno,
                             dept_name: val.dept_name,
@@ -176,10 +198,15 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                             tm_onhold_remarks: val.tm_onhold_remarks,
                             tm_completed_remarks: val.tm_completed_remarks,
                             create_date: val.create_date,
+
+
                         }
+
                         return obj
                     })
                     setTabledata(arry)
+                    // setcountDowns(daysLeft)
+
                 } else {
                     setUpComingView(1)
                 }
@@ -192,6 +219,9 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
             getMainTable(empsecid)
         }
     }, [empsecid, tableCount, setTabledata, projectz,])
+
+
+
 
 
     const SearchInTableByTask = useCallback(() => {
@@ -279,8 +309,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
         const due = new Date(tm_task_due_date);
         return due < today
     }
-
-
 
     return (
         <Box sx={{ px: .5 }}>
@@ -486,6 +514,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                         <th style={{ width: 60 }} >Action</th>
                                                         <th style={{ width: 60 }}>View</th>
                                                         <th style={{ width: 170 }}>Status</th>
+                                                        <th style={{ width: 250, textAlign: 'center' }}>CountDown</th>
                                                         <th style={{ width: 450 }}>Task Name</th>
                                                         <th style={{ width: 450 }}>Project</th>
                                                         <th style={{ width: 200 }}>Assignee</th>
@@ -532,6 +561,11 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                                     {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
                                                                         val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                                             val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
+
+                                                                <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                                    <CountDowncomponent DueDates={val.tm_task_due_date} />
+
+                                                                </Box></td>
                                                                 <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>{val.tm_task_name || 'not given'}</td>
                                                                 <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>{val.tm_project_name || 'not given'}</td>
                                                                 <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>{(val.em_name || 'not given')}</td>
@@ -565,6 +599,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                             <th style={{ width: 60 }} >Action</th>
                                                             <th style={{ width: 60 }}>View</th>
                                                             <th style={{ width: 170 }}>Status</th>
+                                                            <th style={{ width: 250, }}>countDown</th>
                                                             <th style={{ width: 450 }}>Task Name</th>
                                                             <th style={{ width: 450 }}>Project</th>
                                                             <th style={{ width: 200 }}>Assignee</th>
@@ -611,6 +646,10 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                                         {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
                                                                             val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                                                 val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
+                                                                    <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                                        <CountDowncomponent DueDates={val.tm_task_due_date} />
+
+                                                                    </Box></td>
                                                                     <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>{val.tm_task_name || 'not given'}</td>
                                                                     <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>{val.tm_project_name || 'not given'}</td>
                                                                     <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>{(val.em_name || 'not given')}</td>
@@ -641,6 +680,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                             <th style={{ width: 60 }} >Action</th>
                                                             <th style={{ width: 60 }}>View</th>
                                                             <th style={{ width: 170 }}>Status</th>
+                                                            <th style={{ width: 250, }}>countDown</th>
                                                             <th style={{ width: 450 }}>Task Name</th>
                                                             <th style={{ width: 450 }}>Project</th>
                                                             <th style={{ width: 200 }}>Assignee</th>
@@ -687,6 +727,9 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                                         {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
                                                                             val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                                                 val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
+                                                                    <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                                        <CountDowncomponent DueDates={val.tm_task_due_date} />
+                                                                    </Box></td>
                                                                     <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>{val.tm_task_name || 'not given'}</td>
                                                                     <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>{val.tm_project_name || 'not given'}</td>
                                                                     <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>{(val.em_name || 'not given')}</td>

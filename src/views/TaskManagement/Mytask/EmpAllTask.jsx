@@ -17,6 +17,7 @@ import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import TmProjectListSearch from 'src/views/CommonSelectCode/TmProjectListSearch'
 import { getProjectList } from 'src/redux/actions/TmProjectsList.action'
 import { useDispatch } from 'react-redux'
+import CountDowncomponent from '../CountDown/CountDowncomponent'
 
 const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projectcount, setprojectcount }) => {
     const [tabledata, setTabledata] = useState([])
@@ -313,8 +314,8 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                 {(alphbased === 0) && (searchFlag === 0) ?
                     <Box>
                         {tabledata.length !== 0 ?
-                            <Box sx={{ height: 520, }}>
-                                <Paper variant="outlined" sx={{ maxHeight: 520, maxWidth: '100%', overflow: 'auto', mt: .3 }}>
+                            <Box >
+                                <Paper variant="outlined" sx={{ maxHeight: 600, maxWidth: '100%', overflow: 'auto', mt: .3 }}>
                                     {editModalFlag === 1 ?
                                         <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                             setEditModalFlag={setEditModalFlag} searchFlag={searchFlag} taskcount={taskcount} settaskcount={settaskcount}
@@ -330,7 +331,8 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                     <th style={{ width: 60 }}>Action</th>
                                                     <th style={{ width: 60 }}>View</th>
                                                     <th style={{ width: 150 }}>Status</th>
-                                                    <th style={{ width: 450 }}>Task Name</th>
+                                                    <th style={{ width: 250 }}>CountDown</th>
+                                                    <th style={{ width: 500 }}>Task Name</th>
                                                     <th style={{ width: 450 }}>Project</th>
                                                     <th style={{ width: 150 }}>Created Date</th>
                                                     <th style={{ width: 150 }}> Due Date</th>
@@ -372,6 +374,10 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                                                         : val.tm_task_status === 4 ? '#5885AF'
                                                                                             : 'transparent', minHeight: 5
                                                                 }} />&nbsp;{val.TaskStatus}</td>
+                                                            <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                                <CountDowncomponent DueDates={val.tm_task_due_date} />
+
+                                                            </Box></td>
                                                             {val.tm_task_status === 1 ?
                                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td> :
                                                                 <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}> {val.tm_task_name || 'not given'}</td>}
@@ -395,7 +401,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                     </CssVarsProvider>
                                 </Paper>
                             </Box>
-                            : <Box sx={{ textAlign: 'center', pt: 25, height: 520, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
+                            : <Box sx={{ textAlign: 'center', pt: 25, height: 600, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
                                 No Assigned Task
                             </Box>}
                     </Box> :
@@ -403,8 +409,8 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                         {alphbased === 1 && searchFlag === 0 ?
                             <Box>
                                 {alphbasedData.length !== 0 ?
-                                    <Box sx={{ height: 520, }}>
-                                        <Paper variant="outlined" sx={{ maxHeight: 520, maxWidth: '100%', overflow: 'auto', mt: .3 }}>
+                                    <Box sx={{ height: 600, }}>
+                                        <Paper variant="outlined" sx={{ maxHeight: 600, maxWidth: '100%', overflow: 'auto', mt: .3 }}>
                                             {editModalFlag === 1 ?
                                                 <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                                     setEditModalFlag={setEditModalFlag} searchFlag={searchFlag} taskcount={taskcount} settaskcount={settaskcount}
@@ -420,6 +426,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                             <th style={{ width: 60 }}>Action</th>
                                                             <th style={{ width: 60 }}>View</th>
                                                             <th style={{ width: 150 }}>Status</th>
+                                                            <th style={{ width: 250 }}>CountDown</th>
                                                             <th style={{ width: 450 }}>Task Name</th>
                                                             <th style={{ width: 450 }}>Project</th>
                                                             <th style={{ width: 150 }}>Created Date</th>
@@ -462,6 +469,10 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                                                                 : val.tm_task_status === 4 ? '#5885AF'
                                                                                                     : 'transparent', minHeight: 5
                                                                         }} />&nbsp;{val.TaskStatus}</td>
+                                                                    <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                                        <CountDowncomponent DueDates={val.tm_task_due_date} />
+
+                                                                    </Box></td>
                                                                     {val.tm_task_status === 1 ?
                                                                         <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td> :
                                                                         <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}> {val.tm_task_name || 'not given'}</td>}
@@ -485,15 +496,15 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                             </CssVarsProvider>
                                         </Paper>
                                     </Box>
-                                    : <Box sx={{ textAlign: 'center', pt: 25, height: 520, fontWeight: 700, fontSize: 30, color: '#C7C8CB', border: 1 }}>
+                                    : <Box sx={{ textAlign: 'center', pt: 25, height: 600, fontWeight: 700, fontSize: 30, color: '#C7C8CB', border: 1 }}>
                                         No Matching Data
                                     </Box>}
                             </Box> : null}
                         {alphbased === 0 && searchFlag === 1 ?
                             <Box>
                                 {projectBasdData.length !== 0 ?
-                                    <Box sx={{ height: 520, }}>
-                                        <Paper variant="outlined" sx={{ maxHeight: 520, maxWidth: '100%', overflow: 'auto', mt: .3 }}>
+                                    <Box sx={{ height: 600, }}>
+                                        <Paper variant="outlined" sx={{ maxHeight: 600, maxWidth: '100%', overflow: 'auto', mt: .3 }}>
                                             {editModalFlag === 1 ?
                                                 <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                                     setEditModalFlag={setEditModalFlag} searchFlag={searchFlag} taskcount={taskcount} settaskcount={settaskcount}
@@ -509,6 +520,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                             <th style={{ width: 60 }}>Action</th>
                                                             <th style={{ width: 60 }}>View</th>
                                                             <th style={{ width: 150 }}>Status</th>
+                                                            <th style={{ width: 250 }}>CountDown</th>
                                                             <th style={{ width: 450 }}>Task Name</th>
                                                             <th style={{ width: 450 }}>Project</th>
                                                             <th style={{ width: 150 }}>Created Date</th>
@@ -551,6 +563,11 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                                                                 : val.tm_task_status === 4 ? '#5885AF'
                                                                                                     : 'transparent', minHeight: 5
                                                                         }} />&nbsp;{val.TaskStatus}</td>
+                                                                    <td><Box sx={{ border: 1, borderRadius: 3, borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                                        {/* <CountDowncomponent DueDates={val.tm_task_due_date}
+                                                                        /> */}
+
+                                                                    </Box></td>
                                                                     {val.tm_task_status === 1 ?
                                                                         <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td> :
                                                                         <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}> {val.tm_task_name || 'not given'}</td>}
@@ -574,7 +591,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                             </CssVarsProvider>
                                         </Paper>
                                     </Box>
-                                    : <Box sx={{ textAlign: 'center', mt: 2, pt: 25, height: 520, fontWeight: 700, fontSize: 30, color: '#C7C8CB', border: 1 }}>
+                                    : <Box sx={{ textAlign: 'center', mt: 2, pt: 25, height: 600, fontWeight: 700, fontSize: 30, color: '#C7C8CB', border: 1 }}>
                                         Selected Project Not Assigned
                                     </Box>}
                             </Box> : null}
