@@ -8,7 +8,7 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
     const { totYesterday, totAdmission, totDischarge, totTransIn, totTransOut, totDeath, totalcensus,
         oraTotAdm, oraTotDis, oraTotDeath, oraTotal } = calculateTotal
     const viewPdf = {
-        pageMargins: [17, 15, 10, 0],
+        pageMargins: [15, 15, 15, 0],
         content: [
 
             {
@@ -22,7 +22,7 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
             {
                 style: 'tableExample',
                 table: {
-                    widths: [19, 75, 39, 43, 43, 37, 38, 34, 34, 24, 25, 24, 24],
+                    widths: [19, 70, 38, 43, 43, 37, 37, 34, 34, 24, 25, 24, 24],
                     heights: 5,
                     body: [
                         [
@@ -61,7 +61,7 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
             {
                 style: 'table2',
                 table: {
-                    widths: [19, 75, 39, 43, 43, 37, 38, 34, 34, 24, 25, 24, 24],
+                    widths: [19, 75, 38, 43, 43, 37, 38, 34, 34, 24, 25, 24, 24],
                     body: [
                         ['', 'Total', totYesterday, totAdmission, oraTotAdm, totDischarge, oraTotDis, totTransIn,
                             totTransOut, totDeath, oraTotDeath, totalcensus, oraTotal]

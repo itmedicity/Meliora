@@ -117,7 +117,8 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
             total_death: death === '' ? 0 : death,
             census_total: total,
             edit_user: id,
-            census_slno: census_slno
+            census_slno: census_slno,
+            update_status: 1
         }
     }, [nsNo, dailyDate, yest, admission, discharge, transferIn, transferOut, death, total, id, census_slno])
     const SaveDetails = useCallback((e) => {
@@ -178,17 +179,17 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                             borderRadius: 'md',
                         }}
                     >
-                        <Paper sx={{ display: 'flex' }}>
-                            <Box sx={{ display: 'flex', flex: 0.5, fontSize: 18, pt: 0.8, justifyContent: 'flex-start', pl: 1, bgcolor: '#DBE8D8' }}>
-                                <Typography sx={{ color: 'darkgreen' }}>{moment(new Date(dailyDate)).format('DD-MM-YYYY')}</Typography>
+                        <Paper variant='outlined' square sx={{ display: 'flex', height: 38 }}>
+                            <Box sx={{ display: 'flex', flex: 0.5, fontSize: 18, pt: 0.8, justifyContent: 'flex-start', pl: 1, bgcolor: '#bfbdbd' }}>
+                                <Typography sx={{ color: '#212121', fontWeight: 'bold' }}>{moment(new Date(dailyDate)).format('DD-MM-YYYY')}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', flex: 1.5, fontSize: 18, pt: 0.8, justifyContent: 'center', bgcolor: '#DBE8D8' }}>
-                                <Typography sx={{ color: 'darkgreen', textTransform: 'capitalize' }}>{nsName}</Typography>
+                            <Box sx={{ display: 'flex', flex: 1.5, fontSize: 18, pt: 0.8, justifyContent: 'center', bgcolor: '#bfbdbd' }}>
+                                <Typography sx={{ color: '#212121', textTransform: 'capitalize', fontWeight: 'bold' }}>{nsName}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', flex: 0.5, justifyContent: 'flex-end', fontSize: 20, pt: 0.3, pl: 0.5, bgcolor: '#DBE8D8' }}>
+                            <Box sx={{ display: 'flex', flex: 0.5, justifyContent: 'flex-end', fontSize: 20, pl: 0.5, bgcolor: '#bfbdbd' }}>
                                 <CusIconButton size="sm" variant="outlined" color="primary" style={{ borderRadius: 12, bgcolor: '#F7F8F8', opacity: 0.8 }} >
                                     <Tooltip title="Close" placement="bottom" >
-                                        <CloseIcon sx={{ cursor: 'pointer', size: 'lg', width: 35, height: 25, color: 'darkgreen' }}
+                                        <CloseIcon sx={{ cursor: 'pointer', size: 'lg', width: 35, height: 25, color: '#212121', fontWeight: 'bold' }}
                                             onClick={handleClose} />
                                     </Tooltip>
                                 </CusIconButton>
@@ -198,9 +199,9 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                             <Box sx={{ display: 'flex', px: 3, }}>
                                 <Box sx={{ flex: 1, pl: 1 }} >
                                     <Box sx={{ pl: 1 }}>
-                                        <Typography sx={{ color: '#088280' }}>Yesterday Census</Typography>
+                                        <Typography sx={{ color: '#212121' }}>Yesterday Census</Typography>
                                     </Box>
-                                    <Box sx={{ pt: 0.5, fontWeight: 650 }}>
+                                    <Box sx={{ pt: 0.5, fontWeight: 'bold' }}>
                                         <TextFieldCustom
                                             disabled
                                             size="md"
@@ -212,7 +213,7 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                                 </Box>
                                 <Box sx={{ flex: 1, pl: 1 }} >
                                     <Box sx={{ pl: 1 }}>
-                                        <Typography sx={{ color: '#088280' }}>Admissions</Typography>
+                                        <Typography sx={{ color: '#212121' }}>Admissions</Typography>
                                     </Box>
                                     <Box sx={{ pt: 0.5 }}>
                                         <TextFieldCustom
@@ -228,7 +229,7 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                             <Box sx={{ display: 'flex', px: 3, pt: 1 }}>
                                 <Box sx={{ flex: 1, pl: 1 }} >
                                     <Box sx={{ pl: 1 }}>
-                                        <Typography sx={{ color: '#088280' }}>Discharge</Typography>
+                                        <Typography sx={{ color: '#212121' }}>Discharge</Typography>
                                     </Box>
                                     <Box sx={{ pt: 0.5 }}>
                                         <TextFieldCustom
@@ -242,7 +243,7 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                                 </Box>
                                 <Box sx={{ flex: 1, pl: 1 }} >
                                     <Box sx={{ pl: 1 }}>
-                                        <Typography sx={{ color: '#088280' }}>Transfer In</Typography>
+                                        <Typography sx={{ color: '#212121' }}>Transfer In</Typography>
                                     </Box>
                                     <Box sx={{ pt: 0.5 }}>
                                         <TextFieldCustom
@@ -258,7 +259,7 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                             <Box sx={{ display: 'flex', px: 3, pt: 1 }}>
                                 <Box sx={{ flex: 1, pl: 1 }} >
                                     <Box sx={{ pl: 1 }}>
-                                        <Typography sx={{ color: '#088280' }}>Transfer Out</Typography>
+                                        <Typography sx={{ color: '#212121' }}>Transfer Out</Typography>
                                     </Box>
                                     <Box sx={{ pt: 0.5 }}>
                                         <TextFieldCustom
@@ -272,7 +273,7 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                                 </Box>
                                 <Box sx={{ flex: 1, pl: 1 }} >
                                     <Box sx={{ pl: 1 }}>
-                                        <Typography sx={{ color: '#088280' }}>Death</Typography>
+                                        <Typography sx={{ color: '#212121' }}>Death</Typography>
                                     </Box>
                                     <Box sx={{ pt: 0.5 }}>
                                         <TextFieldCustom
@@ -288,10 +289,10 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                             <Box sx={{ display: 'flex', px: 3, py: 1 }}>
                                 <Box sx={{ flex: 0.5, }} ></Box>
                                 <Box sx={{ flex: 1, }} >
-                                    <Box sx={{ pl: 1, display: 'flex', justifyContent: 'center' }}>
-                                        <Typography sx={{ color: '#088280' }}>Total</Typography>
+                                    <Box sx={{ pl: 1.5, display: 'flex', }}>
+                                        <Typography sx={{ color: '#212121' }}>Total</Typography>
                                     </Box>
-                                    <Box sx={{ pt: 0.5, fontWeight: 650 }}>
+                                    <Box sx={{ pt: 0.5, fontWeight: 'bold' }}>
                                         <TextFieldCustom
                                             disabled
                                             size="md"
@@ -304,11 +305,11 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                                 <Box sx={{ flex: 0.5 }} ></Box>
                             </Box>
                         </Box>
-                        <Paper sx={{ display: 'flex', justifyContent: 'flex-end', bgcolor: '#DBE8D8' }}>
+                        <Paper variant='outlined' square sx={{ display: 'flex', justifyContent: 'flex-end', bgcolor: '#bfbdbd' }}>
                             <Box sx={{ pr: 0.4, py: 0.4 }}>
                                 <CssVarsProvider>
                                     <Button variant="outlined" sx={{
-                                        fontSize: 16, color: '#2C5E1A', width: 100, cursor: 'pointer',
+                                        fontSize: 16, color: '#212121', width: 100, cursor: 'pointer',
                                         borderRadius: 14, bgcolor: '#F7F8F8'
                                     }}
                                         onClick={SaveDetails}
@@ -320,7 +321,7 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                             <Box sx={{ pr: 1, py: 0.4 }}>
                                 <CssVarsProvider>
                                     <Button variant="outlined" sx={{
-                                        fontSize: 16, color: '#2C5E1A', width: 100, cursor: 'pointer',
+                                        fontSize: 16, color: '#212121', width: 100, cursor: 'pointer',
                                         borderRadius: 14, bgcolor: '#F7F8F8'
                                     }}
                                         onClick={ResetDetails}
