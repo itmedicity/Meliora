@@ -33,8 +33,6 @@ const CensusReportView = () => {
     const QIDateChange = useCallback((e) => {
         setDailyDate(e.target.value)
     }, [])
-
-
     const startDate = moment(subDays(new Date(), 14)).format("YYYY-MM-DD")
     const endDate = moment(subDays(new Date(), 1)).format("YYYY-MM-DD")
 
@@ -51,8 +49,65 @@ const CensusReportView = () => {
         totTransIn: 0,
         totTransOut: 0,
         totDeath: 0,
-        totalcensus: 0
+        totalcensus: 0,
+        oraTotAdm: 0,
+        oraTotDis: 0,
+        oraTotDeath: 0,
+        oraTotal: 0
     })
+    const searchdata = useMemo(() => {
+        return {
+            census_date: moment(new Date(dailyDate)).format('YYYY-MM-DD')
+        }
+    }, [dailyDate])
+
+    useEffect(() => {
+        const getNursingStation = async () => {
+            const result = await axioslogin.get('/censusNursingStat/active')
+            const { success, nurslist } = result.data
+            if (success === 2) {
+                setNursList(nurslist)
+            }
+            else {
+            }
+        }
+        getNursingStation();
+    }, [])
+    const SearchDetails = useCallback((e) => {
+        const GetCensusDetails = async (searchdata) => {
+            const result = await axioslogin.post('/qidailycensus/view', searchdata);
+            const { data, success, message } = result.data;
+            if (success === 1) {
+                const resultArray = nursList?.map((item) => {
+                    const newArray = data.find((val) => (val.census_ns_slno) === (item.census_ns_slno))
+                    return {
+                        census_ns_slno: item.census_ns_slno,
+                        census_ns_name: item.census_ns_name,
+                        yesterday_census: newArray ? newArray.yesterday_census : 0,
+                        total_admission: newArray ? newArray.total_admission : 0,
+                        total_discharge: newArray ? newArray.total_discharge : 0,
+                        transfer_in: newArray ? newArray.transfer_in : 0,
+                        transfer_out: newArray ? newArray.transfer_out : 0,
+                        total_death: newArray ? newArray.total_death : 0,
+                        census_total: newArray ? newArray.census_total : 0,
+                        ora_admission: newArray ? newArray.ora_admission : 0,
+                        ora_discharge: newArray ? newArray.ora_discharge : 0,
+                        ora_death: newArray ? newArray.ora_death : 0,
+                        ora_census_total: newArray ? newArray.ora_census_total : 0
+                    }
+                })
+                setTableData(resultArray)
+                setsearchFlag(1)
+            }
+            else {
+                infoNotify(message)
+                setTableData([])
+                setsearchFlag(0)
+            }
+        }
+        GetCensusDetails(searchdata)
+    }, [searchdata, nursList])
+
     useEffect(() => {
         if (tableData.length !== 0) {
             const totyes = tableData?.map(val => val.yesterday_census).reduce((prev, next) => Number(prev) + Number(next));
@@ -62,6 +117,10 @@ const CensusReportView = () => {
             const totout = tableData?.map(val => val.transfer_out).reduce((prev, next) => Number(prev) + Number(next));
             const totdeath = tableData?.map(val => val.total_death).reduce((prev, next) => Number(prev) + Number(next));
             const tot = tableData?.map(val => val.census_total).reduce((prev, next) => Number(prev) + Number(next));
+            const oraadm = tableData?.map(val => val.ora_admission).reduce((prev, next) => Number(prev) + Number(next));
+            const oradis = tableData?.map(val => val.ora_discharge).reduce((prev, next) => Number(prev) + Number(next));
+            const oradeath = tableData?.map(val => val.ora_death).reduce((prev, next) => Number(prev) + Number(next));
+            const oraTotalCount = tableData?.map(val => val.ora_census_total).reduce((prev, next) => Number(prev) + Number(next));
             const fromdata = {
                 totYesterday: totyes,
                 totAdmission: totad,
@@ -69,12 +128,18 @@ const CensusReportView = () => {
                 totTransIn: totin,
                 totTransOut: totout,
                 totDeath: totdeath,
-                totalcensus: tot
+                totalcensus: tot,
+                oraTotAdm: oraadm,
+                oraTotDis: oradis,
+                oraTotDeath: oradeath,
+                oraTotal: oraTotalCount
+
             }
             setCalculateTotal(fromdata)
         }
         else {
         }
+
     }, [tableData])
 
     const pdfDownlloadView = useCallback((e) => {
@@ -130,58 +195,9 @@ const CensusReportView = () => {
         }
         getGraphView(barGraphSearch);
     }, [barGraphSearch, startDate, endDate])
-
-
     const valueFormatter = (value) => `${value}`;
 
-    const searchdata = useMemo(() => {
-        return {
-            census_date: moment(new Date(dailyDate)).format('YYYY-MM-DD')
-        }
-    }, [dailyDate])
 
-    useEffect(() => {
-        const getNursingStation = async () => {
-            const result = await axioslogin.get('/censusNursingStat/active')
-            const { success, data } = result.data
-            if (success === 2) {
-                setNursList(data)
-            }
-            else {
-            }
-        }
-        getNursingStation();
-    }, [])
-    const SearchDetails = useCallback((e) => {
-        const GetCensusDetails = async (searchdata) => {
-            const result = await axioslogin.post('/qidailycensus/view', searchdata);
-            const { data, success, message } = result.data;
-            if (success === 1) {
-                const resultArray = nursList?.map((item) => {
-                    const newArray = data.find((val) => (val.census_ns_slno) === (item.census_ns_slno))
-                    return {
-                        census_ns_slno: item.census_ns_slno,
-                        census_ns_name: item.census_ns_name,
-                        yesterday_census: newArray ? newArray.yesterday_census : 0,
-                        total_admission: newArray ? newArray.total_admission : 0,
-                        total_discharge: newArray ? newArray.total_discharge : 0,
-                        transfer_in: newArray ? newArray.transfer_in : 0,
-                        transfer_out: newArray ? newArray.transfer_out : 0,
-                        total_death: newArray ? newArray.total_death : 0,
-                        census_total: newArray ? newArray.census_total : 0
-                    }
-                })
-                setTableData(resultArray)
-                setsearchFlag(1)
-            }
-            else {
-                infoNotify(message)
-                setTableData([])
-                setsearchFlag(0)
-            }
-        }
-        GetCensusDetails(searchdata)
-    }, [searchdata, nursList])
     return (
         <Fragment>
             <Box sx={{ width: "100%", height: "100%" }}>
@@ -318,7 +334,7 @@ const CensusReportView = () => {
                     </Paper>
                 </Box>
                 <Box sx={{ pt: 0.5 }}>
-                    {searchFlag === 1 ? <ReportDailyCensusTable tableData={tableData} /> : null}
+                    {searchFlag === 1 ? <ReportDailyCensusTable tableData={tableData} calculateTotal={calculateTotal} /> : null}
                 </Box>
             </Box >
         </Fragment >

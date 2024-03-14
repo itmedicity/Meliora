@@ -1,57 +1,30 @@
 import { Box, CssVarsProvider, Table } from '@mui/joy'
-import React, { Fragment, memo, useEffect, useState } from 'react'
+import React, { Fragment, memo } from 'react'
 
-const ReportDailyCensusTable = ({ tableData }) => {
-    const [calculateTotal, setCalculateTotal] = useState({
-        totYesterday: 0,
-        totAdmission: 0,
-        totDischarge: 0,
-        totTransIn: 0,
-        totTransOut: 0,
-        totDeath: 0,
-        totalcensus: 0
-    })
-    const { totYesterday, totAdmission, totDischarge, totTransIn, totTransOut, totDeath, totalcensus } = calculateTotal
-    useEffect(() => {
-        if (tableData.length !== 0) {
-            const totyes = tableData?.map(val => val.yesterday_census).reduce((prev, next) => Number(prev) + Number(next));
-            const totad = tableData?.map(val => val.total_admission).reduce((prev, next) => Number(prev) + Number(next));
-            const totdis = tableData?.map(val => val.total_discharge).reduce((prev, next) => Number(prev) + Number(next));
-            const totin = tableData?.map(val => val.transfer_in).reduce((prev, next) => Number(prev) + Number(next));
-            const totout = tableData?.map(val => val.transfer_out).reduce((prev, next) => Number(prev) + Number(next));
-            const totdeath = tableData?.map(val => val.total_death).reduce((prev, next) => Number(prev) + Number(next));
-            const tot = tableData?.map(val => val.census_total).reduce((prev, next) => Number(prev) + Number(next));
-            const fromdata = {
-                totYesterday: totyes,
-                totAdmission: totad,
-                totDischarge: totdis,
-                totTransIn: totin,
-                totTransOut: totout,
-                totDeath: totdeath,
-                totalcensus: tot
-            }
-            setCalculateTotal(fromdata)
-        }
-        else {
-        }
+const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
 
-    }, [tableData])
+    const { totYesterday, totAdmission, totDischarge, totTransIn, totTransOut, totDeath, totalcensus,
+        oraTotAdm, oraTotDis, oraTotDeath, oraTotal } = calculateTotal
     return (
         <Fragment>
-            <Box variant="none" sx={{ height: 330, overflow: 'auto', padding: 'none' }}>
+            <Box variant="none" sx={{ height: 360, overflow: 'auto', padding: 'none' }}>
                 <CssVarsProvider>
                     <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow >
                         <thead>
                             <tr style={{ height: 0.5 }}>
                                 <th size='sm' style={{ width: 50, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Sl.No</th>
                                 <th size='sm' style={{ width: 150, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Nursing Station</th>
-                                <th size='sm' style={{ width: 150, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Yesterday Census</th>
-                                <th size='sm' style={{ width: 150, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Admissions</th>
-                                <th size='sm' style={{ width: 100, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Discharge</th>
-                                <th size='sm' style={{ width: 100, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Transfer In</th>
-                                <th size='sm' style={{ width: 100, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Transfer Out</th>
-                                <th size='sm' style={{ width: 100, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Death</th>
-                                <th size='sm' style={{ width: 100, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Total</th>
+                                <th size='sm' style={{ width: 100, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Yesterday Census</th>
+                                <th size='sm' style={{ width: 90, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Admissions</th>
+                                <th size='sm' style={{ width: 100, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>HIS Admissions</th>
+                                <th size='sm' style={{ width: 80, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Discharge</th>
+                                <th size='sm' style={{ width: 100, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>HIS Discharge</th>
+                                <th size='sm' style={{ width: 90, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Transfer In</th>
+                                <th size='sm' style={{ width: 90, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Transfer Out</th>
+                                <th size='sm' style={{ width: 70, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Death</th>
+                                <th size='sm' style={{ width: 80, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>HIS Death</th>
+                                <th size='sm' style={{ width: 70, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>Total</th>
+                                <th size='sm' style={{ width: 70, textAlign: 'center', color: 'darkgreen', fontSize: 15 }}>HIS Total</th>
                             </tr>
                         </thead>
                         <tbody size='small' style={{ maxHeight: 0.5 }}>
@@ -59,32 +32,41 @@ const ReportDailyCensusTable = ({ tableData }) => {
                                 return (
                                     < tr key={index} size='small'
                                         style={{
-                                            maxHeight: 2,
+                                            maxHeight: 2, cursor: 'pointer'
                                         }}  >
                                         <td size='sm' style={{ textAlign: 'center', fontSize: 14, height: 15 }}>{index + 1}</td>
-                                        <td size='sm' style={{ textAlign: 'center', fontSize: 14, height: 15 }}>{val.census_ns_name}</td>
+                                        <td size='sm' style={{ fontSize: 14, height: 15 }}>{val.census_ns_name}</td>
                                         <td size='sm' style={{ textAlign: 'center', fontSize: 14, height: 15 }}>{val.yesterday_census}</td>
                                         <td size='sm' style={{ textAlign: 'center', fontSize: 14, height: 15 }}>{val.total_admission}</td>
+                                        <td size='sm' style={{ textAlign: 'center', fontSize: 14, height: 15 }}>{val.ora_admission}</td>
                                         <td size='sm' style={{ textAlign: 'center', fontSize: 14, height: 15 }}>{val.total_discharge}</td>
+                                        <td size='sm' style={{ textAlign: 'center', fontSize: 14, height: 15 }}>{val.ora_discharge}</td>
                                         <td size='sm' style={{ textAlign: 'center', fontSize: 14, height: 15 }}>{val.transfer_in}</td>
                                         <td size='sm' style={{ textAlign: 'center', fontSize: 14, height: 15 }}>{val.transfer_out}</td>
                                         <td size='sm' style={{ textAlign: 'center', fontSize: 14, height: 15 }}>{val.total_death}</td>
+                                        <td size='sm' style={{ textAlign: 'center', fontSize: 14, height: 15 }}>{val.ora_death}</td>
                                         <td size='sm' style={{ textAlign: 'center', fontSize: 14, height: 15 }}>{val.census_total}</td>
+                                        <td size='sm' style={{ textAlign: 'center', fontSize: 14, height: 15 }}>{val.ora_census_total}</td>
                                     </tr>
                                 )
                             })}
                         </tbody>
                         <tfoot>
-                            <tr >
-                                <th style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8' }} scope="row">Total</th>
+                            <tr>
+
                                 <th style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8' }}></th>
-                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8' }}>{totYesterday}</td>
-                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8' }}>{totAdmission}</td>
-                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8' }}>{totDischarge}</td>
-                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8' }}>{totTransIn}</td>
-                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8' }}>{totTransOut}</td>
-                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8' }}>{totDeath}</td>
-                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8' }}>{totalcensus}</td>
+                                <th style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8', fontWeight: 'bold' }} scope="row">Total</th>
+                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8', fontWeight: 'bold' }}>{totYesterday}</td>
+                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8', fontWeight: 'bold' }}>{totAdmission}</td>
+                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8', fontWeight: 'bold' }}>{oraTotAdm}</td>
+                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8', fontWeight: 'bold' }}>{totDischarge}</td>
+                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8', fontWeight: 'bold' }}>{oraTotDis}</td>
+                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8', fontWeight: 'bold' }}>{totTransIn}</td>
+                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8', fontWeight: 'bold' }}>{totTransOut}</td>
+                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8', fontWeight: 'bold' }}>{totDeath}</td>
+                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8', fontWeight: 'bold' }}>{oraTotDeath}</td>
+                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8', fontWeight: 'bold' }}>{totalcensus}</td>
+                                <td style={{ textAlign: 'center', fontSize: 15, color: 'darkgreen', backgroundColor: '#DBE8D8', fontWeight: 'bold' }}>{oraTotal}</td>
                             </tr>
                         </tfoot>
 

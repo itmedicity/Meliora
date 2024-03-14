@@ -17,6 +17,8 @@ import ApprovalCompntAll from '../ComonComponent/ApprovalCompntAll';
 import _ from 'underscore'
 import { useSelector } from 'react-redux'
 import { format } from 'date-fns';
+import ReqImageDisModal from '../ComonComponent/ReqImageDisModal';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -24,7 +26,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFlag, count, setCount, setApprovalData }) => {
 
     const { req_slno, req_date, actual_requirement, needed, expected_date, incharge_approve,
-        incharge_remarks, inch_detial_analysis } = ApprovalData
+        incharge_remarks, inch_detial_analysis, image_status } = ApprovalData
 
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
 
@@ -216,6 +218,37 @@ const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFla
 
     }, [approve, reject, pending, remark, detailAnalis, InchargePatchData, setCount, count, reset])
 
+    const [imageshowFlag, setImageShowFlag] = useState(0)
+    const [imageshow, setImageShow] = useState(false)
+    const [imagearray, setImageArry] = useState([])
+
+
+
+    const ViewImage = useCallback(() => {
+        setImageShowFlag(1)
+        setImageShow(true)
+    }, [])
+    useEffect(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
+                setImageArry(fileUrls);
+            }
+        }
+        if (imageshowFlag === 1) {
+            getImage(req_slno)
+        }
+    }, [imageshowFlag, req_slno])
+    const handleClose = useCallback(() => {
+        setImageShowFlag(0)
+        setImageShow(false)
+    }, [])
+
     const ModalClose = useCallback(() => {
         setPending(false)
         setApprove(false)
@@ -235,6 +268,8 @@ const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFla
     return (
         <Fragment>
             <ToastContainer />
+            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
+                images={imagearray} /> : null}
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
@@ -324,21 +359,12 @@ const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFla
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
+                                {image_status === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                    <Button onClick={ViewImage} variant="contained"
+                                        color="primary">View Image</Button>
 
-                                {/* {
-                                    reqTableDis === 0 ?
-                                        <Box sx={{
-                                            width: "100%", display: "flex", p: 0.5, pb: 0,
-                                            flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                        }}>
-                                            <Box sx={{ pr: 9 }}>
-                                                <CssVarsProvider>
-                                                    <Typography sx={{ fontSize: 15 }}>Requested Items: Nill</Typography>
-                                                </CssVarsProvider>
-                                            </Box>
-                                        </Box>
-                                        : null
-                                } */}
+                                </Box> : null}
+
                             </Box>
                         </Paper>
                         {reqTableDis === 1 ?

@@ -67,9 +67,7 @@ const CrfGMApproval = () => {
                         req_slno: val.req_slno,
                         actual_requirement: val.actual_requirement,
                         needed: val.needed,
-                        request_dept_slno: val.request_dept_slno,
                         request_deptsec_slno: val.request_deptsec_slno,
-                        dept_name: val.dept_name.toLowerCase(),
                         req_deptsec: val.req_deptsec.toLowerCase(),
                         user_deptsection: val.user_deptsection.toLowerCase(),
                         em_name: val.create_user.toLowerCase(),
@@ -211,7 +209,7 @@ const CrfGMApproval = () => {
                     return obj
                 })
                 const pendingList = datas.filter((val) => {
-                    return val.gm_approve === null
+                    return val.gm_approve === null && val.ed_approve === null && val.md_approve === null
                 })
                 if (pendingList.length !== 0) {
                     setPendingData(pendingList)
@@ -222,7 +220,7 @@ const CrfGMApproval = () => {
                 }
 
                 const DoneList = datas.filter((val) => {
-                    return val.gm_approve !== null
+                    return val.gm_approve !== null || val.ed_approve !== null || val.md_approve !== null
                 })
                 setDoneData(DoneList)
             } else {

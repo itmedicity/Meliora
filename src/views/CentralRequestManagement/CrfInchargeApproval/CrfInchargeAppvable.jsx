@@ -1,4 +1,4 @@
-import { Box, Paper } from '@mui/material'
+import { Box, Paper, Tooltip } from '@mui/material'
 import React, { useCallback, memo, useState, Fragment, useEffect } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useSelector } from 'react-redux'
@@ -16,21 +16,23 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ReqImageDisModal from '../ComonComponent/ReqImageDisModal'
 import { ToastContainer } from 'react-toastify'
-
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import SearchIcon from '@mui/icons-material/Search';
 
 const CrfInchargeAppvable = () => {
 
     /*** Initializing */
     const history = useHistory();
-    //redux for geting login id
-    //  const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-    const deptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
     const [count, setCount] = useState(0)
-
+    const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const [done, setDone] = useState(false)
     const [pending, setPending] = useState(true)
     const [check, setCheck] = useState(0)
-
+    const [authorizeDeptSec, setAuthorizDeptSec] = useState([])
+    const [deptSec, setdeptSec] = useState(0)
+    const [serachFlag, setSearchFlag] = useState(0)
     const updatedone = useCallback((e) => {
         if (e.target.checked === true) {
             setDone(true)
@@ -58,13 +60,13 @@ const CrfInchargeAppvable = () => {
 
     const [pendingData, setPendingData] = useState([])
     const [donedata, setDoneData] = useState([])
-
+    const [getAllDta, setGetAllDAta] = useState([])
 
 
     useEffect(() => {
 
-        const getReqDeptsecList = async (deptsec) => {
-            const result = await axioslogin.get(`/newCRFRegister/getAllReqBasedDept/${deptsec}`)
+        const getReqDeptsecList = async (deptsecArry) => {
+            const result = await axioslogin.post('/newCRFRegister/getAllReqBasedDept', deptsecArry)
             const { success, data } = result.data
             if (success === 1) {
                 const incharge = data.filter((val) => {
@@ -76,11 +78,10 @@ const CrfInchargeAppvable = () => {
                         req_slno: val.req_slno,
                         actual_requirement: val.actual_requirement,
                         needed: val.needed,
-                        request_dept_slno: val.request_dept_slno,
                         request_deptsec_slno: val.request_deptsec_slno,
-                        dept_name: val.dept_name.toLowerCase(),
                         req_deptsec: val.req_deptsec.toLowerCase(),
                         user_deptsection: val.user_deptsection.toLowerCase(),
+                        user_deptsec: val.user_deptsec,
                         em_name: val.create_user.toLowerCase(),
                         category: val.category,
                         location: val.location,
@@ -160,7 +161,10 @@ const CrfInchargeAppvable = () => {
                         ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
                         ed_approve_date: val.ed_approve_date,
                         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
-                        higher: val.hod_approve !== null ? 1 : 0,
+                        higher: val.hod_approve !== null || val.dms_approve !== null || val.ms_approve !== null ||
+                            val.manag_operation_approv !== null || val.senior_manage_approv !== null ||
+                            val.gm_approve !== null || val.md_approve !== null ||
+                            val.ed_approve !== null ? 1 : 0,
 
                         now_who: val.po_to_supplier === 1 ? "PO Send to Supplier" :
                             val.po_approva_level_two === 1 ? "PO MD & ED Level Approved" :
@@ -205,27 +209,29 @@ const CrfInchargeAppvable = () => {
                     }
                     return obj
                 })
-                const pendingList = datas.filter((val) => {
-                    return val.incharge_approve === null
-                })
-
-                if (pendingList.length !== 0) {
-                    setPendingData(pendingList)
-                }
-                else {
-                    setPendingData([])
-                    warningNotify("No CRF For Pending")
-                }
-                const DoneList = datas.filter((val) => {
-                    return val.incharge_approve !== null
-                })
-                setDoneData(DoneList)
+                setGetAllDAta(datas)
             } else {
                 warningNotify("Error occured contact EDP")
             }
         }
-        getReqDeptsecList(deptsec);
-    }, [deptsec, count])
+
+        const DeptsecBasedOnAssign = async (id) => {
+            const result = await axioslogin.get(`/InchHODAuthorization/getDeptSeconIncharge/${id}`)
+            return result.data
+        }
+
+        DeptsecBasedOnAssign(id).then((val) => {
+            const { success, data } = val
+            if (success === 1) {
+                setAuthorizDeptSec(data)
+                const inchdeptsec = data && data.map((val) => val.dept_section)
+                getReqDeptsecList(inchdeptsec);
+            }
+            else {
+                setAuthorizDeptSec([])
+            }
+        })
+    }, [count, id])
 
     const [ApprovalFlag, setApprovalFlag] = useState(0)
     const [ApprovalModal, setApprovalModal] = useState(false)
@@ -275,6 +281,37 @@ const CrfInchargeAppvable = () => {
         history.push('/Home')
     }, [history])
 
+    const searchDeptSec = useCallback(() => {
+        setSearchFlag(1)
+    }, [])
+
+    useEffect(() => {
+        if (serachFlag === 1) {
+            const searchfildataPend = getAllDta && getAllDta.filter((value) => value.user_deptsec === deptSec)
+            setPendingData(searchfildataPend)
+            const searchfildataDone = getAllDta && getAllDta.filter((value) => value.user_deptsec === deptSec)
+            setDoneData(searchfildataDone)
+
+        } else {
+            const pendingList = getAllDta.filter((val) => {
+                return val.incharge_approve === null && val.hod_approve === null
+            })
+
+            if (pendingList.length !== 0) {
+                setPendingData(pendingList)
+            }
+            else {
+                setPendingData([])
+                //warningNotify("No CRF For Pending")
+            }
+            const DoneList = getAllDta.filter((val) => {
+                return val.incharge_approve !== null || val.hod_approve !== null
+            })
+            setDoneData(DoneList)
+        }
+    }, [serachFlag, getAllDta, deptSec])
+
+
     return (
         <Fragment>
             <ToastContainer />
@@ -313,7 +350,36 @@ const CrfInchargeAppvable = () => {
                     flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                     justifyContent: 'center',
                 }}>
-                    <Box sx={{ width: "13%", pr: 1, mt: 1 }}>
+
+
+                    <Box sx={{ width: "25%", pr: 1, mt: 1 }}>
+                        <FormControl fullWidth size="small"  >
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={deptSec}
+                                onChange={(e) => setdeptSec(e.target.value)}
+                                size="small"
+                                fullWidth
+                                variant='outlined'
+                                sx={{ height: 24, p: 0, m: 0, lineHeight: 1.200 }}
+                            >
+                                <MenuItem value={0} disabled >Select Department Section</MenuItem>
+                                {
+                                    authorizeDeptSec && authorizeDeptSec.map((val, index) => {
+                                        return <MenuItem key={index} value={val.dept_section}>{val.auth_deptsec}</MenuItem>
+                                    })
+                                }
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    <Box sx={{ width: "5%", pr: 1, mt: 1, pl: 1 }}>
+                        <Tooltip title="search" placement="top">
+                            <SearchIcon onClick={() => searchDeptSec()} />
+                        </Tooltip>
+                    </Box>
+
+                    <Box sx={{ width: "10%", pr: 1, mt: 1 }}>
                         <CusCheckBox
                             label="Pending"
                             color="danger"

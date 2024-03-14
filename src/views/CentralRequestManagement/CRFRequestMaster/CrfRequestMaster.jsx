@@ -5,7 +5,6 @@ import CardMaster from 'src/views/Components/CardMaster'
 import { useHistory } from 'react-router-dom'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
 import CustomTextarea from 'src/views/Components/CustomTextarea'
-import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { MdOutlineAddCircleOutline } from 'react-icons/md';
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -17,7 +16,6 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import { format } from 'date-fns'
 import _ from 'underscore'
-import DeptSecUnderDept from 'src/views/CommonSelectCode/DeptSecUnderDept'
 import imageCompression from 'browser-image-compression';
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import CloseIcon from '@mui/icons-material/Close';
@@ -29,6 +27,10 @@ import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import CrfReqstTableView from './CrfReqstTableView'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ImageDisplayModal from './ImageDisplayModal'
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
 
 
 const CrfRequestMaster = () => {
@@ -64,7 +66,7 @@ const CrfRequestMaster = () => {
         setRemarks(e.target.value)
     }, [])
     // Intializing variables
-    const [dept, setdept] = useState(0)
+    // const [dept, setdept] = useState(0)
     const [deptSec, setdeptSec] = useState(0)
     const [tableDis, setTableDis] = useState(0)
     const [startdate, setStartdate] = useState(format(new Date(), "yyyy-MM-dd"))
@@ -85,6 +87,7 @@ const CrfRequestMaster = () => {
     const [emerType, setEmerType] = useState(0)
     const [detailDataDis, setDetailDataDis] = useState([])
     const [reqDetalSlno, setReqDetalSlno] = useState(0)
+    const [authorizeDeptSec, setAuthorizDeptSec] = useState([])
     const updateEmergency = (e) => {
         if (e.target.checked === true) {
             setEmergency(true)
@@ -112,6 +115,7 @@ const CrfRequestMaster = () => {
     //redux for geting login id
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const deptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+    const deptsecName = useSelector((state) => state.LoginUserData.empdeptsec, _.isEqual)
 
     const [uom, setUOM] = useState(0)
     const [uomName, setUomName] = useState('')
@@ -158,8 +162,24 @@ const CrfRequestMaster = () => {
                 setDeptType(0)
             }
         }
+
+        const DeptsecBasedOnAssign = async (id) => {
+            const result = await axioslogin.get(`/InchHODAuthorization/getDeptSeconId/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setAuthorizDeptSec(data)
+            }
+            else {
+                setAuthorizDeptSec([])
+                setdeptSec(deptsec)
+            }
+        }
+
         InchHodDeptsec(deptsec)
-    }, [dispatch, deptsec])
+        DeptsecBasedOnAssign(id)
+
+
+    }, [dispatch, deptsec, id])
 
     const AddItem = useCallback(() => {
 
@@ -539,7 +559,7 @@ const CrfRequestMaster = () => {
 
     const reqDataPost = useMemo(() => {
         return {
-            request_dept_slno: dept,
+            //     request_dept_slno: dept,
             request_deptsec_slno: deptSec,
             actual_requirement: actual_require !== '' ? actual_require : null,
             needed: needed !== '' ? needed : null,
@@ -554,13 +574,13 @@ const CrfRequestMaster = () => {
             create_user: id
         }
 
-    }, [dept, deptSec, actual_require, needed, category, location, startdate,
+    }, [deptSec, actual_require, needed, category, location, startdate,
         emergency, remarks, deptsec, id, emerType])
 
 
     const reqDataPatch = useMemo(() => {
         return {
-            request_dept_slno: dept,
+            //  request_dept_slno: dept,
             request_deptsec_slno: deptSec,
             actual_requirement: actual_require !== '' ? actual_require : null,
             needed: needed !== '' ? needed : null,
@@ -576,12 +596,8 @@ const CrfRequestMaster = () => {
             req_slno: reqSlno
         }
 
-    }, [dept, deptSec, actual_require, needed, category, location, startdate,
+    }, [deptSec, actual_require, needed, category, location, startdate,
         emergency, remarks, deptsec, id, emerType, reqSlno])
-
-
-
-
 
     //* Reset function
     const reset = useCallback(() => {
@@ -590,7 +606,7 @@ const CrfRequestMaster = () => {
         setCategory('')
         setLocation('')
         setRemarks('')
-        setdept(0)
+        // setdept(0)
         setdeptSec(0)
         setTableDis(0)
         setStartdate(format(new Date(), "yyyy-MM-dd"))
@@ -720,7 +736,7 @@ const CrfRequestMaster = () => {
         //** Call insert and detail api by using then. for getting insert id */
         if (value === 0) {
             if ((emergency === true && emerType !== 0 && remarks !== '') || (emergency === false)) {
-                if (dept !== 0 && deptSec !== 0) {
+                if (deptSec !== 0) {
                     ReqMasterInsert(reqDataPost).then((value) => {
                         const { success, message, insertid } = value
                         if (success === 1) {
@@ -786,7 +802,7 @@ const CrfRequestMaster = () => {
             }
         } else {
             if ((emergency === true && emerType !== 0 && remarks !== '') || (emergency === false)) {
-                if (dept !== 0 && deptSec !== 0) {
+                if (deptSec !== 0) {
                     ReqMasterUpdate(reqDataPatch).then((val) => {
                         const { success, message } = val
                         if (success === 2) {
@@ -820,19 +836,17 @@ const CrfRequestMaster = () => {
         }
 
 
-    }, [value, emergency, emerType, remarks, dept, deptSec, reqDataPost, selectFile,
+    }, [value, emergency, emerType, remarks, deptSec, reqDataPost, selectFile,
         detailDataDis, levelOne, levelTwo, deptType, setCount, count, id,
         handleImageUpload, reset, reqDataPatch, reqSlno
     ])
-
-
 
 
     //Data set for edit
     const rowSelect = useCallback((params) => {
         setValue(1);
         const data = params.api.getSelectedRows()
-        const { req_slno, actual_requirement, location, request_dept_slno, category, image_status,
+        const { req_slno, actual_requirement, location, category, image_status,
             needed, request_deptsec_slno, expected_date, emergency_flag,
             emer_slno, emergeny_remarks
         } = data[0]
@@ -842,7 +856,7 @@ const CrfRequestMaster = () => {
         setCategory(category)
         setLocation(location)
         setRemarks(emergeny_remarks)
-        setdept(request_dept_slno)
+        // setdept(request_dept_slno)
         setdeptSec(request_deptsec_slno)
         setStartdate(format(new Date(expected_date), "yyyy-MM-dd"))
         setReqSlno(req_slno)
@@ -951,17 +965,49 @@ const CrfRequestMaster = () => {
                                     <Box sx={{
                                         width: "100%", p: 1, display: "flex", flexDirection: 'row'
                                     }}>
-                                        <Box sx={{
+                                        {/* <Box sx={{
                                             width: "100%", pr: 1
                                         }}>
                                             <DepartmentSelect value={dept} setValue={setdept} />
-                                        </Box>
+                                        </Box> */}
 
-                                        <Box sx={{
-                                            width: "100%", pr: 1
-                                        }}>
-                                            <DeptSecUnderDept value={deptSec} setValue={setdeptSec} dept={dept} />
-                                        </Box>
+                                        {authorizeDeptSec.length !== 0 ?
+                                            <Box sx={{
+                                                width: "100%", pr: 1
+                                            }}>
+                                                <FormControl fullWidth size="small"  >
+                                                    <Select
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={deptSec}
+                                                        onChange={(e) => setdeptSec(e.target.value)}
+                                                        size="small"
+                                                        fullWidth
+                                                        variant='outlined'
+                                                        sx={{ height: 24, p: 0, m: 0, lineHeight: 1.200 }}
+                                                    >
+                                                        <MenuItem value={0} disabled >Select Department Section</MenuItem>
+                                                        {
+                                                            authorizeDeptSec && authorizeDeptSec.map((val, index) => {
+                                                                return <MenuItem key={index} value={val.dept_section}>{val.auth_deptsec}</MenuItem>
+                                                            })
+                                                        }
+                                                    </Select>
+                                                </FormControl>
+                                            </Box> :
+                                            <Box sx={{
+                                                width: "100%", pr: 1
+                                            }}>
+                                                <TextFieldCustom
+                                                    type="text"
+                                                    size="sm"
+                                                    name="deptsecName"
+                                                    value={deptsecName}
+                                                    disabled={true}
+                                                />
+                                            </Box>
+                                        }
+
                                     </Box>
                                 </Box>
                                 <Box sx={{
