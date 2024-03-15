@@ -127,8 +127,8 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
     return (
         <Box>
             {tabledata.length !== 0 ?
-                <Box sx={{ height: 520, }}>
-                    <Paper variant="outlined" sx={{ maxHeight: 520, maxWidth: '100%', overflow: 'auto', mt: .3 }}>
+                <Box sx={{ height: 600, }}>
+                    <Paper variant="outlined" sx={{ maxHeight: 600, maxWidth: '100%', overflow: 'auto', mt: .3 }}>
                         {editModalFlag === 1 ?
                             <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                 setEditModalFlag={setEditModalFlag} taskcount={taskcount} settaskcount={settaskcount}
@@ -145,11 +145,11 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 60 }}>View</th>
                                         <th style={{ width: 150 }}>Status</th>
-                                        <th style={{ width: 300 }}>Task Name</th>
+                                        <th style={{ width: 500 }}>Task Name</th>
                                         <th style={{ width: 300 }}>Project</th>
                                         <th style={{ width: 150 }}>Created Date</th>
                                         <th style={{ width: 150 }}> Due Date</th>
-                                        <th style={{ width: 300 }}>Task Description</th>
+                                        <th style={{ width: 500 }}>Task Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -201,7 +201,7 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
                         </CssVarsProvider>
                     </Paper>
                 </Box>
-                : <Box sx={{ textAlign: 'center', pt: 25, height: 500, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
+                : <Box sx={{ textAlign: 'center', pt: 25, height: 600, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
                     No Task Completed Yet!
                 </Box>}
         </Box>

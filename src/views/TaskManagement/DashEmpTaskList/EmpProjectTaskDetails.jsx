@@ -5,6 +5,8 @@ import FormLabel from '@mui/joy/FormLabel';
 import { axioslogin } from 'src/views/Axios/Axios';
 import EmpTaskUnderProjectCount from './EmpTaskUnderProjectCount';
 import OtherTaskCount from './OtherTaskCount';
+import AlignHorizontalRightRoundedIcon from '@mui/icons-material/AlignHorizontalRightRounded';
+import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded';
 
 const EmpProjectTaskDetails = ({ val, }) => {
 
@@ -29,19 +31,25 @@ const EmpProjectTaskDetails = ({ val, }) => {
     return (
         <Box >
             {
-                empProject && empProject.map((val) => {
+                empProject && empProject.map((val,) => {
                     return <AccordionDetails key={val.tm_project_slno} sx={{ mx: 3, margin: '-8px' }} >
                         <Stack>
                             <FormControl orientation="horizontal" sx={{
                                 height: 50, pl: 2, bgcolor: '#EAEFF2', overflow: 'auto',
                                 borderBottom: 1, borderRadius: 5, borderColor: '#B7CFDC',
                             }}>
+                                {/* <Avatar size='xs' sx={{ size: 'xs', bgcolor: 'white', height: 20, mt: 2 }}> */}
+                                <AlignHorizontalRightRoundedIcon sx={{ width: 20, height: 20, mt: 2, color: '#435D84' }} />
+                                {/* </Avatar> */}
                                 <Tooltip title="Project">
-                                    <FormLabel sx={{ fontSize: 13, flex: 5, textTransform: 'capitalize', cursor: 'grab', }}> {val.tm_project_name}</FormLabel>
+                                    <FormLabel sx={{ fontSize: 13, flex: 5, textTransform: 'capitalize', cursor: 'grab', }}>
+                                        {val.tm_project_name}</FormLabel>
                                 </Tooltip>
+                                <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 2, mr: .2, color: '#435D84' }} />
                                 <Tooltip title="Project Created Date">
-                                    <FormLabel sx={{ fontSize: 13, flex: 1, cursor: 'grab', display: 'flex', justifyContent: 'flex-end' }}> {val.create_date}</FormLabel>
+                                    <FormLabel sx={{ fontSize: 13, flex: .9, cursor: 'grab', }}> {val.create_date}</FormLabel>
                                 </Tooltip>
+                                <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 2, mr: .2, color: '#435D84' }} />
                                 <Tooltip title="Project Due Date">
                                     {val.tm_project_status === 1 ?
                                         <FormLabel sx={{
@@ -57,11 +65,8 @@ const EmpProjectTaskDetails = ({ val, }) => {
                                         </FormLabel>}
                                 </Tooltip>
                                 <EmpTaskUnderProjectCount val={val} emslno={emslno} />
-
                             </FormControl>
-
                         </Stack>
-
                     </AccordionDetails>
                 })
             }
