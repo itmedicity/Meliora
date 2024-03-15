@@ -61,7 +61,7 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
             {
                 style: 'table2',
                 table: {
-                    widths: [19, 75, 38, 43, 43, 37, 38, 34, 34, 24, 25, 24, 24],
+                    widths: [19, 70, 38, 43, 43, 37, 37, 34, 34, 24, 25, 24, 24],
                     body: [
                         ['', 'Total', totYesterday, totAdmission, oraTotAdm, totDischarge, oraTotDis, totTransIn,
                             totTransOut, totDeath, oraTotDeath, totalcensus, oraTotal]
