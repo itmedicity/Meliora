@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useMemo, useState } from 'react'
 import Stack from '@mui/joy/Stack';
 import CircularProgress from '@mui/joy/CircularProgress';
-import { Box, Typography } from '@mui/joy';
+import { Box, Tooltip, Typography } from '@mui/joy';
 import { axioslogin } from 'src/views/Axios/Axios';
 const TmProjectCircularProgress = ({ val, }) => {
 
@@ -28,17 +28,19 @@ const TmProjectCircularProgress = ({ val, }) => {
 
     return (
         <Box>
-            <Stack spacing={1}>
-                <CircularProgress size="md" determinate
-                    sx={{ bgcolor: 'white' }}
-                    value={progress}
-                >
-                    <Typography sx={{ fontSize: 10 }}>
-                        {progress}%
-                    </Typography>
-                </CircularProgress>
+            <Tooltip title="Task Completed Under this Project">
+                <Stack spacing={1}>
+                    <CircularProgress size="md" determinate
+                        sx={{ bgcolor: 'white' }}
+                        value={progress}
+                    >
+                        <Typography sx={{ fontSize: 10 }}>
+                            {progress}%
+                        </Typography>
+                    </CircularProgress>
 
-            </Stack>
+                </Stack>
+            </Tooltip>
         </Box>
     )
 }

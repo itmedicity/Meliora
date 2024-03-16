@@ -62,6 +62,7 @@ const ModalEditTask = ({
         onHoldRemaks: '',
         completedRemarks: '',
     })
+
     const { taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } = taskData
     const taskDataUpdate = useCallback(
         (e) => {
@@ -196,14 +197,13 @@ const ModalEditTask = ({
                         return obj
                     })
                     setProgressTableData(arry)
-                } else {
-                    setProgressTableData([])
-                    warningNotify('error occured')
                 }
             }
         }
         getProgress(ProgressData)
     }, [progressCount, tableCount, ProgressData])
+
+
 
     const secName = useSelector((state) => {
         return state.LoginUserData.empdeptsec
@@ -225,16 +225,17 @@ const ModalEditTask = ({
     const handleEditClose = useCallback(() => {
         setEditModalFlag(0)
         setEditModalOpen(false)
-    }, [setEditModalOpen, setEditModalFlag,])
+    }, [setEditModalOpen, setEditModalFlag])
 
-    const resetProgress = () => {
+    const resetProgress = useCallback((e) => {
         const form = {
             progress_slno: '',
             tm_progres_date: '',
             tm_task_progress: '',
         }
         setTaskProgress(form)
-    }
+    }, [])
+
     const InsertProgress = useCallback((e) => {
         e.preventDefault()
         if (tm_progres_date !== '') {
@@ -258,7 +259,7 @@ const ModalEditTask = ({
         } else {
             infoNotify('Please Select Date For Entering Task Progress')
         }
-    }, [postProgress, progressCount, tm_progres_date, setTableCount, tableCount])
+    }, [postProgress, progressCount, tm_progres_date, setTableCount, tableCount, resetProgress])
 
     const rowSelect = useCallback((data) => {
         setvalue(1)
@@ -302,7 +303,7 @@ const ModalEditTask = ({
         } else {
             infoNotify('Please Select Date For Entering Task Progress')
         }
-    }, [patchProgress, progressCount, tm_progres_date])
+    }, [patchProgress, progressCount, tm_progres_date, resetProgress])
 
     useEffect(() => {
         const getMasterTask = async (tm_task_slno) => {

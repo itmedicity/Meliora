@@ -1,4 +1,4 @@
-import { Box, Tooltip } from '@mui/joy'
+import { Badge, Box, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
@@ -13,7 +13,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import EmpProjectTaskDetails from './EmpProjectTaskDetails';
 import EmployeeProgressBar from './EmployeeProgressBar';
 import AllTaskListUnderProject from './AllTaskListUnderProject';
-
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 const TmEmployeeTaskData = () => {
     const dispatch = useDispatch();
     const empsecid = useSelector((state) => { return state.LoginUserData.empsecid })
@@ -69,7 +69,7 @@ const TmEmployeeTaskData = () => {
 
 
     return (
-        <Box sx={{ height: 480 }}>
+        <Box sx={{ maxHeight: 640 }}>
             {modalFlag === 1 ?
                 <AllTaskListUnderProject
                     open={modalOpen} setModalOpen={setModalOpen} allEmpTask={allEmpTask}
@@ -98,24 +98,22 @@ const TmEmployeeTaskData = () => {
                                     <PersonIcon />
                                 </Avatar>
                                 <Tooltip title="Employee" >
-                                    <Box sx={{ flex: 1.1, }}>
+                                    <Box sx={{ flex: 1, }}>
                                         <Typography>{capEmpName}</Typography>
                                     </Box>
                                 </Tooltip>
 
                                 <Tooltip title="Employee Progress" >
-                                    <Box sx={{ flex: 6, }}>
+                                    <Box sx={{ flex: 4.8, }}>
                                         <EmployeeProgressBar val={val} />
                                     </Box>
                                 </Tooltip>
                                 <Tooltip title="View Task" >
-                                    <Box
-                                        sx={{ mr: 2, fontSize: 15, borderRadius: 8, pl: 1, }}  >
-                                        <Box onClick={() => openModal(val)} variant='soft' sx={{
-                                            borderRadius: 25, bgcolor: '#ECE3F0', color: '#5E376D', fontWeight: 'bold',
-                                            width: 37, height: 36, pt: 1, pl: 1.5,
-                                        }} >{val.TT}</Box>
-                                    </Box>
+                                    <Badge badgeContent={val.TT} variant="solid" color='neutral' onClick={() => openModal(val)} >
+                                        <Box sx={{ mr: .2, fontSize: 15, borderRadius: 3, pl: 1, flex: .1, display: 'flex' }}  >
+                                            <AssignmentOutlinedIcon sx={{ color: '#0B1C47' }} />
+                                        </Box>
+                                    </Badge>
                                 </Tooltip>
 
                             </AccordionSummary >

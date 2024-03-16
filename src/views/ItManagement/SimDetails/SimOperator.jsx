@@ -15,13 +15,7 @@ const SimOperator = ({ provider, setProvider }) => {
             { label: 'Jio', id: 3 },
             { label: 'Bsnl', id: 4 },
             { label: 'Reliance Communications', id: 5 },
-            { label: 'Aircel', id: 6 },
-            { label: 'Tata Docomo', id: 7 },
-            { label: 'Tata Teleservices', id: 5 },
-            { label: 'Telenor India', id: 6 },
-            { label: 'MTS India', id: 7 },
-
-
+            { label: 'Aircel', id: 6 }
 
         ]
     }, [])
@@ -49,12 +43,14 @@ const SimOperator = ({ provider, setProvider }) => {
                     sx={{
                         "--Input-minHeight": "29px",
                         // width: 755
+                        // color: 'yellow'
                     }}
                     value={provider === 0 ? providerList : value}
                     placeholder="Select SiM Operator"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);
+
                     }}
                     inputValue={inputValue}
                     onInputChange={(event, newInputValue) => {

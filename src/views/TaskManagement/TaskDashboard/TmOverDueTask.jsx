@@ -8,6 +8,7 @@ import UpdateIcon from '@mui/icons-material/Update';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import moment from 'moment';
 import EmpStatusUpdationinDash from '../Mytask/EmpStatusUpdationinDash';
+import CountDowncomponent from '../CountDown/CountDowncomponent';
 
 const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overDueHeading,
 }) => {
@@ -76,12 +77,13 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                                         <th style={{ width: 50 }}>#</th>
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 120 }}>Status</th>
-                                        <th style={{ width: 300 }}>Task Name</th>
-                                        <th style={{ width: 300 }}>Project</th>
+                                        <th style={{ width: 250, }}>countDown</th>
+                                        <th style={{ width: 600 }}>Task Name</th>
+                                        <th style={{ width: 500 }}>Project</th>
                                         <th style={{ width: 170 }}>Assignee</th>
                                         <th style={{ width: 150 }}>Created Date</th>
                                         <th style={{ width: 150 }}> Due Date</th>
-                                        <th style={{ width: 300 }}>Task Description</th>
+                                        <th style={{ width: 600 }}>Task Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -108,6 +110,10 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                                                     }}>{val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
                                                         val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                             val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
+                                                <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                    <CountDowncomponent DueDates={val.tm_task_due_date} />
+
+                                                </Box></td>
                                                 <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}> {val.tm_task_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}> {val.tm_project_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}> {val.em_name || 'not given'}</td>

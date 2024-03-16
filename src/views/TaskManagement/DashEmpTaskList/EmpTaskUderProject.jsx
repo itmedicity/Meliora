@@ -5,7 +5,8 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import MainTaskProgress from './MainTaskProgress';
 import SubTaskUnderTask from './SubTaskUnderTask';
 import TaskCountWithoutThisEmp from './TaskCountWithoutThisEmp';
-
+import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded';
+import CountDowncomponent from '../CountDown/CountDowncomponent';
 const EmpTaskUderProject = ({ val }) => {
 
     const { tm_project_slno, tm_assigne_emp } = val
@@ -46,22 +47,22 @@ const EmpTaskUderProject = ({ val }) => {
                     return <AccordionDetails key={val.tm_task_slno} sx={{ width: '100%', margin: '-8px' }}>
                         <Accordion key={val.tm_task_slno} >
                             <AccordionSummary sx={{
-                                height: 48, bgcolor: '#DAE3E6',
+                                height: 48, bgcolor: '#F0F2F3', pt: .5,
                                 borderTop: 1, borderRight: 1, borderLeft: 1, borderTopRightRadius: 2, borderTopLeftRadius: 2,
                                 borderColor: '#ADC9C5'
-                            }} >
-                                <Box sx={{ width: 20, height: 15, fontSize: 10, bgcolor: '#B2C4CB', display: 'flex', justifyContent: 'center', mt: .1, mr: .5, fontWeight: 800 }}>
+                            }}>
+                                <Box sx={{ borderRadius: 10, width: 20, height: 20, fontSize: 10, bgcolor: '#B2C4CB', display: 'flex', justifyContent: 'center', pt: .3, fontWeight: 800 }}>
                                     {index + 1}
                                 </Box>
                                 <Tooltip title="Task ">
                                     {val.tm_task_status === 1 ?
                                         <FormLabel sx={{
-                                            fontSize: 13, flex: 3, textTransform: 'capitalize', cursor: 'grab',
+                                            fontSize: 13, flex: 4, textTransform: 'capitalize', cursor: 'grab',
                                         }}>
                                             {val.tm_task_name}
                                         </FormLabel> :
                                         <FormLabel sx={{
-                                            fontSize: 13, flex: 3, textTransform: 'capitalize', cursor: 'grab',
+                                            fontSize: 13, flex: 4, textTransform: 'capitalize', cursor: 'grab',
                                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                         }}>
                                             {val.tm_task_name}
@@ -74,32 +75,44 @@ const EmpTaskUderProject = ({ val }) => {
                                     }}>
                                         {create_empnamee}</FormLabel>
                                 </Tooltip>
+                                <Tooltip>
+                                    {val.tm_task_status !== 1 ?
+                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: .9 }}>
+                                            <CountDowncomponent DueDates={val.tm_task_due_date} />
+                                        </Box> :
+                                        <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
+                                            <Box sx={{ flex: .5, }}></Box>
+                                            <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;hh&nbsp;:00&nbsp;mm&nbsp;:00&nbsp;ss</Box>
+                                            <Box sx={{ flex: .5 }}></Box>
+                                        </Box>
+                                    }
+                                </Tooltip>
                                 <Tooltip title="Task Created Date">
                                     {val.tm_task_status === 1 ?
                                         <FormLabel sx={{
-                                            fontSize: 13, flex: .5, textTransform: 'capitalize', cursor: 'grab',
+                                            fontSize: 13, flex: 1, textTransform: 'capitalize', cursor: 'grab',
                                         }}>
-                                            {val.create_date}
+                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />  {val.create_date}
                                         </FormLabel> :
                                         <FormLabel sx={{
-                                            fontSize: 13, flex: .5, textTransform: 'capitalize', cursor: 'grab',
-                                            color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
+                                            fontSize: 13, flex: 1, textTransform: 'capitalize', cursor: 'grab',
+                                            color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black', display: 'flex'
                                         }}>
-                                            {val.create_date}
+                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />   {val.create_date}
                                         </FormLabel>}
                                 </Tooltip>
                                 <Tooltip title="Task Due Date" >
                                     {val.tm_task_status === 1 ?
                                         <FormLabel sx={{
-                                            fontSize: 13, flex: .5, textTransform: 'capitalize', cursor: 'grab',
+                                            fontSize: 13, flex: 1, textTransform: 'capitalize', cursor: 'grab',
                                         }}>
-                                            {val.tm_task_due_date}
+                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} /> {val.tm_task_due_date}
                                         </FormLabel> :
                                         <FormLabel sx={{
-                                            fontSize: 13, flex: .5, textTransform: 'capitalize', cursor: 'grab',
+                                            fontSize: 13, flex: 1, textTransform: 'capitalize', cursor: 'grab',
                                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                         }}>
-                                            {val.tm_task_due_date}
+                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />  {val.tm_task_due_date}
                                         </FormLabel>}
                                 </Tooltip>
                                 <MainTaskProgress val={val} />

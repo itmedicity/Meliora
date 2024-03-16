@@ -70,12 +70,11 @@ const CensusCreate = () => {
             GetElliderData(elliderSearch).then((value) => {
                 const { success, data } = value
                 if (success === 1) {
-
                     const insertArray = nurstation?.map((val) => {
                         const newData = data.find((item) => item.NS_CODE === val.census_ns_code)
                         return {
                             census_ns_slno: val.census_ns_slno,
-                            // census_ns_code: val.census_ns_code,
+                            census_ns_code: val.census_ns_code,
                             census_date: dailyDate,
                             yesterday_census: 0,
                             total_admission: 0,
@@ -88,9 +87,11 @@ const CensusCreate = () => {
                             ora_admission: newData ? newData.AD : 0,
                             ora_discharge: newData ? newData.DC : 0,
                             ora_death: newData ? newData.DT : 0,
-                            ora_census_total: newData ? newData.TOT : 0,
+                            ora_census_total: newData ? ((newData.ACTIVE + newData.NDIS) - newData.NIP) : 0,
+                            update_status: 0
                         }
                     })
+
                     InsertData(insertArray).then((val) => {
                         const { success } = val
                         if (success === 1) {
@@ -99,10 +100,10 @@ const CensusCreate = () => {
                         }
                         else {
                         }
-
                     })
                 }
             })
+
         }
     }, [dailyDate, nurstation, id, count])
 
@@ -129,7 +130,8 @@ const CensusCreate = () => {
                         census_ns_slno: item.census_ns_slno,
                         census_ns_code: item.census_ns_code,
                         census_ns_name: item.census_ns_name,
-                        yesterday_census: yest ? yest.census_total : 0
+                        yesterday_census: yest ? yest.census_total : 0,
+                        ora_yesterday: yest ? yest.ora_census_total : 0
                     }
                 })
                 const existSearch = {
@@ -146,6 +148,7 @@ const CensusCreate = () => {
                                 census_ns_code: item.census_ns_code,
                                 census_ns_name: item.census_ns_name,
                                 yesterday_census: item.yesterday_census,
+                                ora_yesterday: item.ora_yesterday,
                                 total_admission: reportArray ? reportArray.total_admission : 0,
                                 total_discharge: reportArray ? reportArray.total_discharge : 0,
                                 transfer_in: reportArray ? reportArray.transfer_in : 0,
@@ -156,6 +159,7 @@ const CensusCreate = () => {
                                 ora_discharge: reportArray ? reportArray.ora_discharge : 0,
                                 ora_death: reportArray ? reportArray.ora_death : 0,
                                 ora_census_total: reportArray ? reportArray.ora_census_total : 0,
+                                update_status: reportArray ? reportArray.update_status : 0
                             }
                         })
                         setLoading(false)
@@ -169,33 +173,31 @@ const CensusCreate = () => {
             })
         }
     }, [searchFlag, nurstation, dailyDate])
-
-
     return (
         <Fragment>
             {loading && <CustomCircularProgress />}
-            <Box>
-                <Paper sx={{ display: 'flex', bgcolor: '#DBE8D8', flex: 1, height: 42 }}>
-                    <Box sx={{ pt: 0.5, pl: 0.7 }} >
-                        <RecentActorsIcon fontSize='large' sx={{ color: '#2C5E1A' }} />
+            <Paper variant='outlined' square >
+                <Box sx={{ display: 'flex', flex: 1, height: 42 }}>
+                    <Box sx={{ pl: 0.7, pt: 0.2 }} >
+                        <RecentActorsIcon sx={{ color: '#424242', height: 40, width: 40 }} />
                     </Box>
-                    <Box sx={{ flex: 1, fontSize: 18, pt: 0.9, pl: 1 }}>
-                        <Typography sx={{ color: '#2C5E1A', fontWeight: 550 }}>
+                    <Box sx={{ flex: 1, fontSize: 19, pt: 0.8, pl: 1 }}>
+                        <Typography sx={{ color: '#424242', fontFamily: 'Arial' }}>
                             Daily Census
                         </Typography>
                     </Box>
                     <Box sx={{ flex: 1, }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.4, pr: 0.2 }}>
-                            <CusIconButton size="md" variant="outlined" style={{ borderRadius: 12, bgcolor: '#F7F8F8', height: 35, width: 35 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.3, pr: 0.2 }}>
+                            <CusIconButton size="md" variant="outlined" style={{ bgcolor: '#F7F8F8', height: 35, width: 35 }}>
                                 <Tooltip title="Close" placement="bottom" >
-                                    <CloseIcon sx={{ cursor: 'pointer', size: 'lg', fontSize: 25, color: 'darkgreen', }} onClick={backtoHome} />
+                                    <CloseIcon sx={{ cursor: 'pointer', size: 'lg', fontSize: 25, color: '#424242', }} onClick={backtoHome} />
                                 </Tooltip>
                             </CusIconButton>
                         </Box>
                     </Box>
-                </Paper>
-                <Box sx={{ pt: 0.3 }}>
-                    <Paper sx={{ display: 'flex', bgcolor: '#F7F8F8', pr: 1, border: '0.2px solid #F7F8F8', py: 2 }}>
+                </Box>
+                <Box >
+                    <Paper variant='outlined' square sx={{ display: 'flex', pr: 1, py: 2 }}>
                         <Box sx={{ flex: 1 }} ></Box>
                         <Box sx={{ flex: 1 }} >
 
@@ -219,7 +221,7 @@ const CensusCreate = () => {
                         <Box sx={{ flex: 1, pl: 1 }} >
                             <CssVarsProvider>
                                 <Button variant="outlined" sx={{
-                                    fontSize: 16, color: '#2C5E1A', width: 150, cursor: 'pointer',
+                                    fontSize: 16, color: '#424242', width: 150, cursor: 'pointer',
                                     borderRadius: 20, bgcolor: '#F7F8F8'
                                 }}
                                     onClick={SearchDetails}
@@ -231,14 +233,16 @@ const CensusCreate = () => {
                         <Box sx={{ flex: 1 }} ></Box>
                     </Paper>
                 </Box>
-                <Box sx={{ pt: 0.7, display: 'flex', overflow: 'auto' }}>
+                <Box sx={{ display: 'flex', overflow: 'auto' }}>
                     {tabFlag === 1 ? <ListNursingStations dailyDate={dailyDate} censusData={censusData} count={count}
                         setCount={setCount} />
                         :
-                        <Box> </Box>
+                        <Box sx={{ height: 700 }}>
+
+                        </Box>
                     }
                 </Box>
-            </Box>
+            </Paper>
         </Fragment>
     )
 }

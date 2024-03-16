@@ -52,8 +52,10 @@ const EmployeeProgressBar = ({ val }) => {
                 >
                     <Typography
                         fontSize={13}
-
-                        sx={{ mixBlendMode: 'difference', color: 'white' }}
+                        sx={{
+                            mixBlendMode: 'difference',
+                            color: 'white'
+                        }}
                     >
                         Progress &nbsp;
                         {`${Math.round(Number(progress))}%`}

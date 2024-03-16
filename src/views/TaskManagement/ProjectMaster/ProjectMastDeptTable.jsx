@@ -7,6 +7,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import EditIcon from '@mui/icons-material/Edit'
 import moment from 'moment';
+import CountDowncomponent from '../CountDown/CountDowncomponent';
 const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
 
     const [tabledata, setTabledata] = useState([])
@@ -69,6 +70,7 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
                                             <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
                                             <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
                                             <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
+                                            <th style={{ width: 220, fontFamily: 'Georgia', }}>CountDoun</th>
                                             <th style={{ width: 300, fontFamily: 'Georgia', }}>Goal</th>
                                             <th style={{ width: 400, fontFamily: 'Georgia', }}>Projects</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
@@ -94,17 +96,46 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
                                                             color: val.tm_project_status === null ? '#5F093D' : val.tm_project_status === 0 ? '#5F093D'
                                                                 : val.tm_project_status === 1 ? 'green' : 'transparent', minHeight: 5
                                                         }}>{val.ProjectStatus}</td>
-                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_name || 'not given'}</td>
-                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
-                                                    <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td>
-                                                    <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td>
-                                                    <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                                                    {/* <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td> */}
+                                                    <td>
+                                                        {val.tm_project_status !== 1 ?
+                                                            <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: .9 }}>
+                                                                <CountDowncomponent DueDates={val.tm_project_duedate} />
+                                                            </Box> :
+                                                            <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
+                                                                <Box sx={{ flex: .5, }}></Box>
+                                                                <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:&nbsp;00&nbsp;hh&nbsp;:&nbsp;00&nbsp;mm&nbsp;:&nbsp;00&nbsp;ss</Box>
+                                                                <Box sx={{ flex: .5 }}></Box>
+                                                            </Box>
+                                                        }
+                                                    </td>
                                                     {val.tm_project_status === 1 ?
-                                                        <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY') || 'not given'}</td> :
+                                                        <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_name || 'not given'}</td> :
+                                                        <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black' }}>
+                                                            {val.tm_goal_name || 'not given'}</td>}
+                                                    {val.tm_project_status === 1 ?
+                                                        <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td> :
+                                                        <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black' }}>
+                                                            {val.tm_project_name || 'not given'}</td>}
+                                                    {val.tm_project_status === 1 ?
+                                                        <td style={{ textTransform: 'capitalize' }}> {val.dept_name || 'not given'}</td> :
+                                                        <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black' }}>
+                                                            {val.dept_name || 'not given'}</td>}
+                                                    {val.tm_project_status === 1 ?
+                                                        <td style={{ textTransform: 'capitalize' }}> {val.sec_name || 'not given'}</td> :
+                                                        <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black' }}>
+                                                            {val.sec_name || 'not given'}</td>}
+                                                    {val.tm_project_status === 1 ?
+                                                        <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm:ss') || 'not given'}</td> :
                                                         <td style={{ color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black' }}>
-                                                            {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}</td>}
-                                                    <td style={{ textTransform: 'capitalize' }}> {val.tm_project_description || 'not given'}</td>
+                                                            {moment(val.create_date).format('DD-MM-YYYY hh:mm:ss') || 'not given'}</td>}
+                                                    {val.tm_project_status === 1 ?
+                                                        <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm:ss') || 'not given'}</td> :
+                                                        <td style={{ color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black' }}>
+                                                            {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm:ss') || 'not given'}</td>}
+                                                    {val.tm_project_status === 1 ?
+                                                        <td style={{ textTransform: 'capitalize' }}> {val.tm_project_description || 'not given'}</td> :
+                                                        <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black' }}>
+                                                            {val.tm_project_description || 'not given'}</td>}
                                                 </tr>
                                             )
                                         })}

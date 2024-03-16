@@ -18,6 +18,9 @@ const OtherTaskCount = ({ val }) => {
             if (success === 2) {
                 setTcount(data)
             }
+            else {
+                setTcount([])
+            }
         }
         getAllTaskCountwithoutProject(emslno)
     }, [taskCountData, emslno])
@@ -26,25 +29,34 @@ const OtherTaskCount = ({ val }) => {
         <Box>
             {
                 tcount && tcount.map((val, index) => {
-                    return <Box key={index}
-                        sx={{
-                            bgcolor: '#EAEFF2',
-                            flex: 1, mx: 4, mb: 1.5, height: 45, borderBottom: 1, borderRadius: 5, borderColor: '#B7CFDC', color: '#725450',
-                            fontWeight: 600, pl: 1.5, pt: 1.5, display: 'flex'
-                        }}>
-                        <Box sx={{ flex: 15 }}>
-                            Other Task
-                        </Box>
-                        <Box sx={{
-                            flex: 1,
-                        }}>
+                    return <Box
+                        key={index}
+                    >
+                        {
+                            val.totalcount !== 0 ?
 
-                            ({val.totalcount})
-                        </Box>
+                                <Box sx={{
+                                    bgcolor: '#AFC1D0',
+                                    flex: 1, mx: 1, mb: 1.5, height: 30, borderBottom: 1, borderColor: '#B7CFDC', color: '#725450',
+                                    fontWeight: 600, pl: 1.5, pt: .5, display: 'flex'
+                                }}>
+                                    <Box sx={{ flex: 15 }}>
+                                        Other Non-Project Task Count
+                                    </Box>
+                                    <Box sx={{
+                                        flex: 1,
+                                    }}>
+                                        ({val.totalcount})
+                                    </Box>
+                                </Box> :
+                                <Box>
+                                </Box>
+                        }
                     </Box>
                 })
             }
-        </Box >
+        </Box>
+
     )
 }
 
