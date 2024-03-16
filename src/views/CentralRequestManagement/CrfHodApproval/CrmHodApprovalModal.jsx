@@ -24,6 +24,9 @@ import CusCheckBox from 'src/views/Components/CusCheckBox';
 import CustomTextarea from 'src/views/Components/CustomTextarea';
 import DataCollectnImageDis from '../ComonComponent/DataCollectnImageDis';
 import DataCollectnPendingModal from '../ComonComponent/DataCollectnPendingModal';
+import AddMoreItemDtails from '../ComonComponent/AddMoreItemDtails';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import ReqImageDisModal from '../ComonComponent/ReqImageDisModal';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -31,7 +34,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalFlag, count, setCount,
     setApprovalData }) => {
     const { req_slno, req_date, actual_requirement, needed, expected_date, incharge_approve, incharge_req,
-        inch_detial_analysis, incharge, incharge_remark, incharge_user,
+        inch_detial_analysis, incharge, incharge_remark, incharge_user, image_status,
         incharge_apprv_date, hod_approve, hod_remark, hod_detial_analysis } = ApprovalData
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
     const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
@@ -135,6 +138,41 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
         }
     }, [approve, reject, pending, id, remark, detailAnalis, req_slno])
 
+    const [addMoreItems, setMoreItem] = useState(0)
+
+    const AddItems = useCallback(() => {
+        setMoreItem(1)
+    }, [])
+
+    const [imageshowFlag, setImageShowFlag] = useState(0)
+    const [imageshow, setImageShow] = useState(false)
+    const [imagearray, setImageArry] = useState([])
+
+    const ViewImage = useCallback(() => {
+        setImageShowFlag(1)
+        setImageShow(true)
+    }, [])
+    useEffect(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
+                setImageArry(fileUrls);
+            }
+        }
+        if (imageshowFlag === 1) {
+            getImage(req_slno)
+        }
+    }, [imageshowFlag, req_slno])
+    const handleClose = useCallback(() => {
+        setImageShowFlag(0)
+        setImageShow(false)
+        setImageArry([])
+    }, [])
 
     const [enable, setEnable] = useState(0)
     const [datacollectdata, setDataCollectData] = useState([])
@@ -270,7 +308,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
         getItemDetails(req_slno)
         getApproItemDetails(req_slno)
 
-    }, [req_slno])
+    }, [req_slno, addMoreItems])
 
     const reset = useCallback(() => {
         setReqTableDis(0)
@@ -285,6 +323,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
         setPending(false)
         setApprove(false)
         setReject(false)
+        setMoreItem(0)
         setEnable(0)
         setDataCollectData([])
         setCollectDetailCheck(false)
@@ -296,6 +335,9 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
         setApprovalModal(false)
         setApprovalFlag(0)
         setApprovalData([])
+        setImageShowFlag(0)
+        setImageShow(false)
+        setImageArry([])
     }, [setApprovalFlag, setApprovalModal, setApprovalData])
 
     const submit = useCallback(() => {
@@ -371,10 +413,12 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
         setDataCollSlNo('')
     }, [])
 
+
     return (
         <Fragment>
             <ToastContainer />
-
+            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
+                images={imagearray} /> : null}
 
 
             {collImageShowFlag === 1 ? <DataCollectnImageDis open={collImageShow} handleCloseCollect={handleCloseCollect}
@@ -473,6 +517,11 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                                 </CssVarsProvider>
                                             </Box>
                                         </Box>
+                                        {image_status === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                            <Button onClick={ViewImage} variant="contained"
+                                                color="primary">View Image</Button>
+
+                                        </Box> : null}
                                     </Box>
                                 </Paper>
                                 {reqTableDis === 1 ?
@@ -819,6 +868,13 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                                             ApproveTableData={ApproveTableData}
                                                             setApproveTableData={setApproveTableData}
                                                         />
+                                                        <Box sx={{ pl: 2 }}>
+                                                            <Button onClick={AddItems} variant="contained"
+                                                                color="primary">Add Items</Button>
+                                                        </Box>
+                                                        {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
+                                                            setMoreItem={setMoreItem}
+                                                        /> : null}
                                                         <ApprovalCompntAll
                                                             heading="Hod Approval"
                                                             approve={approve}

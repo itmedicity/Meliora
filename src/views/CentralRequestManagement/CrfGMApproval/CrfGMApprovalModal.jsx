@@ -24,6 +24,9 @@ import DataCollectnPendingModal from '../ComonComponent/DataCollectnPendingModal
 import DeptSectionSelectMulti from 'src/views/CommonSelectCode/DeptSectionSelectMulti';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import CustomTextarea from 'src/views/Components/CustomTextarea';
+import AddMoreItemDtails from '../ComonComponent/AddMoreItemDtails';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import ReqImageDisModal from '../ComonComponent/ReqImageDisModal';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -32,7 +35,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
 
     const { req_slno, req_date, actual_requirement, needed, expected_date, incharge_approve, incharge_req,
         inch_detial_analysis, incharge, incharge_remark, incharge_user, incharge_apprv_date, hod_req,
-        hod_approve, hod, hod_detial_analysis, hod_approve_date, hod_remarks, hod_user,
+        hod_approve, hod, hod_detial_analysis, hod_approve_date, hod_remarks, hod_user, image_status,
         dms_approve, dms, dms_remarks, dms_detail_analysis, dms_approve_date, dms_user,
         ms, ms_approve, ms_approve_remark, ms_detail_analysis, ms_approve_date, ms_approve_user,
         manag_operation_approv, om, manag_operation_remarks, om_detial_analysis, om_approv_date,
@@ -146,6 +149,41 @@ const CrfGMApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
 
         }
     }, [approve, reject, pending, id, remark, detailAnalis, req_slno])
+
+    const [addMoreItems, setMoreItem] = useState(0)
+
+    const AddItems = useCallback(() => {
+        setMoreItem(1)
+    }, [])
+
+    const [imageshowFlag, setImageShowFlag] = useState(0)
+    const [imageshow, setImageShow] = useState(false)
+    const [imagearray, setImageArry] = useState([])
+
+    const ViewImage = useCallback(() => {
+        setImageShowFlag(1)
+        setImageShow(true)
+    }, [])
+    useEffect(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
+                setImageArry(fileUrls);
+            }
+        }
+        if (imageshowFlag === 1) {
+            getImage(req_slno)
+        }
+    }, [imageshowFlag, req_slno])
+    const handleClose = useCallback(() => {
+        setImageShowFlag(0)
+        setImageShow(false)
+    }, [])
 
     const [enable, setEnable] = useState(0)
     const [datacollectdata, setDataCollectData] = useState([])
@@ -281,7 +319,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
         getItemDetails(req_slno)
         getApproItemDetails(req_slno)
 
-    }, [req_slno])
+    }, [req_slno, addMoreItems])
 
     const reset = useCallback(() => {
         setReqTableDis(0)
@@ -386,7 +424,8 @@ const CrfGMApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
     return (
         <Fragment>
             <ToastContainer />
-
+            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
+                images={imagearray} /> : null}
             {collImageShowFlag === 1 ? <DataCollectnImageDis open={collImageShow} handleCloseCollect={handleCloseCollect}
                 dataCollSlno={dataCollSlno} req_slno={req_slno}
             /> : null}
@@ -483,7 +522,11 @@ const CrfGMApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                 </CssVarsProvider>
                                             </Box>
                                         </Box>
+                                        {image_status === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                            <Button onClick={ViewImage} variant="contained"
+                                                color="primary">View Image</Button>
 
+                                        </Box> : null}
                                         {/* {
                 reqTableDis === 0 ?
                     <Box sx={{
@@ -1249,6 +1292,15 @@ const CrfGMApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                             ApproveTableData={ApproveTableData}
                                                             setApproveTableData={setApproveTableData}
                                                         />
+                                                        <Box sx={{ pl: 2 }}>
+                                                            <Button onClick={AddItems} variant="contained"
+                                                                color="primary">Add Items</Button>
+                                                        </Box>
+                                                        {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
+                                                            setMoreItem={setMoreItem}
+                                                        /> : null}
+
+
                                                         <ApprovalCompntAll
                                                             heading="GM Operations Approval"
                                                             approve={approve}

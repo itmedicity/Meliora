@@ -135,7 +135,7 @@ const CrfPdfViewMain = () => {
         }
         getReqForDownload();
     }, [])
-
+    console.log("sdtfyguhjk");
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home')

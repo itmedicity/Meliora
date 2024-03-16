@@ -15,10 +15,10 @@ const PdfButtonClick = ({ val }) => {
 
     const [mdsign, setMdSign] = useState(ProfilePicDefault)
     const [edsign, setEdSign] = useState(ProfilePicDefault)
-
+    console.log(val);
     const PdfDownloadFctn = useCallback(() => {
         const { req_slno, mdid, edid } = val
-
+        console.log(val);
         const ItemDetailsGet = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFRegister/getDetailItemList/${req_slno}`)
             return result.data
@@ -63,10 +63,36 @@ const PdfButtonClick = ({ val }) => {
         ItemDetailsGet(req_slno).then((values) => {
             const { success, data, message } = values
             if (success === 1) {
+                console.log("dtfyuhj");
                 ItemDetailsApproved(req_slno).then((value) => {
                     const { succes, dataa, message } = value
                     if (succes === 1) {
-                        CrfPdfWithDetails(val, data, dataa, mdsign, edsign)
+                        const datas = dataa.map((val, index) => {
+                            const obj = {
+                                slno: index + 1,
+                                req_detl_slno: val.req_detl_slno,
+                                req_slno: val.req_slno,
+                                aprox_cost: val.aprox_cost,
+                                item_status: val.item_status,
+                                approved_itemunit: val.approved_itemunit !== null ? val.approved_itemunit : "Not Given",
+                                approve_item_desc: val.approve_item_desc !== null ? val.approve_item_desc : "Not Given",
+                                approve_item_brand: val.approve_item_brand !== '' ? val.approve_item_brand : "Not Given",
+                                approve_item_unit: val.approve_item_unit,
+                                item_qnty_approved: val.item_qnty_approved !== null ? val.item_qnty_approved : "Not Given",
+                                approve_item_unit_price: val.approve_item_unit_price !== null ? val.approve_item_unit_price : "Not Given",
+                                approve_aprox_cost: val.approve_aprox_cost !== null ? val.approve_aprox_cost : "Not Given",
+                                item_status_approved: val.item_status_approved,
+                                approve_item_status: val.approve_item_status,
+                                approve_item_delete_who: val.approve_item_delete_who,
+                                uom_name: val.uom_name,
+                                approve_item_specification: val.approve_item_specification !== '' ? val.approve_item_specification : "Not Given",
+                                old_item_slno: val.old_item_slno !== null ? val.old_item_slno : "",
+                                item_slno: val.item_slno
+                            }
+                            return obj
+                        })
+                        console.log(datas);
+                        CrfPdfWithDetails(val, data, datas, mdsign, edsign)
                     }
                     else {
                         warningNotify(message)

@@ -1,11 +1,11 @@
 import React, { useEffect, useState, memo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
-import CusAgGridMast from 'src/views/Components/CusAgGridMast';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import { IconButton } from '@mui/material'
 import { editicon } from 'src/color/Color'
+import CusAgGridForMain from 'src/views/Components/CusAgGridForMain';
 
 const AuthorizationMastTable = ({ count, rowSelect }) => {
     //state for setting table data
@@ -43,7 +43,7 @@ const AuthorizationMastTable = ({ count, rowSelect }) => {
         getComplaintType();
     }, [count])
     return (
-        <CusAgGridMast
+        <CusAgGridForMain
             columnDefs={column}
             tableData={tabledata}
             onClick={rowSelect}

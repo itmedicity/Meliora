@@ -24,6 +24,9 @@ import DataCollectnPendingModal from '../ComonComponent/DataCollectnPendingModal
 import DeptSectionSelectMulti from 'src/views/CommonSelectCode/DeptSectionSelectMulti';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import CustomTextarea from 'src/views/Components/CustomTextarea';
+import AddMoreItemDtails from '../ComonComponent/AddMoreItemDtails';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import ReqImageDisModal from '../ComonComponent/ReqImageDisModal';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -39,7 +42,7 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
         manag_operation_approv, om, manag_operation_remarks, om_detial_analysis, om_approv_date,
         manag_operation_user, senior_manage_approv, smo, senior_manage_remarks, smo_detial_analysis,
         som_aprrov_date, senior_manage_user, gm_approve, gm, gm_approve_remarks, gm_detial_analysis,
-        gm_approv_date, gm_user,
+        gm_approv_date, gm_user, image_status,
         md_approve, md_approve_remarks, md_detial_analysis, ed_approve, ed, ed_approve_remarks,
         ed_approve_date, ed_detial_analysis,
         ed_user
@@ -153,6 +156,42 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
 
         }
     }, [approve, reject, pending, id, remark, detailAnalis, req_slno])
+
+    const [addMoreItems, setMoreItem] = useState(0)
+
+    const AddItems = useCallback(() => {
+        setMoreItem(1)
+    }, [])
+
+    const [imageshowFlag, setImageShowFlag] = useState(0)
+    const [imageshow, setImageShow] = useState(false)
+    const [imagearray, setImageArry] = useState([])
+
+    const ViewImage = useCallback(() => {
+        setImageShowFlag(1)
+        setImageShow(true)
+    }, [])
+    useEffect(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
+                setImageArry(fileUrls);
+            }
+        }
+        if (imageshowFlag === 1) {
+            getImage(req_slno)
+        }
+    }, [imageshowFlag, req_slno])
+    const handleClose = useCallback(() => {
+        setImageShowFlag(0)
+        setImageShow(false)
+    }, [])
+
 
     const [enable, setEnable] = useState(0)
     const [datacollectdata, setDataCollectData] = useState([])
@@ -288,7 +327,7 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
         getItemDetails(req_slno)
         getApproItemDetails(req_slno)
 
-    }, [req_slno])
+    }, [req_slno, addMoreItems])
 
     const reset = useCallback(() => {
         setReqTableDis(0)
@@ -385,6 +424,8 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
     return (
         <Fragment>
             <ToastContainer />
+            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
+                images={imagearray} /> : null}
 
             {collImageShowFlag === 1 ? <DataCollectnImageDis open={collImageShow} handleCloseCollect={handleCloseCollect}
                 dataCollSlno={dataCollSlno} req_slno={req_slno}
@@ -482,21 +523,11 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                 </CssVarsProvider>
                                             </Box>
                                         </Box>
+                                        {image_status === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                            <Button onClick={ViewImage} variant="contained"
+                                                color="primary">View Image</Button>
 
-                                        {/* {
-            reqTableDis === 0 ?
-                <Box sx={{
-                    width: "100%", display: "flex", p: 0.5, pb: 0,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                }}>
-                    <Box sx={{ pr: 9 }}>
-                        <CssVarsProvider>
-                            <Typography sx={{ fontSize: 15 }}>Requested Items: Nill</Typography>
-                        </CssVarsProvider>
-                    </Box>
-                </Box>
-                : null
-        } */}
+                                        </Box> : null}
                                     </Box>
                                 </Paper>
                                 {reqTableDis === 1 ?
@@ -1406,6 +1437,15 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                             ApproveTableData={ApproveTableData}
                                                             setApproveTableData={setApproveTableData}
                                                         />
+                                                        <Box sx={{ pl: 2 }}>
+                                                            <Button onClick={AddItems} variant="contained"
+                                                                color="primary">Add Items</Button>
+                                                        </Box>
+                                                        {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
+                                                            setMoreItem={setMoreItem}
+                                                        /> : null}
+
+
                                                         <ApprovalCompntAll
                                                             heading="MD Approval"
                                                             approve={approve}

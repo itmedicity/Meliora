@@ -2,7 +2,6 @@ import React, { memo, Fragment } from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 const ApprovedItemListDis = ({ ApproveData }) => {
-
     return (
         <Fragment>
             <TableContainer sx={{ maxHeight: 250 }}>
@@ -38,8 +37,8 @@ const ApprovedItemListDis = ({ ApproveData }) => {
                                 <TableCell align="left">{val.old_item_slno}</TableCell>
                                 <TableCell align="left">{val.approve_item_desc}</TableCell>
                                 <TableCell align="center">{val.approve_item_brand}</TableCell>
-                                <TableCell align="center">{val.approve_item_unit}</TableCell>
                                 <TableCell align="center">{val.item_qnty_approved}</TableCell>
+                                <TableCell align="center">{val.approved_itemunit}</TableCell>
                                 <TableCell align="center">{val.approve_item_specification}</TableCell>
                                 <TableCell align="center">{val.approve_aprox_cost}</TableCell>
 
