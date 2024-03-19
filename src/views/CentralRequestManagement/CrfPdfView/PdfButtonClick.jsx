@@ -15,10 +15,10 @@ const PdfButtonClick = ({ val }) => {
 
     const [mdsign, setMdSign] = useState(ProfilePicDefault)
     const [edsign, setEdSign] = useState(ProfilePicDefault)
-    console.log(val);
+
     const PdfDownloadFctn = useCallback(() => {
         const { req_slno, mdid, edid } = val
-        console.log(val);
+
         const ItemDetailsGet = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFRegister/getDetailItemList/${req_slno}`)
             return result.data
@@ -63,7 +63,6 @@ const PdfButtonClick = ({ val }) => {
         ItemDetailsGet(req_slno).then((values) => {
             const { success, data, message } = values
             if (success === 1) {
-                console.log("dtfyuhj");
                 ItemDetailsApproved(req_slno).then((value) => {
                     const { succes, dataa, message } = value
                     if (succes === 1) {
@@ -91,7 +90,7 @@ const PdfButtonClick = ({ val }) => {
                             }
                             return obj
                         })
-                        console.log(datas);
+
                         CrfPdfWithDetails(val, data, datas, mdsign, edsign)
                     }
                     else {
