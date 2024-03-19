@@ -186,7 +186,7 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                             <Box sx={{ display: 'flex', flex: 1.5, fontSize: 18, pt: 0.8, justifyContent: 'center', bgcolor: '#bfbdbd' }}>
                                 <Typography sx={{ color: '#212121', textTransform: 'capitalize', fontWeight: 'bold' }}>{nsName}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.3, pr: 0.2, bgcolor: '#bfbdbd' }}>
+                            <Box sx={{ display: 'flex', flex: 0.5, justifyContent: 'flex-end', fontSize: 20, pt: 0.3, pr: 0.2, bgcolor: '#bfbdbd' }}>
                                 <CusIconButton size="md" variant="outlined" style={{ bgcolor: '#F7F8F8', height: 35, width: 35 }}>
                                     <Tooltip title="Close" placement="bottom" >
                                         <CloseIcon sx={{ cursor: 'pointer', size: 'lg', fontSize: 30, color: '#424242', fontWeight: 'bold' }}

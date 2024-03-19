@@ -261,7 +261,7 @@ const CensusCreate = () => {
                                         style={{ height: 40, borderRight: 'none', borderRadius: 0, }}
                                         slotProps={{
                                             input: {
-                                                // min: moment(subDays(new Date(), 1)).format('YYYY-MM-DD'),
+                                                min: moment(subDays(new Date(), 1)).format('YYYY-MM-DD'),
                                                 max: moment(addDays(new Date(), 1)).format('YYYY-MM-DD')
                                             },
                                         }}
