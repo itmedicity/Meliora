@@ -22,6 +22,8 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
 import CrfReqDetailCmpnt from '../CRFRequestMaster/CrfReqDetailCmpnt';
 import PurchaseStoreSlect from './PurchaseStoreSlect';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import ReqImageDisModal from '../ComonComponent/ReqImageDisModal';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -38,7 +40,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         quatation_negotiation, quatation_negotiation_date, quatation_neguser,
         quatation_fixing, quatation_fixing_date, quatation_fixuser,
         po_prepartion, po_complete, po_approva_level_one, po_approva_level_two,
-        po_to_supplier
+        po_to_supplier, image_status
 
     } = puchaseData
 
@@ -175,8 +177,37 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
     const [substoreSlno, setsubStoreSlno] = useState(0)
     const [substoreName, setsubStoreName] = useState('')
-
     const [storeName, setStoreName] = useState('')
+
+    const [imageshowFlag, setImageShowFlag] = useState(0)
+    const [imageshow, setImageShow] = useState(false)
+    const [imagearray, setImageArry] = useState([])
+
+    const ViewImage = useCallback(() => {
+        setImageShowFlag(1)
+        setImageShow(true)
+    }, [])
+    useEffect(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
+                setImageArry(fileUrls);
+            }
+        }
+        if (imageshowFlag === 1) {
+            getImage(req_slno)
+        }
+    }, [imageshowFlag, req_slno])
+    const handleClose = useCallback(() => {
+        setImageShowFlag(0)
+        setImageShow(false)
+    }, [])
+
 
     useEffect(() => {
         setPoLevelOne(po_approva_level_one === 1 ? true : false)
@@ -206,18 +237,20 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                         req_slno: val.req_slno,
                         aprox_cost: val.aprox_cost,
                         item_status: val.item_status,
-                        approve_item_desc: val.approve_item_desc,
-                        approve_item_brand: val.approve_item_brand,
+                        approved_itemunit: val.approved_itemunit !== null ? val.approved_itemunit : "Not Given",
+                        approve_item_desc: val.approve_item_desc !== null ? val.approve_item_desc : "Not Given",
+                        approve_item_brand: val.approve_item_brand !== '' ? val.approve_item_brand : "Not Given",
                         approve_item_unit: val.approve_item_unit,
-                        item_qnty_approved: val.item_qnty_approved,
-                        approve_item_unit_price: val.approve_item_unit_price,
-                        approve_aprox_cost: val.approve_aprox_cost,
+                        item_qnty_approved: val.item_qnty_approved !== null ? val.item_qnty_approved : "Not Given",
+                        approve_item_unit_price: val.approve_item_unit_price !== null ? val.approve_item_unit_price : "Not Given",
+                        approve_aprox_cost: val.approve_aprox_cost !== null ? val.approve_aprox_cost : "Not Given",
                         item_status_approved: val.item_status_approved,
                         approve_item_status: val.approve_item_status,
                         approve_item_delete_who: val.approve_item_delete_who,
                         uom_name: val.uom_name,
-                        approve_item_specification: val.approve_item_specification,
-                        old_item_slno: val.old_item_slno
+                        approve_item_specification: val.approve_item_specification !== '' ? val.approve_item_specification : "Not Given",
+                        old_item_slno: val.old_item_slno !== null ? val.old_item_slno : "",
+                        item_slno: val.item_slno
                     }
                     return obj
                 })
@@ -573,6 +606,9 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
     return (
         <Fragment>
             <ToastContainer />
+            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
+                images={imagearray} /> : null}
+
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
@@ -661,7 +697,11 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
+                                {image_status === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                    <Button onClick={ViewImage} variant="contained"
+                                        color="primary">View Image</Button>
 
+                                </Box> : null}
                             </Box>
                         </Paper>
                         {reqTableDis === 1 ?

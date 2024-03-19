@@ -22,6 +22,7 @@ import CustomTextarea from 'src/views/Components/CustomTextarea';
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle';
 import { TypoHeadColor } from 'src/color/Color';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
+import AddMoreItemDtails from '../ComonComponent/AddMoreItemDtails';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -46,6 +47,13 @@ const DataCollectnEntryModal = ({ open, setDataEnterFlag, setDataEnterModal, dta
     const [remark, setRemark] = useState('')
     const updateRemark = useCallback((e) => {
         setRemark(e.target.value)
+    }, [])
+
+
+    const [addMoreItems, setMoreItem] = useState(0)
+
+    const AddItems = useCallback(() => {
+        setMoreItem(1)
     }, [])
 
     useEffect(() => {
@@ -103,7 +111,7 @@ const DataCollectnEntryModal = ({ open, setDataEnterFlag, setDataEnterModal, dta
         getItemDetails(req_slno)
         getApproItemDetails(req_slno)
 
-    }, [req_slno])
+    }, [req_slno, addMoreItems])
 
 
     const [selectFile, setSelectFile] = useState([])
@@ -429,6 +437,14 @@ const DataCollectnEntryModal = ({ open, setDataEnterFlag, setDataEnterModal, dta
                                     ApproveTableData={ApproveTableData}
                                     setApproveTableData={setApproveTableData}
                                 />
+                                <Box sx={{ pl: 2 }}>
+                                    <Button onClick={AddItems} variant="contained"
+                                        color="primary">Add Items</Button>
+                                </Box>
+                                {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
+                                    setMoreItem={setMoreItem}
+                                /> : null}
+
 
                             </Paper> : null}
 
