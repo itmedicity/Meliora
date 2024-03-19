@@ -6,7 +6,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) => {
     const { totYesterday, totAdmission, totDischarge, totTransIn, totTransOut, totDeath, totalcensus,
-        oraTotAdm, oraTotDis, oraTotDeath, oraTotal } = calculateTotal
+        oraTotAdm, oraTotDis, oraTotDeath, oraTotal, oraDamaTot, oraLamaTot } = calculateTotal
     const viewPdf = {
         pageMargins: [15, 15, 15, 0],
         content: [
@@ -48,7 +48,7 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
                             { text: val.total_admission, fontSize: 8, alignment: 'center' },
                             { text: val.ora_admission, fontSize: 8, alignment: 'center', fillColor: '#bdbdbd' },
                             { text: val.total_discharge, fontSize: 8, alignment: 'center' },
-                            { text: val.ora_discharge, fontSize: 8, alignment: 'center', fillColor: '#bdbdbd' },
+                            { text: (val.ora_discharge + val.ora_dama + val.ora_lama), fontSize: 8, alignment: 'center', fillColor: '#bdbdbd' },
                             { text: val.transfer_in, fontSize: 8, alignment: 'center' },
                             { text: val.transfer_out, fontSize: 8, alignment: 'center' },
                             { text: val.total_death, fontSize: 8, alignment: 'center' },
@@ -63,7 +63,7 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
                 table: {
                     widths: [19, 70, 38, 43, 43, 37, 37, 34, 34, 24, 25, 24, 24],
                     body: [
-                        ['', 'Total', totYesterday, totAdmission, oraTotAdm, totDischarge, oraTotDis, totTransIn,
+                        ['', 'Total', totYesterday, totAdmission, oraTotAdm, totDischarge, (oraTotDis + oraDamaTot + oraLamaTot), totTransIn,
                             totTransOut, totDeath, oraTotDeath, totalcensus, oraTotal]
                     ]
                 },

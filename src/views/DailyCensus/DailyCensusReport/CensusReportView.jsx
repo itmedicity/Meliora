@@ -1,11 +1,10 @@
-import { Box, Button, CssVarsProvider, Tooltip, Typography } from '@mui/joy'
+import { Box, Button, CssVarsProvider, Input, Tooltip, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import CloseIcon from '@mui/icons-material/Close';
 import CusIconButton from 'src/views/Components/CusIconButton';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import moment from 'moment';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify } from 'src/views/Common/CommonCode';
@@ -32,6 +31,7 @@ const CensusReportView = () => {
 
     const QIDateChange = useCallback((e) => {
         setDailyDate(e.target.value)
+        setsearchFlag(0)
     }, [])
     const startDate = moment(subDays(new Date(), 14)).format("YYYY-MM-DD")
     const endDate = moment(subDays(new Date(), 1)).format("YYYY-MM-DD")
@@ -54,7 +54,9 @@ const CensusReportView = () => {
         oraTotDis: 0,
         oraTotDeath: 0,
         oraTotal: 0,
-        oraYesttotal: 0
+        oraYesttotal: 0,
+        oraDamaTot: 0,
+        oraLamaTot: 0
     })
     const searchdata = useMemo(() => {
         return {
@@ -108,6 +110,7 @@ const CensusReportView = () => {
                             census_ns_slno: item.census_ns_slno,
                             census_ns_name: item.census_ns_name,
                             yesterday_census: item.yesterday_census,
+                            ora_yesterday: item.ora_yesterday,
                             total_admission: newArray ? newArray.total_admission : 0,
                             total_discharge: newArray ? newArray.total_discharge : 0,
                             transfer_in: newArray ? newArray.transfer_in : 0,
@@ -118,7 +121,8 @@ const CensusReportView = () => {
                             ora_discharge: newArray ? newArray.ora_discharge : 0,
                             ora_death: newArray ? newArray.ora_death : 0,
                             ora_census_total: newArray ? newArray.ora_census_total : 0,
-                            ora_yesterday: item.ora_yesterday,
+                            ora_dama: newArray ? newArray.ora_dama : 0,
+                            ora_lama: newArray ? newArray.ora_lama : 0
                         }
                     })
                     setTableData(resultArray)
@@ -146,6 +150,8 @@ const CensusReportView = () => {
             const oradeath = tableData?.map(val => val.ora_death).reduce((prev, next) => Number(prev) + Number(next));
             const oraTotalCount = tableData?.map(val => val.ora_census_total).reduce((prev, next) => Number(prev) + Number(next));
             const oraYesterday = tableData?.map(val => val.ora_yesterday).reduce((prev, next) => Number(prev) + Number(next));
+            const damatot = tableData?.map(val => val.ora_dama).reduce((prev, next) => Number(prev) + Number(next));
+            const lamatot = tableData?.map(val => val.ora_lama).reduce((prev, next) => Number(prev) + Number(next));
             const fromdata = {
                 totYesterday: totyes,
                 totAdmission: totad,
@@ -158,8 +164,9 @@ const CensusReportView = () => {
                 oraTotDis: oradis,
                 oraTotDeath: oradeath,
                 oraTotal: oraTotalCount,
-                oraYesttotal: oraYesterday
-
+                oraYesttotal: oraYesterday,
+                oraDamaTot: damatot,
+                oraLamaTot: lamatot
             }
             setCalculateTotal(fromdata)
         }
@@ -242,12 +249,10 @@ const CensusReportView = () => {
                             </Tooltip>
                         </CusIconButton>
                     </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, px: 0.5, py: 0.4 }}>
-                        <CusIconButton size="sm" variant="outlined" color="primary" style={{ bgcolor: '#F7F8F8' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.3, px: 0.2 }}>
+                        <CusIconButton size="md" variant="outlined" style={{ bgcolor: '#F7F8F8', height: 35, width: 35 }}>
                             <Tooltip title="Close" placement="bottom" >
-                                <CloseIcon sx={{ cursor: 'pointer', size: 'lg', width: 35, height: 25, color: '#424242', fontWeight: 'bold' }}
-                                    onClick={backtoHome}
-                                />
+                                <CloseIcon sx={{ cursor: 'pointer', size: 'lg', fontSize: 30, color: '#424242', }} onClick={backtoHome} />
                             </Tooltip>
                         </CusIconButton>
                     </Box>
@@ -324,12 +329,14 @@ const CensusReportView = () => {
                         : <Box> </Box>
                     }
                 </Paper>
-                <Box sx={{ pt: 0.3 }}>
-                    <Paper sx={{ display: 'flex', bgcolor: '#F7F8F8', py: 2, pr: 1, border: '0.2px solid #F7F8F8' }}>
-                        <Box sx={{ flex: 1 }} ></Box>
+
+                <Paper variant='outlined' square sx={{ display: 'flex', pr: 1, py: 1 }}>
+                    <Box sx={{ flex: 1 }} ></Box>
+                    <Paper variant='outlined' sx={{ display: 'flex', flex: 1.5, p: 1.5, bgcolor: '#dadce0' }}>
                         <Box sx={{ flex: 1 }} >
-                            <Box sx={{ pt: 0.2 }}>
-                                <TextFieldCustom
+                            <CssVarsProvider>
+                                <Input
+                                    style={{ height: 40, borderRight: 'none', borderRadius: 0, }}
                                     slotProps={{
                                         input: {
                                             max: moment(new Date()).format('YYYY-MM-DD')
@@ -339,25 +346,29 @@ const CensusReportView = () => {
                                     type="date"
                                     name="dailyDate"
                                     value={dailyDate}
-                                    onchange={QIDateChange}
+                                    onChange={QIDateChange}
                                 />
-                            </Box>
+                            </CssVarsProvider>
                         </Box>
-                        <Box sx={{ flex: 1, pl: 1 }} >
+                        <Box sx={{}} >
                             <CssVarsProvider>
-                                <Button variant="outlined" sx={{
-                                    fontSize: 16, color: '#3C2E3F', width: 150, cursor: 'pointer',
-                                    borderRadius: 20, bgcolor: '#F7F8F8'
+                                <Button sx={{
+                                    fontSize: 16, width: 150, height: 40, cursor: 'pointer', color: 'white',
+                                    bgcolor: '#616161', border: '1px solid lightgrey', borderRight: 'none', borderRadius: 0,
+                                    ":hover": {
+                                        bgcolor: '#757575',
+                                        boxShadow: 2,
+                                    }
                                 }}
                                     onClick={SearchDetails}
                                 >
-                                    Search
+                                    SEARCH
                                 </Button>
                             </CssVarsProvider>
                         </Box>
-                        <Box sx={{ flex: 1 }} ></Box>
                     </Paper>
-                </Box>
+                    <Box sx={{ flex: 1 }} ></Box>
+                </Paper>
                 <Box>
                     {searchFlag === 1 ? <ReportDailyCensusTable tableData={tableData} calculateTotal={calculateTotal} /> : null}
                 </Box>

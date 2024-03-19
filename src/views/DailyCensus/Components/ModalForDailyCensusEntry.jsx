@@ -179,17 +179,17 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                             borderRadius: 'md',
                         }}
                     >
-                        <Paper variant='outlined' square sx={{ display: 'flex', height: 38 }}>
+                        <Paper variant='outlined' square sx={{ display: 'flex', height: 45 }}>
                             <Box sx={{ display: 'flex', flex: 0.5, fontSize: 18, pt: 0.8, justifyContent: 'flex-start', pl: 1, bgcolor: '#bfbdbd' }}>
                                 <Typography sx={{ color: '#212121', fontWeight: 'bold' }}>{moment(new Date(dailyDate)).format('DD-MM-YYYY')}</Typography>
                             </Box>
                             <Box sx={{ display: 'flex', flex: 1.5, fontSize: 18, pt: 0.8, justifyContent: 'center', bgcolor: '#bfbdbd' }}>
                                 <Typography sx={{ color: '#212121', textTransform: 'capitalize', fontWeight: 'bold' }}>{nsName}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', flex: 0.5, justifyContent: 'flex-end', fontSize: 20, pl: 0.5, bgcolor: '#bfbdbd' }}>
-                                <CusIconButton size="sm" variant="outlined" color="primary" style={{ borderRadius: 12, bgcolor: '#F7F8F8', opacity: 0.8 }} >
+                            <Box sx={{ display: 'flex', flex: 0.5, justifyContent: 'flex-end', fontSize: 20, pt: 0.3, pr: 0.2, bgcolor: '#bfbdbd' }}>
+                                <CusIconButton size="md" variant="outlined" style={{ bgcolor: '#F7F8F8', height: 35, width: 35 }}>
                                     <Tooltip title="Close" placement="bottom" >
-                                        <CloseIcon sx={{ cursor: 'pointer', size: 'lg', width: 35, height: 25, color: '#212121', fontWeight: 'bold' }}
+                                        <CloseIcon sx={{ cursor: 'pointer', size: 'lg', fontSize: 30, color: '#424242', fontWeight: 'bold' }}
                                             onClick={handleClose} />
                                     </Tooltip>
                                 </CusIconButton>
@@ -305,28 +305,36 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                                 <Box sx={{ flex: 0.5 }} ></Box>
                             </Box>
                         </Box>
-                        <Paper variant='outlined' square sx={{ display: 'flex', justifyContent: 'flex-end', bgcolor: '#bfbdbd' }}>
-                            <Box sx={{ pr: 0.4, py: 0.4 }}>
+                        <Paper variant='outlined' square sx={{ display: 'flex', justifyContent: 'flex-end', bgcolor: '#bfbdbd', height: 45 }}>
+                            <Box sx={{ py: 0.4 }}>
                                 <CssVarsProvider>
-                                    <Button variant="outlined" sx={{
-                                        fontSize: 16, color: '#212121', width: 100, cursor: 'pointer',
-                                        borderRadius: 14, bgcolor: '#F7F8F8'
+                                    <Button sx={{
+                                        fontSize: 16, width: 100, height: 30, cursor: 'pointer', color: 'white',
+                                        bgcolor: '#616161', border: '1px solid lightgrey', borderRight: 'none', borderRadius: 2,
+                                        ":hover": {
+                                            bgcolor: '#757575',
+                                            boxShadow: 2,
+                                        }
                                     }}
                                         onClick={SaveDetails}
                                     >
-                                        Update
+                                        UPDATE
                                     </Button>
                                 </CssVarsProvider>
                             </Box>
                             <Box sx={{ pr: 1, py: 0.4 }}>
                                 <CssVarsProvider>
-                                    <Button variant="outlined" sx={{
-                                        fontSize: 16, color: '#212121', width: 100, cursor: 'pointer',
-                                        borderRadius: 14, bgcolor: '#F7F8F8'
+                                    <Button sx={{
+                                        fontSize: 16, width: 100, height: 30, cursor: 'pointer', color: 'white',
+                                        bgcolor: '#616161', border: '1px solid lightgrey', borderRight: 'none', borderRadius: 2,
+                                        ":hover": {
+                                            bgcolor: '#757575',
+                                            boxShadow: 2,
+                                        }
                                     }}
                                         onClick={ResetDetails}
                                     >
-                                        Reset
+                                        RESET
                                     </Button>
                                 </CssVarsProvider>
                             </Box>
