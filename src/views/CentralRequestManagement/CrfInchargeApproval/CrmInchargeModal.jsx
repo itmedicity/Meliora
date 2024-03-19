@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux'
 import { format } from 'date-fns';
 import ReqImageDisModal from '../ComonComponent/ReqImageDisModal';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import AddMoreItemDtails from '../ComonComponent/AddMoreItemDtails';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -113,24 +114,35 @@ const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFla
         }
     }, [approve, reject, pending, id, remark, detailAnalis, req_slno])
 
+    const [addMoreItems, setMoreItem] = useState(0)
+
+    const AddItems = useCallback(() => {
+        setMoreItem(1)
+    }, [])
+
     const reset = useCallback(() => {
-        setPending(false)
-        setApprove(false)
-        setReject(false)
-        setRemark('')
-        setApprovalModal(false)
-        setApprovalFlag(0)
-        setApprovalData([])
-        setCount(0)
         setReqTableDis(0)
         setDetailData([])
         setApproveTableDis(0)
         setApproveTableData([])
+        setRemark('')
         setDetailAnalis('')
+        setPending(false)
+        setApprove(false)
+        setReject(false)
+        setMoreItem(0)
+        setApprovalModal(false)
+        setApprovalFlag(0)
+        setApprovalData([])
+        setCount(0)
+        setImageShowFlag(0)
+        setImageShow(false)
+        setImageArry([])
     }, [setApprovalFlag, setCount, setApprovalModal, setApprovalData])
 
 
     useEffect(() => {
+
         const getItemDetails = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFRegister/getDetailItemList/${req_slno}`)
             const { success, data } = result.data
@@ -185,7 +197,7 @@ const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFla
         getItemDetails(req_slno)
         getApproItemDetails(req_slno)
 
-    }, [req_slno])
+    }, [req_slno, addMoreItems])
 
 
     const submit = useCallback(() => {
@@ -222,8 +234,6 @@ const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFla
     const [imageshow, setImageShow] = useState(false)
     const [imagearray, setImageArry] = useState([])
 
-
-
     const ViewImage = useCallback(() => {
         setImageShowFlag(1)
         setImageShow(true)
@@ -247,23 +257,12 @@ const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFla
     const handleClose = useCallback(() => {
         setImageShowFlag(0)
         setImageShow(false)
+        setImageArry([])
     }, [])
 
     const ModalClose = useCallback(() => {
-        setPending(false)
-        setApprove(false)
-        setReject(false)
-        setRemark('')
-        setApprovalModal(false)
-        setApprovalFlag(0)
-        setApprovalData([])
-        setCount(0)
-        setReqTableDis(0)
-        setDetailData([])
-        setApproveTableDis(0)
-        setApproveTableData([])
-        setDetailAnalis('')
-    }, [setApprovalFlag, setCount, setApprovalModal, setApprovalData])
+        reset()
+    }, [reset])
 
     return (
         <Fragment>
@@ -422,6 +421,16 @@ const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFla
                                                     ApproveTableData={ApproveTableData}
                                                     setApproveTableData={setApproveTableData}
                                                 />
+
+
+                                                <Box sx={{ pl: 2 }}>
+                                                    <Button onClick={AddItems} variant="contained"
+                                                        color="primary">Add Items</Button>
+                                                </Box>
+                                                {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
+                                                    setMoreItem={setMoreItem}
+                                                /> : null}
+
                                                 <ApprovalCompntAll
                                                     heading="Incharge Approval"
                                                     approve={approve}

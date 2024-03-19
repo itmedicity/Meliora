@@ -329,13 +329,8 @@ const NdrfFrom = () => {
             getEDSign()
             const InsertFun = async (req_slno) => {
                 const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    setdataPost(data)
-                }
-                else {
-                    setdataPost([])
-                }
+                return result.data
+
             }
 
             const getDataCollectCompleteDetails = async (ndrf_mast_slno) => {
@@ -343,20 +338,31 @@ const NdrfFrom = () => {
                 const { success, data } = result.data
                 if (success === 1) {
                     setDataCollectData(data)
+                    setPdf(1)
                 }
                 else {
                     setDataCollectData([])
+                    setPdf(1)
                 }
             }
 
-
-            InsertFun(req_slno)
-            getDataCollectCompleteDetails(ndrf_mast_slno)
+            InsertFun(req_slno).then((value) => {
+                const { success, data } = value
+                if (success === 1) {
+                    setdataPost(data)
+                    getDataCollectCompleteDetails(ndrf_mast_slno)
+                }
+                else {
+                    setdataPost([])
+                    getDataCollectCompleteDetails(ndrf_mast_slno)
+                }
+            })
         }
-        setPdf(1)
+
     }
 
     useEffect(() => {
+        console.log(pdf);
         if (pdf !== 0 && Object.keys(dataPost).length !== 0) {
             ndrfpdfdownloadwithtable(datapdf, dataPost, datacollectdata, inchargesign, hodsign, omsign,
                 smosign, caosign, edsign)

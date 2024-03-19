@@ -143,7 +143,16 @@ const CrfRequestMaster = () => {
     // const [upInsertNewdtl, setUpInsertNewDetail] = useState([])
     // const [newTabDis, setNewTabDis] = useState(0)
     // const [upInsertNewdtlDis, setUpInsertNewDetailDis] = useState([])
+    const [userAcknoldge, setuserAcknoldge] = useState(false)
 
+    const updateuserAcknoldge = useCallback((e) => {
+        if (e.target.checked === true) {
+            setuserAcknoldge(true)
+        }
+        else {
+            setuserAcknoldge(false)
+        }
+    }, [])
 
     useEffect(() => {
         dispatch(getUOM())
@@ -937,6 +946,9 @@ const CrfRequestMaster = () => {
     }, [])
 
 
+
+
+
     return (
         <Fragment>
             <Box sx={{ height: window.innerHeight - 85, overflow: 'auto' }}>
@@ -1392,7 +1404,19 @@ const CrfRequestMaster = () => {
                 < Paper square elevation={0} sx={{
                     p: 1, pt: 0
                 }} >
-                    <CrfReqstTableView count={count} rowSelect={rowSelect} />
+                    <Box sx={{ width: "30%", mt: 1 }}>
+                        <CusCheckBox
+                            label="Acknowledgement pending"
+                            color="danger"
+                            size="md"
+                            name="userAcknoldge"
+                            value={userAcknoldge}
+                            checked={userAcknoldge}
+                            onCheked={updateuserAcknoldge}
+                        />
+                    </Box>
+
+                    <CrfReqstTableView count={count} rowSelect={rowSelect} userAcknoldge={userAcknoldge} />
                 </Paper >
             </Box >
         </Fragment >

@@ -238,7 +238,6 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa, mdsign, edsign) => {
                             { text: val.approve_item_specification, fontSize: 8 },
                             { text: val.approve_aprox_cost, fontSize: 8 },
 
-
                         ]))
                 }
             },
