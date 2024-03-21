@@ -30,8 +30,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                 <Box overflow='hidden'  >
                     <TableContainer sx={{ maxHeight: window.innerHeight - 240 }}>
                         <Table size='md' stickyHeader padding={"none"}  >
-
-                            <TableHead sx={{}}>
+                            <TableHead >
                                 <TableRow sx={{ height: 30 }} >
                                     <TableCell rowSpan={2} sx={{ width: 60, border: '0.5px solid lightgrey', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Sl.No</TableCell>
                                     <TableCell rowSpan={2} sx={{ width: 300, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Nursing Station</TableCell>
@@ -51,7 +50,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                                     <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white', borderRight: '1px solid grey' }}>Total</TableCell>
                                 </TableRow >
                             </TableHead >
-                            <TableBody hover >
+                            <TableBody>
                                 {censusData?.map((val, index) => {
                                     return <TableRow key={val.census_ns_slno} style={{ cursor: 'pointer', background: (val.update_status === 1) ? '#bdbdbd' : 'transparent' }}>
                                         <TableCell sx={{ borderLeft: '1px solid lightgrey', borderRight: '1px solid lightgrey', textAlign: 'center', height: 25 }}>{index + 1}</TableCell>

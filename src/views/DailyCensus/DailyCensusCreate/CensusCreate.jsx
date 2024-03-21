@@ -155,7 +155,7 @@ const CensusCreate = () => {
                                 transfer_in: reportArray ? reportArray.transfer_in : 0,
                                 transfer_out: reportArray ? reportArray.transfer_out : 0,
                                 total_death: reportArray ? reportArray.total_death : 0,
-                                census_total: (reportArray.census_total !== 0) ? reportArray.census_total : item.yesterday_census,
+                                census_total: reportArray.update_status === 1 ? reportArray.census_total : item.yesterday_census,
                                 ora_admission: reportArray ? reportArray.ora_admission : 0,
                                 ora_discharge: reportArray ? reportArray.ora_discharge : 0,
                                 ora_death: reportArray ? reportArray.ora_death : 0,
@@ -252,7 +252,6 @@ const CensusCreate = () => {
                 </Box>
                 <Box >
                     <Paper variant='outlined' square sx={{ display: 'flex', pr: 1, py: 1 }}>
-
                         <Box sx={{ flex: 1 }} ></Box>
                         <Paper variant='outlined' sx={{ display: 'flex', flex: 1.5, p: 1.5, bgcolor: '#dadce0' }}>
                             <Box sx={{ flex: 1 }} >
