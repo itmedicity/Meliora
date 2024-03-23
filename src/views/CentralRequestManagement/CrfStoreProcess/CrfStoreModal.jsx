@@ -10,12 +10,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { axioslogin } from 'src/views/Axios/Axios'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import { format } from 'date-fns';
-import CrfReqDetailCmpnt from '../CRFRequestMaster/CrfReqDetailCmpnt';
-import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
-import { IconButton } from '@mui/material';
-import { editicon } from 'src/color/Color';
-import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import CrfStoreConfmModal from './CrfStoreConfmModal';
+import StoreItemReceiveModal from './StoreItemReceiveModal';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -23,15 +19,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreData,
     count, setCount }) => {
-
     const { req_slno, req_date, actual_requirement, needed, expected_date,
     } = storeData
 
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
-
     const [podetailFlag, setPOdetalFalg] = useState(0)
     const [getpoDetaildata, setgetPodetailData] = useState([])
-
 
     useEffect(() => {
         const getPODetails = async (req_slno) => {
@@ -43,13 +36,14 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
                         po_detail_slno: val.po_detail_slno,
                         req_slno: val.req_slno,
                         po_number: val.po_number,
-                        po_date: val.po_date,
+                        po_date: format(new Date(val.po_date), 'dd-MM-yyyy'),
                         po_status: 1,
-                        expected_delivery: val.expected_delivery,
+                        expected_delivery: format(new Date(val.expected_delivery), 'dd-MM-yyyy'),
                         supply_store: val.supply_store,
                         sub_storename: val.sub_store_name,
                         store_name: val.main_store,
-                        store_recieve: val.store_recieve
+                        store_recieve: val.store_recieve,
+                        store_recieve_fully: val.store_recieve_fully
                     }
                 })
 
@@ -65,7 +59,6 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
 
 
     const reset = useCallback(() => {
-
         setStoreFlag(0)
         setStoreModal(false)
         setStoreData([])
@@ -78,49 +71,21 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
         reset()
     }, [reset])
 
-
-    //column title setting
-    const [column] = useState([
-        { headerName: "PO Number", field: "po_number", minWidth: 80 },
-        { headerName: "PO Date", field: "po_date", autoHeight: true, wrapText: true, minWidth: 100, filter: "true" },
-        { headerName: "Store", field: "sub_storename", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "CRS Store", field: "store_name", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "Expected Delivery Date", field: "expected_delivery", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
-        {
-            headerName: 'Action', minWidth: 80, autoHeight: true, cellRenderer: params => {
-                if (params.data.store_recieve === 1) {
-                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
-                        <PublishedWithChangesOutlinedIcon />
-                    </IconButton>
-                } else {
-                    return <IconButton onClick={() => ReceiverEntry(params)}
-                        sx={{ color: editicon, paddingY: 0.5 }} >
-                        <CustomeToolTip title="Receiver Entry">
-                            <PublishedWithChangesOutlinedIcon />
-                        </CustomeToolTip>
-                    </IconButton>
-                }
-            }
-        },
-
-
-    ])
     const [edit, setEdit] = useState(0)
     const [podetlno, setPodetlno] = useState(0)
     const [okModal, setOkModal] = useState(false)
-
-    const ReceiverEntry = useCallback((params) => {
-        const data = params.api.getSelectedRows()
-        const { po_detail_slno } = data[0]
-        setEdit(1)
-        setPodetlno(po_detail_slno)
-        setOkModal(true)
-    }, [])
+    const [strFulyReciv, setStrFulyRecev] = useState(0)
+    const [partialFlag, setPartialFlag] = useState(0)
+    const [fullyFlag, setFullyFlag] = useState(0)
 
     const handleClose = useCallback(() => {
         setEdit(0)
         setPodetlno(0)
-    }, [])
+        setOkModal(false)
+        setPartialFlag(0)
+        setFullyFlag(0)
+        setCount(count + 1)
+    }, [setCount, count])
 
 
     return (
@@ -129,7 +94,8 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
             <ToastContainer />
             {edit === 1 ?
                 <CrfStoreConfmModal open={okModal} podetlno={podetlno} handleClose={handleClose}
-                    count={count} setCount={setCount} /> : null
+                    count={count} setCount={setCount} partialFlag={partialFlag}
+                    fullyFlag={fullyFlag} strFulyReciv={strFulyReciv} req_slno={req_slno} /> : null
             }
             <Dialog
                 open={open}
@@ -137,13 +103,12 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
                 keepMounted
                 fullWidth
                 maxWidth='lg'
-
                 aria-describedby="alert-dialog-slide-descriptiona"
             >
                 < DialogContent id="alert-dialog-slide-descriptiona"
                     sx={{
                         width: "100%",
-                        height: 500
+                        height: 400
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
@@ -220,40 +185,36 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
-
                             </Box>
                         </Paper>
 
                         <Box sx={{ width: "100%", mt: 0 }}>
                             <Paper variant='outlined' sx={{ mt: 1 }} >
-
                                 {
                                     podetailFlag === 1 ?
                                         <Box sx={{ width: "100%", pl: 1, pb: 1, pr: 1, height: 200 }}> PO Details
-                                            <CrfReqDetailCmpnt
-                                                columnDefs={column}
-                                                tableData={getpoDetaildata}
+                                            <StoreItemReceiveModal
+                                                getpoDetaildata={getpoDetaildata}
+                                                // columnDefs={column}
+                                                // tableData={getpoDetaildata}
+                                                setEdit={setEdit}
+                                                setPartialFlag={setPartialFlag}
+                                                setPodetlno={setPodetlno}
+                                                setOkModal={setOkModal}
+                                                setFullyFlag={setFullyFlag}
+                                                setStrFulyRecev={setStrFulyRecev}
                                             />
                                         </Box> : null
                                 }
-
-
                             </Paper>
                         </Box>
-
                     </Box>
                 </DialogContent>
-
                 <DialogActions>
-                    {/* <Button color="secondary" onClick={submit} >Save</Button> */}
                     <Button onClick={ModalClose} color="secondary" >Close</Button>
                 </DialogActions>
-
-
             </Dialog>
         </Fragment>
-
-
     )
 }
 
