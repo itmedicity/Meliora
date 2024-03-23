@@ -1,4 +1,4 @@
-import { Box, Button, CssVarsProvider, Tooltip, Typography } from '@mui/joy'
+import { Box, Button, CssVarsProvider, Input, Tooltip, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
@@ -8,7 +8,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import CusIconButton from 'src/views/Components/CusIconButton'
 import ListNursingStations from '../Components/ListNursingStations'
 import moment from 'moment'
-import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { addDays, subDays } from 'date-fns'
 import { infoNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
@@ -88,10 +87,11 @@ const CensusCreate = () => {
                             ora_discharge: newData ? newData.DC : 0,
                             ora_death: newData ? newData.DT : 0,
                             ora_census_total: newData ? ((newData.ACTIVE + newData.NDIS) - newData.NIP) : 0,
+                            ora_dama: newData ? newData.DAMA : 0,
+                            ora_lama: newData ? newData.LAMA : 0,
                             update_status: 0
                         }
                     })
-
                     InsertData(insertArray).then((val) => {
                         const { success } = val
                         if (success === 1) {
@@ -144,6 +144,7 @@ const CensusCreate = () => {
                         const resultArray = newData?.map((item) => {
                             const reportArray = data.find((val) => val.census_ns_slno === item.census_ns_slno)
                             return {
+                                census_slno: reportArray ? reportArray.census_slno : 0,
                                 census_ns_slno: item.census_ns_slno,
                                 census_ns_code: item.census_ns_code,
                                 census_ns_name: item.census_ns_name,
@@ -154,11 +155,13 @@ const CensusCreate = () => {
                                 transfer_in: reportArray ? reportArray.transfer_in : 0,
                                 transfer_out: reportArray ? reportArray.transfer_out : 0,
                                 total_death: reportArray ? reportArray.total_death : 0,
-                                census_total: (reportArray.census_total !== 0) ? reportArray.census_total : item.yesterday_census,
+                                census_total: reportArray.update_status === 1 ? reportArray.census_total : item.yesterday_census,
                                 ora_admission: reportArray ? reportArray.ora_admission : 0,
                                 ora_discharge: reportArray ? reportArray.ora_discharge : 0,
                                 ora_death: reportArray ? reportArray.ora_death : 0,
                                 ora_census_total: reportArray ? reportArray.ora_census_total : 0,
+                                ora_dama: reportArray ? reportArray.ora_dama : 0,
+                                ora_lama: reportArray ? reportArray.ora_lama : 0,
                                 update_status: reportArray ? reportArray.update_status : 0
                             }
                         })
@@ -172,7 +175,58 @@ const CensusCreate = () => {
                 })
             })
         }
-    }, [searchFlag, nurstation, dailyDate])
+    }, [searchFlag, nurstation, dailyDate, count])
+
+    const UpdateDetails = useCallback(() => {
+        if (moment(new Date(dailyDate)).format('YYYY-MM-DD') >= (moment(new Date()).format('YYYY-MM-DD'))) {
+            infoNotify("The Day Is Not Yet Ended")
+        } else {
+
+            const GetElliderData = async (elliderSearch) => {
+                const result = await axiosellider.post('/dailyCensus/elliderData', elliderSearch);
+                return result.data
+            }
+            const UpdateDetails = async (updateArray) => {
+                const result = await axioslogin.patch('/qidailycensus/hisupdate', updateArray);
+                return result.data
+            }
+            const elliderSearch = {
+                from: moment(dailyDate).format('DD/MM/yyyy 00:00:00'),
+                to: moment(dailyDate).format('DD/MM/yyyy 23:59:59'),
+            }
+            GetElliderData(elliderSearch).then((value) => {
+                const { success, data } = value
+                if (success === 1) {
+                    const updateArray = censusData?.map((val) => {
+                        const newData = data.find((item) => item.NS_CODE === val.census_ns_code)
+                        return {
+                            // census_slno: val.census_slno,
+                            census_ns_slno: val.census_ns_slno,
+                            // census_ns_code: val.census_ns_code,
+                            census_date: dailyDate,
+                            edit_user: id,
+                            ora_admission: newData ? newData.AD : 0,
+                            ora_discharge: newData ? newData.DC : 0,
+                            ora_death: newData ? newData.DT : 0,
+                            ora_census_total: newData ? ((newData.ACTIVE + newData.NDIS) - newData.NIP) : 0,
+                            ora_dama: newData ? newData.DAMA : 0,
+                            ora_lama: newData ? newData.LAMA : 0
+                        }
+                    })
+                    UpdateDetails(updateArray).then((val) => {
+                        const { success } = val
+                        if (success === 1) {
+                            setCount(count + 1)
+                            setLoading(true)
+                        }
+                        else {
+                        }
+                    })
+                }
+            })
+        }
+    }, [dailyDate, censusData, id, count])
+
     return (
         <Fragment>
             {loading && <CustomCircularProgress />}
@@ -190,46 +244,70 @@ const CensusCreate = () => {
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.3, pr: 0.2 }}>
                             <CusIconButton size="md" variant="outlined" style={{ bgcolor: '#F7F8F8', height: 35, width: 35 }}>
                                 <Tooltip title="Close" placement="bottom" >
-                                    <CloseIcon sx={{ cursor: 'pointer', size: 'lg', fontSize: 25, color: '#424242', }} onClick={backtoHome} />
+                                    <CloseIcon sx={{ cursor: 'pointer', size: 'lg', fontSize: 30, color: '#424242', }} onClick={backtoHome} />
                                 </Tooltip>
                             </CusIconButton>
                         </Box>
                     </Box>
                 </Box>
                 <Box >
-                    <Paper variant='outlined' square sx={{ display: 'flex', pr: 1, py: 2 }}>
+                    <Paper variant='outlined' square sx={{ display: 'flex', pr: 1, py: 1 }}>
                         <Box sx={{ flex: 1 }} ></Box>
-                        <Box sx={{ flex: 1 }} >
-
-                            <TextFieldCustom
-                                slotProps={{
-                                    input: {
-                                        min: moment(subDays(new Date(), 1)).format('YYYY-MM-DD'),
-                                        max: moment(addDays(new Date(), 1)).format('YYYY-MM-DD')
-                                    },
-                                }}
-                                size="md"
-                                type="date"
-                                name="dailyDate"
-                                value={dailyDate}
-                                onchange={QIDateChange}
-                            />
-                            <Box sx={{ pt: 0.2 }}>
-
+                        <Paper variant='outlined' sx={{ display: 'flex', flex: 1.5, p: 1.5, bgcolor: '#dadce0' }}>
+                            <Box sx={{ flex: 1 }} >
+                                <CssVarsProvider>
+                                    <Input
+                                        style={{ height: 40, borderRight: 'none', borderRadius: 0, }}
+                                        slotProps={{
+                                            input: {
+                                                min: moment(subDays(new Date(), 1)).format('YYYY-MM-DD'),
+                                                max: moment(addDays(new Date(), 1)).format('YYYY-MM-DD')
+                                            },
+                                        }}
+                                        size="md"
+                                        type="date"
+                                        name="dailyDate"
+                                        value={dailyDate}
+                                        onChange={QIDateChange}
+                                    />
+                                </CssVarsProvider>
                             </Box>
-                        </Box>
-                        <Box sx={{ flex: 1, pl: 1 }} >
-                            <CssVarsProvider>
-                                <Button variant="outlined" sx={{
-                                    fontSize: 16, color: '#424242', width: 150, cursor: 'pointer',
-                                    borderRadius: 20, bgcolor: '#F7F8F8'
-                                }}
-                                    onClick={SearchDetails}
-                                >
-                                    Search
-                                </Button>
-                            </CssVarsProvider>
-                        </Box>
+                            <Box sx={{}} >
+                                <CssVarsProvider>
+                                    <Button sx={{
+                                        fontSize: 16, width: 150, height: 40, cursor: 'pointer', color: 'white',
+                                        bgcolor: '#616161', border: '1px solid lightgrey', borderRight: 'none', borderRadius: 0,
+                                        ":hover": {
+                                            bgcolor: '#757575',
+                                            boxShadow: 2,
+                                        }
+                                    }}
+                                        onClick={SearchDetails}
+                                    >
+                                        SEARCH
+                                    </Button>
+                                </CssVarsProvider>
+                            </Box>
+                            {searchFlag === 1 ?
+                                <Box sx={{ pl: 0.1 }} >
+                                    <CssVarsProvider>
+                                        <Button sx={{
+                                            fontSize: 16, width: 150, height: 40, cursor: 'pointer', color: 'white',
+                                            bgcolor: '#616161', border: '1px solid lightgrey', borderRight: 'none', borderRadius: 0,
+                                            ":hover": {
+                                                bgcolor: '#757575',
+                                                boxShadow: 2,
+                                            }
+                                        }}
+                                            onClick={UpdateDetails}
+                                        >
+                                            UPDATE
+                                        </Button>
+                                    </CssVarsProvider>
+                                </Box>
+                                : null
+                            }
+                        </Paper>
                         <Box sx={{ flex: 1 }} ></Box>
                     </Paper>
                 </Box>
@@ -242,8 +320,8 @@ const CensusCreate = () => {
                         </Box>
                     }
                 </Box>
-            </Paper>
-        </Fragment>
+            </Paper >
+        </Fragment >
     )
 }
 export default memo(CensusCreate)

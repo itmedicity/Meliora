@@ -30,9 +30,8 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                 <Box overflow='hidden'  >
                     <TableContainer sx={{ maxHeight: window.innerHeight - 240 }}>
                         <Table size='md' stickyHeader padding={"none"}  >
-
-                            <TableHead sx={{}}>
-                                <TableRow sx={{ height: 30 }} hover >
+                            <TableHead >
+                                <TableRow sx={{ height: 30 }} >
                                     <TableCell rowSpan={2} sx={{ width: 60, border: '0.5px solid lightgrey', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Sl.No</TableCell>
                                     <TableCell rowSpan={2} sx={{ width: 300, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Nursing Station</TableCell>
                                     <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>HIS Yesterday Census</TableCell>
@@ -44,14 +43,16 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                                     <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Transfer In</TableCell>
                                     <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Transfer Out</TableCell>
                                     <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>HIS Death</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>HIS DAMA</TableCell>
+                                    <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>HIS LAMA</TableCell>
                                     <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>Death</TableCell>
                                     <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white' }}>HIS Total</TableCell>
                                     <TableCell sx={{ width: 150, border: '1px solid lightgrey', borderLeft: 'none', textAlign: 'center', bgcolor: '#424242', color: 'white', borderRight: '1px solid grey' }}>Total</TableCell>
                                 </TableRow >
                             </TableHead >
-                            <TableBody >
+                            <TableBody>
                                 {censusData?.map((val, index) => {
-                                    return <TableRow key={val.census_ns_slno} hover style={{ cursor: 'pointer', background: (val.update_status === 1) ? '#bdbdbd' : 'transparent' }}>
+                                    return <TableRow key={val.census_ns_slno} style={{ cursor: 'pointer', background: (val.update_status === 1) ? '#bdbdbd' : 'transparent' }}>
                                         <TableCell sx={{ borderLeft: '1px solid lightgrey', borderRight: '1px solid lightgrey', textAlign: 'center', height: 25 }}>{index + 1}</TableCell>
                                         <TableCell sx={{
                                             borderRight: '1px solid lightgrey', pl: 1, height: 25,
@@ -81,6 +82,10 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                                             {val.transfer_out}</TableCell>
                                         <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25, bgcolor: '#757575', color: 'white' }}>
                                             {val.ora_death}</TableCell>
+                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25, bgcolor: '#757575', color: 'white' }}>
+                                            {val.ora_dama}</TableCell>
+                                        <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25, bgcolor: '#757575', color: 'white' }}>
+                                            {val.ora_lama}</TableCell>
                                         <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25 }}>
                                             {val.total_death}</TableCell>
                                         <TableCell padding={"none"} sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25, bgcolor: '#757575', color: 'white' }}>

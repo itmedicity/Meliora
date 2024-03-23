@@ -4,9 +4,9 @@ const { FETCH_QUALITY_INDICATOR_DEPT } = ActionTyps
 
 
 export const getQltyDept = () => async (dispatch) => {
-    const result = await axioslogin.get('/qualityCensusDept/active');
+    const result = await axioslogin.get('/qidepartment/active');
     const { success, data } = result.data
-    if (success === 2) {
+    if (success === 1) {
         dispatch({ type: FETCH_QUALITY_INDICATOR_DEPT, payload: data, loadingStatus: true })
     }
     else {
