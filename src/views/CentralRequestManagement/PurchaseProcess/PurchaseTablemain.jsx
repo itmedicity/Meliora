@@ -93,7 +93,7 @@ const PurchaseTablemain = () => {
                         po_approva_level_one: val.po_approva_level_one,
                         po_approva_level_two: val.po_approva_level_two,
                         po_to_supplier: val.po_to_supplier,
-
+                        store_receive: val.store_receive,
                         now_who: val.po_to_supplier === 1 ? "PO Send to Supplier" :
                             val.po_approva_level_two === 1 ? "PO MD & ED Level Approved" :
                                 val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
