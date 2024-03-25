@@ -54,6 +54,10 @@ const CensusCreate = () => {
             infoNotify("The Day Is Not Yet Ended")
         } else {
             setsearchFlag(1)
+            const elliderSearch = {
+                from: moment(dailyDate).format('DD/MM/yyyy 00:00:00'),
+                to: moment(dailyDate).format('DD/MM/yyyy 23:59:59')
+            }
             const GetElliderData = async (elliderSearch) => {
                 const result = await axiosellider.post('/dailyCensus/elliderData', elliderSearch);
                 return result.data
@@ -61,10 +65,6 @@ const CensusCreate = () => {
             const InsertData = async (insertArray) => {
                 const result = await axioslogin.post('/qidailycensus/save', insertArray);
                 return result.data
-            }
-            const elliderSearch = {
-                from: moment(dailyDate).format('DD/MM/yyyy 00:00:00'),
-                to: moment(dailyDate).format('DD/MM/yyyy 23:59:59'),
             }
             GetElliderData(elliderSearch).then((value) => {
                 const { success, data } = value
@@ -103,7 +103,6 @@ const CensusCreate = () => {
                     })
                 }
             })
-
         }
     }, [dailyDate, nurstation, id, count])
 
