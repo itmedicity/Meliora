@@ -20,13 +20,13 @@ const QualityTransactions = [
         to: '/Home/DailyCensusReport',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
-    {
-        men_slno: 182,
-        component: CNavItem,
-        name: 'Dept Wise Patient Marking',
-        to: '/Home/QIPatientMarking',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
+    // {
+    //     men_slno: 182,
+    //     component: CNavItem,
+    //     name: 'Dept Wise Patient Marking',
+    //     to: '/Home/QIPatientMarking',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
     // {
     //     men_slno: 186,
     //     component: CNavItem,
