@@ -305,7 +305,6 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                         return obj
                     })
                     setDataColData(datas)
-                    setEnable(0)
                 }
                 else {
                     setDataColFlag(0)

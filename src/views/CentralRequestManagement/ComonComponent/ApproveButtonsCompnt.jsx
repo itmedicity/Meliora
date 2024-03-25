@@ -113,7 +113,7 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                                 startDecorator={<Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>{now_who}</Typography>}
                                 endDecorator={<Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>
                                     {now_who_status === 1 ? "Approved" : now_who_status === 2 ? "Rejected" :
-                                        now_who_status === 3 ? "On-Hold" : ""
+                                        now_who_status === 3 ? "On-Hold" : now_who_status === 4 ? "Received" : ""
                                     }</Typography>}
                             />
                             <Button variant='solid'

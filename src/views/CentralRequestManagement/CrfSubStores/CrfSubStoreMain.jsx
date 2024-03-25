@@ -57,7 +57,6 @@ const CrfSubStoreMain = () => {
     const [donedata, setDoneData] = useState([])
     const [substoreSlno, setsubStoreSlno] = useState(0)
 
-
     useEffect(() => {
 
         const getReqForDownload = async (substoreSlno) => {

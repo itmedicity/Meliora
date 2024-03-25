@@ -84,18 +84,20 @@ const CrfReqstTableView = ({ count, rowSelect, userAcknoldge, setCount }) => {
 
                         sub_store_recieve: val.sub_store_recieve,
                         user_acknldge: val.user_acknldge,
-                        store_receive: val.store_receive
+                        store_receive: val.store_receive,
+                        store_recieve_fully: val.store_recieve_fully,
+                        po_to_supplier: val.po_to_supplier
                     }
                     return obj
                 })
 
                 const userAcklist = datas.filter((val) => {
-                    return val.sub_store_recieve === 1
+                    return val.po_to_supplier === 1
                 })
 
                 setuserAckPend(userAcklist)
                 const NotuserAcklist = datas.filter((val) => {
-                    return val.sub_store_recieve !== 1
+                    return val.po_to_supplier !== 1
                 })
                 setDisData(NotuserAcklist)
             } else {
