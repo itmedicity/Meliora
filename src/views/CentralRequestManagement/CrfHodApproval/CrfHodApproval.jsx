@@ -168,12 +168,10 @@ const CrfHodApproval = () => {
                         ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
                         ed_approve_date: val.ed_approve_date,
                         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
-                        higher: val.hod_approve !== null || val.manag_operation_approv !== null || val.senior_manage_approv !== null ||
+                        higher: val.manag_operation_approv !== null || val.senior_manage_approv !== null ||
                             val.gm_approve !== null || val.md_approve !== null ||
                             val.ed_approve !== null ? 1 :
                             (val.dms_req === 1 && val.dms_approve !== null) ? 1 : 0,
-
-                        store_receive: val.store_receive,
                         now_who: val.sub_store_recieve === 1 ? "Sub Store Receive" :
                             val.store_receive === 1 ? "CRS Store Receive" :
                                 val.po_to_supplier === 1 ? "PO Send to Supplier" :
@@ -215,8 +213,30 @@ const CrfHodApproval = () => {
                                                                                             val.dms_approve !== null ? val.dms_approve :
                                                                                                 val.hod_approve !== null ? val.hod_approve :
                                                                                                     val.incharge_approve !== null ? val.incharge_approve :
-                                                                                                        0
-
+                                                                                                        0,
+                        hod_image: val.hod_image,
+                        dms_image: val.dms_image,
+                        ms_image: val.ms_image,
+                        mo_image: val.mo_image,
+                        smo_image: val.smo_image,
+                        gm_image: val.gm_image,
+                        md_image: val.md_image,
+                        ed_image: val.ed_image,
+                        ack_status: val.ack_status,
+                        ack_remarks: val.ack_remarks,
+                        quatation_calling_status: val.quatation_calling_status,
+                        quatation_calling_date: val.quatation_calling_date,
+                        quatation_negotiation: val.quatation_negotiation,
+                        quatation_negotiation_date: val.quatation_negotiation_date,
+                        quatation_fixing: val.quatation_fixing,
+                        quatation_fixing_date: val.quatation_fixing_date,
+                        po_prepartion: val.po_prepartion,
+                        po_complete: val.po_complete,
+                        po_complete_date: val.po_complete_date,
+                        po_approva_level_one: val.po_approva_level_one,
+                        po_approva_level_two: val.po_approva_level_two,
+                        po_to_supplier: val.po_to_supplier,
+                        store_receive: val.store_receive
 
 
                     }
@@ -273,6 +293,7 @@ const CrfHodApproval = () => {
                 const fileUrls = fileNames.map((fileName) => {
                     return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
                 });
+
                 setImageArry(fileUrls);
             }
         }

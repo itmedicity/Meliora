@@ -46,7 +46,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         quatation_negotiation, quatation_negotiation_date, quatation_neguser,
         quatation_fixing, quatation_fixing_date, quatation_fixuser,
         po_prepartion, po_complete, po_approva_level_one, po_approva_level_two,
-        po_to_supplier, image_status, store_receive
+        po_to_supplier, image_status, store_receive, md_image, ed_image
 
     } = puchaseData
 
@@ -206,10 +206,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
     const [imagearray, setImageArry] = useState([])
 
     const ViewImage = useCallback(() => {
-        setImageShowFlag(1)
-        setImageShow(true)
-    }, [])
-    useEffect(() => {
         const getImage = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
             const { success, data } = result.data
@@ -219,12 +215,65 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                     return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
                 });
                 setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
             }
         }
-        if (imageshowFlag === 1) {
-            getImage(req_slno)
+        getImage(req_slno)
+    }, [req_slno])
+
+    const ViewMDUploadImage = useCallback(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfMDImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/MDUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
         }
-    }, [imageshowFlag, req_slno])
+        getImage(req_slno)
+
+    }, [req_slno])
+
+    const ViewEDUploadImage = useCallback(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfEDImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/EDUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
+        }
+        getImage(req_slno)
+
+    }, [req_slno])
+
+
     const handleClose = useCallback(() => {
         setImageShowFlag(0)
         setImageShow(false)
@@ -973,6 +1022,10 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                             </CssVarsProvider>
                                                         </Box>
                                             }
+                                            {md_image === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                                <Button onClick={ViewMDUploadImage} variant="contained"
+                                                    color="primary">View Image</Button>
+                                            </Box> : null}
                                         </Box>
                                     </Paper>
                                 </Box>
@@ -1050,6 +1103,10 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                             </CssVarsProvider>
                                                         </Box>
                                             }
+                                            {ed_image === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                                <Button onClick={ViewEDUploadImage} variant="contained"
+                                                    color="primary">View Image</Button>
+                                            </Box> : null}
                                         </Box>
                                     </Paper>
                                 </Box>

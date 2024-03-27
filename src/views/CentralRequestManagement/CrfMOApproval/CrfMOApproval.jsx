@@ -200,10 +200,31 @@ const CrfMOApproval = () => {
                                                                                             val.dms_approve !== null ? val.dms_approve :
                                                                                                 val.hod_approve !== null ? val.hod_approve :
                                                                                                     val.incharge_approve !== null ? val.incharge_approve :
-                                                                                                        0
+                                                                                                        0,
 
-
-
+                        hod_image: val.hod_image,
+                        dms_image: val.dms_image,
+                        ms_image: val.ms_image,
+                        mo_image: val.mo_image,
+                        smo_image: val.smo_image,
+                        gm_image: val.gm_image,
+                        md_image: val.md_image,
+                        ed_image: val.ed_image,
+                        ack_status: val.ack_status,
+                        ack_remarks: val.ack_remarks,
+                        quatation_calling_status: val.quatation_calling_status,
+                        quatation_calling_date: val.quatation_calling_date,
+                        quatation_negotiation: val.quatation_negotiation,
+                        quatation_negotiation_date: val.quatation_negotiation_date,
+                        quatation_fixing: val.quatation_fixing,
+                        quatation_fixing_date: val.quatation_fixing_date,
+                        po_prepartion: val.po_prepartion,
+                        po_complete: val.po_complete,
+                        po_complete_date: val.po_complete_date,
+                        po_approva_level_one: val.po_approva_level_one,
+                        po_approva_level_two: val.po_approva_level_two,
+                        po_to_supplier: val.po_to_supplier,
+                        store_receive: val.store_receive
                     }
                     return obj
                 })
