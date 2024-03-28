@@ -13,6 +13,8 @@ import HigherAppDoneModal from '../ComonComponent/HigherAppDoneModal'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ReqImageDisModal from '../ComonComponent/ReqImageDisModal'
+import ClosedDetailsModal from '../ComonComponent/ClosedDetailsModal'
+import ClosedButtonCompnt from '../ComonComponent/ClosedButtonCompnt'
 
 const CrfMSApproval = () => {
     /*** Initializing */
@@ -21,6 +23,7 @@ const CrfMSApproval = () => {
     const [count, setCount] = useState(0)
     const [done, setDone] = useState(false)
     const [pending, setPending] = useState(true)
+    const [closed, setClose] = useState(false)
     const [check, setCheck] = useState(0)
 
     const updatedone = useCallback((e) => {
@@ -28,11 +31,13 @@ const CrfMSApproval = () => {
             setDone(true)
             setCheck(2)
             setPending(false)
+            setClose(false)
         }
         else {
             setDone(false)
             setCheck(0)
             setPending(false)
+            setClose(false)
         }
     }, [])
     const updatependng = useCallback((e) => {
@@ -40,16 +45,33 @@ const CrfMSApproval = () => {
             setPending(true)
             setCheck(1)
             setDone(false)
+            setClose(false)
         }
         else {
             setDone(false)
             setCheck(0)
             setPending(false)
+            setClose(false)
+        }
+    }, [])
+    const updateClosed = useCallback((e) => {
+        if (e.target.checked === true) {
+            setClose(true)
+            setCheck(3)
+            setDone(false)
+            setPending(false)
+        }
+        else {
+            setDone(false)
+            setCheck(0)
+            setPending(false)
+            setClose(false)
         }
     }, [])
 
     const [pendingData, setPendingData] = useState([])
     const [donedata, setDoneData] = useState([])
+    const [closedata, setClosedData] = useState([])
     useEffect(() => {
 
         const getReqDeptsecList = async () => {
@@ -59,6 +81,10 @@ const CrfMSApproval = () => {
                 const mslist = data.filter((val) => {
                     return val.ms_approve_req === 1 && val.crf_close !== 1
                 })
+                const ClosedList = data.filter((val) => {
+                    return val.ms_approve_req === 1 && val.crf_close === 1
+                })
+                setClosedData(ClosedList)
                 const datas = mslist.map((val) => {
                     const obj = {
                         req_slno: val.req_slno,
@@ -270,6 +296,9 @@ const CrfMSApproval = () => {
     const [imageSlno, setImageSlno] = useState(0)
     const [imagearray, setImageArry] = useState([])
 
+    const [CloseFlag, setCloseFlag] = useState(0)
+    const [CloseModal, setCloseModal] = useState(false)
+    const [CloseData, setCloseData] = useState([])
 
     useEffect(() => {
         const getImage = async (req_slno) => {
@@ -319,6 +348,9 @@ const CrfMSApproval = () => {
             {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
                 images={imagearray} /> : null}
 
+            {CloseFlag === 1 ? <ClosedDetailsModal open={CloseModal} CloseData={CloseData}
+                setCloseData={setCloseData} setCloseModal={setCloseModal} setCloseFlag={setCloseFlag} /> : null}
+
             <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
                 <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>MS Approval</Box>
                 <Box>
@@ -358,6 +390,17 @@ const CrfMSApproval = () => {
                             onCheked={updatedone}
                         />
                     </Box>
+                    <Box sx={{ width: "10%", mt: 1 }}>
+                        <CusCheckBox
+                            label="Closed"
+                            color="danger"
+                            size="md"
+                            name="closed"
+                            value={closed}
+                            checked={closed}
+                            onCheked={updateClosed}
+                        />
+                    </Box>
                 </Box>
             </Paper>
 
@@ -391,31 +434,53 @@ const CrfMSApproval = () => {
                     </Box>
 
                     :
-                    <Box>
-                        {pendingData && pendingData.map((val) => {
-                            return <Box key={val.req_slno} sx={{ width: "100%", }}>
-                                <Paper sx={{
-                                    width: '100%',
-                                    mt: 0.8,
-                                    border: "2 solid #272b2f",
-                                    borderRadius: 3,
-                                    overflow: 'hidden',
-                                    boxShadow: 1,
-                                    backgroundColor: '#BBBCBC'
-                                }} variant='outlined'>
-                                    <MasterDetailCompnt val={val} />
-                                    <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
-                                        setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
-                                        setCancelModal={setCancelModal} setApprovalData={setApprovalData}
-                                        setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
-                                        setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal}
-                                        setImageShowFlag={setImageShowFlag} setImageShow={setImageShow}
-                                        setImageSlno={setImageSlno}
-                                    />
-                                </Paper>
-                            </Box>
-                        })}
-                    </Box>
+                    check === 3 ?
+                        <Box sx={{ width: "100%" }}>
+
+                            {closedata && closedata.map((val) => {
+                                return <Box key={val.req_slno} sx={{ width: "100%", }}>
+                                    <Paper sx={{
+                                        width: '100%',
+                                        mt: 0.8,
+                                        border: "2 solid #272b2f",
+                                        borderRadius: 3,
+                                        overflow: 'hidden',
+                                        boxShadow: 1,
+                                        backgroundColor: '#BBBCBC'
+                                    }} variant='outlined'>
+                                        <MasterDetailCompnt val={val} />
+                                        <ClosedButtonCompnt val={val} setCloseFlag={setCloseFlag}
+                                            setCloseModal={setCloseModal} setCloseData={setCloseData}
+                                        />
+                                    </Paper>
+                                </Box>
+                            })}
+                        </Box> :
+                        <Box>
+                            {pendingData && pendingData.map((val) => {
+                                return <Box key={val.req_slno} sx={{ width: "100%", }}>
+                                    <Paper sx={{
+                                        width: '100%',
+                                        mt: 0.8,
+                                        border: "2 solid #272b2f",
+                                        borderRadius: 3,
+                                        overflow: 'hidden',
+                                        boxShadow: 1,
+                                        backgroundColor: '#BBBCBC'
+                                    }} variant='outlined'>
+                                        <MasterDetailCompnt val={val} />
+                                        <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
+                                            setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
+                                            setCancelModal={setCancelModal} setApprovalData={setApprovalData}
+                                            setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
+                                            setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal}
+                                            setImageShowFlag={setImageShowFlag} setImageShow={setImageShow}
+                                            setImageSlno={setImageSlno}
+                                        />
+                                    </Paper>
+                                </Box>
+                            })}
+                        </Box>
                 }
             </Box>
         </Fragment>

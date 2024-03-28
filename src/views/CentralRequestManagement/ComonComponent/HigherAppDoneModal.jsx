@@ -372,7 +372,6 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
         { headerName: "Expected Delivery Date", field: "expected_delivery", autoHeight: true, wrapText: true, width: 250, filter: "true" },
     ])
 
-    console.log(getpoDetaildata);
     return (
         <Fragment>
             <ToastContainer />
