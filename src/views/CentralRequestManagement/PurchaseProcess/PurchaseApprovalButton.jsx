@@ -176,7 +176,7 @@ const PurchaseApprovalButton = ({ val, setpuchaseFlag, setpuchaseModal, setpucha
                     {image_status === 1 ?
                         <Box sx={{ mx: 0.5 }}>
                             <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewImage}  >
-                                <AttachFileIcon fontSize='small' sx={{ ml: 1 }} />
+                                <AttachFileIcon fontSize='small' />
                             </CusIconButton>
                         </Box> : null
                     }

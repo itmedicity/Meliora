@@ -32,6 +32,8 @@ import CustomPaperTitle from 'src/views/Components/CustomPaperTitle';
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import imageCompression from 'browser-image-compression';
 import CloseIcon from '@mui/icons-material/Close';
+import CusIconButton from 'src/views/Components/CusIconButton'
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -641,10 +643,11 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                                 </CssVarsProvider>
                                             </Box>
                                         </Box>
-                                        {image_status === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
-                                            <Button onClick={ViewImage} variant="contained"
-                                                color="primary">View Image</Button>
-
+                                        {image_status === 1 ? <Box sx={{ mx: 0.5, pb: 0.5 }}>
+                                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewImage}  >
+                                                <AttachFileIcon fontSize='small' />
+                                                <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
+                                            </CusIconButton>
                                         </Box> : null}
                                     </Box>
                                 </Paper>
@@ -1050,11 +1053,14 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                                 }
 
                                                 <Box sx={{ display: 'flex', width: '400', pt: 1 }}>
-                                                    {hod_image === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
-                                                        <Button onClick={ViewUploadImage} variant="contained"
-                                                            color="primary">View Image</Button>
-
-                                                    </Box> : null}
+                                                    {hod_image === 1 ?
+                                                        <Box sx={{ mx: 0.5, pb: 0.5 }}>
+                                                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewUploadImage}  >
+                                                                <AttachFileIcon fontSize='small' />
+                                                                <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
+                                                            </CusIconButton>
+                                                        </Box>
+                                                        : null}
                                                     <Box >
                                                         <label htmlFor="file-input">
                                                             <CustomeToolTip title="upload">
@@ -1074,7 +1080,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                                     </Box>
                                                     {
                                                         selectFile && selectFile.map((val, index) => {
-                                                            return <Box sx={{ display: "flex", flexDirection: "row", ml: 2, pt: 2 }}
+                                                            return <Box sx={{ display: "flex", flexDirection: "row", ml: 2, pt: 1 }}
                                                                 key={index} >
                                                                 <Box >{val.name}</Box>
                                                                 <Box sx={{ ml: .3 }}><CloseIcon sx={{ height: '18px', width: '20px', cursor: 'pointer' }}

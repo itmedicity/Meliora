@@ -1,14 +1,15 @@
 import React, { memo, Fragment } from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { TypoHeadColor } from 'src/color/Color';
 
 const ApprovedItemListDis = ({ ApproveData }) => {
     return (
         <Fragment>
-            <TableContainer sx={{ maxHeight: 250 }}>
+            <TableContainer sx={{ maxHeight: 250, p: 1 }}>
                 <Table size="small"
                     stickyHeader aria-label="sticky table"
 
-                    sx={{ border: "0.2px solid" }}>
+                    sx={{ border: "0.1px solid", color: TypoHeadColor }}>
                     <TableHead sx={{ border: "1px " }}>
                         <TableRow  >
                             <TableCell align="center" >#</TableCell>
