@@ -1,6 +1,8 @@
 import React, { memo, Fragment, useCallback } from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import Button from '@mui/material/Button';
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { IconButton } from '@mui/material'
 
 const StoreItemReceiveModal = ({ getpoDetaildata, setPartialFlag, setPodetlno, setOkModal, setEdit,
     setFullyFlag, setStrFulyRecev }) => {
@@ -38,8 +40,8 @@ const StoreItemReceiveModal = ({ getpoDetaildata, setPartialFlag, setPodetlno, s
                             <TableCell align="left" > Store</TableCell>
                             <TableCell align="center">CRS Store</TableCell>
                             <TableCell align="center">Expected Delivery Date</TableCell>
-                            <TableCell align="center"></TableCell>
-                            <TableCell align="center"></TableCell>
+                            <TableCell align="center">Partaily</TableCell>
+                            <TableCell align="center">Fully</TableCell>
 
                         </TableRow>
                     </TableHead>
@@ -58,17 +60,27 @@ const StoreItemReceiveModal = ({ getpoDetaildata, setPartialFlag, setPodetlno, s
                                 <TableCell align="left">{val.sub_storename}</TableCell>
                                 <TableCell align="center">{val.store_name}</TableCell>
                                 <TableCell align="center">{val.expected_delivery}</TableCell>
-                                <TableCell align="center">{
-                                    val.store_recieve_fully === 1 ?
-                                        <Button variant="contained"
-                                            color="primary" disabled >Partially</Button> :
-                                        <Button onClick={(e) => partialyReceive(val)} variant="contained"
-                                            color="primary"   >Partaily</Button>
-                                }
+                                <TableCell align="center">
+                                    {val.store_recieve_fully === 1 ?
+                                        <IconButton variant="outlined" color="primary"
+                                            disabled   >
+                                            <ShoppingCartCheckoutIcon size={30} />
+                                        </IconButton> :
+                                        <IconButton variant="outlined" color="primary"
+                                            onClick={(e) => partialyReceive(val)}   >
+                                            <ShoppingCartCheckoutIcon size={30} />
+                                        </IconButton>
+
+                                    }
+
                                 </TableCell>
                                 <TableCell align="center">
-                                    <Button onClick={(e) => FullyReceive(val)} variant="contained"
-                                        color="primary">Fully</Button>
+                                    <IconButton variant="outlined" color="primary"
+                                        onClick={(e) => FullyReceive(val)}   >
+                                        <ShoppingCartIcon size={30} />
+                                    </IconButton>
+                                    {/* <Button onClick={(e) => FullyReceive(val)} variant="contained"
+                                        color="primary">Fully</Button> */}
                                 </TableCell>
 
                             </TableRow>

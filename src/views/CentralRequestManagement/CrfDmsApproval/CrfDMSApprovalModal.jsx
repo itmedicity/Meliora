@@ -32,6 +32,8 @@ import CustomPaperTitle from 'src/views/Components/CustomPaperTitle';
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import imageCompression from 'browser-image-compression';
 import CloseIcon from '@mui/icons-material/Close';
+import CusIconButton from 'src/views/Components/CusIconButton'
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -670,10 +672,11 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                                 </CssVarsProvider>
                                             </Box>
                                         </Box>
-                                        {image_status === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
-                                            <Button onClick={ViewImage} variant="contained"
-                                                color="primary">View Image</Button>
-
+                                        {image_status === 1 ? <Box sx={{ mx: 0.5, pb: 0.5 }}>
+                                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewImage}  >
+                                                <AttachFileIcon fontSize='small' />
+                                                <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
+                                            </CusIconButton>
                                         </Box> : null}
                                         {/* {
                                 reqTableDis === 0 ?
@@ -885,11 +888,13 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                                                             </CssVarsProvider>
                                                                         </Box> : null
                                                             }
-                                                            {hod_image === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
-                                                                <Button onClick={ViewHODUploadImage} variant="contained"
-                                                                    color="primary">View Image</Button>
-
-                                                            </Box> : null}
+                                                            {hod_image === 1 ?
+                                                                <Box sx={{ mx: 0.5, pb: 0.5 }}>
+                                                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewHODUploadImage}  >
+                                                                        <AttachFileIcon fontSize='small' />
+                                                                        <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
+                                                                    </CusIconButton>
+                                                                </Box> : null}
                                                         </Box>
                                                     </Box> :
                                                     <Box>
@@ -1176,11 +1181,10 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                                     </Paper>
                                                 }
                                                 <Box sx={{ display: 'flex', width: '400', pt: 1 }}>
-                                                    {dms_image === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
-                                                        <Button onClick={ViewUploadImage} variant="contained"
-                                                            color="primary">View Image</Button>
-
-                                                    </Box> : null}
+                                                    {dms_image === 1 ? <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewUploadImage}  >
+                                                        <AttachFileIcon fontSize='small' />
+                                                        <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
+                                                    </CusIconButton> : null}
                                                     <Box >
                                                         <label htmlFor="file-input">
                                                             <CustomeToolTip title="upload">
