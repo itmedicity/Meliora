@@ -113,7 +113,11 @@ const PurchaseTablemain = () => {
                                                 val.quatation_negotiation === 1 ? val.quatation_negotiation :
                                                     val.quatation_calling_status === 1 ? val.quatation_calling_status :
                                                         val.ack_status === 1 ? val.ack_status :
-                                                            0
+                                                            0,
+
+                        md_image: val.md_image,
+                        ed_image: val.ed_image
+
                     }
                     return obj
                 })

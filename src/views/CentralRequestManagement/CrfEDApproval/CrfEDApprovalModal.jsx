@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { Box, Paper } from '@mui/material'
+import { Box, Paper, IconButton, Input } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -27,6 +27,11 @@ import CustomTextarea from 'src/views/Components/CustomTextarea';
 import AddMoreItemDtails from '../ComonComponent/AddMoreItemDtails';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ReqImageDisModal from '../ComonComponent/ReqImageDisModal';
+import CustomeToolTip from 'src/views/Components/CustomeToolTip';
+import CustomPaperTitle from 'src/views/Components/CustomPaperTitle';
+import UploadFileIcon from '@mui/icons-material/UploadFile'
+import imageCompression from 'browser-image-compression';
+import CloseIcon from '@mui/icons-material/Close';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -42,7 +47,8 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
         manag_operation_user, senior_manage_approv, smo, senior_manage_remarks, smo_detial_analysis,
         som_aprrov_date, senior_manage_user, gm_approve, gm, gm_approve_remarks, gm_detial_analysis,
         gm_approv_date, gm_user, md_approve, md_approve_remarks, md_detial_analysis, md_approve_date,
-        ed_approve, md, md_user, ed_approve_remarks, ed_detial_analysis, image_status
+        ed_approve, md, md_user, ed_approve_remarks, ed_detial_analysis, image_status,
+        hod_image, dms_image, ms_image, mo_image, smo_image, gm_image, md_image, ed_image
     } = ApprovalData
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
     const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
@@ -135,12 +141,38 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
         }
     }, [])
 
+    const [selectFile, setSelectFile] = useState([])
+    const uploadFile = useCallback(async (e) => {
+        const newFiles = [...selectFile]
+        newFiles.push(e.target.files[0])
+        setSelectFile(newFiles)
+    }, [selectFile, setSelectFile])
+
+    const handleImageUpload = useCallback(async (imageFile) => {
+        const options = {
+            maxSizeMB: 2,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        }
+        const compressedFile = await imageCompression(imageFile, options)
+        return compressedFile
+    }, []);
+
+    const handleRemoveFile = (index) => {
+        setSelectFile((prevFiles) => {
+            const updatedFiles = [...prevFiles];
+            updatedFiles.splice(index, 1); // Remove the file at the specified index
+            return updatedFiles;
+        });
+    };
+
+
     useEffect(() => {
         setApprove(ed_approve === 1 ? true : false)
         setReject(ed_approve === 2 ? true : false)
         setPending(ed_approve === 3 ? true : false)
-        setRemark(ed_approve_remarks)
-        setDetailAnalis(ed_detial_analysis)
+        setRemark(ed_approve_remarks !== null ? ed_approve_remarks : '')
+        setDetailAnalis(ed_detial_analysis !== null ? ed_detial_analysis : '')
     }, [ed_approve, ed_approve_remarks, ed_detial_analysis])
 
     const EDPatchData = useMemo(() => {
@@ -166,10 +198,6 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
     const [imagearray, setImageArry] = useState([])
 
     const ViewImage = useCallback(() => {
-        setImageShowFlag(1)
-        setImageShow(true)
-    }, [])
-    useEffect(() => {
         const getImage = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
             const { success, data } = result.data
@@ -179,16 +207,206 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                     return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
                 });
                 setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
             }
         }
-        if (imageshowFlag === 1) {
-            getImage(req_slno)
+        getImage(req_slno)
+    }, [req_slno])
+
+    const ViewHODUploadImage = useCallback(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfHodImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/HodUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
         }
-    }, [imageshowFlag, req_slno])
+        getImage(req_slno)
+
+    }, [req_slno])
+
+    const ViewDMSUploadImage = useCallback(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfDMSImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/DMSUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
+        }
+        getImage(req_slno)
+
+    }, [req_slno])
+
+
+    const ViewMSUploadImage = useCallback(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfMSImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/MSUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
+        }
+        getImage(req_slno)
+
+    }, [req_slno])
+
+    const ViewMOUploadImage = useCallback(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfMOImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/MOUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
+        }
+        getImage(req_slno)
+
+    }, [req_slno])
+
+    const ViewSMOUploadImage = useCallback(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfSMOImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/SMOUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
+        }
+        getImage(req_slno)
+
+    }, [req_slno])
+
+    const ViewGMUploadImage = useCallback(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfGMImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/GMUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
+        }
+        getImage(req_slno)
+
+    }, [req_slno])
+
+    const ViewMDUploadImage = useCallback(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfMDImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/MDUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
+        }
+        getImage(req_slno)
+
+    }, [req_slno])
+
     const handleClose = useCallback(() => {
         setImageShowFlag(0)
         setImageShow(false)
     }, [])
+
+    const ViewUploadImage = useCallback(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfEDImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/EDUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
+        }
+        getImage(req_slno)
+    }, [req_slno])
 
     const [enable, setEnable] = useState(0)
     const [datacollectdata, setDataCollectData] = useState([])
@@ -349,20 +567,13 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
         setApprovalModal(false)
         setApprovalFlag(0)
         setApprovalData([])
+        setSelectFile([])
     }, [setApprovalFlag, setApprovalModal, setApprovalData])
 
     const submit = useCallback(() => {
         const updateEDApproval = async (EDPatchData) => {
             const result = await axioslogin.patch('/CRFRegisterApproval/ed', EDPatchData);
-            const { success, message } = result.data;
-            if (success === 2) {
-                succesNotify(message)
-                setCount(count + 1)
-                reset()
-            }
-            else {
-                warningNotify(message)
-            }
+            return result.data
         }
 
         const DataCollRequestFnctn = async (postData) => {
@@ -374,6 +585,31 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                 reset()
             } else {
                 warningNotify(message)
+            }
+        }
+
+        const FileInsert = async (req_slno, selectFile) => {
+            try {
+                const formData = new FormData();
+                formData.append('reqslno', req_slno);
+                for (const file of selectFile) {
+                    if (file.type.startsWith('image')) {
+                        const compressedFile = await handleImageUpload(file);
+                        formData.append('files', compressedFile, compressedFile.name);
+                    } else {
+                        formData.append('files', file, file.name);
+                    }
+                }
+                // Use the Axios instance and endpoint that matches your server setup
+                const result = await axioslogin.post('/newCRFRegisterImages/crf/ImageInsertED', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                return result.data
+            } catch (error) {
+                warningNotify('An error occurred during file upload.');
+
             }
         }
 
@@ -398,13 +634,40 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
             }
         } else {
             if (approve !== false || reject !== false || pending !== false) {
-                updateEDApproval(EDPatchData)
+                updateEDApproval(EDPatchData).then((val) => {
+                    const { success, message } = val
+                    if (success === 2) {
+                        if (selectFile.length !== 0) {
+                            FileInsert(req_slno, selectFile).then((val) => {
+                                const { success, message } = val
+                                if (success === 1) {
+                                    succesNotify("Status updated and also file uploaded")
+                                    setCount(count + 1)
+                                    reset()
+                                }
+                                else {
+                                    warningNotify(message)
+                                }
+                            })
+                        } else {
+                            succesNotify("Status updated Successfully")
+                            setCount(count + 1)
+                            reset()
+                        }
+
+                    }
+                    else {
+                        warningNotify(message)
+                    }
+
+
+                })
             } else {
                 warningNotify("Please Select any status")
             }
         }
     }, [approve, reject, pending, EDPatchData, setCount, count, reset,
-        datacollFlag, datacolectremark, crfdept, id, req_slno])
+        datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload])
 
     const ModalClose = useCallback(() => {
         reset()
@@ -734,7 +997,11 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                                             </CssVarsProvider>
                                                                         </Box> : null
                                                             }
+                                                            {hod_image === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                                                <Button onClick={ViewHODUploadImage} variant="contained"
+                                                                    color="primary">View Image</Button>
 
+                                                            </Box> : null}
                                                         </Box>
                                                     </Box> :
                                                     <Box>
@@ -743,9 +1010,6 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                         </CssVarsProvider>
                                                     </Box>
                                                 }
-
-
-
 
                                             </Box>
                                         </Box>
@@ -825,7 +1089,11 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                                 </CssVarsProvider>
                                                             </Box>
                                                 }
+                                                {dms_image === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                                    <Button onClick={ViewDMSUploadImage} variant="contained"
+                                                        color="primary">View Image</Button>
 
+                                                </Box> : null}
                                             </Box>
                                         </Paper>
                                     </Box>
@@ -904,7 +1172,11 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                                 </CssVarsProvider>
                                                             </Box>
                                                 }
+                                                {ms_image === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                                    <Button onClick={ViewMSUploadImage} variant="contained"
+                                                        color="primary">View Image</Button>
 
+                                                </Box> : null}
                                             </Box>
                                         </Paper>
                                     </Box>
@@ -983,7 +1255,11 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                                 </CssVarsProvider>
                                                             </Box>
                                                 }
+                                                {mo_image === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                                    <Button onClick={ViewMOUploadImage} variant="contained"
+                                                        color="primary">View Image</Button>
 
+                                                </Box> : null}
                                             </Box>
                                         </Paper>
                                     </Box>
@@ -1063,7 +1339,10 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                                 </CssVarsProvider>
                                                             </Box>
                                                 }
-
+                                                {smo_image === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                                    <Button onClick={ViewSMOUploadImage} variant="contained"
+                                                        color="primary">View Image</Button>
+                                                </Box> : null}
                                             </Box>
                                         </Paper>
                                     </Box>
@@ -1142,7 +1421,10 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                                 </CssVarsProvider>
                                                             </Box>
                                                 }
-
+                                                {gm_image === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                                    <Button onClick={ViewGMUploadImage} variant="contained"
+                                                        color="primary">View Image</Button>
+                                                </Box> : null}
                                             </Box>
                                         </Paper>
                                     </Box>
@@ -1222,7 +1504,10 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                                 </CssVarsProvider>
                                                             </Box>
                                                 }
-
+                                                {md_image === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                                    <Button onClick={ViewMDUploadImage} variant="contained"
+                                                        color="primary">View Image</Button>
+                                                </Box> : null}
                                             </Box>
                                         </Paper>
                                     </Box>
@@ -1443,12 +1728,14 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                                 <Typography sx={{ fontSize: 15 }}>Items For Approval</Typography>
                                                             </CssVarsProvider>
                                                         </Box>
-                                                        <ItemsApprovalCompnt req_slno={req_slno}
-                                                            setApproveTableDis={setApproveTableDis}
-                                                            ApproveTableDis={ApproveTableDis}
-                                                            ApproveTableData={ApproveTableData}
-                                                            setApproveTableData={setApproveTableData}
-                                                        />
+                                                        <Box sx={{ p: 1 }}>
+                                                            <ItemsApprovalCompnt req_slno={req_slno}
+                                                                setApproveTableDis={setApproveTableDis}
+                                                                ApproveTableDis={ApproveTableDis}
+                                                                ApproveTableData={ApproveTableData}
+                                                                setApproveTableData={setApproveTableData}
+                                                            />
+                                                        </Box>
                                                         <Box sx={{ pl: 2 }}>
                                                             <Button onClick={AddItems} variant="contained"
                                                                 color="primary">Add Items</Button>
@@ -1457,48 +1744,85 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                             setMoreItem={setMoreItem}
                                                         /> : null}
 
-
-                                                        <ApprovalCompntAll
-                                                            heading="ED Approval"
-                                                            approve={approve}
-                                                            reject={reject}
-                                                            pending={pending}
-                                                            remark={remark}
-                                                            detailAnalis={detailAnalis}
-                                                            updatedetailAnalis={updatedetailAnalis}
-                                                            updateRemark={updateRemark}
-                                                            updateApprove={updateApprove}
-                                                            updateReject={updateReject}
-                                                            updatePending={updatePending}
-                                                        />
+                                                        <Box sx={{ p: 1 }}>
+                                                            <ApprovalCompntAll
+                                                                heading="ED Approval"
+                                                                approve={approve}
+                                                                reject={reject}
+                                                                pending={pending}
+                                                                remark={remark}
+                                                                detailAnalis={detailAnalis}
+                                                                updatedetailAnalis={updatedetailAnalis}
+                                                                updateRemark={updateRemark}
+                                                                updateApprove={updateApprove}
+                                                                updateReject={updateReject}
+                                                                updatePending={updatePending}
+                                                            />
+                                                        </Box>
                                                     </Paper> :
+                                                    <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                                                        <Box sx={{
+                                                            width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
+                                                        }}>
 
-                                                    <Box sx={{
-                                                        width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
-                                                    }}>
-
-                                                        {reqTableDis === 1 && ApproveTableDis === 0 ?
-                                                            <Box sx={{ pr: 9 }}>
-                                                                <CssVarsProvider>
-                                                                    <Typography sx={{ fontSize: 15 }}>No Item For Approval</Typography>
-                                                                </CssVarsProvider>
-                                                            </Box> : null
-                                                        }
-                                                        <ApprovalCompntAll
-                                                            heading="ED Approval"
-                                                            approve={approve}
-                                                            reject={reject}
-                                                            pending={pending}
-                                                            remark={remark}
-                                                            detailAnalis={detailAnalis}
-                                                            updatedetailAnalis={updatedetailAnalis}
-                                                            updateRemark={updateRemark}
-                                                            updateApprove={updateApprove}
-                                                            updateReject={updateReject}
-                                                            updatePending={updatePending}
+                                                            {reqTableDis === 1 && ApproveTableDis === 0 ?
+                                                                <Box sx={{ pr: 9 }}>
+                                                                    <CssVarsProvider>
+                                                                        <Typography sx={{ fontSize: 15 }}>No Item For Approval</Typography>
+                                                                    </CssVarsProvider>
+                                                                </Box> : null
+                                                            }
+                                                            <ApprovalCompntAll
+                                                                heading="ED Approval"
+                                                                approve={approve}
+                                                                reject={reject}
+                                                                pending={pending}
+                                                                remark={remark}
+                                                                detailAnalis={detailAnalis}
+                                                                updatedetailAnalis={updatedetailAnalis}
+                                                                updateRemark={updateRemark}
+                                                                updateApprove={updateApprove}
+                                                                updateReject={updateReject}
+                                                                updatePending={updatePending}
+                                                            />
+                                                        </Box>
+                                                    </Paper>
+                                                }
+                                                <Box sx={{ display: 'flex', width: '400', pt: 1 }}>
+                                                    {ed_image === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
+                                                        <Button onClick={ViewUploadImage} variant="contained"
+                                                            color="primary">View Image</Button>
+                                                    </Box> : null}
+                                                    <Box >
+                                                        <label htmlFor="file-input">
+                                                            <CustomeToolTip title="upload">
+                                                                <IconButton color="primary" aria-label="upload file" component="span">
+                                                                    <UploadFileIcon />
+                                                                    <CustomPaperTitle heading="Maximum Size 25MB" />
+                                                                </IconButton>
+                                                            </CustomeToolTip>
+                                                        </label>
+                                                        <Input
+                                                            id="file-input"
+                                                            type="file"
+                                                            accept=".jpg, .jpeg, .png, .pdf"
+                                                            style={{ display: 'none' }}
+                                                            onChange={uploadFile}
                                                         />
                                                     </Box>
-                                                }
+                                                    {
+                                                        selectFile && selectFile.map((val, index) => {
+                                                            return <Box sx={{ display: "flex", flexDirection: "row", ml: 2, pt: 2 }}
+                                                                key={index} >
+                                                                <Box >{val.name}</Box>
+                                                                <Box sx={{ ml: .3 }}><CloseIcon sx={{ height: '18px', width: '20px', cursor: 'pointer' }}
+                                                                    onClick={() => handleRemoveFile(index)}
+                                                                /></Box>
+
+                                                            </Box>
+                                                        }
+                                                        )}
+                                                </Box>
                                             </Box> : null}
                                 </Box>
                             </Box>

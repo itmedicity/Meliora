@@ -134,7 +134,7 @@ const CrfStoreConfmModal = ({ open, handleClose, podetlno, partialFlag, fullyFla
                                         <Box sx={{ pr: 1.5 }}>
                                             <CssVarsProvider>
                                                 <Typography sx={{ fontSize: 18, textAlign: "center" }}>
-                                                    Are you sure to  Receive Item Partialy against Selected PO
+                                                    Are you sure to  Receive Item Partially against Selected PO
                                                 </Typography>
                                             </CssVarsProvider>
                                         </Box>
@@ -206,7 +206,7 @@ const CrfStoreConfmModal = ({ open, handleClose, podetlno, partialFlag, fullyFla
                                             <Box sx={{ pr: 1.5 }}>
                                                 <CssVarsProvider>
                                                     <Typography sx={{ fontSize: 18, textAlign: "center" }}>
-                                                        Are you sure to  Receive Item Partialy against Selected PO
+                                                        Are you sure to  Receive Item Partially against Selected PO
                                                     </Typography>
                                                 </CssVarsProvider>
                                             </Box>

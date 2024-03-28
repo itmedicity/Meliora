@@ -61,7 +61,7 @@ const StoreItemReceiveModal = ({ getpoDetaildata, setPartialFlag, setPodetlno, s
                                 <TableCell align="center">{
                                     val.store_recieve_fully === 1 ?
                                         <Button variant="contained"
-                                            color="primary" disabled >Partaily</Button> :
+                                            color="primary" disabled >Partially</Button> :
                                         <Button onClick={(e) => partialyReceive(val)} variant="contained"
                                             color="primary"   >Partaily</Button>
                                 }
