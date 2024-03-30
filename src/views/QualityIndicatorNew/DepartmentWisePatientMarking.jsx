@@ -11,6 +11,8 @@ import { infoNotify } from '../Common/CommonCode'
 import PatientsListView from './QIComponents/PatientsListView'
 import moment from 'moment'
 import { axiosellider, axioslogin } from '../Axios/Axios'
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 
 const DepartmentWisePatientMarking = () => {
     const dispatch = useDispatch()
@@ -18,7 +20,7 @@ const DepartmentWisePatientMarking = () => {
     const [depName, setDepName] = useState('')
     const [depCode, setDepCode] = useState('')
     const [searchFlag, setSearchFlag] = useState(0)
-    const [dailyDate, setDailyDate] = useState(moment(new Date()).format('YYYY-MM-DD'))
+    const [dailyDate, setDailyDate] = useState(new Date());
     const [count, setCount] = useState(0)
     const history = useHistory()
     const backtoHome = useCallback(() => {
@@ -28,10 +30,10 @@ const DepartmentWisePatientMarking = () => {
     useEffect(() => {
         dispatch(getQltyDept())
     }, [dispatch])
-    const QIDateChange = useCallback((e) => {
-        setDailyDate(e.target.value)
-        setSearchFlag(0)
-    }, [])
+    // const QIDateChange = useCallback((e) => {
+    //     setDailyDate(e.target.value)
+    //     setSearchFlag(0)
+    // }, [])
 
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
@@ -52,7 +54,6 @@ const DepartmentWisePatientMarking = () => {
                 from: moment(dailyDate).format('YYYY-MM-DD 00:00:00'),
                 to: moment(dailyDate).format('YYYY-MM-DD 23:59:59'),
             }
-
             const GetElliderData = async (elliderSearch) => {
                 const result = await axiosellider.post('/qualityIndicator/patientList', elliderSearch);
                 return result.data
@@ -65,12 +66,11 @@ const DepartmentWisePatientMarking = () => {
                 const result = await axioslogin.post('/qiendoscopy/save', insertArray);
                 return result.data
             }
-
             GetExistData(existSearch).then((val) => {
                 const { success } = val
                 if (success === 1) {
                     GetElliderData(elliderSearch).then((value) => {
-                        const { success, data } = value
+                        const { success, data, message } = value
                         if (success === 1) {
                             const insertArray = data?.map((val) => {
                                 return {
@@ -88,10 +88,16 @@ const DepartmentWisePatientMarking = () => {
                                     endo_status: 0,
                                     create_user: id,
                                     exist_date: moment(new Date(val.VSD_DATE)).format('YYYY-MM-DD'),
-
+                                    error_status: 0,
+                                    redo_status: 0,
+                                    incidense_error_status: 0,
+                                    falls_status: 0,
+                                    near_misses_status: 0,
+                                    sentinel_events_status: 0,
+                                    endo_ptmobile: val.PTC_MOBILE,
+                                    visit_token: val.VSN_TOKEN
                                 }
                             })
-
                             InsertData(insertArray).then((val) => {
                                 const { success } = val
                                 if (success === 1) {
@@ -100,15 +106,17 @@ const DepartmentWisePatientMarking = () => {
                                 else {
                                 }
                             })
+                            setSearchFlag(1)
+                        }
+                        else if (success === 2) {
+                            infoNotify(message)
                         }
                     })
                 }
                 else if (success === 2) {
-
+                    setSearchFlag(1)
                 }
             })
-
-            setSearchFlag(1)
         }
     }, [qidept, depCode, dailyDate, id, count])
 
@@ -117,22 +125,80 @@ const DepartmentWisePatientMarking = () => {
             {searchFlag === 1 ? <PatientsListView setSearchFlag={setSearchFlag} qidept={qidept} depName={depName}
                 depCode={depCode} dailyDate={dailyDate} count={count} setCount={setCount} /> :
 
-                <Box sx={{ height: '91vh', width: '100%', display: 'flex', bgcolor: '#E4E5E8' }}>
+                <Box sx={{ height: '91vh', width: '100%', display: 'flex', bgcolor: '#eceff1' }}>
                     <Box sx={{ mx: 'auto', mt: 20, }}>
-                        <Paper sx={{ height: 200, width: 500, boxShadow: 10 }} >
+                        <Paper sx={{ height: 200, width: 500, boxShadow: 10, bgcolor: '#cfd8dc' }} >
                             <Paper variant='outlined' square sx={{ display: 'flex' }}>
-                                <Box sx={{ display: 'flex', flex: 1, justifyContent: 'center', py: 1, color: '#0A0708' }}>
-                                    GET PATIENT&apos;S DETAILS
+                                <Box sx={{
+                                    display: 'flex', flex: 1, justifyContent: 'center', pt: 1.5, color: '#455a64', bgcolor: '#cfd8dc',
+                                    fontWeight: 'bold'
+                                }}>
+                                    GET PATIENT&apos;S  DETAILS
                                 </Box>
-                                <Box sx={{ display: 'flex', flex: 0.1, justifyContent: 'flex-end', fontSize: 20, pt: 0.5, pr: 0.5 }}>
+                                <Box sx={{ display: 'flex', flex: 0.1, justifyContent: 'flex-end', fontSize: 20, pt: 0.5, pr: 0.5, bgcolor: '#cfd8dc' }}>
                                     <HighlightOffIcon sx={{ cursor: 'pointer', size: 'sm', opacity: 0.7 }} onClick={backtoHome} />
                                 </Box>
                             </Paper>
-                            <Box sx={{ mx: 1, pt: 0.5, flex: 1 }}>
+                            <Box sx={{ mx: 1, pt: 0.5, flex: 0.8 }}>
                                 <QIDepartmentSelect qidept={qidept} setQidept={setQidept} setDepName={setDepName} setDepCode={setDepCode} />
                             </Box>
-                            <Box sx={{ mx: 1, pt: 0.2, flex: 1 }} >
-                                <CssVarsProvider>
+                            <Box sx={{ mx: 1, pt: 0.2, flex: 1, bgcolor: 'white' }} >
+
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                    <DatePicker
+                                        value={dailyDate}
+                                        size="small"
+                                        onChange={(newValue) => {
+                                            setDailyDate(newValue);
+                                        }}
+                                        renderInput={({ inputRef, inputProps, InputProps }) => (
+                                            <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                                                <CssVarsProvider>
+                                                    <Input ref={inputRef} {...inputProps} style={{ px: 2, width: '90%' }} disabled={true} />
+                                                </CssVarsProvider>
+                                                {InputProps?.endAdornment}
+                                            </Box>
+                                        )}
+
+                                    />
+                                </LocalizationProvider>
+
+
+                                {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
+                                {/* <DateTimePicker views={['year', 'day', 'hours', 'minutes', 'seconds']}
+                                        renderInput={({ inputRef, inputProps, InputProps }) => (
+                                            <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                                                <CssVarsProvider>
+                                                    <Input ref={inputRef} {...inputProps} style={{ width: '80%' }} disabled={true} />
+                                                </CssVarsProvider>
+                                                {InputProps?.endAdornment}
+                                            </Box>
+                                        )}
+
+
+                                    /> */}
+                                {/* <DateTimePicker
+                                        views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+                                        // minDate={subMonths(new Date(), 1)}
+                                        // maxDate={addMonths(new Date(), 1)}
+                                        value={dailyDate}
+                                        size="small"
+                                        onChange={(newValue) => {
+                                            QIDateChange(newValue);
+                                        }}
+                                        renderInput={({ inputRef, inputProps, InputProps }) => (
+                                            <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                                                <CssVarsProvider>
+                                                    <Input ref={inputRef} {...inputProps} style={{ width: '80%' }} disabled={true} />
+                                                </CssVarsProvider>
+                                                {InputProps?.endAdornment}
+                                            </Box>
+                                        )}
+                                    /> */}
+                                {/* </LocalizationProvider> */}
+
+
+                                {/* <CssVarsProvider>
                                     <Input
                                         style={{ height: 40, borderRadius: 0, }}
                                         slotProps={{
@@ -148,16 +214,17 @@ const DepartmentWisePatientMarking = () => {
                                         value={dailyDate}
                                         onChange={QIDateChange}
                                     />
-                                </CssVarsProvider>
+                                </CssVarsProvider> */}
                             </Box>
                             <Box sx={{ mx: 1, pt: 0.5, flex: 1 }}>
                                 <CssVarsProvider>
                                     <Button sx={{
                                         width: '100%', height: 46, cursor: 'pointer', color: 'white', fontSize: 17,
-                                        bgcolor: '#616161', border: '1px solid lightgrey', borderRight: 'none', borderRadius: 0,
+                                        bgcolor: '#90a4ae', border: '1px solid lightgrey', borderRight: 'none', borderRadius: 0,
                                         ":hover": {
-                                            bgcolor: '#757575',
+                                            bgcolor: '#546e7a',
                                             boxShadow: 2,
+                                            color: 'white',
                                         }
                                     }}
                                         onClick={SearchDetails}
@@ -168,7 +235,7 @@ const DepartmentWisePatientMarking = () => {
                             </Box>
                         </Paper>
                     </Box>
-                </Box>
+                </Box >
             }
         </Fragment >
     )
