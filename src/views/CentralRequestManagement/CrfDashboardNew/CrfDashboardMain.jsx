@@ -89,7 +89,7 @@ const CrfDashboardMain = () => {
     const SMOClinicPendingList = useCallback(() => {
         setFlag(5)
         setPurchaseFlag(0)
-        setHeading("Verification Pending NonClinic")
+        setHeading("Verification Pending Clinic")
         setDisData(smoClinic)
     }, [smoClinic])
 
@@ -103,7 +103,7 @@ const CrfDashboardMain = () => {
     const GMClinicPendingList = useCallback(() => {
         setFlag(7)
         setPurchaseFlag(0)
-        setHeading("General Manager Operation Pending NonClinic")
+        setHeading("General Manager Operation Pending Clinic")
         setDisData(gmClinic)
     }, [gmClinic])
 
@@ -118,7 +118,7 @@ const CrfDashboardMain = () => {
     const MDClinicPendingList = useCallback(() => {
         setFlag(9)
         setPurchaseFlag(0)
-        setHeading("Medical Director Pending NonClinic")
+        setHeading("Medical Director Pending Clinic")
         setDisData(mdClinic)
     }, [mdClinic])
 
@@ -146,6 +146,7 @@ const CrfDashboardMain = () => {
     const AckPendings = useCallback(() => {
         setPurchaseFlag(1)
         setDisData(purchseAck)
+        setHeading("Purchase Acknowledgement")
         setFlag(1)
     }, [purchseAck])
 
@@ -153,6 +154,7 @@ const CrfDashboardMain = () => {
     const QuatCallPendings = useCallback(() => {
         setPurchaseFlag(2)
         setDisData(quationCall)
+        setHeading("Quatation Calling Pending")
         setFlag(1)
     }, [quationCall])
 
@@ -160,6 +162,7 @@ const CrfDashboardMain = () => {
     const QutNegoPendings = useCallback(() => {
         setPurchaseFlag(3)
         setDisData(quationNegoPendng)
+        setHeading("Quatation Negotiation Pending")
         setFlag(1)
     }, [quationNegoPendng])
 
@@ -167,6 +170,7 @@ const CrfDashboardMain = () => {
     const QutFixPendings = useCallback(() => {
         setPurchaseFlag(4)
         setDisData(quationFixing)
+        setHeading("Quatation Fixing Pending")
         setFlag(1)
     }, [quationFixing])
 
@@ -174,6 +178,7 @@ const CrfDashboardMain = () => {
     const POPendings = useCallback(() => {
         setPurchaseFlag(5)
         setDisData(poPrepaire)
+        setHeading("PO Pending")
         setFlag(1)
     }, [poPrepaire])
 
@@ -181,24 +186,28 @@ const CrfDashboardMain = () => {
     const POCompletePendings = useCallback(() => {
         setPurchaseFlag(6)
         setDisData(poComplete)
+        setHeading("PO Close Pending")
         setFlag(1)
     }, [poComplete])
 
     const PoPurApprovPendings = useCallback(() => {
         setPurchaseFlag(7)
         setDisData(pofirstLevel)
+        setHeading("PO First Level Approval Pending")
         setFlag(1)
     }, [pofirstLevel])
 
     const EDMDAppPendings = useCallback(() => {
         setPurchaseFlag(8)
         setDisData(poSecndLevel)
+        setHeading("PO Managing Director Approval Pending")
         setFlag(1)
     }, [poSecndLevel])
 
     const PoSuplierPendings = useCallback(() => {
         setPurchaseFlag(9)
         setDisData(poSupplier)
+        setHeading("PO to Supplier Pending")
         setFlag(1)
     }, [poSupplier])
 
@@ -208,7 +217,10 @@ const CrfDashboardMain = () => {
             const result = await axioslogin.get('/newCRFRegister/getAllList/Dashboard');
             const { success, data } = result.data
             if (success === 1) {
-                const datas = data.map((val) => {
+                const notClose = data.filter((val) => {
+                    return val.crf_close !== 1
+                })
+                const datas = notClose.map((val) => {
                     const obj = {
                         req_slno: val.req_slno,
                         actual_requirement: val.actual_requirement,
@@ -345,7 +357,7 @@ const CrfDashboardMain = () => {
 
                 const dmsClinical = datas.filter((val) => {
                     return val.dms_req === 1 && val.dms_approve === null &&
-                        val.manag_operation_approv === null &&
+                        val.ms_approve === null && val.manag_operation_approv === null &&
                         val.senior_manage_approv === null &&
                         val.gm_approve === null && val.md_approve === null &&
                         val.ed_approve === null
@@ -782,7 +794,7 @@ const CrfDashboardMain = () => {
                                         <Typography level="h2">
                                             {poSecndLevel.length}{' '}
                                             <Typography fontSize="sm" textColor="text.tertiary">
-                                                PO ED/MD Approval
+                                                PO  Managing Director Approval
                                             </Typography>
                                         </Typography>
                                     </div>
@@ -805,34 +817,7 @@ const CrfDashboardMain = () => {
                                         </Typography>
                                     </div>
                                 </Card>
-
-
-                                {/* <Stack spacing={1} flexDirection={'row'} > */}
-                                {/* {
-                                    purchaseDeptArray?.map((val, index) =>
-                                        <Card
-                                            variant='solid'
-                                            color='primary'
-                                            invertedColors
-                                            sx={{ width: 260 }}
-                                            size='md'
-                                            key={index}
-                                            onClick={() => PurchasePendings()}
-                                        >
-                                            <div>
-                                                <Typography level="h2">
-                                                    {val.count}{' '}
-                                                    <Typography fontSize="sm" textColor="text.tertiary">
-                                                        / {val.name}
-                                                    </Typography>
-                                                </Typography>
-                                            </div>
-                                        </Card>
-                                    )
-                                } */}
-                                {/* </Stack> */}
                             </Box>
-                            {/* Purchase CRF Status End Here  */}
                         </Box>
                     </CssVarsProvider>
                 </Box>

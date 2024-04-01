@@ -51,7 +51,8 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
         som_aprrov_date, senior_manage_user, gm_approve, gm, gm_approve_remarks, gm_detial_analysis,
         gm_approv_date, gm_user, image_status, md_approve, md_approve_remarks, md_detial_analysis,
         ed_approve, ed, ed_approve_remarks, ed_approve_date, ed_detial_analysis, ed_user,
-        hod_image, dms_image, ms_image, mo_image, smo_image, gm_image, md_image, ed_image
+        hod_image, dms_image, ms_image, mo_image, smo_image, gm_image, md_image, ed_image,
+        dms_req, ms_approve_req
     } = ApprovalData
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
     const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
@@ -1008,174 +1009,182 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                             </Box>
                                         </Box>
                                     </Paper>
-                                    <Box sx={{ width: "100%", mt: 0 }}>
-                                        <Paper variant='outlined' sx={{ mt: 1 }} >
-                                            <Box sx={{
-                                                width: "100%",
-                                                display: "flex",
-                                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                            }}>
+                                    {dms_req === 1 ?
+                                        <Box sx={{ width: "100%", mt: 0 }}>
+                                            <Paper variant='outlined' sx={{ mt: 1 }} >
+                                                <Box sx={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                                }}>
 
-                                                <Box
-                                                    sx={{
-                                                        pl: 1, pr: 1,
-                                                        display: "flex",
-                                                        flexDirection: 'row',
-                                                        justifyContent: "space-between"
-                                                    }}>
+                                                    <Box
+                                                        sx={{
+                                                            pl: 1, pr: 1,
+                                                            display: "flex",
+                                                            flexDirection: 'row',
+                                                            justifyContent: "space-between"
+                                                        }}>
 
-                                                    <CssVarsProvider>
-                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >DMS :
-
-                                                            {
-                                                                dms_approve === 1 ?
-                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {dms}
-                                                                    </Typography> : dms_approve === 2 ?
-                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {dms}
-                                                                        </Typography> : dms_approve === 3 ?
-                                                                            <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {dms}
-                                                                            </Typography> : null
-                                                            }
-                                                        </Typography>
-                                                    </CssVarsProvider>
-                                                    {
-                                                        dms_approve_date !== null ? <Box
-                                                            sx={{
-                                                                display: "flex",
-                                                                flexDirection: 'row',
-                                                                justifyContent: "space-evenly",
-                                                                pr: 2, pt: 1
-                                                            }}>
-                                                            <CssVarsProvider>
-                                                                <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
-                                                                    {dmsApprovdate}</Typography>
-                                                                <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
-                                                                <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
-                                                                    {dms_user} </Typography>
-                                                            </CssVarsProvider>   </Box> : null
-                                                    }
-
-                                                </Box>
-                                                {
-                                                    dms_approve === 1 ? <Box sx={{ width: "100%", pl: 1 }}>
                                                         <CssVarsProvider>
-                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
-                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{dms_remarks} </Typography>
+                                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >DMS :
+
+                                                                {
+                                                                    dms_approve === 1 ?
+                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {dms}
+                                                                        </Typography> : dms_approve === 2 ?
+                                                                            <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {dms}
+                                                                            </Typography> : dms_approve === 3 ?
+                                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {dms}
+                                                                                </Typography> : null
+                                                                }
+                                                            </Typography>
                                                         </CssVarsProvider>
-                                                        <CssVarsProvider>
-                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
-                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{dms_detail_analysis} </Typography>
-                                                        </CssVarsProvider> </Box> :
-                                                        dms_approve === 2 ? <Box sx={{ width: "100%" }}>
+                                                        {
+                                                            dms_approve_date !== null ? <Box
+                                                                sx={{
+                                                                    display: "flex",
+                                                                    flexDirection: 'row',
+                                                                    justifyContent: "space-evenly",
+                                                                    pr: 2, pt: 1
+                                                                }}>
+                                                                <CssVarsProvider>
+                                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                                        {dmsApprovdate}</Typography>
+                                                                    <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                                        {dms_user} </Typography>
+                                                                </CssVarsProvider>   </Box> : null
+                                                        }
+
+                                                    </Box>
+                                                    {
+                                                        dms_approve === 1 ? <Box sx={{ width: "100%", pl: 1 }}>
                                                             <CssVarsProvider>
-                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
+                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
                                                                 <Typography ml={10} sx={{ fontSize: 15 }} >{dms_remarks} </Typography>
                                                             </CssVarsProvider>
-                                                        </Box> :
-                                                            dms_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15 }} >{dms_detail_analysis} </Typography>
+                                                            </CssVarsProvider> </Box> :
+                                                            dms_approve === 2 ? <Box sx={{ width: "100%" }}>
                                                                 <CssVarsProvider>
-                                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
                                                                     <Typography ml={10} sx={{ fontSize: 15 }} >{dms_remarks} </Typography>
                                                                 </CssVarsProvider>
-                                                            </Box> : <Box>
-                                                                <CssVarsProvider>
-                                                                    <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Approval Not Done </Typography>
-                                                                </CssVarsProvider>
-                                                            </Box>
-                                                }
-                                                {dms_image === 1 ? <Box sx={{ mx: 0.5, pb: 0.5 }}>
-                                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewDMSUploadImage}  >
-                                                        <AttachFileIcon fontSize='small' />
-                                                        <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
-                                                    </CusIconButton>
-                                                </Box> : null}
-                                            </Box>
-                                        </Paper>
-                                    </Box>
-                                    <Box sx={{ width: "100%", mt: 0 }}>
-                                        <Paper variant='outlined' sx={{ mt: 1 }} >
-                                            <Box sx={{
-                                                width: "100%",
-                                                display: "flex",
-                                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                            }}>
-
-                                                <Box
-                                                    sx={{
-                                                        pl: 1, pr: 1,
-                                                        display: "flex",
-                                                        flexDirection: 'row',
-                                                        justifyContent: "space-between"
-                                                    }}>
-
-                                                    <CssVarsProvider>
-                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >MS :
-
-                                                            {
-                                                                ms_approve === 1 ?
-                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {ms}
-                                                                    </Typography> : ms_approve === 2 ?
-                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {ms}
-                                                                        </Typography> : ms_approve === 3 ?
-                                                                            <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {ms}
-                                                                            </Typography> : null
-                                                            }
-                                                        </Typography>
-                                                    </CssVarsProvider>
-                                                    {
-                                                        ms_approve_date !== null ? <Box
-                                                            sx={{
-                                                                display: "flex",
-                                                                flexDirection: 'row',
-                                                                justifyContent: "space-evenly",
-                                                                pr: 2, pt: 1
-                                                            }}>
-                                                            <CssVarsProvider>
-                                                                <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
-                                                                    {msApprovdate}</Typography>
-                                                                <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
-                                                                <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
-                                                                    {ms_approve_user} </Typography>
-                                                            </CssVarsProvider>   </Box> : null
+                                                            </Box> :
+                                                                dms_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                                    <CssVarsProvider>
+                                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{dms_remarks} </Typography>
+                                                                    </CssVarsProvider>
+                                                                </Box> : <Box>
+                                                                    <CssVarsProvider>
+                                                                        <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Approval Not Done </Typography>
+                                                                    </CssVarsProvider>
+                                                                </Box>
                                                     }
-
+                                                    {dms_image === 1 ? <Box sx={{ mx: 0.5, pb: 0.5 }}>
+                                                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewDMSUploadImage}  >
+                                                            <AttachFileIcon fontSize='small' />
+                                                            <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
+                                                        </CusIconButton>
+                                                    </Box> : null}
                                                 </Box>
-                                                {
-                                                    ms_approve === 1 ? <Box sx={{ width: "100%", pl: 1 }}>
+                                            </Paper>
+                                        </Box> : null
+
+                                    }
+
+                                    {ms_approve_req === 1 ?
+                                        <Box sx={{ width: "100%", mt: 0 }}>
+                                            <Paper variant='outlined' sx={{ mt: 1 }} >
+                                                <Box sx={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                                }}>
+
+                                                    <Box
+                                                        sx={{
+                                                            pl: 1, pr: 1,
+                                                            display: "flex",
+                                                            flexDirection: 'row',
+                                                            justifyContent: "space-between"
+                                                        }}>
+
                                                         <CssVarsProvider>
-                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
-                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{ms_approve_remark} </Typography>
+                                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >MS :
+
+                                                                {
+                                                                    ms_approve === 1 ?
+                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> {ms}
+                                                                        </Typography> : ms_approve === 2 ?
+                                                                            <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="danger" variant="outlined"> {ms}
+                                                                            </Typography> : ms_approve === 3 ?
+                                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="primary" variant="outlined"> {ms}
+                                                                                </Typography> : null
+                                                                }
+                                                            </Typography>
                                                         </CssVarsProvider>
-                                                        <CssVarsProvider>
-                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
-                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{ms_detail_analysis} </Typography>
-                                                        </CssVarsProvider> </Box> :
-                                                        ms_approve === 2 ? <Box sx={{ width: "100%" }}>
+                                                        {
+                                                            ms_approve_date !== null ? <Box
+                                                                sx={{
+                                                                    display: "flex",
+                                                                    flexDirection: 'row',
+                                                                    justifyContent: "space-evenly",
+                                                                    pr: 2, pt: 1
+                                                                }}>
+                                                                <CssVarsProvider>
+                                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                                        {msApprovdate}</Typography>
+                                                                    <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                                        {ms_approve_user} </Typography>
+                                                                </CssVarsProvider>   </Box> : null
+                                                        }
+
+                                                    </Box>
+                                                    {
+                                                        ms_approve === 1 ? <Box sx={{ width: "100%", pl: 1 }}>
                                                             <CssVarsProvider>
-                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
+                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification/ Requirement Description: </Typography>
                                                                 <Typography ml={10} sx={{ fontSize: 15 }} >{ms_approve_remark} </Typography>
                                                             </CssVarsProvider>
-                                                        </Box> :
-                                                            ms_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detailed Analysis of Requirement: </Typography>
+                                                                <Typography ml={10} sx={{ fontSize: 15 }} >{ms_detail_analysis} </Typography>
+                                                            </CssVarsProvider> </Box> :
+                                                            ms_approve === 2 ? <Box sx={{ width: "100%" }}>
                                                                 <CssVarsProvider>
-                                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for Reject: </Typography>
                                                                     <Typography ml={10} sx={{ fontSize: 15 }} >{ms_approve_remark} </Typography>
                                                                 </CssVarsProvider>
-                                                            </Box> : <Box>
-                                                                <CssVarsProvider>
-                                                                    <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Approval Not Done </Typography>
-                                                                </CssVarsProvider>
-                                                            </Box>
-                                                }
-                                                {ms_image === 1 ? <Box sx={{ mx: 0.5, pb: 0.5 }}>
-                                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewMSUploadImage}  >
-                                                        <AttachFileIcon fontSize='small' />
-                                                        <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
-                                                    </CusIconButton>
-                                                </Box> : null}
-                                            </Box>
-                                        </Paper>
-                                    </Box>
+                                                            </Box> :
+                                                                ms_approve === 3 ? <Box sx={{ width: "100%" }}>
+                                                                    <CssVarsProvider>
+                                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Justification for On-Hold: </Typography>
+                                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{ms_approve_remark} </Typography>
+                                                                    </CssVarsProvider>
+                                                                </Box> : <Box>
+                                                                    <CssVarsProvider>
+                                                                        <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Approval Not Done </Typography>
+                                                                    </CssVarsProvider>
+                                                                </Box>
+                                                    }
+                                                    {ms_image === 1 ?
+                                                        <Box sx={{ mx: 0.5, pb: 0.5 }}>
+                                                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewMSUploadImage}  >
+                                                                <AttachFileIcon fontSize='small' />
+                                                                <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
+                                                            </CusIconButton>
+                                                        </Box> : null}
+                                                </Box>
+                                            </Paper>
+                                        </Box> : null
+
+                                    }
                                     <Box sx={{ width: "100%", mt: 0 }}>
                                         <Paper variant='outlined' sx={{ mt: 1 }} >
                                             <Box sx={{

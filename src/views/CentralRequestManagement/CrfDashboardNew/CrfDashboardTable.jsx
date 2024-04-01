@@ -19,6 +19,7 @@ import CrfGMApprovalModal from '../CrfGMApproval/CrfGMApprovalModal';
 import CrfMDApprovalModal from '../CrfMDApproval/CrfMDApprovalModal';
 import CrfEDApprovalModal from '../CrfEDApproval/CrfEDApprovalModal';
 import PurchaseModal from '../PurchaseProcess/PurchaseModal';
+import CrmHodApprovalModal from '../CrfHodApproval/CrmHodApprovalModal';
 
 
 const CrfDashboardTable = ({ heading, disData, flag, setFlag, setHeading, setDisData, PurchseFlag, count,
@@ -79,7 +80,7 @@ const CrfDashboardTable = ({ heading, disData, flag, setFlag, setHeading, setDis
                                         count={count} setCount={setCount} cancelData={cancelData} /> :
                                     null}
 
-            {ApprovalFlag === 1 && (flag === 1 || flag === 2) ? <CrfHodApprModalDash open={ApprovalModal} ApprovalData={ApprovalData}
+            {ApprovalFlag === 1 && (flag === 1 || flag === 2) ? <CrmHodApprovalModal open={ApprovalModal} ApprovalData={ApprovalData}
                 setApprovalModal={setApprovalModal} setApprovalFlag={setApprovalFlag}
                 count={count} setCount={setCount} setApprovalData={setApprovalData} /> :
 
