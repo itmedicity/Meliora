@@ -744,70 +744,78 @@ const CrfRequestMaster = () => {
 
         //** Call insert and detail api by using then. for getting insert id */
         if (value === 0) {
-            if ((emergency === true && emerType !== 0 && remarks !== '') || (emergency === false)) {
-                if (deptSec !== 0) {
-                    ReqMasterInsert(reqDataPost).then((value) => {
-                        const { success, message, insertid } = value
-                        if (success === 1) {
-                            // setReqSlno(insertid)
-                            ReqApprovalInsert(insertid).then((val) => {
-                                const { success, message } = val
-                                if (success === 1) {
-                                    if (detailDataDis.length !== 0) {
-                                        ReqDetailInsert(insertid).then((values) => {
-                                            const { success, message } = values
-                                            if (success === 1) {
-                                                if (selectFile.length !== 0) {
-                                                    FileInsert(selectFile, insertid).then((val) => {
-                                                        const { success, message } = val
-                                                        if (success === 1) {
-                                                            succesNotify("Request Registred successfully and also File uploaded")
-                                                            reset()
-                                                            setCount(count + 1)
-                                                        } else {
-                                                            warningNotify(message)
-                                                        }
-                                                    })
-                                                } else {
-                                                    succesNotify("Request Registred successfully ")
-                                                    reset()
-                                                    setCount(count + 1)
-                                                }
-                                            } else {
-                                                warningNotify(message)
-                                            }
-                                        })
-                                    } else {
-                                        if (selectFile.length !== 0) {
-                                            FileInsert(selectFile, insertid).then((val) => {
-                                                const { success, message } = val
+            if (item_desc === '' && item_brand === '' && item_qty === 0 && uom === 0
+                && item_spec === '' && unitprice === 0 && approx_cost === 0) {
+
+                if ((emergency === true && emerType !== 0 && remarks !== '') || (emergency === false)) {
+                    if (deptSec !== 0) {
+                        ReqMasterInsert(reqDataPost).then((value) => {
+                            const { success, message, insertid } = value
+                            if (success === 1) {
+                                // setReqSlno(insertid)
+                                ReqApprovalInsert(insertid).then((val) => {
+                                    const { success, message } = val
+                                    if (success === 1) {
+                                        if (detailDataDis.length !== 0) {
+                                            ReqDetailInsert(insertid).then((values) => {
+                                                const { success, message } = values
                                                 if (success === 1) {
-                                                    succesNotify("Request Registred successfully and also File uploaded")
-                                                    reset()
-                                                    setCount(count + 1)
+                                                    if (selectFile.length !== 0) {
+                                                        FileInsert(selectFile, insertid).then((val) => {
+                                                            const { success, message } = val
+                                                            if (success === 1) {
+                                                                succesNotify("Request Registred successfully and also File uploaded")
+                                                                reset()
+                                                                setCount(count + 1)
+                                                            } else {
+                                                                warningNotify(message)
+                                                            }
+                                                        })
+                                                    } else {
+                                                        succesNotify("Request Registred successfully ")
+                                                        reset()
+                                                        setCount(count + 1)
+                                                    }
                                                 } else {
                                                     warningNotify(message)
                                                 }
                                             })
                                         } else {
-                                            succesNotify("Request Registred successfully ")
-                                            reset()
-                                            setCount(count + 1)
+                                            if (selectFile.length !== 0) {
+                                                FileInsert(selectFile, insertid).then((val) => {
+                                                    const { success, message } = val
+                                                    if (success === 1) {
+                                                        succesNotify("Request Registred successfully and also File uploaded")
+                                                        reset()
+                                                        setCount(count + 1)
+                                                    } else {
+                                                        warningNotify(message)
+                                                    }
+                                                })
+                                            } else {
+                                                succesNotify("Request Registred successfully ")
+                                                reset()
+                                                setCount(count + 1)
+                                            }
                                         }
+                                    } else {
+                                        warningNotify(message)
                                     }
-                                } else {
-                                    warningNotify(message)
-                                }
-                            })
-                        } else {
-                            warningNotify(message)
-                        }
-                    })
+                                })
+                            } else {
+                                warningNotify(message)
+                            }
+                        })
+                    } else {
+                        warningNotify("Please select Department and Department Section")
+                    }
                 } else {
-                    warningNotify("Please select Department and Department Section")
+                    warningNotify("If Emergeny please mention emergenct Type and Remarks")
                 }
+
             } else {
-                warningNotify("If Emergeny please mention emergenct Type and Remarks")
+                warningNotify("Are you want to save items plaese add items first then click Save Button")
+
             }
         } else {
             if ((emergency === true && emerType !== 0 && remarks !== '') || (emergency === false)) {
@@ -847,9 +855,9 @@ const CrfRequestMaster = () => {
 
     }, [value, emergency, emerType, remarks, deptSec, reqDataPost, selectFile,
         detailDataDis, levelOne, levelTwo, deptType, setCount, count, id,
-        handleImageUpload, reset, reqDataPatch, reqSlno
+        handleImageUpload, reset, reqDataPatch, reqSlno, item_desc, item_brand, item_qty,
+        uom, item_spec, unitprice, approx_cost
     ])
-
 
     //Data set for edit
     const rowSelect = useCallback((params) => {

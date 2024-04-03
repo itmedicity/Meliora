@@ -30,6 +30,8 @@ import Divider from '@mui/material/Divider';
 import { TypoHeadColor } from 'src/color/Color'
 import DeptSectionSelectMulti from 'src/views/CommonSelectCode/DeptSectionSelectMulti';
 import moment from 'moment'
+import CusIconButton from 'src/views/Components/CusIconButton'
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -46,7 +48,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         quatation_negotiation, quatation_negotiation_date, quatation_neguser,
         quatation_fixing, quatation_fixing_date, quatation_fixuser,
         po_prepartion, po_complete, po_approva_level_one, po_approva_level_two,
-        po_to_supplier, image_status, store_receive
+        po_to_supplier, image_status, store_receive, md_image, ed_image
 
     } = puchaseData
 
@@ -206,10 +208,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
     const [imagearray, setImageArry] = useState([])
 
     const ViewImage = useCallback(() => {
-        setImageShowFlag(1)
-        setImageShow(true)
-    }, [])
-    useEffect(() => {
         const getImage = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
             const { success, data } = result.data
@@ -219,12 +217,65 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                     return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
                 });
                 setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
             }
         }
-        if (imageshowFlag === 1) {
-            getImage(req_slno)
+        getImage(req_slno)
+    }, [req_slno])
+
+    const ViewMDUploadImage = useCallback(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfMDImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/MDUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
         }
-    }, [imageshowFlag, req_slno])
+        getImage(req_slno)
+
+    }, [req_slno])
+
+    const ViewEDUploadImage = useCallback(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfEDImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/EDUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
+        }
+        getImage(req_slno)
+
+    }, [req_slno])
+
+
     const handleClose = useCallback(() => {
         setImageShowFlag(0)
         setImageShow(false)
@@ -854,11 +905,14 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                 </CssVarsProvider>
                                             </Box>
                                         </Box>
-                                        {image_status === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
-                                            <Button onClick={ViewImage} variant="contained"
-                                                color="primary">View Image</Button>
-
-                                        </Box> : null}
+                                        {image_status === 1 ?
+                                            <Box sx={{ mx: 0.5, pb: 0.5 }}>
+                                                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewImage}  >
+                                                    <AttachFileIcon fontSize='small' />
+                                                    <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
+                                                </CusIconButton>
+                                            </Box>
+                                            : null}
                                     </Box>
                                 </Paper>
                                 {reqTableDis === 1 ?
@@ -934,7 +988,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                             display: "flex",
                                                             flexDirection: 'row',
                                                             justifyContent: "space-evenly",
-                                                            pr: 2
+                                                            pr: 2, pt: 0.5
                                                         }}>
                                                         <CssVarsProvider>
                                                             <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
@@ -973,6 +1027,14 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                             </CssVarsProvider>
                                                         </Box>
                                             }
+                                            {md_image === 1 ?
+                                                <Box sx={{ mx: 0.5, pb: 0.5 }}>
+                                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewMDUploadImage}  >
+                                                        <AttachFileIcon fontSize='small' />
+                                                        <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
+                                                    </CusIconButton>
+                                                </Box>
+                                                : null}
                                         </Box>
                                     </Paper>
                                 </Box>
@@ -1012,7 +1074,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                             display: "flex",
                                                             flexDirection: 'row',
                                                             justifyContent: "space-evenly",
-                                                            pr: 2
+                                                            pr: 2, pt: 0.5
                                                         }}>
                                                         <CssVarsProvider>
                                                             <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
@@ -1050,6 +1112,15 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                             </CssVarsProvider>
                                                         </Box>
                                             }
+                                            {ed_image === 1 ?
+                                                <Box sx={{ mx: 0.5, pb: 0.5 }}>
+                                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewEDUploadImage}  >
+                                                        <AttachFileIcon fontSize='small' />
+                                                        <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1 }}>View Image</Typography>
+                                                    </CusIconButton>
+                                                </Box>
+
+                                                : null}
                                         </Box>
                                     </Paper>
                                 </Box>
@@ -1181,13 +1252,15 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                     Date: {val.update_date}
                                                                 </Paper>
                                                             </Box>
-                                                            {val.data_coll_image_status === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 30, pl: 3 }}>
-                                                                <Button
-                                                                    onClick={() => ViewImageDataColection(val.crf_data_collect_slno)}
-                                                                    variant="contained"
-                                                                    color="primary">View Image</Button>
+                                                            {val.data_coll_image_status === 1 ?
 
-                                                            </Box> : null}
+                                                                <Box sx={{ display: 'flex', width: "20%", height: 30, pl: 3 }}>
+                                                                    <Button
+                                                                        onClick={() => ViewImageDataColection(val.crf_data_collect_slno)}
+                                                                        variant="contained"
+                                                                        color="primary">View Image</Button>
+
+                                                                </Box> : null}
                                                         </Box>
                                                         <Divider
                                                             // variant="middle"
@@ -1325,7 +1398,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                 display: "flex",
                                                                 flexDirection: 'row',
                                                                 justifyContent: "space-evenly",
-                                                                pr: 2
+                                                                pr: 2, pt: 1
                                                             }}>
                                                             <CssVarsProvider>
                                                                 <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
@@ -1368,7 +1441,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                         </Paper> :
 
                                         quatation_calling_status === 1 ?
-
                                             <Box sx={{ width: "100%", mt: 0 }}>
                                                 <Paper variant='outlined' sx={{ mt: 1 }} >
                                                     <Box sx={{
@@ -1399,7 +1471,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                         display: "flex",
                                                                         flexDirection: 'row',
                                                                         justifyContent: "space-evenly",
-                                                                        pr: 2
+                                                                        pr: 2, pt: 1
                                                                     }}>
                                                                     <CssVarsProvider>
                                                                         <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
@@ -1413,23 +1485,19 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                         </Box>
                                                         {
                                                             quatation_negotiation !== 1 && quatation_calling_status === 1 ?
-                                                                <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
-                                                                    <Box sx={{
-                                                                        display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                                                                    }} >
-                                                                        <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
-                                                                            <CusCheckBox
-                                                                                label="Quatation Negotiation"
-                                                                                color="primary"
-                                                                                size="md"
-                                                                                name="QuatationNego"
-                                                                                value={QuatationNego}
-                                                                                checked={QuatationNego}
-                                                                                onCheked={updateQuatationNego}
-                                                                            />
-                                                                        </Box>
-                                                                    </Box>
-                                                                </Paper> :
+
+                                                                <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
+                                                                    <CusCheckBox
+                                                                        label="Quatation Negotiation"
+                                                                        color="primary"
+                                                                        size="md"
+                                                                        name="QuatationNego"
+                                                                        value={QuatationNego}
+                                                                        checked={QuatationNego}
+                                                                        onCheked={updateQuatationNego}
+                                                                    />
+                                                                </Box>
+                                                                :
                                                                 quatation_calling_status === 1 ?
 
 
@@ -1463,7 +1531,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                                                 display: "flex",
                                                                                                 flexDirection: 'row',
                                                                                                 justifyContent: "space-evenly",
-                                                                                                pr: 2
+                                                                                                pr: 2, pt: 1
                                                                                             }}>
                                                                                             <CssVarsProvider>
                                                                                                 <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
@@ -1475,88 +1543,75 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                                         </Box> : null
                                                                                     }
                                                                                 </Box>
-
-
                                                                                 {
                                                                                     quatation_fixing !== 1 && quatation_calling_status === 1 ?
 
-                                                                                        <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
-                                                                                            <Box sx={{
-                                                                                                display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                                                                                            }} >
-                                                                                                <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
-                                                                                                    <CusCheckBox
-                                                                                                        label="Quatation Finalizing"
-                                                                                                        color="primary"
-                                                                                                        size="md"
-                                                                                                        name="QuatationFix"
-                                                                                                        value={QuatationFix}
-                                                                                                        checked={QuatationFix}
-                                                                                                        onCheked={updateQuatationFix}
-                                                                                                    />
-                                                                                                </Box>
-                                                                                            </Box>
-                                                                                        </Paper> :
+                                                                                        <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
+                                                                                            <CusCheckBox
+                                                                                                label="Quatation Finalizing"
+                                                                                                color="primary"
+                                                                                                size="md"
+                                                                                                name="QuatationFix"
+                                                                                                value={QuatationFix}
+                                                                                                checked={QuatationFix}
+                                                                                                onCheked={updateQuatationFix}
+                                                                                            />
+                                                                                        </Box>
+                                                                                        :
                                                                                         quatation_calling_status === 1 ?
-                                                                                            <Box sx={{ width: "100%", mt: 0 }}>
-                                                                                                <Paper variant='outlined' sx={{ mt: 1 }} >
-                                                                                                    <Box sx={{
-                                                                                                        width: "100%",
-                                                                                                        display: "flex",
-                                                                                                        flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                                                                                    }}>
+
+                                                                                            <Paper variant='outlined' sx={{ mt: 1 }} >
+                                                                                                <Box sx={{
+                                                                                                    width: "100%",
+                                                                                                    display: "flex",
+                                                                                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                                                                                }}>
 
 
-                                                                                                        <Box
-                                                                                                            sx={{
-                                                                                                                pl: 1, pr: 1,
-                                                                                                                display: "flex",
-                                                                                                                flexDirection: 'row',
-                                                                                                                justifyContent: "space-between"
-                                                                                                            }}>
-                                                                                                            <CssVarsProvider>
-                                                                                                                <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quatation Finalizing :
-                                                                                                                    {
-                                                                                                                        quatation_fixing === 1 ?
-                                                                                                                            <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> Yes
-                                                                                                                            </Typography> : <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> No
-                                                                                                                            </Typography>
-                                                                                                                    }
-                                                                                                                </Typography>
-                                                                                                            </CssVarsProvider>
-                                                                                                            {quatation_fixing === 1 ?
-                                                                                                                <Box
-                                                                                                                    sx={{
-                                                                                                                        display: "flex",
-                                                                                                                        flexDirection: 'row',
-                                                                                                                        justifyContent: "space-evenly",
-                                                                                                                        pr: 2
-                                                                                                                    }}>
-                                                                                                                    <CssVarsProvider>
-                                                                                                                        <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
-                                                                                                                            {quatation_fixing_date}</Typography>
-                                                                                                                        <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
-                                                                                                                        <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
-                                                                                                                            {quatation_fixuser} </Typography>
-                                                                                                                    </CssVarsProvider>
-                                                                                                                </Box> : null
-                                                                                                            }
-                                                                                                        </Box>
+                                                                                                    <Box
+                                                                                                        sx={{
+                                                                                                            pl: 1, pr: 1,
+                                                                                                            display: "flex",
+                                                                                                            flexDirection: 'row',
+                                                                                                            justifyContent: "space-between"
+                                                                                                        }}>
+                                                                                                        <CssVarsProvider>
+                                                                                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quatation Finalizing :
+                                                                                                                {
+                                                                                                                    quatation_fixing === 1 ?
+                                                                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> Yes
+                                                                                                                        </Typography> : <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> No
+                                                                                                                        </Typography>
+                                                                                                                }
+                                                                                                            </Typography>
+                                                                                                        </CssVarsProvider>
+                                                                                                        {quatation_fixing === 1 ?
+                                                                                                            <Box
+                                                                                                                sx={{
+                                                                                                                    display: "flex",
+                                                                                                                    flexDirection: 'row',
+                                                                                                                    justifyContent: "space-evenly",
+                                                                                                                    pr: 2, pt: 1, pb: 1
+                                                                                                                }}>
+                                                                                                                <CssVarsProvider>
+                                                                                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                                                                                        {quatation_fixing_date}</Typography>
+                                                                                                                    <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                                                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                                                                                        {quatation_fixuser} </Typography>
+                                                                                                                </CssVarsProvider>
+                                                                                                            </Box> : null
+                                                                                                        }
                                                                                                     </Box>
-                                                                                                </Paper>
-                                                                                            </Box> : null
-
+                                                                                                </Box>
+                                                                                            </Paper>
+                                                                                            : null
                                                                                 }
-
-
-
-
 
                                                                             </Box>
                                                                         </Paper>
                                                                     </Box>
                                                                     : null
-
                                                         }
                                                     </Box>
                                                 </Paper>
@@ -1750,7 +1805,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                     <Paper variant='outlined' sx={{ mt: 1 }} >
                                                         {
                                                             podetailFlag === 1 ?
-                                                                <Box sx={{ width: "100%", pl: 5, pb: 2 }}> Added PO
+                                                                <Box sx={{ width: "100%", p: 1 }}> Added PO
                                                                     <CrfReqDetailCmpnt
                                                                         columnDefs={column}
                                                                         tableData={getpoDetaildata}

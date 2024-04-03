@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { Box, Paper } from '@mui/material'
+import { Box, Paper, IconButton, Input } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -27,6 +27,13 @@ import DataCollectnPendingModal from '../ComonComponent/DataCollectnPendingModal
 import AddMoreItemDtails from '../ComonComponent/AddMoreItemDtails';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ReqImageDisModal from '../ComonComponent/ReqImageDisModal';
+import CustomeToolTip from 'src/views/Components/CustomeToolTip';
+import CustomPaperTitle from 'src/views/Components/CustomPaperTitle';
+import UploadFileIcon from '@mui/icons-material/UploadFile'
+import imageCompression from 'browser-image-compression';
+import CloseIcon from '@mui/icons-material/Close';
+import CusIconButton from 'src/views/Components/CusIconButton'
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -35,10 +42,9 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
     setApprovalData }) => {
     const { req_slno, req_date, actual_requirement, needed, expected_date, incharge_approve, incharge_req,
         inch_detial_analysis, incharge, incharge_remark, incharge_user, image_status,
-        incharge_apprv_date, hod_approve, hod_remark, hod_detial_analysis } = ApprovalData
+        incharge_apprv_date, hod_approve, hod_remark, hod_detial_analysis, hod_image } = ApprovalData
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
     const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
-
 
     const [reqTableDis, setReqTableDis] = useState(0)
 
@@ -118,6 +124,32 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
         }
     }, [])
 
+    const [selectFile, setSelectFile] = useState([])
+    const uploadFile = useCallback(async (e) => {
+        const newFiles = [...selectFile]
+        newFiles.push(e.target.files[0])
+        setSelectFile(newFiles)
+    }, [selectFile, setSelectFile])
+
+    const handleImageUpload = useCallback(async (imageFile) => {
+        const options = {
+            maxSizeMB: 2,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        }
+        const compressedFile = await imageCompression(imageFile, options)
+        return compressedFile
+    }, []);
+
+    const handleRemoveFile = (index) => {
+        setSelectFile((prevFiles) => {
+            const updatedFiles = [...prevFiles];
+            updatedFiles.splice(index, 1); // Remove the file at the specified index
+            return updatedFiles;
+        });
+    };
+
+
     useEffect(() => {
         setApprove(hod_approve === 1 ? true : false)
         setReject(hod_approve === 2 ? true : false)
@@ -149,10 +181,6 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
     const [imagearray, setImageArry] = useState([])
 
     const ViewImage = useCallback(() => {
-        setImageShowFlag(1)
-        setImageShow(true)
-    }, [])
-    useEffect(() => {
         const getImage = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
             const { success, data } = result.data
@@ -162,17 +190,48 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                     return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
                 });
                 setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            }
+            else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
             }
         }
-        if (imageshowFlag === 1) {
-            getImage(req_slno)
-        }
-    }, [imageshowFlag, req_slno])
+        getImage(req_slno)
+
+    }, [req_slno])
+
     const handleClose = useCallback(() => {
         setImageShowFlag(0)
         setImageShow(false)
         setImageArry([])
     }, [])
+
+    const ViewUploadImage = useCallback(() => {
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfHodImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/HodUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
+        }
+        getImage(req_slno)
+    }, [req_slno])
+
 
     const [enable, setEnable] = useState(0)
     const [datacollectdata, setDataCollectData] = useState([])
@@ -337,20 +396,13 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
         setImageShowFlag(0)
         setImageShow(false)
         setImageArry([])
+        setSelectFile([])
     }, [setApprovalFlag, setApprovalModal, setApprovalData])
 
     const submit = useCallback(() => {
-        const updateInchargeApproval = async (HodPatchData) => {
+        const updateHODApproval = async (HodPatchData) => {
             const result = await axioslogin.patch('/CRFRegisterApproval/Hod', HodPatchData);
-            const { success, message } = result.data;
-            if (success === 2) {
-                succesNotify(message)
-                setCount(count + 1)
-                reset()
-            }
-            else {
-                warningNotify(message)
-            }
+            return result.data
         }
         const DataCollRequestFnctn = async (postData) => {
             const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert`, postData);
@@ -361,6 +413,31 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                 reset()
             } else {
                 warningNotify(message)
+            }
+        }
+
+        const FileInsert = async (req_slno, selectFile) => {
+            try {
+                const formData = new FormData();
+                formData.append('reqslno', req_slno);
+                for (const file of selectFile) {
+                    if (file.type.startsWith('image')) {
+                        const compressedFile = await handleImageUpload(file);
+                        formData.append('files', compressedFile, compressedFile.name);
+                    } else {
+                        formData.append('files', file, file.name);
+                    }
+                }
+                // Use the Axios instance and endpoint that matches your server setup
+                const result = await axioslogin.post('/newCRFRegisterImages/crf/ImageInsertHOD', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                return result.data
+            } catch (error) {
+                warningNotify('An error occurred during file upload.');
+
             }
         }
 
@@ -386,10 +463,61 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
         } else {
             if (approve !== false || reject !== false || pending !== false) {
                 if (approve === true && detailAnalis !== '' && remark !== '') {
-                    updateInchargeApproval(HodPatchData)
+                    updateHODApproval(HodPatchData).then((val) => {
+                        const { success, message } = val
+                        if (success === 2) {
+                            if (selectFile.length !== 0) {
+                                FileInsert(req_slno, selectFile).then((val) => {
+                                    const { success, message } = val
+                                    if (success === 1) {
+                                        succesNotify("Approved Successfully and also file uploaded")
+                                        setCount(count + 1)
+                                        reset()
+                                    }
+                                    else {
+                                        warningNotify(message)
+                                    }
+                                })
+                            } else {
+                                succesNotify("Approved Successfully")
+                                setCount(count + 1)
+                                reset()
+                            }
+
+                        }
+                        else {
+                            warningNotify(message)
+                        }
+
+
+                    })
                 }
                 else if ((reject === true && remark !== '') || (pending === true && remark !== '')) {
-                    updateInchargeApproval(HodPatchData)
+                    updateHODApproval(HodPatchData).then((val) => {
+                        const { success, message } = val;
+                        if (success === 2) {
+                            if (selectFile.length !== 0) {
+                                FileInsert(req_slno, selectFile).then((val) => {
+                                    const { success, message } = val
+                                    if (success === 1) {
+                                        succesNotify("Status updated and also file uploaded")
+                                        setCount(count + 1)
+                                        reset()
+                                    }
+                                    else {
+                                        warningNotify(message)
+                                    }
+                                })
+                            } else {
+                                succesNotify("Status Updated")
+                                setCount(count + 1)
+                                reset()
+                            }
+                        }
+                        else {
+                            warningNotify(message)
+                        }
+                    })
                 }
                 else {
                     warningNotify("Justification must be Entered")
@@ -399,7 +527,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
             }
         }
     }, [approve, reject, pending, remark, detailAnalis, HodPatchData, setCount, count, reset, datacollFlag,
-        datacolectremark, crfdept, id, req_slno])
+        datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload])
 
     const ModalClose = useCallback(() => {
         reset()
@@ -411,7 +539,6 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
         setCollImageShowFlag(1)
         setDataCollSlNo('')
     }, [])
-
 
     return (
         <Fragment>
@@ -516,10 +643,11 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                                 </CssVarsProvider>
                                             </Box>
                                         </Box>
-                                        {image_status === 1 ? <Box sx={{ display: 'flex', width: "20%", height: 35, pl: 3, pt: 0.5, pb: 0.5 }}>
-                                            <Button onClick={ViewImage} variant="contained"
-                                                color="primary">View Image</Button>
-
+                                        {image_status === 1 ? <Box sx={{ mx: 0.5, pb: 0.5 }}>
+                                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewImage}  >
+                                                <AttachFileIcon fontSize='small' />
+                                                <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
+                                            </CusIconButton>
                                         </Box> : null}
                                     </Box>
                                 </Paper>
@@ -861,12 +989,15 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                                                 <Typography sx={{ fontSize: 15 }}>Items For Approval</Typography>
                                                             </CssVarsProvider>
                                                         </Box>
-                                                        <ItemsApprovalCompnt req_slno={req_slno}
-                                                            setApproveTableDis={setApproveTableDis}
-                                                            ApproveTableDis={ApproveTableDis}
-                                                            ApproveTableData={ApproveTableData}
-                                                            setApproveTableData={setApproveTableData}
-                                                        />
+                                                        <Box sx={{ p: 1 }}>
+                                                            <ItemsApprovalCompnt req_slno={req_slno}
+                                                                setApproveTableDis={setApproveTableDis}
+                                                                ApproveTableDis={ApproveTableDis}
+                                                                ApproveTableData={ApproveTableData}
+                                                                setApproveTableData={setApproveTableData}
+                                                            />
+                                                        </Box>
+
                                                         <Box sx={{ pl: 2 }}>
                                                             <Button onClick={AddItems} variant="contained"
                                                                 color="primary">Add Items</Button>
@@ -874,47 +1005,92 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                                         {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
                                                             setMoreItem={setMoreItem}
                                                         /> : null}
-                                                        <ApprovalCompntAll
-                                                            heading="Hod Approval"
-                                                            approve={approve}
-                                                            reject={reject}
-                                                            pending={pending}
-                                                            remark={remark}
-                                                            detailAnalis={detailAnalis}
-                                                            updatedetailAnalis={updatedetailAnalis}
-                                                            updateRemark={updateRemark}
-                                                            updateApprove={updateApprove}
-                                                            updateReject={updateReject}
-                                                            updatePending={updatePending}
-                                                        />
+                                                        <Box sx={{ p: 1 }}>
+                                                            <ApprovalCompntAll
+                                                                heading="Hod Approval"
+                                                                approve={approve}
+                                                                reject={reject}
+                                                                pending={pending}
+                                                                remark={remark}
+                                                                detailAnalis={detailAnalis}
+                                                                updatedetailAnalis={updatedetailAnalis}
+                                                                updateRemark={updateRemark}
+                                                                updateApprove={updateApprove}
+                                                                updateReject={updateReject}
+                                                                updatePending={updatePending}
+                                                            />
+                                                        </Box>
+
                                                     </Paper> :
+                                                    <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                                                        <Box sx={{
+                                                            width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
+                                                        }}>
 
-                                                    <Box sx={{
-                                                        width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
-                                                    }}>
+                                                            {reqTableDis === 1 && ApproveTableDis === 0 ?
+                                                                <Box sx={{ pr: 9 }}>
+                                                                    <CssVarsProvider>
+                                                                        <Typography sx={{ fontSize: 15 }}>No Item For Approval</Typography>
+                                                                    </CssVarsProvider>
+                                                                </Box> : null
+                                                            }
+                                                            <ApprovalCompntAll
+                                                                heading="Hod Approval"
+                                                                approve={approve}
+                                                                reject={reject}
+                                                                pending={pending}
+                                                                remark={remark}
+                                                                detailAnalis={detailAnalis}
+                                                                updatedetailAnalis={updatedetailAnalis}
+                                                                updateRemark={updateRemark}
+                                                                updateApprove={updateApprove}
+                                                                updateReject={updateReject}
+                                                                updatePending={updatePending}
+                                                            />
+                                                        </Box>
+                                                    </Paper>
 
-                                                        {reqTableDis === 1 && ApproveTableDis === 0 ?
-                                                            <Box sx={{ pr: 9 }}>
-                                                                <CssVarsProvider>
-                                                                    <Typography sx={{ fontSize: 15 }}>No Item For Approval</Typography>
-                                                                </CssVarsProvider>
-                                                            </Box> : null
-                                                        }
-                                                        <ApprovalCompntAll
-                                                            heading="Hod Approval"
-                                                            approve={approve}
-                                                            reject={reject}
-                                                            pending={pending}
-                                                            remark={remark}
-                                                            detailAnalis={detailAnalis}
-                                                            updatedetailAnalis={updatedetailAnalis}
-                                                            updateRemark={updateRemark}
-                                                            updateApprove={updateApprove}
-                                                            updateReject={updateReject}
-                                                            updatePending={updatePending}
+                                                }
+
+                                                <Box sx={{ display: 'flex', width: '400', pt: 1 }}>
+                                                    {hod_image === 1 ?
+                                                        <Box sx={{ mx: 0.5, pb: 0.5 }}>
+                                                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewUploadImage}  >
+                                                                <AttachFileIcon fontSize='small' />
+                                                                <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
+                                                            </CusIconButton>
+                                                        </Box>
+                                                        : null}
+                                                    <Box >
+                                                        <label htmlFor="file-input">
+                                                            <CustomeToolTip title="upload">
+                                                                <IconButton color="primary" aria-label="upload file" component="span">
+                                                                    <UploadFileIcon />
+                                                                    <CustomPaperTitle heading="Maximum Size 25MB" />
+                                                                </IconButton>
+                                                            </CustomeToolTip>
+                                                        </label>
+                                                        <Input
+                                                            id="file-input"
+                                                            type="file"
+                                                            accept=".jpg, .jpeg, .png, .pdf"
+                                                            style={{ display: 'none' }}
+                                                            onChange={uploadFile}
                                                         />
                                                     </Box>
-                                                }
+                                                    {
+                                                        selectFile && selectFile.map((val, index) => {
+                                                            return <Box sx={{ display: "flex", flexDirection: "row", ml: 2, pt: 1 }}
+                                                                key={index} >
+                                                                <Box >{val.name}</Box>
+                                                                <Box sx={{ ml: .3 }}><CloseIcon sx={{ height: '18px', width: '20px', cursor: 'pointer' }}
+                                                                    onClick={() => handleRemoveFile(index)}
+                                                                /></Box>
+
+                                                            </Box>
+                                                        }
+                                                        )}
+                                                </Box>
                                             </Box> : null
                                     }
                                 </Box>

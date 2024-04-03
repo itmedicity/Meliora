@@ -89,14 +89,21 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                     }
                 </Box>
                 <Box>
-                    <CustomeToolTip title="Close" placement="left" >
-                        <Box sx={{ pl: 1.5 }}>
-                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={CloseFnctn} >
-                                <SubtitlesOffIcon fontSize='small' sx={{ ml: 1 }} />
-                                <Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>Close</Typography>
-                            </CusIconButton>
-                        </Box>
-                    </CustomeToolTip>
+                    {
+                        higher === 1 ?
+                            null
+                            :
+                            <CustomeToolTip title="Close" placement="left" >
+                                <Box sx={{ pl: 1.5 }}>
+                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={CloseFnctn} >
+                                        <SubtitlesOffIcon fontSize='small' sx={{ ml: 1 }} />
+                                        <Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>Close</Typography>
+                                    </CusIconButton>
+                                </Box>
+                            </CustomeToolTip>
+
+                    }
+
                 </Box>
             </Box >
 
@@ -127,7 +134,7 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                     {image_status === 1 ?
                         <Box sx={{ mx: 0.5 }}>
                             <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewImage}  >
-                                <AttachFileIcon fontSize='small' sx={{ ml: 1 }} />
+                                <AttachFileIcon fontSize='small' />
                             </CusIconButton>
                         </Box> : null
                     }

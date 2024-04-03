@@ -12,6 +12,8 @@ import AssetUOMSelect from 'src/views/CommonSelectCode/AssetUOMSelect';
 import { useDispatch, useSelector } from 'react-redux'
 import { getUOM } from 'src/redux/actions/AmUOMList.action'
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import CustomTextarea from 'src/views/Components/CustomTextarea';
+import { format } from 'date-fns';
 
 
 const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, setApproveTableData }) => {
@@ -42,6 +44,12 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
         setItemState({ ...itemstate, [e.target.name]: value })
     }, [itemstate])
 
+    const [rejHoldRemarkFlag, setRejHoldRemarkFlag] = useState(0)
+    const [rejHoldRemark, setRejHoldRemark] = useState('')
+    const updateRemark = useCallback((e) => {
+        setRejHoldRemark(e.target.value)
+    }, [])
+
     useEffect(() => {
         dispatch(getUOM())
     }, [dispatch])
@@ -57,8 +65,6 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
     }, [item_qty])
 
     useEffect(() => {
-
-
         const getApprovalItems = async (req_slno) => {
             const result = await axioslogin.get(`/CRFRegisterApproval/getItemListApproval/${req_slno}`)
             const { success, data } = result.data
@@ -99,8 +105,6 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                 setApproveTableData([])
             }
         }
-
-
         const getMaxItemSlno = async (req_slno) => {
             const result = await axioslogin.get(`/CRFRegisterApproval/MaxItemSlno/${req_slno}`)
             const { success, data } = result.data
@@ -116,7 +120,6 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
     }, [req_slno, count, setApproveTableData, setApproveTableDis])
 
     const [columnReqDetails] = useState([
-
         {
             headerName: 'Approval', minWidth: 100, cellRenderer: params =>
                 <IconButton onClick={() => editSelect(params)}
@@ -126,15 +129,6 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                     </CustomeToolTip>
                 </IconButton>
         },
-        // {
-        //     headerName: 'Delete', minWidth: 100, cellRenderer: params =>
-        //         <IconButton onClick={() => deleteSelect(params)}
-        //             sx={{ color: editicon, pt: 0 }} >
-        //             <CustomeToolTip title="Delete">
-        //                 <DeleteIcon size={15} />
-        //             </CustomeToolTip>
-        //         </IconButton>
-        // },
         { headerName: "#", field: "slno", minWidth: 100, },
         { headerName: "Item Slno", field: "item_slno", minWidth: 100, },
         { headerName: "Old slno", field: "old_item_slno", minWidth: 100, },
@@ -189,31 +183,13 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
         setapprox_cost(0)
         setUOM(0)
         set_item_desc_actl('')
+        setUomName('')
+        setCount(0)
+        setRqeslno(0)
+        setLastSlno(0)
+        setRejHoldRemarkFlag(0)
+        setRejHoldRemark('')
     }, [])
-
-    // const deleteSelect = useCallback((params) => {
-    //     const data = params.api.getSelectedRows()
-    //     const { req_detl_slno } = data[0]
-    //     const deletePatch = {
-    //         approve_item_delete_who: "Incharge",
-    //         approve_item_delete_user: id,
-    //         req_detl_slno: req_detl_slno
-    //     }
-
-    //     const ItemDelete = async (deletePatch) => {
-    //         const result = await axioslogin.patch('/CRFRegisterApproval/InactiveItemDetail', deletePatch);
-    //         const { success, message } = result.data;
-    //         if (success === 1) {
-    //             succesNotify(message)
-    //             setCount(count + 1)
-    //         }
-    //         else {
-    //             warningNotify(message)
-    //         }
-    //     }
-    //     ItemDelete(deletePatch)
-    // }, [count, setCount, id])
-
 
     const Approvefctn = useCallback(() => {
 
@@ -243,9 +219,7 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                     warningNotify(message)
                 }
             }
-
             updateDetalReqApprov(approvedata)
-
         } else {
             const approvedataInsert = {
                 req_slno: reqslno,
@@ -284,21 +258,17 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                     warningNotify(message)
                 }
             }
-
             DetailApprvInsert(approvedataInsert)
-
-
         }
-
-
     }, [reqDetailslno, reqslno, lastSlno, item_desc_actl, item_desc, item_brand, uom, item_qty,
         item_slno, item_spec, approx_cost, unitprice, count, setCount,
         reset, id])
 
-
     const Rejectfctn = useCallback(() => {
+        setRejHoldRemarkFlag(1)
+    }, [])
 
-
+    const RejectfctnUpdate = useCallback(() => {
         const rejectedata = {
             approve_item_desc: item_desc,
             approve_item_brand: item_brand,
@@ -309,10 +279,13 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
             approve_aprox_cost: approx_cost,
             approve_item_status: 1,
             item_status_approved: 2,
+            reject_remarks: rejHoldRemark,
+            reject_user: id,
+            reject_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
             req_detl_slno: reqDetailslno
         }
         const updateDetalReqApprov = async (rejectedata) => {
-            const result = await axioslogin.patch('/CRFRegisterApproval/inchargeApporval/details', rejectedata);
+            const result = await axioslogin.patch('/CRFRegisterApproval/DetailItemReject', rejectedata);
             const { success, message } = result.data;
             if (success === 1) {
                 succesNotify(message)
@@ -323,16 +296,15 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                 warningNotify(message)
             }
         }
-
-
         updateDetalReqApprov(rejectedata)
-
     }, [reqDetailslno, item_desc, item_brand, uom, item_qty, item_spec, unitprice,
-        reset, count, setCount, approx_cost])
-
-
+        reset, count, setCount, approx_cost, rejHoldRemark, id])
 
     const onHoldfctn = useCallback(() => {
+        setRejHoldRemarkFlag(2)
+    }, [])
+
+    const onHoldfctnUpdate = useCallback(() => {
         const holddata = {
             approve_item_desc: item_desc,
             approve_item_brand: item_brand,
@@ -343,10 +315,13 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
             approve_aprox_cost: approx_cost,
             approve_item_status: 1,
             item_status_approved: 3,
+            hold_remarks: rejHoldRemark,
+            hold_user: id,
+            hold_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
             req_detl_slno: reqDetailslno
         }
         const updateDetalReqApprov = async (holddata) => {
-            const result = await axioslogin.patch('/CRFRegisterApproval/inchargeApporval/details', holddata);
+            const result = await axioslogin.patch('/CRFRegisterApproval/DetailItemOnHold', holddata);
             const { success, message } = result.data;
             if (success === 1) {
                 succesNotify(message)
@@ -357,13 +332,9 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                 warningNotify(message)
             }
         }
-
-
         updateDetalReqApprov(holddata)
-
     }, [reqDetailslno, item_desc, item_brand, uom, item_qty, item_spec, unitprice,
-        reset, count, setCount, approx_cost])
-
+        reset, count, setCount, approx_cost, rejHoldRemark, id])
 
     const getRowStyle = params => {
         if (params.data.item_status_approved === 1) {
@@ -414,10 +385,8 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                                         onchange={updateItemState}
                                     />
                                 </Box>
-
                                 <Box sx={{
-                                    width: "45%", display: "flex", flexDirection: "column",
-                                    pr: 1
+                                    width: "45%", display: "flex", flexDirection: "column", pr: 1
                                 }}>
                                     <CustomPaperTitle heading="Item Brand" />
                                     <TextFieldCustom
@@ -429,10 +398,8 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                                     />
                                 </Box>
 
-
                                 <Box sx={{
-                                    width: "25%", display: "flex", flexDirection: "column",
-                                    pr: 1
+                                    width: "25%", display: "flex", flexDirection: "column", pr: 1
                                 }}>
                                     <CustomPaperTitle heading="Unit" />
                                     <AssetUOMSelect
@@ -442,8 +409,7 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                                         uomName={uomName} />
                                 </Box>
                                 <Box sx={{
-                                    width: "65%", display: "flex", flexDirection: "column",
-                                    pr: 1
+                                    width: "65%", display: "flex", flexDirection: "column", pr: 1
                                 }}>
                                     <CustomPaperTitle heading="Specification" />
                                     <TextFieldCustom
@@ -455,13 +421,7 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                                     />
                                 </Box>
 
-                                <Box sx={{
-                                    width: "7%",
-                                    pt: 2
-                                }}>
-                                    {/* <IconButton variant="outlined" color="primary" onClick={AddItem}>
-                                <MdOutlineAddCircleOutline size={30} />
-                            </IconButton> */}
+                                <Box sx={{ width: "7%", pt: 2 }}>
                                 </Box>
                             </Box>
                         </Box>
@@ -485,8 +445,7 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                                     />
                                 </Box>
                                 <Box sx={{
-                                    width: "15%", display: "flex", flexDirection: "column",
-                                    pr: 1
+                                    width: "15%", display: "flex", flexDirection: "column", pr: 1
                                 }}>
 
                                     <CustomPaperTitle heading="Unit Price" />
@@ -500,8 +459,7 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
 
                                 </Box>
                                 <Box sx={{
-                                    width: "15%", display: "flex", flexDirection: "column",
-                                    pr: 1
+                                    width: "15%", display: "flex", flexDirection: "column", pr: 1
                                 }}>
                                     <CustomPaperTitle heading="Approx.Cost" />
                                     <TextFieldCustom
@@ -514,8 +472,7 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                                 </Box>
 
                                 <Box sx={{
-                                    width: "30%", display: "flex", flexDirection: "column",
-                                    pr: 1, pt: 3
+                                    width: "30%", display: "flex", flexDirection: "column", pr: 1, pt: 3
                                 }}>
                                     <Button onClick={Approvefctn} variant="contained"
                                         size="small" color="success">Approve</Button>
@@ -538,14 +495,64 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                                 </Box>
                             </Box>
                         </Box>
-
-
-
+                        {rejHoldRemarkFlag === 1 ?
+                            <Box sx={{
+                                width: "100%", display: "flex", flexDirection: "row", p: 1
+                            }}>
+                                <CustomTextarea
+                                    required
+                                    type="text"
+                                    size="sm"
+                                    style={{
+                                        width: "60%",
+                                        height: 50,
+                                        boardColor: "#E0E0E0",
+                                        mt: 1, ml: 1, mb: 1
+                                    }}
+                                    placeholder="Reject Remarks"
+                                    value={rejHoldRemark}
+                                    onchange={updateRemark}
+                                />
+                                <Box sx={{
+                                    width: "10%", display: "flex", flexDirection: "column",
+                                    pt: 1, pl: 2
+                                }}>
+                                    <Button onClick={RejectfctnUpdate} variant="contained"
+                                        size="small" color="error">Update</Button>
+                                </Box>
+                            </Box> :
+                            rejHoldRemarkFlag === 2 ?
+                                < Box sx={{
+                                    width: "100%", display: "flex", flexDirection: "row", p: 1
+                                }}>
+                                    <CustomTextarea
+                                        required
+                                        type="text"
+                                        size="sm"
+                                        style={{
+                                            width: "60%",
+                                            height: 50,
+                                            boardColor: "#E0E0E0",
+                                            mt: 1, ml: 1, mb: 1
+                                        }}
+                                        placeholder="On-Hold Remarks"
+                                        value={rejHoldRemark}
+                                        onchange={updateRemark}
+                                    />
+                                    <Box sx={{
+                                        width: "10%", display: "flex", flexDirection: "column",
+                                        pt: 1, pl: 2
+                                    }}>
+                                        <Button onClick={onHoldfctnUpdate}
+                                            variant="contained"
+                                            size="small" color="warning">Update</Button>
+                                    </Box>
+                                </Box> : null
+                        }
                     </Box> : null
                 }
-
             </Box>
-        </Fragment>
+        </Fragment >
     )
 }
 
