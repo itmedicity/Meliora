@@ -7,6 +7,7 @@ import Card from '@mui/joy/Card';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { useHistory } from 'react-router-dom'
 import CrfDashboardTable from './CrfDashboardTable';
+import CustomBackDrop from 'src/views/Components/CustomBackDrop';
 
 const CrfDashboardMain = () => {
 
@@ -41,7 +42,7 @@ const CrfDashboardMain = () => {
     const [heading, setHeading] = useState('')
     const [disData, setDisData] = useState([])
     const [PurchseFlag, setPurchaseFlag] = useState(0)
-
+    const [open, setOpen] = useState(false)
     const HodClinicPendingList = useCallback(() => {
         setFlag(1)
         setPurchaseFlag(0)
@@ -72,6 +73,7 @@ const CrfDashboardMain = () => {
     }, [history, msClinic])
 
     const MOClinicPendingList = useCallback(() => {
+        setOpen(true)
         setFlag(3)
         setPurchaseFlag(0)
         setHeading("Documentation Pending Clinic")
@@ -79,6 +81,7 @@ const CrfDashboardMain = () => {
     }, [moClinic])
 
     const MONonClinicPendingList = useCallback(() => {
+        setOpen(true)
         setFlag(4)
         setPurchaseFlag(0)
         setHeading("Documentation Pending NonClinic")
@@ -87,6 +90,7 @@ const CrfDashboardMain = () => {
 
 
     const SMOClinicPendingList = useCallback(() => {
+        setOpen(true)
         setFlag(5)
         setPurchaseFlag(0)
         setHeading("Verification Pending Clinic")
@@ -94,6 +98,7 @@ const CrfDashboardMain = () => {
     }, [smoClinic])
 
     const SMONonClinicPendingList = useCallback(() => {
+        setOpen(true)
         setFlag(6)
         setPurchaseFlag(0)
         setHeading("Verification Pending NonClinic")
@@ -101,6 +106,7 @@ const CrfDashboardMain = () => {
     }, [smoNonClinic])
 
     const GMClinicPendingList = useCallback(() => {
+        setOpen(true)
         setFlag(7)
         setPurchaseFlag(0)
         setHeading("General Manager Operation Pending Clinic")
@@ -108,6 +114,7 @@ const CrfDashboardMain = () => {
     }, [gmClinic])
 
     const GMNonClinicPendingList = useCallback(() => {
+        setOpen(true)
         setFlag(8)
         setPurchaseFlag(0)
         setHeading("General Manager Operation  Pending NonClinic")
@@ -116,6 +123,7 @@ const CrfDashboardMain = () => {
 
 
     const MDClinicPendingList = useCallback(() => {
+        setOpen(true)
         setFlag(9)
         setPurchaseFlag(0)
         setHeading("Medical Director Pending Clinic")
@@ -123,6 +131,7 @@ const CrfDashboardMain = () => {
     }, [mdClinic])
 
     const MDNonClinicPendingList = useCallback(() => {
+        setOpen(true)
         setFlag(10)
         setPurchaseFlag(0)
         setHeading("Medical Director Pending NonClinic")
@@ -130,6 +139,7 @@ const CrfDashboardMain = () => {
     }, [mdNonClinic])
 
     const EDClinicPendingList = useCallback(() => {
+        setOpen(true)
         setFlag(11)
         setPurchaseFlag(0)
         setHeading("Executive Director Pending NonClinic")
@@ -137,6 +147,7 @@ const CrfDashboardMain = () => {
     }, [edClinic])
 
     const EDNonClinicPendingList = useCallback(() => {
+        setOpen(true)
         setFlag(12)
         setPurchaseFlag(0)
         setHeading("Executive Director Pending NonClinic")
@@ -144,6 +155,7 @@ const CrfDashboardMain = () => {
     }, [edNonClinic])
 
     const AckPendings = useCallback(() => {
+        setOpen(true)
         setPurchaseFlag(1)
         setDisData(purchseAck)
         setHeading("Purchase Acknowledgement")
@@ -152,6 +164,7 @@ const CrfDashboardMain = () => {
 
 
     const QuatCallPendings = useCallback(() => {
+        setOpen(true)
         setPurchaseFlag(2)
         setDisData(quationCall)
         setHeading("Quatation Calling Pending")
@@ -160,6 +173,7 @@ const CrfDashboardMain = () => {
 
 
     const QutNegoPendings = useCallback(() => {
+        setOpen(true)
         setPurchaseFlag(3)
         setDisData(quationNegoPendng)
         setHeading("Quatation Negotiation Pending")
@@ -168,6 +182,7 @@ const CrfDashboardMain = () => {
 
 
     const QutFixPendings = useCallback(() => {
+        setOpen(true)
         setPurchaseFlag(4)
         setDisData(quationFixing)
         setHeading("Quatation Fixing Pending")
@@ -176,6 +191,7 @@ const CrfDashboardMain = () => {
 
 
     const POPendings = useCallback(() => {
+        setOpen(true)
         setPurchaseFlag(5)
         setDisData(poPrepaire)
         setHeading("PO Pending")
@@ -184,6 +200,7 @@ const CrfDashboardMain = () => {
 
 
     const POCompletePendings = useCallback(() => {
+        setOpen(true)
         setPurchaseFlag(6)
         setDisData(poComplete)
         setHeading("PO Close Pending")
@@ -191,6 +208,7 @@ const CrfDashboardMain = () => {
     }, [poComplete])
 
     const PoPurApprovPendings = useCallback(() => {
+        setOpen(true)
         setPurchaseFlag(7)
         setDisData(pofirstLevel)
         setHeading("PO First Level Approval Pending")
@@ -198,6 +216,7 @@ const CrfDashboardMain = () => {
     }, [pofirstLevel])
 
     const EDMDAppPendings = useCallback(() => {
+        setOpen(true)
         setPurchaseFlag(8)
         setDisData(poSecndLevel)
         setHeading("PO Managing Director Approval Pending")
@@ -205,6 +224,7 @@ const CrfDashboardMain = () => {
     }, [poSecndLevel])
 
     const PoSuplierPendings = useCallback(() => {
+        setOpen(true)
         setPurchaseFlag(9)
         setDisData(poSupplier)
         setHeading("PO to Supplier Pending")
@@ -546,12 +566,13 @@ const CrfDashboardMain = () => {
 
     return (
         <Box>
+            <CustomBackDrop open={open} text="Please Wait" />
             {flag !== 0 ?
                 <Box>
                     <CrfDashboardTable heading={heading} disData={disData} flag={flag}
                         setFlag={setFlag} setHeading={setHeading} setDisData={setDisData}
                         PurchseFlag={PurchseFlag} count={count} setCount={setCount}
-                        setPurchaseFlag={setPurchaseFlag}
+                        setPurchaseFlag={setPurchaseFlag} setOpen={setOpen}
                     />
                 </Box> :
                 <Box>

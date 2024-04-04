@@ -9,13 +9,14 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import CrfStoreModal from './CrfStoreModal'
 import StoreApprovalButton from './StoreApprovalButton'
+import CustomBackDrop from 'src/views/Components/CustomBackDrop'
 
 const CrfStoreProcessMain = () => {
 
     /*** Initializing */
     const history = useHistory();
     const [disData, setDisData] = useState([])
-
+    const [open, setOpen] = useState(false)
     const [count, setCount] = useState(0)
     useEffect(() => {
 
@@ -96,11 +97,14 @@ const CrfStoreProcessMain = () => {
                     return obj
                 })
                 setDisData(datas)
+                setOpen(false)
             } else {
-                warningNotify("Error occured contact EDP")
+                setOpen(false)
+                warningNotify("No CRF For Receive")
             }
         }
         getReqForDownload();
+        setOpen(true)
     }, [count])
 
     const [storeFlag, setStoreFlag] = useState(0)
@@ -123,7 +127,7 @@ const CrfStoreProcessMain = () => {
                     storeData={storeData} setStoreData={setStoreData}
                     count={count} setCount={setCount} /> : null
             }
-
+            <CustomBackDrop open={open} text="Please Wait" />
 
             <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
                 <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF CRS Store</Box>
