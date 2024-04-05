@@ -1,5 +1,5 @@
 import { Box, Paper } from '@mui/material'
-import React, { useCallback, memo, useState, Fragment } from 'react'
+import React, { useCallback, memo, useState, Fragment, useEffect } from 'react'
 import MasterDetailCompnt from '../ComonComponent/MasterDetailCompnt'
 import CloseIcon from '@mui/icons-material/Close';
 import CusIconButton from 'src/views/Components/CusIconButton'
@@ -12,7 +12,6 @@ import CrfSMOClose from '../CrfSMOApproval/CrfSMOClose'
 import CrfGMClose from '../CrfGMApproval/CrfGMClose'
 import CrfEDClose from '../CrfEDApproval/CrfEDClose'
 import CrfMDClose from '../CrfMDApproval/CrfMDClose'
-import CrfHodApprModalDash from './CrfHodApprModalDash';
 import CrfMOApprovalModal from '../CrfMOApproval/CrfMOApprovalModal';
 import CrfSMOApprovalModal from '../CrfSMOApproval/CrfSMOApprovalModal';
 import CrfGMApprovalModal from '../CrfGMApproval/CrfGMApprovalModal';
@@ -23,7 +22,7 @@ import CrmHodApprovalModal from '../CrfHodApproval/CrmHodApprovalModal';
 
 
 const CrfDashboardTable = ({ heading, disData, flag, setFlag, setHeading, setDisData, PurchseFlag, count,
-    setCount, setPurchaseFlag }) => {
+    setCount, setPurchaseFlag, setOpen }) => {
 
     /*** Initializing */
 
@@ -39,6 +38,9 @@ const CrfDashboardTable = ({ heading, disData, flag, setFlag, setHeading, setDis
     const [puchaseModal, setpuchaseModal] = useState(false)
     const [puchaseData, setpuchaseData] = useState([])
 
+    useEffect(() => {
+        setOpen(false)
+    }, [])
     //close button function
     const backtoSetting = useCallback(() => {
         setFlag(0)
