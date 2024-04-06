@@ -34,6 +34,7 @@ import imageCompression from 'browser-image-compression';
 import CloseIcon from '@mui/icons-material/Close';
 import CusIconButton from 'src/views/Components/CusIconButton'
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import CustomBackDrop from 'src/views/Components/CustomBackDrop';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -54,7 +55,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
     const [datacollFlag, setDataCollFlag] = useState(false)
     const [ApproveTableDis, setApproveTableDis] = useState(0)
     const [ApproveTableData, setApproveTableData] = useState([])
-
+    const [openbackdrop, setOpenBackdrop] = useState(false)
     const [remark, setRemark] = useState('')
     const updateRemark = useCallback((e) => {
         setRemark(e.target.value)
@@ -400,6 +401,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
     }, [setApprovalFlag, setApprovalModal, setApprovalData])
 
     const submit = useCallback(() => {
+        setOpenBackdrop(true)
         const updateHODApproval = async (HodPatchData) => {
             const result = await axioslogin.patch('/CRFRegisterApproval/Hod', HodPatchData);
             return result.data
@@ -408,10 +410,12 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
             const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert`, postData);
             const { success, message } = result.data;
             if (success === 1) {
+                setOpenBackdrop(false)
                 succesNotify(message)
                 setCount(count + 1)
                 reset()
             } else {
+                setOpenBackdrop(false)
                 warningNotify(message)
             }
         }
@@ -436,6 +440,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                 });
                 return result.data
             } catch (error) {
+                setOpenBackdrop(false)
                 warningNotify('An error occurred during file upload.');
 
             }
@@ -455,9 +460,11 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                     })
                     DataCollRequestFnctn(postData)
                 } else {
+                    setOpenBackdrop(false)
                     warningNotify("Please Enter The Remarks")
                 }
             } else {
+                setOpenBackdrop(false)
                 warningNotify("Please Select ant data collection department")
             }
         } else {
@@ -470,25 +477,27 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                 FileInsert(req_slno, selectFile).then((val) => {
                                     const { success, message } = val
                                     if (success === 1) {
+                                        setOpenBackdrop(false)
                                         succesNotify("Approved Successfully and also file uploaded")
                                         setCount(count + 1)
                                         reset()
                                     }
                                     else {
+                                        setOpenBackdrop(false)
                                         warningNotify(message)
                                     }
                                 })
                             } else {
+                                setOpenBackdrop(false)
                                 succesNotify("Approved Successfully")
                                 setCount(count + 1)
                                 reset()
                             }
-
                         }
                         else {
+                            setOpenBackdrop(false)
                             warningNotify(message)
                         }
-
 
                     })
                 }
@@ -500,29 +509,35 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                 FileInsert(req_slno, selectFile).then((val) => {
                                     const { success, message } = val
                                     if (success === 1) {
+                                        setOpenBackdrop(false)
                                         succesNotify("Status updated and also file uploaded")
                                         setCount(count + 1)
                                         reset()
                                     }
                                     else {
+                                        setOpenBackdrop(false)
                                         warningNotify(message)
                                     }
                                 })
                             } else {
+                                setOpenBackdrop(false)
                                 succesNotify("Status Updated")
                                 setCount(count + 1)
                                 reset()
                             }
                         }
                         else {
+                            setOpenBackdrop(false)
                             warningNotify(message)
                         }
                     })
                 }
                 else {
+                    setOpenBackdrop(false)
                     warningNotify("Justification must be Entered")
                 }
             } else {
+                setOpenBackdrop(false)
                 warningNotify("Please Select any status")
             }
         }
@@ -543,6 +558,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
     return (
         <Fragment>
             <ToastContainer />
+            <CustomBackDrop open={openbackdrop} text="Please Wait" />
             {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
                 images={imagearray} /> : null}
 

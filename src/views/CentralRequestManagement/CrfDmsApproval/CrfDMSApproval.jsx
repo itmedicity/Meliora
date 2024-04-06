@@ -19,6 +19,9 @@ import ClosedButtonCompnt from '../ComonComponent/ClosedButtonCompnt'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCRMOthers } from 'src/redux/actions/CrmOthersList.action'
 import CustomBackDrop from 'src/views/Components/CustomBackDrop'
+import { CssVarsProvider, Typography } from '@mui/joy';
+
+
 const CrfDMSApproval = () => {
 
     /*** Initializing */
@@ -106,6 +109,7 @@ const CrfDMSApproval = () => {
             setCheck(0)
             setPending(false)
             setClose(false)
+            setOpen(false)
         }
     }, [DisData])
 
@@ -117,6 +121,7 @@ const CrfDMSApproval = () => {
             })
             const datas = dmslist.map((val) => {
                 const obj = {
+                    req_status: val.req_status,
                     req_slno: val.req_slno,
                     actual_requirement: val.actual_requirement,
                     needed: val.needed,
@@ -221,10 +226,10 @@ const CrfDMSApproval = () => {
                                     val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
                                         val.po_complete === 1 ? "PO Completed" :
                                             val.po_prepartion === 1 ? "PO Prepairing" :
-                                                val.quatation_fixing === 1 ? "Po MD & ED Level Approved" :
-                                                    val.quatation_negotiation === 1 ? "Po MD & ED Level Approved" :
-                                                        val.quatation_calling_status === 1 ? "PO Prepairing" :
-                                                            val.ack_status === 1 ? "Po MD & ED Level Approved" :
+                                                val.quatation_fixing === 1 ? "Quatation Fixed" :
+                                                    val.quatation_negotiation === 1 ? "Quatation Negotiation" :
+                                                        val.quatation_calling_status === 1 ? "Quatation Calling" :
+                                                            val.ack_status === 1 ? "Puchase Acknowledged" :
                                                                 val.ed_approve !== null ? "ED" :
                                                                     val.md_approve !== null ? "MD" :
                                                                         val.gm_approve !== null ? "GM" :
@@ -295,6 +300,7 @@ const CrfDMSApproval = () => {
                 setOpen(false)
             }
             else {
+                setOpen(false)
                 setPendingData([])
                 warningNotify("No CRF For Pending")
             }
@@ -392,7 +398,7 @@ const CrfDMSApproval = () => {
                     display: "flex",
                     flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                     justifyContent: 'center',
-                }}>
+                }}><Box sx={{ width: "30%", pr: 1, mt: 1 }}></Box>
                     <Box sx={{ width: "13%", pr: 1, mt: 1 }}>
                         <CusCheckBox
                             label="Pending"
@@ -425,6 +431,22 @@ const CrfDMSApproval = () => {
                             checked={closed}
                             onCheked={updateClosed}
                         />
+                    </Box>
+                    <Box sx={{ width: "10%", }}></Box>
+                    <Box sx={{ width: "10%", mt: 1, mb: 1, backgroundColor: '#db6775', borderRadius: 2.5 }}>
+
+                        <CssVarsProvider>
+                            <Typography sx={{ fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center" }}>Reject</Typography>
+                            {/* <Button variant='solid' color='secondary' >Reject</Button> */}
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ width: "2%" }}></Box>
+                    <Box sx={{ width: "10%", mt: 1, mb: 1, backgroundColor: "#c9b661", borderRadius: 2.5 }}>
+
+                        <CssVarsProvider>
+                            <Typography sx={{ fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center" }}>On-Hold</Typography>
+                            {/* <Button variant='solid' color='secondary' >On-Hold</Button> */}
+                        </CssVarsProvider>
                     </Box>
                 </Box>
             </Paper>

@@ -19,7 +19,7 @@ import ClosedButtonCompnt from '../ComonComponent/ClosedButtonCompnt'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCRMOthers } from 'src/redux/actions/CrmOthersList.action'
 import CustomBackDrop from 'src/views/Components/CustomBackDrop'
-
+import { CssVarsProvider, Typography } from '@mui/joy';
 const CrfEDApproval = () => {
     /*** Initializing */
     const history = useHistory();
@@ -107,6 +107,7 @@ const CrfEDApproval = () => {
 
 
     useEffect(() => {
+        setOpen(true)
         if (tabledata.length !== 0) {
             const edlist = tabledata.filter((val) => {
                 return val.ed_approve_req === 1 && val.crf_close !== 1
@@ -114,6 +115,7 @@ const CrfEDApproval = () => {
 
             const datas = edlist.map((val) => {
                 const obj = {
+                    req_status: val.req_status,
                     req_slno: val.req_slno,
                     actual_requirement: val.actual_requirement,
                     needed: val.needed,
@@ -215,7 +217,7 @@ const CrfEDApproval = () => {
                     ed_approve_date: val.ed_approve_date,
                     ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
                     ed_detial_analysis: val.ed_detial_analysis,
-                    higher: val.md_approve !== null ? 1 : 0,
+                    higher: 0,
                     now_who: val.sub_store_recieve === 1 ? "Sub Store Receive" :
                         val.store_receive === 1 ? "CRS Store Receive" :
                             val.po_to_supplier === 1 ? "PO Send to Supplier" :
@@ -223,10 +225,10 @@ const CrfEDApproval = () => {
                                     val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
                                         val.po_complete === 1 ? "PO Completed" :
                                             val.po_prepartion === 1 ? "PO Prepairing" :
-                                                val.quatation_fixing === 1 ? "Po MD & ED Level Approved" :
-                                                    val.quatation_negotiation === 1 ? "Po MD & ED Level Approved" :
-                                                        val.quatation_calling_status === 1 ? "PO Prepairing" :
-                                                            val.ack_status === 1 ? "Po MD & ED Level Approved" :
+                                                val.quatation_fixing === 1 ? "Quatation Fixed" :
+                                                    val.quatation_negotiation === 1 ? "Quatation Negotiation" :
+                                                        val.quatation_calling_status === 1 ? "Quatation Calling" :
+                                                            val.ack_status === 1 ? "Puchase Acknowledged" :
                                                                 val.ed_approve !== null ? "ED" :
                                                                     val.md_approve !== null ? "MD" :
                                                                         val.gm_approve !== null ? "GM" :
@@ -289,7 +291,7 @@ const CrfEDApproval = () => {
             setDisData(datas)
 
             const pendingList = datas.filter((val) => {
-                return val.crf_close !== 1 && val.ed_approve === null
+                return val.crf_close !== 1 && val.ed_approve === null && val.gm_approve === 1
             })
             if (pendingList.length !== 0) {
                 setPendingData(pendingList)
@@ -389,13 +391,15 @@ const CrfEDApproval = () => {
                 </Box>
             </Box>
             <Paper >
+
                 <Box sx={{
                     width: "100%",
                     pl: 1, pt: 0.5, pr: 1, pb: 0.5, flex: 1,
                     display: "flex",
                     flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-                    justifyContent: 'center',
+                    // justifyContent: 'center',
                 }}>
+                    <Box sx={{ width: "30%", pr: 1, mt: 1 }}></Box>
                     <Box sx={{ width: "13%", pr: 1, mt: 1 }}>
                         <CusCheckBox
                             label="Pending"
@@ -429,6 +433,42 @@ const CrfEDApproval = () => {
                             onCheked={updateClosed}
                         />
                     </Box>
+                    <Box sx={{ width: "10%", }}></Box>
+                    <Box sx={{ width: "10%", mt: 1, mb: 1, backgroundColor: '#db6775', borderRadius: 2.5 }}>
+
+                        <CssVarsProvider>
+                            <Typography sx={{ fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center" }}>Reject</Typography>
+                            {/* <Button variant='solid' color='secondary' >Reject</Button> */}
+                        </CssVarsProvider>
+                    </Box>
+                    <Box sx={{ width: "2%" }}></Box>
+                    <Box sx={{ width: "10%", mt: 1, mb: 1, backgroundColor: "#c9b661", borderRadius: 2.5 }}>
+
+                        <CssVarsProvider>
+                            <Typography sx={{ fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center" }}>On-Hold</Typography>
+                            {/* <Button variant='solid' color='secondary' >On-Hold</Button> */}
+                        </CssVarsProvider>
+                    </Box>
+                    {/* <Box sx={{
+                        width: "30%", display: "flex",
+                        flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+
+                    }}>
+
+                        <Box sx={{ width: "15%", mt: 1, mb: 1, pr: 3, backgroundColor: '#db6775' }}>
+                            <CssVarsProvider>
+                                <Button variant='solid' color='secondary' >Reject</Button>
+                            </CssVarsProvider>
+                        </Box>
+                        <Box sx={{ width: "2%" }}></Box>
+                        <Box sx={{ width: "15%", mt: 1, mb: 1, pr: 3, backgroundColor: "#c9b661" }}>
+                            <CssVarsProvider>
+                                <Button variant='solid' color='secondary' >On-Hold</Button>
+                            </CssVarsProvider>
+                        </Box>
+                    </Box> */}
+
+
                 </Box>
             </Paper>
 
@@ -511,7 +551,7 @@ const CrfEDApproval = () => {
                         </Box>
                 }
             </Box>
-        </Fragment>
+        </Fragment >
     )
 }
 

@@ -40,7 +40,7 @@ const CrfDashboardTable = ({ heading, disData, flag, setFlag, setHeading, setDis
 
     useEffect(() => {
         setOpen(false)
-    }, [])
+    }, [setOpen])
     //close button function
     const backtoSetting = useCallback(() => {
         setFlag(0)
