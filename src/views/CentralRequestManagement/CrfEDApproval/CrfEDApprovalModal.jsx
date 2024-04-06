@@ -53,6 +53,9 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
         hod_image, dms_image, ms_image, mo_image, smo_image, gm_image, md_image, ed_image,
         dms_req, ms_approve_req
     } = ApprovalData
+
+    console.log(ApprovalData);
+
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
     const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
     const hodApprovdate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"

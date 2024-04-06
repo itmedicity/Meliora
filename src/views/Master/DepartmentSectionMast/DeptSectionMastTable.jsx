@@ -8,13 +8,12 @@ const DeptSectionMastTable = ({ count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
     //column title setting
     const [column] = useState([
+        { headerName: 'Action', minWidth: 80, cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
         { headerName: "SlNo", field: "sec_id", minWidth: 100 },
-        { headerName: "Department Section", field: "sec_name", autoHeight: true, wrapText: true, width: 300, filter: "true" },
-        { headerName: "Department Name", field: "dept_name", autoHeight: true, wrapText: true, width: 300, filter: "true" },
+        { headerName: "Department Section", field: "sec_name", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
+        { headerName: "Department Name", field: "dept_name", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Department Sub Section", field: "dept_sub_sect1", minWidth: 210, filter: "true" },
-        { headerName: "Outlet", field: "ouc_desc", autoHeight: true, wrapText: true, filter: "true" },
-        { headerName: "Status", field: "status" },
-        { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
+        { headerName: "Status", field: "status" }
     ])
     //get all data
     useEffect(() => {

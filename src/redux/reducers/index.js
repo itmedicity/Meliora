@@ -159,7 +159,7 @@ import { getQltyDept } from './QualityIndicatorDept.Reducer'
 import { setCRMPurchase } from './CrmPurchaseLista.Reducer'
 import { setCRMOthers } from './CrmOtherList.Reducer'
 import { setCRMInchargeHod } from './CrmInchHodList.Reducer'
-
+import { setCRMDashBoard } from './CrmDashBoardList.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -324,6 +324,7 @@ const reducer = combineReducers({
     getQltyDept,
     setCRMPurchase,
     setCRMOthers,
-    setCRMInchargeHod
+    setCRMInchargeHod,
+    setCRMDashBoard
 })
 export default reducer;

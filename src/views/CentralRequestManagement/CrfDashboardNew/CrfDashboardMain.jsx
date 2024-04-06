@@ -4,14 +4,14 @@ import Button from '@mui/joy/Button';
 import ButtonGroup from '@mui/joy/ButtonGroup';
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
 import Card from '@mui/joy/Card';
-import { axioslogin } from 'src/views/Axios/Axios';
 import { useHistory } from 'react-router-dom'
 import CrfDashboardTable from './CrfDashboardTable';
 import CustomBackDrop from 'src/views/Components/CustomBackDrop';
+import { useDispatch, useSelector } from 'react-redux'
+import { getCRMDashboard } from 'src/redux/actions/CrmDashBoardList.action';
+
 
 const CrfDashboardMain = () => {
-
-
     /*** Initializing */
     const history = useHistory();
     const [count, setCount] = useState(0)
@@ -43,6 +43,7 @@ const CrfDashboardMain = () => {
     const [disData, setDisData] = useState([])
     const [PurchseFlag, setPurchaseFlag] = useState(0)
     const [open, setOpen] = useState(false)
+    const dispatch = useDispatch();
     const HodClinicPendingList = useCallback(() => {
         setFlag(1)
         setPurchaseFlag(0)
@@ -231,272 +232,277 @@ const CrfDashboardMain = () => {
         setFlag(1)
     }, [poSupplier])
 
+    useEffect(() => {
+        dispatch(getCRMDashboard())
+    }, [dispatch, count])
+
+    const tabledata = useSelector((state) => {
+        return state.setCRMDashBoard.setCRMDashboardList
+    })
 
     useEffect(() => {
-        const getReqDeptsecList = async () => {
-            const result = await axioslogin.get('/newCRFRegister/getAllList/Dashboard');
-            const { success, data } = result.data
-            if (success === 1) {
-                const notClose = data.filter((val) => {
-                    return val.crf_close !== 1
-                })
-                const datas = notClose.map((val) => {
-                    const obj = {
-                        req_slno: val.req_slno,
-                        actual_requirement: val.actual_requirement,
-                        needed: val.needed,
-                        request_deptsec_slno: val.request_deptsec_slno,
-                        req_deptsec: val.req_deptsec.toLowerCase(),
-                        user_deptsection: val.user_deptsection.toLowerCase(),
-                        em_name: val.create_user.toLowerCase(),
-                        category: val.category,
-                        location: val.location,
-                        emergency_flag: val.emergency_flag,
-                        emer_type_name: val.emer_type_name,
-                        emer_slno: val.emer_slno,
-                        emer_type_escalation: val.emer_type_escalation,
-                        emergeny_remarks: val.emergeny_remarks,
-                        total_approx_cost: val.total_approx_cost,
-                        image_status: val.image_status,
-                        req_date: val.create_date,
-                        expected_date: val.expected_date,
-                        status: val.rm_ndrf === 1 ? "NDRF" : "CRF",
-                        crf_close: val.crf_close,
-                        crf_close_remark: val.crf_close_remark,
-                        crf_closed_one: val.crf_closed_one,
-                        close_date: val.close_date,
-                        closed_user: val.closed_user !== null ? val.closed_user.toLowerCase() : '',
-                        incharge_approve: val.incharge_approve,
-                        incharge_req: val.incharge_req,
-                        incharge: val.incharge_approve === 1 ? "Approved" : val.incharge_approve === 2 ? "Reject" :
-                            val.incharge_approve === 3 ? "On-Hold" : "Not Done",
-                        incharge_remarks: val.incharge_remarks,
-                        inch_detial_analysis: val.inch_detial_analysis,
-                        incharge_remark: val.incharge_remarks !== null ? val.incharge_remarks : '',
-                        incharge_apprv_date: val.incharge_apprv_date,
-                        incharge_user: val.incharge_user !== null ? val.incharge_user.toLowerCase() : '',
 
-                        hod_req: val.hod_req,
-                        hod_approve: val.hod_approve,
-                        hod: val.hod_approve === 1 ? "Approved" : val.hod_approve === 2 ? "Reject" :
-                            val.hod_approve === 3 ? "On-Hold" : "Not Done",
-                        hod_remarks: val.hod_remarks !== null ? val.hod_remarks : "Not Done",
-                        hod_detial_analysis: val.hod_detial_analysis,
-                        hod_approve_date: val.hod_approve_date,
-                        hod_user: val.hod_user !== null ? val.hod_user.toLowerCase() : '',
+        if (tabledata.length !== 0) {
 
-                        dms_req: val.dms_req,
-                        dms_approve: val.dms_approve,
-                        dms: val.dms_approve === 1 ? "Approved" : val.dms_approve === 2 ? "Reject" :
-                            val.dms_approve === 3 ? "On-Hold" : "Not Done",
-                        dms_remarks: val.dms_remarks,
-                        dms_detail_analysis: val.dms_detail_analysis,
-                        dms_approve_date: val.dms_approve_date,
-                        dms_user: val.dms_user !== null ? val.dms_user.toLowerCase() : '',
+            const notClose = tabledata.filter((val) => {
+                return val.crf_close !== 1
+            })
+            const datas = notClose.map((val) => {
+                const obj = {
+                    req_slno: val.req_slno,
+                    actual_requirement: val.actual_requirement,
+                    needed: val.needed,
+                    request_deptsec_slno: val.request_deptsec_slno,
+                    req_deptsec: val.req_deptsec.toLowerCase(),
+                    user_deptsection: val.user_deptsection.toLowerCase(),
+                    em_name: val.create_user.toLowerCase(),
+                    category: val.category,
+                    location: val.location,
+                    emergency_flag: val.emergency_flag,
+                    emer_type_name: val.emer_type_name,
+                    emer_slno: val.emer_slno,
+                    emer_type_escalation: val.emer_type_escalation,
+                    emergeny_remarks: val.emergeny_remarks,
+                    total_approx_cost: val.total_approx_cost,
+                    image_status: val.image_status,
+                    req_date: val.create_date,
+                    expected_date: val.expected_date,
+                    status: val.rm_ndrf === 1 ? "NDRF" : "CRF",
+                    crf_close: val.crf_close,
+                    crf_close_remark: val.crf_close_remark,
+                    crf_closed_one: val.crf_closed_one,
+                    close_date: val.close_date,
+                    closed_user: val.closed_user !== null ? val.closed_user.toLowerCase() : '',
+                    incharge_approve: val.incharge_approve,
+                    incharge_req: val.incharge_req,
+                    incharge: val.incharge_approve === 1 ? "Approved" : val.incharge_approve === 2 ? "Reject" :
+                        val.incharge_approve === 3 ? "On-Hold" : "Not Done",
+                    incharge_remarks: val.incharge_remarks,
+                    inch_detial_analysis: val.inch_detial_analysis,
+                    incharge_remark: val.incharge_remarks !== null ? val.incharge_remarks : '',
+                    incharge_apprv_date: val.incharge_apprv_date,
+                    incharge_user: val.incharge_user !== null ? val.incharge_user.toLowerCase() : '',
 
-                        ms_approve_req: val.ms_approve_req,
-                        ms_approve: val.ms_approve,
-                        ms: val.ms_approve === 1 ? "Approved" : val.ms_approve === 2 ? "Reject" :
-                            val.ms_approve === 3 ? "On-Hold" : "Not Done",
-                        ms_approve_remark: val.ms_approve_remark,
-                        ms_approve_date: val.ms_approve_date,
-                        ms_approve_user: val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
-                        ms_detail_analysis: val.ms_detail_analysis,
+                    hod_req: val.hod_req,
+                    hod_approve: val.hod_approve,
+                    hod: val.hod_approve === 1 ? "Approved" : val.hod_approve === 2 ? "Reject" :
+                        val.hod_approve === 3 ? "On-Hold" : "Not Done",
+                    hod_remarks: val.hod_remarks !== null ? val.hod_remarks : "Not Done",
+                    hod_detial_analysis: val.hod_detial_analysis,
+                    hod_approve_date: val.hod_approve_date,
+                    hod_user: val.hod_user !== null ? val.hod_user.toLowerCase() : '',
 
-                        manag_operation_req: val.manag_operation_req,
-                        manag_operation_approv: val.manag_operation_approv,
-                        om: val.manag_operation_approv === 1 ? "Approved" : val.manag_operation_approv === 2 ? "Reject" :
-                            val.manag_operation_approv === 3 ? "On-Hold" : "Not Done",
-                        manag_operation_remarks: val.manag_operation_remarks,
-                        om_approv_date: val.om_approv_date,
-                        manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
-                        om_detial_analysis: val.om_detial_analysis,
+                    dms_req: val.dms_req,
+                    dms_approve: val.dms_approve,
+                    dms: val.dms_approve === 1 ? "Approved" : val.dms_approve === 2 ? "Reject" :
+                        val.dms_approve === 3 ? "On-Hold" : "Not Done",
+                    dms_remarks: val.dms_remarks,
+                    dms_detail_analysis: val.dms_detail_analysis,
+                    dms_approve_date: val.dms_approve_date,
+                    dms_user: val.dms_user !== null ? val.dms_user.toLowerCase() : '',
 
-                        senior_manage_approv: val.senior_manage_approv,
-                        smo: val.senior_manage_approv === 1 ? "Approved" : val.senior_manage_approv === 2 ? "Reject" :
-                            val.senior_manage_approv === 3 ? "On-Hold" : "Not Done",
-                        senior_manage_remarks: val.senior_manage_remarks,
-                        som_aprrov_date: val.som_aprrov_date,
-                        senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
-                        smo_detial_analysis: val.smo_detial_analysis,
+                    ms_approve_req: val.ms_approve_req,
+                    ms_approve: val.ms_approve,
+                    ms: val.ms_approve === 1 ? "Approved" : val.ms_approve === 2 ? "Reject" :
+                        val.ms_approve === 3 ? "On-Hold" : "Not Done",
+                    ms_approve_remark: val.ms_approve_remark,
+                    ms_approve_date: val.ms_approve_date,
+                    ms_approve_user: val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
+                    ms_detail_analysis: val.ms_detail_analysis,
 
-                        gm_approve: val.gm_approve,
-                        gm: val.gm_approve === 1 ? "Approved" : val.gm_approve === 2 ? "Reject" :
-                            val.gm_approve === 3 ? "On-Hold" : "Not Done",
-                        gm_approve_remarks: val.gm_approve_remarks,
-                        gm_approv_date: val.gm_approv_date,
-                        gm_user: val.gm_user !== null ? val.gm_user.toLowerCase() : '',
-                        gm_detial_analysis: val.gm_detial_analysis,
+                    manag_operation_req: val.manag_operation_req,
+                    manag_operation_approv: val.manag_operation_approv,
+                    om: val.manag_operation_approv === 1 ? "Approved" : val.manag_operation_approv === 2 ? "Reject" :
+                        val.manag_operation_approv === 3 ? "On-Hold" : "Not Done",
+                    manag_operation_remarks: val.manag_operation_remarks,
+                    om_approv_date: val.om_approv_date,
+                    manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
+                    om_detial_analysis: val.om_detial_analysis,
 
-                        md_approve: val.md_approve,
-                        md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Reject" :
-                            val.md_approve === 3 ? "On-Hold" : "Not Done",
-                        md_approve_remarks: val.md_approve_remarks,
-                        md_approve_date: val.md_approve_date,
-                        md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
-                        md_detial_analysis: val.md_detial_analysis,
+                    senior_manage_approv: val.senior_manage_approv,
+                    smo: val.senior_manage_approv === 1 ? "Approved" : val.senior_manage_approv === 2 ? "Reject" :
+                        val.senior_manage_approv === 3 ? "On-Hold" : "Not Done",
+                    senior_manage_remarks: val.senior_manage_remarks,
+                    som_aprrov_date: val.som_aprrov_date,
+                    senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
+                    smo_detial_analysis: val.smo_detial_analysis,
 
-                        ed_approve: val.ed_approve,
-                        ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Reject" :
-                            val.ed_approve === 3 ? "On-Hold" : "Not Done",
-                        ed_approve_remarks: val.ed_approve_remarks,
-                        ed_approve_date: val.ed_approve_date,
-                        ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
-                        ed_detial_analysis: val.ed_detial_analysis,
-                        higher: val.ms_approve !== null ? 1 : 0,
-                        ack_status: val.ack_status,
-                        quatation_calling_status: val.quatation_calling_status,
-                        quatation_negotiation: val.quatation_negotiation,
-                        quatation_fixing: val.quatation_fixing,
-                        po_prepartion: val.po_prepartion,
-                        po_complete: val.po_complete,
-                        po_approva_level_one: val.po_approva_level_one,
-                        po_approva_level_two: val.po_approva_level_two,
-                        po_to_supplier: val.po_to_supplier,
-                    }
-                    return obj
-                })
+                    gm_approve: val.gm_approve,
+                    gm: val.gm_approve === 1 ? "Approved" : val.gm_approve === 2 ? "Reject" :
+                        val.gm_approve === 3 ? "On-Hold" : "Not Done",
+                    gm_approve_remarks: val.gm_approve_remarks,
+                    gm_approv_date: val.gm_approv_date,
+                    gm_user: val.gm_user !== null ? val.gm_user.toLowerCase() : '',
+                    gm_detial_analysis: val.gm_detial_analysis,
+
+                    md_approve: val.md_approve,
+                    md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Reject" :
+                        val.md_approve === 3 ? "On-Hold" : "Not Done",
+                    md_approve_remarks: val.md_approve_remarks,
+                    md_approve_date: val.md_approve_date,
+                    md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
+                    md_detial_analysis: val.md_detial_analysis,
+
+                    ed_approve: val.ed_approve,
+                    ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Reject" :
+                        val.ed_approve === 3 ? "On-Hold" : "Not Done",
+                    ed_approve_remarks: val.ed_approve_remarks,
+                    ed_approve_date: val.ed_approve_date,
+                    ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
+                    ed_detial_analysis: val.ed_detial_analysis,
+                    higher: val.ms_approve !== null ? 1 : 0,
+                    ack_status: val.ack_status,
+                    quatation_calling_status: val.quatation_calling_status,
+                    quatation_negotiation: val.quatation_negotiation,
+                    quatation_fixing: val.quatation_fixing,
+                    po_prepartion: val.po_prepartion,
+                    po_complete: val.po_complete,
+                    po_approva_level_one: val.po_approva_level_one,
+                    po_approva_level_two: val.po_approva_level_two,
+                    po_to_supplier: val.po_to_supplier,
+                }
+                return obj
+            })
+
+            const hodClinical = datas.filter((val) => {
+                return val.hod_req === 1 && val.hod_approve === null &&
+                    val.manag_operation_approv === null &&
+                    val.senior_manage_approv === null &&
+                    val.gm_approve === null && val.md_approve === null &&
+                    val.ed_approve === null && val.dms_req === 1
+            })
+            setHodClinic(hodClinical)
+            const hodNonClinical = datas.filter((val) => {
+                return val.hod_req === 1 && val.hod_approve === null &&
+                    val.manag_operation_approv === null &&
+                    val.senior_manage_approv === null &&
+                    val.gm_approve === null && val.md_approve === null &&
+                    val.ed_approve === null && val.dms_req === 0
+            })
+            setHodNonClinic(hodNonClinical)
+
+            const dmsClinical = datas.filter((val) => {
+                return val.dms_req === 1 && val.dms_approve === null &&
+                    val.ms_approve === null && val.manag_operation_approv === null &&
+                    val.senior_manage_approv === null &&
+                    val.gm_approve === null && val.md_approve === null &&
+                    val.ed_approve === null
+            })
+            setdmsClinic(dmsClinical)
+            const msClinical = datas.filter((val) => {
+                return val.ms_approve_req === 1 && val.ms_approve === null &&
+                    val.manag_operation_approv === null &&
+                    val.senior_manage_approv === null &&
+                    val.gm_approve === null && val.md_approve === null &&
+                    val.ed_approve === null
+            })
+
+            setmsClinic(msClinical)
+
+            const moClinical = datas.filter((val) => {
+                return val.manag_operation_approv === null &&
+                    val.senior_manage_approv === null &&
+                    val.gm_approve === null && val.md_approve === null &&
+                    val.ed_approve === null && val.dms_req === 1
+            })
+            setmoClinic(moClinical)
+            const moNonClinical = datas.filter((val) => {
+                return val.manag_operation_approv === null &&
+                    val.senior_manage_approv === null &&
+                    val.gm_approve === null && val.md_approve === null &&
+                    val.ed_approve === null && val.dms_req === 0
+            })
+            setmoNonClinic(moNonClinical)
+            const smoClinical = datas.filter((val) => {
+                return val.senior_manage_approv === null &&
+                    val.gm_approve === null && val.md_approve === null &&
+                    val.ed_approve === null && val.dms_req === 1
+            })
+            setsmoClinic(smoClinical)
+            const smoNonClinical = datas.filter((val) => {
+                return val.senior_manage_approv === null &&
+                    val.gm_approve === null && val.md_approve === null &&
+                    val.ed_approve === null && val.dms_req === 0
+            })
+            setsmoNonClinic(smoNonClinical)
+            const gmClinical = datas.filter((val) => {
+                return val.gm_approve === null && val.md_approve === null &&
+                    val.ed_approve === null && val.dms_req === 1
+            })
+            setgmClinic(gmClinical)
+            const gmNonClinical = datas.filter((val) => {
+                return val.gm_approve === null && val.md_approve === null &&
+                    val.ed_approve === null && val.dms_req === 0
+            })
+            setgmNonClinic(gmNonClinical)
+
+            const mdClinical = datas.filter((val) => {
+                return val.md_approve === null && val.dms_req === 1
+            })
+            setmdClinic(mdClinical)
+
+            const mdNonClinical = datas.filter((val) => {
+                return val.md_approve === null && val.dms_req === 0
+            })
+            setmdNonClinic(mdNonClinical)
+
+            const edClinical = datas.filter((val) => {
+                return val.ed_approve === null && val.dms_req === 1
+            })
+            setedClinic(edClinical)
+            const edNonClinical = datas.filter((val) => {
+                return val.ed_approve === null && val.dms_req === 0
+            })
+            setedNonClinic(edNonClinical)
+
+            const ackpendingList = datas.filter((val) => {
+                return val.ack_status === null && val.ed_approve === 1 && val.md_approve === 1
+            })
+            setpurchseAck(ackpendingList)
+
+            const QuatPendingList = datas.filter((val) => {
+                return val.quatation_calling_status === 0 && val.ack_status === 1 && val.po_prepartion !== 1
+            })
+
+            setquationCall(QuatPendingList)
+
+            const QuatNegotiatnList = datas.filter((val) => {
+                return val.quatation_negotiation === 0 && val.quatation_calling_status === 1
+            })
+            setquationNegoPendng(QuatNegotiatnList)
+
+            const quatFinalizeList = datas.filter((val) => {
+                return val.quatation_fixing === 0 && val.quatation_calling_status === 1
+            })
+            setquationFixing(quatFinalizeList)
+
+            const PoPendingList = datas.filter((val) => {
+                return (val.po_prepartion === 0 && val.quatation_fixing === 1) ||
+                    (val.po_prepartion === 0 && val.quatation_calling_status === 0)
+            })
+            setPoPrepaire(PoPendingList)
+
+            const poCompleteList = datas.filter((val) => {
+                return val.po_complete === 0 && val.po_prepartion === 1
+            })
+            setPoComplete(poCompleteList)
+
+            const PoApprovalPurchase = datas.filter((val) => {
+                return val.po_approva_level_one === 0 && val.po_complete === 1
+            })
+            setFirstLevel(PoApprovalPurchase)
+            const PoApprovalEDMD = datas.filter((val) => {
+                return val.po_approva_level_two === 0 && val.po_approva_level_one === 1
+            })
+            setSecondLevel(PoApprovalEDMD)
+            const PotoSupplierList = datas.filter((val) => {
+                return val.po_to_supplier === 0 && val.po_approva_level_two === 1
+            })
+            setPoSupplier(PotoSupplierList)
 
 
-                const hodClinical = datas.filter((val) => {
-                    return val.hod_req === 1 && val.hod_approve === null &&
-                        val.manag_operation_approv === null &&
-                        val.senior_manage_approv === null &&
-                        val.gm_approve === null && val.md_approve === null &&
-                        val.ed_approve === null && val.dms_req === 1
-                })
-                setHodClinic(hodClinical)
-                const hodNonClinical = datas.filter((val) => {
-                    return val.hod_req === 1 && val.hod_approve === null &&
-                        val.manag_operation_approv === null &&
-                        val.senior_manage_approv === null &&
-                        val.gm_approve === null && val.md_approve === null &&
-                        val.ed_approve === null && val.dms_req === 0
-                })
-                setHodNonClinic(hodNonClinical)
-
-                const dmsClinical = datas.filter((val) => {
-                    return val.dms_req === 1 && val.dms_approve === null &&
-                        val.ms_approve === null && val.manag_operation_approv === null &&
-                        val.senior_manage_approv === null &&
-                        val.gm_approve === null && val.md_approve === null &&
-                        val.ed_approve === null
-                })
-                setdmsClinic(dmsClinical)
-                const msClinical = datas.filter((val) => {
-                    return val.ms_approve_req === 1 && val.ms_approve === null &&
-                        val.manag_operation_approv === null &&
-                        val.senior_manage_approv === null &&
-                        val.gm_approve === null && val.md_approve === null &&
-                        val.ed_approve === null
-                })
-
-                setmsClinic(msClinical)
-
-                const moClinical = datas.filter((val) => {
-                    return val.manag_operation_approv === null &&
-                        val.senior_manage_approv === null &&
-                        val.gm_approve === null && val.md_approve === null &&
-                        val.ed_approve === null && val.dms_req === 1
-                })
-                setmoClinic(moClinical)
-                const moNonClinical = datas.filter((val) => {
-                    return val.manag_operation_approv === null &&
-                        val.senior_manage_approv === null &&
-                        val.gm_approve === null && val.md_approve === null &&
-                        val.ed_approve === null && val.dms_req === 0
-                })
-                setmoNonClinic(moNonClinical)
-                const smoClinical = datas.filter((val) => {
-                    return val.senior_manage_approv === null &&
-                        val.gm_approve === null && val.md_approve === null &&
-                        val.ed_approve === null && val.dms_req === 1
-                })
-                setsmoClinic(smoClinical)
-                const smoNonClinical = datas.filter((val) => {
-                    return val.senior_manage_approv === null &&
-                        val.gm_approve === null && val.md_approve === null &&
-                        val.ed_approve === null && val.dms_req === 0
-                })
-                setsmoNonClinic(smoNonClinical)
-                const gmClinical = datas.filter((val) => {
-                    return val.gm_approve === null && val.md_approve === null &&
-                        val.ed_approve === null && val.dms_req === 1
-                })
-                setgmClinic(gmClinical)
-                const gmNonClinical = datas.filter((val) => {
-                    return val.gm_approve === null && val.md_approve === null &&
-                        val.ed_approve === null && val.dms_req === 0
-                })
-                setgmNonClinic(gmNonClinical)
-
-                const mdClinical = datas.filter((val) => {
-                    return val.md_approve === null && val.dms_req === 1
-                })
-                setmdClinic(mdClinical)
-
-                const mdNonClinical = datas.filter((val) => {
-                    return val.md_approve === null && val.dms_req === 0
-                })
-                setmdNonClinic(mdNonClinical)
-
-                const edClinical = datas.filter((val) => {
-                    return val.ed_approve === null && val.dms_req === 1
-                })
-                setedClinic(edClinical)
-                const edNonClinical = datas.filter((val) => {
-                    return val.ed_approve === null && val.dms_req === 0
-                })
-                setedNonClinic(edNonClinical)
-
-                const ackpendingList = datas.filter((val) => {
-                    return val.ack_status === null && val.ed_approve === 1 && val.md_approve === 1
-                })
-                setpurchseAck(ackpendingList)
-
-                const QuatPendingList = datas.filter((val) => {
-                    return val.quatation_calling_status === 0 && val.ack_status === 1 && val.po_prepartion !== 1
-                })
-
-                setquationCall(QuatPendingList)
-
-                const QuatNegotiatnList = datas.filter((val) => {
-                    return val.quatation_negotiation === 0 && val.quatation_calling_status === 1
-                })
-                setquationNegoPendng(QuatNegotiatnList)
-
-                const quatFinalizeList = datas.filter((val) => {
-                    return val.quatation_fixing === 0 && val.quatation_calling_status === 1
-                })
-                setquationFixing(quatFinalizeList)
-
-                const PoPendingList = datas.filter((val) => {
-                    return (val.po_prepartion === 0 && val.quatation_fixing === 1) ||
-                        (val.po_prepartion === 0 && val.quatation_calling_status === 0)
-                })
-                setPoPrepaire(PoPendingList)
-
-                const poCompleteList = datas.filter((val) => {
-                    return val.po_complete === 0 && val.po_prepartion === 1
-                })
-                setPoComplete(poCompleteList)
-
-                const PoApprovalPurchase = datas.filter((val) => {
-                    return val.po_approva_level_one === 0 && val.po_complete === 1
-                })
-                setFirstLevel(PoApprovalPurchase)
-                const PoApprovalEDMD = datas.filter((val) => {
-                    return val.po_approva_level_two === 0 && val.po_approva_level_one === 1
-                })
-                setSecondLevel(PoApprovalEDMD)
-                const PotoSupplierList = datas.filter((val) => {
-                    return val.po_to_supplier === 0 && val.po_approva_level_two === 1
-                })
-                setPoSupplier(PotoSupplierList)
-            }
         }
-        getReqDeptsecList();
-    }, [count])
+    }, [tabledata])
 
 
     useEffect(() => {
@@ -547,22 +553,6 @@ const CrfDashboardMain = () => {
         smoNonClinic, gmClinic, gmNonClinic, mdClinic, mdNonClinic, edClinic, edNonClinic, purchseAck,
         quationCall, quationNegoPendng, quationFixing, poPrepaire, poComplete, pofirstLevel, poSecndLevel,
         poSupplier])
-
-    // const purchaseDeptArray = [
-    //     { name: 'PO acknowledgement', count: purchseAck.length },
-    //     { name: 'Quote Pending', count: quationCall.length },
-    //     { name: 'Negotiation Pending', count: quationPendng.length },
-    //     { name: 'Finalization Pending', count: quationFixing.length },
-    //     { name: 'PO Preperation Pending', count: poPrepaire.length },
-    //     { name: 'PO Completion Pending', count: poComplete.length },
-    //     { name: 'PO Purchase Approval', count: pofirstLevel.length },
-    //     { name: 'PO ED/MD Approval', count: poSecndLevel.length },
-    //     { name: 'PO To Supplier Pending', count: poSupplier.length },
-    //     // { name: 'CRS DC Pending', count: poSupplier.length },
-    //     // { name: 'CRS DC Pending', count: poSupplier.length },
-    //     // { name: 'User acknowledgement', count: purchseAck.length },
-    // ]
-
 
     return (
         <Box>

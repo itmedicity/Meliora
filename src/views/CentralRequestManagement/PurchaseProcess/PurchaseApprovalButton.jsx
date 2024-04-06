@@ -133,7 +133,7 @@ const PurchaseApprovalButton = ({ val, setpuchaseFlag, setpuchaseModal, setpucha
                         <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ModalOpenfctn}  >
                             <Typography color="primary" sx={{ fontSize: 15, pl: 1 }}></Typography>
                             <SaveAsIcon fontSize='small' />
-                            <Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>Procees</Typography>
+                            <Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>Process</Typography>
                         </CusIconButton>
                     </Box>
                 </Box>
