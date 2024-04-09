@@ -21,7 +21,7 @@ const CrfReqstTableView = ({ count, rowSelect, userAcknoldge, setCount }) => {
     const [userAckPend, setuserAckPend] = useState([])
 
     useEffect(() => {
-        const getReqDeptsecList = async () => {
+        const getReqDeptsecList = async (empsecid) => {
             const result = await axioslogin.get(`/newCRFRegister/getAllReqBasedDeptreq/${empsecid}`)
             const { success, data } = result.data
             if (success === 1) {

@@ -681,7 +681,7 @@ const CrfDashboardMain = () => {
                                         <Typography level="h2">
                                             {purchseAck.length}{' '}
                                             <Typography fontSize="sm" textColor="text.tertiary">
-                                                / PO acknowledgement
+                                                / PO Acknowledgement
                                             </Typography>
                                         </Typography>
                                     </div>
@@ -699,7 +699,7 @@ const CrfDashboardMain = () => {
                                         <Typography level="h2">
                                             {quationCall.length}{' '}
                                             <Typography fontSize="sm" textColor="text.tertiary">
-                                                /Quote Pending
+                                                /Quotation Pending
                                             </Typography>
                                         </Typography>
                                     </div>
@@ -717,7 +717,7 @@ const CrfDashboardMain = () => {
                                         <Typography level="h2">
                                             {quationNegoPendng.length}{' '}
                                             <Typography fontSize="sm" textColor="text.tertiary">
-                                                /Negotiation Pending
+                                                /Quotation Negotiation
                                             </Typography>
                                         </Typography>
                                     </div>
@@ -735,7 +735,7 @@ const CrfDashboardMain = () => {
                                         <Typography level="h2">
                                             {quationFixing.length}{' '}
                                             <Typography fontSize="sm" textColor="text.tertiary">
-                                                /Finalization Pending
+                                                /Quotation Finalization
                                             </Typography>
                                         </Typography>
                                     </div>
@@ -752,7 +752,7 @@ const CrfDashboardMain = () => {
                                         <Typography level="h2">
                                             {poPrepaire.length}{' '}
                                             <Typography fontSize="sm" textColor="text.tertiary">
-                                                /PO Preperation Pending
+                                                /PO Preparation Pending
                                             </Typography>
                                         </Typography>
                                     </div>

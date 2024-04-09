@@ -200,7 +200,7 @@ const CrfHodApproval = () => {
                         now_who: val.sub_store_recieve === 1 ? "Sub Store Receive" :
                             val.store_receive === 1 ? "CRS Store Receive" :
                                 val.po_to_supplier === 1 ? "PO Send to Supplier" :
-                                    val.po_approva_level_two === 1 ? "PO MD & ED Level Approved" :
+                                    val.po_approva_level_two === 1 ? "PO Managing Director Approved" :
                                         val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
                                             val.po_complete === 1 ? "PO Completed" :
                                                 val.po_prepartion === 1 ? "PO Prepairing" :
@@ -261,7 +261,9 @@ const CrfHodApproval = () => {
                         po_approva_level_one: val.po_approva_level_one,
                         po_approva_level_two: val.po_approva_level_two,
                         po_to_supplier: val.po_to_supplier,
-                        store_receive: val.store_receive
+                        store_receive: val.store_receive,
+                        dept_name: val.dept_name,
+                        dept_type: val.dept_type
 
 
                     }

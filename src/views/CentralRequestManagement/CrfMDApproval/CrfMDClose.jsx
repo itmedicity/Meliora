@@ -138,7 +138,7 @@ const CrfMDClose = ({ open, setCancelData, setCancelModal, setCancelFlag, count,
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
-                        MD Cancel
+                        Medical Director  Cancel
                     </DialogContentText>
 
                     <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "column" }}>
@@ -232,7 +232,7 @@ const CrfMDClose = ({ open, setCancelData, setCancelModal, setCancelFlag, count,
                             }}>
                                 <Box sx={{ pr: 9 }}>
                                     <CssVarsProvider>
-                                        <Typography sx={{ fontSize: 15 }}>Requested Items: Nill</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>Requested Items: Nil</Typography>
                                     </CssVarsProvider>
                                 </Box>
                             </Box>

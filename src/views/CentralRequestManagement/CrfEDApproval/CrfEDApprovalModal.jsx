@@ -54,8 +54,6 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
         dms_req, ms_approve_req
     } = ApprovalData
 
-    console.log(ApprovalData);
-
     const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
     const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
     const hodApprovdate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
@@ -715,7 +713,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                             }}
                         >
                             < DialogContentText id="alert-dialog-slide-descriptiona">
-                                MD Approval
+                                Executive Director Approval
                             </DialogContentText>
 
                             <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "column" }}>
@@ -814,7 +812,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                     }}>
                                         <Box sx={{ pr: 9 }}>
                                             <CssVarsProvider>
-                                                <Typography sx={{ fontSize: 15 }}>Requested Items: Nill</Typography>
+                                                <Typography sx={{ fontSize: 15 }}>Requested Items: Nil</Typography>
                                             </CssVarsProvider>
                                         </Box>
                                     </Box>
@@ -1463,7 +1461,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                     }}>
 
                                                     <CssVarsProvider>
-                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >MD Operation :
+                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Medical Director  :
 
                                                             {
                                                                 md_approve === 1 ?
@@ -1768,7 +1766,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
 
                                                         <Box sx={{ p: 1 }}>
                                                             <ApprovalCompntAll
-                                                                heading="ED Approval"
+                                                                heading="Executive Director Approval"
                                                                 approve={approve}
                                                                 reject={reject}
                                                                 pending={pending}
@@ -1795,7 +1793,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                                 </Box> : null
                                                             }
                                                             <ApprovalCompntAll
-                                                                heading="ED Approval"
+                                                                heading="Executive Director Approval"
                                                                 approve={approve}
                                                                 reject={reject}
                                                                 pending={pending}
