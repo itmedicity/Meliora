@@ -932,7 +932,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                     }}>
                                         <Box sx={{ pr: 9 }}>
                                             <CssVarsProvider>
-                                                <Typography sx={{ fontSize: 15 }}>Requested Items: Nill</Typography>
+                                                <Typography sx={{ fontSize: 15 }}>Requested Items: Nil</Typography>
                                             </CssVarsProvider>
                                         </Box>
                                     </Box>
@@ -969,7 +969,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                 }}>
 
                                                 <CssVarsProvider>
-                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >MD Operation :
+                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Medical Director  :
 
                                                         {
                                                             md_approve === 1 ?
@@ -1055,7 +1055,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                     justifyContent: "space-between"
                                                 }}>
                                                 <CssVarsProvider>
-                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >ED Operation :
+                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Executive Director:
 
                                                         {
                                                             ed_approve === 1 ?

@@ -124,7 +124,7 @@ const MasterDetailCompnt = ({ val }) => {
 
                         <Box sx={{ pr: 1, display: 'flex', alignItems: 'center', flexGrow: 1 }}>
                             <CalendarMonthIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
-                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, pr: 0.5 }} >CRF Excepted Date</Typography>
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, pr: 0.5 }} >CRF Expected Date</Typography>
                             <Typography level='body-sm' textColor='#3E3F40' fontWeight={900} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >/</Typography>
                             <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >{expdate}</Typography>
                         </Box>
@@ -133,7 +133,7 @@ const MasterDetailCompnt = ({ val }) => {
                             <AccountBalanceIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
                             <Typography level="title-sm" sx={{ color: 'white' }}
                                 endDecorator={<Typography level='body-sm' textColor='#3E3F40' fontWeight={900} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >/</Typography>} >
-                                Requested department</Typography>
+                                Requested Department</Typography>
                             <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{user_deptsection}</Typography>
                         </Box>
 

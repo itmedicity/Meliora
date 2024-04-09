@@ -231,7 +231,7 @@ const CrfMOClose = ({ open, setCancelData, setCancelModal, setCancelFlag, count,
                             }}>
                                 <Box sx={{ pr: 9 }}>
                                     <CssVarsProvider>
-                                        <Typography sx={{ fontSize: 15 }}>Requested Items: Nill</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>Requested Items: Nil</Typography>
                                     </CssVarsProvider>
                                 </Box>
                             </Box>

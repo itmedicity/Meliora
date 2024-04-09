@@ -713,7 +713,7 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                             }}
                         >
                             < DialogContentText id="alert-dialog-slide-descriptiona">
-                                MD Approval
+                                Medical Director Approval
                             </DialogContentText>
 
                             <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "column" }}>
@@ -811,7 +811,7 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                     }}>
                                         <Box sx={{ pr: 9 }}>
                                             <CssVarsProvider>
-                                                <Typography sx={{ fontSize: 15 }}>Requested Items: Nill</Typography>
+                                                <Typography sx={{ fontSize: 15 }}>Requested Items: Nil</Typography>
                                             </CssVarsProvider>
                                         </Box>
                                     </Box>
@@ -1462,7 +1462,7 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                     }}>
 
                                                     <CssVarsProvider>
-                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >ED Operation :
+                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Executive Director  :
 
                                                             {
                                                                 ed_approve === 1 ?
@@ -1765,7 +1765,7 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
 
                                                         <Box sx={{ p: 1 }}>
                                                             <ApprovalCompntAll
-                                                                heading="MD Approval"
+                                                                heading="Medical Director Approval"
                                                                 approve={approve}
                                                                 reject={reject}
                                                                 pending={pending}
@@ -1792,7 +1792,7 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                                 </Box> : null
                                                             }
                                                             <ApprovalCompntAll
-                                                                heading="MD Approval"
+                                                                heading="Medical Director Approval"
                                                                 approve={approve}
                                                                 reject={reject}
                                                                 pending={pending}

@@ -61,6 +61,7 @@ const CrfGMApproval = () => {
             }
             else {
                 setDoneData([])
+                setOpen(false)
                 warningNotify("No CRF For Pending")
             }
         }
@@ -220,7 +221,7 @@ const CrfGMApproval = () => {
                     now_who: val.sub_store_recieve === 1 ? "Sub Store Receive" :
                         val.store_receive === 1 ? "CRS Store Receive" :
                             val.po_to_supplier === 1 ? "PO Send to Supplier" :
-                                val.po_approva_level_two === 1 ? "PO MD & ED Level Approved" :
+                                val.po_approva_level_two === 1 ? "PO Managing Director Approved" :
                                     val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
                                         val.po_complete === 1 ? "PO Completed" :
                                             val.po_prepartion === 1 ? "PO Prepairing" :
@@ -281,7 +282,9 @@ const CrfGMApproval = () => {
                     po_approva_level_one: val.po_approva_level_one,
                     po_approva_level_two: val.po_approva_level_two,
                     po_to_supplier: val.po_to_supplier,
-                    store_receive: val.store_receive
+                    store_receive: val.store_receive,
+                    dept_name: val.dept_name,
+                    dept_type: val.dept_type
 
                 }
                 return obj
@@ -297,6 +300,7 @@ const CrfGMApproval = () => {
             }
             else {
                 setPendingData([])
+                setOpen(false)
                 warningNotify("No CRF For Pending")
             }
 
@@ -356,6 +360,44 @@ const CrfGMApproval = () => {
         history.push('/Home/CrfNewDashBoard')
     }, [history])
 
+    const [rejhold, setRejHold] = useState([])
+
+    const rejectOnclick = useCallback(() => {
+        setOpen(true)
+        setCheck(4)
+
+        if (DisData.length !== 0) {
+            const DoneListReject = DisData.filter((val) => {
+                return val.now_who_status === 2 || val.req_status === "R"
+            })
+            setRejHold(DoneListReject)
+            setOpen(false)
+        }
+        else {
+            setRejHold([])
+            warningNotify("No Reject CRF in All List")
+            setOpen(false)
+        }
+
+    }, [DisData])
+
+    const onHoldOnclick = useCallback(() => {
+        setOpen(true)
+        setCheck(4)
+        if (DisData.length !== 0) {
+            const DoneListReject = DisData.filter((val) => {
+                return val.now_who_status === 3 || val.req_status === "P"
+            })
+            setRejHold(DoneListReject)
+            setOpen(false)
+        }
+        else {
+            setRejHold([])
+            warningNotify("No On-Hold CRF in All List")
+            setOpen(false)
+        }
+
+    }, [DisData])
 
     return (
         <Fragment>
@@ -430,19 +472,23 @@ const CrfGMApproval = () => {
                         />
                     </Box>
                     <Box sx={{ width: "10%", }}></Box>
-                    <Box sx={{ width: "10%", mt: 1, mb: 1, backgroundColor: '#db6775', borderRadius: 2.5 }}>
-
+                    <Box sx={{ width: "10%", mt: 1, mb: 1, backgroundColor: '#db6775', borderRadius: 2.5 }}
+                        onClick={() => rejectOnclick()}>
                         <CssVarsProvider>
-                            <Typography sx={{ fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center" }}>Reject</Typography>
-                            {/* <Button variant='solid' color='secondary' >Reject</Button> */}
+                            <Typography sx={{
+                                fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center",
+                                cursor: "pointer"
+                            }}>Reject</Typography>
                         </CssVarsProvider>
                     </Box>
                     <Box sx={{ width: "2%" }}></Box>
-                    <Box sx={{ width: "10%", mt: 1, mb: 1, backgroundColor: "#c9b661", borderRadius: 2.5 }}>
-
+                    <Box sx={{
+                        width: "10%", mt: 1, mb: 1, backgroundColor: "#c9b661", borderRadius: 2.5,
+                        cursor: "pointer"
+                    }}
+                        onClick={() => onHoldOnclick()}>
                         <CssVarsProvider>
                             <Typography sx={{ fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center" }}>On-Hold</Typography>
-                            {/* <Button variant='solid' color='secondary' >On-Hold</Button> */}
                         </CssVarsProvider>
                     </Box>
                 </Box>
@@ -499,32 +545,58 @@ const CrfGMApproval = () => {
                                     </Paper>
                                 </Box>
                             })}
-                        </Box> :
-                        <Box>
-                            {pendingData && pendingData.map((val) => {
-                                return <Box key={val.req_slno} sx={{ width: "100%", }}>
-                                    <Paper sx={{
-                                        width: '100%',
-                                        mt: 0.8,
-                                        border: "2 solid #272b2f",
-                                        borderRadius: 3,
-                                        overflow: 'hidden',
-                                        boxShadow: 1,
-                                        backgroundColor: '#BBBCBC'
-                                    }} variant='outlined'>
-                                        <MasterDetailCompnt val={val} />
-                                        <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
-                                            setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
-                                            setCancelModal={setCancelModal} setApprovalData={setApprovalData}
-                                            setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
-                                            setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal}
-                                            setImageShowFlag={setImageShowFlag} setImageShow={setImageShow}
-                                            setImageSlno={setImageSlno}
-                                        />
-                                    </Paper>
-                                </Box>
-                            })}
-                        </Box>
+                        </Box> : check === 4 ?
+                            <Box sx={{ width: "100%" }}>
+
+                                {rejhold && rejhold.map((val) => {
+                                    return <Box key={val.req_slno} sx={{ width: "100%", }}>
+                                        <Paper sx={{
+                                            width: '100%',
+                                            mt: 0.8,
+                                            border: "2 solid #272b2f",
+                                            borderRadius: 3,
+                                            overflow: 'hidden',
+                                            boxShadow: 1,
+                                            backgroundColor: '#BBBCBC'
+                                        }} variant='outlined'>
+                                            <MasterDetailCompnt val={val} />
+                                            <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
+                                                setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
+                                                setCancelModal={setCancelModal} setApprovalData={setApprovalData}
+                                                setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
+                                                setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal}
+                                                setImageShowFlag={setImageShowFlag} setImageShow={setImageShow}
+                                                setImageSlno={setImageSlno}
+                                            />
+                                        </Paper>
+                                    </Box>
+                                })}
+                            </Box> :
+                            <Box>
+                                {pendingData && pendingData.map((val) => {
+                                    return <Box key={val.req_slno} sx={{ width: "100%", }}>
+                                        <Paper sx={{
+                                            width: '100%',
+                                            mt: 0.8,
+                                            border: "2 solid #272b2f",
+                                            borderRadius: 3,
+                                            overflow: 'hidden',
+                                            boxShadow: 1,
+                                            backgroundColor: '#BBBCBC'
+                                        }} variant='outlined'>
+                                            <MasterDetailCompnt val={val} />
+                                            <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
+                                                setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
+                                                setCancelModal={setCancelModal} setApprovalData={setApprovalData}
+                                                setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
+                                                setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal}
+                                                setImageShowFlag={setImageShowFlag} setImageShow={setImageShow}
+                                                setImageSlno={setImageSlno}
+                                            />
+                                        </Paper>
+                                    </Box>
+                                })}
+                            </Box>
                 }
             </Box>
         </Fragment>
