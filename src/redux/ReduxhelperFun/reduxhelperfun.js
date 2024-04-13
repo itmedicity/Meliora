@@ -1,10 +1,70 @@
+export const getpurchaseAckPending = (state) => state.setCRMPurchaseAckPending.setCRMPurchaseAckPendingList;
+
+export const PurchAckMapList = (CRMPurchaseAckPendingListAry) => {
+    return new Promise((resolve, reject) => {
+        try {
+            const result = CRMPurchaseAckPendingListAry?.filter((val) => val.md_approve === 1 && val.ed_approve === 1).map((val) => {
+                return {
+                    req_slno: val.req_slno,
+                    actual_requirement: val.actual_requirement,
+                    needed: val.needed,
+                    request_deptsec_slno: val.request_deptsec_slno,
+                    req_deptsec: val.req_deptsec.toLowerCase(),
+                    user_deptsection: val.user_deptsection.toLowerCase(),
+                    em_name: val.create_user.toLowerCase(),
+                    category: val.category,
+                    location: val.location,
+                    emergency_flag: val.emergency_flag,
+                    emer_type_name: val.emer_type_name,
+                    emer_slno: val.emer_slno,
+                    emer_type_escalation: val.emer_type_escalation,
+                    emergeny_remarks: val.emergeny_remarks,
+                    total_approx_cost: val.total_approx_cost,
+                    image_status: val.image_status,
+                    req_date: val.create_date,
+                    expected_date: val.expected_date,
+                    crf_close: val.crf_close,
+                    crf_close_remark: val.crf_close_remark,
+                    crf_closed_one: val.crf_closed_one,
+                    close_date: val.close_date,
+                    closed_user: val.closed_user !== null ? val.closed_user.toLowerCase() : '',
+                    md_approve: val.md_approve,
+                    md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Reject" :
+                        val.md_approve === 3 ? "On-Hold" : "Not Done",
+                    md_approve_remarks: val.md_approve_remarks,
+                    md_approve_date: val.md_approve_date,
+                    md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
+                    md_detial_analysis: val.md_detial_analysis,
+                    ed_approve: val.ed_approve,
+                    ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Reject" :
+                        val.ed_approve === 3 ? "On-Hold" : "Not Done",
+                    ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
+                    ed_approve_date: val.ed_approve_date,
+                    ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
+                    ed_detial_analysis: val.ed_detial_analysis,
+                    edid: val.edid,
+                    mdid: val.mdid,
+                    now_who: "Not Statrted Purchase Process",
+                    now_who_status: 0,
+                    md_image: val.md_image,
+                    ed_image: val.ed_image
+                };
+            });
+            resolve({ status: true, data: result });
+        } catch (error) {
+            reject({ status: false, data: [] });
+        }
+    });
+};
+
+
 export const getData = (state) => state.setCRMPurchase.setCRMPurchaseList;
 
 
-export const PurchaseAckList = (getArray) => {
+export const PurchaseAckDoneList = (getArray) => {
     return new Promise((resolve, reject) => {
         try {
-            const result = getArray?.filter((val) => val.ack_status === null).map((val) => {
+            const result = getArray?.filter((val) => val.ack_status === 1 && val.po_prepartion === 0).map((val) => {
                 return {
                     req_slno: val.req_slno,
                     actual_requirement: val.actual_requirement,
@@ -96,6 +156,7 @@ export const PurchaseAckList = (getArray) => {
                     ed_image: val.ed_image
                 }
             })
+
             resolve({ status: true, data: result });
         } catch (error) {
             reject({ status: false, data: [] });
@@ -215,7 +276,7 @@ export const QuatationFinal = (getArray) => {
 export const poClose = (getArray) => {
     return new Promise((resolve, reject) => {
         try {
-            const result = getArray?.filter((val) => val.po_prepartion === 1 && val.po_complete === null).map((val) => {
+            const result = getArray?.filter((val) => val.po_prepartion === 1 && val.po_complete === 0).map((val) => {
                 return {
                     req_slno: val.req_slno,
                     actual_requirement: val.actual_requirement,

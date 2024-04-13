@@ -160,6 +160,8 @@ import { setCRMPurchase } from './CrmPurchaseLista.Reducer'
 import { setCRMOthers } from './CrmOtherList.Reducer'
 import { setCRMInchargeHod } from './CrmInchHodList.Reducer'
 import { setCRMDashBoard } from './CrmDashBoardList.Reducer'
+import { setCRMPurchaseAckPending } from './CrmPurchaseAckPendg.Reducer'
+
 
 const reducer = combineReducers({
     changeState,
@@ -325,6 +327,7 @@ const reducer = combineReducers({
     setCRMPurchase,
     setCRMOthers,
     setCRMInchargeHod,
-    setCRMDashBoard
+    setCRMDashBoard,
+    setCRMPurchaseAckPending
 })
 export default reducer;
