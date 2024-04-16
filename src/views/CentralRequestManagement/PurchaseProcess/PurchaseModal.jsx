@@ -9,13 +9,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { CssVarsProvider, Typography } from '@mui/joy'
+import { CssVarsProvider, Typography, Textarea } from '@mui/joy'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay';
 import _ from 'underscore'
 import { useSelector } from 'react-redux'
 import { format } from 'date-fns';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
-import CustomTextarea from 'src/views/Components/CustomTextarea';
 import ApprovedItemListDis from '../ComonComponent/ApprovedItemListDis';
 import { MdOutlineAddCircleOutline } from 'react-icons/md';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -48,7 +47,8 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         quatation_negotiation, quatation_negotiation_date, quatation_neguser,
         quatation_fixing, quatation_fixing_date, quatation_fixuser,
         po_prepartion, po_complete, po_approva_level_one, po_approva_level_two,
-        po_to_supplier, image_status, store_receive, md_image, ed_image
+        po_to_supplier, image_status, store_receive, md_image, ed_image,
+        quatation_calling_remarks, quatation_negotiation_remarks, quatation_fixing_remarks
 
     } = puchaseData
 
@@ -61,82 +61,36 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const [crfdept, serCrfDept] = useState([])
     //state for Remarks
-    const [datacolectremark, setDatacollectRemark] = useState('')
-    const updateDatacollectRemark = useCallback((e) => {
-        setDatacollectRemark(e.target.value)
-    }, [])
 
-    const [datacollFlag, setDataCollFlag] = useState(false)
-    const updateDataCollFlag = useCallback((e) => {
-        if (e.target.checked === true) {
-            setDataCollFlag(true)
-        } else {
-            setDataCollFlag(false)
-        }
+    const [formRemarks, setFormRemarks] = useState({
+        Acknowledgement: false,
+        Ackremark: '',
+        datacollFlag: false,
+        datacolectremark: '',
+        QuatationCall: false,
+        QuatationCallremark: '',
+        QuatationNego: false,
+        QuatationNegoremark: '',
+        QuatationFix: false,
+        QuatationFixremark: '',
+        poadding: false,
+        poComplete: false,
+        poLevelOne: false,
+        poLevelTwo: false,
+        poToSupplier: false
 
-    }, [])
+    })
+    const { Acknowledgement, Ackremark, datacollFlag, datacolectremark, QuatationCall, QuatationCallremark,
+        QuatationNego, QuatationNegoremark, QuatationFix, QuatationFixremark, poadding, poComplete,
+        poLevelOne, poLevelTwo, poToSupplier } = formRemarks
+
+    const updateFormRemarks = useCallback((e) => {
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        setFormRemarks({ ...formRemarks, [e.target.name]: value })
+    }, [formRemarks])
 
     const [ApproveTableDis, setApproveTableDis] = useState(0)
     const [ApproveTableData, setApproveTableData] = useState([])
-    const [Acknowledgement, setAcknowledmnt] = useState(false)
-
-    const updateAcknowldge = useCallback((e) => {
-        if (e.target.checked === true) {
-            setAcknowledmnt(true)
-        }
-        else {
-            setAcknowledmnt(false)
-        }
-    }, [])
-
-    const [Ackremark, setAckRemark] = useState('')
-    const updateAckRemark = useCallback((e) => {
-        setAckRemark(e.target.value)
-    }, [])
-
-    const [QuatationCall, setQuatationCal] = useState(false)
-    const updateQuatationCall = useCallback((e) => {
-        if (e.target.checked === true) {
-            setQuatationCal(true)
-        }
-        else {
-            setQuatationCal(false)
-        }
-    }, [])
-
-    const [QuatationNego, setQuatationNego] = useState(false)
-    const updateQuatationNego = useCallback((e) => {
-        if (e.target.checked === true) {
-            setQuatationNego(true)
-        }
-        else {
-            setQuatationNego(false)
-        }
-    }, [])
-
-
-
-    const [QuatationFix, setQuatationFix] = useState(false)
-    const updateQuatationFix = useCallback((e) => {
-        if (e.target.checked === true) {
-            setQuatationFix(true)
-        }
-        else {
-            setQuatationFix(false)
-        }
-    }, [])
-
-
-    const [poadding, setPoadding] = useState(false)
-    const updatePoAdding = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPoadding(true)
-        }
-        else {
-            setPoadding(false)
-        }
-    }, [])
-
     const [poDetlDis, setPoDetlDis] = useState(0)
     const [podetailData, setpodetailData] = useState([])
     const [podetail, setPoDetails] = useState({
@@ -154,55 +108,9 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
     const [podetailFlag, setPOdetalFalg] = useState(0)
     const [getpoDetaildata, setgetPodetailData] = useState([])
-
-
-    const [poComplete, setPoComplete] = useState(false)
-    const updatePoComplete = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPoComplete(true)
-        }
-        else {
-            setPoComplete(false)
-        }
-    }, [])
-
-
-
-    const [poLevelOne, setPoLevelOne] = useState(false)
-    const updatePoLevelOne = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPoLevelOne(true)
-        }
-        else {
-            setPoLevelOne(false)
-        }
-    }, [])
-
-
-    const [poLevelTwo, setLevelTwo] = useState(false)
-    const updateLevelTwo = useCallback((e) => {
-        if (e.target.checked === true) {
-            setLevelTwo(true)
-        }
-        else {
-            setLevelTwo(false)
-        }
-    }, [])
-
-    const [poToSupplier, setPoToSupplier] = useState(false)
-    const updatePoToSupplier = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPoToSupplier(true)
-        }
-        else {
-            setPoToSupplier(false)
-        }
-    }, [])
-
     const [substoreSlno, setsubStoreSlno] = useState(0)
     const [substoreName, setsubStoreName] = useState('')
     const [storeName, setStoreName] = useState('')
-
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imageshow, setImageShow] = useState(false)
     const [imagearray, setImageArry] = useState([])
@@ -280,13 +188,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         setImageShowFlag(0)
         setImageShow(false)
     }, [])
-
-
-    useEffect(() => {
-        setPoLevelOne(po_approva_level_one === 1 ? true : false)
-        setLevelTwo(po_approva_level_two === 1 ? true : false)
-        setPoToSupplier(po_to_supplier === 1 ? true : false)
-    }, [po_approva_level_one, po_approva_level_two, po_to_supplier])
 
     const [enable, setEnable] = useState(0)
     const [datacollectdata, setDataCollectData] = useState([])
@@ -375,7 +276,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
                 setgetPodetailData(datas)
                 setPOdetalFalg(1)
-                setPoadding(true)
+
             }
             else {
                 setgetPodetailData([])
@@ -446,7 +347,26 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         getItemDetails(req_slno)
         getApproItemDetails(req_slno)
         getPODetails(req_slno)
-    }, [req_slno])
+
+        const fromdaraset = {
+            Acknowledgement: false,
+            Ackremark: '',
+            datacollFlag: false,
+            datacolectremark: '',
+            QuatationCall: false,
+            QuatationCallremark: '',
+            QuatationNego: false,
+            QuatationNegoremark: '',
+            QuatationFix: false,
+            QuatationFixremark: '',
+            poadding: false,
+            poComplete: false,
+            poLevelOne: po_approva_level_one === 1 ? true : false,
+            poLevelTwo: po_approva_level_two === 1 ? true : false,
+            poToSupplier: po_to_supplier === 1 ? true : false
+        }
+        setFormRemarks(fromdaraset)
+    }, [req_slno, po_approva_level_one, po_approva_level_two, po_to_supplier])
 
 
 
@@ -458,8 +378,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         setDetailData([])
         setApproveTableDis(0)
         setApproveTableData([])
-        setAcknowledmnt(false)
-        setAckRemark('')
+
         setEnable(0)
         setDataCollectData([])
         setCollectDetailCheck(false)
@@ -468,6 +387,24 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         setCollImageShowFlag(0)
         setCollImageShow(false)
         setDataCollSlNo([])
+        const frmdatareset = {
+            Acknowledgement: false,
+            Ackremark: '',
+            datacollFlag: false,
+            datacolectremark: '',
+            QuatationCall: false,
+            QuatationCallremark: '',
+            QuatationNego: false,
+            QuatationNegoremark: '',
+            QuatationFix: false,
+            QuatationFixremark: '',
+            poadding: false,
+            poComplete: false,
+            poLevelOne: false,
+            poLevelTwo: false,
+            poToSupplier: false
+        }
+        setFormRemarks(frmdatareset)
     }, [setpuchaseFlag, setpuchaseModal, setpuchaseData])
 
 
@@ -528,9 +465,10 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             quatation_calling_status: QuatationCall === true ? 1 : 0,
             quatation_calling_user: id,
             quatation_calling_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            crm_purchase_slno: crm_purchase_slno,
+            quatation_calling_remarks: QuatationCallremark,
+            crm_purchase_slno: crm_purchase_slno
         }
-    }, [crm_purchase_slno, id, QuatationCall])
+    }, [crm_purchase_slno, id, QuatationCall, QuatationCallremark])
 
 
     const QuatationNegotnPatch = useMemo(() => {
@@ -538,18 +476,20 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             quatation_negotiation: QuatationNego === true ? 1 : 0,
             quatation_negotiation_user: id,
             quatation_negotiation_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            quatation_negotiation_remarks: QuatationNegoremark,
             crm_purchase_slno: crm_purchase_slno,
         }
-    }, [crm_purchase_slno, id, QuatationNego])
+    }, [crm_purchase_slno, id, QuatationNego, QuatationNegoremark])
 
     const QuatationFixingPatch = useMemo(() => {
         return {
             quatation_fixing: QuatationFix === true ? 1 : 0,
             quatation_fixing_user: id,
             quatation_fixing_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            quatation_fixing_remarks: QuatationFixremark,
             crm_purchase_slno: crm_purchase_slno,
         }
-    }, [crm_purchase_slno, id, QuatationFix])
+    }, [crm_purchase_slno, id, QuatationFix, QuatationFixremark])
 
 
     const singlePOInsert = useMemo(() => {
@@ -1271,593 +1211,690 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                         </Paper>
                                     </Box> : null
                                 }
-
-
-
-                                {ack_status !== 1 ?
-                                    <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
-                                        <Box sx={{
-                                            display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                                        }} >
-                                            <Box sx={{
-                                                width: "100%",
-                                                display: "flex", pl: 1, pt: 1, pb: 1,
-                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                            }}>
-                                                <CusCheckBox
-                                                    variant="outlined"
-                                                    color="primary"
-                                                    size="md"
-                                                    name="estimate"
-                                                    label="Data Collection Required"
-                                                    value={datacollFlag}
-                                                    onCheked={updateDataCollFlag}
-                                                    checked={datacollFlag}
-                                                />
-                                            </Box>
-                                            {datacollFlag === true ?
-                                                <Box sx={{
-                                                    width: "100%", display: "flex", flexDirection: "column"
-                                                }}>
-                                                    <Box sx={{
-                                                        width: "100%", display: "flex",
-                                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                                    }}>
-                                                        <Box sx={{ width: "27%", pt: 1, pl: 1 }}                                                >
-                                                            <CssVarsProvider>
-                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Collected Depatments: </Typography>
-                                                            </CssVarsProvider>
-                                                        </Box>
-                                                        <Box sx={{ width: "70%", pt: 1, pl: 1, pb: 0.5 }}                                                >
-                                                            <DeptSectionSelectMulti deptSec={crfdept} SetDeptSec={serCrfDept} />
-                                                        </Box>
-                                                    </Box>
-                                                    <Box sx={{
-                                                        width: "97%", display: "flex", pb: 1,
-                                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                                    }}>
-                                                        <CssVarsProvider>
-                                                            <Typography sx={{ fontSize: 15, fontWeight: 600, pl: 1, pr: 3 }} >Remarks </Typography>
-                                                        </CssVarsProvider>
-                                                        <CustomTextarea
-                                                            required
-                                                            type="text"
-                                                            size="sm"
-                                                            style={{
-                                                                width: "100%",
-                                                                height: 50,
-                                                                boardColor: "#E0E0E0"
-                                                            }}
-                                                            placeholder="Remarks"
-                                                            value={datacolectremark}
-                                                            onchange={updateDatacollectRemark}
-                                                        />
-                                                    </Box>
-                                                </Box> : <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
-                                                    <CusCheckBox
-                                                        label="Acknowledgement"
-                                                        color="primary"
-                                                        size="md"
-                                                        name="Acknowledgement"
-                                                        value={Acknowledgement}
-                                                        checked={Acknowledgement}
-                                                        onCheked={updateAcknowldge}
-                                                    />
-                                                </Box>
-                                            }
-
-                                            {Acknowledgement === true ?
-                                                <Box sx={{ width: "50%", pr: 1, mt: 1, pl: 1 }}>
-                                                    <CustomTextarea
-                                                        required
-                                                        type="text"
-                                                        size="md"
-                                                        style={{
-                                                            width: "100%",
-                                                            height: 50,
-                                                        }}
-                                                        maxRows={1}
-                                                        value={Ackremark}
-                                                        onchange={updateAckRemark}
-                                                    />
-
-                                                </Box> : null
-                                            }
-                                        </Box>
-                                    </Paper>
-                                    :
-                                    <Box sx={{ width: "100%", mt: 0 }}>
-                                        <Paper variant='outlined' sx={{ mt: 1 }} >
-                                            <Box sx={{
-                                                width: "100%",
-                                                display: "flex",
-                                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                            }}>
-
-                                                <Box
-                                                    sx={{
-                                                        pl: 1, pr: 1,
-                                                        display: "flex",
-                                                        flexDirection: 'row',
-                                                        justifyContent: "space-between"
-                                                    }}>
-
-                                                    <CssVarsProvider>
-                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Purchase :
-
-                                                            {
-                                                                ack_status === 1 ?
-                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> Acknowledged
-                                                                    </Typography> : null
-                                                            }
-                                                        </Typography>
-                                                    </CssVarsProvider>
-                                                    {
-                                                        ack_date !== null ? <Box
-                                                            sx={{
-                                                                display: "flex",
-                                                                flexDirection: 'row',
-                                                                justifyContent: "space-evenly",
-                                                                pr: 2, pt: 1
-                                                            }}>
-                                                            <CssVarsProvider>
-                                                                <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
-                                                                    {ack_date}</Typography>
-                                                                <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
-                                                                <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
-                                                                    {purchase_ackuser} </Typography>
-                                                            </CssVarsProvider>   </Box> : null
-                                                    }
-                                                </Box>
-                                                <Box sx={{ width: "100%", pl: 1 }}>
-                                                    <CssVarsProvider>
-                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Purchase Remarks: </Typography>
-                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{ack_remarks} </Typography>
-                                                    </CssVarsProvider>
-                                                </Box>
-                                            </Box>
-                                        </Paper>
-                                    </Box>
-                                }
-
+                                {/* Purchase Process Starts */}
                                 {
-                                    quatation_calling_status !== 1 && ack_status === 1 && po_prepartion !== 1 ?
+                                    ack_status !== 1 ?
                                         <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                             <Box sx={{
                                                 display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
                                             }} >
                                                 <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
                                                     <CusCheckBox
-                                                        label="Quatation Call"
+                                                        variant="outlined"
                                                         color="primary"
                                                         size="md"
-                                                        name="QuatationCall"
-                                                        value={QuatationCall}
-                                                        checked={QuatationCall}
-                                                        onCheked={updateQuatationCall}
+                                                        label="Acknowledgement"
+                                                        name="Acknowledgement"
+                                                        value={Acknowledgement}
+                                                        checked={Acknowledgement}
+                                                        onCheked={updateFormRemarks}
                                                     />
+
                                                 </Box>
+                                                {Acknowledgement === true ?
+                                                    <Box sx={{ width: "70%", pr: 1, mt: 1, pl: 1, mb: 1 }}>
+                                                        <CssVarsProvider>
+                                                            <Textarea
+                                                                type="text"
+                                                                size="sm"
+                                                                variant="outlined"
+                                                                minRows={2}
+                                                                maxRows={2}
+                                                                style={{
+                                                                    borderRadius: 5, borderColor: "#A9A9A9", padding: 5, width: "100%",
+                                                                    height: 50,
+                                                                }}
+                                                                name="Ackremark"
+                                                                value={Ackremark}
+                                                                onChange={(e) => updateFormRemarks(e)}
+                                                            >
+                                                            </Textarea>
+                                                        </CssVarsProvider>
+
+                                                    </Box> : null
+                                                }
                                             </Box>
                                         </Paper> :
 
-                                        quatation_calling_status === 1 ?
-                                            <Box sx={{ width: "100%", mt: 0 }}>
-                                                <Paper variant='outlined' sx={{ mt: 1 }} >
-                                                    <Box sx={{
-                                                        width: "100%",
-                                                        display: "flex",
-                                                        flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                                    }}>
-                                                        <Box
-                                                            sx={{
-                                                                pl: 1, pr: 1,
-                                                                display: "flex",
-                                                                flexDirection: 'row',
-                                                                justifyContent: "space-between"
-                                                            }}>
-                                                            <CssVarsProvider>
-                                                                <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quatation Calling :
-                                                                    {
-                                                                        quatation_calling_status === 1 ?
-                                                                            <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> Yes
-                                                                            </Typography> : <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> No
-                                                                            </Typography>
-                                                                    }
-                                                                </Typography>
-                                                            </CssVarsProvider>
-                                                            {quatation_calling_status === 1 ?
-                                                                <Box
-                                                                    sx={{
-                                                                        display: "flex",
-                                                                        flexDirection: 'row',
-                                                                        justifyContent: "space-evenly",
-                                                                        pr: 2, pt: 1
-                                                                    }}>
-                                                                    <CssVarsProvider>
-                                                                        <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
-                                                                            {quatation_calling_date}</Typography>
-                                                                        <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
-                                                                        <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
-                                                                            {quatation_user} </Typography>
-                                                                    </CssVarsProvider>
-                                                                </Box> : null
-                                                            }
-                                                        </Box>
-                                                        {
-                                                            quatation_negotiation !== 1 && quatation_calling_status === 1 ?
 
-                                                                <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
-                                                                    <CusCheckBox
-                                                                        label="Quatation Negotiation"
-                                                                        color="primary"
-                                                                        size="md"
-                                                                        name="QuatationNego"
-                                                                        value={QuatationNego}
-                                                                        checked={QuatationNego}
-                                                                        onCheked={updateQuatationNego}
-                                                                    />
-                                                                </Box>
-                                                                :
-                                                                quatation_calling_status === 1 ?
-
-
-                                                                    <Box sx={{ width: "100%", mt: 0 }}>
-                                                                        <Paper variant='outlined' sx={{ mt: 1 }} >
-                                                                            <Box sx={{
-                                                                                width: "100%",
-                                                                                display: "flex",
-                                                                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                                                            }}>
-                                                                                <Box
-                                                                                    sx={{
-                                                                                        pl: 1, pr: 1,
-                                                                                        display: "flex",
-                                                                                        flexDirection: 'row',
-                                                                                        justifyContent: "space-between"
-                                                                                    }}>
-                                                                                    <CssVarsProvider>
-                                                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quatation Negotation :
-                                                                                            {
-                                                                                                quatation_negotiation === 1 ?
-                                                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> Yes
-                                                                                                    </Typography> : <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> No
-                                                                                                    </Typography>
-                                                                                            }
-                                                                                        </Typography>
-                                                                                    </CssVarsProvider>
-                                                                                    {quatation_negotiation === 1 ?
-                                                                                        <Box
-                                                                                            sx={{
-                                                                                                display: "flex",
-                                                                                                flexDirection: 'row',
-                                                                                                justifyContent: "space-evenly",
-                                                                                                pr: 2, pt: 1
-                                                                                            }}>
-                                                                                            <CssVarsProvider>
-                                                                                                <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
-                                                                                                    {quatation_negotiation_date}</Typography>
-                                                                                                <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
-                                                                                                <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
-                                                                                                    {quatation_neguser} </Typography>
-                                                                                            </CssVarsProvider>
-                                                                                        </Box> : null
-                                                                                    }
-                                                                                </Box>
-                                                                                {
-                                                                                    quatation_fixing !== 1 && quatation_calling_status === 1 ?
-
-                                                                                        <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
-                                                                                            <CusCheckBox
-                                                                                                label="Quatation Finalizing"
-                                                                                                color="primary"
-                                                                                                size="md"
-                                                                                                name="QuatationFix"
-                                                                                                value={QuatationFix}
-                                                                                                checked={QuatationFix}
-                                                                                                onCheked={updateQuatationFix}
-                                                                                            />
-                                                                                        </Box>
-                                                                                        :
-                                                                                        quatation_calling_status === 1 ?
-
-                                                                                            <Paper variant='outlined' sx={{ mt: 1 }} >
-                                                                                                <Box sx={{
-                                                                                                    width: "100%",
-                                                                                                    display: "flex",
-                                                                                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                                                                                }}>
-
-
-                                                                                                    <Box
-                                                                                                        sx={{
-                                                                                                            pl: 1, pr: 1,
-                                                                                                            display: "flex",
-                                                                                                            flexDirection: 'row',
-                                                                                                            justifyContent: "space-between"
-                                                                                                        }}>
-                                                                                                        <CssVarsProvider>
-                                                                                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quatation Finalizing :
-                                                                                                                {
-                                                                                                                    quatation_fixing === 1 ?
-                                                                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> Yes
-                                                                                                                        </Typography> : <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> No
-                                                                                                                        </Typography>
-                                                                                                                }
-                                                                                                            </Typography>
-                                                                                                        </CssVarsProvider>
-                                                                                                        {quatation_fixing === 1 ?
-                                                                                                            <Box
-                                                                                                                sx={{
-                                                                                                                    display: "flex",
-                                                                                                                    flexDirection: 'row',
-                                                                                                                    justifyContent: "space-evenly",
-                                                                                                                    pr: 2, pt: 1, pb: 1
-                                                                                                                }}>
-                                                                                                                <CssVarsProvider>
-                                                                                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
-                                                                                                                        {quatation_fixing_date}</Typography>
-                                                                                                                    <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
-                                                                                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
-                                                                                                                        {quatation_fixuser} </Typography>
-                                                                                                                </CssVarsProvider>
-                                                                                                            </Box> : null
-                                                                                                        }
-                                                                                                    </Box>
-                                                                                                </Box>
-                                                                                            </Paper>
-                                                                                            : null
-                                                                                }
-
-                                                                            </Box>
-                                                                        </Paper>
-                                                                    </Box>
-                                                                    : null
-                                                        }
-                                                    </Box>
-                                                </Paper>
-                                            </Box>
-                                            : null
-                                }
-                                {
-                                    ack_status === 1 && poadding === false ?
                                         <Box sx={{ width: "100%", mt: 0 }}>
                                             <Paper variant='outlined' sx={{ mt: 1 }} >
-                                                <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
-                                                    <CusCheckBox
-                                                        label="PO Add"
-                                                        color="primary"
-                                                        size="md"
-                                                        name="poadding"
-                                                        value={poadding}
-                                                        checked={poadding}
-                                                        onCheked={updatePoAdding}
-                                                    />
+                                                <Box sx={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                                }}>
+                                                    <Box
+                                                        sx={{
+                                                            pl: 1, pr: 1, pt: 1,
+                                                            display: "flex",
+                                                            flexDirection: 'row',
+                                                            justifyContent: "space-between"
+                                                        }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Purchase :
+
+                                                                {
+                                                                    ack_status === 1 ?
+                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> Acknowledged
+                                                                        </Typography> : null
+                                                                }
+                                                            </Typography>
+                                                        </CssVarsProvider>
+                                                        {
+                                                            ack_date !== null ? <Box
+                                                                sx={{
+                                                                    display: "flex",
+                                                                    flexDirection: 'row',
+                                                                    justifyContent: "space-evenly",
+                                                                    pr: 2, pt: 1
+                                                                }}>
+                                                                <CssVarsProvider>
+                                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                                        {ack_date}</Typography>
+                                                                    <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                                        {purchase_ackuser} </Typography>
+                                                                </CssVarsProvider>   </Box> : null
+                                                        }
+                                                    </Box>
+                                                    <Box sx={{ width: "100%", pl: 1 }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Purchase Remarks: </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{ack_remarks} </Typography>
+                                                        </CssVarsProvider>
+                                                    </Box>
                                                 </Box>
                                             </Paper>
-                                        </Box>
-                                        :
-                                        (poadding === true || po_prepartion === 1) && po_complete !== 1 ?
-
-                                            <Box sx={{ width: "100%", mt: 0 }}>
-                                                <Paper variant='outlined' sx={{ mt: 1 }} >
-                                                    <Box sx={{
-                                                        width: "100%",
-                                                        display: "flex",
-                                                        flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                                    }}>
-
+                                            {
+                                                po_prepartion !== 1 ?
+                                                    <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                                         <Box sx={{
-                                                            width: "100%",
-                                                            display: "flex",
-                                                            flexDirection: "column"
-                                                        }}>
-                                                            <Typography sx={{ fontSize: 13, fontWeight: 600, pl: 1 }} >PO Details: </Typography>
+                                                            display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+                                                        }} >
                                                             <Box sx={{
                                                                 width: "100%",
-                                                                pl: 1, pb: 1,
-                                                                display: "flex",
-                                                                flexDirection: 'row'
+                                                                display: "flex", pl: 1, pt: 1, pb: 1,
+                                                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                                             }}>
+                                                                <CusCheckBox
+                                                                    variant="outlined"
+                                                                    color="primary"
+                                                                    size="md"
+                                                                    name="datacollFlag"
+                                                                    label="Data Collection Required"
+                                                                    value={datacollFlag}
+                                                                    onCheked={updateFormRemarks}
+                                                                    checked={datacollFlag}
+                                                                    disabled={poadding === true || QuatationCall === true ? true : false}
+                                                                />
+                                                            </Box>
+                                                            {datacollFlag === true ?
                                                                 <Box sx={{
-                                                                    width: "15%",
-                                                                    display: "flex",
-                                                                    pr: 1,
-                                                                    flexDirection: "column"
+                                                                    width: "100%", display: "flex", flexDirection: "column"
                                                                 }}>
-                                                                    <CustomPaperTitle heading="PO No" mandtry={1} />
-                                                                    <TextFieldCustom
-                                                                        type="number"
-                                                                        size="sm"
-                                                                        name="po_number"
-                                                                        value={po_number}
-                                                                        onchange={updatePoDetails}
-                                                                    />
-                                                                </Box>
-
-                                                                <Box sx={{
-                                                                    width: "20%",
-                                                                    display: "flex",
-                                                                    flexDirection: "column",
-                                                                    pr: 1
-                                                                }}>
-                                                                    <CustomPaperTitle heading="PO Date" mandtry={1} />
-                                                                    <TextFieldCustom
-                                                                        type="date"
-                                                                        size="sm"
-                                                                        name="po_date"
-                                                                        value={po_date}
-                                                                        onchange={updatePoDetails}
-                                                                    />
-                                                                </Box>
-                                                                <Box sx={{
-                                                                    width: "20%",
-                                                                    display: "flex",
-                                                                    flexDirection: "column",
-                                                                    pr: 1
-                                                                }}>
-                                                                    <CustomPaperTitle heading="Select Store" mandtry={1} />
                                                                     <Box sx={{
-                                                                        pt: 1
+                                                                        width: "100%", display: "flex",
+                                                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
                                                                     }}>
-                                                                        <PurchaseStoreSlect
-                                                                            substoreSlno={substoreSlno} setsubStoreSlno={setsubStoreSlno}
-                                                                            setsubStoreName={setsubStoreName} setStoreName={setStoreName}
+                                                                        <Box sx={{ width: "27%", pt: 1, pl: 1 }}                                                >
+                                                                            <CssVarsProvider>
+                                                                                <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Detail Collected Depatments: </Typography>
+                                                                            </CssVarsProvider>
+                                                                        </Box>
+                                                                        <Box sx={{ width: "70%", pt: 1, pl: 1, pb: 0.5 }}                                                >
+                                                                            <DeptSectionSelectMulti deptSec={crfdept} SetDeptSec={serCrfDept} />
+                                                                        </Box>
+                                                                    </Box>
+                                                                    <Box sx={{
+                                                                        width: "97%", display: "flex", pb: 1,
+                                                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                                                                    }}>
+                                                                        <CssVarsProvider>
+                                                                            <Typography sx={{ fontSize: 15, fontWeight: 600, pl: 1, pr: 3 }} >Remarks </Typography>
+                                                                        </CssVarsProvider>
+                                                                        <CssVarsProvider>
+                                                                            <Textarea
+                                                                                type="text"
+                                                                                size="sm"
+                                                                                variant="outlined"
+                                                                                minRows={2}
+                                                                                maxRows={2}
+                                                                                style={{
+                                                                                    borderRadius: 5, borderColor: "#A9A9A9", padding: 5, width: "100%",
+                                                                                    height: 50,
+                                                                                }}
+                                                                                name="datacolectremark"
+                                                                                value={datacolectremark}
+                                                                                onChange={(e) => updateFormRemarks(e)}
+                                                                            >
+                                                                            </Textarea>
+                                                                        </CssVarsProvider>
+                                                                    </Box>
+                                                                </Box>
+                                                                : null}
+                                                        </Box>
+                                                    </Paper> : null
+                                            }
 
+
+                                            {quatation_calling_status !== 1 && po_prepartion !== 1 ?
+                                                <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                                                    <Box sx={{
+                                                        display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+                                                    }} >
+                                                        <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
+                                                            <CusCheckBox
+                                                                label="Quatation Call"
+                                                                color="primary"
+                                                                size="md"
+                                                                name="QuatationCall"
+                                                                value={QuatationCall}
+                                                                checked={QuatationCall}
+                                                                onCheked={updateFormRemarks}
+                                                                disabled={poadding === true || datacollFlag === true ? true : false}
+                                                            />
+                                                        </Box>
+
+                                                        {QuatationCall === true ?
+                                                            <Box sx={{ width: "50%", pr: 1, mt: 1, pl: 1, mb: 1 }}>
+                                                                <CssVarsProvider>
+                                                                    <Textarea
+                                                                        type="text"
+                                                                        size="sm"
+                                                                        variant="outlined"
+                                                                        minRows={2}
+                                                                        maxRows={2}
+                                                                        style={{
+                                                                            borderRadius: 5, borderColor: "#A9A9A9", padding: 5, width: "100%",
+                                                                            height: 50,
+                                                                        }}
+                                                                        name="QuatationCallremark"
+                                                                        value={QuatationCallremark}
+                                                                        onChange={(e) => updateFormRemarks(e)}
+                                                                    >
+                                                                    </Textarea>
+                                                                </CssVarsProvider>
+                                                            </Box> : null
+                                                        }
+                                                    </Box>
+                                                </Paper> :
+                                                <Box>
+                                                    {quatation_calling_status === 1 ?
+                                                        <Paper variant='outlined' sx={{ mt: 1 }} >
+                                                            <Box sx={{
+                                                                width: "100%",
+                                                                display: "flex",
+                                                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                                            }}>
+                                                                <Box
+                                                                    sx={{
+                                                                        pl: 1, pr: 1, pt: 1,
+                                                                        display: "flex",
+                                                                        flexDirection: 'row',
+                                                                        justifyContent: "space-between"
+                                                                    }}>
+                                                                    <CssVarsProvider>
+                                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quatation Calling :
+
+                                                                            {
+                                                                                quatation_calling_status === 1 ?
+                                                                                    <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> Yes
+                                                                                    </Typography> : <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="secondary" variant="outlined"> No
+                                                                                    </Typography>
+                                                                            }
+                                                                        </Typography>
+                                                                    </CssVarsProvider>
+                                                                    {
+                                                                        quatation_calling_date !== null ? <Box
+                                                                            sx={{
+                                                                                display: "flex",
+                                                                                flexDirection: 'row',
+                                                                                justifyContent: "space-evenly",
+                                                                                pr: 2, pt: 1
+                                                                            }}>
+                                                                            <CssVarsProvider>
+                                                                                <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                                                    {quatation_calling_date}</Typography>
+                                                                                <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                                                <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                                                    {quatation_user} </Typography>
+                                                                            </CssVarsProvider>   </Box> : null
+                                                                    }
+                                                                </Box>
+                                                                <Box sx={{ width: "100%", pl: 1 }}>
+                                                                    <CssVarsProvider>
+                                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Quatation Calling Remarks: </Typography>
+                                                                        <Typography ml={10} sx={{ fontSize: 15 }} >{quatation_calling_remarks} </Typography>
+                                                                    </CssVarsProvider>
+                                                                </Box>
+                                                            </Box>
+                                                        </Paper> : null
+                                                    }
+
+                                                    {
+                                                        quatation_calling_status === 1 && quatation_negotiation !== 1 ?
+                                                            <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                                                                <Box sx={{
+                                                                    display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+                                                                }} >
+                                                                    <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
+                                                                        <CusCheckBox
+                                                                            label="Quatation Negotiation"
+                                                                            color="primary"
+                                                                            size="md"
+                                                                            name="QuatationNego"
+                                                                            value={QuatationNego}
+                                                                            checked={QuatationNego}
+                                                                            onCheked={updateFormRemarks}
                                                                         />
                                                                     </Box>
 
-
+                                                                    {QuatationNego === true ?
+                                                                        <Box sx={{ width: "50%", pr: 1, mt: 1, pl: 1, mb: 1 }}>
+                                                                            <CssVarsProvider>
+                                                                                <Textarea
+                                                                                    type="text"
+                                                                                    size="sm"
+                                                                                    variant="outlined"
+                                                                                    minRows={2}
+                                                                                    maxRows={2}
+                                                                                    style={{
+                                                                                        borderRadius: 5, borderColor: "#A9A9A9", padding: 5, width: "100%",
+                                                                                        height: 50,
+                                                                                    }}
+                                                                                    name="QuatationNegoremark"
+                                                                                    value={QuatationNegoremark}
+                                                                                    onChange={(e) => updateFormRemarks(e)}
+                                                                                >
+                                                                                </Textarea>
+                                                                            </CssVarsProvider>
+                                                                        </Box> : null
+                                                                    }
                                                                 </Box>
-                                                                <Box sx={{
-                                                                    width: "20%",
-                                                                    display: "flex",
-                                                                    flexDirection: "column",
-                                                                    pr: 1
-                                                                }}>
-                                                                    <CustomPaperTitle heading="Main Store" />
-                                                                    <TextFieldCustom
-                                                                        type="text"
-                                                                        size="sm"
-                                                                        name="storeName"
-                                                                        value={storeName}
-                                                                        disabled={true}
-                                                                    />
+                                                            </Paper> :
+                                                            <Box>
+                                                                {quatation_negotiation === 1 ?
+                                                                    <Paper variant='outlined' sx={{ mt: 1 }} >
+                                                                        <Box sx={{
+                                                                            width: "100%",
+                                                                            display: "flex",
+                                                                            flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                                                        }}>
+                                                                            <Box
+                                                                                sx={{
+                                                                                    pl: 1, pr: 1, pt: 1,
+                                                                                    display: "flex",
+                                                                                    flexDirection: 'row',
+                                                                                    justifyContent: "space-between"
+                                                                                }}>
+                                                                                <CssVarsProvider>
+                                                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quatation Negotation :
+
+                                                                                        {
+                                                                                            quatation_negotiation === 1 ?
+                                                                                                <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> Yes
+                                                                                                </Typography> : <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="secondary" variant="outlined"> No
+                                                                                                </Typography>
+                                                                                        }
+                                                                                    </Typography>
+                                                                                </CssVarsProvider>
+                                                                                {
+                                                                                    quatation_negotiation_date !== null ? <Box
+                                                                                        sx={{
+                                                                                            display: "flex",
+                                                                                            flexDirection: 'row',
+                                                                                            justifyContent: "space-evenly",
+                                                                                            pr: 2, pt: 1
+                                                                                        }}>
+                                                                                        <CssVarsProvider>
+                                                                                            <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                                                                {quatation_negotiation_date}</Typography>
+                                                                                            <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                                                            <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                                                                {quatation_neguser} </Typography>
+                                                                                        </CssVarsProvider>   </Box> : null
+                                                                                }
+                                                                            </Box>
+                                                                            <Box sx={{ width: "100%", pl: 1 }}>
+                                                                                <CssVarsProvider>
+                                                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Quatation Negotation Remarks: </Typography>
+                                                                                    <Typography ml={10} sx={{ fontSize: 15 }} >{quatation_negotiation_remarks} </Typography>
+                                                                                </CssVarsProvider>
+                                                                            </Box>
+                                                                        </Box>
+                                                                    </Paper>
+                                                                    : null
+                                                                }
 
 
-                                                                </Box>
-                                                                <Box sx={{
-                                                                    width: "20%",
-                                                                    display: "flex",
-                                                                    flexDirection: "column",
-                                                                    pr: 1
-                                                                }}>
-                                                                    <CustomPaperTitle heading="Expected Delivery Date" mandtry={1} />
-                                                                    <TextFieldCustom
-                                                                        slotProps={{
-                                                                            input: {
-                                                                                min: moment(new Date(po_date)).format('YYYY-MM-DD')
-                                                                            },
-                                                                        }}
-                                                                        type="date"
-                                                                        size="sm"
-                                                                        name="expectpo_date"
-                                                                        value={expectpo_date}
-                                                                        onchange={updatePoDetails}
-                                                                    />
-                                                                </Box>
+                                                                {quatation_calling_status === 1 && quatation_fixing !== 1 ?
+                                                                    <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                                                                        <Box sx={{
+                                                                            display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+                                                                        }} >
+                                                                            <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
+                                                                                <CusCheckBox
+                                                                                    label="Quatation Finalizing"
+                                                                                    color="primary"
+                                                                                    size="md"
+                                                                                    name="QuatationFix"
+                                                                                    value={QuatationFix}
+                                                                                    checked={QuatationFix}
+                                                                                    onCheked={updateFormRemarks}
 
-                                                                <Box sx={{
-                                                                    width: "7%",
-                                                                    pt: 2
-                                                                }}>
+                                                                                />
+                                                                            </Box>
 
-                                                                    <Tooltip title="Add More" placement="top">
-                                                                        <IconButton variant="outlined" color="primary" onClick={AddItem}>
-                                                                            <MdOutlineAddCircleOutline size={25} />
-                                                                        </IconButton>
-                                                                    </Tooltip>
-                                                                </Box>
+                                                                            {QuatationFix === true ?
+                                                                                <Box sx={{ width: "50%", pr: 1, mt: 1, pl: 1, mb: 1 }}>
+                                                                                    <CssVarsProvider>
+                                                                                        <Textarea
+                                                                                            type="text"
+                                                                                            size="sm"
+                                                                                            variant="outlined"
+                                                                                            minRows={2}
+                                                                                            maxRows={2}
+                                                                                            style={{
+                                                                                                borderRadius: 5, borderColor: "#A9A9A9", padding: 5, width: "100%",
+                                                                                                height: 50,
+                                                                                            }}
+                                                                                            name="QuatationFixremark"
+                                                                                            value={QuatationFixremark}
+                                                                                            onChange={(e) => updateFormRemarks(e)}
+                                                                                        >
+                                                                                        </Textarea>
+                                                                                    </CssVarsProvider>
+                                                                                </Box> : null
+                                                                            }
+                                                                        </Box>
+                                                                    </Paper> :
+
+                                                                    <Box>
+                                                                        {quatation_fixing === 1 ?
+                                                                            <Paper variant='outlined' sx={{ mt: 1 }} >
+                                                                                <Box sx={{
+                                                                                    width: "100%",
+                                                                                    display: "flex",
+                                                                                    flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                                                                }}>
+                                                                                    <Box
+                                                                                        sx={{
+                                                                                            pl: 1, pr: 1, pt: 1,
+                                                                                            display: "flex",
+                                                                                            flexDirection: 'row',
+                                                                                            justifyContent: "space-between"
+                                                                                        }}>
+                                                                                        <CssVarsProvider>
+                                                                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quatation Finalizing :
+
+                                                                                                {
+                                                                                                    quatation_fixing === 1 ?
+                                                                                                        <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="success" variant="outlined"> Yes
+                                                                                                        </Typography> : <Typography ml={2} sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, }} color="secondary" variant="outlined"> No
+                                                                                                        </Typography>
+                                                                                                }
+                                                                                            </Typography>
+                                                                                        </CssVarsProvider>
+                                                                                        {
+                                                                                            quatation_fixing_date !== null ? <Box
+                                                                                                sx={{
+                                                                                                    display: "flex",
+                                                                                                    flexDirection: 'row',
+                                                                                                    justifyContent: "space-evenly",
+                                                                                                    pr: 2, pt: 1
+                                                                                                }}>
+                                                                                                <CssVarsProvider>
+                                                                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5 }}>
+                                                                                                        {quatation_fixing_date}</Typography>
+                                                                                                    <Typography ml={2} sx={{ fontSize: 15 }} >/ </Typography>
+                                                                                                    <Typography ml={2} variant="outlined" color="primary" sx={{ fontSize: 13, px: 1, pb: 0.4, borderRadius: 5, textTransform: "capitalize" }}>
+                                                                                                        {quatation_fixuser} </Typography>
+                                                                                                </CssVarsProvider>   </Box> : null
+                                                                                        }
+                                                                                    </Box>
+                                                                                    <Box sx={{ width: "100%", pl: 1 }}>
+                                                                                        <CssVarsProvider>
+                                                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Quatation Finalizing Remarks: </Typography>
+                                                                                            <Typography ml={10} sx={{ fontSize: 15 }} >{quatation_fixing_remarks} </Typography>
+                                                                                        </CssVarsProvider>
+                                                                                    </Box>
+                                                                                </Box>
+                                                                            </Paper> : null
+                                                                        }
+
+
+                                                                    </Box>
+                                                                }
                                                             </Box>
+                                                    }
+                                                </Box>
+                                            }
 
-                                                            {poDetlDis === 1 ?
-                                                                <Box sx={{ width: "100%", pl: 1, pb: 1, pr: 1 }}>
-                                                                    <CrfReqDetailCmpnt
-                                                                        columnDefs={column}
-                                                                        tableData={podetailData}
-                                                                    />
-                                                                </Box> : null
-                                                            }
+                                            {
+                                                po_complete !== 1 && ((quatation_calling_status !== 1 && quatation_fixing !== 1) ||
+                                                    (quatation_calling_status === 1 && quatation_fixing === 1)) ?
+                                                    <Paper variant='outlined' sx={{ mt: 1 }} >
+                                                        <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
+                                                            <CusCheckBox
+                                                                label="PO Add"
+                                                                color="primary"
+                                                                size="md"
+                                                                name="poadding"
+                                                                value={poadding}
+                                                                checked={poadding}
+                                                                onCheked={updateFormRemarks}
+                                                                disabled={QuatationCall === true || datacollFlag === true ? true : false}
+                                                            />
+                                                        </Box>
+                                                        {
+                                                            (poadding === true || po_prepartion === 1) && po_complete !== 1 ?
+                                                                <Box sx={{ width: "100%", mt: 0 }}>
+                                                                    <Box sx={{
+                                                                        width: "100%",
+                                                                        display: "flex",
+                                                                        flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                                                    }}>
+                                                                        <Typography sx={{ fontSize: 13, fontWeight: 600, pl: 1 }} >PO Details: </Typography>
+                                                                        {
+                                                                            podetailFlag === 1 ?
+                                                                                <Box sx={{ width: "100%", p: 1 }}> Added PO
+                                                                                    <CrfReqDetailCmpnt
+                                                                                        columnDefs={column}
+                                                                                        tableData={getpoDetaildata}
+                                                                                    />
+                                                                                </Box> : null
+                                                                        }
+                                                                        <Box sx={{
+                                                                            width: "100%",
+                                                                            pl: 1, pb: 1,
+                                                                            display: "flex",
+                                                                            flexDirection: 'row'
+                                                                        }}>
+                                                                            <Box sx={{
+                                                                                width: "15%",
+                                                                                display: "flex",
+                                                                                pr: 1,
+                                                                                flexDirection: "column"
+                                                                            }}>
+                                                                                <CustomPaperTitle heading="PO No" mandtry={1} />
+                                                                                <TextFieldCustom
+                                                                                    type="number"
+                                                                                    size="sm"
+                                                                                    name="po_number"
+                                                                                    value={po_number}
+                                                                                    onchange={updatePoDetails}
+                                                                                />
+                                                                            </Box>
 
+                                                                            <Box sx={{
+                                                                                width: "20%",
+                                                                                display: "flex",
+                                                                                flexDirection: "column",
+                                                                                pr: 1
+                                                                            }}>
+                                                                                <CustomPaperTitle heading="PO Date" mandtry={1} />
+                                                                                <TextFieldCustom
+                                                                                    type="date"
+                                                                                    size="sm"
+                                                                                    name="po_date"
+                                                                                    value={po_date}
+                                                                                    onchange={updatePoDetails}
+                                                                                />
+                                                                            </Box>
+                                                                            <Box sx={{
+                                                                                width: "20%",
+                                                                                display: "flex",
+                                                                                flexDirection: "column",
+                                                                                pr: 1
+                                                                            }}>
+                                                                                <CustomPaperTitle heading="Select Store" mandtry={1} />
+                                                                                <Box sx={{
+                                                                                    pt: 1
+                                                                                }}>
+                                                                                    <PurchaseStoreSlect
+                                                                                        substoreSlno={substoreSlno} setsubStoreSlno={setsubStoreSlno}
+                                                                                        setsubStoreName={setsubStoreName} setStoreName={setStoreName}
+
+                                                                                    />
+                                                                                </Box>
+                                                                            </Box>
+                                                                            <Box sx={{
+                                                                                width: "20%",
+                                                                                display: "flex",
+                                                                                flexDirection: "column",
+                                                                                pr: 1
+                                                                            }}>
+                                                                                <CustomPaperTitle heading="Main Store" />
+                                                                                <TextFieldCustom
+                                                                                    type="text"
+                                                                                    size="sm"
+                                                                                    name="storeName"
+                                                                                    value={storeName}
+                                                                                    disabled={true}
+                                                                                />
+                                                                            </Box>
+                                                                            <Box sx={{
+                                                                                width: "20%",
+                                                                                display: "flex",
+                                                                                flexDirection: "column",
+                                                                                pr: 1
+                                                                            }}>
+                                                                                <CustomPaperTitle heading="Expected Delivery Date" mandtry={1} />
+                                                                                <TextFieldCustom
+                                                                                    slotProps={{
+                                                                                        input: {
+                                                                                            min: moment(new Date(po_date)).format('YYYY-MM-DD')
+                                                                                        },
+                                                                                    }}
+                                                                                    type="date"
+                                                                                    size="sm"
+                                                                                    name="expectpo_date"
+                                                                                    value={expectpo_date}
+                                                                                    onchange={updatePoDetails}
+                                                                                />
+                                                                            </Box>
+                                                                            <Box sx={{
+                                                                                width: "7%",
+                                                                                pt: 2
+                                                                            }}>
+                                                                                <Tooltip title="Add More" placement="top">
+                                                                                    <IconButton variant="outlined" color="primary" onClick={AddItem}>
+                                                                                        <MdOutlineAddCircleOutline size={25} />
+                                                                                    </IconButton>
+                                                                                </Tooltip>
+                                                                            </Box>
+                                                                        </Box>
+                                                                        {poDetlDis === 1 ?
+                                                                            <Box sx={{ width: "100%", pl: 1, pb: 1, pr: 1 }}>
+                                                                                <CrfReqDetailCmpnt
+                                                                                    columnDefs={column}
+                                                                                    tableData={podetailData}
+                                                                                />
+                                                                            </Box> : null
+                                                                        }
+                                                                        <Box sx={{
+                                                                            display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+                                                                        }} >
+                                                                            <Box sx={{ width: "30%", pr: 1, mt: 1, pl: 1 }}>
+                                                                                <CusCheckBox
+                                                                                    label="Po Complete Ready For Approval"
+                                                                                    color="primary"
+                                                                                    size="md"
+                                                                                    name="poComplete"
+                                                                                    value={poComplete}
+                                                                                    checked={poComplete}
+                                                                                    onCheked={updateFormRemarks}
+                                                                                />
+                                                                            </Box>
+                                                                        </Box>
+                                                                    </Box>
+                                                                </Box>
+                                                                : null
+                                                        }
+                                                    </Paper>
+                                                    : null}
+
+                                            {
+                                                po_complete === 1 ?
+                                                    <Box sx={{ width: "100%", mt: 0 }}>
+                                                        <Paper variant='outlined' sx={{ mt: 1 }} >
                                                             {
                                                                 podetailFlag === 1 ?
-                                                                    <Box sx={{ width: "100%", pl: 1, pb: 1, pr: 1 }}>PO Details
+                                                                    <Box sx={{ width: "100%", p: 1 }}> Added PO Details
                                                                         <CrfReqDetailCmpnt
                                                                             columnDefs={column}
                                                                             tableData={getpoDetaildata}
                                                                         />
                                                                     </Box> : null
                                                             }
-                                                            <Box sx={{
-                                                                display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                                                            }} >
-                                                                <Box sx={{ width: "30%", pr: 1, mt: 1, pl: 1 }}>
-                                                                    <CusCheckBox
-                                                                        label="Po Complete  Ready For Approval"
-                                                                        color="primary"
-                                                                        size="md"
-                                                                        name="poComplete"
-                                                                        value={poComplete}
-                                                                        checked={poComplete}
-                                                                        onCheked={updatePoComplete}
-                                                                    />
-                                                                </Box>
+                                                        </Paper>
 
+                                                        <Paper variant='outlined' sx={{ mt: 1 }} >
+                                                            <Box sx={{ width: "40%", pr: 1, mt: 1, pl: 1 }}>
+                                                                <CusCheckBox
+                                                                    label="PO Approval Purchase Level"
+                                                                    color="primary"
+                                                                    size="md"
+                                                                    disabled={store_receive === 1 ? true : false}
+                                                                    name="poLevelOne"
+                                                                    value={poLevelOne}
+                                                                    checked={poLevelOne}
+                                                                    onCheked={updateFormRemarks}
+                                                                />
                                                             </Box>
 
-                                                        </Box>
-                                                    </Box>
-                                                </Paper>
-                                            </Box>
-                                            :
+                                                            <Box sx={{ width: "40%", pr: 1, mt: 1, pl: 1 }}>
+                                                                <CusCheckBox
+                                                                    label="PO Approval Managing Director"
+                                                                    color="primary"
+                                                                    size="md"
+                                                                    disabled={store_receive === 1 ? true : false}
+                                                                    name="poLevelTwo"
+                                                                    value={poLevelTwo}
+                                                                    checked={poLevelTwo}
+                                                                    onCheked={updateFormRemarks}
+                                                                />
+                                                            </Box>
 
-                                            po_complete === 1 ?
-                                                <Box sx={{ width: "100%", mt: 0 }}>
-                                                    <Paper variant='outlined' sx={{ mt: 1 }} >
-                                                        {
-                                                            podetailFlag === 1 ?
-                                                                <Box sx={{ width: "100%", p: 1 }}> Added PO
-                                                                    <CrfReqDetailCmpnt
-                                                                        columnDefs={column}
-                                                                        tableData={getpoDetaildata}
-                                                                    />
-                                                                </Box> : null
-                                                        }
-                                                    </Paper>
-
-                                                    <Paper variant='outlined' sx={{ mt: 1 }} >
-                                                        <Box sx={{ width: "40%", pr: 1, mt: 1, pl: 1 }}>
-                                                            <CusCheckBox
-                                                                label="PO Approval Purchase Level"
-                                                                color="primary"
-                                                                size="md"
-                                                                disabled={store_receive === 1 ? true : false}
-                                                                name="poLevelOne"
-                                                                value={poLevelOne}
-                                                                checked={poLevelOne}
-                                                                onCheked={updatePoLevelOne}
-                                                            />
-                                                        </Box>
-
-                                                        <Box sx={{ width: "40%", pr: 1, mt: 1, pl: 1 }}>
-                                                            <CusCheckBox
-                                                                label="PO Approval Managing Director"
-                                                                color="primary"
-                                                                size="md"
-                                                                disabled={store_receive === 1 ? true : false}
-                                                                name="poLevelTwo"
-                                                                value={poLevelTwo}
-                                                                checked={poLevelTwo}
-                                                                onCheked={updateLevelTwo}
-                                                            />
-                                                        </Box>
-
-                                                        <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
-                                                            <CusCheckBox
-                                                                label="PO To Supplier"
-                                                                color="primary"
-                                                                size="md"
-                                                                disabled={store_receive === 1 ? true : false}
-                                                                name="poToSupplier"
-                                                                value={poToSupplier}
-                                                                checked={poToSupplier}
-                                                                onCheked={updatePoToSupplier}
-                                                            />
-                                                        </Box>
-                                                    </Paper>
-                                                </Box> :
-
-                                                null
+                                                            <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
+                                                                <CusCheckBox
+                                                                    label="PO To Supplier"
+                                                                    color="primary"
+                                                                    size="md"
+                                                                    disabled={store_receive === 1 ? true : false}
+                                                                    name="poToSupplier"
+                                                                    value={poToSupplier}
+                                                                    checked={poToSupplier}
+                                                                    onCheked={updateFormRemarks}
+                                                                />
+                                                            </Box>
+                                                        </Paper>
+                                                    </Box> : null
+                                            }
+                                        </Box>
                                 }
+
                             </Box>
                         </DialogContent>
                         <DialogActions>
