@@ -206,7 +206,7 @@ const CrfStoreConfmModal = ({ open, handleClose, podetlno, partialFlag, fullyFla
                                             <Box sx={{ pr: 1.5 }}>
                                                 <CssVarsProvider>
                                                     <Typography sx={{ fontSize: 18, textAlign: "center" }}>
-                                                        Are you sure to  Receive Item Partially against Selected PO
+                                                        Are you sure to  Receive Item Fully against Selected PO
                                                     </Typography>
                                                 </CssVarsProvider>
                                             </Box>
@@ -329,7 +329,11 @@ const CrfStoreConfmModal = ({ open, handleClose, podetlno, partialFlag, fullyFla
                     {strFulyReciv !== 1 && (partialFlag === 1 || fullyFlag === 1) ?
 
                         <Button onClick={Receive} color="secondary" >Yes</Button> : null}
-                    <Button onClick={handleClose} color="secondary" >No</Button>
+                    {strFulyReciv !== 1 && (partialFlag === 1 || fullyFlag === 1) ?
+
+                        <Button onClick={handleClose} color="secondary" >No</Button> :
+                        <Button onClick={handleClose} color="secondary" >Close</Button>}
+
                 </DialogActions>
             </Dialog>
 

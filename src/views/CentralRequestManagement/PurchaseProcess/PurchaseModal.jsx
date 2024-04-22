@@ -686,7 +686,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                 purchaseInsert(postPurchaseCrf)
             }
             else {
-                warningNotify("Plase Enter Remarks")
+                warningNotify("Please Enter Remarks")
             }
 
         }
