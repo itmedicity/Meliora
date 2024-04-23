@@ -8,9 +8,10 @@ import MasterDetailCompnt from '../ComonComponent/MasterDetailCompnt'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import CrfStoreModal from './CrfStoreModal'
-import StoreApprovalButton from './StoreApprovalButton'
 import CustomBackDrop from 'src/views/Components/CustomBackDrop'
-
+import SaveAsIcon from '@mui/icons-material/SaveAs';
+import { Typography } from '@mui/joy';
+import { Virtuoso } from 'react-virtuoso'
 const CrfStoreProcessMain = () => {
 
     /*** Initializing */
@@ -18,8 +19,15 @@ const CrfStoreProcessMain = () => {
     const [disData, setDisData] = useState([])
     const [open, setOpen] = useState(false)
     const [count, setCount] = useState(0)
-    useEffect(() => {
+    const [backdropfalg, setBackDropFlag] = useState(false)//Modal Backdrop
+    //For Modal
+    const [storeFlag, setStoreFlag] = useState(0)
+    const [storeModal, setStoreModal] = useState(false)
+    const [storeData, setStoreData] = useState([])
 
+
+    useEffect(() => {
+        //API for initialy getting data
         const getReqForDownload = async () => {
             const result = await axioslogin.get('/newCRFPurchase/getAllApprovedForStore')
             const { success, data } = result.data
@@ -105,27 +113,31 @@ const CrfStoreProcessMain = () => {
         }
         getReqForDownload();
         setOpen(true)
-    }, [count])
+    }, [])
 
-    const [storeFlag, setStoreFlag] = useState(0)
-    const [storeModal, setStoreModal] = useState(false)
-    const [storeData, setStoreData] = useState([])
+    // Onclick function when process button click
+    const ModalOpenfctn = useCallback((val) => {
+        setStoreFlag(1)
+        setStoreModal(true)
+        setStoreData(val)
+        setBackDropFlag(true)
 
+    }, [])
 
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home')
     }, [history])
 
-
-
     return (
         <Fragment>
+            {/* store receiving details modal */}
             {
                 storeFlag === 1 ? <CrfStoreModal open={storeModal}
                     setStoreFlag={setStoreFlag} setStoreModal={setStoreModal}
                     storeData={storeData} setStoreData={setStoreData}
-                    count={count} setCount={setCount} /> : null
+                    count={count} setCount={setCount} backdropfalg={backdropfalg}
+                    setBackDropFlag={setBackDropFlag} /> : null
             }
             <CustomBackDrop open={open} text="Please Wait" />
 
@@ -138,8 +150,11 @@ const CrfStoreProcessMain = () => {
                 </Box>
             </Box>
             <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>
-                {disData && disData.map((val) => {
-                    return <Box key={val.req_slno} sx={{ width: "100%", }}>
+                <Virtuoso
+                    // style={{ height: '400px' }}
+                    data={disData}
+                    totalCount={disData?.length}
+                    itemContent={(index, val) => <Box key={index} sx={{ width: "100%", }}>
                         <Paper sx={{
                             width: '100%',
                             mt: 0.8,
@@ -150,19 +165,23 @@ const CrfStoreProcessMain = () => {
                             backgroundColor: '#BBBCBC'
                         }} variant='outlined'>
                             <MasterDetailCompnt val={val} />
-
-                            <StoreApprovalButton val={val} setStoreFlag={setStoreFlag}
-                                setStoreModal={setStoreModal} setStoreData={setStoreData}
-                            />
-
-
-
+                            <Box sx={{
+                                height: 40, backgroundColor: "#f0f3f5", display: 'flex', width: "100%",
+                                flexDirection: "row", pt: 0.5, pb: 0.5
+                            }}>
+                                <Box sx={{ pl: 2, }}>
+                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true"
+                                        onClick={() => ModalOpenfctn(val)}
+                                    >
+                                        <Typography color="primary" sx={{ fontSize: 15, pl: 1 }}></Typography>
+                                        <SaveAsIcon fontSize='small' />
+                                        <Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>Procees</Typography>
+                                    </CusIconButton>
+                                </Box>
+                            </Box>
                         </Paper>
-                    </Box>
-                })}
+                    </Box>} />
             </Box>
-
-
         </Fragment >
     )
 }
