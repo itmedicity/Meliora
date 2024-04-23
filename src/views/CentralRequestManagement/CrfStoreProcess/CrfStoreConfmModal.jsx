@@ -1,6 +1,7 @@
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import Button from '@mui/material/Button';
 import { Box, Paper } from '@mui/material'
+import { IconButton } from '@mui/material'
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -13,6 +14,8 @@ import { format } from 'date-fns';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { CssVarsProvider, Typography } from '@mui/joy'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import InventoryTwoToneIcon from '@mui/icons-material/InventoryTwoTone';
+import LocalShippingRoundedIcon from '@mui/icons-material/LocalShippingRounded';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -162,8 +165,6 @@ const CrfStoreConfmModal = ({ open, handleClose, podetlno, partialFlag, fullyFla
                                                                         <TableCell align="left" >Partialy</TableCell>
                                                                         <TableCell align="center">Fully</TableCell>
                                                                         <TableCell align="center">Sub Store Receive </TableCell>
-
-
                                                                     </TableRow>
                                                                 </TableHead>
                                                                 <TableBody>
@@ -180,7 +181,18 @@ const CrfStoreConfmModal = ({ open, handleClose, podetlno, partialFlag, fullyFla
                                                                             <TableCell align="left">{val.emp_name}</TableCell>
                                                                             <TableCell align="left">{val.partialy}</TableCell>
                                                                             <TableCell align="center">{val.fully}</TableCell>
-                                                                            <TableCell align="center">{val.substore_receive_stats}</TableCell>
+                                                                            {val.substore_receive === 1 ?
+                                                                                <TableCell align="center">
+                                                                                    <IconButton variant="outlined" color="primary"                                                                                     >
+                                                                                        <InventoryTwoToneIcon size={30} />
+                                                                                    </IconButton>
+                                                                                </TableCell> :
+                                                                                <TableCell align="center">
+                                                                                    <IconButton variant="outlined" color="primary"                                                                                     >
+                                                                                        <LocalShippingRoundedIcon size={30} />
+                                                                                    </IconButton>
+                                                                                </TableCell>
+                                                                            }
 
                                                                         </TableRow>
                                                                     })}
@@ -188,7 +200,28 @@ const CrfStoreConfmModal = ({ open, handleClose, podetlno, partialFlag, fullyFla
                                                             </Table>
                                                         </TableContainer>
                                                     </Box>
-
+                                                    <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "row" }}>
+                                                        <Box sx={{ width: "8%", pl: 2 }}>
+                                                            <IconButton variant="outlined" color="primary"                                                                                     >
+                                                                <LocalShippingRoundedIcon size={30} />
+                                                            </IconButton>
+                                                        </Box>
+                                                        <Box sx={{ width: "20%", pt: 1 }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15 }}> Sub Store Not Receive</Typography>
+                                                            </CssVarsProvider>
+                                                        </Box>
+                                                        <Box sx={{ width: "8%", pl: 2 }}>
+                                                            <IconButton variant="outlined" color="primary"                                                                                     >
+                                                                <InventoryTwoToneIcon size={30} />
+                                                            </IconButton>
+                                                        </Box>
+                                                        <Box sx={{ width: "20%", pt: 1 }}>
+                                                            <CssVarsProvider>
+                                                                <Typography sx={{ fontSize: 15 }}> Sub Store Receive</Typography>
+                                                            </CssVarsProvider>
+                                                        </Box>
+                                                    </Box>
                                                 </Box> :
                                                 null
                                         }
@@ -234,8 +267,6 @@ const CrfStoreConfmModal = ({ open, handleClose, podetlno, partialFlag, fullyFla
                                                                             <TableCell align="left" >Partialy</TableCell>
                                                                             <TableCell align="center">Fully</TableCell>
                                                                             <TableCell align="center">Sub Store Receive </TableCell>
-
-
                                                                         </TableRow>
                                                                     </TableHead>
                                                                     <TableBody>
@@ -252,27 +283,53 @@ const CrfStoreConfmModal = ({ open, handleClose, podetlno, partialFlag, fullyFla
                                                                                 <TableCell align="left">{val.emp_name}</TableCell>
                                                                                 <TableCell align="left">{val.partialy}</TableCell>
                                                                                 <TableCell align="center">{val.fully}</TableCell>
-                                                                                <TableCell align="center">{val.substore_receive_stats}</TableCell>
-
+                                                                                {val.substore_receive === 1 ?
+                                                                                    <TableCell align="center">
+                                                                                        <IconButton variant="outlined" color="primary"                                                                                     >
+                                                                                            <InventoryTwoToneIcon size={30} />
+                                                                                        </IconButton>
+                                                                                    </TableCell> :
+                                                                                    <TableCell align="center">
+                                                                                        <IconButton variant="outlined" color="primary"                                                                                     >
+                                                                                            <LocalShippingRoundedIcon size={30} />
+                                                                                        </IconButton>
+                                                                                    </TableCell>
+                                                                                }
                                                                             </TableRow>
                                                                         })}
                                                                     </TableBody>
                                                                 </Table>
                                                             </TableContainer>
                                                         </Box>
-
+                                                        <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "row" }}>
+                                                            <Box sx={{ width: "8%", pl: 2 }}>
+                                                                <IconButton variant="outlined" color="primary"                                                                                     >
+                                                                    <LocalShippingRoundedIcon size={30} />
+                                                                </IconButton>
+                                                            </Box>
+                                                            <Box sx={{ width: "20%", pt: 1 }}>
+                                                                <CssVarsProvider>
+                                                                    <Typography sx={{ fontSize: 15 }}> Sub Store Not Receive</Typography>
+                                                                </CssVarsProvider>
+                                                            </Box>
+                                                            <Box sx={{ width: "8%", pl: 2 }}>
+                                                                <IconButton variant="outlined" color="primary"                                                                                >
+                                                                    <InventoryTwoToneIcon size={30} />
+                                                                </IconButton>
+                                                            </Box>
+                                                            <Box sx={{ width: "20%", pt: 1 }}>
+                                                                <CssVarsProvider>
+                                                                    <Typography sx={{ fontSize: 15 }}> Sub Store Receive</Typography>
+                                                                </CssVarsProvider>
+                                                            </Box>
+                                                        </Box>
                                                     </Box> :
                                                     null
                                             }
                                         </Box>
                                     </Paper>
                                 </Box>
-
-
                                 :
-
-
-
                                 <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "column" }}>
                                     <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                         <Box sx={{ pr: 1.5, pl: 1.5 }}>
@@ -295,8 +352,6 @@ const CrfStoreConfmModal = ({ open, handleClose, podetlno, partialFlag, fullyFla
                                                             <TableCell align="left" >Partialy</TableCell>
                                                             <TableCell align="center">Fully</TableCell>
                                                             <TableCell align="center">Sub Store Receive </TableCell>
-
-
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
@@ -313,13 +368,46 @@ const CrfStoreConfmModal = ({ open, handleClose, podetlno, partialFlag, fullyFla
                                                                 <TableCell align="left">{val.emp_name}</TableCell>
                                                                 <TableCell align="left">{val.partialy}</TableCell>
                                                                 <TableCell align="center">{val.fully}</TableCell>
-                                                                <TableCell align="center">{val.substore_receive_stats}</TableCell>
+                                                                {val.substore_receive === 1 ?
+                                                                    <TableCell align="center">
+                                                                        <IconButton variant="outlined" color="primary"                                                                                     >
+                                                                            <InventoryTwoToneIcon size={30} />
+                                                                        </IconButton>
+                                                                    </TableCell> :
+                                                                    <TableCell align="center">
+                                                                        <IconButton variant="outlined" color="primary"                                                                                     >
+                                                                            <LocalShippingRoundedIcon size={30} />
+                                                                        </IconButton>
+                                                                    </TableCell>
+                                                                }
 
                                                             </TableRow>
                                                         })}
                                                     </TableBody>
                                                 </Table>
                                             </TableContainer>
+                                        </Box>
+                                        <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "row" }}>
+                                            <Box sx={{ width: "8%", pl: 2 }}>
+                                                <IconButton variant="outlined" color="primary"                                                                                     >
+                                                    <LocalShippingRoundedIcon size={30} />
+                                                </IconButton>
+                                            </Box>
+                                            <Box sx={{ width: "20%", pt: 1 }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15 }}> Sub Store Not Receive</Typography>
+                                                </CssVarsProvider>
+                                            </Box>
+                                            <Box sx={{ width: "8%", pl: 2 }}>
+                                                <IconButton variant="outlined" color="primary"                                                                                     >
+                                                    <InventoryTwoToneIcon size={30} />
+                                                </IconButton>
+                                            </Box>
+                                            <Box sx={{ width: "20%", pt: 1 }}>
+                                                <CssVarsProvider>
+                                                    <Typography sx={{ fontSize: 15 }}> Sub Store Receive</Typography>
+                                                </CssVarsProvider>
+                                            </Box>
                                         </Box>
                                     </Paper>
                                 </Box>

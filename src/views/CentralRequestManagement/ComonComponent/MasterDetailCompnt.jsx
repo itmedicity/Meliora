@@ -15,22 +15,19 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import Person3Icon from '@mui/icons-material/Person3';
 import RequestPageIcon from '@mui/icons-material/RequestPage';
 import BalanceIcon from '@mui/icons-material/Balance';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 
 const MasterDetailCompnt = ({ val }) => {
 
     const { req_slno, req_date, req_deptsec, user_deptsection, actual_requirement, needed,
         category, location, expected_date, emergency_flag, em_name, emer_type_name } = val
-    const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
+    const expdate = expected_date !== null && isValid(new Date(expected_date)) ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
 
     return (
         <Box sx={{
-            width: "100%",
-            display: "flex",
+            width: "100%", display: "flex",
             flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
         }}>
-
-
             <CssVarsProvider>
                 <Box sx={{
                     width: "100%",

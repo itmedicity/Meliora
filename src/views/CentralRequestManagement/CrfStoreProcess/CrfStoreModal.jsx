@@ -9,25 +9,33 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { axioslogin } from 'src/views/Axios/Axios'
 import { CssVarsProvider, Typography } from '@mui/joy'
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import CrfStoreConfmModal from './CrfStoreConfmModal';
 import StoreItemReceiveModal from './StoreItemReceiveModal';
 import ApprovedItemListDis from '../ComonComponent/ApprovedItemListDis';
+import CustomBackDrop from 'src/views/Components/CustomBackDrop';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
 
 const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreData,
-    count, setCount }) => {
+    count, setCount, backdropfalg, setBackDropFlag }) => {
+
     const { req_slno, req_date, actual_requirement, needed, expected_date,
     } = storeData
 
-    const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
+    const expdate = expected_date !== null && isValid(new Date(expected_date)) ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
     const [podetailFlag, setPOdetalFalg] = useState(0)
     const [getpoDetaildata, setgetPodetailData] = useState([])
     const [ApproveTableDis, setApproveTableDis] = useState(0)
     const [ApproveTableData, setApproveTableData] = useState([])
+    const [edit, setEdit] = useState(0)
+    const [podetlno, setPodetlno] = useState(0)
+    const [okModal, setOkModal] = useState(false)
+    const [strFulyReciv, setStrFulyRecev] = useState(0)
+    const [partialFlag, setPartialFlag] = useState(0)
+    const [fullyFlag, setFullyFlag] = useState(0)
     useEffect(() => {
         const getPODetails = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFPurchase/getPOList/${req_slno}`)
@@ -51,12 +59,12 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
 
                 setgetPodetailData(datas)
                 setPOdetalFalg(1)
+
             }
             else {
                 setgetPodetailData([])
             }
         }
-
 
         const getApproItemDetails = async (req_slno) => {
             const result = await axioslogin.get(`/CRFRegisterApproval/getFinalItemListApproval/${req_slno}`)
@@ -95,7 +103,6 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
         }
         getApproItemDetails(req_slno)
         getPODetails(req_slno)
-
     }, [req_slno, count])
 
 
@@ -112,12 +119,6 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
         reset()
     }, [reset])
 
-    const [edit, setEdit] = useState(0)
-    const [podetlno, setPodetlno] = useState(0)
-    const [okModal, setOkModal] = useState(false)
-    const [strFulyReciv, setStrFulyRecev] = useState(0)
-    const [partialFlag, setPartialFlag] = useState(0)
-    const [fullyFlag, setFullyFlag] = useState(0)
 
     const handleClose = useCallback(() => {
         setEdit(0)
@@ -130,8 +131,8 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
 
 
     return (
-
         <Fragment>
+            <CustomBackDrop open={backdropfalg} text="Please Wait" />
             <ToastContainer />
             {edit === 1 ?
                 <CrfStoreConfmModal open={okModal} podetlno={podetlno} handleClose={handleClose}
@@ -234,7 +235,7 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
                                     width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
                                 }}>
                                     <CssVarsProvider>
-                                        <Typography sx={{ fontSize: 15 }}>Approved Items</Typography>
+                                        <Typography sx={{ fontSize: 15 }}>Items</Typography>
                                     </CssVarsProvider>
                                 </Box>
                                 <ApprovedItemListDis ApproveData={ApproveTableData}
