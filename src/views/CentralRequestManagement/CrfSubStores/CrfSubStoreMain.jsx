@@ -132,11 +132,11 @@ const CrfSubStoreMain = () => {
             }
         },
         { headerName: "Slno", field: "slno", minWidth: 80 },
-        { headerName: "PO No", field: "po_number", minWidth: 80 },
-        { headerName: "Req.Slno", field: "req_slno", minWidth: 80 },
+        { headerName: "PO No", field: "po_number", minWidth: 80, filter: "true" },
+        { headerName: "Req.Slno", field: "req_slno", minWidth: 80, filter: "true" },
         { headerName: "Require Department", field: "req_deptsec", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Requested Department", field: "user_deptsection", minWidth: 250 },
-        { headerName: "PO Date", field: "po_date", minWidth: 120 },
+        { headerName: "PO Date", field: "po_date", minWidth: 120, filter: "true" },
         { headerName: "Expected Delivery", field: "expected_delivery", minWidth: 120 },
     ])
 

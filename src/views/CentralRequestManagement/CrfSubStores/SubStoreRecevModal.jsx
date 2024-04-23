@@ -77,7 +77,7 @@ const SubStoreRecevModal = ({ open, subReceivdata, itemtabrender, setItemTabRend
                             <Box sx={{ pr: 1.5 }}>
                                 <CssVarsProvider>
                                     <Typography sx={{ fontSize: 18, textAlign: "center" }}>
-                                        Are you sure to  Receive Item Partialy against Selected PO
+                                        Are you sure to  Receive Item against Selected PO
                                     </Typography>
                                 </CssVarsProvider>
                             </Box>

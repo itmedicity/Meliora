@@ -213,7 +213,7 @@ const CrfEDApproval = () => {
                     ed_approve: val.ed_approve,
                     ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Reject" :
                         val.ed_approve === 3 ? "On-Hold" : "Not Done",
-                    ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
+                    ed_approve_remarks: val.ed_approve_remarks,
                     ed_approve_date: val.ed_approve_date,
                     ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
                     ed_detial_analysis: val.ed_detial_analysis,

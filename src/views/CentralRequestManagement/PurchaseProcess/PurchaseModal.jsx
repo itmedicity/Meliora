@@ -686,7 +686,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                 purchaseInsert(postPurchaseCrf)
             }
             else {
-                warningNotify("Plase Enter Remarks")
+                warningNotify("Please Enter Remarks")
             }
 
         }
@@ -1307,7 +1307,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                 </Box>
                                             </Paper>
                                             {
-                                                po_prepartion !== 1 ?
+                                                po_prepartion !== 1 && po_complete !== 1 ?
                                                     <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                                         <Box sx={{
                                                             display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
@@ -1378,7 +1378,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                             }
 
 
-                                            {quatation_calling_status !== 1 && po_prepartion !== 1 ?
+                                            {quatation_calling_status !== 1 && po_prepartion !== 1 && po_complete !== 1 ?
                                                 <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                                     <Box sx={{
                                                         display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
@@ -1838,18 +1838,17 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                             {
                                                 po_complete === 1 ?
                                                     <Box sx={{ width: "100%", mt: 0 }}>
-                                                        <Paper variant='outlined' sx={{ mt: 1 }} >
-                                                            {
-                                                                podetailFlag === 1 ?
+                                                        {
+                                                            podetailFlag === 1 ?
+                                                                <Paper variant='outlined' sx={{ mt: 1 }} >
                                                                     <Box sx={{ width: "100%", p: 1 }}> Added PO Details
                                                                         <CrfReqDetailCmpnt
                                                                             columnDefs={column}
                                                                             tableData={getpoDetaildata}
                                                                         />
-                                                                    </Box> : null
-                                                            }
-                                                        </Paper>
-
+                                                                    </Box>
+                                                                </Paper> : null
+                                                        }
                                                         <Paper variant='outlined' sx={{ mt: 1 }} >
                                                             <Box sx={{ width: "40%", pr: 1, mt: 1, pl: 1 }}>
                                                                 <CusCheckBox
