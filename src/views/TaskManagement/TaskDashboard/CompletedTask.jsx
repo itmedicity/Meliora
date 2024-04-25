@@ -40,7 +40,6 @@ const CompletedTask = ({ tableCount, setTableCount, statuscount, setstatuscount,
                             dept_name: val.dept_name,
                             sec_name: val.sec_name,
                             tm_assigne_emp: val.tm_assigne_emp,
-                            // em_name: (val.em_name).toLowerCase(),
                             em_name: val.em_name,
                             tm_task_dept: val.tm_task_dept,
                             tm_task_dept_sec: val.tm_task_dept_sec,
@@ -49,15 +48,20 @@ const CompletedTask = ({ tableCount, setTableCount, statuscount, setstatuscount,
                             tm_project_name: val.tm_project_name,
                             create_date: val.create_date,
                             main_task_slno: val.main_task_slno,
-                            // tm_task_description: (val.tm_task_description).toLowerCase(),
                             tm_task_description: val.tm_task_description,
                             tm_task_status: val.tm_task_status,
+                            tm_complete_date: val.tm_complete_date,
                             TaskStatus: val.tm_task_status === 1 ? 'Completed' :
                                 val.tm_task_status === 1 ? 'Completed' :
                                     val.tm_task_status === 2 ? 'On Progress' :
                                         val.tm_task_status === 3 ? 'On Hold' :
                                             val.tm_task_status === 4 ? 'Pending' :
                                                 val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                            datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
+                            days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
+                            hours: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60) % 24),
+                            minutes: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60),
+                            seconds: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60)
                         }
                         return obj
                     })
@@ -79,6 +83,7 @@ const CompletedTask = ({ tableCount, setTableCount, statuscount, setstatuscount,
         setimageViewModalOpen(false)
         setImageUrls([])
     }, [setimageViewModalOpen, setImageUrls, setimage])
+
     const fileView = async (val) => {
         const { tm_task_slno } = val;
         setgetarry(val);
@@ -114,6 +119,7 @@ const CompletedTask = ({ tableCount, setTableCount, statuscount, setstatuscount,
         setEditModalOpen(true)
         setMasterData(value)
     }, [])
+
     return (
         <Box>
             {editModalFlag === 1 ?
@@ -136,11 +142,13 @@ const CompletedTask = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 60 }}>View</th>
                                         <th style={{ width: 170 }}>Status</th>
+                                        <th style={{ width: 180 }}>Completion exceed </th>
                                         <th style={{ width: 450 }}>Task Name</th>
                                         <th style={{ width: 450 }}>Project</th>
                                         <th style={{ width: 200 }}>Assignee</th>
                                         <th style={{ width: 150 }}>Created Date</th>
                                         <th style={{ width: 150 }}> Due Date</th>
+                                        <th style={{ width: 180 }}>Task Completed Date</th>
                                         <th style={{ width: 500 }}>Task Description</th>
                                     </tr>
                                 </thead>
@@ -183,11 +191,23 @@ const CompletedTask = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                                             : val.tm_task_status === 4 ? '#5885AF'
                                                                                 : 'transparent', minHeight: 5
                                                     }} />&nbsp;{val.TaskStatus}</td>
+                                                {val.datediff > 0 ?
+                                                    <td >
+                                                        <Box sx={{ backgroundColor: '#EECE88', borderRadius: 20, p: .5, color: '#3B0404', fontWeight: 600, }}>
+                                                            {val.days} Days - {val.hours}h: {val.minutes}m: {val.seconds}s
+                                                        </Box>
+                                                    </td> :
+                                                    < td style={{ color: '#578E87', fontWeight: 600 }}> Completed On Time</td>
+
+                                                }
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
                                                 <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                {val.tm_complete_date !== null
+                                                    ? <td> {moment(val.tm_complete_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td> :
+                                                    <td>not given</td>}
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )

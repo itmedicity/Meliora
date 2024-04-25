@@ -156,6 +156,10 @@ import { setNonClinicalCrfPending } from './CrfDashboardNonClinical.Reducer'
 import { setClinicalNDRFPending } from './NdrfDashboardClinical.Reducer'
 import { setNonClinicalNDRFPending } from './NdrfDashboardNonClinical.Reducer'
 import { getQltyDept } from './QualityIndicatorDept.Reducer'
+import { getSimType } from './ItSimTypeList.Reducer'
+import { getBillType } from './ItBillTypeList.Reducer'
+import { getBillCategory } from './ItBillCategoryList.Reducer'
+import { getSupplierList } from './ItBillsupplierList.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -318,6 +322,11 @@ const reducer = combineReducers({
     setClinicalNDRFPending,
     setNonClinicalNDRFPending,
     getQltyDept,
+    getSimType,
+    getBillType,
+    getBillCategory,
+    getSupplierList,
+
 
 
 })

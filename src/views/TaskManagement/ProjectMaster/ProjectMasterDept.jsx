@@ -13,16 +13,15 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { getGoalsList } from 'src/redux/actions/TmGoalsList.action'
 import TmGoalsList from 'src/views/CommonSelectCode/TmGoalsList'
+import moment from 'moment'
 
 const ProjectMasterDept = () => {
     const history = useHistory()
     const dispatch = useDispatch();
     const [value, setvalue] = useState(0)
     const [goalz, setgoalz] = useState(0)
-
-
     const [tableCount, settableCount] = useState(0)
-
+    let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
@@ -53,9 +52,10 @@ const ProjectMasterDept = () => {
         tm_project_duedate: '',
         tm_project_description: '',
         tm_project_status: false,
+        tm_project_cmpltedate: ''
 
     })
-    const { tm_project_slno, tm_project_name, tm_project_duedate, tm_project_description, tm_project_status } = projectMast
+    const { tm_project_slno, tm_project_name, tm_project_duedate, tm_project_description, tm_project_status, tm_project_cmpltedate } = projectMast
     const ProjectMastUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -69,7 +69,8 @@ const ProjectMasterDept = () => {
             tm_project_slno: '',
             tm_project_name: '',
             tm_project_duedate: '',
-            tm_project_description: ''
+            tm_project_description: '',
+            tm_project_cmpltedate: ''
         }
         setprojectMast(form)
         setgoalz(0)
@@ -83,6 +84,7 @@ const ProjectMasterDept = () => {
             tm_project_duedate,
             tm_project_description,
             tm_project_status,
+            tm_project_cmpltedate,
             tm_goal_slno
         } = data
 
@@ -94,6 +96,7 @@ const ProjectMasterDept = () => {
             tm_project_duedate: tm_project_duedate === '' ? null : tm_project_duedate,
             tm_project_description: tm_project_description === '' ? null : tm_project_description,
             tm_project_status: tm_project_status === 1 ? true : false,
+            tm_project_cmpltedate: tm_project_cmpltedate === '' ? null : tm_project_cmpltedate,
             tm_project_edit_user: id,
 
         }
@@ -109,11 +112,12 @@ const ProjectMasterDept = () => {
             tm_project_duedate: tm_project_duedate === '' ? null : tm_project_duedate,
             tm_project_description: tm_project_description === '' ? null : tm_project_description,
             tm_project_status: tm_project_status === true ? 1 : 0,
+            tm_project_cmpltedate: tm_project_cmpltedate === '' ? null : tm_project_cmpltedate,
             tm_goal_slno: goalz === 0 ? null : goalz,
             tm_project_create_user: id,
 
         }
-    }, [tm_project_name, empdept, empsecid, tm_project_duedate, tm_project_description, tm_project_status, goalz, id])
+    }, [tm_project_name, empdept, empsecid, tm_project_duedate, tm_project_description, tm_project_status, goalz, tm_project_cmpltedate, id])
     const patchProject = useMemo(() => {
 
         return {
@@ -124,10 +128,11 @@ const ProjectMasterDept = () => {
             tm_project_duedate: tm_project_duedate === '' ? null : tm_project_duedate,
             tm_project_description: tm_project_description === '' ? null : tm_project_description,
             tm_project_status: tm_project_status === true ? 1 : 0,
+            tm_project_cmpltedate: tm_project_status === true ? newDate : null,
             tm_goal_slno: goalz === 0 ? null : goalz,
             tm_project_create_user: id,
         }
-    }, [tm_project_slno, tm_project_name, empdept, empsecid, tm_project_duedate, tm_project_description, tm_project_status, goalz, id])
+    }, [tm_project_slno, tm_project_name, empdept, empsecid, tm_project_duedate, tm_project_description, tm_project_status, goalz, newDate, id])
     const InsertProject = useCallback((e) => {
         e.preventDefault()
         if (tm_project_name !== '') {
@@ -176,7 +181,7 @@ const ProjectMasterDept = () => {
     return (
 
         <Paper sx={{ width: '100%', height: '100%', bgcolor: '#F2F1F0' }}>
-            <Box sx={{ height: 35, borderBottom: .5, borderColor: 'lightgrey', display: 'flex', }}>
+            <Box sx={{ height: 35, borderBottom: .5, borderColor: 'lightgrey', display: 'flex', backgroundColor: '#D9E4EC' }}>
                 <Box sx={{ fontWeight: 600, flex: 1, pl: 1, pt: .8, color: '#385E72', }}>Create Project</Box>
                 <Box><CusIconButton size="sm" variant="outlined" color="primary" >
                     <Tooltip title="Close" placement="bottom" >
@@ -203,12 +208,6 @@ const ProjectMasterDept = () => {
                             Department Section&nbsp;:
                         </Typography>
                     </Box>
-                    {/* <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .5, height: 30, pt: .5, fontFamily: 'Georgia', }}>
-                        <Typography sx={{ color: '#003B73' }}>
-                            Section`
-                        </Typography>
-                    </Box> */}
-
                     <Box sx={{ pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, mt: .8, height: 30, pt: .8, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
                             Due date&nbsp;:
@@ -250,15 +249,6 @@ const ProjectMasterDept = () => {
                             disabled>
                         </TextFieldCustom>
                     </Box>
-                    {/* <Box sx={{ mt: .2 }}>
-                        <TextFieldCustom
-                            type="text"
-                            size="sm"
-                            placeholder="sec"
-                            variant="outlined">
-
-                        </TextFieldCustom>
-                    </Box> */}
                     <Box sx={{ pt: .3 }}>
                         <TextFieldCustom
                             type="datetime-local"

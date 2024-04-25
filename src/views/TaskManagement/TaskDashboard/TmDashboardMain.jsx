@@ -438,7 +438,42 @@ const TmDashboardMain = () => {
             const result = await axioslogin.get(`TmTableView/employeeCompleted/${id}`)
             const { data, success } = result.data
             if (success === 2) {
-                setemployeeeCompleted(data)
+                const arry = data?.map((val) => {
+                    const obj = {
+                        tm_task_slno: val.tm_task_slno,
+                        tm_task_name: val.tm_task_name,
+                        dept_name: (val.dept_name).toLowerCase(),
+                        sec_name: (val.sec_name).toLowerCase(),
+                        em_name: val.em_name,
+                        tm_assigne_emp: val.tm_assigne_emp,
+                        tm_task_dept: val.tm_task_dept,
+                        tm_task_dept_sec: val.tm_task_dept_sec,
+                        tm_task_due_date: val.tm_task_due_date,
+                        main_task_slno: val.main_task_slno,
+                        tm_task_description: val.tm_task_description,
+                        tm_task_status: val.tm_task_status,
+                        tm_project_slno: val.tm_project_slno,
+                        tm_project_name: val.tm_project_name,
+                        tm_pending_remark: val.tm_pending_remark,
+                        tm_onhold_remarks: val.tm_onhold_remarks,
+                        create_date: val.create_date,
+                        tm_complete_date: val.tm_complete_date,
+                        tm_completed_remarks: val.tm_completed_remarks,
+                        TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                            val.tm_task_status === 1 ? 'Completed' :
+                                val.tm_task_status === 2 ? 'On Progress' :
+                                    val.tm_task_status === 3 ? 'On Hold' :
+                                        val.tm_task_status === 4 ? 'Pending' :
+                                            val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                        datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
+                        days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
+                        hours: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60) % 24),
+                        minutes: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60),
+                        seconds: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60)
+                    }
+                    return obj
+                })
+                setemployeeeCompleted(arry)
             } else {
                 setemployeeeCompleted([])
             }
@@ -485,7 +520,42 @@ const TmDashboardMain = () => {
             const result = await axioslogin.get(`TmTableView/departmentCompleted/${empsecid}`)
             const { data, success } = result.data
             if (success === 2) {
-                setdeptCompleted(data)
+                const arry = data?.map((val) => {
+                    const obj = {
+                        tm_task_slno: val.tm_task_slno,
+                        tm_task_name: val.tm_task_name,
+                        dept_name: (val.dept_name).toLowerCase(),
+                        sec_name: (val.sec_name).toLowerCase(),
+                        em_name: val.em_name,
+                        tm_assigne_emp: val.tm_assigne_emp,
+                        tm_task_dept: val.tm_task_dept,
+                        tm_task_dept_sec: val.tm_task_dept_sec,
+                        tm_task_due_date: val.tm_task_due_date,
+                        main_task_slno: val.main_task_slno,
+                        tm_task_description: val.tm_task_description,
+                        tm_task_status: val.tm_task_status,
+                        tm_project_slno: val.tm_project_slno,
+                        tm_project_name: val.tm_project_name,
+                        tm_pending_remark: val.tm_pending_remark,
+                        tm_onhold_remarks: val.tm_onhold_remarks,
+                        create_date: val.create_date,
+                        tm_complete_date: val.tm_complete_date,
+                        tm_completed_remarks: val.tm_completed_remarks,
+                        TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                            val.tm_task_status === 1 ? 'Completed' :
+                                val.tm_task_status === 2 ? 'On Progress' :
+                                    val.tm_task_status === 3 ? 'On Hold' :
+                                        val.tm_task_status === 4 ? 'Pending' :
+                                            val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                        datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
+                        days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
+                        hours: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60) % 24),
+                        minutes: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60),
+                        seconds: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60)
+                    }
+                    return obj
+                })
+                setdeptCompleted(arry)
             } else {
                 setdeptCompleted([])
             }
@@ -771,11 +841,6 @@ const TmDashboardMain = () => {
                                                     slotProps={{ root: { variant: 'plain', color: 'white' } }}
                                                     sx={{ borderRadius: 40, flexGrow: 1, width: '100%', height: 60, }}
                                                 >
-                                                    {/* <Box sx={{ flex: 1, display: 'flex', }}>
-                                                        <Box sx={{ flex: 1, textAlign: 'left', fontSize: 15, pt: 1.2, color: '#5E376D', fontWeight: 700 }}>
-                                                            <PersonIcon sx={{ pb: .2 }} />My Task</Box>
-                                                        <Avatar sx={{ bgcolor: 'white', color: '#5E376D', fontWeight: 700 }}>{employeeInComplete.length}</Avatar>
-                                                    </Box> */}
                                                     <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
                                                         <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#5E376D', fontWeight: 700, }}>
                                                             <PersonIcon />
@@ -899,11 +964,6 @@ const TmDashboardMain = () => {
                                                     slotProps={{ root: { variant: 'plain', color: 'white' } }}
                                                     sx={{ borderRadius: 40, flexGrow: 1, width: '100%', height: 60, }}
                                                 >
-                                                    {/* <Box sx={{ flex: 1, display: 'flex', }}>
-                                                        <Box sx={{ flex: 1, textAlign: 'left', fontSize: 15, pt: 1.2, color: '#5E376D', fontWeight: 700 }}>
-                                                            <AssignmentRoundedIcon sx={{ pb: .2 }} />Department Tasks</Box>
-                                                        <Avatar sx={{ bgcolor: 'white', color: '#5E376D', fontWeight: 700 }}>{deptInComplete.length}</Avatar>
-                                                    </Box> */}
                                                     <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
                                                         <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#5E376D', fontWeight: 700, }}>
                                                             <AssignmentRoundedIcon />
@@ -1014,11 +1074,6 @@ const TmDashboardMain = () => {
                                                     slotProps={{ root: { variant: 'plain', color: 'white' } }}
                                                     sx={{ borderRadius: 40, flexGrow: 1, width: '100%', height: 60, }}
                                                 >
-                                                    {/* <Box sx={{ flex: 1, display: 'flex', }}>
-                                                        <Box sx={{ flex: 1, textAlign: 'left', fontSize: 15, pt: 1.2, color: '#5E376D', fontWeight: 700 }}>
-                                                            <AlignHorizontalRightRoundedIcon sx={{ pb: .2 }} />Projects</Box>
-                                                        <Avatar sx={{ bgcolor: 'white', color: '#5E376D', fontWeight: 700 }}>{projInCompleted.length}</Avatar>
-                                                    </Box> */}
                                                     <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
                                                         <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#5E376D', fontWeight: 700, }}>
                                                             <AlignHorizontalRightRoundedIcon />
@@ -1100,12 +1155,6 @@ const TmDashboardMain = () => {
                                                     slotProps={{ root: { variant: 'plain', color: 'white' } }}
                                                     sx={{ borderRadius: 40, flexGrow: 1, width: '100%', height: 60, }}
                                                 >
-                                                    {/* <Box sx={{ flex: 1, display: 'flex', }}>
-                                                        <Box sx={{ flex: 1, textAlign: 'left', fontSize: 15, pt: 1.2, color: '#5E376D', fontWeight: 700 }}>
-                                                            <FitbitRoundedIcon sx={{ pb: .2 }} />Goals</Box>
-                                                        <Avatar sx={{ bgcolor: 'white', color: '#5E376D', fontWeight: 700 }}>{goalsInCompleted.length}</Avatar>
-                                                    </Box> */}
-
                                                     <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
                                                         <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#5E376D', fontWeight: 700, }}>
                                                             <FitbitRoundedIcon />

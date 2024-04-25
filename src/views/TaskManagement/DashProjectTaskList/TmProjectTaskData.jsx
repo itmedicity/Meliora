@@ -66,24 +66,24 @@ const TmProjectTaskData = () => {
                                         <Typography sx={{ fontSize: 14 }}>{val.tm_project_name}</Typography>
                                     </Box>
                                 </Tooltip>
-                                <Box>
+                                <Box >
                                     {val.tm_project_status !== 1 ?
-                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1 }}>
+                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, borderRadius: 20, px: 1 }}>
                                             <CountDowncomponent DueDates={val.tm_project_duedate} />
                                         </Box> :
-                                        <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
-                                            <Box sx={{ flex: 1, }}></Box>
-                                            <Box sx={{ flex: 1, color: 'green', }}>Completed</Box>
-                                            <Box sx={{ flex: 1 }}></Box>
+                                        <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, borderRadius: 20 }}>
+                                            <Box sx={{ flex: .5, }}></Box>
+                                            <Box sx={{ flex: 1, }}>completed</Box>
+                                            <Box sx={{ flex: .5 }}></Box>
                                         </Box>
                                     }
                                 </Box>
-                                <Box sx={{ flex: 1 }}>
+                                <Box sx={{ flex: 1.5 }}>
                                     <Tooltip title="Project created Date" >
                                         <Typography sx={{ fontSize: 14, cursor: 'grab' }}>{val.create_date}</Typography>
                                     </Tooltip>
                                 </Box>
-                                <Box sx={{ flex: 1 }}>
+                                <Box sx={{ flex: 1.5 }}>
                                     <Tooltip title="Project Due Date">
                                         {val.tm_project_status === 1 ?
                                             <FormLabel sx={{

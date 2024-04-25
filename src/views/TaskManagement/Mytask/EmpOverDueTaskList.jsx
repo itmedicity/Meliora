@@ -39,7 +39,6 @@ const EmpOverDueTaskList = ({ tableCount, setTableCount, taskcount, settaskcount
                             tm_task_name: val.tm_task_name,
                             dept_name: (val.dept_name).toLowerCase(),
                             sec_name: (val.sec_name).toLowerCase(),
-                            // em_name: (val.em_name).toLowerCase(),                            
                             em_name: val.em_name,
                             tm_assigne_emp: val.tm_assigne_emp,
                             tm_task_dept: val.tm_task_dept,
@@ -146,9 +145,9 @@ const EmpOverDueTaskList = ({ tableCount, setTableCount, taskcount, settaskcount
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 60 }}>View</th>
                                         <th style={{ width: 150 }}>Status</th>
-                                        <th style={{ width: 250, }}>Time OverDue</th>
+                                        <th style={{ width: 200, }}>Time OverDue</th>
                                         <th style={{ width: 500 }}>Task Name</th>
-                                        <th style={{ width: 300 }}>Project</th>
+                                        <th style={{ width: 500 }}>Project</th>
                                         <th style={{ width: 150 }}>Created Date</th>
                                         <th style={{ width: 150 }}> Due Date</th>
                                         <th style={{ width: 500 }}>Task Description</th>
@@ -191,12 +190,12 @@ const EmpOverDueTaskList = ({ tableCount, setTableCount, taskcount, settaskcount
                                                     }} />&nbsp;{val.TaskStatus}</td>
 
                                                 {val.tm_task_status !== 1 ?
-                                                    <td ><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                    <td ><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5, borderRadius: 20 }}>
                                                         <CountDowncomponent DueDates={val.tm_task_due_date} />
                                                     </Box></td> :
                                                     <td> <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
                                                         <Box sx={{ flex: .5, }}></Box>
-                                                        <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:&nbsp;00&nbsp;hh&nbsp;:&nbsp;00&nbsp;mm&nbsp;:&nbsp;00&nbsp;ss</Box>
+                                                        <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;:&nbsp;00&nbsp;:&nbsp;00</Box>
                                                         <Box sx={{ flex: .5 }}></Box>
                                                     </Box></td>}
 

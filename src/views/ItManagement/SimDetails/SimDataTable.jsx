@@ -40,8 +40,8 @@ const SimDataTable = ({ tableCount, rowSelect }) => {
                             it_sim_tariff_amount: val.it_sim_tariff_amount,
                             it_sim_status: val.it_sim_status,
                             status: val.it_sim_status === 1 ? 'Active' : val.it_sim_status === 0 ? 'Deactivated' : 'nil',
-                            it_sim_category: val.it_sim_category,
-                            categoryName: val.it_sim_category === 1 ? 'CUG SiM' : val.it_sim_category === 2 ? 'PREPAID' : val.it_sim_category === 3 ? 'Postpaid' : 'nill',
+                            it_sim_type: val.it_sim_type,
+                            it_sim_type_name: val.it_sim_type_name,
                             it_sim_dept: val.it_sim_dept,
                             it_sim_deptsec: val.it_sim_deptsec,
                             it_sim_recie_empid: val.it_sim_recie_empid,
@@ -168,15 +168,13 @@ const SimDataTable = ({ tableCount, rowSelect }) => {
                                                     />
                                                 </td>
                                                 <td> {val.providerName || 'not given'}</td>
-                                                <td> {val.categoryName || 'nill'}</td>
+                                                <td> {val.it_sim_type_name || 'not given'}</td>
                                                 <td> {val.it_sim_mobile_no || 'not given'}</td>
                                                 <td> {val.tariffName || 'not given'}</td>
                                                 <td> {val.it_sim_tariff_amount || 'not given'}</td>
                                                 <td> {val.it_sim_serial_no || 'not given'}</td>
                                                 <td> {val.it_sim_imei_no || 'not given'}</td>
                                                 <td> {val.status || 'not given'}</td>
-
-
                                                 <td> {val.dept_name || 'not given'}</td>
                                                 <td> {val.sec_name || 'not given'}</td>
                                                 <td> {val.it_sim_recie_empid || 'not given'}</td>
