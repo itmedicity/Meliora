@@ -20,27 +20,20 @@ const QualityTransactions = [
         to: '/Home/DailyCensusReport',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
-    {
-        men_slno: 181,
-        component: CNavItem,
-        name: 'Quality Indicator Data',
-        to: '/Home/QIDetails',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-    {
-        men_slno: 182,
-        component: CNavItem,
-        name: 'QI Daily Report',
-        to: '/Home/QIDailyReport',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-    {
-        men_slno: 186,
-        component: CNavItem,
-        name: 'QI Monthly Report',
-        to: '/Home/QIMonthlyReport',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
+    // {
+    //     men_slno: 182,
+    //     component: CNavItem,
+    //     name: 'Dept Wise Patient Marking',
+    //     to: '/Home/QIPatientMarking',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
+    // {
+    //     men_slno: 186,
+    //     component: CNavItem,
+    //     name: 'QI Monthly Report',
+    //     to: '/Home/QIMonthlyReport',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
 
 ]
 

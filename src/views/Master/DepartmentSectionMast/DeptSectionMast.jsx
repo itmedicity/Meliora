@@ -121,8 +121,8 @@ const DeptSectionMast = () => {
         setdeptsubtype(checkboxdata)
         setId(sec_id)
         setOutlet(ou_code)
-        setLevelOne(level_one === 0 ? false : true)
-        setLevelTwoStatus(level_two === 0 ? false : true)
+        setLevelOne(level_one === 1 ? true : false)
+        setLevelTwoStatus(level_two === 1 ? true : false)
     }, [])
     //reseting 
     const reset = useCallback(() => {

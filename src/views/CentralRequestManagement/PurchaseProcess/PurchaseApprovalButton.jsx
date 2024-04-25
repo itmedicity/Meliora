@@ -133,7 +133,7 @@ const PurchaseApprovalButton = ({ val, setpuchaseFlag, setpuchaseModal, setpucha
                         <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ModalOpenfctn}  >
                             <Typography color="primary" sx={{ fontSize: 15, pl: 1 }}></Typography>
                             <SaveAsIcon fontSize='small' />
-                            <Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>Procees</Typography>
+                            <Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>Process</Typography>
                         </CusIconButton>
                     </Box>
                 </Box>
@@ -176,7 +176,7 @@ const PurchaseApprovalButton = ({ val, setpuchaseFlag, setpuchaseModal, setpucha
                     {image_status === 1 ?
                         <Box sx={{ mx: 0.5 }}>
                             <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewImage}  >
-                                <AttachFileIcon fontSize='small' sx={{ ml: 1 }} />
+                                <AttachFileIcon fontSize='small' />
                             </CusIconButton>
                         </Box> : null
                     }

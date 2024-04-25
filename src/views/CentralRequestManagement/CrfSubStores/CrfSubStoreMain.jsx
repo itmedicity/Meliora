@@ -57,7 +57,6 @@ const CrfSubStoreMain = () => {
     const [donedata, setDoneData] = useState([])
     const [substoreSlno, setsubStoreSlno] = useState(0)
 
-
     useEffect(() => {
 
         const getReqForDownload = async (substoreSlno) => {
@@ -123,7 +122,7 @@ const CrfSubStoreMain = () => {
 
     const [column] = useState([
         {
-            headerName: 'Action', minWidth: 100, cellRenderer: params => {
+            headerName: 'Action', minWidth: 50, cellRenderer: params => {
                 return <IconButton onClick={() => rowSelect(params)}
                     sx={{ color: editicon, paddingY: 0.5 }} >
                     <CustomeToolTip title="Approval">
@@ -132,13 +131,13 @@ const CrfSubStoreMain = () => {
                 </IconButton>
             }
         },
-        { headerName: "Slno", field: "slno", minWidth: 120 },
-        { headerName: "PO No", field: "po_detail_slno", minWidth: 120 },
-        { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
+        { headerName: "Slno", field: "slno", minWidth: 80 },
+        { headerName: "PO No", field: "po_number", minWidth: 80, filter: "true" },
+        { headerName: "Req.Slno", field: "req_slno", minWidth: 80, filter: "true" },
         { headerName: "Require Department", field: "req_deptsec", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: "Requested Department", field: "user_deptsection", minWidth: 200 },
-        // { headerName: "Req. Date", field: "req_date", minWidth: 200 },
-
+        { headerName: "Requested Department", field: "user_deptsection", minWidth: 250 },
+        { headerName: "PO Date", field: "po_date", minWidth: 120, filter: "true" },
+        { headerName: "Expected Delivery", field: "expected_delivery", minWidth: 120 },
     ])
 
     const [edit, setEdit] = useState(0)

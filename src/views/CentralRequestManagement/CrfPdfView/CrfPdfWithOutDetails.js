@@ -198,7 +198,7 @@ export const CrfPdfWithOutDetails = (val, mdsign, edsign) => {
                         [
                             {
                                 colSpan: 4,
-                                text: [{ text: 'MD Status: ', bold: true, fontSize: 8, font: 'Roboto' },
+                                text: [{ text: 'Medical Director  Status: ', bold: true, fontSize: 8, font: 'Roboto' },
                                 {
 
                                     text: md_approve !== null ? md : "Not Updated",
@@ -275,7 +275,7 @@ export const CrfPdfWithOutDetails = (val, mdsign, edsign) => {
                         [
                             {
                                 colSpan: 4,
-                                text: [{ text: 'ED Status: ', bold: true, fontSize: 8, font: 'Roboto' },
+                                text: [{ text: 'Executive Director Status: ', bold: true, fontSize: 8, font: 'Roboto' },
                                 {
 
                                     text: ed_approve !== null ? ed : "Not Updated",
@@ -290,7 +290,7 @@ export const CrfPdfWithOutDetails = (val, mdsign, edsign) => {
                         [
                             {
                                 colSpan: 4,
-                                text: [{ text: 'Remarks by ED/MD\n', bold: true, fontSize: 8, font: 'Roboto' },
+                                text: [{ text: 'Remarks by ED\n', bold: true, fontSize: 8, font: 'Roboto' },
                                 { text: ed_approve_remarks !== null ? ed_approve_remarks.toLowerCase() : "Not Updated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
 
                             },
@@ -301,7 +301,7 @@ export const CrfPdfWithOutDetails = (val, mdsign, edsign) => {
                         [
                             {
                                 colSpan: 4,
-                                text: [{ text: 'Remarks by ED/MD\n', bold: true, fontSize: 8, font: 'Roboto' },
+                                text: [{ text: 'Remarks by ED\n', bold: true, fontSize: 8, font: 'Roboto' },
                                 { text: ed_detial_analysis !== null ? ed_detial_analysis.toLowerCase() : "Not Updated", textTransform: "capitalize", fontSize: 8, font: 'Roboto' },],
 
                             },

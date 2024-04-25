@@ -1,15 +1,15 @@
 import React, { memo, Fragment } from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { TypoHeadColor } from 'src/color/Color';
 
 const ApprovedItemListDis = ({ ApproveData }) => {
-
     return (
         <Fragment>
-            <TableContainer sx={{ maxHeight: 250 }}>
+            <TableContainer sx={{ maxHeight: 250, p: 1 }}>
                 <Table size="small"
                     stickyHeader aria-label="sticky table"
 
-                    sx={{ border: "0.2px solid" }}>
+                    sx={{ border: "0.1px solid", color: TypoHeadColor }}>
                     <TableHead sx={{ border: "1px " }}>
                         <TableRow  >
                             <TableCell align="center" >#</TableCell>
@@ -38,8 +38,8 @@ const ApprovedItemListDis = ({ ApproveData }) => {
                                 <TableCell align="left">{val.old_item_slno}</TableCell>
                                 <TableCell align="left">{val.approve_item_desc}</TableCell>
                                 <TableCell align="center">{val.approve_item_brand}</TableCell>
-                                <TableCell align="center">{val.approve_item_unit}</TableCell>
                                 <TableCell align="center">{val.item_qnty_approved}</TableCell>
+                                <TableCell align="center">{val.approved_itemunit}</TableCell>
                                 <TableCell align="center">{val.approve_item_specification}</TableCell>
                                 <TableCell align="center">{val.approve_aprox_cost}</TableCell>
 

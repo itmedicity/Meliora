@@ -20,6 +20,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import SearchIcon from '@mui/icons-material/Search';
+import ClosedButtonCompnt from '../ComonComponent/ClosedButtonCompnt'
+import ClosedDetailsModal from '../ComonComponent/ClosedDetailsModal'
 
 const CrfInchargeAppvable = () => {
 
@@ -29,6 +31,7 @@ const CrfInchargeAppvable = () => {
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const [done, setDone] = useState(false)
     const [pending, setPending] = useState(true)
+    const [closed, setClose] = useState(false)
     const [check, setCheck] = useState(0)
     const [authorizeDeptSec, setAuthorizDeptSec] = useState([])
     const [deptSec, setdeptSec] = useState(0)
@@ -38,11 +41,13 @@ const CrfInchargeAppvable = () => {
             setDone(true)
             setCheck(2)
             setPending(false)
+            setClose(false)
         }
         else {
             setDone(false)
             setCheck(0)
             setPending(false)
+            setClose(false)
         }
     }, [])
     const updatependng = useCallback((e) => {
@@ -50,18 +55,34 @@ const CrfInchargeAppvable = () => {
             setPending(true)
             setCheck(1)
             setDone(false)
+            setClose(false)
         }
         else {
             setDone(false)
             setCheck(0)
             setPending(false)
+            setClose(false)
+        }
+    }, [])
+    const updateClosed = useCallback((e) => {
+        if (e.target.checked === true) {
+            setClose(true)
+            setCheck(3)
+            setDone(false)
+            setPending(false)
+        }
+        else {
+            setDone(false)
+            setCheck(0)
+            setPending(false)
+            setClose(false)
         }
     }, [])
 
     const [pendingData, setPendingData] = useState([])
     const [donedata, setDoneData] = useState([])
     const [getAllDta, setGetAllDAta] = useState([])
-
+    const [closedata, setClosedData] = useState([])
 
     useEffect(() => {
 
@@ -70,11 +91,15 @@ const CrfInchargeAppvable = () => {
             const { success, data } = result.data
             if (success === 1) {
                 const incharge = data.filter((val) => {
-                    return val.incharge_req === 1
+                    return val.incharge_req === 1 && val.crf_close !== 1
                 })
-
+                const ClosedList = data.filter((val) => {
+                    return val.incharge_req === 1 && val.crf_close === 1
+                })
+                setClosedData(ClosedList)
                 const datas = incharge.map((val) => {
                     const obj = {
+                        req_status: val.req_status,
                         req_slno: val.req_slno,
                         actual_requirement: val.actual_requirement,
                         needed: val.needed,
@@ -166,44 +191,73 @@ const CrfInchargeAppvable = () => {
                             val.gm_approve !== null || val.md_approve !== null ||
                             val.ed_approve !== null ? 1 : 0,
 
-                        now_who: val.po_to_supplier === 1 ? "PO Send to Supplier" :
-                            val.po_approva_level_two === 1 ? "PO MD & ED Level Approved" :
-                                val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
-                                    val.po_complete === 1 ? "PO Completed" :
-                                        val.po_prepartion === 1 ? "PO Prepairing" :
-                                            val.quatation_fixing === 1 ? "Po MD & ED Level Approved" :
-                                                val.quatation_negotiation === 1 ? "Po MD & ED Level Approved" :
-                                                    val.quatation_calling_status === 1 ? "PO Prepairing" :
-                                                        val.ack_status === 1 ? "Po MD & ED Level Approved" :
-                                                            val.ed_approve !== null ? "ED" :
-                                                                val.md_approve !== null ? "MD" :
-                                                                    val.gm_approve !== null ? "GM" :
-                                                                        val.senior_manage_approv !== null ? "SMO" :
-                                                                            val.manag_operation_approv !== null ? "MO" :
-                                                                                val.ms_approve !== null ? "MS" :
-                                                                                    val.dms_approve !== null ? "DMS" :
-                                                                                        val.hod_approve !== null ? "HOD" :
-                                                                                            val.incharge_approve !== null ? "INCHARGE" :
-                                                                                                "Not Statrted",
-                        now_who_status: val.po_to_supplier === 1 ? val.po_to_supplier :
-                            val.po_approva_level_two === 1 ? val.po_approva_level_two :
-                                val.po_approva_level_one === 1 ? val.po_approva_level_one :
-                                    val.po_complete === 1 ? val.po_complete :
-                                        val.po_prepartion === 1 ? val.po_prepartion :
-                                            val.quatation_fixing === 1 ? val.quatation_fixing :
-                                                val.quatation_negotiation === 1 ? val.quatation_negotiation :
-                                                    val.quatation_calling_status === 1 ? val.quatation_calling_status :
-                                                        val.ack_status === 1 ? val.ack_status :
-                                                            val.ed_approve !== null ? val.ed_approve :
-                                                                val.md_approve !== null ? val.md_approve :
-                                                                    val.gm_approve !== null ? val.gm_approve :
-                                                                        val.senior_manage_approv !== null ? val.senior_manage_approv :
-                                                                            val.manag_operation_approv !== null ? val.manag_operation_approv :
-                                                                                val.ms_approve !== null ? val.ms_approve :
-                                                                                    val.dms_approve !== null ? val.dms_approve :
-                                                                                        val.hod_approve !== null ? val.hod_approve :
-                                                                                            val.incharge_approve !== null ? val.incharge_approve :
-                                                                                                0
+                        now_who: val.sub_store_recieve === 1 ? "Sub Store Receive" :
+                            val.store_receive === 1 ? "CRS Store Receive" :
+                                val.po_to_supplier === 1 ? "PO Send to Supplier" :
+                                    val.po_approva_level_two === 1 ? "PO Managing Director Approved" :
+                                        val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
+                                            val.po_complete === 1 ? "PO Completed" :
+                                                val.po_prepartion === 1 ? "PO Prepairing" :
+                                                    val.quatation_fixing === 1 ? "Quatation Fixed" :
+                                                        val.quatation_negotiation === 1 ? "Quatation Negotiation" :
+                                                            val.quatation_calling_status === 1 ? "Quatation Calling" :
+                                                                val.ack_status === 1 ? "Puchase Acknowledged" :
+                                                                    val.ed_approve !== null ? "ED" :
+                                                                        val.md_approve !== null ? "MD" :
+                                                                            val.gm_approve !== null ? "GM" :
+                                                                                val.senior_manage_approv !== null ? "SMO" :
+                                                                                    val.manag_operation_approv !== null ? "MO" :
+                                                                                        val.ms_approve !== null ? "MS" :
+                                                                                            val.dms_approve !== null ? "DMS" :
+                                                                                                val.hod_approve !== null ? "HOD" :
+                                                                                                    val.incharge_approve !== null ? "INCHARGE" :
+                                                                                                        "Not Statrted",
+                        now_who_status: val.sub_store_recieve === 1 ? 4 :
+                            val.store_receive === 1 ? 4 :
+                                val.po_to_supplier === 1 ? val.po_to_supplier :
+                                    val.po_approva_level_two === 1 ? val.po_approva_level_two :
+                                        val.po_approva_level_one === 1 ? val.po_approva_level_one :
+                                            val.po_complete === 1 ? val.po_complete :
+                                                val.po_prepartion === 1 ? val.po_prepartion :
+                                                    val.quatation_fixing === 1 ? val.quatation_fixing :
+                                                        val.quatation_negotiation === 1 ? val.quatation_negotiation :
+                                                            val.quatation_calling_status === 1 ? val.quatation_calling_status :
+                                                                val.ack_status === 1 ? val.ack_status :
+                                                                    val.ed_approve !== null ? val.ed_approve :
+                                                                        val.md_approve !== null ? val.md_approve :
+                                                                            val.gm_approve !== null ? val.gm_approve :
+                                                                                val.senior_manage_approv !== null ? val.senior_manage_approv :
+                                                                                    val.manag_operation_approv !== null ? val.manag_operation_approv :
+                                                                                        val.ms_approve !== null ? val.ms_approve :
+                                                                                            val.dms_approve !== null ? val.dms_approve :
+                                                                                                val.hod_approve !== null ? val.hod_approve :
+                                                                                                    val.incharge_approve !== null ? val.incharge_approve :
+                                                                                                        0,
+                        hod_image: val.hod_image,
+                        dms_image: val.dms_image,
+                        ms_image: val.ms_image,
+                        mo_image: val.mo_image,
+                        smo_image: val.smo_image,
+                        gm_image: val.gm_image,
+                        md_image: val.md_image,
+                        ed_image: val.ed_image,
+                        ack_status: val.ack_status,
+                        ack_remarks: val.ack_remarks,
+                        quatation_calling_status: val.quatation_calling_status,
+                        quatation_calling_date: val.quatation_calling_date,
+                        quatation_negotiation: val.quatation_negotiation,
+                        quatation_negotiation_date: val.quatation_negotiation_date,
+                        quatation_fixing: val.quatation_fixing,
+                        quatation_fixing_date: val.quatation_fixing_date,
+                        po_prepartion: val.po_prepartion,
+                        po_complete: val.po_complete,
+                        po_complete_date: val.po_complete_date,
+                        po_approva_level_one: val.po_approva_level_one,
+                        po_approva_level_two: val.po_approva_level_two,
+                        po_to_supplier: val.po_to_supplier,
+                        store_receive: val.store_receive,
+                        dept_name: val.dept_name,
+                        dept_type: val.dept_type
 
 
                     }
@@ -250,6 +304,9 @@ const CrfInchargeAppvable = () => {
     const [imageSlno, setImageSlno] = useState(0)
     const [imagearray, setImageArry] = useState([])
 
+    const [CloseFlag, setCloseFlag] = useState(0)
+    const [CloseModal, setCloseModal] = useState(false)
+    const [CloseData, setCloseData] = useState([])
 
     useEffect(() => {
         const getImage = async (req_slno) => {
@@ -331,6 +388,8 @@ const CrfInchargeAppvable = () => {
             {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
                 images={imagearray} /> : null}
 
+            {CloseFlag === 1 ? <ClosedDetailsModal open={CloseModal} CloseData={CloseData}
+                setCloseData={setCloseData} setCloseModal={setCloseModal} setCloseFlag={setCloseFlag} /> : null}
 
             <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
                 <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Incharge Approval</Box>
@@ -390,7 +449,7 @@ const CrfInchargeAppvable = () => {
                             onCheked={updatependng}
                         />
                     </Box>
-                    <Box sx={{ width: "13%", mt: 1 }}>
+                    <Box sx={{ width: "10%", mt: 1 }}>
                         <CusCheckBox
                             label="All List"
                             color="danger"
@@ -399,6 +458,17 @@ const CrfInchargeAppvable = () => {
                             value={done}
                             checked={done}
                             onCheked={updatedone}
+                        />
+                    </Box>
+                    <Box sx={{ width: "10%", mt: 1 }}>
+                        <CusCheckBox
+                            label="Closed"
+                            color="danger"
+                            size="md"
+                            name="closed"
+                            value={closed}
+                            checked={closed}
+                            onCheked={updateClosed}
                         />
                     </Box>
                 </Box>
@@ -434,31 +504,55 @@ const CrfInchargeAppvable = () => {
                     </Box>
 
                     :
-                    <Box>
-                        {pendingData && pendingData.map((val) => {
-                            return <Box key={val.req_slno} sx={{ width: "100%", }}>
-                                <Paper sx={{
-                                    width: '100%',
-                                    mt: 0.8,
-                                    border: "2 solid #272b2f",
-                                    borderRadius: 3,
-                                    overflow: 'hidden',
-                                    boxShadow: 1,
-                                    backgroundColor: '#BBBCBC'
-                                }} variant='outlined'>
-                                    <MasterDetailCompnt val={val} />
-                                    <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
-                                        setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
-                                        setCancelModal={setCancelModal} setApprovalData={setApprovalData}
-                                        setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
-                                        setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal}
-                                        setImageShowFlag={setImageShowFlag} setImageShow={setImageShow}
-                                        setImageSlno={setImageSlno}
-                                    />
-                                </Paper>
-                            </Box>
-                        })}
-                    </Box>
+
+                    check === 3 ?
+                        <Box sx={{ width: "100%" }}>
+
+                            {closedata && closedata.map((val) => {
+                                return <Box key={val.req_slno} sx={{ width: "100%", }}>
+                                    <Paper sx={{
+                                        width: '100%',
+                                        mt: 0.8,
+                                        border: "2 solid #272b2f",
+                                        borderRadius: 3,
+                                        overflow: 'hidden',
+                                        boxShadow: 1,
+                                        backgroundColor: '#BBBCBC'
+                                    }} variant='outlined'>
+                                        <MasterDetailCompnt val={val} />
+                                        <ClosedButtonCompnt val={val} setCloseFlag={setCloseFlag}
+                                            setCloseModal={setCloseModal} setCloseData={setCloseData}
+                                        />
+                                    </Paper>
+                                </Box>
+                            })}
+                        </Box> :
+
+                        <Box>
+                            {pendingData && pendingData.map((val) => {
+                                return <Box key={val.req_slno} sx={{ width: "100%", }}>
+                                    <Paper sx={{
+                                        width: '100%',
+                                        mt: 0.8,
+                                        border: "2 solid #272b2f",
+                                        borderRadius: 3,
+                                        overflow: 'hidden',
+                                        boxShadow: 1,
+                                        backgroundColor: '#BBBCBC'
+                                    }} variant='outlined'>
+                                        <MasterDetailCompnt val={val} />
+                                        <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
+                                            setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
+                                            setCancelModal={setCancelModal} setApprovalData={setApprovalData}
+                                            setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
+                                            setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal}
+                                            setImageShowFlag={setImageShowFlag} setImageShow={setImageShow}
+                                            setImageSlno={setImageSlno}
+                                        />
+                                    </Paper>
+                                </Box>
+                            })}
+                        </Box>
                 }
             </Box>
         </Fragment>

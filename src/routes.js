@@ -173,8 +173,7 @@ const CrfNewReqRegister = React.lazy(() => import('./views/CentralRequestManagem
 const AssetInterDeptTrans = React.lazy(() => import('./views/AssetManagment/InterDeptTransfer/InterDeptTransfer'))
 const CensusDptMast = React.lazy(() => import('./views/Master/QualityIndicatorMaster/CensusDeptSecMast/QualityDept'))
 const QualityIndicator = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QualityIndicatorsList/QualityIndicators'))
-const QIdetails = React.lazy(() => import('./views/QualityIndicator/QualityIndicatorDetails'))
-const QIDailyReport = React.lazy(() => import('./views/QualityIndicator/QIDailyReportView'))
+
 const QIMonthlyReport = React.lazy(() => import('./views/QualityIndicator/QIMonthlyReport'))
 const TMdepartmentReport = React.lazy(() => import('./views/Report/TaskReport/DepartmentWise/DepartmentWiseTask'))
 const TMEmployeeReport = React.lazy(() => import('./views/Report/TaskReport/EmployeeWise/EmployeeeWiseTask'))
@@ -203,6 +202,9 @@ const IncHodAuthorization = React.lazy(() => import('./views/Master/Authorizatio
 const BillCategory = React.lazy(() => import('./views/Master/ItMasters/BillManagement/BillCategory/BillCategoryMaster'))
 const BillType = React.lazy(() => import('./views/Master/ItMasters/BillManagement/BillType/BillTypeMaster'))
 const BillSupplierDetailsMast = React.lazy(() => import('./views/Master/ItMasters/BillManagement/SupplierDetailsMast/SupplierDetails'))
+const QIdept = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QIDeptMast/QualityIndDeptMast'))
+const QIPatientMarking = React.lazy(() => import('./views/QualityIndicatorNew/DepartmentWisePatientMarking'))
+
 
 
 const routes = [
@@ -383,8 +385,6 @@ const routes = [
   { path: '/Home/AssetInterDeptTrans', exact: true, name: 'Asset Inter Departme', component: AssetInterDeptTrans },
   { path: '/Home/CensusDept', excat: true, name: 'Daily Census Department Section', component: CensusDptMast },
   { path: '/Home/QualityIndicator', exact: true, name: 'Quality Indicator List', component: QualityIndicator },
-  { path: '/Home/QIDetails', exact: true, name: 'Quality Indicator Data', component: QIdetails },
-  { path: '/Home/QIDailyReport', exact: true, name: 'QI Daily Report', component: QIDailyReport },
   { path: '/Home/QIMonthlyReport', exact: true, name: 'QI Monthly Report', component: QIMonthlyReport },
   { path: '/Home/TMdepartmentReport', exact: true, name: 'TM department Report', component: TMdepartmentReport },
   { path: '/Home/TMEmployeeReport', exact: true, name: 'TM employee Report', component: TMEmployeeReport },
@@ -413,6 +413,8 @@ const routes = [
   { path: '/Home/BillCategory', exact: true, name: 'Bill Category', component: BillCategory },
   { path: '/Home/BillType', exact: true, name: 'Bill Type', component: BillType },
   { path: '/Home/BillSupplierDetailsMast', exact: true, name: 'Bill Supplier Details Mast', component: BillSupplierDetailsMast },
+  { path: '/Home/QIDeptMast', exact: true, name: 'Quality Department Mast', component: QIdept },
+  { path: '/Home/QIPatientMarking', exact: true, name: 'Dept Wise Patient Marking', component: QIPatientMarking },
 
 ]
 
