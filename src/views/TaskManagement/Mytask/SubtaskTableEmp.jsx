@@ -1,6 +1,6 @@
 import { Box, CssVarsProvider, Table, } from '@mui/joy'
 import { Paper } from '@mui/material'
-import React, { useEffect, } from 'react'
+import React, { memo, useEffect, } from 'react'
 import EditIcon from '@mui/icons-material/Edit'
 import { axioslogin } from 'src/views/Axios/Axios';
 import moment from 'moment';
@@ -11,6 +11,7 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
         const getSubTask = async (tm_task_slno) => {
             const result = await axioslogin.get(`/taskManagement/subtaskviewByid/${tm_task_slno}`);
             const { success, data } = result.data;
+
             if (data.length !== 0) {
                 if (success === 2) {
                     const subtaskData = data && data.map((val) => {
@@ -32,6 +33,7 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
                             tm_completed_remarks: val.tm_completed_remarks,
                             create_date: val.create_date,
                             main_task_slno: val.main_task_slno,
+                            tm_complete_date: val.tm_complete_date,
                             TaskStatus: val.tm_task_status === 1 ? 'Completed' :
                                 val.tm_task_status === 2 ? 'On Progress' :
                                     val.tm_task_status === 3 ? 'On Hold' :
@@ -64,10 +66,10 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
                                     <th style={{ width: 50 }}>#</th>
                                     <th style={{ width: 60 }} >Action</th>
                                     <th style={{ width: 100 }}>status</th>
-                                    <th style={{ width: 150 }}>Subtask</th>
-                                    <th style={{ width: 150 }}>Assignee</th>
-                                    <th style={{ width: 100 }}>created date</th>
-                                    <th style={{ width: 100 }}>Due date</th>
+                                    <th style={{ width: 500 }}>Subtask</th>
+                                    <th style={{ width: 300 }}>Assignee</th>
+                                    <th style={{ width: 200 }}>created date</th>
+                                    <th style={{ width: 200 }}>Due date</th>
                                     <th style={{ width: 330 }}>Description</th>
                                 </tr>
                             </thead>
@@ -115,4 +117,4 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
     )
 }
 
-export default SubtaskTableEmp
+export default memo(SubtaskTableEmp)

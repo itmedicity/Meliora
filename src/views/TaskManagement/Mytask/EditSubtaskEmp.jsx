@@ -14,7 +14,7 @@ import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import moment from 'moment';
 const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRendering, tableCount, setTableCount, tm_task_due_date }) => {
 
-    const { tm_task_slno, tm_task_status, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, em_name, tm_project_slno, main_task_slno } = subTaskData
+    const { tm_task_slno, tm_task_status, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, em_name, tm_project_slno, main_task_slno, create_date } = subTaskData
 
     const [employeeSubTask, setEmployeeSubTask] = useState(0)
     const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         pendingremarkSub: '',
     })
     const { subTaskName, subTaskDueDate, subTaskDescription, onholdremarksSub, completedremarksSub, pendingremarkSub } = subTaskMast
-
+    let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const ChangeCompletedSub = useCallback((e) => {
         if (e.target.checked === true) {
             setCompletedSub(true)
@@ -198,12 +198,13 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             tm_pending_remark: pendingremarkSub === '' ? null : pendingremarkSub,
             tm_onhold_remarks: onholdremarksSub === '' ? null : onholdremarksSub,
             tm_completed_remarks: completedremarksSub === '' ? null : completedremarksSub,
+            tm_complete_date: completedSub === true ? newDate : null,
             tm_project_slno: tm_project_slno,
             main_task_slno: main_task_slno,
             tm_task_status: checkFlagSub,
             edit_user: id
         }
-    }, [tm_task_slno, subTaskName, subTaskDueDate, subTaskDescription, empdept, empsecid, checkFlagSub, completedremarksSub, main_task_slno,
+    }, [tm_task_slno, subTaskName, subTaskDueDate, subTaskDescription, empdept, empsecid, checkFlagSub, completedremarksSub, main_task_slno, completedSub, newDate,
         pendingremarkSub, tm_project_slno, onholdremarksSub, id])
 
     const reset = useCallback(() => {
@@ -316,6 +317,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                 if (success === 1) {
                     succesNotify(message)
                     setprogressCountSub(progressCountSub + 1)
+                    setTableCount(tableCount + 1)
                     resetProgressSub()
                 } else if (success === 0) {
                     infoNotify(message)
@@ -327,7 +329,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         } else {
             infoNotify('Please Select Date For Entering Task Progress')
         }
-    }, [postProgressSub, progressCountSub, tm_progres_date])
+    }, [postProgressSub, progressCountSub, tm_progres_date, tableCount, setTableCount])
     const rowSelectSubProgress = useCallback((data) => {
         setvalueSubProgress(1)
         const {
@@ -355,10 +357,10 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             const UpdateProgressMast = async (patchProgress) => {
                 const result = await axioslogin.patch('/taskManagement/updateProgress', patchProgress)
                 const { message, success } = result.data
-
                 if (success === 2) {
                     succesNotify(message)
                     setprogressCountSub(progressCountSub + 1)
+
                     resetProgressSub()
                     setvalueSubProgress(0)
                 } else if (success === 0) {
@@ -371,7 +373,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         } else {
             infoNotify('Please Select Date For Entering Task Progress')
         }
-    }, [patchProgressSub, progressCountSub, tm_progres_date])
+    }, [patchProgressSub, progressCountSub, tm_progres_date,])
 
     const SubmitTask = useCallback((e) => {
         e.preventDefault()
@@ -704,6 +706,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                                 <TextFieldCustom
                                     slotProps={{
                                         input: {
+                                            min: create_date,
                                             max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
                                         },
                                     }}

@@ -4,6 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import { Box, Button, CssVarsProvider } from '@mui/joy';
 import CloseIcon from '@mui/icons-material/Close';
+import { Paper } from '@mui/material';
 
 const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
 
@@ -36,13 +37,26 @@ const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
                         </Box>
                     </Box>
                     <Box sx={{ mt: 1, gap: 5 }}>
-                        {imageUrls.reverse().map((imageUrl, index) => (
+                        {/* {imageUrls.reverse().map((imageUrl, index) => (
                             < img alt="Task"
                                 key={index}
                                 src={imageUrl}
                                 height={820}
                                 style={{ maxWidth: '100%', maxHeight: '100%', margin: '6px', }}
                             />
+                            
+                        ))
+                        } */}
+                        {imageUrls.map((imageUrl, index) => (
+                            <Paper key={index} sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 800, width: 1200, mb: .5, }}>
+                                <embed
+                                    id="pdf-embed"
+                                    src={imageUrl}
+                                    type="application/pdf"
+                                    height={820}
+                                    width={'100%'} />
+
+                            </Paper>
                         ))
                         }
                     </Box>

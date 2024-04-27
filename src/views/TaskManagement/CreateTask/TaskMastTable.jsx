@@ -155,22 +155,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
         setsearchFlag(1)
         getTableTask(searchData)
     }, [searchData, tableCount, setTableCount])
-
-
-    // const [countDowns, setcountDowns] = useState([])
-    // const DueDate = new Date(val.tm_task_due_date)
-    // const currentTime = new Date()
-    // const timeDiff = DueDate - currentTime
-    // const daysLeft = Math.cell(timeDiff / (1000 * 60 * 60 * 24))
-
-
-
-
-
-
-
-
-
     useEffect(() => {
         const getMainTable = async () => {
             const result = await axioslogin.get(`/taskManagement/viewMasterTaskBySecid/${empsecid}`);
@@ -197,6 +181,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                             tm_pending_remark: val.tm_pending_remark,
                             tm_onhold_remarks: val.tm_onhold_remarks,
                             tm_completed_remarks: val.tm_completed_remarks,
+                            tm_complete_date: val.tm_complete_date,
                             create_date: val.create_date,
 
 
@@ -514,7 +499,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                         <th style={{ width: 60 }} >Action</th>
                                                         <th style={{ width: 60 }}>View</th>
                                                         <th style={{ width: 170 }}>Status</th>
-                                                        <th style={{ width: 250, textAlign: 'center' }}>CountDown</th>
+                                                        <th style={{ width: 200, textAlign: 'center' }}>CountDown</th>
                                                         <th style={{ width: 450 }}>Task Name</th>
                                                         <th style={{ width: 450 }}>Project</th>
                                                         <th style={{ width: 200 }}>Assignee</th>
@@ -562,7 +547,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                                         val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                                             val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
 
-                                                                <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                                <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', px: .5, py: .5, borderRadius: 20 }}>
                                                                     <CountDowncomponent DueDates={val.tm_task_due_date} />
 
                                                                 </Box></td>

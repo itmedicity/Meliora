@@ -55,10 +55,12 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
         tm_pending_remark: '',
         tm_completed_remarks: '',
         main_task_slno: '',
-        tm_task_status: 0
+        tm_task_status: 0,
+        tm_complete_date: ''
     })
     const { tm_task_name, tm_task_due_date, tm_task_description, main_task_slno, tm_onhold_remarks, tm_pending_remark, tm_completed_remarks,
-        tm_task_status } = taskMast
+        tm_task_status, tm_complete_date } = taskMast
+
     const MastUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -85,11 +87,12 @@ const CreateTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTab
             tm_onhold_remarks: tm_onhold_remarks === '' ? null : tm_onhold_remarks,
             tm_completed_remarks: tm_completed_remarks === '' ? null : tm_completed_remarks,
             tm_task_status: tm_task_status,
+            tm_complete_date: tm_complete_date === '' ? null : tm_complete_date,
             create_user: id,
             main_task_slno: main_task_slno,
         }
     }, [tm_task_name, empdept, empsecid, tm_task_due_date, tm_task_description, main_task_slno, projectz, tm_task_status, tm_pending_remark, tm_onhold_remarks,
-        tm_completed_remarks, id])
+        tm_completed_remarks, tm_complete_date, id])
 
     const handleFileChange = useCallback((e) => {
         const newFiles = [...selectFile]

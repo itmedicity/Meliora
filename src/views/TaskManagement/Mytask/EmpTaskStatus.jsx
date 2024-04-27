@@ -25,7 +25,6 @@ const EmpTaskStatus = ({
     const { tm_task_slno, tm_task_name, tm_task_description, tm_task_due_date, main_task_slno, sec_name, tm_task_dept, tm_task_dept_sec, tm_task_status, dept_name,
         tm_project_slno, tm_project_name, create_date, tm_onhold_remarks, tm_pending_remark, tm_completed_remarks, } = masterData
 
-
     const id = useSelector((state) => { return state.LoginUserData.empid })
 
     const [completed, setCompleted] = useState(tm_task_status === 1 ? true : tm_task_status === 2 ? false : tm_task_status === 3 ? false : tm_task_status === 4 ? false : false)
@@ -52,9 +51,6 @@ const EmpTaskStatus = ({
     })
     const { onHoldRemaks, pendingRemarks, completedRemarks } = updateTask
     const [completeFlag, setCompleteFlag] = useState(0)
-
-
-
     const [taskProgress, setTaskProgress] = useState({
         PrgSlNo: '',
         tm_task_slno: tm_task_slno,
@@ -62,10 +58,10 @@ const EmpTaskStatus = ({
         ProgressDate: '',
         progress_emp: id,
         progressDetails: ''
-
-
     })
     const { PrgSlNo, ProgressDate, progressDetails, } = taskProgress
+
+    let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const ProgresssUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -254,10 +250,11 @@ const EmpTaskStatus = ({
             tm_onhold_remarks: onHoldRemaks === '' ? null : onHoldRemaks,
             tm_completed_remarks: completedRemarks === '' ? null : completedRemarks,
             tm_project_slno: projectz === 0 ? null : projectz,
+            tm_complete_date: completed === true ? newDate : null,
             edit_user: id
         }
-    }, [tm_task_name, checkFlag, tm_task_dept, tm_task_dept_sec, tm_task_slno, onHoldRemaks, pendingRemarks, tm_task_due_date, completedRemarks, projectz,
-        tm_task_description, id])
+    }, [tm_task_name, checkFlag, tm_task_dept, tm_task_dept_sec, tm_task_slno, onHoldRemaks, pendingRemarks, tm_task_due_date, completedRemarks, projectz, completed,
+        tm_task_description, newDate, id])
 
     const UpdateStatus = useCallback((e) => {
         e.preventDefault()
@@ -762,6 +759,7 @@ const EmpTaskStatus = ({
                                                     <TextFieldCustom
                                                         slotProps={{
                                                             input: {
+                                                                min: create_date,
                                                                 max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
                                                             },
                                                         }}

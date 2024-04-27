@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
 import useCountdown from './useCountdown'
 import { Box } from '@mui/material'
-import FmdBadIcon from '@mui/icons-material/FmdBad';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import AvTimerIcon from '@mui/icons-material/AvTimer';
+import RestoreIcon from '@mui/icons-material/Restore';
 const CountDowncomponent = ({ DueDates }) => {
 
     const currentTime = new Date()
@@ -10,61 +12,58 @@ const CountDowncomponent = ({ DueDates }) => {
     const { days, hours, minutes, seconds } = useCountdown(difference, duetimeCalc)
 
     return (
-        <Box>
+        <Box sx={{}}>
             {days === 0 && hours === 0 && minutes === 0 ?
-                <Box sx={{ display: 'flex' }}>
-                    <Box sx={{ fontWeight: 600, color: '#05445E' }}>{days}</Box>&nbsp;
-                    <Box sx={{ flex: 1, }}>Days</Box>
-                    <Box sx={{ flex: .5, pl: .5, fontWeight: 700 }}>:</Box>
-                    <Box sx={{ flex: .5, fontWeight: 600, color: '#05445E' }}>{hours}</Box>
-                    <Box sx={{ flex: 1, }}>hh</Box>
-                    <Box sx={{ flex: .5, pl: .5, fontWeight: 700 }}>:</Box>
-                    <Box sx={{ flex: .5, fontWeight: 600, color: '#05445E' }}>{minutes}</Box>
-                    <Box sx={{ flex: 1, }}>mm</Box>
-                    <Box sx={{ flex: .5, pl: .5, fontWeight: 700 }}>:</Box>
-                    <Box sx={{ flex: .5, fontWeight: 600, color: '#B32800' }}>{seconds}</Box>
-                    <Box sx={{ flex: 1, }}>ss</Box>
+                <Box sx={{ display: 'flex', }}>
+                    <Box sx={{ my: .2, }} >
+                        <AvTimerIcon sx={{ color: '#05445E', fontWeight: 800, }} />&nbsp;
+                    </Box>
+                    <Box sx={{ flex: .1 }}></Box>
+                    <Box sx={{ fontWeight: 600, color: '#05445E', pt: .2, }}>{days}</Box>&nbsp;
+                    <Box sx={{ color: '#05445E', pt: .2 }}>Days</Box>&nbsp;&nbsp;
+                    <Box sx={{ fontWeight: 600, color: '#05445E', pt: .2 }}>{hours}</Box>
+                    <Box sx={{ fontWeight: 700, pt: .2 }}>:</Box>
+                    <Box sx={{ fontWeight: 600, color: '#05445E', pt: .2 }}>{minutes}</Box>
+                    <Box sx={{ fontWeight: 700, pt: .2 }}>:</Box>
+                    <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: .2 }}>{seconds}</Box>
                 </Box> :
                 <Box>
                     {
                         duetimeCalc > 0 ?
-                            <Box sx={{ display: 'flex' }}>
-                                <Box sx={{ pb: .5 }} >
-                                    <FmdBadIcon sx={{ color: '#BA0F30', fontWeight: 800, fontSize: 18, pb: .5 }} />
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ my: .2, }} >
+                                    <RestoreIcon sx={{ color: '#BA0F30', fontWeight: 800, }} />&nbsp;
                                 </Box>
-                                <Box sx={{ fontWeight: 600, color: '#BA0F30' }}>{days}</Box>&nbsp;
-                                <Box sx={{ flex: 1, color: '#BA0F30' }}>Days</Box>
-                                <Box sx={{ flex: .5, pl: .5, fontWeight: 700 }}>:</Box>
-                                <Box sx={{ fontWeight: 600, color: '#BA0F30' }}>{hours}</Box>&nbsp;
-                                <Box sx={{ flex: 1, color: '#BA0F30' }}>hh</Box>
-                                <Box sx={{ flex: .5, fontWeight: 700, pl: .5 }}>:</Box>
-                                <Box sx={{ fontWeight: 600, color: '#BA0F30' }}>{minutes}</Box>&nbsp;
-                                <Box sx={{ flex: 1, color: '#BA0F30' }}>mm</Box>
-                                <Box sx={{ flex: .5, pl: .5, fontWeight: 700 }}>:</Box>
-                                <Box sx={{ fontWeight: 600, color: '#BA0F30' }}>{seconds}</Box>&nbsp;
-                                <Box sx={{ flex: 1, color: '#BA0F30' }}>ss</Box>
+                                <Box sx={{ flex: .1 }}></Box>
+                                <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: .2, }}>{days}</Box>&nbsp;
+                                <Box sx={{ color: '#BA0F30', pt: .2 }}>Days</Box>&nbsp;&nbsp;
+                                <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: .2 }}>{hours}</Box>
+                                <Box sx={{ fontWeight: 700, pt: .2 }}>:</Box>
+                                <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: .2 }}>{minutes}</Box>
+                                <Box sx={{ fontWeight: 700, pt: .2 }}>:</Box>
+                                <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: .2 }}>{seconds}</Box>
                             </Box> :
-                            <Box sx={{ display: 'flex' }}>
-                                <Box sx={{ fontWeight: 600, color: '#05445E' }}>{days}</Box>&nbsp;
-                                <Box sx={{ flex: 1, }}>Days</Box>
-                                <Box sx={{ flex: .5, pl: .5, fontWeight: 700 }}>:</Box>
-                                <Box sx={{ fontWeight: 600, color: '#05445E' }}>{hours}</Box>&nbsp;
-                                <Box sx={{ flex: 1, }}>hh</Box>
-                                <Box sx={{ flex: .5, fontWeight: 700, pl: .5 }}>:</Box>
-                                <Box sx={{ fontWeight: 600, color: '#05445E' }}>{minutes}</Box>&nbsp;
-                                <Box sx={{ flex: 1, }}>mm</Box>
-                                <Box sx={{ flex: .5, pl: .5, fontWeight: 700 }}>:</Box>
-                                <Box sx={{ fontWeight: 600, color: '#05445E' }}>{seconds}</Box>&nbsp;
-                                <Box sx={{ flex: 1, }}>ss</Box>
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ my: .2 }} >
+                                    <AccessAlarmIcon sx={{ fontWeight: 800, color: '#437081', }} />&nbsp;
+                                </Box>
+                                <Box sx={{ flex: .1 }}></Box>
+                                <Box sx={{ fontWeight: 600, color: '#05445E', pt: .2, }}>{days}</Box>&nbsp;
+                                <Box sx={{ pt: .2, }}>Days</Box>&nbsp;&nbsp;
+                                <Box sx={{ fontWeight: 600, color: '#05445E', pt: .2, }}>{hours}</Box>
+                                <Box sx={{ fontWeight: 700, pt: .2, }}>:</Box>
+                                <Box sx={{ fontWeight: 600, color: '#05445E', pt: .2, }}>{minutes}</Box>
+                                <Box sx={{ fontWeight: 700, pt: .2, }}>:</Box>
+                                <Box sx={{ fontWeight: 600, color: '#05445E', pt: .2, }}>{seconds}</Box>
                             </Box>
                     }
                 </Box>
             }
-        </Box>
+        </Box >
 
 
 
     )
 }
 
-export default CountDowncomponent
+export default memo(CountDowncomponent)

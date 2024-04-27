@@ -45,7 +45,6 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                     const arr = data?.map((val) => {
                         const obj = {
                             tm_task_slno: val.tm_task_slno,
-                            // tm_task_name: (val.tm_task_name).toLowerCase(),
                             tm_task_name: val.tm_task_name,
                             dept_name: val.dept_name,
                             sec_name: val.sec_name,
@@ -58,7 +57,6 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                             tm_task_dept_sec: val.tm_task_dept_sec,
                             main_task_slno: val.main_task_slno,
                             tm_task_due_date: val.tm_task_due_date,
-                            // tm_task_description: (val.tm_task_description).toLowerCase(),
                             tm_task_description: val.tm_task_description,
                             tm_task_status: val.tm_task_status,
                             TaskStatus: val.tm_task_status === 1 ? 'Completed' :
@@ -143,7 +141,7 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 60 }}>View</th>
                                         <th style={{ width: 170 }}>Status</th>
-                                        <th style={{ width: 250 }}>Time OverDue</th>
+                                        <th style={{ width: 200 }}>Time OverDue</th>
                                         <th style={{ width: 450 }}>Task Name</th>
                                         <th style={{ width: 450 }}>Project</th>
                                         <th style={{ width: 200 }}>Assignee</th>
@@ -189,12 +187,12 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                                                     }} />&nbsp;{val.TaskStatus}</td>
                                                 <td>
                                                     {val.tm_task_status !== 1 ?
-                                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#5885AF', p: .5, flex: .9, }}>
+                                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: .9, borderRadius: 20 }}>
                                                             <CountDowncomponent DueDates={val.tm_task_due_date} />
                                                         </Box> :
-                                                        <Box sx={{ display: 'flex', borderRadius: 3, border: .1, borderStyle: 'dashed', borderColor: '#5885AF', p: .5, flex: 1, }}>
+                                                        <Box sx={{ display: 'flex', borderRadius: 3, border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
                                                             <Box sx={{ flex: .5, }}></Box>
-                                                            <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;hh&nbsp;:00&nbsp;mm&nbsp;:00&nbsp;ss</Box>
+                                                            <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;:&nbsp;00&nbsp;:&nbsp;00</Box>
                                                             <Box sx={{ flex: .5 }}></Box>
                                                         </Box>
                                                     }

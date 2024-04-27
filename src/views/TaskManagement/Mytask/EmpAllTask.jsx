@@ -88,6 +88,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                             tm_pending_remark: val.tm_pending_remark,
                             tm_onhold_remarks: val.tm_onhold_remarks,
                             create_date: val.create_date,
+                            tm_complete_date: val.tm_complete_date,
                             tm_completed_remarks: val.tm_completed_remarks,
                             TaskStatus: val.tm_task_status === 1 ? 'Completed' :
                                 val.tm_task_status === 1 ? 'Completed' :
@@ -331,9 +332,9 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                     <th style={{ width: 60 }}>Action</th>
                                                     <th style={{ width: 60 }}>View</th>
                                                     <th style={{ width: 150 }}>Status</th>
-                                                    <th style={{ width: 250 }}>CountDown</th>
+                                                    <th style={{ width: 200 }}>CountDown</th>
                                                     <th style={{ width: 500 }}>Task Name</th>
-                                                    <th style={{ width: 450 }}>Project</th>
+                                                    <th style={{ width: 500 }}>Project</th>
                                                     <th style={{ width: 150 }}>Created Date</th>
                                                     <th style={{ width: 150 }}> Due Date</th>
                                                     <th style={{ width: 500 }}>Task Description</th>
@@ -374,7 +375,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                                                         : val.tm_task_status === 4 ? '#5885AF'
                                                                                             : 'transparent', minHeight: 5
                                                                 }} />&nbsp;{val.TaskStatus}</td>
-                                                            <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                            <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5, borderRadius: 20, }}>
                                                                 <CountDowncomponent DueDates={val.tm_task_due_date} />
 
                                                             </Box></td>
@@ -426,7 +427,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                             <th style={{ width: 60 }}>Action</th>
                                                             <th style={{ width: 60 }}>View</th>
                                                             <th style={{ width: 150 }}>Status</th>
-                                                            <th style={{ width: 250 }}>CountDown</th>
+                                                            <th style={{ width: 200 }}>CountDown</th>
                                                             <th style={{ width: 450 }}>Task Name</th>
                                                             <th style={{ width: 450 }}>Project</th>
                                                             <th style={{ width: 150 }}>Created Date</th>
@@ -520,7 +521,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                             <th style={{ width: 60 }}>Action</th>
                                                             <th style={{ width: 60 }}>View</th>
                                                             <th style={{ width: 150 }}>Status</th>
-                                                            <th style={{ width: 250 }}>CountDown</th>
+                                                            <th style={{ width: 200 }}>CountDown</th>
                                                             <th style={{ width: 450 }}>Task Name</th>
                                                             <th style={{ width: 450 }}>Project</th>
                                                             <th style={{ width: 150 }}>Created Date</th>
@@ -595,13 +596,9 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                         Selected Project Not Assigned
                                     </Box>}
                             </Box> : null}
-
                     </Box>
-
                 }
             </Box>
-
-
         </Box>
     )
 }
