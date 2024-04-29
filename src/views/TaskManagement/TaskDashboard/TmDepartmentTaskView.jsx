@@ -42,6 +42,7 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
         const due = new Date(tm_task_due_date);
         return due < today
     }
+    const { tm_task_status } = deptTableData[0]
     return (
         <Box>
             <CardMasterClose
@@ -84,7 +85,11 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
                                         <th style={{ width: 50 }}>#</th>
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 120 }}>Status</th>
-                                        <th style={{ width: 250, }}>countDown</th>
+                                        {tm_task_status === 1 ?
+                                            <th style={{ width: 200, }}>Completion Exceeded</th>
+                                            :
+                                            <th style={{ width: 200, }}>Count down</th>
+                                        }
                                         <th style={{ width: 600 }}>Task Name</th>
                                         <th style={{ width: 500 }}>Project</th>
                                         <th style={{ width: 170 }}>Assignee</th>
@@ -119,15 +124,17 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
                                                         val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                             val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
                                                 {val.tm_task_status !== 1 ?
-                                                    <td ><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                    <td ><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5, borderRadius: 20 }}>
                                                         <CountDowncomponent DueDates={val.tm_task_due_date} />
 
                                                     </Box></td> :
-                                                    <td> <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
-                                                        <Box sx={{ flex: .5, }}></Box>
-                                                        <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:&nbsp;00&nbsp;hh&nbsp;:&nbsp;00&nbsp;mm&nbsp;:&nbsp;00&nbsp;ss</Box>
-                                                        <Box sx={{ flex: .5 }}></Box>
-                                                    </Box></td>}
+                                                    <td>
+                                                        {val.datediff > 0 ?
+                                                            <Box sx={{ backgroundColor: '#EECE88', borderRadius: 20, p: .5, color: '#3B0404', fontWeight: 600, mr: 1 }}>
+                                                                {val.days} Days - {val.hours}h: {val.minutes}m: {val.seconds}s
+                                                            </Box> :
+                                                            <Box style={{ color: '#578E87', fontWeight: 600, }}>Completed On Time</Box>
+                                                        }</td>}
                                                 {val.tm_task_status === 1 ?
                                                     <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td> :
                                                     <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}> {val.tm_task_name || 'not given'}</td>}

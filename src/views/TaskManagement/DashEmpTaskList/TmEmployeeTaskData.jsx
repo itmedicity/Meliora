@@ -1,19 +1,18 @@
-import { Badge, Box, Tooltip } from '@mui/joy'
+import { Badge, Box } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
 import AccordionGroup from '@mui/joy/AccordionGroup';
-import Accordion from '@mui/joy/Accordion';
 import accordionDetailsClasses from '@mui/joy/AccordionDetails';
-import AccordionSummary, { accordionSummaryClasses, } from '@mui/joy/AccordionSummary';
+import accordionSummaryClasses from '@mui/joy/AccordionSummary';
 import Typography from '@mui/joy/Typography';
 import Avatar from '@mui/joy/Avatar';
 import PersonIcon from '@mui/icons-material/Person';
 import { axioslogin } from 'src/views/Axios/Axios';
-import EmpProjectTaskDetails from './EmpProjectTaskDetails';
 import EmployeeProgressBar from './EmployeeProgressBar';
 import AllTaskListUnderProject from './AllTaskListUnderProject';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import { infoNotify } from 'src/views/Common/CommonCode';
 const TmEmployeeTaskData = () => {
     const dispatch = useDispatch();
     const empsecid = useSelector((state) => { return state.LoginUserData.empsecid })
@@ -47,26 +46,29 @@ const TmEmployeeTaskData = () => {
 
     useEffect(() => {
         if ((allEmpTask.length !== 0) && (employees.length !== 0)) {
-            const xx = employees?.map((value) => {
-                const yy = allEmpTask.find((val) => value.em_id === val.emslno)
+            const empList = employees?.map((value) => {
+                const empTaskLIst = allEmpTask.find((val) => value.em_id === val.emslno)
                 return {
                     emslno: value.em_id,
                     empname: value.em_name,
-                    TT: yy ? yy.TT : 0,
-                    TC: yy ? yy.TC : 0,
+                    TT: empTaskLIst ? empTaskLIst.TT : 0,
+                    TC: empTaskLIst ? empTaskLIst.TC : 0,
                 }
             })
-            setEmpDetalArry(xx);
+            setEmpDetalArry(empList);
         }
     }, [employees, allEmpTask])
 
     const openModal = useCallback((value) => {
-        setEmployeeData(value)
-        setModalFlag(1)
-        setModalOpen(true)
+        if (value.TT !== 0) {
+            setEmployeeData(value)
+            setModalFlag(1)
+            setModalOpen(true)
+        }
+        else {
+            infoNotify("No Task Assigned Under this Employee")
+        }
     }, [])
-
-
 
     return (
         <Box sx={{ maxHeight: 640 }}>
@@ -89,40 +91,46 @@ const TmEmployeeTaskData = () => {
             >
                 {
                     EmpDetalArry && EmpDetalArry.map((val) => {
-
-
                         let capEmpName = val.empname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-                        return <Accordion key={val.emslno} >
-                            <AccordionSummary >
-                                <Avatar color='primary' size='sm'>
-                                    <PersonIcon />
-                                </Avatar>
-                                <Tooltip title="Employee" >
-                                    <Box sx={{ flex: 1, }}>
-                                        <Typography>{capEmpName}</Typography>
-                                    </Box>
-                                </Tooltip>
+                        return <Box key={val.emslno}
+                            sx={{
+                                flex: 1,
+                                Pb: .3,
+                                '&:hover': {
+                                    // boxShadow: '0px 0px 4px',
+                                    bgcolor: '#ECF1F2',
+                                    borderBottom: '#C3CEDA'
+                                },
+                                cursor: 'grab'
+                            }}>
 
-                                <Tooltip title="Employee Progress" >
-                                    <Box sx={{ flex: 4.8, }}>
-                                        <EmployeeProgressBar val={val} />
-                                    </Box>
-                                </Tooltip>
-                                <Tooltip title="View Task" >
+                            <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, Pb: .5, borderColor: '#D9E4EC', boxShadow: ' 1px', }}>
+
+                                <Box sx={{ flex: .2, py: .5, }}>
+                                    <Avatar color='primary' size='sm'>
+                                        <PersonIcon />
+                                    </Avatar>
+                                </Box>
+                                <Box sx={{ flex: .8, pt: 1, pl: .3, fontWeight: 600 }}>
+                                    <Typography>{capEmpName}</Typography>
+                                </Box>
+                                <Box sx={{ flex: 5, pt: 1, }}>
+                                    <EmployeeProgressBar val={val} />
+                                </Box>
+                                <Box sx={{ flex: .2, pl: 2, cursor: 'pointer' }}>
                                     <Badge badgeContent={val.TT} variant="solid" color='neutral' onClick={() => openModal(val)} >
                                         <Box sx={{ mr: .2, fontSize: 15, borderRadius: 3, pl: 1, flex: .1, display: 'flex' }}  >
                                             <AssignmentOutlinedIcon sx={{ color: '#0B1C47' }} />
                                         </Box>
                                     </Badge>
-                                </Tooltip>
+                                </Box>
 
-                            </AccordionSummary >
-                            <EmpProjectTaskDetails val={val} />
+                            </Box>
+                        </Box>
 
-                        </Accordion>
                     })
                 }
-            </AccordionGroup>
+            </AccordionGroup >
         </Box >
     )
 }

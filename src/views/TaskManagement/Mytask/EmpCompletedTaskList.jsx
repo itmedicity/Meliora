@@ -29,7 +29,6 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
         const getMasterTable = async () => {
             const result = await axioslogin.get(`/TmTableView/employeeCompleted/${id}`);
             const { success, data } = result.data;
-
             if (data.length !== 0) {
                 if (success === 2) {
                     const arry = data?.map((val) => {
@@ -59,6 +58,11 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
                                         val.tm_task_status === 3 ? 'On Hold' :
                                             val.tm_task_status === 4 ? 'Pending' :
                                                 val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                            datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
+                            days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
+                            hours: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60) % 24),
+                            minutes: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60),
+                            seconds: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60)
                         }
                         return obj
                     })
@@ -144,11 +148,13 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
                                         <th style={{ width: 50 }}>#</th>
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 60 }}>View</th>
-                                        <th style={{ width: 150 }}>Status</th>
+                                        <th style={{ width: 150, }}>Status</th>
+                                        <th style={{ width: 180 }}>Completion Exceeded </th>
                                         <th style={{ width: 500 }}>Task Name</th>
-                                        <th style={{ width: 300 }}>Project</th>
+                                        <th style={{ width: 500 }}>Project</th>
                                         <th style={{ width: 150 }}>Created Date</th>
-                                        <th style={{ width: 150 }}> Due Date</th>
+                                        <th style={{ width: 150 }}>Due Date</th>
+                                        <th style={{ width: 150 }}>Completed Date</th>
                                         <th style={{ width: 500 }}>Task Description</th>
                                     </tr>
                                 </thead>
@@ -187,11 +193,22 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
                                                                             : val.tm_task_status === 4 ? '#5885AF'
                                                                                 : 'transparent', minHeight: 5
                                                     }} />&nbsp;{val.TaskStatus}</td>
+                                                {val.datediff > 0 ?
+                                                    <td style={{ color: '#3B0404', fontWeight: 600, }}>
+                                                        <Box sx={{ backgroundColor: '#EECE88', borderRadius: 20, p: .5 }}>
+                                                            {val.days} Days - {val.hours}h: {val.minutes}m: {val.seconds}s
+                                                        </Box>
+                                                    </td> :
+                                                    < td style={{ color: '#578E87', fontWeight: 600 }}> Completed On Time</td>
 
+                                                }
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                                                 <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                                                 <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                                                {val.tm_complete_date !== null
+                                                    ? <td> {moment(val.tm_complete_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td> :
+                                                    <td>not given</td>}
                                                 <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
                                             </tr>
                                         )

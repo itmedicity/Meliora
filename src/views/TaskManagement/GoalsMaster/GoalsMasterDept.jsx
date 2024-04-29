@@ -11,12 +11,14 @@ import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
+import moment from 'moment'
 
 const GoalsMasterDept = () => {
     const history = useHistory()
     const dispatch = useDispatch();
     const [value, setvalue] = useState(0)
     const [tableCount, settableCount] = useState(0)
+    let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
@@ -44,8 +46,9 @@ const GoalsMasterDept = () => {
         tm_goal_duedate: '',
         tm_goal_description: '',
         tm_goal_status: false,
+        tm_goal_cmpledate: '',
     })
-    const { tm_goals_slno, tm_goal_name, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status } = goalMast
+    const { tm_goals_slno, tm_goal_name, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, tm_goal_cmpledate } = goalMast
     const GoalsMastUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -61,10 +64,11 @@ const GoalsMasterDept = () => {
             tm_goal_fromdate: tm_goal_fromdate === '' ? null : tm_goal_fromdate,
             tm_goal_duedate: tm_goal_duedate === '' ? null : tm_goal_duedate,
             tm_goal_description: tm_goal_description === '' ? null : tm_goal_description,
+            tm_goal_cmpledate: tm_goal_cmpledate === '' ? null : tm_goal_cmpledate,
             tm_goal_status: tm_goal_status === true ? 1 : 0,
             tm_goal_createuser: id,
         }
-    }, [tm_goal_name, empdept, empsecid, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, id])
+    }, [tm_goal_name, empdept, empsecid, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, tm_goal_cmpledate, id])
 
     const patchGoal = useMemo(() => {
         return {
@@ -75,10 +79,11 @@ const GoalsMasterDept = () => {
             tm_goal_fromdate: tm_goal_fromdate === '' ? null : tm_goal_fromdate,
             tm_goal_duedate: tm_goal_duedate === '' ? null : tm_goal_duedate,
             tm_goal_description: tm_goal_description === '' ? null : tm_goal_description,
+            tm_goal_cmpledate: tm_goal_status === true ? newDate : null,
             tm_goal_status: tm_goal_status === true ? 1 : 0,
             tm_goal_edituser: id,
         }
-    }, [tm_goals_slno, tm_goal_name, empdept, empsecid, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, id])
+    }, [tm_goals_slno, tm_goal_name, empdept, empsecid, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, newDate, id])
 
     const reset = () => {
         const form = {
@@ -87,6 +92,7 @@ const GoalsMasterDept = () => {
             tm_goal_fromdate: '',
             tm_goal_duedate: '',
             tm_goal_description: '',
+            tm_goal_cmpledate: ''
         }
         setgoalMast(form)
     }
@@ -98,6 +104,7 @@ const GoalsMasterDept = () => {
             tm_goal_fromdate,
             tm_goal_duedate,
             tm_goal_description,
+            tm_goal_cmpledate,
             tm_goal_status
         } = data
 
@@ -110,6 +117,7 @@ const GoalsMasterDept = () => {
             tm_goal_duedate: tm_goal_duedate === '' ? null : tm_goal_duedate,
             tm_goal_description: tm_goal_description === '' ? null : tm_goal_description,
             tm_goal_status: tm_goal_status === 1 ? true : false,
+            tm_goal_cmpledate: tm_goal_cmpledate === '' ? null : tm_goal_cmpledate,
             tm_goal_edituser: id,
         }
         setgoalMast(frmdata)

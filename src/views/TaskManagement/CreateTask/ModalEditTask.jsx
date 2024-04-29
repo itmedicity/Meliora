@@ -24,11 +24,11 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import moment from 'moment';
-const ModalEditTask = ({
-    open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount, searchFlag, setTabledata, taskcount, settaskcount, statuscount, setstatuscount }) => {
-
+const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount, searchFlag, setTabledata, taskcount, settaskcount,
+    statuscount, setstatuscount }) => {
 
     const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, em_name, create_date, tm_project_name, tm_task_due_date } = masterData
+
     const dispatch = useDispatch();
     const [departmentMast, setdepartmentMast] = useState(0)
     const [departmentSecMast, setdepartmentSecMast] = useState(0)
@@ -52,6 +52,10 @@ const ModalEditTask = ({
     const [progressCount, setprogressCount] = useState(0)
     const [completeFlag, setCompleteFlag] = useState(0)
     const [changeAssignee, setchangeAssignee] = useState(0)
+
+    let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+
+
     const id = useSelector((state) => { return state.LoginUserData.empid })
     const [taskData, setTaskData] = useState({
         tm_task_slno: '',
@@ -61,6 +65,7 @@ const ModalEditTask = ({
         pendingRemarks: '',
         onHoldRemaks: '',
         completedRemarks: '',
+
     })
 
     const { taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } = taskData
@@ -373,9 +378,13 @@ const ModalEditTask = ({
             tm_onhold_remarks: onHoldRemaks === '' ? null : onHoldRemaks,
             tm_completed_remarks: completedRemarks === '' ? null : completedRemarks,
             tm_project_slno: projectz === 0 ? null : projectz,
-
+            tm_complete_date: completed === true ? newDate : null
         }
-    }, [tm_task_slno, taskName, checkFlag, dueDate, description, departmentMast, departmentSecMast, pendingRemarks, onHoldRemaks, completedRemarks, projectz,])
+    }, [tm_task_slno, taskName, checkFlag, dueDate, description, departmentMast, departmentSecMast, pendingRemarks, onHoldRemaks, completedRemarks, projectz,
+        completed, newDate])
+
+
+
 
     const postEmpDetails = employeeMast && employeeMast.map((val) => {
         return {
@@ -1122,6 +1131,7 @@ const ModalEditTask = ({
                                             <TextFieldCustom
                                                 slotProps={{
                                                     input: {
+                                                        min: create_date,
                                                         max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
                                                     },
                                                 }}

@@ -15,6 +15,7 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TmGoalsList from 'src/views/CommonSelectCode/TmGoalsList'
 import { getGoalsList } from 'src/redux/actions/TmGoalsList.action'
+import moment from 'moment'
 
 
 const ProjectMaster = () => {
@@ -25,6 +26,7 @@ const ProjectMaster = () => {
     const [tableCount, settableCount] = useState(0)
     const [value, setvalue] = useState(0)
     const [goalz, setgoalz] = useState(0)
+    let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     useEffect(() => {
         dispatch(getDepartment())
     }, [dispatch,])
@@ -41,10 +43,11 @@ const ProjectMaster = () => {
         tm_project_duedate: '',
         tm_project_description: '',
         tm_project_status: false,
+        tm_project_cmpltedate: ''
 
 
     })
-    const { tm_project_slno, tm_project_name, tm_project_duedate, tm_project_description, tm_project_status, } = projectMast
+    const { tm_project_slno, tm_project_name, tm_project_duedate, tm_project_description, tm_project_status, tm_project_cmpltedate } = projectMast
     const ProjectMastUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -60,11 +63,12 @@ const ProjectMaster = () => {
             tm_project_duedate: tm_project_duedate === '' ? null : tm_project_duedate,
             tm_project_description: tm_project_description === '' ? null : tm_project_description,
             tm_project_status: tm_project_status === true ? 1 : 0,
+            tm_project_cmpltedate: tm_project_cmpltedate === '' ? null : tm_project_cmpltedate,
             tm_goal_slno: goalz === 0 ? null : goalz,
             tm_project_create_user: id,
 
         }
-    }, [tm_project_name, department, deptsec, tm_project_duedate, tm_project_description, tm_project_status, goalz, id])
+    }, [tm_project_name, department, deptsec, tm_project_duedate, tm_project_description, tm_project_status, tm_project_cmpltedate, goalz, id])
 
 
 
@@ -80,10 +84,11 @@ const ProjectMaster = () => {
             tm_project_duedate: tm_project_duedate === '' ? null : tm_project_duedate,
             tm_project_description: tm_project_description === '' ? null : tm_project_description,
             tm_project_status: tm_project_status === true ? 1 : 0,
+            tm_project_cmpltedate: tm_project_status === true ? newDate : null,
             tm_goal_slno: goalz === 0 ? null : goalz,
             tm_project_edit_user: id,
         }
-    }, [tm_project_slno, tm_project_name, department, deptsec, tm_project_duedate, tm_project_description, tm_project_status, goalz, id])
+    }, [tm_project_slno, tm_project_name, department, deptsec, tm_project_duedate, tm_project_description, tm_project_status, goalz, newDate, id])
 
 
 
@@ -92,7 +97,8 @@ const ProjectMaster = () => {
             tm_project_slno: '',
             tm_project_name: '',
             tm_project_duedate: '',
-            tm_project_description: ''
+            tm_project_description: '',
+            tm_project_cmpltedate: ''
         }
         setprojectMast(form)
         setDepartment(0)
@@ -110,6 +116,7 @@ const ProjectMaster = () => {
             tm_project_duedate,
             tm_project_description,
             tm_project_status,
+            tm_project_cmpltedate,
             tm_goal_slno
         } = data
 
@@ -119,6 +126,7 @@ const ProjectMaster = () => {
             tm_project_duedate: tm_project_duedate === '' ? null : tm_project_duedate,
             tm_project_description: tm_project_description === '' ? null : tm_project_description,
             tm_project_status: tm_project_status === 1 ? true : false,
+            tm_project_cmpltedate: tm_project_cmpltedate === '' ? null : tm_project_cmpltedate,
             tm_project_edit_user: id,
         }
         setprojectMast(frmdata)

@@ -26,10 +26,10 @@ const EmpTaskUderProject = ({ val }) => {
                 const newData = data?.filter((val) => (val.tm_assigne_emp === tm_assigne_emp))
                 setAllTaskUnderProject(newData)
                 const othertask = data?.filter((val) => (val.tm_assigne_emp !== tm_assigne_emp))
-                const xx = othertask.filter((val) => {
+                const otherTaskks = othertask.filter((val) => {
                     return !newData.find((value) => value.tm_task_slno === val.tm_task_slno)
                 })
-                setOtherempTask(xx)
+                setOtherempTask(otherTaskks)
             }
         }
         getEmpTask(searchData)
@@ -39,6 +39,7 @@ const EmpTaskUderProject = ({ val }) => {
         const due = new Date(tm_task_due_date);
         return due < today
     }
+
     return (
         <Box sx={{ maxHeight: 400, overflow: 'auto', mt: .5 }} >
             {
@@ -77,13 +78,11 @@ const EmpTaskUderProject = ({ val }) => {
                                 </Tooltip>
                                 <Tooltip>
                                     {val.tm_task_status !== 1 ?
-                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: .9 }}>
+                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1 }}>
                                             <CountDowncomponent DueDates={val.tm_task_due_date} />
                                         </Box> :
-                                        <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
-                                            <Box sx={{ flex: .5, }}></Box>
-                                            <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;hh&nbsp;:00&nbsp;mm&nbsp;:00&nbsp;ss</Box>
-                                            <Box sx={{ flex: .5 }}></Box>
+                                        <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, justifyContent: 'center' }}>
+                                            completed
                                         </Box>
                                     }
                                 </Tooltip>

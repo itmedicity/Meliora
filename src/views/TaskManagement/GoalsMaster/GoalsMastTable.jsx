@@ -124,22 +124,6 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                                 deptsec={deptsecs}
                                 setDeptSec={setDeptSecs} />
                         </Box>
-                        {/* <Box sx={{ pt: 4, px: 1, flex: 1, }}>
-                            <CssVarsProvider>
-                                <Tooltip title="search" placement="top">
-                                    <ContentPasteSearchIcon sx={{ color: '#274472', cursor: 'pointer' }}
-                                        onClick={DeptSearch}
-                                    />
-                                </Tooltip>
-                            </CssVarsProvider>
-                            <CssVarsProvider  >
-                                <Tooltip title="Refresh" placement="top">
-                                    <RefreshIcon sx={{ color: '#274472', cursor: 'pointer' }}
-                                        onClick={Refreshh}
-                                    />
-                                </Tooltip>
-                            </CssVarsProvider>
-                        </Box> */}
                         <Box sx={{ pt: 3.5, px: .5, flex: 1, display: 'flex' }}>
                             <Box sx={{ pr: .5 }}>
                                 <CusIconButton size="sm" variant="outlined" color="primary"  >
@@ -179,7 +163,7 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                                             <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
                                             <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
                                             <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
-                                            <th style={{ width: 250, fontFamily: 'Georgia', }}>CountDoun</th>
+                                            <th style={{ width: 200, fontFamily: 'Georgia', }}>CountDoun</th>
                                             <th style={{ width: 500, fontFamily: 'Georgia', }}>Goals</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Section</th>
@@ -208,12 +192,12 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                                                         }}>{val.GoalStatus}</td>
                                                     <td>
                                                         {val.tm_goal_status !== 1 ?
-                                                            <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: .9 }}>
+                                                            <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', px: .5, flex: .9, borderRadius: 20 }}>
                                                                 <CountDowncomponent DueDates={val.tm_goal_duedate} />
                                                             </Box> :
-                                                            <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
+                                                            <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', px: .5, flex: 1, borderRadius: 20 }}>
                                                                 <Box sx={{ flex: .5, }}></Box>
-                                                                <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;hh&nbsp;:00&nbsp;mm&nbsp;:00&nbsp;ss</Box>
+                                                                <Box sx={{ flex: 1, }}> completed</Box>
                                                                 <Box sx={{ flex: .5 }}></Box>
                                                             </Box>
                                                         }

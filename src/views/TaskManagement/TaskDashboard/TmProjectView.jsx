@@ -105,12 +105,12 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                                                     }}>{val.tm_project_status === 0 ? 'Incompleted' : val.tm_project_status === 1 ? 'Completed' : 'not given'}</td>
                                                 <td>
                                                     {val.tm_project_status !== 1 ?
-                                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: .9 }}>
+                                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: .9, borderRadius: 20 }}>
                                                             <CountDowncomponent DueDates={val.tm_project_duedate} />
                                                         </Box> :
-                                                        <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
+                                                        <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, borderRadius: 20 }}>
                                                             <Box sx={{ flex: .5, }}></Box>
-                                                            <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:&nbsp;00&nbsp;hh&nbsp;:&nbsp;00&nbsp;mm&nbsp;:&nbsp;00ss</Box>
+                                                            <Box sx={{ flex: 1, }}>completed</Box>
                                                             <Box sx={{ flex: .5 }}></Box>
                                                         </Box>
                                                     }

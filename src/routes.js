@@ -134,9 +134,9 @@ const RoomAsset = React.lazy(() => import('./views/RoomManagement/DashBoard/Dash
 const ItemCreation = React.lazy(() => import('./views/AssetManagment/ItemCreation/ItemCreationMast'))
 const DashboardBackup = React.lazy(() => import('./views/ItManagement/DashboardBackup/Newdashboard'))
 const PasswordManagement = React.lazy(() => import('./views/ItManagement/PasswordManagement/PasswordManagement'))
-const CommunicationDevice = React.lazy(() => import('./views/ItManagement/CommunicationDeviceDetails/CommunicationDevice'))
+const CommunicationDevice = React.lazy(() => import('./views/ItManagement/Communication'))
 const BackupChecks = React.lazy(() => import('./views/ItManagement/BackupChecksAndMonitoring/BackupChecks'))
-const DeviceType = React.lazy(() => import('./views/Master/ItMasters/communicationDevice/DeviceTypeMaster'))
+const SimType = React.lazy(() => import('./views/Master/ItMasters/BillManagement/SimType/SimTypeMaster'))
 const WifiManageMenT = React.lazy(() => import('./views/ItManagement/WifiManagement/WifiManageMentMains'))
 const CustodianDeptmt = React.lazy(() => import('./views/Master/AssetMasters/CustodianDepartment/CustodianDeptMast'))
 const AssetItemListView = React.lazy(() => import('./views/AssetManagment/ItemListView/ItemListViewDept'))
@@ -197,8 +197,12 @@ const CRFNewPdfView = React.lazy(() => import('./views/CentralRequestManagement/
 const CRFNewPurchase = React.lazy(() => import('./views/CentralRequestManagement/PurchaseProcess/PurchaseTablemain'))
 const CRFNewCRSStore = React.lazy(() => import('./views/CentralRequestManagement/CrfStoreProcess/CrfStoreProcessMain'))
 const CRFNewStore = React.lazy(() => import('./views/CentralRequestManagement/CrfSubStores/CrfSubStoreMain'))
-const BillAdds = React.lazy(() => import('./views/ItManagement/BillAdd/BillAddsMain'))
+const BillAdds = React.lazy(() => import('./views/ItManagement/BillAdd/BillDashBoardMain'))
 const IncHodAuthorization = React.lazy(() => import('./views/Master/AuthorizationMaster/AuthorizationMast'))
+const BillCategory = React.lazy(() => import('./views/Master/ItMasters/BillManagement/BillCategory/BillCategoryMaster'))
+const BillType = React.lazy(() => import('./views/Master/ItMasters/BillManagement/BillType/BillTypeMaster'))
+const BillSupplierDetailsMast = React.lazy(() => import('./views/Master/ItMasters/BillManagement/SupplierDetailsMast/SupplierDetails'))
+
 const QIdept = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QIDeptMast/QualityIndDeptMast'))
 const QIPatientMarking = React.lazy(() => import('./views/QualityIndicatorNew/DepartmentWisePatientMarking'))
 const DataTransferHRM = React.lazy(() => import('./views/Master/DataImportFrmHR/DataImportHR'))
@@ -344,7 +348,7 @@ const routes = [
   { path: '/Home/PasswordManagement', exact: true, name: 'Password Management', component: PasswordManagement },
   { path: '/Home/CommunicationDevice', exact: true, name: 'Communication Device Details', component: CommunicationDevice },
   { path: '/Home/BackupChecks', exact: true, name: 'Backup Checks & Monitoring', component: BackupChecks },
-  { path: '/Home/DeviceType', exact: true, name: 'Device Type', component: DeviceType },
+  { path: '/Home/SimType', exact: true, name: 'Device Type', component: SimType },
   { path: '/Home/WifiManageMenT', exact: true, name: 'Wifi Management', component: WifiManageMenT },
   { path: '/Home/CusodianDepartment', exact: true, name: 'Custodian Department', component: CustodianDeptmt },
   { path: '/Home/AssetItemListView', exact: true, name: 'Asset Item List View', component: AssetItemListView },
@@ -406,8 +410,10 @@ const routes = [
   { path: '/Home/CRFNewCRSStore', exact: true, name: 'CRF New CRS Store', component: CRFNewCRSStore },
   { path: '/Home/CRFNewStore', exact: true, name: 'CRF New Store', component: CRFNewStore },
   { path: '/Home/Authorization', exact: true, name: 'Incharge/HOD Authorization', component: IncHodAuthorization },
-  { path: '/Home/BillAdds', exact: true, name: 'IP Address Details', component: BillAdds },
-
+  { path: '/Home/BillAdds', exact: true, name: 'Bill Adds', component: BillAdds },
+  { path: '/Home/BillCategory', exact: true, name: 'Bill Category', component: BillCategory },
+  { path: '/Home/BillType', exact: true, name: 'Bill Type', component: BillType },
+  { path: '/Home/BillSupplierDetailsMast', exact: true, name: 'Bill Supplier Details Mast', component: BillSupplierDetailsMast },
   { path: '/Home/QIDeptMast', exact: true, name: 'Quality Department Mast', component: QIdept },
   { path: '/Home/QIPatientMarking', exact: true, name: 'Dept Wise Patient Marking', component: QIPatientMarking },
 

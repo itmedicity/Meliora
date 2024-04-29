@@ -41,8 +41,8 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                     const obj = {
                         tm_project_slno: val.tm_project_slno,
                         tm_project_name: val.tm_project_name,
-                        dept_name: (val.dept_name).toLowerCase(),
-                        sec_name: (val.sec_name).toLowerCase(),
+                        dept_name: val.dept_name,
+                        sec_name: val.sec_name,
                         tm_project_dept: val.tm_project_dept,
                         tm_project_deptsec: val.tm_project_deptsec,
                         tm_project_duedate: val.tm_project_duedate,
@@ -72,8 +72,8 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                         const obj = {
                             tm_project_slno: val.tm_project_slno,
                             tm_project_name: val.tm_project_name,
-                            dept_name: (val.dept_name).toLowerCase(),
-                            sec_name: (val.sec_name).toLowerCase(),
+                            dept_name: val.dept_name,
+                            sec_name: val.sec_name,
                             tm_project_dept: val.tm_project_dept,
                             tm_project_deptsec: val.tm_project_deptsec,
                             tm_project_duedate: val.tm_project_duedate,
@@ -167,7 +167,7 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                                         <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
                                         <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
                                         <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
-                                        <th style={{ width: 220, fontFamily: 'Georgia', }}>CountDoun</th>
+                                        <th style={{ width: 200, fontFamily: 'Georgia', }}>CountDoun</th>
                                         <th style={{ width: 300, fontFamily: 'Georgia', }}>Goal</th>
                                         <th style={{ width: 500, fontFamily: 'Georgia', }}>Projects</th>
                                         <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
@@ -195,12 +195,12 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                                                     }}>{val.ProjectStatus}</td>
                                                 <td>
                                                     {val.tm_project_status !== 1 ?
-                                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: .9 }}>
+                                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', px: .5, flex: .9, borderRadius: 20 }}>
                                                             <CountDowncomponent DueDates={val.tm_project_duedate} />
                                                         </Box> :
-                                                        <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
+                                                        <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', px: .5, flex: 1, borderRadius: 20 }}>
                                                             <Box sx={{ flex: .5, }}></Box>
-                                                            <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:&nbsp;00&nbsp;hh&nbsp;:&nbsp;00&nbsp;mm&nbsp;:&nbsp;00&nbsp;ss</Box>
+                                                            <Box sx={{ flex: 1, }}>completed</Box>
                                                             <Box sx={{ flex: .5 }}></Box>
                                                         </Box>
                                                     }
