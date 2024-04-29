@@ -7,8 +7,7 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
-import EditIcon from '@mui/icons-material/Edit';
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 // import imageCompression from 'browser-image-compression';
 // import UploadFileIcon from '@mui/icons-material/UploadFile'
@@ -58,32 +57,6 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
         }
         setLeaseStatus(am_lease_status === 1 ? true : false)
     }, [am_lease_status, am_lease_from, am_lease_to, am_lease_amount, am_lease_image])
-
-    const postdata = useMemo(() => {
-        return {
-            am_item_map_slno: am_item_map_slno,
-            am_lease_status: LeaseStatus === true ? 1 : 0,
-            am_lease_from: fromDate,
-            am_lease_to: toDate,
-            am_lease_amount: leaseAmount,
-            am_lease_image: 1,
-            // am_lease_image: leaseFile !== null ? 1 : 0,
-            create_user: id
-        }
-    }, [am_item_map_slno, LeaseStatus, fromDate, toDate, leaseAmount, id])
-
-    const postdataSpare = useMemo(() => {
-        return {
-            am_spare_item_map_slno: am_spare_item_map_slno,
-            am_lease_status: LeaseStatus === true ? 1 : 0,
-            am_lease_from: fromDate,
-            am_lease_to: toDate,
-            am_lease_amount: leaseAmount,
-            am_lease_image: 1,
-            // am_lease_image: leaseFile !== null ? 1 : 0,
-            create_user: id
-        }
-    }, [am_spare_item_map_slno, LeaseStatus, fromDate, toDate, leaseAmount, id])
 
     const patchData = useMemo(() => {
         return {
@@ -135,38 +108,6 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
     // const ViewImage = useCallback(() => {
 
     // }, [])
-
-    const SaveLeaseDetails = useCallback((e) => {
-        e.preventDefault()
-        const InsertLeaseDetail = async (postdata) => {
-            const result = await axioslogin.post('/ItemMapDetails/LeaseDetailsInsert', postdata)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNotify(message)
-                setExist(1)
-            } else {
-                infoNotify(message)
-            }
-        }
-
-        const InsertLeaseDetailSpare = async (postdataSpare) => {
-            const result = await axioslogin.post('/ItemMapDetails/LeaseDetailsInsertSpare', postdataSpare)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNotify(message)
-                setExist(1)
-            } else {
-                infoNotify(message)
-            }
-        }
-
-        if (assetSpare === 1) {
-            InsertLeaseDetail(postdata);
-        } else {
-            InsertLeaseDetailSpare(postdataSpare)
-        }
-    }, [postdata, setExist, assetSpare, postdataSpare])
-
 
     const EditDetails = useCallback((e) => {
         e.preventDefault()
@@ -338,40 +279,13 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
 
                             </Box> */}
 
-                            {
-                                exist === 0 ? <CustomeToolTip title="Save" placement="top" >
-                                    <Box sx={{ width: '3%', pt: 3, }}>
-                                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SaveLeaseDetails} >
-                                            <LibraryAddIcon fontSize='small' />
-                                        </CusIconButton>
-                                    </Box>
-                                </CustomeToolTip> :
-                                    <CustomeToolTip title="Save" placement="top" >
-                                        <Box sx={{ width: '3%', pt: 3, }}>
-                                            <CusIconButton size="sm" variant="outlined"  >
-                                                <LibraryAddIcon fontSize='small' />
-                                            </CusIconButton>
-                                        </Box>
-                                    </CustomeToolTip>
-
-                            }
-                            {
-                                exist === 0 ?
-                                    <CustomeToolTip title="Edit" placement="top" >
-                                        <Box sx={{ width: '3%', pl: 0.5, pt: 3, }}>
-                                            <CusIconButton size="sm" variant="outlined"  >
-                                                <EditIcon fontSize='small' />
-                                            </CusIconButton>
-                                        </Box>
-                                    </CustomeToolTip> :
-                                    <CustomeToolTip title="Edit" placement="top" >
-                                        <Box sx={{ width: '3%', pl: 0.5, pt: 3, }}>
-                                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails} >
-                                                <EditIcon fontSize='small' />
-                                            </CusIconButton>
-                                        </Box>
-                                    </CustomeToolTip>
-                            }
+                            <CustomeToolTip title="Save" placement="top" >
+                                <Box sx={{ width: '3%', pl: 0.5, pt: 3, }}>
+                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails} >
+                                        <LibraryAddIcon fontSize='small' />
+                                    </CusIconButton>
+                                </Box>
+                            </CustomeToolTip>
                             <CustomeToolTip title="Refresh" placement="top" >
                                 <Box sx={{ width: '3%', pl: 1.5, pt: 3, }}>
                                     <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={DeviceRefresh} >

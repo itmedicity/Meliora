@@ -7,10 +7,10 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
-import EditIcon from '@mui/icons-material/Edit';
+
 // import imageCompression from 'browser-image-compression';
 // import UploadFileIcon from '@mui/icons-material/UploadFile'
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { format } from 'date-fns'
 
 
@@ -70,31 +70,6 @@ const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpar
 
     // }, [])
 
-    const billpostData = useMemo(() => {
-        return {
-            am_item_map_slno: am_item_map_slno,
-            am_bill_no: billNo,
-            am_bill_date: billDate,
-            am_bill_amount: billamount,
-            am_bill_vendor_detail: bill_vendor_detail,
-            am_bill_image: 1,
-            // am_bill_image: selectFile !== null ? 1 : 0,
-            create_user: id
-        }
-    }, [am_item_map_slno, billNo, billDate, billamount, bill_vendor_detail, id])
-
-    const billpostDataSpare = useMemo(() => {
-        return {
-            am_spare_item_map_slno: am_spare_item_map_slno,
-            am_bill_no: billNo,
-            am_bill_date: billDate,
-            am_bill_amount: billamount,
-            am_bill_vendor_detail: bill_vendor_detail,
-            am_bill_image: 1,
-            // am_bill_image: selectFile !== null ? 1 : 0,
-            create_user: id
-        }
-    }, [am_spare_item_map_slno, billNo, billDate, billamount, bill_vendor_detail, id])
 
     const billpatchData = useMemo(() => {
         return {
@@ -134,36 +109,7 @@ const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpar
         setBillData(frmdata)
     }
 
-    const SaveBillDetails = useCallback((e) => {
-        e.preventDefault()
-        const InsertItemDetail = async (billpostData) => {
-            const result = await axioslogin.post('/ItemMapDetails/BillDetailsInsert', billpostData)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNotify(message)
-                setExist(1)
-            } else {
-                infoNotify(message)
-            }
-        }
-        const InsertItemDetailSpare = async (billpostDataSpare) => {
-            const result = await axioslogin.post('/ItemMapDetails/BillDetailsInsertSpare', billpostDataSpare)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNotify(message)
-                setExist(1)
-            } else {
-                infoNotify(message)
-            }
-        }
-        if (assetSpare === 1) {
-            InsertItemDetail(billpostData);
-        } else {
-            InsertItemDetailSpare(billpostDataSpare)
-        }
 
-
-    }, [billpostData, setExist, assetSpare, billpostDataSpare])
 
     const EditDetails = useCallback((e) => {
         e.preventDefault()
@@ -340,40 +286,14 @@ const BillDetailsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpar
                     }
 
                 </Box> */}
-                {
-                    exist === 0 ? <CustomeToolTip title="Save" placement="top" >
-                        <Box sx={{ width: '3%', pl: 2, pt: 3, }}>
-                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SaveBillDetails} >
-                                <LibraryAddIcon fontSize='small' />
-                            </CusIconButton>
-                        </Box>
-                    </CustomeToolTip> :
-                        <CustomeToolTip title="Save" placement="top" >
-                            <Box sx={{ width: '3%', pl: 2, pt: 3, }}>
-                                <CusIconButton size="sm" variant="outlined"  >
-                                    <LibraryAddIcon fontSize='small' />
-                                </CusIconButton>
-                            </Box>
-                        </CustomeToolTip>
 
-                }
-                {
-                    exist === 0 ?
-                        <CustomeToolTip title="Edit" placement="top" >
-                            <Box sx={{ width: '3%', pl: 1, pt: 3, }}>
-                                <CusIconButton size="sm" variant="outlined" >
-                                    <EditIcon fontSize='small' />
-                                </CusIconButton>
-                            </Box>
-                        </CustomeToolTip> :
-                        <CustomeToolTip title="Edit" placement="top" >
-                            <Box sx={{ width: '3%', pl: 1, pt: 3, }}>
-                                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails} >
-                                    <EditIcon fontSize='small' />
-                                </CusIconButton>
-                            </Box>
-                        </CustomeToolTip>
-                }
+                <CustomeToolTip title="Save" placement="top" >
+                    <Box sx={{ width: '3%', pl: 1, pt: 3, }}>
+                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails} >
+                            <LibraryAddIcon fontSize='small' />
+                        </CusIconButton>
+                    </Box>
+                </CustomeToolTip>
                 <CustomeToolTip title="Refresh" placement="top" >
                     <Box sx={{ width: '3%', pt: 3, }}>
                         <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={BillRefresh} >
