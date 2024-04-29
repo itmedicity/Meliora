@@ -182,11 +182,11 @@ const CRFNewIncharge = React.lazy(() => import('./views/CentralRequestManagement
 const CRFNewHOD = React.lazy(() => import('./views/CentralRequestManagement/CrfHodApproval/CrfHodApproval'))
 const CRFNewDMS = React.lazy(() => import('./views/CentralRequestManagement/CrfDmsApproval/CrfDMSApproval'))
 const CRFNewMS = React.lazy(() => import('./views/CentralRequestManagement/CrfMsApproval/CrfMSApproval'))
-const CRFNewMO = React.lazy(() => import('./views/CentralRequestManagement/CrfMOApproval/CrfMOApproval'))
-const CRFNewSMO = React.lazy(() => import('./views/CentralRequestManagement/CrfSMOApproval/CrfSMOApproval'))
-const CRFNewGM = React.lazy(() => import('./views/CentralRequestManagement/CrfGMApproval/CrfGMApproval'))
-const CRFNewMD = React.lazy(() => import('./views/CentralRequestManagement/CrfMDApproval/CrfMDApproval'))
-const CRFNewED = React.lazy(() => import('./views/CentralRequestManagement/CrfEDApproval/CrfEDApproval'))
+const CRFNewMO = React.lazy(() => import('./views/CentralRequestManagement/CrfMOApproval/CrfMOApprovalMain'))
+const CRFNewSMO = React.lazy(() => import('./views/CentralRequestManagement/CrfSMOApproval/CrfSMOApprovalMain'))
+const CRFNewGM = React.lazy(() => import('./views/CentralRequestManagement/CrfGMApproval/CrfGMApprovalMain'))
+const CRFNewMD = React.lazy(() => import('./views/CentralRequestManagement/CrfMDApproval/CrfMDApprovalMain'))
+const CRFNewED = React.lazy(() => import('./views/CentralRequestManagement/CrfEDApproval/CrfEDApprovalMain'))
 const CRFNewDashboard = React.lazy(() => import('./views/CentralRequestManagement/CrfDashboardNew/CrfDashboardMain'))
 const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/AllDepartmentTask/AllDepartmentMain'))
 const DailyCensus = React.lazy(() => (import('./views/DailyCensus/DailyCensusCreate/CensusCreate')))
@@ -199,11 +199,9 @@ const CRFNewCRSStore = React.lazy(() => import('./views/CentralRequestManagement
 const CRFNewStore = React.lazy(() => import('./views/CentralRequestManagement/CrfSubStores/CrfSubStoreMain'))
 const BillAdds = React.lazy(() => import('./views/ItManagement/BillAdd/BillAddsMain'))
 const IncHodAuthorization = React.lazy(() => import('./views/Master/AuthorizationMaster/AuthorizationMast'))
-
-
 const QIdept = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QIDeptMast/QualityIndDeptMast'))
 const QIPatientMarking = React.lazy(() => import('./views/QualityIndicatorNew/DepartmentWisePatientMarking'))
-
+const DataTransferHRM = React.lazy(() => import('./views/Master/DataImportFrmHR/DataImportHR'))
 
 
 const routes = [
@@ -412,6 +410,8 @@ const routes = [
 
   { path: '/Home/QIDeptMast', exact: true, name: 'Quality Department Mast', component: QIdept },
   { path: '/Home/QIPatientMarking', exact: true, name: 'Dept Wise Patient Marking', component: QIPatientMarking },
+
+  { path: '/Home/DataTransferHRM', exact: true, name: 'Data Transfer from HR', component: DataTransferHRM },
 
 ]
 

@@ -409,8 +409,8 @@ const AMCPMComp = ({ detailArry, amcPm, setAmcPm, assetSpare }) => {
                                     <TextFieldCustom
                                         type="text"
                                         size="sm"
-                                        name="fromDate"
-                                        value={fromDate}
+                                        name="address"
+                                        value={address}
                                         onchange={updateAMCCMC}
                                     ></TextFieldCustom>
                                 </Box>
