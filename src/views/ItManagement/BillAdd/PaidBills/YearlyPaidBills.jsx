@@ -40,14 +40,13 @@ const YearlyPaidBills = ({ yearBills }) => {
     const OpenYearBillView = useCallback((value) => {
         const { yearly_slno } = value
         const getbillsFile = async () => {
-            const result = await axioslogin.get(`/ItImageUpload/uploadFile/getQuaterlyBillImages/${yearly_slno}`);
+            const result = await axioslogin.get(`/ItImageUpload/uploadFile/getYearlyBillImages/${yearly_slno}`);
             const { success } = result.data;
             if (success === 1) {
                 const data = result.data;
                 const fileNames = data.data;
                 const fileUrls = fileNames.map((fileName) => {
                     return `${PUBLIC_NAS_FOLDER}/Bills/YearlyBill/${yearly_slno}/${fileName}`;
-                    // return `D:/DocMeliora/Meliora/ItBillManagement/MonthlyBill/${yearly_slno}/${fileName}`;
                 });
                 setFilezUrls(fileUrls);
             } else {

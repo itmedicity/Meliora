@@ -165,9 +165,6 @@ const SupplierDetails = () => {
         it_supplier_saleperson_second_mob_one, it_supplier_saleperson_second_mob_two, it_supplier_saleperson_second_email_one,
         it_supplier_saleperson_second_email_two, id, imdCheck, saleCheck, saleSecCheck, serviceCheck])
 
-
-
-
     const patchdata = useMemo(() => {
 
         return {
@@ -262,42 +259,42 @@ const SupplierDetails = () => {
         } = data
 
         const frmdata = {
-            it_supplier_slno: it_supplier_slno,
-            it_supplier_name: it_supplier_name,
-            it_supplier_land_one: it_supplier_land_one,
-            it_supplier_land_two: it_supplier_land_two,
-            it_supplier_mob_one: it_supplier_mob_one,
-            it_supplier_mob_two: it_supplier_mob_two,
-            it_supplier_email_one: it_supplier_email_one,
-            it_supplier_email_two: it_supplier_email_two,
-            it_supplier_escl_name: it_supplier_escl_name,
-            it_supplier_escl_mob_one: it_supplier_escl_mob_one,
-            it_supplier_escl_mob_two: it_supplier_escl_mob_two,
-            it_supplier_escl_land_one: it_supplier_escl_land_one,
-            it_supplier_escl_land_two: it_supplier_escl_land_two,
-            it_supplier_escl_email_one: it_supplier_escl_email_one,
-            it_supplier_escl_email_two: it_supplier_escl_email_two,
-            it_supplier_servperson_name: it_supplier_servperson_name,
-            it_supplier_servperson_land_one: it_supplier_servperson_land_one,
-            it_supplier_servperson_land_two: it_supplier_servperson_land_two,
-            it_supplier_servperson_mob_one: it_supplier_servperson_mob_one,
-            it_supplier_servperson_mob_two: it_supplier_servperson_mob_two,
-            it_supplier_servperson_email_one: it_supplier_servperson_email_one,
-            it_supplier_servperson_email_two: it_supplier_servperson_email_two,
-            it_supplier_saleperson_name: it_supplier_saleperson_name,
-            it_supplier_saleperson_land_one: it_supplier_saleperson_land_one,
-            it_supplier_saleperson_land_two: it_supplier_saleperson_land_two,
-            it_supplier_saleperson_mob_one: it_supplier_saleperson_mob_one,
-            it_supplier_saleperson_mob_two: it_supplier_saleperson_mob_two,
-            it_supplier_saleperson_email_one: it_supplier_saleperson_email_one,
-            it_supplier_saleperson_email_two: it_supplier_saleperson_email_two,
-            it_supplier_saleperson_second_name: it_supplier_saleperson_second_name,
-            it_supplier_saleperson_second_land_one: it_supplier_saleperson_second_land_one,
-            it_supplier_saleperson_second_land_two: it_supplier_saleperson_second_land_two,
-            it_supplier_saleperson_second_mob_one: it_supplier_saleperson_second_mob_one,
-            it_supplier_saleperson_second_mob_two: it_supplier_saleperson_second_mob_two,
-            it_supplier_saleperson_second_email_one: it_supplier_saleperson_second_email_one,
-            it_supplier_saleperson_second_email_two: it_supplier_saleperson_second_email_two,
+            it_supplier_slno: it_supplier_slno === '' ? null : it_supplier_slno,
+            it_supplier_name: it_supplier_name === '' ? null : it_supplier_name,
+            it_supplier_land_one: it_supplier_land_one === '' ? null : it_supplier_land_one,
+            it_supplier_land_two: it_supplier_land_two === '' ? null : it_supplier_land_two,
+            it_supplier_mob_one: it_supplier_mob_one === '' ? null : it_supplier_mob_one,
+            it_supplier_mob_two: it_supplier_mob_two === '' ? null : it_supplier_mob_two,
+            it_supplier_email_one: it_supplier_email_one === '' ? null : it_supplier_email_one,
+            it_supplier_email_two: it_supplier_email_two === '' ? null : it_supplier_email_two,
+            it_supplier_escl_name: it_supplier_escl_name === '' ? null : it_supplier_escl_name,
+            it_supplier_escl_mob_one: it_supplier_escl_mob_one === '' ? null : it_supplier_escl_mob_one,
+            it_supplier_escl_mob_two: it_supplier_escl_mob_two === '' ? null : it_supplier_escl_mob_two,
+            it_supplier_escl_land_one: it_supplier_escl_land_one === '' ? null : it_supplier_escl_land_one,
+            it_supplier_escl_land_two: it_supplier_escl_land_two === '' ? null : it_supplier_escl_land_two,
+            it_supplier_escl_email_one: it_supplier_escl_email_one === '' ? null : it_supplier_escl_email_one,
+            it_supplier_escl_email_two: it_supplier_escl_email_two === '' ? null : it_supplier_escl_email_two,
+            it_supplier_servperson_name: it_supplier_servperson_name === '' ? null : it_supplier_servperson_name,
+            it_supplier_servperson_land_one: it_supplier_servperson_land_one === '' ? null : it_supplier_servperson_land_one,
+            it_supplier_servperson_land_two: it_supplier_servperson_land_two === '' ? null : it_supplier_servperson_land_two,
+            it_supplier_servperson_mob_one: it_supplier_servperson_mob_one === '' ? null : it_supplier_servperson_mob_one,
+            it_supplier_servperson_mob_two: it_supplier_servperson_mob_two === '' ? null : it_supplier_servperson_mob_two,
+            it_supplier_servperson_email_one: it_supplier_servperson_email_one === '' ? null : it_supplier_servperson_email_one,
+            it_supplier_servperson_email_two: it_supplier_servperson_email_two === '' ? null : it_supplier_servperson_email_two,
+            it_supplier_saleperson_name: it_supplier_saleperson_name === '' ? null : it_supplier_saleperson_name,
+            it_supplier_saleperson_land_one: it_supplier_saleperson_land_one === '' ? null : it_supplier_saleperson_land_one,
+            it_supplier_saleperson_land_two: it_supplier_saleperson_land_two === '' ? null : it_supplier_saleperson_land_two,
+            it_supplier_saleperson_mob_one: it_supplier_saleperson_mob_one === '' ? null : it_supplier_saleperson_mob_one,
+            it_supplier_saleperson_mob_two: it_supplier_saleperson_mob_two === '' ? null : it_supplier_saleperson_mob_two,
+            it_supplier_saleperson_email_one: it_supplier_saleperson_email_one === '' ? null : it_supplier_saleperson_email_one,
+            it_supplier_saleperson_email_two: it_supplier_saleperson_email_two === '' ? null : it_supplier_saleperson_email_two,
+            it_supplier_saleperson_second_name: it_supplier_saleperson_second_name === '' ? null : it_supplier_saleperson_second_name,
+            it_supplier_saleperson_second_land_one: it_supplier_saleperson_second_land_one === '' ? null : it_supplier_saleperson_second_land_one,
+            it_supplier_saleperson_second_land_two: it_supplier_saleperson_second_land_two === '' ? null : it_supplier_saleperson_second_land_two,
+            it_supplier_saleperson_second_mob_one: it_supplier_saleperson_second_mob_one === '' ? null : it_supplier_saleperson_second_mob_one,
+            it_supplier_saleperson_second_mob_two: it_supplier_saleperson_second_mob_two === '' ? null : it_supplier_saleperson_second_mob_two,
+            it_supplier_saleperson_second_email_one: it_supplier_saleperson_second_email_one === '' ? null : it_supplier_saleperson_second_email_one,
+            it_supplier_saleperson_second_email_two: it_supplier_saleperson_second_email_two === '' ? null : it_supplier_saleperson_second_email_two,
             edit_user: id
         }
         setSupplierDetl(frmdata)
@@ -355,63 +352,123 @@ const SupplierDetails = () => {
             const isValidMobileNumber = (number) => /^\d{10}$/.test(number);
             const isEmail = (email) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
 
-            if (it_supplier_mob_one !== '' || it_supplier_mob_two !== '') {
-                if (!isValidMobileNumber(it_supplier_mob_one || it_supplier_mob_two)) {
+            if (it_supplier_mob_one !== '') {
+                if (!isValidMobileNumber(it_supplier_mob_one)) {
                     infoNotify("Please enter a valid 10-digit  mobile number in supplier Details");
                     return;
                 }
             }
-            if (it_supplier_escl_mob_one !== '' || it_supplier_escl_mob_two !== '') {
-                if (!isValidMobileNumber(it_supplier_escl_mob_one || it_supplier_escl_mob_two)) {
+            if (it_supplier_mob_two !== '') {
+                if (!isValidMobileNumber(it_supplier_mob_two)) {
+                    infoNotify("Please enter a valid 10-digit  mobile number(additional) in supplier Details");
+                    return;
+                }
+            }
+            if (it_supplier_escl_mob_one !== '') {
+                if (!isValidMobileNumber(it_supplier_escl_mob_one)) {
                     infoNotify("Please enter a valid 10-digit  mobile number in Immediate Contact Person Details");
                     return;
                 }
             }
-            if (it_supplier_servperson_mob_one !== '' || it_supplier_servperson_mob_two !== '') {
-                if (!isValidMobileNumber(it_supplier_servperson_mob_one || it_supplier_servperson_mob_two)) {
+            if (it_supplier_escl_mob_two !== '') {
+                if (!isValidMobileNumber(it_supplier_escl_mob_two)) {
+                    infoNotify("Please enter a valid 10-digit  mobile number(additional) in Immediate Contact Person Details");
+                    return;
+                }
+            }
+            if (it_supplier_servperson_mob_one !== '') {
+                if (!isValidMobileNumber(it_supplier_servperson_mob_one)) {
                     infoNotify("Please enter a valid 10-digit  mobile number in Service Contact Person Details");
                     return;
                 }
             }
-            if (it_supplier_saleperson_mob_one !== '' || it_supplier_saleperson_mob_two !== '') {
-                if (!isValidMobileNumber(it_supplier_saleperson_mob_one || it_supplier_saleperson_mob_two)) {
+            if (it_supplier_servperson_mob_two !== '') {
+                if (!isValidMobileNumber(it_supplier_servperson_mob_two)) {
+                    infoNotify("Please enter a valid 10-digit  mobile number (additional) in Service Contact Person Details");
+                    return;
+                }
+            }
+            if (it_supplier_saleperson_mob_one !== '') {
+                if (!isValidMobileNumber(it_supplier_saleperson_mob_one)) {
                     infoNotify("Please enter a valid 10-digit  mobile number in Sales Contact Person Details");
                     return;
                 }
             }
-            if (it_supplier_saleperson_second_mob_one !== '' || it_supplier_saleperson_second_mob_two !== '') {
-                if (!isValidMobileNumber(it_supplier_saleperson_second_mob_one && it_supplier_saleperson_second_mob_two)) {
+            if (it_supplier_saleperson_mob_two !== '') {
+                if (!isValidMobileNumber(it_supplier_saleperson_mob_two)) {
+                    infoNotify("Please enter a valid 10-digit  mobile number(additional) in Sales Contact Person Details");
+                    return;
+                }
+            }
+            if (it_supplier_saleperson_second_mob_one !== '') {
+                if (!isValidMobileNumber(it_supplier_saleperson_second_mob_one)) {
                     infoNotify("Please enter a valid 10-digit  mobile number in Secondary Sales Contact Person Details");
                     return;
                 }
             }
-            if (it_supplier_email_one !== '' || it_supplier_email_two !== '') {
-                if (!isEmail(it_supplier_email_one && it_supplier_email_two)) {
+            if (it_supplier_saleperson_second_mob_two !== '') {
+                if (!isValidMobileNumber(it_supplier_saleperson_second_mob_two)) {
+                    infoNotify("Please enter a valid 10-digit  mobile number (additional) in Secondary Sales Contact Person Details");
+                    return;
+                }
+            }
+            if (it_supplier_email_one !== '') {
+                if (!isEmail(it_supplier_email_one)) {
                     infoNotify("Please enter a valid email Address in supplier Details");
                     return;
                 }
             }
-            if (it_supplier_escl_email_one !== '' || it_supplier_escl_email_two !== '') {
-                if (!isEmail(it_supplier_escl_email_one || it_supplier_escl_email_two)) {
+            if (it_supplier_email_two !== '') {
+                if (!isEmail(it_supplier_email_two)) {
+                    infoNotify("Please enter a valid additional email Address in supplier Details");
+                    return;
+                }
+            }
+            if (it_supplier_escl_email_one !== '') {
+                if (!isEmail(it_supplier_escl_email_one)) {
                     infoNotify("Please enter a valid email address in immediate contact person Details");
                     return;
                 }
             }
-            if (it_supplier_servperson_email_one !== '' || it_supplier_servperson_email_two !== '') {
-                if (!isEmail(it_supplier_servperson_email_one || it_supplier_servperson_email_two)) {
+            if (it_supplier_escl_email_two !== '') {
+                if (!isEmail(it_supplier_escl_email_two)) {
+                    infoNotify("Please enter a valid email address (additional) in immediate contact person Details");
+                    return;
+                }
+            }
+            if (it_supplier_servperson_email_one !== '') {
+                if (!isEmail(it_supplier_servperson_email_one)) {
                     infoNotify("Please enter a valid email address in immediate contact person Details");
                     return;
                 }
             }
-            if (it_supplier_saleperson_email_one !== '' || it_supplier_saleperson_email_two !== '') {
-                if (!isEmail(it_supplier_saleperson_email_one || it_supplier_saleperson_email_two)) {
+            if (it_supplier_servperson_email_two !== '') {
+                if (!isEmail(it_supplier_servperson_email_two)) {
+                    infoNotify("Please enter a valid email address (additional) in immediate contact person Details");
+                    return;
+                }
+            }
+            if (it_supplier_saleperson_email_one !== '') {
+                if (!isEmail(it_supplier_saleperson_email_one)) {
                     infoNotify("Please enter a valid email address in immediate contact person Details");
                     return;
                 }
             }
-            if (it_supplier_saleperson_second_email_one !== '' || it_supplier_saleperson_email_two !== '') {
-                if (!isEmail(it_supplier_saleperson_second_email_one || it_supplier_saleperson_second_email_two)) {
+            if (it_supplier_saleperson_email_two !== '') {
+                if (!isEmail(it_supplier_saleperson_email_two)) {
+                    infoNotify("Please enter a valid email address(additional) in immediate contact person Details");
+                    return;
+                }
+            }
+            if (it_supplier_saleperson_second_email_one !== '') {
+                if (!isEmail(it_supplier_saleperson_second_email_one)) {
                     infoNotify("Please enter a valid email address in immediate contact person Details");
+                    return;
+                }
+            }
+            if (it_supplier_saleperson_email_two !== '') {
+                if (!isEmail(it_supplier_saleperson_second_email_two)) {
+                    infoNotify("Please enter a valid email address(additional) in immediate contact person Details");
                     return;
                 }
             }
@@ -513,8 +570,8 @@ const SupplierDetails = () => {
                                 <Divider sx={{ '--Divider-childPosition': `1%`, fontWeight: 600, fontSize: 18, color: '#54627B' }}>Supplier Details</Divider>
                             </CssVarsProvider>
                             <Box sx={{ px: 2, pt: 2 }}>
-                                <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>Supplier Name<span style={{ color: '#74112F' }} >*</span>&nbsp;:</Box>
-                                <Box sx={{ flex: 1, }}>
+                                <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>Supplier Name<span style={{ color: '#74112F' }} >*</span>&nbsp;:</Box>
+                                <Box sx={{ flex: 1, fontWeight: 600 }}>
                                     <TextFieldCustom
                                         placeholder=" supplier name"
                                         type="text"
@@ -527,10 +584,10 @@ const SupplierDetails = () => {
                             </Box>
                             <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                 <Box sx={{ flex: 1, px: .5 }}>
-                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                         Phone No. 1<span style={{ color: '#74112F' }} >*</span>
                                     </Box>
-                                    <Box sx={{}}>
+                                    <Box sx={{ fontWeight: 600 }}>
                                         <TextFieldCustom
 
                                             placeholder="enter phone no."
@@ -543,11 +600,11 @@ const SupplierDetails = () => {
                                     </Box>
                                 </Box>
                                 <Box sx={{ flex: 1, px: .5 }}>
-                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                         Phone No. 2
                                         {/* <span style={{ color: '#74112F' }} >*</span> */}
                                     </Box>
-                                    <Box sx={{}}>
+                                    <Box sx={{ fontWeight: 600 }}>
                                         <TextFieldCustom
                                             placeholder="enter additional phone no."
                                             type="number"
@@ -561,10 +618,10 @@ const SupplierDetails = () => {
                             </Box>
                             <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                 <Box sx={{ flex: 1, px: .5 }}>
-                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                         Mobile No. 1<span style={{ color: '#74112F' }} >*</span>
                                     </Box>
-                                    <Box sx={{}}>
+                                    <Box sx={{ fontWeight: 600 }}>
                                         <TextFieldCustom
                                             placeholder="enter mobile number"
                                             type="number"
@@ -577,11 +634,11 @@ const SupplierDetails = () => {
                                     </Box>
                                 </Box>
                                 <Box sx={{ flex: 1, px: .5 }}>
-                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                         Mobile No. 2
                                         {/* <span style={{ color: '#74112F' }} >*</span> */}
                                     </Box>
-                                    <Box sx={{}}>
+                                    <Box sx={{ fontWeight: 600 }}>
                                         <TextFieldCustom
                                             placeholder=" enter additional mobile number"
                                             type="number"
@@ -595,10 +652,10 @@ const SupplierDetails = () => {
                             </Box>
                             <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                 <Box sx={{ flex: 1, px: .5 }}>
-                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                         Email Id 1<span style={{ color: '#74112F' }} >*</span>
                                     </Box>
-                                    <Box sx={{}}>
+                                    <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                         <TextFieldCustom
                                             placeholder="example@gmail.com"
                                             type='text'
@@ -610,7 +667,7 @@ const SupplierDetails = () => {
                                     </Box>
                                 </Box>
                                 <Box sx={{ flex: 1, px: .5 }}>
-                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                         Email Id 2
                                         {/* <span style={{ color: '#74112F' }} >*</span> */}
                                     </Box>
@@ -642,8 +699,8 @@ const SupplierDetails = () => {
                                             onCheked={CheckImmediate}>
                                         </CusCheckBox>
                                     </Box>
-                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', flex: 1, pl: .5 }}>Person Name<span style={{ color: '#74112F' }} >*</span> &nbsp;:</Box>
-                                    <Box sx={{ flex: 1, }}>
+                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', flex: 1, pl: .5 }}>Person Name<span style={{ color: '#74112F' }} >*</span> &nbsp;:</Box>
+                                    <Box sx={{ flex: 1, fontWeight: 600, fontSize: 12, }}>
                                         {imdCheck === true ?
                                             <TextFieldCustom
                                                 placeholder="person name"
@@ -666,10 +723,10 @@ const SupplierDetails = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Phone No. 1<span style={{ color: '#74112F' }} >*</span>
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {imdCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder=" enter phone number"
@@ -691,10 +748,10 @@ const SupplierDetails = () => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Phone No. 2
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {imdCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="enter additional phone no."
@@ -718,10 +775,10 @@ const SupplierDetails = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Mobile No. 1<span style={{ color: '#74112F' }} >*</span>
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {imdCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="enter mobile number"
@@ -743,10 +800,10 @@ const SupplierDetails = () => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Mobile No. 2
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {imdCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="enter additional mobile number"
@@ -769,10 +826,10 @@ const SupplierDetails = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Email Id 1<span style={{ color: '#74112F' }} >*</span>
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {imdCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="example@gmail.com"
@@ -793,10 +850,10 @@ const SupplierDetails = () => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Email Id 2
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {imdCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="example@gmail.com"
@@ -832,8 +889,8 @@ const SupplierDetails = () => {
                                             onCheked={CheckService}>
                                         </CusCheckBox>
                                     </Box>
-                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', flex: 1, pl: .5 }}>Person Name <span style={{ color: '#74112F' }} >*</span>&nbsp;:</Box>
-                                    <Box sx={{ flex: 1, }}>
+                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', flex: 1, pl: .5 }}>Person Name <span style={{ color: '#74112F' }} >*</span>&nbsp;:</Box>
+                                    <Box sx={{ flex: 1, fontWeight: 600, fontSize: 12, }}>
                                         {serviceCheck === true ?
                                             <TextFieldCustom
                                                 placeholder="Person Name"
@@ -855,10 +912,10 @@ const SupplierDetails = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Phone No. 1<span style={{ color: '#74112F' }} >*</span>
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {serviceCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder=" enter phone number"
@@ -880,10 +937,10 @@ const SupplierDetails = () => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Phone No. 2
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {serviceCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder=" enter additional phone no."
@@ -906,10 +963,10 @@ const SupplierDetails = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Mobile No. 1<span style={{ color: '#74112F' }} >*</span>
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {serviceCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="enter mobile number"
@@ -930,10 +987,10 @@ const SupplierDetails = () => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Mobile No. 2
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {serviceCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder=" enter additional mobile number"
@@ -956,10 +1013,10 @@ const SupplierDetails = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Email Id 1<span style={{ color: '#74112F' }} >*</span>
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {serviceCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="example@gmail.com"
@@ -980,10 +1037,10 @@ const SupplierDetails = () => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Email Id 2
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {serviceCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="example@gmail.com"
@@ -1022,8 +1079,8 @@ const SupplierDetails = () => {
                                         >
                                         </CusCheckBox>
                                     </Box>
-                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', flex: 1, pl: .5 }}>Person Name<span style={{ color: '#74112F' }} >*</span> &nbsp;:</Box>
-                                    <Box sx={{ flex: 1, }}>
+                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', flex: 1, pl: .5 }}>Person Name<span style={{ color: '#74112F' }} >*</span> &nbsp;:</Box>
+                                    <Box sx={{ flex: 1, fontWeight: 600, fontSize: 12, }}>
                                         {saleCheck === true ?
                                             <TextFieldCustom
                                                 placeholder="Person Name"
@@ -1046,10 +1103,10 @@ const SupplierDetails = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Phone No. 1<span style={{ color: '#74112F' }} >*</span>
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {saleCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder=" enter phone number"
@@ -1070,10 +1127,10 @@ const SupplierDetails = () => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Phone No. 2
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {saleCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder=" enter additional phone no."
@@ -1096,10 +1153,10 @@ const SupplierDetails = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Mobile No. 1<span style={{ color: '#74112F' }} >*</span>
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {saleCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="enter mobile number"
@@ -1120,10 +1177,10 @@ const SupplierDetails = () => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Mobile No. 2
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {saleCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="enter additional mobile number"
@@ -1146,10 +1203,10 @@ const SupplierDetails = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Email Id 1<span style={{ color: '#74112F' }} >*</span>
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {saleCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="example@gmail.com"
@@ -1170,10 +1227,10 @@ const SupplierDetails = () => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Email Id 2
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {saleCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="example@gmail.com"
@@ -1210,8 +1267,8 @@ const SupplierDetails = () => {
                                         >
                                         </CusCheckBox>
                                     </Box>
-                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', flex: 1, pl: .5 }}>Person Name<span style={{ color: '#74112F' }} >*</span> &nbsp;:</Box>
-                                    <Box sx={{ flex: 1, }}>
+                                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', flex: 1, pl: .5 }}>Person Name<span style={{ color: '#74112F' }} >*</span> &nbsp;:</Box>
+                                    <Box sx={{ flex: 1, fontWeight: 600, fontSize: 12, }}>
                                         {saleSecCheck === true ?
                                             <TextFieldCustom
                                                 placeholder="Person Name"
@@ -1233,10 +1290,10 @@ const SupplierDetails = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Phone No. 1<span style={{ color: '#74112F' }} >*</span>
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {saleSecCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="enter phone number"
@@ -1257,10 +1314,10 @@ const SupplierDetails = () => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Phone No. 2
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {saleSecCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="enter additional phone number"
@@ -1283,10 +1340,10 @@ const SupplierDetails = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Mobile No. 1<span style={{ color: '#74112F' }} >*</span>
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {saleSecCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="enter mobile number"
@@ -1307,10 +1364,10 @@ const SupplierDetails = () => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Mobile No. 2
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {saleSecCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="enter additional mobile number"
@@ -1333,10 +1390,10 @@ const SupplierDetails = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Email Id 1<span style={{ color: '#74112F' }} >*</span>
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {saleSecCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="example@gmail.com"
@@ -1357,10 +1414,10 @@ const SupplierDetails = () => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, px: .5 }}>
-                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#05445E', pl: .5 }}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: .5 }}>
                                             Email Id 2
                                         </Box>
-                                        <Box sx={{}}>
+                                        <Box sx={{ fontWeight: 600, fontSize: 12, }}>
                                             {saleSecCheck === true ?
                                                 <TextFieldCustom
                                                     placeholder="example@gmail.com"
@@ -1369,6 +1426,7 @@ const SupplierDetails = () => {
                                                     name="it_supplier_email_two"
                                                     value={it_supplier_email_two}
                                                     onchange={UpdateSupplierDetl}
+                                                    disabled={true}
                                                 ></TextFieldCustom> :
                                                 <TextFieldCustom
                                                     placeholder="example@gmail.com"
@@ -1411,7 +1469,7 @@ const SupplierDetails = () => {
                     <CustomeToolTip title="Close" placement="left" >
                         <Box sx={{ pl: .5 }}>
                             <CusIconButton size="sm" variant="outlined" color="primary" clickable="true"
-                            // onClick={close}
+                                onClick={backtoHome}
                             >
                                 <CloseIcon fontSize='small' />
                             </CusIconButton>

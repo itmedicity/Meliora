@@ -4,7 +4,6 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { Paper, } from '@mui/material';
 import ModalEditTask from './ModalEditTask';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import moment from 'moment';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
@@ -20,7 +19,7 @@ import AddIcon from '@mui/icons-material/Add';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import SelectTaskStatus from './SelectTaskStatus';
 import CountDowncomponent from '../CountDown/CountDowncomponent';
-
+import FilePresentTwoToneIcon from '@mui/icons-material/FilePresentTwoTone';
 const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount, taskcount, settaskcount }) => {
 
 
@@ -264,7 +263,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                 const data = result.data;
                 const fileNames = data.data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/Meliora/TaskManagement/${tm_task_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`;
                 });
                 setImageUrls(fileUrls);
                 // Open the modal only if there are files
@@ -516,11 +515,14 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                                 <td> {index + 1}</td>
                                                                 <td>
                                                                     <EditIcon
-                                                                        sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                                        sx={{ cursor: 'pointer', '&:hover': { color: '#003060' } }} size={6} onClick={() => rowSelectModal(val)}
                                                                     />
                                                                 </td>
                                                                 <td style={{ cursor: 'pointer', }}>
-                                                                    <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                                    <FilePresentTwoToneIcon sx={{
+                                                                        color: '#41729F',
+                                                                        '&:hover': { color: '#274472' }
+                                                                    }}
                                                                         onClick={() => fileView(val)}
                                                                     />
                                                                 </td>
@@ -601,11 +603,17 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                                     <td> {index + 1}</td>
                                                                     <td>
                                                                         <EditIcon
-                                                                            sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                                            sx={{
+                                                                                cursor: 'pointer',
+                                                                                '&:hover': { color: '#003060' }
+                                                                            }} size={6} onClick={() => rowSelectModal(val)}
                                                                         />
                                                                     </td>
                                                                     <td style={{ cursor: 'pointer', }}>
-                                                                        <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                                        <FilePresentTwoToneIcon sx={{
+                                                                            color: '#41729F',
+                                                                            '&:hover': { color: '#274472' }
+                                                                        }}
                                                                             onClick={() => fileView(val)}
                                                                         />
                                                                     </td>
@@ -682,11 +690,17 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                                     <td> {index + 1}</td>
                                                                     <td>
                                                                         <EditIcon
-                                                                            sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                                            sx={{
+                                                                                cursor: 'pointer',
+                                                                                '&:hover': { color: '#003060' }
+                                                                            }} size={6} onClick={() => rowSelectModal(val)}
                                                                         />
                                                                     </td>
                                                                     <td style={{ cursor: 'pointer', }}>
-                                                                        <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                                        <FilePresentTwoToneIcon sx={{
+                                                                            color: '#41729F',
+                                                                            '&:hover': { color: '#274472' },
+                                                                        }}
                                                                             onClick={() => fileView(val)}
                                                                         />
                                                                     </td>

@@ -16,6 +16,7 @@ import TapAndPlayIcon from '@mui/icons-material/TapAndPlay';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import BillsChartsAndGraph from './BillsChartsAndGraph';
 
+
 const BillDashBoardMain = () => {
 
     const [index, setIndex] = useState(0)
@@ -37,7 +38,6 @@ const BillDashBoardMain = () => {
                     }} onClick={GoTosupplierDetails} >
                         &nbsp;Bill supplier Details <ArrowCircleRightIcon sx={{ pb: .3 }} />
                     </Paper>
-
                 </Box>
             </Box>
             <CssVarsProvider>
@@ -46,7 +46,8 @@ const BillDashBoardMain = () => {
                     value={index}
                     onChange={(event, value) => setIndex(value)}
                     sx={(theme) => ({
-                        p: 1,
+                        // p: 1,
+                        pt: .5,
                         mx: 'auto',
                         boxShadow: theme.shadow.sm,
                         [`& .${tabsClasses.root}`]: {
@@ -74,10 +75,11 @@ const BillDashBoardMain = () => {
                             orientation="vertical"
                             sx={{
                                 flexGrow: 1,
+                                pt: .5,
                             }}
                         >
                             <ListItemDecorator>
-                                <DashboardTwoToneIcon sx={{ width: 30, height: 30, color: '#274472' }} />
+                                <DashboardTwoToneIcon sx={{ width: 30, height: 30, color: '#274472', }} />
                             </ListItemDecorator>
                             DashBoard
                         </Tab>
@@ -86,6 +88,7 @@ const BillDashBoardMain = () => {
                             orientation="vertical"
                             sx={{
                                 flexGrow: 1,
+                                pt: .5,
                             }}
                         >
                             <ListItemDecorator>
@@ -98,6 +101,7 @@ const BillDashBoardMain = () => {
                             orientation="vertical"
                             sx={{
                                 flexGrow: 1,
+                                pt: .5,
                             }}
                         >
                             <ListItemDecorator>
@@ -110,6 +114,7 @@ const BillDashBoardMain = () => {
                             orientation="vertical"
                             sx={{
                                 flexGrow: 1,
+                                pt: .5,
                             }}
                         >
                             <ListItemDecorator>
@@ -122,6 +127,7 @@ const BillDashBoardMain = () => {
                             orientation="vertical"
                             sx={{
                                 flexGrow: 1,
+                                pt: .5,
                             }}
                         >
                             <ListItemDecorator>
@@ -147,7 +153,7 @@ const BillDashBoardMain = () => {
                     </TabPanel>
                 </Tabs>
             </CssVarsProvider>
-        </Box>
+        </Box >
     )
 }
 

@@ -13,7 +13,7 @@ import PaidBillsSoftWare from './PaidBillsSoftWare';
 const SoftDash = ({ billCount, setbillCount }) => {
     return (
         <Paper sx={{
-            mt: .9, borderRadius: 0, p: .5,
+            mt: .5, borderRadius: 0, p: .5,
             boxShadow: '0px 0px 1px',
             height: '76vh',
             bgcolor: '#E3E7F1'

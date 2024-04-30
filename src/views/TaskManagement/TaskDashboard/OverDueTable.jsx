@@ -4,7 +4,7 @@ import { Paper } from '@mui/material'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useSelector } from 'react-redux';
 import EditIcon from '@mui/icons-material/Edit';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import FilePresentTwoToneIcon from '@mui/icons-material/FilePresentTwoTone';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import moment from 'moment';
@@ -159,11 +159,17 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                                                 <td> {index + 1}</td>
                                                 <td>
                                                     <EditIcon
-                                                        sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                        sx={{
+                                                            cursor: 'pointer',
+                                                            '&:hover': { color: '#003060' }
+                                                        }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
                                                 <td style={{ cursor: 'pointer', }}>
-                                                    <ImageOutlinedIcon style={{ color: '#41729F' }}
+                                                    <FilePresentTwoToneIcon sx={{
+                                                        color: '#41729F',
+                                                        '&:hover': { color: '#274472' }
+                                                    }}
                                                         onClick={() => fileView(val)} />
                                                 </td>
                                                 <td

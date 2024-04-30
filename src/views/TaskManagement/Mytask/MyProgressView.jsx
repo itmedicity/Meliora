@@ -210,7 +210,7 @@ const MyProgressView = () => {
                                                 {val.tm_task_name}
                                             </FormLabel>}
                                     </Box>
-                                    <Box sx={{ flex: 1, pt: 1.5, px: .5 }}>
+                                    <Box sx={{ flex: 1, pt: 1, px: .5, pb: .5 }}>
                                         <Tooltip>
                                             {val.tm_task_status !== 1 ?
                                                 <Box sx={{ border: .1, borderColor: '#78909c', borderStyle: 'dashed', width: 170, pl: .5, borderRadius: 20, }}>

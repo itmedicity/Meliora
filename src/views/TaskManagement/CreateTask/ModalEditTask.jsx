@@ -1171,7 +1171,10 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                 />
                                             </Box> :
                                             value === 1 ? <Box>
-                                                <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
+                                                <CheckCircleOutlineIcon sx={{
+                                                    fontSize: 30, cursor: 'pointer', color: '#003B73',
+                                                    '&:hover': { color: '#DBA40E' }
+                                                }}
                                                     onClick={UpdateProgress}
                                                 />
                                             </Box>

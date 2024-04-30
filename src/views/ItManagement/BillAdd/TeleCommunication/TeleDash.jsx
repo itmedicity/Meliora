@@ -12,7 +12,7 @@ import PaidBills from './PaidBills';
 const TeleDash = ({ billCount, setbillCount }) => {
     return (
         <Paper sx={{
-            mt: .9,
+            mt: .5,
             borderRadius: 0,
             p: .5,
             boxShadow: '0px 0px 1px',
