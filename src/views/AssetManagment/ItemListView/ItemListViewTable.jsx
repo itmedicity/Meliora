@@ -85,13 +85,6 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
 
     //column title setting
     const [column] = useState([
-        { headerName: "Sl No", field: "slno", minWidth: 100 },
-        // { headerName: "Department", field: "deptname", minWidth: 250 },
-        { headerName: "Department Section", field: "secname", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: "Category", field: "category_name", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
-        { headerName: "Asset No", field: "assetno", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: "Serial No", field: "serialno", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, minWidth: 350, filter: "true" },
         {
             headerName: 'Add Details', minWidth: 120, cellRenderer: (params) => {
                 return <IconButton onClick={() => AddDetails(params)}
@@ -103,7 +96,7 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
             }
         },
         {
-            headerName: 'QR Code', minWidth: 50, cellRenderer: (params) => {
+            headerName: 'QR Code', minWidth: 80, cellRenderer: (params) => {
                 return <IconButton onClick={() => modeldisplay(params)}
                     sx={{ color: editicon, paddingY: 0.5 }} >
                     <CustomeToolTip title="QR Code">
@@ -112,10 +105,14 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
                 </IconButton>
             }
         },
-
+        { headerName: "Sl No", field: "slno", minWidth: 100 },
+        // { headerName: "Department", field: "deptname", minWidth: 250 },
+        { headerName: "Department Section", field: "secname", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
+        { headerName: "Category", field: "category_name", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+        { headerName: "Asset No", field: "assetno", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
+        { headerName: "Serial No", field: "serialno", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
+        { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, minWidth: 350, filter: "true" },
     ])
-
-
     return (
         <Fragment>
             {flag === 1 ? <ItemQrDisplayModel open={open} handleClose={handleClose} selectedData={selectedData}

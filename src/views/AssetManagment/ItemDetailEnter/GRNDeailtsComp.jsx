@@ -8,10 +8,8 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
-import EditIcon from '@mui/icons-material/Edit';
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { format } from 'date-fns'
-
 
 const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpare }) => {
     const { am_item_map_slno, am_spare_item_map_slno } = detailArry
@@ -54,29 +52,9 @@ const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpare
 
     }, [])
 
-
     const searchGrn = useCallback(() => {
 
     }, [])
-
-
-    const grnPostData = useMemo(() => {
-        return {
-            am_item_map_slno: am_item_map_slno,
-            am_grn_no: grnNo,
-            am_grn_date: grndate,
-            create_user: id
-        }
-    }, [grnNo, grndate, am_item_map_slno, id])
-
-    const grnPostDataSpare = useMemo(() => {
-        return {
-            am_spare_item_map_slno: am_spare_item_map_slno,
-            am_grn_no: grnNo,
-            am_grn_date: grndate,
-            create_user: id
-        }
-    }, [grnNo, grndate, am_spare_item_map_slno, id])
 
     const patchData = useMemo(() => {
         return {
@@ -107,36 +85,6 @@ const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpare
         setUserdata(frmdata)
     }
 
-    const SaveGrnDetails = useCallback((e) => {
-        e.preventDefault()
-        const InsertItemDetail = async (grnPostData) => {
-            const result = await axioslogin.post('/ItemMapDetails/GRNDetailsInsert', grnPostData)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNotify(message)
-                setExist(1)
-            } else {
-                infoNotify(message)
-            }
-        }
-        const InsertItemDetailSpare = async (grnPostDataSpare) => {
-            const result = await axioslogin.post('/ItemMapDetails/GRNDetailsInsertSpare', grnPostDataSpare)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNotify(message)
-                setExist(1)
-            } else {
-                infoNotify(message)
-            }
-        }
-        if (assetSpare === 1) {
-            InsertItemDetail(grnPostData);
-        } else {
-            InsertItemDetailSpare(grnPostDataSpare)
-        }
-
-    }, [grnPostData, setExist, assetSpare, grnPostDataSpare])
-
     const EditDetails = useCallback((e) => {
         e.preventDefault()
         const checkinsertOrNot = async (am_item_map_slno) => {
@@ -152,7 +100,6 @@ const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpare
                     grndate: am_grn_date !== null ? format(new Date(am_grn_date), "yyyy-MM-dd") : ''
                 }
                 setUserdata(frmdata);
-
             }
             else {
                 warningNotify("Data Not Saved Yet")
@@ -172,7 +119,6 @@ const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpare
                     grndate: am_grn_date !== null ? format(new Date(am_grn_date), "yyyy-MM-dd") : ''
                 }
                 setUserdata(frmdata);
-
             }
             else {
                 warningNotify("Data Not Saved Yet")
@@ -274,7 +220,6 @@ const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpare
                     </CusIconButton>
                 </Box>
             </Box>
-
             <Box sx={{
                 display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
 
@@ -303,39 +248,14 @@ const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpare
                         ></TextFieldCustom>
                     </Box>
                 </Box>
-                {
-                    exist === 0 ? <CustomeToolTip title="Save" placement="top" >
-                        <Box sx={{ width: '3%', pl: 7, pt: 3, }}>
-                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SaveGrnDetails} >
-                                <LibraryAddIcon fontSize='small' />
-                            </CusIconButton>
-                        </Box>
-                    </CustomeToolTip> :
-                        <CustomeToolTip title="Save" placement="top" >
-                            <Box sx={{ width: '3%', pl: 7, pt: 3, }}>
-                                <CusIconButton size="sm" variant="outlined"  >
-                                    <LibraryAddIcon fontSize='small' />
-                                </CusIconButton>
-                            </Box>
-                        </CustomeToolTip>
-                }
-                {
-                    exist === 0 ?
-                        <CustomeToolTip title="Edit" placement="top" >
-                            <Box sx={{ width: '3%', pl: 5, pt: 3, }}>
-                                <CusIconButton size="sm" variant="outlined"  >
-                                    <EditIcon fontSize='small' />
-                                </CusIconButton>
-                            </Box>
-                        </CustomeToolTip> :
-                        <CustomeToolTip title="Edit" placement="top" >
-                            <Box sx={{ width: '3%', pl: 5, pt: 3, }}>
-                                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails} >
-                                    <EditIcon fontSize='small' />
-                                </CusIconButton>
-                            </Box>
-                        </CustomeToolTip>
-                }
+                <CustomeToolTip title="Save" placement="top" >
+                    <Box sx={{ width: '3%', pl: 5, pt: 3, }}>
+                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails} >
+                            <LibraryAddIcon fontSize='small' />
+                        </CusIconButton>
+                    </Box>
+                </CustomeToolTip>
+
                 <CustomeToolTip title="Refresh" placement="top" >
                     <Box sx={{ width: '3%', pl: 4, pt: 3, }}>
                         <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={refreshBilldetail} >

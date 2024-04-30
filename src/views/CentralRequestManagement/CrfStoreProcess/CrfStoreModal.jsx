@@ -20,7 +20,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreData,
-    count, setCount, backdropfalg, setBackDropFlag }) => {
+    count, setCount, backdropfalg }) => {
 
     const { req_slno, req_date, actual_requirement, needed, expected_date,
     } = storeData
@@ -36,6 +36,7 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
     const [strFulyReciv, setStrFulyRecev] = useState(0)
     const [partialFlag, setPartialFlag] = useState(0)
     const [fullyFlag, setFullyFlag] = useState(0)
+
     useEffect(() => {
         const getPODetails = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFPurchase/getPOList/${req_slno}`)

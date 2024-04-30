@@ -834,6 +834,7 @@ const CrfRequestMaster = () => {
         } else {
             if ((emergency === true && emerType !== 0 && remarks !== '') || (emergency === false)) {
                 if (deptSec !== 0 && (category !== '' || needed !== '' || actual_require !== '' || location !== '')) {
+                    setOpen(true)
                     ReqMasterUpdate(reqDataPatch).then((val) => {
                         const { success, message } = val
                         if (success === 2) {
