@@ -38,11 +38,10 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
         const getbillsFile = async () => {
             const result = await axioslogin.get(`/ItImageUpload/uploadFile/getMonthlyBillImages/${monthly_slno}`);
             const { success, data } = result.data;
-
             if (success === 1) {
                 const fileNames = data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/MonthlyBill/${monthly_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/Bills/MonthlyBill/${monthly_slno}/${fileName}`;
                 });
                 setFilezUrls(fileUrls);
             }

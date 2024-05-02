@@ -81,21 +81,21 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
                                     flex: .6, px: 1, pt: .5,
                                     cursor: 'pointer',
                                 }}>
-                                    <EditIcon sx={{ height: 20, }}
+                                    <EditIcon sx={{ height: 18, }}
                                         onClick={() => EditModal(val)}
                                     />
                                 </Box>
-                                <Box sx={{ flex: 1, pt: .5 }}>
+                                <Box sx={{ flex: 1, pt: .5, fontSize: 14 }}>
                                     {val.it_bill_category_name}
                                 </Box>
-                                <Box sx={{ flex: 2, pt: .5 }}>
+                                <Box sx={{ flex: 2, pt: .5, fontSize: 14 }}>
                                     {val.it_supplier_name}
                                 </Box>
-                                <Box sx={{ flex: 3, pt: .5 }}>
+                                <Box sx={{ flex: 3, pt: .5, fontSize: 14 }}>
                                     {val.bill_name}
                                 </Box>
 
-                                <Box sx={{ flex: 3, pt: .5 }}>
+                                <Box sx={{ flex: 3, pt: .5, fontSize: 14 }}>
                                     {val.bill_description}
                                 </Box>
                             </Paper>

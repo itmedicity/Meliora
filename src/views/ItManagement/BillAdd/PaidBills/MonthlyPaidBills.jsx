@@ -44,7 +44,6 @@ const MonthlyPaidBills = ({ montBills }) => {
         const getbillsFile = async () => {
             const result = await axioslogin.get(`/ItImageUpload/uploadFile/getMonthlyBillImages/${monthly_slno}`);
             const { success, data } = result.data;
-
             if (success === 1) {
                 const fileNames = data;
                 const fileUrls = fileNames.map((fileName) => {

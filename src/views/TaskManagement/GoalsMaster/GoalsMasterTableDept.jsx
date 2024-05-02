@@ -57,8 +57,8 @@ const GoalsMasterTableDept = ({ rowSelect, tableCount }) => {
         <Box sx={{ mt: 1 }}>
             {tabledata.length !== 0 ?
                 <Box>
-                    <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', fontFamily: 'Georgia' }}>Goals</Divider>
-                    <Box sx={{ height: 500, }}>
+                    <Divider textAlign="left" sx={{ fontWeight: 600, mx: 1, fontSize: 18, color: '#52688F', fontFamily: 'Georgia' }}>Goals</Divider>
+                    <Box sx={{ height: 500, px: 1 }}>
                         <Paper variant="outlined" sx={{ maxHeight: 495, maxWidth: '100%', overflow: 'auto', m: .5, pb: .5 }}>
                             <CssVarsProvider>
                                 <Table padding={"none"} stickyHeader

@@ -1,10 +1,8 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { Box, Button, CssVarsProvider, Textarea, Typography, Tooltip } from '@mui/joy'
-import { Paper } from '@mui/material'
+import { Box, Button, CssVarsProvider, Textarea, Typography, } from '@mui/joy'
+import { Paper, Tooltip } from '@mui/material'
 import GoalsMastTable from './GoalsMastTable'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import CusIconButton from 'src/views/Components/CusIconButton'
-import CloseIcon from '@mui/icons-material/Close';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector, useDispatch } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -14,7 +12,7 @@ import TmDeptSectionSelect from 'src/views/CommonSelectCode/TmDeptSectionSelect'
 import { getDepartment } from 'src/redux/actions/Department.action'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import moment from 'moment'
-
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 
 const GoalsMaster = () => {
     const [department, setDepartment] = useState(0)
@@ -174,16 +172,17 @@ const GoalsMaster = () => {
     }, [history])
 
     return (
-        <Paper sx={{ height: '100%', width: '100%', bgcolor: '#F2F1F0', }}>
-            <Box sx={{ height: 35, backgroundColor: '#E2E8EF', borderBottom: .1, borderColor: 'lightgrey', display: 'flex' }}>
-                <Box sx={{ fontWeight: 600, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Create Goal</Box>
-                <Box><CusIconButton size="sm" variant="outlined" color="primary" >
+        <Paper sx={{ height: '100%', width: '100%', bgcolor: 'white', boxShadow: '0px 1px 3px' }}>
+            <Box sx={{ height: 35, display: 'flex', bgcolor: '#52688F' }}>
+                <Box sx={{ fontWeight: 600, flex: 1, pl: 1, pt: .8, color: 'white', }}>Create Goal </Box>
+                <Box sx={{ mt: .5, mr: .5 }} >
                     <Tooltip title="Close" placement="bottom" >
-                        <CloseIcon fontSize='small'
+                        <HighlightOffOutlinedIcon sx={{ color: 'white', height: 25, width: 25, cursor: 'pointer' }}
                             onClick={BackToDash}
                         />
                     </Tooltip>
-                </CusIconButton></Box>
+
+                </Box>
             </Box>
             <Box sx={{ display: 'flex' }}>
                 <Box sx={{ flex: 1.5 }}>

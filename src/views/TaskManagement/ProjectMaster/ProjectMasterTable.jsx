@@ -112,8 +112,8 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
     }
     return (
         <Box sx={{ mt: 1 }}>
-            <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', fontFamily: 'Georgia' }}>Projects</Divider>
-            <Box sx={{ width: '100%', backgroundColor: '#F2F1F0', borderTopLeftRadius: 5, borderTopRightRadius: 5, display: 'flex', }}>
+            <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#52688F', fontFamily: 'Georgia' }}>Projects</Divider>
+            <Box sx={{ width: '100%', backgroundColor: 'white', borderTopLeftRadius: 5, borderTopRightRadius: 5, display: 'flex', }}>
                 <Box sx={{ flex: 1.5 }}></Box>
                 <Box sx={{ flex: 5, display: 'flex', margin: 'auto', pb: .5, }}>
                     <Box sx={{ flex: 2, py: .4 }}>
@@ -200,7 +200,7 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                                                         </Box> :
                                                         <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', px: .5, flex: 1, borderRadius: 20 }}>
                                                             <Box sx={{ flex: .5, }}></Box>
-                                                            <Box sx={{ flex: 1, }}>completed</Box>
+                                                            <Box sx={{ flex: 1, color: '#3D550C' }}>completed</Box>
                                                             <Box sx={{ flex: .5 }}></Box>
                                                         </Box>
                                                     }

@@ -108,8 +108,8 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
     return (
         <Box sx={{ mt: 1 }}>
             <Box>
-                <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', fontFamily: 'Georgia' }}>Goals</Divider>
-                <Box sx={{ width: '100%', backgroundColor: '#F2F1F0', borderTopLeftRadius: 5, borderTopRightRadius: 5, display: 'flex', }}>
+                <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#52688F', fontFamily: 'Georgia' }}>Goals</Divider>
+                <Box sx={{ width: '100%', backgroundColor: 'white', borderTopLeftRadius: 5, borderTopRightRadius: 5, display: 'flex', }}>
                     <Box sx={{ flex: 1.5 }}></Box>
                     <Box sx={{ flex: 5, display: 'flex', margin: 'auto', pb: .5, }}>
                         <Box sx={{ flex: 2, py: .4 }}>
@@ -153,7 +153,7 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                     </Box>
                 </Box>
                 {tabledata.length !== 0 ?
-                    <Box sx={{ height: 500, }}>
+                    <Box sx={{ height: 500, px: 1 }}>
                         <Paper variant="outlined" sx={{ maxHeight: 495, maxWidth: '100%', overflow: 'auto', m: .5, pb: .5 }}>
                             <CssVarsProvider>
                                 <Table padding={"none"} stickyHeader
