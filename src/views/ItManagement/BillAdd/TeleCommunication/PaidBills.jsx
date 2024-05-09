@@ -6,8 +6,7 @@ import QuarterlyPaidBills from '../PaidBills/QuarterlyPaidBills';
 import YearlyPaidBills from '../PaidBills/YearlyPaidBills';
 import OtherPaidBills from '../PaidBills/OtherPaidBills';
 
-
-const PaidBills = ({ billCount, setbillCount }) => {
+const PaidBills = () => {
 
     const [montBills, setmontBills] = useState([])
     const [quarBills, setQuarBills] = useState([])
@@ -24,9 +23,6 @@ const PaidBills = ({ billCount, setbillCount }) => {
                 setmontBills([])
             }
         }
-        getMonthlyBills()
-    }, [])
-    useEffect(() => {
         const getQaurterlyPaidBills = async () => {
             const result = await axioslogin.get('/ItBillVieww/teleQuarterPaid');
             const { success, data } = result.data;
@@ -36,9 +32,6 @@ const PaidBills = ({ billCount, setbillCount }) => {
                 setQuarBills([])
             }
         }
-        getQaurterlyPaidBills()
-    }, [])
-    useEffect(() => {
         const getYearPaidBills = async () => {
             const result = await axioslogin.get('/ItBillVieww/teleYearPaid');
             const { success, data } = result.data;
@@ -48,9 +41,6 @@ const PaidBills = ({ billCount, setbillCount }) => {
                 setYearBills([])
             }
         }
-        getYearPaidBills()
-    }, [])
-    useEffect(() => {
         const getOtherPaidBills = async () => {
             const result = await axioslogin.get('/ItBillVieww/teleOthrPaid');
             const { success, data } = result.data;
@@ -60,9 +50,11 @@ const PaidBills = ({ billCount, setbillCount }) => {
                 setOtherBills([])
             }
         }
+        getMonthlyBills()
+        getQaurterlyPaidBills()
+        getYearPaidBills()
         getOtherPaidBills()
     }, [])
-
 
     return (
         <Box>
@@ -78,7 +70,6 @@ const PaidBills = ({ billCount, setbillCount }) => {
                     <TabList
                         disableUnderline
                         sx={{
-                            // pt: 2,
                             bgcolor: 'background.level1',
                             borderBottom: 0,
                             [`& .${tabClasses.root}[aria-selected="true"]`]: {

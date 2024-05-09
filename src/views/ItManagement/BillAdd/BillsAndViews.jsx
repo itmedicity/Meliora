@@ -6,19 +6,15 @@ import { Box, Button, CssVarsProvider, Tab, TabList, TabPanel, Tabs, tabClasses 
 import OtherBillViews from './OtherBillViews'
 import { memo } from 'react'
 
-
 const BillsAndViews = ({ billCount, setbillCount }) => {
 
     const [addModalOpen, setaddModalOpen] = useState(false)
     const [AddModalFlag, setAddModalFlag] = useState(0)
 
-
     const addModal = useCallback(() => {
         setAddModalFlag(1)
         setaddModalOpen(true)
     }, [])
-
-
 
     return (
         <Paper sx={{
@@ -26,8 +22,6 @@ const BillsAndViews = ({ billCount, setbillCount }) => {
             boxShadow: '0px 0px 1px',
             height: '80vh',
             bgcolor: '#E3E7F1',
-
-
         }}>
             <CssVarsProvider>
                 {AddModalFlag === 1 ? <BillAddModal open={addModalOpen}
@@ -59,7 +53,6 @@ const BillsAndViews = ({ billCount, setbillCount }) => {
                     }}>
                         <Tab sx={{ flex: 1, }}>Recurring Bills</Tab>
                         <Tab sx={{ flex: 1 }}>Other Bills</Tab>
-
                     </TabList>
                     <TabPanel value={0} sx={{ p: 0 }}>
                         <AllBill billCount={billCount} setbillCount={setbillCount} />

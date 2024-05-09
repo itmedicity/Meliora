@@ -29,6 +29,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
     const [billcate, setBillcate] = useState([])
     const [cateName, setcateName] = useState('')
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getBillCategory())
     }, [dispatch])
@@ -42,7 +43,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                 const data = result.data;
                 const fileNames = data.data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/Bills/Quarterly/${quaterly_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/Bills/QuarterlyBill/${quaterly_slno}/${fileName}`;
                 });
                 setFilezUrls(fileUrls);
             } else {
@@ -55,21 +56,21 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
         setpendingModalOpen(true)
     }, [])
 
-
     const { quaterly_slno } = billData
     const searchBillls = useCallback(() => {
         setsearchBillNameFlag(1)
         setsearchBillCateFlag(0)
     }, [])
+
     const OpenBillCate = useCallback(() => {
         setsearchBillNameFlag(0)
         setsearchBillCateFlag(1)
-
     }, [])
 
     const updateEnterText = useCallback((e) => {
         setEnterText(e.target.value)
     }, [])
+
     const SearchBillName = useCallback(() => {
         if (enterText.length < 3) {
             infoNotify('please enter minimum 3 character to search task name')
@@ -85,7 +86,6 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
         if (alphbased === 1) {
             let newTableDataa = quaterlydata && quaterlydata.filter((val) => val.bill_name.toLowerCase().includes(enterText))
             setAlphbasedData(newTableDataa)
-
         }
     }, [quaterlydata, alphbased, enterText])
 
@@ -111,6 +111,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
         setBillCategory('')
         setcateName('')
     }, [])
+
     return (
         <Box>
             <CssVarsProvider>

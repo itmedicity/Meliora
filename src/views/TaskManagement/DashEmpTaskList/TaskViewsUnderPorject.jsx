@@ -301,7 +301,7 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                                                 fontSize: 13, cursor: 'grab', display: 'flex', justifyContent: 'center',
                                                                 color: val.tm_task_status === null ? '#311E26'
                                                                     : val.tm_task_status === 0 ? '#311E26'
-                                                                        : val.tm_task_status === 1 ? '#94C973'
+                                                                        : val.tm_task_status === 1 ? '#116530'
                                                                             : val.tm_task_status === 2 ? '#D37506'
                                                                                 : val.tm_task_status === 3 ? '#5E376D'
                                                                                     : val.tm_task_status === 4 ? '#5885AF'

@@ -15,7 +15,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { addMonths, eachMonthOfInterval, format } from 'date-fns';
 import BillModalTele from '../TeleCommunication/BillModalTele';
 
-const QuarterlyPaidBills = ({ quarBills }) => {
+const QuarterlyPaidBills = ({ quarBills, }) => {
 
     const [billDatas, setBillDatas] = useState([])
     const [modalFlag, setModalFlag] = useState(0)
@@ -32,7 +32,9 @@ const QuarterlyPaidBills = ({ quarBills }) => {
     const [billCategory, setBillCategory] = useState(0)
     const [billcate, setBillcate] = useState([])
     const [cateName, setcateName] = useState('')
+    const [indexNo, setindexNo] = useState(0)
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getBillCategory())
     }, [dispatch])
@@ -55,6 +57,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
         }
         getbillsFile(quaterly_slno)
         setBillDatas(value)
+        setindexNo(quaterly_slno)
         setModalFlag(1)
         setModalOpen(true)
     }, [])
@@ -71,7 +74,6 @@ const QuarterlyPaidBills = ({ quarBills }) => {
         setAlphbased(0)
         setEnterText('')
         setBillDatee('')
-
     }, [])
 
     const openBillDate = useCallback(() => {
@@ -84,7 +86,6 @@ const QuarterlyPaidBills = ({ quarBills }) => {
         setsearchBillDateFlag(0)
         setsearchBillNameFlag(0)
         setsearchBillCateFlag(1)
-
     }, [])
 
     const SearchBillName = useCallback(() => {
@@ -140,11 +141,9 @@ const QuarterlyPaidBills = ({ quarBills }) => {
         }
     }, [billDatee, quarBills])
 
-
-
     return (
         <Box sx={{ flex: 10, maxHeight: '60vh', }}>
-            {modalFlag === 1 ? <BillModalTele modalOpen={modalOpen} billDatas={billDatas}
+            {modalFlag === 1 ? <BillModalTele modalOpen={modalOpen} billDatas={billDatas} index_no={indexNo} setFilezUrls={setFilezUrls}
                 setModalFlag={setModalFlag} setModalOpen={setModalOpen} filezUrls={filezUrls} cateName={cateName}
             /> : null}
             <Box sx={{ flex: 1, my: .2 }}>

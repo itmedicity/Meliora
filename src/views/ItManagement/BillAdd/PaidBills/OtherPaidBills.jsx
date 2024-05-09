@@ -31,6 +31,7 @@ const OtherPaidBills = ({ otherBills }) => {
     const [billCategory, setBillCategory] = useState(0)
     const [billcate, setBillcate] = useState([])
     const [cateName, setcateName] = useState('')
+    const [indexNo, setindexNo] = useState(0)
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getBillCategory())
@@ -54,6 +55,7 @@ const OtherPaidBills = ({ otherBills }) => {
         }
         getbillsFile(other_bill_slno)
         setBillDatas(value)
+        setindexNo(other_bill_slno)
         setModalFlag(1)
         setModalOpen(true)
     }, [])
@@ -70,7 +72,6 @@ const OtherPaidBills = ({ otherBills }) => {
         setAlphbased(0)
         setEnterText('')
         setBillDatee('')
-
     }, [])
 
     const openBillDate = useCallback(() => {
@@ -83,7 +84,6 @@ const OtherPaidBills = ({ otherBills }) => {
         setsearchBillDateFlag(0)
         setsearchBillNameFlag(0)
         setsearchBillCateFlag(1)
-
     }, [])
 
     const SearchBillName = useCallback(() => {
@@ -95,7 +95,6 @@ const OtherPaidBills = ({ otherBills }) => {
             setsearchBillDateFlag(0)
             setAlphbased(1)
             setAlphbasedData(newTableDataa)
-
         }
     }, [enterText, otherBills])
 
@@ -113,7 +112,6 @@ const OtherPaidBills = ({ otherBills }) => {
     const updateBillDate = useCallback((e) => {
         setBillDatee(e.target.value)
     }, [])
-
 
     const SearchBillCate = useCallback(() => {
         let newTableDataa = otherBills && otherBills.filter((val) => val.bill_category === billCategory)
@@ -142,7 +140,7 @@ const OtherPaidBills = ({ otherBills }) => {
     }, [billDatee, otherBills])
     return (
         <Box sx={{ flex: 10, maxHeight: '60vh', }}>
-            {modalFlag === 1 ? <BillModalTele modalOpen={modalOpen} billDatas={billDatas}
+            {modalFlag === 1 ? <BillModalTele modalOpen={modalOpen} billDatas={billDatas} index_no={indexNo} setFilezUrls={setFilezUrls}
                 setModalFlag={setModalFlag} setModalOpen={setModalOpen} filezUrls={filezUrls} cateName={cateName}
             /> : null}
             <Box sx={{ flex: 1, my: .2 }}>
@@ -169,7 +167,6 @@ const OtherPaidBills = ({ otherBills }) => {
                                         }}
                                         onChange={updateBillDate}
                                     />
-
                                     <CssVarsProvider>
                                         <Tooltip title='search'>
                                             <Box sx={{
@@ -279,7 +276,6 @@ const OtherPaidBills = ({ otherBills }) => {
                                         </Tooltip>
                                     </CssVarsProvider>
                                 </Box> : null}
-
                         </Box>
                     </Box> : null}
 
@@ -320,7 +316,6 @@ const OtherPaidBills = ({ otherBills }) => {
                                 <Box sx={{ flex: 1.5, pt: .5, }}>
                                     {val.it_bill_category_name}
                                 </Box>
-
                             </Paper>
                         })
                         }
@@ -361,7 +356,6 @@ const OtherPaidBills = ({ otherBills }) => {
                                     <Box sx={{ flex: 1.5, pt: .5, }}>
                                         {val.it_bill_category_name}
                                     </Box>
-
                                 </Paper>
                             })
                             }
@@ -403,7 +397,6 @@ const OtherPaidBills = ({ otherBills }) => {
                                         <Box sx={{ flex: 1.5, pt: .5, }}>
                                             {val.it_bill_category_name}
                                         </Box>
-
                                     </Paper>
                                 })
                                 }
