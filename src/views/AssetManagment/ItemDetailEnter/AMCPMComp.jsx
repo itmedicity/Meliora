@@ -12,7 +12,7 @@ import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/Common
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 // import imageCompression from 'browser-image-compression';
 // import UploadFileIcon from '@mui/icons-material/UploadFile'
-import { format } from 'date-fns'
+import { addDays, format } from 'date-fns'
 
 const AMCPMComp = ({ detailArry, amcPm, setAmcPm, assetSpare }) => {
     const { am_item_map_slno, am_spare_item_map_slno } = detailArry
@@ -24,6 +24,10 @@ const AMCPMComp = ({ detailArry, amcPm, setAmcPm, assetSpare }) => {
     const [amcStatus, setamcStatus] = useState(false)
     const [cmcStatus, setcmcStatus] = useState(false)
     const [pmStatus, setPmStatus] = useState(false)
+    const [dueDate, setdueDate] = useState(format(new Date(), "yyyy-MM-dd"))
+    const [dueDateCount, setdueDateCount] = useState(0)
+
+
     const updateamcStatus = useCallback((e) => {
         if (e.target.checked === true) {
             setamcStatus(true)
@@ -52,15 +56,13 @@ const AMCPMComp = ({ detailArry, amcPm, setAmcPm, assetSpare }) => {
         } else {
             setPmStatus(false)
         }
-
     }, [])
     const [userdata, setUserdata] = useState({
         fromDate: '',
         toDate: '',
         FileStatus: '',
         address: '',
-        instalationDate: '',
-        dueDate: '',
+        instalationDate: format(new Date(), "yyyy-MM-dd"),
         amc_from: '',
         amc_to: '',
         contact_address: ''
@@ -68,12 +70,18 @@ const AMCPMComp = ({ detailArry, amcPm, setAmcPm, assetSpare }) => {
 
     //Destructuring
 
-    const { fromDate, toDate, amcFileStatus, address, instalationDate, dueDate, amc_from,
+    const { fromDate, toDate, amcFileStatus, address, instalationDate, amc_from,
         amc_to, contact_address } = userdata
     const updateAMCCMC = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setUserdata({ ...userdata, [e.target.name]: value })
     }, [userdata])
+
+    const UpdatedueDateCount = useCallback((e) => {
+        setdueDateCount(e.target.value)
+        const Due = addDays(new Date(instalationDate), e.target.value)
+        setdueDate(format(new Date(Due), "yyyy-MM-dd"))
+    }, [instalationDate])
 
     useEffect(() => {
         const checkinsertOrNotAMCPM = async (am_item_map_slno) => {
@@ -106,7 +114,6 @@ const AMCPMComp = ({ detailArry, amcPm, setAmcPm, assetSpare }) => {
                     FileStatus: '',
                     address: '',
                     instalationDate: '',
-                    dueDate: '',
                     amc_from: '',
                     amc_to: '',
                     contact_address: ''
@@ -454,6 +461,19 @@ const AMCPMComp = ({ detailArry, amcPm, setAmcPm, assetSpare }) => {
                                 </Box>
                             </Box>
 
+                            <Box sx={{ display: 'flex', width: '10%', p: 0.5, flexDirection: 'column' }} >
+                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Installation date</Typography>
+                                <Box>
+                                    <TextFieldCustom
+                                        type="number"
+                                        size="sm"
+                                        name="dueDateCount"
+                                        value={dueDateCount}
+                                        onchange={UpdatedueDateCount}
+                                    ></TextFieldCustom>
+                                </Box>
+                            </Box>
+
                             <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }} >
                                 <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Due date</Typography>
                                 <Box>
@@ -462,7 +482,7 @@ const AMCPMComp = ({ detailArry, amcPm, setAmcPm, assetSpare }) => {
                                         size="sm"
                                         name="dueDate"
                                         value={dueDate}
-                                        onchange={updateAMCCMC}
+                                        disabled={true}
                                     ></TextFieldCustom>
                                 </Box>
                             </Box>
