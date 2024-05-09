@@ -46,8 +46,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                 const data = result.data;
                 const fileNames = data.data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/Bills/QuarterltyBill/${quaterly_slno}/${fileName}`;
-                    // return `D:/DocMeliora/Meliora/ItBillManagement/MonthlyBill/${quaterly_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/Bills/Quarterly/${quaterly_slno}/${fileName}`;
                 });
                 setFilezUrls(fileUrls);
             } else {

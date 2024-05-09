@@ -38,7 +38,7 @@ const ItBillsupplierDetailsList = ({ suppliersList, setSuppliersList }) => {
                         "--Input-minHeight": "29px",
                     }}
                     value={suppliersList === 0 ? supplierListX : value}
-                    placeholder="select bill type"
+                    placeholder="select supplier"
                     clearOnBlur
                     style={{ minHeight: 30 }}
                     onChange={(event, newValue) => {

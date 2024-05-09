@@ -1,9 +1,7 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { Box, Button, CssVarsProvider, Textarea, Typography, Tooltip } from '@mui/joy'
-import { Paper } from '@mui/material'
+import { Box, Button, CssVarsProvider, Textarea, Typography, } from '@mui/joy'
+import { Paper, Tooltip } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import CusIconButton from 'src/views/Components/CusIconButton'
-import CloseIcon from '@mui/icons-material/Close';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import ProjectMasterTable from './ProjectMasterTable'
 import { getDepartment } from 'src/redux/actions/Department.action'
@@ -16,7 +14,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TmGoalsList from 'src/views/CommonSelectCode/TmGoalsList'
 import { getGoalsList } from 'src/redux/actions/TmGoalsList.action'
 import moment from 'moment'
-
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 
 const ProjectMaster = () => {
     const history = useHistory()
@@ -192,19 +190,21 @@ const ProjectMaster = () => {
     }, [history])
 
     return (
-        <Paper sx={{ width: '100%', bgcolor: '#F2F1F0', height: '100%' }}>
-            <Box sx={{ height: 35, backgroundColor: '#D9E4EC', display: 'flex' }}>
-                <Box sx={{ fontWeight: 600, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Create Project</Box>
-                <Box><CusIconButton size="sm" variant="outlined" color="primary" >
+        <Paper sx={{ width: '100%', height: '100%', boxShadow: '0px 1px 3px' }}>
+            <Box sx={{ height: 35, display: 'flex', bgcolor: '#52688F' }}>
+                <Box sx={{ fontWeight: 600, flex: 1, pl: 1, pt: .8, color: 'white', }}>Create Project </Box>
+                <Box sx={{ mt: .5, mr: .5 }} >
+
                     <Tooltip title="Close" placement="bottom" >
-                        <CloseIcon fontSize='small'
+                        <HighlightOffOutlinedIcon sx={{ color: 'white', height: 25, width: 25, cursor: 'pointer' }}
                             onClick={BackToDash}
                         />
                     </Tooltip>
-                </CusIconButton></Box>
+
+                </Box>
             </Box>
             <Box sx={{ display: 'flex' }}>
-                <Box sx={{ flex: 1.5 }}>
+                <Box sx={{ flex: 1.7 }}>
                     <Box sx={{ mt: 2, pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 40, pt: 1.5, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
                             Project*&nbsp;:
@@ -323,7 +323,7 @@ const ProjectMaster = () => {
                     </Box>
 
                 </Box>
-                <Box sx={{ flex: 2 }}>
+                <Box sx={{ flex: 1.5 }}>
 
                 </Box>
             </Box>

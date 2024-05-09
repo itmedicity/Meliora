@@ -39,14 +39,13 @@ const OtherPaidBills = ({ otherBills }) => {
     const OpenOtherBillView = useCallback((value) => {
         const { other_bill_slno } = value
         const getbillsFile = async () => {
-            const result = await axioslogin.get(`/ItImageUpload/uploadFile/getMonthlyBillImages/${other_bill_slno}`);
+            const result = await axioslogin.get(`/ItImageUpload/uploadFile/getOtherBillImages/${other_bill_slno}`);
             const { success } = result.data;
             if (success === 1) {
                 const data = result.data;
                 const fileNames = data.data;
                 const fileUrls = fileNames.map((fileName) => {
                     return `${PUBLIC_NAS_FOLDER}/Bills/OtherBill/${other_bill_slno}/${fileName}`;
-                    // return `D:/DocMeliora/Meliora/ItBillManagement/MonthlyBill/${other_bill_slno}/${fileName}`;
                 });
                 setFilezUrls(fileUrls);
             } else {

@@ -10,7 +10,7 @@ import moment from 'moment';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import EmpTaskStatus from './EmpTaskStatus'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import FilePresentTwoToneIcon from '@mui/icons-material/FilePresentTwoTone';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage'
 
 const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcount, projectcount, setprojectcount }) => {
@@ -110,7 +110,7 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
                 const fileNames = data.data;
 
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/Meliora/TaskManagement/${tm_task_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`;
                 });
                 setImageUrls(fileUrls);
                 // Open the modal only if there are files
@@ -166,11 +166,17 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
                                                 <td> {index + 1}</td>
                                                 <td>
                                                     <EditIcon
-                                                        sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                        sx={{
+                                                            cursor: 'pointer',
+                                                            '&:hover': { color: '#003060' }
+                                                        }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
                                                 <td style={{ cursor: 'pointer', }}>
-                                                    <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                    <FilePresentTwoToneIcon sx={{
+                                                        color: '#41729F',
+                                                        '&:hover': { color: '#274472' }
+                                                    }}
                                                         onClick={() => fileView(val)}
                                                     />
                                                 </td>

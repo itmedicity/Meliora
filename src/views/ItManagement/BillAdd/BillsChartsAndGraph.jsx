@@ -1,9 +1,7 @@
 import React, { memo, } from 'react'
 import BarChartIcon from '@mui/icons-material/BarChart';
-import { Box, Paper, Typography } from '@mui/material'
-import { Chip, CssVarsProvider } from '@mui/joy';
-// import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { Paper } from '@mui/material';
+import { Box, } from '@mui/joy';
 // import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 // import { BarChart, PieChart } from '@mui/x-charts';
 // import { endOfMonth, endOfYear, format, startOfMonth, startOfYear } from 'date-fns';
@@ -11,11 +9,14 @@ import { Chip, CssVarsProvider } from '@mui/joy';
 // import moment from 'moment';
 // import { gettingArrayList, gettingArrayListYearly } from './CommonFunctnFile';
 // import { getBillCategory } from 'src/redux/actions/ItBillCategoryList.action';
-// import DonutSmallSharpIcon from '@mui/icons-material/DonutSmallSharp';
+// import { addMonths, subMonths } from 'date-fns';
+// import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 const BillsChartsAndGraph = () => {
 
     // const [searchMonthAndYear, setSearchMonthAndYear] = useState(format(new Date(), 'MMM-yyyy'));
+    // const [fromDate, setFromDate] = useState(moment(new Date()))
     // const [searchYear, setSearchYear] = useState(format(new Date(), 'yyyy'));
     // const [monthINyearData, setmonthINyearData] = useState([])
     // const [barChartViewMonthYear, setBarChartViewMonthYear] = useState([])
@@ -99,6 +100,7 @@ const BillsChartsAndGraph = () => {
     // }, [monthINyearData, billCategoryNames, yearData])
     // const valueFormatter = (value) => `${value} Rs`;
 
+
     return (
         <Paper sx={{
             mt: .5,
@@ -106,24 +108,27 @@ const BillsChartsAndGraph = () => {
             boxShadow: '0px 0px 1px',
             bgcolor: '#E3E7F1'
         }} >
-            <Box sx={{ flex: 1, fontWeight: 600, fontSize: 25, color: '#2F435A', p: .2 }}>
-                <BarChartIcon sx={{ color: '#2F435A', height: 35, width: 30 }} /> Bills Tracker
+            <Box sx={{ flex: 1, fontWeight: 600, fontSize: 20, color: '#2F435A', p: .2 }}>
+                <BarChartIcon sx={{ color: '#2F435A', height: 25, width: 20 }} />Bills Tracker
             </Box>
             <Box sx={{ px: .5, flex: 1, display: 'flex' }}>
                 <Paper sx={{ flex: 2.5, borderRadius: 0, bgcolor: 'white', height: '36vh', mb: 1 }}>
-                    <Box sx={{ flex: 1, mx: 1, pt: 1, display: 'flex' }}>
+                    {/* <Box sx={{ flex: 1, mx: 1, pt: 1, display: 'flex' }}>
                         <Typography sx={{ fontWeight: 800, fontSize: 20, color: '#52688F', flex: 1 }}>
-                            {/* &nbsp;Monthly Paid Amount */}
+                            &nbsp;Monthly Paid Amount
                         </Typography>
                         <CssVarsProvider>
                             <Chip sx={{ bgcolor: '#E7F2F8', fontSize: 20, color: '#BA0F30', fontWeight: 800, mt: .5 }}>
-                                {/* <CurrencyRupeeIcon sx={{ width: 20, color: '#BA0F30' }} /> */}
-                                {/* {new Intl.NumberFormat('en-IN').format(monthYeartotAmount)} */}
+                                <CurrencyRupeeIcon sx={{ width: 20, color: '#BA0F30' }} />
+                                {new Intl.NumberFormat('en-IN').format(monthYeartotAmount)}
                             </Chip>
                         </CssVarsProvider>
-                    </Box>
-                    {/* <Box sx={{ width: 135, ml: 1 }}>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    </Box> */}
+
+                    {/* <Box sx={{ ml: 1.5 }}> */}
+
+
+                    {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 value={searchMonthAndYear}
                                 views={['year', 'month']}
@@ -132,18 +137,38 @@ const BillsChartsAndGraph = () => {
                                 onChange={(newValue) => {
                                     setSearchMonthAndYear(newValue);
                                 }}
-                                maxDate={new Date()}
+
                                 renderInput={(params) => (
-                                    <TextField {...params} helperText={null} size='small'
+                                    <Input {...params} helperText={null} size='small'
                                         sx={{
                                             height: 35,
-                                            borderRadius: 100, bgcolor: '#BDC3CB'
+                                            borderRadius: 100, borderColor: 'red', bgcolor: '#BDC3CB'
                                         }}
                                     />
                                 )}
                             />
+                        </LocalizationProvider> */}
+
+                    {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                views={['year', 'month']}
+                                value={searchMonthAndYear}
+                                size="small"
+                                inputFormat='MMM yyyy'
+                                onChange={(newValue) => {
+                                    setSearchMonthAndYear(newValue);
+                                }}
+                                renderInput={({ inputRef, inputProps, InputProps }) => (
+                                    <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                                        <Input ref={inputRef} {...inputProps} variant="solid" style={{ width: 100, borderRadius: 50 }} />
+                                        {InputProps?.endAdornment}
+                                    </Box>
+                                )}
+                            />
                         </LocalizationProvider>
                     </Box> */}
+
+
                     {/* <Box sx={{ flex: 1, overflow: 'auto', pl: 3 }}>
                         {monthYearFlag === 1 ?
                             <BarChart
@@ -253,6 +278,28 @@ const BillsChartsAndGraph = () => {
                         </Box>
                     </Box>
                 </Paper> */}
+
+
+                {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                value={searchMonthAndYear}
+                                views={['year', 'month']}
+                                size="sm"
+                                inputFormat='MMM-yyyy'
+                                onChange={(newValue) => {
+                                    setSearchMonthAndYear(newValue);
+                                }}
+
+                                renderInput={(params) => (
+                                    <TextField {...params} helperText={null} size='small'
+                                        sx={{
+                                            height: 35,
+                                            borderRadius: 100, borderColor: 'red', bgcolor: '#BDC3CB'
+                                        }}
+                                    />
+                                )}
+                            />
+                        </LocalizationProvider> */}
             </Box>
         </Paper>
     )

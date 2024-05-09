@@ -23,7 +23,6 @@ const BillFile = ({ billViewmodalOpen, setBillViewModalOpen, setBillViewModalFla
                         overflow: 'auto',
                         minWidth: '30vw',
                         minHeight: '15vw',
-                        borderRadius: 20,
                         bgcolor: '#4C5270'
                     }}
                 >
@@ -46,11 +45,11 @@ const BillFile = ({ billViewmodalOpen, setBillViewModalOpen, setBillViewModalFla
                         </Box>
 
                         <Box sx={{
-                            mt: 1, gap: 2,
+                            gap: 2,
                             // display: 'flex',
                         }}>
                             {filezUrls.map((Url, index) => (
-                                <Paper key={index} sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 800, width: 1200, mb: .5, }}>
+                                <Paper key={index} sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 800, width: 1000, mb: .5, }}>
                                     <embed
                                         id="pdf-embed"
                                         src={Url}
