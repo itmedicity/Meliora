@@ -61,14 +61,14 @@ const GoalsMasterTableDept = ({ rowSelect, tableCount }) => {
                     <Box sx={{ height: 500, px: 1 }}>
                         <Paper variant="outlined" sx={{ maxHeight: 495, maxWidth: '100%', overflow: 'auto', m: .5, pb: .5 }}>
                             <CssVarsProvider>
-                                <Table padding={"none"} stickyHeader
+                                <Table padding={"none"} stickyHeader size='sm'
                                     hoverRow>
                                     <thead>
                                         <tr>
                                             <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
                                             <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
                                             <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
-                                            <th style={{ width: 200, fontFamily: 'Georgia', }}>CountDoun</th>
+                                            <th style={{ width: 180, fontFamily: 'Georgia', }}>CountDoun</th>
                                             <th style={{ width: 500, fontFamily: 'Georgia', }}>Goals</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Section</th>

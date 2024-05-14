@@ -104,7 +104,7 @@ const SubTaskTableUnderTask = ({ tm_task_slno, selectForEditsSubTask, tableRende
                         width: '99%', overflow: 'auto', m: 1, maxHeight: 320,
                     }}>
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader hoverRow>
+                            <Table padding={"none"} stickyHeader hoverRow size='sm'>
                                 <thead>
                                     <tr style={{ background: '#D8CEE6' }}>
                                         <th style={{ width: 50, fontFamily: 'Georgia' }}>#</th>

@@ -69,7 +69,7 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                             />
                             : null}
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader hoverRow>
+                            <Table padding={"none"} stickyHeader hoverRow size='sm'>
                                 <thead>
                                     <tr>
                                         <th style={{ width: 30 }}>SlNo</th>

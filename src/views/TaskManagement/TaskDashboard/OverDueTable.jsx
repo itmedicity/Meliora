@@ -130,10 +130,9 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                             :
                             image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                                 selectedImages={selectedImages} getarry={getarry} /> : null}
-
                         <CssVarsProvider>
 
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead >
                                     <tr >
@@ -141,14 +140,13 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 60 }}>View</th>
                                         <th style={{ width: 170 }}>Status</th>
-                                        <th style={{ width: 200 }}>Time OverDue</th>
+                                        <th style={{ width: 200, textAlign: 'center' }}>Time OverDue</th>
                                         <th style={{ width: 450 }}>Task Name</th>
                                         <th style={{ width: 450 }}>Project</th>
                                         <th style={{ width: 200 }}>Assignee</th>
                                         <th style={{ width: 150 }}>Created Date</th>
                                         <th style={{ width: 150 }}> Due Date</th>
                                         <th style={{ width: 500 }}>Task Description</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>

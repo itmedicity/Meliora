@@ -134,7 +134,7 @@ const CompletedTask = ({ tableCount, setTableCount, statuscount, setstatuscount,
                 <Box variant="outlined" sx={{ height: 725, maxWidth: '100%', overflow: 'auto', }}>
                     <Paper variant="outlined" sx={{ maxHeight: 720, maxWidth: '100%', overflow: 'auto', }}>
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead>
                                     <tr >

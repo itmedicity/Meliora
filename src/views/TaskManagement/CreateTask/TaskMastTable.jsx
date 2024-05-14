@@ -60,7 +60,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
         setprojxFlag(0)
         setStatusFlag(0)
     }, [])
-
     const closeTaskWise = useCallback(() => {
         setEnterText('')
         setTaxkFlag(0)
@@ -72,7 +71,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
         setprojxFlag(1)
         setTaxkFlag(0)
         setStatusFlag(0)
-
     }, [])
     const closeprojxWise = useCallback(() => {
         setprojxFlag(0)
@@ -80,7 +78,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
         setStatusFlag(0)
         setTaxkFlag(0)
     }, [])
-
     const statusWise = useCallback(() => {
         setStatusFlag(1)
         setTaxkFlag(0)
@@ -97,6 +94,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
     useEffect(() => {
         dispatch(getProjectList())
     }, [dispatch,])
+
     useEffect(() => {
         dispatch(getDepartSecemployee(empsecid))
     }, [dispatch, empsecid])
@@ -470,7 +468,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                         </Box>
                     </Box>
                 </Box>
-
                 <Box>
                     {((alphbased === 0) && statusDataFlag === 0) ?
                         <Box>
@@ -478,7 +475,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                 <Paper variant="outlined" sx={{ maxHeight: 680, width: '100%', overflow: 'auto', mt: .5, }}>
                                     <CssVarsProvider>
                                         <Box>
-                                            {/* {tabledata.length !== 0 ? */}
                                             <Table padding={"none"} stickyHeader
                                                 hoverRow>
                                                 <thead>
@@ -735,11 +731,10 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                             </Box>}
                                     </CssVarsProvider>
                                 </Paper> : null}
-
                         </Box>}
                 </Box>
             </Box>
-        </Box >
+        </Box>
     )
 }
 export default memo(TaskMastTable)

@@ -141,7 +141,7 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
                             /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                                 selectedImages={selectedImages} getarry={getarry} /> : null}
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead>
                                     <tr>
@@ -230,5 +230,4 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
         </Box>
     )
 }
-
 export default memo(EmpCompletedTaskList)

@@ -63,7 +63,9 @@ const SupplierDetails = () => {
         it_supplier_saleperson_second_mob_one: '',
         it_supplier_saleperson_second_mob_two: '',
         it_supplier_saleperson_second_email_one: '',
-        it_supplier_saleperson_second_email_two: ''
+        it_supplier_saleperson_second_email_two: '',
+        supplier_status: false,
+
     })
     const { it_supplier_slno, it_supplier_name, it_supplier_land_one, it_supplier_land_two, it_supplier_mob_one, it_supplier_mob_two, it_supplier_email_one,
         it_supplier_email_two, it_supplier_escl_name, it_supplier_escl_mob_one, it_supplier_escl_mob_two, it_supplier_escl_land_one, it_supplier_escl_land_two,
@@ -72,7 +74,7 @@ const SupplierDetails = () => {
         it_supplier_saleperson_land_one, it_supplier_saleperson_land_two, it_supplier_saleperson_mob_one, it_supplier_saleperson_mob_two, it_supplier_saleperson_email_one,
         it_supplier_saleperson_email_two, it_supplier_saleperson_second_name, it_supplier_saleperson_second_land_one, it_supplier_saleperson_second_land_two,
         it_supplier_saleperson_second_mob_one, it_supplier_saleperson_second_mob_two, it_supplier_saleperson_second_email_one,
-        it_supplier_saleperson_second_email_two } = supplierDetl
+        it_supplier_saleperson_second_email_two, supplier_status } = supplierDetl
 
     const UpdateSupplierDetl = useCallback(
         (e) => {
@@ -154,6 +156,7 @@ const SupplierDetails = () => {
             it_supplier_saleperson_second_mob_two: saleSecCheck === true ? it_supplier_mob_two : it_supplier_saleperson_second_mob_two,
             it_supplier_saleperson_second_email_one: saleSecCheck === true ? it_supplier_email_one : it_supplier_saleperson_second_email_one,
             it_supplier_saleperson_second_email_two: saleSecCheck === true ? it_supplier_email_two : it_supplier_saleperson_second_email_two,
+            supplier_status: supplier_status === true ? 1 : 0,
             create_user: id
         }
     }, [it_supplier_name, it_supplier_land_one, it_supplier_land_two, it_supplier_mob_one, it_supplier_mob_two, it_supplier_email_one,
@@ -162,7 +165,7 @@ const SupplierDetails = () => {
         it_supplier_servperson_mob_one, it_supplier_servperson_mob_two, it_supplier_servperson_email_one, it_supplier_servperson_email_two, it_supplier_saleperson_name,
         it_supplier_saleperson_land_one, it_supplier_saleperson_land_two, it_supplier_saleperson_mob_one, it_supplier_saleperson_mob_two, it_supplier_saleperson_email_one,
         it_supplier_saleperson_email_two, it_supplier_saleperson_second_name, it_supplier_saleperson_second_land_one, it_supplier_saleperson_second_land_two,
-        it_supplier_saleperson_second_mob_one, it_supplier_saleperson_second_mob_two, it_supplier_saleperson_second_email_one,
+        it_supplier_saleperson_second_mob_one, it_supplier_saleperson_second_mob_two, it_supplier_saleperson_second_email_one, supplier_status,
         it_supplier_saleperson_second_email_two, id, imdCheck, saleCheck, saleSecCheck, serviceCheck])
 
     const patchdata = useMemo(() => {
@@ -204,6 +207,7 @@ const SupplierDetails = () => {
             it_supplier_saleperson_second_mob_two: it_supplier_saleperson_second_mob_two === null ? '' : it_supplier_saleperson_second_mob_two,
             it_supplier_saleperson_second_email_one: it_supplier_saleperson_second_email_one === null ? '' : it_supplier_saleperson_second_email_one,
             it_supplier_saleperson_second_email_two: it_supplier_saleperson_second_email_two === null ? '' : it_supplier_saleperson_second_email_two,
+            supplier_status: supplier_status === true ? 1 : 0,
             edit_user: id
         }
     }, [it_supplier_slno, it_supplier_name, it_supplier_land_one, it_supplier_land_two, it_supplier_mob_one, it_supplier_mob_two, it_supplier_email_one,
@@ -212,7 +216,7 @@ const SupplierDetails = () => {
         it_supplier_servperson_mob_one, it_supplier_servperson_mob_two, it_supplier_servperson_email_one, it_supplier_servperson_email_two, it_supplier_saleperson_name,
         it_supplier_saleperson_land_one, it_supplier_saleperson_land_two, it_supplier_saleperson_mob_one, it_supplier_saleperson_mob_two, it_supplier_saleperson_email_one,
         it_supplier_saleperson_email_two, it_supplier_saleperson_second_name, it_supplier_saleperson_second_land_one, it_supplier_saleperson_second_land_two,
-        it_supplier_saleperson_second_mob_one, it_supplier_saleperson_second_mob_two, it_supplier_saleperson_second_email_one,
+        it_supplier_saleperson_second_mob_one, it_supplier_saleperson_second_mob_two, it_supplier_saleperson_second_email_one, supplier_status,
         it_supplier_saleperson_second_email_two, id])
 
     const rowSelect = useCallback((data) => {
@@ -255,6 +259,7 @@ const SupplierDetails = () => {
             it_supplier_saleperson_second_mob_two,
             it_supplier_saleperson_second_email_one,
             it_supplier_saleperson_second_email_two,
+            supplier_status,
         } = data
 
         const frmdata = {
@@ -295,6 +300,7 @@ const SupplierDetails = () => {
             it_supplier_saleperson_second_mob_two: it_supplier_saleperson_second_mob_two === null ? '' : it_supplier_saleperson_second_mob_two,
             it_supplier_saleperson_second_email_one: it_supplier_saleperson_second_email_one === null ? '' : it_supplier_saleperson_second_email_one,
             it_supplier_saleperson_second_email_two: it_supplier_saleperson_second_email_two === null ? '' : it_supplier_saleperson_second_email_two,
+            supplier_status: supplier_status === 1 ? true : false,
             edit_user: id
         }
         setSupplierDetl(frmdata)
@@ -337,7 +343,8 @@ const SupplierDetails = () => {
             it_supplier_saleperson_second_mob_one: '',
             it_supplier_saleperson_second_mob_two: '',
             it_supplier_saleperson_second_email_one: '',
-            it_supplier_saleperson_second_email_two: ''
+            it_supplier_saleperson_second_email_two: '',
+            supplier_status: false,
         }
         setSupplierDetl(frmdata)
         setimdCheck(false)
@@ -660,6 +667,17 @@ const SupplierDetails = () => {
                                             value={it_supplier_email_one}
                                             onchange={UpdateSupplierDetl}
                                         ></TextFieldCustom>
+                                    </Box>
+                                    <Box sx={{ pt: 1 }}>
+                                        <CusCheckBox
+                                            label="status"
+                                            color="primary"
+                                            size="md"
+                                            name="supplier_status"
+                                            value={supplier_status}
+                                            checked={supplier_status}
+                                            onCheked={UpdateSupplierDetl}
+                                        ></CusCheckBox>
                                     </Box>
                                 </Box>
                                 <Box sx={{ flex: 1, px: .5 }}>
@@ -1472,7 +1490,7 @@ const SupplierDetails = () => {
                         </Box>
                     </CustomeToolTip>
                 </Box>
-                <Box sx={{ flex: 1, mt: .6 }}>
+                <Box sx={{ flex: 1, mt: .6, px: 1, pb: .5 }}>
                     <SupplierDetailTable rowSelect={rowSelect} count={count} />
                 </Box>
             </Paper>

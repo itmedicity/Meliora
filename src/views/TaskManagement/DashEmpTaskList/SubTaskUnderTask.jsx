@@ -88,10 +88,9 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                                     <CountDowncomponent DueDates={val.tm_task_due_date} />
                                 </Box> :
                                 <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, justifyContent: 'center' }}>
-                                    {/* <Box sx={{ flex: .5, }}></Box>
-                                    <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;:&nbsp;00&nbsp;:&nbsp;00</Box>
-                                    <Box sx={{ flex: .5 }}></Box> */}
-                                    completed
+                                    <Box sx={{ flex: .5, }}></Box>
+                                    <Box sx={{ flex: 1, }}>completed</Box>
+                                    <Box sx={{ flex: .5 }}></Box>
                                 </Box>
                             }
                             <Box sx={{ flex: 1, ml: .5, pt: .5 }}>

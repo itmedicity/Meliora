@@ -63,18 +63,21 @@ const ProjectMasterDept = () => {
         [projectMast],
     )
 
-    const reset = () => {
+    const reset = useCallback(() => {
         const form = {
             tm_project_slno: '',
             tm_project_name: '',
             tm_project_duedate: '',
             tm_project_description: '',
+            tm_project_status: false,
             tm_project_cmpltedate: ''
         }
         setprojectMast(form)
         setgoalz(0)
+    }, [])
 
-    }
+
+
     const rowSelect = useCallback((data) => {
         setvalue(1)
         const {
@@ -92,8 +95,8 @@ const ProjectMasterDept = () => {
             tm_project_name: tm_project_name,
             tm_project_dept: empdept === 0 ? null : empdept,
             tm_project_deptsec: empsecid === 0 ? null : empsecid,
-            tm_project_duedate: tm_project_duedate === '' ? null : tm_project_duedate,
-            tm_project_description: tm_project_description === '' ? null : tm_project_description,
+            tm_project_duedate: tm_project_duedate === null ? '' : tm_project_duedate,
+            tm_project_description: tm_project_description === null ? '' : tm_project_description,
             tm_project_status: tm_project_status === 1 ? true : false,
             tm_project_cmpltedate: tm_project_cmpltedate === '' ? null : tm_project_cmpltedate,
             tm_project_edit_user: id,
@@ -153,7 +156,7 @@ const ProjectMasterDept = () => {
         } else {
             infoNotify('Please Enter Project Name')
         }
-    }, [postProject, tm_project_name, tableCount])
+    }, [postProject, tm_project_name, tableCount, reset])
     const UpdateProject = useCallback((e) => {
         e.preventDefault()
         if (tm_project_name !== '') {
@@ -175,7 +178,7 @@ const ProjectMasterDept = () => {
         } else {
             infoNotify('Please Enter Project Name')
         }
-    }, [patchProject, tableCount, tm_project_name])
+    }, [patchProject, tableCount, tm_project_name, reset])
 
     return (
 
