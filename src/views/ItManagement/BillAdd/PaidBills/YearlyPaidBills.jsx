@@ -15,7 +15,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { format } from 'date-fns';
 import BillModalTele from '../TeleCommunication/BillModalTele';
 
-const YearlyPaidBills = ({ yearBills }) => {
+const YearlyPaidBills = ({ yearBills, }) => {
     const [billDatas, setBillDatas] = useState([])
     const [modalFlag, setModalFlag] = useState(0)
     const [modalOpen, setModalOpen] = useState(false)
@@ -31,11 +31,12 @@ const YearlyPaidBills = ({ yearBills }) => {
     const [billCategory, setBillCategory] = useState(0)
     const [billcate, setBillcate] = useState([])
     const [cateName, setcateName] = useState('')
+    const [indexNo, setindexNo] = useState(0)
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getBillCategory())
     }, [dispatch])
-
 
     const OpenYearBillView = useCallback((value) => {
         const { yearly_slno } = value
@@ -56,6 +57,7 @@ const YearlyPaidBills = ({ yearBills }) => {
         getbillsFile(yearly_slno)
         setBillDatas(value)
         setModalFlag(1)
+        setindexNo(yearly_slno)
         setModalOpen(true)
     }, [])
 
@@ -72,7 +74,6 @@ const YearlyPaidBills = ({ yearBills }) => {
         setAlphbased(0)
         setEnterText('')
         setBillDatee('')
-
     }, [])
 
     const openBillDate = useCallback(() => {
@@ -85,7 +86,6 @@ const YearlyPaidBills = ({ yearBills }) => {
         setsearchBillDateFlag(0)
         setsearchBillNameFlag(0)
         setsearchBillCateFlag(1)
-
     }, [])
 
     const SearchBillName = useCallback(() => {
@@ -115,7 +115,6 @@ const YearlyPaidBills = ({ yearBills }) => {
         setBillDatee(e.target.value)
     }, [])
 
-
     const SearchBillCate = useCallback(() => {
         let newTableDataa = yearBills && yearBills.filter((val) => val.bill_category === billCategory)
         setAlphbased(3)
@@ -142,7 +141,7 @@ const YearlyPaidBills = ({ yearBills }) => {
     }, [billDatee, yearBills])
     return (
         <Box sx={{ flex: 10, maxHeight: '60vh', }}>
-            {modalFlag === 1 ? <BillModalTele modalOpen={modalOpen} billDatas={billDatas}
+            {modalFlag === 1 ? <BillModalTele modalOpen={modalOpen} billDatas={billDatas} index_no={indexNo} setFilezUrls={setFilezUrls}
                 setModalFlag={setModalFlag} setModalOpen={setModalOpen} filezUrls={filezUrls} cateName={cateName}
             /> : null}
             <Box sx={{ flex: 1, my: .2 }}>

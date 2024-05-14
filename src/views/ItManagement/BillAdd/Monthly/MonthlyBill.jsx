@@ -51,7 +51,6 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
         setpendingModalFlag(1)
         setpendingModalOpen(true)
     }, [])
-
     const searchBillls = useCallback(() => {
         setsearchBillNameFlag(1)
         setsearchBillCateFlag(0)
@@ -59,12 +58,11 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
     const OpenBillCate = useCallback(() => {
         setsearchBillNameFlag(0)
         setsearchBillCateFlag(1)
-
     }, [])
-
     const updateEnterText = useCallback((e) => {
         setEnterText(e.target.value)
     }, [])
+
     const SearchBillName = useCallback(() => {
         if (enterText.length < 3) {
             infoNotify('please enter minimum 3 character to search task name')
@@ -80,7 +78,6 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
         if (alphbased === 1) {
             let newTableDataa = monthlydata && monthlydata.filter((val) => val.bill_name.toLowerCase().includes(enterText))
             setAlphbasedData(newTableDataa)
-
         }
     }, [monthlydata, alphbased, enterText])
 
@@ -197,7 +194,6 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                                 </CssVarsProvider>
                             </Box> : null}
                     </Box>
-                    {/* <Box sx={{ flex: 1, fontWeight: 600, color: 'white' }}>Bill Type</Box> */}
                 </Box> : null}
             <Box sx={{ display: 'flex' }}>
                 <Box sx={{ flex: 1, maxHeight: '55vh', overflow: 'auto' }}>
@@ -286,9 +282,6 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                                             <Box sx={{ flex: 1, pt: .5, cursor: 'grab', pl: 2 }}>
                                                 {val.it_bill_category_name}
                                             </Box>
-                                            {/* <Tooltip title="bill type" placement="bottom"><Box sx={{ flex: 1, pt: .5, cursor: 'grab' }}>
-                                                {val.it_bill_type_name}
-                                            </Box></Tooltip> */}
                                         </Paper>
                                     })
                                 }

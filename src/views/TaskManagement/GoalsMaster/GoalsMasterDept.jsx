@@ -83,17 +83,20 @@ const GoalsMasterDept = () => {
         }
     }, [tm_goals_slno, tm_goal_name, empdept, empsecid, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, newDate, id])
 
-    const reset = () => {
+
+    const reset = useCallback(() => {
         const form = {
             tm_goals_slno: '',
             tm_goal_name: '',
             tm_goal_fromdate: '',
             tm_goal_duedate: '',
             tm_goal_description: '',
-            tm_goal_cmpledate: ''
+            tm_goal_status: false,
+            tm_goal_cmpledate: '',
         }
         setgoalMast(form)
-    }
+    }, [])
+
     const rowSelect = useCallback((data) => {
         setvalue(1)
         const {
@@ -111,11 +114,11 @@ const GoalsMasterDept = () => {
             tm_goal_name: tm_goal_name,
             tm_goal_dept: empdept === 0 ? null : empdept,
             tm_goal_deptsec: empsecid === 0 ? null : empsecid,
-            tm_goal_fromdate: tm_goal_fromdate === '' ? null : tm_goal_fromdate,
-            tm_goal_duedate: tm_goal_duedate === '' ? null : tm_goal_duedate,
-            tm_goal_description: tm_goal_description === '' ? null : tm_goal_description,
+            tm_goal_fromdate: tm_goal_fromdate === null ? '' : tm_goal_fromdate,
+            tm_goal_duedate: tm_goal_duedate === null ? '' : tm_goal_duedate,
+            tm_goal_description: tm_goal_description === null ? '' : tm_goal_description,
             tm_goal_status: tm_goal_status === 1 ? true : false,
-            tm_goal_cmpledate: tm_goal_cmpledate === '' ? null : tm_goal_cmpledate,
+            tm_goal_cmpledate: tm_goal_cmpledate === null ? '' : tm_goal_cmpledate,
             tm_goal_edituser: id,
         }
         setgoalMast(frmdata)
@@ -142,7 +145,7 @@ const GoalsMasterDept = () => {
         } else {
             infoNotify('Please Enter Project Name')
         }
-    }, [postGoal, tableCount, tm_goal_name])
+    }, [postGoal, tableCount, tm_goal_name, reset])
 
     const UpdateGoals = useCallback((e) => {
         e.preventDefault()
@@ -165,7 +168,7 @@ const GoalsMasterDept = () => {
         } else {
             infoNotify('Please Enter Project Name')
         }
-    }, [patchGoal, tableCount, tm_goal_name])
+    }, [patchGoal, tableCount, tm_goal_name, reset])
 
     return (
         <Paper sx={{ height: '100%', width: '100%', bgcolor: 'white', boxShadow: '0px 1px 3px' }}>

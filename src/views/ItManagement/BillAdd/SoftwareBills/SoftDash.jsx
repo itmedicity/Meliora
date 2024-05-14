@@ -9,8 +9,8 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import SoftwareMain from './SoftwareMain';
 import PaidBillsSoftWare from './PaidBillsSoftWare';
 
-
 const SoftDash = ({ billCount, setbillCount }) => {
+
     return (
         <Paper sx={{
             mt: .5, borderRadius: 0, p: .5,
@@ -31,17 +31,14 @@ const SoftDash = ({ billCount, setbillCount }) => {
                         disableUnderline
                         sx={{
                             p: 0,
-                            // bgcolor: 'background.level1',
                             bgcolor: 'white',
                             [`& .${tabClasses.root}[aria-selected="true"]`]: {
                                 borderBottom: 5,
-                                // bgcolor: 'background.level1',
                                 bgcolor: 'white'
                             },
                             display: 'flex', flexDirection: 'column'
                         }}
                     >
-
                         <Box sx={{ display: 'flex', flex: 1 }} >
                             <Box sx={{ flex: 3, display: 'flex', px: .5 }}>
                                 <Tab disableIndicator sx={{ color: '#710117', fontWeight: 800, }}>  <FmdBadIcon sx={{ color: '#710117', height: 25, width: 30 }} /> Pending Bills</Tab>

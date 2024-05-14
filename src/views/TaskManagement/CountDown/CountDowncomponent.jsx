@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
 import useCountdown from './useCountdown'
 import { Box } from '@mui/material'
-import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
-import AvTimerIcon from '@mui/icons-material/AvTimer';
+import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import RestoreIcon from '@mui/icons-material/Restore';
+import AlarmTwoToneIcon from '@mui/icons-material/AlarmTwoTone';
 const CountDowncomponent = ({ DueDates }) => {
 
     const currentTime = new Date()
@@ -16,7 +16,7 @@ const CountDowncomponent = ({ DueDates }) => {
             {days === 0 && hours === 0 && minutes === 0 ?
                 <Box sx={{ display: 'flex', }}>
                     <Box sx={{ my: .2, }} >
-                        <AvTimerIcon sx={{ color: '#05445E', fontWeight: 800, }} />&nbsp;
+                        <TimerOutlinedIcon sx={{ color: '#BA0F30', fontWeight: 800, }} />&nbsp;
                     </Box>
                     <Box sx={{ flex: .1 }}></Box>
                     <Box sx={{ fontWeight: 600, color: '#05445E', pt: .2, }}>{days}</Box>&nbsp;
@@ -45,7 +45,7 @@ const CountDowncomponent = ({ DueDates }) => {
                             </Box> :
                             <Box sx={{ display: 'flex', }}>
                                 <Box sx={{ my: .2 }} >
-                                    <AccessAlarmIcon sx={{ fontWeight: 800, color: '#437081', }} />&nbsp;
+                                    <AlarmTwoToneIcon sx={{ fontWeight: 800, color: '#437081', }} />&nbsp;
                                 </Box>
                                 <Box sx={{ flex: .1 }}></Box>
                                 <Box sx={{ fontWeight: 600, color: '#05445E', pt: .2, }}>{days}</Box>&nbsp;

@@ -37,7 +37,6 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
                             tm_task_name: val.tm_task_name,
                             dept_name: (val.dept_name).toLowerCase(),
                             sec_name: (val.sec_name).toLowerCase(),
-                            // em_name: (val.em_name).toLowerCase(),                            
                             em_name: val.em_name,
                             tm_assigne_emp: val.tm_assigne_emp,
                             tm_task_dept: val.tm_task_dept,
@@ -51,6 +50,7 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
                             tm_pending_remark: val.tm_pending_remark,
                             tm_onhold_remarks: val.tm_onhold_remarks,
                             create_date: val.create_date,
+                            tm_complete_date: val.tm_complete_date,
                             tm_completed_remarks: val.tm_completed_remarks,
                             TaskStatus: val.tm_task_status === 1 ? 'Completed' :
                                 val.tm_task_status === 1 ? 'Completed' :
@@ -141,7 +141,7 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
                             /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                                 selectedImages={selectedImages} getarry={getarry} /> : null}
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead>
                                     <tr>
@@ -230,5 +230,4 @@ const EmpCompletedTaskList = ({ tableCount, setTableCount, taskcount, settaskcou
         </Box>
     )
 }
-
 export default memo(EmpCompletedTaskList)

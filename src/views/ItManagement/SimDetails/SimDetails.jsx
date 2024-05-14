@@ -18,6 +18,7 @@ import { getDepartment } from 'src/redux/actions/Department.action';
 import TmDeptSectionSelect from 'src/views/CommonSelectCode/TmDeptSectionSelect';
 import ItSimTypeSelect from 'src/views/CommonSelectCode/ItSimTypeSelect';
 import { getSimType } from 'src/redux/actions/ItSimTypeList.action';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const SimDetails = () => {
     const [provider, setProvider] = useState(0)
@@ -29,7 +30,7 @@ const SimDetails = () => {
     const [reciverCheck, setRecieverCheck] = useState(false)
     const [reciverFlag, setRecieverFlag] = useState(0)
     const [simType, setSimType] = useState(0)
-
+    const history = useHistory()
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -106,12 +107,12 @@ const SimDetails = () => {
             it_sim_tariff: tarrif === 0 ? null : tarrif,
             it_sim_tariff_amount: it_sim_tariff_amount === '' ? null : it_sim_tariff_amount,
             it_sim_status: it_sim_status === true ? 1 : 0,
-            it_sim_type: simType,
-            it_sim_dept: department,
-            it_sim_deptsec: deptsec,
-            it_sim_recie_empid: it_sim_recie_empid,
-            it_sim_recie_name: it_sim_recie_name,
-            it_sim_recei_contact: it_sim_recei_contact,
+            it_sim_type: simType === 0 ? null : simType,
+            it_sim_dept: department === 0 ? null : department,
+            it_sim_deptsec: deptsec === 0 ? null : deptsec,
+            it_sim_recie_empid: it_sim_recie_empid === '' ? null : it_sim_recie_empid,
+            it_sim_recie_name: it_sim_recie_name === '' ? null : it_sim_recie_name,
+            it_sim_recei_contact: it_sim_recei_contact === '' ? null : it_sim_recei_contact,
             it_sim_issue_date: it_sim_issue_date === '' ? null : it_sim_issue_date,
             create_user: id,
         }
@@ -230,7 +231,7 @@ const SimDetails = () => {
         if (it_sim_mobile_no !== '') {
             if (!isValidMobileNumber(it_sim_mobile_no)) {
                 infoNotify("Please enter a valid 10-digit SiM mobile number");
-                return; // Stop further processing if the number is invalid
+                return;
             }
         }
         if (it_sim_mobile_no !== '' && provider !== 0 && tarrif !== 0) {
@@ -259,7 +260,7 @@ const SimDetails = () => {
         if (it_sim_mobile_no !== '') {
             if (!isValidMobileNumber(it_sim_mobile_no)) {
                 infoNotify("Please enter a valid 10-digit SiM mobile number");
-                return; // Stop further processing if the number is invalid
+                return;
             }
         }
         if (it_sim_mobile_no !== '' && provider !== 0 && tarrif !== 0) {
@@ -283,6 +284,10 @@ const SimDetails = () => {
         }
     }, [patchData, tableCount, it_sim_mobile_no, settableCount, provider, tarrif])
 
+    const backtoHome = useCallback(() => {
+        history.push('/Home')
+    }, [history])
+
     return (
 
         <Paper sx={{ height: '60vw', }}>
@@ -295,7 +300,7 @@ const SimDetails = () => {
                         <CusIconButton size="sm" variant="outlined" color="primary"  >
                             <Tooltip title="Close" placement="bottom" >
                                 <CloseIcon fontSize='small'
-                                // onClick={BackToDash}
+                                    onClick={backtoHome}
                                 />
                             </Tooltip>
                         </CusIconButton>

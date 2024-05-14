@@ -73,7 +73,7 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                             />
                             : null}
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead>
                                     <tr >

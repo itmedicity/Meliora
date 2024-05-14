@@ -18,7 +18,6 @@ import TmProjectListSearch from 'src/views/CommonSelectCode/TmProjectListSearch'
 import { getProjectList } from 'src/redux/actions/TmProjectsList.action'
 import { useDispatch } from 'react-redux'
 import CountDowncomponent from '../CountDown/CountDowncomponent'
-
 const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projectcount, setprojectcount }) => {
     const [tabledata, setTabledata] = useState([])
     const [editModalOpen, setEditModalOpen] = useState(false)
@@ -241,6 +240,15 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                         pl: 1
                                     }}
                                     onChange={updateEnterText} />
+                                {/* 
+                                <Input
+                                    size='xs'
+                                    name="enterText"
+                                    value={enterText}
+                                    placeholder="    TYPE HERE TO SEARCH TASK..."
+                                    startDecorator={<AssignmentTwoToneIcon />}
+                                    endDecorator={<SearchIcon size='xs' />}
+                                    onChange={updateEnterText} /> */}
                             </Box>
                             <Box sx={{ pt: .3, pb: .3, mr: .3 }}>
                                 <CssVarsProvider>
@@ -324,7 +332,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                         /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                                             selectedImages={selectedImages} getarry={getarry} /> : null}
                                     <CssVarsProvider>
-                                        <Table padding={"none"} stickyHeader
+                                        <Table padding={"none"} stickyHeader size='sm'
                                             hoverRow>
                                             <thead >
                                                 <tr>
@@ -583,9 +591,6 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                                                                     : 'transparent', minHeight: 5
                                                                         }} />&nbsp;{val.TaskStatus}</td>
                                                                     <td><Box sx={{ border: 1, borderRadius: 3, borderColor: '#C3CEDA', pl: 1, py: .5 }}>
-                                                                        {/* <CountDowncomponent DueDates={val.tm_task_due_date}
-                                                                        /> */}
-
                                                                     </Box></td>
                                                                     {val.tm_task_status === 1 ?
                                                                         <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td> :

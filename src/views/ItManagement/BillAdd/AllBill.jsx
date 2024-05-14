@@ -60,7 +60,7 @@ const AllBill = ({ billCount, setbillCount }) => {
                 <Box sx={{ flex: 1, fontWeight: 600, color: 'white' }}>Sim Type</Box>
                 <Box sx={{ flex: .6, fontWeight: 600, color: 'white' }}>Tariff</Box>
             </Box>
-            <Box sx={{ maxHeight: '63vh', overflow: 'auto', flex: 1 }}>
+            <Box sx={{ maxHeight: '60vh', overflow: 'auto', flex: 1 }}>
                 {
                     allBillData && allBillData.map((val) => {
                         return <Paper key={val.bill_add_slno}
@@ -78,7 +78,6 @@ const AllBill = ({ billCount, setbillCount }) => {
                             <Box sx={{ flex: 5, pt: .5, fontSize: 14 }}>
                                 {val.bill_name}
                             </Box>
-
                             <Box sx={{ flex: 1, pt: .5, fontSize: 14 }}>
                                 {val.it_sim_type_name}
                             </Box>

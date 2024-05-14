@@ -78,19 +78,20 @@ const GoalsMaster = () => {
         }
     }, [tm_goals_slno, tm_goal_name, department, deptsec, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, newDate, id])
 
-    const reset = () => {
+    const reset = useCallback(() => {
         const form = {
             tm_goals_slno: '',
             tm_goal_name: '',
-            tm_goal_fromdate: '',
             tm_goal_duedate: '',
+            tm_goal_fromdate: '',
             tm_goal_description: '',
+            tm_goal_status: false,
             tm_goal_cmpledate: ''
         }
         setgoalMast(form)
         setDepartment(0)
         setDeptSec(0)
-    }
+    }, [])
 
     const rowSelect = useCallback((data) => {
         setvalue(1)
@@ -109,11 +110,11 @@ const GoalsMaster = () => {
         const frmdata = {
             tm_goals_slno: tm_goals_slno,
             tm_goal_name: tm_goal_name,
-            tm_goal_fromdate: tm_goal_fromdate === '' ? null : tm_goal_fromdate,
-            tm_goal_duedate: tm_goal_duedate === '' ? null : tm_goal_duedate,
-            tm_goal_description: tm_goal_description === '' ? null : tm_goal_description,
+            tm_goal_fromdate: tm_goal_fromdate === null ? '' : tm_goal_fromdate,
+            tm_goal_duedate: tm_goal_duedate === null ? '' : tm_goal_duedate,
+            tm_goal_description: tm_goal_description === null ? '' : tm_goal_description,
             tm_goal_status: tm_goal_status === 1 ? true : false,
-            tm_goal_cmpledate: tm_goal_cmpledate === '' ? null : tm_goal_cmpledate,
+            tm_goal_cmpledate: tm_goal_cmpledate === null ? '' : tm_goal_cmpledate,
             tm_goal_edituser: id,
         }
         setgoalMast(frmdata)
@@ -140,9 +141,9 @@ const GoalsMaster = () => {
             }
             InsertMastGoal(postGoal)
         } else {
-            infoNotify('Please Enter Goal Name')
+            infoNotify('Please fill Manadatory Feilds')
         }
-    }, [postGoal, tm_goal_name, tableCount])
+    }, [postGoal, tm_goal_name, tableCount, reset])
 
     const UpdateGoals = useCallback((e) => {
         e.preventDefault()
@@ -165,7 +166,7 @@ const GoalsMaster = () => {
         } else {
             infoNotify('Please Enter Goal Name')
         }
-    }, [patchGoal, tm_goal_name, tableCount])
+    }, [patchGoal, tm_goal_name, tableCount, reset])
 
     const BackToDash = useCallback(() => {
         history.push('/Home/TaskManagementDashboard')

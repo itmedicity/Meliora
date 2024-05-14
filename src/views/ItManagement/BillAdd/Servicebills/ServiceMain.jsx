@@ -11,177 +11,241 @@ import OtherBills from '../OtherBill/OtherBills';
 
 const ServiceMain = ({ billCount, setbillCount }) => {
 
-
     const [monthlydata, setMonthlydata] = useState([])
     const [quaterlydata, setQuaterlydata] = useState([])
     const [yearlydata, setYearlydata] = useState([])
-    const [otherData, setOtherData] = useState(0)
+    const [otherData, setOtherData] = useState([])
+
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
     })
 
     useEffect(() => {
-        const monthlyy = format(new Date(startOfMonth(new Date())), "yyyy-MM-dd")
-        const yearStart = format(new Date(startOfYear(new Date())), "yyyy-MM-dd")
-        const today = new Date();
-        const currentYear = today.getFullYear();
-        const startOfApr = startOfMonth(new Date(currentYear, 3, 1)); // April
-        const startOfJul = startOfMonth(new Date(currentYear, 6, 1)); // July
-        const startOfOct = startOfMonth(new Date(currentYear, 9, 1)); // October
-
-        const initial = async (checking) => {
-            const result1 = await axioslogin.post(`/ItBillAdd/CheckInsetMonthlyOrNot`, checking);
-            const { success } = result1.data
-            if (success !== 1) {
-                const result = await axioslogin.post(`/ItBillAdd/monthlyTarrifInsert`, checking);
-                const { success } = result.data
-                if (success === 1) {
-                    return 0
-                }
-            }
-        }
-        const getMonthlywise = async () => {
-            const result = await axioslogin.get('ItBillAdd/monthlyview')
-            const { success, data
-            } = result.data
-            if (success === 2) {
-                data && data.map((val) => {
-                    const checking = {
-                        bill_add_slno: val.bill_add_slno,
-                        create_user: id,
-                        monthly_bill_generate: monthlyy
-                    }
-                    initial(checking)
-                    return 0
-                })
-            }
-        }
-        const quater = async (checking) => {
-            const result1 = await axioslogin.post(`/ItBillAdd/CheckInsetQuaterlyOrNot`, checking);
-            const { success } = result1.data
-            if (success !== 1) {
-                const result = await axioslogin.post(`/ItBillAdd/quaterlyTarrifInsert`, checking);
-                const { success } = result.data
-                if (success === 1) {
-                    return 0
-                }
-            }
-        }
-        const getQuaterlywise = async () => {
-            const result = await axioslogin.get('ItBillAdd/quarterlyview')
+        const getUnpaidBillsServMonthly = async () => {
+            const result = await axioslogin.get('ItBillAdd/getUnpaidBillsServMonthly')
             const { success, data } = result.data
             if (success === 2) {
-                data && data.map((val) => {
-                    const checking = {
-                        bill_add_slno: val.bill_add_slno,
-                        create_user: id,
-                        quaterly_bill_generate: isAfter(new Date(), startOfOct)
-                            ? `${currentYear}-10-01`
-                            : isAfter(new Date(), startOfJul)
-                                ? `${currentYear}-07-01`
-                                : isAfter(new Date(), startOfApr)
-                                    ? `${currentYear}-04-01`
-                                    : `${currentYear}-01-01`,
-                    };
-                    quater(checking)
-                    return 0
-                })
+                setMonthlydata(data)
+            } else {
+                setMonthlydata([])
             }
         }
-        const year = async (checking) => {
-            const result1 = await axioslogin.post(`/ItBillAdd/CheckInsetYearlyOrNot`, checking);
-            const { success } = result1.data
-            if (success !== 1) {
-                const result = await axioslogin.post(`/ItBillAdd/yearlyTarrifInsert`, checking);
-                const { success } = result.data
-                if (success === 1) {
-                    return 0
-                }
-            }
-        }
-        const getyearlywise = async () => {
-            const result = await axioslogin.get('ItBillAdd/yearlyview')
+        const getUnpaidBillsSerQuarter = async () => {
+            const result = await axioslogin.get('ItBillAdd/getUnpaidBillsSerQuarter')
             const { success, data } = result.data
             if (success === 2) {
-                data && data.map((val) => {
-                    const checking = {
-                        bill_add_slno: val.bill_add_slno,
-                        create_user: id,
-                        yearly_bill_generate: yearStart
-                    }
-                    year(checking)
-                    return 0
-                })
+                setQuaterlydata(data)
+            } else {
+                setQuaterlydata([])
             }
         }
-        getMonthlywise()
-        getQuaterlywise()
-        getyearlywise()
-    }, [id])
-
-    useEffect(() => {
-        const monthlyy = format(new Date(startOfMonth(new Date())), "yyyy-MM-dd")
-        const getMonthlywiseArray = async () => {
-            const Monthdataget = {
-                monthly_bill_generate: monthlyy
-            }
-            const result1 = await axioslogin.post(`/ItBillAdd/getServiceMonthData`, Monthdataget);
-            const { success, dataa } = result1.data
-            if (success === 1) {
-                setMonthlydata(dataa);
+        const getUnpaidBillsSerYear = async () => {
+            const result = await axioslogin.get('ItBillAdd/getUnpaidBillsSerYear')
+            const { success, data } = result.data
+            if (success === 2) {
+                setYearlydata(data)
+            } else {
+                setYearlydata([])
             }
         }
-        getMonthlywiseArray()
-    }, [billCount])
-    useEffect(() => {
-        const today = new Date();
-        const currentYear = today.getFullYear();
-        const startOfApr = startOfMonth(new Date(currentYear, 3, 1)); // April
-        const startOfJul = startOfMonth(new Date(currentYear, 6, 1)); // July
-        const startOfOct = startOfMonth(new Date(currentYear, 9, 1)); // October
-        const getQuaterlywiseArray = async () => {
-            const Quaterdataget = {
-                quaterly_bill_generate: isAfter(new Date(), startOfOct) ? "2023-10-01" :
-                    isAfter(new Date(), startOfJul) ? "2023-07-01" :
-                        isAfter(new Date(), startOfApr) ? "2023-04-01" : "2023-01-01"
-            }
-            const result1 = await axioslogin.post(`/ItBillAdd/getServiceQuarterlyData`, Quaterdataget);
-            const { success, dataa } = result1.data
-            if (success === 1) {
-                setQuaterlydata(dataa);
-            }
-        }
-        getQuaterlywiseArray()
-    }, [billCount])
-    useEffect(() => {
-        const yearStart = format(new Date(startOfYear(new Date())), "yyyy-MM-dd")
-        const getyearlywiseArray = async () => {
-            const Yeardataget = {
-                yearly_bill_generate: yearStart
-            }
-            const result1 = await axioslogin.post(`/ItBillAdd/getServiceYearlyData`, Yeardataget);
-            const { success, dataa } = result1.data
-            if (success === 1) {
-                setYearlydata(dataa);
-            }
-        }
-        getyearlywiseArray()
-    }, [billCount])
-
-    useEffect(() => {
-        const getOtherBills = async () => {
-            const result = await axioslogin.get('/ItBillAdd/otherServiceBillViewinDash');
-            const { success, data } = result.data;
+        const getUnpaidBillsSerOther = async () => {
+            const result = await axioslogin.get('ItBillAdd/otherServiceBillViewinDash')
+            const { success, data } = result.data
             if (success === 2) {
                 setOtherData(data)
             } else {
                 setOtherData([])
             }
         }
-        getOtherBills()
+        getUnpaidBillsServMonthly()
+        getUnpaidBillsSerQuarter()
+        getUnpaidBillsSerYear()
+        getUnpaidBillsSerOther()
     }, [billCount])
 
+    useEffect(() => {
+        const currentmonth = format(new Date(startOfMonth(new Date())), "yyyy-MM-dd")
+        const today = new Date();
+        const currentYear = today.getFullYear();
+        const startOfApr = startOfMonth(new Date(currentYear, 3, 1)); // April
+        const startOfJul = startOfMonth(new Date(currentYear, 6, 1)); // July
+        const startOfOct = startOfMonth(new Date(currentYear, 9, 1)); // October
+        const currentQuarter = isAfter(new Date(), startOfOct) ? `${currentYear}-10-01` : isAfter(new Date(), startOfJul) ? `${currentYear}-07-01` :
+            isAfter(new Date(), startOfApr) ? `${currentYear}-04-01` : `${currentYear}-01-01`
+        const currentYearz = format(new Date(startOfYear(new Date())), "yyyy-MM-dd")
+        //getMonthlyTarrif to get all monthly tariff bills from the bill add table
+        const getMonthlyTarrif = async () => {
+            const result = await axioslogin.get('/ItBillAdd/monthlyview');
+            return result.data;
+        }
+        //getCurrentMonthData to check current month data exist in the monthly tariff table
+        const getCurrentMonthData = async () => {
+            const result = await axioslogin.get(`/ItBillAdd/checkMonthlyInsert/${currentmonth}`);
+            return result.data;
+        }
+        //insertMonthlyData to insert current month data to the monthly tariff table
+        const insertMonthlyData = async (insertData) => {
+            const result = await axioslogin.post('/ItBillAdd/monthlyTarrifInsert', insertData);
+            return result.data;
+        }
+        const getQuarterlyTarrif = async () => {
+            const result = await axioslogin.get('/ItBillAdd/quarterlyview');
+            return result.data;
+        }
+        const getCurrentQuarterData = async () => {
+            const result = await axioslogin.get(`/ItBillAdd/checkQuarterlyInsert/${currentQuarter}`)
+            return result.data;
+        }
+        const insertDataQuarter = async (insertQuarterData) => {
+            const result = await axioslogin.post('/ItBillAdd/quaterlyTarrifInsert', insertQuarterData);
+            return result.data;
+        }
+        const getYearlyTarrif = async () => {
+            const result = await axioslogin.get('/ItBillAdd/yearlyview');
+            return result.data;
+        }
+        const getCurrentYearData = async () => {
+            const result = await axioslogin.get(`/ItBillAdd/checkYearlyInsert/${currentYearz}`);
+            return result.data;
+        }
+        const insertYearlyData = async (insertYearData) => {
+            const result = await axioslogin.post('/ItBillAdd/yearlyTarrifInsert', insertYearData);
+            return result.data;
+        }
+        const getUnpaidBillsServMonthly = async () => {
+            const result = await axioslogin.get('ItBillAdd/getUnpaidBillsServMonthly')
+            const { success, data } = result.data
+            if (success === 2) {
+                setMonthlydata(data)
+            }
+        }
+        const getUnpaidBillsSerQuarter = async () => {
+            const result = await axioslogin.get('ItBillAdd/getUnpaidBillsSerQuarter')
+            const { success, data } = result.data
+            if (success === 2) {
+                setQuaterlydata(data)
+            }
+        }
+        const getUnpaidBillsSerYear = async () => {
+            const result = await axioslogin.get('ItBillAdd/getUnpaidBillsSerYear')
+            const { success, data } = result.data
+            if (success === 2) {
+                setYearlydata(data)
+            }
+        }
+        getMonthlyTarrif().then((val) => {
+            const { data, success } = val
+            if (success === 2) {
+                getCurrentMonthData().then((value) => {
+                    const { success, dataa } = value
+                    if (success === 1) {
+                        const insertData = data?.map((val) => {
+                            return {
+                                bill_add_slno: val.bill_add_slno,
+                                monthly_bill_generate: currentmonth,
+                                create_user: id
+                            }
+                        })
+                        insertMonthlyData(insertData).then((val) => {
+                            getUnpaidBillsServMonthly()
 
+                        })
+                    } else if (success === 2) {
+                        const monthlybills = data?.filter((val) => {
+                            return !dataa?.find((item) => (val.bill_add_slno === item.bill_add_slno))
+                        })
+                        if (monthlybills.length !== 0) {
+                            const insertData = monthlybills?.map((val) => {
+                                return {
+                                    bill_add_slno: val.bill_add_slno,
+                                    monthly_bill_generate: currentmonth,
+                                    create_user: id
+                                }
+                            })
+                            insertMonthlyData(insertData).then((val) => {
+                                getUnpaidBillsServMonthly()
+
+                            })
+                        }
+                    }
+                })
+            }
+        })
+        getQuarterlyTarrif().then((val) => {
+            const { data, success } = val
+            if (success === 2) {
+                getCurrentQuarterData().then((value) => {
+                    const { success, dataa } = value
+                    if (success === 1) {
+                        const insertQuarterData = data?.map((val) => {
+                            return {
+                                bill_add_slno: val.bill_add_slno,
+                                quaterly_bill_generate: currentQuarter,
+                                create_user: id
+                            }
+                        })
+                        insertDataQuarter(insertQuarterData).then((val) => {
+                            getUnpaidBillsSerQuarter()
+
+                        })
+                    } else if (success === 2) {
+                        const quarterBills = data?.filter((val) => {
+                            return !dataa?.find((item) => (val.bill_add_slno === item.bill_add_slno))
+                        })
+                        if (quarterBills.length !== 0) {
+                            const insertQuarterData = quarterBills?.map((val) => {
+                                return {
+                                    bill_add_slno: val.bill_add_slno,
+                                    quaterly_bill_generate: currentQuarter,
+                                    create_user: id
+                                }
+                            })
+                            insertDataQuarter(insertQuarterData).then((val) => {
+                                getUnpaidBillsSerQuarter()
+
+                            })
+                        }
+                    }
+                })
+            }
+        })
+        getYearlyTarrif().then((val) => {
+            const { data, success } = val
+            if (success === 2) {
+                getCurrentYearData().then((value) => {
+                    const { success, dataa } = value
+                    if (success === 1) {
+                        const insertYearData = data?.map((val) => {
+                            return {
+                                bill_add_slno: val.bill_add_slno,
+                                yearly_bill_generate: currentYearz,
+                                create_user: id
+                            }
+                        })
+                        insertYearlyData(insertYearData).then((val) => {
+                            getUnpaidBillsSerYear()
+                        })
+                    } else if (success === 2) {
+                        const yearBills = data?.filter((val) => {
+                            return !dataa?.find((item) => (val.bill_add_slno === item.bill_add_slno))
+                        })
+                        if (yearBills.length !== 0) {
+                            const insertYearData = yearBills?.map((val) => {
+                                return {
+                                    bill_add_slno: val.bill_add_slno,
+                                    yearly_bill_generate: currentYearz,
+                                    create_user: id
+                                }
+                            })
+                            insertYearlyData(insertYearData).then((val) => {
+                                getUnpaidBillsSerYear()
+                            })
+                        }
+                    }
+                })
+            }
+        })
+    }, [id])
     return (
         <Box>
             <Tabs
@@ -195,7 +259,6 @@ const ServiceMain = ({ billCount, setbillCount }) => {
                 <TabList
                     disableUnderline
                     sx={{
-                        // pt: 2,
                         bgcolor: 'background.level1',
                         borderBottom: 0,
                         [`& .${tabClasses.root}[aria-selected="true"]`]: {

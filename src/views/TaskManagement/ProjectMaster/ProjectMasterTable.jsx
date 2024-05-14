@@ -160,7 +160,7 @@ const ProjectMasterTable = ({ tableCount, settableCount, rowSelect }) => {
                 <Box sx={{ height: 500, }}>
                     <Paper variant="outlined" sx={{ maxHeight: 500, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead>
                                     <tr>
