@@ -212,20 +212,23 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         getProgress(ProgressData)
     }, [progressCount, tableCount, ProgressData])
 
-
-
-
     const getAllDueDates = useCallback(() => {
         const getDueDate = async () => {
             const result = await axioslogin.get(`/taskManagement/getAllDueDates/${tm_task_slno}`)
             const { success, data } = result.data;
             if (success === 2) {
-                setdueDates(data)
+                if (data.length > 1) {
+                    setdueDates(data)
+                    setdueDateModalFlag(1)
+                    setdueDateModal(true)
+                } else if (data.length === 1) {
+                    infoNotify('Duedate is not extended')
+                } else if (data.length === 0) {
+                    infoNotify('Duedate is not extended')
+                }
             }
         }
         getDueDate()
-        setdueDateModalFlag(1)
-        setdueDateModal(true)
     }, [tm_task_slno])
 
 
