@@ -11,6 +11,6 @@ export const getTotalcomplaintsall = () => async (dispatch) => {
         dispatch({ type: FETCH_COMPLAINT_LIST_ALL, payload: data, status: false })
     }
     else {
-        dispatch({ type: FETCH_COMPLAINT_LIST_ALL, payload: 0, status: false })
+        dispatch({ type: FETCH_COMPLAINT_LIST_ALL, payload: [], status: false })
     }
 }

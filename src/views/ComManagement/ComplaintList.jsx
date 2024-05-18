@@ -25,15 +25,15 @@ const ComplaintList = () => {
     })
 
     /** filter total complaint based on status get assigned complaint */
-    const assignall = compall.filter((val) => {
+    const assignall = compall?.filter((val) => {
         return val.compalint_status === 1
     })
     /** filter total complaint based on status get Verified complaint */
-    const rectifyall = compall.filter((val) => {
+    const rectifyall = compall?.filter((val) => {
         return val.compalint_status === 2
     })
     /** filter total complaint based on status get Verified complaint */
-    const verifyall = compall.filter((val) => {
+    const verifyall = compall?.filter((val) => {
         return val.compalint_status === 3
     })
 
