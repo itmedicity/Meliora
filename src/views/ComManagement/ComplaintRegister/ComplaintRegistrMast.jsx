@@ -315,27 +315,27 @@ const ComplaintRegistrMast = () => {
         return state.setRequestListByDeptSec.RequestListall
     })
 
-    const pendingTckt = compallTable.filter((val) => {
+    const pendingTckt = compallTable?.filter((val) => {
         return val.compalint_status === 0
     })
 
-    const AssignedTckt = compallTable.filter((val) => {
+    const AssignedTckt = compallTable?.filter((val) => {
         return val.compalint_status === 1
     })
 
-    const VerificationPendingTckt = compallTable.filter((val) => {
+    const VerificationPendingTckt = compallTable?.filter((val) => {
         return val.compalint_status === 2 && val.verify_spervsr === 1
     })
 
-    const onholdList = compallTable.filter((val) => {
+    const onholdList = compallTable?.filter((val) => {
         return val.cm_rectify_status === 'O' || val.cm_rectify_status === 'P'
 
     })
-    const reqList = reqestTotal.filter((val) => {
+    const reqList = reqestTotal?.filter((val) => {
         return val.rm_ndrf === 0
     })
 
-    const reqPending = reqestTotal.filter((val) => {
+    const reqPending = reqestTotal?.filter((val) => {
         return val.req_status === 'P'
     })
 
