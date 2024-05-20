@@ -2,9 +2,9 @@ import { Autocomplete, CssVarsProvider } from '@mui/joy';
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 
-const QIDepartmentSelect = ({ qidept, setQidept, setDepName, setDepCode, setQitype }) => {
+const DepartmentSelectForQuality = ({ qidept, setQidept, setQitype, setsearchFlag }) => {
     const departmentList = useSelector((state) => state.getQltyDept.qiDeptList)
-    const [type, setType] = useState([{ qi_dept_no: 0, qi_dept_desc: '', qi_dept_code: '', qi_list_type: 0 }])
+    const [type, setType] = useState([{ qi_dept_no: 0, qi_dept_desc: '', qi_list_type: 0 }])
     const [value, setValue] = useState(type[0]);
     const [inputValue, setInputValue] = useState('');
     const [flag, setFlag] = useState(0)
@@ -20,18 +20,15 @@ const QIDepartmentSelect = ({ qidept, setQidept, setDepName, setDepCode, setQity
             setFlag(1)
             setValue(value)
             setQidept(value.qi_dept_no)
-            setDepName(value.qi_dept_desc)
-            setDepCode(value.qi_dept_code)
             setQitype(value.qi_list_type)
+            setsearchFlag(0)
         }
         else {
             setQidept(0)
-            setDepName()
-            setDepCode()
             setQitype(0)
         }
         return
-    }, [setQidept, setDepName, setDepCode, setQitype])
+    }, [setQidept, setQitype, setsearchFlag])
     useEffect(() => {
         departmentList.length > 0 && setType(departmentList)
     }, [departmentList])
@@ -40,7 +37,7 @@ const QIDepartmentSelect = ({ qidept, setQidept, setDepName, setDepCode, setQity
             <CssVarsProvider>
                 <Autocomplete
                     sx={{
-                        "--Input-minHeight": '44px', borderRadius: 0
+                        "--Input-minHeight": '43px', borderRadius: 0
                     }}
                     value={qidept === 0 ? type : value}
                     placeholder="Select Department"
@@ -63,5 +60,4 @@ const QIDepartmentSelect = ({ qidept, setQidept, setDepName, setDepCode, setQity
         </Fragment>
     )
 }
-
-export default memo(QIDepartmentSelect)
+export default memo(DepartmentSelectForQuality)

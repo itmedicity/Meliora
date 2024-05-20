@@ -175,6 +175,7 @@ export const qi_setting_one = [
 
 export const qi_setting_two = [
     { to: '/Home/QIDeptMast', name: 'Quality Department Mast', slno: 181 },
+    { to: '/Home/QiListType', name: 'QI List Type Mast', slno: 211 }
 ]
 export const qi_setting_three = [
 

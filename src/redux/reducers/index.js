@@ -156,6 +156,7 @@ import { setNonClinicalCrfPending } from './CrfDashboardNonClinical.Reducer'
 import { setClinicalNDRFPending } from './NdrfDashboardClinical.Reducer'
 import { setNonClinicalNDRFPending } from './NdrfDashboardNonClinical.Reducer'
 import { getQltyDept } from './QualityIndicatorDept.Reducer'
+import { getQIDeptType } from './QITypeSelect.Reducer';
 
 const reducer = combineReducers({
     changeState,
@@ -318,6 +319,7 @@ const reducer = combineReducers({
     setClinicalNDRFPending,
     setNonClinicalNDRFPending,
     getQltyDept,
+    getQIDeptType
 
 
 })
