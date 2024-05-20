@@ -4,12 +4,12 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { getQltyDept } from 'src/redux/actions/QualityIndicatorDept.action'
-import QualityIndicatorSelect from 'src/views/CommonSelectCode/QualityIndicatorSelect'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import QualityIndicatorsTable from './QualityIndicatorsTable'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import QIDepartmentSelect from 'src/views/CommonSelectCode/QIDepartmentSelect'
 
 
 const QualityIndicators = () => {
@@ -132,9 +132,9 @@ const QualityIndicators = () => {
                 <Box sx={{ pl: 1, display: 'flex' }}>
                     <Box sx={{ flex: 1 }}>
                         <Box >
-                            <QualityIndicatorSelect
-                                qltyDept={qltyDept}
-                                setQltyDept={setQltyDept}
+                            <QIDepartmentSelect
+                                qidept={qltyDept} setQidept={setQltyDept}
+                            // setDepName={setDepName} setDepCode={setDepCode}
                             />
                         </Box>
                         <Box sx={{ pt: 0.5 }}>

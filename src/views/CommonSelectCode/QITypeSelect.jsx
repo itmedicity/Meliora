@@ -2,48 +2,43 @@ import { Autocomplete, CssVarsProvider } from '@mui/joy';
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 
-const QIDepartmentSelect = ({ qidept, setQidept, setDepName, setDepCode, setQitype }) => {
-    const departmentList = useSelector((state) => state.getQltyDept.qiDeptList)
-    const [type, setType] = useState([{ qi_dept_no: 0, qi_dept_desc: '', qi_dept_code: '', qi_list_type: 0 }])
+const QITypeSelect = ({ qiType, setQiType }) => {
+
+    const qiTypeList = useSelector((state) => state.getQIDeptType.qiTypeList)
+    const [type, setType] = useState([{ qi_list_type: 0, qi_list_type_name: '' }])
     const [value, setValue] = useState(type[0]);
     const [inputValue, setInputValue] = useState('');
     const [flag, setFlag] = useState(0)
 
     useEffect(() => {
-        if ((qidept !== 0) && (flag === 0)) {
-            const array = departmentList.find((e) => e.qi_dept_no === qidept)
+        if ((qiType !== 0) && (flag === 0)) {
+            const array = qiTypeList.find((e) => e.qi_list_type === qiType)
             setValue(array)
         }
-    }, [qidept, flag, departmentList])
+    }, [qiType, flag, qiTypeList])
     const Onclick = useCallback((value) => {
         if (value !== null) {
             setFlag(1)
             setValue(value)
-            setQidept(value.qi_dept_no)
-            setDepName(value.qi_dept_desc)
-            setDepCode(value.qi_dept_code)
-            setQitype(value.qi_list_type)
+            setQiType(value.qi_list_type)
         }
         else {
-            setQidept(0)
-            setDepName()
-            setDepCode()
-            setQitype(0)
+            setQiType(0)
         }
         return
-    }, [setQidept, setDepName, setDepCode, setQitype])
+    }, [setQiType])
     useEffect(() => {
-        departmentList.length > 0 && setType(departmentList)
-    }, [departmentList])
+        qiTypeList.length > 0 && setType(qiTypeList)
+    }, [qiTypeList])
     return (
         <Fragment>
             <CssVarsProvider>
                 <Autocomplete
                     sx={{
-                        "--Input-minHeight": '44px', borderRadius: 0
+                        "--Input-minHeight": '35px',
                     }}
-                    value={qidept === 0 ? type : value}
-                    placeholder="Select Department"
+                    value={qiType === 0 ? type : value}
+                    placeholder="Select QI Type"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         Onclick(newValue);
@@ -55,8 +50,8 @@ const QIDepartmentSelect = ({ qidept, setQidept, setDepName, setDepCode, setQity
                     loading={true}
                     loadingText="Loading..."
                     freeSolo
-                    isOptionEqualToValue={(option, value) => option.qi_dept_desc === value.qi_dept_desc}
-                    getOptionLabel={option => option.qi_dept_desc || ''}
+                    isOptionEqualToValue={(option, value) => option.qi_list_type_name === value.qi_list_type_name}
+                    getOptionLabel={option => option.qi_list_type_name || ''}
                     options={type}
                 />
             </CssVarsProvider>
@@ -64,4 +59,4 @@ const QIDepartmentSelect = ({ qidept, setQidept, setDepName, setDepCode, setQity
     )
 }
 
-export default memo(QIDepartmentSelect)
+export default memo(QITypeSelect)
