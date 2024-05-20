@@ -17,9 +17,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const SubStoreRecevModal = ({ open, subReceivdata, itemtabrender, setItemTabRender, setSubRecev,
-    setSubRecevModal, setSubRecevData }) => {
+    setSubRecevModal, setSubRecevData, count, setCount }) => {
 
-    const { po_log_slno } = subReceivdata
+    const { po_log_slno, fully, po_slno } = subReceivdata
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
 
     const patchdataSubstrrecev = useMemo(() => {
@@ -27,9 +27,11 @@ const SubStoreRecevModal = ({ open, subReceivdata, itemtabrender, setItemTabRend
             substore_receive: 1,
             substore_receive_user: id,
             substore_receive_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            po_log_slno: po_log_slno
+            po_log_slno: po_log_slno,
+            po_slno: po_slno,
+            fully: fully
         }
-    }, [id, po_log_slno])
+    }, [id, po_log_slno, po_slno, fully])
 
     const handleClose = useCallback(() => {
         setItemTabRender(itemtabrender + 1)
@@ -40,18 +42,20 @@ const SubStoreRecevModal = ({ open, subReceivdata, itemtabrender, setItemTabRend
 
 
     const Receive = useCallback(() => {
-        const InsertPoReceivePartialLog = async (patchdataSubstrrecev) => {
+        const updateSubStoreReceive = async (patchdataSubstrrecev) => {
             const result = await axioslogin.patch('/newCRFStore/SubstoreReciverdataUpdate', patchdataSubstrrecev);
             const { success, message } = result.data
             if (success === 1) {
                 succesNotify(message)
                 handleClose()
+                setCount(count + 1)
             } else {
                 warningNotify(message)
             }
         }
-        InsertPoReceivePartialLog(patchdataSubstrrecev)
-    }, [patchdataSubstrrecev, handleClose])
+        updateSubStoreReceive(patchdataSubstrrecev)
+
+    }, [patchdataSubstrrecev, handleClose, count, setCount])
 
 
     return (
@@ -77,7 +81,7 @@ const SubStoreRecevModal = ({ open, subReceivdata, itemtabrender, setItemTabRend
                             <Box sx={{ pr: 1.5 }}>
                                 <CssVarsProvider>
                                     <Typography sx={{ fontSize: 18, textAlign: "center" }}>
-                                        Are you sure to  Receive Item Partialy against Selected PO
+                                        Are you sure to  Receive Item against Selected PO
                                     </Typography>
                                 </CssVarsProvider>
                             </Box>

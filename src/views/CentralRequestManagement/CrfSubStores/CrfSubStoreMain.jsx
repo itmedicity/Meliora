@@ -1,13 +1,10 @@
 import React from 'react'
 import { useState, useCallback, useEffect, memo, Fragment } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { axioslogin } from 'src/views/Axios/Axios'
 import { Box, Paper } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
-import { warningNotify } from 'src/views/Common/CommonCode'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import { ToastContainer } from 'react-toastify'
-import CusCheckBox from 'src/views/Components/CusCheckBox'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
 import StoreSelectForStore from './StoreSelectForStore'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
@@ -16,113 +13,47 @@ import { editicon } from 'src/color/Color';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
 import CrfSubStoreModal from './CrfSubStoreModal'
-
-
+import { getPOListSubStorewiseAllList, getSubStorePendingList } from '../ComonComponent/ComonFunctnFile'
+import CustomBackDrop from 'src/views/Components/CustomBackDrop'
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 const CrfSubStoreMain = () => {
 
     /*** Initializing */
     const history = useHistory();
     const [count, setCount] = useState(0)
-    const [done, setDone] = useState(false)
-    const [pending, setPending] = useState(true)
-    const [check, setCheck] = useState(0)
-
-    const updatedone = useCallback((e) => {
-        if (e.target.checked === true) {
-            setDone(true)
-            setCheck(2)
-            setPending(false)
-        }
-        else {
-            setDone(false)
-            setCheck(0)
-            setPending(false)
-        }
-    }, [])
-    const updatependng = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPending(true)
-            setCheck(1)
-            setDone(false)
-        }
-        else {
-            setDone(false)
-            setCheck(0)
-            setPending(false)
-        }
-    }, [])
-
-    const [pendingData, setPendingData] = useState([])
-    const [donedata, setDoneData] = useState([])
+    const [open, setOpen] = useState(false)
+    const [radiovalue, setRadioValue] = useState('1')
+    const [disData, setDisData] = useState([])
     const [substoreSlno, setsubStoreSlno] = useState(0)
 
     useEffect(() => {
-
-        const getReqForDownload = async (substoreSlno) => {
-            const result = await axioslogin.get(`/newCRFPurchase/getPOListSubStorewise/${substoreSlno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const datas = data.map((val, index) => {
-                    const obj = {
-                        slno: index + 1,
-                        po_detail_slno: val.po_detail_slno,
-                        req_slno: val.req_slno,
-                        po_number: val.po_number,
-                        po_date: val.po_date,
-                        expected_delivery: val.expected_delivery,
-                        supply_store: val.supply_store,
-                        sub_store_name: val.sub_store_name,
-                        main_store_slno: val.main_store_slno,
-                        main_store: val.main_store,
-                        store_code: val.store_code,
-                        store_recieve: val.store_recieve,
-                        store_receive_user: val.store_receive_user,
-                        store_receive_date: val.store_receive_date,
-                        sub_store_recieve: val.sub_store_recieve,
-                        sub_store_recieve_user: val.sub_store_recieve_user,
-                        sub_store_date: val.sub_store_date,
-                        req_deptsec: val.req_deptsec,
-                        user_deptsection: val.user_deptsection,
-                        actual_requirement: val.actual_requirement,
-                        needed: val.needed,
-                        expected_date: val.expected_date,
-                        req_date: val.req_date
-                    }
-                    return obj
-                })
-
-                const pendingList = datas.filter((val) => {
-                    return val.sub_store_recieve !== 1
-                })
-
-                if (pendingList.length !== 0) {
-                    setPendingData(pendingList)
-                }
-                else {
-                    setPendingData([])
-                    warningNotify("No CRF For Pending")
-                }
-                const DoneList = datas.filter((val) => {
-                    return val.sub_store_recieve === 1
-                })
-                setDoneData(DoneList)
-
-
-
-            } else {
-                warningNotify("No CRF For Pending")
-            }
-        }
         if (substoreSlno !== 0) {
-            getReqForDownload(substoreSlno);
+            setOpen(true)
+            getSubStorePendingList(substoreSlno, setDisData, setOpen);
+        } else {
+            setOpen(false)
         }
-
     }, [substoreSlno, count])
+
+
+    //Radio button OnClick function starts
+    const updateRadioClick = useCallback(async (e) => {
+        e.preventDefault()
+        setOpen(false)
+        setRadioValue(e.target.value)
+        if (e.target.value === '1') {
+            getSubStorePendingList(substoreSlno, setDisData, setOpen);
+        } else if (e.target.value === '2') {
+            getPOListSubStorewiseAllList(substoreSlno, setDisData, setOpen)
+        }
+    }, [substoreSlno])
 
     const [column] = useState([
         {
-            headerName: 'Action', minWidth: 50, cellRenderer: params => {
+            headerName: 'Action', minWidth: 40, cellRenderer: params => {
                 return <IconButton onClick={() => rowSelect(params)}
                     sx={{ color: editicon, paddingY: 0.5 }} >
                     <CustomeToolTip title="Approval">
@@ -131,12 +62,12 @@ const CrfSubStoreMain = () => {
                 </IconButton>
             }
         },
-        { headerName: "Slno", field: "slno", minWidth: 80 },
-        { headerName: "PO No", field: "po_number", minWidth: 80 },
-        { headerName: "Req.Slno", field: "req_slno", minWidth: 80 },
+        { headerName: "Slno", field: "slno", minWidth: 30 },
+        { headerName: "PO No", field: "po_number", minWidth: 30, filter: "true" },
+        { headerName: "Req.Slno", field: "req_slno", minWidth: 30, filter: "true" },
         { headerName: "Require Department", field: "req_deptsec", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Requested Department", field: "user_deptsection", minWidth: 250 },
-        { headerName: "PO Date", field: "po_date", minWidth: 120 },
+        { headerName: "PO Date", field: "po_date", minWidth: 120, filter: "true" },
         { headerName: "Expected Delivery", field: "expected_delivery", minWidth: 120 },
     ])
 
@@ -166,6 +97,8 @@ const CrfSubStoreMain = () => {
 
     return (
         <Fragment>
+            <CustomBackDrop open={open} text="Please Wait" />
+
             {edit === 1 ?
                 <CrfSubStoreModal open={okModal} podetldata={podetldata} handleClose={handleClose}
                     count={count} setCount={setCount} /> : null
@@ -195,48 +128,29 @@ const CrfSubStoreMain = () => {
                             substoreSlno={substoreSlno} setsubStoreSlno={setsubStoreSlno}
                         />
                     </Box>
-                    <Box sx={{ width: "13%", pr: 1, mt: 1, pl: 3 }}>
-                        <CusCheckBox
-                            label="Pending"
-                            color="danger"
-                            size="md"
-                            name="pending"
-                            value={pending}
-                            checked={pending}
-                            onCheked={updatependng}
-                        />
-                    </Box>
-                    <Box sx={{ width: "13%", mt: 1, pl: 1 }}>
-                        <CusCheckBox
-                            label="All List"
-                            color="danger"
-                            size="md"
-                            name="done"
-                            value={done}
-                            checked={done}
-                            onCheked={updatedone}
-                        />
+                    <Box sx={{ width: "30%", pl: 2 }}>
+                        <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={radiovalue}
+                            onChange={(e) => updateRadioClick(e)}
+                        >
+                            <FormControlLabel value='1' control={<Radio />} label="Pending" />
+                            <FormControlLabel sx={{ pl: 2 }} value='2' control={<Radio />} label="All List" />
+                        </RadioGroup>
                     </Box>
                 </Box>
             </Paper>
             {
                 substoreSlno !== 0 ?
                     <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>
-                        {check === 2 ?
-                            <Box sx={{ width: "100%", pt: 1 }}>
-                                <CusAgGridForMain
-                                    columnDefs={column}
-                                    tableData={donedata}
-                                />
-                            </Box>
-                            :
-                            <Box sx={{ width: "100%", pt: 1 }}>
-                                <CusAgGridForMain
-                                    columnDefs={column}
-                                    tableData={pendingData}
-                                />
-                            </Box>
-                        }
+                        <Box sx={{ width: "100%", pt: 1 }}>
+                            <CusAgGridForMain
+                                columnDefs={column}
+                                tableData={disData}
+                            />
+                        </Box>
                     </Box>
                     : null}
 

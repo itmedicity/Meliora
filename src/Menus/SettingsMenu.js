@@ -152,18 +152,20 @@ export const hall_booking_one = [
 
 //IT Menu
 export const it_setting_one = [
-    { to: '/Home/DeviceType', name: 'Communication Device Type ', slno: 151 },
+    { to: '/Home/SimType', name: 'Sim Type ', slno: 151 },
     { to: '/Home/ScheduleTime', name: 'Backup Schedule Time', slno: 153 },
+    { to: '/Home/BillType', name: 'Bill Type', slno: 206 },
 ]
 
 export const it_setting_two = [
 
     { to: '/Home/CredentialType', name: 'Credential Type', slno: 160 },
     { to: '/Home/ScheduleType', name: 'Backup Schedule Type', slno: 152 },
+    { to: '/Home/BillSupplierDetailsMast', name: 'Bill Supplier Details', slno: 208 },
 ]
 export const it_setting_three = [
     { to: '/Home/BackupMast', name: 'Backup Details', slno: 156 },
-
+    { to: '/Home/BillCategory', name: 'Bill Category', slno: 205 },
 ]
 
 

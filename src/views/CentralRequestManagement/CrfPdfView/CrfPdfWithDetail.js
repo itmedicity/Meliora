@@ -125,7 +125,7 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa, mdsign, edsign) => {
                         [
                             {
                                 colSpan: 7,
-                                text: 'Materilas Requested',
+                                text: 'Materials Requested',
                                 alignment: 'center',
                                 fillColor: '#eeeeee',
                                 fontSize: 10
@@ -206,7 +206,7 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa, mdsign, edsign) => {
                         [
                             {
                                 colSpan: 7,
-                                text: 'Materilas Approved',
+                                text: 'Materials Approved',
                                 alignment: 'center',
                                 fillColor: '#eeeeee',
                                 fontSize: 10

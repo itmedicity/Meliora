@@ -1159,7 +1159,7 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
                                             }}>
 
                                             <CssVarsProvider>
-                                                <Typography sx={{ fontSize: 16, fontWeight: 600 }} >MD Operation :
+                                                <Typography sx={{ fontSize: 16, fontWeight: 600 }} > Medical Director   :
 
                                                     {
                                                         md_approve === 1 ?
@@ -1246,7 +1246,7 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
                                             }}>
 
                                             <CssVarsProvider>
-                                                <Typography sx={{ fontSize: 16, fontWeight: 600 }} >ED Operation :
+                                                <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Executive Director  :
 
                                                     {
                                                         ed_approve === 1 ?

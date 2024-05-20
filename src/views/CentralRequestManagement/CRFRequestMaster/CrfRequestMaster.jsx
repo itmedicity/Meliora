@@ -30,6 +30,7 @@ import ImageDisplayModal from './ImageDisplayModal'
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import CustomBackDrop from 'src/views/Components/CustomBackDrop'
 
 
 
@@ -88,6 +89,7 @@ const CrfRequestMaster = () => {
     const [detailDataDis, setDetailDataDis] = useState([])
     const [reqDetalSlno, setReqDetalSlno] = useState(0)
     const [authorizeDeptSec, setAuthorizDeptSec] = useState([])
+    const [open, setOpen] = useState(false)
     const updateEmergency = (e) => {
         if (e.target.checked === true) {
             setEmergency(true)
@@ -748,7 +750,8 @@ const CrfRequestMaster = () => {
                 && item_spec === '' && unitprice === 0 && approx_cost === 0) {
 
                 if ((emergency === true && emerType !== 0 && remarks !== '') || (emergency === false)) {
-                    if (deptSec !== 0) {
+                    if (deptSec !== 0 && (category !== '' || needed !== '' || actual_require !== '' || location !== '')) {
+                        setOpen(true)
                         ReqMasterInsert(reqDataPost).then((value) => {
                             const { success, message, insertid } = value
                             if (success === 1) {
@@ -764,6 +767,7 @@ const CrfRequestMaster = () => {
                                                         FileInsert(selectFile, insertid).then((val) => {
                                                             const { success, message } = val
                                                             if (success === 1) {
+                                                                setOpen(false)
                                                                 succesNotify("Request Registred successfully and also File uploaded")
                                                                 reset()
                                                                 setCount(count + 1)
@@ -772,11 +776,13 @@ const CrfRequestMaster = () => {
                                                             }
                                                         })
                                                     } else {
+                                                        setOpen(false)
                                                         succesNotify("Request Registred successfully ")
                                                         reset()
                                                         setCount(count + 1)
                                                     }
                                                 } else {
+                                                    setOpen(false)
                                                     warningNotify(message)
                                                 }
                                             })
@@ -785,41 +791,50 @@ const CrfRequestMaster = () => {
                                                 FileInsert(selectFile, insertid).then((val) => {
                                                     const { success, message } = val
                                                     if (success === 1) {
+                                                        setOpen(false)
                                                         succesNotify("Request Registred successfully and also File uploaded")
                                                         reset()
                                                         setCount(count + 1)
                                                     } else {
+                                                        setOpen(false)
                                                         warningNotify(message)
                                                     }
                                                 })
                                             } else {
+                                                setOpen(false)
                                                 succesNotify("Request Registred successfully ")
                                                 reset()
                                                 setCount(count + 1)
                                             }
                                         }
                                     } else {
+                                        setOpen(false)
                                         warningNotify(message)
                                     }
                                 })
                             } else {
+                                setOpen(false)
                                 warningNotify(message)
                             }
                         })
                     } else {
+                        setOpen(false)
                         warningNotify("Please select Department and Department Section")
                     }
                 } else {
+                    setOpen(false)
                     warningNotify("If Emergeny please mention emergenct Type and Remarks")
                 }
 
             } else {
+                setOpen(false)
                 warningNotify("Are you want to save items plaese add items first then click Save Button")
 
             }
         } else {
             if ((emergency === true && emerType !== 0 && remarks !== '') || (emergency === false)) {
-                if (deptSec !== 0) {
+                if (deptSec !== 0 && (category !== '' || needed !== '' || actual_require !== '' || location !== '')) {
+                    setOpen(true)
                     ReqMasterUpdate(reqDataPatch).then((val) => {
                         const { success, message } = val
                         if (success === 2) {
@@ -827,27 +842,33 @@ const CrfRequestMaster = () => {
                                 FileInsert(selectFile, reqSlno).then((val) => {
                                     const { success, message } = val
                                     if (success === 1) {
+                                        setOpen(false)
                                         succesNotify("Request Updated successfully and also File uploaded")
                                         reset()
                                         setCount(count + 1)
                                     } else {
+                                        setOpen(false)
                                         warningNotify(message)
                                     }
                                 })
                             } else {
+                                setOpen(false)
                                 succesNotify("Request Updated successfully ")
                                 reset()
                                 setCount(count + 1)
                             }
                         }
                         else {
+                            setOpen(false)
                             warningNotify(message)
                         }
                     })
                 } else {
+                    setOpen(false)
                     warningNotify("Please select Department and Department Section")
                 }
             } else {
+                setOpen(false)
                 warningNotify("If Emergeny please mention emergenct Type and Remarks")
             }
         }
@@ -856,7 +877,7 @@ const CrfRequestMaster = () => {
     }, [value, emergency, emerType, remarks, deptSec, reqDataPost, selectFile,
         detailDataDis, levelOne, levelTwo, deptType, setCount, count, id,
         handleImageUpload, reset, reqDataPatch, reqSlno, item_desc, item_brand, item_qty,
-        uom, item_spec, unitprice, approx_cost
+        uom, item_spec, unitprice, approx_cost, actual_require, needed, category, location
     ])
 
     //Data set for edit
@@ -959,6 +980,7 @@ const CrfRequestMaster = () => {
 
     return (
         <Fragment>
+            <CustomBackDrop open={open} text="Please Wait" />
             <Box sx={{ height: window.innerHeight - 85, overflow: 'auto' }}>
                 <CardMaster
                     title="Common Request Form"

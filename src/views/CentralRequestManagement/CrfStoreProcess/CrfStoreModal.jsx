@@ -9,22 +9,33 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { axioslogin } from 'src/views/Axios/Axios'
 import { CssVarsProvider, Typography } from '@mui/joy'
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import CrfStoreConfmModal from './CrfStoreConfmModal';
 import StoreItemReceiveModal from './StoreItemReceiveModal';
+import ApprovedItemListDis from '../ComonComponent/ApprovedItemListDis';
+import CustomBackDrop from 'src/views/Components/CustomBackDrop';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
 
 const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreData,
-    count, setCount }) => {
+    count, setCount, backdropfalg }) => {
+
     const { req_slno, req_date, actual_requirement, needed, expected_date,
     } = storeData
 
-    const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
+    const expdate = expected_date !== null && isValid(new Date(expected_date)) ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
     const [podetailFlag, setPOdetalFalg] = useState(0)
     const [getpoDetaildata, setgetPodetailData] = useState([])
+    const [ApproveTableDis, setApproveTableDis] = useState(0)
+    const [ApproveTableData, setApproveTableData] = useState([])
+    const [edit, setEdit] = useState(0)
+    const [podetlno, setPodetlno] = useState(0)
+    const [okModal, setOkModal] = useState(false)
+    const [strFulyReciv, setStrFulyRecev] = useState(0)
+    const [partialFlag, setPartialFlag] = useState(0)
+    const [fullyFlag, setFullyFlag] = useState(0)
 
     useEffect(() => {
         const getPODetails = async (req_slno) => {
@@ -49,11 +60,49 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
 
                 setgetPodetailData(datas)
                 setPOdetalFalg(1)
+
             }
             else {
                 setgetPodetailData([])
             }
         }
+
+        const getApproItemDetails = async (req_slno) => {
+            const result = await axioslogin.get(`/CRFRegisterApproval/getFinalItemListApproval/${req_slno}`)
+            const { succes, dataa } = result.data
+            if (succes === 1) {
+                const datas = dataa.map((val, index) => {
+                    const obj = {
+                        slno: index + 1,
+                        req_detl_slno: val.req_detl_slno,
+                        req_slno: val.req_slno,
+                        aprox_cost: val.aprox_cost,
+                        item_status: val.item_status,
+                        approved_itemunit: val.approved_itemunit !== null ? val.approved_itemunit : "Not Given",
+                        approve_item_desc: val.approve_item_desc !== null ? val.approve_item_desc : "Not Given",
+                        approve_item_brand: val.approve_item_brand !== '' ? val.approve_item_brand : "Not Given",
+                        approve_item_unit: val.approve_item_unit,
+                        item_qnty_approved: val.item_qnty_approved !== null ? val.item_qnty_approved : "Not Given",
+                        approve_item_unit_price: val.approve_item_unit_price !== null ? val.approve_item_unit_price : "Not Given",
+                        approve_aprox_cost: val.approve_aprox_cost !== null ? val.approve_aprox_cost : "Not Given",
+                        item_status_approved: val.item_status_approved,
+                        approve_item_status: val.approve_item_status,
+                        approve_item_delete_who: val.approve_item_delete_who,
+                        uom_name: val.uom_name,
+                        approve_item_specification: val.approve_item_specification !== '' ? val.approve_item_specification : "Not Given",
+                        old_item_slno: val.old_item_slno !== null ? val.old_item_slno : "",
+                        item_slno: val.item_slno
+                    }
+                    return obj
+                })
+                setApproveTableDis(1)
+                setApproveTableData(datas);
+            } else {
+                setApproveTableDis(0)
+                setApproveTableData([])
+            }
+        }
+        getApproItemDetails(req_slno)
         getPODetails(req_slno)
     }, [req_slno, count])
 
@@ -71,12 +120,6 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
         reset()
     }, [reset])
 
-    const [edit, setEdit] = useState(0)
-    const [podetlno, setPodetlno] = useState(0)
-    const [okModal, setOkModal] = useState(false)
-    const [strFulyReciv, setStrFulyRecev] = useState(0)
-    const [partialFlag, setPartialFlag] = useState(0)
-    const [fullyFlag, setFullyFlag] = useState(0)
 
     const handleClose = useCallback(() => {
         setEdit(0)
@@ -89,8 +132,8 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
 
 
     return (
-
         <Fragment>
+            <CustomBackDrop open={backdropfalg} text="Please Wait" />
             <ToastContainer />
             {edit === 1 ?
                 <CrfStoreConfmModal open={okModal} podetlno={podetlno} handleClose={handleClose}
@@ -187,7 +230,19 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
                                 </Box>
                             </Box>
                         </Paper>
-
+                        {ApproveTableDis === 1 ?
+                            <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                                <Box sx={{
+                                    width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
+                                }}>
+                                    <CssVarsProvider>
+                                        <Typography sx={{ fontSize: 15 }}>Items</Typography>
+                                    </CssVarsProvider>
+                                </Box>
+                                <ApprovedItemListDis ApproveData={ApproveTableData}
+                                />
+                            </Paper> : null
+                        }
                         <Box sx={{ width: "100%", mt: 0 }}>
                             <Paper variant='outlined' sx={{ mt: 1 }} >
                                 {

@@ -15,12 +15,13 @@ import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import SubStoreRecevModal from './SubStoreRecevModal';
+import ApprovedItemListDis from '../ComonComponent/ApprovedItemListDis';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
 
-const CrfSubStoreModal = ({ open, handleClose, podetldata }) => {
+const CrfSubStoreModal = ({ open, handleClose, podetldata, count, setCount }) => {
 
     const { po_detail_slno, req_slno, req_deptsec, user_deptsection,
         req_date, actual_requirement, needed, expected_date, po_number,
@@ -32,6 +33,8 @@ const CrfSubStoreModal = ({ open, handleClose, podetldata }) => {
     const [subReceiv, setSubRecev] = useState(0)
     const [subReceivModal, setSubRecevModal] = useState(false)
     const [subReceivdata, setSubRecevData] = useState([])
+    const [ApproveTableDis, setApproveTableDis] = useState(0)
+    const [ApproveTableData, setApproveTableData] = useState([])
 
     const ItemSubStoreRecev = useCallback((val) => {
         setSubRecev(1)
@@ -67,8 +70,45 @@ const CrfSubStoreModal = ({ open, handleClose, podetldata }) => {
                 setitemRecvPartialyData([])
             }
         }
+
+        const getApproItemDetails = async (req_slno) => {
+            const result = await axioslogin.get(`/CRFRegisterApproval/getFinalItemListApproval/${req_slno}`)
+            const { succes, dataa } = result.data
+            if (succes === 1) {
+                const datas = dataa.map((val, index) => {
+                    const obj = {
+                        slno: index + 1,
+                        req_detl_slno: val.req_detl_slno,
+                        req_slno: val.req_slno,
+                        aprox_cost: val.aprox_cost,
+                        item_status: val.item_status,
+                        approved_itemunit: val.approved_itemunit !== null ? val.approved_itemunit : "Not Given",
+                        approve_item_desc: val.approve_item_desc !== null ? val.approve_item_desc : "Not Given",
+                        approve_item_brand: val.approve_item_brand !== '' ? val.approve_item_brand : "Not Given",
+                        approve_item_unit: val.approve_item_unit,
+                        item_qnty_approved: val.item_qnty_approved !== null ? val.item_qnty_approved : "Not Given",
+                        approve_item_unit_price: val.approve_item_unit_price !== null ? val.approve_item_unit_price : "Not Given",
+                        approve_aprox_cost: val.approve_aprox_cost !== null ? val.approve_aprox_cost : "Not Given",
+                        item_status_approved: val.item_status_approved,
+                        approve_item_status: val.approve_item_status,
+                        approve_item_delete_who: val.approve_item_delete_who,
+                        uom_name: val.uom_name,
+                        approve_item_specification: val.approve_item_specification !== '' ? val.approve_item_specification : "Not Given",
+                        old_item_slno: val.old_item_slno !== null ? val.old_item_slno : "",
+                        item_slno: val.item_slno
+                    }
+                    return obj
+                })
+                setApproveTableDis(1)
+                setApproveTableData(datas);
+            } else {
+                setApproveTableDis(0)
+                setApproveTableData([])
+            }
+        }
+        getApproItemDetails(req_slno)
         getReceivePODetails(po_detail_slno)
-    }, [po_detail_slno, itemtabrender])
+    }, [po_detail_slno, itemtabrender, req_slno])
 
     return (
         <Fragment>
@@ -76,7 +116,8 @@ const CrfSubStoreModal = ({ open, handleClose, podetldata }) => {
 
             {subReceiv === 1 ? <SubStoreRecevModal open={subReceivModal} itemtabrender={itemtabrender}
                 setItemTabRender={setItemTabRender} setSubRecev={setSubRecev} setSubRecevModal={setSubRecevModal}
-                subReceivdata={subReceivdata} setSubRecevData={setSubRecevData} /> : null}
+                subReceivdata={subReceivdata} setSubRecevData={setSubRecevData}
+                count={count} setCount={setCount} /> : null}
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
@@ -203,7 +244,19 @@ const CrfSubStoreModal = ({ open, handleClose, podetldata }) => {
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
-
+                                {ApproveTableDis === 1 ?
+                                    <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                                        <Box sx={{
+                                            width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
+                                        }}>
+                                            <CssVarsProvider>
+                                                <Typography sx={{ fontSize: 15 }}>Items</Typography>
+                                            </CssVarsProvider>
+                                        </Box>
+                                        <ApprovedItemListDis ApproveData={ApproveTableData}
+                                        />
+                                    </Paper> : null
+                                }
                             </Box>
                         </Paper>
                         <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
@@ -231,7 +284,7 @@ const CrfSubStoreModal = ({ open, handleClose, podetldata }) => {
                                         }}>
                                             <CustomPaperTitle heading="PO No" />
                                             <TextFieldCustom
-                                                type="number"
+                                                type="text"
                                                 size="sm"
                                                 value={po_number}
                                                 disabled={true}

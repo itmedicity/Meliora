@@ -15,22 +15,19 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import Person3Icon from '@mui/icons-material/Person3';
 import RequestPageIcon from '@mui/icons-material/RequestPage';
 import BalanceIcon from '@mui/icons-material/Balance';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 
 const MasterDetailCompnt = ({ val }) => {
 
     const { req_slno, req_date, req_deptsec, user_deptsection, actual_requirement, needed,
         category, location, expected_date, emergency_flag, em_name, emer_type_name } = val
-    const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
+    const expdate = expected_date !== null && isValid(new Date(expected_date)) ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
 
     return (
         <Box sx={{
-            width: "100%",
-            display: "flex",
+            width: "100%", display: "flex",
             flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
         }}>
-
-
             <CssVarsProvider>
                 <Box sx={{
                     width: "100%",
@@ -124,7 +121,7 @@ const MasterDetailCompnt = ({ val }) => {
 
                         <Box sx={{ pr: 1, display: 'flex', alignItems: 'center', flexGrow: 1 }}>
                             <CalendarMonthIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
-                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, pr: 0.5 }} >CRF Excepted Date</Typography>
+                            <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, pr: 0.5 }} >CRF Expected Date</Typography>
                             <Typography level='body-sm' textColor='#3E3F40' fontWeight={900} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >/</Typography>
                             <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5 }} >{expdate}</Typography>
                         </Box>
@@ -133,7 +130,7 @@ const MasterDetailCompnt = ({ val }) => {
                             <AccountBalanceIcon fontSize='medium' sx={{ mx: 0.5 }} color='primary' />
                             <Typography level="title-sm" sx={{ color: 'white' }}
                                 endDecorator={<Typography level='body-sm' textColor='#3E3F40' fontWeight={900} sx={{ pt: 0.5, pr: 0.5, textTransform: "capitalize" }} >/</Typography>} >
-                                Requested department</Typography>
+                                Requested Department</Typography>
                             <Typography level='body-sm' textColor='#3E3F40' fontWeight={500} sx={{ pt: 0.5, textTransform: "capitalize" }} >{user_deptsection}</Typography>
                         </Box>
 

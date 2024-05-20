@@ -99,6 +99,7 @@ const CrfInchargeAppvable = () => {
                 setClosedData(ClosedList)
                 const datas = incharge.map((val) => {
                     const obj = {
+                        req_status: val.req_status,
                         req_slno: val.req_slno,
                         actual_requirement: val.actual_requirement,
                         needed: val.needed,
@@ -193,14 +194,14 @@ const CrfInchargeAppvable = () => {
                         now_who: val.sub_store_recieve === 1 ? "Sub Store Receive" :
                             val.store_receive === 1 ? "CRS Store Receive" :
                                 val.po_to_supplier === 1 ? "PO Send to Supplier" :
-                                    val.po_approva_level_two === 1 ? "PO MD & ED Level Approved" :
+                                    val.po_approva_level_two === 1 ? "PO Managing Director Approved" :
                                         val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
                                             val.po_complete === 1 ? "PO Completed" :
                                                 val.po_prepartion === 1 ? "PO Prepairing" :
-                                                    val.quatation_fixing === 1 ? "Po MD & ED Level Approved" :
-                                                        val.quatation_negotiation === 1 ? "Po MD & ED Level Approved" :
-                                                            val.quatation_calling_status === 1 ? "PO Prepairing" :
-                                                                val.ack_status === 1 ? "Po MD & ED Level Approved" :
+                                                    val.quatation_fixing === 1 ? "Quatation Fixed" :
+                                                        val.quatation_negotiation === 1 ? "Quatation Negotiation" :
+                                                            val.quatation_calling_status === 1 ? "Quatation Calling" :
+                                                                val.ack_status === 1 ? "Puchase Acknowledged" :
                                                                     val.ed_approve !== null ? "ED" :
                                                                         val.md_approve !== null ? "MD" :
                                                                             val.gm_approve !== null ? "GM" :
@@ -254,7 +255,9 @@ const CrfInchargeAppvable = () => {
                         po_approva_level_one: val.po_approva_level_one,
                         po_approva_level_two: val.po_approva_level_two,
                         po_to_supplier: val.po_to_supplier,
-                        store_receive: val.store_receive
+                        store_receive: val.store_receive,
+                        dept_name: val.dept_name,
+                        dept_type: val.dept_type
 
 
                     }

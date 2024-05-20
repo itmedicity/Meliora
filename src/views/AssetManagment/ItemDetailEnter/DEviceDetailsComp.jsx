@@ -7,8 +7,7 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
-import EditIcon from '@mui/icons-material/Edit';
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 
 const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
     const { am_item_map_slno, am_spare_item_map_slno, assetno } = detailArry
@@ -68,26 +67,6 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
 
     }, [am_item_map_slno, am_spare_item_map_slno, assetSpare, assetno, setUserdata])
 
-    const postdata = useMemo(() => {
-        return {
-            am_item_map_slno: am_item_map_slno,
-            am_manufacture_no: manufacturslno,
-            am_asset_no: asset_no,
-            am_asset_old_no: asset_noold,
-            create_user: id
-        }
-    }, [am_item_map_slno, manufacturslno, asset_no, asset_noold, id])
-
-    const postdataSpare = useMemo(() => {
-        return {
-            am_spare_item_map_slno: am_spare_item_map_slno,
-            am_manufacture_no: manufacturslno,
-            am_asset_no: asset_no,
-            am_asset_old_no: asset_noold,
-            create_user: id
-        }
-    }, [am_spare_item_map_slno, manufacturslno, asset_no, asset_noold, id])
-
     const patchadata = useMemo(() => {
         return {
             am_manufacture_no: manufacturslno,
@@ -115,36 +94,6 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
         }
         setUserdata(frmdata)
     }, [setUserdata])
-
-
-    const SaveDeviceDetails = useCallback((e) => {
-        e.preventDefault()
-        const InsertItemDetail = async (postdata) => {
-            const result = await axioslogin.post('/ItemMapDetails/DeviceDetailsInsert', postdata)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNotify(message)
-                setExist(1)
-            } else {
-                infoNotify(message)
-            }
-        }
-        const InsertItemDetailSpare = async (postdataSpare) => {
-            const result = await axioslogin.post('/ItemMapDetails/DeviceDetailsInsertSpare', postdataSpare)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNotify(message)
-                setExist(1)
-            } else {
-                infoNotify(message)
-            }
-        }
-        if (assetSpare === 1) {
-            InsertItemDetail(postdata);
-        } else {
-            InsertItemDetailSpare(postdataSpare)
-        }
-    }, [postdata, setExist, postdataSpare, assetSpare])
 
     const EditDetails = useCallback((e) => {
         e.preventDefault()
@@ -217,7 +166,6 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
             } else {
                 updateGRNDetailsSpare(patchadataSpare)
             }
-
         }
 
     }, [manufacturslno, asset_no, asset_noold, am_item_map_slno, patchadata, assetSpare,
@@ -275,40 +223,13 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
                         ></TextFieldCustom>
                     </Box>
                 </Box>
-                {
-                    exist === 0 ? <CustomeToolTip title="Save" placement="top" >
-                        <Box sx={{ width: '3%', pl: 4, pt: 3, }}>
-                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SaveDeviceDetails} >
-                                <LibraryAddIcon fontSize='small' />
-                            </CusIconButton>
-                        </Box>
-                    </CustomeToolTip> :
-                        <CustomeToolTip title="Save" placement="top" >
-                            <Box sx={{ width: '3%', pl: 4, pt: 3, }}>
-                                <CusIconButton size="sm" variant="outlined"  >
-                                    <LibraryAddIcon fontSize='small' />
-                                </CusIconButton>
-                            </Box>
-                        </CustomeToolTip>
-
-                }
-                {
-                    exist === 0 ?
-                        <CustomeToolTip title="Edit" placement="top" >
-                            <Box sx={{ width: '3%', pl: 3, pt: 3, }}>
-                                <CusIconButton size="sm" variant="outlined"  >
-                                    <EditIcon fontSize='small' />
-                                </CusIconButton>
-                            </Box>
-                        </CustomeToolTip> :
-                        <CustomeToolTip title="Edit" placement="top" >
-                            <Box sx={{ width: '3%', pl: 3, pt: 3, }}>
-                                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails} >
-                                    <EditIcon fontSize='small' />
-                                </CusIconButton>
-                            </Box>
-                        </CustomeToolTip>
-                }
+                <CustomeToolTip title="Save" placement="top" >
+                    <Box sx={{ width: '3%', pl: 3, pt: 3, }}>
+                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails} >
+                            <LibraryAddIcon fontSize='small' />
+                        </CusIconButton>
+                    </Box>
+                </CustomeToolTip>
                 <CustomeToolTip title="Refresh" placement="top" >
                     <Box sx={{ width: '3%', pl: 2, pt: 3, }}>
                         <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={DeviceRefresh} >
