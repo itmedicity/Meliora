@@ -29,7 +29,6 @@ const EmpTaskDash = () => {
     const [employeeOnHold, setemployeeOnHold] = useState([])
     const [employeeOnPending, setemployeeOnPending] = useState([])
     const [flag, setflag] = useState(0)
-
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
 
     const ViewEmpCompletedTask = useCallback((e) => {
@@ -39,7 +38,7 @@ const EmpTaskDash = () => {
             setemployeeTaskFlag(1)
             setflag(1)
             setempTaskHeading('Completed')
-            // setTableDataEmployee(employeeeCompleted)
+
         }
     }, [
         employeeeCompleted
@@ -76,7 +75,6 @@ const EmpTaskDash = () => {
             setflag(1)
             setemployeeTaskFlag(4)
             setempTaskHeading('Over Dues')
-            // setTableDataEmployee(employeeOverDue)
         }
     }, [
         employeeOverDue
@@ -88,7 +86,7 @@ const EmpTaskDash = () => {
             setflag(1)
             setemployeeTaskFlag(5)
             setempTaskHeading('On Hold')
-            // setTableDataEmployee(employeeOnHold)
+
         }
     }, [
         employeeOnHold
@@ -100,7 +98,6 @@ const EmpTaskDash = () => {
             setflag(1)
             setemployeeTaskFlag(6)
             setempTaskHeading('On Pending')
-            // setTableDataEmployee(employeeOnPending)
         }
     }, [
         employeeOnPending
@@ -112,7 +109,6 @@ const EmpTaskDash = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setemployeeOverDue(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setemployeeOverDue([])
             }
@@ -121,8 +117,42 @@ const EmpTaskDash = () => {
             const result = await axioslogin.get(`TmTableView/employeeCompleted/${id}`)
             const { data, success } = result.data
             if (success === 2) {
-                setemployeeeCompleted(data)
-                // settaskTableCount(taskTableCount + 1)
+                const arry = data?.map((val) => {
+                    const obj = {
+                        tm_task_slno: val.tm_task_slno,
+                        tm_task_name: val.tm_task_name,
+                        dept_name: (val.dept_name).toLowerCase(),
+                        sec_name: (val.sec_name).toLowerCase(),
+                        em_name: val.em_name,
+                        tm_assigne_emp: val.tm_assigne_emp,
+                        tm_task_dept: val.tm_task_dept,
+                        tm_task_dept_sec: val.tm_task_dept_sec,
+                        tm_task_due_date: val.tm_task_due_date,
+                        main_task_slno: val.main_task_slno,
+                        tm_task_description: val.tm_task_description,
+                        tm_task_status: val.tm_task_status,
+                        tm_project_slno: val.tm_project_slno,
+                        tm_project_name: val.tm_project_name,
+                        tm_pending_remark: val.tm_pending_remark,
+                        tm_onhold_remarks: val.tm_onhold_remarks,
+                        create_date: val.create_date,
+                        tm_complete_date: val.tm_complete_date,
+                        tm_completed_remarks: val.tm_completed_remarks,
+                        TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+                            val.tm_task_status === 1 ? 'Completed' :
+                                val.tm_task_status === 2 ? 'On Progress' :
+                                    val.tm_task_status === 3 ? 'On Hold' :
+                                        val.tm_task_status === 4 ? 'Pending' :
+                                            val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                        datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
+                        days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
+                        hours: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60) % 24),
+                        minutes: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60),
+                        seconds: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60)
+                    }
+                    return obj
+                })
+                setemployeeeCompleted(arry)
             } else {
                 setemployeeeCompleted([])
             }
@@ -132,7 +162,6 @@ const EmpTaskDash = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setemployeeOnProgress(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setemployeeOnProgress([])
             }
@@ -142,7 +171,6 @@ const EmpTaskDash = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setemployeeInComplete(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setemployeeInComplete([])
             }
@@ -152,18 +180,15 @@ const EmpTaskDash = () => {
             const { data, success } = result.data
             if (success === 2) {
                 setemployeeOnHold(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setemployeeOnHold([])
             }
         }
-
         const getOnPendingEmpTable = async () => {
             const result = await axioslogin.get(`TmTableView/employeeOnPending/${id}`)
             const { data, success } = result.data
             if (success === 2) {
                 setemployeeOnPending(data)
-                // settaskTableCount(taskTableCount + 1)
             } else {
                 setemployeeOnPending([])
             }
@@ -209,7 +234,7 @@ const EmpTaskDash = () => {
                                     <Box sx={{ flex: 1, height: 15, }}></Box>
                                     <Box sx={{ flex: 1, textAlign: 'center', fontSize: 15, display: 'flex' }}>
                                         <Box sx={{ mt: .3 }}> <RestartAltOutlinedIcon sx={{ color: '#341948', width: 20, height: 20, }} /></Box>
-                                        <Box sx={{ mt: .5, fontWeight: 500, color: '#341948' }}>Over Due&nbsp;</Box>
+                                        <Box sx={{ mt: .5, fontWeight: 500, color: '#341948', }}>Over Due&nbsp;</Box>
                                         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
                                             <Avatar
                                                 color="neutral"
@@ -238,7 +263,7 @@ const EmpTaskDash = () => {
                                     <Box sx={{ flex: 1, height: 15 }}></Box>
                                     <Box sx={{ flex: 1, textAlign: 'center', fontSize: 15, display: 'flex' }}>
                                         <Box sx={{ mt: .3 }}> <RotateRightIcon sx={{ color: '#341948', width: 20, height: 20, }} /></Box>
-                                        <Box sx={{ mt: .5, fontWeight: 500, color: '#341948' }}>On Progress&nbsp;</Box>
+                                        <Box sx={{ mt: .5, fontWeight: 500, color: '#341948', }}>On Progress&nbsp;</Box>
                                         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
                                             <Avatar
                                                 color="neutral"

@@ -1,10 +1,8 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { Box, Button, CssVarsProvider, Textarea, Typography, Tooltip } from '@mui/joy'
-import { Paper } from '@mui/material'
+import { Box, Button, CssVarsProvider, Textarea, Typography, } from '@mui/joy'
+import { Paper, Tooltip } from '@mui/material'
 import GoalsMastTable from './GoalsMastTable'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import CusIconButton from 'src/views/Components/CusIconButton'
-import CloseIcon from '@mui/icons-material/Close';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector, useDispatch } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -13,7 +11,8 @@ import TmDepartmentSelect from 'src/views/CommonSelectCode/TmDepartmentSelect'
 import TmDeptSectionSelect from 'src/views/CommonSelectCode/TmDeptSectionSelect'
 import { getDepartment } from 'src/redux/actions/Department.action'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-
+import moment from 'moment'
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 
 const GoalsMaster = () => {
     const [department, setDepartment] = useState(0)
@@ -21,6 +20,7 @@ const GoalsMaster = () => {
     const [tableCount, setTableCount] = useState(0)
     const history = useHistory()
     const [value, setvalue] = useState(0)
+    let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -38,8 +38,9 @@ const GoalsMaster = () => {
         tm_goal_fromdate: '',
         tm_goal_description: '',
         tm_goal_status: false,
+        tm_goal_cmpledate: ''
     })
-    const { tm_goals_slno, tm_goal_name, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status } = goalMast
+    const { tm_goals_slno, tm_goal_name, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, tm_goal_cmpledate } = goalMast
 
     const GoalsMastUpdate = useCallback(
         (e) => {
@@ -57,9 +58,10 @@ const GoalsMaster = () => {
             tm_goal_duedate: tm_goal_duedate === '' ? null : tm_goal_duedate,
             tm_goal_description: tm_goal_description === '' ? null : tm_goal_description,
             tm_goal_status: tm_goal_status === true ? 1 : 0,
+            tm_goal_cmpledate: tm_goal_cmpledate === '' ? null : tm_goal_cmpledate,
             tm_goal_createuser: id,
         }
-    }, [tm_goal_name, department, deptsec, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, id])
+    }, [tm_goal_name, department, deptsec, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, tm_goal_cmpledate, id])
 
     const patchGoal = useMemo(() => {
         return {
@@ -71,22 +73,25 @@ const GoalsMaster = () => {
             tm_goal_duedate: tm_goal_duedate === '' ? null : tm_goal_duedate,
             tm_goal_description: tm_goal_description === '' ? null : tm_goal_description,
             tm_goal_status: tm_goal_status === true ? 1 : 0,
+            tm_goal_cmpledate: tm_goal_status === true ? newDate : null,
             tm_goal_edituser: id,
         }
-    }, [tm_goals_slno, tm_goal_name, department, deptsec, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, id])
+    }, [tm_goals_slno, tm_goal_name, department, deptsec, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, newDate, id])
 
-    const reset = () => {
+    const reset = useCallback(() => {
         const form = {
             tm_goals_slno: '',
             tm_goal_name: '',
-            tm_goal_fromdate: '',
             tm_goal_duedate: '',
+            tm_goal_fromdate: '',
             tm_goal_description: '',
+            tm_goal_status: false,
+            tm_goal_cmpledate: ''
         }
         setgoalMast(form)
         setDepartment(0)
         setDeptSec(0)
-    }
+    }, [])
 
     const rowSelect = useCallback((data) => {
         setvalue(1)
@@ -98,16 +103,18 @@ const GoalsMaster = () => {
             tm_goal_fromdate,
             tm_goal_duedate,
             tm_goal_description,
+            tm_goal_cmpledate,
             tm_goal_status
         } = data
 
         const frmdata = {
             tm_goals_slno: tm_goals_slno,
             tm_goal_name: tm_goal_name,
-            tm_goal_fromdate: tm_goal_fromdate === '' ? null : tm_goal_fromdate,
-            tm_goal_duedate: tm_goal_duedate === '' ? null : tm_goal_duedate,
-            tm_goal_description: tm_goal_description === '' ? null : tm_goal_description,
+            tm_goal_fromdate: tm_goal_fromdate === null ? '' : tm_goal_fromdate,
+            tm_goal_duedate: tm_goal_duedate === null ? '' : tm_goal_duedate,
+            tm_goal_description: tm_goal_description === null ? '' : tm_goal_description,
             tm_goal_status: tm_goal_status === 1 ? true : false,
+            tm_goal_cmpledate: tm_goal_cmpledate === null ? '' : tm_goal_cmpledate,
             tm_goal_edituser: id,
         }
         setgoalMast(frmdata)
@@ -134,9 +141,9 @@ const GoalsMaster = () => {
             }
             InsertMastGoal(postGoal)
         } else {
-            infoNotify('Please Enter Goal Name')
+            infoNotify('Please fill Manadatory Feilds')
         }
-    }, [postGoal, tm_goal_name, tableCount])
+    }, [postGoal, tm_goal_name, tableCount, reset])
 
     const UpdateGoals = useCallback((e) => {
         e.preventDefault()
@@ -159,23 +166,24 @@ const GoalsMaster = () => {
         } else {
             infoNotify('Please Enter Goal Name')
         }
-    }, [patchGoal, tm_goal_name, tableCount])
+    }, [patchGoal, tm_goal_name, tableCount, reset])
 
     const BackToDash = useCallback(() => {
         history.push('/Home/TaskManagementDashboard')
     }, [history])
 
     return (
-        <Paper sx={{ height: '100%', width: '100%', bgcolor: '#F2F1F0', }}>
-            <Box sx={{ height: 35, backgroundColor: '#E2E8EF', borderBottom: .1, borderColor: 'lightgrey', display: 'flex' }}>
-                <Box sx={{ fontWeight: 600, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Create Goal</Box>
-                <Box><CusIconButton size="sm" variant="outlined" color="primary" >
+        <Paper sx={{ height: '100%', width: '100%', bgcolor: 'white', boxShadow: '0px 1px 3px' }}>
+            <Box sx={{ height: 35, display: 'flex', bgcolor: '#52688F' }}>
+                <Box sx={{ fontWeight: 600, flex: 1, pl: 1, pt: .8, color: 'white', }}>Create Goal </Box>
+                <Box sx={{ mt: .5, mr: .5 }} >
                     <Tooltip title="Close" placement="bottom" >
-                        <CloseIcon fontSize='small'
+                        <HighlightOffOutlinedIcon sx={{ color: 'white', height: 25, width: 25, cursor: 'pointer' }}
                             onClick={BackToDash}
                         />
                     </Tooltip>
-                </CusIconButton></Box>
+
+                </Box>
             </Box>
             <Box sx={{ display: 'flex' }}>
                 <Box sx={{ flex: 1.5 }}>

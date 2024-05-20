@@ -4,7 +4,7 @@ import { Paper } from '@mui/material'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useSelector } from 'react-redux';
 import EditIcon from '@mui/icons-material/Edit';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import FilePresentTwoToneIcon from '@mui/icons-material/FilePresentTwoTone';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import moment from 'moment';
@@ -45,7 +45,6 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                     const arr = data?.map((val) => {
                         const obj = {
                             tm_task_slno: val.tm_task_slno,
-                            // tm_task_name: (val.tm_task_name).toLowerCase(),
                             tm_task_name: val.tm_task_name,
                             dept_name: val.dept_name,
                             sec_name: val.sec_name,
@@ -58,7 +57,6 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                             tm_task_dept_sec: val.tm_task_dept_sec,
                             main_task_slno: val.main_task_slno,
                             tm_task_due_date: val.tm_task_due_date,
-                            // tm_task_description: (val.tm_task_description).toLowerCase(),
                             tm_task_description: val.tm_task_description,
                             tm_task_status: val.tm_task_status,
                             TaskStatus: val.tm_task_status === 1 ? 'Completed' :
@@ -132,10 +130,9 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                             :
                             image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                                 selectedImages={selectedImages} getarry={getarry} /> : null}
-
                         <CssVarsProvider>
 
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead >
                                     <tr >
@@ -143,14 +140,13 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 60 }}>View</th>
                                         <th style={{ width: 170 }}>Status</th>
-                                        <th style={{ width: 250 }}>Time OverDue</th>
+                                        <th style={{ width: 200, textAlign: 'center' }}>Time OverDue</th>
                                         <th style={{ width: 450 }}>Task Name</th>
                                         <th style={{ width: 450 }}>Project</th>
                                         <th style={{ width: 200 }}>Assignee</th>
                                         <th style={{ width: 150 }}>Created Date</th>
                                         <th style={{ width: 150 }}> Due Date</th>
                                         <th style={{ width: 500 }}>Task Description</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -161,11 +157,17 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                                                 <td> {index + 1}</td>
                                                 <td>
                                                     <EditIcon
-                                                        sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                        sx={{
+                                                            cursor: 'pointer',
+                                                            '&:hover': { color: '#003060' }
+                                                        }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
                                                 <td style={{ cursor: 'pointer', }}>
-                                                    <ImageOutlinedIcon style={{ color: '#41729F' }}
+                                                    <FilePresentTwoToneIcon sx={{
+                                                        color: '#41729F',
+                                                        '&:hover': { color: '#274472' }
+                                                    }}
                                                         onClick={() => fileView(val)} />
                                                 </td>
                                                 <td
@@ -189,12 +191,12 @@ const OverDueTable = ({ statuscount, setstatuscount, taskcount, settaskcount }) 
                                                     }} />&nbsp;{val.TaskStatus}</td>
                                                 <td>
                                                     {val.tm_task_status !== 1 ?
-                                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#5885AF', p: .5, flex: .9, }}>
+                                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: .9, borderRadius: 20 }}>
                                                             <CountDowncomponent DueDates={val.tm_task_due_date} />
                                                         </Box> :
-                                                        <Box sx={{ display: 'flex', borderRadius: 3, border: .1, borderStyle: 'dashed', borderColor: '#5885AF', p: .5, flex: 1, }}>
+                                                        <Box sx={{ display: 'flex', borderRadius: 3, border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
                                                             <Box sx={{ flex: .5, }}></Box>
-                                                            <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;hh&nbsp;:00&nbsp;mm&nbsp;:00&nbsp;ss</Box>
+                                                            <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;:&nbsp;00&nbsp;:&nbsp;00</Box>
                                                             <Box sx={{ flex: .5 }}></Box>
                                                         </Box>
                                                     }

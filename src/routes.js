@@ -134,6 +134,10 @@ const RoomAsset = React.lazy(() => import('./views/RoomManagement/DashBoard/Dash
 const ItemCreation = React.lazy(() => import('./views/AssetManagment/ItemCreation/ItemCreationMast'))
 const DashboardBackup = React.lazy(() => import('./views/ItManagement/DashboardBackup/Newdashboard'))
 const PasswordManagement = React.lazy(() => import('./views/ItManagement/PasswordManagement/PasswordManagement'))
+<<<<<<< HEAD
+=======
+const CommunicationDevice = React.lazy(() => import('./views/ItManagement/Communication'))
+>>>>>>> b88ac823963e89341a2e864b12b4c64324aca6ce
 const BackupChecks = React.lazy(() => import('./views/ItManagement/BackupChecksAndMonitoring/BackupChecks'))
 const SimType = React.lazy(() => import('./views/Master/ItMasters/BillManagement/SimType/SimTypeMaster'))
 const WifiManageMenT = React.lazy(() => import('./views/ItManagement/WifiManagement/WifiManageMentMains'))
@@ -209,7 +213,6 @@ const TimeReport = React.lazy(() => import('./views/QualityIndicatorNew/InitialA
 const QIListType = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QIListTypeMast/QIListType'))
 const DayWiseQiReport = React.lazy(() => import('./views/QualityIndicatorNew/DaywiseQiReport'))
 const DataTransferHRM = React.lazy(() => import('./views/Master/DataImportFrmHR/DataImportHR'))
-
 
 
 const routes = [

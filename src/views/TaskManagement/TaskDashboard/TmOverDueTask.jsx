@@ -70,14 +70,14 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                             />
                             : null}
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead>
                                     <tr >
                                         <th style={{ width: 50 }}>#</th>
                                         <th style={{ width: 60 }} >Action</th>
                                         <th style={{ width: 120 }}>Status</th>
-                                        <th style={{ width: 250, }}>countDown</th>
+                                        <th style={{ width: 200, }}>countDown</th>
                                         <th style={{ width: 600 }}>Task Name</th>
                                         <th style={{ width: 500 }}>Project</th>
                                         <th style={{ width: 170 }}>Assignee</th>
@@ -94,7 +94,10 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                                                 <td> {index + 1}</td>
                                                 <td>
                                                     <CheckCircleOutlineIcon
-                                                        sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                        sx={{
+                                                            cursor: 'pointer',
+                                                            '&:hover': { color: '#DBA40E' }
+                                                        }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
                                                 <td
@@ -110,9 +113,8 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                                                     }}>{val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
                                                         val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                             val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
-                                                <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5, borderRadius: 20 }}>
                                                     <CountDowncomponent DueDates={val.tm_task_due_date} />
-
                                                 </Box></td>
                                                 <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}> {val.tm_task_name || 'not given'}</td>
                                                 <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}> {val.tm_project_name || 'not given'}</td>

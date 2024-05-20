@@ -57,18 +57,18 @@ const GoalsMasterTableDept = ({ rowSelect, tableCount }) => {
         <Box sx={{ mt: 1 }}>
             {tabledata.length !== 0 ?
                 <Box>
-                    <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', fontFamily: 'Georgia' }}>Goals</Divider>
-                    <Box sx={{ height: 500, }}>
+                    <Divider textAlign="left" sx={{ fontWeight: 600, mx: 1, fontSize: 18, color: '#52688F', fontFamily: 'Georgia' }}>Goals</Divider>
+                    <Box sx={{ height: 500, px: 1 }}>
                         <Paper variant="outlined" sx={{ maxHeight: 495, maxWidth: '100%', overflow: 'auto', m: .5, pb: .5 }}>
                             <CssVarsProvider>
-                                <Table padding={"none"} stickyHeader
+                                <Table padding={"none"} stickyHeader size='sm'
                                     hoverRow>
                                     <thead>
                                         <tr>
                                             <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
                                             <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
                                             <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
-                                            <th style={{ width: 250, fontFamily: 'Georgia', }}>CountDoun</th>
+                                            <th style={{ width: 180, fontFamily: 'Georgia', }}>CountDoun</th>
                                             <th style={{ width: 500, fontFamily: 'Georgia', }}>Goals</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Section</th>
@@ -98,12 +98,15 @@ const GoalsMasterTableDept = ({ rowSelect, tableCount }) => {
 
                                                     <td>
                                                         {val.tm_goal_status !== 1 ?
-                                                            <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: .9 }}>
+                                                            <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', px: .5, flex: .9, borderRadius: 20 }}>
                                                                 <CountDowncomponent DueDates={val.tm_goal_duedate} />
                                                             </Box> :
-                                                            <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
+                                                            <Box sx={{
+                                                                display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1,
+                                                                borderRadius: 20, px: .5
+                                                            }}>
                                                                 <Box sx={{ flex: .5, }}></Box>
-                                                                <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;hh&nbsp;:00&nbsp;mm&nbsp;:00&nbsp;ss</Box>
+                                                                <Box sx={{ flex: 1, }}>completed</Box>
                                                                 <Box sx={{ flex: .5 }}></Box>
                                                             </Box>
                                                         }

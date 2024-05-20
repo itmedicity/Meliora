@@ -3,8 +3,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import { Box, Button, CssVarsProvider } from '@mui/joy';
-import CloseIcon from '@mui/icons-material/Close';
-
+import { Paper } from '@mui/material';
+import HighlightOffTwoToneIcon from '@mui/icons-material/HighlightOffTwoTone';
 const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
 
     return (
@@ -17,14 +17,15 @@ const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
                 <DialogContent sx={{
                     width: "100%",
                     height: '60%',
-                    bgcolor: 'white'
+                    bgcolor: '#2F4A60',
                 }}><Box sx={{ display: 'flex' }}>
                         <Box sx={{
                             flex: 1,
                             fontWeight: 'bold',
                             height: '50px',
-                            color: '#0074B7',
-                            fontSize: 20
+                            color: 'white',
+                            fontSize: 20,
+
 
                         }}>
                             Task
@@ -32,25 +33,42 @@ const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
                         <Box sx={{
                             marginLeft: 'auto',
                         }}>
-                            <CloseIcon sx={{ color: '#0074B7', cursor: 'pointer' }} onClick={handleClose} />
+                            <HighlightOffTwoToneIcon sx={{
+                                color: 'white', cursor: 'pointer',
+                                '&:hover': { color: '#F7BEC0' }
+                            }} onClick={handleClose} />
                         </Box>
                     </Box>
-                    <Box sx={{ mt: 1, gap: 5 }}>
-                        {imageUrls.reverse().map((imageUrl, index) => (
+                    <Box sx={{ gap: 5 }}>
+                        {/* {imageUrls.reverse().map((imageUrl, index) => (
                             < img alt="Task"
                                 key={index}
                                 src={imageUrl}
                                 height={820}
                                 style={{ maxWidth: '100%', maxHeight: '100%', margin: '6px', }}
                             />
+                            
+                        ))
+                        } */}
+                        {imageUrls.map((imageUrl, index) => (
+                            <Paper key={index} sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 700, width: 1000, mb: 1 }}>
+                                <embed
+                                    id="pdf-embed"
+                                    src={imageUrl}
+                                    type="application/pdf"
+                                    height={650}
+                                    width={'100%'} />
+
+                            </Paper>
                         ))
                         }
                     </Box>
+
                     <DialogActions>
                         <CssVarsProvider>
                             <Button
-                                variant='plain'
-                                sx={{ color: "#0074B7", fontWeight: 'bold' }}
+
+                                sx={{ color: "white", fontWeight: 'bold', bgcolor: '#0C2D48' }}
                                 onClick={handleClose}
                             >Cancel</Button>
                         </CssVarsProvider>

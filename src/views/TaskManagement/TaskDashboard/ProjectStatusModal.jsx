@@ -120,7 +120,7 @@ const ProjectStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOp
                                         <Typography sx={{ color: '#44444C', fontFamily: 'Georgia', pt: 1, pl: .5 }}>
                                             Department
                                         </Typography>
-                                        <Box sx={{}}>
+                                        <Box>
                                             <TextFieldCustom
                                                 type="text"
                                                 name="dept_name"
@@ -131,7 +131,7 @@ const ProjectStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOp
                                         <Typography sx={{ color: '#44444C', fontFamily: 'Georgia', pt: 1, pl: .5 }}>
                                             Section
                                         </Typography>
-                                        <Box sx={{}}>
+                                        <Box >
                                             <TextFieldCustom
                                                 type="text"
                                                 name="sec_name"
@@ -142,7 +142,7 @@ const ProjectStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOp
                                         <Typography sx={{ color: '#44444C', fontFamily: 'Georgia', pt: 1, pl: .5 }}>
                                             Due date
                                         </Typography>
-                                        <Box sx={{}}>
+                                        <Box>
                                             <TextFieldCustom
                                                 type="text"
                                                 size="sm"
@@ -155,7 +155,7 @@ const ProjectStatusModal = ({ open, masterData, setEditModalFlag, setEditModalOp
                                         <Typography sx={{ color: '#44444C', fontFamily: 'Georgia', pt: 1, pl: .5 }}>
                                             Description
                                         </Typography>
-                                        <Box sx={{}}>
+                                        <Box >
                                             <Textarea
                                                 type="text"
                                                 size="sm"

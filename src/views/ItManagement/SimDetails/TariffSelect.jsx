@@ -10,7 +10,8 @@ const TariffSelect = ({ tarrif, setTarrif }) => {
             { label: 'Select', id: 0 },
             { label: 'Monthly', id: 1 },
             { label: 'Quaterly', id: 2 },
-            { label: 'Yearly', id: 3 }
+            { label: 'Yearly', id: 3 },
+            { label: 'Other Bill', id: 4 }
         ]
     }, [])
     const [value, setValue] = useState(tariffList[0]);
@@ -37,6 +38,7 @@ const TariffSelect = ({ tarrif, setTarrif }) => {
                     sx={{
                         "--Input-minHeight": "29px",
                         // width: 755
+
                     }}
                     value={tarrif === 0 ? tariffList : value}
                     placeholder="Select Tariff"

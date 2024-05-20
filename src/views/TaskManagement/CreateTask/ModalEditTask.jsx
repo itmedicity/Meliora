@@ -24,11 +24,13 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import moment from 'moment';
-const ModalEditTask = ({
-    open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount, searchFlag, setTabledata, taskcount, settaskcount, statuscount, setstatuscount }) => {
-
+import AutoDeleteTwoToneIcon from '@mui/icons-material/AutoDeleteTwoTone';
+import DueDateModal from '../ModalComponent/DueDateModal';
+const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount, searchFlag, setTabledata, taskcount, settaskcount,
+    statuscount, setstatuscount }) => {
 
     const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, em_name, create_date, tm_project_name, tm_task_due_date } = masterData
+
     const dispatch = useDispatch();
     const [departmentMast, setdepartmentMast] = useState(0)
     const [departmentSecMast, setdepartmentSecMast] = useState(0)
@@ -52,6 +54,12 @@ const ModalEditTask = ({
     const [progressCount, setprogressCount] = useState(0)
     const [completeFlag, setCompleteFlag] = useState(0)
     const [changeAssignee, setchangeAssignee] = useState(0)
+    const [dueDateModalFlag, setdueDateModalFlag] = useState(0)
+    const [dueDateModal, setdueDateModal] = useState(false)
+    const [dueDates, setdueDates] = useState([])
+    let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+
+
     const id = useSelector((state) => { return state.LoginUserData.empid })
     const [taskData, setTaskData] = useState({
         tm_task_slno: '',
@@ -61,6 +69,7 @@ const ModalEditTask = ({
         pendingRemarks: '',
         onHoldRemaks: '',
         completedRemarks: '',
+
     })
 
     const { taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } = taskData
@@ -202,6 +211,25 @@ const ModalEditTask = ({
         }
         getProgress(ProgressData)
     }, [progressCount, tableCount, ProgressData])
+
+    const getAllDueDates = useCallback(() => {
+        const getDueDate = async () => {
+            const result = await axioslogin.get(`/taskManagement/getAllDueDates/${tm_task_slno}`)
+            const { success, data } = result.data;
+            if (success === 2) {
+                if (data.length > 1) {
+                    setdueDates(data)
+                    setdueDateModalFlag(1)
+                    setdueDateModal(true)
+                } else if (data.length === 1) {
+                    infoNotify('Duedate is not extended')
+                } else if (data.length === 0) {
+                    infoNotify('Duedate is not extended')
+                }
+            }
+        }
+        getDueDate()
+    }, [tm_task_slno])
 
 
 
@@ -373,9 +401,14 @@ const ModalEditTask = ({
             tm_onhold_remarks: onHoldRemaks === '' ? null : onHoldRemaks,
             tm_completed_remarks: completedRemarks === '' ? null : completedRemarks,
             tm_project_slno: projectz === 0 ? null : projectz,
-
+            tm_complete_date: completed === true ? newDate : null,
+            edit_user: id,
         }
-    }, [tm_task_slno, taskName, checkFlag, dueDate, description, departmentMast, departmentSecMast, pendingRemarks, onHoldRemaks, completedRemarks, projectz,])
+    }, [tm_task_slno, taskName, checkFlag, dueDate, description, departmentMast, departmentSecMast, pendingRemarks, onHoldRemaks, completedRemarks, projectz,
+        completed, newDate, id])
+
+
+
 
     const postEmpDetails = employeeMast && employeeMast.map((val) => {
         return {
@@ -709,6 +742,12 @@ const ModalEditTask = ({
                         height: '60vw',
                     }}
                 >
+                    <Box>
+                        {dueDateModalFlag === 1 ?
+                            <DueDateModal dueDateModal={dueDateModal} taskName={taskName} dueDates={dueDates} setdueDateModalFlag={setdueDateModalFlag}
+                                setdueDateModal={setdueDateModal} tm_task_due_date={tm_task_due_date} create_date={create_date} />
+                            : null}
+                    </Box>
                     <Box sx={{ borderRight: 1, borderLeft: 1, borderBottom: 1, borderColor: '#D9E4EC', }}>
                         <Box sx={{
                             width: "100%", backgroundColor: '#D9E4EC', height: 45,
@@ -824,7 +863,6 @@ const ModalEditTask = ({
                                                 </TextFieldCustom>
                                             </Box>}
                                     </Box>
-
                                 }
                                 <Box sx={{ mt: .5 }}>
                                     <TextFieldCustom
@@ -876,14 +914,21 @@ const ModalEditTask = ({
                                         disabled>
                                     </TextFieldCustom>
                                 </Box>
-                                <Box sx={{ mt: .5 }}>
-                                    <TextFieldCustom
-                                        type="datetime-local"
-                                        size="sm"
-                                        name="dueDate"
-                                        value={dueDate}
-                                        onchange={taskDataUpdate}
-                                    ></TextFieldCustom>
+                                <Box sx={{ mt: .5, display: 'flex' }}>
+                                    <Box sx={{ flex: 1 }}>
+                                        <TextFieldCustom
+                                            type="datetime-local"
+                                            size="sm"
+                                            name="dueDate"
+                                            value={dueDate}
+                                            onchange={taskDataUpdate}
+                                        ></TextFieldCustom>
+                                    </Box>
+                                    <Box sx={{ mx: 1, pt: .5, cursor: 'pointer' }}>
+                                        <Tooltip title="Changed DueDates" variant="solid">
+                                            <AutoDeleteTwoToneIcon sx={{ color: '#391306' }} onClick={getAllDueDates} />
+                                        </Tooltip>
+                                    </Box>
                                 </Box>
                                 <Box sx={{ mt: .5 }}>
                                     <Textarea
@@ -993,8 +1038,6 @@ const ModalEditTask = ({
                                                 ></CusCheckBox>
                                             </Box>}
                                     </Box>}
-
-
                                 <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
                                     <CusCheckBox
                                         color="primary"
@@ -1122,6 +1165,7 @@ const ModalEditTask = ({
                                             <TextFieldCustom
                                                 slotProps={{
                                                     input: {
+                                                        min: create_date,
                                                         max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
                                                     },
                                                 }}
@@ -1161,7 +1205,10 @@ const ModalEditTask = ({
                                                 />
                                             </Box> :
                                             value === 1 ? <Box>
-                                                <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
+                                                <CheckCircleOutlineIcon sx={{
+                                                    fontSize: 30, cursor: 'pointer', color: '#003B73',
+                                                    '&:hover': { color: '#DBA40E' }
+                                                }}
                                                     onClick={UpdateProgress}
                                                 />
                                             </Box>
@@ -1229,13 +1276,12 @@ const ModalEditTask = ({
                                                         tableCount={tableCount}
                                                         setTableCount={setTableCount}
                                                         tm_task_due_date={tm_task_due_date}
-
                                                     />
                                                 </Box>
                                                 : null
                                     }
                                 </Box>
-                                <Box >
+                                <Box>
                                     <Box>
                                         < SubtaskTableEmp
                                             completeFlag={completeFlag}
@@ -1256,7 +1302,6 @@ const ModalEditTask = ({
                                     </Box>
                                 </Box>
                                 <Box sx={{ height: 5, }}></Box>
-
                             </Box> : null}
                         <Box sx={{ height: 10 }}></Box>
                     </Box>

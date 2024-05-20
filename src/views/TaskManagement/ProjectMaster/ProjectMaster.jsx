@@ -1,9 +1,7 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { Box, Button, CssVarsProvider, Textarea, Typography, Tooltip } from '@mui/joy'
-import { Paper } from '@mui/material'
+import { Box, Button, CssVarsProvider, Textarea, Typography, } from '@mui/joy'
+import { Paper, Tooltip } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import CusIconButton from 'src/views/Components/CusIconButton'
-import CloseIcon from '@mui/icons-material/Close';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import ProjectMasterTable from './ProjectMasterTable'
 import { getDepartment } from 'src/redux/actions/Department.action'
@@ -15,7 +13,8 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TmGoalsList from 'src/views/CommonSelectCode/TmGoalsList'
 import { getGoalsList } from 'src/redux/actions/TmGoalsList.action'
-
+import moment from 'moment'
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 
 const ProjectMaster = () => {
     const history = useHistory()
@@ -25,6 +24,7 @@ const ProjectMaster = () => {
     const [tableCount, settableCount] = useState(0)
     const [value, setvalue] = useState(0)
     const [goalz, setgoalz] = useState(0)
+    let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     useEffect(() => {
         dispatch(getDepartment())
     }, [dispatch,])
@@ -41,10 +41,11 @@ const ProjectMaster = () => {
         tm_project_duedate: '',
         tm_project_description: '',
         tm_project_status: false,
+        tm_project_cmpltedate: ''
 
 
     })
-    const { tm_project_slno, tm_project_name, tm_project_duedate, tm_project_description, tm_project_status, } = projectMast
+    const { tm_project_slno, tm_project_name, tm_project_duedate, tm_project_description, tm_project_status, tm_project_cmpltedate } = projectMast
     const ProjectMastUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -60,11 +61,12 @@ const ProjectMaster = () => {
             tm_project_duedate: tm_project_duedate === '' ? null : tm_project_duedate,
             tm_project_description: tm_project_description === '' ? null : tm_project_description,
             tm_project_status: tm_project_status === true ? 1 : 0,
+            tm_project_cmpltedate: tm_project_cmpltedate === '' ? null : tm_project_cmpltedate,
             tm_goal_slno: goalz === 0 ? null : goalz,
             tm_project_create_user: id,
 
         }
-    }, [tm_project_name, department, deptsec, tm_project_duedate, tm_project_description, tm_project_status, goalz, id])
+    }, [tm_project_name, department, deptsec, tm_project_duedate, tm_project_description, tm_project_status, tm_project_cmpltedate, goalz, id])
 
 
 
@@ -80,25 +82,29 @@ const ProjectMaster = () => {
             tm_project_duedate: tm_project_duedate === '' ? null : tm_project_duedate,
             tm_project_description: tm_project_description === '' ? null : tm_project_description,
             tm_project_status: tm_project_status === true ? 1 : 0,
+            tm_project_cmpltedate: tm_project_status === true ? newDate : null,
             tm_goal_slno: goalz === 0 ? null : goalz,
             tm_project_edit_user: id,
         }
-    }, [tm_project_slno, tm_project_name, department, deptsec, tm_project_duedate, tm_project_description, tm_project_status, goalz, id])
+    }, [tm_project_slno, tm_project_name, department, deptsec, tm_project_duedate, tm_project_description, tm_project_status, goalz, newDate, id])
 
-
-
-    const reset = () => {
+    const reset = useCallback(() => {
         const form = {
             tm_project_slno: '',
             tm_project_name: '',
             tm_project_duedate: '',
-            tm_project_description: ''
+            tm_project_description: '',
+            tm_project_status: false,
+            tm_project_cmpltedate: ''
         }
         setprojectMast(form)
         setDepartment(0)
         setDeptSec(0)
         setgoalz(0)
-    }
+    }, [])
+
+
+
     const rowSelect = useCallback((data) => {
         setvalue(1)
 
@@ -110,21 +116,25 @@ const ProjectMaster = () => {
             tm_project_duedate,
             tm_project_description,
             tm_project_status,
+            tm_project_cmpltedate,
             tm_goal_slno
         } = data
 
         const frmdata = {
             tm_project_slno: tm_project_slno,
             tm_project_name: tm_project_name,
-            tm_project_duedate: tm_project_duedate === '' ? null : tm_project_duedate,
-            tm_project_description: tm_project_description === '' ? null : tm_project_description,
+            tm_project_duedate: tm_project_duedate === null ? '' : tm_project_duedate,
+            tm_project_description: tm_project_description === null ? '' : tm_project_description,
             tm_project_status: tm_project_status === 1 ? true : false,
+            tm_project_cmpltedate: tm_project_cmpltedate === '' ? null : tm_project_cmpltedate,
             tm_project_edit_user: id,
         }
         setprojectMast(frmdata)
         setDepartment(tm_project_dept)
         setDeptSec(tm_project_deptsec)
         setgoalz(tm_goal_slno)
+
+
     }, [id,])
     const InsertProject = useCallback((e) => {
         e.preventDefault()
@@ -147,7 +157,7 @@ const ProjectMaster = () => {
         } else {
             infoNotify('Please Enter Project Name')
         }
-    }, [postProject, tableCount, tm_project_name])
+    }, [postProject, tableCount, reset, tm_project_name])
 
     const UpdateProject = useCallback((e) => {
         e.preventDefault()
@@ -171,7 +181,7 @@ const ProjectMaster = () => {
         } else {
             infoNotify('Please Enter Project Name')
         }
-    }, [patchProject, tableCount, tm_project_name])
+    }, [patchProject, tableCount, tm_project_name, reset])
 
 
 
@@ -184,19 +194,21 @@ const ProjectMaster = () => {
     }, [history])
 
     return (
-        <Paper sx={{ width: '100%', bgcolor: '#F2F1F0', height: '100%' }}>
-            <Box sx={{ height: 35, backgroundColor: '#D9E4EC', display: 'flex' }}>
-                <Box sx={{ fontWeight: 600, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Create Project</Box>
-                <Box><CusIconButton size="sm" variant="outlined" color="primary" >
+        <Paper sx={{ width: '100%', height: '100%', boxShadow: '0px 1px 3px' }}>
+            <Box sx={{ height: 35, display: 'flex', bgcolor: '#52688F' }}>
+                <Box sx={{ fontWeight: 600, flex: 1, pl: 1, pt: .8, color: 'white', }}>Create Project </Box>
+                <Box sx={{ mt: .5, mr: .5 }} >
+
                     <Tooltip title="Close" placement="bottom" >
-                        <CloseIcon fontSize='small'
+                        <HighlightOffOutlinedIcon sx={{ color: 'white', height: 25, width: 25, cursor: 'pointer' }}
                             onClick={BackToDash}
                         />
                     </Tooltip>
-                </CusIconButton></Box>
+
+                </Box>
             </Box>
             <Box sx={{ display: 'flex' }}>
-                <Box sx={{ flex: 1.5 }}>
+                <Box sx={{ flex: 1.7 }}>
                     <Box sx={{ mt: 2, pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 40, pt: 1.5, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
                             Project*&nbsp;:
@@ -315,7 +327,7 @@ const ProjectMaster = () => {
                     </Box>
 
                 </Box>
-                <Box sx={{ flex: 2 }}>
+                <Box sx={{ flex: 1.5 }}>
 
                 </Box>
             </Box>

@@ -44,8 +44,8 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                     let create_empnamee = val.create_empname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
                     return <AccordionDetails key={val.tm_task_slno}
                         sx={{
-                            borderLeft: 1, borderRight: 1, borderColor: '#BD97CB', height: 50, my: .5, mx: 1,
-                            bgcolor: '#ede7f6', overflow: 'auto',
+                            borderLeft: 1, borderRight: 1, borderColor: '#BD97CB', height: 45, my: .5, mx: 1, px: 1,
+                            bgcolor: '#ede7f6', overflow: 'auto', borderRadius: 5
                         }}>
                         <Box sx={{ display: 'flex', mt: .5 }}>
                             <Box >
@@ -58,7 +58,7 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                                     </FormLabel>
                                 </Tooltip>
                             </Box>
-                            <Box sx={{ flex: 4, }}>
+                            <Box sx={{ flex: 3.5, }}>
                                 <Tooltip title="Subtask " >
                                     {val.tm_task_status === 1 ?
                                         <FormLabel sx={{
@@ -87,9 +87,9 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                                 <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1 }}>
                                     <CountDowncomponent DueDates={val.tm_task_due_date} />
                                 </Box> :
-                                <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, }}>
+                                <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, justifyContent: 'center' }}>
                                     <Box sx={{ flex: .5, }}></Box>
-                                    <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;hh&nbsp;:00&nbsp;mm&nbsp;:00&nbsp;ss</Box>
+                                    <Box sx={{ flex: 1, }}>completed</Box>
                                     <Box sx={{ flex: .5 }}></Box>
                                 </Box>
                             }

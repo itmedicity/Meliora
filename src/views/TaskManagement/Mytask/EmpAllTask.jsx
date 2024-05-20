@@ -10,7 +10,7 @@ import moment from 'moment';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import EmpTaskStatus from './EmpTaskStatus'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import FilePresentTwoToneIcon from '@mui/icons-material/FilePresentTwoTone';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage'
 import SearchIcon from '@mui/icons-material/Search';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
@@ -18,7 +18,6 @@ import TmProjectListSearch from 'src/views/CommonSelectCode/TmProjectListSearch'
 import { getProjectList } from 'src/redux/actions/TmProjectsList.action'
 import { useDispatch } from 'react-redux'
 import CountDowncomponent from '../CountDown/CountDowncomponent'
-
 const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projectcount, setprojectcount }) => {
     const [tabledata, setTabledata] = useState([])
     const [editModalOpen, setEditModalOpen] = useState(false)
@@ -88,6 +87,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                             tm_pending_remark: val.tm_pending_remark,
                             tm_onhold_remarks: val.tm_onhold_remarks,
                             create_date: val.create_date,
+                            tm_complete_date: val.tm_complete_date,
                             tm_completed_remarks: val.tm_completed_remarks,
                             TaskStatus: val.tm_task_status === 1 ? 'Completed' :
                                 val.tm_task_status === 1 ? 'Completed' :
@@ -175,7 +175,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                 const data = result.data;
                 const fileNames = data.data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/Meliora/TaskManagement/${tm_task_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`;
                 });
                 setImageUrls(fileUrls);
                 // Open the modal only if there are files
@@ -240,6 +240,15 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                         pl: 1
                                     }}
                                     onChange={updateEnterText} />
+                                {/* 
+                                <Input
+                                    size='xs'
+                                    name="enterText"
+                                    value={enterText}
+                                    placeholder="    TYPE HERE TO SEARCH TASK..."
+                                    startDecorator={<AssignmentTwoToneIcon />}
+                                    endDecorator={<SearchIcon size='xs' />}
+                                    onChange={updateEnterText} /> */}
                             </Box>
                             <Box sx={{ pt: .3, pb: .3, mr: .3 }}>
                                 <CssVarsProvider>
@@ -323,7 +332,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                         /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                                             selectedImages={selectedImages} getarry={getarry} /> : null}
                                     <CssVarsProvider>
-                                        <Table padding={"none"} stickyHeader
+                                        <Table padding={"none"} stickyHeader size='sm'
                                             hoverRow>
                                             <thead >
                                                 <tr>
@@ -331,9 +340,9 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                     <th style={{ width: 60 }}>Action</th>
                                                     <th style={{ width: 60 }}>View</th>
                                                     <th style={{ width: 150 }}>Status</th>
-                                                    <th style={{ width: 250 }}>CountDown</th>
+                                                    <th style={{ width: 200 }}>CountDown</th>
                                                     <th style={{ width: 500 }}>Task Name</th>
-                                                    <th style={{ width: 450 }}>Project</th>
+                                                    <th style={{ width: 500 }}>Project</th>
                                                     <th style={{ width: 150 }}>Created Date</th>
                                                     <th style={{ width: 150 }}> Due Date</th>
                                                     <th style={{ width: 500 }}>Task Description</th>
@@ -347,11 +356,17 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                             <td> {index + 1}</td>
                                                             <td>
                                                                 <EditIcon
-                                                                    sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                                    sx={{
+                                                                        cursor: 'pointer',
+                                                                        '&:hover': { color: '#003060' }
+                                                                    }} size={6} onClick={() => rowSelectModal(val)}
                                                                 />
                                                             </td>
                                                             <td style={{ cursor: 'pointer', }}>
-                                                                <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                                <FilePresentTwoToneIcon sx={{
+                                                                    color: '#41729F',
+                                                                    '&:hover': { color: '#274472' }
+                                                                }}
                                                                     onClick={() => fileView(val)}
                                                                 />
                                                             </td>
@@ -374,7 +389,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                                                         : val.tm_task_status === 4 ? '#5885AF'
                                                                                             : 'transparent', minHeight: 5
                                                                 }} />&nbsp;{val.TaskStatus}</td>
-                                                            <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                            <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5, borderRadius: 20, }}>
                                                                 <CountDowncomponent DueDates={val.tm_task_due_date} />
 
                                                             </Box></td>
@@ -426,7 +441,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                             <th style={{ width: 60 }}>Action</th>
                                                             <th style={{ width: 60 }}>View</th>
                                                             <th style={{ width: 150 }}>Status</th>
-                                                            <th style={{ width: 250 }}>CountDown</th>
+                                                            <th style={{ width: 200 }}>CountDown</th>
                                                             <th style={{ width: 450 }}>Task Name</th>
                                                             <th style={{ width: 450 }}>Project</th>
                                                             <th style={{ width: 150 }}>Created Date</th>
@@ -442,11 +457,17 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                                     <td> {index + 1}</td>
                                                                     <td>
                                                                         <EditIcon
-                                                                            sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                                            sx={{
+                                                                                cursor: 'pointer',
+                                                                                '&:hover': { color: '#003060' }
+                                                                            }} size={6} onClick={() => rowSelectModal(val)}
                                                                         />
                                                                     </td>
                                                                     <td style={{ cursor: 'pointer', }}>
-                                                                        <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                                        <FilePresentTwoToneIcon sx={{
+                                                                            color: '#41729F',
+                                                                            '&:hover': { color: '#274472' }
+                                                                        }}
                                                                             onClick={() => fileView(val)}
                                                                         />
                                                                     </td>
@@ -520,7 +541,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                             <th style={{ width: 60 }}>Action</th>
                                                             <th style={{ width: 60 }}>View</th>
                                                             <th style={{ width: 150 }}>Status</th>
-                                                            <th style={{ width: 250 }}>CountDown</th>
+                                                            <th style={{ width: 200 }}>CountDown</th>
                                                             <th style={{ width: 450 }}>Task Name</th>
                                                             <th style={{ width: 450 }}>Project</th>
                                                             <th style={{ width: 150 }}>Created Date</th>
@@ -536,11 +557,17 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                                     <td> {index + 1}</td>
                                                                     <td>
                                                                         <EditIcon
-                                                                            sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                                            sx={{
+                                                                                cursor: 'pointer',
+                                                                                '&:hover': { color: '#003060' }
+                                                                            }} size={6} onClick={() => rowSelectModal(val)}
                                                                         />
                                                                     </td>
                                                                     <td style={{ cursor: 'pointer', }}>
-                                                                        <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                                        <FilePresentTwoToneIcon sx={{
+                                                                            color: '#41729F',
+                                                                            '&:hover': { color: '#274472' }
+                                                                        }}
                                                                             onClick={() => fileView(val)}
                                                                         />
                                                                     </td>
@@ -564,9 +591,6 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                                                                     : 'transparent', minHeight: 5
                                                                         }} />&nbsp;{val.TaskStatus}</td>
                                                                     <td><Box sx={{ border: 1, borderRadius: 3, borderColor: '#C3CEDA', pl: 1, py: .5 }}>
-                                                                        {/* <CountDowncomponent DueDates={val.tm_task_due_date}
-                                                                        /> */}
-
                                                                     </Box></td>
                                                                     {val.tm_task_status === 1 ?
                                                                         <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td> :
@@ -595,13 +619,9 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                         Selected Project Not Assigned
                                     </Box>}
                             </Box> : null}
-
                     </Box>
-
                 }
             </Box>
-
-
         </Box>
     )
 }

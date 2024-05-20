@@ -26,8 +26,10 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
         projectz: projectz,
         tm_task_status: 0,
         main_task_slno: '',
+        tm_complete_date: ''
     })
-    const { tm_subtask_name, tm_subtask_duedate, tm_subtask_description, tm_sub_completed_remarks, tm_sub_pending_remark, tm_sub_onhold_remarks, tm_task_status } = subTaskMast
+    const { tm_subtask_name, tm_subtask_duedate, tm_subtask_description, tm_sub_completed_remarks, tm_sub_pending_remark, tm_sub_onhold_remarks, tm_task_status,
+        tm_complete_date } = subTaskMast
 
     const SubTaskUpdate = useCallback(
         (e) => {
@@ -65,10 +67,11 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
             tm_completed_remarks: tm_sub_completed_remarks === '' ? null : tm_sub_completed_remarks,
             tm_project_slno: tm_project_slno,
             tm_task_status: tm_task_status,
+            tm_complete_date: tm_complete_date === '' ? null : tm_complete_date,
             create_user: id,
         }
     }, [tm_task_slno, tm_subtask_name, empdept, empsecid, tm_subtask_duedate, tm_subtask_description, tm_task_status, tm_sub_completed_remarks, tm_sub_pending_remark,
-        tm_project_slno, tm_sub_onhold_remarks, id,])
+        tm_project_slno, tm_sub_onhold_remarks, tm_complete_date, id,])
 
     const closeSubTask = useCallback((e) => {
         setflag(0)

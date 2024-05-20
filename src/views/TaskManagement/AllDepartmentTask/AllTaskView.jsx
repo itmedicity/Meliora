@@ -3,7 +3,7 @@ import { Paper } from '@mui/material'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import CircleIcon from '@mui/icons-material/Circle';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import FilePresentTwoToneIcon from '@mui/icons-material/FilePresentTwoTone';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import TmDepartmentSelect from 'src/views/CommonSelectCode/TmDepartmentSelect';
@@ -34,6 +34,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [masterData, setMasterData] = useState([])
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getDepartment())
     }, [dispatch,])
@@ -77,7 +78,6 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                 })
                 setTableData(arry)
             } else {
-
                 setTableData([])
             }
         }
@@ -107,12 +107,6 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                         tm_project_name: val.tm_project_name,
                         tm_project_slno: val.tm_project_slno,
                         create_date: val.create_date,
-                        // TaskStatus: val.tm_task_status === 1 ? 'Completed' :
-                        //     val.tm_task_status === 1 ? 'Completed' :
-                        //         val.tm_task_status === 2 ? 'On Progress' :
-                        //             val.tm_task_status === 3 ? 'On Hold' :
-                        //                 val.tm_task_status === 4 ? 'Pending' :
-                        //                     val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                     }
                     return obj
                 })
@@ -136,6 +130,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
         setimageViewModalOpen(false)
         setImageUrls([])
     }, [setimageViewModalOpen, setImageUrls, setimage])
+
     const fileView = async (val) => {
         const { tm_task_slno } = val;
         setgetarry(val);
@@ -148,7 +143,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                 const data = result.data;
                 const fileNames = data.data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/Meliora/TaskManagement/${tm_task_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`;
                 });
                 setImageUrls(fileUrls);
                 // Open the modal only if there are files
@@ -235,7 +230,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
             {tableData.length !== 0 ?
                 <Box sx={{ height: 605 }}>
                     <Paper sx={{ overflow: 'auto', maxHeight: 605, bgcolor: 'white' }}>
-                        <Table padding={"none"} stickyHeader
+                        <Table padding={"none"} stickyHeader size='sm'
                             hoverRow>
                             <thead style={{ bgcolor: 'white' }}>
                                 <tr>
@@ -243,7 +238,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                                     <th style={{ width: 90, fontFamily: 'Georgia' }}>Action</th>
                                     <th style={{ width: 60, fontFamily: 'Georgia' }}>View</th>
                                     <th style={{ width: 100, fontFamily: 'Georgia' }}>Status</th>
-                                    <th style={{ width: 250, fontFamily: 'Georgia' }}>CountDoun</th>
+                                    <th style={{ width: 180, fontFamily: 'Georgia' }}>CountDoun</th>
                                     <th style={{ width: 450, fontFamily: 'Georgia' }}>Task name</th>
                                     <th style={{ width: 450, fontFamily: 'Georgia' }}>Project</th>
                                     <th style={{ width: 250, fontFamily: 'Georgia' }}>Department</th>
@@ -266,13 +261,19 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                                             <td> {index + 1}</td>
                                             <td>
                                                 <EditIcon
-                                                    sx={{ cursor: 'pointer' }}
+                                                    sx={{
+                                                        cursor: 'pointer',
+                                                        '&:hover': { color: '#003060' }
+                                                    }}
                                                     size={6}
                                                     onClick={() => rowSelectModal(val)}
                                                 />
                                             </td>
                                             <td style={{ cursor: 'pointer', }}>
-                                                <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                <FilePresentTwoToneIcon sx={{
+                                                    color: '#41729F',
+                                                    '&:hover': { color: '#274472' }
+                                                }}
                                                     onClick={() => fileView(val)}
                                                 />
                                             </td>
@@ -291,12 +292,15 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                                                         val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
                                             <td>
                                                 {val.tm_task_status !== 1 ?
-                                                    <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#5885AF', p: .5, flex: .9, }}>
+                                                    <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#5885AF', px: .5, flex: .9, borderRadius: 20 }}>
                                                         <CountDowncomponent DueDates={val.tm_task_due_date} />
                                                     </Box> :
-                                                    <Box sx={{ display: 'flex', borderRadius: 3, border: .1, borderStyle: 'dashed', borderColor: '#5885AF', p: .5, flex: 1, }}>
+                                                    <Box sx={{
+                                                        display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#5885AF', textAlign: 'center', flex: 1, py: .4,
+                                                        borderRadius: 20
+                                                    }}>
                                                         <Box sx={{ flex: .5, }}></Box>
-                                                        <Box sx={{ flex: 1, }}>0&nbsp;Days&nbsp;:00&nbsp;hh&nbsp;:00&nbsp;mm&nbsp;:00&nbsp;ss</Box>
+                                                        <Box sx={{ flex: 1, }}>completed</Box>
                                                         <Box sx={{ flex: .5 }}></Box>
                                                     </Box>
                                                 }

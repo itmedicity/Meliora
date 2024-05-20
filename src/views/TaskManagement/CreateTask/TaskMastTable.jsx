@@ -4,7 +4,6 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { Paper, } from '@mui/material';
 import ModalEditTask from './ModalEditTask';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import moment from 'moment';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
@@ -20,12 +19,9 @@ import AddIcon from '@mui/icons-material/Add';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import SelectTaskStatus from './SelectTaskStatus';
 import CountDowncomponent from '../CountDown/CountDowncomponent';
+import FilePresentTwoToneIcon from '@mui/icons-material/FilePresentTwoTone';
 
 const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount, taskcount, settaskcount }) => {
-
-
-    // import { useCountdown } from './hooks/useCountdown';
-
 
     const dispatch = useDispatch();
     const [tabledata, setTabledata] = useState([])
@@ -64,7 +60,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
         setprojxFlag(0)
         setStatusFlag(0)
     }, [])
-
     const closeTaskWise = useCallback(() => {
         setEnterText('')
         setTaxkFlag(0)
@@ -76,7 +71,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
         setprojxFlag(1)
         setTaxkFlag(0)
         setStatusFlag(0)
-
     }, [])
     const closeprojxWise = useCallback(() => {
         setprojxFlag(0)
@@ -84,7 +78,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
         setStatusFlag(0)
         setTaxkFlag(0)
     }, [])
-
     const statusWise = useCallback(() => {
         setStatusFlag(1)
         setTaxkFlag(0)
@@ -101,6 +94,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
     useEffect(() => {
         dispatch(getProjectList())
     }, [dispatch,])
+
     useEffect(() => {
         dispatch(getDepartSecemployee(empsecid))
     }, [dispatch, empsecid])
@@ -139,6 +133,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                         tm_project_name: val.tm_project_name,
                         tm_pending_remark: val.tm_pending_remark,
                         tm_onhold_remarks: val.tm_onhold_remarks,
+                        tm_complete_date: val.tm_complete_date,
                         tm_completed_remarks: val.tm_completed_remarks,
                         create_date: val.create_date,
                     }
@@ -156,21 +151,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
         getTableTask(searchData)
     }, [searchData, tableCount, setTableCount])
 
-
-    // const [countDowns, setcountDowns] = useState([])
-    // const DueDate = new Date(val.tm_task_due_date)
-    // const currentTime = new Date()
-    // const timeDiff = DueDate - currentTime
-    // const daysLeft = Math.cell(timeDiff / (1000 * 60 * 60 * 24))
-
-
-
-
-
-
-
-
-
     useEffect(() => {
         const getMainTable = async () => {
             const result = await axioslogin.get(`/taskManagement/viewMasterTaskBySecid/${empsecid}`);
@@ -178,7 +158,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
             if (data.length !== 0) {
                 if (success === 2) {
                     const arry = data?.map((val) => {
-
                         const obj = {
                             tm_task_slno: val.tm_task_slno,
                             dept_name: val.dept_name,
@@ -197,16 +176,13 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                             tm_pending_remark: val.tm_pending_remark,
                             tm_onhold_remarks: val.tm_onhold_remarks,
                             tm_completed_remarks: val.tm_completed_remarks,
+                            tm_complete_date: val.tm_complete_date,
                             create_date: val.create_date,
-
-
                         }
 
                         return obj
                     })
                     setTabledata(arry)
-                    // setcountDowns(daysLeft)
-
                 } else {
                     setUpComingView(1)
                 }
@@ -220,10 +196,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
         }
     }, [empsecid, tableCount, setTabledata, projectz,])
 
-
-
-
-
     const SearchInTableByTask = useCallback(() => {
         if (enterText.length < 3) {
             infoNotify('please enter minimum 3 character to search task name')
@@ -234,7 +206,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
             setAlphbasedData(newTableDataa)
         }
     }, [enterText, tabledata])
-
 
     useEffect(() => {
         if (alphbased === 1) {
@@ -279,7 +250,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                 const data = result.data;
                 const fileNames = data.data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/Meliora/TaskManagement/${tm_task_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`;
                 });
                 setImageUrls(fileUrls);
                 // Open the modal only if there are files
@@ -297,6 +268,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
             warningNotify('Error in fetching files:', error);
         }
     }
+
     const rowSelectModal = useCallback((value) => {
         setEditModalFlag(1)
         setEditModalOpen(true)
@@ -304,6 +276,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
         setimage(0)
         setMasterData(value)
     }, [])
+
     const isPastDue = (tm_task_due_date) => {
         const today = new Date();
         const due = new Date(tm_task_due_date);
@@ -342,7 +315,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                 '&:hover': {
                                     color: '#0000FF',
                                     fontWeight: 500
-
                                 }
                             }} onClick={projxWise}><SearchIcon size='xs' sx={{
                                 '&:hover': {
@@ -358,7 +330,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                             }} onClick={taskWise}><SearchIcon size='xs' sx={{
                                 '&:hover': {
                                     color: '#0000FF',
-
                                 },
                             }} />Task</Box>
                             <Box sx={{
@@ -497,7 +468,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                         </Box>
                     </Box>
                 </Box>
-
                 <Box>
                     {((alphbased === 0) && statusDataFlag === 0) ?
                         <Box>
@@ -505,7 +475,6 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                 <Paper variant="outlined" sx={{ maxHeight: 680, width: '100%', overflow: 'auto', mt: .5, }}>
                                     <CssVarsProvider>
                                         <Box>
-                                            {/* {tabledata.length !== 0 ? */}
                                             <Table padding={"none"} stickyHeader
                                                 hoverRow>
                                                 <thead>
@@ -514,7 +483,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                         <th style={{ width: 60 }} >Action</th>
                                                         <th style={{ width: 60 }}>View</th>
                                                         <th style={{ width: 170 }}>Status</th>
-                                                        <th style={{ width: 250, textAlign: 'center' }}>CountDown</th>
+                                                        <th style={{ width: 200, textAlign: 'center' }}>CountDown</th>
                                                         <th style={{ width: 450 }}>Task Name</th>
                                                         <th style={{ width: 450 }}>Project</th>
                                                         <th style={{ width: 200 }}>Assignee</th>
@@ -531,11 +500,14 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                                 <td> {index + 1}</td>
                                                                 <td>
                                                                     <EditIcon
-                                                                        sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                                        sx={{ cursor: 'pointer', '&:hover': { color: '#003060' } }} size={6} onClick={() => rowSelectModal(val)}
                                                                     />
                                                                 </td>
                                                                 <td style={{ cursor: 'pointer', }}>
-                                                                    <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                                    <FilePresentTwoToneIcon sx={{
+                                                                        color: '#41729F',
+                                                                        '&:hover': { color: '#274472' }
+                                                                    }}
                                                                         onClick={() => fileView(val)}
                                                                     />
                                                                 </td>
@@ -562,7 +534,7 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                                         val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                                             val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
 
-                                                                <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5 }}>
+                                                                <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', px: .5, py: .5, borderRadius: 20 }}>
                                                                     <CountDowncomponent DueDates={val.tm_task_due_date} />
 
                                                                 </Box></td>
@@ -616,11 +588,17 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                                     <td> {index + 1}</td>
                                                                     <td>
                                                                         <EditIcon
-                                                                            sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                                            sx={{
+                                                                                cursor: 'pointer',
+                                                                                '&:hover': { color: '#003060' }
+                                                                            }} size={6} onClick={() => rowSelectModal(val)}
                                                                         />
                                                                     </td>
                                                                     <td style={{ cursor: 'pointer', }}>
-                                                                        <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                                        <FilePresentTwoToneIcon sx={{
+                                                                            color: '#41729F',
+                                                                            '&:hover': { color: '#274472' }
+                                                                        }}
                                                                             onClick={() => fileView(val)}
                                                                         />
                                                                     </td>
@@ -697,11 +675,17 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                                     <td> {index + 1}</td>
                                                                     <td>
                                                                         <EditIcon
-                                                                            sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                                            sx={{
+                                                                                cursor: 'pointer',
+                                                                                '&:hover': { color: '#003060' }
+                                                                            }} size={6} onClick={() => rowSelectModal(val)}
                                                                         />
                                                                     </td>
                                                                     <td style={{ cursor: 'pointer', }}>
-                                                                        <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                                        <FilePresentTwoToneIcon sx={{
+                                                                            color: '#41729F',
+                                                                            '&:hover': { color: '#274472' },
+                                                                        }}
                                                                             onClick={() => fileView(val)}
                                                                         />
                                                                     </td>
@@ -747,15 +731,10 @@ const TaskMastTable = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                             </Box>}
                                     </CssVarsProvider>
                                 </Paper> : null}
-
                         </Box>}
                 </Box>
-                <Box>
-
-                </Box>
             </Box>
-
-        </Box >
+        </Box>
     )
 }
 export default memo(TaskMastTable)
