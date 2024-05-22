@@ -1,11 +1,10 @@
-import React, { useCallback, useState, memo } from 'react'
+import React, { useCallback, useState, memo, useMemo } from 'react'
 import Button from '@mui/material/Button';
 import { Box, IconButton, Input } from '@mui/material'
 import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { CssVarsProvider, Typography } from '@mui/joy'
-import { useSelector } from 'react-redux'
-import CusCheckBox from 'src/views/Components/CusCheckBox';
+import { useSelector, useDispatch } from 'react-redux'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle';
@@ -14,80 +13,54 @@ import imageCompression from 'browser-image-compression';
 import CloseIcon from '@mui/icons-material/Close';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import CardMaster from 'src/views/Components/CardMaster';
-import AmcCmcAddedTable from './AmcCmcAddedTable';
 import ImageDisplayModal from 'src/views/CentralRequestManagement/CRFRequestMaster/ImageDisplayModal';
-import { getAmcCmcMaster } from 'src/redux/actions/AmAmcCmcSlect.action';
-import { useDispatch } from 'react-redux'
-import { useMemo } from 'react';
+import SupplierSelectMaster from './SupplierSelectMaster';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import CusIconButton from '../../Components/CusIconButton';
 import BillSupplerListOracle from './BillSupplerListOracle';
 import { getSupplierList } from 'src/redux/actions/AmSupplierListSelect';
-import SupplierSelectMaster from './SupplierSelectMaster';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { format } from 'date-fns';
+import CusCheckBox from 'src/views/Components/CusCheckBox';
+import LeaseAddMastTable from './LeaseAddMastTable';
 
 
-const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
-    const dispatch = useDispatch();
+const LeaseAddMast = ({ setLeaseFlg }) => {
     const [selectFile, setSelectFile] = useState([])
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imagearray, setImageArry] = useState([])
     const [imageshow, setImageShow] = useState(false)
     const [value, setValue] = useState(0)
     const [count, setCount] = useState(0)
-    const [amcStatus, setamcStatus] = useState(false)
-    const [cmcStatus, setcmcStatus] = useState(false)
     const [supplier, setSupplier] = useState(0)
-    const [amcCmcStatus, setamcCmcStatus] = useState(false)
+    const [status, setStatus] = useState(false)
+    const dispatch = useDispatch();
     // Get login user emp_id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
-    const [amcfrm, setamcfrm] = useState({
-        fromDate: '',
-        toDate: '',
-        FileStatus: '',
-        Slno: ''
+
+    const [leaseMast, setleaseMast] = useState({
+        lease_fromdate: '',
+        lease_todate: '',
+        lease_amount: '',
+        lease_image: '',
+        am_lease_mastslno: ''
     })
 
     //Destructuring
 
-    const { fromDate, toDate, FileStatus, Slno } = amcfrm
-    const updateamcFrm = useCallback((e) => {
+    const { lease_fromdate, lease_todate, lease_amount, lease_image, am_lease_mastslno } = leaseMast
+    const updateLeaseMAst = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setamcfrm({ ...amcfrm, [e.target.name]: value })
-    }, [amcfrm])
+        setleaseMast({ ...leaseMast, [e.target.name]: value })
+    }, [leaseMast])
 
-    const updateamcStatus = useCallback((e) => {
+    const updateStatus = useCallback((e) => {
         if (e.target.checked === true) {
-            setamcStatus(true)
-            setcmcStatus(false)
+            setStatus(true)
         } else {
-            setamcStatus(false)
-            setcmcStatus(false)
+            setStatus(false)
         }
-
     }, [])
-
-    const updatecmcStatus = useCallback((e) => {
-        if (e.target.checked === true) {
-            setcmcStatus(true)
-            setamcStatus(false)
-        } else {
-            setcmcStatus(false)
-            setamcStatus(false)
-        }
-
-    }, [])
-    const updateamcCmcStatus = useCallback((e) => {
-        if (e.target.checked === true) {
-            setamcCmcStatus(true)
-        } else {
-            setamcCmcStatus(false)
-        }
-
-    }, [])
-
     const uploadFile = useCallback(async (e) => {
         if (e.target.files[0].type === "application/pdf") {
             if ((e.target.files[0].size) > 2000000) {
@@ -97,13 +70,11 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                 newFiles.push(e.target.files[0])
                 setSelectFile(newFiles)
             }
-
         } else {
             const newFiles = [...selectFile]
             newFiles.push(e.target.files[0])
             setSelectFile(newFiles)
         }
-
     }, [selectFile, setSelectFile])
 
     const handleImageUpload = useCallback(async (imageFile) => {
@@ -124,33 +95,28 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
         });
     };
 
-
     const postdata = useMemo(() => {
         return {
-            suplier_slno: supplier,
-            amc_status: amcStatus === true ? 1 : 0,
-            cmc_status: cmcStatus === true ? 1 : 0,
-            from_date: fromDate,
-            to_date: toDate,
-            amccmc_status: amcCmcStatus === true ? 1 : 0,
+            lease_fromdate: lease_fromdate,
+            lease_todate: lease_todate,
+            lease_amount: lease_amount,
+            lease_suppler_slno: supplier,
+            lease_status: status === true ? 1 : 0,
             create_user: id
         }
-    }, [supplier, fromDate, toDate, id, amcStatus, cmcStatus, amcCmcStatus])
-
+    }, [lease_fromdate, lease_todate, lease_amount, supplier, status, id])
 
     const patch = useMemo(() => {
         return {
-            suplier_slno: supplier,
-            amc_status: amcStatus === true ? 1 : 0,
-            cmc_status: cmcStatus === true ? 1 : 0,
-            from_date: fromDate,
-            to_date: toDate,
-            amccmc_status: amcCmcStatus === true ? 1 : 0,
+            lease_fromdate: lease_fromdate,
+            lease_todate: lease_todate,
+            lease_amount: lease_amount,
+            lease_suppler_slno: supplier,
+            lease_status: status === true ? 1 : 0,
             edit_user: id,
-            amccmc_slno: Slno
+            am_lease_mastslno: am_lease_mastslno
         }
-    }, [supplier, fromDate, toDate, id, amcStatus, cmcStatus, Slno, amcCmcStatus])
-
+    }, [lease_fromdate, lease_todate, lease_amount, supplier, id, status, am_lease_mastslno])
 
     const reset = useCallback(() => {
         setSelectFile([])
@@ -158,21 +124,17 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
         setImageArry([])
         setValue(0)
         setCount(0)
-        setamcStatus(false)
-        setcmcStatus(false)
         setImageShow(false)
         const frmdata = {
-            fromDate: '',
-            toDate: '',
-            FileStatus: '',
-            Slno: ''
+            lease_fromdate: '',
+            lease_todate: '',
+            lease_amount: '',
+            lease_image: '',
+            am_lease_mastslno: ''
         }
-        setamcfrm(frmdata)
-        setNewAMCFlg(0)
-        setamcCmcStatus(false)
-        setSupplierdetl(0)
-        setBillDate(format(new Date(), "yyyy-MM-dd"))
-    }, [setNewAMCFlg, setSupplierdetl, setBillDate])
+        setleaseMast(frmdata)
+        setLeaseFlg(0)
+    }, [setLeaseFlg])
 
     const submitAmcCmcAdding = useCallback((e) => {
         e.preventDefault()
@@ -190,7 +152,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                     }
                 }
                 // Use the Axios instance and endpoint that matches your server setup
-                const result = await axioslogin.post('/AssetFileUpload/asset/AmcCmcImage', formData, {
+                const result = await axioslogin.post('/AssetFileUpload/asset/LeaseMasterImage', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -203,7 +165,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
         }
 
         const InsertAmcCmc = async (postdata) => {
-            const result = await axioslogin.post('/ItemMapDetails/AmcCMCInsert', postdata)
+            const result = await axioslogin.post('/ItemMapDetails/LeaseMasterInsert', postdata)
             const { message, success, insertid } = result.data
             if (success === 1) {
                 if (selectFile.length !== 0) {
@@ -214,7 +176,6 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                             setCount(count + 1)
                             setSelectFile([])
                             reset()
-                            dispatch(getAmcCmcMaster())
                         }
                         else {
                             warningNotify(message)
@@ -224,7 +185,6 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                     succesNotify(message)
                     setCount(count + 1)
                     reset()
-                    dispatch(getAmcCmcMaster())
                 }
 
             } else if (success === 0) {
@@ -234,28 +194,31 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
             }
         }
         const UpdateCustodiandept = async (patch) => {
-            const result = await axioslogin.patch('/ItemMapDetails/AmcCmcUpdate', patch)
+            const result = await axioslogin.patch('/ItemMapDetails/leaseMasterUpdate', patch)
             const { message, success } = result.data
             if (success === 2) {
                 if (selectFile.length !== 0) {
-                    FileInsert(selectFile, Slno).then((val) => {
+                    FileInsert(selectFile, am_lease_mastslno).then((val) => {
                         const { success, message } = val
-                        if (success === 2) {
+                        if (success === 1) {
                             succesNotify(message)
                             setCount(count + 1)
                             setSelectFile([])
                             reset()
-                            dispatch(getAmcCmcMaster())
+
                         }
                         else {
                             warningNotify(message)
+                            setCount(count + 1)
+                            setSelectFile([])
+                            reset()
                         }
                     })
                 } else {
                     succesNotify(message)
                     setCount(count + 1)
                     reset()
-                    dispatch(getAmcCmcMaster())
+
                 }
             } else if (success === 0) {
                 infoNotify(message)
@@ -264,9 +227,8 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
             }
         }
 
-        if (amcStatus === false && cmcStatus === false) {
-            warningNotify("Please select AMC or CMC")
-
+        if (supplier === 0) {
+            warningNotify("Please Select Supplier")
         } else {
             if (value === 0) {
                 InsertAmcCmc(postdata)
@@ -275,42 +237,42 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                 UpdateCustodiandept(patch)
             }
         }
-    }, [postdata, value, selectFile, Slno, patch, dispatch, amcStatus, cmcStatus, count, reset,
+    }, [postdata, value, selectFile, am_lease_mastslno, patch, supplier, count, reset,
         handleImageUpload
     ])
 
     const rowSelect = useCallback((val) => {
         setValue(1)
-        const { amccmc_slno, suplier_slno, amc_status, cmc_status, from_date, to_date, image_upload, amccmc_status } = val
-        setamcStatus(amc_status === 1 ? true : false)
-        setcmcStatus(cmc_status === 1 ? true : false)
-        setamcCmcStatus(amccmc_status === 1 ? true : false)
+        const { lease_fromdate, lease_todate, lease_amount, lease_suppler_slno, lease_image, am_lease_mastslno,
+            lease_status } = val
         const frmdata = {
-            fromDate: from_date,
-            toDate: to_date,
-            FileStatus: image_upload,
-            Slno: amccmc_slno
+            lease_fromdate: lease_fromdate,
+            lease_todate: lease_todate,
+            lease_amount: lease_amount,
+            lease_image: lease_image,
+            am_lease_mastslno: am_lease_mastslno
         }
-        setamcfrm(frmdata)
-        setSupplier(suplier_slno)
+        setleaseMast(frmdata)
+        setSupplier(lease_suppler_slno)
+        setStatus(lease_status === 1 ? true : false)
     }, [])
 
     const gotoAmcPAge = useCallback(() => {
-        setNewAMCFlg(0)
-    }, [setNewAMCFlg])
+        setLeaseFlg(0)
+    }, [setLeaseFlg])
 
     const refreshWindow = useCallback(() => {
         reset()
     }, [reset])
 
     const ViewAmcCmcImage = useCallback(() => {
-        const getImage = async (Slno) => {
-            const result = await axioslogin.get(`/AssetFileUpload/AmcCmcImageView/${Slno}`)
+        const getImage = async (am_lease_mastslno) => {
+            const result = await axioslogin.get(`/AssetFileUpload/LeaseMasterImageView/${am_lease_mastslno}`)
             const { success, data } = result.data
             if (success === 1) {
                 const fileNames = data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/Asset/AMCCMC/${Slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/Asset/LeaseMaster/${am_lease_mastslno}/${fileName}`;
                 });
                 setImageArry(fileUrls);
                 setImageShowFlag(1)
@@ -322,9 +284,9 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                 setImageArry([])
             }
         }
-        getImage(Slno)
+        getImage(am_lease_mastslno)
 
-    }, [Slno])
+    }, [am_lease_mastslno])
     const handleClose = useCallback(() => {
         setImageShowFlag(0)
         setImageShow(false)
@@ -390,6 +352,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                 setOracleListFlag(0)
                 dispatch(getSupplierList())
                 setSupName('')
+                setOracleFlag(0)
             } else {
                 warningNotify(message)
             }
@@ -397,25 +360,29 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
         InsertSupplierInMeli(postdata)
     }, [dispatch])
 
+
     return (
 
         <CardMaster
-            title="AMC/CMC Adding"
+            title="Lease Adding"
             submit={submitAmcCmcAdding}
             close={gotoAmcPAge}
             refresh={refreshWindow}
-        > {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose}
-            images={imagearray} /> : null}
+        >
+            {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose}
+                images={imagearray} /> : null}
+
             <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
 
                 <Box sx={{
                     width: "30%", display: "flex",
                     flexDirection: "column",
-                }}>   <Box sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: 'row', pb: 1
                 }}>
+                    <Box sx={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: 'row', pb: 1
+                    }}>
                         <Box
                             sx={{ width: "35%", }}>
                             <CssVarsProvider>
@@ -438,10 +405,9 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                             <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={searchBillList} >
                                 <SearchOutlinedIcon fontSize='small' />
                             </CusIconButton>
-
-
                         </Box>
                     </Box>
+
                     {oracleFlag === 1 ?
                         <Box sx={{
                             width: "100%",
@@ -468,8 +434,6 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
 
                         </Box> : null
                     }
-
-
                     <Box sx={{
                         width: "100%",
                         display: "flex",
@@ -487,13 +451,12 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                             <TextFieldCustom
                                 type="date"
                                 size="sm"
-                                name="fromDate"
-                                value={fromDate}
-                                onchange={updateamcFrm}
+                                name="lease_fromdate"
+                                value={lease_fromdate}
+                                onchange={updateLeaseMAst}
                             ></TextFieldCustom>
                         </Box>
                     </Box>
-
                     <Box sx={{
                         width: "100%",
                         display: "flex",
@@ -510,41 +473,32 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                             <TextFieldCustom
                                 type="date"
                                 size="sm"
-                                name="toDate"
-                                value={toDate}
-                                onchange={updateamcFrm}
+                                name="lease_todate"
+                                value={lease_todate}
+                                onchange={updateLeaseMAst}
                             ></TextFieldCustom>
                         </Box>
                     </Box>
                     <Box sx={{
                         width: "100%",
-                        display: "flex",
-                        flexDirection: 'row', pt: 1
+                        display: "flex", pt: 1,
+                        flexDirection: 'row', pb: 0.8,
                     }}>
-
-                        <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }} >
-                            <CusCheckBox
-                                variant="outlined"
-                                color="danger"
-                                size="md"
-                                name="amcStatus"
-                                label="AMC"
-                                value={amcStatus}
-                                onCheked={updateamcStatus}
-                                checked={amcStatus}
-                            />
+                        <Box
+                            sx={{ width: "35%", }}>
+                            <CssVarsProvider>
+                                <Typography sx={{ fontSize: 15 }}>Lease Amount</Typography>
+                            </CssVarsProvider>
                         </Box>
-                        <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }} >
-                            <CusCheckBox
-                                variant="outlined"
-                                color="danger"
-                                size="md"
-                                name="cmcStatus"
-                                label="CMC"
-                                value={cmcStatus}
-                                onCheked={updatecmcStatus}
-                                checked={cmcStatus}
-                            />
+                        <Box
+                            sx={{ width: "55%", }}>
+                            <TextFieldCustom
+                                type="text"
+                                size="sm"
+                                name="lease_amount"
+                                value={lease_amount}
+                                onchange={updateLeaseMAst}
+                            ></TextFieldCustom>
                         </Box>
                     </Box>
                     <Box sx={{
@@ -557,11 +511,11 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                                 variant="outlined"
                                 color="danger"
                                 size="md"
-                                name="amcCmcStatus"
-                                label="AMC/CMC Status"
-                                value={amcCmcStatus}
-                                onCheked={updateamcCmcStatus}
-                                checked={amcCmcStatus}
+                                name="status"
+                                label="Status"
+                                value={status}
+                                onCheked={updateStatus}
+                                checked={status}
                             />
                         </Box>
 
@@ -586,7 +540,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                         </Box>
 
                         {
-                            FileStatus === 1 ?
+                            lease_image === 1 ?
                                 <Box sx={{ display: 'flex', width: "35%", height: 40, pt: 1 }}>
                                     <Button onClick={ViewAmcCmcImage} variant="contained"
                                         size="small" color="primary">View Image</Button>
@@ -615,12 +569,13 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                         </Box>
                         : null
                     }
-                </Box>
 
+                </Box>
 
                 <Box sx={{ width: '70%', pl: 2 }}>
-                    <AmcCmcAddedTable count={count} rowSelect={rowSelect} />
+                    <LeaseAddMastTable count={count} rowSelect={rowSelect} />
                 </Box>
+
             </Box>
 
             {
@@ -635,8 +590,10 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                     </Box> : null
 
             }
-        </CardMaster >
+
+
+        </CardMaster>
     )
 }
 
-export default memo(AmcCmcAdding)
+export default memo(LeaseAddMast)

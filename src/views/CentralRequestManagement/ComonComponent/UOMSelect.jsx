@@ -1,16 +1,13 @@
 import { Box, FormControl, MenuItem, Select } from '@mui/material'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { memo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getBuildingdata } from 'src/redux/actions/BuildingSelect.action'
+import { useSelector } from 'react-redux'
+
 
 const UOMSelect = ({ uom, setUOM, setName }) => {
 
-    const dispatch = useDispatch()
     const assetUom = useSelector((state) => state.getUOM.uomList)
-    useEffect(() => {
-        dispatch(getBuildingdata())
-    }, [dispatch])
+
 
     return (
         <Box sx={{ pt: 0.5 }}>

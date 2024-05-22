@@ -1,11 +1,10 @@
 import React, { useCallback, useState, memo, useMemo } from 'react'
 import Button from '@mui/material/Button';
 import { Box, IconButton, Input } from '@mui/material'
-import { axioslogin } from 'src/views/Axios/Axios'
+import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { CssVarsProvider, Typography } from '@mui/joy'
-import { useSelector } from 'react-redux'
-import CustomTextarea from 'src/views/Components/CustomTextarea';
+import { useSelector, useDispatch } from 'react-redux'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle';
@@ -16,6 +15,12 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import CardMaster from 'src/views/Components/CardMaster';
 import ImageDisplayModal from 'src/views/CentralRequestManagement/CRFRequestMaster/ImageDisplayModal';
 import BillAddMastTable from './BillAddMastTable';
+import SupplierSelectMaster from './SupplierSelectMaster';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import CusIconButton from '../../Components/CusIconButton';
+import BillSupplerListOracle from './BillSupplerListOracle';
+import { getSupplierList } from 'src/redux/actions/AmSupplierListSelect';
+
 
 const BillAddMaster = ({ setBillFlg }) => {
     const [selectFile, setSelectFile] = useState([])
@@ -24,6 +29,8 @@ const BillAddMaster = ({ setBillFlg }) => {
     const [imageshow, setImageShow] = useState(false)
     const [value, setValue] = useState(0)
     const [count, setCount] = useState(0)
+    const [supplier, setSupplier] = useState(0)
+    const dispatch = useDispatch();
     // Get login user emp_id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -32,14 +39,13 @@ const BillAddMaster = ({ setBillFlg }) => {
         am_bill_no: '',
         am_bill_date: '',
         am_bill_amount: '',
-        am_bill_vendor_detail: '',
         am_bill_image: '',
         am_bill_mastslno: ''
     })
 
     //Destructuring
 
-    const { am_bill_no, am_bill_date, am_bill_amount, am_bill_vendor_detail, am_bill_image, am_bill_mastslno } = billMast
+    const { am_bill_no, am_bill_date, am_bill_amount, am_bill_image, am_bill_mastslno } = billMast
     const updateBillMAst = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setBillMast({ ...billMast, [e.target.name]: value })
@@ -83,21 +89,21 @@ const BillAddMaster = ({ setBillFlg }) => {
             am_bill_no: am_bill_no,
             am_bill_date: am_bill_date,
             am_bill_amount: am_bill_amount,
-            am_bill_vendor_detail: am_bill_vendor_detail,
+            am_bill_supplier: supplier,
             create_user: id
         }
-    }, [am_bill_no, am_bill_date, am_bill_amount, am_bill_vendor_detail, id])
+    }, [am_bill_no, am_bill_date, am_bill_amount, supplier, id])
 
     const patch = useMemo(() => {
         return {
             am_bill_no: am_bill_no,
             am_bill_date: am_bill_date,
             am_bill_amount: am_bill_amount,
-            am_bill_vendor_detail: am_bill_vendor_detail,
+            am_bill_supplier: supplier,
             edit_user: id,
             am_bill_mastslno: am_bill_mastslno
         }
-    }, [am_bill_no, am_bill_date, am_bill_amount, am_bill_vendor_detail, id, am_bill_mastslno])
+    }, [am_bill_no, am_bill_date, am_bill_amount, supplier, id, am_bill_mastslno])
 
 
     const reset = useCallback(() => {
@@ -111,7 +117,6 @@ const BillAddMaster = ({ setBillFlg }) => {
             am_bill_no: '',
             am_bill_date: '',
             am_bill_amount: '',
-            am_bill_vendor_detail: '',
             am_bill_image: ''
         }
         setBillMast(frmdata)
@@ -222,21 +227,18 @@ const BillAddMaster = ({ setBillFlg }) => {
         handleImageUpload
     ])
 
-    const rowSelect = useCallback((params) => {
+    const rowSelect = useCallback((val) => {
         setValue(1)
-        const data = params.api.getSelectedRows()
-        const { am_bill_no, am_bill_date, am_bill_amount, am_bill_vendor_detail, am_bill_image, am_bill_mastslno } = data[0]
-
+        const { am_bill_no, am_bill_date, am_bill_amount, am_bill_supplier, am_bill_image, am_bill_mastslno } = val
         const frmdata = {
             am_bill_no: am_bill_no,
             am_bill_date: am_bill_date,
             am_bill_amount: am_bill_amount,
-            am_bill_vendor_detail: am_bill_vendor_detail,
             am_bill_image: am_bill_image,
             am_bill_mastslno: am_bill_mastslno
         }
         setBillMast(frmdata)
-
+        setSupplier(am_bill_supplier)
 
     }, [])
 
@@ -275,6 +277,75 @@ const BillAddMaster = ({ setBillFlg }) => {
         setImageShow(false)
     }, [])
 
+    const [oracleFlag, setOracleFlag] = useState(0)
+    const [suppName, setSupName] = useState('')
+    const [OracleList, setOracleList] = useState([])
+    const [OracleListFlag, setOracleListFlag] = useState(0)
+    const updateSuppName = useCallback((e) => {
+        setSupName(e.target.value.toUpperCase())
+    }, [])
+    const searchBillList = useCallback(() => {
+        setOracleFlag(1)
+    }, [])
+
+    const searchdata = useMemo(() => {
+        return {
+            SUC_NAME: suppName
+        }
+
+    }, [suppName])
+
+    const SearchSupplOrcle = useCallback(() => {
+        const gettingOrcleData = async (searchdata) => {
+            const result = await axiosellider.post('/supplierList/supplier', searchdata)
+            const { success, data } = result.data
+            if (success === 1) {
+                setOracleList(data)
+                setOracleListFlag(1)
+            } else {
+                warningNotify("No supplier found")
+                setOracleList([])
+                setOracleListFlag(0)
+            }
+        }
+        gettingOrcleData(searchdata)
+
+
+    }, [searchdata])
+
+
+    const SuppAddMeliora = useCallback((val) => {
+        const { SUC_NAME, SUC_PHONE, SUC_MOBILE, SUC_EMAIL, SUC_PERSON1, SUC_PERSON2,
+            // SUC_ADD1, SUC_ADD2, SUC_PERSON
+        } = val
+
+        const postdata = {
+            it_supplier_name: SUC_NAME,
+            it_supplier_land_one: parseInt(SUC_PHONE),
+            it_supplier_mob_one: parseInt(SUC_MOBILE),
+            it_supplier_email_one: SUC_EMAIL,
+            it_supplier_escl_mob_one: parseInt(SUC_PERSON2),
+            it_supplier_escl_land_one: parseInt(SUC_PERSON1),
+            supplier_status: 1
+        }
+        const InsertSupplierInMeli = async (postdata) => {
+            const result = await axioslogin.post('/ItemMapDetails/SupplierAdding', postdata)
+            const { message, success } = result.data
+            if (success === 1) {
+                succesNotify(message)
+                setOracleList([])
+                setOracleListFlag(0)
+                dispatch(getSupplierList())
+                setSupName('')
+            } else {
+                warningNotify(message)
+            }
+        }
+        InsertSupplierInMeli(postdata)
+    }, [dispatch])
+
+
+
     return (
         <CardMaster
             title="Bill Adding"
@@ -300,7 +371,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                             </CssVarsProvider>
                         </Box>
                         <Box
-                            sx={{ width: "65%", }}>
+                            sx={{ width: "55%", }}>
                             <TextFieldCustom
                                 type="text"
                                 size="sm"
@@ -313,17 +384,16 @@ const BillAddMaster = ({ setBillFlg }) => {
                     <Box sx={{
                         width: "100%",
                         display: "flex",
-                        flexDirection: 'row'
+                        flexDirection: 'row', pb: 1,
                     }}>
-
                         <Box
-                            sx={{ height: 50, width: "35%", }}>
+                            sx={{ width: "35%", }}>
                             <CssVarsProvider>
                                 <Typography sx={{ fontSize: 15 }}>Bill Date</Typography>
                             </CssVarsProvider>
                         </Box>
                         <Box
-                            sx={{ height: 50, width: "65%", }}>
+                            sx={{ width: "55%", }}>
                             <TextFieldCustom
                                 type="date"
                                 size="sm"
@@ -333,20 +403,19 @@ const BillAddMaster = ({ setBillFlg }) => {
                             ></TextFieldCustom>
                         </Box>
                     </Box>
-
                     <Box sx={{
                         width: "100%",
                         display: "flex",
-                        flexDirection: 'row'
+                        flexDirection: 'row', pb: 0.8,
                     }}>
                         <Box
-                            sx={{ height: 50, width: "35%", }}>
+                            sx={{ width: "35%", }}>
                             <CssVarsProvider>
                                 <Typography sx={{ fontSize: 15 }}>Bill Amount</Typography>
                             </CssVarsProvider>
                         </Box>
                         <Box
-                            sx={{ height: 50, width: "65%", }}>
+                            sx={{ width: "55%", }}>
                             <TextFieldCustom
                                 type="text"
                                 size="sm"
@@ -364,27 +433,58 @@ const BillAddMaster = ({ setBillFlg }) => {
                         <Box
                             sx={{ width: "35%", }}>
                             <CssVarsProvider>
-                                <Typography sx={{ fontSize: 15 }}>Vendor Information</Typography>
+                                <Typography sx={{ fontSize: 15 }}>Suppiler Information</Typography>
                             </CssVarsProvider>
                         </Box>
-                        <Box
-                            sx={{ width: "65%", }}>
-                            <CustomTextarea
-                                required
-                                type="text"
-                                size="sm"
-                                style={{
-                                    width: "100%",
-                                    height: 70,
-                                    boardColor: "#E0E0E0"
-                                }}
-                                name="am_bill_vendor_detail"
-                                value={am_bill_vendor_detail}
-                                onchange={updateBillMAst}
-                            />
+                        <Box sx={{ width: "55%", }}>
+                            {OracleListFlag === 1 ?
+                                <SupplierSelectMaster
+                                    supplier={supplier}
+                                    setSupplier={setSupplier}
+                                /> : <SupplierSelectMaster
+                                    supplier={supplier}
+                                    setSupplier={setSupplier}
+                                />
+                            }
+
+                        </Box>
+                        <Box sx={{ width: "10%", pl: 1 }}>
+                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={searchBillList} >
+                                <SearchOutlinedIcon fontSize='small' />
+                            </CusIconButton>
+
 
                         </Box>
                     </Box>
+
+                    {oracleFlag === 1 ?
+                        <Box sx={{
+                            width: "100%",
+                            display: "flex",
+                            flexDirection: 'row', pb: 1
+                        }}>
+
+                            <Box sx={{ display: 'flex', width: '55%', pt: 0.5, flexDirection: 'column' }} >
+                                <Typography sx={{ fontSize: 15 }}>Enter Supplier Name</Typography>
+                                <Box>
+                                    <TextFieldCustom
+                                        type="text"
+                                        size="sm"
+                                        name="suppName"
+                                        value={suppName}
+                                        onchange={updateSuppName}
+                                    ></TextFieldCustom>
+                                </Box>
+                            </Box>
+                            <Box sx={{ display: 'flex', width: "25%", height: 58, pt: 3.5, pl: 3 }}>
+                                <Button onClick={SearchSupplOrcle} variant="contained"
+                                    size="small" color="primary">Search</Button>
+                            </Box>
+
+                        </Box> : null
+                    }
+
+
 
                     <Box sx={{ display: 'flex', width: "75%", pt: 2 }}>
                         <Box >
@@ -404,7 +504,6 @@ const BillAddMaster = ({ setBillFlg }) => {
                                 onChange={uploadFile}
                             />
                         </Box>
-
                         {
                             am_bill_image === 1 ?
                                 <Box sx={{ display: 'flex', width: "35%", height: 40, pt: 1 }}>
@@ -412,11 +511,8 @@ const BillAddMaster = ({ setBillFlg }) => {
                                         size="small" color="primary">View Image</Button>
                                 </Box> : null
                         }
-
                     </Box>
-
                     {selectFile.length !== 0 ?
-
                         <Box sx={{
                             width: "100%", display: "flex", flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', }
                         }}>
@@ -436,14 +532,22 @@ const BillAddMaster = ({ setBillFlg }) => {
                         : null
                     }
                 </Box>
-
-
                 <Box sx={{ width: '70%', pl: 2 }}>
                     <BillAddMastTable count={count} rowSelect={rowSelect} />
                 </Box>
             </Box>
+            {
+
+                OracleListFlag === 1 ?
+                    <Box sx={{
+                        width: "100%", display: "flex", flexDirection: 'row',
+                    }}>
+                        <BillSupplerListOracle OracleList={OracleList} SuppAddMeliora={SuppAddMeliora} />
 
 
+                    </Box> : null
+
+            }
         </CardMaster >
     )
 }
