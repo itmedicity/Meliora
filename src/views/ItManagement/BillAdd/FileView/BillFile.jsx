@@ -16,7 +16,6 @@ const BillFile = ({ billViewmodalOpen, setBillViewModalOpen, setBillViewModalFla
                 aria-labelledby="modal-title"
                 aria-describedby="modal-desc"
                 open={billViewmodalOpen}
-
             >
                 < ModalDialog
                     sx={{
@@ -27,10 +26,8 @@ const BillFile = ({ billViewmodalOpen, setBillViewModalOpen, setBillViewModalFla
                     }}
                 >
                     <Box sx={{ flex: 1, }}>
-
                         <Box sx={{ flex: 1, display: 'flex', }}>
                             <Typography sx={{ flex: 1, color: 'white', fontSize: 20, fontWeight: 600 }}>Bills</Typography>
-
                             <Tooltip title="Close">
                                 < HighlightOffSharpIcon sx={{
                                     cursor: 'pointer', color: 'white', height: 25, width: 25,
@@ -41,13 +38,8 @@ const BillFile = ({ billViewmodalOpen, setBillViewModalOpen, setBillViewModalFla
                                     onClick={handleCloseBill}
                                 />
                             </Tooltip>
-
                         </Box>
-
-                        <Box sx={{
-                            gap: 2,
-                            // display: 'flex',
-                        }}>
+                        <Box sx={{ gap: 2, }}>
                             {filezUrls.map((Url, index) => (
                                 <Paper key={index} sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 800, width: 1000, mb: .5, }}>
                                     <embed
@@ -55,18 +47,18 @@ const BillFile = ({ billViewmodalOpen, setBillViewModalOpen, setBillViewModalFla
                                         src={Url}
                                         type="application/pdf"
                                         height={800}
-                                        width={'100%'} />
-
+                                        width={'100%'}
+                                    />
                                 </Paper>
                             ))
                             }
                         </Box>
                         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
                             <Box sx={{
-                                m: .5, borderRadius: 5, width: 134, py: .5, fontSize: 18, bgcolor: '#0C2D48', color: '#F8F8F0', cursor: 'pointer',
+                                m: .5, borderRadius: 5, width: 134, py: .5, fontSize: 18, bgcolor: '#151B25', color: 'white', cursor: 'pointer',
                                 textAlign: 'center',
                                 '&:hover': {
-                                    bgcolor: '#151B25',
+                                    bgcolor: '#444444',
                                     color: 'white'
                                 },
                             }}

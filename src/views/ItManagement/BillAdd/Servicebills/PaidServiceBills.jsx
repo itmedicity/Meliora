@@ -14,6 +14,7 @@ const PaidServiceBills = () => {
     const [otherBillsSer, setOtherBillsSer] = useState([])
 
     useEffect(() => {
+
         const getMonthlyBills = async () => {
             const result = await axioslogin.get('/ItBillVieww/servicemonthlyPaid');
             const { success, data } = result.data;
@@ -23,9 +24,6 @@ const PaidServiceBills = () => {
                 setmontBillsSer([])
             }
         }
-        getMonthlyBills()
-    }, [])
-    useEffect(() => {
         const getQaurterlyPaidBills = async () => {
             const result = await axioslogin.get('/ItBillVieww/serViceQuarterPaid');
             const { success, data } = result.data;
@@ -35,9 +33,6 @@ const PaidServiceBills = () => {
                 setQuarBillsSer([])
             }
         }
-        getQaurterlyPaidBills()
-    }, [])
-    useEffect(() => {
         const getYearPaidBills = async () => {
             const result = await axioslogin.get('/ItBillVieww/serviceYearPaid');
             const { success, data } = result.data;
@@ -47,9 +42,6 @@ const PaidServiceBills = () => {
                 setYearBillsSer([])
             }
         }
-        getYearPaidBills()
-    }, [])
-    useEffect(() => {
         const getOtherPaidBills = async () => {
             const result = await axioslogin.get('/ItBillVieww/serviceOthrPaid');
             const { success, data } = result.data;
@@ -59,6 +51,9 @@ const PaidServiceBills = () => {
                 setOtherBillsSer([])
             }
         }
+        getYearPaidBills()
+        getMonthlyBills()
+        getQaurterlyPaidBills()
         getOtherPaidBills()
     }, [])
 
@@ -77,7 +72,6 @@ const PaidServiceBills = () => {
                     <TabList
                         disableUnderline
                         sx={{
-                            // pt: 2,
                             bgcolor: 'background.level1',
                             borderBottom: 0,
                             [`& .${tabClasses.root}[aria-selected="true"]`]: {

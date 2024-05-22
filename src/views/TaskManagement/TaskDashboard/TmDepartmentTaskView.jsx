@@ -79,7 +79,7 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
                             />
                             : null}
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader>
+                            <Table padding={"none"} stickyHeader size='sm'>
                                 <thead>
                                     <tr >
                                         <th style={{ width: 50 }}>#</th>

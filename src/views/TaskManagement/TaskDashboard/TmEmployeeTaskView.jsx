@@ -73,7 +73,7 @@ const TmEmployeeTaskView = ({ tableCount, setTableCount, setflagTask, tableDataE
                             />
                             : null}
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead>
                                     <tr >

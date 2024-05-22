@@ -70,7 +70,7 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                             />
                             : null}
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead>
                                     <tr >

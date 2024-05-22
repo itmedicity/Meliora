@@ -88,21 +88,23 @@ const ProjectMaster = () => {
         }
     }, [tm_project_slno, tm_project_name, department, deptsec, tm_project_duedate, tm_project_description, tm_project_status, goalz, newDate, id])
 
-
-
-    const reset = () => {
+    const reset = useCallback(() => {
         const form = {
             tm_project_slno: '',
             tm_project_name: '',
             tm_project_duedate: '',
             tm_project_description: '',
+            tm_project_status: false,
             tm_project_cmpltedate: ''
         }
         setprojectMast(form)
         setDepartment(0)
         setDeptSec(0)
         setgoalz(0)
-    }
+    }, [])
+
+
+
     const rowSelect = useCallback((data) => {
         setvalue(1)
 
@@ -121,8 +123,8 @@ const ProjectMaster = () => {
         const frmdata = {
             tm_project_slno: tm_project_slno,
             tm_project_name: tm_project_name,
-            tm_project_duedate: tm_project_duedate === '' ? null : tm_project_duedate,
-            tm_project_description: tm_project_description === '' ? null : tm_project_description,
+            tm_project_duedate: tm_project_duedate === null ? '' : tm_project_duedate,
+            tm_project_description: tm_project_description === null ? '' : tm_project_description,
             tm_project_status: tm_project_status === 1 ? true : false,
             tm_project_cmpltedate: tm_project_cmpltedate === '' ? null : tm_project_cmpltedate,
             tm_project_edit_user: id,
@@ -131,6 +133,8 @@ const ProjectMaster = () => {
         setDepartment(tm_project_dept)
         setDeptSec(tm_project_deptsec)
         setgoalz(tm_goal_slno)
+
+
     }, [id,])
     const InsertProject = useCallback((e) => {
         e.preventDefault()
@@ -153,7 +157,7 @@ const ProjectMaster = () => {
         } else {
             infoNotify('Please Enter Project Name')
         }
-    }, [postProject, tableCount, tm_project_name])
+    }, [postProject, tableCount, reset, tm_project_name])
 
     const UpdateProject = useCallback((e) => {
         e.preventDefault()
@@ -177,7 +181,7 @@ const ProjectMaster = () => {
         } else {
             infoNotify('Please Enter Project Name')
         }
-    }, [patchProject, tableCount, tm_project_name])
+    }, [patchProject, tableCount, tm_project_name, reset])
 
 
 

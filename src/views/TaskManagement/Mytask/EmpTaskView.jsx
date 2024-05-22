@@ -66,7 +66,7 @@ const EmpTaskView = ({ tableCount, setTableCount, setflag, tableDataEmployee, em
                                 setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount} />
                             : null}
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead>
                                     <tr >

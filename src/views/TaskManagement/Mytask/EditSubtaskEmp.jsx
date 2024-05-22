@@ -12,6 +12,8 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SubTaskProgressTable from './SubTaskProgressTable';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import moment from 'moment';
+import AutoDeleteTwoToneIcon from '@mui/icons-material/AutoDeleteTwoTone';
+import DueDateModal from '../ModalComponent/DueDateModal';
 const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRendering, tableCount, setTableCount, tm_task_due_date }) => {
 
     const { tm_task_slno, tm_task_status, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, em_name, tm_project_slno, main_task_slno, create_date } = subTaskData
@@ -38,6 +40,9 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         pendingremarkSub: '',
     })
     const { subTaskName, subTaskDueDate, subTaskDescription, onholdremarksSub, completedremarksSub, pendingremarkSub } = subTaskMast
+    const [dueDateModalFlag, setdueDateModalFlag] = useState(0)
+    const [dueDateModal, setdueDateModal] = useState(false)
+    const [dueDates, setdueDates] = useState([])
     let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const ChangeCompletedSub = useCallback((e) => {
         if (e.target.checked === true) {
@@ -457,8 +462,38 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
 
     }, [])
 
+    const getAllDueDates = useCallback(() => {
+        const getDueDate = async () => {
+            const result = await axioslogin.get(`/taskManagement/getAllDueDates/${tm_task_slno}`)
+            const { success, data } = result.data;
+            if (success === 2) {
+                if (data.length > 1) {
+                    setdueDates(data)
+                    setdueDateModalFlag(1)
+                    setdueDateModal(true)
+                } else if (data.length === 1) {
+                    infoNotify('Duedate is not extended')
+                } else if (data.length === 0) {
+                    infoNotify('Duedate is not extended')
+                }
+            }
+
+
+
+        }
+        getDueDate()
+
+    }, [tm_task_slno])
+
+
     return (
         <Box>
+            <Box>
+                {dueDateModalFlag === 1 ?
+                    <DueDateModal dueDateModal={dueDateModal} taskName={subTaskName} dueDates={dueDates} setdueDateModalFlag={setdueDateModalFlag}
+                        setdueDateModal={setdueDateModal} tm_task_due_date={subTaskDueDate} create_date={create_date} />
+                    : null}
+            </Box>
             <Box sx={{ display: 'flex', }}>
                 <Box sx={{ flex: 1, mr: 1 }}>
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
@@ -522,21 +557,30 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
                         Due Date<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
-                    <TextFieldCustom
-                        type="datetime-local"
-                        size="sm"
-                        name="subTaskDueDate"
-                        value={subTaskDueDate}
-                        onchange={SubTaskUpdate}
-                        // disabled={true}
-                        slotProps={{
-                            input: {
-                                min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
-                            },
-                        }}
-                        style={{ minHeight: 57 }}
-                    ></TextFieldCustom>
+                    <Box sx={{ display: 'flex' }}>
+                        <Box sx={{ flex: 1 }}>
+                            <TextFieldCustom
+                                type="datetime-local"
+                                size="sm"
+                                name="subTaskDueDate"
+                                value={subTaskDueDate}
+                                onchange={SubTaskUpdate}
+                                // disabled={true}
+                                slotProps={{
+                                    input: {
+                                        min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                        max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
+                                    },
+                                }}
+                                style={{ minHeight: 57 }}
+                            ></TextFieldCustom>
+                        </Box>
+                        <Box sx={{ ml: .2, mt: 1, pt: 1 }}>
+                            <Tooltip title={'Changed Duedates'}>
+                                <AutoDeleteTwoToneIcon sx={{ color: '#391306', cursor: 'pointer', }} onClick={getAllDueDates} />
+                            </Tooltip>
+                        </Box>
+                    </Box>
                 </Box>
                 <Box sx={{ flex: 1, mr: .5 }}>
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>

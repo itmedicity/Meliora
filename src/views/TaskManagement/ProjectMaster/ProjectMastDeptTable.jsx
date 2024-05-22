@@ -25,8 +25,8 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
                         const obj = {
                             tm_project_slno: val.tm_project_slno,
                             tm_project_name: val.tm_project_name,
-                            dept_name: (val.dept_name).toLowerCase(),
-                            sec_name: (val.sec_name).toLowerCase(),
+                            dept_name: val.dept_name,
+                            sec_name: val.sec_name,
                             tm_project_dept: val.tm_project_dept,
                             tm_project_deptsec: val.tm_project_deptsec,
                             tm_project_duedate: val.tm_project_duedate,
@@ -63,7 +63,7 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
                     <Box sx={{ height: 500, px: 1 }}>
                         <Paper variant="outlined" sx={{ maxHeight: 495, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
                             <CssVarsProvider>
-                                <Table padding={"none"} stickyHeader
+                                <Table padding={"none"} stickyHeader size='sm'
                                     hoverRow>
                                     <thead>
                                         <tr>

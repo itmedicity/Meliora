@@ -30,9 +30,9 @@ const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.changeState.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
-  const [nurseStation, setNurseStation] = useState()
+  // const [nurseStation, setNurseStation] = useState()
   const [cmtransact, setCmTransact] = useState()
-  const [crmtransact, setCrmTransact] = useState()
+  // const [crmtransact, setCrmTransact] = useState()
   const [crmnewtransact, setCrmNewTransact] = useState()
   // const [diettransact, setDietTransact] = useState()
   const [rmtransact, setRmTransact] = useState()
@@ -57,12 +57,12 @@ const AppSidebar = () => {
       icon: <CIcon icon={cilHouse} customClassName="nav-icon" />
     },
     //Nursing Station Menu
-    {
-      slno: 11,
-      component: CNavGroup,
-      name: 'Nursing Station',
-      items: nurseStation
-    },
+    // {
+    //   slno: 11,
+    //   component: CNavGroup,
+    //   name: 'Nursing Station',
+    //   items: nurseStation
+    // },
     //Complaint Management System Menu Start from Here
     {
       slno: 2,
@@ -71,12 +71,12 @@ const AppSidebar = () => {
       items: cmtransact
     },
     //Request Management System Menu Start from Here
-    {
-      slno: 3,
-      component: CNavGroup,
-      name: 'Request management',
-      items: crmtransact
-    },
+    // {
+    //   slno: 3,
+    //   component: CNavGroup,
+    //   name: 'Request management',
+    //   items: crmtransact
+    // },
 
     {
       slno: 15,
@@ -157,12 +157,12 @@ const AppSidebar = () => {
           return menu.menu_slno;
         })
         /*** check menus array and getMenuSlno array and returnuser rights given menus */
-        const newNurseStation = NurseStation.filter(val => menuSlnoAry.includes(val.men_slno));
-        setNurseStation(newNurseStation)
+        // const newNurseStation = NurseStation.filter(val => menuSlnoAry.includes(val.men_slno));
+        // setNurseStation(newNurseStation)
         const newCmTransaction = CmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setCmTransact(newCmTransaction)
-        const newCrmTransaction = CrmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
-        setCrmTransact(newCrmTransaction)
+        // const newCrmTransaction = CrmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        // setCrmTransact(newCrmTransaction)
         const newCrmNewTransaction = CrmNewTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
         setCrmNewTransact(newCrmNewTransaction)
         // const newDietTransaction = DietTransactions.filter(val => menuSlnoAry.includes(val.men_slno));

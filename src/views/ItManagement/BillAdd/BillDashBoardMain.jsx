@@ -16,7 +16,6 @@ import TapAndPlayIcon from '@mui/icons-material/TapAndPlay';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import BillsChartsAndGraph from './BillsChartsAndGraph';
 
-
 const BillDashBoardMain = () => {
 
     const [index, setIndex] = useState(0)
