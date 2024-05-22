@@ -209,7 +209,7 @@ const TimeReport = React.lazy(() => import('./views/QualityIndicatorNew/InitialA
 const QIListType = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QIListTypeMast/QIListType'))
 const DayWiseQiReport = React.lazy(() => import('./views/QualityIndicatorNew/DaywiseQiReport'))
 const DataTransferHRM = React.lazy(() => import('./views/Master/DataImportFrmHR/DataImportHR'))
-
+const AmcCmcAdding = React.lazy(() => import('./views/AssetManagment/ItemDetailEnter/AmcCmcAdding'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -424,7 +424,10 @@ const routes = [
   { path: '/Home/TimeReport', exact: true, name: 'Initial Assessment Time Report', component: TimeReport },
   { path: '/Home/QiListType', exact: true, name: 'QI List Type Mast', component: QIListType },
   { path: '/Home/DayWiseReport', exact: true, name: 'Day Wise QI Report', component: DayWiseQiReport },
+
   { path: '/Home/DataTransferHRM', exact: true, name: 'Data Transfer from HR', component: DataTransferHRM },
+
+  { path: '/Home/AmcCmcAdding', exact: true, name: 'AMC CMC Adding', component: AmcCmcAdding }
 
 ]
 

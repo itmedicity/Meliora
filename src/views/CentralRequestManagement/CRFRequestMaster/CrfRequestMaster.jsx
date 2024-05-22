@@ -42,7 +42,7 @@ const CrfRequestMaster = () => {
 
     //state for Actual requirement
     const [actual_require, setActual_require] = useState('')
-    // const [selectFile, setSelectFile] = useState([])
+
     const updateactual_require = useCallback((e) => {
         setActual_require(e.target.value)
     }, [])
@@ -535,8 +535,6 @@ const CrfRequestMaster = () => {
         }
 
     }, [selectFile, setSelectFile])
-
-
 
 
     const handleImageUpload = useCallback(async (imageFile) => {
@@ -1399,10 +1397,6 @@ const CrfRequestMaster = () => {
                                                     size="small" color="primary">View Image</Button>
                                             </Box> : null
                                     }
-
-
-
-
                                 </Box>
                             </Box>
                         </Paper>

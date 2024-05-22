@@ -3,13 +3,13 @@ import { Box, Typography, Paper } from '@mui/material'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import { axioslogin } from 'src/views/Axios/Axios'
 import GRNDeailtsComp from './GRNDeailtsComp'
-import BillDetailsComp from './BillDetailsComp'
 import DEviceDetailsComp from './DEviceDetailsComp'
 import OwnerShipDetailsComp from './OwnerShipDetailsComp'
 import WarrentyGrauntyComp from './WarrentyGrauntyComp'
-import AMCPMComp from './AMCPMComp'
 import LeaseDetails from './LeaseDetails'
 import SpecDetailsComp from './SpecDetailsComp'
+import AMCMCPMComp from './AMCMCPMComp'
+import BillDetailAdd from './BillDetailAdd'
 
 const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender, render }) => {
 
@@ -135,8 +135,11 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                     {/* Bill Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         Bill Details</Typography>
-                    <BillDetailsComp detailArry={detailArry} assetSpare={assetSpare}
+
+                    <BillDetailAdd detailArry={detailArry} assetSpare={assetSpare}
                         grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
+                    {/* <BillDetailsComp detailArry={detailArry} assetSpare={assetSpare}
+                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} /> */}
 
                     {/* Device Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
@@ -173,8 +176,10 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                             <Box>
                                 <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                                     AMC/PM  Details</Typography>
-                                <AMCPMComp detailArry={detailArry} amcPmarry={amcPmarry} assetSpare={assetSpare}
+                                <AMCMCPMComp detailArry={detailArry} amcPmarry={amcPmarry} assetSpare={assetSpare}
                                     amcPm={amcPm} setAmcPm={setAmcPm} setRender={setRender} render={render} />
+                                {/* <AMCPMComp detailArry={detailArry} amcPmarry={amcPmarry} assetSpare={assetSpare}
+                                    amcPm={amcPm} setAmcPm={setAmcPm} setRender={setRender} render={render} /> */}
                             </Box>
                             : null
                     }
