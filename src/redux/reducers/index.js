@@ -168,6 +168,8 @@ import { setCRMDashBoard } from './CrmDashBoardList.Reducer'
 import { setCRMPurchaseAckPending } from './CrmPurchaseAckPendg.Reducer'
 import { setCRMPurchDataCollPending } from './CrmPurchaDetacollPend.Reducer'
 import { setAmcCmcMaster } from './AmAMCCMCSelect.Reducer'
+import { setSupplierSelect } from './AmSupplierSelect.Reducer'
+
 
 const reducer = combineReducers({
     changeState,
@@ -341,7 +343,8 @@ const reducer = combineReducers({
     setCRMDashBoard,
     setCRMPurchaseAckPending,
     setCRMPurchDataCollPending,
-    setAmcCmcMaster
+    setAmcCmcMaster,
+    setSupplierSelect
 
 })
 export default reducer;

@@ -6,7 +6,6 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import ProfilePicDefault from 'src/assets/images/nosigature.jpg'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { urlExist } from 'src/views/Constant/Constant'
-import { warningNotify } from 'src/views/Common/CommonCode';
 import { CrfPdfWithOutDetails } from '../CrfPdfView/CrfPdfWithOutDetails';
 import { CrfPdfWithDetails } from '../CrfPdfView/CrfPdfWithDetail';
 import { Button, CssVarsProvider, Tooltip, Typography } from '@mui/joy';
@@ -17,7 +16,6 @@ import ThumbDownOffAltOutlinedIcon from '@mui/icons-material/ThumbDownOffAltOutl
 import PauseCircleOutlineOutlinedIcon from '@mui/icons-material/PauseCircleOutlineOutlined';
 import BackHandOutlinedIcon from '@mui/icons-material/BackHandOutlined';
 import { SiAdobeacrobatreader } from "react-icons/si";
-
 
 const PurchaseApprovalButton = ({ val, setpuchaseFlag, setpuchaseModal, setpuchaseData, setImageShowFlag,
     setImageShow, setImageSlno }) => {
@@ -76,15 +74,16 @@ const PurchaseApprovalButton = ({ val, setpuchaseFlag, setpuchaseModal, setpucha
         getEDSign()
 
         ItemDetailsGet(req_slno).then((values) => {
-            const { success, data, message } = values
+            const { success, data } = values
             if (success === 1) {
                 ItemDetailsApproved(req_slno).then((value) => {
-                    const { succes, dataa, message } = value
+                    const { succes, dataa } = value
                     if (succes === 1) {
                         CrfPdfWithDetails(val, data, dataa, mdsign, edsign)
                     }
                     else {
-                        warningNotify(message)
+                        const dataa = []
+                        CrfPdfWithDetails(val, data, dataa, mdsign, edsign)
                     }
                 })
             }
@@ -92,13 +91,11 @@ const PurchaseApprovalButton = ({ val, setpuchaseFlag, setpuchaseModal, setpucha
                 CrfPdfWithOutDetails(val, mdsign, edsign)
             }
             else {
-                warningNotify(message)
+                CrfPdfWithOutDetails(val, mdsign, edsign)
             }
         })
 
     }, [val, mdsign, edsign,])
-
-
 
 
     const ViewImage = useCallback(() => {
@@ -108,16 +105,12 @@ const PurchaseApprovalButton = ({ val, setpuchaseFlag, setpuchaseModal, setpucha
         setImageSlno(req_slno)
     }, [val, setImageShowFlag, setImageShow, setImageSlno])
 
-
-
-
     const approveComp = (val) => {
         return val === 1 ? <Tooltip title="Approved" arrow color="success" size="sm" variant="solid" placement="top"><ThumbUpAltOutlinedIcon sx={{ color: 'white' }} /></Tooltip>
             : val === 2 ? <Tooltip title="Reject" arrow color="danger" size="sm" variant="solid" placement="top"><ThumbDownOffAltOutlinedIcon sx={{ color: 'white' }} /></Tooltip>
                 : val === 3 ? <Tooltip title="On Hold" arrow color='warning' size="sm" variant="solid" placement="top"><PauseCircleOutlineOutlinedIcon sx={{ color: 'white' }} /></Tooltip>
                     : <Tooltip title="Pending" arrow color="neutral" size="sm" variant="solid" placement="top">< BackHandOutlinedIcon sx={{ color: 'white' }} /></Tooltip>
     }
-
 
     return (
 

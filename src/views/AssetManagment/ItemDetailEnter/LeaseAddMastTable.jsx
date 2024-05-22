@@ -6,21 +6,21 @@ import Table from '@mui/joy/Table';
 import { Box } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit';
 
-const BillAddMastTable = ({ count, rowSelect }) => {
+const LeaseAddMastTable = ({ count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
     useEffect(() => {
-        const getBillMaster = async () => {
-            const result = await axioslogin.get('ItemMapDetails/BillMasterview')
+        const getAMCCMC = async () => {
+            const result = await axioslogin.get('ItemMapDetails/LeaseMasterview')
             const { success, data } = result.data
             if (success === 2) {
                 setTabledata(data)
             } else {
                 warningNotify('error occured')
-                setTabledata([])
             }
         }
-        getBillMaster()
+        getAMCCMC()
     }, [count])
+
 
     return (
         <Box sx={{
@@ -32,10 +32,12 @@ const BillAddMastTable = ({ count, rowSelect }) => {
                     <thead>
                         <tr>
                             <th style={{ width: '7%', align: "center" }}>Action</th>
-                            <th style={{ width: '7%', align: "center" }}>Bill No</th>
+                            <th style={{ width: '7%', align: "center" }}>Sl No</th>
                             <th style={{ width: '50%', align: "center" }}>Supplier</th>
-                            <th style={{ width: '15%', align: "center" }}>Bill Amount</th>
-                            <th style={{ width: '10%', align: "center" }}>Bill Date</th>
+                            <th style={{ width: '10%', align: "center" }}>From Date</th>
+                            <th style={{ width: '10%', align: "center" }}>To Date</th>
+                            <th style={{ width: '10%', align: "center" }}>Amount</th>
+                            <th style={{ width: '10%', align: "center" }}>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,10 +51,12 @@ const BillAddMastTable = ({ count, rowSelect }) => {
                             > <td>
                                     <EditIcon size={6} onClick={() => rowSelect(val)} />
                                 </td>
-                                <td> {val.am_bill_no}</td>
+                                <td> {val.am_lease_mastslno}</td>
                                 <td> {val.it_supplier_name}</td>
-                                <td> {val.am_bill_amount}</td>
-                                <td> {val.am_bill_date}</td>
+                                <td> {val.lease_fromdate}</td>
+                                <td> {val.lease_todate}</td>
+                                <td> {val.lease_amount}</td>
+                                <td> {val.status}</td>
                             </tr>
                         })}
                     </tbody>
@@ -61,4 +65,5 @@ const BillAddMastTable = ({ count, rowSelect }) => {
         </Box>
     )
 }
-export default memo(BillAddMastTable)
+
+export default memo(LeaseAddMastTable)
