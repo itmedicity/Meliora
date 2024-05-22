@@ -30,22 +30,21 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
     const [billcate, setBillcate] = useState([])
     const [cateName, setcateName] = useState('')
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getBillCategory())
     }, [dispatch])
 
-
     const UndatePending = useCallback((value) => {
         const { yearly_slno } = value
         const getbillsFile = async () => {
-            const result = await axioslogin.get(`/ItImageUpload/uploadFile/getQuaterlyBillImages/${yearly_slno}`);
+            const result = await axioslogin.get(`/ItImageUpload/uploadFile/getYearlyBillImages/${yearly_slno}`);
             const { success } = result.data;
             if (success === 1) {
                 const data = result.data;
                 const fileNames = data.data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/Meliora/ItBillManagement/MonthlyBill/ItBillManagement/MonthlyBill/${yearly_slno}/${fileName}`;
-                    // return `D:/DocMeliora/Meliora/ItBillManagement/MonthlyBill/${yearly_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/Bills/YearlyBill/${yearly_slno}/${fileName}`;
                 });
                 setFilezUrls(fileUrls);
             } else {
@@ -60,18 +59,18 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
 
     const searchBillls = useCallback(() => {
         setsearchBillNameFlag(1)
-        // setsearchBillDateFlag(0)
         setsearchBillCateFlag(0)
     }, [])
+
     const OpenBillCate = useCallback(() => {
         setsearchBillNameFlag(0)
         setsearchBillCateFlag(1)
-
     }, [])
 
     const updateEnterText = useCallback((e) => {
         setEnterText(e.target.value)
     }, [])
+
     const SearchBillName = useCallback(() => {
         if (enterText.length < 3) {
             infoNotify('please enter minimum 3 character to search task name')
@@ -87,11 +86,8 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
         if (alphbased === 1) {
             let newTableDataa = yearlydata && yearlydata.filter((val) => val.bill_name.toLowerCase().includes(enterText))
             setAlphbasedData(newTableDataa)
-
         }
     }, [yearlydata, alphbased, enterText])
-
-
 
     const SearchBillCate = useCallback(() => {
         let newTableDataa = yearlydata && yearlydata.filter((val) => val.bill_category === billCategory)
@@ -115,8 +111,6 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
         setBillCategory('')
         setcateName('')
     }, [])
-
-
 
     return (
         <Box>
@@ -211,7 +205,6 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                                 </CssVarsProvider>
                             </Box> : null}
                     </Box>
-                    {/* <Box sx={{ flex: 1, fontWeight: 600, color: 'white' }}>Bill Type</Box> */}
                 </Box> : null}
             <Box>
                 {alphbased === 1 ?
@@ -240,9 +233,6 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                                 <Tooltip title="bill Category" placement="bottom"><Box sx={{ flex: 1, pt: .5, cursor: 'grab' }}>
                                     {val.it_bill_category_name}
                                 </Box></Tooltip>
-                                {/* <Tooltip title="bill type" placement="bottom"><Box sx={{ flex: 1, pt: .5, cursor: 'grab' }}>
-                                    {val.it_bill_type_name}
-                                </Box></Tooltip> */}
                             </Paper>
                         })
                         }
@@ -273,9 +263,6 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                                     <Tooltip title="bill Category" placement="bottom"><Box sx={{ flex: 1, pt: .5, cursor: 'grab' }}>
                                         {val.it_bill_category_name}
                                     </Box></Tooltip>
-                                    {/* <Tooltip title="bill type" placement="bottom"><Box sx={{ flex: 1, pt: .5, cursor: 'grab' }}>
-                                        {val.it_bill_type_name}
-                                    </Box></Tooltip> */}
                                 </Paper>
                             })
                             }
@@ -283,11 +270,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                         <Box sx={{ flex: 1, maxHeight: '55vh', overflow: 'auto' }}>
                             {
                                 yearlydata && yearlydata.map((val) => {
-
                                     const years = format(new Date(val.yearly_bill_generate), 'yyyy')
-
-
-
                                     return <Paper key={val.yearly_slno}
                                         sx={{ minHeight: 33, maxHeight: 100, bgcolor: '#E4E5E8', borderRadius: 0, display: 'flex', mt: .5, color: 'black', }}>
                                         <Box sx={{
@@ -310,9 +293,6 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                                         <Box sx={{ flex: 1, pt: .5, cursor: 'grab' }}>
                                             {val.it_bill_category_name}
                                         </Box>
-                                        {/* <Tooltip title="bill type" placement="bottom"><Box sx={{ flex: 1, pt: .5, cursor: 'grab' }}>
-                                            {val.it_bill_type_name}
-                                        </Box></Tooltip> */}
                                     </Paper>
                                 })
                             }

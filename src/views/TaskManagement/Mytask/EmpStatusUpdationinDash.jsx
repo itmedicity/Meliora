@@ -18,7 +18,8 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import imageCompression from 'browser-image-compression';
 import moment from 'moment';
-
+import AutoDeleteTwoToneIcon from '@mui/icons-material/AutoDeleteTwoTone';
+import DueDateModal from '../ModalComponent/DueDateModal';
 const EmpStatusUpdationinDash = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount }) => {
 
     const { tm_task_slno, tm_task_name, tm_task_description, tm_task_due_date, main_task_slno, sec_name, tm_task_dept, tm_task_dept_sec, tm_task_status, dept_name,
@@ -52,7 +53,9 @@ const EmpStatusUpdationinDash = ({ open, masterData, setEditModalFlag, setEditMo
     })
     const { onHoldRemaks, pendingRemarks, completedRemarks } = updateTask
     const [completeFlag, setCompleteFlag] = useState(0)
-
+    const [dueDateModalFlag, setdueDateModalFlag] = useState(0)
+    const [dueDateModal, setdueDateModal] = useState(false)
+    const [dueDates, setdueDates] = useState([])
     let depmt = dept_name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     let depmtSec = sec_name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
@@ -442,6 +445,26 @@ const EmpStatusUpdationinDash = ({ open, masterData, setEditModalFlag, setEditMo
         });
     };
 
+    const getAllDueDates = useCallback(() => {
+        const getDueDate = async () => {
+            const result = await axioslogin.get(`/taskManagement/getAllDueDates/${tm_task_slno}`)
+            const { success, data } = result.data;
+            if (success === 2) {
+                if (data.length > 1) {
+                    setdueDates(data)
+                    setdueDateModalFlag(1)
+                    setdueDateModal(true)
+                } else if (data.length === 1) {
+                    infoNotify('Duedate is not extended')
+                } else if (data.length === 0) {
+                    infoNotify('Duedate is not extended')
+                }
+            }
+        }
+        getDueDate()
+    }, [tm_task_slno])
+
+
     return (
         <Box>
             <CssVarsProvider>
@@ -452,10 +475,15 @@ const EmpStatusUpdationinDash = ({ open, masterData, setEditModalFlag, setEditMo
                         sx={{
                             overflowY: 'scroll',
                             width: '90vw',
-                            height: '60vw',
-
+                            height: '60vw'
                         }}
                     >
+                        <Box>
+                            {dueDateModalFlag === 1 ?
+                                <DueDateModal dueDateModal={dueDateModal} taskName={tm_task_name} dueDates={dueDates} setdueDateModalFlag={setdueDateModalFlag}
+                                    setdueDateModal={setdueDateModal} tm_task_due_date={tm_task_due_date} create_date={create_date} />
+                                : null}
+                        </Box>
                         <Box sx={{ borderRight: 1, borderLeft: 1, borderBottom: 1, borderColor: '#D9E4EC', }}>
                             <Box sx={{
                                 width: "100%", backgroundColor: '#D9E4EC', height: 45,
@@ -531,8 +559,13 @@ const EmpStatusUpdationinDash = ({ open, masterData, setEditModalFlag, setEditMo
                                         <Box sx={{ flex: .9, ml: 3, fontFamily: 'Georgia', }}>
                                             Due date
                                         </Box>
-                                        <Box sx={{ flex: 8, mr: 2 }}>
+                                        <Box sx={{ flex: 8, mr: 2, display: 'flex' }}>
                                             :&nbsp;{tm_task_due_date}
+                                            <Box sx={{ ml: 1, }}>
+                                                <Tooltip title={'Changed Duedates'}>
+                                                    <AutoDeleteTwoToneIcon sx={{ color: '#391306', cursor: 'pointer', }} onClick={getAllDueDates} />
+                                                </Tooltip>
+                                            </Box>
                                         </Box>
                                     </Box>
 
@@ -543,13 +576,11 @@ const EmpStatusUpdationinDash = ({ open, masterData, setEditModalFlag, setEditMo
                                         </Box>
                                         <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>
                                             :&nbsp;{tm_task_description}
+
+
                                         </Box>
                                     </Box>
                                 </Box>
-                                {/* <Box sx={{ flex: 1, bgcolor: 'yellow' }}>
-
-                                    </Box> */}
-                                {/* </Box> */}
 
 
                                 <Box sx={{

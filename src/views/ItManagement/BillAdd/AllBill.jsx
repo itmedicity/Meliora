@@ -60,29 +60,28 @@ const AllBill = ({ billCount, setbillCount }) => {
                 <Box sx={{ flex: 1, fontWeight: 600, color: 'white' }}>Sim Type</Box>
                 <Box sx={{ flex: .6, fontWeight: 600, color: 'white' }}>Tariff</Box>
             </Box>
-            <Box sx={{ maxHeight: '63vh', overflow: 'auto', flex: 1 }}>
+            <Box sx={{ maxHeight: '60vh', overflow: 'auto', flex: 1 }}>
                 {
                     allBillData && allBillData.map((val) => {
                         return <Paper key={val.bill_add_slno}
-                            sx={{ flex: 1, minHeight: 33, maxHeight: 100, bgcolor: '#E4E5E8', borderRadius: 0, display: 'flex', mt: .5, color: 'black', }}>
+                            sx={{ flex: 1, minHeight: 30, maxHeight: 100, bgcolor: '#E4E5E8', borderRadius: 0, display: 'flex', mt: .5, color: 'black', }}>
                             <Box sx={{
                                 flex: .5,
                                 p: .5, cursor: 'pointer', mx: 1
-                            }}><EditIcon sx={{ height: 20, }}
+                            }}><EditIcon sx={{ height: 18, }}
                                 onClick={() => EditModal(val)}
                                 />
                             </Box>
-                            <Box sx={{ flex: 1.2, pt: .5 }}>
+                            <Box sx={{ flex: 1.2, pt: .5, fontSize: 14 }}>
                                 {val.it_bill_category_name}
                             </Box>
-                            <Box sx={{ flex: 5, pt: .5 }}>
+                            <Box sx={{ flex: 5, pt: .5, fontSize: 14 }}>
                                 {val.bill_name}
                             </Box>
-
-                            <Box sx={{ flex: 1, pt: .5, }}>
+                            <Box sx={{ flex: 1, pt: .5, fontSize: 14 }}>
                                 {val.it_sim_type_name}
                             </Box>
-                            <Box sx={{ flex: .6, pt: .5, pr: .3 }}>
+                            <Box sx={{ flex: .6, pt: .5, pr: .3, fontSize: 14 }}>
                                 {val.bill_tariff === 0 ? 'not given' : val.bill_tariff === 1 ? 'Monthly' :
                                     val.bill_tariff === 2 ? 'Quaterly' : val.bill_tariff === 3 ? 'Yearly' : val.bill_tariff === 4 ? 'Others' :
                                         'not given'}

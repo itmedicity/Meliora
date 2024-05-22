@@ -45,7 +45,6 @@ export const gettingArrayList = async (monthBillSearch, setmonthINyearData) => {
 }
 
 export const gettingArrayListYearly = async (searchYear, setYearData) => {
-
     const getMonthlyBillDatatMoTarr = async (searchYear) => {
         const result = await axioslogin.post('/ItBillVieww/getMonthlyTariffYear', searchYear);
         return result.data
@@ -62,7 +61,6 @@ export const gettingArrayListYearly = async (searchYear, setYearData) => {
         const result = await axioslogin.post('/ItBillVieww/getOtherTariffYear', searchYear);
         return result.data
     }
-
     var resultListYear = []
     getMonthlyBillDatatMoTarr(searchYear).then((val) => {
         const { data } = val
@@ -75,11 +73,92 @@ export const gettingArrayListYearly = async (searchYear, setYearData) => {
                 const { data } = valu
                 const yearListYear = [...resultListYear, ...data]
                 resultListYear = yearListYear
-                getMonthlyBillDataOtherTarr(searchYear).then((valu) => {
-                    const { data } = valu
+                getMonthlyBillDataOtherTarr(searchYear).then((valuee) => {
+                    const { data } = valuee
                     const otherListYear = [...resultListYear, ...data]
                     resultListYear = otherListYear
                     setYearData(resultListYear)
+                })
+            })
+        })
+    })
+}
+
+export const gettingArrayListFirstYear = async (firstyearBillSearch, setfirstYear) => {
+
+    const getMonthlyBillDatatMonthTarr = async (firstyearBillSearch) => {
+        const result = await axioslogin.post('/ItBillVieww/getMonthlyTariffYear', firstyearBillSearch);
+        return result.data
+    }
+    const getMonthlyBillDataQuarterTarr = async () => {
+        const result = await axioslogin.post('/ItBillVieww/getQuarterlyTariffYear', firstyearBillSearch);
+        return result.data
+    }
+    const getMonthlyBillDataYearrTarr = async () => {
+        const result = await axioslogin.post('/ItBillVieww/getYearlyTariffYear', firstyearBillSearch);
+        return result.data
+    }
+    const getMonthlyBillDataOtherrTarr = async () => {
+        const result = await axioslogin.post('/ItBillVieww/getOtherTariffYear', firstyearBillSearch);
+        return result.data
+    }
+    var resultListFirstYear = []
+    getMonthlyBillDatatMonthTarr(firstyearBillSearch).then((val) => {
+        const { data } = val
+        resultListFirstYear = [...resultListFirstYear, ...data]
+        getMonthlyBillDataQuarterTarr(firstyearBillSearch).then((value) => {
+            const { data } = value
+            const quaterListFirstYear = [...resultListFirstYear, ...data]
+            resultListFirstYear = quaterListFirstYear
+            getMonthlyBillDataYearrTarr(firstyearBillSearch).then((valu) => {
+                const { data } = valu
+                const yearListfirstYear = [...resultListFirstYear, ...data]
+                resultListFirstYear = yearListfirstYear
+                getMonthlyBillDataOtherrTarr(firstyearBillSearch).then((valu) => {
+                    const { data } = valu
+                    const otherListFirstYear = [...resultListFirstYear, ...data]
+                    resultListFirstYear = otherListFirstYear
+                    setfirstYear(resultListFirstYear)
+                })
+            })
+        })
+    })
+}
+
+export const gettingArrayListSecondYear = async (secondyearBillSearch, setsecondYear) => {
+    const getMonthlyBillDatatMonthlyTarr = async (secondyearBillSearch) => {
+        const result = await axioslogin.post('/ItBillVieww/getMonthlyTariffYear', secondyearBillSearch);
+        return result.data
+    }
+    const getMonthlyBillDataQuarterlyTarr = async () => {
+        const result = await axioslogin.post('/ItBillVieww/getQuarterlyTariffYear', secondyearBillSearch);
+        return result.data
+    }
+    const getMonthlyBillDataYearlyTarr = async () => {
+        const result = await axioslogin.post('/ItBillVieww/getYearlyTariffYear', secondyearBillSearch);
+        return result.data
+    }
+    const getMonthlyBillDataOtherlyTarr = async () => {
+        const result = await axioslogin.post('/ItBillVieww/getOtherTariffYear', secondyearBillSearch);
+        return result.data
+    }
+    var resultListSecondYear = []
+    getMonthlyBillDatatMonthlyTarr(secondyearBillSearch).then((val) => {
+        const { data } = val
+        resultListSecondYear = [...resultListSecondYear, ...data]
+        getMonthlyBillDataQuarterlyTarr(secondyearBillSearch).then((value) => {
+            const { data } = value
+            const quaterListSecondYear = [...resultListSecondYear, ...data]
+            resultListSecondYear = quaterListSecondYear
+            getMonthlyBillDataYearlyTarr(secondyearBillSearch).then((valu) => {
+                const { data } = valu
+                const yearListSecondYear = [...resultListSecondYear, ...data]
+                resultListSecondYear = yearListSecondYear
+                getMonthlyBillDataOtherlyTarr(secondyearBillSearch).then((valu) => {
+                    const { data } = valu
+                    const otherListSecondYear = [...resultListSecondYear, ...data]
+                    resultListSecondYear = otherListSecondYear
+                    setsecondYear(resultListSecondYear)
 
                 })
             })

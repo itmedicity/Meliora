@@ -6,7 +6,7 @@ import YearlyPaidBills from '../PaidBills/YearlyPaidBills'
 import OtherPaidBills from '../PaidBills/OtherPaidBills'
 import MonthlyPaidBills from '../PaidBills/MonthlyPaidBills'
 
-const PaidBillsSoftWare = ({ billCount, setbillCount }) => {
+const PaidBillsSoftWare = () => {
 
     const [montBillsSoft, setmontBillsSoft] = useState([])
     const [quarBillsSoft, setQuarBillsSoft] = useState([])
@@ -23,9 +23,6 @@ const PaidBillsSoftWare = ({ billCount, setbillCount }) => {
                 setmontBillsSoft([])
             }
         }
-        getMonthlyBills()
-    }, [])
-    useEffect(() => {
         const getQaurterlyPaidBills = async () => {
             const result = await axioslogin.get('/ItBillVieww/softwareQuarterlyPaid');
             const { success, data } = result.data;
@@ -35,9 +32,6 @@ const PaidBillsSoftWare = ({ billCount, setbillCount }) => {
                 setQuarBillsSoft([])
             }
         }
-        getQaurterlyPaidBills()
-    }, [])
-    useEffect(() => {
         const getYearPaidBills = async () => {
             const result = await axioslogin.get('/ItBillVieww/softYearPaid');
             const { success, data } = result.data;
@@ -47,9 +41,6 @@ const PaidBillsSoftWare = ({ billCount, setbillCount }) => {
                 setYearBillsSoft([])
             }
         }
-        getYearPaidBills()
-    }, [])
-    useEffect(() => {
         const getOtherPaidBills = async () => {
             const result = await axioslogin.get('/ItBillVieww/softOthrPaid');
             const { success, data } = result.data;
@@ -59,12 +50,11 @@ const PaidBillsSoftWare = ({ billCount, setbillCount }) => {
                 setOtherBillsSoft([])
             }
         }
+        getMonthlyBills()
+        getQaurterlyPaidBills()
+        getYearPaidBills()
         getOtherPaidBills()
     }, [])
-
-
-
-
 
     return (
         <Box>
@@ -80,7 +70,6 @@ const PaidBillsSoftWare = ({ billCount, setbillCount }) => {
                     <TabList
                         disableUnderline
                         sx={{
-                            // pt: 2,
                             bgcolor: 'background.level1',
                             borderBottom: 0,
                             [`& .${tabClasses.root}[aria-selected="true"]`]: {
@@ -113,7 +102,6 @@ const PaidBillsSoftWare = ({ billCount, setbillCount }) => {
                                 Other Bills
                             </Tab>
                         </Box>
-
                     </TabList>
                     <TabPanel value={0} sx={{ p: 0, borderRadius: 0 }}>
                         <MonthlyPaidBills montBills={montBillsSoft} />

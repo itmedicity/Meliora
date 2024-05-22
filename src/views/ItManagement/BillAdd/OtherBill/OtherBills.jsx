@@ -27,6 +27,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
     const [billcate, setBillcate] = useState([])
     const [cateName, setcateName] = useState('')
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getBillCategory())
     }, [dispatch])
@@ -34,14 +35,13 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
     const UndatePending = useCallback((value) => {
         const { other_bill_slno } = value
         const getbillsFile = async () => {
-            const result = await axioslogin.get(`/ItImageUpload/uploadFile/getMonthlyBillImages/${other_bill_slno}`);
+            const result = await axioslogin.get(`/ItImageUpload/uploadFile/getOtherBillImages/${other_bill_slno}`);
             const { success } = result.data;
             if (success === 1) {
                 const data = result.data;
                 const fileNames = data.data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/Meliora/ItBillManagement/MonthlyBill/ItBillManagement/MonthlyBill/${other_bill_slno}/${fileName}`;
-                    // return `D:/DocMeliora/Meliora/ItBillManagement/MonthlyBill/${other_bill_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/Bills/OtherBill/${other_bill_slno}/${fileName}`;
                 });
                 setFilezUrls(fileUrls);
             } else {
@@ -53,18 +53,14 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
         setpendingModalFlag(1)
         setpendingModalOpen(true)
     }, [])
-
     const searchBillls = useCallback(() => {
         setsearchBillNameFlag(1)
-        // setsearchBillDateFlag(0)
         setsearchBillCateFlag(0)
     }, [])
     const OpenBillCate = useCallback(() => {
         setsearchBillNameFlag(0)
         setsearchBillCateFlag(1)
-
     }, [])
-
     const updateEnterText = useCallback((e) => {
         setEnterText(e.target.value)
     }, [])
@@ -83,11 +79,8 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
         if (alphbased === 1) {
             let newTableDataa = otherData && otherData.filter((val) => val.bill_name.toLowerCase().includes(enterText))
             setAlphbasedData(newTableDataa)
-
         }
     }, [otherData, alphbased, enterText])
-
-
 
     const SearchBillCate = useCallback(() => {
         let newTableDataa = otherData && otherData.filter((val) => val.bill_category === billCategory)
@@ -141,7 +134,6 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                                         pl: 1
                                     }}
                                     onChange={updateEnterText} />
-
                                 <CssVarsProvider>
                                     <Tooltip title='search'>
                                         <Box sx={{
@@ -206,7 +198,6 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                                 </CssVarsProvider>
                             </Box> : null}
                     </Box>
-                    {/* <Box sx={{ flex: 1, fontWeight: 600, color: 'white' }}>Bill Type</Box> */}
                 </Box> : null}
             <Box>
                 {alphbased === 1 ?
@@ -229,9 +220,6 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                                 <Tooltip title="bill Category" placement="bottom"><Box sx={{ flex: 1, pt: .5, cursor: 'grab', pl: .5 }}>
                                     {val.it_bill_category_name}
                                 </Box></Tooltip>
-                                {/* <Tooltip title="bill type" placement="bottom"><Box sx={{ flex: 1, pt: .5, cursor: 'grab' }}>
-                                    {val.it_bill_type_name}
-                                </Box></Tooltip> */}
                             </Paper>
                         })
                         }
@@ -256,9 +244,6 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                                     <Tooltip title="bill Category" placement="bottom"><Box sx={{ flex: 1, pt: .5, cursor: 'grab', pl: .5 }}>
                                         {val.it_bill_category_name}
                                     </Box></Tooltip>
-                                    {/* <Tooltip title="bill type" placement="bottom"><Box sx={{ flex: 1, pt: .5, cursor: 'grab' }}>
-                                        {val.it_bill_type_name}
-                                    </Box></Tooltip> */}
                                 </Paper>
                             })
                             }
@@ -282,9 +267,6 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                                         <Box sx={{ flex: 1, pt: .5, cursor: 'grab', pl: .5 }}>
                                             {val.it_bill_category_name}
                                         </Box>
-                                        {/* <Tooltip title="bill type" placement="bottom"><Box sx={{ flex: 1, pt: .5, cursor: 'grab' }}>
-                                            {val.it_bill_type_name}
-                                        </Box></Tooltip> */}
                                     </Paper>
                                 })
                             }

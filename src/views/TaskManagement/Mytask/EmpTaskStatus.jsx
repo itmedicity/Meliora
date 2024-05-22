@@ -18,6 +18,8 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import imageCompression from 'browser-image-compression';
 import moment from 'moment';
+import AutoDeleteTwoToneIcon from '@mui/icons-material/AutoDeleteTwoTone';
+import DueDateModal from '../ModalComponent/DueDateModal';
 const EmpTaskStatus = ({
     open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount, searchFlag, projectcount, setprojectcount,
     taskcount, settaskcount }) => {
@@ -60,6 +62,10 @@ const EmpTaskStatus = ({
         progressDetails: ''
     })
     const { PrgSlNo, ProgressDate, progressDetails, } = taskProgress
+    const [dueDateModalFlag, setdueDateModalFlag] = useState(0)
+    const [dueDateModal, setdueDateModal] = useState(false)
+    const [dueDates, setdueDates] = useState([])
+
 
     let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const ProgresssUpdate = useCallback(
@@ -428,6 +434,25 @@ const EmpTaskStatus = ({
         });
     };
 
+    const getAllDueDates = useCallback(() => {
+        const getDueDate = async () => {
+            const result = await axioslogin.get(`/taskManagement/getAllDueDates/${tm_task_slno}`)
+            const { success, data } = result.data;
+            if (success === 2) {
+                if (data.length > 1) {
+                    setdueDates(data)
+                    setdueDateModalFlag(1)
+                    setdueDateModal(true)
+                } else if (data.length === 1) {
+                    infoNotify('Duedate is not extended')
+                } else if (data.length === 0) {
+                    infoNotify('Duedate is not extended')
+                }
+            }
+        }
+        getDueDate()
+    }, [tm_task_slno])
+
     return (
         <Box>
             <CssVarsProvider>
@@ -442,6 +467,12 @@ const EmpTaskStatus = ({
 
                         }}
                     >
+                        <Box>
+                            {dueDateModalFlag === 1 ?
+                                <DueDateModal dueDateModal={dueDateModal} taskName={tm_task_name} dueDates={dueDates} setdueDateModalFlag={setdueDateModalFlag}
+                                    setdueDateModal={setdueDateModal} tm_task_due_date={tm_task_due_date} create_date={create_date} />
+                                : null}
+                        </Box>
                         <Box sx={{ borderRight: 1, borderLeft: 1, borderBottom: 1, borderColor: '#D9E4EC', }}>
                             <Box sx={{
                                 width: "100%", backgroundColor: '#D9E4EC', height: 45,
@@ -451,7 +482,6 @@ const EmpTaskStatus = ({
                                 <Box sx={{ flex: 1 }}>
                                     <ModeEditIcon sx={{ height: '20px' }} />Task Status
                                 </Box>
-
                                 <Box sx={{ width: 35, mb: .3, display: 'flex', justifyContent: 'flex-end', mr: 1, pt: .8, pr: .6, bgcolor: 'white', borderRadius: 15 }}>
                                     <Tooltip title="Close">
                                         < CloseIcon sx={{ cursor: 'pointer', size: 'lg', height: 20, color: '#004F76' }}
@@ -517,12 +547,15 @@ const EmpTaskStatus = ({
                                         <Box sx={{ flex: .9, ml: 3, fontFamily: 'Georgia', }}>
                                             Due date
                                         </Box>
-                                        <Box sx={{ flex: 8, mr: 2 }}>
+                                        <Box sx={{ flex: 8, mr: 2, display: 'flex' }}>
                                             :&nbsp;{tm_task_due_date}
+                                            <Box sx={{ ml: 1 }}>
+                                                <Tooltip title={'Changed Duedates'}>
+                                                    <AutoDeleteTwoToneIcon sx={{ color: '#391306', cursor: 'pointer', }} onClick={getAllDueDates} />
+                                                </Tooltip>
+                                            </Box>
                                         </Box>
                                     </Box>
-
-
                                     <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                                         <Box sx={{ flex: .9, ml: 3 }}>
                                             Description
@@ -532,12 +565,6 @@ const EmpTaskStatus = ({
                                         </Box>
                                     </Box>
                                 </Box>
-                                {/* <Box sx={{ flex: 1, bgcolor: 'yellow' }}>
-
-                                    </Box> */}
-                                {/* </Box> */}
-
-
                                 <Box sx={{
                                     fontFamily: 'Georgia',
                                     height: 50, mt: .5, border: 1, borderRadius: 1, borderStyle: 'dashed', display: 'flex',
@@ -581,9 +608,6 @@ const EmpTaskStatus = ({
                                         </Box>
                                     </Box>
                                 </Box>
-
-
-
                                 <Box sx={{ m: 2, border: 1, borderColor: '#710019', borderRadius: 3 }}>
                                     <Typography sx={{ pl: 1.5, pt: .5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}>
                                         Task Progress
@@ -594,8 +618,6 @@ const EmpTaskStatus = ({
                                 </Box>
                                 <Box sx={{ display: 'flex' }}>
                                     <Box sx={{ flex: 1, }}>
-
-
                                         {main_task_slno !== null ?
                                             <Box sx={{ mt: .5, display: 'flex', justifyContent: 'flex-end' }}>
                                                 <CusCheckBox
@@ -630,7 +652,6 @@ const EmpTaskStatus = ({
                                                         ></CusCheckBox>
                                                     </Box>}
                                             </Box>}
-
                                         <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
                                             <CusCheckBox
                                                 color="primary"
@@ -661,7 +682,6 @@ const EmpTaskStatus = ({
                                                 onCheked={ChangeOnPending}
                                             ></CusCheckBox>
                                         </Box>
-
                                     </Box>
                                     <Box sx={{ flex: 5, }}>
                                         <Box sx={{ pl: .8, pt: .5, color: '#000C66', fontFamily: 'Georgia', }}>
@@ -824,8 +844,6 @@ const EmpTaskStatus = ({
                                         borderRadius: 3,
                                         boxShadow: '1px 1px 4px #887BB0',
                                     }}>
-
-
                                         {completed === true ?
                                             <Box>
                                                 <Tooltip title='unable to add a subtask to a completed task' placement='top-start'>
@@ -850,9 +868,7 @@ const EmpTaskStatus = ({
                                                     flag === 0 || flag === 2 ?
                                                         <AddIcon sx={{ fontSize: 25, color: '#004F76' }} /> : null}
                                             </Box>}
-
                                         <Box sx={{ mt: 1, pl: 1, }}>
-
                                             {
                                                 flag === 1 ?
                                                     <Box>
@@ -890,9 +906,7 @@ const EmpTaskStatus = ({
                                                         </Box>
                                                         : null
                                             }
-
                                         </Box>
-
                                         <Box>
                                             < SubtaskTableEmp
                                                 completeFlag={completeFlag}
@@ -909,17 +923,12 @@ const EmpTaskStatus = ({
                                                 setSubTask={setSubTask}
                                                 viewSubTask={viewSubTask}
                                                 setViewSubTask={setViewSubTask}
-
-
                                             />
                                         </Box>
-
                                     </Box> : null}
                                 <Box sx={{ height: 10, }}>
                                 </Box>
-
                             </Box>
-
                         </Box>
                         <DialogActions>
                             <Box sx={{ textAlign: 'right' }}>
@@ -938,9 +947,7 @@ const EmpTaskStatus = ({
                     </ModalDialog>
                 </Modal>
             </CssVarsProvider>
-
         </Box >
-
     )
 }
 

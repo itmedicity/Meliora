@@ -66,7 +66,7 @@ const EmpTaskView = ({ tableCount, setTableCount, setflag, tableDataEmployee, em
                                 setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount} />
                             : null}
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead>
                                     <tr >
@@ -94,7 +94,10 @@ const EmpTaskView = ({ tableCount, setTableCount, setflag, tableDataEmployee, em
                                                 <td> {index + 1}</td>
                                                 <td>
                                                     <CheckCircleOutlineIcon
-                                                        sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                        sx={{
+                                                            cursor: 'pointer',
+                                                            '&:hover': { color: '#DBA40E' }
+                                                        }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
                                                 <td

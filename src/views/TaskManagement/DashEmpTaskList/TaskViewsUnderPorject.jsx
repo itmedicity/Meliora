@@ -120,7 +120,7 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                                     <Box sx={{ px: .6, pt: 1 }}>
                                                         <ListSharpIcon sx={{ width: 20, height: 20, color: '#435D84' }} />
                                                     </Box>
-                                                    <Box sx={{ flex: 2.5, pt: 1.2 }}>
+                                                    <Box sx={{ flex: 2.4, pt: 1.2 }}>
 
                                                         {val.tm_task_status === 1 ?
                                                             <FormLabel sx={{
@@ -139,7 +139,7 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                                     <Box sx={{ flex: 1, pt: .7, px: .5 }}>
                                                         <Tooltip>
                                                             {val.tm_task_status !== 1 ?
-                                                                <Box sx={{ border: .1, borderColor: '#78909c', borderStyle: 'dashed', width: 170, pl: .5, borderRadius: 20, }}>
+                                                                <Box sx={{ border: .1, borderColor: '#78909c', borderStyle: 'dashed', width: 180, pl: .5, borderRadius: 20, }}>
                                                                     <CountDowncomponent DueDates={val.tm_task_due_date} />
                                                                 </Box> :
                                                                 <Box sx={{
@@ -219,7 +219,7 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                             <Box sx={{ px: .6, pt: 1.2 }}>
                                                 <ListSharpIcon sx={{ width: 20, height: 20, color: '#435D84' }} />
                                             </Box>
-                                            <Box sx={{ pt: 1.5, flex: 3, }}>
+                                            <Box sx={{ pt: 1.5, flex: 2.4, }}>
                                                 {val.tm_task_status === 1 ?
                                                     <FormLabel sx={{
                                                         fontSize: 13, textTransform: 'capitalize', cursor: 'grab',
@@ -247,7 +247,7 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                                 <Tooltip>
                                                     {val.tm_task_status !== 1 ?
                                                         <Box sx={{
-                                                            border: .1, borderColor: '#78909c', borderStyle: 'dashed', width: 160, pl: .5, borderRadius: 20,
+                                                            border: .1, borderColor: '#78909c', borderStyle: 'dashed', width: 170, pl: .5, borderRadius: 20,
                                                             // bgcolor: '#E9EAEC'
                                                         }}>
                                                             <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -301,7 +301,7 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                                                 fontSize: 13, cursor: 'grab', display: 'flex', justifyContent: 'center',
                                                                 color: val.tm_task_status === null ? '#311E26'
                                                                     : val.tm_task_status === 0 ? '#311E26'
-                                                                        : val.tm_task_status === 1 ? '#94C973'
+                                                                        : val.tm_task_status === 1 ? '#116530'
                                                                             : val.tm_task_status === 2 ? '#D37506'
                                                                                 : val.tm_task_status === 3 ? '#5E376D'
                                                                                     : val.tm_task_status === 4 ? '#5885AF'

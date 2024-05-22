@@ -1,9 +1,8 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { Box, Button, CssVarsProvider, Textarea, Typography, Tooltip } from '@mui/joy'
-import { Paper } from '@mui/material'
+import { Box, CssVarsProvider, Textarea, Typography, } from '@mui/joy'
+import { Paper, Tooltip } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import CusIconButton from 'src/views/Components/CusIconButton'
-import CloseIcon from '@mui/icons-material/Close';
+import Button from '@mui/joy/Button';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import ProjectMastDeptTable from './ProjectMastDeptTable'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,7 +13,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { getGoalsList } from 'src/redux/actions/TmGoalsList.action'
 import TmGoalsList from 'src/views/CommonSelectCode/TmGoalsList'
 import moment from 'moment'
-
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 const ProjectMasterDept = () => {
     const history = useHistory()
     const dispatch = useDispatch();
@@ -64,18 +63,21 @@ const ProjectMasterDept = () => {
         [projectMast],
     )
 
-    const reset = () => {
+    const reset = useCallback(() => {
         const form = {
             tm_project_slno: '',
             tm_project_name: '',
             tm_project_duedate: '',
             tm_project_description: '',
+            tm_project_status: false,
             tm_project_cmpltedate: ''
         }
         setprojectMast(form)
         setgoalz(0)
+    }, [])
 
-    }
+
+
     const rowSelect = useCallback((data) => {
         setvalue(1)
         const {
@@ -93,8 +95,8 @@ const ProjectMasterDept = () => {
             tm_project_name: tm_project_name,
             tm_project_dept: empdept === 0 ? null : empdept,
             tm_project_deptsec: empsecid === 0 ? null : empsecid,
-            tm_project_duedate: tm_project_duedate === '' ? null : tm_project_duedate,
-            tm_project_description: tm_project_description === '' ? null : tm_project_description,
+            tm_project_duedate: tm_project_duedate === null ? '' : tm_project_duedate,
+            tm_project_description: tm_project_description === null ? '' : tm_project_description,
             tm_project_status: tm_project_status === 1 ? true : false,
             tm_project_cmpltedate: tm_project_cmpltedate === '' ? null : tm_project_cmpltedate,
             tm_project_edit_user: id,
@@ -154,7 +156,7 @@ const ProjectMasterDept = () => {
         } else {
             infoNotify('Please Enter Project Name')
         }
-    }, [postProject, tm_project_name, tableCount])
+    }, [postProject, tm_project_name, tableCount, reset])
     const UpdateProject = useCallback((e) => {
         e.preventDefault()
         if (tm_project_name !== '') {
@@ -176,23 +178,36 @@ const ProjectMasterDept = () => {
         } else {
             infoNotify('Please Enter Project Name')
         }
-    }, [patchProject, tableCount, tm_project_name])
+    }, [patchProject, tableCount, tm_project_name, reset])
 
     return (
 
-        <Paper sx={{ width: '100%', height: '100%', bgcolor: '#F2F1F0' }}>
-            <Box sx={{ height: 35, borderBottom: .5, borderColor: 'lightgrey', display: 'flex', backgroundColor: '#D9E4EC' }}>
-                <Box sx={{ fontWeight: 600, flex: 1, pl: 1, pt: .8, color: '#385E72', }}>Create Project</Box>
-                <Box><CusIconButton size="sm" variant="outlined" color="primary" >
+        <Paper sx={{ width: '100%', height: '100%', boxShadow: '0px 1px 3px' }}>
+            <Box sx={{ height: 35, display: 'flex', bgcolor: '#52688F' }}>
+                <Box sx={{ fontWeight: 600, flex: 1, pl: 1, pt: .8, color: 'white', }}>Create Project </Box>
+                <Box sx={{ mt: .5, mr: .5 }} >
+
                     <Tooltip title="Close" placement="bottom" >
-                        <CloseIcon fontSize='small'
+                        <HighlightOffOutlinedIcon sx={{ color: 'white', height: 25, width: 25, cursor: 'pointer' }}
                             onClick={BackToDash}
                         />
                     </Tooltip>
-                </CusIconButton></Box>
+
+                </Box>
             </Box>
+
+
+            {/* <Box sx={{ pt: 1 }} >
+                <CssVarsProvider>
+                    <Button sx={{ borderRadius: 0, bgcolor: '#738FA7', height: 8 }}
+                    // onClick={addModal}
+                    >
+                        + Add New Project
+                    </Button>
+                </CssVarsProvider>
+            </Box> */}
             <Box sx={{ display: 'flex' }}>
-                <Box sx={{ flex: 1.5 }}>
+                <Box sx={{ flex: 1.7 }}>
                     <Box sx={{ mt: 2, pl: 2, fontSize: 15, display: 'flex', justifyContent: 'right', mr: 1, height: 40, pt: 1.5, fontFamily: 'Georgia', }}>
                         <Typography sx={{ color: '#003B73' }}>
                             Project*&nbsp;:
@@ -303,11 +318,10 @@ const ProjectMasterDept = () => {
                     </Box>
 
                 </Box>
-                <Box sx={{ flex: 2 }}>
-
+                <Box sx={{ flex: 1.5 }}>
                 </Box>
             </Box>
-            <Box>
+            <Box >
                 <ProjectMastDeptTable tableCount={tableCount} settableCount={settableCount} rowSelect={rowSelect} />
             </Box>
         </Paper>

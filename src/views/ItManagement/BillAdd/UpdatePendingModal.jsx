@@ -15,7 +15,6 @@ import { useSelector } from 'react-redux';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import NotesIcon from '@mui/icons-material/Notes';
-import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import imageCompression from 'browser-image-compression';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
@@ -25,6 +24,9 @@ import SpeakerPhoneIcon from '@mui/icons-material/SpeakerPhone';
 import FilePresentIcon from '@mui/icons-material/FilePresent';
 import BillFile from './FileView/BillFile';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import AttachmentIcon from '@mui/icons-material/Attachment';
+
 const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingModalOpen, billData, index_no, billCount, setbillCount, bill_description, filezUrls }) => {
 
     const { bill_name, it_bill_category_name, it_bill_type_name, bill_tariff, it_sim_type_name, bill_amount, bill_date, bill_paid_date, bill_number, bill_due_date,
@@ -124,20 +126,7 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
         }
     }, [billnumber, billamount, billdate, billduedate, billpaiddate, payedStatus, billdescription, bill_category, item_slno, bill_name, index_no, id])
 
-    // const ResetModal = useCallback(() => {
-    //     const frmdata = {
-    //         billnumber: '',
-    //         billamount: '',
-    //         billdate: '',
-    //         billduedate: '',
-    //         billpaiddate: '',
-    //         billdescription: '',
-    //     }
-    //     setMonthlybillPay(frmdata)
-    // }, [])
-
     const handleClose = useCallback(() => {
-        // ResetModal()
         setpendingModalFlag(0)
         setpendingModalOpen(false)
     }, [setpendingModalFlag, setpendingModalOpen,])
@@ -168,6 +157,7 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
     const UpdateAssetNo = useCallback((e) => {
         setPswd_mast_asset_no(e.target.value.toLocaleUpperCase())
     }, [])
+
     useEffect(() => {
         if (bill_category !== 0) {
             const getbillType = async () => {
@@ -181,6 +171,7 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
             getbillType(bill_category)
         }
         else {
+            setbillType(0)
 
         }
     }, [bill_category])
@@ -484,61 +475,60 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                 sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
                 <Box sx={{ margin: 'auto', }}>
                     <ModalDialog variant="outlined"
-                        sx={{ width: 800, bgcolor: '#955670' }}>
+                        sx={{
+                            width: 800,
+                            bgcolor: '#274472',
+                        }}>
                         <Box sx={{ overflow: 'auto' }}>
-                            <Box sx={{ flex: 1, textAlign: 'right' }}> <Tooltip title="Close">
-                                < HighlightOffSharpIcon sx={{
-                                    cursor: 'pointer',
-                                    // color: '#4C5270',
-                                    color: 'white',
-                                    height: 25, width: 25,
-                                    '&:hover': {
-                                        color: '#5C97B8',
-                                    },
-                                }}
-                                    onClick={handleClose}
-                                />
-                            </Tooltip></Box>
-                            <Box sx={{ flex: 1, }}>
-                                <Box sx={{ flex: 1, textAlign: 'center' }}> <PostAddIcon sx={{
-                                    fontSize: 45,
-                                    // color: '#4C5270',
-                                    color: 'white'
-                                }} /></Box>
-                                <Box sx={{ flex: 1, textAlign: 'center', fontWeight: 600, fontSize: 20, color: 'white', fontStyle: 'Georgia' }}>Add Bill</Box>
-                                <Box sx={{ flex: 1, textAlign: 'center', fontWeight: 600, fontSize: 15, color: 'white' }}>{it_bill_type_name}</Box>
+                            <Box sx={{ flex: 1, display: 'flex' }}>
+                                <Box sx={{ flex: 1 }}></Box>
+                                <Box sx={{ flex: 5, textAlign: 'center' }}>
+                                    <PostAddIcon sx={{ fontSize: 45, color: 'white' }} />
+                                </Box>
+                                <Box sx={{ flex: 1, textAlign: 'right' }}>
+                                    <Tooltip title="Close">
+                                        < HighlightOffSharpIcon sx={{
+                                            cursor: 'pointer', color: 'white', height: 25, width: 25,
+                                            '&:hover': {
+                                                color: '#5C97B8',
+                                            },
+                                        }}
+                                            onClick={handleClose}
+                                        />
+                                    </Tooltip>
+                                </Box>
                             </Box>
-                            <Box sx={{ overflow: 'auto', px: 2, bgcolor: 'white', borderRadius: 10, pb: 1, }}>
+                            <Box sx={{ flex: 1, textAlign: 'center', fontWeight: 600, fontSize: 20, color: 'white', fontStyle: 'Georgia' }}>Add Bill</Box>
+                            <Box sx={{ flex: 1, textAlign: 'center', fontWeight: 600, fontSize: 15, color: 'white' }}>{it_bill_type_name}</Box>
+                            <Box sx={{ px: 2, bgcolor: 'white', borderRadius: 10, pb: 1, }}>
                                 <Box sx={{
-                                    flex: 1, textAlign: 'center', fontWeight: 600, fontSize: 20, color: '#4C5270', fontFamily: 'Georgia',
-                                    // borderTop: 1,
+                                    flex: 1, textAlign: 'center', fontWeight: 600, fontSize: 20, color: '##4C7C71', fontFamily: 'Georgia',
                                     borderColor: '#CAD7E0', pt: 1
-                                }}>
-                                    Bill Details</Box>
-                                <Box sx={{ pt: 2, }}>
-                                    <Box sx={{ flex: 1, ml: 2, fontWeight: 600, display: 'flex', color: '#183A53' }}>
-                                        <Box sx={{ flex: 1 }}><FitbitIcon sx={{ pb: .5, fontSize: 20, color: '#183A53' }} />Bill Type</Box>
+                                }}> Bill Details</Box>
+                                <Box sx={{ p: 2, border: 1, borderColor: 'white', boxShadow: '0px 0px 3px' }}>
+                                    <Box sx={{ flex: 1, ml: 2, fontWeight: 600, display: 'flex', color: '#000C66' }}>
+                                        <Box sx={{ flex: 1 }}><FitbitIcon sx={{ pb: .5, fontSize: 20, color: '#000C66', }} />Bill Type</Box>
                                         <Box sx={{ flex: .1 }}>:</Box>
                                         <Box sx={{ flex: 4.5 }}>{it_bill_type_name}</Box>
                                     </Box>
-                                    <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', color: '#183A53' }}>
-                                        <Box sx={{ flex: 1 }}><SpaceDashboardSharpIcon sx={{ pb: .5, fontSize: 20, color: '#183A53' }} />Bill Category</Box>
+                                    <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', color: '#000C66' }}>
+                                        <Box sx={{ flex: 1 }}><SpaceDashboardSharpIcon sx={{ pb: .5, fontSize: 20, color: '#000C66' }} />Bill Category</Box>
                                         <Box sx={{ flex: .1 }}>:</Box>
                                         <Box sx={{ flex: 4.5 }}>{it_bill_category_name}</Box>
                                     </Box>
-                                    <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', color: '#183A53' }}>
-                                        <Box sx={{ flex: 1 }}><PaidIcon sx={{ pb: .5, fontSize: 20, color: '#183A53' }} />Tariff</Box>
+                                    <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', color: '#000C66' }}>
+                                        <Box sx={{ flex: 1 }}><PaidIcon sx={{ pb: .5, fontSize: 20, color: '#000C66' }} />Tariff</Box>
                                         <Box sx={{ flex: .1 }}>:</Box>
                                         <Box sx={{ flex: 4.5 }}>{bill_tariff === 1 ? 'Monthly' : bill_tariff === 2 ? 'Quarterly' : bill_tariff === 3 ? 'Yearly' : 'others'}</Box>
                                     </Box>
-                                    <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', color: '#183A53' }}>
-                                        <Box sx={{ flex: 1 }}><ReceiptLongIcon sx={{ pb: .5, fontSize: 20, color: '#183A53' }} />Bill Name</Box>
+                                    <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', color: '#000C66' }}>
+                                        <Box sx={{ flex: 1 }}><ReceiptLongIcon sx={{ pb: .5, fontSize: 20, color: '#000C66' }} />Bill Name</Box>
                                         <Box sx={{ flex: .1 }}>:</Box>
                                         <Box sx={{ flex: 4.5 }}>{bill_name}</Box>
                                     </Box>
                                     {it_sim_type_name !== null && (bill_tariff === 1 || bill_tariff === 2 || bill_tariff === 3) ?
-                                        <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', color: '#183A53' }}>
-                                            <Box sx={{ flex: 1 }}><SimCardIcon sx={{ pb: .5, fontSize: 20, color: '#183A53' }} />Sim Type</Box>
+                                        <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', color: '#000C66' }}>
+                                            <Box sx={{ flex: 1 }}><SimCardIcon sx={{ pb: .5, fontSize: 20, color: '#000C66' }} />Sim Type</Box>
                                             <Box sx={{ flex: .1 }}>:</Box>
                                             <Box sx={{ flex: 4.5 }}>{it_sim_type_name}</Box>
                                         </Box> : <Box></Box>}
@@ -551,7 +541,12 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                                         <Box>
                                             <Paper sx={{ mx: .5, borderRadius: 0, bgcolor: '#F0F2F3', boxShadow: '0px 0px 3px' }}>
                                                 <Box sx={{ flex: 1, mt: 1.5, fontWeight: 600, px: .5, color: '#54627B' }}>
-                                                    <ManageSearchIcon sx={{ fontSize: 20, color: '#54627B' }} />Asset No.
+                                                    <ManageSearchIcon sx={{
+                                                        p: .3, fontSize: 20, color: 'white', border: 1, borderRadius: 10,
+                                                        bgcolor: '#183A53',
+                                                        mb: .3,
+
+                                                    }} /> Asset No.
                                                 </Box>
                                                 <Box sx={{ flex: 1, pl: .5, display: 'flex' }}>
                                                     <Box sx={{ flex: 1 }}>
@@ -568,19 +563,27 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                                                     </Box>
 
                                                     <Box sx={{ mr: .8, bgcolor: '#868B8E', px: .5, pt: .3 }}>
-                                                        <SearchRoundedIcon sx={{ color: 'white', cursor: 'pointer' }} onClick={searchAssetNo} />
+                                                        <SearchRoundedIcon sx={{ color: 'white', cursor: 'pointer', }} onClick={searchAssetNo} />
                                                     </Box>
                                                 </Box>
                                                 {deviceName !== '' ?
                                                     <Box>
                                                         <Box sx={{ flex: 1, mt: 1.5, fontWeight: 600, pl: .5, mb: .3, color: '#54627B' }}>
-                                                            <SpeakerPhoneIcon sx={{ fontSize: 20, color: '#54627B' }} />Device Name
+                                                            <SpeakerPhoneIcon sx={{
+                                                                p: .3,
+                                                                fontSize: 20, bgcolor: '#183A53', color: 'white',
+                                                                border: 1, borderRadius: 10, mb: .3,
+                                                            }} />Device Name
                                                         </Box>
                                                         <Box sx={{ flex: 1, px: .5, bgcolor: 'white', mx: .8, borderColor: '#ADC4D7', }}>
                                                             {deviceName}
                                                         </Box>
                                                         <Box sx={{ flex: 1, mt: 1, fontWeight: 600, px: .5, color: '#54627B' }}>
-                                                            <PinDropIcon sx={{ pb: .5, fontSize: 20, color: '#54627B' }} />Location
+                                                            <PinDropIcon sx={{
+                                                                p: .3, mb: .3,
+                                                                fontSize: 20, bgcolor: '#183A53', color: 'white',
+                                                                border: 1, borderRadius: 10
+                                                            }} />Location
                                                         </Box>
 
                                                         <Box sx={{ flex: 1, px: .5, bgcolor: 'white', mx: .8, borderColor: '#868B8E', }}>
@@ -593,7 +596,11 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
 
 
                                     <Box sx={{ flex: 1, mt: 3, color: '#183A53', fontWeight: 600, }}>
-                                        <ReceiptIcon sx={{ pb: .5, fontSize: 20, color: '#183A53' }} />Bill Number/Invoice Number<span style={{ color: '#74112F' }} >*</span>
+                                        <ReceiptIcon sx={{
+                                            p: .3, mb: .3,
+                                            fontSize: 20, bgcolor: '#183A53', color: 'white',
+                                            border: 1, borderRadius: 10
+                                        }} />Bill Number/Invoice Number<span style={{ color: '#74112F' }} >*</span>
                                     </Box>
                                     <Box sx={{ flex: 5, mt: .1 }}>
                                         <TextFieldCustom style={{ borderRadius: 0 }}
@@ -609,7 +616,11 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                                     {bill_tariff !== 1 && bill_tariff !== 2 && bill_tariff !== 3 ?
                                         <Box>
                                             <Box sx={{ flex: 1, mt: 3, fontWeight: 600, color: '#183A53' }}>
-                                                <NotesIcon sx={{ pb: .5, fontSize: 20, color: '#183A53' }} />Bill Description
+                                                <NotesIcon sx={{
+                                                    p: .3, mb: .3,
+                                                    fontSize: 20, bgcolor: '#183A53', color: 'white',
+                                                    border: 1, borderRadius: 10
+                                                }} />Bill Description
                                             </Box>
                                             <Box sx={{ flex: 1, mt: .1 }}>
                                                 <CssVarsProvider>
@@ -629,7 +640,11 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                                             </Box>
                                         </Box> : null}
                                     <Box sx={{ flex: 1, mt: 1.5, color: '#183A53', fontWeight: 600, }}>
-                                        <InsertInvitationIcon sx={{ pb: .5, fontSize: 20, color: '#183A53' }} />Bill Date<span style={{ color: '#74112F' }} >*</span>
+                                        <InsertInvitationIcon sx={{
+                                            p: .3, mb: .3,
+                                            fontSize: 20, bgcolor: '#183A53', color: 'white',
+                                            border: 1, borderRadius: 10
+                                        }} />Bill Date<span style={{ color: '#74112F' }} >*</span>
                                     </Box>
                                     <Box sx={{ flex: 5, mt: .1 }}>
                                         <TextFieldCustom style={{ borderRadius: 0 }}
@@ -641,7 +656,11 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                                         </TextFieldCustom>
                                     </Box>
                                     <Box sx={{ flex: 1, mt: 2, color: '#183A53', fontWeight: 600, }}>
-                                        <InsertInvitationIcon sx={{ pb: .5, fontSize: 20, color: '#183A53' }} />Bill Due Date<span style={{ color: '#74112F' }} >*</span>
+                                        <InsertInvitationIcon sx={{
+                                            p: .3, mb: .3,
+                                            fontSize: 20, bgcolor: '#183A53', color: 'white',
+                                            border: 1, borderRadius: 10
+                                        }} />Bill Due Date<span style={{ color: '#74112F' }} >*</span>
                                     </Box>
                                     <Box sx={{ flex: 5, mt: .1 }}>
                                         <TextFieldCustom style={{ borderRadius: 0 }}
@@ -654,12 +673,16 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                                         </TextFieldCustom>
                                     </Box>
                                     <Box sx={{ flex: 1, mt: 2, fontWeight: 600, color: '#183A53' }}>
-                                        <CurrencyRupeeIcon sx={{ pb: .5, fontSize: 20, color: '#183A53' }} />Bill Amount<span style={{ color: '#74112F' }} >*</span>
+                                        <CurrencyRupeeIcon sx={{
+                                            p: .3, mb: .3,
+                                            fontSize: 20, bgcolor: '#183A53', color: 'white',
+                                            border: 1, borderRadius: 10
+                                        }} />Bill Amount<span style={{ color: '#74112F' }} >*</span>
                                     </Box>
                                     <Box sx={{ flex: 5, mt: .1 }}>
                                         <TextFieldCustom style={{ borderRadius: 0 }}
                                             placeholder="$0.00"
-                                            type="text"
+                                            type="number"
                                             size="sm"
                                             name="billamount"
                                             value={billamount}
@@ -667,18 +690,24 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                                         >
                                         </TextFieldCustom>
                                     </Box>
-                                    <Box sx={{ border: '1px', borderStyle: 'dashed', mt: 1.5, py: .5, borderColor: '#B1D4E0' }}>
-                                        <Box sx={{ flex: 1, ml: .5, }}>
+                                    <Box sx={{ border: .1, my: 1, py: .5, borderColor: '#003B73' }}>
+                                        {/* <Chip sx={{ bgcolor: '#9AAE79' }}> */}
+                                        <Box sx={{ flex: 1, ml: 1, pt: .5, }}>
                                             <Checkbox label="Bill Payed " color="primary" sx={{ color: '#183A53', fontWeight: 600, }}
                                                 onChange={(e) => PayedStatus(e)}
                                                 checked={payedStatus} />
                                         </Box>
+                                        {/* </Chip> */}
                                         {payedCheck === 1 ?
                                             <>
-                                                <Box sx={{ flex: 1, mt: 1, fontWeight: 600, color: '#183A53' }}>
-                                                    <InsertInvitationIcon sx={{ pb: .5, ml: .5, fontSize: 20, color: '#183A53' }} />Bill Payed Date<span style={{ color: '#74112F' }} >*</span>
+                                                <Box sx={{ flex: 1, mt: 1, fontWeight: 600, color: '#183A53', mx: .5 }}>
+                                                    <InsertInvitationIcon sx={{
+                                                        p: .3, mb: .3,
+                                                        fontSize: 20, bgcolor: '#183A53', color: 'white',
+                                                        border: 1, borderRadius: 10
+                                                    }} />Bill Payed Date<span style={{ color: '#74112F' }} >*</span>
                                                 </Box>
-                                                <Box sx={{ flex: 1, mx: .5 }}>
+                                                <Box sx={{ flex: 1, mx: 1 }}>
                                                     <TextFieldCustom style={{ borderRadius: 0 }}
                                                         type="datetime-local"
                                                         size="sm"
@@ -692,10 +721,22 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                                             : null
                                         }
                                     </Box>
-                                    <Box sx={{ border: '1px', borderStyle: 'dashed', mt: .5, py: .5, borderColor: '#41729F', display: 'flex', pl: .5 }}>
-                                        <Box sx={{ m: .5, border: 1, borderColor: '#41729F', borderRadius: 8, flex: 1, pl: 1, fontSize: 13, color: '#05445E', margin: 'auto' }}>
+                                    <Box sx={{ flex: 1, fontSize: 15, color: '#003060', fontWeight: 600 }}>
+                                        <FileUploadOutlinedIcon sx={{
+                                            p: .3, mb: .3,
+                                            fontSize: 20, bgcolor: '#183A53', color: 'white',
+                                            border: 1, borderRadius: 10
+                                        }} />Upload Files
+                                    </Box>
+                                    <Box sx={{
+                                        border: '1px', borderStyle: 'dashed', mt: .5, py: .5, borderColor: '#41729F', pl: .5, borderRadius: '2px', minHeight: 60,
+                                        flex: 1,
+                                    }}>
+                                        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', mt: 2 }}>
                                             <label htmlFor="file-input">
-                                                <DriveFolderUploadIcon sx={{ cursor: 'pointer', color: '#175873', height: 30, width: 30, '&:hover': { color: '#189AB4' }, }} />&nbsp;Bill Attach
+                                                <Box sx={{ cursor: 'pointer', fontWeight: 600, color: '#145DA0', }}>
+                                                    <AttachmentIcon sx={{ fontWeight: 800, color: '#145DA0' }} />Choose Files (Bills)
+                                                </Box>
                                             </label>
                                         </Box>
                                         <Box sx={{ flex: 6, mr: .5, }}>
@@ -744,25 +785,26 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                                         </Box> : null}
                                 </Box>
 
-                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', mt: 1.5 }}>
-                                    <Box sx={{
-                                        m: .5, borderRadius: 0, width: 134, pl: 1, fontSize: 13,
-                                        // bgcolor: '#274472',
-                                        bgcolor: '#415F6B',
-                                        color: '#F8F8F0', py: .5, cursor: 'pointer',
-                                        textAlign: 'center',
-                                        '&:hover': {
-                                            boxShadow: '1px 2px 10px'
-                                            , bgcolor: '#0C2D48',
-                                            color: 'white'
-                                        },
-                                    }}
-                                        onClick={updateBilling}>
-                                        &nbsp; Update bills
-                                    </Box>
-                                </Box>
 
+                                <Box sx={{
+                                    height: 40, mt: 1,
+                                    borderRadius: 0, fontSize: 18,
+                                    fontWeight: 600,
+                                    bgcolor: '#415F6B',
+                                    color: '#F8F8F0', cursor: 'pointer', py: 1,
+                                    textAlign: 'center',
+                                    '&:hover': {
+                                        boxShadow: '1px 2px 3px'
+                                        , bgcolor: '#7E9DC2',
+                                        fontWeight: 600,
+                                        color: 'black'
+                                    },
+                                }}
+                                    onClick={updateBilling}>
+                                    &nbsp; Update bills
+                                </Box>
                             </Box>
+
                         </Box>
 
 
@@ -770,7 +812,7 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                     </ModalDialog>
                 </Box>
             </Modal >
-        </Box>
+        </Box >
     )
 }
 

@@ -40,8 +40,8 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                     const obj = {
                         tm_goals_slno: val.tm_goals_slno,
                         tm_goal_name: val.tm_goal_name,
-                        dept_name: (val.dept_name).toLowerCase(),
-                        sec_name: (val.sec_name).toLowerCase(),
+                        dept_name: val.dept_name,
+                        sec_name: val.sec_name,
                         tm_goal_dept: val.tm_goal_dept,
                         tm_goal_deptsec: val.tm_goal_deptsec,
                         tm_goal_duedate: val.tm_goal_duedate,
@@ -70,8 +70,8 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                         const obj = {
                             tm_goals_slno: val.tm_goals_slno,
                             tm_goal_name: val.tm_goal_name,
-                            dept_name: (val.dept_name).toLowerCase(),
-                            sec_name: (val.sec_name).toLowerCase(),
+                            dept_name: val.dept_name,
+                            sec_name: val.sec_name,
                             tm_goal_dept: val.tm_goal_dept,
                             tm_goal_deptsec: val.tm_goal_deptsec,
                             tm_goal_fromdate: val.tm_goal_fromdate,
@@ -108,8 +108,8 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
     return (
         <Box sx={{ mt: 1 }}>
             <Box>
-                <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', fontFamily: 'Georgia' }}>Goals</Divider>
-                <Box sx={{ width: '100%', backgroundColor: '#F2F1F0', borderTopLeftRadius: 5, borderTopRightRadius: 5, display: 'flex', }}>
+                <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#52688F', fontFamily: 'Georgia' }}>Goals</Divider>
+                <Box sx={{ width: '100%', backgroundColor: 'white', borderTopLeftRadius: 5, borderTopRightRadius: 5, display: 'flex', }}>
                     <Box sx={{ flex: 1.5 }}></Box>
                     <Box sx={{ flex: 5, display: 'flex', margin: 'auto', pb: .5, }}>
                         <Box sx={{ flex: 2, py: .4 }}>
@@ -153,17 +153,17 @@ const GoalsMastTable = ({ tableCount, rowSelect }) => {
                     </Box>
                 </Box>
                 {tabledata.length !== 0 ?
-                    <Box sx={{ height: 500, }}>
+                    <Box sx={{ height: 500, px: 1 }}>
                         <Paper variant="outlined" sx={{ maxHeight: 495, maxWidth: '100%', overflow: 'auto', m: .5, pb: .5 }}>
                             <CssVarsProvider>
-                                <Table padding={"none"} stickyHeader
+                                <Table padding={"none"} stickyHeader size='sm'
                                     hoverRow>
                                     <thead>
                                         <tr>
                                             <th style={{ width: 60, fontFamily: 'Georgia', }}>SlNo</th>
                                             <th style={{ width: 70, fontFamily: 'Georgia', }}>Action</th>
                                             <th style={{ width: 100, fontFamily: 'Georgia', }}>Status</th>
-                                            <th style={{ width: 200, fontFamily: 'Georgia', }}>CountDoun</th>
+                                            <th style={{ width: 180, fontFamily: 'Georgia', }}>CountDoun</th>
                                             <th style={{ width: 500, fontFamily: 'Georgia', }}>Goals</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Department</th>
                                             <th style={{ width: 220, fontFamily: 'Georgia', }}>Section</th>

@@ -73,7 +73,7 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                             />
                             : null}
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead>
                                     <tr >
@@ -101,7 +101,10 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                                                 <td> {index + 1}</td>
                                                 <td>
                                                     <CheckCircleOutlineIcon
-                                                        sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                        sx={{
+                                                            cursor: 'pointer',
+                                                            '&:hover': { color: '#DBA40E' }
+                                                        }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
                                                 <td

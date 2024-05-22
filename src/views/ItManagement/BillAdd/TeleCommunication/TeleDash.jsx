@@ -10,9 +10,10 @@ import TeleMain from './TeleMain';
 import PaidBills from './PaidBills';
 
 const TeleDash = ({ billCount, setbillCount }) => {
+
     return (
         <Paper sx={{
-            mt: .9,
+            mt: .5,
             borderRadius: 0,
             p: .5,
             boxShadow: '0px 0px 1px',
@@ -32,18 +33,14 @@ const TeleDash = ({ billCount, setbillCount }) => {
                         disableUnderline
                         sx={{
                             p: 0,
-                            // bgcolor: 'background.level1',
-
                             [`& .${tabClasses.root}[aria-selected="true"]`]: {
                                 borderBottom: 5,
-                                // bgcolor: 'background.level1',
                                 bgcolor: 'white'
                             },
                             display: 'flex', flexDirection: 'column',
                             bgcolor: 'white'
                         }}
                     >
-
                         <Box sx={{ display: 'flex', flex: 1, mb: 0 }} >
                             <Box sx={{ flex: 2, display: 'flex', px: .5 }}>
                                 <Tab disableIndicator sx={{ color: '#710117', fontWeight: 800, }}>
@@ -59,7 +56,7 @@ const TeleDash = ({ billCount, setbillCount }) => {
                         <TeleMain billCount={billCount} setbillCount={setbillCount} />
                     </TabPanel>
                     <TabPanel value={1} sx={{ p: 0 }}>
-                        <PaidBills billCount={billCount} setbillCount={setbillCount} />
+                        <PaidBills />
                     </TabPanel>
                 </Tabs>
             </Paper>

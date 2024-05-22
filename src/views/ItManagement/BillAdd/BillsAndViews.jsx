@@ -6,28 +6,22 @@ import { Box, Button, CssVarsProvider, Tab, TabList, TabPanel, Tabs, tabClasses 
 import OtherBillViews from './OtherBillViews'
 import { memo } from 'react'
 
-
 const BillsAndViews = ({ billCount, setbillCount }) => {
 
     const [addModalOpen, setaddModalOpen] = useState(false)
     const [AddModalFlag, setAddModalFlag] = useState(0)
-
 
     const addModal = useCallback(() => {
         setAddModalFlag(1)
         setaddModalOpen(true)
     }, [])
 
-
-
     return (
         <Paper sx={{
-            mt: .9, borderRadius: 0, p: .5,
+            mt: .5, borderRadius: 0, p: .5,
             boxShadow: '0px 0px 1px',
             height: '80vh',
             bgcolor: '#E3E7F1',
-
-
         }}>
             <CssVarsProvider>
                 {AddModalFlag === 1 ? <BillAddModal open={addModalOpen}
@@ -38,13 +32,13 @@ const BillsAndViews = ({ billCount, setbillCount }) => {
             <Paper sx={{ bgcolor: '#F8F8F8', p: 1, maxHeight: '79vh', flex: 1 }}>
                 <Box sx={{ display: 'flex', }}>
                     <CssVarsProvider>
-                        <Button sx={{ borderRadius: 0, bgcolor: '#52688F', height: 8 }}
+                        <Button sx={{ borderRadius: 0, bgcolor: '#52688F', height: 8, boxShadow: 10 }}
                             onClick={addModal} >
                             + Add New Bill
                         </Button>
                     </CssVarsProvider>
                 </Box>
-                <Tabs aria-label="Basic tabs" defaultValue={0}>
+                <Tabs aria-label="Basic tabs" defaultValue={0} >
                     <TabList sx={{
                         bgcolor: 'background.level1',
                         borderBottom: 0,
@@ -53,14 +47,12 @@ const BillsAndViews = ({ billCount, setbillCount }) => {
                             borderBottom: 0,
                             borderColor: 'white',
                             color: 'white',
-                            // borderRadius: 20,
                             bgcolor: '#36454F',
 
                         },
                     }}>
                         <Tab sx={{ flex: 1, }}>Recurring Bills</Tab>
                         <Tab sx={{ flex: 1 }}>Other Bills</Tab>
-
                     </TabList>
                     <TabPanel value={0} sx={{ p: 0 }}>
                         <AllBill billCount={billCount} setbillCount={setbillCount} />

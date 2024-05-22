@@ -5,20 +5,17 @@ import { Box, Table } from '@mui/joy'
 import { Paper } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person';
 const DeptEmployeeTask = () => {
+
+
     const [allEmpTask, setallEmpTask] = useState([])
-
-
     const empsecid = useSelector((state) => {
         return state.LoginUserData.empsecid
     })
-
-
 
     useEffect(() => {
         const getAllEmployeeTask = async () => {
             const result = await axioslogin.get(`/TmTableView/viewAllEmployeeTask/${empsecid}`);
             const { success, data } = result.data;
-
             if (success === 2) {
                 setallEmpTask(data)
             }

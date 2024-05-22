@@ -4,7 +4,7 @@ import { Paper } from '@mui/material'
 import { axioslogin } from 'src/views/Axios/Axios'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { useSelector } from 'react-redux';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import FilePresentTwoToneIcon from '@mui/icons-material/FilePresentTwoTone';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { memo } from 'react';
 import moment from 'moment';
@@ -134,7 +134,7 @@ const CompletedTask = ({ tableCount, setTableCount, statuscount, setstatuscount,
                 <Box variant="outlined" sx={{ height: 725, maxWidth: '100%', overflow: 'auto', }}>
                     <Paper variant="outlined" sx={{ maxHeight: 720, maxWidth: '100%', overflow: 'auto', }}>
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader
+                            <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead>
                                     <tr >
@@ -164,11 +164,17 @@ const CompletedTask = ({ tableCount, setTableCount, statuscount, setstatuscount,
                                                 <td> {index + 1}</td>
                                                 <td>
                                                     <EditIcon
-                                                        sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                        sx={{
+                                                            cursor: 'pointer',
+                                                            '&:hover': { color: '#003060' }
+                                                        }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
                                                 <td style={{ cursor: 'pointer', }}>
-                                                    <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                    <FilePresentTwoToneIcon sx={{
+                                                        color: '#41729F',
+                                                        '&:hover': { color: '#274472' }
+                                                    }}
                                                         onClick={() => fileView(val)}
                                                     />
                                                 </td>

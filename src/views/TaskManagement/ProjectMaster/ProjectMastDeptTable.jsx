@@ -25,8 +25,8 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
                         const obj = {
                             tm_project_slno: val.tm_project_slno,
                             tm_project_name: val.tm_project_name,
-                            dept_name: (val.dept_name).toLowerCase(),
-                            sec_name: (val.sec_name).toLowerCase(),
+                            dept_name: val.dept_name,
+                            sec_name: val.sec_name,
                             tm_project_dept: val.tm_project_dept,
                             tm_project_deptsec: val.tm_project_deptsec,
                             tm_project_duedate: val.tm_project_duedate,
@@ -58,12 +58,12 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
         <Box sx={{ mt: 1, flex: 1, }}>
             {tabledata.length !== 0 ?
                 <Box>
-                    <Divider textAlign="left" sx={{ fontWeight: 600, mx: 2, fontSize: 18, color: '#5F093D', fontFamily: 'Georgia' }}>Projects</Divider>
+                    <Divider textAlign="left" sx={{ fontWeight: 600, mx: 1, fontSize: 18, color: '#52688F', fontFamily: 'Georgia' }}>Projects</Divider>
 
-                    <Box sx={{ height: 500, }}>
+                    <Box sx={{ height: 500, px: 1 }}>
                         <Paper variant="outlined" sx={{ maxHeight: 495, maxWidth: '100%', overflow: 'auto', mt: .5, }}>
                             <CssVarsProvider>
-                                <Table padding={"none"} stickyHeader
+                                <Table padding={"none"} stickyHeader size='sm'
                                     hoverRow>
                                     <thead>
                                         <tr>
@@ -106,7 +106,7 @@ const ProjectMastDeptTable = ({ tableCount, rowSelect }) => {
                                                                 borderRadius: 20
                                                             }}>
                                                                 <Box sx={{ flex: .5, }}></Box>
-                                                                <Box sx={{ flex: 1, }}>completed</Box>
+                                                                <Box sx={{ flex: 1, color: '#3D550C' }}>completed</Box>
                                                                 <Box sx={{ flex: .5 }}></Box>
                                                             </Box>
                                                         }

@@ -3,7 +3,7 @@ import { Paper } from '@mui/material'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import CircleIcon from '@mui/icons-material/Circle';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import FilePresentTwoToneIcon from '@mui/icons-material/FilePresentTwoTone';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import TmDepartmentSelect from 'src/views/CommonSelectCode/TmDepartmentSelect';
@@ -34,6 +34,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [masterData, setMasterData] = useState([])
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getDepartment())
     }, [dispatch,])
@@ -77,7 +78,6 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                 })
                 setTableData(arry)
             } else {
-
                 setTableData([])
             }
         }
@@ -130,6 +130,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
         setimageViewModalOpen(false)
         setImageUrls([])
     }, [setimageViewModalOpen, setImageUrls, setimage])
+
     const fileView = async (val) => {
         const { tm_task_slno } = val;
         setgetarry(val);
@@ -142,7 +143,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                 const data = result.data;
                 const fileNames = data.data;
                 const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/Meliora/TaskManagement/${tm_task_slno}/${fileName}`;
+                    return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`;
                 });
                 setImageUrls(fileUrls);
                 // Open the modal only if there are files
@@ -229,7 +230,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
             {tableData.length !== 0 ?
                 <Box sx={{ height: 605 }}>
                     <Paper sx={{ overflow: 'auto', maxHeight: 605, bgcolor: 'white' }}>
-                        <Table padding={"none"} stickyHeader
+                        <Table padding={"none"} stickyHeader size='sm'
                             hoverRow>
                             <thead style={{ bgcolor: 'white' }}>
                                 <tr>
@@ -260,13 +261,19 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                                             <td> {index + 1}</td>
                                             <td>
                                                 <EditIcon
-                                                    sx={{ cursor: 'pointer' }}
+                                                    sx={{
+                                                        cursor: 'pointer',
+                                                        '&:hover': { color: '#003060' }
+                                                    }}
                                                     size={6}
                                                     onClick={() => rowSelectModal(val)}
                                                 />
                                             </td>
                                             <td style={{ cursor: 'pointer', }}>
-                                                <ImageOutlinedIcon sx={{ color: '#41729F' }}
+                                                <FilePresentTwoToneIcon sx={{
+                                                    color: '#41729F',
+                                                    '&:hover': { color: '#274472' }
+                                                }}
                                                     onClick={() => fileView(val)}
                                                 />
                                             </td>
@@ -289,7 +296,7 @@ const AllTaskView = ({ taskTableCount, setTaskTableCount }) => {
                                                         <CountDowncomponent DueDates={val.tm_task_due_date} />
                                                     </Box> :
                                                     <Box sx={{
-                                                        display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#5885AF', px: .5, flex: 1,
+                                                        display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#5885AF', textAlign: 'center', flex: 1, py: .4,
                                                         borderRadius: 20
                                                     }}>
                                                         <Box sx={{ flex: .5, }}></Box>

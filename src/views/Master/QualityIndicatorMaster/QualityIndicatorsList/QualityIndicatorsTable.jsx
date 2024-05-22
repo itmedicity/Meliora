@@ -21,7 +21,7 @@ const QualityIndicatorsTable = ({ count, rowSelect }) => {
         { headerName: "Quality Indicator", field: "qi_name", width: 300, filter: "true" },
         { headerName: "Department", field: "qi_dept_name", width: 100, filter: "true" },
         { headerName: "Status", field: "status", width: 50 },
-        { headerName: 'Action', width: 50, cellRenderer: (params) => <EditOutlinedIcon sx={{ color: 'blue' }} onClick={() => rowSelect(params)} /> }
+        { headerName: 'Action', width: 50, cellRenderer: (params) => <EditOutlinedIcon sx={{ color: 'blue', cursor: 'pointer' }} onClick={() => rowSelect(params)} /> }
     ])
     return (
         <CusAgGridMast

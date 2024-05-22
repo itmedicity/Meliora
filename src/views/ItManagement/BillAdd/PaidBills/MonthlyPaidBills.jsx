@@ -16,7 +16,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { format } from 'date-fns';
 import BillModalTele from '../TeleCommunication/BillModalTele';
 
-const MonthlyPaidBills = ({ montBills }) => {
+const MonthlyPaidBills = ({ montBills, }) => {
 
     const [billDatas, setBillDatas] = useState([])
     const [modalFlag, setModalFlag] = useState(0)
@@ -33,18 +33,18 @@ const MonthlyPaidBills = ({ montBills }) => {
     const [billCategory, setBillCategory] = useState(0)
     const [billcate, setBillcate] = useState([])
     const [cateName, setcateName] = useState('')
+    const [indexNo, setindexNo] = useState(0)
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getBillCategory())
     }, [dispatch])
-
 
     const OpenBillView = useCallback((value) => {
         const { monthly_slno } = value
         const getbillsFile = async () => {
             const result = await axioslogin.get(`/ItImageUpload/uploadFile/getMonthlyBillImages/${monthly_slno}`);
             const { success, data } = result.data;
-
             if (success === 1) {
                 const fileNames = data;
                 const fileUrls = fileNames.map((fileName) => {
@@ -55,10 +55,10 @@ const MonthlyPaidBills = ({ montBills }) => {
         }
         getbillsFile(monthly_slno)
         setBillDatas(value)
+        setindexNo(monthly_slno)
         setModalFlag(1)
         setModalOpen(true)
     }, [])
-
 
     const searchBillls = useCallback(() => {
         setsearchBillNameFlag(1)
@@ -73,7 +73,6 @@ const MonthlyPaidBills = ({ montBills }) => {
         setAlphbased(0)
         setEnterText('')
         setBillDatee('')
-
     }, [])
 
     const openBillDate = useCallback(() => {
@@ -86,7 +85,6 @@ const MonthlyPaidBills = ({ montBills }) => {
         setsearchBillDateFlag(0)
         setsearchBillNameFlag(0)
         setsearchBillCateFlag(1)
-
     }, [])
 
     const SearchBillName = useCallback(() => {
@@ -116,7 +114,6 @@ const MonthlyPaidBills = ({ montBills }) => {
         setBillDatee(e.target.value)
     }, [])
 
-
     const SearchBillCate = useCallback(() => {
         let newTableDataa = montBills && montBills.filter((val) => val.bill_category === billCategory)
         setAlphbased(3)
@@ -126,7 +123,6 @@ const MonthlyPaidBills = ({ montBills }) => {
     useEffect(() => {
         if (alphbased === 3) {
             let newTableDataa = montBills && montBills.filter((val) => val.bill_category === billCategory)
-
             setBillcate(newTableDataa)
         }
     }, [montBills, alphbased, billCategory])
@@ -143,16 +139,11 @@ const MonthlyPaidBills = ({ montBills }) => {
         }
     }, [billDatee, montBills])
 
-
-
-
-
     return (
         <Box sx={{ flex: 10, maxHeight: '60vh', }}>
-            {modalFlag === 1 ? <BillModalTele modalOpen={modalOpen} billDatas={billDatas}
+            {modalFlag === 1 ? <BillModalTele modalOpen={modalOpen} billDatas={billDatas} index_no={indexNo} setFilezUrls={setFilezUrls}
                 setModalFlag={setModalFlag} setModalOpen={setModalOpen} filezUrls={filezUrls} cateName={cateName}
             /> : null}
-
             <Box sx={{ flex: 1, my: .2 }}>
                 {montBills.length !== 0 ?
                     <Box sx={{ flex: 1, display: 'flex', bgcolor: '#868B8E', minHeight: 30, pt: .5, }}>
@@ -177,7 +168,6 @@ const MonthlyPaidBills = ({ montBills }) => {
                                         }}
                                         onChange={updateBillDate}
                                     />
-
                                     <CssVarsProvider>
                                         <Tooltip title='search'>
                                             <Box sx={{
@@ -226,7 +216,6 @@ const MonthlyPaidBills = ({ montBills }) => {
                                             pl: 1
                                         }}
                                         onChange={updateEnterText} />
-
                                     <CssVarsProvider>
                                         <Tooltip title='search'>
                                             <Box sx={{
@@ -259,12 +248,10 @@ const MonthlyPaidBills = ({ montBills }) => {
                             <ManageSearchIcon sx={{ color: 'white', height: 20, width: 30, cursor: 'pointer' }}
                                 onClick={OpenBillCate}
                             />
-
                             {searchBillCateFlag === 1 ?
                                 <Box sx={{ display: 'flex', p: .2 }}>
                                     <ItBillCategoryList billCategory={billCategory}
                                         setBillCategory={setBillCategory} setName={setcateName} />
-
                                     <CssVarsProvider>
                                         <Tooltip title='search'>
                                             <Box sx={{
@@ -292,15 +279,12 @@ const MonthlyPaidBills = ({ montBills }) => {
                                         </Tooltip>
                                     </CssVarsProvider>
                                 </Box> : null}
-
                         </Box>
                     </Box> : null}
-
                 {alphbased === 1 ?
                     <Box sx={{ overflow: 'auto', maxHeight: '55vh' }}>
                         {alphbasedData && alphbasedData.map((val) => {
                             const Monthly = format(new Date(val.monthly_bill_generate), 'MMM yyyy')
-
                             return <Paper key={val.monthly_slno}
                                 sx={{
                                     minHeight: 33, maxHeight: 100, bgcolor: '#E3E8E9', borderRadius: 0, display: 'flex', fontWeight: 600, color: 'black',
@@ -321,7 +305,6 @@ const MonthlyPaidBills = ({ montBills }) => {
                                     </Chip>
                                 </Box>
                                 <Box sx={{ flex: 2.2, pt: .5, }}>&nbsp;
-                                    {/* {val.bill_date} */}
                                     {format(new Date(val.bill_date), 'yyyy-MM-dd')}
                                 </Box>
                                 <Box sx={{ flex: 2, pt: .5, }}>&nbsp;
@@ -335,7 +318,6 @@ const MonthlyPaidBills = ({ montBills }) => {
                                 <Box sx={{ flex: 2, pt: .5, }}>&nbsp;
                                     {val.it_bill_category_name}
                                 </Box>
-
                             </Paper>
                         })
                         }
@@ -363,7 +345,6 @@ const MonthlyPaidBills = ({ montBills }) => {
                                         </Chip>
                                     </Box>
                                     <Box sx={{ flex: 2.2, pt: .5, }}>&nbsp;
-                                        {/* {val.bill_date} */}
                                         {format(new Date(val.bill_date), 'yyyy-MM-dd')}
                                     </Box>
                                     <Box sx={{ flex: 2, pt: .5, }}>&nbsp;
@@ -377,7 +358,6 @@ const MonthlyPaidBills = ({ montBills }) => {
                                     <Box sx={{ flex: 2, pt: .5, }}>&nbsp;
                                         {val.it_bill_category_name}
                                     </Box>
-
                                 </Paper>
                             })
                             }
@@ -420,7 +400,6 @@ const MonthlyPaidBills = ({ montBills }) => {
                                         <Box sx={{ flex: 2, pt: .5, }}>&nbsp;
                                             {val.it_bill_category_name}
                                         </Box>
-
                                     </Paper>
                                 })
                                 }
@@ -449,7 +428,6 @@ const MonthlyPaidBills = ({ montBills }) => {
                                                 </Chip>
                                             </Box>
                                             <Box sx={{ flex: 2.2, pt: .5, }}>&nbsp;
-                                                {/* {val.bill_date} */}
                                                 {format(new Date(val.bill_date), 'yyyy-MM-dd')}
                                             </Box>
                                             <Box sx={{ flex: 2, pt: .5, }}>&nbsp;

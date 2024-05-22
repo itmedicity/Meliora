@@ -6,7 +6,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import EditingOtherBillModal from './EditingOtherBillModal';
 const OtherBillViews = ({ billCount, setbillCount }) => {
 
-
     const [OtherBillData, setOtherBillData] = useState([])
     const [editOpen, seteditOpen] = useState(false)
     const [editFlag, seteditFlag] = useState(0)
@@ -54,7 +53,6 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
 
     return (
         <Box>
-
             <CssVarsProvider>
                 {editFlag === 1 ? <EditingOtherBillModal
                     editOpen={editOpen}
@@ -81,21 +79,20 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
                                     flex: .6, px: 1, pt: .5,
                                     cursor: 'pointer',
                                 }}>
-                                    <EditIcon sx={{ height: 20, }}
+                                    <EditIcon sx={{ height: 18, }}
                                         onClick={() => EditModal(val)}
                                     />
                                 </Box>
-                                <Box sx={{ flex: 1, pt: .5 }}>
+                                <Box sx={{ flex: 1, pt: .5, fontSize: 14, pr: .5 }}>
                                     {val.it_bill_category_name}
                                 </Box>
-                                <Box sx={{ flex: 2, pt: .5 }}>
+                                <Box sx={{ flex: 2, pt: .5, fontSize: 14, pr: .5 }}>
                                     {val.it_supplier_name}
                                 </Box>
-                                <Box sx={{ flex: 3, pt: .5 }}>
+                                <Box sx={{ flex: 3, pt: .5, fontSize: 14, pr: .5 }}>
                                     {val.bill_name}
                                 </Box>
-
-                                <Box sx={{ flex: 3, pt: .5 }}>
+                                <Box sx={{ flex: 3, pt: .5, fontSize: 14, pr: .5 }}>
                                     {val.bill_description}
                                 </Box>
                             </Paper>

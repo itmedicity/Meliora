@@ -69,7 +69,7 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                             />
                             : null}
                         <CssVarsProvider>
-                            <Table padding={"none"} stickyHeader hoverRow>
+                            <Table padding={"none"} stickyHeader hoverRow size='sm'>
                                 <thead>
                                     <tr>
                                         <th style={{ width: 30 }}>SlNo</th>
@@ -93,7 +93,10 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                                                 <td> {index + 1}</td>
                                                 <td>
                                                     <CheckCircleOutlineIcon
-                                                        sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectModal(val)}
+                                                        sx={{
+                                                            cursor: 'pointer',
+                                                            '&:hover': { color: '#DBA40E' }
+                                                        }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
                                                 <td

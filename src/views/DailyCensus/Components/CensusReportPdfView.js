@@ -8,7 +8,7 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
     const { totYesterday, totAdmission, totDischarge, totTransIn, totTransOut, totDeath, totalcensus,
         oraTotAdm, oraTotDis, oraTotDeath, oraTotal, oraDamaTot, oraLamaTot } = calculateTotal
     const viewPdf = {
-        pageMargins: [15, 15, 15, 0],
+        pageMargins: [15, 15, 17, 30],
         content: [
 
             {
