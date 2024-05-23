@@ -26,7 +26,7 @@ const DayWisePatientsListTable = ({ viewData, qitype }) => {
     return (
         <Box>
             {qiflag === 1 ? <ModalDayWiseQIView open={modalopen} handleClose={handleClose} rowSelect={rowSelect} /> : null}
-            <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 280, padding: 'none' }}>
+            <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 270, padding: 'none' }}>
                 <CssVarsProvider>
                     <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow >
                         <thead style={{ alignItems: 'center' }}>

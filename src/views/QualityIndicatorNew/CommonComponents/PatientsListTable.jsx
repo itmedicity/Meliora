@@ -62,21 +62,21 @@ const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, 
                         </Typography>
                     </Box>
                 </Box>
-                <Box variant="outlined" sx={{ overflow: 'auto', height: '39vh' }}>
+                <Box variant="outlined" sx={{ overflow: 'auto', height: '39vh', '&::-webkit-scrollbar': { height: 6 } }}>
                     <CssVarsProvider>
                         <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow >
                             <thead style={{ alignItems: 'center' }}>
                                 <tr style={{ height: 0.5 }}>
-                                    <th size='sm' style={{ width: 50, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp; Sl.No</th>
-                                    <th size='sm' style={{ width: 75, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Patient ID</th>
-                                    <th size='sm' style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Patient Name</th>
-                                    <th size='sm' style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Age/Gender</th>
-                                    <th size='sm' style={{ width: 70, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Contacts </th>
-                                    <th size='sm' style={{ width: 170, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Doctor Name</th>
-                                    <th size='sm' style={{ width: 50, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp;Token </th>
-                                    <th size='sm' style={{ width: 140, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Arrival Time </th>
-                                    <th size='sm' style={{ width: 80, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp;Back to List </th>
-                                    <th size='sm' style={{ width: 80, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp;QI Marking </th>
+                                    <th size='sm' style={{ width: 70, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp; Sl.No</th>
+                                    <th size='sm' style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Patient ID</th>
+                                    <th size='sm' style={{ width: 170, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Patient Name</th>
+                                    <th size='sm' style={{ width: 120, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Age/Gender</th>
+                                    <th size='sm' style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Contacts </th>
+                                    <th size='sm' style={{ width: 190, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Doctor Name</th>
+                                    <th size='sm' style={{ width: 70, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp;Token </th>
+                                    <th size='sm' style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Arrival Time </th>
+                                    <th size='sm' style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp;Back to List </th>
+                                    <th size='sm' style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp;QI Marking </th>
                                 </tr>
                             </thead>
                             <tbody size='small'>

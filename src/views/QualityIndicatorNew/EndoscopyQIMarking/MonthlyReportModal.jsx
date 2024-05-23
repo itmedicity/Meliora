@@ -53,7 +53,8 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                                             <th size='sm' style={{ width: 100, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Age</th>
                                             <th size='sm' style={{ width: 210, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Doctor</th>
                                             <th size='sm' style={{ width: 300, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>{header1} </th>
-                                            <th size='sm' style={{ width: 300, textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>{header2} </th>
+                                            <th size='sm' style={{ width: 300, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>{header2} </th>
+                                            <th size='sm' style={{ width: 150, textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Incident Type</th>
                                         </tr>
                                     </thead>
                                     <tbody size='small' style={{ maxHeight: 0.5 }}>
@@ -69,6 +70,8 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                                                     <td size='sm' style={{ fontSize: 13 }}>&nbsp;{"Dr. " + val.doctor_name}</td>
                                                     <td size='sm' style={{ fontSize: 13 }}>&nbsp;{val.details}</td>
                                                     <td size='sm' style={{ fontSize: 13 }}>&nbsp;{val.reason}</td>
+                                                    <td size='sm' style={{ fontSize: 13 }}>&nbsp;{val.inctype === 1 ? 'GENERAL' : val.inctype === 2 ? 'NEAR MISSESS' :
+                                                        val.inctype === 3 ? 'HARMFUL' : val.inctype === 4 ? 'SENTINEL' : 'Nil'}</td>
                                                 </tr>
                                             )
                                         })}

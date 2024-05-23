@@ -2,7 +2,7 @@ import { Box, CssVarsProvider, Table, Tooltip } from '@mui/joy'
 import { eachDayOfInterval, endOfMonth, format, startOfMonth } from 'date-fns'
 import React, { Fragment, memo, useCallback, useEffect, useState, } from 'react'
 import GroupIcon from '@mui/icons-material/Group';
-import AssessmntBenchmarkModal from '../CommonComponents/AssessmntBenchmarkModal';
+import AssessmntBenchmarkModal from './AssessmntBenchmarkModal';
 import { infoNotify } from 'src/views/Common/CommonCode';
 import { axioslogin } from 'src/views/Axios/Axios';
 

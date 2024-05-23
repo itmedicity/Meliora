@@ -62,6 +62,13 @@ const QualityTransactions = [
         to: '/Home/TimeReport',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+    // {
+    //     men_slno: 213,
+    //     component: CNavItem,
+    //     name: 'QI Incharge Approval',
+    //     to: '/Home/QiIncharge',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
 
 
 

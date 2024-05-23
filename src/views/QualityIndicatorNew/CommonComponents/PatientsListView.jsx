@@ -87,6 +87,7 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
             await RefreshPatientList(qidept, count, setCount, qitype, depCode, id, dailyDate)
         }
         RefreshPatients(setCount)
+        setSearchPat('')
     }, [qidept, depCode, count, id, setCount, qitype, dailyDate])
     useEffect(() => {
         if (qitype === 1) {
@@ -139,22 +140,18 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
                             </Box>
                             {tabFlag === 1 ?
                                 <>
-                                    <Box>
-                                        <Box sx={{ display: 'flex' }}>
-                                            <Box sx={{ pl: 0.5, pt: 0.2 }}>
-                                                <CssVarsProvider>
-                                                    <Input
-                                                        startDecorator={<PersonSearchTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />}
-                                                        size="sm" placeholder="Search By Patient Name"
-                                                        name="searchPat"
-                                                        value={searchPat}
-                                                        onChange={ChangePatient}
-                                                        sx={{ width: 250, height: 35 }}
-                                                    // endDecorator={<Button>Message</Button>}
-                                                    />
-                                                </CssVarsProvider>
-                                            </Box>
-                                        </Box>
+                                    <Box sx={{ pl: 0.5, pt: 0.2 }}>
+                                        <CssVarsProvider>
+                                            <Input
+                                                startDecorator={<PersonSearchTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />}
+                                                size="sm" placeholder="Search By Patient Name"
+                                                name="searchPat"
+                                                value={searchPat}
+                                                onChange={ChangePatient}
+                                                sx={{ width: 250, height: 35 }}
+                                            // endDecorator={<Button>Message</Button>}
+                                            />
+                                        </CssVarsProvider>
                                     </Box>
                                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pr: 0.3, pt: 0.4, pl: 0.5 }}>
                                         <CssVarsProvider>
@@ -179,20 +176,20 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
 
                         {tabFlag === 1 ?
                             <Box>
-                                <Box variant="outlined" sx={{ height: '38vh', overflow: 'auto' }}>
+                                <Box variant="outlined" sx={{ height: '38vh', overflow: 'auto', '&::-webkit-scrollbar': { height: 6 } }}>
                                     <CssVarsProvider>
                                         <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow >
                                             <thead style={{ alignItems: 'center' }}>
                                                 <tr style={{ height: 0.5 }}>
-                                                    <th size='sm' style={{ width: 50, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp; Sl.No</th>
-                                                    <th size='sm' style={{ width: 75, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Patient ID</th>
+                                                    <th size='sm' style={{ width: 70, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp; Sl.No</th>
+                                                    <th size='sm' style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Patient ID</th>
                                                     <th size='sm' style={{ width: 170, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Patient Name</th>
-                                                    <th size='sm' style={{ width: 110, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Age/Gender</th>
-                                                    <th size='sm' style={{ width: 90, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Contacts </th>
-                                                    <th size='sm' style={{ width: 170, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Doctor Name</th>
-                                                    <th size='sm' style={{ width: 50, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp;Token </th>
+                                                    <th size='sm' style={{ width: 120, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Age/Gender</th>
+                                                    <th size='sm' style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Contacts </th>
+                                                    <th size='sm' style={{ width: 190, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Doctor Name</th>
+                                                    <th size='sm' style={{ width: 70, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp;Token </th>
                                                     <th size='sm' style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>&nbsp;Arrival Time </th>
-                                                    <th size='sm' style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp;Add to Endoscopy List </th>
+                                                    <th size='sm' style={{ width: 170, backgroundColor: '#78909c', color: 'white', fontSize: 14, textAlign: 'center' }}>&nbsp;Add to Endoscopy List </th>
                                                 </tr>
                                             </thead>
                                             <tbody size='small'>
@@ -249,7 +246,7 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
                                 : qitype === 2 || qitype === 3 ? <ViewAllPatientsInOneTable qiMarkedList={qiMarkedList}
                                     setqiMarkFlag={setqiMarkFlag} count={count} setCount={setCount} dailyDate={dailyDate}
                                     depName={depName} qidept={qidept} qitype={qitype} setSearchFlag={setSearchFlag}
-                                    depCode={depCode} tabFlag={tabFlag} header={header}
+                                    depCode={depCode} tabFlag={tabFlag} header={header} setqiMarkedList={setqiMarkedList}
                                 />
                                     : null
                             }
