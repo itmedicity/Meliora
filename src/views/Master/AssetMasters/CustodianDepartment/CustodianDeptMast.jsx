@@ -179,7 +179,7 @@ const CustodianDeptMast = () => {
                     </Box>
                     <Box sx={{ pt: 1.5 }}>
                         <EmpNameDeptSecSelect
-                            deptsec={dept}
+                            deptsec={deptsec}
                             value={empName}
                             setValue={setEmpName}
                         />

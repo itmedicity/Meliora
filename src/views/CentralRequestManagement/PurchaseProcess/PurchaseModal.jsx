@@ -878,19 +878,43 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                     </Box>
                                     </Paper>
                                 }
-                                {ApproveTableDis === 1 ?
-                                    <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
-                                        <Box sx={{
-                                            width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
-                                        }}>
-                                            <CssVarsProvider>
-                                                <Typography sx={{ fontSize: 15 }}>Approved Items</Typography>
-                                            </CssVarsProvider>
-                                        </Box>
-                                        <ApprovedItemListDis ApproveData={ApproveTableData}
-                                        />
-                                    </Paper> : null
+                                {
+                                    reqTableDis === 1 ?
+                                        <Box>
+                                            {ApproveTableDis === 1 ?
+                                                <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
+                                                    <Box sx={{
+                                                        width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
+                                                    }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15 }}>Approved Items</Typography>
+                                                        </CssVarsProvider>
+                                                    </Box>
+                                                    <ApprovedItemListDis ApproveData={ApproveTableData}
+                                                    />
+                                                </Paper> : <Paper variant='outlined' sx={{ p: 0, mt: 1 }}> <Box sx={{
+                                                    width: "100%", display: "flex", p: 0.5, pb: 0,
+                                                    flexDirection: "column",
+                                                }}><Box sx={{
+                                                    width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
+                                                }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15, fontWeight: 700 }}>Approved Items</Typography>
+                                                        </CssVarsProvider>
+                                                    </Box>
+                                                    <Box sx={{ pr: 9 }}>
+                                                        <CssVarsProvider>
+                                                            <Typography sx={{ fontSize: 15, pl: 5, fontWeight: 700 }}>Neither of the items in the list were Approved</Typography>
+                                                        </CssVarsProvider>
+                                                    </Box>
+                                                </Box>
+                                                </Paper>
+                                            }
+                                        </Box> : null
+
+
                                 }
+
 
                                 <Box sx={{ width: "100%", mt: 0 }}>
                                     <Paper variant='outlined' sx={{ mt: 1 }} >
