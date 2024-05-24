@@ -226,7 +226,7 @@ const AMCCMCDetailAdding = ({ detailArry, amcPm, setAmcPm, amcPmarry }) => {
             due_date: dueDate,
             pm_status: pmStatus === true ? 1 : 0,
             create_user: id,
-            amc_slno: amcCmcSlno
+            amc_slno: amcCmcSlno === '' ? null : amcCmcSlno
         }
     }, [am_item_map_slno, amcStatus, cmcStatus, instalationDate, dueDate,
         pmStatus, id, amcCmcSlno])
@@ -240,7 +240,7 @@ const AMCCMCDetailAdding = ({ detailArry, amcPm, setAmcPm, amcPmarry }) => {
             due_date: dueDate,
             pm_status: pmStatus === true ? 1 : 0,
             edit_user: id,
-            amc_slno: amcCmcSlno
+            amc_slno: amcCmcSlno === '' ? null : amcCmcSlno
         }
     }, [am_item_map_slno, amcStatus, cmcStatus, instalationDate, dueDate,
         pmStatus, id, amcCmcSlno])
