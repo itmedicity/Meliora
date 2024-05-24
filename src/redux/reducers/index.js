@@ -167,6 +167,8 @@ import { setCRMInchargeHod } from './CrmInchHodList.Reducer'
 import { setCRMDashBoard } from './CrmDashBoardList.Reducer'
 import { setCRMPurchaseAckPending } from './CrmPurchaseAckPendg.Reducer'
 import { setCRMPurchDataCollPending } from './CrmPurchaDetacollPend.Reducer'
+import { setAmcCmcMaster } from './AmAMCCMCSelect.Reducer'
+import { setSupplierSelect } from './AmSupplierSelect.Reducer'
 
 
 const reducer = combineReducers({
@@ -340,7 +342,9 @@ const reducer = combineReducers({
     setCRMInchargeHod,
     setCRMDashBoard,
     setCRMPurchaseAckPending,
-    setCRMPurchDataCollPending
+    setCRMPurchDataCollPending,
+    setAmcCmcMaster,
+    setSupplierSelect
 
 })
 export default reducer;

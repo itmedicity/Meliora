@@ -8,12 +8,12 @@ import _ from 'underscore'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import AssetUOMSelect from 'src/views/CommonSelectCode/AssetUOMSelect';
 import { useDispatch, useSelector } from 'react-redux'
 import { getUOM } from 'src/redux/actions/AmUOMList.action'
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import CustomTextarea from 'src/views/Components/CustomTextarea';
 import { format } from 'date-fns';
+import UOMSelect from '../ComonComponent/UOMSelect';
 
 
 const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, setApproveTableData }) => {
@@ -84,16 +84,17 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                         aprox_cost: val.aprox_cost,
                         item_status: val.item_status,
                         approve_item_desc: val.approve_item_desc,
-                        approve_item_brand: val.approve_item_brand,
-                        approve_item_unit: val.approve_item_unit,
+                        approve_item_brand: val.approve_item_brand !== '' ? val.approve_item_brand : "Not Given",
+                        approve_item_unit: val.approve_item_unit !== null ||
+                            val.approve_item_unit !== undefined ? val.approve_item_unit : "Not Given",
                         item_qnty_approved: val.item_qnty_approved,
-                        approve_item_unit_price: val.approve_item_unit_price,
-                        approve_aprox_cost: val.approve_aprox_cost,
+                        approve_item_unit_price: val.approve_item_unit_price !== 0 ? val.approve_item_unit_price : "Not Given",
+                        approve_aprox_cost: val.approve_aprox_cost !== 0 ? val.approve_aprox_cost : "Not Given",
                         item_status_approved: val.item_status_approved,
                         approve_item_status: val.approve_item_status,
                         approve_item_delete_who: val.approve_item_delete_who,
                         uom_name: val.uom_name,
-                        approve_item_specification: val.approve_item_specification,
+                        approve_item_specification: val.approve_item_specification !== '' ? val.approve_item_specification : "Not Given",
                         old_item_slno: val.old_item_slno
                     }
                     return obj
@@ -348,6 +349,7 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
         }
     };
 
+    console.log(ApproveTableData);
     return (
         <Fragment>
 
@@ -399,14 +401,21 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                                 </Box>
 
                                 <Box sx={{
-                                    width: "25%", display: "flex", flexDirection: "column", pr: 1
+                                    width: "35%", display: "flex", flexDirection: "column", pr: 1
                                 }}>
                                     <CustomPaperTitle heading="Unit" />
-                                    <AssetUOMSelect
+
+                                    <UOMSelect
                                         uom={uom}
                                         setUOM={setUOM}
                                         setName={setUomName}
-                                        uomName={uomName} />
+                                        uomName={uomName}
+                                    />
+                                    {/* <AssetUOMSelect
+                                        uom={uom}
+                                        setUOM={setUOM}
+                                        setName={setUomName}
+                                        uomName={uomName} /> */}
                                 </Box>
                                 <Box sx={{
                                     width: "65%", display: "flex", flexDirection: "column", pr: 1
@@ -421,8 +430,7 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                                     />
                                 </Box>
 
-                                <Box sx={{ width: "7%", pt: 2 }}>
-                                </Box>
+
                             </Box>
                         </Box>
                         <Box sx={{

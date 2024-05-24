@@ -67,6 +67,12 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
     const [nearMissesDetails, setNearMissesDetails] = useState('')
     const [nearMissessReason, setNearMissessReason] = useState('')
     const [benchMarkReason, setBenchMarkReason] = useState('')
+    // const [errorType, setErrorType] = useState('')
+    // const [redosType, setRedosType] = useState('')
+    // const [fallsType, setFallsType] = useState('')
+    // const [identType, setIdentType] = useState('')
+    // const [nearType, setnearType] = useState('')
+    // const [sentinelType, setSentinelType] = useState('')
 
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
@@ -92,6 +98,19 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
             setNearNo(near_misses_status === 0 ? true : false)
             setSentinelYes(sentinel_events_status === 1 ? true : false)
             setSentinelNo(sentinel_events_status === 0 ? true : false)
+
+            // setErrorType(error_incident_type === 1 ? 'GENERAL' : error_incident_type === 2 ? 'NEAR MISSESS' :
+            //     error_incident_type === 3 ? 'HARMFUL' : error_incident_type === 4 ? 'SENTINEL' : 'Nil')
+            // setRedosType(redos_incident_type === 1 ? 'GENERAL' : redos_incident_type === 2 ? 'NEAR MISSESS' :
+            //     redos_incident_type === 3 ? 'HARMFUL' : redos_incident_type === 4 ? 'SENTINEL' : 'Nil')
+            // setFallsType(falls_incident_type === 1 ? 'GENERAL' : falls_incident_type === 2 ? 'NEAR MISSESS' :
+            //     falls_incident_type === 3 ? 'HARMFUL' : falls_incident_type === 4 ? 'SENTINEL' : 'Nil')
+            // setIdentType(ident_error_incident_type === 1 ? 'GENERAL' : ident_error_incident_type === 2 ? 'NEAR MISSESS' :
+            //     ident_error_incident_type === 3 ? 'HARMFUL' : ident_error_incident_type === 4 ? 'SENTINEL' : 'Nil')
+            // setSentinelType(sentinel_incident_type === 1 ? 'GENERAL' : sentinel_incident_type === 2 ? 'NEAR MISSESS' :
+            //     sentinel_incident_type === 3 ? 'HARMFUL' : sentinel_incident_type === 4 ? 'SENTINEL' : 'Nil')
+            // setnearType(nearmiss_incident_type === 1 ? 'GENERAL' : nearmiss_incident_type === 2 ? 'NEAR MISSESS' :
+            //     nearmiss_incident_type === 3 ? 'HARMFUL' : nearmiss_incident_type === 4 ? 'SENTINEL' : 'Nil')
 
             setErrorDetails(error_details === null ? '' : error_details)
             setErrorReason(error_reason === null ? '' : error_reason)
@@ -504,7 +523,7 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                     setErrorReason={setErrorReason} setRedosDetails={setRedosDetails} setRedosReason={setRedosReason}
                     setIdenterrorDetails={setIdenterrorDetails} setIdenterrorReason={setIdenterrorReason} setFallsdetails={setFallsdetails}
                     setFallsReason={setFallsReason} setSentinelDetails={setSentinelDetails} setSentinelreason={setSentinelreason}
-                    setNearMissesDetails={setNearMissesDetails} setNearMissessReason={setNearMissessReason}
+                    setNearMissesDetails={setNearMissesDetails} setNearMissessReason={setNearMissessReason} patient_arrived_date={patient_arrived_date}
                 /> : null}
             <Dialog
                 open={open}
@@ -610,96 +629,110 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                         </Box>
                         <Box sx={{ pl: 0.2, bgcolor: '#eceff1' }}>
                             {errorYes === true ?
-                                <Box sx={{ py: 0.5, display: 'flex' }}>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details Of Error</Typography>
+                                <Box>
+                                    {/* <Box sx={{ display: 'flex', pt: 0.5 }}>
+                                        <Box sx={{ pl: 1, pt: 0.6 }}>
+                                            <Typography sx={{ fontSize: 11 }}>INCIDENT TYPE</Typography>
                                         </Box>
-                                        <Box >
-                                            <CssVarsProvider>
-                                                <Textarea
-                                                    readOnly
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Details Of Error'
-                                                    required
-                                                    type="text"
-                                                    size="sm"
-                                                    name="errorDetails"
-                                                    value={errorDetails}
-                                                    onChange={(e) => setErrorDetails(e.target.value)}
-                                                />
-                                            </CssVarsProvider>
+                                        <Box sx={{ pt: 0.6, pl: 2, fontSize: 11 }}>
+                                            <Typography>: </Typography>
                                         </Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Reason Of Error</Typography>
+                                        <Box sx={{ pl: 1.5, pt: 0.6 }}>
+                                            <Typography sx={{ fontSize: 11, borderRadius: 1 }}>
+                                                {errorType}</Typography>
                                         </Box>
-                                        <Box >
-                                            <CssVarsProvider>
-                                                <Textarea
-                                                    readOnly
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Reason Of Error'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="errorReason"
-                                                    value={errorReason}
-                                                    onChange={(e) => setErrorReason(e.target.value)}
-                                                />
-                                            </CssVarsProvider>
+                                    </Box> */}
+                                    <Box sx={{ py: 0.5, display: 'flex' }}>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details Of Error</Typography>
+                                            </Box>
+                                            <Box >
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        readOnly
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Details Of Error'
+                                                        required
+                                                        type="text"
+                                                        size="sm"
+                                                        name="errorDetails"
+                                                        value={errorDetails}
+                                                        onChange={(e) => setErrorDetails(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
                                         </Box>
-                                    </Box>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Reason Of Error</Typography>
+                                            </Box>
+                                            <Box >
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        readOnly
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Reason Of Error'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="errorReason"
+                                                        value={errorReason}
+                                                        onChange={(e) => setErrorReason(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
 
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Corrective Action</Typography>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Corrective Action</Typography>
+                                            </Box>
+                                            <Box>
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Corrective Action'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="errorCorrect"
+                                                        value={errorCorrect}
+                                                        onChange={(e) => setErrorCorrect(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
                                         </Box>
-                                        <Box>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Preventive Action</Typography>
+                                            </Box>
+                                            <Box>
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Preventive Action'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="errorPrvnt"
+                                                        value={errorPrvnt}
+                                                        onChange={(e) => setErrorPrvnt(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ px: 0.5, pt: 5 }}>
                                             <CssVarsProvider>
-                                                <Textarea
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Corrective Action'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="errorCorrect"
-                                                    value={errorCorrect}
-                                                    onChange={(e) => setErrorCorrect(e.target.value)}
-                                                />
+                                                <Tooltip title="Incident Reg:" placement='bottom' cursor='pointer'>
+                                                    <AddCircleOutlineIcon
+                                                        sx={{ height: 35, width: 35, color: '#970C10' }}
+                                                        onClick={ErrorIncidentReg}
+                                                    />
+                                                </Tooltip>
                                             </CssVarsProvider>
                                         </Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Preventive Action</Typography>
-                                        </Box>
-                                        <Box>
-                                            <CssVarsProvider>
-                                                <Textarea
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Preventive Action'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="errorPrvnt"
-                                                    value={errorPrvnt}
-                                                    onChange={(e) => setErrorPrvnt(e.target.value)}
-                                                />
-                                            </CssVarsProvider>
-                                        </Box>
-                                    </Box>
-                                    <Box sx={{ px: 0.5, pt: 5 }}>
-                                        <CssVarsProvider>
-                                            <Tooltip title="Incident Reg:" placement='bottom' cursor='pointer'>
-                                                <AddCircleOutlineIcon
-                                                    sx={{ height: 35, width: 35, color: '#970C10' }}
-                                                    onClick={ErrorIncidentReg}
-                                                />
-                                            </Tooltip>
-                                        </CssVarsProvider>
                                     </Box>
                                 </Box>
                                 : null}
@@ -758,94 +791,108 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                         </Box>
                         <Box sx={{ pl: 0.2, bgcolor: '#eceff1' }}>
                             {redosYes === true ?
-                                <Box sx={{ py: 0.5, display: 'flex' }}>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details</Typography>
+                                <Box>
+                                    {/* <Box sx={{ display: 'flex', pt: 0.5 }}>
+                                        <Box sx={{ pl: 1, pt: 0.6 }}>
+                                            <Typography sx={{ fontSize: 11 }}>INCIDENT TYPE</Typography>
                                         </Box>
-                                        <Box>
+                                        <Box sx={{ pt: 0.6, pl: 2, fontSize: 11 }}>
+                                            <Typography>: </Typography>
+                                        </Box>
+                                        <Box sx={{ pl: 1.5, pt: 0.6 }}>
+                                            <Typography sx={{ fontSize: 11, borderRadius: 1 }}>
+                                                {redosType}</Typography>
+                                        </Box>
+                                    </Box> */}
+                                    <Box sx={{ py: 0.5, display: 'flex' }}>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details</Typography>
+                                            </Box>
+                                            <Box>
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        readOnly
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Details'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="redosDetails"
+                                                        value={redosDetails}
+                                                        onChange={(e) => setRedosDetails(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Reason For Re dos</Typography>
+                                            </Box>
+                                            <Box>
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        readOnly
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Reason For Re dos'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="redosReason"
+                                                        value={redosReason}
+                                                        onChange={(e) => setRedosReason(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Corrective Action</Typography>
+                                            </Box>
+                                            <Box sx={{ flex: 1 }}>
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Corrective Action'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="redosCoorect"
+                                                        value={redosCoorect}
+                                                        onChange={(e) => setRedosCoorect(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Preventive Action</Typography>
+                                            </Box>
+                                            <Box sx={{ flex: 1, pr: 0.5 }}>
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Preventive Action'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="redosPrvnt"
+                                                        value={redosPrvnt}
+                                                        onChange={(e) => setRedosPrvnt(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ px: 0.5, pt: 5 }}>
                                             <CssVarsProvider>
-                                                <Textarea
-                                                    readOnly
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Details'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="redosDetails"
-                                                    value={redosDetails}
-                                                    onChange={(e) => setRedosDetails(e.target.value)}
-                                                />
+                                                <Tooltip title="Incident Reg:" placement='bottom' cursor='pointer'>
+                                                    <AddCircleOutlineIcon
+                                                        sx={{ height: 35, width: 35, color: '#970C10' }}
+                                                        onClick={RedosIncidentReg}
+                                                    />
+                                                </Tooltip>
                                             </CssVarsProvider>
                                         </Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Reason For Re dos</Typography>
-                                        </Box>
-                                        <Box>
-                                            <CssVarsProvider>
-                                                <Textarea
-                                                    readOnly
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Reason For Re dos'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="redosReason"
-                                                    value={redosReason}
-                                                    onChange={(e) => setRedosReason(e.target.value)}
-                                                />
-                                            </CssVarsProvider>
-                                        </Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Corrective Action</Typography>
-                                        </Box>
-                                        <Box sx={{ flex: 1 }}>
-                                            <CssVarsProvider>
-                                                <Textarea
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Corrective Action'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="redosCoorect"
-                                                    value={redosCoorect}
-                                                    onChange={(e) => setRedosCoorect(e.target.value)}
-                                                />
-                                            </CssVarsProvider>
-                                        </Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Preventive Action</Typography>
-                                        </Box>
-                                        <Box sx={{ flex: 1, pr: 0.5 }}>
-                                            <CssVarsProvider>
-                                                <Textarea
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Preventive Action'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="redosPrvnt"
-                                                    value={redosPrvnt}
-                                                    onChange={(e) => setRedosPrvnt(e.target.value)}
-                                                />
-                                            </CssVarsProvider>
-                                        </Box>
-                                    </Box>
-                                    <Box sx={{ px: 0.5, pt: 5 }}>
-                                        <CssVarsProvider>
-                                            <Tooltip title="Incident Reg:" placement='bottom' cursor='pointer'>
-                                                <AddCircleOutlineIcon
-                                                    sx={{ height: 35, width: 35, color: '#970C10' }}
-                                                    onClick={RedosIncidentReg}
-                                                />
-                                            </Tooltip>
-                                        </CssVarsProvider>
                                     </Box>
                                 </Box>
                                 : null}
@@ -904,75 +951,89 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                         </Box>
                         <Box sx={{ pl: 0.2, bgcolor: '#eceff1' }}>
                             {errorIdentyYes === true ?
-                                <Box sx={{ py: 0.5, display: 'flex' }}>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Identification Error Details</Typography>
+                                <Box>
+                                    {/* <Box sx={{ display: 'flex', pt: 0.5 }}>
+                                        <Box sx={{ pl: 1, pt: 0.6 }}>
+                                            <Typography sx={{ fontSize: 11 }}>INCIDENT TYPE</Typography>
                                         </Box>
-                                        <Box >
+                                        <Box sx={{ pt: 0.6, pl: 2, fontSize: 11 }}>
+                                            <Typography>: </Typography>
+                                        </Box>
+                                        <Box sx={{ pl: 1.5, pt: 0.6 }}>
+                                            <Typography sx={{ fontSize: 11, borderRadius: 1 }}>
+                                                {identType}</Typography>
+                                        </Box>
+                                    </Box> */}
+                                    <Box sx={{ py: 0.5, display: 'flex' }}>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Identification Error Details</Typography>
+                                            </Box>
+                                            <Box >
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        readOnly
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Identification Error Details'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="identerrorDetails"
+                                                        value={identerrorDetails}
+                                                        onChange={(e) => setIdenterrorDetails(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Identification Error Reason</Typography>
+                                            </Box>
+                                            <Box >
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        readOnly
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Identification Error Reason'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="identerrorReason"
+                                                        value={identerrorReason}
+                                                        onChange={(e) => setIdenterrorReason(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Action Taken</Typography>
+                                            </Box>
+                                            <Box sx={{ flex: 1, pr: 0.5 }}>
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Action Taken'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="errorIdentAction"
+                                                        value={errorIdentAction}
+                                                        onChange={(e) => setErrorIdentAction(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ px: 0.5, pt: 5 }}>
                                             <CssVarsProvider>
-                                                <Textarea
-                                                    readOnly
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Identification Error Details'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="identerrorDetails"
-                                                    value={identerrorDetails}
-                                                    onChange={(e) => setIdenterrorDetails(e.target.value)}
-                                                />
+                                                <Tooltip title="Incident Reg:" placement='bottom' cursor='pointer'>
+                                                    <AddCircleOutlineIcon
+                                                        sx={{ height: 35, width: 35, color: '#970C10' }}
+                                                        onClick={IdentErrorIncidentReg}
+                                                    />
+                                                </Tooltip>
                                             </CssVarsProvider>
                                         </Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Identification Error Reason</Typography>
-                                        </Box>
-                                        <Box >
-                                            <CssVarsProvider>
-                                                <Textarea
-                                                    readOnly
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Identification Error Reason'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="identerrorReason"
-                                                    value={identerrorReason}
-                                                    onChange={(e) => setIdenterrorReason(e.target.value)}
-                                                />
-                                            </CssVarsProvider>
-                                        </Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Action Taken</Typography>
-                                        </Box>
-                                        <Box sx={{ flex: 1, pr: 0.5 }}>
-                                            <CssVarsProvider>
-                                                <Textarea
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Action Taken'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="errorIdentAction"
-                                                    value={errorIdentAction}
-                                                    onChange={(e) => setErrorIdentAction(e.target.value)}
-                                                />
-                                            </CssVarsProvider>
-                                        </Box>
-                                    </Box>
-                                    <Box sx={{ px: 0.5, pt: 5 }}>
-                                        <CssVarsProvider>
-                                            <Tooltip title="Incident Reg:" placement='bottom' cursor='pointer'>
-                                                <AddCircleOutlineIcon
-                                                    sx={{ height: 35, width: 35, color: '#970C10' }}
-                                                    onClick={IdentErrorIncidentReg}
-                                                />
-                                            </Tooltip>
-                                        </CssVarsProvider>
                                     </Box>
                                 </Box>
                                 : null}
@@ -1032,56 +1093,70 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                         </Box>
                         <Box sx={{ pl: 0.2, bgcolor: '#eceff1' }}>
                             {fallsYes === true ?
-                                <Box sx={{ py: 0.5, display: 'flex' }}>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Falls Details</Typography>
+                                <Box>
+                                    {/* <Box sx={{ display: 'flex', pt: 0.5 }}>
+                                        <Box sx={{ pl: 1, pt: 0.6 }}>
+                                            <Typography sx={{ fontSize: 11 }}>INCIDENT TYPE</Typography>
                                         </Box>
-                                        <Box >
+                                        <Box sx={{ pt: 0.6, pl: 2, fontSize: 11 }}>
+                                            <Typography>: </Typography>
+                                        </Box>
+                                        <Box sx={{ pl: 1.5, pt: 0.6 }}>
+                                            <Typography sx={{ fontSize: 11, borderRadius: 1 }}>
+                                                {fallsType}</Typography>
+                                        </Box>
+                                    </Box> */}
+                                    <Box sx={{ py: 0.5, display: 'flex' }}>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Falls Details</Typography>
+                                            </Box>
+                                            <Box >
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        readOnly
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Falls Details'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="fallsdetails"
+                                                        value={fallsdetails}
+                                                        onChange={(e) => setFallsdetails(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Falls Reason</Typography>
+                                            </Box>
+                                            <Box >
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        readOnly
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Falls Reason'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="fallsReason"
+                                                        value={fallsReason}
+                                                        onChange={(e) => setFallsReason(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ px: 0.5, pt: 5 }}>
                                             <CssVarsProvider>
-                                                <Textarea
-                                                    readOnly
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Falls Details'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="fallsdetails"
-                                                    value={fallsdetails}
-                                                    onChange={(e) => setFallsdetails(e.target.value)}
-                                                />
+                                                <Tooltip title="Incident Reg:" placement='bottom' cursor='pointer'>
+                                                    <AddCircleOutlineIcon
+                                                        sx={{ height: 35, width: 35, color: '#970C10' }}
+                                                        onClick={FallsIncidentReg}
+                                                    />
+                                                </Tooltip>
                                             </CssVarsProvider>
                                         </Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Falls Reason</Typography>
-                                        </Box>
-                                        <Box >
-                                            <CssVarsProvider>
-                                                <Textarea
-                                                    readOnly
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Falls Reason'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="fallsReason"
-                                                    value={fallsReason}
-                                                    onChange={(e) => setFallsReason(e.target.value)}
-                                                />
-                                            </CssVarsProvider>
-                                        </Box>
-                                    </Box>
-                                    <Box sx={{ px: 0.5, pt: 5 }}>
-                                        <CssVarsProvider>
-                                            <Tooltip title="Incident Reg:" placement='bottom' cursor='pointer'>
-                                                <AddCircleOutlineIcon
-                                                    sx={{ height: 35, width: 35, color: '#970C10' }}
-                                                    onClick={FallsIncidentReg}
-                                                />
-                                            </Tooltip>
-                                        </CssVarsProvider>
                                     </Box>
                                 </Box>
                                 : null}
@@ -1140,56 +1215,71 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                         </Box>
                         <Box sx={{ pl: 0.2, bgcolor: '#eceff1' }}>
                             {sentinelYes === true ?
-                                <Box sx={{ py: 0.5, display: 'flex' }}>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Details</Typography>
+                                <Box>
+                                    {/* <Box sx={{ display: 'flex', pt: 0.5 }}>
+                                        <Box sx={{ pl: 1, pt: 0.6 }}>
+                                            <Typography sx={{ fontSize: 11 }}>INCIDENT TYPE</Typography>
                                         </Box>
-                                        <Box >
+                                        <Box sx={{ pt: 0.6, pl: 2, fontSize: 11 }}>
+                                            <Typography>: </Typography>
+                                        </Box>
+                                        <Box sx={{ pl: 1.5, pt: 0.6 }}>
+                                            <Typography sx={{ fontSize: 11, borderRadius: 1 }}>
+                                                {sentinelType}</Typography>
+                                        </Box>
+                                    </Box> */}
+
+                                    <Box sx={{ py: 0.5, display: 'flex' }}>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Details</Typography>
+                                            </Box>
+                                            <Box >
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        readOnly
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Details'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="sentinelDetails"
+                                                        value={sentinelDetails}
+                                                        onChange={(e) => setSentinelDetails(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Reason</Typography>
+                                            </Box>
+                                            <Box >
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        readOnly
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Reason'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="sentinelreason"
+                                                        value={sentinelreason}
+                                                        onChange={(e) => setSentinelreason(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ px: 0.5, pt: 5 }}>
                                             <CssVarsProvider>
-                                                <Textarea
-                                                    readOnly
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Details'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="sentinelDetails"
-                                                    value={sentinelDetails}
-                                                    onChange={(e) => setSentinelDetails(e.target.value)}
-                                                />
+                                                <Tooltip title="Incident Reg:" placement='bottom' cursor='pointer'>
+                                                    <AddCircleOutlineIcon
+                                                        sx={{ height: 35, width: 35, color: '#970C10' }}
+                                                        onClick={SentinelIncidentReg}
+                                                    />
+                                                </Tooltip>
                                             </CssVarsProvider>
                                         </Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Reason</Typography>
-                                        </Box>
-                                        <Box >
-                                            <CssVarsProvider>
-                                                <Textarea
-                                                    readOnly
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Reason'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="sentinelreason"
-                                                    value={sentinelreason}
-                                                    onChange={(e) => setSentinelreason(e.target.value)}
-                                                />
-                                            </CssVarsProvider>
-                                        </Box>
-                                    </Box>
-                                    <Box sx={{ px: 0.5, pt: 5 }}>
-                                        <CssVarsProvider>
-                                            <Tooltip title="Incident Reg:" placement='bottom' cursor='pointer'>
-                                                <AddCircleOutlineIcon
-                                                    sx={{ height: 35, width: 35, color: '#970C10' }}
-                                                    onClick={SentinelIncidentReg}
-                                                />
-                                            </Tooltip>
-                                        </CssVarsProvider>
                                     </Box>
                                 </Box>
                                 : null}
@@ -1248,56 +1338,70 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                         </Box>
                         <Box sx={{ pl: 0.2, bgcolor: '#eceff1' }}>
                             {nearYes === true ?
-                                <Box sx={{ py: 0.5, display: 'flex' }}>
-                                    <Box sx={{ flex: 1, pl: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Details</Typography>
+                                <Box>
+                                    {/* <Box sx={{ display: 'flex', pt: 0.5 }}>
+                                        <Box sx={{ pl: 1, pt: 0.6 }}>
+                                            <Typography sx={{ fontSize: 11 }}>INCIDENT TYPE</Typography>
                                         </Box>
-                                        <Box >
+                                        <Box sx={{ pt: 0.6, pl: 2, fontSize: 11 }}>
+                                            <Typography>: </Typography>
+                                        </Box>
+                                        <Box sx={{ pl: 1.5, pt: 0.6 }}>
+                                            <Typography sx={{ fontSize: 11, borderRadius: 1 }}>
+                                                {nearType}</Typography>
+                                        </Box>
+                                    </Box> */}
+                                    <Box sx={{ py: 0.5, display: 'flex' }}>
+                                        <Box sx={{ flex: 1, pl: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Details</Typography>
+                                            </Box>
+                                            <Box >
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        readOnly
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Falls Details'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="nearMissesDetails"
+                                                        value={nearMissesDetails}
+                                                        onChange={(e) => setNearMissesDetails(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ flex: 1, px: 0.3 }}>
+                                            <Box sx={{ pl: 1, pt: 0.5 }}>
+                                                <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Reason</Typography>
+                                            </Box>
+                                            <Box >
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        readOnly
+                                                        minRows={3}
+                                                        maxRows={3}
+                                                        placeholder='Falls Reason'
+                                                        type="text"
+                                                        size="sm"
+                                                        name="nearMissessReason"
+                                                        value={nearMissessReason}
+                                                        onChange={(e) => setNearMissessReason(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ px: 0.5, pt: 5 }}>
                                             <CssVarsProvider>
-                                                <Textarea
-                                                    readOnly
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Falls Details'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="nearMissesDetails"
-                                                    value={nearMissesDetails}
-                                                    onChange={(e) => setNearMissesDetails(e.target.value)}
-                                                />
+                                                <Tooltip title="Incident Reg:" placement='bottom' cursor='pointer'>
+                                                    <AddCircleOutlineIcon
+                                                        sx={{ height: 35, width: 35, color: '#970C10' }}
+                                                        onClick={NearMissesIncidentReg}
+                                                    />
+                                                </Tooltip>
                                             </CssVarsProvider>
                                         </Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, px: 0.3 }}>
-                                        <Box sx={{ pl: 1, pt: 0.5 }}>
-                                            <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }} >Reason</Typography>
-                                        </Box>
-                                        <Box >
-                                            <CssVarsProvider>
-                                                <Textarea
-                                                    readOnly
-                                                    minRows={3}
-                                                    maxRows={3}
-                                                    placeholder='Falls Reason'
-                                                    type="text"
-                                                    size="sm"
-                                                    name="nearMissessReason"
-                                                    value={nearMissessReason}
-                                                    onChange={(e) => setNearMissessReason(e.target.value)}
-                                                />
-                                            </CssVarsProvider>
-                                        </Box>
-                                    </Box>
-                                    <Box sx={{ px: 0.5, pt: 5 }}>
-                                        <CssVarsProvider>
-                                            <Tooltip title="Incident Reg:" placement='bottom' cursor='pointer'>
-                                                <AddCircleOutlineIcon
-                                                    sx={{ height: 35, width: 35, color: '#970C10' }}
-                                                    onClick={NearMissesIncidentReg}
-                                                />
-                                            </Tooltip>
-                                        </CssVarsProvider>
                                     </Box>
                                 </Box>
                                 : null}
@@ -1306,7 +1410,7 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                             <Box sx={{ flex: 2, pl: 1, pt: 0.6 }}>
                                 <Typography sx={{ fontSize: 12, fontWeight: 550, textTransform: 'uppercase' }}>Waiting Time For Services Diagnostics </Typography>
                             </Box>
-                            <Typography>: </Typography>
+                            {/* <Typography>: </Typography> */}
                             <Box sx={{ flex: 1, pl: 1 }}></Box>
                         </Box>
                         <Box sx={{ pl: 0.2, px: 1 }}>
@@ -1349,7 +1453,7 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                             <DateTimePicker
                                                 views={['year', 'month', 'day', 'hours', 'minutes']}
                                                 minDate={new Date(patient_arrived_date)}
-                                                maxDate={new Date()}
+                                                maxDate={new Date(patient_arrived_date)}
                                                 value={entryTime}
                                                 inputFormat='DD-MM-YYYY hh:mm A'
                                                 size="small"
@@ -1381,8 +1485,8 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                                 value={assessmentTime}
                                                 inputFormat='DD-MM-YYYY hh:mm A'
                                                 size="small"
-                                                minDate={new Date(entryTime)}
-                                                maxDate={new Date()}
+                                                minDate={new Date(patient_arrived_date)}
+                                                maxDate={new Date(patient_arrived_date)}
                                                 onChange={(newValue) => {
                                                     setAssessmentTime(newValue);
                                                 }}
@@ -1413,8 +1517,8 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                                 value={startTime}
                                                 inputFormat='DD-MM-YYYY hh:mm A'
                                                 size="small"
-                                                minDate={new Date(assessmentTime)}
-                                                maxDate={new Date()}
+                                                minDate={new Date(patient_arrived_date)}
+                                                maxDate={new Date(patient_arrived_date)}
                                                 onChange={(newValue) => {
                                                     setStartTime(newValue);
                                                 }}
@@ -1443,8 +1547,8 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                                 value={endTime}
                                                 inputFormat='DD-MM-YYYY hh:mm A'
                                                 size="small"
-                                                minDate={new Date(startTime)}
-                                                maxDate={new Date()}
+                                                minDate={new Date(patient_arrived_date)}
+                                                maxDate={new Date(patient_arrived_date)}
                                                 onChange={(newValue) => {
                                                     setEndTime(newValue);
                                                 }}
@@ -1473,8 +1577,8 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                                 value={reportTime}
                                                 inputFormat='DD-MM-YYYY hh:mm A'
                                                 size="small"
-                                                minDate={new Date(endTime)}
-                                                maxDate={new Date()}
+                                                minDate={new Date(patient_arrived_date)}
+                                                maxDate={new Date(patient_arrived_date)}
                                                 onChange={(newValue) => {
                                                     setReportTime(newValue);
                                                 }}
@@ -1503,7 +1607,7 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                                 value={despatchTime}
                                                 inputFormat='DD-MM-YYYY hh:mm A'
                                                 size="small"
-                                                minDate={new Date(reportTime)}
+                                                minDate={new Date(patient_arrived_date)}
                                                 maxDate={new Date()}
                                                 onChange={(newValue) => {
                                                     setDespatchTime(newValue);

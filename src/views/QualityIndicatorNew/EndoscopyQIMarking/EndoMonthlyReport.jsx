@@ -5,7 +5,7 @@ import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import MonthlyReportModal from './MonthlyReportModal';
 import { infoNotify } from 'src/views/Common/CommonCode';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
-import AssessmntBenchmarkModal from '../CommonComponents/AssessmntBenchmarkModal';
+import AssessmntBenchmarkModal from './AssessmntBenchmarkModal';
 import { endOfMonth, format, startOfMonth } from 'date-fns';
 import { axioslogin } from 'src/views/Axios/Axios';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
@@ -24,17 +24,17 @@ const EndoMonthlyReport = ({ viewData, dayFlag, searchDate }) => {
     // time flag for view assessment modal view
     const [timeFlag, setTimeFlag] = useState(0)
     const [timeModal, setTimeModal] = useState(false)
-    // want to check to show modal data 2 for monthly,1 for one date details via initialassessment report 
+    // monthly modal view monthFlag is 2 (monthly Report)and monthFlag 1 in (initialassessment report )
     const [monthFlag, setMonthFlag] = useState(0)
 
     const [monthReport, setMonthReport] = useState({
         totalTest: 0, totalError: 0, totalRedos: 0, totalTime: 0, totalIncident: 0, totalFalls: 0, totalSentinel: 0,
         totalSentinelAnalysed: 0, totalNearMisses: 0, errorResult: 0, redosResult: 0, timeResult: 0, incidenceResult: 0,
-        fallsResult: 0, sentinelResult: 0, nearMissessResult: 0
+        fallsResult: 0, sentinelResult: 0, nearMissessResult: 0, totIncidentReported: 0
     })
     const { totalTest, totalError, totalRedos, totalTime, totalIncident, totalFalls, totalSentinel, totalSentinelAnalysed,
         totalNearMisses, errorResult, redosResult, timeResult, incidenceResult, fallsResult, sentinelResult,
-        nearMissessResult } = monthReport
+        nearMissessResult, totIncidentReported } = monthReport
 
     const [headerNames, setHeaderNames] = useState({
         header1: '', header2: '',
@@ -51,7 +51,7 @@ const EndoMonthlyReport = ({ viewData, dayFlag, searchDate }) => {
             const fallstot = (viewData?.filter((val) => val.falls_status === 1)).length
             const senttot = (viewData?.filter((val) => val.sentinel_events_status === 1)).length
             const nearmisstot = (viewData?.filter((val) => val.near_misses_status === 1)).length
-
+            const sumOfInc = (errortot + redostot + identtot + fallstot + senttot + nearmisstot)
             const formdata = {
                 totalTest: testTot,
                 totalError: errortot,
@@ -62,6 +62,7 @@ const EndoMonthlyReport = ({ viewData, dayFlag, searchDate }) => {
                 totalSentinel: senttot,
                 totalSentinelAnalysed: 0,
                 totalNearMisses: nearmisstot,
+                totIncidentReported: sumOfInc,
                 errorResult: (testTot > 0 ? ((errortot / testTot) * 1000).toFixed(2) : 0),
                 // errorResult: 1.23,
                 redosResult: (testTot > 0 ? ((redostot / testTot) * 1000).toFixed(2) : 0),
@@ -69,7 +70,7 @@ const EndoMonthlyReport = ({ viewData, dayFlag, searchDate }) => {
                 incidenceResult: (testTot > 0 ? ((identtot / testTot) * 100).toFixed(2) : 0),
                 fallsResult: (testTot > 0 ? ((fallstot / testTot) * 1000).toFixed(2) : 0),
                 sentinelResult: (identtot > 0 ? ((senttot / identtot) * 100).toFixed(2) : 0),
-                nearMissessResult: (identtot > 0 ? ((nearmisstot / identtot) * 100).toFixed(2) : 0)
+                nearMissessResult: (identtot > 0 ? ((nearmisstot / sumOfInc) * 100).toFixed(2) : 0)
             }
             setMonthReport(formdata)
             setEndoSearch(1)
@@ -89,6 +90,7 @@ const EndoMonthlyReport = ({ viewData, dayFlag, searchDate }) => {
                     doctor_name: val.doctor_name,
                     details: val.error_details,
                     reason: val.error_reason,
+                    inctype: val.error_incident_type
                     // corrective: val.error_corrective,
                     // preventive: val.error_preventive,
                 }
@@ -119,7 +121,8 @@ const EndoMonthlyReport = ({ viewData, dayFlag, searchDate }) => {
                     ptage: val.ptage,
                     doctor_name: val.doctor_name,
                     details: val.redos_details,
-                    reason: val.redos_reason
+                    reason: val.redos_reason,
+                    inctype: val.redos_incident_type
                     // corrective: val.redos_corrective,
                     //preventive: val.redos_preventive,
                 }
@@ -137,6 +140,7 @@ const EndoMonthlyReport = ({ viewData, dayFlag, searchDate }) => {
             infoNotify('Details not Found')
         }
     }, [viewData])
+
     const ViewWaitingTimeDetails = useCallback(() => {
         if (dayFlag === 1) {
             const newData = viewData?.filter((val) => val.assessment_benchmark_flag === 1)
@@ -183,7 +187,8 @@ const EndoMonthlyReport = ({ viewData, dayFlag, searchDate }) => {
                     ptage: val.ptage,
                     doctor_name: val.doctor_name,
                     details: val.incidence_ident_description,
-                    reason: val.incidence_ident_reason
+                    reason: val.incidence_ident_reason,
+                    inctype: val.error_incident_type
                     // corrective: val.incidence_ident_action,
 
                 }
@@ -214,7 +219,8 @@ const EndoMonthlyReport = ({ viewData, dayFlag, searchDate }) => {
                     ptage: val.ptage,
                     doctor_name: val.doctor_name,
                     details: val.falls_details,
-                    reason: val.falls_reason
+                    reason: val.falls_reason,
+                    inctype: val.falls_incident_type
                 }
             })
             const fromdata = {
@@ -243,7 +249,8 @@ const EndoMonthlyReport = ({ viewData, dayFlag, searchDate }) => {
                     ptage: val.ptage,
                     doctor_name: val.doctor_name,
                     details: val.sentinel_details,
-                    reason: val.sentinel_reason
+                    reason: val.sentinel_reason,
+                    inctype: val.sentinel_incident_type
                 }
             })
             const fromdata = {
@@ -272,7 +279,8 @@ const EndoMonthlyReport = ({ viewData, dayFlag, searchDate }) => {
                     ptage: val.ptage,
                     doctor_name: val.doctor_name,
                     details: val.nearmisses_details,
-                    reason: val.nearmisses_reason
+                    reason: val.nearmisses_reason,
+                    inctype: val.nearmiss_incident_type
                 }
             })
             const fromdata = {
@@ -294,14 +302,14 @@ const EndoMonthlyReport = ({ viewData, dayFlag, searchDate }) => {
         setTimeModal(false)
         setViewFlag(0)
         setTimeFlag(0)
-    }, [setModalOpen])
+    }, [])
     return (
         <Fragment>
             {timeFlag === 1 ? <AssessmntBenchmarkModal open={timeModal} handleClose={handleClose} patList={tableData} initdate={format(new Date(searchDate), 'MMM-yyyy')}
                 monthFlag={monthFlag} /> : null}
             {viewFlag === 1 ? <MonthlyReportModal open={modalopen} handleClose={handleClose} tableData={tableData} headerNames={headerNames} /> : null}
 
-            <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 280, padding: 'none' }}>
+            <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 270, padding: 'none' }}>
                 {endoSearch === 1 ?
                     <Box sx={{}}>
                         <Paper variant='outlined' square sx={{ pt: 0.7, flex: 1 }}>
@@ -810,7 +818,7 @@ const EndoMonthlyReport = ({ viewData, dayFlag, searchDate }) => {
                                             :
                                         </Box>
                                         <Box sx={{ flex: 0.3, p: 0.5 }}>
-                                            <Typography sx={{ fontSize: 15, pt: 0.1 }}>{totalIncident}</Typography>
+                                            <Typography sx={{ fontSize: 15, pt: 0.1 }}>{totIncidentReported}</Typography>
                                         </Box>
                                     </Box>
                                     <Box sx={{ display: 'flex' }}>

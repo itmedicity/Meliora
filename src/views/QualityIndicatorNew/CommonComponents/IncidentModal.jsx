@@ -1,9 +1,9 @@
-import { Box, Dialog, DialogContent, Paper, TextField, Typography } from '@mui/material'
+import { Box, Dialog, DialogContent, Paper, Typography } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { Button, CssVarsProvider, Textarea } from '@mui/joy';
+import { Button, CssVarsProvider, Input, Textarea } from '@mui/joy';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { format } from 'date-fns';
+import { format, isBefore } from 'date-fns';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { axioslogin } from 'src/views/Axios/Axios';
 import moment from 'moment';
@@ -16,7 +16,8 @@ const IncidentModal = ({
     sentinelreason, nearMissesDetails, nearMissessReason, setIncFlag, setErrorYes, setErrorNo, setRedosYes, setRedosNo,
     setErrorIdentyYes, setErrorIdentyNo, setFallsYes, setFallsNo, setNearYes, setNearNo, setSentinelYes, setSentinelNo,
     setErrorDetails, setErrorReason, setRedosDetails, setRedosReason, setIdenterrorDetails, setIdenterrorReason,
-    setFallsdetails, setFallsReason, setSentinelDetails, setSentinelreason, setNearMissesDetails, setNearMissessReason }) => {
+    setFallsdetails, setFallsReason, setSentinelDetails, setSentinelreason, setNearMissesDetails, setNearMissessReason,
+    patient_arrived_date }) => {
 
     const { incident_error_date, incident_redos_date, incidence_ident_date, incident_falls_date, incident_sentinel_date,
         incident_nearmisses_date
@@ -149,7 +150,7 @@ const IncidentModal = ({
             incRegFlag: incRegFlag,
             initial_incident_type: incType,
             final_incident_type: incType,
-            incident_mark_remarks: 'Nil'
+            incident_mark_remarks: ''
         }
     }, [inicidentDate, qidept, id, incRegFlag, endoSlno, errorDetails, redosDetails, identerrorDetails,
         fallsdetails, sentinelDetails, nearMissesDetails, errorReason, redosReason, identerrorReason, fallsReason,
@@ -177,7 +178,10 @@ const IncidentModal = ({
         sentinelreason, nearMissessReason, incType])
 
     const SaveIncidentDetails = useCallback(() => {
-        if (errorDetails === '' && redosDetails === '' && identerrorDetails === '' && fallsdetails === '' &&
+        if (isBefore(new Date(inicidentDate), new Date(patient_arrived_date))) {
+            infoNotify("Please Check Incident Date And Time")
+        }
+        else if (errorDetails === '' && redosDetails === '' && identerrorDetails === '' && fallsdetails === '' &&
             sentinelDetails === '' && nearMissesDetails === '') {
             infoNotify("Please Enter Incident Details")
         }
@@ -227,7 +231,7 @@ const IncidentModal = ({
         }
     }, [postdata, incCount, setincCount, patchdata, incdExist, setIncFlag, setIncModalOpen, errorDetails, redosDetails,
         identerrorDetails, fallsdetails, sentinelDetails, nearMissesDetails, errorReason, redosReason, identerrorReason,
-        fallsReason, sentinelreason, nearMissessReason, incType])
+        fallsReason, sentinelreason, nearMissessReason, incType, inicidentDate, patient_arrived_date])
     return (
         <Fragment>
             <Dialog
@@ -276,19 +280,24 @@ const IncidentModal = ({
                             <Box sx={{ flex: 1.5, pl: 1.7 }}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DateTimePicker
-                                        value={inicidentDate}
                                         views={['year', 'month', 'day', 'hours', 'minutes']}
-                                        size="small"
+                                        value={inicidentDate}
+                                        minDate={new Date(patient_arrived_date)}
+                                        maxDate={new Date()}
                                         inputFormat='DD-MM-YYYY hh:mm A'
-                                        // minDate={new Date(inicidentDate)}
-                                        // maxDate={new Date()}
+                                        size="small"
                                         onChange={(newValue) => {
                                             setInicidentDate(newValue);
                                         }}
-                                        renderInput={(params) => (
-                                            <TextField {...params} helperText={null} size='small' fullWidth disabled
-                                                sx={{ bgcolor: 'white', pt: 0.5 }}
-                                            />
+                                        renderInput={({ inputRef, inputProps, InputProps }) => (
+                                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                <CssVarsProvider>
+                                                    <Input ref={inputRef} {...inputProps} fullWidth
+                                                        sx={{ bgcolor: 'white', height: 40, padding: 'none' }}
+                                                        disabled={true} />
+                                                </CssVarsProvider>
+                                                {InputProps?.endAdornment}
+                                            </Box>
                                         )}
                                     />
                                 </LocalizationProvider>

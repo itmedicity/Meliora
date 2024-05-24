@@ -53,7 +53,7 @@ const IncidentList = () => {
                 </Box>
                 <Box sx={{ flex: 1, pt: 1, pl: 1 }}>
                     <Typography sx={{ color: '#37474f', fontFamily: 'Arial', fontSize: 17 }}>
-                        Incident List
+                        Pre Incident List
                     </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.4, px: 0.4 }}>
