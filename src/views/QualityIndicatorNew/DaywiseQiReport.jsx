@@ -15,7 +15,7 @@ import EndoDayWiseReport from './EndoscopyQIMarking/EndoDayWiseReport';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 const DaywiseQiReport = () => {
     const [qidept, setQidept] = useState(0)
-    const [fromDate, setFromDate] = useState(format(new Date('2023-03-20'), "yyyy-MM-dd"));
+    const [fromDate, setFromDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [toDate, setToDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [searchFlag, setsearchFlag] = useState(0)
     const [qitype, setQitype] = useState(0)

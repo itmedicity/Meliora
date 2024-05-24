@@ -10,7 +10,7 @@ import { infoNotify } from '../Common/CommonCode'
 import PatientsListView from './CommonComponents/PatientsListView'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import { format } from 'date-fns'
+import { format, subDays } from 'date-fns'
 import { RefreshPatientList } from './CommonComponents/RefreshPatientList'
 
 const DepartmentWisePatientMarking = () => {
@@ -20,7 +20,7 @@ const DepartmentWisePatientMarking = () => {
     const [depCode, setDepCode] = useState('')
     const [qitype, setQitype] = useState(0)
     const [searchFlag, setSearchFlag] = useState(0)
-    const [dailyDate, setDailyDate] = useState(format(new Date('2023-03-20'), "yyyy-MM-dd"));
+    const [dailyDate, setDailyDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [count, setCount] = useState(0)
     const history = useHistory()
 
@@ -79,6 +79,8 @@ const DepartmentWisePatientMarking = () => {
                                         views={['year', 'month', 'day']}
                                         size="small"
                                         inputFormat='dd-MM-yyyy'
+                                        minDate={subDays(new Date(), 2)}
+                                        maxDate={new Date()}
                                         // slotProps={{ textField: { variant: "plain" } }}
                                         onChange={(newValue) => {
                                             setDailyDate(newValue);
