@@ -9,6 +9,7 @@ const ReqImageDisModal = ({ open, handleClose, images }) => {
 
 
     const [disArry, setDissArry] = useState([])
+    console.log(disArry);
     useEffect(() => {
         if (images.length !== 0) {
             const disimage = images.map((val) => {

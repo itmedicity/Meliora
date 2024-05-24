@@ -519,8 +519,13 @@ const CrfRequestMaster = () => {
     }, [editdata, dataPost])
 
     const uploadFile = useCallback(async (e) => {
-        if (e.target.files[0].type === "application/pdf") {
-            if ((e.target.files[0].size) > 2000000) {
+        if (e.target.files[0].type === "application/pdf" ||
+            e.target.files[0].type === "image/png" ||
+            e.target.files[0].type === "image/jpeg" ||
+            e.target.files[0].type === "image/jpg"
+
+        ) {
+            if ((e.target.files[0].size) > 26214400) {
                 warningNotify("File Size Is to Large")
             } else {
                 const newFiles = [...selectFile]
@@ -529,9 +534,7 @@ const CrfRequestMaster = () => {
             }
 
         } else {
-            const newFiles = [...selectFile]
-            newFiles.push(e.target.files[0])
-            setSelectFile(newFiles)
+            warningNotify("Only .png, .jpeg, and .pdf File format allowed!")
         }
 
     }, [selectFile, setSelectFile])

@@ -127,14 +127,29 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
 
     const [selectFile, setSelectFile] = useState([])
     const uploadFile = useCallback(async (e) => {
-        const newFiles = [...selectFile]
-        newFiles.push(e.target.files[0])
-        setSelectFile(newFiles)
+        if (e.target.files[0].type === "application/pdf" ||
+            e.target.files[0].type === "image/png" ||
+            e.target.files[0].type === "image/jpeg" ||
+            e.target.files[0].type === "image/jpg"
+
+        ) {
+            if ((e.target.files[0].size) > 26214400) {
+                warningNotify("File Size Is to Large")
+            } else {
+                const newFiles = [...selectFile]
+                newFiles.push(e.target.files[0])
+                setSelectFile(newFiles)
+            }
+
+        } else {
+            warningNotify("Only .png, .jpeg, and .pdf File format allowed!")
+        }
+
     }, [selectFile, setSelectFile])
 
     const handleImageUpload = useCallback(async (imageFile) => {
         const options = {
-            maxSizeMB: 2,
+            maxSizeMB: 25,
             maxWidthOrHeight: 1920,
             useWebWorker: true,
         }
