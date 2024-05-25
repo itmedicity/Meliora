@@ -617,7 +617,7 @@ const HigherAppDoneModal = ({ open, setDetailViewModal, DetailViewData, setDetai
                                             </Box> :
                                             <Box>
                                                 <CssVarsProvider>
-                                                    <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Incharge Approval Not Required </Typography>
+                                                    <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Incharge Approval Not Required Requested by HOD </Typography>
                                                 </CssVarsProvider>
                                             </Box>
                                         }

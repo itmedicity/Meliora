@@ -147,9 +147,24 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
 
     const [selectFile, setSelectFile] = useState([])
     const uploadFile = useCallback(async (e) => {
-        const newFiles = [...selectFile]
-        newFiles.push(e.target.files[0])
-        setSelectFile(newFiles)
+        if (e.target.files[0].type === "application/pdf" ||
+            e.target.files[0].type === "image/png" ||
+            e.target.files[0].type === "image/jpeg" ||
+            e.target.files[0].type === "image/jpg"
+
+        ) {
+            if ((e.target.files[0].size) > 26214400) {
+                warningNotify("File Size Is to Large")
+            } else {
+                const newFiles = [...selectFile]
+                newFiles.push(e.target.files[0])
+                setSelectFile(newFiles)
+            }
+
+        } else {
+            warningNotify("Only .png, .jpeg, and .pdf File format allowed!")
+        }
+
     }, [selectFile, setSelectFile])
 
     const handleImageUpload = useCallback(async (imageFile) => {
@@ -909,7 +924,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                     </Box> :
                                                     <Box>
                                                         <CssVarsProvider>
-                                                            <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Incharge Approval Not Required </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Incharge Approval Not Required Requested by HOD </Typography>
                                                         </CssVarsProvider>
                                                     </Box>
                                                 }
