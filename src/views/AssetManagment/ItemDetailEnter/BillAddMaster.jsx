@@ -38,14 +38,13 @@ const BillAddMaster = ({ setBillFlg }) => {
     const [billMast, setBillMast] = useState({
         am_bill_no: '',
         am_bill_date: '',
-        am_bill_amount: '',
         am_bill_image: '',
         am_bill_mastslno: ''
     })
 
     //Destructuring
 
-    const { am_bill_no, am_bill_date, am_bill_amount, am_bill_image, am_bill_mastslno } = billMast
+    const { am_bill_no, am_bill_date, am_bill_image, am_bill_mastslno } = billMast
     const updateBillMAst = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setBillMast({ ...billMast, [e.target.name]: value })
@@ -88,22 +87,20 @@ const BillAddMaster = ({ setBillFlg }) => {
         return {
             am_bill_no: am_bill_no,
             am_bill_date: am_bill_date,
-            am_bill_amount: am_bill_amount,
             am_bill_supplier: supplier,
             create_user: id
         }
-    }, [am_bill_no, am_bill_date, am_bill_amount, supplier, id])
+    }, [am_bill_no, am_bill_date, supplier, id])
 
     const patch = useMemo(() => {
         return {
             am_bill_no: am_bill_no,
             am_bill_date: am_bill_date,
-            am_bill_amount: am_bill_amount,
             am_bill_supplier: supplier,
             edit_user: id,
             am_bill_mastslno: am_bill_mastslno
         }
-    }, [am_bill_no, am_bill_date, am_bill_amount, supplier, id, am_bill_mastslno])
+    }, [am_bill_no, am_bill_date, supplier, id, am_bill_mastslno])
 
 
     const reset = useCallback(() => {
@@ -116,7 +113,6 @@ const BillAddMaster = ({ setBillFlg }) => {
         const frmdata = {
             am_bill_no: '',
             am_bill_date: '',
-            am_bill_amount: '',
             am_bill_image: ''
         }
         setBillMast(frmdata)
@@ -229,11 +225,10 @@ const BillAddMaster = ({ setBillFlg }) => {
 
     const rowSelect = useCallback((val) => {
         setValue(1)
-        const { am_bill_no, am_bill_date, am_bill_amount, am_bill_supplier, am_bill_image, am_bill_mastslno } = val
+        const { am_bill_no, am_bill_date, am_bill_supplier, am_bill_image, am_bill_mastslno } = val
         const frmdata = {
             am_bill_no: am_bill_no,
             am_bill_date: am_bill_date,
-            am_bill_amount: am_bill_amount,
             am_bill_image: am_bill_image,
             am_bill_mastslno: am_bill_mastslno
         }
@@ -399,28 +394,6 @@ const BillAddMaster = ({ setBillFlg }) => {
                                 size="sm"
                                 name="am_bill_date"
                                 value={am_bill_date}
-                                onchange={updateBillMAst}
-                            ></TextFieldCustom>
-                        </Box>
-                    </Box>
-                    <Box sx={{
-                        width: "100%",
-                        display: "flex",
-                        flexDirection: 'row', pb: 0.8,
-                    }}>
-                        <Box
-                            sx={{ width: "35%", }}>
-                            <CssVarsProvider>
-                                <Typography sx={{ fontSize: 15 }}>Bill Amount</Typography>
-                            </CssVarsProvider>
-                        </Box>
-                        <Box
-                            sx={{ width: "55%", }}>
-                            <TextFieldCustom
-                                type="text"
-                                size="sm"
-                                name="am_bill_amount"
-                                value={am_bill_amount}
                                 onchange={updateBillMAst}
                             ></TextFieldCustom>
                         </Box>

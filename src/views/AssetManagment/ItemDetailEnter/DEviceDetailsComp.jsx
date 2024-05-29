@@ -23,7 +23,6 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
         asset_noold: '',
     })
 
-
     //Destructuring
     const { manufacturslno, asset_no, asset_noold } = userdata
     const updateDeviceDetails = useCallback((e) => {
@@ -50,10 +49,10 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
             const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
             const { success, data } = result.data
             if (success === 1) {
-                const { am_manufacture_no, am_asset_no, am_asset_old_no } = data[0]
+                const { am_manufacture_no, am_asset_old_no } = data[0]
                 const frmdata = {
                     manufacturslno: am_manufacture_no !== undefined ? am_manufacture_no : '',
-                    asset_no: am_asset_no !== null ? am_asset_no : '',
+                    asset_no: assetno,
                     asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
                 }
                 setUserdata(frmdata);
