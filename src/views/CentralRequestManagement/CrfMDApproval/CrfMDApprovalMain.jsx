@@ -20,7 +20,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Virtuoso } from 'react-virtuoso'
-import { AllListForMDApi, CloseListApi, OnHoldListApi, RejectListApi, getGMAppvalPending, getMDAppvalPending } from '../ComonComponent/ComonFunctnFile'
+import { AllListForMDApi, CloseListApi, OnHoldListApi, RejectListApi, getMDAppvalPending } from '../ComonComponent/ComonFunctnFile'
 
 const CrfMDApprovalMain = () => {
 
@@ -64,7 +64,7 @@ const CrfMDApprovalMain = () => {
         setOpen(false)
         setRadioValue(e.target.value)
         if (e.target.value === '1') {
-            getGMAppvalPending(setDisArray, setOpen)
+            getMDAppvalPending(setDisArray, setOpen)
         } else if (e.target.value === '2') {
             AllListForMDApi(setDisArray, setOpen)
         } else if (e.target.value === '3') {
