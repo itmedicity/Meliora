@@ -466,8 +466,7 @@ export const RejectListApi = async (setDisArray, setOpen) => {
                 ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
                 ed_approve_date: val.ed_approve_date,
                 ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
-                higher: val.senior_manage_approv !== null ? 1 :
-                    val.gm_approve !== null ? 1 : val.md_approve !== null ? 1 : val.ed_approve !== null ? 1 : 0,
+                higher: 0,
                 now_who:
                     val.sub_store_recieve === 1 ? "Sub Store Receive" :
                         val.store_receive === 1 ? "CRS Store Receive" :
@@ -652,8 +651,7 @@ export const OnHoldListApi = async (setDisArray, setOpen) => {
                 ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
                 ed_approve_date: val.ed_approve_date,
                 ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
-                higher: val.senior_manage_approv !== null ? 1 :
-                    val.gm_approve !== null ? 1 : val.md_approve !== null ? 1 : val.ed_approve !== null ? 1 : 0,
+                higher: 0,
                 now_who:
                     val.sub_store_recieve === 1 ? "Sub Store Receive" :
                         val.store_receive === 1 ? "CRS Store Receive" :

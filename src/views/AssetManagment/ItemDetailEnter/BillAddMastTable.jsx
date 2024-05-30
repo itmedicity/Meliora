@@ -32,9 +32,8 @@ const BillAddMastTable = ({ count, rowSelect }) => {
                     <thead>
                         <tr>
                             <th style={{ width: '7%', align: "center" }}>Action</th>
-                            <th style={{ width: '7%', align: "center" }}>Bill No</th>
+                            <th style={{ width: '20%', align: "center" }}>Bill No</th>
                             <th style={{ width: '50%', align: "center" }}>Supplier</th>
-                            <th style={{ width: '15%', align: "center" }}>Bill Amount</th>
                             <th style={{ width: '10%', align: "center" }}>Bill Date</th>
                         </tr>
                     </thead>
@@ -51,7 +50,6 @@ const BillAddMastTable = ({ count, rowSelect }) => {
                                 </td>
                                 <td> {val.am_bill_no}</td>
                                 <td> {val.it_supplier_name}</td>
-                                <td> {val.am_bill_amount}</td>
                                 <td> {val.am_bill_date}</td>
                             </tr>
                         })}
