@@ -284,7 +284,10 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
                                 <Button onClick={AddBillMaster} variant="contained"
                                     size="small" color="primary">AddBill</Button>
                             </Box>
-                            : null
+                            : <Box sx={{ display: 'flex', width: "25%", height: 50, pt: 3, pl: 3 }}>
+                                <Button onClick={AddBillMaster} variant="contained"
+                                    size="small" color="primary">AddBill</Button>
+                            </Box>
                     }
 
                 </Box>

@@ -14,7 +14,7 @@ const BackupTypeSelect = ({ backupType, setBackupType }) => {
             { label: 'Database Backup', id: 2 },
             { label: 'Share Folder Backup', id: 3 },
             { label: 'Scanned File Backup', id: 4 },
-            { label: 'Configuration Backup', id: 5 },
+
         ]
     }, [])
     const [value, setValue] = useState(backupTypeList[0]);
