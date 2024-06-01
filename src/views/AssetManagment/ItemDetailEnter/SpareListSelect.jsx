@@ -3,7 +3,7 @@ import React, { memo, useEffect, useState, useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios';
 
 
-const SpareListSelect = ({ spare, setSpare, setSpareNo, item_dept_slno, item_deptsec_slno }) => {
+const SpareListSelect = ({ spare, setSpare, setSpareNo, item_custodian_dept }) => {
 
     const [tabledata, setTabledata] = useState([])
 
@@ -11,11 +11,9 @@ const SpareListSelect = ({ spare, setSpare, setSpareNo, item_dept_slno, item_dep
 
     const getSpareCondition = useMemo(() => {
         return {
-
-            spare_dept_slno: item_dept_slno,
-            spare_deptsec_slno: item_deptsec_slno
+            spare_custodian_dept: item_custodian_dept
         }
-    }, [item_dept_slno, item_deptsec_slno])
+    }, [item_custodian_dept])
 
 
     useEffect(() => {

@@ -16,7 +16,23 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare }) => {
             const result = await axioslogin.post(`/itemCreationDeptmap/getInsertData`, getPostData);
             const { success, data } = result.data
             if (success === 1) {
-                setDisArry(data)
+                const disdata = data?.map((val, index) => {
+                    const obj = {
+                        slno: index + 1,
+                        am_item_map_slno: val.am_item_map_slno,
+                        item_creation_slno: val.item_creation_slno,
+                        item_dept_slno: val.item_dept_slno,
+                        item_deptsec_slno: val.item_deptsec_slno,
+                        deptname: val.deptname,
+                        secname: val.secname,
+                        item_name: val.item_name,
+                        rm_room_name: val.rm_room_name,
+                        subroom_name: val.subroom_name,
+                        assetno: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
+                    }
+                    return obj
+                })
+                setDisArry(disdata)
             }
             else {
                 setDisArry([])
@@ -26,7 +42,21 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare }) => {
             const result = await axioslogin.post(`/itemCreationDeptmap/getInsertSpareData`, getPostDataSpare);
             const { success, data } = result.data
             if (success === 1) {
-                setDisArry(data)
+                const disdata = data.map((val, index) => {
+                    const obj = {
+                        slno: index + 1,
+                        am_spare_item_map_slno: val.am_spare_item_map_slno,
+                        spare_creation_slno: val.spare_creation_slno,
+                        spare_dept_slno: val.spare_dept_slno,
+                        spare_deptsec_slno: val.spare_deptsec_slno,
+                        deptname: val.deptname,
+                        secname: val.secname,
+                        item_name: val.item_name,
+                        assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
+                    }
+                    return obj
+                })
+                setDisArry(disdata)
             }
             else {
                 setDisArry([])
@@ -100,8 +130,7 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare }) => {
                                     <th style={{ width: '25%', align: "center" }}>Department</th>
                                     <th style={{ width: '25%', align: "center" }}>Department Section</th>
                                     <th style={{ width: '60%', align: "center" }}>Item Name</th>
-                                    <th style={{ width: '10%', align: "center" }}>Room</th>
-                                    <th style={{ width: '10%', align: "center" }}>Sub Room</th>
+                                    <th style={{ width: '60%', align: "center" }}>Asset/Spare No</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -119,8 +148,7 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare }) => {
                                         <td> {val.deptname}</td>
                                         <td> {val.secname}</td>
                                         <td> {val.item_name}</td>
-                                        <td> {val.rm_room_name}</td>
-                                        <td> {val.subroom_name}</td>
+                                        <td> {val.assetno}</td>
                                     </tr>
                                 })}
                             </tbody>
@@ -135,8 +163,7 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare }) => {
                                     <th style={{ width: '25%', align: "center" }}>Department</th>
                                     <th style={{ width: '25%', align: "center" }}>Department Section</th>
                                     <th style={{ width: '60%', align: "center" }}>Item Name</th>
-                                    <th style={{ width: '10%', align: "center" }}>Room</th>
-                                    <th style={{ width: '10%', align: "center" }}>Sub Room</th>
+                                    <th style={{ width: '60%', align: "center" }}>Asset/Spare No</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -154,8 +181,7 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare }) => {
                                         <td> {val.deptname}</td>
                                         <td> {val.secname}</td>
                                         <td> {val.item_name}</td>
-                                        <td> {val.rm_room_name}</td>
-                                        <td> {val.subroom_name}</td>
+                                        <td> {val.assetno}</td>
                                     </tr>
                                 })}
                             </tbody>
