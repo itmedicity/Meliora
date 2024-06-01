@@ -19,8 +19,7 @@ import SpareListSelect from './SpareListSelect';
 
 
 const SpecDetailsComp = ({ detailArry, assetSpare }) => {
-
-    const { am_item_map_slno, item_dept_slno, item_deptsec_slno } = detailArry
+    const { am_item_map_slno, item_custodian_dept } = detailArry
 
     // Get login user emp_id
     const id = useSelector((state) => {
@@ -373,7 +372,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
 
                                 <Box sx={{ width: '70%', p: 1 }}>
                                     <SpareListSelect spare={spare} setSpare={setSpare}
-                                        item_dept_slno={item_dept_slno} item_deptsec_slno={item_deptsec_slno}
+                                        item_custodian_dept={item_custodian_dept}
                                         setSpareNo={setSpareNo} />
                                 </Box>
                                 <Box sx={{ width: '5%', pl: 1, pt: 1, cursor: "pointer" }} >
@@ -477,7 +476,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
                     display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
                 }}>
 
-                    <CustomeToolTip title="Save" placement="top" >
+                    <CustomeToolTip title="Save" placement="bottom" >
                         <Box sx={{ width: '3%', pl: 7, pt: 3, }}>
                             <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SaveSpecDetails} >
                                 <LibraryAddIcon fontSize='small' />
@@ -485,7 +484,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
                         </Box>
                     </CustomeToolTip>
 
-                    <CustomeToolTip title="Refresh" placement="top" >
+                    <CustomeToolTip title="Refresh" placement="bottom" >
                         <Box sx={{ width: '3%', pl: 5, pt: 3, }}>
                             <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SpecReferesh} >
                                 <RefreshIcon fontSize='small' />

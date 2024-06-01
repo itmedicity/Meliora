@@ -1,12 +1,12 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import AmDepartmentSelecct from 'src/views/CommonSelectCode/AmDepartmentSelecct'
+// import AmDepartmentSelecct from 'src/views/CommonSelectCode/AmDepartmentSelecct'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import { getDepartment } from 'src/redux/actions/Department.action'
 import { getCustodianDept } from 'src/redux/actions/AmCustodianDept.action'
-import AmDeptSectionSele from 'src/views/CommonSelectCode/AmDeptSectionSele'
+// import AmDeptSectionSele from 'src/views/CommonSelectCode/AmDeptSectionSele'
 import ItemCountWiseMap from './ItemCountWiseMap'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { useMemo } from 'react'
@@ -15,8 +15,8 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import AmCustodianDeptsele from 'src/views/CommonSelectCode/AmCustodianDeptsele'
 import AssetRackSelect from 'src/views/CommonSelectCode/AssetRackSelect'
 import { getRackList } from 'src/redux/actions/AmRackList.action'
-import AmRoomSelecDeptSecBased from 'src/views/CommonSelectCode/AmRoomSelecDeptSecBased'
-import AmsubRoomSeleDepdRoom from 'src/views/CommonSelectCode/AmsubRoomSeleDepdRoom'
+// import AmRoomSelecDeptSecBased from 'src/views/CommonSelectCode/AmRoomSelecDeptSecBased'
+// import AmsubRoomSeleDepdRoom from 'src/views/CommonSelectCode/AmsubRoomSeleDepdRoom'
 
 const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDeptSec,
     deptName, setDeptName, deptSecName, setDeptSecName, custodiandept, setCustodianDept,
@@ -28,6 +28,19 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
+
+    const empdept = useSelector((state) => {
+        return state.LoginUserData.empdept
+    })
+
+    const empdeptsec = useSelector((state) => {
+        return state.LoginUserData.empsecid
+    })
+
+    const empdeptsecName = useSelector((state) => {
+        return state.LoginUserData.empdeptsec
+    })
+
     const { slno, Item_name, type } = selectData
     const dispatch = useDispatch();
 
@@ -71,8 +84,8 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
     const postData = mapArry && mapArry.map((val) => {
         return {
             item_creation_slno: slno,
-            item_dept_slno: department,
-            item_deptsec_slno: deptsec,
+            item_dept_slno: empdept,
+            item_deptsec_slno: empdeptsec,
             item_room_slno: roomNo === 0 ? null : roomNo,
             item_subroom_slno: subRoomNo === 0 ? null : subRoomNo,
             item_rack_slno: rackno === 0 ? null : rackno,
@@ -86,8 +99,8 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
     const sparepostData = mapArry && mapArry.map((val) => {
         return {
             spare_creation_slno: slno,
-            spare_dept_slno: department,
-            spare_deptsec_slno: deptsec,
+            spare_dept_slno: empdept,
+            spare_deptsec_slno: empdeptsec,
             spare_room_slno: roomNo === 0 ? null : roomNo,
             spare_subroom_slno: subRoomNo === 0 ? null : subRoomNo,
             spare_rack_slno: rackno === 0 ? null : rackno,
@@ -102,8 +115,8 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
     const addMoreItem = useMemo(() => {
         return {
             item_creation_slno: slno,
-            item_dept_slno: department,
-            item_deptsec_slno: deptsec,
+            item_dept_slno: empdept,
+            item_deptsec_slno: empdeptsec,
             item_room_slno: roomNo === 0 ? null : roomNo,
             item_subroom_slno: subRoomNo === 0 ? null : subRoomNo,
             item_rack_slno: rackno === 0 ? null : rackno,
@@ -115,13 +128,13 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
             create_user: id
         }
 
-    }, [slno, department, deptsec, roomNo, subRoomNo, rackno, custodiandept, custodiandeptSec, assetno, id])
+    }, [slno, empdept, empdeptsec, roomNo, subRoomNo, rackno, custodiandept, custodiandeptSec, assetno, id])
 
     const spareaddMoreItem = useMemo(() => {
         return {
             spare_creation_slno: slno,
-            spare_dept_slno: department,
-            spare_deptsec_slno: deptsec,
+            spare_dept_slno: empdept,
+            spare_deptsec_slno: empdeptsec,
             spare_room_slno: roomNo === 0 ? null : roomNo,
             spare_subroom_slno: subRoomNo === 0 ? null : subRoomNo,
             spare_rack_slno: rackno === 0 ? null : rackno,
@@ -133,23 +146,23 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
             create_user: id
         }
 
-    }, [slno, department, deptsec, roomNo, subRoomNo, rackno, custodiandept, custodiandeptSec, assetno, id])
+    }, [slno, empdept, empdeptsec, roomNo, subRoomNo, rackno, custodiandept, custodiandeptSec, assetno, id])
 
     const getPostData = useMemo(() => {
         return {
             item_creation_slno: slno,
-            item_dept_slno: department,
-            item_deptsec_slno: deptsec
+            item_dept_slno: empdept,
+            item_deptsec_slno: empdeptsec
         }
-    }, [slno, department, deptsec])
+    }, [slno, empdept, empdeptsec])
 
     const getPostDataSpare = useMemo(() => {
         return {
             spare_creation_slno: slno,
-            spare_dept_slno: department,
-            spare_deptsec_slno: deptsec
+            spare_dept_slno: empdept,
+            spare_deptsec_slno: empdeptsec
         }
-    }, [slno, department, deptsec])
+    }, [slno, empdept, empdeptsec])
 
 
     const AddMultiple = useCallback(() => {
@@ -163,7 +176,7 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
             return result
         }
 
-        if (department !== 0 && deptsec !== 0 && mapArry.length !== 0 && custodiandept !== 0) {
+        if (empdept !== 0 && empdeptsec !== 0 && mapArry.length !== 0 && custodiandept !== 0) {
             if (type === 1) {
                 insertItem(postData).then((val) => {
                     const { message, success } = val.data
@@ -194,7 +207,7 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
         } else {
             warningNotify("Please Select Department,Department section,Custodian Department and Give Count")
         }
-    }, [postData, department, deptsec, type, sparepostData, mapArry, custodiandept])
+    }, [postData, empdept, empdeptsec, type, sparepostData, mapArry, custodiandept])
 
 
     const updateclick = useCallback(() => {
@@ -225,7 +238,7 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
                 infoNotify(message)
             }
         }
-        if (department !== 0 && deptsec !== 0 && mapArry.length !== 0 && custodiandept !== 0) {
+        if (empdept !== 0 && empdeptsec !== 0 && mapArry.length !== 0 && custodiandept !== 0) {
             if (type === 1) {
                 insertItemAdditional(addMoreItem)
                 setFlag(0)
@@ -237,7 +250,7 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
             warningNotify("Department,Department section,Room,Custodian Department and Give Count Must be Choosen")
         }
 
-    }, [addMoreItem, spareaddMoreItem, type, department, deptsec, mapArry, custodiandept])
+    }, [addMoreItem, spareaddMoreItem, type, empdept, empdeptsec, mapArry, custodiandept])
 
 
     return (
@@ -254,15 +267,16 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
                 display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
                 borderBottom: 1, borderWidth: 0.1, borderColor: 'black', width: '100%',
             }} >
-                <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                {/* <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
                     <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Department</Typography>
                     <Box>
                         {disable === 0 ?
-                            <AmDepartmentSelecct
-                                department={department}
-                                setDepartment={setDepartment}
-                                setDeptName={setDeptName}
-                            /> :
+                            // <AmDepartmentSelecct
+                            //    
+                            //     setDepartment={setDepartment}
+                            //     setDeptName={setDeptName}
+                            // />
+                            :
                             <TextFieldCustom
                                 type="text"
                                 size="sm"
@@ -272,29 +286,21 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
                             />
                         }
                     </Box>
-                </Box>
+                </Box> */}
 
                 <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
                     <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Department Section</Typography>
                     <Box>
-                        {disable === 0 ?
-
-                            <AmDeptSectionSele
-                                deptsec={deptsec}
-                                setDeptSec={setDeptSec}
-                                setDeptSecName={setDeptSecName}
-                            /> :
-                            <TextFieldCustom
-                                type="text"
-                                size="sm"
-                                disabled={true}
-                                name="deptSecName"
-                                value={deptSecName}
-                            />
-                        }
+                        <TextFieldCustom
+                            type="text"
+                            size="sm"
+                            disabled={true}
+                            name="empdeptsecName"
+                            value={empdeptsecName}
+                        />
                     </Box>
                 </Box>
-                <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                {/* <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
                     <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Room</Typography>
                     <Box>
                         {disable === 0 ?
@@ -313,8 +319,8 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
                             />
                         }
                     </Box>
-                </Box>
-                <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                </Box> */}
+                {/* <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
                     <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Sub Room</Typography>
                     <Box>
                         {disable === 0 ?
@@ -333,7 +339,7 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
                             />
                         }
                     </Box>
-                </Box>
+                </Box> */}
                 <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
                     <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Rack</Typography>
                     <Box>
