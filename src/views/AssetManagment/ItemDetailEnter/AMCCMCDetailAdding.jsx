@@ -525,7 +525,7 @@ const AMCCMCDetailAdding = ({ detailArry, amcPm, setAmcPm, amcPmarry }) => {
                             </Box>
 
                             <Box sx={{ display: 'flex', width: '10%', p: 0.5, flexDirection: 'column' }} >
-                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Enter Days</Typography>
+                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Days</Typography>
                                 <Box>
                                     <TextFieldCustom
                                         type="number"
