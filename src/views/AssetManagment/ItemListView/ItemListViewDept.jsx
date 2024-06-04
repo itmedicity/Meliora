@@ -123,8 +123,8 @@ const ItemListViewDept = () => {
         setSerailno(e.target.value)
     }, [])
     const SearchbySerialNo = useCallback(() => {
-        const getdataBySerail = async (postdata) => {
-            const result = await axioslogin.post(`/itemCreationDeptmap/getDataBySerialNo`, postdata);
+        const getdataBySerailByAsset = async (postdata) => {
+            const result = await axioslogin.post(`/itemCreationDeptmap/getDataBySerialNoAsset`, postdata);
             const { success, data } = result.data
             if (success === 1) {
                 setDisArry(data)
@@ -137,18 +137,33 @@ const ItemListViewDept = () => {
                 setFlag(0)
             }
         }
-
+        const getdataBySerailSpare = async (postdata) => {
+            const result = await axioslogin.post(`/itemCreationDeptmap/getdataBySerailNoSpare`, postdata);
+            const { success, data } = result.data
+            if (success === 1) {
+                setDisArry(data)
+                setFlag(1)
+                setSerailno('')
+            }
+            else {
+                warningNotify("No data for Selected Condition")
+                setDisArry([])
+                setFlag(0)
+            }
+        }
         const searchserial = {
             am_manufacture_no: serialno
         }
         if (serialno !== '') {
-            getdataBySerail(searchserial)
+            if (assetSpare === 1) {
+                getdataBySerailByAsset(searchserial)
+            } else {
+                getdataBySerailSpare(searchserial)
+            }
         } else {
             warningNotify("Please Enter serail no before search")
         }
-
-
-    }, [serialno])
+    }, [serialno, assetSpare])
 
 
     const [detailArry, setDetailArry] = useState([])

@@ -12,17 +12,18 @@ import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/Common
 import { useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import AddTaskIcon from '@mui/icons-material/AddTask';
-import AmCustodianDeptsele from 'src/views/CommonSelectCode/AmCustodianDeptsele'
+// import AmCustodianDeptsele from 'src/views/CommonSelectCode/AmCustodianDeptsele'
 import AssetRackSelect from 'src/views/CommonSelectCode/AssetRackSelect'
 import { getRackList } from 'src/redux/actions/AmRackList.action'
 // import AmRoomSelecDeptSecBased from 'src/views/CommonSelectCode/AmRoomSelecDeptSecBased'
 // import AmsubRoomSeleDepdRoom from 'src/views/CommonSelectCode/AmsubRoomSeleDepdRoom'
 
-const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDeptSec,
-    deptName, setDeptName, deptSecName, setDeptSecName, custodiandept, setCustodianDept,
-    custdeptName, setcustdeptname, rackno, setrackNo, rackname, setrackName, roomNo,
-    setRoomNo, roonName, setRoomName, count, setCount, setCustodianDeptSec, custodiandeptSec,
-    subRoomNo, setSubRoomNo, subRoomName, setSubRoomName }) => {
+const ItemAddingComp = ({ selectData, custodiandept, custdeptName, setcustdeptname, rackno, setrackNo, rackname,
+    setrackName, roomNo, count, setCount, custodiandeptSec, subRoomNo, setCustodianDept, setCustodianDeptSec
+    // department, setDepartment, deptsec, setDeptSec, deptName, setDeptName, deptSecName, setDeptSecName,
+    //  setRoomNo, roonName, setRoomName, setCustodianDeptSec,
+    // setSubRoomNo, subRoomName, setSubRoomName
+}) => {
 
     // Get login user emp_id
     const id = useSelector((state) => {
@@ -44,24 +45,42 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
     const { slno, Item_name, type } = selectData
     const dispatch = useDispatch();
 
-    const [firstName, setFirstName] = useState('')
-    const [secondname, setSecondName] = useState('')
     const [assetno, setassetNo] = useState('')
 
     useEffect(() => {
-        if (custodiandept !== 0) {
-            if (type === 1) {
-                let array = [firstName, secondname]
-                let filterName = array?.filter((e) => e !== null);
-                let stringName = filterName?.map((e) => e).join('/')
-                setassetNo(stringName)
+        const GetCustodianDetails = async (empdeptsec) => {
+            const result = await axioslogin.get(`/CustodianDeptMast/selectById/${empdeptsec}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                const { am_custdn_asset_no_first, am_custdn_asset_no_second, am_custodian_name,
+                    am_custodian_slno, am_custodian_deptsec_slno
+                } = data[0]
+                if (type === 1) {
+                    let array = [am_custdn_asset_no_first, am_custdn_asset_no_second]
+                    let filterName = array?.filter((e) => e !== null);
+                    let stringName = filterName?.map((e) => e).join('/')
+                    setassetNo(stringName)
+                    setcustdeptname(am_custodian_name)
+                    setCustodianDept(am_custodian_slno)
+                    setCustodianDeptSec(am_custodian_deptsec_slno)
+                }
+                else {
+                    let stringName = "SP/" + am_custdn_asset_no_second
+                    setassetNo(stringName)
+                    setcustdeptname(am_custodian_name)
+                    setCustodianDept(am_custodian_slno)
+                    setCustodianDeptSec(am_custodian_deptsec_slno)
+                }
             }
             else {
-                let stringName = "SP/" + secondname
-                setassetNo(stringName)
+                warningNotify("Custodian Department Not added")
             }
         }
-    }, [custodiandept, firstName, secondname, type])
+        if (empdeptsec !== 0) {
+            GetCustodianDetails(empdeptsec)
+        }
+    }, [empdeptsec, type, setcustdeptname, setCustodianDept, setCustodianDeptSec])
+
 
     useEffect(() => {
         dispatch(getDepartment())
@@ -245,6 +264,7 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
             }
             else {
                 insertSpareItemAdditional(spareaddMoreItem)
+                setFlag(0)
             }
         } else {
             warningNotify("Department,Department section,Room,Custodian Department and Give Count Must be Choosen")
@@ -362,24 +382,13 @@ const ItemAddingComp = ({ selectData, department, setDepartment, deptsec, setDep
                 <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
                     <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Custodian Department</Typography>
                     <Box>
-                        {disable === 0 ?
-
-                            <AmCustodianDeptsele
-                                custodiandept={custodiandept}
-                                setCustodianDept={setCustodianDept}
-                                setcustdeptname={setcustdeptname}
-                                setFirstName={setFirstName}
-                                setSecondName={setSecondName}
-                                setCustodianDeptSec={setCustodianDeptSec}
-                            /> :
-                            <TextFieldCustom
-                                type="text"
-                                size="sm"
-                                disabled={true}
-                                name="custdeptName"
-                                value={custdeptName}
-                            />
-                        }
+                        <TextFieldCustom
+                            type="text"
+                            size="sm"
+                            disabled={true}
+                            name="custdeptName"
+                            value={custdeptName}
+                        />
                     </Box>
                 </Box>
 

@@ -7,7 +7,7 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import { CssVarsProvider } from '@mui/joy/'
@@ -16,8 +16,8 @@ import ReqRegistItemCmpt from 'src/views/RequestManagement/RequestRegister/ReqRe
 import { editicon } from 'src/color/Color'
 import DeleteIcon from '@mui/icons-material/Delete';
 import SpareListSelect from './SpareListSelect';
-
-
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import BlockIcon from '@mui/icons-material/Block';
 const SpecDetailsComp = ({ detailArry, assetSpare }) => {
     const { am_item_map_slno, item_custodian_dept } = detailArry
 
@@ -231,15 +231,74 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
         { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, width: 250, filter: "true" },
         { headerName: "Spare No", field: "assetno", autoHeight: true, wrapText: true, width: 250, filter: "true" },
         {
-            headerName: 'Delete', width: 80, cellRenderer: params =>
-                <IconButton onClick={() => deleteSpare(params)}
+            headerName: 'Condemnation', width: 120, cellRenderer: params =>
+                <IconButton onClick={() => contaminationfunctn(params)}
                     sx={{ color: editicon, pt: 0 }} >
-                    <CustomeToolTip title="Edit">
-                        <DeleteIcon size={15} />
+                    <CustomeToolTip title="contamination">
+                        <BlockIcon size={15} />
+                    </CustomeToolTip>
+                </IconButton>
+        },
+        {
+            headerName: 'Service', width: 80, cellRenderer: params =>
+                <IconButton onClick={() => servicefunctn(params)}
+                    sx={{ color: editicon, pt: 0 }} >
+                    <CustomeToolTip title="Service">
+                        <ManageAccountsIcon size={15} />
                     </CustomeToolTip>
                 </IconButton>
         },
     ])
+
+
+    const contaminationfunctn = useCallback((params) => {
+        const data = params.api.getSelectedRows()
+        const { am_spare_item_map_slno, asset_spare_slno } = data[0]
+
+        const patchdata = {
+            delete_user: id,
+            asset_spare_slno: asset_spare_slno,
+            am_spare_item_map_slno: am_spare_item_map_slno
+        }
+
+        const contaminatnUpdate = async (patchdata) => {
+            const result = await axioslogin.patch('/ItemMapDetails/spareContamination', patchdata);
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNotify(message)
+                setCount(count + 1)
+            } else {
+                warningNotify(message)
+                setCount(count + 1)
+            }
+        }
+        contaminatnUpdate(patchdata)
+    }, [id, setCount, count])
+
+    const servicefunctn = useCallback((params) => {
+        const data = params.api.getSelectedRows()
+        const { am_spare_item_map_slno, asset_spare_slno } = data[0]
+
+        const patchdata = {
+            delete_user: id,
+            asset_spare_slno: asset_spare_slno,
+            am_spare_item_map_slno: am_spare_item_map_slno
+        }
+
+        const ServiceUpdate = async (patchdata) => {
+            const result = await axioslogin.patch('/ItemMapDetails/spareService', patchdata);
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNotify(message)
+                setCount(count + 1)
+            } else {
+                warningNotify(message)
+                setCount(count + 1)
+            }
+        }
+        ServiceUpdate(patchdata)
+    }, [id, setCount, count])
+
 
     const deleteSelect = useCallback((params) => {
         const data = params.api.getSelectedRows()
@@ -262,27 +321,6 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
         deleteItem(patchdata)
 
     }, [id, setCount, count])
-
-
-    const deleteSpare = useCallback((params) => {
-        const data = params.api.getSelectedRows()
-        const { asset_spare_slno } = data[0]
-        const patchdata = {
-            delete_user: id,
-            asset_spare_slno: asset_spare_slno
-
-        }
-        const deleteSpare = async (patchdata) => {
-            const result = await axioslogin.patch('/ItemMapDetails/SpareDelete', patchdata);
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNotify(message)
-                setCount(count + 1)
-            }
-        }
-        deleteSpare(patchdata)
-    }, [id, setCount, count])
-
 
     const AddSpares = useCallback(() => {
 
@@ -463,7 +501,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
                 }
 
                 {alreadytSpare === 1 ?
-                    <Box sx={{ width: '70%', p: 1 }}>
+                    <Box sx={{ width: '100%', p: 1 }}>
 
                         <ReqRegistItemCmpt
                             columnDefs={columnSpare}
