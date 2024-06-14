@@ -148,7 +148,10 @@ import { getRackList } from './AmRackList.Reducer'
 import { getRoomBasedOnDeptSec } from './AmRoomDeptSecBased.Reducer'
 import { getDepartmentSubTask } from './TmDepartment.Reducer'
 import { getDepartmentSecSubTask } from './TmDeptSection.Reducer'
-import { getProjectList } from './TmProjectsList.Reducer'
+import {
+    getProjectList,
+    getProjectListWithgoal, getNonGoalProjectList
+} from './TmProjectsList.Reducer'
 import { getGoalsList } from './TmGoalsList.Reducer'
 import { getSubRoomBasedOnRoom } from './AmSubRoomBsdRoom.Reducer'
 import { setClinicalCrfPending } from './CrfDashboardClinical.Reducer'
@@ -166,6 +169,9 @@ import { setCRMInchargeHod } from './CrmInchHodList.Reducer'
 import { setCRMDashBoard } from './CrmDashBoardList.Reducer'
 import { setCRMPurchaseAckPending } from './CrmPurchaseAckPendg.Reducer'
 import { setCRMPurchDataCollPending } from './CrmPurchaDetacollPend.Reducer'
+import { getMultDepSection } from './TmMultipleDepSectList.Reducer'
+import { getMultHodInCharge } from './TmMultHodInchargeList.Reducer';
+
 
 
 const reducer = combineReducers({
@@ -338,7 +344,11 @@ const reducer = combineReducers({
     setCRMInchargeHod,
     setCRMDashBoard,
     setCRMPurchaseAckPending,
-    setCRMPurchDataCollPending
+    setCRMPurchDataCollPending,
+    getMultDepSection,
+    getMultHodInCharge,
+    getProjectListWithgoal,
+    getNonGoalProjectList
 
 })
 export default reducer;

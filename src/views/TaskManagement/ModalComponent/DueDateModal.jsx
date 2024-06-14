@@ -71,7 +71,7 @@ const DueDateModal = ({ dueDateModal, taskName, dueDates, setdueDateModalFlag, s
                         <Box sx={{ flex: 1, height: 25, bgcolor: '#92443A', mb: .5, mx: 1, display: 'flex' }}>
                             <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'white' }}>#</Box>
                             <Box sx={{ flex: 3, textAlign: 'center', mb: .5, fontWeight: 600, color: 'white' }}>Duedate</Box>
-                            <Box sx={{ flex: 4, textAlign: 'center', fontWeight: 600, color: 'white' }}>Duedate Created by</Box>
+                            <Box sx={{ flex: 4, textAlign: 'center', fontWeight: 600, color: 'white' }}>Duedate Edited by</Box>
                         </Box>
                         <Box sx={{ maxHeight: '38vh', overflow: 'auto' }}>
                             {dueDates?.map((val, index) => {

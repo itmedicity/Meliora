@@ -1,14 +1,12 @@
 import React, { memo, useCallback, useState } from 'react'
-import { Box, CssVarsProvider, Table } from '@mui/joy'
-import CardMasterClose from 'src/views/Components/CardMasterClose'
-import Avatar from '@mui/joy/Avatar';
+import { Box, Chip, CssVarsProvider, Table } from '@mui/joy'
 import { Paper, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import UpdateIcon from '@mui/icons-material/Update';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import moment from 'moment';
 import EmpStatusUpdationinDash from '../Mytask/EmpStatusUpdationinDash';
 import CountDowncomponent from '../CountDown/CountDowncomponent';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overDueHeading,
 }) => {
@@ -19,6 +17,7 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
 
 
     const history = useHistory()
+
     const backtoDash = useCallback(() => {
         history.push('/Home/TaskManagementDashboard')
         setDueFlag(0)
@@ -35,34 +34,18 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
         return due < today
     }
     return (
-        <Box >
-            <CardMasterClose
-                close={backtoDash}
-                title={'OVER DUE TASK'}>
-                <Box sx={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: 0,
-                    border: .1, borderColor: '#D396FF',
-                }}>
-                    <Box sx={{ width: '99.5%', ml: .5, mt: .5, backgroundColor: '#D9E4EC' }}>
-                        <Box sx={{ py: .3, pl: 1.5, display: 'flex' }}>
-                            <Box >
-                                <CssVarsProvider>
-                                    <Avatar
-                                        color="neutral"
-                                        size="sm"
-                                        variant="outlined"
-                                        sx={{ bgcolor: '#ffffff' }}
-                                    >
-                                        <UpdateIcon />
-                                    </Avatar>
-                                </CssVarsProvider>
-                            </Box>
-                            <Typography sx={{ fontWeight: 550, pt: .5, pl: .5 }}>{overDueHeading}</Typography>
-                        </Box>
-                    </Box>
-                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '93%' }}>
+        <Paper sx={{ height: '90vh' }}>
+            <Box sx={{ flex: 1, height: 30, display: 'flex', }}>
+                <Typography sx={{ color: 'grey', fontWeight: 500, flex: 1, pt: .5, pl: 1 }}>
+                    {overDueHeading}
+                </Typography>
+                <Box sx={{ pl: .5 }}>
+                    <HighlightOffIcon sx={{ color: 'grey', height: 30, width: 30, cursor: 'pointer' }} onClick={backtoDash} />
+                </Box>
+            </Box>
+            <Box sx={{ bgcolor: '#DFE3ED', p: .5 }}>
+                <Box sx={{ bgcolor: 'white', p: 1, }} >
+                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', maxHeight: '85vh' }}>
                         {editModalFlag === 1 ?
                             <EmpStatusUpdationinDash open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                 setEditModalFlag={setEditModalFlag}
@@ -90,8 +73,8 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                                     {tabledata?.map((val, index) => {
                                         return (
                                             <tr key={index}
-                                                style={{ height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent', minHeight: 5 }}>
-                                                <td> {index + 1}</td>
+                                                style={{ height: 8, background: val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? '#EAE7FA' : 'transparent', minHeight: 5 }}>
+                                                <td> &nbsp;{index + 1}</td>
                                                 <td>
                                                     <CheckCircleOutlineIcon
                                                         sx={{
@@ -100,8 +83,10 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                                                         }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
-                                                <td
-                                                    style={{
+                                                <td style={{ width: 100, bgcolor: 'yellow' }}>
+
+                                                    <Chip sx={{
+                                                        fontSize: 12,
                                                         color: val.tm_task_status === null ? '#311E26'
                                                             : val.tm_task_status === 0 ? '#311E26'
                                                                 : val.tm_task_status === 1 ? '#94C973'
@@ -110,10 +95,12 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                                                                             : val.tm_task_status === 4 ? '#5885AF'
                                                                                 : 'transparent', minHeight: 5,
                                                         fontWeight: 700
-                                                    }}>{val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
-                                                        val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
-                                                            val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
-                                                <td><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5, borderRadius: 20 }}>
+                                                    }}>
+                                                        {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
+                                                            val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
+                                                                val.tm_task_status === 4 ? 'Pending' : 'not given'}
+                                                    </Chip></td>
+                                                <td><Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 150, pl: 1 }}>
                                                     <CountDowncomponent DueDates={val.tm_task_due_date} />
                                                 </Box></td>
                                                 <td style={{ textTransform: 'capitalize', color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}> {val.tm_task_name || 'not given'}</td>
@@ -130,8 +117,9 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                         </CssVarsProvider>
                     </Paper>
                 </Box>
-            </CardMasterClose>
-        </Box>
+            </Box>
+        </Paper>
+
     )
 }
 export default memo(TmOverDueTask)
