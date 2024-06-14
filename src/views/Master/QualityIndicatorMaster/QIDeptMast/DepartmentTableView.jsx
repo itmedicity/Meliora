@@ -20,9 +20,11 @@ const DepartmentTableView = ({ rowSelect, count }) => {
     }, [count])
 
     const [column] = useState([
-        { headerName: "Sl.No", field: "qi_dept_no", width: 40, },
+        { headerName: "Sl.No", field: "qi_dept_no", width: 45, },
         { headerName: "Department Name", field: "qi_dept_desc", width: 150, filter: "true" },
-        { headerName: "Department Code", field: "qi_dept_code", width: 70, filter: "true" },
+        { headerName: "Dept Code", field: "qi_dept_code", width: 70, filter: "true" },
+        { headerName: "Dept Sec", field: "sec_name", width: 150, filter: "true" },
+        { headerName: "QI Type", field: "qi_list_type_name", width: 100, filter: "true" },
         { headerName: "Status", field: "status", width: 50, },
         {
             headerName: 'Action',

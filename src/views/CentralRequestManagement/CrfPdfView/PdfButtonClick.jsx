@@ -9,7 +9,6 @@ import ProfilePicDefault from 'src/assets/images/nosigature.jpg'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { urlExist } from 'src/views/Constant/Constant'
 import { CrfPdfWithOutDetails } from './CrfPdfWithOutDetails';
-import { warningNotify } from 'src/views/Common/CommonCode';
 
 const PdfButtonClick = ({ val }) => {
 
@@ -61,10 +60,10 @@ const PdfButtonClick = ({ val }) => {
         getEDSign()
 
         ItemDetailsGet(req_slno).then((values) => {
-            const { success, data, message } = values
+            const { success, data } = values
             if (success === 1) {
                 ItemDetailsApproved(req_slno).then((value) => {
-                    const { succes, dataa, message } = value
+                    const { succes, dataa } = value
                     if (succes === 1) {
                         const datas = dataa.map((val, index) => {
                             const obj = {
@@ -94,7 +93,8 @@ const PdfButtonClick = ({ val }) => {
                         CrfPdfWithDetails(val, data, datas, mdsign, edsign)
                     }
                     else {
-                        warningNotify(message)
+                        const datas = []
+                        CrfPdfWithDetails(val, data, datas, mdsign, edsign)
                     }
                 })
             }
@@ -102,7 +102,7 @@ const PdfButtonClick = ({ val }) => {
                 CrfPdfWithOutDetails(val, mdsign, edsign)
             }
             else {
-                warningNotify(message)
+                CrfPdfWithOutDetails(val, mdsign, edsign)
             }
         })
 

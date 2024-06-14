@@ -1,8 +1,10 @@
 import React from 'react'
 import { Fragment, memo } from 'react';
 import { Box } from '@mui/material'
+import { PUBLIC_NAS_FOLDER } from '../Constant/Static';
 
 const PdfviewNas = ({ pdfDis }) => {
+
     return (
         <Fragment>
             <Box sx={{
@@ -12,16 +14,17 @@ const PdfviewNas = ({ pdfDis }) => {
                 {
                     pdfDis === 1 ?
                         <embed
-                            id="pdf-embed"
-                            src={"http://192.168.10.88:9090/fileshows/GuideLine.pdf#toolbar=0&navpanes=0&view=FitH"}
+                            src={`${PUBLIC_NAS_FOLDER}/fileshows/GuideLine.pdf#toolbar=0&navpanes=0&view=FitH`}
                             type="application/pdf"
-                            height={850}
-                            width="100%" />
+                            height={820}
+                            width="100%"
+                        />
+
                         :
                         pdfDis === 2 ?
                             <embed
                                 id="pdf-embed"
-                                src={"http://192.168.10.88:9090/fileshows/LASA.pdf#toolbar=0&navpanes=0&view=FitH"}
+                                src={`${PUBLIC_NAS_FOLDER}/fileshows/LASA.pdf#toolbar=0&navpanes=0&view=FitH`}
                                 type="application/pdf"
                                 height={850}
                                 width="100%" />
@@ -29,7 +32,7 @@ const PdfviewNas = ({ pdfDis }) => {
                             pdfDis === 3 ?
                                 <embed
                                     id="pdf-embed"
-                                    src={"http://192.168.10.88:9090/fileshows/SRADHA.pdf#toolbar=0&navpanes=0&view=FitH"}
+                                    src={`${PUBLIC_NAS_FOLDER}/fileshows/SRADHA.pdf#toolbar=0&navpanes=0&view=FitH`}
                                     type="application/pdf"
                                     height={850}
                                     width="100%" />
@@ -37,7 +40,7 @@ const PdfviewNas = ({ pdfDis }) => {
                                 pdfDis === 4 ?
                                     <embed
                                         id="pdf-embed"
-                                        src={"http://192.168.10.88:9090/fileshows/MSDS.pdf#toolbar=0&navpanes=0&view=FitH"}
+                                        src={`${PUBLIC_NAS_FOLDER}/fileshows/MSDS.pdf#toolbar=0&navpanes=0&view=FitH`}
                                         type="application/pdf"
                                         height={850}
                                         width="100%" />
@@ -46,14 +49,14 @@ const PdfviewNas = ({ pdfDis }) => {
                                     pdfDis === 5 ?
                                         <embed
                                             id="pdf-embed"
-                                            src={"http://192.168.10.88:9090/fileshows/2023_MEDEF.pdf#toolbar=0&navpanes=0&view=FitH"}
+                                            src={`${PUBLIC_NAS_FOLDER}/fileshows/2023_MEDEF.pdf#toolbar=0&navpanes=0&view=FitH`}
                                             type="application/pdf"
                                             height={850}
                                             width="100%" />
                                         : pdfDis === 6 ?
                                             <embed
                                                 id="pdf-embed"
-                                                src={"http://192.168.10.88:9090/fileshows/Abbreviation.pdf#toolbar=0&navpanes=0&view=FitH"}
+                                                src={`${PUBLIC_NAS_FOLDER}/fileshows/Abbreviation.pdf#toolbar=0&navpanes=0&view=FitH`}
                                                 type="application/pdf"
                                                 height={850}
                                                 width="100%" />

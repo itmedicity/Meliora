@@ -65,6 +65,7 @@ const Login = () => {
           empdeptsec: data.emp_sec,
           empsecid: data.emp_secid,
           empdept: data.emp_dept,
+          empdeptname: data.dept_name,
           apptoken: data.app_token,
           logOut: data.logOutTime
         }

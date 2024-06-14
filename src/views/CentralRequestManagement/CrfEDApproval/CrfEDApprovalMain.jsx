@@ -16,7 +16,7 @@ import ClosedDetailsModal from '../ComonComponent/ClosedDetailsModal'
 import ClosedButtonCompnt from '../ComonComponent/ClosedButtonCompnt'
 import CustomBackDrop from 'src/views/Components/CustomBackDrop'
 import { CssVarsProvider, Typography } from '@mui/joy';
-import { AllListForEDApi, CloseListApi, OnHoldListApi, RejectListApi, getEDAppvalPending, getGMAppvalPending } from '../ComonComponent/ComonFunctnFile'
+import { AllListForEDApi, CloseListApi, OnHoldListApi, RejectListApi, getEDAppvalPending } from '../ComonComponent/ComonFunctnFile'
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -64,7 +64,7 @@ const CrfEDApprovalMain = () => {
         setOpen(false)
         setRadioValue(e.target.value)
         if (e.target.value === '1') {
-            getGMAppvalPending(setDisArray, setOpen)
+            getEDAppvalPending(setDisArray, setOpen)
         } else if (e.target.value === '2') {
             AllListForEDApi(setDisArray, setOpen)
         } else if (e.target.value === '3') {

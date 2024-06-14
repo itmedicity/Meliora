@@ -142,7 +142,6 @@ const CrfReqstTableView = ({ count, rowSelect, userAcknoldge, setCount }) => {
             }
         },
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
-        { headerName: "Status", field: "status", minWidth: 120 },
         { headerName: "Purpose", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Justification", field: "needed", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
@@ -189,7 +188,6 @@ const CrfReqstTableView = ({ count, rowSelect, userAcknoldge, setCount }) => {
             }
         },
         { headerName: "Req.Slno", field: "req_slno", minWidth: 120 },
-        { headerName: "Status", field: "status", minWidth: 120 },
         { headerName: "Purpose", field: "actual_requirement", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Justification", field: "needed", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
         { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },

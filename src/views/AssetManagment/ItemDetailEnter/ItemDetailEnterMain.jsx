@@ -3,16 +3,15 @@ import { Box, Typography, Paper } from '@mui/material'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import { axioslogin } from 'src/views/Axios/Axios'
 import GRNDeailtsComp from './GRNDeailtsComp'
-import BillDetailsComp from './BillDetailsComp'
 import DEviceDetailsComp from './DEviceDetailsComp'
 import OwnerShipDetailsComp from './OwnerShipDetailsComp'
 import WarrentyGrauntyComp from './WarrentyGrauntyComp'
-import AMCPMComp from './AMCPMComp'
-import LeaseDetails from './LeaseDetails'
 import SpecDetailsComp from './SpecDetailsComp'
+import BillDetailsAdding from './BillDetailsAdding'
+import AMCCMCDetailAdding from './AMCCMCDetailAdding'
+import LeaseDetailsAdd from './LeaseDetailsAdd'
 
 const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender, render }) => {
-
     const { am_item_map_slno, am_spare_item_map_slno } = detailArry
     const [exist, setExist] = useState(0)
     const [grndetailarry, setGrnDetailArry] = useState({})
@@ -87,19 +86,6 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
             }
         }
 
-        const checkinsertOrNotAMCPMSpare = async (am_spare_item_map_slno) => {
-            const result = await axioslogin.get(`/ItemMapDetails/AmcPmInsertOrNotSpare/${am_spare_item_map_slno}`);
-            const { success, data } = result.data
-            if (success === 1) {
-                setAmcPm(1)
-                setAmcPmArry(data[0])
-            }
-            else {
-                setAmcPm(0)
-                setAmcPmArry([])
-            }
-        }
-
         if (assetSpare === 1) {
             checkinsertOrNotDetail(am_item_map_slno)
             checkinsertOrNotWarGar(am_item_map_slno)
@@ -108,7 +94,6 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
         else {
             checkinsertOrNotDetailSpare(am_spare_item_map_slno)
             checkinsertOrNotWarGarSpare(am_spare_item_map_slno)
-            checkinsertOrNotAMCPMSpare(am_spare_item_map_slno)
         }
     }, [am_item_map_slno, assetSpare, am_spare_item_map_slno, setAmcPmArry, setGrnDetailArry, setwarGarArry,
     ])
@@ -135,8 +120,9 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                     {/* Bill Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         Bill Details</Typography>
-                    <BillDetailsComp detailArry={detailArry} assetSpare={assetSpare}
-                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
+
+                    <BillDetailsAdding detailArry={detailArry} assetSpare={assetSpare}
+                        grndetailarry={grndetailarry} />
 
                     {/* Device Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
@@ -156,8 +142,7 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                             <Box>
                                 <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                                     Lease Details</Typography>
-                                <LeaseDetails detailArry={detailArry} assetSpare={assetSpare}
-                                    grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
+                                <LeaseDetailsAdd grndetailarry={grndetailarry} />
                             </Box> : null
                     }
 
@@ -173,18 +158,16 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                             <Box>
                                 <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                                     AMC/PM  Details</Typography>
-                                <AMCPMComp detailArry={detailArry} amcPmarry={amcPmarry} assetSpare={assetSpare}
+                                <AMCCMCDetailAdding detailArry={detailArry} amcPmarry={amcPmarry} assetSpare={assetSpare}
                                     amcPm={amcPm} setAmcPm={setAmcPm} setRender={setRender} render={render} />
                             </Box>
                             : null
                     }
 
-
                     {/*  Spec Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         Specification  Details</Typography>
                     <SpecDetailsComp detailArry={detailArry} assetSpare={assetSpare} />
-
 
                 </Box>
             </Paper>

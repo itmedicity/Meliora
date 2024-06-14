@@ -134,7 +134,6 @@ const RoomAsset = React.lazy(() => import('./views/RoomManagement/DashBoard/Dash
 const ItemCreation = React.lazy(() => import('./views/AssetManagment/ItemCreation/ItemCreationMast'))
 const DashboardBackup = React.lazy(() => import('./views/ItManagement/DashboardBackup/Newdashboard'))
 const PasswordManagement = React.lazy(() => import('./views/ItManagement/PasswordManagement/PasswordManagement'))
-const CommunicationDevice = React.lazy(() => import('./views/ItManagement/Communication'))
 const BackupChecks = React.lazy(() => import('./views/ItManagement/BackupChecksAndMonitoring/BackupChecks'))
 const SimType = React.lazy(() => import('./views/Master/ItMasters/BillManagement/SimType/SimTypeMaster'))
 const WifiManageMenT = React.lazy(() => import('./views/ItManagement/WifiManagement/WifiManageMentMains'))
@@ -169,7 +168,6 @@ const CrfNewReqRegister = React.lazy(() => import('./views/CentralRequestManagem
 const AssetInterDeptTrans = React.lazy(() => import('./views/AssetManagment/InterDeptTransfer/InterDeptTransfer'))
 const CensusDptMast = React.lazy(() => import('./views/Master/QualityIndicatorMaster/CensusDeptSecMast/QualityDept'))
 const QualityIndicator = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QualityIndicatorsList/QualityIndicators'))
-const QIMonthlyReport = React.lazy(() => import('./views/QualityIndicator/QIMonthlyReport'))
 const TMdepartmentReport = React.lazy(() => import('./views/Report/TaskReport/DepartmentWise/DepartmentWiseTask'))
 const TMEmployeeReport = React.lazy(() => import('./views/Report/TaskReport/EmployeeWise/EmployeeeWiseTask'))
 const CRFNewIncharge = React.lazy(() => import('./views/CentralRequestManagement/CrfInchargeApproval/CrfInchargeAppvable'))
@@ -197,9 +195,18 @@ const BillType = React.lazy(() => import('./views/Master/ItMasters/BillManagemen
 const BillSupplierDetailsMast = React.lazy(() => import('./views/Master/ItMasters/BillManagement/SupplierDetailsMast/SupplierDetails'))
 const QIdept = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QIDeptMast/QualityIndDeptMast'))
 const QIPatientMarking = React.lazy(() => import('./views/QualityIndicatorNew/DepartmentWisePatientMarking'))
+const Incident = React.lazy(() => import('./views/IncidentManagement/IncidentList'))
+const QIMonthlyReport = React.lazy(() => import('./views/QualityIndicatorNew/MonthlyReport'))
+const QIValidation = React.lazy(() => import('./views/QualityIndicatorNew/QIValidation'))
+const TimeReport = React.lazy(() => import('./views/QualityIndicatorNew/InitialAssessmentTimeReport'))
+const QIListType = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QIListTypeMast/QIListType'))
+const DayWiseQiReport = React.lazy(() => import('./views/QualityIndicatorNew/DaywiseQiReport'))
 const DataTransferHRM = React.lazy(() => import('./views/Master/DataImportFrmHR/DataImportHR'))
 const TaskManagementTaskLists = React.lazy(() => import('./views/TaskManagement/DepartmentTask/DepartmentMain'))
 const AcceptTask = React.lazy(() => import('./views/TaskManagement/AcceptTask/AcceptTaskFromDir'))
+const AmcCmcAdding = React.lazy(() => import('./views/AssetManagment/ItemDetailEnter/AmcCmcAdding'))
+// const QiInchargeApr = React.lazy(() => import('./views/QualityIndicatorNew/InchargeApproval'))
+
 
 
 const routes = [
@@ -340,7 +347,6 @@ const routes = [
   { path: '/Home/ItemCreation', exact: true, name: 'item Creation', component: ItemCreation },
   { path: '/Home/DashboardBackup', exact: true, name: 'Dashboard Backup', component: DashboardBackup },
   { path: '/Home/PasswordManagement', exact: true, name: 'Password Management', component: PasswordManagement },
-  { path: '/Home/CommunicationDevice', exact: true, name: 'Communication Device Details', component: CommunicationDevice },
   { path: '/Home/BackupChecks', exact: true, name: 'Backup Checks & Monitoring', component: BackupChecks },
   { path: '/Home/SimType', exact: true, name: 'Device Type', component: SimType },
   { path: '/Home/WifiManageMenT', exact: true, name: 'Wifi Management', component: WifiManageMenT },
@@ -376,7 +382,6 @@ const routes = [
   { path: '/Home/AssetInterDeptTrans', exact: true, name: 'Asset Inter Departme', component: AssetInterDeptTrans },
   { path: '/Home/CensusDept', excat: true, name: 'Daily Census Department Section', component: CensusDptMast },
   { path: '/Home/QualityIndicator', exact: true, name: 'Quality Indicator List', component: QualityIndicator },
-  { path: '/Home/QIMonthlyReport', exact: true, name: 'QI Monthly Report', component: QIMonthlyReport },
   { path: '/Home/TMdepartmentReport', exact: true, name: 'TM department Report', component: TMdepartmentReport },
   { path: '/Home/TMEmployeeReport', exact: true, name: 'TM employee Report', component: TMEmployeeReport },
   { path: '/Home/TaskManagementTaskLists', exact: true, name: 'TaskManagement TaskList', component: TaskManagementTaskLists },
@@ -406,6 +411,16 @@ const routes = [
   { path: '/Home/QIPatientMarking', exact: true, name: 'Dept Wise Patient Marking', component: QIPatientMarking },
   { path: '/Home/DataTransferHRM', exact: true, name: 'Data Transfer from HR', component: DataTransferHRM },
   { path: '/Home/AcceptTask', exact: true, name: 'TaskManagement AcceptTask', component: AcceptTask },
+  { path: '/Home/IncidentList', exact: true, name: 'Incident List View', component: Incident },
+  { path: '/Home/QIMonthlyReport', exact: true, name: 'QI Monthly Report', component: QIMonthlyReport },
+  { path: '/Home/QIValidation', exact: true, name: 'QI Validation', component: QIValidation },
+  { path: '/Home/TimeReport', exact: true, name: 'Initial Assessment Time Report', component: TimeReport },
+  { path: '/Home/QiListType', exact: true, name: 'QI List Type Mast', component: QIListType },
+  { path: '/Home/DayWiseReport', exact: true, name: 'Day Wise QI Report', component: DayWiseQiReport },
+  { path: '/Home/AmcCmcAdding', exact: true, name: 'AMC CMC Adding', component: AmcCmcAdding }
+  // { path: '/Home/QiIncharge', exact: true, name: 'QI Incharge Approval', component: QiInchargeApr },
+
+
 ]
 
 export default routes

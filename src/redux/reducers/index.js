@@ -159,6 +159,7 @@ import { setNonClinicalCrfPending } from './CrfDashboardNonClinical.Reducer'
 import { setClinicalNDRFPending } from './NdrfDashboardClinical.Reducer'
 import { setNonClinicalNDRFPending } from './NdrfDashboardNonClinical.Reducer'
 import { getQltyDept } from './QualityIndicatorDept.Reducer'
+import { getQIDeptType } from './QITypeSelect.Reducer';
 import { getSimType } from './ItSimTypeList.Reducer'
 import { getBillType } from './ItBillTypeList.Reducer'
 import { getBillCategory } from './ItBillCategoryList.Reducer'
@@ -171,7 +172,8 @@ import { setCRMPurchaseAckPending } from './CrmPurchaseAckPendg.Reducer'
 import { setCRMPurchDataCollPending } from './CrmPurchaDetacollPend.Reducer'
 import { getMultDepSection } from './TmMultipleDepSectList.Reducer'
 import { getMultHodInCharge } from './TmMultHodInchargeList.Reducer';
-
+import { setAmcCmcMaster } from './AmAMCCMCSelect.Reducer'
+import { setSupplierSelect } from './AmSupplierSelect.Reducer'
 
 
 const reducer = combineReducers({
@@ -335,6 +337,7 @@ const reducer = combineReducers({
     setClinicalNDRFPending,
     setNonClinicalNDRFPending,
     getQltyDept,
+    getQIDeptType,
     getSimType,
     getBillType,
     getBillCategory,
@@ -348,7 +351,10 @@ const reducer = combineReducers({
     getMultDepSection,
     getMultHodInCharge,
     getProjectListWithgoal,
-    getNonGoalProjectList
+    getNonGoalProjectList,
+    setAmcCmcMaster,
+    setSupplierSelect
+
 
 })
 export default reducer;
