@@ -1,4 +1,4 @@
-import { Box, Button, Chip, CssVarsProvider, Modal, ModalDialog, Tooltip, Typography } from '@mui/joy'
+import { Box, Button, Chip, CssVarsProvider, Input, Modal, ModalDialog, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AssignmentSharpIcon from '@mui/icons-material/AssignmentSharp';
@@ -18,11 +18,13 @@ import { getProjectList } from 'src/redux/actions/TmProjectsList.action';
 import ProjectCreation from './ProjectCreation';
 import { getDepartment } from 'src/redux/actions/Department.action';
 import AttachmentIcon from '@mui/icons-material/Attachment';
+import { format } from 'date-fns';
 
 const EditRejectedTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount, setMasterData }) => {
 
     const { tm_task_slno, main_task_slno, tm_task_name, tm_project_slno, tm_task_status, em_name, tm_task_due_date,
-        tm_project_duedate, tm_task_description, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, tm_task_dept, tm_task_dept_sec } = masterData
+        tm_project_duedate, tm_task_description, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, tm_task_dept, tm_task_dept_sec, tm_query_remark,
+        tm_query_reply, tm_query_remark_date } = masterData
 
     const dispatch = useDispatch();
     const [projectz, setprojectz] = useState(tm_project_slno === null ? '' : tm_project_slno)
@@ -36,6 +38,7 @@ const EditRejectedTask = ({ open, masterData, setEditModalFlag, setEditModalOpen
     const [empArry, setEmpArry] = useState([])
     const [changeAssignee, setchangeAssignee] = useState(0)
     const id = useSelector((state) => { return state.LoginUserData.empid })
+    let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 
     useEffect(() => {
         dispatch(getDepartment())
@@ -50,9 +53,11 @@ const EditRejectedTask = ({ open, masterData, setEditModalFlag, setEditModalOpen
         pendingRemarks: tm_pending_remark,
         onHoldRemaks: tm_onhold_remarks,
         completedRemarks: tm_completed_remarks,
+        QueryReply: tm_query_reply,
+
     })
 
-    const { taskSlno, taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } = taskData
+    const { taskSlno, taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks, QueryReply } = taskData
 
     const taskDataUpdate = useCallback(
         (e) => {
@@ -76,10 +81,13 @@ const EditRejectedTask = ({ open, masterData, setEditModalFlag, setEditModalOpen
             tm_completed_remarks: completedRemarks === '' ? null : completedRemarks,
             tm_project_slno: projectz === '' ? null : projectz,
             main_task_slno: main_task_slno === null ? null : main_task_slno,
+            tm_query_reply: QueryReply === '' ? null : QueryReply,
+            tm_query_reply_user: id,
+            tm_query_reply_date: QueryReply !== '' ? newDate : null,
             edit_user: id,
         }
     }, [taskName, taskSlno, tm_task_status, dueDate, description, departmentMast, departmentSecMast, pendingRemarks, onHoldRemaks, completedRemarks, projectz,
-        main_task_slno, id])
+        main_task_slno, QueryReply, newDate, id])
 
     const inactive = empArry && empArry.map((val) => {
         return {
@@ -464,6 +472,31 @@ const EditRejectedTask = ({ open, masterData, setEditModalFlag, setEditModalOpen
                                             </Box>
                                         ))}
                                     </Box>
+                                </Box>
+
+                                <Box sx={{ flex: 1, mx: 2.3, mt: 2 }}>
+                                    <Box sx={{ flex: 1, display: 'flex' }}>
+                                        <Typography sx={{ mt: 1, pl: .5, color: '#92443A', flex: 1, }}>Raised Query ?</Typography>
+                                        <Typography sx={{ mt: 1, pl: .5, color: '#92443A' }}>Query Raised Date :</Typography>
+                                        <Typography sx={{ mt: 1, pl: .5, color: 'black', fontWeight: 400, fontSize: 14, pr: 1 }}>
+                                            {format(new Date(tm_query_remark_date), 'MMM dd, yyyy HH:mm:ss')}
+                                        </Typography>
+                                    </Box>
+
+                                    <Input placeholder="Type in here…" variant="outlined" disabled value={tm_query_remark} />
+                                </Box>
+                                <Box sx={{ flex: 1, mx: 2.3, mt: 1 }}>
+                                    <Typography sx={{ mt: 1, pl: .5, color: '#92443A' }}>Reply to the Query</Typography>
+                                    <Textarea
+                                        variant="outlined"
+                                        color="warning"
+                                        minRows={3}
+                                        maxRows={10}
+                                        placeholder="type here..."
+                                        name="QueryReply"
+                                        value={QueryReply}
+                                        onChange={taskDataUpdate}
+                                    />
                                 </Box>
                                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 3, mr: 3, pb: 2 }}>
                                     <Button variant="plain" sx={{ fontSize: 15 }}

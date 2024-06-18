@@ -1,4 +1,4 @@
-import { Box } from '@mui/joy';
+import { Box, Chip } from '@mui/joy';
 import React, { memo, useEffect, useState } from 'react';
 import { axioslogin } from 'src/views/Axios/Axios';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -45,8 +45,8 @@ const ByProjects = () => {
                             ) : (
                                 <ArrowRightIcon sx={{ color: '#92443A', bgcolor: '#F7F7F7' }} />
                             )}
-                            <Box sx={{ fontWeight: 600, color: '#5C5359', textTransform: 'capitalize', }}>
-                                <u>{val.tm_project_name}</u>
+                            <Box >
+                                <Chip sx={{ fontWeight: 600, color: '#5C5359', textTransform: 'capitalize', bgcolor: '#F0E9DE' }}><u>{val.tm_project_name}</u></Chip>
                             </Box>
                         </Box>
                         {isOpen && (

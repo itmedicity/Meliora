@@ -100,7 +100,7 @@ const RejectedTasks = () => {
 
             <Box sx={{ width: '100%', overflow: 'auto', }}>
                 {taskList.length !== 0 ?
-                    <Box sx={{ width: 2700, }}>
+                    <Box sx={{ width: 3000, }}>
                         <Box sx={{
                             height: 45, mt: .5, mx: 1.5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
                             bgcolor: 'white'
@@ -109,13 +109,14 @@ const RejectedTasks = () => {
                             <Box sx={{ width: 60, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center', }}>File</Box>
                             <Box sx={{ width: 40, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12, }}>Action</Box>
                             <Box sx={{ width: 210, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center', }}>CountDown</Box>
+                            <Box sx={{ width: 450, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12, }}>Queries</Box>
                             <Box sx={{ width: 650, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>Task Name</Box>
                             <Box sx={{ width: 600, fontWeight: 600, color: '#444444', fontSize: 12, }}>Project</Box>
                             <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Department</Box>
                             <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Section</Box>
-                            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Assignees</Box>
-                            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>Create Date</Box>
-                            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>Due Date</Box>
+                            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, }}>Assignees</Box>
+                            <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>Create Date</Box>
+                            <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>Due Date</Box>
                             <Box sx={{ width: 650, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Description</Box>
                         </Box>
                         <Virtuoso
@@ -161,6 +162,18 @@ const RejectedTasks = () => {
                                                 </Box>
                                             }
                                         </Box>
+                                        {
+                                            val.tm_task_status === 1 ?
+                                                <Box sx={{ width: 450, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', textAlign: 'center' }}>
+                                                    {val.tm_query_remark || 'not Raised'}
+                                                </Box> :
+                                                <Box sx={{
+                                                    width: 450, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey', fontSize: 12,
+                                                    textTransform: 'capitalize', textAlign: 'center'
+                                                }}>
+                                                    {val.tm_query_remark || 'not Raised'}
+                                                </Box>
+                                        }
                                         {
                                             val.tm_task_status === 1 ?
                                                 <Box sx={{ width: 650, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
@@ -211,11 +224,11 @@ const RejectedTasks = () => {
                                         }
                                         {
                                             val.tm_task_status === 1 ?
-                                                <Box sx={{ width: 300, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
+                                                <Box sx={{ width: 250, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
                                                     {val.em_name || 'not given'}
                                                 </Box> :
                                                 <Box sx={{
-                                                    width: 300, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey', fontSize: 12,
+                                                    width: 250, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey', fontSize: 12,
                                                     textTransform: 'capitalize',
                                                 }}>
                                                     {val.em_name || 'not given'}
@@ -223,11 +236,11 @@ const RejectedTasks = () => {
                                         }
                                         {
                                             val.tm_task_status === 1 ?
-                                                <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
+                                                <Box sx={{ width: 180, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
                                                     {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
                                                 </Box> :
                                                 <Box sx={{
-                                                    width: 160, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey', fontSize: 12,
+                                                    width: 180, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey', fontSize: 12,
                                                     textTransform: 'capitalize',
                                                 }}>
                                                     {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -235,11 +248,11 @@ const RejectedTasks = () => {
                                         }
                                         {
                                             val.tm_task_status === 1 ?
-                                                <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
+                                                <Box sx={{ width: 180, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
                                                     {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
                                                 </Box> :
                                                 <Box sx={{
-                                                    width: 160, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey', fontSize: 12,
+                                                    width: 180, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey', fontSize: 12,
                                                     textTransform: 'capitalize',
                                                 }}>
                                                     {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}

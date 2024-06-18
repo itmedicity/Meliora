@@ -9,11 +9,15 @@ import { Virtuoso } from 'react-virtuoso';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import CountDowncomponent from '../CountDown/CountDowncomponent';
 import { format } from 'date-fns';
-import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage';
+import QueryModal from './QueryModal';
+import HelpSharpIcon from '@mui/icons-material/HelpSharp';
+import MarkUnreadChatAltSharpIcon from '@mui/icons-material/MarkUnreadChatAltSharp';
+import ReplyModal from './ReplyModal';
+import ChatSharpIcon from '@mui/icons-material/ChatSharp';
 
 const AcceptTaskFromDir = () => {
     const [taskList, setTaskList] = useState([])
@@ -24,6 +28,11 @@ const AcceptTaskFromDir = () => {
     const [imageUrls, setImageUrls] = useState([]);
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const [taskcount, settaskcount] = useState(0)
+    const [queryflag, setqueryflag] = useState(0)
+    const [queryOpen, setqueryOpen] = useState(false)
+    const [replyflag, setReplyflag] = useState(0)
+    const [replyOpen, setReplyOpen] = useState(false)
+    const [valuee, setValuee] = useState([])
 
     const searchData = useMemo(() => {
         return {
@@ -62,24 +71,20 @@ const AcceptTaskFromDir = () => {
         acceptTask(patchdata)
     }, [taskcount, settaskcount])
 
-    const RejectTask = useCallback((value) => {
-        const { tm_create_detl_slno } = value
-        const patchdata = {
-            tm_create_detl_slno: tm_create_detl_slno,
-            tm_detail_status: 2
-        }
-        const rejectTask = async (patchdata) => {
-            const result = await axioslogin.patch('/TmAllDeptTask/acceptTask', patchdata)
-            const { success } = result.data
-            if (success === 2) {
-                succesNotify('Raised a Query Successfully')
-                settaskcount(taskcount + 1)
-            } else {
-            }
-        }
-        rejectTask(patchdata)
-    }, [taskcount, settaskcount])
 
+    const RejectTask = useCallback((value) => {
+        setqueryflag(1)
+        setValuee(value)
+        setqueryOpen(true)
+    }, [])
+
+
+
+    const ReplyDetails = useCallback((value) => {
+        setReplyflag(1)
+        setValuee(value)
+        setReplyOpen(true)
+    }, [])
 
     const isPastDue = (tm_task_due_date) => {
         const today = new Date();
@@ -126,8 +131,20 @@ const AcceptTaskFromDir = () => {
 
     return (
         <Paper sx={{ pb: .3, bgcolor: '#DFE3ED' }}>
+
             {image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                 selectedImages={selectedImages} getarry={getarry} /> : null}
+
+
+            {queryflag === 1 ?
+                <QueryModal open={queryOpen} setqueryOpen={setqueryOpen} valuee={valuee}
+                    setqueryflag={setqueryflag} settaskcount={settaskcount} taskcount={taskcount} />
+                : null}
+
+            {replyflag === 1 ?
+                <ReplyModal open={replyOpen} setReplyOpen={setReplyOpen} valuee={valuee}
+                    setReplyflag={setReplyflag} />
+                : null}
 
             <Box sx={{ flex: 1, height: 35, borderBottom: 1, borderColor: 'lightgrey', pt: .8, pl: .8, color: '#C7C8CB', bgcolor: 'white' }}>
                 Accept/Raise a query
@@ -155,19 +172,19 @@ const AcceptTaskFromDir = () => {
                 </Box>
                 <Box sx={{ width: '100%', overflow: 'auto', mt: 2 }}>
                     {taskList.length !== 0 ?
-                        <Box sx={{ width: 2700, }}>
+                        <Box sx={{ width: 2900, }}>
                             <Box sx={{
                                 height: 45, mt: .5, mx: 1.5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
                                 bgcolor: 'white'
                             }}>
                                 <Box sx={{ width: 40, pl: 1.5, fontWeight: 600, color: '#444444', fontSize: 12, }}>#</Box>
                                 <Box sx={{ width: 60, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center', }}>File</Box>
-                                <Box sx={{ width: 300, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12, }}>Action</Box>
                                 <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center', }}>CountDown</Box>
-                                <Box sx={{ width: 650, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.5 }}>Task Name</Box>
-                                <Box sx={{ width: 600, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>Project</Box>
+                                <Box sx={{ width: 350, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12, }}>Action </Box>
+                                <Box sx={{ width: 640, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Task Name</Box>
+                                <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12, }}>Project</Box>
                                 <Box sx={{ width: 200, fontWeight: 600, color: '#444444', fontSize: 12, }}>Task Created By</Box>
-                                <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, }}>Created Date</Box>
+                                <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 12, }}>Created Date</Box>
                                 <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>Due Date</Box>
                                 <Box sx={{ width: 650, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Description</Box>
                             </Box>
@@ -197,8 +214,19 @@ const AcceptTaskFromDir = () => {
                                                     }}
                                                     />}
                                             </Box>
-                                            <Box sx={{ width: 300, fontWeight: 600, color: 'grey', fontSize: 12, display: 'flex' }}>
-                                                <Box sx={{ flex: .8, pl: 1 }}>
+                                            <Box sx={{ width: 180, fontWeight: 600, color: 'grey', fontSize: 12, }}>
+                                                {val.tm_task_status !== 1 ?
+                                                    <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, width: 150, pl: 1 }}>
+                                                        <CountDowncomponent DueDates={val.tm_task_due_date} />
+                                                    </Box> :
+                                                    <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, width: 150, pl: 5, color: 'darkgreen' }}>
+                                                        Completed
+                                                    </Box>
+                                                }
+                                            </Box>
+
+                                            <Box sx={{ width: 360, fontWeight: 600, color: 'grey', fontSize: 12, display: 'flex', pl: 1, pr: 2 }}>
+                                                <Box sx={{ flex: .6, pl: 1 }}>
                                                     <CssVarsProvider>
                                                         <Tooltip title="Click to accept this Task" placement="bottom" variant='solid'>
                                                             <CheckCircleIcon sx={{ color: '#9A5B13', cursor: 'pointer', '&:hover': { color: '#4C3D40' }, }}
@@ -210,27 +238,48 @@ const AcceptTaskFromDir = () => {
                                                 <Box sx={{ flex: 1, pl: 1 }}>
                                                     {val.tm_detail_status === 0 ?
                                                         <CssVarsProvider>
-                                                            <Tooltip title="Click to reject this Task" placement="bottom" variant='solid'>
-                                                                <CancelIcon sx={{ color: 'darkred', cursor: 'pointer', '&:hover': { color: 'red' }, }}
+                                                            <Tooltip title="Click to Raise a Query About the Task" placement="bottom" variant='solid'>
+                                                                <HelpSharpIcon sx={{ color: 'darkred', cursor: 'pointer', '&:hover': { color: 'red' }, }}
                                                                     onClick={() => RejectTask(val)} />
                                                             </Tooltip> Raise a Query
                                                         </CssVarsProvider>
                                                         :
                                                         <>
-                                                            <CancelIcon sx={{ color: 'grey', cursor: 'pointer', }} />Raised a Query </>}
+                                                            <HelpSharpIcon sx={{ color: 'grey', cursor: 'pointer', }}
+                                                                onClick={() => RejectTask(val)} />Raised a Query </>}
 
                                                 </Box>
+                                                <Box sx={{ flex: .5, pl: 1 }}>
+                                                    {val.tm_detail_status === 0 ?
+                                                        <Box>
+                                                            <ChatSharpIcon sx={{
+                                                                color: 'grey',
+                                                            }}
+                                                            />Reply
+                                                        </Box>
+                                                        :
+                                                        <Box>
+                                                            {val.tm_query_reply !== null ?
+                                                                <MarkUnreadChatAltSharpIcon sx={{
+                                                                    color: '#41729F',
+                                                                    '&:hover': { color: '#274472' }
+                                                                }}
+                                                                    onClick={() => ReplyDetails(val)}
+                                                                /> :
+                                                                <ChatSharpIcon sx={{
+                                                                    color: 'grey',
+                                                                }}
+                                                                />}
+                                                            Reply
+                                                        </Box>
+                                                    }
+                                                </Box>
                                             </Box>
-                                            <Box sx={{ width: 180, fontWeight: 600, color: 'grey', fontSize: 12, }}>
-                                                {val.tm_task_status !== 1 ?
-                                                    <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, width: 150, pl: 1 }}>
-                                                        <CountDowncomponent DueDates={val.tm_task_due_date} />
-                                                    </Box> :
-                                                    <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, width: 150, pl: 5, color: 'darkgreen' }}>
-                                                        Completed
-                                                    </Box>
-                                                }
-                                            </Box>
+
+
+
+
+
                                             {
                                                 val.tm_task_status === 1 ?
                                                     <Box sx={{ width: 650, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
@@ -245,11 +294,11 @@ const AcceptTaskFromDir = () => {
                                             }
                                             {
                                                 val.tm_task_status === 1 ?
-                                                    <Box sx={{ width: 600, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
+                                                    <Box sx={{ width: 500, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
                                                         {val.tm_project_name || 'not given'}
                                                     </Box> :
                                                     <Box sx={{
-                                                        width: 600, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey', fontSize: 12,
+                                                        width: 500, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey', fontSize: 12,
                                                         textTransform: 'capitalize',
                                                     }}>
                                                         {val.tm_project_name || 'not given'}
@@ -269,11 +318,11 @@ const AcceptTaskFromDir = () => {
                                             }
                                             {
                                                 val.tm_task_status === 1 ?
-                                                    <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
+                                                    <Box sx={{ width: 180, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
                                                         {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
                                                     </Box> :
                                                     <Box sx={{
-                                                        width: 160, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey', fontSize: 12,
+                                                        width: 180, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey', fontSize: 12,
                                                         textTransform: 'capitalize',
                                                     }}>
                                                         {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -281,11 +330,11 @@ const AcceptTaskFromDir = () => {
                                             }
                                             {
                                                 val.tm_task_status === 1 ?
-                                                    <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
+                                                    <Box sx={{ width: 180, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
                                                         {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
                                                     </Box> :
                                                     <Box sx={{
-                                                        width: 160, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey', fontSize: 12,
+                                                        width: 180, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey', fontSize: 12,
                                                         textTransform: 'capitalize',
                                                     }}>
                                                         {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}

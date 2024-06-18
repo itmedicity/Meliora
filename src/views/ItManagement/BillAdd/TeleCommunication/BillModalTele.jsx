@@ -1,6 +1,5 @@
 import { Box, Chip, Modal, ModalDialog, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useState } from 'react'
-import HighlightOffSharpIcon from '@mui/icons-material/HighlightOffSharp';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import BillFile from '../FileView/BillFile';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
@@ -12,6 +11,7 @@ import imageCompression from 'browser-image-compression';
 import CloseIcon from '@mui/icons-material/Close';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const BillModalTele = ({ modalOpen, setModalFlag, setModalOpen, billDatas, filezUrls, index_no, setFilezUrls }) => {
 
@@ -299,7 +299,7 @@ const BillModalTele = ({ modalOpen, setModalFlag, setModalOpen, billDatas, filez
                     sx={{ width: 650, bgcolor: '#1896A0' }}>
                     <Box>
                         <Box sx={{ flex: 1, textAlign: 'right' }}> <Tooltip title="Close">
-                            < HighlightOffSharpIcon sx={{
+                            < CancelIcon sx={{
                                 cursor: 'pointer',
                                 color: '#BA0F30',
                                 height: 25, width: 25,

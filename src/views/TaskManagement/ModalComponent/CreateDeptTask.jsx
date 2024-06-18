@@ -32,8 +32,12 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
+
     const secName = useSelector((state) => {
         return state.LoginUserData.empdeptsec
+    })
+    const deeptName = useSelector((state) => {
+        return state.LoginUserData.empdeptname
     })
     const empdept = useSelector((state) => {
         return state.LoginUserData.empdept
@@ -42,6 +46,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
     const empsecid = useSelector((state) => {
         return state.LoginUserData.empsecid
     })
+
 
     useEffect(() => {
         dispatch(getDepartSecemployee(empsecid))
@@ -300,8 +305,8 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                                         <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>Department</Typography>
                                         <Inputcomponent
                                             type="text"
-                                            name="secName"
-                                            value={secName}
+                                            name="deeptName"
+                                            value={deeptName}
                                             disabled
                                         />
                                     </Box>

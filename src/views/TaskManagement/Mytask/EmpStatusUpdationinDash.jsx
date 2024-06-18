@@ -1,7 +1,6 @@
 import { Box, Button, CssVarsProvider, DialogActions, Modal, ModalDialog, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { useSelector } from 'react-redux';
@@ -20,15 +19,15 @@ import imageCompression from 'browser-image-compression';
 import moment from 'moment';
 import AutoDeleteTwoToneIcon from '@mui/icons-material/AutoDeleteTwoTone';
 import DueDateModal from '../ModalComponent/DueDateModal';
+import CancelIcon from '@mui/icons-material/Cancel';
+import AssignmentSharpIcon from '@mui/icons-material/AssignmentSharp';
+
 const EmpStatusUpdationinDash = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount }) => {
 
     const { tm_task_slno, tm_task_name, tm_task_description, tm_task_due_date, main_task_slno, sec_name, tm_task_dept, tm_task_dept_sec, tm_task_status, dept_name,
         tm_project_slno, tm_project_name, create_date, tm_onhold_remarks, tm_pending_remark, tm_completed_remarks, } = masterData
 
-
-
     const id = useSelector((state) => { return state.LoginUserData.empid })
-
     const [completed, setCompleted] = useState(tm_task_status === 1 ? true : tm_task_status === 2 ? false : tm_task_status === 3 ? false : tm_task_status === 4 ? false : false)
     const [onProgress, setOnProgress] = useState(tm_task_status === 2 ? true : tm_task_status === 1 ? false : tm_task_status === 3 ? false : tm_task_status === 4 ? false : false)
     const [onHold, setOnHold] = useState(tm_task_status === 3 ? true : tm_task_status === 1 ? false : tm_task_status === 2 ? false : tm_task_status === 4 ? false : false)
@@ -66,8 +65,6 @@ const EmpStatusUpdationinDash = ({ open, masterData, setEditModalFlag, setEditMo
         ProgressDate: '',
         progress_emp: id,
         progressDetails: ''
-
-
     })
     const { PrgSlNo, ProgressDate, progressDetails, } = taskProgress
     const ProgresssUpdate = useCallback(
@@ -475,7 +472,8 @@ const EmpStatusUpdationinDash = ({ open, masterData, setEditModalFlag, setEditMo
                         sx={{
                             overflowY: 'scroll',
                             width: '90vw',
-                            height: '60vw'
+                            height: '60vw',
+                            p: 0
                         }}
                     >
                         <Box>
@@ -485,26 +483,31 @@ const EmpStatusUpdationinDash = ({ open, masterData, setEditModalFlag, setEditMo
                                 : null}
                         </Box>
                         <Box sx={{ borderRight: 1, borderLeft: 1, borderBottom: 1, borderColor: '#D9E4EC', }}>
-                            <Box sx={{
-                                width: "100%", backgroundColor: '#D9E4EC', height: 45,
-                                borderTop: 1, borderBlockColor: '#6AABD2', pt: 1, mt: .5,
-                                display: 'flex'
-                            }}>
-                                <Box sx={{ flex: 1 }}>
-                                    <ModeEditIcon sx={{ height: '20px' }} />Task Status
-                                </Box>
 
-                                <Box sx={{ width: 35, mb: .3, display: 'flex', justifyContent: 'flex-end', mr: 1, pt: .8, pr: .6, bgcolor: 'white', borderRadius: 15 }}>
-                                    <Tooltip title="Close">
-                                        < CloseIcon sx={{ cursor: 'pointer', size: 'lg', height: 20, color: '#004F76' }}
-                                            onClick={handleEditClose}
-                                        />
-                                    </Tooltip>
-                                </Box>
+                            <Box sx={{ flex: 1, display: 'flex', bgcolor: 'white', height: 30 }}>
+                                <Typography sx={{ color: 'lightgray', fontSize: 12, pl: 1, flex: 1, pt: 1, fontWeight: 900, }}> My Task</Typography>
+                                <CancelIcon sx={{
+                                    height: 45, width: 45, cursor: 'pointer', color: 'darkred', p: 1,
+                                    '&:hover': { color: '#BA0F30' }
+                                }}
+                                    onClick={handleEditClose}
+                                />
+                            </Box>
+                            <Box sx={{ flex: 1, bgcolor: '#52688F', height: 40, mt: 1 }}>
+                            </Box>
+                            <Box style={{
+                                marginLeft: 50,
+                                marginTop: "-0.99em",
+                                paddingLeft: 2,
+                                zIndex: 2,
+                                backgroundColor: "white",
+                                borderRadius: 35,
+                                position: "absolute", fontSize: "0.75em"
+                            }}>
+                                <AssignmentSharpIcon sx={{ height: 50, width: 50, p: 1.5, }} />
                             </Box>
                             <Box>
-                                {/* <Box sx={{ display: 'flex', width: '100%', mt: 1 }}> */}
-                                <Box sx={{ flex: 1, mt: .5 }}>
+                                <Box sx={{ flex: 1, mt: 3.2 }}>
                                     <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                                         <Box sx={{ flex: .9, ml: 3 }}>
                                             Project

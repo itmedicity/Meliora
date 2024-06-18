@@ -122,6 +122,7 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
     }, [])
 
     const CreateProject = useCallback(() => {
+        setgoalz(0)
         setAddProjectFlag(1)
         setaddProjectlModalOpen(true)
     }, [])
