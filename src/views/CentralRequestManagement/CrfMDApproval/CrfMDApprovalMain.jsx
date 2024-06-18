@@ -20,7 +20,12 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Virtuoso } from 'react-virtuoso'
-import { AllListForMDApi, CloseListApi, OnHoldListApi, RejectListApi, getMDAppvalPending } from '../ComonComponent/ComonFunctnFile'
+import { AllListForMDApi, CloseListApi, OnHoldListApiDateRange, RejectListApiDateRange, getMDAppvalPending } from '../ComonComponent/ComonFunctnFile'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import FormControl from '@mui/material/FormControl'
+import { format, subMonths } from 'date-fns'
+
 
 const CrfMDApprovalMain = () => {
 
@@ -72,15 +77,96 @@ const CrfMDApprovalMain = () => {
         }
     }, [])
 
+
+    const [dayList, setDayList] = useState(0)
+    const [rejctmonthval, setrjectMonthVal] = useState(0)
+    const [holdmonthval, setholdMonthVal] = useState(0)
+
     const rejectOnclick = useCallback(() => {
         setOpen(true)
-        RejectListApi(setDisArray, setOpen)
+        setDayList(1)
+        const result = subMonths(new Date(), 2)
+        const postdata = {
+            startdate: format(new Date(result), "yyyy-MM-dd "),
+            endDate: format(new Date(), "yyyy-MM-dd "),
+        }
+        RejectListApiDateRange(postdata, setDisArray, setOpen)
     }, [])
 
     const onHoldOnclick = useCallback(() => {
         setOpen(true)
-        OnHoldListApi(setDisArray, setOpen)
+        setDayList(2)
+        const result = subMonths(new Date(), 6)
+        const postdata = {
+            startdate: format(new Date(result), "yyyy-MM-dd "),
+            endDate: format(new Date(), "yyyy-MM-dd "),
+        }
+        OnHoldListApiDateRange(postdata, setDisArray, setOpen)
     }, [])
+
+    useEffect(() => {
+        if (dayList === 1 && rejctmonthval === 4) {
+            const result = subMonths(new Date(), 4)
+            const postdata = {
+                startdate: format(new Date(result), "yyyy-MM-dd "),
+                endDate: format(new Date(), "yyyy-MM-dd "),
+            }
+
+            RejectListApiDateRange(postdata, setDisArray, setOpen)
+        } else if (dayList === 1 && rejctmonthval === 6) {
+
+            const result = subMonths(new Date(), 6)
+            const postdata = {
+                startdate: format(new Date(result), "yyyy-MM-dd "),
+                endDate: format(new Date(), "yyyy-MM-dd "),
+            }
+
+            RejectListApiDateRange(postdata, setDisArray, setOpen)
+
+        }
+        else if (dayList === 1 && rejctmonthval === 0) {
+
+            const result = subMonths(new Date(), 2)
+            const postdata = {
+                startdate: format(new Date(result), "yyyy-MM-dd "),
+                endDate: format(new Date(), "yyyy-MM-dd "),
+            }
+
+            RejectListApiDateRange(postdata, setDisArray, setOpen)
+
+        } else if (dayList === 2 && holdmonthval === 9) {
+
+            const result = subMonths(new Date(), 9)
+            const postdata = {
+                startdate: format(new Date(result), "yyyy-MM-dd "),
+                endDate: format(new Date(), "yyyy-MM-dd "),
+            }
+
+            OnHoldListApiDateRange(postdata, setDisArray, setOpen)
+        }
+        else if (dayList === 2 && holdmonthval === 12) {
+
+            const result = subMonths(new Date(), 12)
+            const postdata = {
+                startdate: format(new Date(result), "yyyy-MM-dd "),
+                endDate: format(new Date(), "yyyy-MM-dd "),
+            }
+            OnHoldListApiDateRange(postdata, setDisArray, setOpen)
+        } else if (dayList === 2 && holdmonthval === 0) {
+
+            const result = subMonths(new Date(), 6)
+            const postdata = {
+                startdate: format(new Date(result), "yyyy-MM-dd "),
+                endDate: format(new Date(), "yyyy-MM-dd "),
+            }
+
+            OnHoldListApiDateRange(postdata, setDisArray, setOpen)
+
+        }
+    }, [dayList, rejctmonthval, holdmonthval])
+
+
+
 
     useEffect(() => {
         const getImage = async (req_slno) => {
@@ -185,6 +271,53 @@ const CrfMDApprovalMain = () => {
                             <Typography sx={{ fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center" }}>On-Hold</Typography>
                         </CssVarsProvider>
                     </Box>
+                    {dayList === 1 ?
+                        <Box sx={{
+                            width: "10%", mt: 1, mb: 1, borderRadius: 2.5, ml: 2,
+                            cursor: "pointer",
+                        }}>
+                            <FormControl fullWidth size="small">
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    // disabled={disabled}
+                                    value={rejctmonthval}
+                                    onChange={(e) => setrjectMonthVal(e.target.value)}
+                                    size="small"
+                                    fullWidth
+                                    variant="outlined"
+                                    sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+                                >
+                                    <MenuItem value={0}>2 Month </MenuItem>
+                                    <MenuItem value={4}>4 Month </MenuItem>
+                                    <MenuItem value={6}>6 Month </MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box> : dayList === 2 ?
+                            <Box sx={{
+                                width: "10%", mt: 1, mb: 1, borderRadius: 2.5, ml: 2,
+                                cursor: "pointer",
+                            }}>
+                                <FormControl fullWidth size="small">
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        // disabled={disabled}
+                                        value={holdmonthval}
+                                        onChange={(e) => setholdMonthVal(e.target.value)}
+                                        size="small"
+                                        fullWidth
+                                        variant="outlined"
+                                        sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+                                    >
+                                        <MenuItem value={0}>6 Month </MenuItem>
+                                        <MenuItem value={9}>9 Month </MenuItem>
+                                        <MenuItem value={12}>12 Month </MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Box> : null
+                    }
+
                 </Box>
             </Paper>
             <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>

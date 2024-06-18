@@ -8,12 +8,13 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
 import AssetRackmastTable from './AssetRackmastTable'
+import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect'
 
 const AssetRackMaster = () => {
     const history = useHistory()
     const [value, setValue] = useState(0)
     const [count, setCount] = useState(0)
-
+    const [deptsec, setDeptSec] = useState(0)
     // Get login user emp_id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -36,18 +37,20 @@ const AssetRackMaster = () => {
     const postdata = useMemo(() => {
         return {
             am_rack_name: rack_name,
+            am_rack_deptsec: deptsec,
             am_rack_status: rack_status === true ? 1 : 0,
             create_user: id
         }
-    }, [rack_name, rack_status, id])
+    }, [rack_name, deptsec, rack_status, id])
     const patchdata = useMemo(() => {
         return {
             am_rack_slno: rack_slno,
+            am_rack_deptsec: deptsec,
             am_rack_name: rack_name,
             am_rack_status: rack_status === true ? 1 : 0,
             edit_user: id
         }
-    }, [rack_slno, rack_name, rack_status, id])
+    }, [rack_slno, deptsec, rack_name, rack_status, id])
 
     const reset = useCallback(() => {
         const frmdata = {
@@ -100,13 +103,14 @@ const AssetRackMaster = () => {
     const rowSelect = useCallback((params) => {
         setValue(1)
         const data = params.api.getSelectedRows()
-        const { am_rack_slno, am_rack_name, am_rack_status } = data[0]
+        const { am_rack_slno, am_rack_name, am_rack_status, am_rack_deptsec } = data[0]
         const frmdata = {
             rack_slno: am_rack_slno,
             rack_name: am_rack_name,
             rack_status: am_rack_status === 1 ? true : false,
         }
         setRackdata(frmdata)
+        setDeptSec(am_rack_deptsec)
     }, [])
 
     const refreshWindow = useCallback(() => {
@@ -135,6 +139,9 @@ const AssetRackMaster = () => {
                                 value={rack_name}
                                 onchange={updateRack}
                             ></TextFieldCustom>
+                        </Box>
+                        <Box sx={{ pt: 2 }}>
+                            <DeptSectionSelect value={deptsec} setValue={setDeptSec} />
                         </Box>
                         <Box sx={{ pt: 1 }}>
                             <CusCheckBox
