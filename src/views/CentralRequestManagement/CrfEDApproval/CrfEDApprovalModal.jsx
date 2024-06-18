@@ -652,40 +652,38 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                 warningNotify("Please Select ant data collection department")
             }
         } else {
-            if (approve !== false || reject !== false || pending !== false) {
-                updateEDApproval(EDPatchData).then((val) => {
-                    const { success, message } = val
-                    if (success === 2) {
-                        if (selectFile.length !== 0) {
-                            FileInsert(req_slno, selectFile).then((val) => {
-                                const { success, message } = val
-                                if (success === 1) {
-                                    succesNotify("Status updated and also file uploaded")
-                                    setCount(count + 1)
-                                    reset()
-                                }
-                                else {
-                                    warningNotify(message)
-                                }
-                            })
-                        } else {
-                            succesNotify("Status updated Successfully")
-                            setCount(count + 1)
-                            reset()
-                        }
 
-                    }
-                    else {
-                        warningNotify(message)
+            updateEDApproval(EDPatchData).then((val) => {
+                const { success, message } = val
+                if (success === 2) {
+                    if (selectFile.length !== 0) {
+                        FileInsert(req_slno, selectFile).then((val) => {
+                            const { success, message } = val
+                            if (success === 1) {
+                                succesNotify("Status updated and also file uploaded")
+                                setCount(count + 1)
+                                reset()
+                            }
+                            else {
+                                warningNotify(message)
+                            }
+                        })
+                    } else {
+                        succesNotify("Status updated Successfully")
+                        setCount(count + 1)
+                        reset()
                     }
 
+                }
+                else {
+                    warningNotify(message)
+                }
 
-                })
-            } else {
-                warningNotify("Please Select any status")
-            }
+
+            })
+
         }
-    }, [approve, reject, pending, EDPatchData, setCount, count, reset,
+    }, [EDPatchData, setCount, count, reset,
         datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload])
 
     const ModalClose = useCallback(() => {

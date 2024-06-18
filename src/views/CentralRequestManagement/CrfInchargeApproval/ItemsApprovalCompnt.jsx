@@ -84,17 +84,17 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                         aprox_cost: val.aprox_cost,
                         item_status: val.item_status,
                         approve_item_desc: val.approve_item_desc,
-                        approve_item_brand: val.approve_item_brand !== '' ? val.approve_item_brand : "Not Given",
+                        approve_item_brand: val.approve_item_brand !== '' ? val.approve_item_brand : '',
                         approve_item_unit: val.approve_item_unit !== null ||
-                            val.approve_item_unit !== undefined ? val.approve_item_unit : "Not Given",
+                            val.approve_item_unit !== undefined ? val.approve_item_unit : 0,
                         item_qnty_approved: val.item_qnty_approved,
-                        approve_item_unit_price: val.approve_item_unit_price !== 0 ? val.approve_item_unit_price : "Not Given",
-                        approve_aprox_cost: val.approve_aprox_cost !== 0 ? val.approve_aprox_cost : "Not Given",
+                        approve_item_unit_price: val.approve_item_unit_price !== 0 ? val.approve_item_unit_price : 0,
+                        approve_aprox_cost: val.approve_aprox_cost !== 0 ? val.approve_aprox_cost : 0,
                         item_status_approved: val.item_status_approved,
                         approve_item_status: val.approve_item_status,
                         approve_item_delete_who: val.approve_item_delete_who,
                         uom_name: val.uom_name,
-                        approve_item_specification: val.approve_item_specification !== '' ? val.approve_item_specification : "Not Given",
+                        approve_item_specification: val.approve_item_specification !== '' ? val.approve_item_specification : '',
                         old_item_slno: val.old_item_slno
                     }
                     return obj
@@ -205,6 +205,7 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                 approve_aprox_cost: approx_cost,
                 approve_item_status: 1,
                 item_status_approved: 1,
+                edit_user: id,
                 req_detl_slno: reqDetailslno
             }
 
@@ -349,7 +350,6 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
         }
     };
 
-    console.log(ApproveTableData);
     return (
         <Fragment>
 
