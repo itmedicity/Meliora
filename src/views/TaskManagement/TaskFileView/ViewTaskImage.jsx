@@ -5,6 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { Box, Button, CssVarsProvider } from '@mui/joy';
 import { Paper } from '@mui/material';
 import HighlightOffTwoToneIcon from '@mui/icons-material/HighlightOffTwoTone';
+
 const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
 
     return (
@@ -17,7 +18,7 @@ const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
                 <DialogContent sx={{
                     width: "100%",
                     height: '60%',
-                    bgcolor: '#2F4A60',
+                    bgcolor: '#05445E',
                 }}><Box sx={{ display: 'flex' }}>
                         <Box sx={{
                             flex: 1,
@@ -25,8 +26,6 @@ const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
                             height: '50px',
                             color: 'white',
                             fontSize: 20,
-
-
                         }}>
                             Task
                         </Box>
@@ -40,16 +39,6 @@ const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
                         </Box>
                     </Box>
                     <Box sx={{ gap: 5 }}>
-                        {/* {imageUrls.reverse().map((imageUrl, index) => (
-                            < img alt="Task"
-                                key={index}
-                                src={imageUrl}
-                                height={820}
-                                style={{ maxWidth: '100%', maxHeight: '100%', margin: '6px', }}
-                            />
-                            
-                        ))
-                        } */}
                         {imageUrls.map((imageUrl, index) => (
                             <Paper key={index} sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 700, width: 1000, mb: 1 }}>
                                 <embed
@@ -63,7 +52,6 @@ const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
                         ))
                         }
                     </Box>
-
                     <DialogActions>
                         <CssVarsProvider>
                             <Button
@@ -72,7 +60,6 @@ const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
                                 onClick={handleClose}
                             >Cancel</Button>
                         </CssVarsProvider>
-
                     </DialogActions>
                 </DialogContent>
             </Dialog>

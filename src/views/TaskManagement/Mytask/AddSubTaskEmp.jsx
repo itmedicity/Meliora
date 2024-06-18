@@ -41,9 +41,6 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
-    const secName = useSelector((state) => {
-        return state.LoginUserData.empdeptsec
-    })
     const empdept = useSelector((state) => {
         return state.LoginUserData.empdept
     })
@@ -146,22 +143,7 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                         onChange={(e) => SubTaskUpdate(e)}
                     ></Textarea>
                 </Box>
-                <Box sx={{ flex: 1, mr: 1 }}>
-                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>
-                        Department
-                    </Box>
-                    <Textarea
-                        type="text"
-                        size="sm"
-                        variant="outlined"
-                        name="secName"
-                        value={secName}
-                        disabled
-                        minRows={2}
-                        maxRows={2}></Textarea>
-
-                </Box>
-                <Box sx={{ flex: 1, mr: 1 }}>
+                <Box sx={{ flex: .8, mr: 1 }}>
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
                         Assignee<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
@@ -170,7 +152,7 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                         setValue={setEmployeeSubTask}
                     />
                 </Box>
-                <Box sx={{ flex: 1, mr: 1 }}>
+                <Box sx={{ flex: .5, mr: 1 }}>
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
                         Due Date<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>

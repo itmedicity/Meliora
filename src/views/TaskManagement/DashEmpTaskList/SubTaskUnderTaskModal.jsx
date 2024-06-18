@@ -9,8 +9,7 @@ import CountDowncomponent from '../CountDown/CountDowncomponent';
 import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded';
 import MainTaskProgress from './MainTaskProgress';
 
-const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, setSubTaskmodalFlag, subtaskvalues, emp_no, capEmpName }) => {
-
+const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, subtaskvalues, emp_no, capEmpName }) => {
 
     const { tm_task_slno, tm_task_name, tm_project_name, tm_project_slno } = subtaskvalues
     const [otherempTask, setOtherempTask] = useState([])
@@ -52,7 +51,6 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, setSubTa
         setSubTaskmodalOpen(0)
         setSubTaskmodalOpen(false)
     }, [setSubTaskmodalOpen])
-
 
     return (
         <Box>
@@ -111,7 +109,7 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, setSubTa
                                 <Box sx={{ flex: 3 }}>
                                 </Box>
                             </Box>
-                            <Box sx={{ maxHeight: '35vh', overflow: 'auto', }}>
+                            <Box >
                                 {empTask.length !== 0 ?
                                     <Box>
                                         {empTask && empTask.map((val,) => {
@@ -119,17 +117,17 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, setSubTa
                                                 flex: 1, bgcolor: 'white', minHeight: 20, maxHeight: 90, display: 'flex', mb: .5, borderBottom: 1, pb: .5, borderColor: '#C3E0E5'
                                             }}                                        >
                                                 <Box sx={{ px: .6, pt: 1 }}>
-                                                    <ListSharpIcon sx={{ width: 20, height: 20, color: '#435D84' }} />
+                                                    <ListSharpIcon fontSize='small' sx={{ color: '#435D84' }} />
                                                 </Box>
-                                                <Box sx={{ flex: 2, pt: 1.5 }}>
+                                                <Box sx={{ flex: 3, pt: 1.5 }}>
                                                     {val.tm_task_status === 1 ?
                                                         <FormLabel sx={{
-                                                            fontSize: 14, textTransform: 'capitalize', cursor: 'grab',
+                                                            fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                         }}>
                                                             {val.tm_task_name}
                                                         </FormLabel> :
                                                         <FormLabel sx={{
-                                                            fontSize: 14, textTransform: 'capitalize', cursor: 'grab',
+                                                            fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                                         }}>
                                                             {val.tm_task_name}
@@ -139,14 +137,14 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, setSubTa
                                                 <Box sx={{ flex: 1, pt: 1 }}>
                                                     <Tooltip>
                                                         {val.tm_task_status !== 1 ?
-                                                            <Box sx={{ border: .1, borderColor: '#78909c', borderStyle: 'dashed', width: 160, pl: .5, borderRadius: 20, }}>
+                                                            <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 160, pl: 1, fontSize: 12 }}>
                                                                 <CountDowncomponent DueDates={val.tm_task_due_date} />
                                                             </Box> :
                                                             <Box sx={{
-                                                                display: 'flex', border: 1, borderColor: '#C3CEDA', width: 160, flex: 1, borderRadius: 20, pb: .5,
-                                                                borderStyle: 'dashed', justifyContent: 'center'
+                                                                bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 160, pl: 5, color: 'darkgreen',
+                                                                fontSize: 12
                                                             }}>
-                                                                completed
+                                                                Completed
                                                             </Box>
                                                         }
                                                     </Tooltip>
@@ -155,15 +153,15 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, setSubTa
                                                     <Tooltip title="Subtask Created Date" >
                                                         {val.tm_task_status === 1 ?
                                                             <FormLabel sx={{
-                                                                fontSize: 14, textTransform: 'capitalize', cursor: 'grab',
+                                                                fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                             }}>
-                                                                <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />  {val.create_date}
+                                                                <EventNoteRoundedIcon fontSize='small' sx={{ mt: .2, mr: .2, color: '#435D84' }} />  {val.create_date}
                                                             </FormLabel> :
                                                             <FormLabel sx={{
-                                                                fontSize: 14, textTransform: 'capitalize', cursor: 'grab',
+                                                                fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                                 color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                                             }}>
-                                                                <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />   {val.create_date}
+                                                                <EventNoteRoundedIcon fontSize='small' sx={{ mt: .2, mr: .2, color: '#435D84' }} />   {val.create_date}
                                                             </FormLabel>}
                                                     </Tooltip>
                                                 </Box>
@@ -171,15 +169,15 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, setSubTa
                                                     <Tooltip title="Subtask due Date">
                                                         {val.tm_task_status === 1 ?
                                                             <FormLabel sx={{
-                                                                fontSize: 14, flex: 1, textTransform: 'capitalize', cursor: 'grab',
+                                                                fontSize: 12, flex: 1, textTransform: 'capitalize', cursor: 'grab',
                                                             }}>
-                                                                <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />  {val.tm_task_due_date}
+                                                                <EventNoteRoundedIcon fontSize='small' sx={{ mt: .2, mr: .2, color: '#435D84' }} />  {val.tm_task_due_date}
                                                             </FormLabel> :
                                                             <FormLabel sx={{
-                                                                fontSize: 14, flex: 1, textTransform: 'capitalize', cursor: 'grab',
+                                                                fontSize: 12, flex: 1, textTransform: 'capitalize', cursor: 'grab',
                                                                 color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                                             }}>
-                                                                <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />   {val.tm_task_due_date}
+                                                                <EventNoteRoundedIcon fontSize='small' sx={{ mt: .2, mr: .2, color: '#435D84' }} />   {val.tm_task_due_date}
                                                             </FormLabel>}
                                                     </Tooltip>
                                                 </Box>
@@ -198,10 +196,8 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, setSubTa
                                     </Box>}
                             </Box>
                         </Box>
-
                         <Box>
                             {otherempTask.length !== 0 ?
-
                                 <Box sx={{ flex: 1, display: 'flex', mt: 3 }}>
                                     <Box sx={{ flex: 1, height: 30, bgcolor: '#4F687F', borderRadius: 20, pl: 3, color: 'white' }}>
                                         <AssignmentSharpIcon sx={{ color: 'white' }} /> Other Subask Under this Task
@@ -209,46 +205,37 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, setSubTa
                                     <Box sx={{ flex: 3 }}>
                                     </Box>
                                 </Box> : null}
-                            <Box sx={{ maxHeight: '12vh', overflow: 'auto', }}>
+                            <Box >
                                 {
                                     otherempTask && otherempTask.map((val,) => {
                                         // let create_empnamee = val.create_empname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
                                         let assignedEmp_name = val.task_empname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
                                         return <Box key={val.tm_task_slno} sx={{
-                                            flex: 1, bgcolor: 'white', minHeight: 20, maxHeight: 120, display: 'flex', mb: .5, borderBottom: 1, pb: .5, borderColor: '#C3E0E5'
+                                            flex: 1, bgcolor: 'white', maxHeight: 120, display: 'flex', mb: .5, borderBottom: 1, pb: .5, borderColor: '#C3E0E5'
                                         }}
                                         >
                                             <Box sx={{ px: .6, pt: 1 }}>
-                                                <ListSharpIcon sx={{ width: 20, height: 20, color: '#435D84' }} />
+                                                <ListSharpIcon fontSize='small' sx={{ color: '#435D84' }} />
                                             </Box>
-                                            <Box sx={{ flex: 2, pt: 1.5 }}>
+                                            <Box sx={{ flex: 3.5, pt: 1.5 }}>
                                                 {val.tm_task_status === 1 ?
                                                     <FormLabel sx={{
-                                                        fontSize: 14, textTransform: 'capitalize', cursor: 'grab',
+                                                        fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                     }}>
                                                         {val.tm_task_name}
                                                     </FormLabel> :
                                                     <FormLabel sx={{
-                                                        fontSize: 14, textTransform: 'capitalize', cursor: 'grab',
+                                                        fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                         color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                                     }}>
                                                         {val.tm_task_name}
                                                     </FormLabel>}
 
                                             </Box>
-                                            {/* <Box sx={{ pt: 1.5, flex: 1 }}>
-                                                <Tooltip title="Task Created by">
-                                                    <FormLabel sx={{
-                                                        fontSize: 13, cursor: 'grab', display: 'flex', justifyContent: 'center',
-                                                        color: '#3B0404', textTransform: 'capitalize'
-                                                    }}>
-                                                        {create_empnamee}</FormLabel>
-                                                </Tooltip>
-                                            </Box> */}
                                             <Box sx={{ pt: 1.5, flex: 1, }}>
                                                 <Tooltip title="Task Assigned to">
                                                     <FormLabel sx={{
-                                                        fontSize: 13, flex: .8, cursor: 'grab', display: 'flex', justifyContent: 'center',
+                                                        fontSize: 12, flex: .8, cursor: 'grab', display: 'flex', justifyContent: 'center',
                                                         color: '#3B0404', textTransform: 'capitalize'
                                                     }}>
                                                         {assignedEmp_name}</FormLabel>
@@ -257,14 +244,14 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, setSubTa
                                             <Box sx={{ flex: 1.5, pt: .5, }}>
                                                 <Tooltip>
                                                     {val.tm_task_status !== 1 ?
-                                                        <Box sx={{ border: .1, borderColor: '#78909c', borderStyle: 'dashed', width: 170, pl: .5, borderRadius: 20, }}>
+                                                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 160, pl: 1, fontSize: 12 }}>
                                                             <CountDowncomponent DueDates={val.tm_task_due_date} />
                                                         </Box> :
                                                         <Box sx={{
-                                                            display: 'flex', border: 1, borderColor: '#C3CEDA', width: 170, flex: 1, borderRadius: 20, pb: .5,
-                                                            borderStyle: 'dashed', justifyContent: 'center'
+                                                            bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 160, pl: 5, color: 'darkgreen',
+                                                            fontSize: 12
                                                         }}>
-                                                            completed
+                                                            Completed
                                                         </Box>
                                                     }
                                                 </Tooltip>
@@ -273,15 +260,15 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, setSubTa
                                                 <Tooltip title="Subtask Created Date" >
                                                     {val.tm_task_status === 1 ?
                                                         <FormLabel sx={{
-                                                            fontSize: 14, textTransform: 'capitalize', cursor: 'grab',
+                                                            fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                         }}>
-                                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />  {val.create_date}
+                                                            <EventNoteRoundedIcon fontSize='small' sx={{ mt: .2, mr: .2, color: '#435D84' }} />  {val.create_date}
                                                         </FormLabel> :
                                                         <FormLabel sx={{
-                                                            fontSize: 14, textTransform: 'capitalize', cursor: 'grab',
+                                                            fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                                         }}>
-                                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />   {val.create_date}
+                                                            <EventNoteRoundedIcon fontSize='small' sx={{ mt: .2, mr: .2, color: '#435D84' }} />   {val.create_date}
                                                         </FormLabel>}
                                                 </Tooltip>
                                             </Box>
@@ -289,38 +276,32 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, setSubTa
                                                 <Tooltip title="Subtask due Date">
                                                     {val.tm_task_status === 1 ?
                                                         <FormLabel sx={{
-                                                            fontSize: 14, flex: 1, textTransform: 'capitalize', cursor: 'grab',
+                                                            fontSize: 12, flex: 1, textTransform: 'capitalize', cursor: 'grab',
                                                         }}>
-                                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />  {val.tm_task_due_date}
+                                                            <EventNoteRoundedIcon fontSize='small' sx={{ mt: .2, mr: .2, color: '#435D84' }} />  {val.tm_task_due_date}
                                                         </FormLabel> :
                                                         <FormLabel sx={{
-                                                            fontSize: 14, flex: 1, textTransform: 'capitalize', cursor: 'grab',
+                                                            fontSize: 12, flex: 1, textTransform: 'capitalize', cursor: 'grab',
                                                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                                         }}>
-                                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />   {val.tm_task_due_date}
+                                                            <EventNoteRoundedIcon fontSize='small' sx={{ mt: .2, mr: .2, color: '#435D84' }} />   {val.tm_task_due_date}
                                                         </FormLabel>}
                                                 </Tooltip>
                                             </Box>
                                             <Box sx={{ pr: .4 }}>
                                                 <MainTaskProgress val={val} />
                                             </Box>
-
-
-
                                         </Box>
                                     })
                                 }
                             </Box>
                         </Box>
                         <Box sx={{ height: 20 }}>
-
                         </Box>
-
                     </Box>
                 </ModalDialog>
             </Modal>
         </Box>
-
     )
 }
 

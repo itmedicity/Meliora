@@ -3,7 +3,9 @@ import Autocomplete from '@mui/joy/Autocomplete';
 import { Fragment } from 'react';
 import { CssVarsProvider } from '@mui/joy';
 import { useState, useEffect, useMemo, memo } from 'react';
+
 const SelectTaskStatus = ({ taskstatus, setTaskStatus }) => {
+
     const statusList = useMemo(() => {
         return [
             { label: '--select--', id: 1 },
@@ -43,7 +45,7 @@ const SelectTaskStatus = ({ taskstatus, setTaskStatus }) => {
                     value={taskstatus === 1 ? statusList : value}
                     placeholder="select task status"
                     clearOnBlur
-                    style={{ minHeight: 29, fontWeight: 500 }}
+                    style={{ minHeight: 29, fontWeight: 400, color: '#2F4A60' }}
                     onChange={(event, newValue) => {
                         setValue(newValue);
                     }}

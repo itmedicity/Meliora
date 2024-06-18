@@ -1,4 +1,4 @@
-import { Box, FormLabel, Tooltip, Typography } from '@mui/joy'
+import { Box, Chip, FormLabel, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useEffect, useState } from 'react'
 import AccordionGroup from '@mui/joy/AccordionGroup';
 import Accordion from '@mui/joy/Accordion';
@@ -12,6 +12,7 @@ import AlignHorizontalRightRoundedIcon from '@mui/icons-material/AlignHorizontal
 import TmProjectCircularProgress from './TmProjectCircularProgress';
 import EmployeeUnderProject from './EmployeeUnderProject';
 import CountDowncomponent from '../CountDown/CountDowncomponent';
+import EventIcon from '@mui/icons-material/Event';
 
 const TmProjectTaskData = () => {
     const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const TmProjectTaskData = () => {
 
     useEffect(() => {
         const getAllProjectUnderSection = async () => {
-            const result = await axioslogin.get(`/TmTableView/allProjectUnderSection/${empsecid}`);
+            const result = await axioslogin.get(`/taskmanagement/getDeptProjects/${empsecid}`);
             const { success, data } = result.data;
             if (success === 2) {
                 setAllProject(data)
@@ -37,8 +38,9 @@ const TmProjectTaskData = () => {
         const due = new Date(tm_task_due_date);
         return due < today
     }
+
     return (
-        <Box sx={{ height: 450, overflow: 'auto' }}>
+        <Box sx={{ height: '66vh', overflow: 'auto' }}>
             <AccordionGroup
                 variant="plain"
                 transition="0.2s"
@@ -58,44 +60,45 @@ const TmProjectTaskData = () => {
                             key={val.tm_project_slno}
                         >
                             <AccordionSummary>
-                                <Avatar color='primary'  >
-                                    <AlignHorizontalRightRoundedIcon sx={{ width: 20, height: 20, color: '#435D84' }} />
+                                <Avatar size='sm' color='primary'  >
+                                    <AlignHorizontalRightRoundedIcon sx={{ color: '#435D84', }} />
                                 </Avatar>
                                 <Tooltip title="Projects">
                                     <Box sx={{ flex: 6, textTransform: 'capitalize' }}>
-                                        <Typography sx={{ fontSize: 14 }}>{val.tm_project_name}</Typography>
+                                        <Typography sx={{ fontSize: 12 }}>{val.tm_project_name}</Typography>
                                     </Box>
                                 </Tooltip>
                                 <Box >
                                     {val.tm_project_status !== 1 ?
-                                        <Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, borderRadius: 20, px: 1 }}>
+                                        <Box sx={{ border: .1, borderColor: '#78909c', borderStyle: 'dashed', width: 155, pl: .5, borderRadius: 20, fontSize: 10 }}>
                                             <CountDowncomponent DueDates={val.tm_project_duedate} />
                                         </Box> :
-                                        <Box sx={{ display: 'flex', border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', p: .5, flex: 1, borderRadius: 20 }}>
-                                            <Box sx={{ flex: .5, }}></Box>
-                                            <Box sx={{ flex: 1, }}>completed</Box>
-                                            <Box sx={{ flex: .5 }}></Box>
-                                        </Box>
+                                        <Chip sx={{
+                                            display: 'flex', width: 170, flex: 1, borderRadius: 20, mt: .5, px: 6,
+                                            justifyContent: 'center'
+                                        }}>
+                                            completed
+                                        </Chip>
                                     }
                                 </Box>
                                 <Box sx={{ flex: 1.5 }}>
                                     <Tooltip title="Project created Date" >
-                                        <Typography sx={{ fontSize: 14, cursor: 'grab' }}>{val.create_date}</Typography>
+                                        <Typography sx={{ cursor: 'grab', fontSize: 12 }}> <EventIcon fontSize='sm' />{val.create_date}</Typography>
                                     </Tooltip>
                                 </Box>
                                 <Box sx={{ flex: 1.5 }}>
                                     <Tooltip title="Project Due Date">
                                         {val.tm_project_status === 1 ?
                                             <FormLabel sx={{
-                                                fontSize: 14, flex: .8, textTransform: 'capitalize', cursor: 'grab',
+                                                fontSize: 12, flex: .8, textTransform: 'capitalize', cursor: 'grab',
                                             }}>
-                                                {val.tm_project_duedate}
+                                                <EventIcon fontSize='sm' />{val.tm_project_duedate}
                                             </FormLabel> :
                                             <FormLabel sx={{
-                                                fontSize: 14, flex: .8, textTransform: 'capitalize', cursor: 'grab',
+                                                fontSize: 12, flex: .8, textTransform: 'capitalize', cursor: 'grab',
                                                 color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black'
                                             }}>
-                                                {val.tm_project_duedate}
+                                                <EventIcon fontSize='sm' /> {val.tm_project_duedate}
                                             </FormLabel>}
                                     </Tooltip>
                                 </Box>

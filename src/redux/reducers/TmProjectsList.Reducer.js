@@ -18,3 +18,23 @@ export const getProjectList = (state = ProjectName, { type, payload }) => {
 
     }
 }
+
+export const getProjectListWithgoal = (state = ProjectName, { type, payload }) => {
+    switch (type) {
+        case FETCH_PROJECTS_TASKMANAGEMENT:
+            return { ...state, ProjectList: payload, loadingStatus: true }
+        default:
+            return state
+
+    }
+}
+
+export const getNonGoalProjectList = (state = ProjectName, { type, payload }) => {
+    switch (type) {
+        case FETCH_PROJECTS_TASKMANAGEMENT:
+            return { ...state, ProjectList: payload, loadingStatus: true }
+        default:
+            return state
+
+    }
+}

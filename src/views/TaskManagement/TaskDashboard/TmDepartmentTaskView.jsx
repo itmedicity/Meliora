@@ -1,16 +1,14 @@
 import React, { memo, useEffect, useCallback, useState } from 'react'
-import { Box, CssVarsProvider, Table } from '@mui/joy'
-import CardMasterClose from 'src/views/Components/CardMasterClose'
-import Avatar from '@mui/joy/Avatar';
+import { Box, Chip, CssVarsProvider, Table } from '@mui/joy'
 import { Paper, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import DeviceHubIcon from '@mui/icons-material/DeviceHub';
 import { useDispatch, useSelector } from 'react-redux';
 import { getReqRegistListByDept } from 'src/redux/actions/ReqRegisterListByDept.action';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import moment from 'moment';
 import EmpStatusUpdationinDash from '../Mytask/EmpStatusUpdationinDash';
 import CountDowncomponent from '../CountDown/CountDowncomponent';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTableData, deptTaskHeading }) => {
 
     const [editModalOpen, setEditModalOpen] = useState(false)
@@ -44,34 +42,18 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
     }
     const { tm_task_status } = deptTableData[0]
     return (
-        <Box>
-            <CardMasterClose
-                close={backtoDash}
-                title={'DEPARTMENT TASK'}>
-                <Box sx={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: 0,
-                    border: .1, borderColor: '#D396FF',
-                }} >
-                    <Box sx={{ width: '99.5%', ml: .5, mt: .5, backgroundColor: '#D9E4EC' }}>
-                        <Box sx={{ py: .5, pl: 1.5, display: 'flex' }}>
-                            <Box>
-                                <CssVarsProvider>
-                                    <Avatar
-                                        color="neutral"
-                                        size="sm"
-                                        variant="outlined"
-                                        sx={{ bgcolor: '#ffffff' }}
-                                    >
-                                        <DeviceHubIcon />
-                                    </Avatar>
-                                </CssVarsProvider>
-                            </Box>
-                            <Typography sx={{ fontWeight: 550, pt: .5, pl: .5 }}>{deptTaskHeading}</Typography>
-                        </Box>
-                    </Box>
-                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '93%', }}>
+        <Paper sx={{ height: '90vh' }}>
+            <Box sx={{ flex: 1, height: 30, display: 'flex', }}>
+                <Typography sx={{ color: 'grey', fontWeight: 500, flex: 1, pt: .5, pl: 1 }}>
+                    {deptTaskHeading}
+                </Typography>
+                <Box sx={{ pl: .5 }}>
+                    <HighlightOffIcon sx={{ color: 'grey', height: 30, width: 30, cursor: 'pointer' }} onClick={backtoDash} />
+                </Box>
+            </Box>
+            <Box sx={{ bgcolor: '#DFE3ED', p: .5 }}>
+                <Box sx={{ bgcolor: 'white', p: 1, }} >
+                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', maxHeight: '85vh' }}>
                         {editModalFlag === 1 ?
                             <EmpStatusUpdationinDash open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
                                 setEditModalFlag={setEditModalFlag}
@@ -103,7 +85,7 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
                                         return (
                                             <tr
                                                 key={index}
-                                                style={{ height: 8, background: val.main_task_slno !== null ? '#ede7f6' : val.main_task_slno === 0 ? '#ede7f6' : 'transparent', minHeight: 5 }}>
+                                                style={{ height: 8, background: val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? '#EAE7FA' : 'transparent', minHeight: 5 }}>
                                                 <td> {index + 1}</td>
                                                 <td>
                                                     <CheckCircleOutlineIcon
@@ -113,8 +95,9 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
                                                         }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
-                                                <td
-                                                    style={{
+                                                <td>
+                                                    <Chip sx={{
+                                                        fontSize: 12,
                                                         color: val.tm_task_status === null ? '#311E26'
                                                             : val.tm_task_status === 0 ? '#311E26'
                                                                 : val.tm_task_status === 1 ? '#94C973'
@@ -123,20 +106,23 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
                                                                             : val.tm_task_status === 4 ? '#5885AF'
                                                                                 : 'transparent', minHeight: 5,
                                                         fontWeight: 700
-                                                    }}>{val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
-                                                        val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
-                                                            val.tm_task_status === 4 ? 'Pending' : 'not given'}</td>
+                                                    }}>
+                                                        {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
+                                                            val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
+                                                                val.tm_task_status === 4 ? 'Pending' : 'not given'}
+                                                    </Chip>
+                                                </td>
                                                 {val.tm_task_status !== 1 ?
-                                                    <td ><Box sx={{ border: .1, borderStyle: 'dashed', borderColor: '#C3CEDA', pl: 1, py: .5, borderRadius: 20 }}>
+                                                    <td ><Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 150, pl: 1 }}>
                                                         <CountDowncomponent DueDates={val.tm_task_due_date} />
 
                                                     </Box></td> :
                                                     <td>
                                                         {val.datediff > 0 ?
-                                                            <Box sx={{ backgroundColor: '#EECE88', borderRadius: 20, p: .5, color: '#3B0404', fontWeight: 600, mr: 1 }}>
+                                                            <Chip sx={{ backgroundColor: '#EECE88', color: '#3B0404', fontWeight: 600, fontSize: 12 }}>
                                                                 {val.days} Days - {val.hours}h: {val.minutes}m: {val.seconds}s
-                                                            </Box> :
-                                                            <Box style={{ color: '#578E87', fontWeight: 600, }}>Completed On Time</Box>
+                                                            </Chip> :
+                                                            <Chip style={{ color: '#578E87', fontSize: 12 }}>Completed On Time</Chip>
                                                         }</td>}
                                                 {val.tm_task_status === 1 ?
                                                     <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td> :
@@ -165,8 +151,10 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
                     </Paper>
 
                 </Box>
-            </CardMasterClose>
-        </Box>
+            </Box>
+        </Paper>
+
+
     )
 }
 

@@ -1,4 +1,4 @@
-import { Box, Card, FormLabel, Modal, ModalDialog, Tooltip, Typography } from '@mui/joy'
+import { Box, Card, Chip, FormLabel, Modal, ModalDialog, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AlignHorizontalRightRoundedIcon from '@mui/icons-material/AlignHorizontalRightRounded';
@@ -9,6 +9,7 @@ import MainTaskProgress from './MainTaskProgress';
 import AssignmentSharpIcon from '@mui/icons-material/AssignmentSharp';
 import ListSharpIcon from '@mui/icons-material/ListSharp';
 import SubTaskUnderTaskModal from './SubTaskUnderTaskModal';
+
 const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmpName, taskUnderPjt }) => {
 
     const { tm_project_name, tm_project_slno, tm_assigne_emp } = taskUnderPjt
@@ -49,6 +50,7 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
         }
         getEmpTask(searchData)
     }, [searchData, tm_assigne_emp])
+
     const isPastDue = (tm_task_due_date) => {
         const today = new Date();
         const due = new Date(tm_task_due_date);
@@ -63,7 +65,6 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
 
     return (
         <Box>
-
             {SubTaskmodalFlag === 1 ?
                 <SubTaskUnderTaskModal
                     SubTaskmodalOpen={SubTaskmodalOpen} setSubTaskmodalOpen={setSubTaskmodalOpen} capEmpName={capEmpName} depmtSec={depmtSec}
@@ -73,17 +74,14 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
             >
                 < ModalDialog
                     sx={{
-                        overflow: 'auto',
+
                         width: '90vw',
-                        maxHeight: '65vw',
                         bgcolor: 'white',
                         borderRadius: 20,
-
+                        height: '100vh',
                     }}
                 >
-
-                    <Box>
-                        {/* */}
+                    <Box >
                         <Card sx={{ bgcolor: '#52688F', }}>
                             <Box sx={{ flex: 1, display: 'flex', }}>
                                 <Box sx={{ flex: 1, fontSize: 30, fontFamily: 'Georgia', pt: .5, color: 'white', pl: 1, }}>
@@ -95,8 +93,7 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                 </Box>
                             </Box>
                         </Card>
-
-                        <Box sx={{ flex: 1, mt: 2.5, mx: 2, }}>
+                        <Box sx={{ flex: 1, mt: 2.5, mx: 2, overflow: 'auto', maxHeight: '72vh', }}>
                             <Box sx={{ flex: 1, display: 'flex', }}>
                                 <Box sx={{ flex: 1, height: 30, bgcolor: '#4F687F', borderRadius: 20, pl: 1, color: 'white' }}>
                                     <AssignmentSharpIcon sx={{ color: 'white' }} /> Task assigned to {capEmpName}
@@ -104,13 +101,13 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                 <Box sx={{ flex: 3 }}>
                                 </Box>
                             </Box>
-                            <Box sx={{ maxHeight: '38vh', overflow: 'auto', }}>
+                            <Box >
                                 {allTaskUnderProject.length !== 0 ?
                                     <Box sx={{ mt: .8 }}>
                                         {
                                             allTaskUnderProject && allTaskUnderProject.map((val,) => {
                                                 return <Box key={val.tm_task_slno} sx={{
-                                                    flex: 1, bgcolor: 'white', minHeight: 20, maxHeight: 100, display: 'flex', mb: .5, borderBottom: 1, borderColor: '#C3E0E5',
+                                                    flex: 1, bgcolor: 'white', maxHeight: 100, display: 'flex', mb: .5, borderBottom: 1, borderColor: '#C3E0E5',
                                                     '&:hover': {
                                                         boxShadow: '1px 1px 3px',
                                                         bgcolor: '#E9EAEC'
@@ -118,18 +115,18 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                                 }}
                                                     onClick={() => openSubtaskModal(val)}>
                                                     <Box sx={{ px: .6, pt: 1 }}>
-                                                        <ListSharpIcon sx={{ width: 20, height: 20, color: '#435D84' }} />
+                                                        <ListSharpIcon fontSize='small' sx={{ color: '#435D84' }} />
                                                     </Box>
-                                                    <Box sx={{ flex: 2.4, pt: 1.2 }}>
+                                                    <Box sx={{ flex: 3, pt: 1.2 }}>
 
                                                         {val.tm_task_status === 1 ?
                                                             <FormLabel sx={{
-                                                                fontSize: 14, textTransform: 'capitalize', cursor: 'grab',
+                                                                fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                             }}>
                                                                 {val.tm_task_name}
                                                             </FormLabel> :
                                                             <FormLabel sx={{
-                                                                fontSize: 14, textTransform: 'capitalize', cursor: 'grab',
+                                                                fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                                 color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                                             }}>
                                                                 {val.tm_task_name}
@@ -139,15 +136,14 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                                     <Box sx={{ flex: 1, pt: .7, px: .5 }}>
                                                         <Tooltip>
                                                             {val.tm_task_status !== 1 ?
-                                                                <Box sx={{ border: .1, borderColor: '#78909c', borderStyle: 'dashed', width: 180, pl: .5, borderRadius: 20, }}>
+                                                                <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 160, pl: 1, fontSize: 12 }}>
                                                                     <CountDowncomponent DueDates={val.tm_task_due_date} />
                                                                 </Box> :
                                                                 <Box sx={{
-                                                                    display: 'flex', border: 1, borderColor: '#C3CEDA', width: 170, flex: 1, borderRadius: 20,
-                                                                    borderStyle: 'dashed', justifyContent: 'center'
+                                                                    bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 160, pl: 5, color: 'darkgreen',
+                                                                    fontSize: 12
                                                                 }}>
-
-                                                                    completed
+                                                                    Completed
                                                                 </Box>
                                                             }
                                                         </Tooltip>
@@ -156,15 +152,15 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                                         <Tooltip title="Task Created Date" >
                                                             {val.tm_task_status === 1 ?
                                                                 <FormLabel sx={{
-                                                                    fontSize: 14, textTransform: 'capitalize', cursor: 'grab',
+                                                                    fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                                 }}>
-                                                                    <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />  {val.create_date}
+                                                                    <EventNoteRoundedIcon fontSize='sm' sx={{ mt: .2, mr: .2, color: '#435D84' }} />  {val.create_date}
                                                                 </FormLabel> :
                                                                 <FormLabel sx={{
-                                                                    fontSize: 14, textTransform: 'capitalize', cursor: 'grab',
+                                                                    fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                                     color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                                                 }}>
-                                                                    <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />   {val.create_date}
+                                                                    <EventNoteRoundedIcon fontSize='sm' sx={{ mt: .2, mr: .2, color: '#435D84' }} />   {val.create_date}
                                                                 </FormLabel>}
                                                         </Tooltip>
                                                     </Box>
@@ -172,15 +168,15 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                                         <Tooltip title="Task due Date">
                                                             {val.tm_task_status === 1 ?
                                                                 <FormLabel sx={{
-                                                                    fontSize: 14, flex: 1, textTransform: 'capitalize', cursor: 'grab',
+                                                                    fontSize: 12, flex: 1, textTransform: 'capitalize', cursor: 'grab',
                                                                 }}>
-                                                                    <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />  {val.tm_task_due_date}
+                                                                    <EventNoteRoundedIcon fontSize='sm' sx={{ mt: .2, mr: .2, color: '#435D84' }} />  {val.tm_task_due_date}
                                                                 </FormLabel> :
                                                                 <FormLabel sx={{
-                                                                    fontSize: 14, flex: 1, textTransform: 'capitalize', cursor: 'grab',
+                                                                    fontSize: 12, flex: 1, textTransform: 'capitalize', cursor: 'grab',
                                                                     color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                                                 }}>
-                                                                    <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />   {val.tm_task_due_date}
+                                                                    <EventNoteRoundedIcon fontSize='sm' sx={{ mt: .2, mr: .2, color: '#435D84' }} />   {val.tm_task_due_date}
                                                                 </FormLabel>}
                                                         </Tooltip>
                                                     </Box>
@@ -205,29 +201,28 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                     <Box sx={{ flex: 3 }}>
                                     </Box>
                                 </Box> : null}
-                            <Box sx={{ maxHeight: '22vh', overflow: 'auto', mt: .5 }}>
-
+                            <Box sx={{ mt: .5 }}>
                                 {
                                     otherempTask && otherempTask.map((val,) => {
-                                        // let create_empnamee = val.create_empname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-                                        let assignedEmp_name = val.task_empname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                                        let assignedEmp_name = val.task_empname !== null ? val.task_empname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+                                            : '';
                                         return <Box key={val.tm_task_slno} sx={{
-                                            flex: 1, bgcolor: 'white', minHeight: 20, maxHeight: 120, display: 'flex', mb: .5, borderBottom: 1, pb: .5,
+                                            flex: 1, bgcolor: 'white', maxHeight: 120, display: 'flex', mb: .5, borderBottom: 1,
                                             borderColor: '#C3E0E5',
                                         }}
                                         >
-                                            <Box sx={{ px: .6, pt: 1.2 }}>
-                                                <ListSharpIcon sx={{ width: 20, height: 20, color: '#435D84' }} />
+                                            <Box sx={{ px: .6, pt: .5 }}>
+                                                <ListSharpIcon fontSize='small' sx={{ color: '#435D84', }} />
                                             </Box>
-                                            <Box sx={{ pt: 1.5, flex: 2.4, }}>
+                                            <Box sx={{ pt: 1, flex: 3, }}>
                                                 {val.tm_task_status === 1 ?
                                                     <FormLabel sx={{
-                                                        fontSize: 13, textTransform: 'capitalize', cursor: 'grab',
+                                                        fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                     }}>
                                                         {val.tm_task_name}
                                                     </FormLabel> :
                                                     <FormLabel sx={{
-                                                        fontSize: 13, textTransform: 'capitalize', cursor: 'grab',
+                                                        fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
                                                         color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                                     }}>
                                                         {val.tm_task_name}
@@ -236,27 +231,23 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                             <Box sx={{ pt: 1.5, flex: 1, }}>
                                                 <Tooltip title="Task Assigned to">
                                                     <FormLabel sx={{
-                                                        fontSize: 13, flex: .8, cursor: 'grab', display: 'flex', justifyContent: 'center',
+                                                        fontSize: 12, flex: .8, cursor: 'grab', display: 'flex', justifyContent: 'center',
                                                         color: '#3B0404', textTransform: 'capitalize'
                                                     }}>
                                                         {assignedEmp_name}</FormLabel>
                                                 </Tooltip>
                                             </Box>
-
-                                            <Box sx={{ flex: 1, px: .5, pt: .5 }}>
+                                            <Box sx={{ flex: 1, px: .5, pt: 1 }}>
                                                 <Tooltip>
                                                     {val.tm_task_status !== 1 ?
-                                                        <Box sx={{
-                                                            border: .1, borderColor: '#78909c', borderStyle: 'dashed', width: 170, pl: .5, borderRadius: 20,
-                                                            // bgcolor: '#E9EAEC'
-                                                        }}>
+                                                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 150, pl: 1, fontSize: 12 }}>
                                                             <CountDowncomponent DueDates={val.tm_task_due_date} />
                                                         </Box> :
                                                         <Box sx={{
-                                                            display: 'flex', border: 1, borderColor: '#C3CEDA', width: 160, flex: 1, borderRadius: 20, mt: .5,
-                                                            borderStyle: 'dashed', justifyContent: 'center'
+                                                            bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 150, pl: 5, color: 'darkgreen',
+                                                            fontSize: 12
                                                         }}>
-                                                            completed
+                                                            Completed
                                                         </Box>
                                                     }
                                                 </Tooltip>
@@ -265,15 +256,15 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                                 <Tooltip title="Task Created Date">
                                                     {val.tm_task_status === 1 ?
                                                         <FormLabel sx={{
-                                                            fontSize: 13, flex: 1, textTransform: 'capitalize', cursor: 'grab',
+                                                            fontSize: 12, flex: 1, textTransform: 'capitalize', cursor: 'grab',
                                                         }}>
-                                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />{val.create_date}
+                                                            <EventNoteRoundedIcon fontSize='small' sx={{ mt: .2, mr: .2, color: '#435D84' }} />{val.create_date}
                                                         </FormLabel> :
                                                         <FormLabel sx={{
-                                                            fontSize: 13, flex: 1, textTransform: 'capitalize', cursor: 'grab',
+                                                            fontSize: 12, flex: 1, textTransform: 'capitalize', cursor: 'grab',
                                                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black', display: 'flex'
                                                         }}>
-                                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />{val.create_date}
+                                                            <EventNoteRoundedIcon fontSize='small' sx={{ mt: .2, mr: .2, color: '#435D84' }} />{val.create_date}
                                                         </FormLabel>}
                                                 </Tooltip>
                                             </Box>
@@ -281,24 +272,24 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                                 <Tooltip title="Task Due Date" >
                                                     {val.tm_task_status === 1 ?
                                                         <FormLabel sx={{
-                                                            fontSize: 13, flex: 1, textTransform: 'capitalize', cursor: 'grab',
+                                                            fontSize: 12, flex: 1, textTransform: 'capitalize', cursor: 'grab',
                                                         }}>
-                                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />{val.tm_task_due_date}
+                                                            <EventNoteRoundedIcon fontSize='small' sx={{ mt: .2, mr: .2, color: '#435D84' }} />{val.tm_task_due_date}
                                                         </FormLabel> :
                                                         <FormLabel sx={{
-                                                            fontSize: 13, flex: 1, textTransform: 'capitalize', cursor: 'grab',
+                                                            fontSize: 12, flex: 1, textTransform: 'capitalize', cursor: 'grab',
                                                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                                         }}>
-                                                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: .2, mr: .2, color: '#435D84' }} />{val.tm_task_due_date}
+                                                            <EventNoteRoundedIcon fontSize='small' sx={{ mt: .2, mr: .2, color: '#435D84' }} />{val.tm_task_due_date}
                                                         </FormLabel>}
                                                 </Tooltip>
                                             </Box>
-                                            <Box sx={{ flex: 1, pt: 1.5, pr: 1 }}>
-                                                <Box sx={{ height: 22, bgcolor: '#BDC3CB', px: .5, borderRadius: 10 }}>
+                                            <Box sx={{ flex: .5, pt: .8, pr: 1 }}>
+                                                <Chip sx={{ px: .5, borderRadius: 10 }}>
                                                     <Tooltip title="Task Status" >
                                                         <FormLabel
                                                             sx={{
-                                                                fontSize: 13, cursor: 'grab', display: 'flex', justifyContent: 'center',
+                                                                fontSize: 12, cursor: 'grab', display: 'flex', justifyContent: 'center',
                                                                 color: val.tm_task_status === null ? '#311E26'
                                                                     : val.tm_task_status === 0 ? '#311E26'
                                                                         : val.tm_task_status === 1 ? '#116530'
@@ -313,17 +304,15 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                                                     val.tm_task_status === 4 ? 'Pending' : 'not given'}
                                                         </FormLabel>
                                                     </Tooltip>
-                                                </Box>
+                                                </Chip>
                                             </Box>
                                         </Box>
                                     })
                                 }
                             </Box>
-                            <Box sx={{ height: 30 }}>
-
+                            <Box sx={{ height: 10 }}>
                             </Box>
                         </Box>
-
                     </Box>
                 </ModalDialog>
             </Modal>
