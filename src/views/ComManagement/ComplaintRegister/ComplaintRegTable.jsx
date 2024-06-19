@@ -193,7 +193,6 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
         const socket = io();
         socket.connect(WS_URL)
         socket.on("message", () => {
-            console.log("jgl");
             dispatch(getCompliantRegTable(sec))
         })
         return () => {

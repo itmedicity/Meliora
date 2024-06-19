@@ -214,6 +214,10 @@ const AmcCmcAdding = React.lazy(() => import('./views/AssetManagment/ItemDetailE
 
 const CrfNoBased = React.lazy(() => import('./views/Report/CrmReport/CrfNoBasedReport'))
 const UserAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserAcknldgeList'))
+
+const UserNotAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserNotAckldgedList'))
+
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/NotCorect', exact: true, name: 'NotCorect', component: NotCorect },
@@ -432,7 +436,8 @@ const routes = [
   // { path: '/Home/QiIncharge', exact: true, name: 'QI Incharge Approval', component: QiInchargeApr },
 
   { path: '/Home/CrfNoBased', exact: true, name: 'CRF No Based', component: CrfNoBased },
-  { path: '/Home/userAckldged', exact: true, name: 'User Acknowledged CRF', component: UserAcknowldged }
+  { path: '/Home/userAckldged', exact: true, name: 'User Acknowledged CRF', component: UserAcknowldged },
+  { path: '/Home/userNotAckldged', exact: true, name: 'User Not Acknowledged CRF', component: UserNotAcknowldged }
 
 ]
 

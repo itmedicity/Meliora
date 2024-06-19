@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { diet_one, diet_two, diet_three, cms_one, cms_two, cms_three, am_one, tm_one, crm_one } from './ReportsMenu'
+import {
+    diet_one, diet_two, diet_three, cms_one, cms_two, cms_three, am_one, tm_one,
+    crm_one, crm_two
+} from './ReportsMenu'
 import { getMenuSlno } from '../views/Constant/Constant'
 import { Link } from 'react-router-dom'
 import { Card, CardContent, CardHeader } from '@mui/material'
@@ -15,6 +18,7 @@ const Reports = () => {
     const [am_report_one, setam_report_one] = useState();
     const [tm_report_one, settm_report_one] = useState();
     const [crm_report_one, setcrm_report_one] = useState();
+    const [crm_report_two, setcrm_report_two] = useState();
     const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
@@ -47,7 +51,8 @@ const Reports = () => {
             //Central Request Management Report
             const crm_report_one = crm_one.filter(val => menuSlnoArray.includes(val.slno));
             setcrm_report_one(crm_report_one)
-
+            const crm_report_two = crm_two.filter(val => menuSlnoArray.includes(val.slno));
+            setcrm_report_two(crm_report_two)
             setCount(1)
         })
     }, [count])
@@ -179,6 +184,15 @@ const Reports = () => {
                         <ul className="list-group list-group-flush">
                             {
                                 crm_report_one && crm_report_one.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                crm_report_two && crm_report_two.map((val) => {
                                     return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
                                 })
                             }

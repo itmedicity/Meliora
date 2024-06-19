@@ -17,8 +17,7 @@ import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css'
 
-
-const UserAcknldgeList = () => {
+const UserNotAckldgedList = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [open, setOpen] = useState(false)
@@ -67,7 +66,7 @@ const UserAcknldgeList = () => {
             end_date: end_date,
         }
         const getdataUserAcknldged = async (postdata) => {
-            const result = await axioslogin.post('/CrfReports/getdataUserAcknldged', postdata)
+            const result = await axioslogin.post('/CrfReports/getdataUserNotAcknldged', postdata)
             const { success, data } = result.data;
             if (success === 1) {
                 setTableDataDis(1)
@@ -86,10 +85,7 @@ const UserAcknldgeList = () => {
             setOpen(false)
         }
 
-
     }, [start_date, end_date])
-
-
 
     const onExportClick = () => {
         if (TableData.length === 0) {
@@ -300,11 +296,6 @@ const UserAcknldgeList = () => {
 
         </CardCloseOnly>
     )
-
-
-
-
-
 }
 
-export default memo(UserAcknldgeList)
+export default memo(UserNotAckldgedList)
