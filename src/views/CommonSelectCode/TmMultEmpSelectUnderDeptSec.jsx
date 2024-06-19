@@ -4,23 +4,12 @@ import { Autocomplete } from '@mui/joy';
 
 const TmMultEmpSelectUnderDeptSec = ({ value, setValue }) => {
 
-
-
     const [inputValue, setInputValue] = useState('');
     const empnameselect = useSelector((state) => {
         return state.getDepartSecemployee.departsecempList || 0
     })
     const [employees, setemployees] = useState([{ em_id: 0, em_name: '' }]);
     const [selectedValues, setSelectedValues] = useState([]);
-
-    // useEffect(() => {
-    //     if (value !== 0) {
-    //         let newObj = empnameselect?.find((e) => e.em_id === value)
-    //         setValue(newObj)
-    //     }
-    // }, [value, empnameselect])
-
-
 
     const Onclick = useCallback((values) => {
         if (values !== null) {
@@ -43,7 +32,7 @@ const TmMultEmpSelectUnderDeptSec = ({ value, setValue }) => {
         <Autocomplete
             placeholder="Add Assignee"
             multiple
-            style={{ minHeight: 51 }}
+            style={{ minHeight: 53 }}
             value={selectedValues}
             clearOnBlur
             onChange={(_, newValue) => {

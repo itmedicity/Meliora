@@ -23,7 +23,7 @@ import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
 import _ from 'underscore';
 import DashboardTabs from '../DashEmpTaskList/DashboardTabs';
 import MenuButton from '@mui/joy/MenuButton';
-import FitbitRoundedIcon from '@mui/icons-material/FitbitRounded';
+import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import RestartAltOutlinedIcon from '@mui/icons-material/RestartAltOutlined';
 import PersonIcon from '@mui/icons-material/Person';
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
@@ -524,8 +524,8 @@ const TmDashboardMain = () => {
                     const obj = {
                         tm_task_slno: val.tm_task_slno,
                         tm_task_name: val.tm_task_name,
-                        dept_name: (val.dept_name).toLowerCase(),
-                        sec_name: (val.sec_name).toLowerCase(),
+                        dept_name: val.dept_name,
+                        sec_name: val.sec_name,
                         em_name: val.em_name,
                         tm_assigne_emp: val.tm_assigne_emp,
                         tm_task_dept: val.tm_task_dept,
@@ -737,8 +737,8 @@ const TmDashboardMain = () => {
                                         flex: 1,
                                         m: .5,
                                         borderRadius: 2,
-                                        bgcolor: '#f4e8ff',
-                                        border: .1, borderColor: '#D396FF',
+                                        bgcolor: '#E8F0F7',
+                                        border: .1, borderColor: '#6699CC',
                                     }}>
                                         <CssVarsProvider>
                                             <Dropdown>
@@ -747,11 +747,11 @@ const TmDashboardMain = () => {
                                                     sx={{ borderRadius: 40, flexGrow: 1, width: '100%', height: 60, }}
                                                 >
                                                     <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-                                                        <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#5E376D', fontWeight: 700, }}>
+                                                        <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#000C66', fontWeight: 500, }}>
                                                             <RestartAltOutlinedIcon />
                                                             <Box sx={{ display: 'flex', pl: 0.2 }} >OverDues</Box>
                                                         </Box>
-                                                        <Avatar sx={{ bgcolor: 'white', color: '#5E376D', fontWeight: 700 }}>{overdues.length}</Avatar>
+                                                        <Avatar sx={{ bgcolor: 'white', color: '#000C66', fontWeight: 500 }}>{overdues.length}</Avatar>
                                                     </Box>
                                                 </MenuButton>
                                                 <Menu
@@ -760,17 +760,17 @@ const TmDashboardMain = () => {
                                                     aria-labelledby="apps-menu-demo"
                                                     sx={{
                                                         '--List-padding': '0.5rem',
-                                                        width: 310,
+                                                        width: 250,
                                                         border: 1,
                                                         bgcolor: 'white',
-                                                        borderColor: '#D396FF',
+                                                        borderColor: '#6699CC',
                                                         gridTemplateColumns: 'repeat(3, 100px)',
                                                     }}
                                                 >
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewOverDueTask(e)
@@ -783,8 +783,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewOverDueTodayTask(e)
@@ -797,8 +797,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewOverDueWeekTask(e)
@@ -811,8 +811,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewOverDueMonthTask(e)
@@ -832,8 +832,8 @@ const TmDashboardMain = () => {
                                         flex: 1,
                                         m: .5,
                                         borderRadius: 2,
-                                        bgcolor: '#f4e8ff',
-                                        border: .1, borderColor: '#D396FF',
+                                        bgcolor: '#E8F0F7',
+                                        border: .1, borderColor: '#6699CC',
                                     }}>
                                         <CssVarsProvider>
                                             <Dropdown>
@@ -842,11 +842,11 @@ const TmDashboardMain = () => {
                                                     sx={{ borderRadius: 40, flexGrow: 1, width: '100%', height: 60, }}
                                                 >
                                                     <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-                                                        <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#5E376D', fontWeight: 700, }}>
+                                                        <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#000C66', fontWeight: 500, }}>
                                                             <PersonIcon />
                                                             <Box sx={{ display: 'flex', pl: 0.2 }} >My Task</Box>
                                                         </Box>
-                                                        <Avatar sx={{ bgcolor: 'white', color: '#5E376D', fontWeight: 700 }}>{employeeInComplete.length}</Avatar>
+                                                        <Avatar sx={{ bgcolor: 'white', color: '#000C66', fontWeight: 500 }}>{employeeInComplete.length}</Avatar>
                                                     </Box>
                                                 </MenuButton>
                                                 <Menu
@@ -855,17 +855,17 @@ const TmDashboardMain = () => {
                                                     aria-labelledby="apps-menu-demo"
                                                     sx={{
                                                         '--List-padding': '0.5rem',
-                                                        width: 310,
+                                                        width: 250,
                                                         border: 1,
                                                         bgcolor: 'white',
-                                                        borderColor: '#D396FF',
+                                                        borderColor: '#6699CC',
                                                         gridTemplateColumns: 'repeat(3, 100px)',
                                                     }}
                                                 >
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewEmpOverDueTask(e)
@@ -878,8 +878,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewEmpOnProgressTask(e)
@@ -892,8 +892,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewOnHoldTask(e)
@@ -906,8 +906,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewEmpPendingTask(e)
@@ -920,8 +920,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewEmpInCompletedTask(e)
@@ -934,8 +934,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewEmpCompletedTask(e)
@@ -955,8 +955,8 @@ const TmDashboardMain = () => {
                                         flex: 1,
                                         m: .5,
                                         borderRadius: 2,
-                                        bgcolor: '#f4e8ff',
-                                        border: .1, borderColor: '#D396FF',
+                                        bgcolor: '#E8F0F7',
+                                        border: .1, borderColor: '#6699CC',
                                     }}>
                                         <CssVarsProvider>
                                             <Dropdown>
@@ -965,11 +965,11 @@ const TmDashboardMain = () => {
                                                     sx={{ borderRadius: 40, flexGrow: 1, width: '100%', height: 60, }}
                                                 >
                                                     <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-                                                        <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#5E376D', fontWeight: 700, }}>
+                                                        <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#000C66', fontWeight: 500, }}>
                                                             <AssignmentRoundedIcon />
                                                             <Box sx={{ display: 'flex', pl: 0.2 }} >Department Task</Box>
                                                         </Box>
-                                                        <Avatar sx={{ bgcolor: 'white', color: '#5E376D', fontWeight: 700 }}>{deptInComplete.length}</Avatar>
+                                                        <Avatar sx={{ bgcolor: 'white', color: '#000C66', fontWeight: 500 }}>{deptInComplete.length}</Avatar>
                                                     </Box>
                                                 </MenuButton>
                                                 <Menu
@@ -978,18 +978,18 @@ const TmDashboardMain = () => {
                                                     aria-labelledby="apps-menu-demo"
                                                     sx={{
                                                         '--List-padding': '0.5rem',
-                                                        width: 310,
+                                                        width: 250,
                                                         border: 1,
                                                         bgcolor: 'white',
-                                                        borderColor: '#D396FF',
+                                                        borderColor: '#6699CC',
                                                         gridTemplateColumns: 'repeat(3, 100px)',
                                                     }}
                                                 >
 
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewDeptOnProgressTask(e)
@@ -1002,8 +1002,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewDeptOnHold(e)
@@ -1016,8 +1016,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewDeptPending(e)
@@ -1030,8 +1030,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewDeptInCompltTask(e)
@@ -1044,8 +1044,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewDeptCompltTask(e)
@@ -1065,8 +1065,8 @@ const TmDashboardMain = () => {
                                         flex: 1,
                                         m: .5,
                                         borderRadius: 2,
-                                        bgcolor: '#f4e8ff',
-                                        border: .1, borderColor: '#D396FF',
+                                        bgcolor: '#E8F0F7',
+                                        border: .1, borderColor: '#6699CC',
                                     }}>
                                         <CssVarsProvider>
                                             <Dropdown>
@@ -1075,11 +1075,11 @@ const TmDashboardMain = () => {
                                                     sx={{ borderRadius: 40, flexGrow: 1, width: '100%', height: 60, }}
                                                 >
                                                     <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-                                                        <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#5E376D', fontWeight: 700, }}>
+                                                        <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#000C66', fontWeight: 500, }}>
                                                             <AlignHorizontalRightRoundedIcon />
                                                             <Box sx={{ display: 'flex', pl: 0.2 }} >Projects</Box>
                                                         </Box>
-                                                        <Avatar sx={{ bgcolor: 'white', color: '#5E376D', fontWeight: 700 }}>{projInCompleted.length}</Avatar>
+                                                        <Avatar sx={{ bgcolor: 'white', color: '#000C66', fontWeight: 500 }}>{projInCompleted.length}</Avatar>
                                                     </Box>
                                                 </MenuButton>
                                                 <Menu
@@ -1088,17 +1088,17 @@ const TmDashboardMain = () => {
                                                     aria-labelledby="apps-menu-demo"
                                                     sx={{
                                                         '--List-padding': '0.5rem',
-                                                        width: 310,
+                                                        width: 250,
                                                         border: 1,
                                                         bgcolor: 'white',
-                                                        borderColor: '#D396FF',
-                                                        gridTemplateColumns: 'repeat(3, 100px)',
+                                                        borderColor: '#6699CC',
+                                                        gridTemplateColumns: 'repeat(3,100px)',
                                                     }}
                                                 >
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewProjectOverDue(e)
@@ -1111,8 +1111,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewProjectInComplete(e)
@@ -1125,8 +1125,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewProjectComplete(e)
@@ -1136,7 +1136,6 @@ const TmDashboardMain = () => {
                                                             {projCompleted.length}
                                                         </Box>
                                                     </MenuItem>
-
                                                 </Menu>
                                             </Dropdown>
                                         </CssVarsProvider>
@@ -1146,8 +1145,8 @@ const TmDashboardMain = () => {
                                         flex: 1,
                                         m: .5,
                                         borderRadius: 2,
-                                        bgcolor: '#f4e8ff',
-                                        border: .1, borderColor: '#D396FF',
+                                        bgcolor: '#E8F0F7',
+                                        border: .1, borderColor: '#6699CC',
                                     }}>
                                         <CssVarsProvider>
                                             <Dropdown>
@@ -1156,11 +1155,11 @@ const TmDashboardMain = () => {
                                                     sx={{ borderRadius: 40, flexGrow: 1, width: '100%', height: 60, }}
                                                 >
                                                     <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-                                                        <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#5E376D', fontWeight: 700, }}>
-                                                            <FitbitRoundedIcon />
+                                                        <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', fontSize: 15, color: '#000C66', fontWeight: 500, }}>
+                                                            <TrackChangesIcon />
                                                             <Box sx={{ display: 'flex', pl: 0.2 }} >Goals</Box>
                                                         </Box>
-                                                        <Avatar sx={{ bgcolor: 'white', color: '#5E376D', fontWeight: 700 }}>{goalsInCompleted.length}</Avatar>
+                                                        <Avatar sx={{ bgcolor: 'white', color: '#000C66', fontWeight: 500 }}>{goalsInCompleted.length}</Avatar>
                                                     </Box>
                                                 </MenuButton>
                                                 <Menu
@@ -1169,17 +1168,17 @@ const TmDashboardMain = () => {
                                                     aria-labelledby="apps-menu-demo"
                                                     sx={{
                                                         '--List-padding': '0.5rem',
-                                                        width: 310,
+                                                        width: 250,
                                                         border: 1,
                                                         bgcolor: 'white',
-                                                        borderColor: '#D396FF',
+                                                        borderColor: '#6699CC',
                                                         gridTemplateColumns: 'repeat(3, 100px)',
                                                     }}
                                                 >
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewGoalsOverdue(e)
@@ -1192,8 +1191,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewGoalsInComplete(e)
@@ -1206,8 +1205,8 @@ const TmDashboardMain = () => {
                                                     <ListDivider inset='gutter' sx={{ bgcolor: '#EAEAEA' }} />
                                                     <MenuItem orientation="horizontal" sx={{
                                                         height: 2,
-                                                        fontWeight: 600,
-                                                        color: '#5E376D'
+                                                        fontWeight: 400,
+                                                        color: '#000C66'
                                                     }}
                                                         onClick={(e) => {
                                                             ViewGoalsComplete(e)
@@ -1224,7 +1223,7 @@ const TmDashboardMain = () => {
                                     </Box>
                                 </Box>
 
-                                <Box sx={{ border: 1, borderRadius: 4, p: .5, borderColor: '#D396FF', mx: .5, maxHeight: 750, }}>
+                                <Box sx={{ border: 1, borderRadius: 2, borderColor: '#6699CC', maxHeight: 750, p: .5, mx: .5 }}>
                                     <DashboardTabs />
                                 </Box>
                                 <Box sx={{ height: 3 }}></Box>

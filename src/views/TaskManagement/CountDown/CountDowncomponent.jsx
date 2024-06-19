@@ -4,6 +4,8 @@ import { Box } from '@mui/material'
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import RestoreIcon from '@mui/icons-material/Restore';
 import AlarmTwoToneIcon from '@mui/icons-material/AlarmTwoTone';
+
+
 const CountDowncomponent = ({ DueDates }) => {
 
     const currentTime = new Date()
@@ -15,8 +17,8 @@ const CountDowncomponent = ({ DueDates }) => {
         <Box sx={{}}>
             {days === 0 && hours === 0 && minutes === 0 ?
                 <Box sx={{ display: 'flex', }}>
-                    <Box sx={{ my: .2, }} >
-                        <TimerOutlinedIcon sx={{ color: '#BA0F30', fontWeight: 800, }} />&nbsp;
+                    <Box  >
+                        <TimerOutlinedIcon sx={{ color: '#BA0F30', fontWeight: 800, m: .1 }} />&nbsp;
                     </Box>
                     <Box sx={{ flex: .1 }}></Box>
                     <Box sx={{ fontWeight: 600, color: '#05445E', pt: .2, }}>{days}</Box>&nbsp;
@@ -31,8 +33,8 @@ const CountDowncomponent = ({ DueDates }) => {
                     {
                         duetimeCalc > 0 ?
                             <Box sx={{ display: 'flex', }}>
-                                <Box sx={{ my: .2, }} >
-                                    <RestoreIcon sx={{ color: '#BA0F30', fontWeight: 800, }} />&nbsp;
+                                <Box  >
+                                    <RestoreIcon sx={{ color: '#BA0F30', fontWeight: 800, m: .1 }} />&nbsp;
                                 </Box>
                                 <Box sx={{ flex: .1 }}></Box>
                                 <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: .2, }}>{days}</Box>&nbsp;
@@ -44,8 +46,8 @@ const CountDowncomponent = ({ DueDates }) => {
                                 <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: .2 }}>{seconds}</Box>
                             </Box> :
                             <Box sx={{ display: 'flex', }}>
-                                <Box sx={{ my: .2 }} >
-                                    <AlarmTwoToneIcon sx={{ fontWeight: 800, color: '#437081', }} />&nbsp;
+                                <Box  >
+                                    <AlarmTwoToneIcon sx={{ fontWeight: 800, color: '#437081', m: .1 }} />&nbsp;
                                 </Box>
                                 <Box sx={{ flex: .1 }}></Box>
                                 <Box sx={{ fontWeight: 600, color: '#05445E', pt: .2, }}>{days}</Box>&nbsp;
@@ -60,9 +62,6 @@ const CountDowncomponent = ({ DueDates }) => {
                 </Box>
             }
         </Box >
-
-
-
     )
 }
 

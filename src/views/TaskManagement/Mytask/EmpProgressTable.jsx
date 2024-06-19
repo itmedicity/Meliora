@@ -47,7 +47,7 @@ const EmpProgressTable = ({ progresstabledata, rowSelect, }) => {
                 </Box> :
                 <Box sx={{ textAlign: 'center', my: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
 
-                    No Progress Under Task
+                    No Progress Added Under Task
                 </Box>}
 
         </Paper>

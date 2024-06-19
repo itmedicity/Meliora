@@ -4,14 +4,32 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import EditIcon from '@mui/icons-material/Edit';
 import EditingOtherBillModal from './EditingOtherBillModal';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 const OtherBillViews = ({ billCount, setbillCount }) => {
 
     const [OtherBillData, setOtherBillData] = useState([])
     const [editOpen, seteditOpen] = useState(false)
     const [editFlag, seteditFlag] = useState(0)
     const [billDataother, setBillDataother] = useState([])
+    const [filezUrls, setFilezUrls] = useState([]);
 
     const EditModal = useCallback((value) => {
+        const { other_bill_slno } = value
+        const getbillsFile = async () => {
+            const result = await axioslogin.get(`/ItImageUpload/uploadFile/getOtherBillImages/${other_bill_slno}`);
+            const { success } = result.data;
+            if (success === 1) {
+                const data = result.data;
+                const fileNames = data.data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/Bills/OtherBill/${other_bill_slno}/${fileName}`;
+                });
+                setFilezUrls(fileUrls);
+            } else {
+                setFilezUrls([])
+            }
+        }
+        getbillsFile(other_bill_slno)
         setBillDataother(value)
         seteditFlag(1)
         seteditOpen(true)
@@ -38,7 +56,8 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
                             bill_description: val.bill_description,
                             am_item_map_slno: val.am_item_map_slno,
                             it_supplier_name: val.it_supplier_name,
-                            supplier_details: val.supplier_details
+                            supplier_details: val.supplier_details,
+                            file_upload_status: val.file_upload_status
                         }
                         return obj
                     })
@@ -55,7 +74,7 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
         <Box>
             <CssVarsProvider>
                 {editFlag === 1 ? <EditingOtherBillModal
-                    editOpen={editOpen}
+                    editOpen={editOpen} filezUrls={filezUrls}
                     billDataother={billDataother}
                     seteditOpen={seteditOpen} seteditFlag={seteditFlag}
                     billCount={billCount} setbillCount={setbillCount}

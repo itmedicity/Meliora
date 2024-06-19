@@ -1,8 +1,7 @@
-import { Box, Checkbox, CssVarsProvider, Modal, ModalDialog, Textarea, Tooltip } from '@mui/joy'
+import { Avatar, Box, Checkbox, CssVarsProvider, Modal, ModalDialog, Textarea, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import SpaceDashboardSharpIcon from '@mui/icons-material/SpaceDashboardSharp';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import HighlightOffSharpIcon from '@mui/icons-material/HighlightOffSharp';
 import FitbitIcon from '@mui/icons-material/Fitbit';
 import PaidIcon from '@mui/icons-material/Paid';
 import SimCardIcon from '@mui/icons-material/SimCard';
@@ -17,7 +16,6 @@ import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/Common
 import NotesIcon from '@mui/icons-material/Notes';
 import imageCompression from 'browser-image-compression';
 import CloseIcon from '@mui/icons-material/Close';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import PinDropIcon from '@mui/icons-material/PinDrop';
 import SpeakerPhoneIcon from '@mui/icons-material/SpeakerPhone';
@@ -26,11 +24,14 @@ import BillFile from './FileView/BillFile';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import AttachmentIcon from '@mui/icons-material/Attachment';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import ModeEditOutlineSharpIcon from '@mui/icons-material/ModeEditOutlineSharp';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingModalOpen, billData, index_no, billCount, setbillCount, bill_description, filezUrls }) => {
 
     const { bill_name, it_bill_category_name, it_bill_type_name, bill_tariff, it_sim_type_name, bill_amount, bill_date, bill_paid_date, bill_number, bill_due_date,
-        bill_category, file_upload_status } = billData
+        bill_category, file_upload_status, am_item_map_slno } = billData
 
     const [billViewmodalFlag, setBillViewModalFlag] = useState(0)
     const [billViewmodalOpen, setBillViewModalOpen] = useState(false)
@@ -42,7 +43,13 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
     const [deviceName, setdeviceName] = useState('')
     const [location, setlocation] = useState('')
     const [item_slno, setItem_slno] = useState(0)
+    const [assetSecName, setassetSecName] = useState('')
+    const [assetNumb, setassetNumb] = useState('')
+    const [assetNumbOnly, setassetNumbOnly] = useState('')
+    const [assetDeviceName, setassetDeviceName] = useState('')
+    const [ChangeAsset, setChangeAsset] = useState(0)
     const id = useSelector((state) => { return state.LoginUserData.empid })
+
     const PayedStatus = useCallback((e) => {
         if (e.target.checked === true) {
             setpayedStatus(true)
@@ -53,6 +60,7 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
             setpayedCheck(0)
         }
     }, [])
+
     const [monthlybillPay, setMonthlybillPay] = useState({
         billnumber: bill_number === null ? '' : bill_number,
         billamount: bill_amount === null ? '' : bill_amount,
@@ -175,6 +183,35 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
 
         }
     }, [bill_category])
+
+
+    useEffect(() => {
+        if (am_item_map_slno !== 0) {
+            const getAssetDetails = async () => {
+                const result = await axioslogin.get(`/ItBillAdd/getAssetDetails/${am_item_map_slno}`);
+                const { success, dataa } = result.data;
+                if (success === 2) {
+                    const { sec_name, item_asset_no, item_asset_no_only, item_name } = dataa[0]
+                    setassetDeviceName(item_name)
+                    setassetNumb(item_asset_no)
+                    setassetNumbOnly(item_asset_no_only)
+                    setassetSecName(sec_name)
+                }
+            }
+            getAssetDetails(am_item_map_slno)
+        }
+        else {
+
+
+        }
+    }, [am_item_map_slno])
+
+    const ChangeAssetNum = useCallback(() => {
+        setChangeAsset(1)
+
+    }, [])
+
+
 
     const searchAssetNo = useCallback((e) => {
         if (pswd_mast_asset_no === '') {
@@ -477,20 +514,21 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                     <ModalDialog variant="outlined"
                         sx={{
                             width: 800,
-                            bgcolor: '#274472',
+                            // bgcolor: '#274472',
+                            p: 0
                         }}>
                         <Box sx={{ overflow: 'auto' }}>
-                            <Box sx={{ flex: 1, display: 'flex' }}>
+                            <Box sx={{ flex: 1, display: 'flex', pt: 2 }}>
                                 <Box sx={{ flex: 1 }}></Box>
                                 <Box sx={{ flex: 5, textAlign: 'center' }}>
-                                    <PostAddIcon sx={{ fontSize: 45, color: 'white' }} />
+                                    <PostAddIcon sx={{ fontSize: 45, color: '#274472' }} />
                                 </Box>
-                                <Box sx={{ flex: 1, textAlign: 'right' }}>
+                                <Box sx={{ flex: 1, textAlign: 'right', pr: 1 }}>
                                     <Tooltip title="Close">
-                                        < HighlightOffSharpIcon sx={{
-                                            cursor: 'pointer', color: 'white', height: 25, width: 25,
+                                        < CancelIcon sx={{
+                                            cursor: 'pointer', color: 'darkred', height: 25, width: 25,
                                             '&:hover': {
-                                                color: '#5C97B8',
+                                                color: 'red',
                                             },
                                         }}
                                             onClick={handleClose}
@@ -498,74 +536,141 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                                     </Tooltip>
                                 </Box>
                             </Box>
-                            <Box sx={{ flex: 1, textAlign: 'center', fontWeight: 600, fontSize: 20, color: 'white', fontStyle: 'Georgia' }}>Add Bill</Box>
-                            <Box sx={{ flex: 1, textAlign: 'center', fontWeight: 600, fontSize: 15, color: 'white' }}>{it_bill_type_name}</Box>
-                            <Box sx={{ px: 2, bgcolor: 'white', borderRadius: 10, pb: 1, }}>
-                                <Box sx={{
-                                    flex: 1, textAlign: 'center', fontWeight: 600, fontSize: 20, color: '##4C7C71', fontFamily: 'Georgia',
-                                    borderColor: '#CAD7E0', pt: 1
-                                }}> Bill Details</Box>
-                                <Box sx={{ p: 2, border: 1, borderColor: 'white', boxShadow: '0px 0px 3px' }}>
-                                    <Box sx={{ flex: 1, ml: 2, fontWeight: 600, display: 'flex', color: '#000C66' }}>
-                                        <Box sx={{ flex: 1 }}><FitbitIcon sx={{ pb: .5, fontSize: 20, color: '#000C66', }} />Bill Type</Box>
-                                        <Box sx={{ flex: .1 }}>:</Box>
-                                        <Box sx={{ flex: 4.5 }}>{it_bill_type_name}</Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', color: '#000C66' }}>
-                                        <Box sx={{ flex: 1 }}><SpaceDashboardSharpIcon sx={{ pb: .5, fontSize: 20, color: '#000C66' }} />Bill Category</Box>
-                                        <Box sx={{ flex: .1 }}>:</Box>
-                                        <Box sx={{ flex: 4.5 }}>{it_bill_category_name}</Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', color: '#000C66' }}>
-                                        <Box sx={{ flex: 1 }}><PaidIcon sx={{ pb: .5, fontSize: 20, color: '#000C66' }} />Tariff</Box>
-                                        <Box sx={{ flex: .1 }}>:</Box>
-                                        <Box sx={{ flex: 4.5 }}>{bill_tariff === 1 ? 'Monthly' : bill_tariff === 2 ? 'Quarterly' : bill_tariff === 3 ? 'Yearly' : 'others'}</Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', color: '#000C66' }}>
-                                        <Box sx={{ flex: 1 }}><ReceiptLongIcon sx={{ pb: .5, fontSize: 20, color: '#000C66' }} />Bill Name</Box>
-                                        <Box sx={{ flex: .1 }}>:</Box>
-                                        <Box sx={{ flex: 4.5 }}>{bill_name}</Box>
-                                    </Box>
-                                    {it_sim_type_name !== null && (bill_tariff === 1 || bill_tariff === 2 || bill_tariff === 3) ?
-                                        <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', color: '#000C66' }}>
-                                            <Box sx={{ flex: 1 }}><SimCardIcon sx={{ pb: .5, fontSize: 20, color: '#000C66' }} />Sim Type</Box>
-                                            <Box sx={{ flex: .1 }}>:</Box>
-                                            <Box sx={{ flex: 4.5 }}>{it_sim_type_name}</Box>
-                                        </Box> : <Box></Box>}
+                            <Box sx={{ flex: 1, textAlign: 'center', fontWeight: 600, fontSize: 20, color: '#274472', fontStyle: 'Georgia', }}>Add Bill</Box>
+                            <Box sx={{ flex: 1, textAlign: 'center', fontWeight: 600, fontSize: 15, color: '#274472', }}>{it_bill_type_name}</Box>
+
+                            <Box sx={{
+                                flex: 1, textAlign: 'center', fontWeight: 600, fontSize: 20, fontFamily: 'Georgia',
+                                borderColor: '#CAD7E0', pt: 1
+                            }}> Bill Details</Box>
+                            <Box sx={{ py: 2, bgcolor: '#E7F2F8' }}>
+                                <Box sx={{ flex: 1, ml: 2, fontWeight: 600, display: 'flex', }}>
+                                    <Box sx={{ flex: 1 }}><FitbitIcon sx={{ pb: .5, fontSize: 20, }} />Bill Type</Box>
+                                    <Box sx={{ flex: .1 }}>:</Box>
+                                    <Box sx={{ flex: 4.5 }}>{it_bill_type_name}</Box>
                                 </Box>
+                                <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', }}>
+                                    <Box sx={{ flex: 1 }}><SpaceDashboardSharpIcon sx={{ pb: .5, fontSize: 20, }} />Bill Category</Box>
+                                    <Box sx={{ flex: .1 }}>:</Box>
+                                    <Box sx={{ flex: 4.5 }}>{it_bill_category_name}</Box>
+                                </Box>
+                                <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', }}>
+                                    <Box sx={{ flex: 1 }}><PaidIcon sx={{ pb: .5, fontSize: 20, }} />Tariff</Box>
+                                    <Box sx={{ flex: .1 }}>:</Box>
+                                    <Box sx={{ flex: 4.5 }}>{bill_tariff === 1 ? 'Monthly' : bill_tariff === 2 ? 'Quarterly' : bill_tariff === 3 ? 'Yearly' : 'others'}</Box>
+                                </Box>
+                                <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', }}>
+                                    <Box sx={{ flex: 1 }}><ReceiptLongIcon sx={{ pb: .5, fontSize: 20, }} />Bill Name</Box>
+                                    <Box sx={{ flex: .1 }}>:</Box>
+                                    <Box sx={{ flex: 4.5 }}>{bill_name}</Box>
+                                </Box>
+                                {it_sim_type_name !== null && (bill_tariff === 1 || bill_tariff === 2 || bill_tariff === 3) ?
+                                    <Box sx={{ flex: 1, mt: .5, ml: 2, fontWeight: 600, display: 'flex', }}>
+                                        <Box sx={{ flex: 1 }}><SimCardIcon sx={{ pb: .5, fontSize: 20, }} />Sim Type</Box>
+                                        <Box sx={{ flex: .1 }}>:</Box>
+                                        <Box sx={{ flex: 4.5 }}>{it_sim_type_name}</Box>
+                                    </Box> : <Box></Box>}
+                            </Box>
+                            <Box sx={{ px: 2.5, bgcolor: 'white', borderRadius: 10, pb: 1, }}>
                                 <Box sx={{
                                     overflow: 'auto',
                                 }}>
-
                                     {billType === 3 && (bill_tariff !== 1 || bill_tariff !== 2 || bill_tariff !== 3) ?
                                         <Box>
                                             <Paper sx={{ mx: .5, borderRadius: 0, bgcolor: '#F0F2F3', boxShadow: '0px 0px 3px' }}>
-                                                <Box sx={{ flex: 1, mt: 1.5, fontWeight: 600, px: .5, color: '#54627B' }}>
-                                                    <ManageSearchIcon sx={{
-                                                        p: .3, fontSize: 20, color: 'white', border: 1, borderRadius: 10,
-                                                        bgcolor: '#183A53',
-                                                        mb: .3,
-
-                                                    }} /> Asset No.
-                                                </Box>
-                                                <Box sx={{ flex: 1, pl: .5, display: 'flex' }}>
+                                                <Box sx={{ flex: 1, mt: 1.5, fontWeight: 600, px: .5, color: '#54627B', display: 'flex' }}>
                                                     <Box sx={{ flex: 1 }}>
-                                                        <TextFieldCustom
-                                                            style={{ borderRadius: 0, borderColor: '#868B8E' }}
-                                                            placeholder="search"
-                                                            type="text"
-                                                            size="sm"
-                                                            name="pswd_mast_asset_no"
-                                                            value={pswd_mast_asset_no}
-                                                            onchange={UpdateAssetNo}
-                                                        >
-                                                        </TextFieldCustom>
-                                                    </Box>
+                                                        <ManageSearchIcon sx={{
+                                                            p: .3, fontSize: 20, color: 'white', border: 1, borderRadius: 10,
+                                                            bgcolor: '#183A53',
+                                                            mb: .3,
 
-                                                    <Box sx={{ mr: .8, bgcolor: '#868B8E', px: .5, pt: .3 }}>
-                                                        <SearchRoundedIcon sx={{ color: 'white', cursor: 'pointer', }} onClick={searchAssetNo} />
+                                                        }} /> Asset No.
                                                     </Box>
+                                                    {ChangeAsset === 1 ?
+                                                        <>
+                                                            <Box></Box>
+                                                        </> :
+                                                        <>
+
+                                                            {am_item_map_slno !== null ?
+                                                                <Box sx={{ p: .5 }}>
+                                                                    <Avatar size='sm' sx={{ bgcolor: '#81BADF' }}>
+                                                                        <ModeEditOutlineSharpIcon sx={{ color: '#28415D', cursor: 'pointer' }} onClick={ChangeAssetNum} />
+                                                                    </Avatar>
+                                                                </Box> : null}
+                                                        </>}
                                                 </Box>
+                                                {ChangeAsset === 1 ? <>
+                                                    <Box sx={{ flex: 1, pl: .5, display: 'flex' }}>
+                                                        <Box sx={{ flex: 1 }}>
+                                                            <TextFieldCustom
+                                                                style={{ borderRadius: 0, borderColor: '#868B8E' }}
+                                                                placeholder="search"
+                                                                type="text"
+                                                                size="sm"
+                                                                name="pswd_mast_asset_no"
+                                                                value={pswd_mast_asset_no}
+                                                                onchange={UpdateAssetNo}
+                                                            >
+                                                            </TextFieldCustom>
+                                                        </Box>
+                                                        <Box sx={{ mr: .8, bgcolor: '#868B8E', px: .5, pt: .3 }}>
+                                                            <SearchRoundedIcon sx={{ color: 'white', cursor: 'pointer', }} onClick={searchAssetNo} />
+                                                        </Box>
+                                                    </Box>
+                                                </>
+                                                    :
+                                                    <>
+                                                        {am_item_map_slno !== null ?
+                                                            <Box sx={{ flex: 1 }}>
+                                                                <Box sx={{ flex: 1, px: .5, bgcolor: 'white', mx: .8, borderColor: '#ADC4D7', }}>
+                                                                    {assetNumb}/{assetNumbOnly}
+                                                                </Box>
+                                                                <Box>
+                                                                    <Box sx={{ flex: 1, mt: 1.5, fontWeight: 600, pl: .5, mb: .3, color: '#54627B' }}>
+                                                                        <SpeakerPhoneIcon sx={{
+                                                                            p: .3,
+                                                                            fontSize: 20, bgcolor: '#183A53', color: 'white',
+                                                                            border: 1, borderRadius: 10, mb: .3,
+                                                                        }} />Device Name
+                                                                    </Box>
+                                                                    <Box sx={{ flex: 1, px: .5, bgcolor: 'white', mx: .8, borderColor: '#ADC4D7', }}>
+                                                                        {assetDeviceName}
+                                                                    </Box>
+                                                                    <Box sx={{ flex: 1, mt: 1, fontWeight: 600, px: .5, color: '#54627B' }}>
+                                                                        <PinDropIcon sx={{
+                                                                            p: .3, mb: .3,
+                                                                            fontSize: 20, bgcolor: '#183A53', color: 'white',
+                                                                            border: 1, borderRadius: 10
+                                                                        }} />Location
+                                                                    </Box>
+
+                                                                    <Box sx={{ flex: 1, px: .5, bgcolor: 'white', mx: .8, borderColor: '#868B8E', }}>
+                                                                        {assetSecName}
+                                                                    </Box>
+                                                                </Box>
+                                                            </Box>
+                                                            :
+                                                            <Box sx={{ flex: 1, pl: .5, display: 'flex' }}>
+                                                                <Box sx={{ flex: 1 }}>
+                                                                    <TextFieldCustom
+                                                                        style={{ borderRadius: 0, borderColor: '#868B8E' }}
+                                                                        placeholder="search"
+                                                                        type="text"
+                                                                        size="sm"
+                                                                        name="pswd_mast_asset_no"
+                                                                        value={pswd_mast_asset_no}
+                                                                        onchange={UpdateAssetNo}
+                                                                    >
+                                                                    </TextFieldCustom>
+                                                                </Box>
+                                                                <Box sx={{ mr: .8, bgcolor: '#868B8E', px: .5, pt: .3 }}>
+                                                                    <SearchRoundedIcon sx={{ color: 'white', cursor: 'pointer', }} onClick={searchAssetNo} />
+                                                                </Box>
+                                                            </Box>
+                                                        }
+                                                    </>}
                                                 {deviceName !== '' ?
                                                     <Box>
                                                         <Box sx={{ flex: 1, mt: 1.5, fontWeight: 600, pl: .5, mb: .3, color: '#54627B' }}>
@@ -787,10 +892,10 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
 
 
                                 <Box sx={{
-                                    height: 40, mt: 1,
+                                    height: 40, my: 1,
                                     borderRadius: 0, fontSize: 18,
                                     fontWeight: 600,
-                                    bgcolor: '#415F6B',
+                                    bgcolor: '#0B6BCB',
                                     color: '#F8F8F0', cursor: 'pointer', py: 1,
                                     textAlign: 'center',
                                     '&:hover': {
