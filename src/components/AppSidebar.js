@@ -25,6 +25,9 @@ import AmTransactions from 'src/Menus/AmTransaction'
 import ITTransactions from 'src/Menus/ItTransaction'
 import CrmNewTransaction from 'src/Menus/CrmNewTransaction'
 import QualityTransactions from 'src/Menus/QualityTransaction'
+import DailyCensusTransactions from 'src/Menus/CensusTransaction'
+import IncidentTransactions from 'src/Menus/IncidentTransaction'
+
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
@@ -43,6 +46,9 @@ const AppSidebar = () => {
   const [tasktransact, setTaskTransact] = useState()
   const [itmanagement, setItManagement] = useState()
   const [qualityTransact, setQualityTransact] = useState()
+  const [censusTransact, setCensusTransact] = useState()
+  const [incidentTransact, setIncidentTransact] = useState()
+
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
 
@@ -145,6 +151,18 @@ const AppSidebar = () => {
       items: qualityTransact
     },
 
+    {
+      slno: 19,
+      component: CNavGroup,
+      name: 'Daily Census',
+      items: censusTransact
+    },
+    {
+      slno: 20,
+      component: CNavGroup,
+      name: 'Incident Management',
+      items: incidentTransact
+    },
   ]
 
   useEffect(() => {
@@ -183,7 +201,10 @@ const AppSidebar = () => {
         setItManagement(ItManageTransact)
         const QualityIndTransact = QualityTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setQualityTransact(QualityIndTransact)
-
+        const DailyCensusTransact = DailyCensusTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        setCensusTransact(DailyCensusTransact)
+        const IncidentTransact = IncidentTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        setIncidentTransact(IncidentTransact)
         setCount(1)
       }
     })

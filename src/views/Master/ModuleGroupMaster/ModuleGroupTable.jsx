@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import EditButton from 'src/views/Components/EditButton';
-import CusAgGridMast from 'src/views/Components/CusAgGridMast';
+import CusAgGridForMain from 'src/views/Components/CusAgGridForMain';
 const ModuleGroupTable = ({ count, rowSelect }) => {
     const [tabledata, setTabledata] = useState([])
     const [column] = useState([
@@ -24,7 +24,7 @@ const ModuleGroupTable = ({ count, rowSelect }) => {
         getmodule();
     }, [count])
     return (
-        <CusAgGridMast
+        <CusAgGridForMain
             columnDefs={column}
             tableData={tabledata}
             onClick={rowSelect}
