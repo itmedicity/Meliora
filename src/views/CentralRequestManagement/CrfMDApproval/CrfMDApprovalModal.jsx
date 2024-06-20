@@ -146,11 +146,25 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
 
     const [selectFile, setSelectFile] = useState([])
     const uploadFile = useCallback(async (e) => {
-        const newFiles = [...selectFile]
-        newFiles.push(e.target.files[0])
-        setSelectFile(newFiles)
-    }, [selectFile, setSelectFile])
+        if (e.target.files[0].type === "application/pdf" ||
+            e.target.files[0].type === "image/png" ||
+            e.target.files[0].type === "image/jpeg" ||
+            e.target.files[0].type === "image/jpg"
 
+        ) {
+            if ((e.target.files[0].size) > 26214400) {
+                warningNotify("File Size Is to Large")
+            } else {
+                const newFiles = [...selectFile]
+                newFiles.push(e.target.files[0])
+                setSelectFile(newFiles)
+            }
+
+        } else {
+            warningNotify("Only .png, .jpeg, and .pdf File format allowed!")
+        }
+
+    }, [selectFile, setSelectFile])
     const handleImageUpload = useCallback(async (imageFile) => {
         const options = {
             maxSizeMB: 2,
@@ -637,40 +651,38 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                 warningNotify("Please Select ant data collection department")
             }
         } else {
-            if (approve !== false || reject !== false || pending !== false) {
-                updateMDApproval(MDPatchData).then((val) => {
-                    const { success, message } = val
-                    if (success === 2) {
-                        if (selectFile.length !== 0) {
-                            FileInsert(req_slno, selectFile).then((val) => {
-                                const { success, message } = val
-                                if (success === 1) {
-                                    succesNotify("Status updated and also file uploaded")
-                                    setCount(count + 1)
-                                    reset()
-                                }
-                                else {
-                                    warningNotify(message)
-                                }
-                            })
-                        } else {
-                            succesNotify("Status updated Successfully")
-                            setCount(count + 1)
-                            reset()
-                        }
 
-                    }
-                    else {
-                        warningNotify(message)
+            updateMDApproval(MDPatchData).then((val) => {
+                const { success, message } = val
+                if (success === 2) {
+                    if (selectFile.length !== 0) {
+                        FileInsert(req_slno, selectFile).then((val) => {
+                            const { success, message } = val
+                            if (success === 1) {
+                                succesNotify("Status updated and also file uploaded")
+                                setCount(count + 1)
+                                reset()
+                            }
+                            else {
+                                warningNotify(message)
+                            }
+                        })
+                    } else {
+                        succesNotify("Status updated Successfully")
+                        setCount(count + 1)
+                        reset()
                     }
 
+                }
+                else {
+                    warningNotify(message)
+                }
 
-                })
-            } else {
-                warningNotify("Please Select any status")
-            }
+
+            })
+
         }
-    }, [approve, reject, pending, MDPatchData, setCount, count, reset,
+    }, [MDPatchData, setCount, count, reset,
         datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload])
 
     const ModalClose = useCallback(() => {
@@ -908,7 +920,7 @@ const CrfMDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                     </Box> :
                                                     <Box>
                                                         <CssVarsProvider>
-                                                            <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Incharge Approval Not Required </Typography>
+                                                            <Typography ml={10} sx={{ fontSize: 15, fontWeight: 500 }} >Incharge Approval Not Required Requested by HOD </Typography>
                                                         </CssVarsProvider>
                                                     </Box>
                                                 }

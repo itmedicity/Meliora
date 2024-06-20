@@ -1,4 +1,4 @@
-import { Box, CssVarsProvider, Textarea, Tooltip, Typography } from '@mui/joy'
+import { Avatar, Box, CssVarsProvider, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import TmMultEmpSelectUnderDeptSec from 'src/views/CommonSelectCode/TmMultEmpSelectUnderDeptSec'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -14,6 +14,7 @@ import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import moment from 'moment';
 import AutoDeleteTwoToneIcon from '@mui/icons-material/AutoDeleteTwoTone';
 import DueDateModal from '../ModalComponent/DueDateModal';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRendering, tableCount, setTableCount, tm_task_due_date }) => {
 
     const { tm_task_slno, tm_task_status, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, em_name, tm_project_slno, main_task_slno, create_date } = subTaskData
@@ -61,7 +62,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         }
     }, [])
     const ChangeOnProgressSub = useCallback((e) => {
-
         if (e.target.checked === true) {
             setCompletedSub(false)
             setOnProgressSub(true)
@@ -78,7 +78,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         }
     }, [])
     const ChangeOnHoldSub = useCallback((e) => {
-
         if (e.target.checked === true) {
             setCompletedSub(false)
             setOnHoldSub(true)
@@ -112,8 +111,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         }
     }, [])
 
-
-
     const SubTaskUpdate = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -137,9 +134,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             tm_task_slno: tm_task_slno,
             tm_assigne_emp: val.tm_assigne_emp,
         }
-    })
-    const secName = useSelector((state) => {
-        return state.LoginUserData.empdeptsec
     })
     const empdept = useSelector((state) => {
         return state.LoginUserData.empdept
@@ -228,11 +222,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         setCompletedSub(false)
         setflag(0)
     }, [setSubTaskMastEdit, setEmployeeSubTask, setCompletedSub, setOnProgressSub, setflag]);
-
-    // const closeSubTask = useCallback((e) => {
-    //     reset()
-    //     setflag(0)
-    // }, [setflag, reset])
 
     const [taskProgressSub, setTaskProgressSub] = useState({
         progress_slno: '',
@@ -477,14 +466,10 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                     infoNotify('Duedate is not extended')
                 }
             }
-
-
-
         }
         getDueDate()
 
     }, [tm_task_slno])
-
 
     return (
         <Box>
@@ -495,7 +480,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                     : null}
             </Box>
             <Box sx={{ display: 'flex', }}>
-                <Box sx={{ flex: 1, mr: 1 }}>
+                <Box sx={{ flex: 1.5, mr: 1 }}>
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
                         Subtask Name<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
@@ -512,48 +497,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
 
                     ></Textarea>
                 </Box>
-                <Box sx={{ flex: 1, mr: 1 }}>
-                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>
-                        Department
-                    </Box>
-                    <Textarea
-                        type="text"
-                        name="secName"
-                        value={secName}
-                        style={{ minHeight: 57 }}
-                        disabled>
-                    </Textarea>
-                </Box>
-
-                <Box sx={{ flex: 1, mr: 1 }}>
-                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
-                        Assignee<Typography sx={{ color: '#B32800' }}>*</Typography>
-                    </Box>
-                    {changeAssignee === 0 ?
-                        <Box sx={{ display: 'flex', }}>
-                            <Box sx={{ flex: 1, }}>
-                                <Textarea
-                                    type="text"
-                                    name="em_name"
-                                    value={em_name}
-                                    disabled
-                                    style={{ minHeight: 57 }}
-                                >
-                                </Textarea></Box>
-                            <Box sx={{ pt: 2 }}>
-                                <Tooltip title="Change Assignees">
-                                    <ChangeCircleIcon sx={{ cursor: 'pointer' }}
-                                        onClick={changeEmp} />
-                                </Tooltip>
-                            </Box>
-                        </Box>
-                        :
-                        <TmMultEmpSelectUnderDeptSec
-                            value={employeeSubTask}
-                            setValue={setEmployeeSubTask}
-                        />}
-                </Box>
-                <Box sx={{ flex: 1, mr: 1 }}>
+                <Box sx={{ flex: .5, mr: 1 }}>
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
                         Due Date<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
@@ -582,7 +526,35 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         </Box>
                     </Box>
                 </Box>
-                <Box sx={{ flex: 1, mr: .5 }}>
+                <Box sx={{ flex: 1, mr: 1 }}>
+                    <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
+                        Assignee<Typography sx={{ color: '#B32800' }}>*</Typography>
+                    </Box>
+                    {changeAssignee === 0 ?
+                        <Box sx={{ display: 'flex', }}>
+                            <Box sx={{ flex: 1, }}>
+                                <Textarea
+                                    type="text"
+                                    name="em_name"
+                                    value={em_name}
+                                    disabled
+                                    style={{ minHeight: 57 }}
+                                >
+                                </Textarea></Box>
+                            <Box sx={{ pt: 2 }}>
+                                <Tooltip title="Change Assignees">
+                                    <ChangeCircleIcon sx={{ cursor: 'pointer' }}
+                                        onClick={changeEmp} />
+                                </Tooltip>
+                            </Box>
+                        </Box>
+                        :
+                        <TmMultEmpSelectUnderDeptSec
+                            value={employeeSubTask}
+                            setValue={setEmployeeSubTask}
+                        />}
+                </Box>
+                <Box sx={{ flex: 1.5, mr: .5 }}>
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>
                         Description
                     </Box>
@@ -599,13 +571,17 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                     >
                     </Textarea>
                 </Box>
-                {((onHoldSub !== true) && (completedSub !== true) && (onPendingSub !== true)) ?
-                    <Box sx={{ flex: .1, pr: 1, pt: 4.5 }}>
-                        <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
-                            onClick={SubmitTask}
-                        />
-                    </Box> :
-                    <Box sx={{ pr: .5 }}></Box>}
+                <Box sx={{ px: 1.5 }}>
+                    {((onHoldSub !== true) && (completedSub !== true) && (onPendingSub !== true)) ?
+                        <Box sx={{ flex: .1, pr: 1, pt: 4.3 }}>
+                            <Avatar sx={{ bgcolor: '#E4D4C8' }}>
+                                <CheckCircleIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#523A28' }}
+                                    onClick={SubmitTask}
+                                />
+                            </Avatar>
+                        </Box> :
+                        <Box sx={{ pr: .5 }}></Box>}
+                </Box>
             </Box>
             <Box sx={{ display: 'flex', mt: 1 }}>
                 <Box sx={{ flex: 1, }}>
@@ -731,87 +707,91 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                 </Box>
                 <Box sx={{ flex: 14, py: 7, pl: 1, }}>
                     {((onHoldSub === true) || (completedSub === true) || (onPendingSub === true)) ?
-                        <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
-                            onClick={SubmitTask}
-                        /> : null}
+                        <Avatar sx={{ bgcolor: '#E4D4C8' }}>
+                            <CheckCircleIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#523A28' }}
+                                onClick={SubmitTask}
+                            />
+                        </Avatar> : null}
                 </Box>
             </Box>
-            {onProgressSub === true ?
-                <Box sx={{ mr: 2, ml: 1, mt: 2, border: 1, borderColor: '#710019', borderRadius: 4, }}>
-                    < Typography sx={{ pl: 1, fontSize: 20, color: '#000C66', fontFamily: 'Georgia', pt: .5 }}>
-                        Subtask Progress
-                    </Typography>
-                    <Box sx={{ display: 'flex', }}>
-                        <Box sx={{ flex: 4, pb: 1, }}>
-                            < Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia', }}>
-                                Progress Date
-                            </Typography>
-                            <Box sx={{ pl: 1 }}>
-                                <TextFieldCustom
-                                    slotProps={{
-                                        input: {
-                                            min: create_date,
-                                            max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                        },
-                                    }}
-                                    type="datetime-local"
-                                    size="sm"
-                                    name="tm_progres_date"
-                                    value={tm_progres_date}
-                                    onchange={ProgresssUpdateSub}
-                                ></TextFieldCustom>
-                            </Box>
-                        </Box>
-                        <Box sx={{ flex: 15, }}>
-                            < Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia', }}>
-                                Progress description
-                            </Typography>
-                            <Box sx={{ mx: 1, }}>
-                                <Textarea
-                                    type="text"
-                                    size="sm"
-                                    placeholder="type here..."
-                                    variant="outlined"
-                                    minRows={1}
-                                    maxRows={2}
-                                    name="tm_task_progress"
-                                    value={tm_task_progress}
-                                    onChange={(e) => ProgresssUpdateSub(e)}
-                                >
-                                </Textarea>
-                            </Box>
-                            <Box sx={{ height: 3 }}></Box>
-                        </Box>
-                        <Box sx={{ pr: 1, pt: 4 }}>
-                            {valueSubProgress === 0 ?
-                                <Box>
-                                    <CssVarsProvider>
-                                        <Tooltip title="add  progress">
-                                            <AddCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
-                                                onClick={InsertProgressSub}
-                                            />
-                                        </Tooltip>
-                                    </CssVarsProvider>
-                                </Box> :
-                                valueSubProgress === 1 ? <Box>
-                                    <CssVarsProvider>
-                                        <Tooltip title="edit  progress">
-                                            <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
-                                                onClick={UpdateProgressSub}
-                                            />
-                                        </Tooltip>
-                                    </CssVarsProvider>
+            {
+                onProgressSub === true ?
+                    <Box sx={{ mr: 2, ml: 1, mt: 2, border: 1, borderColor: '#710019', borderRadius: 4, }}>
+                        < Typography sx={{ pl: 1, fontSize: 20, color: '#000C66', fontFamily: 'Georgia', pt: .5 }}>
+                            Subtask Progress
+                        </Typography>
+                        <Box sx={{ display: 'flex', }}>
+                            <Box sx={{ flex: 4, pb: 1, }}>
+                                < Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia', }}>
+                                    Progress Date
+                                </Typography>
+                                <Box sx={{ pl: 1 }}>
+                                    <TextFieldCustom
+                                        slotProps={{
+                                            input: {
+                                                min: create_date,
+                                                max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                            },
+                                        }}
+                                        type="datetime-local"
+                                        size="sm"
+                                        name="tm_progres_date"
+                                        value={tm_progres_date}
+                                        onchange={ProgresssUpdateSub}
+                                    ></TextFieldCustom>
                                 </Box>
-                                    : null}
+                            </Box>
+                            <Box sx={{ flex: 15, }}>
+                                < Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia', }}>
+                                    Progress description
+                                </Typography>
+                                <Box sx={{ mx: 1, }}>
+                                    <Textarea
+                                        type="text"
+                                        size="sm"
+                                        placeholder="type here..."
+                                        variant="outlined"
+                                        minRows={1}
+                                        maxRows={2}
+                                        name="tm_task_progress"
+                                        value={tm_task_progress}
+                                        onChange={(e) => ProgresssUpdateSub(e)}
+                                    >
+                                    </Textarea>
+                                </Box>
+                                <Box sx={{ height: 3 }}></Box>
+                            </Box>
+                            <Box sx={{ pr: 1, pt: 4 }}>
+                                {valueSubProgress === 0 ?
+                                    <Box>
+                                        <CssVarsProvider>
+                                            <Tooltip title="add  progress">
+                                                <AddCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
+                                                    onClick={InsertProgressSub}
+                                                />
+                                            </Tooltip>
+                                        </CssVarsProvider>
+                                    </Box> :
+                                    valueSubProgress === 1 ? <Box>
+                                        <CssVarsProvider>
+                                            <Tooltip title="edit  progress">
+                                                <CheckCircleOutlineIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
+                                                    onClick={UpdateProgressSub}
+                                                />
+                                            </Tooltip>
+                                        </CssVarsProvider>
+                                    </Box>
+                                        : null}
 
+                            </Box>
                         </Box>
+                        <SubTaskProgressTable
+                            tabledataProgress={tabledataProgress}
+                            rowSelectSubProgress={rowSelectSubProgress} />
                     </Box>
-                    <SubTaskProgressTable
-                        tabledataProgress={tabledataProgress}
-                        rowSelectSubProgress={rowSelectSubProgress} />
-                </Box>
-                : null}
-        </Box>
+                    : null
+            }
+        </Box >
     )
 }
 export default memo(EditSubtaskEmp)

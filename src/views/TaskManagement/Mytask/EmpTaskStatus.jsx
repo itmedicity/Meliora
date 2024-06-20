@@ -1,7 +1,6 @@
-import { Box, Button, CssVarsProvider, DialogActions, Modal, ModalDialog, Textarea, Tooltip, Typography } from '@mui/joy'
+import { Box, Button, Chip, CssVarsProvider, DialogActions, Modal, ModalDialog, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { useSelector } from 'react-redux';
@@ -10,7 +9,6 @@ import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/Common
 import EmpProgressTable from './EmpProgressTable';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import PermMediaIcon from '@mui/icons-material/PermMedia';
 import AddSubTaskEmp from './AddSubTaskEmp';
 import SubtaskTableEmp from './SubtaskTableEmp';
 import EditSubtaskEmp from './EditSubtaskEmp';
@@ -20,15 +18,17 @@ import imageCompression from 'browser-image-compression';
 import moment from 'moment';
 import AutoDeleteTwoToneIcon from '@mui/icons-material/AutoDeleteTwoTone';
 import DueDateModal from '../ModalComponent/DueDateModal';
-const EmpTaskStatus = ({
-    open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount, searchFlag, projectcount, setprojectcount,
+import AssignmentSharpIcon from '@mui/icons-material/AssignmentSharp';
+import CancelIcon from '@mui/icons-material/Cancel';
+import AttachmentIcon from '@mui/icons-material/Attachment';
+
+const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount, searchFlag, projectcount, setprojectcount,
     taskcount, settaskcount }) => {
 
     const { tm_task_slno, tm_task_name, tm_task_description, tm_task_due_date, main_task_slno, sec_name, tm_task_dept, tm_task_dept_sec, tm_task_status, dept_name,
         tm_project_slno, tm_project_name, create_date, tm_onhold_remarks, tm_pending_remark, tm_completed_remarks, } = masterData
 
     const id = useSelector((state) => { return state.LoginUserData.empid })
-
     const [completed, setCompleted] = useState(tm_task_status === 1 ? true : tm_task_status === 2 ? false : tm_task_status === 3 ? false : tm_task_status === 4 ? false : false)
     const [onProgress, setOnProgress] = useState(tm_task_status === 2 ? true : tm_task_status === 1 ? false : tm_task_status === 3 ? false : tm_task_status === 4 ? false : false)
     const [onHold, setOnHold] = useState(tm_task_status === 3 ? true : tm_task_status === 1 ? false : tm_task_status === 2 ? false : tm_task_status === 4 ? false : false)
@@ -65,8 +65,6 @@ const EmpTaskStatus = ({
     const [dueDateModalFlag, setdueDateModalFlag] = useState(0)
     const [dueDateModal, setdueDateModal] = useState(false)
     const [dueDates, setdueDates] = useState([])
-
-
     let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const ProgresssUpdate = useCallback(
         (e) => {
@@ -83,9 +81,7 @@ const EmpTaskStatus = ({
             tm_progres_date: ProgressDate === '' ? null : ProgressDate,
             progress_emp: id,
             main_task_slno: main_task_slno,
-            tm_task_progress: progressDetails,
-
-
+            tm_task_progress: progressDetails
         }
     }, [tm_task_slno, checkFlag, ProgressDate, progressDetails, id, main_task_slno])
 
@@ -105,6 +101,7 @@ const EmpTaskStatus = ({
             tm_task_slno: tm_task_slno
         }
     }, [tm_task_slno])
+
     useEffect(() => {
         const getProgress = async () => {
             const result = await axioslogin.post('/taskManagement/viewProgress', ProgressData);
@@ -133,6 +130,7 @@ const EmpTaskStatus = ({
         }
         getProgress(ProgressData)
     }, [progressCount, ProgressData])
+
 
     useEffect(() => {
         const getEmpName = async () => {
@@ -165,6 +163,7 @@ const EmpTaskStatus = ({
 
         }
     }, [])
+
     const ChangeOnProgress = useCallback((e) => {
         if (e.target.checked === true) {
             setCompleted(false)
@@ -464,6 +463,7 @@ const EmpTaskStatus = ({
                             overflowY: 'scroll',
                             width: '90vw',
                             height: '60vw',
+                            p: 0
 
                         }}
                     >
@@ -474,33 +474,40 @@ const EmpTaskStatus = ({
                                 : null}
                         </Box>
                         <Box sx={{ borderRight: 1, borderLeft: 1, borderBottom: 1, borderColor: '#D9E4EC', }}>
-                            <Box sx={{
-                                width: "100%", backgroundColor: '#D9E4EC', height: 45,
-                                borderTop: 1, borderBlockColor: '#6AABD2', pt: 1, mt: .5,
-                                display: 'flex'
+
+                            <Box sx={{ flex: 1, display: 'flex', bgcolor: 'white', height: 30 }}>
+                                <Typography sx={{ color: 'lightgray', fontSize: 12, pl: 1, flex: 1, pt: 1, fontWeight: 900, }}> My Task</Typography>
+                                <CancelIcon sx={{
+                                    height: 45, width: 45, cursor: 'pointer', color: 'darkred', p: 1,
+                                    '&:hover': { color: '#BA0F30' }
+                                }}
+                                    onClick={handleEditClose}
+                                />
+                            </Box>
+                            <Box sx={{ flex: 1, bgcolor: '#52688F', height: 40, mt: 1 }}>
+                            </Box>
+                            <Box style={{
+                                marginLeft: 50,
+                                marginTop: "-0.99em",
+                                paddingLeft: 2,
+                                zIndex: 2,
+                                backgroundColor: "white",
+                                borderRadius: 35,
+                                position: "absolute", fontSize: "0.75em"
                             }}>
-                                <Box sx={{ flex: 1 }}>
-                                    <ModeEditIcon sx={{ height: '20px' }} />Task Status
-                                </Box>
-                                <Box sx={{ width: 35, mb: .3, display: 'flex', justifyContent: 'flex-end', mr: 1, pt: .8, pr: .6, bgcolor: 'white', borderRadius: 15 }}>
-                                    <Tooltip title="Close">
-                                        < CloseIcon sx={{ cursor: 'pointer', size: 'lg', height: 20, color: '#004F76' }}
-                                            onClick={handleEditClose}
-                                        />
-                                    </Tooltip>
-                                </Box>
+                                <AssignmentSharpIcon sx={{ height: 50, width: 50, p: 1.5, }} />
                             </Box>
                             <Box>
-                                {/* <Box sx={{ display: 'flex', width: '100%', mt: 1 }}> */}
-                                <Box sx={{ flex: 1, mt: .5 }}>
-                                    <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
-                                        <Box sx={{ flex: .9, ml: 3 }}>
-                                            Project
-                                        </Box>
-                                        <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>
-                                            :&nbsp;{tm_project_name}
-                                        </Box>
-                                    </Box>
+                                <Box sx={{ flex: 1, mt: 4 }}>
+                                    {tm_project_name !== null ?
+                                        <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
+                                            <Box sx={{ flex: .9, ml: 3 }}>
+                                                Project
+                                            </Box>
+                                            <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>
+                                                :&nbsp;{tm_project_name}
+                                            </Box>
+                                        </Box> : null}
                                     <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                                         <Box sx={{ flex: .9, ml: 3 }}>
                                             Task Name
@@ -568,44 +575,39 @@ const EmpTaskStatus = ({
                                 <Box sx={{
                                     fontFamily: 'Georgia',
                                     height: 50, mt: .5, border: 1, borderRadius: 1, borderStyle: 'dashed', display: 'flex',
-                                    borderColor: '#887BB0', mx: 2.3
+                                    borderColor: '#887BB0', mx: 2.3, py: 1
                                 }}>
                                     <Box sx={{
-                                        color: '#003B73', display: 'flex', flex: 1, m: 1, border: .5, borderColor: '#B7CFDC', pl: 1, pt: .3,
-                                        borderRadius: 2,
+                                        color: '#0000FF', cursor: 'pointer', '&:hover': { color: '#000C66' }, textAlign: 'center', width: 155, border: .1,
+                                        mx: .5, borderRadius: 5, borderColor: '#E4E5E8',
                                     }}>
-                                        <Typography>fileUpload&nbsp;</Typography>
-                                        <CssVarsProvider>
-                                            <label htmlFor="file-input">
-                                                <Tooltip title="File Attach" placement="bottom" >
+                                        <label htmlFor="file-input">
+                                            <AttachmentIcon sx={{ color: '#0000FF', cursor: 'pointer', '&:hover': { color: '#000C66' }, }} /><u>Choose File</u>
+                                        </label>
+                                        <input
+                                            id="file-input"
+                                            type="file"
+                                            accept=".jpg, .jpeg, .png, .pdf"
+                                            style={{ display: 'none' }}
+                                            onChange={handleTaskFileChange}
+                                            name="selectTaskfile"
+                                            multiple // Add this attribute to allow multiple file selections
+                                        />
 
-                                                    <PermMediaIcon sx={{ color: '#738FA7', height: 25, width: 25, cursor: 'pointer', pr: .5 }} />
-                                                </Tooltip>
-                                            </label>
-                                            <input
-                                                id="file-input"
-                                                type="file"
-                                                accept=".jpg, .jpeg, .png, .pdf"
-                                                style={{ display: 'none' }}
-                                                onChange={handleTaskFileChange}
-                                                name="selectTaskfile"
-                                                multiple // Add this attribute to allow multiple file selections
-                                            />
-                                        </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{ flex: 10, overflowX: "scroll", overflow: 'hidden', }}>
-                                        <Box sx={{ display: 'flex' }}>
-                                            {selectTaskfile && selectTaskfile.map((taskFile, index) => (
-                                                <Box sx={{
-                                                    display: "flex", flexDirection: "row", ml: .5, mt: 1.5,
-                                                    backgroundColor: '#C3CEDA', borderRadius: 2, px: .5,
-                                                }} key={index} >
-                                                    <Box >{taskFile.name}</Box>
-                                                    <Box sx={{ ml: .3 }}><CloseIcon sx={{ height: '17px', width: '20px', cursor: 'pointer' }}
-                                                        onClick={() => handleRemoveTaskFile(index)} /></Box>
-                                                </Box>
-                                            ))}
-                                        </Box>
+                                    <Box sx={{ display: 'flex', flex: 1, overflowX: "scroll", overflow: 'hidden', mx: .5 }}>
+                                        {selectTaskfile && selectTaskfile.map((taskFile, index) => (
+                                            <Box key={index}>
+                                                <Chip sx={{ bgcolor: '#B7CFDC', width: '100%', ml: .5 }}>
+                                                    {taskFile.name}
+                                                    <CloseIcon sx={{
+                                                        pl: .3, pb: .3, height: 20, width: 20, cursor: 'pointer', color: '#4D0011',
+                                                        '&:hover': { color: '#BA0F30' },
+                                                    }}
+                                                        onClick={() => handleRemoveTaskFile(index)} />
+                                                </Chip>
+                                            </Box>
+                                        ))}
                                     </Box>
                                 </Box>
                                 <Box sx={{ m: 2, border: 1, borderColor: '#710019', borderRadius: 3 }}>

@@ -41,7 +41,7 @@ const TmDeptSectionSubtask = ({ deptsecSub, setDeptSecSub }) => {
             <CssVarsProvider>
                 <Autocomplete
                     sx={{
-                        "--Input-minHeight": "29px"
+                        minHeight: 53
                     }}
                     value={deptsecSub === 0 ? deptSections : value}
                     placeholder="Select department section"

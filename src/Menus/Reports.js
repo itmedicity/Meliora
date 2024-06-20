@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { diet_one, diet_two, diet_three, cms_one, cms_two, cms_three, am_one, tm_one } from './ReportsMenu'
+import { diet_one, diet_two, diet_three, cms_one, cms_two, cms_three, am_one, tm_one, crm_one } from './ReportsMenu'
 import { getMenuSlno } from '../views/Constant/Constant'
 import { Link } from 'react-router-dom'
 import { Card, CardContent, CardHeader } from '@mui/material'
@@ -14,6 +14,7 @@ const Reports = () => {
     const [cms_report_three, setcms_report_three] = useState();
     const [am_report_one, setam_report_one] = useState();
     const [tm_report_one, settm_report_one] = useState();
+    const [crm_report_one, setcrm_report_one] = useState();
     const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
@@ -42,6 +43,10 @@ const Reports = () => {
             //Task Management Report
             const tm_report_one = tm_one.filter(val => menuSlnoArray.includes(val.slno));
             settm_report_one(tm_report_one)
+
+            //Central Request Management Report
+            const crm_report_one = crm_one.filter(val => menuSlnoArray.includes(val.slno));
+            setcrm_report_one(crm_report_one)
 
             setCount(1)
         })
@@ -155,6 +160,25 @@ const Reports = () => {
                         <ul className="list-group list-group-flush">
                             {
                                 tm_report_one && tm_report_one.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </CardContent>
+            <CardHeader title={"Central Request Management Report"}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
+                sx={{
+                    backgroundColor: cardActionBgClr,
+                    paddingY: 0.5,
+                }} />
+            <CardContent>
+                <div className="row" >
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                crm_report_one && crm_report_one.map((val) => {
                                     return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
                                 })
                             }

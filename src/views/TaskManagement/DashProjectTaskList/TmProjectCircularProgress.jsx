@@ -3,6 +3,7 @@ import Stack from '@mui/joy/Stack';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { Box, Tooltip, Typography } from '@mui/joy';
 import { axioslogin } from 'src/views/Axios/Axios';
+
 const TmProjectCircularProgress = ({ val, }) => {
 
     const { tm_project_slno } = val
@@ -30,11 +31,11 @@ const TmProjectCircularProgress = ({ val, }) => {
         <Box>
             <Tooltip title="Task Completed Under this Project">
                 <Stack spacing={1}>
-                    <CircularProgress size="md" determinate
+                    <CircularProgress size="sm" determinate
                         sx={{ bgcolor: 'white' }}
                         value={progress}
                     >
-                        <Typography sx={{ fontSize: 10 }}>
+                        <Typography sx={{ fontSize: 10, p: 1 }}>
                             {progress}%
                         </Typography>
                     </CircularProgress>

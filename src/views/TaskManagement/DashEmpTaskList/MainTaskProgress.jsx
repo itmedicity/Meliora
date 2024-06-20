@@ -32,10 +32,10 @@ const MainTaskProgress = ({ val }) => {
     }, [tm_task_status, searchData])
 
     return (
-        <Box>
+        <Box sx={{ pt: 1 }}>
             <Stack >
                 <Tooltip title="Task Status">
-                    <CircularProgress size="md" determinate
+                    <CircularProgress size="sm" determinate
                         sx={{ bgcolor: 'white', color: '#145DA0' }}
                         value={MainTaskprogress}
                     >

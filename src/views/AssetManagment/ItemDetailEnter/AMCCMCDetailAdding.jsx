@@ -226,7 +226,7 @@ const AMCCMCDetailAdding = ({ detailArry, amcPm, setAmcPm, amcPmarry }) => {
             due_date: dueDate,
             pm_status: pmStatus === true ? 1 : 0,
             create_user: id,
-            amc_slno: amcCmcSlno
+            amc_slno: amcCmcSlno === '' ? null : amcCmcSlno
         }
     }, [am_item_map_slno, amcStatus, cmcStatus, instalationDate, dueDate,
         pmStatus, id, amcCmcSlno])
@@ -240,7 +240,7 @@ const AMCCMCDetailAdding = ({ detailArry, amcPm, setAmcPm, amcPmarry }) => {
             due_date: dueDate,
             pm_status: pmStatus === true ? 1 : 0,
             edit_user: id,
-            amc_slno: amcCmcSlno
+            amc_slno: amcCmcSlno === '' ? null : amcCmcSlno
         }
     }, [am_item_map_slno, amcStatus, cmcStatus, instalationDate, dueDate,
         pmStatus, id, amcCmcSlno])
@@ -525,7 +525,7 @@ const AMCCMCDetailAdding = ({ detailArry, amcPm, setAmcPm, amcPmarry }) => {
                             </Box>
 
                             <Box sx={{ display: 'flex', width: '10%', p: 0.5, flexDirection: 'column' }} >
-                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Installation date</Typography>
+                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Days</Typography>
                                 <Box>
                                     <TextFieldCustom
                                         type="number"

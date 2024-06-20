@@ -13,7 +13,9 @@ import EmployeeProgressBar from './EmployeeProgressBar';
 import AllTaskListUnderProject from './AllTaskListUnderProject';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import { infoNotify } from 'src/views/Common/CommonCode';
+
 const TmEmployeeTaskData = () => {
+
     const dispatch = useDispatch();
     const empsecid = useSelector((state) => { return state.LoginUserData.empsecid })
     const empnameselect = useSelector((state) => { return state.getDepartSecemployee.departsecempList || 0 })
@@ -97,7 +99,6 @@ const TmEmployeeTaskData = () => {
                                 flex: 1,
                                 Pb: .3,
                                 '&:hover': {
-                                    // boxShadow: '0px 0px 4px',
                                     bgcolor: '#ECF1F2',
                                     borderBottom: '#C3CEDA'
                                 },
@@ -112,9 +113,9 @@ const TmEmployeeTaskData = () => {
                                     </Avatar>
                                 </Box>
                                 <Box sx={{ flex: .8, pt: 1, pl: .3, fontWeight: 600 }}>
-                                    <Typography>{capEmpName}</Typography>
+                                    <Typography sx={{ fontSize: 13, }}>{capEmpName}</Typography>
                                 </Box>
-                                <Box sx={{ flex: 5, pt: 1, }}>
+                                <Box sx={{ flex: 5, pt: 2, }}>
                                     <EmployeeProgressBar val={val} />
                                 </Box>
                                 <Box sx={{ flex: .2, pl: 2, cursor: 'pointer' }}>

@@ -146,10 +146,6 @@ const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDe
 const AssetRackMast = React.lazy(() => import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster'))
 const AssetDeptTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DeptTransfer'))
 const TaskManagementMainDashboard = React.lazy(() => import('./views/TaskManagement/TaskDashboard/TmDashboardMain'))
-const TaskManagementMainGoals = React.lazy(() => import('./views/TaskManagement/GoalsMaster/GoalsMaster'))
-const TaskManagementMainProject = React.lazy(() => import('./views/TaskManagement/ProjectMaster/ProjectMaster'))
-const TaskManagementDeptGoals = React.lazy(() => import('./views/TaskManagement/GoalsMaster/GoalsMasterDept'))
-const TaskManagementDeptProjects = React.lazy(() => import('./views/TaskManagement/ProjectMaster/ProjectMasterDept'))
 const ITSimDetails = React.lazy(() => import('./views/ItManagement/SimDetails/SimDetails'))
 const AssetDepartmentTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DeptTransfer'))
 const AssetItemReport = React.lazy(() => import('./views/Report/AssetReport/AllItemsReports'))
@@ -172,10 +168,8 @@ const CrfNewReqRegister = React.lazy(() => import('./views/CentralRequestManagem
 const AssetInterDeptTrans = React.lazy(() => import('./views/AssetManagment/InterDeptTransfer/InterDeptTransfer'))
 const CensusDptMast = React.lazy(() => import('./views/Master/QualityIndicatorMaster/CensusDeptSecMast/QualityDept'))
 const QualityIndicator = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QualityIndicatorsList/QualityIndicators'))
-
 const TMdepartmentReport = React.lazy(() => import('./views/Report/TaskReport/DepartmentWise/DepartmentWiseTask'))
 const TMEmployeeReport = React.lazy(() => import('./views/Report/TaskReport/EmployeeWise/EmployeeeWiseTask'))
-const TaskManagementTaskLists = React.lazy(() => import('./views/TaskManagement/TaskDashboard/TmTaskList'))
 const CRFNewIncharge = React.lazy(() => import('./views/CentralRequestManagement/CrfInchargeApproval/CrfInchargeAppvable'))
 const CRFNewHOD = React.lazy(() => import('./views/CentralRequestManagement/CrfHodApproval/CrfHodApproval'))
 const CRFNewDMS = React.lazy(() => import('./views/CentralRequestManagement/CrfDmsApproval/CrfDMSApproval'))
@@ -186,10 +180,9 @@ const CRFNewGM = React.lazy(() => import('./views/CentralRequestManagement/CrfGM
 const CRFNewMD = React.lazy(() => import('./views/CentralRequestManagement/CrfMDApproval/CrfMDApprovalMain'))
 const CRFNewED = React.lazy(() => import('./views/CentralRequestManagement/CrfEDApproval/CrfEDApprovalMain'))
 const CRFNewDashboard = React.lazy(() => import('./views/CentralRequestManagement/CrfDashboardNew/CrfDashboardMain'))
-const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/AllDepartmentTask/AllDepartmentMain'))
+const TaskManagementMainCreateTask = React.lazy(() => import('./views/TaskManagement/AllDepartmentsTaskZ/AllDepartmentMain'))
 const DailyCensus = React.lazy(() => (import('./views/DailyCensus/DailyCensusCreate/CensusCreate')))
 const DailyCensusReport = React.lazy(() => (import('./views/DailyCensus/DailyCensusReport/CensusReportView')))
-
 const CrfNewDataCollection = React.lazy(() => import('./views/CentralRequestManagement/CrfDatacollection/CrfDataCollectionTable'))
 const CRFNewPdfView = React.lazy(() => import('./views/CentralRequestManagement/CrfPdfView/CrfPdfViewMain'))
 const CRFNewPurchase = React.lazy(() => import('./views/CentralRequestManagement/PurchaseProcess/PurchaseTablemain'))
@@ -209,10 +202,15 @@ const TimeReport = React.lazy(() => import('./views/QualityIndicatorNew/InitialA
 const QIListType = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QIListTypeMast/QIListType'))
 const DayWiseQiReport = React.lazy(() => import('./views/QualityIndicatorNew/DaywiseQiReport'))
 const DataTransferHRM = React.lazy(() => import('./views/Master/DataImportFrmHR/DataImportHR'))
+const TaskManagementTaskLists = React.lazy(() => import('./views/TaskManagement/DepartmentTask/DepartmentMain'))
+const AcceptTask = React.lazy(() => import('./views/TaskManagement/AcceptTask/AcceptTaskFromDir'))
 const AmcCmcAdding = React.lazy(() => import('./views/AssetManagment/ItemDetailEnter/AmcCmcAdding'))
 const QiInchargeApr = React.lazy(() => import('./views/QualityIndicatorNew/InchargeApproval'))
 const QiEquipment = React.lazy(() => import('./views/Master/QualityIndicatorMaster/EquipmentMaster/EquipmentMast'))
 const QiHodAprv = React.lazy(() => import('./views/QualityIndicatorNew/HODApproval'))
+const CrfNoBased = React.lazy(() => import('./views/Report/CrmReport/CrfNoBasedReport'))
+const UserAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserAcknldgeList'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -365,10 +363,6 @@ const routes = [
   { path: '/Home/DeptTransfer', exact: true, name: 'Asset Rack Master', component: AssetDeptTransfer },
   { path: '/Home/TaskManagementDashboard', exact: true, name: 'TaskManagement Dashboard', component: TaskManagementMainDashboard },
   { path: '/Home/TaskManagementCreateTask', exact: true, name: 'TaskManagement Create Task', component: TaskManagementMainCreateTask },
-  { path: '/Home/TaskManagementGoals', exact: true, name: 'TaskManagement Goals', component: TaskManagementMainGoals },
-  { path: '/Home/TaskManagementProject', exact: true, name: 'TaskManagement Project', component: TaskManagementMainProject },
-  { path: '/Home/TaskManagementDeptGoals', exact: true, name: 'TaskManagement Dept Goals', component: TaskManagementDeptGoals },
-  { path: '/Home/TaskManagementDeptProjects', exact: true, name: 'TaskManagement Dept Projects ', component: TaskManagementDeptProjects },
   { path: '/Home/ItSimdetails', exact: true, name: 'It Sim Details', component: ITSimDetails },
   { path: '/Home/AssetDeptTransfer', exact: true, name: 'Asset Department Transfer', component: AssetDepartmentTransfer },
   { path: '/Home/AssetItemReport', exact: true, name: 'Asset Item Report', component: AssetItemReport },
@@ -391,14 +385,11 @@ const routes = [
   { path: '/Home/AssetInterDeptTrans', exact: true, name: 'Asset Inter Departme', component: AssetInterDeptTrans },
   { path: '/Home/CensusDept', excat: true, name: 'Daily Census Department Section', component: CensusDptMast },
   { path: '/Home/QualityIndicator', exact: true, name: 'Quality Indicator List', component: QualityIndicator },
-
   { path: '/Home/TMdepartmentReport', exact: true, name: 'TM department Report', component: TMdepartmentReport },
   { path: '/Home/TMEmployeeReport', exact: true, name: 'TM employee Report', component: TMEmployeeReport },
   { path: '/Home/TaskManagementTaskLists', exact: true, name: 'TaskManagement TaskList', component: TaskManagementTaskLists },
-
   { path: '/Home/DailyCensus', exact: true, name: 'Daily Census Entry', component: DailyCensus },
   { path: '/Home/DailyCensusReport', exact: true, name: 'Daily Census Report', component: DailyCensusReport },
-
   { path: '/Home/CRFNewInchargeApproval', exact: true, name: 'CRF New Incharge Approval', component: CRFNewIncharge },
   { path: '/Home/CRFNewHODApproval', exact: true, name: 'CRF New HOD Approval', component: CRFNewHOD },
   { path: '/Home/CRFNewDMSApproval', exact: true, name: 'CRF New DMS Approval', component: CRFNewDMS },
@@ -421,6 +412,7 @@ const routes = [
   { path: '/Home/BillSupplierDetailsMast', exact: true, name: 'Bill Supplier Details Mast', component: BillSupplierDetailsMast },
   { path: '/Home/QIDeptMast', exact: true, name: 'Quality Department Mast', component: QIdept },
   { path: '/Home/QIPatientMarking', exact: true, name: 'Dept Wise Patient Marking', component: QIPatientMarking },
+  { path: '/Home/AcceptTask', exact: true, name: 'TaskManagement AcceptTask', component: AcceptTask },
   { path: '/Home/IncidentList', exact: true, name: 'Incident List View', component: Incident },
   { path: '/Home/QIMonthlyReport', exact: true, name: 'QI Monthly Report', component: QIMonthlyReport },
   { path: '/Home/QIValidation', exact: true, name: 'QI Validation', component: QIValidation },
@@ -432,6 +424,8 @@ const routes = [
   { path: '/Home/QiIncharge', exact: true, name: 'Level I Approval', component: QiInchargeApr },
   { path: '/Home/QIEquipment', exact: true, name: 'Quality Equipment Mast', component: QiEquipment },
   { path: '/Home/QiHOD', exact: true, name: 'Level II Approval', component: QiHodAprv },
+  { path: '/Home/CrfNoBased', exact: true, name: 'CRF No Based', component: CrfNoBased },
+  { path: '/Home/userAckldged', exact: true, name: 'User Acknowledged CRF', component: UserAcknowldged },
 
 
 ]

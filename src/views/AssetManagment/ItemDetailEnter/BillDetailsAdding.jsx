@@ -26,23 +26,25 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
     const [supplier, setSupplier] = useState(0)
     const [billDate, setBillDate] = useState(format(new Date(), "yyyy-MM-dd"))
     const [billDetailFlag, setBillDetailFlag] = useState(0)
+    const [billAmount, setBillAmount] = useState()
     const [BillDtl, setBillDetail] = useState({
         billNo: '',
         billdate: format(new Date(), "yyyy-MM-dd"),
-        billAmount: '',
         vendor: '',
         billImage: '',
         bill_mastslno: ''
     })
     //Destructuring
-    const { billNo, billdate, billAmount, vendor, billImage, bill_mastslno } = BillDtl
+    const { billNo, billdate, vendor, billImage, bill_mastslno } = BillDtl
 
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imagearray, setImageArry] = useState([])
     const [imageshow, setImageShow] = useState(false)
-
     const [AddBillFlg, setBillFlg] = useState(0)
 
+    const updateBillAmount = useCallback((e) => {
+        setBillAmount(e.target.value)
+    }, [])
 
     const [SupplerModal, setSupplerModal] = useState(0)
     const [BillArray, setBillArray] = useState([])
@@ -62,15 +64,16 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
             const fromSetting = {
                 billNo: am_bill_no,
                 billdate: am_bill_date,
-                billAmount: am_bill_amount,
                 vendor: bill_supplier_name,
                 billImage: am_bill_image,
                 bill_mastslno: am_bill_mastslno
             }
             setBillDetail(fromSetting)
+            setBillAmount(am_bill_amount)
         }
 
-    }, [am_bill_mast_slno, am_bill_no, am_bill_date, am_bill_amount, bill_supplier_name, am_bill_image, am_bill_mastslno])
+    }, [am_bill_mast_slno, am_bill_no, am_bill_date, am_bill_amount, bill_supplier_name, am_bill_image,
+        am_bill_mastslno])
 
     const updateBillDate = useCallback((e) => {
         setBillDate(e.target.value)
@@ -100,7 +103,6 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
                     const resetdata = {
                         billNo: '',
                         billdate: format(new Date(), "yyyy-MM-dd"),
-                        billAmount: '',
                         vendor: '',
                         billImage: '',
                         bill_mastslno: ''
@@ -123,13 +125,12 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
     }, [])
 
     const rowSelect = useCallback((value) => {
-        const { am_bill_amount, am_bill_date, am_bill_image, am_bill_mastslno, am_bill_no, it_supplier_name
+        const { am_bill_date, am_bill_image, am_bill_mastslno, am_bill_no, it_supplier_name
         } = value
 
         const fromdataset = {
             billNo: am_bill_no,
             billdate: format(new Date(am_bill_date), "yyyy-MM-dd"),
-            billAmount: am_bill_amount,
             vendor: it_supplier_name,
             billImage: am_bill_image,
             bill_mastslno: am_bill_mastslno
@@ -170,18 +171,20 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
     const billpatchData = useMemo(() => {
         return {
             am_bill_mast_slno: bill_mastslno,
+            am_bill_amount: billAmount,
             edit_user: id,
             am_item_map_slno: am_item_map_slno
         }
-    }, [bill_mastslno, id, am_item_map_slno])
+    }, [bill_mastslno, billAmount, id, am_item_map_slno])
 
     const billpatchDataSpare = useMemo(() => {
         return {
             am_bill_mast_slno: bill_mastslno,
+            am_bill_amount: billAmount,
             edit_user: id,
             am_spare_item_map_slno: am_spare_item_map_slno
         }
-    }, [bill_mastslno, id, am_spare_item_map_slno])
+    }, [bill_mastslno, billAmount, id, am_spare_item_map_slno])
 
     const SaveBillDetails = useCallback((e) => {
         e.preventDefault()
@@ -225,7 +228,6 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
         const resetfrm = {
             billNo: '',
             billdate: format(new Date(), "yyyy-MM-dd"),
-            billAmount: '',
             vendor: '',
             billImage: '',
             bill_mastslno: ''
@@ -282,7 +284,10 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
                                 <Button onClick={AddBillMaster} variant="contained"
                                     size="small" color="primary">AddBill</Button>
                             </Box>
-                            : null
+                            : <Box sx={{ display: 'flex', width: "25%", height: 50, pt: 3, pl: 3 }}>
+                                <Button onClick={AddBillMaster} variant="contained"
+                                    size="small" color="primary">AddBill</Button>
+                            </Box>
                     }
 
                 </Box>
@@ -317,18 +322,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
                                 ></TextFieldCustom>
                             </Box>
                         </Box>
-                        <Box sx={{ display: 'flex', width: '10%', p: 0.5, flexDirection: 'column' }} >
-                            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Bill Amount</Typography>
-                            <Box>
-                                <TextFieldCustom
-                                    type="text"
-                                    size="sm"
-                                    name="billAmount"
-                                    value={billAmount}
-                                    disabled={true}
-                                ></TextFieldCustom>
-                            </Box>
-                        </Box>
+
                         <Box sx={{ display: 'flex', width: '40%', p: 0.5, flexDirection: 'column' }} >
                             <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Vendor </Typography>
                             <Box>
@@ -338,6 +332,18 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
                                     name="vendor"
                                     value={vendor}
                                     disabled={true}
+                                ></TextFieldCustom>
+                            </Box>
+                        </Box>
+                        <Box sx={{ display: 'flex', width: '10%', p: 0.5, flexDirection: 'column' }} >
+                            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Bill Amount</Typography>
+                            <Box>
+                                <TextFieldCustom
+                                    type="number"
+                                    size="sm"
+                                    name="billAmount"
+                                    value={billAmount}
+                                    onchange={updateBillAmount}
                                 ></TextFieldCustom>
                             </Box>
                         </Box>

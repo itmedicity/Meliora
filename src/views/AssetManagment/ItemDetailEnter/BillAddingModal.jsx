@@ -15,7 +15,6 @@ const BillAddingModal = ({ BillArray, rowSelect }) => {
                         <tr>
                             <th style={{ width: '15%', align: "center" }}>Bill No</th>
                             <th style={{ width: '50%', align: "center" }}>Supplier</th>
-                            <th style={{ width: '15%', align: "center" }}>Bill Amount</th>
                             <th style={{ width: '10%', align: "center" }}>Bill Date</th>
                             <th style={{ width: '10%', align: "center" }}>Add</th>
                         </tr>
@@ -31,7 +30,6 @@ const BillAddingModal = ({ BillArray, rowSelect }) => {
                             >
                                 <td> {val.am_bill_no}</td>
                                 <td> {val.it_supplier_name}</td>
-                                <td> {val.am_bill_amount}</td>
                                 <td> {val.am_bill_date}</td>
                                 <td>
                                     <AddCircleOutlineIcon size={6} color='primary' onClick={() => rowSelect(val)} />

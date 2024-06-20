@@ -11,6 +11,8 @@ const TmDepartmentSelect = ({ department, setDepartment }) => {
     const [departments, setDepartments] = useState([{ dept_id: 0, dept_name: '' }])
     const [value, setValue] = useState(departments[0]);
     const [inputValue, setInputValue] = useState('');
+
+
     useEffect(() => {
         if (department !== 0) {
             let newObj = departmentList?.find((e) => e.dept_id === department)
@@ -37,8 +39,33 @@ const TmDepartmentSelect = ({ department, setDepartment }) => {
             <CssVarsProvider>
                 <Autocomplete
                     sx={{
-                        "--Input-minHeight": "29px"
+                        width: '100%',
+                        minHeight: 40,
+                        bgcolor: 'transparent',
+                        '--Input-radius': '0px',
+                        borderTop: 0,
+                        borderLeft: 0,
+                        borderRight: 0,
+                        borderBottom: '2px solid',
+                        borderColor: 'neutral.outlinedBorder',
+                        '&:hover': {
+                            borderColor: 'neutral.outlinedHoverBorder',
+                        },
+                        '&::before': {
+                            border: '1px solid var(--Input-focusedHighlight)',
+                            transform: 'scaleX(0)',
+                            left: 0,
+                            right: 0,
+                            bottom: '-2px',
+                            top: 'unset',
+                            transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
+                            borderRadius: 0,
+                        },
+                        '&:focus-within::before': {
+                            transform: 'scaleX(1)',
+                        },
                     }}
+                    style={{ minHeight: 29, fontWeight: 400, color: '#2F4A60' }}
                     value={department === 0 ? departments : value}
                     placeholder="Select Department"
                     clearOnBlur

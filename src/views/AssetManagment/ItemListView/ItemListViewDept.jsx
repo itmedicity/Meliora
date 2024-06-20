@@ -15,6 +15,7 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import AmDeptSecSelectSpare from 'src/views/CommonSelectCode/AmDeptSecSelectSpare'
 import AmSpareItemListDeptSecBsed from 'src/views/CommonSelectCode/AmSpareItemListDeptSecBsed'
+import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 const ItemDetailAdd = React.lazy(() => import('../ItemDetailEnter/ItemDetailEnterMain'))
 
 const ItemListViewDept = () => {
@@ -116,6 +117,55 @@ const ItemListViewDept = () => {
         }
     }, [postdata, postdataSpare, department, asset])
 
+    const [serialno, setSerailno] = useState('')
+
+    const updateSerialno = useCallback((e) => {
+        setSerailno(e.target.value)
+    }, [])
+    const SearchbySerialNo = useCallback(() => {
+        const getdataBySerailByAsset = async (postdata) => {
+            const result = await axioslogin.post(`/itemCreationDeptmap/getDataBySerialNoAsset`, postdata);
+            const { success, data } = result.data
+            if (success === 1) {
+                setDisArry(data)
+                setFlag(1)
+                setSerailno('')
+            }
+            else {
+                warningNotify("No data for Selected Condition")
+                setDisArry([])
+                setFlag(0)
+            }
+        }
+        const getdataBySerailSpare = async (postdata) => {
+            const result = await axioslogin.post(`/itemCreationDeptmap/getdataBySerailNoSpare`, postdata);
+            const { success, data } = result.data
+            if (success === 1) {
+                setDisArry(data)
+                setFlag(1)
+                setSerailno('')
+            }
+            else {
+                warningNotify("No data for Selected Condition")
+                setDisArry([])
+                setFlag(0)
+            }
+        }
+        const searchserial = {
+            am_manufacture_no: serialno
+        }
+        if (serialno !== '') {
+            if (assetSpare === 1) {
+                getdataBySerailByAsset(searchserial)
+            } else {
+                getdataBySerailSpare(searchserial)
+            }
+        } else {
+            warningNotify("Please Enter serail no before search")
+        }
+    }, [serialno, assetSpare])
+
+
     const [detailArry, setDetailArry] = useState([])
     const [detailflag, setDetailflag] = useState(0)
 
@@ -154,13 +204,14 @@ const ItemListViewDept = () => {
                         close={backtoSetting}
                     >
                         <Box sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            m: 0
+                            display: 'flex', flexDirection: 'column', flexWrap: 'wrap', m: 0
                         }} >
-                            <Box sx={{ width: '40%', display: 'flex', pt: 2.5, margin: 'auto ', pl: 13 }}>
-
-                                <Box sx={{ pl: 0.8, width: "20%" }}>
+                            <Box sx={{
+                                width: '60%', display: 'flex', pt: 2.5, margin: 'auto ', pl: 10,
+                            }}>
+                                <Box sx={{
+                                    pl: 0.8, width: "15%", cursor: "pointer",
+                                }}>
                                     <CusCheckBox
                                         label="Asset"
                                         color="primary"
@@ -171,7 +222,9 @@ const ItemListViewDept = () => {
                                         onCheked={updateAsset}
                                     ></CusCheckBox>
                                 </Box>
-                                <Box sx={{ pl: 2, }}>
+                                <Box sx={{
+                                    pl: 0.8, width: "15%", cursor: "pointer",
+                                }}>
                                     <CusCheckBox
                                         label="Spare"
                                         color="primary"
@@ -182,6 +235,31 @@ const ItemListViewDept = () => {
                                         onCheked={updateSpare}
                                     ></CusCheckBox>
                                 </Box>
+                                <Box sx={{
+                                    pl: 0.8, width: "10%", cursor: "pointer",
+                                }}>
+                                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Serial No:</Typography>
+                                </Box>
+                                <Box sx={{
+                                    pl: 0.8, width: "35%", cursor: "pointer",
+                                }}>
+                                    <TextFieldCustom
+                                        type="text"
+                                        size="sm"
+                                        name="serialno"
+                                        value={serialno}
+                                        onchange={updateSerialno}
+                                    ></TextFieldCustom>
+
+                                </Box>
+
+                                <Box sx={{ width: '5%', pl: 2, }}>
+                                    <CusIconButton size="sm" variant="outlined" clickable="true" onClick={SearchbySerialNo} >
+                                        <SearchOutlinedIcon fontSize='small' />
+                                    </CusIconButton>
+                                </Box>
+
+
                             </Box>
                             <Box sx={{
                                 display: 'flex',

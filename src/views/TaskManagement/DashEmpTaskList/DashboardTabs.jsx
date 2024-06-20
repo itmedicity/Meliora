@@ -1,4 +1,4 @@
-import { Box, CssVarsProvider, LinearProgress } from '@mui/joy'
+import { Box, CssVarsProvider, LinearProgress, Typography } from '@mui/joy'
 import React, { memo, Suspense } from 'react'
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
@@ -9,7 +9,9 @@ import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import LockIcon from '@mui/icons-material/Lock';
 import TmEmployeeTaskData from './TmEmployeeTaskData';
 import TmProjectTaskData from '../DashProjectTaskList/TmProjectTaskData';
+
 const DashboardTabs = () => {
+
     return (
         <Box>
             <CssVarsProvider>
@@ -55,7 +57,9 @@ const DashboardTabs = () => {
                             </Box>
                             <Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center' }} >
-                                    <Box sx={{ fontWeight: 700, fontSize: 18, fontSmooth: 'always', pr: 0.5 }} >Projects</Box>
+                                    <Box sx={{ fontWeight: 700, fontSize: 18, fontSmooth: 'always', pr: 0.5 }} >
+                                        <Typography sx={{ fontSize: 20, fontWeight: 600, }}>Task Management</Typography>
+                                    </Box>
                                     <LockIcon />
                                 </Box>
                                 <Box

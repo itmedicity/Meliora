@@ -19,7 +19,7 @@ const EmployeeUnderProject = ({ val }) => {
         getAllProjTask(tm_project_slno)
     }, [tm_project_slno])
     return (
-        <Box>
+        <Box >
             {
                 allProjEmp && allProjEmp.map((val) => {
                     return <AccordionDetails

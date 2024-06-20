@@ -1,17 +1,16 @@
 import React, { memo, useCallback, useState } from 'react'
-import { Box, CssVarsProvider, Table } from '@mui/joy'
-import CardMasterClose from 'src/views/Components/CardMasterClose'
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import Avatar from '@mui/joy/Avatar';
+import { Box, Chip, CssVarsProvider, Table } from '@mui/joy'
 import { Paper, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import moment from 'moment';
-import GoalStatusModal from './GoalStatusModal';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import CountDowncomponent from '../CountDown/CountDowncomponent';
+import EditGoalCreation from '../ModalComponent/EditGoalCreation';
 const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableCount }) => {
 
-    const [editModalOpen, setEditModalOpen] = useState(false)
-    const [editModalFlag, setEditModalFlag] = useState(0)
+    const [editGoalModalOpen, setEditGoalModalOpen] = useState(false)
+    const [editGoalFlag, setEditGoalFlag,] = useState(0)
     const [masterData, setMasterData] = useState([])
 
 
@@ -27,8 +26,8 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
 
 
     const rowSelectModal = useCallback((value) => {
-        setEditModalFlag(1)
-        setEditModalOpen(true)
+        setEditGoalFlag(1)
+        setEditGoalModalOpen(true)
         setMasterData(value)
     }, [])
 
@@ -39,49 +38,32 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
     }
 
     return (
-        <Box >
-            <CardMasterClose
-                close={backtoDash}
-                title={'GOALS'}>
-                <Box sx={{
-                    width: '100%',
-                    height: '100%',
-                    border: .1, borderColor: '#D396FF',
-                }} >
-                    <Box sx={{ width: '99.5%', ml: .5, mt: .5, backgroundColor: '#D9E4EC' }}>
-                        <Box sx={{ py: .5, pl: 1.5, display: 'flex' }}>
-                            <Box>
-                                <CssVarsProvider>
-                                    <Avatar
-                                        color="neutral"
-                                        size="sm"
-                                        variant="outlined"
-                                        sx={{ bgcolor: '#ffffff' }}
-                                    >
-                                        <AssignmentIcon />
-                                    </Avatar>
-                                </CssVarsProvider>
-                            </Box>
-                            <Typography sx={{ fontWeight: 550, pt: .5, pl: .5 }}>{goalsHead}</Typography>
-                        </Box>
-
-                    </Box>
-                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', m: .5, maxHeight: '93%' }}>
-                        {editModalFlag === 1 ?
-                            <GoalStatusModal open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
-                                setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount}
+        <Paper sx={{ height: '90vh' }}>
+            <Box sx={{ flex: 1, height: 30, display: 'flex', }}>
+                <Typography sx={{ color: 'grey', fontWeight: 500, flex: 1, pt: .5, pl: 1 }}>
+                    {goalsHead}
+                </Typography>
+                <Box sx={{ pl: .5 }}>
+                    <HighlightOffIcon sx={{ color: 'grey', height: 30, width: 30, cursor: 'pointer' }} onClick={backtoDash} />
+                </Box>
+            </Box>
+            <Box sx={{ bgcolor: '#DFE3ED', p: .5 }}>
+                <Box sx={{ bgcolor: 'white', p: 1, }} >
+                    <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', maxHeight: '85vh' }}>
+                        {editGoalFlag === 1 ?
+                            <EditGoalCreation open={editGoalModalOpen} setEditGoalModalOpen={setEditGoalModalOpen} goalData={masterData}
+                                setEditGoalFlag={setEditGoalFlag} tableCount={tableCount} setTableCount={setTableCount}
                             />
                             : null}
                         <CssVarsProvider>
                             <Table padding={"none"} stickyHeader size='sm'
                                 hoverRow>
                                 <thead>
-                                    <tr >
-
-
+                                    <tr>
                                         <th style={{ width: 30 }}>SlNo</th>
                                         <th style={{ width: 50 }}>Action</th>
-                                        <th style={{ width: 100 }}>Status</th>
+                                        <th style={{ width: 80 }}>Status</th>
+                                        <th style={{ width: 120 }}>CountDown</th>
                                         <th style={{ width: 200 }}>Goal</th>
                                         <th style={{ width: 100 }}>Due date</th>
                                         <th style={{ width: 250 }}>Description</th>
@@ -107,15 +89,29 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                                                         }} size={6} onClick={() => rowSelectModal(val)}
                                                     />
                                                 </td>
-                                                <td
-                                                    style={{
-                                                        color: val.tm_goal_status === null ? '#311E26'
-                                                            : val.tm_goal_status === 0 ? '#311E26'
+                                                <td>
+
+                                                    <Chip
+                                                        style={{
+                                                            color: val.tm_goal_status === 0 ? '#311E26'
                                                                 : val.tm_goal_status === 1 ? '#94C973'
                                                                     : 'transparent', minHeight: 5,
-                                                        fontWeight: 700
-                                                    }}>{val.tm_goal_status === 0 ? 'Incompleted' : val.tm_goal_status === 1 ? 'Completed' : 'not given'}</td>
-                                                {/* <td> {val.tm_goal_name || 'not given'}</td> */}
+                                                            fontWeight: 700
+                                                        }}>{val.tm_goal_status === 0 ? 'Incompleted' : val.tm_goal_status === 1 ? 'Completed' : 'not given'}
+                                                    </Chip>
+                                                </td>
+
+                                                <td>
+                                                    {val.tm_goal_status !== 1 ?
+                                                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, width: 150, pl: 1, mb: .5 }}>
+                                                            <CountDowncomponent DueDates={val.tm_goal_duedate} />
+                                                        </Box> :
+                                                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 150, pl: 5, color: 'darkgreen' }}>
+                                                            Completed
+                                                        </Box>
+                                                    }
+                                                </td>
+
                                                 {val.tm_goal_status === 1 ?
                                                     <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_name || 'not given'}</td> :
                                                     <td style={{ color: isPastDue(val.tm_goal_duedate) ? '#970C10' : 'black' }}>
@@ -137,8 +133,9 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                     </Paper>
 
                 </Box>
-            </CardMasterClose>
-        </Box>
+
+            </Box>
+        </Paper>
     )
 }
 
