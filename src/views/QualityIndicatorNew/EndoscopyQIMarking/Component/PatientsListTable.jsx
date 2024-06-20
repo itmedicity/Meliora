@@ -4,20 +4,35 @@ import { Paper } from '@mui/material'
 import ListIcon from '@mui/icons-material/List';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import EndoscopyModalForQI from '../EndoscopyQIMarking/EndoscopyModalForQI';
-import { AddorRemovePatients } from './AddorRemovePatients';
+
 import { useSelector } from 'react-redux';
 import { Box, CssVarsProvider, Table, Tooltip, Typography } from '@mui/joy';
 import { format } from 'date-fns';
-const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, qidept, qitype, header, RefreshData }) => {
+import { axioslogin } from 'src/views/Axios/Axios';
+import EndoscopyModalForQI from './EndoscopyModalForQI';
+import { AddorRemovePatients } from './AddorRemovePatients';
+const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, qidept, qitype, RefreshData }) => {
     const [qiflag, setQiflag] = useState(0)
     const [modalopen, setModalOpen] = useState(false)
     const [rowSelect, setrowSelect] = useState([])
+    const [employeeList, setEmployeeList] = useState([])
 
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
     })
     const IndicatorsView = useCallback((val) => {
+        const getEmployee = async (qidept) => {
+            const result = await axioslogin.get(`/qiendoscopy/empList/${qidept}`)
+            return result.data
+        }
+        getEmployee(qidept).then((val) => {
+            const { success, data } = val
+            if (success === 1) {
+                setEmployeeList(data)
+            } else if (success === 2) {
+                setEmployeeList(0)
+            }
+        })
         setModalOpen(true)
         setrowSelect(val)
         if (qitype === 1) {
@@ -25,7 +40,7 @@ const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, 
         }
         else {
         }
-    }, [qitype])
+    }, [qitype, qidept])
     const handleClose = useCallback(() => {
         setModalOpen(false)
         setQiflag(0)
@@ -49,7 +64,8 @@ const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, 
     return (
         <Fragment>
             {qiflag === 1 ? <EndoscopyModalForQI open={modalopen} setQiflag={setQiflag} handleClose={handleClose} rowSelect={rowSelect}
-                count={count} setCount={setCount} dailyDate={dailyDate} depName={depName} qidept={qidept} RefreshData={RefreshData} />
+                count={count} setCount={setCount} dailyDate={dailyDate} depName={depName} qidept={qidept} RefreshData={RefreshData}
+                employeeList={employeeList} />
                 : null}
             < Paper variant='outlined' square >
                 <Box sx={{ display: 'flex', flex: 1, height: 35 }}>
@@ -58,11 +74,11 @@ const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, 
                     </Box>
                     <Box sx={{ flex: 1, fontSize: 17, pt: 0.7, pl: 0.5, }}>
                         <Typography sx={{ color: '#37474f', fontFamily: 'Arial' }}>
-                            {header} Patient&apos;s List
+                            Endoscopy Patient&apos;s List
                         </Typography>
                     </Box>
                 </Box>
-                <Box variant="outlined" sx={{ overflow: 'auto', height: '39vh', '&::-webkit-scrollbar': { height: 6 } }}>
+                <Box variant="outlined" sx={{ overflow: 'auto', height: '39vh', '&::-webkit-scrollbar': { height: 8 } }}>
                     <CssVarsProvider>
                         <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow >
                             <thead style={{ alignItems: 'center' }}>
@@ -101,9 +117,6 @@ const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, 
                                                             disabled
                                                             sx={{
                                                                 color: '#607d8b',
-                                                                // ":hover": {
-                                                                //     color: '#37474f',
-                                                                // }
                                                             }}
                                                         />
                                                     </Tooltip>
@@ -142,7 +155,6 @@ const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, 
                             </tbody>
                         </Table>
                     </CssVarsProvider>
-
                 </Box>
             </Paper>
         </Fragment >

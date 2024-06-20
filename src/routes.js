@@ -210,8 +210,9 @@ const QIListType = React.lazy(() => import('./views/Master/QualityIndicatorMaste
 const DayWiseQiReport = React.lazy(() => import('./views/QualityIndicatorNew/DaywiseQiReport'))
 const DataTransferHRM = React.lazy(() => import('./views/Master/DataImportFrmHR/DataImportHR'))
 const AmcCmcAdding = React.lazy(() => import('./views/AssetManagment/ItemDetailEnter/AmcCmcAdding'))
-// const QiInchargeApr = React.lazy(() => import('./views/QualityIndicatorNew/InchargeApproval'))
-
+const QiInchargeApr = React.lazy(() => import('./views/QualityIndicatorNew/InchargeApproval'))
+const QiEquipment = React.lazy(() => import('./views/Master/QualityIndicatorMaster/EquipmentMaster/EquipmentMast'))
+const QiHodAprv = React.lazy(() => import('./views/QualityIndicatorNew/HODApproval'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -427,9 +428,10 @@ const routes = [
   { path: '/Home/QiListType', exact: true, name: 'QI List Type Mast', component: QIListType },
   { path: '/Home/DayWiseReport', exact: true, name: 'Day Wise QI Report', component: DayWiseQiReport },
   { path: '/Home/DataTransferHRM', exact: true, name: 'Data Transfer from HR', component: DataTransferHRM },
-  { path: '/Home/AmcCmcAdding', exact: true, name: 'AMC CMC Adding', component: AmcCmcAdding }
-  // { path: '/Home/QiIncharge', exact: true, name: 'QI Incharge Approval', component: QiInchargeApr },
-
+  { path: '/Home/AmcCmcAdding', exact: true, name: 'AMC CMC Adding', component: AmcCmcAdding },
+  { path: '/Home/QiIncharge', exact: true, name: 'Level I Approval', component: QiInchargeApr },
+  { path: '/Home/QIEquipment', exact: true, name: 'Quality Equipment Mast', component: QiEquipment },
+  { path: '/Home/QiHOD', exact: true, name: 'Level II Approval', component: QiHodAprv },
 
 
 ]

@@ -1,6 +1,6 @@
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { Box, CssVarsProvider, Tooltip, Typography } from '@mui/joy'
-import { Paper, TextField } from '@mui/material'
+import { Box, CssVarsProvider, Input, Radio, Tooltip, Typography } from '@mui/joy'
+import { Paper } from '@mui/material'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import { infoNotify } from '../Common/CommonCode';
@@ -10,11 +10,13 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import { useDispatch } from 'react-redux';
 import { getQltyDept } from 'src/redux/actions/QualityIndicatorDept.action';
-import EndosWaitingTimeReport from './EndoscopyQIMarking/EndosWaitingTimeReport'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import ReturnPatientReport from './EmergencyQIMarking/ReturnPatientReport';
 import QiDeptInitailassessmentSelect from '../CommonSelectCode/QiDeptInitailassessmentSelect';
-import { MonthlyReportView } from './CommonComponents/MonthlyReportView';
+import EndosWaitingTimeReport from './EndoscopyQIMarking/InitialAssessmentReport/EndosWaitingTimeReport';
+import ReturnPatientReport from './EmergencyQIMarking/EmergInitialAssessment/ReturnPatientReport';
+import { EndoscopyMonthlyReportView } from './EndoscopyQIMarking/MonthlyReport/MonthlyReportView';
+import { MonthlyReportEmer } from './EmergencyQIMarking/EmergMonthlyReport/MonthlyReportEmer';
+
 const InitialAssessmentTimeReport = () => {
     const [qidept, setQidept] = useState(0)
     const [searchDate, setSearchDate] = useState(format(new Date(), "yyyy-MM-dd"));
@@ -22,10 +24,12 @@ const InitialAssessmentTimeReport = () => {
     const [viewData, setviewData] = useState([])
     const [qitype, setQitype] = useState(0)
     const [returnflag, setReturnflag] = useState(0)
-    const history = useHistory()
+    const [ipViewReport, setIpViewReport] = useState([])
     const [reportSelect, setReportSelect] = useState(0)
+    const [opCheck, setOpCheck] = useState(true)
+    const [ipCheck, setIpCheck] = useState(false)
+    const history = useHistory()
     const dispatch = useDispatch()
-
 
     const reportType = useMemo(() => {
         return [
@@ -39,6 +43,28 @@ const InitialAssessmentTimeReport = () => {
     useEffect(() => {
         dispatch(getQltyDept())
     }, [dispatch])
+    const ChangeOPList = useCallback((e) => {
+        if (e.target.checked === true) {
+            setOpCheck(true)
+            setIpCheck(false)
+            setsearchFlag(0)
+        }
+        else {
+            setOpCheck(false)
+            setIpCheck(true)
+        }
+    }, [])
+    const ChangeIPList = useCallback((e) => {
+        if (e.target.checked === true) {
+            setIpCheck(true)
+            setOpCheck(false)
+            setsearchFlag(0)
+        }
+        else {
+            setIpCheck(false)
+            setOpCheck(true)
+        }
+    }, [])
     const ReportChange = useCallback((e) => {
         setReportSelect(e.target.value)
     }, [])
@@ -52,10 +78,19 @@ const InitialAssessmentTimeReport = () => {
                 from: format(startOfMonth(new Date(searchDate)), 'yyyy-MM-dd 00:00:00'),
                 to: format(endOfMonth(new Date(searchDate)), 'yyyy-MM-dd 23:59:59')
             }
-            const ViewReport = async (setviewData) => {
-                await MonthlyReportView(searchDatas, qitype, setviewData, setsearchFlag)
+            if (qitype === 1) {
+                const ViewReport = async (setviewData, setIpViewReport) => {
+                    await EndoscopyMonthlyReportView(searchDatas, setviewData, setsearchFlag, setIpViewReport)
+                }
+                ViewReport(setviewData, setIpViewReport)
+
+            } else if (qitype === 2) {
+                const ViewReport = async (setviewData) => {
+                    await MonthlyReportEmer(searchDatas, setviewData, setsearchFlag)
+                }
+                ViewReport(setviewData)
             }
-            ViewReport(setviewData)
+
             if (reportSelect === "2") {
                 setReturnflag(1)
             } else {
@@ -102,7 +137,7 @@ const InitialAssessmentTimeReport = () => {
                             </CssVarsProvider>
                         </Box>
                     </Box>
-                    <Paper variant='outlined' square sx={{ display: 'flex', pb: 0.5 }}>
+                    <Paper variant='outlined' square sx={{ display: 'flex', pb: 1 }}>
                         <Box sx={{ flex: 1, pl: 2 }}>
                             <Box sx={{ pt: 1, pl: 2 }}>
                                 <Typography sx={{ fontSize: 13, textTransform: 'uppercase' }}>Department</Typography>
@@ -124,27 +159,58 @@ const InitialAssessmentTimeReport = () => {
                                         views={['year', 'month']}
                                         size="sm"
                                         inputFormat='MMM-yyyy'
+                                        maxDate={new Date()}
                                         onChange={(newValue) => {
                                             setSearchDate(newValue);
                                             setsearchFlag(0)
                                             setReturnflag(0)
                                         }}
-                                        renderInput={(params) => (
-                                            <TextField {...params} helperText={null} size='small' fullWidth
-                                                sx={{ bgcolor: 'white', borderRadius: 0, pt: 0.5 }}
-                                            />
+                                        renderInput={({ inputRef, inputProps, InputProps }) => (
+                                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                <CssVarsProvider>
+                                                    <Input ref={inputRef} {...inputProps} fullWidth
+                                                        sx={{ bgcolor: 'white', padding: 'none', size: 'sm' }}
+                                                        disabled={true} />
+                                                </CssVarsProvider>
+                                                {InputProps?.endAdornment}
+                                            </Box>
                                         )}
                                     />
                                 </LocalizationProvider>
                             </Box>
                         </Box>
+                        {qitype === 1 ?
+                            <Box sx={{ flex: 0.3 }} >
+                                <Box sx={{ pt: 3.8, pl: 2, display: 'flex' }}>
+                                    <Box sx={{ pr: 1, pt: 0.7 }}>
+                                        <CssVarsProvider>
+                                            <Radio label="OP"
+                                                color="primary"
+                                                size="md"
+                                                checked={opCheck}
+                                                onChange={ChangeOPList}
+                                            />
+                                        </CssVarsProvider>
+                                    </Box>
+                                    <Box sx={{ px: 1, pt: 0.7 }}>
+                                        <CssVarsProvider>
+                                            <Radio label="IP"
+                                                color="primary"
+                                                size="md"
+                                                checked={ipCheck}
+                                                onChange={ChangeIPList} />
+                                        </CssVarsProvider>
+                                    </Box>
+                                </Box>
+                            </Box>
+                            : null}
                         {qitype === 2 ?
-                            <Box sx={{ flex: 0.4, pt: 3.8, pl: 0.3 }} >
+                            <Box sx={{ flex: 0.3, pt: 4, pl: 0.6 }} >
                                 <select
                                     variant="outlined"
                                     style={{
-                                        height: 46, width: 200, paddingLeft: 7, borderRadius: 5,
-                                        border: '1px solid lightgrey', fontSize: 13
+                                        height: 36, width: 200, paddingLeft: 7, borderRadius: 5,
+                                        border: '1px solid lightgrey', fontSize: 13, size: 'small'
                                     }}
                                     name="reportSelect"
                                     value={reportSelect}
@@ -159,10 +225,10 @@ const InitialAssessmentTimeReport = () => {
                                 </select>
                             </Box>
                             : null}
-                        <Box sx={{ flex: 0.2, pt: 4.5, pl: 1 }} >
+                        <Box sx={{ flex: 0.2, pt: 4, pl: 2 }} >
                             <CssVarsProvider>
                                 <Tooltip title="Search" placement='right'>
-                                    < SearchTwoToneIcon sx={{ color: '#555830', cursor: 'pointer', height: 40, width: 40 }}
+                                    < SearchTwoToneIcon sx={{ color: '#555830', cursor: 'pointer', height: 35, width: 35 }}
                                         onClick={SearchMonthlyTimeReport}
                                     />
                                 </Tooltip>
@@ -173,7 +239,8 @@ const InitialAssessmentTimeReport = () => {
                         {searchFlag === 1 ?
                             <>
                                 {qitype === 1 ?
-                                    <EndosWaitingTimeReport viewData={viewData} searchDate={searchDate} qitype={qitype} />
+                                    <EndosWaitingTimeReport viewData={viewData} searchDate={searchDate} qitype={qitype}
+                                        ipViewReport={ipViewReport} opCheck={opCheck} ipCheck={ipCheck} searchFlag={searchFlag} />
                                     : qitype === 2 ?
                                         <>
                                             {returnflag === 1 ?

@@ -5,7 +5,7 @@ import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { endOfMonth, format, startOfMonth } from 'date-fns';
 import { infoNotify } from 'src/views/Common/CommonCode';
-import EmerAssessmentModal from './EmerAssessmentModal';
+import EmerAssessmentModal from '../EmergInitialAssessment/EmerAssessmentModal';
 
 const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
     const [searchFlag, setSearchFlag] = useState()
@@ -20,11 +20,6 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
         totalTime: 0, totalPatients: 0, totalReturn: 0, timeResult: 0, returnResult: 0
     })
     const { totalTime, totalPatients, totalReturn, timeResult, returnResult } = monthReport
-
-    // const [headerNames, setHeaderNames] = useState({
-    //     header1: '', header2: '',
-
-    // })
     useEffect(() => {
         if (viewData.length !== 0) {
             const patienttot = viewData.length

@@ -15,7 +15,6 @@ const ReturnPatientReport = ({ viewData, searchDate }) => {
                     returnTot: count.length
                 }
             })
-
             const newTotalPat = dateList?.map((item) => {
                 const count = (viewData?.filter(val => format(new Date(val.patient_arrived_date), 'dd-MM-yyyy') === format(new Date(item), 'dd-MM-yyyy')
                     && val.qi_status === 1))
@@ -24,7 +23,6 @@ const ReturnPatientReport = ({ viewData, searchDate }) => {
                     totpatient: count.length
                 }
             })
-
             const newArray = returnTotPat?.map((val) => {
                 const array = newTotalPat?.find(value => val.day === value.day)
                 return {

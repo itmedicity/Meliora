@@ -169,7 +169,7 @@ import { setCRMPurchaseAckPending } from './CrmPurchaseAckPendg.Reducer'
 import { setCRMPurchDataCollPending } from './CrmPurchaDetacollPend.Reducer'
 import { setAmcCmcMaster } from './AmAMCCMCSelect.Reducer'
 import { setSupplierSelect } from './AmSupplierSelect.Reducer'
-
+import { getEquipmentList } from './QIEquipment.Reducer';
 
 const reducer = combineReducers({
     changeState,
@@ -344,7 +344,7 @@ const reducer = combineReducers({
     setCRMPurchaseAckPending,
     setCRMPurchDataCollPending,
     setAmcCmcMaster,
-    setSupplierSelect
-
+    setSupplierSelect,
+    getEquipmentList,
 })
 export default reducer;

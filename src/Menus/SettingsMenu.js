@@ -180,7 +180,7 @@ export const qi_setting_two = [
     { to: '/Home/QiListType', name: 'QI List Type Mast', slno: 211 }
 ]
 export const qi_setting_three = [
-
+    { to: '/Home/QIEquipment', name: 'Quality Equipment Mast', slno: 214 },
 
 ]
 

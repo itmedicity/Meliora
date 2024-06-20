@@ -12,12 +12,11 @@ import { eachDayOfInterval, endOfMonth, format, startOfMonth } from 'date-fns';
 import { infoNotify } from '../Common/CommonCode';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import DepartmentSelectForQuality from '../CommonSelectCode/DepartmentSelectForQuality';
-import EndoInchargeApproval from './EndoscopyQIMarking/EndoInchargeApproval/EndoInchargeApproval';
-import { EndoscopyMonthlyReportView } from './EndoscopyQIMarking/MonthlyReport/MonthlyReportView';
 import { axioslogin } from '../Axios/Axios';
-import { MonthlyReportEmer } from './EmergencyQIMarking/EmergMonthlyReport/MonthlyReportEmer';
+import EndoHodApproval from './EndoscopyQIMarking/EndoHodApproval/EndoHodApproval';
+import { EndoscopyMonthlyReportView } from './EndoscopyQIMarking/MonthlyReport/MonthlyReportView';
 
-const InchargeApproval = () => {
+const HODApproval = () => {
     const [qidept, setQidept] = useState(0)
     const [searchDate, setSearchDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [searchFlag, setsearchFlag] = useState(0)
@@ -28,7 +27,6 @@ const InchargeApproval = () => {
     const [testCount, setTestCount] = useState(0)
     const [equipmentlist, setEquipmentlist] = useState([])
     const [endoDays, setEndoDays] = useState(0)
-
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -87,25 +85,19 @@ const InchargeApproval = () => {
                     }
                 }
                 getEquipment(qidept);
-
-
-            } else if (qitype === 2) {
-                const ViewReport = async (setviewData) => {
-                    await MonthlyReportEmer(searchDatas, setviewData, setsearchFlag)
-                }
-                ViewReport(setviewData)
             }
+            else {
+
+            }
+
         }
     }, [qitype, searchDate, qidept])
     return (
         <Box sx={{ maxHeight: window.innerHeight - 70 }}>
             <Paper variant='outlined' square sx={{ display: 'flex', flex: 1, height: 40 }}>
-                {/* <Box sx={{ pl: 0.7, pt: 1 }} >
-                    <AssessmentIcon sx={{ bgcolor: '#555830', color: 'white', height: 23, width: 23 }} />
-                </Box> */}
                 <Box sx={{ flex: 1, fontSize: 16, pl: 1, pt: 1.2 }}>
                     <Typography sx={{ color: '#555830', fontFamily: 'Arial', fontWeight: 550 }}>
-                        Level I Approval
+                        Level II Approval
                     </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pr: 0.5, pt: 0.2 }}>
@@ -169,7 +161,7 @@ const InchargeApproval = () => {
                 {searchFlag === 1 ?
                     <>
                         {qitype === 1 ?
-                            <EndoInchargeApproval viewData={viewData} qitype={qitype} searchDate={searchDate}
+                            <EndoHodApproval viewData={viewData} qitype={qitype} searchDate={searchDate}
                                 qidept={qidept} setsearchFlag={setsearchFlag} testCount={testCount} equipmentlist={equipmentlist} endoDays={endoDays}
                                 ipViewReport={ipViewReport} />
                             : null}
@@ -180,4 +172,4 @@ const InchargeApproval = () => {
     )
 }
 
-export default memo(InchargeApproval)
+export default memo(HODApproval)

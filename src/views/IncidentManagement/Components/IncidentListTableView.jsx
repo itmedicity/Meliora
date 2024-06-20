@@ -4,15 +4,37 @@ import VerifiedTwoToneIcon from '@mui/icons-material/VerifiedTwoTone';
 import ModalIncidentMarking from './ModalIncidentMarking';
 import { Paper } from '@mui/material'
 import { format } from 'date-fns';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { infoNotify } from 'src/views/Common/CommonCode';
 
 const IncidentListTableView = ({ tableData, SearchReport }) => {
     const [modalData, setModalData] = useState([])
     const [incFlag, setincFlag] = useState(0)
     const [modalopen, setModalOpen] = useState(false)
     const IncidentMarkingDetails = useCallback((val) => {
-        setModalData(val)
-        setincFlag(1)
-        setModalOpen(true)
+        const { incident_dept, incident_date } = val
+        const checkData = {
+            qi_endo_date: format(new Date(incident_date), 'yyyy-MM-dd'),
+            qi_dept_no: incident_dept
+        }
+        const CheckApprovedorNot = async (checkData) => {
+            const result = await axioslogin.post('/incidentMaster/apprvcheck', checkData)
+            return result.data
+        }
+        CheckApprovedorNot(checkData).then((value) => {
+            const { success, data } = value
+            if (success === 1) {
+                const { endo_hod_apprv_status } = data[0]
+                if (endo_hod_apprv_status === 1) {
+                    setModalData(val)
+                    setincFlag(1)
+                    setModalOpen(true)
+                }
+            }
+            else {
+                infoNotify("Level II Approval Pending")
+            }
+        })
     }, [])
     const handleClose = useCallback(() => {
         setModalOpen(false)
