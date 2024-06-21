@@ -30,6 +30,9 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     setincFlag(1)
                     setModalOpen(true)
                 }
+                else {
+                    infoNotify("Level II Approval Pending")
+                }
             }
             else {
                 infoNotify("Level II Approval Pending")

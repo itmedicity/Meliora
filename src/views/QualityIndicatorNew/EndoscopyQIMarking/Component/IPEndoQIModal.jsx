@@ -4,7 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker, DateTimePicker } from '@mui/x-date-pickers';
 import { Box, Button, CssVarsProvider, Textarea, Typography, Checkbox, Tooltip, Input } from '@mui/joy';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { differenceInHours, differenceInMinutes, differenceInSeconds, format, isAfter, isBefore } from 'date-fns';
+import { addMinutes, differenceInHours, differenceInMinutes, differenceInSeconds, format, isAfter, isBefore } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { axioslogin } from 'src/views/Axios/Axios';
@@ -105,7 +105,7 @@ const IPEndoQIModal = ({ open, handleClose, rowSelect, count, setCount, depName,
     })
     useEffect(() => {
         if (rowSelect.length !== 0) {
-            const { ipd_date, test_req_date, endo_arrival_time, assessment_time, proc_start_time, proc_end_time,
+            const { test_req_date, endo_arrival_time, assessment_time, proc_start_time, proc_end_time,
                 report_gene_time, report_desp_time, error_status, error_details, error_reason, error_corrective, error_preventive,
                 redo_status, redos_reason, redos_corrective, redos_preventive, incidence_ident_error_status, incidence_ident_description,
                 incidence_ident_action, falls_status, near_misses_status, sentinel_events_status, redos_details,
@@ -154,19 +154,18 @@ const IPEndoQIModal = ({ open, handleClose, rowSelect, count, setCount, depName,
             setNearMissessReason(nearmisses_reason === null ? '' : nearmisses_reason)
             setBenchMarkReason(initial_assessment_reason === null ? '' : initial_assessment_reason)
 
-            setTestReqDate(test_req_date === null ? format(new Date(ipd_date), "yyyy-MM-dd") : test_req_date)
-            setEntryTime(endo_arrival_time === null ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : endo_arrival_time)
-            setAssessmentTime(assessment_time === null ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : assessment_time)
-            setStartTime(proc_start_time === null ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : proc_start_time)
-            setEndTime(proc_end_time === null ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : proc_end_time)
-            setReportTime(report_gene_time === null ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : report_gene_time)
-            setDespatchTime(report_desp_time === null ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : report_desp_time)
+            setTestReqDate(test_req_date === null ? format(new Date(endo_arrival_time), "yyyy-MM-dd") : test_req_date)
+            setEntryTime(endo_arrival_time === null ? format(new Date(endo_arrival_time), 'yyyy-MM-dd HH:mm:ss') : endo_arrival_time)
+            setAssessmentTime(assessment_time === null ? format(addMinutes(new Date(endo_arrival_time), 10), 'yyyy-MM-dd HH:mm:ss') : assessment_time)
+            setStartTime(proc_start_time === null ? format(addMinutes(new Date(endo_arrival_time), 15), 'yyyy-MM-dd HH:mm:ss') : proc_start_time)
+            setEndTime(proc_end_time === null ? format(addMinutes(new Date(endo_arrival_time), 30), 'yyyy-MM-dd HH:mm:ss') : proc_end_time)
+            setReportTime(report_gene_time === null ? format(addMinutes(new Date(endo_arrival_time), 50), 'yyyy-MM-dd HH:mm:ss') : report_gene_time)
+            setDespatchTime(report_desp_time === null ? format(addMinutes(new Date(endo_arrival_time), 60), 'yyyy-MM-dd HH:mm:ss') : report_desp_time)
 
-            setEquipStartTime(equip_start_time === null ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : equip_start_time)
-            setEquipEndTime(equip_end_time === null ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : equip_end_time)
+            setEquipStartTime(equip_start_time === null ? format(addMinutes(new Date(endo_arrival_time), 15), 'yyyy-MM-dd HH:mm:ss') : equip_start_time)
+            setEquipEndTime(equip_end_time === null ? format(addMinutes(new Date(endo_arrival_time), 30), 'yyyy-MM-dd HH:mm:ss') : equip_end_time)
         }
     }, [rowSelect])
-
 
     useEffect(() => {
         if (rowSelect.length !== 0) {

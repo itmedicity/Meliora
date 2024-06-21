@@ -78,6 +78,7 @@ const IncidentList = () => {
                                 views={['year', 'month', 'day']}
                                 size="sm"
                                 inputFormat='dd-MM-yyyy'
+                                maxDate={new Date()}
                                 onChange={(newValue) => {
                                     setFromDate(newValue);
                                     setTabFlag(0)
@@ -102,6 +103,7 @@ const IncidentList = () => {
                                 views={['year', 'month', 'day']}
                                 size="sm"
                                 inputFormat='dd-MM-yyyy'
+                                maxDate={new Date()}
                                 onChange={(newValue) => {
                                     setToDate(newValue);
                                     setTabFlag(0)

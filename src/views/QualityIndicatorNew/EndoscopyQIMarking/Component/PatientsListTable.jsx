@@ -30,7 +30,7 @@ const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, 
             if (success === 1) {
                 setEmployeeList(data)
             } else if (success === 2) {
-                setEmployeeList(0)
+                setEmployeeList([])
             }
         })
         setModalOpen(true)

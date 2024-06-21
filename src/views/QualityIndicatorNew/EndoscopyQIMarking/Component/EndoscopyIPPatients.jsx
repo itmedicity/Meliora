@@ -80,7 +80,8 @@ const EndoscopyIPPatients = ({ ChangeOPList, ChangeIPList, opCheck, ipCheck, set
                                 doctor_name: val.DOC_NAME,
                                 ip_nurstation: val.NSC_DESC,
                                 qi_dept_no: qidept,
-                                create_user: id
+                                create_user: id,
+                                endo_arrival_time: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
                             }
                         })
                         InsertEndoData(insertarray).then((val) => {
@@ -229,9 +230,9 @@ const EndoscopyIPPatients = ({ ChangeOPList, ChangeIPList, opCheck, ipCheck, set
                                         <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{"Dr. " + val.doctor_name}</td>
                                         <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.ip_nurstation}</td>
                                         <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.ip_bed}</td>
-                                        {val.qi_save_status === 1 ? <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{format(new Date(val.endo_arrival_time), 'dd-MM-yyyy hh:mm a')}</td>
-                                            : <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{"Not Updated"}</td>}
-
+                                        {/* {val.qi_save_status === 1 ? <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{format(new Date(val.endo_arrival_time), 'dd-MM-yyyy hh:mm a')}</td>
+                                            : <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{"Not Updated"}</td>} */}
+                                        <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{format(new Date(val.endo_arrival_time), 'dd-MM-yyyy hh:mm a')}</td>
                                         <td size='sm' style={{ textAlign: 'center', height: 5 }}>
                                             <CssVarsProvider>
                                                 <Tooltip title="QI Marking" placement='left'>
