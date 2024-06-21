@@ -15,12 +15,10 @@ import IncidentModal from '../../CommonComponents/IncidentModal';
 import { getEquipmentList } from 'src/redux/actions/QIEquipment.action';
 import QIEquipmentSelect from 'src/views/CommonSelectCode/QIEquipmentSelect';
 import QIProcedureSelect from 'src/views/CommonSelectCode/QIProcedureSelect';
-import QIEmployeeSelect from 'src/views/CommonSelectCode/QIEmployeeSelect';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ProcedureEquipmentTable from './ProcedureEquipmentTable';
 
-const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, depName, qidept, RefreshData,
-    employeeList, setQiflag }) => {
+const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, depName, qidept, RefreshData, setQiflag }) => {
 
     const { qi_slno, patient_arrived_date, ptno, ptname, ptsex, ptage, ptaddrs1, ptaddrs3, doctor_name, ptmobile,
         error_status, redo_status, incidence_ident_error_status, falls_status, near_misses_status, sentinel_events_status
@@ -86,7 +84,6 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
     const [equipName, setequipName] = useState('')
     const [procName, setProcName] = useState(0)
     const [procNamedisplay, setProcNamedisplay] = useState('')
-    const [empName, setempName] = useState(0)
     const [procedureList, setProcedureList] = useState([])
     const [sentinelAnalyse, setSentinelAnalyse] = useState(true)
     const [ipOpCheck, setipOpCheck] = useState(0)
@@ -95,6 +92,7 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
     const [equipUsedTime, setEquipUsedTime] = useState('')
     // set value 0 for view delete icon ,set 1 for not view delete icon in report
     const [equipReport, setEquipReport] = useState(0)
+
 
     const dispatch = useDispatch()
     useEffect(() => {
@@ -246,14 +244,14 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
         }
     }, [rowSelect])
 
-    useEffect(() => {
-        if (rowSelect.length !== 0) {
-            if (equipmentExit === 0) {
-                const { emp_id } = rowSelect
-                setempName(emp_id === null ? empName : emp_id)
-            }
-        }
-    }, [rowSelect, empName, equipmentExit])
+    // useEffect(() => {
+    //     if (rowSelect.length !== 0) {
+    //         if (equipmentExit === 0) {
+    //             const { emp_id } = rowSelect
+    //             setempName(emp_id === null ? empName : emp_id)
+    //         }
+    //     }
+    // }, [rowSelect, empName, equipmentExit])
 
     useEffect(() => {
         const getequipDetails = async (qi_slno) => {
@@ -321,7 +319,6 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
         setEquipEndTime(format(new Date(), 'yyyy-MM-dd HH:mm:ss'))
         setEquipment(0)
         setProcName(0)
-        setempName(0)
         setErrorType(0)
         setRedosType(0)
         setIdentType(0)
@@ -525,14 +522,14 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
             equip_start_time: format(new Date(equipStartTime), 'yyyy-MM-dd HH:mm:ss'),
             equip_end_time: format(new Date(equipEndTime), 'yyyy-MM-dd HH:mm:ss'),
             procedure_name: 0,
-            emp_id: empName,
+            emp_id: id,
             sentinel_analysed: sentinelAnalyse === true ? 1 : 0,
             equip_service_time: equipUsedTime,
             qi_slno: qi_slno
         }
     }, [testReqDate, entryTime, assessmentTime, startTime, endTime, reportTime, despatchTime, errorCorrect, errorPrvnt,
         redosCoorect, redosPrvnt, errorIdentAction, id, serviceTime, benchMarkReason, benchMarkFlag, qi_slno,
-        equipStartTime, equipEndTime, empName, sentinelAnalyse, equipUsedTime
+        equipStartTime, equipEndTime, sentinelAnalyse, equipUsedTime
     ])
 
     const SaveDetails = useCallback(() => {
@@ -556,9 +553,6 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
         }
         else if (ProcedureArray.length === 0) {
             infoNotify('Add Equipment and Procedure Details')
-        }
-        else if (empName === 0) {
-            infoNotify('Select Employee')
         }
         else if (benchMarkFlag === 1 && (benchMarkReason === '' || benchMarkReason === undefined)) {
             infoNotify("Enter the Reason for Initial Assessment Time Exceedence")
@@ -621,7 +615,7 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
     }, [patchdata, count, setCount, reset, benchMarkFlag, benchMarkReason, errorYes, errorDetails, errorReason, redosYes,
         redosDetails, redosReason, errorIdentyYes, identerrorDetails, identerrorReason, fallsYes, fallsdetails, fallsReason,
         sentinelYes, sentinelDetails, sentinelreason, nearYes, nearMissesDetails, nearMissessReason, RefreshData,
-        empName, qi_slno, ProcedureArray, equipmentExit, equipStartTime
+        qi_slno, ProcedureArray, equipmentExit, equipStartTime
     ])
     const ResetDetails = useCallback(() => {
         reset()
@@ -2107,13 +2101,15 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                     </Box>
                                 </Box>
                                 <Box sx={{ flex: 1, }}>
-                                    <Box sx={{ pl: 0.7, pt: 0.5 }}>
-                                        <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Employee</Typography>
+                                    {/* <Box sx={{ pl: 0.7, pt: 0.5, }}>
+                                        <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>User</Typography>
                                     </Box>
-                                    <Box sx={{ mx: 1, pt: 0.8, bgcolor: 'white' }}>
-                                        <QIEmployeeSelect employeeList={employeeList} empName={empName} setempName={setempName}
-                                        />
-                                    </Box>
+                                    <Box sx={{ pt: 0.8 }}>
+
+                                        <Typography sx={{ fontSize: 13 }}>{em_name}&nbsp;({em_no})</Typography> */}
+
+                                    {/* <QIEmployeeSelect employeeList={employeeList} empName={empName} setempName={setempName} /> */}
+                                    {/* </Box> */}
                                 </Box>
                             </Box>
                         </Box>

@@ -1325,7 +1325,7 @@ const QiApprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipViewRep
                                                     :
                                                 </Box>
                                                 <Box sx={{ flex: 0.3, p: 0.2 }}>
-                                                    <Typography sx={{ fontSize: 13, pt: 0.1 }}>{totEquipTime}</Typography>
+                                                    <Typography sx={{ fontSize: 13, pt: 0.1 }}>{totEquipTime} hr</Typography>
                                                 </Box>
                                             </Box>
                                             <Box sx={{ display: 'flex' }}>
