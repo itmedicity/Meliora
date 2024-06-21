@@ -110,7 +110,6 @@ const ModalDayWiseQIView = ({ open, handleClose, rowSelect }) => {
                     nearmiss_incident_type === 3 ? 'HARMFUL' : nearmiss_incident_type === 4 ? 'SENTINEL' : 'Nil',
                 sentinelType: sentinel_incident_type === 1 ? 'GENERAL' : sentinel_incident_type === 2 ? 'NEAR MISSESS' :
                     sentinel_incident_type === 3 ? 'HARMFUL' : sentinel_incident_type === 4 ? 'SENTINEL' : 'Nil'
-
             }
             setQualityIndicators(formdata)
             setTestReqDate(format(new Date(test_req_date), 'yyyy-MM-dd'))
@@ -125,22 +124,6 @@ const ModalDayWiseQIView = ({ open, handleClose, rowSelect }) => {
             setEquipEndTime(format(new Date(equip_end_time), 'yyyy-MM-dd HH:mm:ss'))
 
             setempName(em_name === null ? 'Nil' : em_name + '  (' + em_no + ')')
-
-            // const getProcedures = async (equip_no) => {
-            //     const result = await axioslogin.get(`/equipMast/procedure/${equip_no}`)
-            //     return result.data
-            // }
-            // getProcedures(equip_no).then((val) => {
-            //     const { success, data } = val
-            //     if (success === 1) {
-            //         const proc = JSON?.parse(data[0]?.procedure_names)
-            //         const newPr = proc?.find((val) => val.PD_CODE === procedure_name)
-            //         setProcName(newPr.PDC_DESC)
-
-            //     } else if (success === 2) {
-            //         // setProcName(0)
-            //     }
-            // })
         }
     }, [rowSelect])
     useEffect(() => {
@@ -278,7 +261,6 @@ const ModalDayWiseQIView = ({ open, handleClose, rowSelect }) => {
                                     </Box>
                                 </Box>
                             </Box>
-
                             <Box sx={{ pl: 0.2, bgcolor: '#eceff1' }}>
                                 {errorYes === true ?
                                     <Box>

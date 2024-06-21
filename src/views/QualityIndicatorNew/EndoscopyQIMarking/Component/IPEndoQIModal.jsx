@@ -165,15 +165,6 @@ const IPEndoQIModal = ({ open, handleClose, rowSelect, count, setCount, depName,
         }
     }, [rowSelect])
 
-    // useEffect(() => {
-    //     if (rowSelect.length !== 0) {
-    //         if (equipmentExit === 0) {
-    //             const { emp_id } = rowSelect
-    //             setempName(emp_id === null ? empName : emp_id)
-    //         }
-    //     }
-    // }, [rowSelect, empName, equipmentExit])
-
     useEffect(() => {
         const getequipDetails = async (qi_endo_ip_slno) => {
             const result = await axioslogin.get(`/qiendoscopy/ipequip/${qi_endo_ip_slno}`)

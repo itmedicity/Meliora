@@ -18,18 +18,6 @@ const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, 
         return state?.LoginUserData.empid
     })
     const IndicatorsView = useCallback((val) => {
-        // const getEmployee = async (id) => {
-        //     const result = await axioslogin.get(`/qiendoscopy/empList/${id}`)
-        //     return result.data
-        // }
-        // getEmployee(id).then((val) => {
-        //     const { success, data } = val
-        //     if (success === 1) {
-        //         setEmployeeList(data)
-        //     } else if (success === 2) {
-        //         setEmployeeList('')
-        //     }
-        // })
         setModalOpen(true)
         setrowSelect(val)
         if (qitype === 1) {
