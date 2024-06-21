@@ -205,9 +205,12 @@ const DataTransferHRM = React.lazy(() => import('./views/Master/DataImportFrmHR/
 const TaskManagementTaskLists = React.lazy(() => import('./views/TaskManagement/DepartmentTask/DepartmentMain'))
 const AcceptTask = React.lazy(() => import('./views/TaskManagement/AcceptTask/AcceptTaskFromDir'))
 const AmcCmcAdding = React.lazy(() => import('./views/AssetManagment/ItemDetailEnter/AmcCmcAdding'))
-// const QiInchargeApr = React.lazy(() => import('./views/QualityIndicatorNew/InchargeApproval'))
+const QiInchargeApr = React.lazy(() => import('./views/QualityIndicatorNew/InchargeApproval'))
+const QiEquipment = React.lazy(() => import('./views/Master/QualityIndicatorMaster/EquipmentMaster/EquipmentMast'))
+const QiHodAprv = React.lazy(() => import('./views/QualityIndicatorNew/HODApproval'))
 const CrfNoBased = React.lazy(() => import('./views/Report/CrmReport/CrfNoBasedReport'))
 const UserAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserAcknldgeList'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -416,12 +419,14 @@ const routes = [
   { path: '/Home/TimeReport', exact: true, name: 'Initial Assessment Time Report', component: TimeReport },
   { path: '/Home/QiListType', exact: true, name: 'QI List Type Mast', component: QIListType },
   { path: '/Home/DayWiseReport', exact: true, name: 'Day Wise QI Report', component: DayWiseQiReport },
-  // { path: '/Home/QiIncharge', exact: true, name: 'QI Incharge Approval', component: QiInchargeApr },
   { path: '/Home/DataTransferHRM', exact: true, name: 'Data Transfer from HR', component: DataTransferHRM },
   { path: '/Home/AmcCmcAdding', exact: true, name: 'AMC CMC Adding', component: AmcCmcAdding },
-  // { path: '/Home/QiIncharge', exact: true, name: 'QI Incharge Approval', component: QiInchargeApr },
+  { path: '/Home/QiIncharge', exact: true, name: 'Level I Approval', component: QiInchargeApr },
+  { path: '/Home/QIEquipment', exact: true, name: 'Quality Equipment Mast', component: QiEquipment },
+  { path: '/Home/QiHOD', exact: true, name: 'Level II Approval', component: QiHodAprv },
   { path: '/Home/CrfNoBased', exact: true, name: 'CRF No Based', component: CrfNoBased },
   { path: '/Home/userAckldged', exact: true, name: 'User Acknowledged CRF', component: UserAcknowldged },
+
 
 ]
 

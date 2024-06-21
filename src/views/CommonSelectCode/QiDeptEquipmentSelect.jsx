@@ -1,10 +1,9 @@
 import { Autocomplete, CssVarsProvider } from '@mui/joy';
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-
-const QiDeptInitailassessmentSelect = ({ qidept, setQidept, setQitype, setsearchFlag, setReturnflag }) => {
+const QiDeptEquipmentSelect = ({ qidept, setQidept }) => {
     const departmentList = useSelector((state) => state.getQltyDept.qiDeptList)
-    const [type, setType] = useState([{ qi_dept_no: 0, qi_dept_desc: '', qi_list_type: 0 }])
+    const [type, setType] = useState([{ qi_dept_no: 0, qi_dept_desc: '' }])
     const [value, setValue] = useState(type[0]);
     const [inputValue, setInputValue] = useState('');
     const [flag, setFlag] = useState(0)
@@ -20,16 +19,12 @@ const QiDeptInitailassessmentSelect = ({ qidept, setQidept, setQitype, setsearch
             setFlag(1)
             setValue(value)
             setQidept(value.qi_dept_no)
-            setQitype(value.qi_list_type)
-            setsearchFlag(0)
-            setReturnflag(0)
         }
         else {
             setQidept(0)
-            setQitype(0)
         }
         return
-    }, [setQidept, setQitype, setReturnflag, setsearchFlag])
+    }, [setQidept])
     useEffect(() => {
         departmentList.length > 0 && setType(departmentList)
     }, [departmentList])
@@ -38,7 +33,7 @@ const QiDeptInitailassessmentSelect = ({ qidept, setQidept, setQitype, setsearch
             <CssVarsProvider>
                 <Autocomplete
                     sx={{
-                        "--Input-minHeight": '36px'
+                        "--Input-minHeight": '35px'
                     }}
                     value={qidept === 0 ? type : value}
                     placeholder="Select Department"
@@ -58,8 +53,8 @@ const QiDeptInitailassessmentSelect = ({ qidept, setQidept, setQitype, setsearch
                     options={type}
                 />
             </CssVarsProvider>
-        </Fragment>
+        </Fragment >
     )
 }
 
-export default memo(QiDeptInitailassessmentSelect)
+export default memo(QiDeptEquipmentSelect)

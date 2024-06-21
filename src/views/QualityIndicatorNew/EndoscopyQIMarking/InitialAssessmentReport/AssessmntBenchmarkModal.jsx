@@ -1,6 +1,6 @@
 import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Table, Typography } from '@mui/joy'
 import { format } from 'date-fns'
-import React, { Fragment } from 'react'
+import React, { Fragment, memo } from 'react'
 
 const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFlag }) => {
 
@@ -17,7 +17,7 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                     <ModalDialog
                         variant="outlined"
                         sx={{
-                            maxWidth: '80%',
+                            maxWidth: '90%',
                             maxHeight: "80%",
                         }}
                     >
@@ -42,12 +42,13 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                             </Box>
                         </Box>
                         <Box>
-                            <Box variant="outlined" sx={{ overflow: 'auto', padding: 'none' }}>
+                            <Box variant="outlined" sx={{ overflow: 'auto', padding: 'none', '&::-webkit-scrollbar': { height: 7 } }}>
                                 <CssVarsProvider>
                                     <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow >
                                         <thead style={{ alignItems: 'center' }}>
                                             <tr style={{ height: 0.5 }}>
-
+                                                <th size='sm' style={{ width: 60, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Sl.No</th>
+                                                {monthFlag === 2 ? <th size='sm' style={{ width: 80, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Type</th> : null}
                                                 <th size='sm' style={{ width: 120, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Patient ID</th>
                                                 <th size='sm' style={{ width: 200, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Patient Name</th>
                                                 <th size='sm' style={{ width: 70, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Gender</th>
@@ -62,6 +63,8 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                                             {patList?.map((val, index) => {
                                                 return (
                                                     < tr key={index} size='small' style={{ maxHeight: 2, cursor: 'pointer' }}>
+                                                        <td size='sm' style={{ fontSize: 13, textAlign: 'center', }}>{index + 1}</td>
+                                                        {monthFlag === 2 ? <td size='sm' style={{ fontSize: 13, textAlign: 'center', }}>{val.type}</td> : null}
                                                         <td size='sm' style={{ fontSize: 13 }}>&nbsp;{val.ptno}</td>
                                                         <td size='sm' style={{ fontSize: 13 }}>&nbsp;{val.ptname}</td>
                                                         <td size='sm' style={{ fontSize: 13 }}>&nbsp;{val.ptsex}</td>
@@ -74,6 +77,20 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                                                 )
                                             })}
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                                <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                                <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                                <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                                <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                                <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                                <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                                <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                                <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                                {monthFlag === 2 ? <th style={{ backgroundColor: 'white', height: 20 }}></th> : null}
+                                            </tr>
+                                        </tfoot>
                                     </Table>
                                 </CssVarsProvider>
                             </Box >
@@ -89,4 +106,4 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
     )
 }
 
-export default AssessmntBenchmarkModal
+export default memo(AssessmntBenchmarkModal)

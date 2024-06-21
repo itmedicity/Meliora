@@ -116,7 +116,7 @@ export const qi_setting_one = [
 ]
 
 export const qi_setting_two = [
-    // { to: '/Home/QualityIndicator', name: 'Quality Indicator List Mast', slno: 180 },
+    { to: '/Home/QIEquipment', name: 'Quality Equipment Mast', slno: 214 },
 ]
 
 

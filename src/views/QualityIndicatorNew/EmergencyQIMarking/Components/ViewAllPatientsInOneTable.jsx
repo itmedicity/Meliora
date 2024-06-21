@@ -2,18 +2,18 @@
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import ListIcon from '@mui/icons-material/List';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import EmergencyModalQI from '../EmergencyQIMarking/EmergencyModalQI';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { RefreshPatientList } from './RefreshPatientList';
 import { useSelector } from 'react-redux';
 import ChangeCircleOutlinedIcon from '@mui/icons-material/ChangeCircleOutlined';
 import { Box, CssVarsProvider, Input, Table, Tooltip, Typography } from '@mui/joy';
 import { Paper } from '@mui/material';
-import DialysisModalQIMark from '../DialysisQIMarking/DialysisModalQIMark';
+import DialysisModalQIMark from '../../DialysisQIMarking/Components/DialysisModalQIMark';
 import { format } from 'date-fns';
 import PersonSearchTwoToneIcon from '@mui/icons-material/PersonSearchTwoTone';
 import { axioslogin } from 'src/views/Axios/Axios';
+import { RefreshPatientList } from '../../CommonComponents/RefreshPatientList';
+import EmergencyModalQI from './EmergencyModalQI';
 
 const ViewAllPatientsInOneTable = ({ qiMarkedList, count, setCount, dailyDate, qidept, qitype, setSearchFlag, header,
     depCode, tabFlag, setqiMarkedList }) => {

@@ -2,19 +2,18 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useSelector } from 'react-redux';
-import PatientsListTable from './PatientsListTable';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
-import { Box, CssVarsProvider, Input, Table, Tooltip, Typography } from '@mui/joy';
+import { Box, CssVarsProvider, Input, Radio, Table, Tooltip, Typography } from '@mui/joy';
 import ChangeCircleOutlinedIcon from '@mui/icons-material/ChangeCircleOutlined';
 import { format } from 'date-fns';
-import { ViewPatientsListAll } from './ViewPatientList';
-import { AddorRemovePatients } from './AddorRemovePatients';
-import ViewAllPatientsInOneTable from './ViewAllPatientsInOneTable';
-import { RefreshPatientList } from './RefreshPatientList';
 import { Paper } from '@mui/material';
 import PersonSearchTwoToneIcon from '@mui/icons-material/PersonSearchTwoTone';
 import { axioslogin } from 'src/views/Axios/Axios';
+import { RefreshEndoscopy } from './RefreshEndoscopy';
+import PatientsListTable from './PatientsListTable';
+import { AddorRemovePatients } from './AddorRemovePatients';
+import EndoscopyIPPatients from './EndoscopyIPPatients';
 
 const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, depCode, depName, qitype }) => {
     const [patientlist, setpatientlist] = useState([])
@@ -22,8 +21,9 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
     const [qiMarkedList, setqiMarkedList] = useState([])
     const [qiMarkFlag, setqiMarkFlag] = useState(0)
     const [tabFlag, setTabFlag] = useState(0)
-    const [header, setHeader] = useState('')
     const [searchPat, setSearchPat] = useState('')
+    const [opCheck, setOpCheck] = useState(true)
+    const [ipCheck, setIpCheck] = useState(false)
     const history = useHistory()
     const backtoHome = useCallback(() => {
         history.push('/Home/QIPatientMarking')
@@ -33,21 +33,48 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
     })
+    const ChangeOPList = useCallback((e) => {
+        if (e.target.checked === true) {
+            setOpCheck(true)
+            setIpCheck(false)
+        }
+        else {
+            setOpCheck(false)
+            setIpCheck(true)
+        }
+    }, [])
+    const ChangeIPList = useCallback((e) => {
+        if (e.target.checked === true) {
+            setIpCheck(true)
+            setOpCheck(false)
+        }
+        else {
+            setIpCheck(false)
+            setOpCheck(true)
+        }
+    }, [])
+
     useEffect(() => {
-        if (qitype !== 0) {
+        if (qitype === 1) {
             const viewdata = {
                 from: format(new Date(dailyDate), 'yyyy-MM-dd 00:00:00'),
                 to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
             }
-            const ViewPatients = async (setpatientlist) => {
-                await ViewPatientsListAll(viewdata, qitype, setpatientlist)
+            const getEndoscopyData = async (viewdata) => {
+                const result = await axioslogin.post('/qiendoscopy/viewList', viewdata);
+                return result.data
             }
-            ViewPatients(setpatientlist)
+            getEndoscopyData(viewdata).then((val) => {
+                const { success, data } = val
+                if (success === 1) {
+                    setpatientlist(data)
+                }
+            })
         }
     }, [dailyDate, count, qitype, setpatientlist])
 
     const UpdateDetails = useCallback((data) => {
-        if (qitype !== 0) {
+        if (qitype === 1) {
             const { qi_slno } = data
             const updateArray = {
                 qi_status: 1,
@@ -74,7 +101,7 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
             const qidata = patientlist.filter((val) => val.qi_status === 1)
             if (qidata.length !== 0) {
                 setqiMarkedList(qidata)
-                setTabFlag(1)
+                // setTabFlag(1)
                 setqiMarkFlag(1)
             }
             else {
@@ -84,29 +111,17 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
     }, [patientlist, count])
     const RefreshData = useCallback(() => {
         const RefreshPatients = async (setCount) => {
-            await RefreshPatientList(qidept, count, setCount, qitype, depCode, id, dailyDate)
+            await RefreshEndoscopy(qidept, count, setCount, depCode, id, dailyDate)
         }
         RefreshPatients(setCount)
         setSearchPat('')
-    }, [qidept, depCode, count, id, setCount, qitype, dailyDate])
-    useEffect(() => {
-        if (qitype === 1) {
-            setHeader('Endoscopy')
-        }
-        else if (qitype === 2) {
-            setHeader('Emergency')
-        }
-        else if (qitype === 3) {
-            setHeader('Dialysis')
-        }
-    }, [qitype])
+    }, [qidept, depCode, count, id, setCount, dailyDate])
 
     const ChangePatient = useCallback((e) => {
         setSearchPat(e.target.value)
     }, [])
 
     useEffect(() => {
-
         const searchData = {
             from: format(new Date(dailyDate), 'yyyy-MM-dd 00:00:00'),
             to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
@@ -127,7 +142,7 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
     return (
         <Box>
             <Paper variant='outlined' square >
-                {qitype === 1 ?
+                {opCheck === true ?
                     <>
                         <Box sx={{ display: 'flex', flex: 1, height: 40 }}>
                             <Box sx={{ pl: 0.7, pt: 0.7 }} >
@@ -140,16 +155,37 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
                             </Box>
                             {tabFlag === 1 ?
                                 <>
+                                    <Box sx={{ flex: 0.2, display: 'flex', pt: 0.4 }}>
+                                        <Box sx={{ pr: 1, pt: 0.7 }}>
+                                            <CssVarsProvider>
+                                                <Radio label="OP"
+                                                    color="primary"
+                                                    size="md"
+                                                    checked={opCheck}
+                                                    onChange={ChangeOPList}
+                                                />
+                                            </CssVarsProvider>
+                                        </Box>
+                                        <Box sx={{ px: 1, pt: 0.7 }}>
+                                            <CssVarsProvider>
+                                                <Radio label="IP"
+                                                    color="primary"
+                                                    size="md"
+                                                    checked={ipCheck}
+                                                    onChange={ChangeIPList} />
+                                            </CssVarsProvider>
+                                        </Box>
+                                    </Box>
                                     <Box sx={{ pl: 0.5, pt: 0.2 }}>
                                         <CssVarsProvider>
                                             <Input
                                                 startDecorator={<PersonSearchTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />}
                                                 size="sm" placeholder="Search By Patient Name"
+                                                autoComplete='off'
                                                 name="searchPat"
                                                 value={searchPat}
                                                 onChange={ChangePatient}
                                                 sx={{ width: 250, height: 35 }}
-                                            // endDecorator={<Button>Message</Button>}
                                             />
                                         </CssVarsProvider>
                                     </Box>
@@ -164,7 +200,6 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
                                 </>
                                 :
                                 <Box></Box>}
-
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pr: 0.5, pt: 0.4, pl: 0.5 }}>
                                 <CssVarsProvider>
                                     <Tooltip title="Close" placement="bottom" >
@@ -173,10 +208,9 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
                                 </CssVarsProvider>
                             </Box>
                         </Box>
-
                         {tabFlag === 1 ?
                             <Box>
-                                <Box variant="outlined" sx={{ height: '38vh', overflow: 'auto', '&::-webkit-scrollbar': { height: 6 } }}>
+                                <Box variant="outlined" sx={{ height: '38vh', overflow: 'auto', '&::-webkit-scrollbar': { height: 8 } }}>
                                     <CssVarsProvider>
                                         <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow >
                                             <thead style={{ alignItems: 'center' }}>
@@ -234,52 +268,20 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
                             :
                             <Box sx={{ height: '39vh', display: 'flex', justifyContent: 'center', fontSize: 20, opacity: 0.8 }}>No Patients</Box>
                         }
-                    </> : null}
-                <Box>
-                    {qiMarkFlag === 1 ?
-                        <>
-                            {qitype === 1 ?
+                        {qiMarkFlag === 1 ?
+                            <>
                                 <PatientsListTable qiMarkedList={qiMarkedList} setqiMarkFlag={setqiMarkFlag} count={count}
                                     setCount={setCount} dailyDate={dailyDate} depName={depName} qidept={qidept} qitype={qitype}
-                                    header={header} RefreshData={RefreshData}
+                                    RefreshData={RefreshData}
                                 />
-                                : qitype === 2 || qitype === 3 ? <ViewAllPatientsInOneTable qiMarkedList={qiMarkedList}
-                                    setqiMarkFlag={setqiMarkFlag} count={count} setCount={setCount} dailyDate={dailyDate}
-                                    depName={depName} qidept={qidept} qitype={qitype} setSearchFlag={setSearchFlag}
-                                    depCode={depCode} tabFlag={tabFlag} header={header} setqiMarkedList={setqiMarkedList}
-                                />
-                                    : null
-                            }
-                        </>
-                        :
-                        <>
-                            {qitype !== 1 ?
-                                <Box>
-                                    <Box sx={{ display: 'flex', flex: 1, height: 35 }}>
-                                        <Box sx={{ pl: 0.7, pt: 0.4 }} >
-                                            <ViewListIcon sx={{ color: '#37474f', height: 30, width: 30, opacity: 0.8 }} />
-                                        </Box>
-                                        <Box sx={{ flex: 1, pt: 0.8, pl: 1 }}>
-                                            <Typography sx={{ color: '#37474f', fontFamily: 'Arial', fontSize: 17 }}>
-                                                Patient&apos;s List
-                                            </Typography>
-                                        </Box>
-                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pr: 0.5 }}>
-                                            <CssVarsProvider>
-                                                <Tooltip title="Close" placement="bottom" >
-                                                    <HighlightOffIcon sx={{ cursor: 'pointer', height: 35, width: 35, opacity: 0.7, color: 'darkred', }} onClick={backtoHome} />
-                                                </Tooltip>
-                                            </CssVarsProvider>
-                                        </Box>
-                                    </Box>
-                                    <Box sx={{ height: '39vh', display: 'flex', justifyContent: 'center', fontSize: 20, opacity: 0.8 }}>No Patients</Box>
-                                </Box>
-                                : null}
-                        </>
-                    }
-                </Box>
-            </Paper >
-        </Box >
+                            </>
+                            : null}
+                    </>
+                    : <EndoscopyIPPatients ChangeOPList={ChangeOPList} ChangeIPList={ChangeIPList} opCheck={opCheck} ipCheck={ipCheck}
+                        setSearchFlag={setSearchFlag} qidept={qidept} depName={depName} />
+                }
+            </Paper>
+        </Box>
     )
 }
 export default memo(PatientsListView)

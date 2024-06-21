@@ -1,6 +1,6 @@
 import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Table, Typography } from '@mui/joy'
 import { format } from 'date-fns'
-import React, { Fragment } from 'react'
+import React, { Fragment, memo } from 'react'
 
 const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
 
@@ -19,7 +19,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                         variant="outlined"
                         sx={{
                             // width: '65vw',
-                            maxWidth: '80%',
+                            maxWidth: '90%',
                             maxHeight: "80%",
                         }}
                     >
@@ -40,13 +40,14 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                                 <Typography sx={{ fontWeight: 550, fontSize: 17 }}>QI Details</Typography>
                             </Box>
                         </Box>
-                        <Box variant="outlined" sx={{ overflow: 'auto', padding: 'none' }}>
+                        <Box variant="outlined" sx={{ overflow: 'auto', padding: 'none', '&::-webkit-scrollbar': { height: 7 } }}>
                             <CssVarsProvider>
                                 <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter >
                                     <thead style={{ alignItems: 'center' }}>
                                         <tr style={{ height: 0.5 }}>
-                                            <th size='sm' style={{ width: 50, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Sl.No</th>
-                                            <th size='sm' style={{ width: 170, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Date</th>
+                                            <th size='sm' style={{ width: 60, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Sl.No</th>
+                                            <th size='sm' style={{ width: 80, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Type</th>
+                                            <th size='sm' style={{ width: 150, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Date</th>
                                             <th size='sm' style={{ width: 100, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Patient ID</th>
                                             <th size='sm' style={{ width: 160, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Patient Name</th>
                                             <th size='sm' style={{ width: 70, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Gender</th>
@@ -54,7 +55,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                                             <th size='sm' style={{ width: 210, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Doctor</th>
                                             <th size='sm' style={{ width: 300, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>{header1} </th>
                                             <th size='sm' style={{ width: 300, borderRight: '1px solid white', textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>{header2} </th>
-                                            <th size='sm' style={{ width: 150, textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Incident Type</th>
+                                            <th size='sm' style={{ width: 130, textAlign: 'center', backgroundColor: '#cfd8dc', fontSize: 15 }}>Incident Type</th>
                                         </tr>
                                     </thead>
                                     <tbody size='small' style={{ maxHeight: 0.5 }}>
@@ -62,6 +63,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                                             return (
                                                 < tr key={index} size='small' style={{ maxHeight: 2, cursor: 'pointer' }}>
                                                     <td size='sm' style={{ fontSize: 13, textAlign: 'center', }}>{index + 1}</td>
+                                                    <td size='sm' style={{ fontSize: 13, textAlign: 'center', }}>{val.type}</td>
                                                     <td size='sm' style={{ fontSize: 13 }}>&nbsp;{format(new Date(val.incident_date), 'dd-MM-yyyy hh:mm a')}</td>
                                                     <td size='sm' style={{ fontSize: 13 }}>&nbsp;{val.ptno}</td>
                                                     <td size='sm' style={{ fontSize: 13 }}>&nbsp;{val.ptname}</td>
@@ -76,6 +78,21 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                                             )
                                         })}
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                            <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                            <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                            <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                            <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                            <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                            <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                            <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                            <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                            <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                            <th style={{ backgroundColor: 'white', height: 20 }}></th>
+                                        </tr>
+                                    </tfoot>
                                 </Table>
                             </CssVarsProvider>
                         </Box >
@@ -89,4 +106,4 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
     )
 }
 
-export default MonthlyReportModal
+export default memo(MonthlyReportModal)
