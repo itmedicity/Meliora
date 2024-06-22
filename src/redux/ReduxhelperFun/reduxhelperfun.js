@@ -47,7 +47,8 @@ export const PurchAckMapList = (CRMPurchaseAckPendingListAry) => {
                     now_who: "Not Statrted Purchase Process",
                     now_who_status: 0,
                     md_image: val.md_image,
-                    ed_image: val.ed_image
+                    ed_image: val.ed_image,
+                    dept_name: val.dept_name
                 };
             });
             resolve({ status: true, data: result });
@@ -106,7 +107,7 @@ export const PurchaseAckDoneList = (getArray) => {
                         ed_approve_date: val.ed_approve_date,
                         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
                         ed_detial_analysis: val.ed_detial_analysis,
-
+                        dept_name: val.dept_name,
                         edid: val.edid,
                         mdid: val.mdid,
 

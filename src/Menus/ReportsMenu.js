@@ -55,3 +55,7 @@ export const crm_one = [
 export const crm_two = [
     { to: '/Home/userNotAckldged', name: 'User Not Acknowledged CRF', slno: 219 },
 ]
+
+export const crm_three = [
+    { to: '/Home/purchaseCRFReport', name: 'CRF for Puchase', slno: 221 },
+]

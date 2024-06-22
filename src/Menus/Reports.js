@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
     diet_one, diet_two, diet_three, cms_one, cms_two, cms_three, am_one, tm_one,
-    crm_one, crm_two
+    crm_one, crm_two, crm_three
 } from './ReportsMenu'
 import { getMenuSlno } from '../views/Constant/Constant'
 import { Link } from 'react-router-dom'
@@ -19,6 +19,7 @@ const Reports = () => {
     const [tm_report_one, settm_report_one] = useState();
     const [crm_report_one, setcrm_report_one] = useState();
     const [crm_report_two, setcrm_report_two] = useState();
+    const [crm_report_three, setcrm_report_three] = useState();
     const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
@@ -53,6 +54,8 @@ const Reports = () => {
             setcrm_report_one(crm_report_one)
             const crm_report_two = crm_two.filter(val => menuSlnoArray.includes(val.slno));
             setcrm_report_two(crm_report_two)
+            const crm_report_three = crm_three.filter(val => menuSlnoArray.includes(val.slno));
+            setcrm_report_three(crm_report_three)
             setCount(1)
         })
     }, [count])
@@ -193,6 +196,15 @@ const Reports = () => {
                         <ul className="list-group list-group-flush">
                             {
                                 crm_report_two && crm_report_two.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                crm_report_three && crm_report_three.map((val) => {
                                     return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
                                 })
                             }

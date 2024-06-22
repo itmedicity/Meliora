@@ -16,6 +16,7 @@ import DownloadIcon from '@mui/icons-material/Download'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css'
+import { format } from 'date-fns';
 
 const UserNotAckldgedList = () => {
     const dispatch = useDispatch();
@@ -196,6 +197,11 @@ const UserNotAckldgedList = () => {
                                         name="start_date"
                                         value={start_date}
                                         onchange={getDate}
+                                        slotProps={{
+                                            input: {
+                                                min: format(new Date("2023-12-27"), "yyyy-MM-dd")
+                                            },
+                                        }}
                                     />
                                 </Box>
                                 <Box sx={{

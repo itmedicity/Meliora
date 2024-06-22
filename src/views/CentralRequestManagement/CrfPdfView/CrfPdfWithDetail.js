@@ -5,7 +5,7 @@ import { format } from 'date-fns'
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
-export const CrfPdfWithDetails = (val, reqDetails, dataa, mdsign, edsign) => {
+export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
 
     const { dept_name, req_deptsec, req_slno, req_date, actual_requirement, needed,
         category, location,
@@ -14,7 +14,6 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa, mdsign, edsign) => {
 
     } = val
 
-    console.log(dataa);
     const reqno = 'CRF/TMC/' + req_slno.toString().padStart(6, '0')
     const reqdate = req_date !== null ? format(new Date(req_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
     // const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
@@ -376,8 +375,9 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa, mdsign, edsign) => {
             snow: 'http://192.168.22.170/NAS/logo/logo.png',
             // pic: 'http://192.168.10.170/NAS/2119/signature/signature.jpg',
 
-            mdsign: mdsign,
-            edsign: edsign,
+
+            mdsign: 'http://192.168.10.88:9090/Meliora/md/signature/signature.jpg',
+            edsign: 'http://192.168.10.88:9090/Meliora/ed/signature/signature.jpg',
         }
     }
 
