@@ -36,10 +36,18 @@ const QualityTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
+
         men_slno: 213,
         component: CNavItem,
-        name: 'QI Incharge Approval',
+        name: 'Level I Approval',
         to: '/Home/QiIncharge',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 217,
+        component: CNavItem,
+        name: 'Level II Approval',
+        to: '/Home/QiHOD',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 

@@ -174,7 +174,7 @@ import { getMultDepSection } from './TmMultipleDepSectList.Reducer'
 import { getMultHodInCharge } from './TmMultHodInchargeList.Reducer';
 import { setAmcCmcMaster } from './AmAMCCMCSelect.Reducer'
 import { setSupplierSelect } from './AmSupplierSelect.Reducer'
-
+import { getEquipmentList } from './QIEquipment.Reducer';
 
 const reducer = combineReducers({
     changeState,
@@ -353,8 +353,8 @@ const reducer = combineReducers({
     getProjectListWithgoal,
     getNonGoalProjectList,
     setAmcCmcMaster,
-    setSupplierSelect
-
+    setSupplierSelect,
+    getEquipmentList,
 
 })
 export default reducer;
