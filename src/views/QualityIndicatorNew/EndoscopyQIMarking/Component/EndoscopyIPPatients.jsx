@@ -22,7 +22,6 @@ const EndoscopyIPPatients = ({ ChangeOPList, ChangeIPList, opCheck, ipCheck, set
     const [qiflag, setQiflag] = useState(0)
     const [modalopen, setModalOpen] = useState(false)
     const [rowSelect, setrowSelect] = useState([])
-    const [employeeList, setEmployeeList] = useState([])
 
     const history = useHistory()
     const backtoHome = useCallback(() => {
@@ -106,22 +105,10 @@ const EndoscopyIPPatients = ({ ChangeOPList, ChangeIPList, opCheck, ipCheck, set
         }
     }, [ipNumber, qidept, id, count])
     const IndicatorsView = useCallback((val) => {
-        const getEmployee = async (qidept) => {
-            const result = await axioslogin.get(`/qiendoscopy/empList/${qidept}`)
-            return result.data
-        }
-        getEmployee(qidept).then((val) => {
-            const { success, data } = val
-            if (success === 1) {
-                setEmployeeList(data)
-            } else if (success === 2) {
-                setEmployeeList(0)
-            }
-        })
         setModalOpen(true)
         setrowSelect(val)
         setQiflag(1)
-    }, [qidept])
+    }, [])
     const handleClose = useCallback(() => {
         setModalOpen(false)
         setQiflag(0)
@@ -129,7 +116,7 @@ const EndoscopyIPPatients = ({ ChangeOPList, ChangeIPList, opCheck, ipCheck, set
     return (
         <Box>
             {qiflag === 1 ? <IPEndoQIModal open={modalopen} setQiflag={setQiflag} handleClose={handleClose} rowSelect={rowSelect}
-                count={count} setCount={setCount} depName={depName} qidept={qidept} employeeList={employeeList} />
+                count={count} setCount={setCount} depName={depName} qidept={qidept} />
                 : null}
             <Paper variant='outlined' square >
                 <Box sx={{ display: 'flex', flex: 1, height: 40 }}>

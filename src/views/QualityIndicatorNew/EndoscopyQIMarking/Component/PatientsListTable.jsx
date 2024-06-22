@@ -4,35 +4,20 @@ import { Paper } from '@mui/material'
 import ListIcon from '@mui/icons-material/List';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-
 import { useSelector } from 'react-redux';
 import { Box, CssVarsProvider, Table, Tooltip, Typography } from '@mui/joy';
 import { format } from 'date-fns';
-import { axioslogin } from 'src/views/Axios/Axios';
 import EndoscopyModalForQI from './EndoscopyModalForQI';
 import { AddorRemovePatients } from './AddorRemovePatients';
 const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, qidept, qitype, RefreshData }) => {
     const [qiflag, setQiflag] = useState(0)
     const [modalopen, setModalOpen] = useState(false)
     const [rowSelect, setrowSelect] = useState([])
-    const [employeeList, setEmployeeList] = useState([])
 
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
     })
     const IndicatorsView = useCallback((val) => {
-        const getEmployee = async (qidept) => {
-            const result = await axioslogin.get(`/qiendoscopy/empList/${qidept}`)
-            return result.data
-        }
-        getEmployee(qidept).then((val) => {
-            const { success, data } = val
-            if (success === 1) {
-                setEmployeeList(data)
-            } else if (success === 2) {
-                setEmployeeList([])
-            }
-        })
         setModalOpen(true)
         setrowSelect(val)
         if (qitype === 1) {
@@ -40,7 +25,7 @@ const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, 
         }
         else {
         }
-    }, [qitype, qidept])
+    }, [qitype])
     const handleClose = useCallback(() => {
         setModalOpen(false)
         setQiflag(0)
@@ -65,7 +50,7 @@ const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, 
         <Fragment>
             {qiflag === 1 ? <EndoscopyModalForQI open={modalopen} setQiflag={setQiflag} handleClose={handleClose} rowSelect={rowSelect}
                 count={count} setCount={setCount} dailyDate={dailyDate} depName={depName} qidept={qidept} RefreshData={RefreshData}
-                employeeList={employeeList} />
+            />
                 : null}
             < Paper variant='outlined' square >
                 <Box sx={{ display: 'flex', flex: 1, height: 35 }}>
