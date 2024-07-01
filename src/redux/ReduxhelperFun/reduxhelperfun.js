@@ -396,7 +396,7 @@ export const poClose = (getArray) => {
     return new Promise((resolve, reject) => {
         try {
             const result = getArray?.filter((val) => val.ack_status === 1 &&
-                ((val.quatation_calling_status === 1 && val.quatation_fixing === 1 && val.po_complete === 0) ||
+                ((val.quatation_calling_status === 1 && val.quatation_fixing === 1 && val.po_prepartion === 0) ||
                     (val.po_prepartion === 1 && val.po_complete === 0))
             ).map((val) => {
                 return {

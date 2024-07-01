@@ -49,6 +49,7 @@ export const tm_one = [
 export const crm_one = [
     // { to: '/Home/CrfNoBased', name: 'CRF No Based', slno: 215 },
     { to: '/Home/userAckldged', name: 'User Acknowledged CRF', slno: 216 },
+    { to: '/Home/purchaseCRFReport', name: 'CRF for Puchase', slno: 221 },
 
 ]
 
@@ -57,5 +58,5 @@ export const crm_two = [
 ]
 
 export const crm_three = [
-    { to: '/Home/purchaseCRFReport', name: 'CRF for Puchase', slno: 221 },
+    { to: '/Home/AllCRFReport', name: 'CRF Report', slno: 222 },
 ]

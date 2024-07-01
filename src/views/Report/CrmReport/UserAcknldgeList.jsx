@@ -40,25 +40,24 @@ const UserAcknldgeList = () => {
     }, [dateset])
 
     const [columnDefForTable] = useState([
-        { headerName: 'Sl No ', field: 'slno' },
-        { headerName: 'Req Slno', field: 'req_slno' },
-        { headerName: 'Department', field: 'dept_name' },
-        { headerName: 'Department Section', field: 'sec_name' },
-        { headerName: 'Actual Requirement', field: 'actual_requirement' },
-        { headerName: 'Needed', field: 'needed' },
-        { headerName: 'Category', field: 'category' },
-        { headerName: 'Location', field: 'location' },
-        { headerName: 'Expected Date', field: 'expected_date' },
-        { headerName: 'Emergency Tye', field: 'emer_type_name' },
-        { headerName: 'Emergency remarks', field: 'emergeny_remarks' },
-        { headerName: 'Req.DeptSec', field: 'user_deptsec' },
-        { headerName: 'Req.Status', field: 'req_status' },
-        { headerName: 'Req.User', field: 'req_user' },
-        { headerName: 'Acknowledgement Remark', field: 'user_acknldge_remarks' },
-        { headerName: 'Acknowledgement User', field: 'user_ack_user' },
-        { headerName: 'Acknowledgement date', field: 'user_ack_date' },
+        { headerName: 'Sl No ', field: 'slno', autoHeight: true, wrapText: true, minWidth: 30 },
+        { headerName: 'Req Slno', field: 'req_slno', autoHeight: true, wrapText: true, minWidth: 30 },
+        { headerName: 'Department', field: 'dept_name', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
+        { headerName: 'Department Section', field: 'sec_name', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
+        { headerName: 'Actual Requirement', field: 'actual_requirement', autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: 'Needed', field: 'needed', autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: 'Category', field: 'category', autoHeight: true, wrapText: true, minWidth: 120, filter: "true" },
+        { headerName: 'Location', field: 'location', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
+        { headerName: 'Expected Date', field: 'expected_date', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'Emergency Tye', field: 'emer_type_name', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'Emergency remarks', field: 'emergeny_remarks', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'Req.DeptSec', field: 'user_deptsec', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'Req.Status', field: 'req_status', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'Req.User', field: 'req_user', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'Acknowledgement Remark', field: 'user_acknldge_remarks', autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: 'Acknowledgement User', field: 'ack_user', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'Acknowledgement date', field: 'user_ack_date', autoHeight: true, wrapText: true, minWidth: 90 },
     ])
-
 
     const clicksearch = useCallback((e) => {
         e.preventDefault();
@@ -166,7 +165,7 @@ const UserAcknldgeList = () => {
                 <Paper
                     square
                     sx={{
-                        height: { xs: 700, sm: 700, md: 700, lg: 700, xl: 700 },
+                        height: { xs: 750, sm: 750, md: 750, lg: 750, xl: 750 },
                         p: 0.5,
 
                     }}
@@ -300,6 +299,20 @@ const UserAcknldgeList = () => {
                                     ></AgGridReact>
                                 </Box>
                             </Paper>
+                            : null}
+                        {TableDataDis === 1 ?
+                            <Box sx={{
+                                width: "100%", display: "flex", flexDirection: 'row', pt: 2
+                            }}>
+                                <Typography sx={{ pl: 5 }}>A -</Typography>
+                                <Typography>Approved</Typography>
+                                <Typography sx={{ pl: 5 }}>R -</Typography>
+                                <Typography>Rejected</Typography>
+                                <Typography sx={{ pl: 5 }}>P -</Typography>
+                                <Typography>On-Hold</Typography>
+                                <Typography sx={{ pl: 5 }}>C -</Typography>
+                                <Typography>Closed</Typography>
+                            </Box>
                             : null}
                     </Box>
                 </Paper>
