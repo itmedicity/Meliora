@@ -189,8 +189,7 @@ const CrfRequestMaster = () => {
         InchHodDeptsec(deptsec)
         DeptsecBasedOnAssign(id)
 
-
-    }, [dispatch, deptsec, id])
+    }, [dispatch, deptsec, id, count])
 
     const AddItem = useCallback(() => {
 
@@ -250,7 +249,6 @@ const CrfRequestMaster = () => {
                 }
             }
             else {
-
                 if (arrayupdate === 1) {
                     const patchdata = {
                         item_desc: item_desc,
@@ -638,7 +636,7 @@ const CrfRequestMaster = () => {
         const resetdata = {
             item_desc: '',
             item_brand: '',
-            item_qty: '',
+            item_qty: 0,
             item_spec: ''
         }
         setItemState(resetdata)
@@ -744,6 +742,7 @@ const CrfRequestMaster = () => {
             return result.data
         }
 
+        console.log(value);
 
         //** Call insert and detail api by using then. for getting insert id */
         if (value === 0) {
@@ -829,7 +828,7 @@ const CrfRequestMaster = () => {
 
             } else {
                 setOpen(false)
-                warningNotify("Are you want to save items plaese add items first then click Save Button")
+                warningNotify("Are you want to save items please add items first then click Save Button")
 
             }
         } else {

@@ -669,7 +669,11 @@ const ReqRegistration = () => {
         setImageShow(false)
         setImgFlag(0)
         setImageArry([])
-    }, [])
+        dispatch(getInchargeHodData(id))
+        dispatch(getDeptSecInchHod(deptsec))
+
+
+    }, [dispatch, id, deptsec])
 
     const uploadFile = useCallback(async (e) => {
         if (e.target.files[0].type === "application/pdf") {

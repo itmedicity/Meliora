@@ -5,18 +5,20 @@ import CusIconButton from '../../Components/CusIconButton';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { getRackList } from 'src/redux/actions/AmRackList.action';
+import { useDispatch, useSelector } from 'react-redux'
+import RackSelect from './RackSelect';
 
 const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
     const { am_item_map_slno, am_spare_item_map_slno, assetno } = detailArry
-
+    const dispatch = useDispatch();
     // Get login user emp_id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
-
+    const [rackno, setrackNo] = useState(0)
     const [userdata, setUserdata] = useState({
         manufacturslno: '',
         asset_no: assetno,
@@ -31,31 +33,32 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
     }, [userdata])
 
     useEffect(() => {
-
         const checkinsertOrNotDetail = async (am_item_map_slno) => {
             const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`);
             const { success, data } = result.data
             if (success === 1) {
-                const { am_manufacture_no, am_asset_old_no } = data[0]
+                const { am_manufacture_no, am_asset_old_no, rack } = data[0]
                 const frmdata = {
                     manufacturslno: am_manufacture_no !== null ? am_manufacture_no : '',
                     asset_no: assetno,
                     asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
                 }
                 setUserdata(frmdata);
+                setrackNo(rack !== null ? rack : 0)
             }
         }
         const checkinsertOrNotDetailSpare = async (am_spare_item_map_slno) => {
             const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
             const { success, data } = result.data
             if (success === 1) {
-                const { am_manufacture_no, am_asset_old_no } = data[0]
+                const { am_manufacture_no, am_asset_old_no, rack } = data[0]
                 const frmdata = {
                     manufacturslno: am_manufacture_no !== undefined ? am_manufacture_no : '',
                     asset_no: assetno,
                     asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
                 }
                 setUserdata(frmdata);
+                setrackNo(rack !== null ? rack : 0)
             }
         }
         if (assetSpare === 1) {
@@ -63,8 +66,8 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
         } else {
             checkinsertOrNotDetailSpare(am_spare_item_map_slno)
         }
-
-    }, [am_item_map_slno, am_spare_item_map_slno, assetSpare, assetno, setUserdata])
+        dispatch(getRackList())
+    }, [am_item_map_slno, am_spare_item_map_slno, assetSpare, assetno, setUserdata, dispatch])
 
     const patchadata = useMemo(() => {
         return {
@@ -73,8 +76,9 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
             am_asset_old_no: asset_noold,
             edit_user: id,
             am_item_map_slno: am_item_map_slno,
+            item_rack_slno: rackno
         }
-    }, [am_item_map_slno, manufacturslno, asset_no, asset_noold, id])
+    }, [am_item_map_slno, manufacturslno, asset_no, asset_noold, id, rackno])
 
     const patchadataSpare = useMemo(() => {
         return {
@@ -83,8 +87,9 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
             am_asset_old_no: asset_noold,
             edit_user: id,
             am_spare_item_map_slno: am_spare_item_map_slno,
+            spare_rack_slno: rackno
         }
-    }, [am_spare_item_map_slno, manufacturslno, asset_no, asset_noold, id])
+    }, [am_spare_item_map_slno, manufacturslno, asset_no, asset_noold, id, rackno])
     const reset = useCallback(() => {
         const frmdata = {
             manufacturslno: '',
@@ -96,39 +101,6 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
 
     const EditDetails = useCallback((e) => {
         e.preventDefault()
-        const checkinsertOrNot = async (am_item_map_slno) => {
-            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`);
-            const { success, data } = result.data
-            if (success === 1) {
-                const { am_manufacture_no, am_asset_no, am_asset_old_no } = data[0]
-                const frmdata = {
-                    manufacturslno: am_manufacture_no !== null ? am_manufacture_no : '',
-                    asset_no: am_asset_no !== null ? am_asset_no : '',
-                    asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
-                }
-                setUserdata(frmdata);
-            }
-            else {
-                warningNotify("Data Not Saved Yet")
-            }
-        }
-
-        const checkinsertOrNotSpare = async (am_spare_item_map_slno) => {
-            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
-            const { success, data } = result.data
-            if (success === 1) {
-                const { am_manufacture_no, am_asset_no, am_asset_old_no } = data[0]
-                const frmdata = {
-                    manufacturslno: am_manufacture_no !== null ? am_manufacture_no : '',
-                    asset_no: am_asset_no !== null ? am_asset_no : '',
-                    asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
-                }
-                setUserdata(frmdata);
-            }
-            else {
-                warningNotify("Data Not Saved Yet")
-            }
-        }
 
         const updateGRNDetails = async (patchData) => {
             const result = await axioslogin.patch('/ItemMapDetails/DeviceDetailsUpdate', patchData);
@@ -152,23 +124,13 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
             }
         }
 
-        if (manufacturslno === '' && asset_no === '' && asset_noold === '') {
-            if (assetSpare === 1) {
-                checkinsertOrNot(am_item_map_slno)
-            } else { }
-            checkinsertOrNotSpare(am_spare_item_map_slno)
-
-        }
-        else {
-            if (assetSpare === 1) {
-                updateGRNDetails(patchadata)
-            } else {
-                updateGRNDetailsSpare(patchadataSpare)
-            }
+        if (assetSpare === 1) {
+            updateGRNDetails(patchadata)
+        } else {
+            updateGRNDetailsSpare(patchadataSpare)
         }
 
-    }, [manufacturslno, asset_no, asset_noold, am_item_map_slno, patchadata, assetSpare,
-        am_spare_item_map_slno, patchadataSpare])
+    }, [patchadata, assetSpare, patchadataSpare])
 
     const DeviceRefresh = useCallback(() => {
         reset()
@@ -222,6 +184,16 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
                         ></TextFieldCustom>
                     </Box>
                 </Box>
+                <Box sx={{ display: 'flex', width: '20%', pt: 0.5, flexDirection: 'column', ml: 0.5 }} >
+                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pb: 0.7 }} >SelectRack</Typography>
+                    <RackSelect
+                        value={rackno}
+                        setValue={setrackNo}
+                    />
+
+
+                </Box>
+
                 <CustomeToolTip title="Save" placement="top" >
                     <Box sx={{ width: '3%', pl: 3, pt: 3, }}>
                         <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails} >

@@ -33,7 +33,7 @@ const AssetRackSelect = ({ rackno, setrackNo, setrackName }) => {
                         "--Input-minHeight": "29px"
                     }}
                     value={rackno === 0 ? racks : value}
-                    placeholder="Select Group"
+                    placeholder="Select Rack"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);

@@ -212,7 +212,7 @@ const CrfNoBased = React.lazy(() => import('./views/Report/CrmReport/CrfNoBasedR
 const UserAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserAcknldgeList'))
 const UserNotAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserNotAckldgedList'))
 const PurchaseCRFReport = React.lazy(() => import('./views/Report/CrmReport/PurchaseReport'))
-
+const AllCRFReport = React.lazy(() => import('./views/Report/CrmReport/AllCRFReport'))
 
 
 const routes = [
@@ -431,7 +431,7 @@ const routes = [
   { path: '/Home/userAckldged', exact: true, name: 'User Acknowledged CRF', component: UserAcknowldged },
   { path: '/Home/userNotAckldged', exact: true, name: 'User Not Acknowledged CRF', component: UserNotAcknowldged },
   { path: '/Home/purchaseCRFReport', exact: true, name: 'Purchase CRF Report', component: PurchaseCRFReport },
-
+  { path: '/Home/AllCRFReport', exact: true, name: 'All CRF Report', component: AllCRFReport },
 
 ]
 
