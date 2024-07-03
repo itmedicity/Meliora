@@ -18,8 +18,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css'
 import { format } from 'date-fns';
 
-
-const UserAcknldgeList = () => {
+const UserNotAckldgedList = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [open, setOpen] = useState(false)
@@ -44,8 +43,8 @@ const UserAcknldgeList = () => {
         { headerName: 'Req Slno', field: 'req_slno', autoHeight: true, wrapText: true, minWidth: 30 },
         { headerName: 'Department', field: 'dept_name', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
         { headerName: 'Department Section', field: 'sec_name', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
-        { headerName: 'Actual Requirement', field: 'actual_requirement', autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: 'Needed', field: 'needed', autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: 'Actual Requirement', field: 'actual_requirement', autoHeight: true, wrapText: true },
+        { headerName: 'Needed', field: 'needed', autoHeight: true, wrapText: true },
         { headerName: 'Category', field: 'category', autoHeight: true, wrapText: true, minWidth: 120, filter: "true" },
         { headerName: 'Location', field: 'location', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
         { headerName: 'Expected Date', field: 'expected_date', autoHeight: true, wrapText: true, minWidth: 90 },
@@ -59,6 +58,7 @@ const UserAcknldgeList = () => {
         { headerName: 'Acknowledgement date', field: 'user_ack_date', autoHeight: true, wrapText: true, minWidth: 90 },
     ])
 
+
     const clicksearch = useCallback((e) => {
         e.preventDefault();
         setOpen(true)
@@ -67,7 +67,7 @@ const UserAcknldgeList = () => {
             end_date: end_date,
         }
         const getdataUserAcknldged = async (postdata) => {
-            const result = await axioslogin.post('/CrfReports/getdataUserAcknldged', postdata)
+            const result = await axioslogin.post('/CrfReports/getdataUserNotAcknldged', postdata)
             const { success, data } = result.data;
             if (success === 1) {
                 setTableDataDis(1)
@@ -86,10 +86,7 @@ const UserAcknldgeList = () => {
             setOpen(false)
         }
 
-
     }, [start_date, end_date])
-
-
 
     const onExportClick = () => {
         if (TableData.length === 0) {
@@ -157,7 +154,7 @@ const UserAcknldgeList = () => {
 
     return (
         <CardCloseOnly
-            title='User Acknowledged CRF'
+            title='User Not Acknowledged CRF'
             close={backToSetting}
         >
             <CustomBackDrop open={open} text="Please Wait" />
@@ -205,7 +202,6 @@ const UserAcknldgeList = () => {
                                                 min: format(new Date("2023-12-27"), "yyyy-MM-dd")
                                             },
                                         }}
-
                                     />
                                 </Box>
                                 <Box sx={{
@@ -244,7 +240,6 @@ const UserAcknldgeList = () => {
                             <Paper
                                 square
                                 sx={{
-                                    backgroundColor: 'black',
                                     width: { md: '100%', lg: '100%', xl: '100%' },
                                 }}
                             >
@@ -298,6 +293,7 @@ const UserAcknldgeList = () => {
                                         enableRangeSelection={true}
                                     ></AgGridReact>
                                 </Box>
+
                             </Paper>
                             : null}
                         {TableDataDis === 1 ?
@@ -320,11 +316,6 @@ const UserAcknldgeList = () => {
 
         </CardCloseOnly>
     )
-
-
-
-
-
 }
 
-export default memo(UserAcknldgeList)
+export default memo(UserNotAckldgedList)

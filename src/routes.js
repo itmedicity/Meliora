@@ -211,6 +211,9 @@ const QiHodAprv = React.lazy(() => import('./views/QualityIndicatorNew/HODApprov
 const CrfNoBased = React.lazy(() => import('./views/Report/CrmReport/CrfNoBasedReport'))
 const UserAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserAcknldgeList'))
 const qiWaitingTime = React.lazy(() => import('./views/QualityIndicatorNew/WaitingTimeReport'))
+const UserNotAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserNotAckldgedList'))
+const PurchaseCRFReport = React.lazy(() => import('./views/Report/CrmReport/PurchaseReport'))
+const AllCRFReport = React.lazy(() => import('./views/Report/CrmReport/AllCRFReport'))
 
 
 const routes = [
@@ -428,6 +431,9 @@ const routes = [
   { path: '/Home/CrfNoBased', exact: true, name: 'CRF No Based', component: CrfNoBased },
   { path: '/Home/userAckldged', exact: true, name: 'User Acknowledged CRF', component: UserAcknowldged },
   { path: '/Home/WaitingReport', exact: true, name: 'Waiting Time For Service Diagnostics', component: qiWaitingTime },
+  { path: '/Home/userNotAckldged', exact: true, name: 'User Not Acknowledged CRF', component: UserNotAcknowldged },
+  { path: '/Home/purchaseCRFReport', exact: true, name: 'Purchase CRF Report', component: PurchaseCRFReport },
+  { path: '/Home/AllCRFReport', exact: true, name: 'All CRF Report', component: AllCRFReport },
 
 ]
 

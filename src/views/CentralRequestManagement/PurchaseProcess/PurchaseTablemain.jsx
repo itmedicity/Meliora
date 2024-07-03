@@ -36,7 +36,6 @@ const PurchaseTablemain = () => {
     const [puchaseFlag, setpuchaseFlag] = useState(0)
     const [puchaseModal, setpuchaseModal] = useState(false)
     const [puchaseData, setpuchaseData] = useState([])
-
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imageshow, setImageShow] = useState(false)
     const [imageSlno, setImageSlno] = useState(0)

@@ -669,7 +669,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                             crf_requst_slno: req_slno,
                             crf_req_collect_dept: val,
                             crf_req_remark: datacolectremark,
-                            reqest_one: 6,
+                            reqest_one: 10,
                             req_user: id
                         }
                     })
