@@ -18,7 +18,7 @@ import QIProcedureSelect from 'src/views/CommonSelectCode/QIProcedureSelect';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ProcedureEquipmentTable from './ProcedureEquipmentTable';
 
-const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, depName, qidept, RefreshData, setQiflag }) => {
+const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, depName, qidept, RefreshData, setQiflag, WaitingTimeData }) => {
 
     const { qi_slno, patient_arrived_date, ptno, ptname, ptsex, ptage, ptaddrs1, ptaddrs3, doctor_name, ptmobile,
         error_status, redo_status, incidence_ident_error_status, falls_status, near_misses_status, sentinel_events_status
@@ -182,15 +182,14 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
     })
     useEffect(() => {
         if (rowSelect.length !== 0) {
-            const { patient_arrived_date, test_req_date, endo_arrival_time, assessment_time, proc_start_time, proc_end_time,
-                report_gene_time, report_desp_time, error_status, error_details, error_reason, error_corrective, error_preventive,
-                redo_status, redos_reason, redos_corrective, redos_preventive, incidence_ident_error_status, incidence_ident_description,
-                incidence_ident_action, falls_status, near_misses_status, sentinel_events_status, redos_details,
-                incidence_ident_reason, falls_details, falls_reason, sentinel_details, sentinel_reason, nearmisses_details,
-                nearmisses_reason, initial_assessment_reason, error_incident_type, redos_incident_type, falls_incident_type,
-                ident_error_incident_type, nearmiss_incident_type, sentinel_incident_type, sentinel_analysed, equip_start_time,
-                equip_end_time
+            const { patient_arrived_date, test_req_date, error_status, error_details, error_reason, error_corrective,
+                error_preventive, redo_status, redos_reason, redos_corrective, redos_preventive, incidence_ident_error_status,
+                incidence_ident_description, incidence_ident_action, falls_status, near_misses_status, sentinel_events_status,
+                redos_details, incidence_ident_reason, falls_details, falls_reason, sentinel_details, sentinel_reason,
+                nearmisses_details, nearmisses_reason, initial_assessment_reason, error_incident_type, redos_incident_type,
+                falls_incident_type, ident_error_incident_type, nearmiss_incident_type, sentinel_incident_type, sentinel_analysed
             } = rowSelect
+
             setErrorYes(error_status === 1 ? true : false)
             setErrorNo(error_status === 0 ? true : false)
             setRedosYes(redo_status === 1 ? true : false)
@@ -232,26 +231,36 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
             setBenchMarkReason(initial_assessment_reason === null ? '' : initial_assessment_reason)
 
             setTestReqDate(test_req_date === null ? format(new Date(patient_arrived_date), "yyyy-MM-dd") : test_req_date)
-            setEntryTime(endo_arrival_time === null ? format(addMinutes(new Date(patient_arrived_date), 30), 'yyyy-MM-dd HH:mm:ss') : endo_arrival_time)
-            setAssessmentTime(assessment_time === null ? format(addMinutes(new Date(patient_arrived_date), 40), 'yyyy-MM-dd HH:mm:ss') : assessment_time)
-            setStartTime(proc_start_time === null ? format(addMinutes(new Date(patient_arrived_date), 45), 'yyyy-MM-dd HH:mm:ss') : proc_start_time)
-            setEndTime(proc_end_time === null ? format(addMinutes(new Date(patient_arrived_date), 60), 'yyyy-MM-dd HH:mm:ss') : proc_end_time)
-            setReportTime(report_gene_time === null ? format(addMinutes(new Date(patient_arrived_date), 70), 'yyyy-MM-dd HH:mm:ss') : report_gene_time)
-            setDespatchTime(report_desp_time === null ? format(addMinutes(new Date(patient_arrived_date), 80), 'yyyy-MM-dd HH:mm:ss') : report_desp_time)
 
-            setEquipStartTime(equip_start_time === null ? format(addMinutes(new Date(patient_arrived_date), 45), 'yyyy-MM-dd HH:mm:ss') : equip_start_time)
-            setEquipEndTime(equip_end_time === null ? format(addMinutes(new Date(patient_arrived_date), 60), 'yyyy-MM-dd HH:mm:ss') : equip_end_time)
         }
     }, [rowSelect])
 
-    // useEffect(() => {
-    //     if (rowSelect.length !== 0) {
-    //         if (equipmentExit === 0) {
-    //             const { emp_id } = rowSelect
-    //             setempName(emp_id === null ? empName : emp_id)
-    //         }
-    //     }
-    // }, [rowSelect, empName, equipmentExit])
+    useEffect(() => {
+        if (rowSelect.length !== 0) {
+            const { patient_arrived_date, endo_arrival_time, assessment_time, proc_start_time, proc_end_time,
+                report_gene_time, report_desp_time, equip_start_time, equip_end_time } = rowSelect
+            if (WaitingTimeData.length !== 0) {
+                const { START_DATE, END_DATE } = WaitingTimeData[0]
+                setEntryTime(format(new Date(START_DATE), 'yyyy-MM-dd HH:mm:ss'))
+                setAssessmentTime(format(new Date(END_DATE), 'yyyy-MM-dd HH:mm:ss'))
+                setStartTime(proc_start_time === null ? format(addMinutes(new Date(END_DATE), 5), 'yyyy-MM-dd HH:mm:ss') : proc_start_time)
+                setEndTime(proc_end_time === null ? format(addMinutes(new Date(END_DATE), 20), 'yyyy-MM-dd HH:mm:ss') : proc_end_time)
+                setReportTime(report_gene_time === null ? format(addMinutes(new Date(END_DATE), 30), 'yyyy-MM-dd HH:mm:ss') : report_gene_time)
+                setDespatchTime(report_desp_time === null ? format(addMinutes(new Date(END_DATE), 40), 'yyyy-MM-dd HH:mm:ss') : report_desp_time)
+                setEquipStartTime(equip_start_time === null ? format(addMinutes(new Date(END_DATE), 5), 'yyyy-MM-dd HH:mm:ss') : equip_start_time)
+                setEquipEndTime(equip_end_time === null ? format(addMinutes(new Date(END_DATE), 20), 'yyyy-MM-dd HH:mm:ss') : equip_end_time)
+            } else {
+                setEntryTime(endo_arrival_time === null ? format(addMinutes(new Date(patient_arrived_date), 30), 'yyyy-MM-dd HH:mm:ss') : endo_arrival_time)
+                setAssessmentTime(assessment_time === null ? format(addMinutes(new Date(patient_arrived_date), 40), 'yyyy-MM-dd HH:mm:ss') : assessment_time)
+                setStartTime(proc_start_time === null ? format(addMinutes(new Date(patient_arrived_date), 45), 'yyyy-MM-dd HH:mm:ss') : proc_start_time)
+                setEndTime(proc_end_time === null ? format(addMinutes(new Date(patient_arrived_date), 60), 'yyyy-MM-dd HH:mm:ss') : proc_end_time)
+                setReportTime(report_gene_time === null ? format(addMinutes(new Date(patient_arrived_date), 70), 'yyyy-MM-dd HH:mm:ss') : report_gene_time)
+                setDespatchTime(report_desp_time === null ? format(addMinutes(new Date(patient_arrived_date), 80), 'yyyy-MM-dd HH:mm:ss') : report_desp_time)
+                setEquipStartTime(equip_start_time === null ? format(addMinutes(new Date(patient_arrived_date), 45), 'yyyy-MM-dd HH:mm:ss') : equip_start_time)
+                setEquipEndTime(equip_end_time === null ? format(addMinutes(new Date(patient_arrived_date), 60), 'yyyy-MM-dd HH:mm:ss') : equip_end_time)
+            }
+        }
+    }, [WaitingTimeData, rowSelect])
 
     useEffect(() => {
         const getequipDetails = async (qi_slno) => {
@@ -478,7 +487,6 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
             setBenchMarkFlag(0)
         }
     }, [assessmentTime, entryTime])
-
     useEffect(() => {
         const hours = differenceInHours(new Date(despatchTime), new Date(entryTime))
         const minutes = differenceInMinutes(new Date(despatchTime), new Date(entryTime)) % 60
@@ -528,7 +536,7 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
             qi_slno: qi_slno
         }
     }, [testReqDate, entryTime, assessmentTime, startTime, endTime, reportTime, despatchTime, errorCorrect, errorPrvnt,
-        redosCoorect, redosPrvnt, errorIdentAction, id, serviceTime, benchMarkReason, benchMarkFlag, qi_slno,
+        redosCoorect, redosPrvnt, errorIdentAction, id, benchMarkReason, benchMarkFlag, qi_slno, serviceTime,
         equipStartTime, equipEndTime, sentinelAnalyse, equipUsedTime
     ])
 
@@ -1701,10 +1709,10 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                             <Box sx={{}}>
                                 <Box sx={{ display: 'flex', m: 0.5, bgcolor: '#eceff1', flex: 1, pb: 0.5 }}>
                                     <Box sx={{ flex: 1 }}>
-                                        <Box sx={{ pl: 0.5, pt: 0.5 }}>
+                                        <Box sx={{ pl: 1.5, pt: 0.5 }}>
                                             <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Test Requested Date</Typography>
                                         </Box>
-                                        <Box sx={{ pl: 1 }}>
+                                        <Box sx={{ pl: 1, pt: 0.1 }}>
                                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                                 <DatePicker
                                                     views={['year', 'month', 'day']}
@@ -1730,10 +1738,10 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, pl: 1 }}>
-                                        <Box sx={{ pl: 0.5, pt: 0.5 }}>
+                                        <Box sx={{ pl: 1.5, pt: 0.5 }}>
                                             <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Patient Entered Time in Endoscopy Area</Typography>
                                         </Box>
-                                        <Box sx={{ pl: 1 }}>
+                                        <Box sx={{ pl: 1, pt: 0.1 }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DateTimePicker
                                                     views={['year', 'month', 'day', 'hours', 'minutes']}
@@ -1760,10 +1768,10 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, pl: 1, pr: 0.5 }}>
-                                        <Box sx={{ pl: 0.5, pt: 0.5 }}>
+                                        <Box sx={{ pl: 1.5, pt: 0.5 }}>
                                             <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Assessment Checklist Done By Nurse</Typography>
                                         </Box>
-                                        <Box sx={{ pr: 0.5, pl: 1 }} >
+                                        <Box sx={{ pr: 0.5, pl: 1, pt: 0.1 }} >
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DateTimePicker
                                                     views={['year', 'month', 'day', 'hours', 'minutes']}
@@ -1792,10 +1800,10 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                 </Box>
                                 <Box sx={{ display: 'flex', m: 0.5, bgcolor: '#eceff1', flex: 1, pb: 0.5 }}>
                                     <Box sx={{ flex: 1 }}>
-                                        <Box sx={{ pl: 0.5, pt: 0.5 }}>
+                                        <Box sx={{ pl: 1.5, pt: 0.5 }}>
                                             <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Procedure Starting Time</Typography>
                                         </Box>
-                                        <Box sx={{ pl: 1 }}>
+                                        <Box sx={{ pl: 1, pt: 0.1 }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DateTimePicker
                                                     views={['year', 'month', 'day', 'hours', 'minutes']}
@@ -1822,10 +1830,10 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, pl: 1 }}>
-                                        <Box sx={{ pl: 0.5, pt: 0.5 }}>
+                                        <Box sx={{ pl: 1.5, pt: 0.5 }}>
                                             <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Procedure Ending Time</Typography>
                                         </Box>
-                                        <Box sx={{ pl: 1 }}>
+                                        <Box sx={{ pl: 1, pt: 0.1 }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DateTimePicker
                                                     views={['year', 'month', 'day', 'hours', 'minutes']}
@@ -1852,10 +1860,10 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, pl: 1 }}>
-                                        <Box sx={{ pl: 0.5, pt: 0.5 }}>
+                                        <Box sx={{ pl: 1.5, pt: 0.5 }}>
                                             <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Report Generating Time</Typography>
                                         </Box>
-                                        <Box sx={{ pl: 1 }} >
+                                        <Box sx={{ pl: 1, pt: 0.1 }} >
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DateTimePicker
                                                     views={['year', 'month', 'day', 'hours', 'minutes']}
@@ -1882,10 +1890,10 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1.2, pl: 1, pr: 0.5 }}>
-                                        <Box sx={{ pl: 0.5, pt: 0.5 }}>
+                                        <Box sx={{ pl: 1.5, pt: 0.5 }}>
                                             <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Report Despatching Time</Typography>
                                         </Box>
-                                        <Box sx={{ pl: 1, pr: 0.5 }} >
+                                        <Box sx={{ pl: 1, pr: 0.5, pt: 0.1 }} >
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DateTimePicker
                                                     views={['year', 'month', 'day', 'hours', 'minutes']}
@@ -1914,7 +1922,7 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                 </Box>
                                 <Box sx={{ display: 'flex', m: 0.5, bgcolor: '#eceff1', pb: 0.5, flex: 1 }}>
                                     <Box sx={{ flex: 1 }}>
-                                        <Box sx={{ pl: 0.5, pt: 0.5 }}>
+                                        <Box sx={{ pl: 1.5, pt: 0.5 }}>
                                             <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Sum of Time Taken For Assessment</Typography>
                                         </Box>
                                         <Box sx={{ display: 'flex', justifyContent: 'center', pt: 0.1, pl: 1 }}>
@@ -1936,7 +1944,7 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                     <>
                                         {benchMarkFlag === 1 ?
                                             <Box sx={{ flex: 1.5 }}>
-                                                <Box sx={{ pl: 0.5, pt: 0.5 }}>
+                                                <Box sx={{ pl: 0.7, pt: 0.5 }}>
                                                     <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Reason for Assessment Time Exceedence </Typography>
                                                 </Box>
                                                 <Box sx={{ pt: 0.1, pr: 0.5 }}>
@@ -1958,7 +1966,7 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                         }
                                     </>
                                     <Box sx={{ flex: 1 }}>
-                                        <Box sx={{ pt: 0.5, pl: 0.3 }}>
+                                        <Box sx={{ pt: 0.5, pl: 0.5 }}>
                                             <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Total Time Gap</Typography>
                                         </Box>
                                         <Box sx={{ display: 'flex', justifyContent: 'center', pt: 0.1 }}>
@@ -1999,7 +2007,7 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                             </Box>
                             <Box sx={{ display: 'flex', mx: 0.5, bgcolor: '#eceff1', flex: 1, pb: 0.5 }}>
                                 <Box sx={{ flex: 1 }}>
-                                    <Box sx={{ pl: 0.7, pt: 0.5 }}>
+                                    <Box sx={{ pl: 1.5, pt: 0.5 }}>
                                         <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Equipment</Typography>
                                     </Box>
                                     <Box sx={{ ml: 1, mr: 0.6, pt: 0.8, bgcolor: 'white' }}>
@@ -2008,7 +2016,7 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                     </Box>
                                 </Box>
                                 <Box sx={{ flex: 1 }}>
-                                    <Box sx={{ pl: 0.7, pt: 0.5 }}>
+                                    <Box sx={{ pl: 1.5, pt: 0.5 }}>
                                         <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Procedures</Typography>
                                     </Box>
                                     <Box sx={{ mx: 1, pt: 0.8, bgcolor: 'white' }}>
@@ -2040,10 +2048,10 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                 : null}
                             <Box sx={{ display: 'flex', mx: 0.5, bgcolor: '#eceff1', flex: 1, pb: 1 }}>
                                 <Box sx={{ flex: 1 }}>
-                                    <Box sx={{ pl: 0.7, pt: 0.5 }}>
+                                    <Box sx={{ pl: 1.5, pt: 0.5 }}>
                                         <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Start Time</Typography>
                                     </Box>
-                                    <Box sx={{ pl: 1 }}>
+                                    <Box sx={{ pl: 1, pt: 0.1 }}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DateTimePicker
                                                 views={['year', 'month', 'day', 'hours', 'minutes']}
@@ -2070,11 +2078,11 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                                         </LocalizationProvider>
                                     </Box>
                                 </Box>
-                                <Box sx={{ flex: 1, px: 1 }}>
-                                    <Box sx={{ pl: 0.5, pt: 0.5 }}>
+                                <Box sx={{ flex: 1, pl: 3 }}>
+                                    <Box sx={{ pl: 1.5, pt: 0.5 }}>
                                         <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>End Time</Typography>
                                     </Box>
-                                    <Box sx={{ px: 1 }}>
+                                    <Box sx={{ px: 1, pt: 0.1 }}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DateTimePicker
                                                 views={['year', 'month', 'day', 'hours', 'minutes']}

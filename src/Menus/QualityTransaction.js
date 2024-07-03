@@ -31,12 +31,11 @@ const QualityTransactions = [
     {
         men_slno: 210,
         component: CNavItem,
-        name: 'Initial Assessment Time Report',
+        name: 'Assessment Report',
         to: '/Home/TimeReport',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
-
         men_slno: 213,
         component: CNavItem,
         name: 'Level I Approval',
@@ -51,6 +50,13 @@ const QualityTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 
+    {
+        men_slno: 223,
+        component: CNavItem,
+        name: 'Waiting Time For Service Diagnostics',
+        to: '/Home/WaitingReport',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
 
 ]
 

@@ -210,6 +210,7 @@ const QiEquipment = React.lazy(() => import('./views/Master/QualityIndicatorMast
 const QiHodAprv = React.lazy(() => import('./views/QualityIndicatorNew/HODApproval'))
 const CrfNoBased = React.lazy(() => import('./views/Report/CrmReport/CrfNoBasedReport'))
 const UserAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserAcknldgeList'))
+const qiWaitingTime = React.lazy(() => import('./views/QualityIndicatorNew/WaitingTimeReport'))
 
 
 const routes = [
@@ -426,7 +427,7 @@ const routes = [
   { path: '/Home/QiHOD', exact: true, name: 'Level II Approval', component: QiHodAprv },
   { path: '/Home/CrfNoBased', exact: true, name: 'CRF No Based', component: CrfNoBased },
   { path: '/Home/userAckldged', exact: true, name: 'User Acknowledged CRF', component: UserAcknowldged },
-
+  { path: '/Home/WaitingReport', exact: true, name: 'Waiting Time For Service Diagnostics', component: qiWaitingTime },
 
 ]
 

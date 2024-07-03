@@ -2,12 +2,22 @@ import { Autocomplete, CssVarsProvider } from '@mui/joy';
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 
-const QiDeptInitailassessmentSelect = ({ qidept, setQidept, setQitype, setsearchFlag, setReturnflag }) => {
-    const departmentList = useSelector((state) => state.getQltyDept.qiDeptList)
-    const [type, setType] = useState([{ qi_dept_no: 0, qi_dept_desc: '', qi_list_type: 0 }])
+const QiDeptInitailassessmentSelect = ({ qidept, setQidept, setQitype, setDepCode, setsearchFlag }) => {
+    const department = useSelector((state) => state.getQltyDept.qiDeptList)
+    const [type, setType] = useState([{ qi_dept_no: 0, qi_dept_desc: '', qi_dept_code: '', qi_list_type: 0 }])
     const [value, setValue] = useState(type[0]);
     const [inputValue, setInputValue] = useState('');
     const [flag, setFlag] = useState(0)
+    const [departmentList, setdepartmentList] = useState([])
+
+    useEffect(() => {
+        if (department.length > 0) {
+            const newarray = department?.filter((val) => val.qi_list_type === 6)
+            setdepartmentList(newarray)
+            setType(newarray)
+        }
+        //  departmentList.length > 0 && setType(departmentList)
+    }, [department])
 
     useEffect(() => {
         if ((qidept !== 0) && (flag === 0)) {
@@ -20,26 +30,25 @@ const QiDeptInitailassessmentSelect = ({ qidept, setQidept, setQitype, setsearch
             setFlag(1)
             setValue(value)
             setQidept(value.qi_dept_no)
+            setDepCode(value.qi_dept_code)
             setQitype(value.qi_list_type)
             setsearchFlag(0)
-            setReturnflag(0)
+            // setReturnflag(0)
         }
         else {
             setQidept(0)
+            setDepCode('')
             setQitype(0)
         }
         return
-    }, [setQidept, setQitype, setReturnflag, setsearchFlag])
-    useEffect(() => {
-        departmentList.length > 0 && setType(departmentList)
-    }, [departmentList])
+    }, [setQidept, setQitype, setsearchFlag, setDepCode])
+
     return (
         <Fragment>
             <CssVarsProvider>
                 <Autocomplete
-                    sx={{
-                        "--Input-minHeight": '36px'
-                    }}
+                    variant="plain"
+                    sx={{ "--Input-minHeight": '36px', borderRadius: 20, fontSize: 14, width: 300 }}
                     value={qidept === 0 ? type : value}
                     placeholder="Select Department"
                     clearOnBlur
