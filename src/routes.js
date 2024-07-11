@@ -210,17 +210,15 @@ const QiEquipment = React.lazy(() => import('./views/Master/QualityIndicatorMast
 const QiHodAprv = React.lazy(() => import('./views/QualityIndicatorNew/HODApproval'))
 const CrfNoBased = React.lazy(() => import('./views/Report/CrmReport/CrfNoBasedReport'))
 const UserAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserAcknldgeList'))
-<<<<<<< HEAD
 const TMOverdueCountMaster = React.lazy(() => import('./views/Master/TaskManageMaster/TaskDuedateCount'))
 const TaskPerformanceSheet = React.lazy(() => import('./views/TaskManagement/PerformanceSheet/PerformanceMain'))
 const TaskPerformanceSlide = React.lazy(() => import('./views/TaskManagement/PerformanceMenu/MainPerformane'))
 // const TaskPerformanceSlides = React.lazy(() => import('./views/TaskManagement/PerformanceMenu/MainPerformane'))
-=======
 const UserNotAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserNotAckldgedList'))
 const PurchaseCRFReport = React.lazy(() => import('./views/Report/CrmReport/PurchaseReport'))
 const AllCRFReport = React.lazy(() => import('./views/Report/CrmReport/AllCRFReport'))
 
->>>>>>> 945ea0332f93de42bf67aaa3e2f9e01cd9192b62
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -436,15 +434,13 @@ const routes = [
   { path: '/Home/QiHOD', exact: true, name: 'Level II Approval', component: QiHodAprv },
   { path: '/Home/CrfNoBased', exact: true, name: 'CRF No Based', component: CrfNoBased },
   { path: '/Home/userAckldged', exact: true, name: 'User Acknowledged CRF', component: UserAcknowldged },
-<<<<<<< HEAD
   { path: '/Home/TMOverdueCountMaster', exact: true, name: 'TM Overdue Count Master', component: TMOverdueCountMaster },
   { path: '/Home/TaskPerformanceSheet', exact: true, name: 'Task Performance Sheet', component: TaskPerformanceSheet },
-  { path: '/Home/TaskPerformanceSlide', exact: true, name: 'Task Performance Slide', component: TaskPerformanceSlide }
-=======
+  { path: '/Home/TaskPerformanceSlide', exact: true, name: 'Task Performance Slide', component: TaskPerformanceSlide },
   { path: '/Home/userNotAckldged', exact: true, name: 'User Not Acknowledged CRF', component: UserNotAcknowldged },
   { path: '/Home/purchaseCRFReport', exact: true, name: 'Purchase CRF Report', component: PurchaseCRFReport },
   { path: '/Home/AllCRFReport', exact: true, name: 'All CRF Report', component: AllCRFReport },
->>>>>>> 945ea0332f93de42bf67aaa3e2f9e01cd9192b62
+
 
 ]
 
