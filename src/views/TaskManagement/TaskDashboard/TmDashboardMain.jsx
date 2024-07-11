@@ -277,19 +277,7 @@ const TmDashboardMain = () => {
         }
     }, [deptInComplete])
 
-    // const ViewProjectOnProgess = useCallback((e) => {
-    //     if (projOnProgress.length === 0) {
-    //         infoNotify('No Data')
-    //     } else {
-    //         setprojectFlag(1)
-    //         setprjFlag(1)
-    //         setprojectHead('On Progress')
-    //         setgoalsFlag(0)
-    //         setdepartmentTaskFlag(0)
-    //         setoverdueTaskFlag(0)
-    //         setemployeeTaskFlag(0)
-    //     }
-    // }, [projOnProgress])
+
     const ViewProjectComplete = useCallback((e) => {
         if (projCompleted.length === 0) {
             infoNotify('No Data')
@@ -333,19 +321,6 @@ const TmDashboardMain = () => {
         }
     }, [projOverDue])
 
-    // const ViewGoalsOnProgress = useCallback((e) => {
-    //     if (goalsOnProgress.length === 0) {
-    //         infoNotify('No Data')
-    //     } else {
-    //         setgoalsFlag(1)
-    //         setflagGoal(1)
-    //         setdepartmentTaskFlag(0)
-    //         setoverdueTaskFlag(0)
-    //         setemployeeTaskFlag(0)
-    //         setprojectFlag(0)
-    //         setgoalsHead('On Progress')
-    //     }
-    // }, [goalsOnProgress])
     const ViewGoalsComplete = useCallback((e) => {
         if (goalsCompleted.length === 0) {
             infoNotify('No Data')

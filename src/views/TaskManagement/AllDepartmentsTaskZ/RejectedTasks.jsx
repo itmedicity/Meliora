@@ -11,7 +11,8 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import EditIcon from '@mui/icons-material/Edit'
 import EditRejectedTask from '../ModalComponent/EditRejectedTask';
-
+import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
+import ReplyModal from '../AcceptTask/ReplyModal';
 const RejectedTasks = () => {
 
     const [taskList, setTaskList] = useState([])
@@ -24,6 +25,9 @@ const RejectedTasks = () => {
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [editModalFlag, setEditModalFlag] = useState(0)
     const [masterData, setMasterData] = useState([])
+    const [replyflag, setReplyflag] = useState(0)
+    const [replyOpen, setReplyOpen] = useState(false)
+    const [valuee, setValuee] = useState([])
 
     useEffect(() => {
         const getAssignedTask = async () => {
@@ -87,6 +91,12 @@ const RejectedTasks = () => {
         setMasterData(val)
     }, [])
 
+    const ReplyDetails = useCallback((value) => {
+        setReplyflag(1)
+        setValuee(value)
+        setReplyOpen(true)
+    }, [])
+
 
     return (
         <Paper sx={{ pb: .3, bgcolor: 'white' }}>
@@ -98,6 +108,11 @@ const RejectedTasks = () => {
                     setEditModalFlag={setEditModalFlag} tableCount={tableCount} setTableCount={setTableCount} setMasterData={setMasterData}
                 /> : null}
 
+            {replyflag === 1 ?
+                <ReplyModal open={replyOpen} setReplyOpen={setReplyOpen} valuee={valuee}
+                    setReplyflag={setReplyflag} setTableCount={setTableCount} tableCount={tableCount} />
+                : null}
+
             <Box sx={{ width: '100%', overflow: 'auto', }}>
                 {taskList.length !== 0 ?
                     <Box sx={{ width: 3000, }}>
@@ -106,6 +121,8 @@ const RejectedTasks = () => {
                             bgcolor: 'white'
                         }}>
                             <Box sx={{ width: 30, pl: 1.5, fontWeight: 600, color: '#444444', fontSize: 12, }}>#</Box>
+                            <Box sx={{ width: 70, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center', }}>Queries</Box>
+
                             <Box sx={{ width: 60, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center', }}>File</Box>
                             <Box sx={{ width: 40, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12, }}>Action</Box>
                             <Box sx={{ width: 210, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center', }}>CountDown</Box>
@@ -132,6 +149,16 @@ const RejectedTasks = () => {
                                         pt: .5,
                                     }}>
                                         <Box sx={{ width: 30, pl: 1.5, fontWeight: 600, color: 'grey', fontSize: 12, }}>{index + 1}</Box>
+
+                                        <Box sx={{ width: 70, textAlign: 'center', fontWeight: 600, color: 'grey', fontSize: 12, cursor: 'pointer', }}>&nbsp;
+                                            <MarkUnreadChatAltIcon sx={{
+                                                color: '#41729F',
+                                                '&:hover': { color: '#274472' }
+                                            }}
+                                                onClick={() => ReplyDetails(val)}
+                                            />
+                                        </Box>
+
                                         <Box sx={{ width: 60, textAlign: 'center', fontWeight: 600, color: 'grey', fontSize: 12, cursor: 'pointer', }}>&nbsp;
                                             {val.tm_task_file === 1 ?
                                                 <FilePresentRoundedIcon sx={{

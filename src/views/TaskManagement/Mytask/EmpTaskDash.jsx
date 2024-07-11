@@ -28,6 +28,9 @@ import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
 import Tab, { tabClasses } from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
+import MyPerformance from './MyPerformance';
+import AutoGraphSharpIcon from '@mui/icons-material/AutoGraphSharp';
+import SignalCellularAltOutlinedIcon from '@mui/icons-material/SignalCellularAltOutlined';
 
 const EmpTaskDash = () => {
 
@@ -52,7 +55,6 @@ const EmpTaskDash = () => {
             setemployeeTaskFlag(1)
             setflag(1)
             setempTaskHeading('Completed')
-
         }
     }, [
         employeeeCompleted
@@ -77,7 +79,6 @@ const EmpTaskDash = () => {
             setflag(1)
             setemployeeTaskFlag(3)
             setempTaskHeading('On Progress')
-            // setTableDataEmployee(employeeOnProgress)
         }
     }, [
         employeeOnProgress
@@ -222,15 +223,15 @@ const EmpTaskDash = () => {
                 employeeTaskFlag === 4 ? employeeOverDue : employeeTaskFlag === 5 ? employeeOnHold : employeeTaskFlag === 6 ? employeeOnPending : []}
             tableCount={tableCount} setTableCount={setTableCount}
         /> :
-            <Paper sx={{ height: '90vh', p: .5 }} >
+            <Paper sx={{ minHeight: '90vh', p: .5 }} >
                 <Box sx={{ display: 'flex', borderBottom: .1, borderColor: 'lightgrey', height: 40 }}>
                     <Box sx={{ p: 1 }}><DashboardOutlinedIcon fontSize='medium' sx={{ color: '#C7C8CB' }} /></Box>
                     <Box sx={{ pt: 1.2, color: '#C7C8CB', bgcolor: 'white' }}>
                         My Task
                     </Box>
                 </Box>
-                <Box sx={{ bgcolor: ' #DFE3ED', height: '95%', p: .3 }}>
-                    <Box sx={{ bgcolor: 'white', height: '100%', }}>
+                <Box sx={{ bgcolor: ' #DFE3ED', height: '100%', p: .3 }}>
+                    <Box sx={{ bgcolor: 'white', height: '100%', pb: .5 }}>
                         <Box sx={{ display: 'flex', overflow: 'auto', flex: 1, }}>
                             <Box sx={{
                                 flex: 1,
@@ -478,7 +479,9 @@ const EmpTaskDash = () => {
                                                     <Tab disableIndicator sx={{ color: '#478C5C', fontWeight: 800, width: 120 }}>
                                                         <TaskAltSharpIcon sx={{ color: '#478C5C' }} />&nbsp;Completed</Tab>
                                                     <Tab disableIndicator sx={{ color: '#67595E', fontWeight: 800, width: 120 }}>
-                                                        <TaskAltSharpIcon sx={{ color: '#67595E' }} />&nbsp;MyProgress</Tab>
+                                                        <SignalCellularAltOutlinedIcon sx={{ color: '#67595E' }} />&nbsp;MyProgress</Tab>
+                                                    <Tab disableIndicator sx={{ fontWeight: 800, width: 200, color: '#3374A0' }}>
+                                                        <AutoGraphSharpIcon sx={{ color: '#3374A0' }} />&nbsp;Performance Sheet</Tab>
 
                                                 </Box>
                                                 <Box sx={{ flex: 4 }}>
@@ -502,6 +505,9 @@ const EmpTaskDash = () => {
                                         </TabPanel>
                                         <TabPanel value={3} sx={{ p: 0 }}>
                                             <MyProgressView tableCount={tableCount} setTableCount={setTableCount} />
+                                        </TabPanel>
+                                        <TabPanel value={4} sx={{ p: 0 }}>
+                                            <MyPerformance tableCount={tableCount} setTableCount={setTableCount} />
                                         </TabPanel>
 
                                     </Tabs>

@@ -156,20 +156,26 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
                         Due Date<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
-                    <TextFieldCustom
-                        type="datetime-local"
-                        size="sm"
-                        style={{ minHeight: 51 }}
-                        name="tm_subtask_duedate"
-                        value={tm_subtask_duedate}
-                        slotProps={{
-                            input: {
-                                min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
-                            },
-                        }}
-                        onchange={SubTaskUpdate}
-                    ></TextFieldCustom>
+                    <Tooltip color="warning" title={tm_task_due_date && moment(new Date()).isAfter(moment(new Date(tm_task_due_date))) ?
+                        'Unable to add Due date, Main Task due date is Overdue' : ''}>
+                        <Box sx={{ flex: 1 }}>
+                            <TextFieldCustom
+                                type="datetime-local"
+                                size="sm"
+                                name="tm_subtask_duedate"
+                                value={tm_subtask_duedate}
+                                onchange={SubTaskUpdate}
+                                slotProps={{
+                                    input: {
+                                        min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                        max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
+                                    },
+                                }}
+                                style={{ minHeight: 57 }}
+                                disabled={tm_task_due_date && moment(new Date()).isAfter(moment(new Date(tm_task_due_date)))}
+                            ></TextFieldCustom>
+                        </Box>
+                    </Tooltip>
                 </Box>
                 <Box sx={{ flex: 1, mr: .5 }}>
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>

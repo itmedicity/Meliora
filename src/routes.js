@@ -208,6 +208,10 @@ const AmcCmcAdding = React.lazy(() => import('./views/AssetManagment/ItemDetailE
 // const QiInchargeApr = React.lazy(() => import('./views/QualityIndicatorNew/InchargeApproval'))
 const CrfNoBased = React.lazy(() => import('./views/Report/CrmReport/CrfNoBasedReport'))
 const UserAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserAcknldgeList'))
+const TMOverdueCountMaster = React.lazy(() => import('./views/Master/TaskManageMaster/TaskDuedateCount'))
+const TaskPerformanceSheet = React.lazy(() => import('./views/TaskManagement/PerformanceSheet/PerformanceMain'))
+const TaskPerformanceSlide = React.lazy(() => import('./views/TaskManagement/PerformanceMenu/MainPerformane'))
+// const TaskPerformanceSlides = React.lazy(() => import('./views/TaskManagement/PerformanceMenu/MainPerformane'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -422,6 +426,9 @@ const routes = [
   // { path: '/Home/QiIncharge', exact: true, name: 'QI Incharge Approval', component: QiInchargeApr },
   { path: '/Home/CrfNoBased', exact: true, name: 'CRF No Based', component: CrfNoBased },
   { path: '/Home/userAckldged', exact: true, name: 'User Acknowledged CRF', component: UserAcknowldged },
+  { path: '/Home/TMOverdueCountMaster', exact: true, name: 'TM Overdue Count Master', component: TMOverdueCountMaster },
+  { path: '/Home/TaskPerformanceSheet', exact: true, name: 'Task Performance Sheet', component: TaskPerformanceSheet },
+  { path: '/Home/TaskPerformanceSlide', exact: true, name: 'Task Performance Slide', component: TaskPerformanceSlide }
 
 ]
 
