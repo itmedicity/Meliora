@@ -78,6 +78,7 @@ const IncidentList = () => {
                                 views={['year', 'month', 'day']}
                                 size="sm"
                                 inputFormat='dd-MM-yyyy'
+                                maxDate={new Date()}
                                 onChange={(newValue) => {
                                     setFromDate(newValue);
                                     setTabFlag(0)
@@ -102,6 +103,7 @@ const IncidentList = () => {
                                 views={['year', 'month', 'day']}
                                 size="sm"
                                 inputFormat='dd-MM-yyyy'
+                                maxDate={new Date()}
                                 onChange={(newValue) => {
                                     setToDate(newValue);
                                     setTabFlag(0)
@@ -118,7 +120,7 @@ const IncidentList = () => {
                 <Box sx={{ flex: 0.5, pt: 4.5, pl: 1 }}>
                     <CssVarsProvider>
                         <Tooltip title="Search" placement='right'>
-                            <SearchIcon sx={{ color: '#555830', cursor: 'pointer', height: 40, width: 40 }}
+                            <SearchIcon sx={{ color: '#555830', cursor: 'pointer', height: 35, width: 35 }}
                                 onClick={SearchReport}
                             />
                         </Tooltip>

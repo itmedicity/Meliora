@@ -366,9 +366,8 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             poToSupplier: po_to_supplier === 1 ? true : false
         }
         setFormRemarks(fromdaraset)
+
     }, [req_slno, po_approva_level_one, po_approva_level_two, po_to_supplier])
-
-
 
     const reset = useCallback(() => {
         setpuchaseFlag(0)
@@ -537,8 +536,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         }
     }, [crm_purchase_slno, id, poLevelOne, poLevelTwo, poToSupplier])
 
-
-
     const submit = useCallback(() => {
 
         const purchaseInsert = async (postPurchaseCrf) => {
@@ -669,7 +666,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                             crf_requst_slno: req_slno,
                             crf_req_collect_dept: val,
                             crf_req_remark: datacolectremark,
-                            reqest_one: 6,
+                            reqest_one: 10,
                             req_user: id
                         }
                     })

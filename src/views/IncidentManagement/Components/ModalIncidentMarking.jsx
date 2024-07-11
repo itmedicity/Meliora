@@ -83,7 +83,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
                 const result = await axioslogin.patch('/incidentMaster/markIncident', inpatchdata)
                 return result.data
             }
-            updateIncidentTable().then((value) => {
+            updateIncidentTable(inpatchdata).then((value) => {
                 const { success, message } = value
                 if (success === 1) {
                     SearchReport()

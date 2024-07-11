@@ -204,7 +204,6 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
         setEmployee([])
     };
 
-    console.log("assignRemark", assignRemark);
     return (
         <Fragment>
             <ToastContainer />

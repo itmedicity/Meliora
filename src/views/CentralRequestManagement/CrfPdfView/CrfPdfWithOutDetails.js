@@ -5,8 +5,7 @@ import { format } from 'date-fns'
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
-export const CrfPdfWithOutDetails = (val, mdsign, edsign) => {
-
+export const CrfPdfWithOutDetails = (val) => {
     const { dept_name, req_deptsec, req_slno, req_date, actual_requirement, needed,
         category, location, expected_date, em_name,
         md_approve, md, md_approve_remarks, md_approve_date, md_user, md_detial_analysis,
@@ -354,8 +353,8 @@ export const CrfPdfWithOutDetails = (val, mdsign, edsign) => {
             snow: 'http://192.168.22.170/NAS/logo/logo.png',
             // pic: 'http://192.168.10.170/NAS/2119/signature/signature.jpg',
 
-            mdsign: mdsign,
-            edsign: edsign,
+            mdsign: 'http://192.168.10.88:9090/Meliora/md/signature/signature.jpg',
+            edsign: 'http://192.168.10.88:9090/Meliora/ed/signature/signature.jpg',
         }
 
 

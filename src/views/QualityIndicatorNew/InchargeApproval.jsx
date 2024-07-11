@@ -1,19 +1,21 @@
 import React, { memo, useCallback, useEffect } from 'react'
 import ManageSearchTwoToneIcon from '@mui/icons-material/ManageSearchTwoTone';
-import { Box, CssVarsProvider, Tooltip, Typography } from '@mui/joy';
+import { Box, CssVarsProvider, Input, Tooltip, Typography } from '@mui/joy';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useState } from 'react';
 import { getQltyDept } from 'src/redux/actions/QualityIndicatorDept.action';
-import { Paper, TextField } from '@mui/material';
-import DepartmentSelectForQuality from '../CommonSelectCode/DepartmentSelectForQuality';
-import { MonthlyReportView } from './CommonComponents/MonthlyReportView';
-import { format } from 'date-fns';
+import { Paper } from '@mui/material';
+import { eachDayOfInterval, endOfMonth, format, startOfMonth } from 'date-fns';
 import { infoNotify } from '../Common/CommonCode';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import EndoInchargeApproval from './EndoscopyQIMarking/EndoInchargeApproval';
+import DepartmentSelectForQuality from '../CommonSelectCode/DepartmentSelectForQuality';
+import EndoInchargeApproval from './EndoscopyQIMarking/EndoInchargeApproval/EndoInchargeApproval';
+import { EndoscopyMonthlyReportView } from './EndoscopyQIMarking/MonthlyReport/MonthlyReportView';
+import { axioslogin } from '../Axios/Axios';
+import { MonthlyReportEmer } from './EmergencyQIMarking/EmergMonthlyReport/MonthlyReportEmer';
 
 const InchargeApproval = () => {
     const [qidept, setQidept] = useState(0)
@@ -21,8 +23,12 @@ const InchargeApproval = () => {
     const [searchFlag, setsearchFlag] = useState(0)
     const [qitype, setQitype] = useState(0)
     const [viewData, setviewData] = useState([])
-    // dayflag for day wise report(initial assessmnet,1) or monthly report(monthly report,2)
-    const [dayFlag, setDayFlag] = useState(0)
+    // forIp Patient Report
+    const [ipViewReport, setIpViewReport] = useState([])
+    const [testCount, setTestCount] = useState(0)
+    const [equipmentlist, setEquipmentlist] = useState([])
+    const [endoDays, setEndoDays] = useState(0)
+
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -44,13 +50,53 @@ const InchargeApproval = () => {
                 from: format(new Date(searchDate), 'yyyy-MM-dd 00:00:00'),
                 to: format(new Date(searchDate), 'yyyy-MM-dd 23:59:59')
             }
-            const ViewReport = async (setviewData) => {
-                await MonthlyReportView(searchDatas, qitype, setviewData, setsearchFlag)
+            if (qitype === 1) {
+
+                var dayList = eachDayOfInterval({ start: startOfMonth(new Date(searchDate)), end: endOfMonth(new Date(searchDate)) })
+                const days = dayList?.map((val) => {
+                    return {
+                        day: format(new Date(val), 'dd-MM-yyyy')
+                    }
+                })
+                const ViewReport = async (setviewData, setIpViewReport) => {
+                    await EndoscopyMonthlyReportView(searchDatas, setviewData, setsearchFlag, setIpViewReport)
+                }
+                ViewReport(setviewData, setIpViewReport)
+
+                const getTestCount = async (searchDatas) => {
+                    const result = await axioslogin.post('/qiendoscopy/testCount', searchDatas);
+                    return result.data
+                }
+                getTestCount(searchDatas).then((value) => {
+                    const { success, data } = value
+                    if (success === 1) {
+                        setTestCount(data)
+                        // for number of working days
+                        const noEndos = days.filter((val) => {
+                            return data.find((value) => format(new Date(value.endo_date), 'dd-MM-yyyy') === val.day)
+                        })
+                        setEndoDays(noEndos)
+                    }
+                })
+                // for taking equpimnent count
+                const getEquipment = async (qidept) => {
+                    const result = await axioslogin.get(`/equipMast/active/${qidept}`)
+                    const { success, data } = result.data
+                    if (success === 1) {
+                        setEquipmentlist(data)
+                    }
+                }
+                getEquipment(qidept);
+
+
+            } else if (qitype === 2) {
+                const ViewReport = async (setviewData) => {
+                    await MonthlyReportEmer(searchDatas, setviewData, setsearchFlag)
+                }
+                ViewReport(setviewData)
             }
-            ViewReport(setviewData)
-            setDayFlag(2)
         }
-    }, [qitype, searchDate])
+    }, [qitype, searchDate, qidept])
     return (
         <Box sx={{ maxHeight: window.innerHeight - 70 }}>
             <Paper variant='outlined' square sx={{ display: 'flex', flex: 1, height: 40 }}>
@@ -59,7 +105,7 @@ const InchargeApproval = () => {
                 </Box> */}
                 <Box sx={{ flex: 1, fontSize: 16, pl: 1, pt: 1.2 }}>
                     <Typography sx={{ color: '#555830', fontFamily: 'Arial', fontWeight: 550 }}>
-                        Incharge Approval
+                        Level I Approval
                     </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pr: 0.5, pt: 0.2 }}>
@@ -74,34 +120,41 @@ const InchargeApproval = () => {
                         <Typography sx={{ fontSize: 13, textTransform: 'uppercase' }}>Department</Typography>
                     </Box>
                     <Box sx={{ pt: 0.5 }}>
-                        <DepartmentSelectForQuality qidept={qidept} setQidept={setQidept} setQitype={setQitype} setsearchFlag={setsearchFlag} />
+                        <DepartmentSelectForQuality qidept={qidept} setQidept={setQidept} setQitype={setQitype}
+                            setsearchFlag={setsearchFlag} />
                     </Box>
                 </Box>
                 <Box sx={{ flex: 0.7 }}>
-                    <Box sx={{ pt: 1, pl: 2 }}>
+                    <Box sx={{ pt: 1, pl: 1.3 }}>
                         <Typography sx={{ fontSize: 13, textTransform: 'uppercase' }}>Date</Typography>
                     </Box>
-                    <Box sx={{ pt: 0.5, pl: 0.5 }}>
+                    <Box sx={{ pt: 0.5, pl: 0.3 }}>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 value={searchDate}
                                 views={['year', 'month', 'day']}
                                 size="sm"
                                 inputFormat='dd-MM-yyyy'
+                                maxDate={new Date()}
                                 onChange={(newValue) => {
                                     setSearchDate(newValue);
                                     setsearchFlag(0)
                                 }}
-                                renderInput={(params) => (
-                                    <TextField {...params} helperText={null} size='small' fullWidth
-                                        sx={{ bgcolor: 'white', borderRadius: 0, pt: 0.5 }}
-                                    />
+                                renderInput={({ inputRef, inputProps, InputProps }) => (
+                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                        <CssVarsProvider>
+                                            <Input ref={inputRef} {...inputProps} fullWidth
+                                                sx={{ bgcolor: 'white', padding: 'none', size: 'sm' }}
+                                                disabled={true} />
+                                        </CssVarsProvider>
+                                        {InputProps?.endAdornment}
+                                    </Box>
                                 )}
                             />
                         </LocalizationProvider>
                     </Box>
                 </Box>
-                <Box sx={{ flex: 0.5, pt: 4, pl: 1 }} >
+                <Box sx={{ flex: 0.5, pt: 3.5, pl: 2 }} >
                     <CssVarsProvider>
                         <Tooltip title="Search" placement='right'>
                             < ManageSearchTwoToneIcon sx={{ color: '#555830', cursor: 'pointer', height: 40, width: 40 }} fontSize='large'
@@ -116,7 +169,9 @@ const InchargeApproval = () => {
                 {searchFlag === 1 ?
                     <>
                         {qitype === 1 ?
-                            <EndoInchargeApproval viewData={viewData} qitype={qitype} dayFlag={dayFlag} searchDate={searchDate} />
+                            <EndoInchargeApproval viewData={viewData} qitype={qitype} searchDate={searchDate}
+                                qidept={qidept} setsearchFlag={setsearchFlag} testCount={testCount} equipmentlist={equipmentlist} endoDays={endoDays}
+                                ipViewReport={ipViewReport} />
                             : null}
                     </>
                     : null}

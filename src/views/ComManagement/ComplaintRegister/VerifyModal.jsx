@@ -12,6 +12,7 @@ import CustomTextarea from 'src/views/Components/CustomTextarea';
 import { format } from 'date-fns'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 import { axioslogin } from 'src/views/Axios/Axios';
+import { useSelector } from 'react-redux'
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -29,6 +30,10 @@ const VerifyModal = ({ open, setOpen, mddata, count, setCount }) => {
     const updateRemarks = useCallback((e) => {
         setRemark(e.target.value);
     }, [])
+    //redux for geting login id
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
     //function for update verify checkbox
     const updateVerify = (e) => {
         if (e.target.checked === true) {
@@ -66,9 +71,10 @@ const VerifyModal = ({ open, setOpen, mddata, count, setCount }) => {
             cm_rectify_status: notrectify === true ? 'Z' : verify === true ? 'V' : null,
             verify_remarks: notrectify === true ? remark : null,
             cm_not_verify_time: notrectify === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+            create_user: id,
             complaint_slno: complaint_slno
         }
-    }, [verify, notrectify, remark, complaint_slno, compalint_status])
+    }, [verify, notrectify, remark, complaint_slno, compalint_status, id])
     // updating function to db
     const Verify = useCallback((e) => {
         e.preventDefault();

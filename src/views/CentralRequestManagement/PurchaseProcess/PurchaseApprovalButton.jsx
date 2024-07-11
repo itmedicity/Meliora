@@ -1,11 +1,8 @@
 import { Box } from '@mui/material'
-import React, { useCallback, memo, useState } from 'react'
+import React, { useCallback, memo } from 'react'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 import { axioslogin } from 'src/views/Axios/Axios'
-import ProfilePicDefault from 'src/assets/images/nosigature.jpg'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
-import { urlExist } from 'src/views/Constant/Constant'
 import { CrfPdfWithOutDetails } from '../CrfPdfView/CrfPdfWithOutDetails';
 import { CrfPdfWithDetails } from '../CrfPdfView/CrfPdfWithDetail';
 import { Button, CssVarsProvider, Tooltip, Typography } from '@mui/joy';
@@ -26,12 +23,9 @@ const PurchaseApprovalButton = ({ val, setpuchaseFlag, setpuchaseModal, setpucha
         setpuchaseData(val)
     }, [val, setpuchaseFlag, setpuchaseModal, setpuchaseData])
 
-    const [mdsign, setMdSign] = useState(ProfilePicDefault)
-    const [edsign, setEdSign] = useState(ProfilePicDefault)
 
     const PdfDownloadFctn = useCallback(() => {
-        const { req_slno, mdid, edid } = val
-
+        const { req_slno } = val
         const ItemDetailsGet = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFRegister/getDetailItemList/${req_slno}`)
             return result.data
@@ -42,60 +36,29 @@ const PurchaseApprovalButton = ({ val, setpuchaseFlag, setpuchaseModal, setpucha
             return result.data
         }
 
-        const getMDSign = async () => {
-            if (mdid > 0) {
-                const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + mdid}/signature/signature.jpg`);
-                urlExist(profilePic, (status) => {
-                    if (status === true) {
-                        const picUrl = JSON.parse(profilePic)
-                        setMdSign(picUrl)
-                    } else {
-                        setMdSign(ProfilePicDefault)
-                    }
-                })
-            }
-        }
-
-        const getEDSign = async () => {
-            if (edid > 0) {
-                const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + edid}/signature/signature.jpg`);
-                urlExist(profilePic, (status) => {
-                    if (status === true) {
-                        const picUrl = JSON.parse(profilePic)
-                        setEdSign(picUrl)
-                    } else {
-                        setEdSign(ProfilePicDefault)
-                    }
-                })
-            }
-        }
-
-        getMDSign()
-        getEDSign()
-
         ItemDetailsGet(req_slno).then((values) => {
             const { success, data } = values
             if (success === 1) {
                 ItemDetailsApproved(req_slno).then((value) => {
                     const { succes, dataa } = value
                     if (succes === 1) {
-                        CrfPdfWithDetails(val, data, dataa, mdsign, edsign)
+                        CrfPdfWithDetails(val, data, dataa)
                     }
                     else {
                         const dataa = []
-                        CrfPdfWithDetails(val, data, dataa, mdsign, edsign)
+                        CrfPdfWithDetails(val, data, dataa)
                     }
                 })
             }
             else if (success === 0) {
-                CrfPdfWithOutDetails(val, mdsign, edsign)
+                CrfPdfWithOutDetails(val)
             }
             else {
-                CrfPdfWithOutDetails(val, mdsign, edsign)
+                CrfPdfWithOutDetails(val)
             }
         })
 
-    }, [val, mdsign, edsign,])
+    }, [val])
 
 
     const ViewImage = useCallback(() => {

@@ -1,14 +1,14 @@
-import { Box, Dialog, DialogContent, Paper, Typography } from '@mui/material'
+import { Box, Dialog, DialogContent, FormControl, MenuItem, Paper, Select, Typography } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { Button, CssVarsProvider, Input, Textarea } from '@mui/joy';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { format, isBefore } from 'date-fns';
+import { format, isAfter } from 'date-fns';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { axioslogin } from 'src/views/Axios/Axios';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 
 const IncidentModal = ({
     open, setIncModalOpen, depName, qidept, endoSlno, incCount, setincCount, incdExist, incRegFlag, incidentView, errorDetails,
@@ -17,19 +17,20 @@ const IncidentModal = ({
     setErrorIdentyYes, setErrorIdentyNo, setFallsYes, setFallsNo, setNearYes, setNearNo, setSentinelYes, setSentinelNo,
     setErrorDetails, setErrorReason, setRedosDetails, setRedosReason, setIdenterrorDetails, setIdenterrorReason,
     setFallsdetails, setFallsReason, setSentinelDetails, setSentinelreason, setNearMissesDetails, setNearMissessReason,
-    patient_arrived_date }) => {
+    patient_arrived_date, setErrorType, setRedosType, setIdentType, setFallsType, setSentinelType, setnearType,
+    ipOpCheck }) => {
 
     const { incident_error_date, incident_redos_date, incidence_ident_date, incident_falls_date, incident_sentinel_date,
         incident_nearmisses_date
     } = incidentView[0]
 
     const [inicidentDate, setInicidentDate] = useState(format(new Date(
-        incRegFlag === 1 ? incident_error_date === null ? new Date() : incident_error_date :
-            incRegFlag === 2 ? incident_redos_date === null ? new Date() : incident_redos_date :
-                incRegFlag === 3 ? incidence_ident_date === null ? new Date() : incidence_ident_date :
-                    incRegFlag === 4 ? incident_falls_date === null ? new Date() : incident_falls_date :
-                        incRegFlag === 5 ? incident_sentinel_date === null ? new Date() : incident_sentinel_date :
-                            incRegFlag === 6 ? incident_nearmisses_date === null ? new Date() : incident_nearmisses_date : null
+        incRegFlag === 1 ? incident_error_date === null ? new Date(patient_arrived_date) : incident_error_date :
+            incRegFlag === 2 ? incident_redos_date === null ? new Date(patient_arrived_date) : incident_redos_date :
+                incRegFlag === 3 ? incidence_ident_date === null ? new Date(patient_arrived_date) : incidence_ident_date :
+                    incRegFlag === 4 ? incident_falls_date === null ? new Date(patient_arrived_date) : incident_falls_date :
+                        incRegFlag === 5 ? incident_sentinel_date === null ? new Date(patient_arrived_date) : incident_sentinel_date :
+                            incRegFlag === 6 ? incident_nearmisses_date === null ? new Date(patient_arrived_date) : incident_nearmisses_date : null
     ), 'yyyy-MM-dd HH:mm:ss'))
     const [incdSlno, setIncdSlno] = useState(0)
     const [incType, setIncType] = useState(0)
@@ -77,6 +78,15 @@ const IncidentModal = ({
             }
         }
     }, [incidentView, incRegFlag, inicidentDate, incdExist])
+    const OnchangeIncidentDate = useCallback((value) => {
+        const check = isAfter(new Date(value), new Date(patient_arrived_date))
+        if (check === true) {
+            setInicidentDate(value)
+        } else {
+            warningNotify("Please Check the Incident Report Time")
+            setInicidentDate(new Date(inicidentDate))
+        }
+    }, [patient_arrived_date, inicidentDate])
     const ResetDetails = useCallback(() => {
         if (incdSlno === 0) {
             if (incRegFlag === 1) {
@@ -109,7 +119,7 @@ const IncidentModal = ({
                 setSentinelYes(false)
                 setSentinelNo(true)
             }
-            else if (incRegFlag === 6) {
+            else {
                 setNearMissesDetails('')
                 setNearMissessReason('')
                 setNearYes(false)
@@ -117,12 +127,10 @@ const IncidentModal = ({
             }
             setIncFlag(0)
             setIncModalOpen(false)
-            setIncType(0)
-            // setIncdExist(0)
+            // setIncType(0)
         } else {
             setIncFlag(0)
             setIncModalOpen(false)
-            setIncType(0)
         }
     }, [incdSlno, incRegFlag, setIncFlag, setErrorYes, setErrorNo, setRedosYes, setRedosNo, setErrorIdentyYes, setErrorIdentyNo,
         setFallsYes, setFallsNo, setNearYes, setNearNo, setSentinelYes, setSentinelNo, setIncModalOpen, setErrorDetails,
@@ -177,11 +185,79 @@ const IncidentModal = ({
         fallsdetails, sentinelDetails, nearMissesDetails, errorReason, redosReason, identerrorReason, fallsReason,
         sentinelreason, nearMissessReason, incType])
 
-    const SaveIncidentDetails = useCallback(() => {
-        if (isBefore(new Date(inicidentDate), new Date(patient_arrived_date))) {
-            infoNotify("Please Check Incident Date And Time")
+    const inpatientpostdata = useMemo(() => {
+        return {
+            incident_date: format(new Date(inicidentDate), 'yyyy-MM-dd HH:mm:ss'),
+            incident_dept: qidept,
+            incident_details: incRegFlag === 1 ? errorDetails : incRegFlag === 2 ? redosDetails :
+                incRegFlag === 3 ? identerrorDetails : incRegFlag === 4 ? fallsdetails :
+                    incRegFlag === 5 ? sentinelDetails : incRegFlag === 6 ? nearMissesDetails : null,
+            incident_reason: incRegFlag === 1 ? errorReason : incRegFlag === 2 ? redosReason :
+                incRegFlag === 3 ? identerrorReason : incRegFlag === 4 ? fallsReason :
+                    incRegFlag === 5 ? sentinelreason : incRegFlag === 6 ? nearMissessReason : null,
+            // initially 0, after verifction its 1
+            incident_flag: 0,
+            create_user: id,
+            // flag 1 for qi department 2 for other dept
+            qi_incident_flag: 1,
+            // clinic 1, nonclinic 2
+            clinic_nonclinic: 1,
+            qi_endo_ip_slno: endoSlno,
+            incRegFlag: incRegFlag,
+            initial_incident_type: incType,
+            final_incident_type: incType,
+            incident_mark_remarks: ''
         }
-        else if (errorDetails === '' && redosDetails === '' && identerrorDetails === '' && fallsdetails === '' &&
+    }, [inicidentDate, qidept, id, incRegFlag, endoSlno, errorDetails, redosDetails, identerrorDetails,
+        fallsdetails, sentinelDetails, nearMissesDetails, errorReason, redosReason, identerrorReason, fallsReason,
+        sentinelreason, nearMissessReason, incType
+    ])
+
+    const inpatientpatchdata = useMemo(() => {
+        return {
+            incident_date: moment(new Date(inicidentDate)).format('YYYY-MM-DD HH:mm:ss'),
+            incident_dept: qidept,
+            incident_details: incRegFlag === 1 ? errorDetails : incRegFlag === 2 ? redosDetails :
+                incRegFlag === 3 ? identerrorDetails : incRegFlag === 4 ? fallsdetails :
+                    incRegFlag === 5 ? sentinelDetails : incRegFlag === 6 ? nearMissesDetails : null,
+            incident_reason: incRegFlag === 1 ? errorReason : incRegFlag === 2 ? redosReason :
+                incRegFlag === 3 ? identerrorReason : incRegFlag === 4 ? fallsReason :
+                    incRegFlag === 5 ? sentinelreason : incRegFlag === 6 ? nearMissessReason : null,
+            edit_user: id,
+            incident_slno: incdSlno,
+            qi_endo_ip_slno: endoSlno,
+            incRegFlag: incRegFlag,
+            initial_incident_type: incType
+        }
+    }, [inicidentDate, qidept, id, incdSlno, incRegFlag, endoSlno, errorDetails, redosDetails, identerrorDetails,
+        fallsdetails, sentinelDetails, nearMissesDetails, errorReason, redosReason, identerrorReason, fallsReason,
+        sentinelreason, nearMissessReason, incType])
+
+    const IncidentTypeUpdate = useCallback(() => {
+        if (incRegFlag === 1) {
+            setErrorType(incType)
+        }
+        else if (incRegFlag === 2) {
+            setRedosType(incType)
+        }
+        else if (incRegFlag === 3) {
+            setIdentType(incType)
+        }
+        else if (incRegFlag === 4) {
+            setFallsType(incType)
+        }
+        else if (incRegFlag === 5) {
+            setSentinelType(incType)
+        }
+        else if (incRegFlag === 6) {
+            setnearType(incType)
+        }
+
+    }, [incType, incRegFlag, setErrorType, setRedosType, setIdentType,
+        setFallsType, setSentinelType, setnearType])
+
+    const SaveIncidentDetails = useCallback(() => {
+        if (errorDetails === '' && redosDetails === '' && identerrorDetails === '' && fallsdetails === '' &&
             sentinelDetails === '' && nearMissesDetails === '') {
             infoNotify("Please Enter Incident Details")
         }
@@ -200,45 +276,90 @@ const IncidentModal = ({
                 const result = await axioslogin.patch('/incidentMaster/incidentUpdate', patchdata);
                 return result.data
             }
-            if (incdExist === 0) {
-                InsertIncidentData(postdata).then((val) => {
-                    const { success, message } = val
-                    if (success === 1) {
-                        succesNotify(message)
-                        setincCount(incCount + 1)
-                        setIncFlag(0)
-                        setIncModalOpen(false)
-                    }
-                    else {
-                        infoNotify(message)
-                    }
-                })
+            const InsertIPIncidentData = async (inpatientpostdata) => {
+                const result = await axioslogin.post('/incidentMaster/ipIncidentSave', inpatientpostdata);
+                return result.data
+            }
+            const UpdateIPIncidentDetails = async (inpatientpatchdata) => {
+                const result = await axioslogin.patch('/incidentMaster/ipincidentUpdate', inpatientpatchdata);
+                return result.data
+            }
+            if (ipOpCheck === 0) {
+                if (incdExist === 0) {
+                    InsertIncidentData(postdata).then((val) => {
+                        const { success, message } = val
+                        if (success === 1) {
+                            IncidentTypeUpdate()
+                            succesNotify(message)
+                            setincCount(incCount + 1)
+                            setIncFlag(0)
+                            setIncModalOpen(false)
+                        }
+                        else {
+                            infoNotify(message)
+                        }
+                    })
+                }
+                else {
+                    UpdateIncidentDetails(patchdata).then((val) => {
+                        const { success, message } = val
+                        if (success === 1) {
+                            IncidentTypeUpdate()
+                            succesNotify(message)
+                            setincCount(incCount + 1)
+                            setIncFlag(0)
+                            setIncModalOpen(false)
+                        }
+                        else {
+                            infoNotify(message)
+                        }
+                    })
+                }
             }
             else {
-                UpdateIncidentDetails(patchdata).then((val) => {
-                    const { success, message } = val
-                    if (success === 1) {
-                        succesNotify(message)
-                        setincCount(incCount + 1)
-                        setIncFlag(0)
-                        setIncModalOpen(false)
-                    }
-                    else {
-                        infoNotify(message)
-                    }
-                })
+                if (incdExist === 0) {
+                    InsertIPIncidentData(inpatientpostdata).then((val) => {
+                        const { success, message } = val
+                        if (success === 1) {
+                            IncidentTypeUpdate()
+                            succesNotify(message)
+                            setincCount(incCount + 1)
+                            setIncFlag(0)
+                            setIncModalOpen(false)
+                        }
+                        else {
+                            infoNotify(message)
+                        }
+                    })
+                }
+                else {
+                    UpdateIPIncidentDetails(inpatientpatchdata).then((val) => {
+                        const { success, message } = val
+                        if (success === 1) {
+                            IncidentTypeUpdate()
+                            succesNotify(message)
+                            setincCount(incCount + 1)
+                            setIncFlag(0)
+                            setIncModalOpen(false)
+                        }
+                        else {
+                            infoNotify(message)
+                        }
+                    })
+                }
             }
         }
     }, [postdata, incCount, setincCount, patchdata, incdExist, setIncFlag, setIncModalOpen, errorDetails, redosDetails,
         identerrorDetails, fallsdetails, sentinelDetails, nearMissesDetails, errorReason, redosReason, identerrorReason,
-        fallsReason, sentinelreason, nearMissessReason, incType, inicidentDate, patient_arrived_date])
+        fallsReason, sentinelreason, nearMissessReason, ipOpCheck, IncidentTypeUpdate, inpatientpostdata, incType,
+        inpatientpatchdata,])
     return (
         <Fragment>
             <Dialog
                 open={open}
                 keepMounted
                 aria-describedby="alert-dialog-slide-descriptiona"
-                maxWidth='50vw'
+                maxWidth='55vw'
                 sx={{ display: 'flex', justifyContent: 'center' }}
             >
                 <DialogContent id="alert-dialog-slide-descriptiona"
@@ -265,11 +386,11 @@ const IncidentModal = ({
                             <Box sx={{ pl: 0.2 }}>
                                 <Typography>: </Typography>
                             </Box>
-                            <Box sx={{ flex: 1.5, pl: 1.6 }}>
+                            <Box sx={{ flex: 1.5, pl: 1.8 }}>
                                 <Box sx={{ fontSize: 14 }}>{depName}</Box>
                             </Box>
                         </Box>
-                        <Box sx={{ display: 'flex', pt: 0.8 }}>
+                        <Box sx={{ display: 'flex', pt: 0.2 }}>
                             <Box sx={{ flex: 0.3, pl: 1, pt: 1 }}>
                                 <Typography sx={{ fontSize: 12 }}>DATE & TIME</Typography>
                             </Box>
@@ -278,29 +399,54 @@ const IncidentModal = ({
                             </Box>
 
                             <Box sx={{ flex: 1.5, pl: 1.7 }}>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DateTimePicker
-                                        views={['year', 'month', 'day', 'hours', 'minutes']}
-                                        value={inicidentDate}
-                                        minDate={new Date(patient_arrived_date)}
-                                        maxDate={new Date()}
-                                        inputFormat='DD-MM-YYYY hh:mm A'
-                                        size="small"
-                                        onChange={(newValue) => {
-                                            setInicidentDate(newValue);
-                                        }}
-                                        renderInput={({ inputRef, inputProps, InputProps }) => (
-                                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <CssVarsProvider>
-                                                    <Input ref={inputRef} {...inputProps} fullWidth
-                                                        sx={{ bgcolor: 'white', height: 40, padding: 'none' }}
-                                                        disabled={true} />
-                                                </CssVarsProvider>
-                                                {InputProps?.endAdornment}
-                                            </Box>
-                                        )}
-                                    />
-                                </LocalizationProvider>
+                                {ipOpCheck === 0 ?
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DateTimePicker
+                                            views={['year', 'month', 'day', 'hours', 'minutes']}
+                                            value={inicidentDate}
+                                            minDate={new Date(patient_arrived_date)}
+                                            maxDate={new Date(patient_arrived_date)}
+                                            inputFormat='DD-MM-YYYY hh:mm A'
+                                            size="small"
+                                            onChange={(newValue) => {
+                                                OnchangeIncidentDate(newValue);
+                                            }}
+                                            renderInput={({ inputRef, inputProps, InputProps }) => (
+                                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                    <CssVarsProvider>
+                                                        <Input ref={inputRef} {...inputProps} fullWidth
+                                                            sx={{ bgcolor: 'white', height: 40, padding: 'none' }}
+                                                            disabled={true} />
+                                                    </CssVarsProvider>
+                                                    {InputProps?.endAdornment}
+                                                </Box>
+                                            )}
+                                        />
+                                    </LocalizationProvider>
+                                    :
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DateTimePicker
+                                            views={['year', 'month', 'day', 'hours', 'minutes']}
+                                            value={inicidentDate}
+                                            minDate={new Date(patient_arrived_date)}
+                                            maxDate={new Date()}
+                                            inputFormat='DD-MM-YYYY hh:mm A'
+                                            size="small"
+                                            onChange={(newValue) => {
+                                                OnchangeIncidentDate(newValue);
+                                            }}
+                                            renderInput={({ inputRef, inputProps, InputProps }) => (
+                                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                    <CssVarsProvider>
+                                                        <Input ref={inputRef} {...inputProps} fullWidth
+                                                            sx={{ bgcolor: 'white', height: 40, padding: 'none' }}
+                                                            disabled={true} />
+                                                    </CssVarsProvider>
+                                                    {InputProps?.endAdornment}
+                                                </Box>
+                                            )}
+                                        />
+                                    </LocalizationProvider>}
                             </Box>
                         </Box>
                         <Box sx={{ display: 'flex', pt: 0.2 }}>
@@ -367,7 +513,7 @@ const IncidentModal = ({
                                 </CssVarsProvider>
                             </Box>
                         </Box>
-                        <Box sx={{ display: 'flex', pt: 0.2 }}>
+                        <Box sx={{ display: 'flex', pt: 0.8 }}>
                             <Box sx={{ flex: 0.3, pl: 1, pt: 1 }}>
                                 <Typography sx={{ fontSize: 12 }}>INCIDENT TYPE</Typography>
                             </Box>
@@ -375,23 +521,28 @@ const IncidentModal = ({
                                 <Typography>: </Typography>
                             </Box>
                             <Box sx={{ flex: 1.5, display: 'flex', pl: 1.5 }}>
-                                <select
-                                    variant="outlined"
-                                    style={{
-                                        height: 35, width: 250, paddingLeft: 7, borderRadius: 3,
-                                        border: '1px solid lightgrey', fontSize: 13
-                                    }}
-                                    name="incType"
-                                    value={incType}
-                                    onChange={(e) => { setIncType(e.target.value) }}
+                                <FormControl fullWidth
+                                    style={{ backgroundColor: 'white' }}
                                 >
-                                    < option value={0}>--SELECT--</option>
-                                    {
-                                        incidentType?.map((val, ind) => {
-                                            return <option key={ind} value={val.id}>{val.label}</option>
-                                        })
-                                    }
-                                </select>
+                                    <Select
+                                        size="small" fullWidth
+                                        style={{
+                                            height: 35, width: 250, fontSize: 14, backgroundColor: 'white'
+                                        }}
+                                        defaultValue={0}
+                                        value={incType}
+                                        onChange={(e) => setIncType(e.target.value)}
+                                    >
+                                        <MenuItem disabled value={0}>-Select IncidentType-</MenuItem>
+                                        {
+                                            incidentType?.map((val, index) => (
+                                                <MenuItem key={index} value={val.id}>
+                                                    {val.label}
+                                                </MenuItem>
+                                            ))
+                                        }
+                                    </Select>
+                                </FormControl>
                             </Box>
                         </Box>
                     </Box>
