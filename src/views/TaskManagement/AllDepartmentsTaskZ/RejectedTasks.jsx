@@ -11,8 +11,9 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import EditIcon from '@mui/icons-material/Edit'
 import EditRejectedTask from '../ModalComponent/EditRejectedTask';
-import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 import ReplyModal from '../AcceptTask/ReplyModal';
+import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
+import CommentIcon from '@mui/icons-material/Comment';
 const RejectedTasks = () => {
 
     const [taskList, setTaskList] = useState([])
@@ -149,14 +150,20 @@ const RejectedTasks = () => {
                                         pt: .5,
                                     }}>
                                         <Box sx={{ width: 30, pl: 1.5, fontWeight: 600, color: 'grey', fontSize: 12, }}>{index + 1}</Box>
-
                                         <Box sx={{ width: 70, textAlign: 'center', fontWeight: 600, color: 'grey', fontSize: 12, cursor: 'pointer', }}>&nbsp;
-                                            <MarkUnreadChatAltIcon sx={{
-                                                color: '#41729F',
-                                                '&:hover': { color: '#274472' }
-                                            }}
-                                                onClick={() => ReplyDetails(val)}
-                                            />
+                                            {val.tm_query_status === 2 ?
+                                                <>
+                                                    <CommentIcon sx={{ color: '#43616F', cursor: 'pointer', }}
+                                                        onClick={() => ReplyDetails(val)} />
+                                                    {/* Added Reply */}
+
+                                                </> :
+                                                <>
+                                                    <MarkUnreadChatAltIcon sx={{ color: '#B47608', cursor: 'pointer', }}
+                                                        onClick={() => ReplyDetails(val)} />
+                                                    {/* Raised a Query */}
+                                                </>}
+
                                         </Box>
 
                                         <Box sx={{ width: 60, textAlign: 'center', fontWeight: 600, color: 'grey', fontSize: 12, cursor: 'pointer', }}>&nbsp;

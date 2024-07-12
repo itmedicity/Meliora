@@ -17,6 +17,7 @@ const ReplyModal = ({ open, setReplyOpen, setReplyflag, valuee, setTableCount, t
     const { tm_task_name, tm_task_due_date, tm_task_slno, } = valuee
     const [replies, setreplies] = useState('')
     const [rpData, setrpData] = useState([])
+    const [assiEmplo, setAssiEmplo] = useState(0)
 
     let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
@@ -40,6 +41,8 @@ const ReplyModal = ({ open, setReplyOpen, setReplyflag, valuee, setTableCount, t
             const result = await axioslogin.post('/TmAllDeptTask/getQuery', getquery);
             const { success, data } = result.data;
             if (success === 2) {
+                const { tm_assigne_emp } = data[0]
+                setAssiEmplo(tm_assigne_emp)
                 setrpData(data)
             }
             else {
@@ -54,9 +57,11 @@ const ReplyModal = ({ open, setReplyOpen, setReplyflag, valuee, setTableCount, t
             tm_task_slno: tm_task_slno,
             tm_query_reply: replies,
             tm_query_reply_date: newDate,
-            tm_query_reply_user: id
+            tm_query_reply_user: id,
+            tm_aasiigned_emplo: assiEmplo
+
         }
-    }, [tm_task_slno, replies, newDate, id]);
+    }, [tm_task_slno, replies, newDate, assiEmplo, id]);
 
     const QueryClose = useCallback(() => {
         setReplyflag(0)
