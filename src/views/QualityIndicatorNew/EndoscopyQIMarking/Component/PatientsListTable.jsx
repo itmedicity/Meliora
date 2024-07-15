@@ -9,10 +9,12 @@ import { Box, CssVarsProvider, Table, Tooltip, Typography } from '@mui/joy';
 import { format } from 'date-fns';
 import EndoscopyModalForQI from './EndoscopyModalForQI';
 import { AddorRemovePatients } from './AddorRemovePatients';
-const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, qidept, qitype, RefreshData }) => {
+import { axiosellider } from 'src/views/Axios/Axios';
+const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, qidept, qitype, RefreshData, depCode }) => {
     const [qiflag, setQiflag] = useState(0)
     const [modalopen, setModalOpen] = useState(false)
     const [rowSelect, setrowSelect] = useState([])
+    const [WaitingTimeData, setWaitingTimeData] = useState([])
 
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
@@ -20,12 +22,31 @@ const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, 
     const IndicatorsView = useCallback((val) => {
         setModalOpen(true)
         setrowSelect(val)
+        const { patient_arrived_date, ptno } = val
         if (qitype === 1) {
+            const endoTimeupdate = {
+                from: format(new Date(patient_arrived_date), 'dd/MM/yyyy HH:mm:ss'),
+                depCode: depCode,
+                ptno: ptno
+            }
+            const GetElliderData = async (endoTimeupdate) => {
+                const result = await axiosellider.post('/qualityIndicator/endotimeupdate', endoTimeupdate);
+                return result.data
+            }
+            GetElliderData(endoTimeupdate).then((value) => {
+                const { success, data } = value
+                if (success === 1) {
+                    setWaitingTimeData(data);
+                } else if (success === 2) {
+                    setWaitingTimeData([]);
+                }
+            })
             setQiflag(1)
         }
         else {
         }
-    }, [qitype])
+    }, [qitype, depCode])
+
     const handleClose = useCallback(() => {
         setModalOpen(false)
         setQiflag(0)
@@ -50,6 +71,7 @@ const PatientsListTable = ({ qiMarkedList, count, setCount, dailyDate, depName, 
         <Fragment>
             {qiflag === 1 ? <EndoscopyModalForQI open={modalopen} setQiflag={setQiflag} handleClose={handleClose} rowSelect={rowSelect}
                 count={count} setCount={setCount} dailyDate={dailyDate} depName={depName} qidept={qidept} RefreshData={RefreshData}
+                WaitingTimeData={WaitingTimeData}
             />
                 : null}
             < Paper variant='outlined' square >

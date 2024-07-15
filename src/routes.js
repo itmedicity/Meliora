@@ -210,6 +210,7 @@ const QiEquipment = React.lazy(() => import('./views/Master/QualityIndicatorMast
 const QiHodAprv = React.lazy(() => import('./views/QualityIndicatorNew/HODApproval'))
 const CrfNoBased = React.lazy(() => import('./views/Report/CrmReport/CrfNoBasedReport'))
 const UserAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserAcknldgeList'))
+const qiWaitingTime = React.lazy(() => import('./views/QualityIndicatorNew/WaitingTimeReport'))
 const TMOverdueCountMaster = React.lazy(() => import('./views/Master/TaskManageMaster/TaskDuedateCount'))
 const TaskPerformanceSheet = React.lazy(() => import('./views/TaskManagement/PerformanceSheet/PerformanceMain'))
 const TaskPerformanceSlide = React.lazy(() => import('./views/TaskManagement/PerformanceMenu/MainPerformane'))
@@ -436,6 +437,7 @@ const routes = [
   { path: '/Home/QiHOD', exact: true, name: 'Level II Approval', component: QiHodAprv },
   { path: '/Home/CrfNoBased', exact: true, name: 'CRF No Based', component: CrfNoBased },
   { path: '/Home/userAckldged', exact: true, name: 'User Acknowledged CRF', component: UserAcknowldged },
+  { path: '/Home/WaitingReport', exact: true, name: 'Waiting Time For Service Diagnostics', component: qiWaitingTime },
   { path: '/Home/TMOverdueCountMaster', exact: true, name: 'TM Overdue Count Master', component: TMOverdueCountMaster },
   { path: '/Home/TaskPerformanceSheet', exact: true, name: 'Task Performance Sheet', component: TaskPerformanceSheet },
   { path: '/Home/TaskPerformanceSlide', exact: true, name: 'Task Performance Slide', component: TaskPerformanceSlide },

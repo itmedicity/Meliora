@@ -272,7 +272,7 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
                             <>
                                 <PatientsListTable qiMarkedList={qiMarkedList} setqiMarkFlag={setqiMarkFlag} count={count}
                                     setCount={setCount} dailyDate={dailyDate} depName={depName} qidept={qidept} qitype={qitype}
-                                    RefreshData={RefreshData}
+                                    RefreshData={RefreshData} depCode={depCode}
                                 />
                             </>
                             : null}
