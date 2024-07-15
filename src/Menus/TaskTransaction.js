@@ -42,13 +42,22 @@ const TaskTransaction = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 
-    // {
-    //     men_slno: 42,
-    //     component: CNavItem,
-    //     name: 'Home',
-    //     to: '/Home/TaskHome',
-    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    // },
+    {
+        men_slno: 172,
+        component: CNavItem,
+        name: 'Performance Sheet',
+        to: '/Home/TaskPerformanceSheet',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
+    {
+        men_slno: 173,
+        component: CNavItem,
+        name: 'Performance Slides',
+        to: '/Home/TaskPerformanceSlide',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
 
     // {
     //     men_slno: 174,
@@ -57,28 +66,9 @@ const TaskTransaction = [
     //     to: '/Home/TaskManagementDeptProjects',
     //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     // },
-    // {
-    //     men_slno: 173,
-    //     component: CNavItem,
-    //     name: 'Goals',
-    //     to: '/Home/TaskManagementDeptGoals',
-    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    // },
-    // {
-    //     men_slno: 170,
-    //     component: CNavItem,
-    //     name: 'All Department Task',
-    //     to: '/Home/TaskManagementCreateTask',
-    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    // },
 
-    // {
-    //     men_slno: 172,
-    //     component: CNavItem,
-    //     name: 'All Department Projects',
-    //     to: '/Home/TaskManagementProject',
-    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    // },
+
+
 
 
 

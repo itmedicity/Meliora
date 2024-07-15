@@ -41,7 +41,6 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                     return !newData.find((value) => value.tm_task_slno === val.tm_task_slno)
                 })
                 setOtherempTask(otherTaskks)
-
             }
             else {
                 setAllTaskUnderProject([])
@@ -74,11 +73,11 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
             >
                 < ModalDialog
                     sx={{
-
                         width: '90vw',
                         bgcolor: 'white',
                         borderRadius: 20,
-                        height: '100vh',
+                        height: '90vh',
+                        overflow: 'auto'
                     }}
                 >
                     <Box >

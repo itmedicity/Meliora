@@ -16,7 +16,6 @@ const DeptProjects = ({ setTableCount, tableCount }) => {
     const [projectData, setProjectData] = useState([])
     const [editProjectFlag, setEditProjectFlag] = useState(0)
     const [editProjectModalOpen, setEditProjectModalOpen] = useState(false)
-
     const empsecid = useSelector((state) => {
         return state.LoginUserData.empsecid
     })
@@ -146,13 +145,13 @@ const DeptProjects = ({ setTableCount, tableCount }) => {
                                     <Box sx={{ width: 600, }}>
                                         {val.tm_project_status === 1 ?
                                             <Box sx={{ width: 600, fontWeight: 600, color: 'grey', fontSize: 12, pl: 1, textTransform: 'capitalize' }}>
-                                                {val.tm_goal_name}
+                                                {val.tm_goal_name || 'not given'}
                                             </Box> :
                                             <Box sx={{
                                                 width: 600, fontWeight: 600, color: isPastDue(val.tm_task_due_date) ? '#B32600' : 'grey', fontSize: 12, pl: 1,
                                                 textTransform: 'capitalize'
                                             }}>
-                                                {val.tm_goal_name}
+                                                {val.tm_goal_name || 'not given'}
                                             </Box>
                                         }
                                     </Box>

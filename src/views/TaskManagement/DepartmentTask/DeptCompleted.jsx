@@ -53,6 +53,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                             tm_task_status: val.tm_task_status,
                             tm_complete_date: val.tm_complete_date,
                             tm_task_file: val.tm_task_file,
+                            tm_mast_duedate_count: val.tm_mast_duedate_count,
                             TaskStatus: val.tm_task_status === 1 ? 'Completed' :
                                 val.tm_task_status === 1 ? 'Completed' :
                                     val.tm_task_status === 2 ? 'On Progress' :

@@ -370,7 +370,6 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     }, [postProgress, setprogressCount, tableCount, setTableCount, progressCount, ProgressDate])
     const rowSelect = useCallback((data) => {
         setvalue(1)
-
         const {
             progress_slno,
             tm_task_slno,
@@ -378,11 +377,9 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             tm_progres_date,
             progress_emp,
             tm_task_progress
-
         } = data
 
         const frmdata = {
-
             PrgSlNo: progress_slno,
             tm_task_slno: tm_task_slno,
             tm_task_status: tm_task_status,
@@ -420,6 +417,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const openAddSubtask = useCallback((e) => {
         setflag(1)
     }, [setflag])
+
     const selectForEditsSubTask = useCallback((value) => {
         setflag(2)
         setsubTaskData(value)
@@ -885,8 +883,6 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                             setflag={setflag}
                                                             setprojectz={setprojectz}
                                                             projectz={projectz}
-
-
                                                         />
                                                     </Box>
                                                     :
@@ -933,7 +929,7 @@ const EmpTaskStatus = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                             </Box>
                         </Box>
                         <DialogActions>
-                            <Box sx={{ textAlign: 'right' }}>
+                            <Box sx={{ textAlign: 'right', pb: 2, pr: 2 }}>
                                 <Button
                                     variant="plain"
                                     onClick={UpdateStatus}
