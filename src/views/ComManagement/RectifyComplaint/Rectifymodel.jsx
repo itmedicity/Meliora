@@ -1,19 +1,22 @@
-import React, { Fragment, useState, useEffect, memo, useCallback } from 'react'
+import React, { Fragment, useState, useEffect, memo, useCallback, useMemo } from 'react'
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import { ToastContainer } from 'react-toastify';
-import { Box, Paper, Typography } from '@mui/material'
+import { Box, Paper, Typography, Tooltip } from '@mui/material'
 import Button from '@mui/material/Button';
-import { errorNotify, infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+import { errorNotify, infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { axioslogin } from 'src/views/Axios/Axios';
 import CustomTextarea from 'src/views/Components/CustomTextarea';
 import { format } from 'date-fns'
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import Checkbox from '@mui/material/Checkbox';
 import { useSelector } from 'react-redux';
+import AssetListUnderDeptSec from './AssetListUnderDeptSec';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -22,6 +25,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
+
     //intialisation
     const [rectify, setrectify] = useState({
         complaint_slno: 0,
@@ -30,13 +34,15 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
         complaint_dept_name: '',
         complaint_type_name: '',
         hic_policy_name: '',
-        compalint_date: ''
+        compalint_date: '',
+        location: '',
+        cm_location: ''
+
     })
     const [assignRemark, SetAssignRemark] = useState('')
     //destrucutring
-    const { complaint_slno, complaint_desc,
-        sec_name, em_name, date, Time, compalint_status
-    } = rectify
+    const { complaint_slno, complaint_desc, sec_name, em_name, date, Time, compalint_status, location,
+        cm_location } = rectify
 
     const [select, setSelect] = useState(false)
     const updateSelect = (e) => {
@@ -61,10 +67,12 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
             setEmployee(newarry)
         }
     }
+
     //setting data to be displayed in modal
     useEffect(() => {
         const rectifyfunction = () => {
-            const { complaint_slno, complaint_desc, req_type_name, complaint_dept_name, complaint_type_name, hic_policy_name, compalint_date, sec_name, em_name,
+            const { complaint_slno, complaint_desc, req_type_name, complaint_dept_name, complaint_type_name,
+                hic_policy_name, compalint_date, sec_name, em_name, location, cm_location,
                 date, Time, compalint_status, complaint_remark, cm_rectify_status, rectify_pending_hold_remarks
             } = detail[0]
             const frmdata = {
@@ -79,7 +87,10 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                 em_name: em_name,
                 date: date,
                 Time: Time,
-                compalint_status: compalint_status
+                compalint_status: compalint_status,
+                location: location,
+                cm_location: cm_location
+
             }
             setrectify(frmdata)
             setHold(cm_rectify_status === 'O' ? true : false);
@@ -89,6 +100,27 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
         }
         rectifyfunction()
     }, [detail])
+    const [assetDetalDataFlag, setAssetDetlDataFlag] = useState(0)
+    const [assetDetalData, setAssetDetlData] = useState([])
+    useEffect(() => {
+        const getAssetDetails = async (complaint_slno) => {
+            const result = await axioslogin.get(`Rectifycomplit/AssetDetailsGet/${complaint_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setAssetDetlDataFlag(1)
+                setAssetDetlData(data);
+            }
+            else {
+                setAssetDetlDataFlag(0)
+                setAssetDetlData([])
+            }
+        }
+        if (complaint_slno !== 0) {
+            getAssetDetails(complaint_slno)
+        }
+
+    }, [complaint_slno])
+
     //pending checkbox
     const [pending, setPending] = useState(false);
     //hold check box
@@ -204,14 +236,51 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
         setEmployee([])
     };
 
+    const [assetAddFls, setAssetAddFlag] = useState(0)
+    const [cmAssetSlno, setCmAssetSlno] = useState(0)
+    const AddAssetDetaiils = useCallback(() => {
+        setAssetAddFlag(1)
+    }, [])
+
+    const postdata = useMemo(() => {
+        return {
+            cm_complait_slno: complaint_slno,
+            cm_am_assetmap_slno: cmAssetSlno,
+            create_user: id
+        }
+    }, [complaint_slno, cmAssetSlno, id])
+
+
+    const AddAssetToComplaint = useCallback(() => {
+
+        const InsertFun = async (postdata) => {
+            const result = await axioslogin.post('Rectifycomplit/AssetMappComplaint', postdata);
+            const { message, success } = result.data;
+            if (success === 1) {
+                succesNotify(message)
+            }
+            else {
+                infoNotify(message)
+            }
+        }
+        if (cmAssetSlno !== 0) {
+            InsertFun(postdata)
+        } else {
+            warningNotify("Plase select any Asset before Add")
+        }
+
+    }, [postdata, cmAssetSlno])
+
+
     return (
         <Fragment>
             <ToastContainer />
             <Dialog
                 open={open}
-                onClose={handleClose}
                 TransitionComponent={Transition}
                 keepMounted
+                fullWidth
+                maxWidth='md'
                 aria-describedby="alert-dialog-slide-descriptiona"
             >
                 <DialogTitle>
@@ -219,7 +288,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                 </DialogTitle>
                 <DialogContent sx={{
                     width: "100%",
-                    height: 450
+                    height: 500
                 }}>
                     <Box sx={{ width: "100%", mt: 0 }}>
                         <Box>
@@ -293,6 +362,33 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                     <Box>
                                     </Box>
                                 </Box>
+
+                                {/* 5th section */}
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
+                                    p: 0.5,
+                                    mt: 1
+                                }}>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+                                        <Typography>Location</Typography>
+                                    </Box>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                    }} >
+                                        <Typography>{location}</Typography>
+                                    </Box>
+                                    <Box>
+                                    </Box>
+                                </Box>
+
+
+
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
@@ -340,13 +436,138 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                         mt: 0
                                     }} >
                                         <CustomTextarea
-                                            style={{ width: 390 }}
+                                            style={{ width: "100%" }}
                                             minRows={3}
                                             value={complaint_desc}
                                             disabled
                                         />
                                     </Box>
                                 </Box>
+
+
+                                {
+
+                                    assetDetalDataFlag === 1 ? <Box sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        p: 0.5,
+                                    }}>
+
+                                        <Box sx={{
+                                            display: 'flex',
+                                            width: "100%"
+                                        }} >
+                                            <Typography sx={{ textAlign: "center" }}>Asset Detail</Typography>
+                                        </Box>
+
+                                        <Box sx={{ p: 1 }}>
+                                            <TableContainer sx={{ maxHeight: 250 }}>
+                                                <Table size="small"
+                                                    stickyHeader aria-label="sticky table"
+                                                    sx={{ border: "0.2px solid" }}>
+                                                    <TableHead sx={{ border: "1px " }}>
+                                                        <TableRow  >
+                                                            <TableCell align="center" >Sl No</TableCell>
+                                                            <TableCell align="left" > Item Name</TableCell>
+                                                            <TableCell align="left" >Asset No</TableCell>
+                                                        </TableRow>
+                                                    </TableHead>
+                                                    <TableBody>
+
+                                                        {
+                                                            assetDetalData?.map((val, index) => {
+                                                                return <TableRow
+                                                                    key={index}
+                                                                    sx={{
+                                                                        '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
+                                                                        minHeight: 5
+                                                                    }}
+                                                                >
+                                                                    <TableCell align="center">{index + 1}</TableCell>
+                                                                    <TableCell align="left">{val.item_name}</TableCell>
+                                                                    <TableCell align="left">{val.am_asset_no}</TableCell>
+                                                                </TableRow>
+
+                                                            })
+                                                        }
+
+                                                    </TableBody>
+                                                </Table>
+                                            </TableContainer>
+                                        </Box>
+                                    </Box>
+                                        : null
+
+                                }
+                                <Box sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    p: 0.5,
+                                }}>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
+                                        mt: 0
+                                    }} >
+                                        <Box sx={{ display: 'flex', width: "40%", height: 30, pl: 3 }}>
+                                            <Button
+                                                onClick={() => AddAssetDetaiils()}
+                                                variant="contained"
+                                                color="primary">Add Asset Details</Button>
+                                        </Box>
+                                    </Box>
+                                    {assetAddFls === 1 ?
+
+                                        <Box sx={{
+                                            display: 'flex', flexDirection: 'row', flexWrap: 'wrap', pt: 1
+                                        }} >
+
+                                            <Box sx={{ width: '40%', p: 1 }}>
+                                                <AssetListUnderDeptSec cm_location={cm_location}
+                                                    cmAssetSlno={cmAssetSlno} setCmAssetSlno={setCmAssetSlno} />
+
+                                                {/* <SpareListSelect spare={spare} setSpare={setSpare}
+                                                    item_custodian_dept={item_custodian_dept}
+                                                    setSpareNo={setSpareNo} /> */}
+                                            </Box>
+                                            <Box sx={{ width: '5%', pl: 1, pt: 1, cursor: "pointer" }} >
+                                                <Tooltip title="Add Asset" placement="top" >
+                                                    <AddCircleOutlineIcon color='primary'
+                                                        onClick={() => AddAssetToComplaint()} />
+                                                </Tooltip>
+                                            </Box>
+                                        </Box>
+
+                                        // <Box sx={{
+                                        //     width: "100%",
+                                        //     display: "flex",
+                                        //     flexDirection: "row",
+                                        //     pl: 2, pt: 2
+                                        // }}>
+
+                                        //     <Box sx={{
+                                        //         display: 'flex', width: "50%", pl: 3,
+                                        //         backgroundColor: 'red'
+                                        //     }}>
+
+                                        //         <AssetListUnderDeptSec cm_location={cm_location}
+                                        //             cmAssetSlno={cmAssetSlno} setCmAssetSlno={setCmAssetSlno} />
+                                        //     </Box>
+
+
+                                        // </Box>
+                                        : null}
+                                </Box>
+
+
+
+
+
+
+
+
 
                                 <Box sx={{
                                     width: "100%",
@@ -460,7 +681,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                 {
                                     flag === 1 ? <Box sx={{ p: 0.5 }}>
                                         <CustomTextarea
-                                            style={{ width: 390 }}
+                                            style={{ width: "100%" }}
                                             minRows={4}
                                             placeholder=" Pending Remarks"
                                             onchange={updatePendhold}
@@ -468,7 +689,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                         />
                                     </Box> : flag === 2 ? <Box sx={{ p: 0.5 }}>
                                         <CustomTextarea
-                                            style={{ width: 390 }}
+                                            style={{ width: "100%" }}
                                             minRows={4}
                                             placeholder=" On Hold Remarks"
                                             onchange={updatePendhold}
@@ -476,7 +697,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                         />
                                     </Box> : <Box sx={{ p: 0.5 }}>
                                         <CustomTextarea
-                                            style={{ width: 390 }}
+                                            style={{ width: "100%" }}
                                             minRows={4}
                                             placeholder="Remarks"
                                             onchange={updatePendhold}

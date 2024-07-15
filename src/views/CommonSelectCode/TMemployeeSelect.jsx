@@ -39,7 +39,8 @@ const TMemployeeSelect = ({ employee, setEmployee }) => {
                         borderTop: 0,
                         borderLeft: 0,
                         borderRight: 0,
-                        borderBottom: '2px solid',
+                        borderBottom: 0,
+                        pl: 0,
                         borderColor: 'neutral.outlinedBorder',
                         '&:hover': {
                             borderColor: 'neutral.outlinedHoverBorder',
@@ -49,7 +50,7 @@ const TMemployeeSelect = ({ employee, setEmployee }) => {
                             transform: 'scaleX(0)',
                             left: 0,
                             right: 0,
-                            bottom: '-2px',
+                            // bottom: '-2px',
                             top: 'unset',
                             transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
                             borderRadius: 0,
@@ -61,7 +62,7 @@ const TMemployeeSelect = ({ employee, setEmployee }) => {
                     value={employee === 0 ? employees : value}
                     placeholder="search employee"
                     clearOnBlur
-                    style={{ minHeight: 28 }}
+                    style={{ minHeight: 28, fontWeight: 500, }}
                     onChange={(event, newValue) => {
                         setValue(newValue);
                         // setDeptSec(newValue.sec_id)

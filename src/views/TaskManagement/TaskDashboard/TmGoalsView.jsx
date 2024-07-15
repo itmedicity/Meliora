@@ -13,17 +13,11 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
     const [editGoalFlag, setEditGoalFlag,] = useState(0)
     const [masterData, setMasterData] = useState([])
 
-
-
-
-
     const history = useHistory()
     const backtoDash = useCallback(() => {
         history.push('/Home/TaskManagementDashboard')
         setflagGoal(0)
     }, [history, setflagGoal])
-
-
 
     const rowSelectModal = useCallback((value) => {
         setEditGoalFlag(1)
@@ -51,7 +45,7 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                 <Box sx={{ bgcolor: 'white', p: 1, }} >
                     <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', maxHeight: '85vh' }}>
                         {editGoalFlag === 1 ?
-                            <EditGoalCreation open={editGoalModalOpen} setEditGoalModalOpen={setEditGoalModalOpen} goalData={masterData}
+                            <EditGoalCreation open={editGoalModalOpen} setEditGoalModalOpen={setEditGoalModalOpen} goalData={masterData} setgoalData={setMasterData}
                                 setEditGoalFlag={setEditGoalFlag} tableCount={tableCount} setTableCount={setTableCount}
                             />
                             : null}

@@ -17,7 +17,9 @@ import DueDateModal from '../ModalComponent/DueDateModal';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRendering, tableCount, setTableCount, tm_task_due_date }) => {
 
-    const { tm_task_slno, tm_task_status, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, em_name, tm_project_slno, main_task_slno, create_date } = subTaskData
+    const { tm_task_slno, tm_task_status, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, em_name, tm_project_slno, main_task_slno, create_date,
+        tm_mast_duedate_count } = subTaskData
+
 
     const [employeeSubTask, setEmployeeSubTask] = useState(0)
     const dispatch = useDispatch();
@@ -31,6 +33,8 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
     const [checkFlagSub, setcheckFlagSub] = useState(tm_task_status)
     const [valueSubProgress, setvalueSubProgress] = useState(0)
     const [changeAssignee, setchangeAssignee] = useState(0)
+    const [countDue, setcountDue] = useState(0)
+    const [checksubtaskdue, setchecksubtaskdue] = useState('')
     const [subTaskMast, setSubTaskMastEdit] = useState({
         tm_task_slno: '',
         subTaskName: '',
@@ -145,12 +149,29 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         dispatch(getDepartSecemployee(empsecid))
     }, [dispatch, empsecid])
 
+
+    useEffect(() => {
+        const getDueCount = async () => {
+            const result = await axioslogin.get(`/TmAllDeptTask/getDuedateCount/${1}`);
+            const { data } = result.data;
+            if (data.length !== 0) {
+                const { tm_duedate_count } = data[0]
+                setcountDue(tm_duedate_count)
+            }
+            else {
+                setcountDue(0)
+            }
+        }
+        getDueCount()
+    }, [])
+
     useEffect(() => {
         const getSubTask = async (tm_task_slno) => {
             const result = await axioslogin.get(`/taskManagement/subtaskviewByidForEdit/${tm_task_slno}`);
             const { success, data } = result.data;
             if (success === 2) {
                 const { tm_task_name, tm_task_due_date, tm_task_description, tm_task_status } = data[0]
+                setchecksubtaskdue(tm_task_due_date)
                 const formdata = {
                     tm_task_slno: tm_task_slno,
                     subTaskName: tm_task_name,
@@ -201,10 +222,11 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             tm_project_slno: tm_project_slno,
             main_task_slno: main_task_slno,
             tm_task_status: checkFlagSub,
+            tm_mast_duedate_count: (checksubtaskdue !== subTaskDueDate) ? tm_mast_duedate_count + 1 : tm_mast_duedate_count,
             edit_user: id
         }
     }, [tm_task_slno, subTaskName, subTaskDueDate, subTaskDescription, empdept, empsecid, checkFlagSub, completedremarksSub, main_task_slno, completedSub, newDate,
-        pendingremarkSub, tm_project_slno, onholdremarksSub, id])
+        pendingremarkSub, tm_project_slno, onholdremarksSub, checksubtaskdue, tm_mast_duedate_count, id])
 
     const reset = useCallback(() => {
         const frmdata = {
@@ -498,27 +520,36 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                     ></Textarea>
                 </Box>
                 <Box sx={{ flex: .5, mr: 1 }}>
+
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
                         Due Date<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
                     <Box sx={{ display: 'flex' }}>
-                        <Box sx={{ flex: 1 }}>
-                            <TextFieldCustom
-                                type="datetime-local"
-                                size="sm"
-                                name="subTaskDueDate"
-                                value={subTaskDueDate}
-                                onchange={SubTaskUpdate}
-                                // disabled={true}
-                                slotProps={{
-                                    input: {
-                                        min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                        max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
-                                    },
-                                }}
-                                style={{ minHeight: 57 }}
-                            ></TextFieldCustom>
-                        </Box>
+
+                        <Tooltip color="warning" title={tm_mast_duedate_count >= countDue ? 'Cant Change Duedate, Change Limit Exceeded' : ''}>
+                            <Box sx={{ flex: 1 }}>
+                                <Tooltip color="warning" title={tm_task_due_date && moment(new Date()).isAfter(moment(new Date(tm_task_due_date))) ?
+                                    'Due date cannot be changed as the main task due date is overdue' : ''}>
+                                    <Box sx={{ flex: 1 }}>
+                                        <TextFieldCustom
+                                            type="datetime-local"
+                                            size="sm"
+                                            name="subTaskDueDate"
+                                            value={subTaskDueDate}
+                                            onchange={SubTaskUpdate}
+                                            slotProps={{
+                                                input: {
+                                                    min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                    max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
+                                                },
+                                            }}
+                                            style={{ minHeight: 57 }}
+                                            disabled={tm_mast_duedate_count >= countDue || tm_task_due_date && moment(new Date()).isAfter(moment(new Date(tm_task_due_date)))}
+                                        ></TextFieldCustom>
+                                    </Box>
+                                </Tooltip>
+                            </Box>
+                        </Tooltip>
                         <Box sx={{ ml: .2, mt: 1, pt: 1 }}>
                             <Tooltip title={'Changed Duedates'}>
                                 <AutoDeleteTwoToneIcon sx={{ color: '#391306', cursor: 'pointer', }} onClick={getAllDueDates} />

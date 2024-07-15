@@ -44,6 +44,7 @@ const SubtaskTableEmp = ({ tm_task_slno, selectForEditsSubTask, setCompleteFlag,
                         create_date: val.create_date,
                         main_task_slno: val.main_task_slno,
                         tm_complete_date: val.tm_complete_date,
+                        tm_mast_duedate_count: val.tm_mast_duedate_count,
                         TaskStatus: val.tm_task_status === 1 ? 'Completed' :
                             val.tm_task_status === 2 ? 'On Progress' :
                                 val.tm_task_status === 3 ? 'On Hold' :

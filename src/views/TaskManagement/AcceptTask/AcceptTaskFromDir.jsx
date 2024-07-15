@@ -15,9 +15,9 @@ import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import ViewTaskImage from '../TaskFileView/ViewTaskImage';
 import QueryModal from './QueryModal';
 import HelpSharpIcon from '@mui/icons-material/HelpSharp';
-import MarkUnreadChatAltSharpIcon from '@mui/icons-material/MarkUnreadChatAltSharp';
 import ReplyModal from './ReplyModal';
-import ChatSharpIcon from '@mui/icons-material/ChatSharp';
+import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
+import CommentIcon from '@mui/icons-material/Comment';
 
 const AcceptTaskFromDir = () => {
     const [taskList, setTaskList] = useState([])
@@ -33,7 +33,6 @@ const AcceptTaskFromDir = () => {
     const [replyflag, setReplyflag] = useState(0)
     const [replyOpen, setReplyOpen] = useState(false)
     const [valuee, setValuee] = useState([])
-
     const searchData = useMemo(() => {
         return {
             tm_assigne_emp: id,
@@ -76,14 +75,6 @@ const AcceptTaskFromDir = () => {
         setqueryflag(1)
         setValuee(value)
         setqueryOpen(true)
-    }, [])
-
-
-
-    const ReplyDetails = useCallback((value) => {
-        setReplyflag(1)
-        setValuee(value)
-        setReplyOpen(true)
     }, [])
 
     const isPastDue = (tm_task_due_date) => {
@@ -134,25 +125,20 @@ const AcceptTaskFromDir = () => {
 
             {image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
                 selectedImages={selectedImages} getarry={getarry} /> : null}
-
-
             {queryflag === 1 ?
                 <QueryModal open={queryOpen} setqueryOpen={setqueryOpen} valuee={valuee}
                     setqueryflag={setqueryflag} settaskcount={settaskcount} taskcount={taskcount} />
                 : null}
-
             {replyflag === 1 ?
                 <ReplyModal open={replyOpen} setReplyOpen={setReplyOpen} valuee={valuee}
                     setReplyflag={setReplyflag} />
                 : null}
-
             <Box sx={{ flex: 1, height: 35, borderBottom: 1, borderColor: 'lightgrey', pt: .8, pl: .8, color: '#C7C8CB', bgcolor: 'white' }}>
                 Accept/Raise a query
             </Box>
             <Box sx={{ flex: 1, border: .1, m: .3, borderColor: '#EAEAEA', borderRadius: 1, bgcolor: 'white', height: '85vh' }}>
                 <Box sx={{
                     mt: 1, display: 'flex', pb: 1, borderBottom: 3, borderColor: '#DFE3ED'
-
                 }}>
                     <Box sx={{ mt: .8, mx: .5, }}>
                         <CssVarsProvider>
@@ -245,41 +231,18 @@ const AcceptTaskFromDir = () => {
                                                         </CssVarsProvider>
                                                         :
                                                         <>
-                                                            <HelpSharpIcon sx={{ color: 'grey', cursor: 'pointer', }}
-                                                                onClick={() => RejectTask(val)} />Raised a Query </>}
-
-                                                </Box>
-                                                <Box sx={{ flex: .5, pl: 1 }}>
-                                                    {val.tm_detail_status === 0 ?
-                                                        <Box>
-                                                            <ChatSharpIcon sx={{
-                                                                color: 'grey',
-                                                            }}
-                                                            />Reply
-                                                        </Box>
-                                                        :
-                                                        <Box>
-                                                            {val.tm_query_reply !== null ?
-                                                                <MarkUnreadChatAltSharpIcon sx={{
-                                                                    color: '#41729F',
-                                                                    '&:hover': { color: '#274472' }
-                                                                }}
-                                                                    onClick={() => ReplyDetails(val)}
-                                                                /> :
-                                                                <ChatSharpIcon sx={{
-                                                                    color: 'grey',
-                                                                }}
-                                                                />}
-                                                            Reply
-                                                        </Box>
-                                                    }
+                                                            {val.tm_query_status === 2 ?
+                                                                <>
+                                                                    <MarkUnreadChatAltIcon sx={{ color: '#08A0A6', cursor: 'pointer', }}
+                                                                        onClick={() => RejectTask(val)} />Replies
+                                                                </> :
+                                                                <>
+                                                                    <CommentIcon sx={{ color: '#43616F', cursor: 'pointer', }}
+                                                                        onClick={() => RejectTask(val)} />Raised a Query
+                                                                </>}
+                                                        </>}
                                                 </Box>
                                             </Box>
-
-
-
-
-
                                             {
                                                 val.tm_task_status === 1 ?
                                                     <Box sx={{ width: 650, fontWeight: 600, color: 'grey', fontSize: 12, textTransform: 'capitalize', }}>
