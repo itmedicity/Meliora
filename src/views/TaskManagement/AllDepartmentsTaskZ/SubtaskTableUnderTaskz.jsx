@@ -36,6 +36,7 @@ const SubtaskTableUnderTaskz = ({ tm_task_slno, selectForEditsSubTask, tableRend
                         tm_task_due_date: val.tm_task_due_date,
                         tm_task_description: val.tm_task_description,
                         create_date: val.create_date,
+                        tm_mast_duedate_count: val.tm_mast_duedate_count,
                         tm_task_status: val.tm_task_status,
                         TaskStatus: val.tm_task_status === 1 ? 'Completed' :
                             val.tm_task_status === 1 ? 'Completed' :

@@ -58,52 +58,51 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, subtaskv
                 open={SubTaskmodalOpen}>
                 < ModalDialog
                     sx={{
-                        overflow: 'auto',
                         width: '85vw',
-                        maxHeight: '60vw',
                         bgcolor: 'white',
                         borderRadius: 20
                     }}
                 >
-                    <Box>
-                        <Card sx={{ bgcolor: '#52688F' }}>
-                            {tm_project_slno !== null ?
-                                <Box sx={{ flex: 1 }}>
-                                    <Box sx={{ display: 'flex', flex: 1 }}>
-                                        <Box sx={{ fontSize: 30, fontFamily: 'Georgia', pt: .5, color: 'white', pl: 1, flex: 1 }}>
-                                            <AlignHorizontalRightRoundedIcon sx={{ height: 32, width: 32, color: 'white' }} />Project
-                                        </Box>
-                                        <Box>
-                                            <HighlightOffIcon onClick={handleSubtask} sx={{
-                                                cursor: 'pointer', color: 'white',
-                                                '&:hover': { color: '#A0E7E5' },
-                                            }} />
-                                        </Box>
-                                    </Box>
-                                    <Box sx={{ flex: 1 }}>
-                                        <Typography sx={{ color: 'white', fontFamily: 'Georgia', fontSize: 20, pl: 1, flex: 1 }}>{tm_project_name}</Typography>
-                                    </Box>
-                                </Box> : null}
-                            {tm_project_slno !== null ?
-                                <Box sx={{ flex: 1, fontSize: 24, fontFamily: 'Georgia', color: 'white', pl: 1, }}>
-                                    <AssignmentSharpIcon sx={{ height: 30, width: 30, color: 'white' }} />Task
-                                    <Typography sx={{ color: 'white', fontFamily: 'Georgia', fontSize: 16, pl: 1, }}>{tm_task_name}</Typography>
-                                </Box> :
-                                <Box sx={{ display: 'flex' }}>
-                                    <Box sx={{ flex: 1, fontSize: 24, fontFamily: 'Georgia', color: 'white', pl: 1, }}>
-                                        <AssignmentSharpIcon sx={{ height: 30, width: 30, color: 'white' }} />Task
-                                        <Typography sx={{ color: 'white', fontFamily: 'Georgia', fontSize: 16, pl: 1, }}>{tm_task_name}</Typography>
+
+                    <Card sx={{ bgcolor: '#52688F' }}>
+                        {tm_project_slno !== null ?
+                            <Box sx={{ flex: 1 }}>
+                                <Box sx={{ display: 'flex', flex: 1 }}>
+                                    <Box sx={{ fontSize: 30, fontFamily: 'Georgia', pt: .5, color: 'white', pl: 1, flex: 1 }}>
+                                        <AlignHorizontalRightRoundedIcon sx={{ height: 32, width: 32, color: 'white' }} />Project
                                     </Box>
                                     <Box>
                                         <HighlightOffIcon onClick={handleSubtask} sx={{
                                             cursor: 'pointer', color: 'white',
                                             '&:hover': { color: '#A0E7E5' },
-                                        }} /></Box>
-                                </Box>}
-                        </Card>
-                        <Box sx={{ mt: 2.5 }} >
-                            <Box sx={{ flex: 1, display: 'flex', }}>
-                                <Box sx={{ flex: 1, height: 30, bgcolor: '#4F687F', borderRadius: 20, pl: 1, color: 'white' }}>
+                                        }} />
+                                    </Box>
+                                </Box>
+                                <Box sx={{ flex: 1 }}>
+                                    <Typography sx={{ color: 'white', fontFamily: 'Georgia', fontSize: 20, pl: 1, flex: 1 }}>{tm_project_name}</Typography>
+                                </Box>
+                            </Box> : null}
+                        {tm_project_slno !== null ?
+                            <Box sx={{ flex: 1, fontSize: 24, fontFamily: 'Georgia', color: 'white', pl: 1, }}>
+                                <AssignmentSharpIcon sx={{ height: 30, width: 30, color: 'white' }} />Task
+                                <Typography sx={{ color: 'white', fontFamily: 'Georgia', fontSize: 16, pl: 1, }}>{tm_task_name}</Typography>
+                            </Box> :
+                            <Box sx={{ display: 'flex' }}>
+                                <Box sx={{ flex: 1, fontSize: 24, fontFamily: 'Georgia', color: 'white', pl: 1, }}>
+                                    <AssignmentSharpIcon sx={{ height: 30, width: 30, color: 'white' }} />Task
+                                    <Typography sx={{ color: 'white', fontFamily: 'Georgia', fontSize: 16, pl: 1, }}>{tm_task_name}</Typography>
+                                </Box>
+                                <Box>
+                                    <HighlightOffIcon onClick={handleSubtask} sx={{
+                                        cursor: 'pointer', color: 'white',
+                                        '&:hover': { color: '#A0E7E5' },
+                                    }} /></Box>
+                            </Box>}
+                    </Card>
+                    <Box sx={{ height: '60vw', overflow: 'auto', }}>
+                        <Box sx={{ mt: 1.8 }} >
+                            <Box sx={{ flex: 1, display: 'flex', mb: .8 }}>
+                                <Box sx={{ flex: 1, height: 30, bgcolor: '#4F687F', borderRadius: 20, pl: 1, color: 'white', pr: 1 }}>
                                     <AssignmentSharpIcon sx={{ color: 'white' }} /> Subtask assigned to {capEmpName}
                                 </Box>
                                 <Box sx={{ flex: 3 }}>
@@ -114,12 +113,13 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, subtaskv
                                     <Box>
                                         {empTask && empTask.map((val,) => {
                                             return <Box key={val.tm_task_slno} sx={{
-                                                flex: 1, bgcolor: 'white', minHeight: 20, maxHeight: 90, display: 'flex', mb: .5, borderBottom: 1, pb: .5, borderColor: '#C3E0E5'
+                                                flex: 1,
+                                                maxHeight: 100, display: 'flex', mb: .5, borderBottom: 1, borderColor: '#C3E0E5'
                                             }}                                        >
-                                                <Box sx={{ px: .6, pt: 1 }}>
+                                                <Box sx={{ px: .6, pt: .5 }}>
                                                     <ListSharpIcon fontSize='small' sx={{ color: '#435D84' }} />
                                                 </Box>
-                                                <Box sx={{ flex: 3, pt: 1.5 }}>
+                                                <Box sx={{ flex: 3, pt: 1.2 }}>
                                                     {val.tm_task_status === 1 ?
                                                         <FormLabel sx={{
                                                             fontSize: 12, textTransform: 'capitalize', cursor: 'grab',
@@ -208,10 +208,9 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, subtaskv
                             <Box >
                                 {
                                     otherempTask && otherempTask.map((val,) => {
-                                        // let create_empnamee = val.create_empname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-                                        let assignedEmp_name = val.task_empname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                                        let assignedEmp_name = val.task_empname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
                                         return <Box key={val.tm_task_slno} sx={{
-                                            flex: 1, bgcolor: 'white', maxHeight: 120, display: 'flex', mb: .5, borderBottom: 1, pb: .5, borderColor: '#C3E0E5'
+                                            flex: 1, bgcolor: 'white', maxHeight: 120, display: 'flex', mb: .5, borderBottom: 1, borderColor: '#C3E0E5'
                                         }}
                                         >
                                             <Box sx={{ px: .6, pt: 1 }}>

@@ -37,7 +37,7 @@ const EditTaskInDir = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     statuscount, setstatuscount, projectcount, setProjectcount, }) => {
 
     const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, em_name, create_date, tm_project_name, tm_task_due_date, tm_task_dept, tm_task_dept_sec,
-        tm_project_duedate } = masterData
+        tm_project_duedate, tm_mast_duedate_count } = masterData
 
     const dispatch = useDispatch();
     const [departmentMast, setdepartmentMast] = useState(tm_task_dept)
@@ -65,6 +65,7 @@ const EditTaskInDir = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const [addProjectFlag, setAddProjectFlag] = useState(0)
     const [addProjectModalOpen, setaddProjectlModalOpen] = useState(false)
     const [dueDateProject, setdueDateProject] = useState('')
+    const [countDue, setcountDue] = useState(0)
     let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const id = useSelector((state) => { return state.LoginUserData.empid })
 
@@ -203,6 +204,21 @@ const EditTaskInDir = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             tm_task_slno: tm_task_slno
         }
     }, [tm_task_slno])
+
+    useEffect(() => {
+        const getDueCount = async () => {
+            const result = await axioslogin.get(`/TmAllDeptTask/getDuedateCount/${1}`);
+            const { data } = result.data;
+            if (data.length !== 0) {
+                const { tm_duedate_count } = data[0]
+                setcountDue(tm_duedate_count)
+            }
+            else {
+                setcountDue(0)
+            }
+        }
+        getDueCount()
+    }, [])
 
     useEffect(() => {
         const getProgress = async () => {
@@ -409,10 +425,11 @@ const EditTaskInDir = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             tm_completed_remarks: completedRemarks === '' ? null : completedRemarks,
             tm_project_slno: projectz === 0 ? null : projectz,
             tm_complete_date: completed === true ? newDate : null,
+            tm_mast_duedate_count: (tm_task_due_date !== dueDate) ? tm_mast_duedate_count + 1 : tm_mast_duedate_count,
             edit_user: id,
         }
     }, [tm_task_slno, taskName, checkFlag, dueDate, description, departmentMast, departmentSecMast, pendingRemarks, onHoldRemaks, completedRemarks, projectz,
-        completed, newDate, id])
+        completed, newDate, tm_mast_duedate_count, tm_task_due_date, id])
 
     const postEmpDetails = employeeMast && employeeMast.map((val) => {
         return {
@@ -753,33 +770,38 @@ const EditTaskInDir = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     pt: 1.8, pr: 1, pl: 2
                                 }}>
                                     Duedate <span style={{ color: '#74112F', fontSize: 15 }} >*</span></Typography>
-                                <Box sx={{ flex: 2.5, pt: .4 }}>
-                                    {tm_project_slno !== null ?
-                                        <Inputcomponent
-                                            type="datetime-local"
-                                            name="dueDate"
-                                            value={dueDate}
-                                            slotProps={{
-                                                input: {
-                                                    min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                                    max: moment(new Date(tm_project_duedate)).format('YYYY-MM-DD HH:mm:ss'),
-                                                },
-                                            }}
-                                            onchange={taskDataUpdate}
-                                        /> :
-                                        <Inputcomponent
-                                            type="datetime-local"
-                                            name="dueDate"
-                                            value={dueDate}
-                                            slotProps={{
-                                                input: {
-                                                    min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                                    max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss'),
-                                                },
-                                            }}
-                                            onchange={taskDataUpdate}
-                                        />}
-                                </Box>
+                                <Tooltip color="warning" title={tm_mast_duedate_count >= countDue ? 'Cant Change Duedate, Change Limit Exceeded' : ''}>
+                                    <Box sx={{ flex: 2.5, pt: .4 }}>
+                                        {tm_project_slno !== null ?
+                                            <Inputcomponent
+                                                type="datetime-local"
+                                                name="dueDate"
+                                                value={dueDate}
+                                                slotProps={{
+                                                    input: {
+                                                        min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                        max: moment(new Date(tm_project_duedate)).format('YYYY-MM-DD HH:mm:ss'),
+                                                    },
+                                                }}
+                                                onchange={taskDataUpdate}
+                                                disabled={tm_mast_duedate_count >= countDue}
+                                            /> :
+                                            <Inputcomponent
+                                                type="datetime-local"
+                                                name="dueDate"
+                                                value={dueDate}
+                                                slotProps={{
+                                                    input: {
+                                                        min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                        max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss'),
+                                                    },
+                                                }}
+                                                onchange={taskDataUpdate}
+                                                disabled={tm_mast_duedate_count >= countDue}
+                                            />}
+
+                                    </Box>
+                                </Tooltip>
                                 <Box>
                                     <Tooltip title={'changed duedates'}>
                                         <AutoDeleteTwoToneIcon sx={{

@@ -52,6 +52,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
         dispatch(getDepartSecemployee(empsecid))
     }, [dispatch, empsecid])
 
+
     useEffect(() => {
         dispatch(getProjectList())
     }, [dispatch,])

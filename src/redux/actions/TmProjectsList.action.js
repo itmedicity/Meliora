@@ -6,7 +6,7 @@ const { FETCH_PROJECTS_TASKMANAGEMENT } = ActionTyps
 
 
 export const getProjectList = () => async (dispatch) => {
-    const result = await axioslogin.get('/TmDropDowns/getprojects')
+    const result = await axioslogin.get('TmDropDowns/getprojects')
     const { success, data } = result.data
     if (success === 1) {
         dispatch({ type: FETCH_PROJECTS_TASKMANAGEMENT, payload: data, loadingStatus: true })

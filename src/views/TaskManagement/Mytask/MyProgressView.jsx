@@ -91,9 +91,7 @@ const MyProgressView = () => {
             <Box>
                 {empProject.length !== 0 ?
                     <Box sx={{ mt: .5, minHeight: 100 }}>
-
                         <Box sx={{ flex: 1, borderBottom: 1, borderBottomColor: '#BDC6D9', mx: 3 }}></Box>
-
                         {
                             empProject && empProject.map((val,) => {
                                 return <Box key={val.tm_project_slno} sx={{
@@ -126,19 +124,17 @@ const MyProgressView = () => {
 
                                     </Box>
                                     <Box sx={{ flex: 1, pt: .5, pl: 2, }}>
-                                        <Tooltip>
-                                            {val.tm_project_status !== 1 ?
-                                                <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 150, pl: 1, fontSize: 12 }}>
-                                                    <CountDowncomponent DueDates={val.tm_project_duedate} />
-                                                </Box> :
-                                                <Box sx={{
-                                                    bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 150, pl: 5, color: 'darkgreen',
-                                                    fontSize: 12
-                                                }}>
-                                                    Completed
-                                                </Box>
-                                            }
-                                        </Tooltip>
+                                        {val.tm_project_status !== 1 ?
+                                            <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 150, pl: 1, fontSize: 12 }}>
+                                                <CountDowncomponent DueDates={val.tm_project_duedate} />
+                                            </Box> :
+                                            <Box sx={{
+                                                bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: 150, pl: 5, color: 'darkgreen',
+                                                fontSize: 12
+                                            }}>
+                                                Completed
+                                            </Box>
+                                        }
                                     </Box>
                                     <Box sx={{ flex: 1, pt: 1, pl: 2, }}>
                                         <Tooltip title="Project Created Date" >
