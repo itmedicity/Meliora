@@ -17,7 +17,6 @@ import QueryModal from './QueryModal';
 import HelpSharpIcon from '@mui/icons-material/HelpSharp';
 import ReplyModal from './ReplyModal';
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
-import CommentIcon from '@mui/icons-material/Comment';
 
 const AcceptTaskFromDir = () => {
     const [taskList, setTaskList] = useState([])
@@ -233,11 +232,11 @@ const AcceptTaskFromDir = () => {
                                                         <>
                                                             {val.tm_query_status === 2 ?
                                                                 <>
-                                                                    <MarkUnreadChatAltIcon sx={{ color: '#08A0A6', cursor: 'pointer', }}
+                                                                    <MarkUnreadChatAltIcon sx={{ color: '#08AD3F', cursor: 'pointer', }}
                                                                         onClick={() => RejectTask(val)} />Replies
                                                                 </> :
                                                                 <>
-                                                                    <CommentIcon sx={{ color: '#43616F', cursor: 'pointer', }}
+                                                                    <HelpSharpIcon sx={{ color: 'grey', cursor: 'pointer', }}
                                                                         onClick={() => RejectTask(val)} />Raised a Query
                                                                 </>}
                                                         </>}

@@ -111,6 +111,8 @@ const ProjectCreation = ({ open, setAddProjectFlag, setaddProjectlModalOpen, tab
         }
     }, [postProject, tableCount, tm_project_name, goalz, CloseProject, dispatch, reset, setTableCount, tm_project_duedate])
 
+    const isGoalOverdue = moment().isAfter(moment(dueDateGoal));
+
     return (
         <Box>
             {addGoalFlag === 1 ? <GoalCreation open={addGoalModalOpen} setTableCount={setTableCount} tableCount={tableCount}
@@ -180,23 +182,35 @@ const ProjectCreation = ({ open, setAddProjectFlag, setaddProjectlModalOpen, tab
                                 <Box sx={{ flex: 1, mx: 3, mt: 3, }}>
                                     <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, textUnderline: 1, fontSize: 12 }}>Due Date
                                         <span style={{ color: '#74112F', fontSize: 15 }} >*</span></Typography>
-                                    <Inputcomponent
+                                    <Tooltip
+                                        title={
+                                            isGoalOverdue
+                                                ? "Due date cannot be added, selected Goal is already overdue. To add Project due date, please update the Goal's due date."
+                                                : ''
+                                        }
+                                        placement="bottom"
+                                        color='warning'
+                                    >
+                                        <div>
+                                            <Inputcomponent
+                                                type="datetime-local"
+                                                name="tm_project_duedate"
+                                                value={tm_project_duedate}
+                                                slotProps={{
+                                                    input: {
+                                                        min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                        max: moment(new Date(dueDateGoal)).format('YYYY-MM-DD HH:mm:ss'),
+                                                    },
+                                                }}
+                                                disabled={isGoalOverdue}
+                                                onchange={ProjectMastUpdate}
+                                            />
+                                        </div>
+                                    </Tooltip>
 
-                                        type="datetime-local"
-                                        name="tm_project_duedate"
-                                        value={tm_project_duedate}
-                                        slotProps={{
-                                            input: {
-                                                min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                                max: moment(new Date(dueDateGoal)).format('YYYY-MM-DD HH:mm:ss'),
-                                            },
-                                        }}
-                                        onchange={ProjectMastUpdate}
-                                    />
                                 </Box>
                                 <Box sx={{ mt: 3, mx: 3 }}>
                                     <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, textUnderline: 1, fontSize: 12 }}>Describtion</Typography>
-
                                     <Textarea
                                         minRows={1}
                                         maxRows={5}

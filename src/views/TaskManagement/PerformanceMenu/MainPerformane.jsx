@@ -33,7 +33,7 @@ const MainPerformane = () => {
     const [taskPerformance, setTaskPerformance] = useState(0)
     const [empTotalComplaints, setEmpTotalComplaints] = useState(0)
     const [empLinearComptProg, setEmpLinearComptProg] = useState(0)
-    const [empRectComplt, setEmpRectComplt] = useState(0)
+    const [emptotCompltedComplaints, setEmptotCompltedComplaints] = useState(0)
     const [pendingToday, setpendingToday] = useState(0)
     const [empRctfytodayComplt, setEmpRctTodayCmplt] = useState(0)
     const [empTotalTask, setempTotalTask] = useState(0)
@@ -45,11 +45,13 @@ const MainPerformane = () => {
     let designation = employeeDesignation.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     const [EmpTotalWithouthold, setEmpTotalWithouthold] = useState(0)
     const [AdjustedCompleteion, setAdjustedCompleteion] = useState(0)
-    const TotalPerformance = (EmpTotalWithouthold + empTotalComplaints) === 0 ? 0 : (((AdjustedCompleteion + empRectComplt) / (EmpTotalWithouthold + empTotalComplaints)) * 100)
+    const TotalPerformance = (EmpTotalWithouthold + empTotalComplaints) === 0 ? 0 : (((AdjustedCompleteion + emptotCompltedComplaints) / (EmpTotalWithouthold + empTotalComplaints)) * 100)
     const overAllPerformance = Number.isInteger(TotalPerformance) ? Number(TotalPerformance.toFixed(0)) : Number(TotalPerformance.toFixed(2));
     const [OverdueTaskList, setOverdueTaskList] = useState([])
     const [totalPending, setTotalPending] = useState(0)
     const [totalPendingComplnt, setTotalPendingComplnt] = useState(0)
+    const [empVerifiedToday, setverifiedToday] = useState(0)
+
 
     const monthChange = useCallback((e) => {
         const value = e.target.value
@@ -169,7 +171,6 @@ const MainPerformane = () => {
                 setEmpCompltTodayTask(0)
             }
         }
-
         getMasterTable(employee)
         const interval = setInterval(() => {
             getMasterTable(employee)
@@ -215,9 +216,6 @@ const MainPerformane = () => {
         return () => clearInterval(interval);
     }, [employee])
 
-
-
-
     useEffect(() => {
         const getEmployeeComplaints = async () => {
             const result = await axioslogin.post('/TmGraph/getAllComplaintsfromtodate', searchEmployeeComplaintData);
@@ -226,24 +224,31 @@ const MainPerformane = () => {
                 const totalComplaints = data.length;
                 const RectifiedComplints = data.filter(item => item.cm_rectify_status === 'R').length;
                 const OnholdComplaints = data.filter(item => item.cm_rectify_status === 'O').length;
-                const ComplaintEmpProgress = (RectifiedComplints + totalComplaints) === 0 ? 0 : ((RectifiedComplints / totalComplaints) * 100)
+                const verifiedComplints = data.filter(item => item.cm_rectify_status === 'V').length;
+                const emptotCompltedComplaints = RectifiedComplints + verifiedComplints
+                const ComplaintEmpProgress = (emptotCompltedComplaints + totalComplaints) === 0 ? 0 : ((emptotCompltedComplaints / totalComplaints) * 100)
                 const complaintsToday = data.filter(item => isToday(item.compalint_date)).length;
                 const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time)).length;
-                const pendingToday = data.filter(item => item.cm_rectify_status !== 'R' && isToday(item.compalint_date)).length;
+                const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_rectify_time)).length;
+                const pendingToday = data.filter(item =>
+                    ((item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'V') || item.cm_rectify_status === null) &&
+                    isToday(item.compalint_date)
+                ).length;
                 const totallWithoutHold = totalComplaints - OnholdComplaints
-                const ComplaintPerformnce = (RectifiedComplints + totallWithoutHold) === 0 ? 0 : (RectifiedComplints / totallWithoutHold) * 100
+                const ComplaintPerformnce = (emptotCompltedComplaints + totallWithoutHold) === 0 ? 0 : (emptotCompltedComplaints / totallWithoutHold) * 100
                 setEmpTotalComplaints(totalComplaints)
                 setEmpLinearComptProg(ComplaintEmpProgress)
                 setEmpComplaintsToday(complaintsToday)
                 setEmpRctTodayCmplt(rectifiedToday)
-                setEmpRectComplt(RectifiedComplints)
+                setEmptotCompltedComplaints(emptotCompltedComplaints)
                 setpendingToday(pendingToday)
+                setverifiedToday(verifiedToday)
                 setComplPerfm(Number.isInteger(ComplaintPerformnce) ? ComplaintPerformnce.toFixed(0) : ComplaintPerformnce.toFixed(2))
             } else {
                 setEmpTotalComplaints(0)
                 setEmpLinearComptProg(0)
                 setEmpRctTodayCmplt(0)
-                setEmpRectComplt(0)
+                setEmptotCompltedComplaints(0)
                 setpendingToday(0)
                 setComplPerfm(0)
             }
@@ -317,9 +322,6 @@ const MainPerformane = () => {
         }, 3600000);
         return () => clearInterval(interval);
     }, [searchEmployeeTaskData])
-
-
-
 
     useEffect(() => {
         const getEmployeeImage = async (employee) => {
@@ -488,8 +490,8 @@ const MainPerformane = () => {
                         </Box>
 
                         <Box sx={{ flex: 1, px: 2.5, }}>
-                            <Typography sx={{ pt: 3, fontWeight: 600, color: '#492B08', fontSize: 22 }}>Complaints</Typography>
-                            <Typography sx={{ pl: 1, pt: .5, fontSize: 20, color: '#492B08', px: .5 }}>{empRectComplt}/{empTotalComplaints}</Typography>
+                            <Typography sx={{ pt: 3, fontWeight: 600, color: '#492B08', fontSize: 22 }}>Complaints </Typography>
+                            <Typography sx={{ pl: 1, pt: .5, fontSize: 20, color: '#492B08', px: .5 }}>{emptotCompltedComplaints}/{empTotalComplaints}</Typography>
                             <Box sx={{ px: .5 }}>
                                 <CssVarsProvider>
                                     <LinearProgress
@@ -520,7 +522,7 @@ const MainPerformane = () => {
                             <Paper sx={{ flex: 1, width: 100, mx: 1, border: 1, borderColor: '#DFE3ED', borderRadius: 5, bgcolor: '#F7F2EF' }}>
 
                                 <Typography sx={{ flex: 1, fontSize: 55, textAlign: 'center', fontWeight: 600, color: 'darkgreen', pt: 1 }}>
-                                    {empRctfytodayComplt}
+                                    {empRctfytodayComplt + empVerifiedToday}
                                 </Typography>
                                 <Typography sx={{ flex: 1, fontSize: 25, pb: .8, textAlign: 'center', color: 'grey', }}>
                                     Rectified Today
@@ -563,54 +565,56 @@ const MainPerformane = () => {
                             <Typography sx={{ flex: 2, display: 'flex', justifyContent: 'flex-end', mr: 2, fontSize: 25, color: 'grey' }}>  Countdown
                             </Typography>
                         </Box>
-                        {taskInSevnDays.length !== 0 || OverdueTaskList.length !== 0 ?
-                            <>
+                        <Box sx={{ height: '70vh', overflow: 'auto' }}>
+                            {taskInSevnDays.length !== 0 || OverdueTaskList.length !== 0 ?
+                                <>
+                                    <Box sx={{ flex: 1, mt: 5 }}>
+                                        {OverdueTaskList && OverdueTaskList
+                                            .sort((a, b) => a.tm_task_slno - b.tm_task_slno)
+                                            .map((val) => {
+                                                return (
+                                                    <Box key={val.tm_task_slno} sx={{ flex: 1, display: 'flex', mb: 2 }}>
+                                                        <Box sx={{ flex: .6, fontSize: 30, pl: 4 }}>
+                                                            {val.tm_task_slno}
+                                                        </Box>
+                                                        <Box sx={{ flex: 2, fontWeight: 600, color: 'grey', fontSize: 30 }}>
+                                                            <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: '100%', pl: 1, height: '100%' }}>
+                                                                <CountDowncomponent DueDates={val.tm_task_due_date} />
+                                                            </Box>
+                                                        </Box>
+                                                    </Box>
+                                                );
+                                            })
+                                        }
+                                    </Box>
+
+                                    <Box sx={{ flex: 1, mt: 1 }}>
+                                        {taskInSevnDays && taskInSevnDays
+                                            .sort((a, b) => a.tm_task_slno - b.tm_task_slno)
+                                            .map((val) => {
+                                                return (
+                                                    <Box key={val.tm_task_slno} sx={{ flex: 1, display: 'flex', mb: 2 }}>
+                                                        <Box sx={{ flex: .6, fontSize: 30, pl: 4.5 }}>
+                                                            {val.tm_task_slno}
+                                                        </Box>
+                                                        <Box sx={{ flex: 2, fontWeight: 600, color: 'grey', fontSize: 30 }}>
+                                                            <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: '100%', pl: 1, height: '100%' }}>
+                                                                <CountDowncomponent DueDates={val.tm_task_due_date} />
+                                                            </Box>
+                                                        </Box>
+                                                    </Box>
+                                                );
+                                            })
+                                        }
+                                    </Box>
+                                </>
+                                :
                                 <Box sx={{ flex: 1, mt: 5 }}>
-                                    {OverdueTaskList && OverdueTaskList
-                                        .sort((a, b) => a.tm_task_slno - b.tm_task_slno)
-                                        .map((val) => {
-                                            return (
-                                                <Box key={val.tm_task_slno} sx={{ flex: 1, display: 'flex', mb: 2 }}>
-                                                    <Box sx={{ flex: .6, fontSize: 30, pl: 4 }}>
-                                                        {val.tm_task_slno}
-                                                    </Box>
-                                                    <Box sx={{ flex: 2, fontWeight: 600, color: 'grey', fontSize: 30 }}>
-                                                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: '100%', pl: 1, height: '100%' }}>
-                                                            <CountDowncomponent DueDates={val.tm_task_due_date} />
-                                                        </Box>
-                                                    </Box>
-                                                </Box>
-                                            );
-                                        })
-                                    }
-                                </Box>
+                                    <Typography sx={{ textAlign: 'center', fontSize: 50, color: 'lightgrey', fontWeight: 600 }}> No Dues
+                                    </Typography>
 
-                                <Box sx={{ flex: 1, mt: 1 }}>
-                                    {taskInSevnDays && taskInSevnDays
-                                        .sort((a, b) => a.tm_task_slno - b.tm_task_slno)
-                                        .map((val) => {
-                                            return (
-                                                <Box key={val.tm_task_slno} sx={{ flex: 1, display: 'flex', mb: 2 }}>
-                                                    <Box sx={{ flex: .6, fontSize: 30, pl: 4.5 }}>
-                                                        {val.tm_task_slno}
-                                                    </Box>
-                                                    <Box sx={{ flex: 2, fontWeight: 600, color: 'grey', fontSize: 30 }}>
-                                                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: .5, width: '100%', pl: 1, height: '100%' }}>
-                                                            <CountDowncomponent DueDates={val.tm_task_due_date} />
-                                                        </Box>
-                                                    </Box>
-                                                </Box>
-                                            );
-                                        })
-                                    }
-                                </Box>
-                            </>
-                            :
-                            <Box sx={{ flex: 1, mt: 5 }}>
-                                <Typography sx={{ textAlign: 'center', fontSize: 50, color: 'lightgrey', fontWeight: 600 }}> No Dues
-                                </Typography>
-
-                            </Box>}
+                                </Box>}
+                        </Box>
                     </Box>
                 </Box>
             </Box>

@@ -157,7 +157,7 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                         Due Date<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
                     <Tooltip color="warning" title={tm_task_due_date && moment(new Date()).isAfter(moment(new Date(tm_task_due_date))) ?
-                        'Unable to add Due date, Main Task due date is Overdue' : ''}>
+                        'Unable to add Due date, Main Task due date is Overdue ,please update Main Task Due date' : ''}>
                         <Box sx={{ flex: 1 }}>
                             <TextFieldCustom
                                 type="datetime-local"

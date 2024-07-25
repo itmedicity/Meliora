@@ -1,7 +1,7 @@
 import { Box, CircularProgress, CssVarsProvider, Input, LinearProgress, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { endOfMonth, format, parse } from 'date-fns';
+import { endOfMonth, endOfYear, format, parse, startOfYear } from 'date-fns';
 import { startOfMonth } from 'date-fns/fp';
 import { axioslogin } from 'src/views/Axios/Axios';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
@@ -33,10 +33,10 @@ const MyPerformance = () => {
     const [empOerdueToday, setEmpOerdueToday] = useState(0)
     const [empCompltTodayTask, setEmpCompltTodayTask] = useState(0)
     const [totalonHold, setTotalonHold] = useState(0)
-
+    const [completedcomplaints, setCompletedcomplaints] = useState(0)
     const [empComplaintsToday, setEmpComplaintsToday] = useState(0)
     const [empTotalComplaints, setEmpTotalComplaints] = useState(0)
-    const [empRctiCompl, setEmpRctiCompl] = useState(0)
+    // const [empRctiCompl, setEmpRctiCompl] = useState(0)
     const [empLinearComptProg, setEmpLinearComptProg] = useState(0)
     const [empOnholdComplaints, setEmpOnholdComplaints] = useState(0)
     const [emplPendingComplints, setEmplPendingComplints] = useState(0)
@@ -47,11 +47,12 @@ const MyPerformance = () => {
     const [complPerfm, setComplPerfm] = useState(0)
     const [EmpTotalWithouthold, setEmpTotalWithouthold] = useState(0)
     const [AdjustedCompleteion, setAdjustedCompleteion] = useState(0)
-    const TotalPerformance = (EmpTotalWithouthold + empTotalComplaints) === 0 ? 0 : (((AdjustedCompleteion + empRctiCompl) / (EmpTotalWithouthold + empTotalComplaints)) * 100)
+    const TotalPerformance = (EmpTotalWithouthold + empTotalComplaints) === 0 ? 0 : (((AdjustedCompleteion + completedcomplaints) / (EmpTotalWithouthold + empTotalComplaints)) * 100)
     const MonthlyPerformance = Number.isInteger(TotalPerformance) ? Number(TotalPerformance.toFixed(0)) : Number(TotalPerformance.toFixed(2));
     const [totalemployeeOverDue, setTotalemployeeOverDue] = useState(0)
     const [emplPendingComplintsMonth, setEmplPendingComplintsMonth] = useState(0)
     const [monthName, setMonthName] = useState('');
+
 
     useEffect(() => {
         const parsedDate = parse(searchMonthAndYear, 'yyyy-MM', new Date());
@@ -67,8 +68,8 @@ const MyPerformance = () => {
 
     const searchEmpProject = useMemo(() => {
         return {
-            from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 00:00:00'),
-            to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 23:59:59'),
+            from: format(startOfYear(new Date(searchMonthAndYear)), 'yyyy-MM-dd 00:00:00'),
+            to: format(endOfYear(new Date(searchMonthAndYear)), 'yyyy-MM-dd 23:59:59'),
             tm_assigne_emp: empid,
         }
     }, [searchMonthAndYear, empid])
@@ -196,17 +197,19 @@ const MyPerformance = () => {
                 const totalComplaints = data.length;
                 const RectifiedComplints = data.filter(item => item.cm_rectify_status === 'R').length;
                 const VerifiedComplints = data.filter(item => item.cm_rectify_status === 'V').length;
+                const Completedcomplaints = RectifiedComplints + VerifiedComplints;
                 const OnholdComplaints = data.filter(item => item.cm_rectify_status === 'O').length;
                 const ReOpenedComplaints = data.filter(item => item.reopen_cm_slno !== null).length;
-                const Pending = data.filter(item => item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'O' && item.cm_rectify_status !== 'V').length;
+                const Pending = data.filter(item => (
+                    (item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'O' && item.cm_rectify_status !== 'V') || item.cm_rectify_status === null
+                )).length;
                 const totallWithoutHold = totalComplaints - OnholdComplaints
-                const ComplaintEmpProgress = (RectifiedComplints + totallWithoutHold) === 0 ? 0 : (RectifiedComplints / totallWithoutHold) * 100
+                const ComplaintEmpProgress = (Completedcomplaints + totallWithoutHold) === 0 ? 0 : (Completedcomplaints / totallWithoutHold) * 100
                 const complaintsToday = data.filter(item => isToday(item.compalint_date)).length;
                 const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time)).length;
-                const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_verfy_time)).length;
-                const ComplaintPerformnce = (RectifiedComplints + totallWithoutHold) === 0 ? 0 : (RectifiedComplints / totallWithoutHold) * 100
+                const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_rectify_time)).length;
+                const ComplaintPerformnce = (Completedcomplaints + totallWithoutHold) === 0 ? 0 : (Completedcomplaints / totallWithoutHold) * 100
                 setEmpTotalComplaints(totalComplaints)
-                setEmpRctiCompl(RectifiedComplints)
                 setEmpLinearComptProg(ComplaintEmpProgress)
                 setEmplPendingComplintsMonth(Pending)
                 setEmpReopendCompln(ReOpenedComplaints)
@@ -214,11 +217,11 @@ const MyPerformance = () => {
                 setEmpRctTodayCmplt(rectifiedToday)
                 setEmpVeriComplt(VerifiedComplints)
                 setEmpVeriToday(verifiedToday)
+                setCompletedcomplaints(Completedcomplaints)
                 setComplPerfm(Number.isInteger(ComplaintPerformnce) ? ComplaintPerformnce.toFixed(0) : ComplaintPerformnce.toFixed(2))
             }
             else {
                 setEmpTotalComplaints(0)
-                setEmpRctiCompl(0)
                 setEmpLinearComptProg(0)
                 setEmplPendingComplintsMonth(0)
                 setEmpReopendCompln(0)
@@ -226,6 +229,7 @@ const MyPerformance = () => {
                 setEmpVeriComplt(0)
                 setEmpVeriToday(0)
                 setComplPerfm(0)
+                setCompletedcomplaints(0)
             }
         }
         getAllComplaints(searchEmployeeComplaintData)
@@ -433,7 +437,7 @@ const MyPerformance = () => {
                                 })}
                             </Box> :
                             <Box>
-                                <Typography sx={{ fontWeight: 600, color: 'lightgrey', pl: 5, pt: 3 }}>No Project Assigned</Typography>
+                                <Typography sx={{ fontWeight: 600, color: 'lightgrey', pl: 5, pt: 3 }}>No Projects Due in {monthName}</Typography>
                             </Box>}
                     </Box>
                     <Box sx={{ flex: 1, mx: .5, mt: 1, minHeight: 120, }}>
@@ -465,7 +469,7 @@ const MyPerformance = () => {
                             </Box>
                             :
                             <Box>
-                                <Typography sx={{ fontWeight: 600, color: 'lightgrey', pl: 5, pt: 3 }}>No Task Assinged Under Time Period</Typography>
+                                <Typography sx={{ fontWeight: 600, color: 'lightgrey', pl: 5, pt: 3 }}>No Task Due in {monthName}</Typography>
                             </Box>}
                     </Box>
                 </Box>
@@ -571,7 +575,7 @@ const MyPerformance = () => {
                         </Box>
                         <Box sx={{ flex: 1, m: .5, }}>
                             <Typography sx={{ pl: 1.5, pt: .5, fontWeight: 600, color: '#492B08', fontSize: 18 }}>Complaints</Typography>
-                            <Typography sx={{ pl: 2, pt: .3, fontSize: 15, color: '#492B08' }}>{empRctiCompl}/{empTotalComplaints}</Typography>
+                            <Typography sx={{ pl: 2, pt: .3, fontSize: 15, color: '#492B08' }}>{completedcomplaints}/{empTotalComplaints}</Typography>
                             <Box sx={{ px: 1.5 }}>
                                 <CssVarsProvider>
                                     <LinearProgress
@@ -593,7 +597,7 @@ const MyPerformance = () => {
                                     <Box sx={{ flex: 1, display: 'flex' }}>
                                         <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1, }}>Rectified </Typography>
                                         <Box sx={{ width: 40, height: 25, border: 1, mx: 2, mt: .5, textAlign: 'center', borderRadius: 2, borderColor: '#492B08', color: '#492B08', }}>
-                                            {empRctfytodayComplt}
+                                            {empRctfytodayComplt + empVeriToday}
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
@@ -614,7 +618,7 @@ const MyPerformance = () => {
                                     <Box sx={{ flex: 1, display: 'flex' }}>
                                         <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1, }}>Rectified </Typography>
                                         <Box sx={{ width: 40, height: 25, border: 1, mx: 2, mt: .5, textAlign: 'center', borderRadius: 2, borderColor: '#492B08', color: '#492B08', }}>
-                                            {empRctiCompl}
+                                            {completedcomplaints}
                                         </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
