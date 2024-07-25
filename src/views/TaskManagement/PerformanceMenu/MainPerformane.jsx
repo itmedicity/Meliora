@@ -227,22 +227,22 @@ const MainPerformane = () => {
                 const verifiedComplints = data.filter(item => item.cm_rectify_status === 'V').length;
                 const emptotCompltedComplaints = RectifiedComplints + verifiedComplints
                 const ComplaintEmpProgress = (emptotCompltedComplaints + totalComplaints) === 0 ? 0 : ((emptotCompltedComplaints / totalComplaints) * 100)
-                const complaintsToday = data.filter(item => isToday(item.compalint_date)).length;
-                const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time)).length;
-                const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_rectify_time)).length;
+                const complaintsToday = data.filter(item => isToday(item.compalint_date));
+                const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time));
+                const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_rectify_time));
                 const pendingToday = data.filter(item =>
                     ((item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'V') || item.cm_rectify_status === null) &&
                     isToday(item.compalint_date)
-                ).length;
+                );
                 const totallWithoutHold = totalComplaints - OnholdComplaints
                 const ComplaintPerformnce = (emptotCompltedComplaints + totallWithoutHold) === 0 ? 0 : (emptotCompltedComplaints / totallWithoutHold) * 100
                 setEmpTotalComplaints(totalComplaints)
                 setEmpLinearComptProg(ComplaintEmpProgress)
-                setEmpComplaintsToday(complaintsToday)
-                setEmpRctTodayCmplt(rectifiedToday)
+                setEmpComplaintsToday(complaintsToday.length)
+                setEmpRctTodayCmplt(rectifiedToday.length)
                 setEmptotCompltedComplaints(emptotCompltedComplaints)
-                setpendingToday(pendingToday)
-                setverifiedToday(verifiedToday)
+                setpendingToday(pendingToday.length)
+                setverifiedToday(verifiedToday.length)
                 setComplPerfm(Number.isInteger(ComplaintPerformnce) ? ComplaintPerformnce.toFixed(0) : ComplaintPerformnce.toFixed(2))
             } else {
                 setEmpTotalComplaints(0)
@@ -267,11 +267,11 @@ const MainPerformane = () => {
             const { success, data } = result.data;
             if (success === 2) {
                 const totalTasks = data.length;
-                const completedTasks = data.filter(item => item.tm_task_status === 1).length;
+                const completedTasks = data.filter(item => item.tm_task_status === 1);
                 const valueProgress = (completedTasks + totalTasks) === 0 ? 0 : ((completedTasks / totalTasks) * 100);
                 const onHoldTasks = data.filter(item => isPastDue(item.tm_task_due_date) && item.tm_task_status === 3).length;
                 const totalWithOutHold = (totalTasks - onHoldTasks);
-                const overdueToday = data.filter(item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date)).length;
+                const overdueToday = data.filter(item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date));
                 const completedTasksWoutchangingDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === null).length;
                 const penaltyCounts = {};
                 data.forEach(item => {
@@ -300,10 +300,10 @@ const MainPerformane = () => {
                 setAdjustedCompleteion(adjustedCompletion)
                 setTaskPerformance(Number.isInteger(PerformanceProgress) ? PerformanceProgress.toFixed(0) : PerformanceProgress.toFixed(2));
                 setempTotalTask(totalTasks);
-                setEmpCompletedTask(completedTasks);
+                setEmpCompletedTask(completedTasks.length);
                 setEmplinearTaskProgresss(valueProgress);
                 setEmpTotalWithouthold(totalWithOutHold)
-                setEmpOerdueToday(overdueToday);
+                setEmpOerdueToday(overdueToday.length);
                 setTaskInSevnDays(filteredTasks);
             }
             else {

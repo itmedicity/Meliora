@@ -12,7 +12,6 @@ import { getBillCategory } from 'src/redux/actions/ItBillCategoryList.action';
 import DonutSmallSharpIcon from '@mui/icons-material/DonutSmallSharp';
 
 
-
 const BillsChartsAndGraph = () => {
 
     const [searchMonthAndYear, setSearchMonthAndYear] = useState(format(new Date(), 'yyyy-MM'));
@@ -40,6 +39,44 @@ const BillsChartsAndGraph = () => {
     //     const month = format(parsedDate, 'MMMM');
     //     setMonthName(month);
     // }, [searchMonthAndYear]);
+
+
+
+
+    // const [quarterStartDate, setQuarterStartDate] = useState('');
+
+    // const today = new Date();
+    // const currentYear = today.getFullYear();
+    // const startOfApr = startOfMonth(new Date(currentYear, 3, 1)); // April
+    // const startOfJul = startOfMonth(new Date(currentYear, 6, 1)); // July
+    // const startOfOct = startOfMonth(new Date(currentYear, 9, 1)); // October
+    // const selectedQuarter = isAfter(new Date(), startOfOct) ? `${currentYear}-10-01` : isAfter(new Date(), startOfJul) ? `${currentYear}-07-01` :
+    //     isAfter(new Date(), startOfApr) ? `${currentYear}-04-01` : `${currentYear}-01-01`
+
+
+
+    // const getQuarterStartDate = (date) => {
+
+    //     const currentYear = today.getFullYear();
+    //     const startOfApr = startOfMonth(new Date(currentYear, 3, 1)); // April
+    //     const startOfJul = startOfMonth(new Date(currentYear, 6, 1)); // July
+    //     const startOfOct = startOfMonth(new Date(currentYear, 9, 1)); // October
+    //     const selectedQuarter = isAfter(new Date(), startOfOct) ? `${currentYear}-10-01` : isAfter(new Date(), startOfJul) ? `${currentYear}-07-01` :
+    //         isAfter(new Date(), startOfApr) ? `${currentYear}-04-01` : `${currentYear}-01-01`
+
+    // };
+
+    // const monthChange = useCallback((e) => {
+    //     const value = e.target.value
+    //     setSearchMonthAndYear(value)
+    //     const quarterStart = getQuarterStartDate(value);
+    //     setQuarterStartDate(quarterStart);
+    // }, [])
+
+    const monthChange = useCallback((e) => {
+        const value = e.target.value
+        setSearchMonthAndYear(value)
+    }, [])
 
     useEffect(() => {
         dispatch(getBillCategory())
@@ -161,10 +198,7 @@ const BillsChartsAndGraph = () => {
     }, [monthINyearData, billCategoryNames, yearData, firstYear, secondYear])
 
     const valueFormatter = (value) => `${value} Rs`;
-    const monthChange = useCallback((e) => {
-        const value = e.target.value
-        setSearchMonthAndYear(value)
-    }, [])
+
     const yearChange = useCallback((e) => {
         const value = e.target.value
         setSearchYear(value)
@@ -177,13 +211,13 @@ const BillsChartsAndGraph = () => {
         const value = e.target.value
         setCompareYearTwo(value)
     }, [])
+
     // const searchmonthlychargedAmount = useMemo(() => {
     //     return {
     //         from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
     //         to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
     //     }
     // }, [searchMonthAndYear])
-
 
     // useEffect(() => {
     //     const getmonthlychargedAmount = async () => {
@@ -219,7 +253,7 @@ const BillsChartsAndGraph = () => {
                     <Box sx={{ flex: 1, display: 'flex' }}>
                         <Box sx={{ flex: 1, }}>
                             <Typography sx={{ fontWeight: 800, fontSize: 18, color: '#52688F', py: .5, pl: 2 }}>
-                                &nbsp;Monthly Paid Amount
+                                &nbsp;Monthly charts
                             </Typography>
                             <Box sx={{ width: 155, ml: 1.5, }}>
                                 <Input
@@ -241,23 +275,73 @@ const BillsChartsAndGraph = () => {
                             </CssVarsProvider>
                         </Box>
                         {/* <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: .5 }}>
-
                             <Box sx={{ textAlign: 'center' }}>
-                                <Box sx={{ fontSize: 29, fontWeight: 500, color: '#6E5828' }}>
-                                    <CurrencyRupeeIcon sx={{ width: 20, color: '#6E5828' }} />
+                                <Box sx={{ fontSize: 25, fontWeight: 700, color: '#CB6112' }}>
+                                    <CurrencyRupeeIcon sx={{ width: 25, color: '#6E5828' }} />
                                     {new Intl.NumberFormat('en-IN').format(monthYeartotAmount)}
                                 </Box>
-                                <Typography sx={{ fontSize: 13, }}>
+                                <Typography sx={{ fontSize: 13, color: '#211625' }}>
                                     Paid Amount
                                 </Typography>
                             </Box>
-
-
                             <Box sx={{ textAlign: 'center', px: 2 }}>
-                                <Box sx={{ fontSize: 30, fontWeight: 500, }}>
-                                    225
+                                <Box sx={{ fontSize: 25, fontWeight: 700, color: '#CB6112' }}>
+                                    <CurrencyRupeeIcon sx={{ width: 25, color: '#6E5828' }} />
+                                    {new Intl.NumberFormat('en-IN').format(billchangeAmtMonth)}
+                                    <Dropdown>
+                                        <MenuButton
+                                            // slots={{ root: IconButton }}
+                                            variant="plain"
+                                            slotProps={{ root: { variant: 'plain', color: 'neutral' } }}
+                                            sx={{ '&:hover': { color: 'blue' }, width: 2 }}
+                                        >
+                                            <ArrowDropDownIcon />
+                                        </MenuButton>
+                                        <Menu
+                                            variant="outlined"
+                                            invertedColors
+                                            aria-labelledby="apps-menu-demo"
+                                            sx={{
+                                                '--List-padding': '0.5rem',
+                                                '--ListItemDecorator-size': '3rem',
+                                                // display: 'grid',
+                                                gridTemplateColumns: 'repeat(3, 100px)',
+                                                gridAutoRows: '100px',
+                                                gap: 1,
+                                            }}
+                                        >
+                                            <MenuItem sx={{ flex: 1, display: 'flex' }}>
+                                                <Box>
+                                                    <Typography>
+                                                        Monthly Tarrif
+                                                    </Typography>
+                                                    <Typography sx={{ fontSize: 12, textAlign: 'center' }}>
+                                                        ({monthName})
+                                                    </Typography>
+                                                </Box>
+                                                <Typography sx={{ fontSize: 20, pl: 5, pb: 1 }}>
+                                                    <CurrencyRupeeIcon sx={{ width: 18, color: '#6E5828' }} />
+                                                    {new Intl.NumberFormat('en-IN').format(billchangeAmtMonth)}
+                                                </Typography>
+                                            </MenuItem>
+                                            <MenuItem sx={{ flex: 1, display: 'flex' }}>
+                                                <Box>
+                                                    <Typography>
+                                                        Quaterly Tarrif
+                                                    </Typography>
+                                                    <Typography sx={{ fontSize: 12, textAlign: 'center' }}>
+                                                        (July)
+                                                    </Typography>
+                                                </Box>
+                                                <Typography sx={{ fontSize: 20, pl: 5, pb: 1 }}>
+                                                    <CurrencyRupeeIcon sx={{ width: 18, color: '#6E5828' }} />
+                                                    {new Intl.NumberFormat('en-IN').format(billchangeAmtMonth)}
+                                                </Typography>
+                                            </MenuItem>
+                                        </Menu>
+                                    </Dropdown>
                                 </Box>
-                                <Typography sx={{ fontSize: 13, }}>
+                                <Typography sx={{ fontSize: 13, color: '#211625' }}>
                                     Charged Amount
                                 </Typography>
                             </Box>
@@ -282,7 +366,7 @@ const BillsChartsAndGraph = () => {
                                     highlightScope: {
                                         faded: 'global', highlighted: 'item'
                                     },
-                                    faded: { innerRadius: 25, additionalRadius: -30, color: 'gray' }, color: 'darkred', valueFormatter,
+                                    faded: { innerRadius: 25, additionalRadius: -30, color: 'gray' }, color: '#AB3917', valueFormatter,
                                 }]}
                                 tooltip={{ trigger: 'item', }}
                                 axisHighlight={{

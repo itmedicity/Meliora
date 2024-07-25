@@ -222,24 +222,24 @@ const PerformanceMain = () => {
                 const ReOpenedComplaints = data.filter(item => item.reopen_cm_slno !== null).length;
                 const PendingComplaints = data.filter(item => (
                     (item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'O' && item.cm_rectify_status !== 'V') || item.cm_rectify_status === null
-                )).length;
+                ))
                 const pendingTodaydept = data.filter(item =>
                     ((item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'V') || item.cm_rectify_status === null) &&
                     isToday(item.compalint_date)
-                ).length;
-                const todaysComplaints = data.filter(item => isToday(item.compalint_date)).length;
-                const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time)).length;
-                const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_verfy_time)).length;
+                )
+                const todaysComplaints = data.filter(item => isToday(item.compalint_date))
+                const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time))
+                const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_verfy_time))
 
                 setTotalComplaintCount(totalComplaints)
                 setReOpenedComplaints(ReOpenedComplaints)
-                setdeptPendingComplaints(PendingComplaints)
-                setdeptTodays(todaysComplaints)
+                setdeptPendingComplaints(PendingComplaints.length)
+                setdeptTodays(todaysComplaints.length)
                 setDeptRectiCompl(RectifiedComplints)
                 setDeptVerified(VerifiedComplints)
-                setDeptVerifiedToday(verifiedToday)
-                setdeptRectfToday(rectifiedToday)
-                setpendingTodaydept(pendingTodaydept)
+                setDeptVerifiedToday(verifiedToday.length)
+                setdeptRectfToday(rectifiedToday.length)
+                setpendingTodaydept(pendingTodaydept.length)
             }
             else {
                 setTotalComplaintCount(0)
@@ -285,8 +285,6 @@ const PerformanceMain = () => {
             assigned_emp: employee,
         }
     }, [searchMonthAndYear, employee])
-
-
 
     useEffect(() => {
         const getDeptMasterTable = async () => {
@@ -431,12 +429,12 @@ const PerformanceMain = () => {
             if (success === 2) {
                 const mainTaskData = data.filter(item => item.main_task_slno === null);
                 const totalTasks = data.length;
-                const completedToday = data.filter(item => item.tm_task_status === 1 && isToday(item.tm_complete_date)).length;
+                const completedToday = data.filter(item => item.tm_task_status === 1 && isToday(item.tm_complete_date));
                 const completedTasks = data.filter(item =>
-                    item.tm_task_status === 1 && isSameMonth(parseISO(item.tm_complete_date), new Date(searchMonthAndYear))).length;
+                    item.tm_task_status === 1 && isSameMonth(parseISO(item.tm_complete_date), new Date(searchMonthAndYear)));
                 const onHoldTasks = data.filter(item => isPastDue(item.tm_task_due_date) && item.tm_task_status === 3).length;
                 const totalWithOutHold = (totalTasks - onHoldTasks)
-                const overdueToday = data.filter(item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date)).length;
+                const overdueToday = data.filter(item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date))
                 const completedTasksWoutchangingDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === null).length;
                 const penaltyCounts = {};
                 data.forEach(item => {
@@ -459,10 +457,10 @@ const PerformanceMain = () => {
                 setTaskPerformance(Number.isInteger(PerformanceProgress) ? PerformanceProgress.toFixed(0) : PerformanceProgress.toFixed(2));
                 setEmplmainTasks(mainTaskData);
                 setempTotalTask(totalTasks)
-                setEmpCompletedTask(completedTasks)
-                setEmpOerdueToday(overdueToday)
+                setEmpCompletedTask(completedTasks.length)
+                setEmpOerdueToday(overdueToday.length)
                 setEmpTotalWithouthold(totalWithOutHold)
-                setEmpCompltTodayTask(completedToday);
+                setEmpCompltTodayTask(completedToday.length);
             }
             else {
                 setEmplmainTasks([])
@@ -497,30 +495,30 @@ const PerformanceMain = () => {
                 const VerifiedComplints = data.filter(item => item.cm_rectify_status === 'V').length;
                 const emptotCompltedComplaints = RectifiedComplints + VerifiedComplints
                 const OnholdComplaints = data.filter(item => item.cm_rectify_status === 'O').length;
-                const ReOpenedComplaints = data.filter(item => item.reopen_cm_slno !== null).length;
+                const ReOpenedComplaints = data.filter(item => item.reopen_cm_slno !== null)
                 const Pending = data.filter(item => (
                     (item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'O' && item.cm_rectify_status !== 'V') || item.cm_rectify_status === null
-                )).length;
+                ))
 
                 const pendingToday = data.filter(item =>
                     ((item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'V') || item.cm_rectify_status === null) &&
                     isToday(item.compalint_date)
-                ).length;
-                const complaintsToday = data.filter(item => isToday(item.compalint_date)).length;
-                const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time)).length;
-                const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_rectify_time)).length;
+                )
+                const complaintsToday = data.filter(item => isToday(item.compalint_date))
+                const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time));
+                const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_rectify_time));
                 const totallWithoutHold = totalComplaints - OnholdComplaints
                 const ComplaintPerformnce = (emptotCompltedComplaints + totallWithoutHold) === 0 ? 0 : (emptotCompltedComplaints / totallWithoutHold) * 100
                 setEmpTotalComplaints(totalComplaints)
                 setEmpRctiCompl(RectifiedComplints)
-                setEmplPendingComplintsMonth(Pending)
-                setEmpReopendCompln(ReOpenedComplaints)
-                setEmpComplaintsToday(complaintsToday)
-                setEmpRctTodayCmplt(rectifiedToday)
+                setEmplPendingComplintsMonth(Pending.length)
+                setEmpReopendCompln(ReOpenedComplaints.length)
+                setEmpComplaintsToday(complaintsToday.length)
+                setEmpRctTodayCmplt(rectifiedToday.length)
                 setEmpVeriComplt(VerifiedComplints)
-                setEmpverifiedToday(verifiedToday)
+                setEmpverifiedToday(verifiedToday.length)
                 setComplPerfm(Number.isInteger(ComplaintPerformnce) ? ComplaintPerformnce.toFixed(0) : ComplaintPerformnce.toFixed(2))
-                setEmpPendingToday(pendingToday)
+                setEmpPendingToday(pendingToday.length)
             }
             else {
                 setEmpTotalComplaints(0)
