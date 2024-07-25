@@ -125,18 +125,18 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
                 })
                 setAlreadySpare(1)
                 setAlreadySpareData(datass)
+                setCount(0)
             }
             else {
                 setSpareTable(0)
                 setAlreadySpareData([])
+                setCount(0)
             }
         }
-
 
         checkinsertOrNotSpeciali(am_item_map_slno)
         checkinsertOrNotSpareDetails(am_item_map_slno)
     }, [am_item_map_slno, setAlready, setAlreadyData, count, setSpareTable, setSpareData])
-
 
 
     const SaveSpecDetails = useCallback((e) => {
@@ -272,6 +272,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
                 setCount(count + 1)
             }
         }
+
         contaminatnUpdate(patchdata)
     }, [id, setCount, count])
 

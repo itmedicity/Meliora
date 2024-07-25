@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useCallback, useEffect, Fragment } from 'react'
+import { useState, useCallback, useEffect, Fragment, memo } from 'react'
 import { editicon } from 'src/color/Color'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -89,8 +89,6 @@ const RectifyCompalint = () => {
         { headerName: "Request Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 180 },
         { headerName: "Rectified Status", field: "cm_rectify_status1", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Reason", field: "rectify_pending_hold_remarks1", autoHeight: true, wrapText: true, minWidth: 200 },
-
-
     ])
 
     const [empName, setempname] = useState([])
@@ -98,8 +96,6 @@ const RectifyCompalint = () => {
     //rectify complaint  click function on click model open and pass data
     const Rectifycomplaintdept = useCallback((params) => {
         const data = params.api.getSelectedRows()
-
-
         const { complaint_slno } = data[0]
         const getEmployeees = async () => {
             const result = await axioslogin.get(`Rectifycomplit/getAssignEmps/${complaint_slno}`)
@@ -112,8 +108,6 @@ const RectifyCompalint = () => {
             }
         }
         getEmployeees();
-
-
         setdeatial(data)
         setmdopen(1)
         setOpen(true)
@@ -137,7 +131,7 @@ const RectifyCompalint = () => {
 
     //get assigned complaint
     useEffect(() => {
-        const getRectifycomplit = async () => {
+        const getRectifycomplit = async (id) => {
             const result = await axioslogin.get(`Rectifycomplit/getRectifycomplit/${id}`)
             const { success, data } = result.data
             if (success === 1) {
@@ -147,7 +141,7 @@ const RectifyCompalint = () => {
                 setgetdata([])
             }
         }
-        getRectifycomplit();
+        getRectifycomplit(id);
     }, [count, id])
     //close function
     const backtoSetting = useCallback(() => {
@@ -212,4 +206,4 @@ const RectifyCompalint = () => {
         </Fragment>
     )
 }
-export default RectifyCompalint
+export default memo(RectifyCompalint)
