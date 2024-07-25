@@ -127,6 +127,7 @@ const EditProject = ({ open, setEditProjectFlag, setEditProjectModalOpen, tableC
         setAddGoalFlag(1)
         setaddGoalModalOpen(true)
     }, [])
+    const isGoalOverdue = moment().isAfter(moment(tm_goal_duedate));
 
     return (
         <Box>
@@ -201,7 +202,8 @@ const EditProject = ({ open, setEditProjectFlag, setEditProjectModalOpen, tableC
                                 <Box sx={{ flex: 1, display: 'flex', mx: 3, mt: 3 }}>
                                     <TmAllGoalsList
                                         goalz={goaledit}
-                                        setgoalz={setgoalsEdit} setdueDateGoal={setdueDateGoal} />
+                                        setgoalz={setgoalsEdit}
+                                        setdueDateGoal={setdueDateGoal} />
                                     <Box sx={{ ml: .5, mt: 2 }} onClick={CreateGoal}>
                                         <Tooltip title="Create New Goal">
                                             <Chip
@@ -212,19 +214,33 @@ const EditProject = ({ open, setEditProjectFlag, setEditProjectModalOpen, tableC
                                 </Box>
                                 <Box sx={{ flex: 1, mx: 3, mt: 3, }}>
                                     <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, textUnderline: 1, fontSize: 12 }}>Due Date*</Typography>
-                                    {tm_goal_slno !== null ?
-                                        <Inputcomponent
-                                            type="datetime-local"
-                                            name="tm_projectDuedate"
-                                            value={tm_projectDuedate}
-                                            slotProps={{
-                                                input: {
-                                                    min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                                    max: moment(new Date(tm_goal_duedate)).format('YYYY-MM-DD HH:mm:ss'),
-                                                },
-                                            }}
-                                            onchange={ProjectMastUpdate}
-                                        /> :
+                                    {goaledit !== null ?
+                                        <Tooltip
+                                            title={
+                                                isGoalOverdue
+                                                    ? "Due date cannot be change, selected Goal is already overdue. To change Project due date, please update the Goal's due date."
+                                                    : ''
+                                            }
+                                            placement="bottom"
+                                            color='warning'
+                                        >
+                                            <div>
+                                                <Inputcomponent
+                                                    type="datetime-local"
+                                                    name="tm_projectDuedate"
+                                                    value={tm_projectDuedate}
+                                                    slotProps={{
+                                                        input: {
+                                                            min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                            max: moment(new Date(tm_goal_duedate)).format('YYYY-MM-DD HH:mm:ss'),
+                                                        },
+                                                    }}
+                                                    onchange={ProjectMastUpdate}
+                                                    disabled={isGoalOverdue}
+                                                />
+                                            </div>
+                                        </Tooltip>
+                                        :
                                         <Inputcomponent
                                             type="datetime-local"
                                             name="tm_projectDuedate"
@@ -286,7 +302,10 @@ const EditProject = ({ open, setEditProjectFlag, setEditProjectModalOpen, tableC
                                         </> :
                                         <>
                                             <CssVarsProvider>
-                                                <Tooltip title="Can't Mark this Project as Completed, Task Under this Project are yet to Complete" placement="bottom">
+                                                <Tooltip
+                                                    color='warning'
+                                                    title="Can't Mark this Project as Completed, Task Under this Project are yet to Complete"
+                                                    placement="bottom-start">
                                                     <Checkbox disabled size='lg' />
                                                 </Tooltip>
                                             </CssVarsProvider>

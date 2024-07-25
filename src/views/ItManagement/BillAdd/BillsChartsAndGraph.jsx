@@ -11,6 +11,8 @@ import { gettingArrayList, gettingArrayListFirstYear, gettingArrayListSecondYear
 import { getBillCategory } from 'src/redux/actions/ItBillCategoryList.action';
 import DonutSmallSharpIcon from '@mui/icons-material/DonutSmallSharp';
 
+
+
 const BillsChartsAndGraph = () => {
 
     const [searchMonthAndYear, setSearchMonthAndYear] = useState(format(new Date(), 'yyyy-MM'));
@@ -29,7 +31,15 @@ const BillsChartsAndGraph = () => {
     const [firstYear, setfirstYear] = useState([])
     const [secondYear, setsecondYear] = useState([])
     const [combinedDatas, setcombinedDatas] = useState([])
+    // const [billchangeAmtMonth, setbillchangeAmtMonth] = useState(0)
     const dispatch = useDispatch();
+    // const [monthName, setMonthName] = useState('');
+
+    // useEffect(() => {
+    //     const parsedDate = parse(searchMonthAndYear, 'yyyy-MM', new Date());
+    //     const month = format(parsedDate, 'MMMM');
+    //     setMonthName(month);
+    // }, [searchMonthAndYear]);
 
     useEffect(() => {
         dispatch(getBillCategory())
@@ -167,6 +177,28 @@ const BillsChartsAndGraph = () => {
         const value = e.target.value
         setCompareYearTwo(value)
     }, [])
+    // const searchmonthlychargedAmount = useMemo(() => {
+    //     return {
+    //         from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
+    //         to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
+    //     }
+    // }, [searchMonthAndYear])
+
+
+    // useEffect(() => {
+    //     const getmonthlychargedAmount = async () => {
+    //         const result = await axioslogin.post('/ItBillAdd/getmonthlychargedAmount', searchmonthlychargedAmount);
+    //         const { success, data } = result.data;
+    //         if (success === 2) {
+    //             const totalBillAmount = data.reduce((acc, item) => acc + item.bill_amount, 0);
+    //             setbillchangeAmtMonth(totalBillAmount)
+    //         }
+    //         else {
+    //             setbillchangeAmtMonth(0)
+    //         }
+    //     }
+    //     getmonthlychargedAmount(searchmonthlychargedAmount)
+    // }, [searchmonthlychargedAmount])
 
     return (
         <Paper sx={{
@@ -182,27 +214,55 @@ const BillsChartsAndGraph = () => {
             </Box>
             <Box sx={{ px: .5, flex: 1, display: 'flex' }}>
                 <Paper sx={{ flex: 2.5, borderRadius: 0, bgcolor: 'white', height: 300, mb: 1 }}>
-                    <Box sx={{ flex: 1, mx: 1, pt: 1, display: 'flex' }}>
-                        <Typography sx={{ fontWeight: 800, fontSize: 18, color: '#52688F', flex: 1 }}>
-                            &nbsp;Monthly Paid Amount
-                        </Typography>
-                        <CssVarsProvider>
-                            <Chip sx={{ bgcolor: '#E7F2F8', fontSize: 20, color: '#BA0F30', fontWeight: 800, mt: .5 }}>
-                                <CurrencyRupeeIcon sx={{ width: 20, color: '#BA0F30' }} />
-                                {new Intl.NumberFormat('en-IN').format(monthYeartotAmount)}
-                            </Chip>
-                        </CssVarsProvider>
-                    </Box>
 
-                    <Box sx={{ width: 155, ml: 1.5, }}>
-                        <Input
-                            variant="solid"
-                            sx={{ borderRadius: 20, pl: 3, cursor: 'pointer', color: 'white' }}
-                            name="searchMonthAndYear"
-                            type="month"
-                            size="sm"
-                            value={searchMonthAndYear}
-                            onChange={monthChange} />
+
+                    <Box sx={{ flex: 1, display: 'flex' }}>
+                        <Box sx={{ flex: 1, }}>
+                            <Typography sx={{ fontWeight: 800, fontSize: 18, color: '#52688F', py: .5, pl: 2 }}>
+                                &nbsp;Monthly Paid Amount
+                            </Typography>
+                            <Box sx={{ width: 155, ml: 1.5, }}>
+                                <Input
+                                    variant="solid"
+                                    sx={{ borderRadius: 20, pl: 3, cursor: 'pointer', color: 'white' }}
+                                    name="searchMonthAndYear"
+                                    type="month"
+                                    size="sm"
+                                    value={searchMonthAndYear}
+                                    onChange={monthChange} />
+                            </Box>
+                        </Box>
+                        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', py: 2, pr: 1 }}>
+                            <CssVarsProvider>
+                                <Chip sx={{ bgcolor: '#E7F2F8', fontSize: 20, color: '#BA0F30', fontWeight: 800, ml: 1 }}>
+                                    <CurrencyRupeeIcon sx={{ width: 20, color: '#BA0F30' }} />
+                                    {new Intl.NumberFormat('en-IN').format(monthYeartotAmount)}
+                                </Chip>
+                            </CssVarsProvider>
+                        </Box>
+                        {/* <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: .5 }}>
+
+                            <Box sx={{ textAlign: 'center' }}>
+                                <Box sx={{ fontSize: 29, fontWeight: 500, color: '#6E5828' }}>
+                                    <CurrencyRupeeIcon sx={{ width: 20, color: '#6E5828' }} />
+                                    {new Intl.NumberFormat('en-IN').format(monthYeartotAmount)}
+                                </Box>
+                                <Typography sx={{ fontSize: 13, }}>
+                                    Paid Amount
+                                </Typography>
+                            </Box>
+
+
+                            <Box sx={{ textAlign: 'center', px: 2 }}>
+                                <Box sx={{ fontSize: 30, fontWeight: 500, }}>
+                                    225
+                                </Box>
+                                <Typography sx={{ fontSize: 13, }}>
+                                    Charged Amount
+                                </Typography>
+                            </Box>
+
+                        </Box> */}
                     </Box>
                     <Box sx={{ flex: 1, overflow: 'auto', pl: 3, }}>
                         {monthYearFlag === 1 ?
@@ -335,7 +395,7 @@ const BillsChartsAndGraph = () => {
                         name="CompareYearTwo"
                         type="number"
                         size="sm"
-                        min='2000'
+                        min=''
                         value={CompareYearTwo}
                         onChange={yearChangeCompareTwo} />
                 </Box>

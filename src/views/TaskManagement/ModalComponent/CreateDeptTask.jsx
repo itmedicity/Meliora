@@ -239,6 +239,8 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
         setAddProjectFlag(1)
         setaddProjectlModalOpen(true)
     }, [])
+    const isProjectOverdue = moment().isAfter(moment(dueDateProject));
+    const tooltipText = "Due date cannot be added because the selected project is already overdue.To add tasks to this project, please update the project's due date.";
 
     return (
         <Box>
@@ -329,18 +331,39 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                                 <Box sx={{ flex: 1, mx: 3, mt: 2.5, }}>
                                     <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>Due Date
                                         <span style={{ color: '#74112F', fontSize: 15 }} >*</span></Typography>
-                                    <Inputcomponent
-                                        type="datetime-local"
-                                        name="tm_task_due_date"
-                                        value={tm_task_due_date}
-                                        slotProps={{
-                                            input: {
-                                                min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                                max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss'),
-                                            },
-                                        }}
-                                        onchange={MastUpdate}
-                                    />
+                                    {projectz !== 0 ?
+                                        <>
+                                            <Tooltip title={tooltipText} color='warning' sx={{ width: 400 }}>
+                                                <span>
+                                                    <Inputcomponent
+                                                        type="datetime-local"
+                                                        name="tm_task_due_date"
+                                                        value={tm_task_due_date}
+                                                        slotProps={{
+                                                            input: {
+                                                                min: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
+                                                                max: moment(new Date(dueDateProject)).format('YYYY-MM-DDTHH:mm'),
+                                                            },
+                                                        }}
+                                                        onchange={MastUpdate}
+                                                        disabled={isProjectOverdue}
+                                                    />
+                                                </span>
+                                            </Tooltip>
+                                        </> :
+                                        <>
+                                            <Inputcomponent
+                                                type="datetime-local"
+                                                name="tm_task_due_date"
+                                                value={tm_task_due_date}
+                                                slotProps={{
+                                                    input: {
+                                                        min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                        max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss'),
+                                                    },
+                                                }}
+                                                onchange={MastUpdate}
+                                            /></>}
                                 </Box>
                                 <Box sx={{ mt: 2.5, mx: 3 }}>
                                     <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, textUnderline: 1, fontSize: 12 }}>Description</Typography>
