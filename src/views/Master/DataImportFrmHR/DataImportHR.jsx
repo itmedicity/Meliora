@@ -94,6 +94,38 @@ const DataImportHR = () => {
         getDesignation()
     }, [])
 
+    const getEmpMasterUpdation = useCallback(() => {
+        setOpen(true)
+        const getEmpMasterUpdation = async () => {
+            const result = await axioslogin.get('/hrmdataGet/empMasterUpdate');
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNotify(message)
+                setOpen(false)
+            } else {
+                setOpen(false)
+                warningNotify(message)
+            }
+        }
+        getEmpMasterUpdation()
+    }, [])
+
+    const getEmpLoginUpdation = useCallback(() => {
+        setOpen(true)
+        const getEmpLoginUpdation = async () => {
+            const result = await axioslogin.get('/hrmdataGet/emploginUpdate');
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNotify(message)
+                setOpen(false)
+            } else {
+                setOpen(false)
+                warningNotify(message)
+            }
+        }
+        getEmpLoginUpdation()
+    }, [])
+
 
     //close button function
     const backtoSetting = useCallback(() => {
@@ -132,7 +164,7 @@ const DataImportHR = () => {
                                 <Typography sx={{
                                     fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center",
                                     cursor: "pointer"
-                                }}>Employee Master </Typography>
+                                }}>Employee Master Insert</Typography>
                             </CssVarsProvider>
                         </Box>
                         <Box sx={{ width: "30%", mt: 1, mb: 1, ml: 2, backgroundColor: '#4793AF', borderRadius: 2.5 }}
@@ -141,7 +173,7 @@ const DataImportHR = () => {
                                 <Typography sx={{
                                     fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center",
                                     cursor: "pointer"
-                                }}>Employee login </Typography>
+                                }}>Employee login Insert</Typography>
                             </CssVarsProvider>
                         </Box>
                         <Box sx={{ width: "30%", mt: 1, mb: 1, ml: 2, backgroundColor: '#4793AF', borderRadius: 2.5 }}
@@ -162,6 +194,36 @@ const DataImportHR = () => {
                                 }}>Department Section Insert</Typography>
                             </CssVarsProvider>
                         </Box>
+                    </Box>
+                    <Box sx={{
+                        width: "100%",
+                        pl: 1, pt: 1, pr: 1, pb: 0.5, flex: 1,
+                        display: "flex",
+                        flexDirection: "row",
+                    }}>
+                        < Box sx={{
+                            width: "15%", mt: 1, mb: 1, ml: 2,
+                        }}
+                        >
+                        </Box>
+                        <Box sx={{ width: "30%", mt: 1, mb: 1, ml: 2, backgroundColor: '#4793AF', borderRadius: 2.5 }}
+                            onClick={() => getEmpMasterUpdation()}>
+                            <CssVarsProvider>
+                                <Typography sx={{
+                                    fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center",
+                                    cursor: "pointer"
+                                }}>Employee Master Update </Typography>
+                            </CssVarsProvider>
+                        </Box>
+                        <Box sx={{ width: "30%", mt: 1, mb: 1, ml: 2, backgroundColor: '#4793AF', borderRadius: 2.5 }}
+                            onClick={() => getEmpLoginUpdation()}>
+                            <CssVarsProvider>
+                                <Typography sx={{
+                                    fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center",
+                                    cursor: "pointer"
+                                }}>Employee Login Update </Typography>
+                            </CssVarsProvider>
+                        </Box>
                         <Box sx={{ width: "30%", mt: 1, mb: 1, ml: 2, backgroundColor: '#4793AF', borderRadius: 2.5 }}
                             onClick={() => getDesignation()}>
                             <CssVarsProvider>
@@ -171,9 +233,14 @@ const DataImportHR = () => {
                                 }}>Designation Insert </Typography>
                             </CssVarsProvider>
                         </Box>
+                        < Box sx={{
+                            width: "15%", mt: 1, mb: 1, ml: 2,
+                        }}
+                        >
+                        </Box>
                     </Box>
                 </Paper>
-            </Box>
+            </Box >
         </Fragment >
     )
 }
