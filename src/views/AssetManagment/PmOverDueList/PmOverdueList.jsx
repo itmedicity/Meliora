@@ -178,7 +178,7 @@ const PmOverdueList = () => {
                     </Box>
                     <Box sx={{ width: '20%', pl: 1, pt: 3, }}>
                     </Box>
-                    <Box sx={{ width: '10%', pl: 1, pt: 3, }}>
+                    <Box sx={{ width: '20%', pl: 1, pt: 3, }}>
                         <Paper
                             variant="outlined"
                             sx={{
