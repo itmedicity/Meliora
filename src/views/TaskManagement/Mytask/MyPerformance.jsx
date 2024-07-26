@@ -132,7 +132,7 @@ const MyPerformance = () => {
                 const totalTasks = data.length;
                 const completedTasks = data.filter(item => item.tm_task_status === 1).length;
                 const onHoldTasks = data.filter(item => isPastDue(item.tm_task_due_date) && item.tm_task_status === 3).length;
-                const completedTasksWoutchangingDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === null)
+                const completedTasksWoutchangingDuedate = data.filter(item => (item.tm_task_status === 1) && (item.tm_mast_duedate_count === null)).length
                 const cmptlWOneTimeDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === 1)
                 const cmptlWTwoTimeDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === 2)
                 const cmptlWThreeTimeDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === 3)
@@ -140,17 +140,6 @@ const MyPerformance = () => {
                 const overdueToday = data.filter(item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date))
                 const totalWithOutHold = (totalTasks - onHoldTasks)
                 const valueProgress = (completedTasks / totalTasks) * 100
-                settaskProogress(valueProgress)
-                setmainTasks(mainTaskData);
-                setTotalTaskCount(totalTasks);
-                setCompletedTaskCount(completedTasks);
-                setcompletedTasksWithoutchangingDuedate(completedTasksWoutchangingDuedate.length)
-                setcmptlWithOneTimeDuedate(cmptlWOneTimeDuedate.length)
-                setcmptlWithTwoTimeDuedate(cmptlWTwoTimeDuedate.length)
-                setcmptlWithThreeTimeDuedate(cmptlWThreeTimeDuedate.length)
-                setcmptlWithMoreThreeTimeDuedate(cmptlWMoreThreeTimeDuedate.length)
-                setEmpOerdueToday(overdueToday.length)
-                setEmpTotalWithouthold(totalWithOutHold)
                 const penaltyCounts = {};
                 data.forEach(item => {
                     if (item.tm_task_status === 1 && item.tm_mast_duedate_count !== null) {
@@ -170,6 +159,17 @@ const MyPerformance = () => {
                 const PerformanceProgress = (adjustedCompletion + totalWithOutHold) === 0 ? 0 : (adjustedCompletion / totalWithOutHold) * 100;
                 setAdjustedCompleteion(adjustedCompletion)
                 setTaskPerformance(Number.isInteger(PerformanceProgress) ? PerformanceProgress.toFixed(0) : PerformanceProgress.toFixed(2));
+                settaskProogress(valueProgress)
+                setmainTasks(mainTaskData)
+                setTotalTaskCount(totalTasks)
+                setCompletedTaskCount(completedTasks)
+                setcompletedTasksWithoutchangingDuedate(completedTasksWoutchangingDuedate)
+                setcmptlWithOneTimeDuedate(cmptlWOneTimeDuedate.length)
+                setcmptlWithTwoTimeDuedate(cmptlWTwoTimeDuedate.length)
+                setcmptlWithThreeTimeDuedate(cmptlWThreeTimeDuedate.length)
+                setcmptlWithMoreThreeTimeDuedate(cmptlWMoreThreeTimeDuedate.length)
+                setEmpOerdueToday(overdueToday.length)
+                setEmpTotalWithouthold(totalWithOutHold)
             }
             else {
                 setmainTasks([])
@@ -183,6 +183,8 @@ const MyPerformance = () => {
                 setcmptlWithMoreThreeTimeDuedate(0)
                 setEmpOerdueToday(0)
                 setEmpTotalWithouthold(0)
+                setTaskPerformance(0)
+                setAdjustedCompleteion(0)
             }
         }
         getAllTask(searchEmployeeTaskData)
@@ -320,8 +322,6 @@ const MyPerformance = () => {
         }
         getOnHoldComplaints(empid)
     }, [empid])
-
-
 
     return (
         <Box sx={{ flex: 1, }}>

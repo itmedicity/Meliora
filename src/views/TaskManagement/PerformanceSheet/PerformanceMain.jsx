@@ -469,7 +469,8 @@ const PerformanceMain = () => {
                 setEmpOerdueToday(0)
                 setTaskPerformance(0)
                 setEmpTotalWithouthold(0)
-                setEmpCompltTodayTask(0);
+                setEmpCompltTodayTask(0)
+                setAdjustedCompleteion(0)
             }
         }
         getEmployeeTask(searchEmployeeTaskData)

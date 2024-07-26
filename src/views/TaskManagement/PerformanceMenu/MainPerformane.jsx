@@ -309,11 +309,12 @@ const MainPerformane = () => {
             else {
                 setempTotalTask(0);
                 setEmpCompletedTask(0);
-                setEmplinearTaskProgresss(0);
+                setEmplinearTaskProgresss(0)
                 setEmpTotalWithouthold(0)
-                setEmpOerdueToday(0);
-                setTaskInSevnDays([]);
-                setTaskPerformance(0);
+                setEmpOerdueToday(0)
+                setTaskInSevnDays([])
+                setTaskPerformance(0)
+                setAdjustedCompleteion(0)
             }
         }
         getMasterTableAlltask(searchEmployeeTaskData)
