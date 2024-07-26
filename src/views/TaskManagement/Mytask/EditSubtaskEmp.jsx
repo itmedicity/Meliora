@@ -529,7 +529,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         <Tooltip color="warning" title={tm_mast_duedate_count >= countDue ? 'Cant Change Duedate, Change Limit Exceeded' : ''}>
                             <Box sx={{ flex: 1 }}>
                                 <Tooltip color="warning" title={tm_task_due_date && moment(new Date()).isAfter(moment(new Date(tm_task_due_date))) ?
-                                    'Due date cannot be changed as the main task due date is overdue' : ''}>
+                                    'Due date cannot be changed as the main task due date is overdue,Please update Main Task Due date' : ''}>
                                     <Box sx={{ flex: 1 }}>
                                         <TextFieldCustom
                                             type="datetime-local"

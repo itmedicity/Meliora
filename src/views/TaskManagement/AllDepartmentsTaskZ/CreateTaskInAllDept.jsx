@@ -417,6 +417,9 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
         dispatch(getMultHodInCharge(secIds));
     }, [secIds, dispatch])
 
+    const isProjectOverdue = moment().isAfter(moment(dueDateProject));
+    const tooltipText = "Due date cannot be added because the selected project is already overdue.To add tasks to this project, please update the project's due date.";
+
     return (
         <Box>
             {addGoalFlag === 1 ? <GoalCreation open={addGoalModalOpen} setTableCount={setTableCount} tableCount={tableCount}
@@ -696,7 +699,7 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
                                                 <AssignmentSharpIcon sx={{ p: .2, color: '#4C5270' }} />
                                                 Duedate<span style={{ color: '#74112F', fontSize: 15 }} >*</span>
                                             </Typography>
-                                            <Inputcomponent
+                                            {/* <Inputcomponent
                                                 type="datetime-local"
                                                 name="tm_task_due_date"
                                                 value={tm_task_due_date}
@@ -707,7 +710,40 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
                                                     },
                                                 }}
                                                 onchange={TaskMastUpdate}
-                                            />
+                                            /> */}
+                                            {projectz !== 0 ?
+                                                <>
+                                                    <Tooltip title={tooltipText} color='warning' sx={{ width: 400 }}>
+                                                        <span>
+                                                            <Inputcomponent
+                                                                type="datetime-local"
+                                                                name="tm_task_due_date"
+                                                                value={tm_task_due_date}
+                                                                slotProps={{
+                                                                    input: {
+                                                                        min: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
+                                                                        max: moment(new Date(dueDateProject)).format('YYYY-MM-DDTHH:mm'),
+                                                                    },
+                                                                }}
+                                                                onchange={TaskMastUpdate}
+                                                                disabled={isProjectOverdue}
+                                                            />
+                                                        </span>
+                                                    </Tooltip>
+                                                </> :
+                                                <>
+                                                    <Inputcomponent
+                                                        type="datetime-local"
+                                                        name="tm_task_due_date"
+                                                        value={tm_task_due_date}
+                                                        slotProps={{
+                                                            input: {
+                                                                min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                                max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss'),
+                                                            },
+                                                        }}
+                                                        onchange={TaskMastUpdate}
+                                                    /></>}
                                         </Box>
                                         <Box sx={{ flex: 1, mx: 1 }}>
                                             <Typography sx={{ pl: 1, fontWeight: 500, fontSize: 13, color: '#1D5183' }}>

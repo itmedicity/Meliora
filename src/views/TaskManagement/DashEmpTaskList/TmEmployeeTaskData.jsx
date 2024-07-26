@@ -73,7 +73,7 @@ const TmEmployeeTaskData = () => {
     }, [])
 
     return (
-        <Box sx={{ maxHeight: 640 }}>
+        <Box sx={{ maxHeight: '69vh', overflow: 'auto' }}>
             {modalFlag === 1 ?
                 <AllTaskListUnderProject
                     open={modalOpen} setModalOpen={setModalOpen} allEmpTask={allEmpTask}

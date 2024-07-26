@@ -22,7 +22,7 @@ const TaskProgress = ({ val }) => {
                 if (success === 2) {
                     const complete = data?.filter((val) => (val.tm_task_status === 1))
                     const progress = Math.round((complete.length / data.length) * 100)
-                    setMainTaskProgress(progress)
+                    setMainTaskProgress(progress === 0 ? 0 : progress - 6)
                 }
             }
             getEmpTask(searchData)
