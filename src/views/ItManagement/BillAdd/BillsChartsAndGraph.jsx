@@ -1,16 +1,17 @@
-import React, { memo, useCallback, useEffect, useState, } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState, } from 'react'
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { Paper } from '@mui/material';
-import { Box, Chip, CssVarsProvider, Input, Typography, } from '@mui/joy';
+import { Box, Chip, CssVarsProvider, Dropdown, Input, ListDivider, Menu, MenuButton, MenuItem, Typography, } from '@mui/joy';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { BarChart, PieChart } from '@mui/x-charts';
-import { endOfMonth, endOfYear, format, startOfMonth, startOfYear, subYears } from 'date-fns';
+import { endOfMonth, endOfYear, format, isAfter, parse, startOfMonth, startOfYear, subYears } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { gettingArrayList, gettingArrayListFirstYear, gettingArrayListSecondYear, gettingArrayListYearly } from './CommonFunctnFile';
 import { getBillCategory } from 'src/redux/actions/ItBillCategoryList.action';
 import DonutSmallSharpIcon from '@mui/icons-material/DonutSmallSharp';
-
+import { axioslogin } from 'src/views/Axios/Axios';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const BillsChartsAndGraph = () => {
 
@@ -30,53 +31,73 @@ const BillsChartsAndGraph = () => {
     const [firstYear, setfirstYear] = useState([])
     const [secondYear, setsecondYear] = useState([])
     const [combinedDatas, setcombinedDatas] = useState([])
-    // const [billchangeAmtMonth, setbillchangeAmtMonth] = useState(0)
+    const [quarterStartDate, setQuarterStartDate] = useState('');
+    const [quarterRange, setQuarterRange] = useState('');
+    const [billchangeAmtMonth, setbillchangeAmtMonth] = useState(0)
+    const [billchangeAmtQuart, setbillchangeAmtQuart] = useState(0)
+    const [billchangeAmtOther, setbillchangeAmtOther] = useState(0)
+    const [billChargeYearly, setbillChargeYearly] = useState(0)
+    const [totMonthlyCharge, setTotMonthlyCharge] = useState(0)
+    const [totQutrCharge, setTotQutrCharge] = useState(0)
+    const [totOtherCharge, setTotOtherCharge] = useState(0)
+    const totalMonthlyChargedAmount = billchangeAmtMonth + billchangeAmtQuart + billchangeAmtOther;
+    const totalyearlyChargedAmount = billChargeYearly + totMonthlyCharge + totQutrCharge + totOtherCharge
+
     const dispatch = useDispatch();
-    // const [monthName, setMonthName] = useState('');
+    const [monthName, setMonthName] = useState('');
 
-    // useEffect(() => {
-    //     const parsedDate = parse(searchMonthAndYear, 'yyyy-MM', new Date());
-    //     const month = format(parsedDate, 'MMMM');
-    //     setMonthName(month);
-    // }, [searchMonthAndYear]);
+    useEffect(() => {
+        const parsedDate = parse(searchMonthAndYear, 'yyyy-MM', new Date());
+        const month = format(parsedDate, 'MMMM');
+        setMonthName(month);
+    }, [searchMonthAndYear]);
 
+    useEffect(() => {
+        // Call the function on component mount
+        const today = new Date();
+        const currentDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+        const quarterStartDate = getQuarterStartDate(currentDate);
+        setQuarterStartDate(quarterStartDate);
+    }, []);
 
-
-
-    // const [quarterStartDate, setQuarterStartDate] = useState('');
-
-    // const today = new Date();
-    // const currentYear = today.getFullYear();
-    // const startOfApr = startOfMonth(new Date(currentYear, 3, 1)); // April
-    // const startOfJul = startOfMonth(new Date(currentYear, 6, 1)); // July
-    // const startOfOct = startOfMonth(new Date(currentYear, 9, 1)); // October
-    // const selectedQuarter = isAfter(new Date(), startOfOct) ? `${currentYear}-10-01` : isAfter(new Date(), startOfJul) ? `${currentYear}-07-01` :
-    //     isAfter(new Date(), startOfApr) ? `${currentYear}-04-01` : `${currentYear}-01-01`
-
-
-
-    // const getQuarterStartDate = (date) => {
-
-    //     const currentYear = today.getFullYear();
-    //     const startOfApr = startOfMonth(new Date(currentYear, 3, 1)); // April
-    //     const startOfJul = startOfMonth(new Date(currentYear, 6, 1)); // July
-    //     const startOfOct = startOfMonth(new Date(currentYear, 9, 1)); // October
-    //     const selectedQuarter = isAfter(new Date(), startOfOct) ? `${currentYear}-10-01` : isAfter(new Date(), startOfJul) ? `${currentYear}-07-01` :
-    //         isAfter(new Date(), startOfApr) ? `${currentYear}-04-01` : `${currentYear}-01-01`
-
-    // };
-
-    // const monthChange = useCallback((e) => {
-    //     const value = e.target.value
-    //     setSearchMonthAndYear(value)
-    //     const quarterStart = getQuarterStartDate(value);
-    //     setQuarterStartDate(quarterStart);
-    // }, [])
+    const getQuarterStartDate = (date) => {
+        const [year, month] = date.split("-")
+        const currentYear = parseInt(year, 10)
+        const currentMonth = parseInt(month, 10)
+        let selectedQuarter;
+        let range;
+        // Default to the selected date's month start
+        selectedQuarter = startOfMonth(new Date(currentYear, currentMonth - 1));
+        // Determine the start date of the quarter
+        if (currentMonth >= 1 && currentMonth <= 3) {
+            selectedQuarter = `${currentYear}-01-01`
+            range = "Jan-Mar"
+        } else if (currentMonth >= 4 && currentMonth <= 6) {
+            selectedQuarter = `${currentYear}-04-01`
+            range = "Apr-Jun";
+        } else if (currentMonth >= 7 && currentMonth <= 9) {
+            selectedQuarter = `${currentYear}-07-01`
+            range = "Jul-Sep";
+        } else if (currentMonth >= 10 && currentMonth <= 12) {
+            selectedQuarter = `${currentYear}-10-01`
+            range = "Oct-Dec";
+        }
+        setQuarterStartDate(selectedQuarter)
+        setQuarterRange(range)
+        return selectedQuarter;
+    };
 
     const monthChange = useCallback((e) => {
         const value = e.target.value
         setSearchMonthAndYear(value)
+        const quarterStart = getQuarterStartDate(value);
+        setQuarterStartDate(quarterStart);
     }, [])
+
+    // const monthChange = useCallback((e) => {
+    //     const value = e.target.value
+    //     setSearchMonthAndYear(value)
+    // }, [])
 
     useEffect(() => {
         dispatch(getBillCategory())
@@ -212,27 +233,167 @@ const BillsChartsAndGraph = () => {
         setCompareYearTwo(value)
     }, [])
 
-    // const searchmonthlychargedAmount = useMemo(() => {
-    //     return {
-    //         from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
-    //         to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
-    //     }
-    // }, [searchMonthAndYear])
+    const searchmonthlychargedAmount = useMemo(() => {
+        return {
+            from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
+            to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
+        }
+    }, [searchMonthAndYear])
 
-    // useEffect(() => {
-    //     const getmonthlychargedAmount = async () => {
-    //         const result = await axioslogin.post('/ItBillAdd/getmonthlychargedAmount', searchmonthlychargedAmount);
-    //         const { success, data } = result.data;
-    //         if (success === 2) {
-    //             const totalBillAmount = data.reduce((acc, item) => acc + item.bill_amount, 0);
-    //             setbillchangeAmtMonth(totalBillAmount)
-    //         }
-    //         else {
-    //             setbillchangeAmtMonth(0)
-    //         }
-    //     }
-    //     getmonthlychargedAmount(searchmonthlychargedAmount)
-    // }, [searchmonthlychargedAmount])
+    useEffect(() => {
+        const getmonthlychargedAmount = async () => {
+            const result = await axioslogin.post('/ItBillAdd/getmonthlychargedAmount', searchmonthlychargedAmount);
+            const { success, data } = result.data;
+            if (success === 2) {
+                const totalBillAmount = data.reduce((acc, item) => acc + item.bill_amount, 0);
+                setbillchangeAmtMonth(totalBillAmount)
+            }
+            else {
+                setbillchangeAmtMonth(0)
+            }
+        }
+        getmonthlychargedAmount(searchmonthlychargedAmount)
+    }, [searchmonthlychargedAmount])
+
+
+    const searchquarterlychargedAmount = useMemo(() => {
+        return {
+            from: quarterStartDate,
+            to: quarterStartDate,
+        }
+    }, [quarterStartDate])
+
+    useEffect(() => {
+        const getQuarterlychargedAmount = async () => {
+            const result = await axioslogin.post('/ItBillAdd/getQuarterlychargedAmount', searchquarterlychargedAmount);
+            const { success, data } = result.data;
+            if (success === 2) {
+                const totalBillAmountQuar = data.reduce((acc, item) => acc + item.bill_amount, 0);
+                setbillchangeAmtQuart(totalBillAmountQuar)
+            }
+            else {
+                setbillchangeAmtQuart(0)
+            }
+        }
+        getQuarterlychargedAmount(searchquarterlychargedAmount)
+    }, [searchquarterlychargedAmount])
+
+
+    const searchmonthlychargedAmountOther = useMemo(() => {
+        return {
+            from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
+            to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
+        }
+    }, [searchMonthAndYear])
+
+    useEffect(() => {
+        const getmonthlychargedAmountOther = async () => {
+            const result = await axioslogin.post('/ItBillAdd/getOtherchargedAmount', searchmonthlychargedAmountOther);
+            const { success, data } = result.data;
+
+            if (success === 2) {
+                const totalBillAmountOther = data.reduce((acc, item) => acc + item.bill_amount, 0);
+                setbillchangeAmtOther(totalBillAmountOther)
+            }
+            else {
+                setbillchangeAmtOther(0)
+            }
+        }
+        getmonthlychargedAmountOther(searchmonthlychargedAmountOther)
+    }, [searchmonthlychargedAmountOther])
+
+
+
+    const searchyearlyCharged = useMemo(() => {
+        return {
+            from: format(startOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
+            to: format(endOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
+        }
+    }, [searchYear])
+
+    useEffect(() => {
+        const getYearlychargedAmount = async () => {
+            const result = await axioslogin.post('/ItBillAdd/getYearlychargedAmount', searchyearlyCharged);
+            const { success, data } = result.data;
+
+            if (success === 2) {
+                const totalBillAmountYearlycharged = data.reduce((acc, item) => acc + item.bill_amount, 0);
+                setbillChargeYearly(totalBillAmountYearlycharged)
+            }
+            else {
+                setbillChargeYearly(0)
+            }
+        }
+        getYearlychargedAmount(searchyearlyCharged)
+    }, [searchyearlyCharged])
+
+    const searchTotMonthCharged = useMemo(() => {
+        return {
+            from: format(startOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
+            to: format(endOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
+        }
+    }, [searchYear])
+
+    useEffect(() => {
+        const getTotmonthlychargedAmount = async () => {
+            const result = await axioslogin.post('/ItBillAdd/getmonthlychargedAmount', searchTotMonthCharged);
+            const { success, data } = result.data;
+            if (success === 2) {
+                const totalBillAmount = data.reduce((acc, item) => acc + item.bill_amount, 0);
+                setTotMonthlyCharge(totalBillAmount)
+            }
+            else {
+                setTotMonthlyCharge(0)
+            }
+        }
+        getTotmonthlychargedAmount(searchTotMonthCharged)
+    }, [searchTotMonthCharged])
+
+    const searchTotQuartCharged = useMemo(() => {
+        return {
+            from: format(startOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
+            to: format(endOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
+        }
+    }, [searchYear])
+
+    useEffect(() => {
+        const getTotQuartchargedAmount = async () => {
+            const result = await axioslogin.post('/ItBillAdd/getQuarterlychargedAmount', searchTotQuartCharged);
+            const { success, data } = result.data;
+            if (success === 2) {
+                const totalBillAmount = data.reduce((acc, item) => acc + item.bill_amount, 0);
+                setTotQutrCharge(totalBillAmount)
+            }
+            else {
+                setTotQutrCharge(0)
+            }
+        }
+        getTotQuartchargedAmount(searchTotQuartCharged)
+    }, [searchTotQuartCharged])
+
+    const searchTotOtherCharged = useMemo(() => {
+        return {
+            from: format(startOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
+            to: format(endOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
+        }
+    }, [searchYear])
+
+    useEffect(() => {
+        const getTotOtherchargedAmount = async () => {
+            const result = await axioslogin.post('/ItBillAdd/getOtherchargedAmount', searchTotOtherCharged);
+            const { success, data } = result.data;
+            if (success === 2) {
+                const totalBillAmount = data.reduce((acc, item) => acc + item.bill_amount, 0);
+                setTotOtherCharge(totalBillAmount)
+            }
+            else {
+                setTotOtherCharge(0)
+            }
+        }
+        getTotOtherchargedAmount(searchTotOtherCharged)
+    }, [searchTotOtherCharged])
+
+
 
     return (
         <Paper sx={{
@@ -247,7 +408,7 @@ const BillsChartsAndGraph = () => {
                 <BarChartIcon sx={{ color: '#2F435A', height: 25, width: 20 }} />Bills Tracker
             </Box>
             <Box sx={{ px: .5, flex: 1, display: 'flex' }}>
-                <Paper sx={{ flex: 2.5, borderRadius: 0, bgcolor: 'white', height: 300, mb: 1 }}>
+                <Paper sx={{ flex: 2.1, borderRadius: 0, bgcolor: 'white', height: 300, mb: 1 }}>
 
 
                     <Box sx={{ flex: 1, display: 'flex' }}>
@@ -266,18 +427,10 @@ const BillsChartsAndGraph = () => {
                                     onChange={monthChange} />
                             </Box>
                         </Box>
-                        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', py: 2, pr: 1 }}>
-                            <CssVarsProvider>
-                                <Chip sx={{ bgcolor: '#E7F2F8', fontSize: 20, color: '#BA0F30', fontWeight: 800, ml: 1 }}>
-                                    <CurrencyRupeeIcon sx={{ width: 20, color: '#BA0F30' }} />
-                                    {new Intl.NumberFormat('en-IN').format(monthYeartotAmount)}
-                                </Chip>
-                            </CssVarsProvider>
-                        </Box>
-                        {/* <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: .5 }}>
-                            <Box sx={{ textAlign: 'center' }}>
-                                <Box sx={{ fontSize: 25, fontWeight: 700, color: '#CB6112' }}>
-                                    <CurrencyRupeeIcon sx={{ width: 25, color: '#6E5828' }} />
+                        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: .5 }}>
+                            <Box sx={{ textAlign: 'center', pt: .8 }}>
+                                <Box sx={{ fontSize: 20, fontWeight: 700, color: '#CB6112' }}>
+                                    <CurrencyRupeeIcon sx={{ width: 20, color: '#6E5828' }} />
                                     {new Intl.NumberFormat('en-IN').format(monthYeartotAmount)}
                                 </Box>
                                 <Typography sx={{ fontSize: 13, color: '#211625' }}>
@@ -285,9 +438,9 @@ const BillsChartsAndGraph = () => {
                                 </Typography>
                             </Box>
                             <Box sx={{ textAlign: 'center', px: 2 }}>
-                                <Box sx={{ fontSize: 25, fontWeight: 700, color: '#CB6112' }}>
-                                    <CurrencyRupeeIcon sx={{ width: 25, color: '#6E5828' }} />
-                                    {new Intl.NumberFormat('en-IN').format(billchangeAmtMonth)}
+                                <Box sx={{ fontSize: 20, fontWeight: 700, color: '#CB6112' }}>
+                                    <CurrencyRupeeIcon sx={{ width: 20, color: '#6E5828' }} />
+                                    {new Intl.NumberFormat('en-IN').format(totalMonthlyChargedAmount)}
                                     <Dropdown>
                                         <MenuButton
                                             // slots={{ root: IconButton }}
@@ -307,46 +460,63 @@ const BillsChartsAndGraph = () => {
                                                 // display: 'grid',
                                                 gridTemplateColumns: 'repeat(3, 100px)',
                                                 gridAutoRows: '100px',
-                                                gap: 1,
+                                                gap: .5,
+                                                width: 260
                                             }}
                                         >
                                             <MenuItem sx={{ flex: 1, display: 'flex' }}>
-                                                <Box>
-                                                    <Typography>
+                                                <Box sx={{ flex: 1 }}>
+                                                    <Typography >
                                                         Monthly Tarrif
                                                     </Typography>
-                                                    <Typography sx={{ fontSize: 12, textAlign: 'center' }}>
+                                                    <Typography sx={{ fontSize: 12, pl: 2 }}>
                                                         ({monthName})
                                                     </Typography>
                                                 </Box>
-                                                <Typography sx={{ fontSize: 20, pl: 5, pb: 1 }}>
-                                                    <CurrencyRupeeIcon sx={{ width: 18, color: '#6E5828' }} />
+                                                <Typography sx={{ fontSize: 15, pl: 5, pb: 1 }}>
+                                                    <CurrencyRupeeIcon sx={{ width: 15, color: '#6E5828' }} />
                                                     {new Intl.NumberFormat('en-IN').format(billchangeAmtMonth)}
                                                 </Typography>
                                             </MenuItem>
+                                            <ListDivider />
                                             <MenuItem sx={{ flex: 1, display: 'flex' }}>
-                                                <Box>
+                                                <Box sx={{ flex: 1 }}>
                                                     <Typography>
                                                         Quaterly Tarrif
                                                     </Typography>
-                                                    <Typography sx={{ fontSize: 12, textAlign: 'center' }}>
-                                                        (July)
+                                                    <Typography sx={{ fontSize: 12, pl: 2 }}>
+                                                        ({quarterRange})
                                                     </Typography>
                                                 </Box>
-                                                <Typography sx={{ fontSize: 20, pl: 5, pb: 1 }}>
-                                                    <CurrencyRupeeIcon sx={{ width: 18, color: '#6E5828' }} />
-                                                    {new Intl.NumberFormat('en-IN').format(billchangeAmtMonth)}
+                                                <Typography sx={{ fontSize: 15, pl: 5, pb: 1 }}>
+                                                    <CurrencyRupeeIcon sx={{ width: 15, color: '#6E5828' }} />
+                                                    {new Intl.NumberFormat('en-IN').format(billchangeAmtQuart)}
+                                                </Typography>
+                                            </MenuItem>
+                                            <ListDivider />
+                                            <MenuItem sx={{ flex: 1, display: 'flex' }}>
+                                                <Box sx={{ flex: 1 }}>
+                                                    <Typography>
+                                                        Other Bills
+                                                    </Typography>
+                                                    <Typography sx={{ fontSize: 12, pl: 2 }}>
+                                                        ({monthName})
+                                                    </Typography>
+                                                </Box>
+                                                <Typography sx={{ fontSize: 15, pl: 5, pb: 1 }}>
+                                                    <CurrencyRupeeIcon sx={{ width: 15, color: '#6E5828' }} />
+                                                    {new Intl.NumberFormat('en-IN').format(billchangeAmtOther)}
                                                 </Typography>
                                             </MenuItem>
                                         </Menu>
                                     </Dropdown>
                                 </Box>
                                 <Typography sx={{ fontSize: 13, color: '#211625' }}>
-                                    Charged Amount
+                                    Billed Amount
                                 </Typography>
                             </Box>
 
-                        </Box> */}
+                        </Box>
                     </Box>
                     <Box sx={{ flex: 1, overflow: 'auto', pl: 3, }}>
                         {monthYearFlag === 1 ?
@@ -391,27 +561,44 @@ const BillsChartsAndGraph = () => {
                         }
                     </Box>
                 </Paper>
-                <Paper sx={{ flex: 1.2, borderRadius: 0, bgcolor: 'white', height: 300, mb: 1, ml: 1 }}>
-                    <Box sx={{ flex: 1, mx: 1, pt: 1, display: 'flex' }}>
-                        <Typography sx={{ fontWeight: 800, fontSize: 18, color: '#52688F', flex: 1 }}>
-                            &nbsp;Annual Paid Amount</Typography>
-                        <CssVarsProvider>
-                            <Chip sx={{ bgcolor: '#E7F2F8', fontSize: 20, color: '#BA0F30', fontWeight: 800 }}>
-                                <CurrencyRupeeIcon sx={{ width: 20, color: '#BA0F30' }} />
-                                {new Intl.NumberFormat('en-IN').format(yeartotAmount)}
-                            </Chip>
-                        </CssVarsProvider>
-                    </Box>
-                    <Box sx={{ width: 90, ml: 1.5, pl: 1 }}>
-                        <Input
-                            variant="solid"
-                            sx={{ borderRadius: 20, pl: 3 }}
-                            name="searchYear"
-                            type="number"
-                            size="sm"
-                            min='2000'
-                            value={searchYear}
-                            onChange={yearChange} />
+                <Paper sx={{ flex: 1.3, borderRadius: 0, bgcolor: 'white', height: 300, mb: 1, ml: 1 }}>
+                    <Box sx={{ flex: 1, display: 'flex' }}>
+                        <Box sx={{ flex: .6, }}>
+                            <Typography sx={{ fontWeight: 800, fontSize: 18, color: '#52688F', py: .5, pl: 2 }}>
+                                &nbsp;Annual charts
+                            </Typography>
+                            <Box sx={{ width: 90, ml: 1.5, pl: 1 }}>
+                                <Input
+                                    variant="solid"
+                                    sx={{ borderRadius: 20, pl: 3 }}
+                                    name="searchYear"
+                                    type="number"
+                                    size="sm"
+                                    min='2000'
+                                    value={searchYear}
+                                    onChange={yearChange} />
+                            </Box>
+                        </Box>
+                        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: .5 }}>
+                            <Box sx={{ textAlign: 'center', pr: 1 }}>
+                                <Box sx={{ fontSize: 20, fontWeight: 700, color: '#CB6112' }}>
+                                    <CurrencyRupeeIcon sx={{ width: 20, color: '#6E5828' }} />
+                                    {new Intl.NumberFormat('en-IN').format(yeartotAmount)}
+                                </Box>
+                                <Typography sx={{ fontSize: 13, color: '#211625' }}>
+                                    Paid Amount
+                                </Typography>
+                            </Box>
+                            <Box sx={{ textAlign: 'center', pr: 3 }}>
+                                <Box sx={{ fontSize: 20, fontWeight: 700, color: '#CB6112' }}>
+                                    <CurrencyRupeeIcon sx={{ width: 20, color: '#6E5828' }} />
+                                    {new Intl.NumberFormat('en-IN').format(totalyearlyChargedAmount)}
+                                </Box>
+                                <Typography sx={{ fontSize: 13, color: '#211625' }}>
+                                    Billed Amount
+                                </Typography>
+                            </Box>
+                        </Box>
                     </Box>
                     <Box sx={{ width: 300, margin: 'auto', mt: 2, pl: .3 }}>
                         <Box>
