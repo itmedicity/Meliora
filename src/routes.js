@@ -221,6 +221,7 @@ const AllCRFReport = React.lazy(() => import('./views/Report/CrmReport/AllCRFRep
 const AssetCondemnationList = React.lazy(() => import('./views/AssetManagment/CondemnationList/CondemnationList'))
 const AssetServiceList = React.lazy(() => import('./views/AssetManagment/ServiceListSpare/SpareSErviceList'))
 const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRFAllReportWithPO'))
+const PmDueList = React.lazy(() => import('./views/AssetManagment/PmOverDueList/PmOverdueList'))
 
 
 const routes = [
@@ -447,7 +448,7 @@ const routes = [
   { path: '/Home/AssetCondemnationList', exact: true, name: 'Spare Condemnation List', component: AssetCondemnationList },
   { path: '/Home/AssetServiceList', exact: true, name: 'Spare Service List', component: AssetServiceList },
   { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
-
+  { path: '/Home/PmDueList', exact: true, name: 'PM Due List in Asset', component: PmDueList },
 
 ]
 
