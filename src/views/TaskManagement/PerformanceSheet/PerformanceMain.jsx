@@ -431,7 +431,7 @@ const PerformanceMain = () => {
                 const totalTasks = data.length;
                 const completedToday = data.filter(item => item.tm_task_status === 1 && isToday(item.tm_complete_date));
                 const completedTasks = data.filter(item =>
-                    item.tm_task_status === 1 && isSameMonth(parseISO(item.tm_complete_date), new Date(searchMonthAndYear)));
+                    item.tm_task_status === 1 && isSameMonth(parseISO(item.tm_complete_date), new Date(searchMonthAndYear))).length;
                 const onHoldTasks = data.filter(item => isPastDue(item.tm_task_due_date) && item.tm_task_status === 3).length;
                 const totalWithOutHold = (totalTasks - onHoldTasks)
                 const overdueToday = data.filter(item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date))
@@ -457,7 +457,7 @@ const PerformanceMain = () => {
                 setTaskPerformance(Number.isInteger(PerformanceProgress) ? PerformanceProgress.toFixed(0) : PerformanceProgress.toFixed(2));
                 setEmplmainTasks(mainTaskData);
                 setempTotalTask(totalTasks)
-                setEmpCompletedTask(completedTasks.length)
+                setEmpCompletedTask(completedTasks)
                 setEmpOerdueToday(overdueToday.length)
                 setEmpTotalWithouthold(totalWithOutHold)
                 setEmpCompltTodayTask(completedToday.length);

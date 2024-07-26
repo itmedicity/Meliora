@@ -130,7 +130,7 @@ const MyPerformance = () => {
             if (success === 2) {
                 const mainTaskData = data.filter(item => item.main_task_slno === null);
                 const totalTasks = data.length;
-                const completedTasks = data.filter(item => item.tm_task_status === 1)
+                const completedTasks = data.filter(item => item.tm_task_status === 1).length;
                 const onHoldTasks = data.filter(item => isPastDue(item.tm_task_due_date) && item.tm_task_status === 3).length;
                 const completedTasksWoutchangingDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === null)
                 const cmptlWOneTimeDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === 1)
@@ -143,7 +143,7 @@ const MyPerformance = () => {
                 settaskProogress(valueProgress)
                 setmainTasks(mainTaskData);
                 setTotalTaskCount(totalTasks);
-                setCompletedTaskCount(completedTasks.length);
+                setCompletedTaskCount(completedTasks);
                 setcompletedTasksWithoutchangingDuedate(completedTasksWoutchangingDuedate.length)
                 setcmptlWithOneTimeDuedate(cmptlWOneTimeDuedate.length)
                 setcmptlWithTwoTimeDuedate(cmptlWTwoTimeDuedate.length)

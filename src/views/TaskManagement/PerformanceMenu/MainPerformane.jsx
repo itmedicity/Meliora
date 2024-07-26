@@ -267,7 +267,7 @@ const MainPerformane = () => {
             const { success, data } = result.data;
             if (success === 2) {
                 const totalTasks = data.length;
-                const completedTasks = data.filter(item => item.tm_task_status === 1);
+                const completedTasks = data.filter(item => item.tm_task_status === 1).length;
                 const valueProgress = (completedTasks + totalTasks) === 0 ? 0 : ((completedTasks / totalTasks) * 100);
                 const onHoldTasks = data.filter(item => isPastDue(item.tm_task_due_date) && item.tm_task_status === 3).length;
                 const totalWithOutHold = (totalTasks - onHoldTasks);
@@ -300,7 +300,7 @@ const MainPerformane = () => {
                 setAdjustedCompleteion(adjustedCompletion)
                 setTaskPerformance(Number.isInteger(PerformanceProgress) ? PerformanceProgress.toFixed(0) : PerformanceProgress.toFixed(2));
                 setempTotalTask(totalTasks);
-                setEmpCompletedTask(completedTasks.length);
+                setEmpCompletedTask(completedTasks);
                 setEmplinearTaskProgresss(valueProgress);
                 setEmpTotalWithouthold(totalWithOutHold)
                 setEmpOerdueToday(overdueToday.length);
