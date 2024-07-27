@@ -36,7 +36,6 @@ const MyPerformance = () => {
     const [completedcomplaints, setCompletedcomplaints] = useState(0)
     const [empComplaintsToday, setEmpComplaintsToday] = useState(0)
     const [empTotalComplaints, setEmpTotalComplaints] = useState(0)
-    // const [empRctiCompl, setEmpRctiCompl] = useState(0)
     const [empLinearComptProg, setEmpLinearComptProg] = useState(0)
     const [empOnholdComplaints, setEmpOnholdComplaints] = useState(0)
     const [emplPendingComplints, setEmplPendingComplints] = useState(0)
@@ -133,25 +132,14 @@ const MyPerformance = () => {
                 const totalTasks = data.length;
                 const completedTasks = data.filter(item => item.tm_task_status === 1).length;
                 const onHoldTasks = data.filter(item => isPastDue(item.tm_task_due_date) && item.tm_task_status === 3).length;
-                const completedTasksWoutchangingDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === null).length;
-                const cmptlWOneTimeDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === 1).length;
-                const cmptlWTwoTimeDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === 2).length;
-                const cmptlWThreeTimeDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === 3).length;
-                const cmptlWMoreThreeTimeDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count > 3).length;
-                const overdueToday = data.filter(item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date)).length;
+                const completedTasksWoutchangingDuedate = data.filter(item => (item.tm_task_status === 1) && (item.tm_mast_duedate_count === null)).length
+                const cmptlWOneTimeDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === 1)
+                const cmptlWTwoTimeDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === 2)
+                const cmptlWThreeTimeDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === 3)
+                const cmptlWMoreThreeTimeDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count > 3)
+                const overdueToday = data.filter(item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date))
                 const totalWithOutHold = (totalTasks - onHoldTasks)
                 const valueProgress = (completedTasks / totalTasks) * 100
-                settaskProogress(valueProgress)
-                setmainTasks(mainTaskData);
-                setTotalTaskCount(totalTasks);
-                setCompletedTaskCount(completedTasks);
-                setcompletedTasksWithoutchangingDuedate(completedTasksWoutchangingDuedate)
-                setcmptlWithOneTimeDuedate(cmptlWOneTimeDuedate)
-                setcmptlWithTwoTimeDuedate(cmptlWTwoTimeDuedate)
-                setcmptlWithThreeTimeDuedate(cmptlWThreeTimeDuedate)
-                setcmptlWithMoreThreeTimeDuedate(cmptlWMoreThreeTimeDuedate)
-                setEmpOerdueToday(overdueToday)
-                setEmpTotalWithouthold(totalWithOutHold)
                 const penaltyCounts = {};
                 data.forEach(item => {
                     if (item.tm_task_status === 1 && item.tm_mast_duedate_count !== null) {
@@ -171,6 +159,17 @@ const MyPerformance = () => {
                 const PerformanceProgress = (adjustedCompletion + totalWithOutHold) === 0 ? 0 : (adjustedCompletion / totalWithOutHold) * 100;
                 setAdjustedCompleteion(adjustedCompletion)
                 setTaskPerformance(Number.isInteger(PerformanceProgress) ? PerformanceProgress.toFixed(0) : PerformanceProgress.toFixed(2));
+                settaskProogress(valueProgress)
+                setmainTasks(mainTaskData)
+                setTotalTaskCount(totalTasks)
+                setCompletedTaskCount(completedTasks)
+                setcompletedTasksWithoutchangingDuedate(completedTasksWoutchangingDuedate)
+                setcmptlWithOneTimeDuedate(cmptlWOneTimeDuedate.length)
+                setcmptlWithTwoTimeDuedate(cmptlWTwoTimeDuedate.length)
+                setcmptlWithThreeTimeDuedate(cmptlWThreeTimeDuedate.length)
+                setcmptlWithMoreThreeTimeDuedate(cmptlWMoreThreeTimeDuedate.length)
+                setEmpOerdueToday(overdueToday.length)
+                setEmpTotalWithouthold(totalWithOutHold)
             }
             else {
                 setmainTasks([])
@@ -184,6 +183,8 @@ const MyPerformance = () => {
                 setcmptlWithMoreThreeTimeDuedate(0)
                 setEmpOerdueToday(0)
                 setEmpTotalWithouthold(0)
+                setTaskPerformance(0)
+                setAdjustedCompleteion(0)
             }
         }
         getAllTask(searchEmployeeTaskData)
@@ -199,24 +200,24 @@ const MyPerformance = () => {
                 const VerifiedComplints = data.filter(item => item.cm_rectify_status === 'V').length;
                 const Completedcomplaints = RectifiedComplints + VerifiedComplints;
                 const OnholdComplaints = data.filter(item => item.cm_rectify_status === 'O').length;
-                const ReOpenedComplaints = data.filter(item => item.reopen_cm_slno !== null).length;
+                const ReOpenedComplaints = data.filter(item => item.reopen_cm_slno !== null)
                 const Pending = data.filter(item => (
                     (item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'O' && item.cm_rectify_status !== 'V') || item.cm_rectify_status === null
-                )).length;
+                ))
                 const totallWithoutHold = totalComplaints - OnholdComplaints
                 const ComplaintEmpProgress = (Completedcomplaints + totallWithoutHold) === 0 ? 0 : (Completedcomplaints / totallWithoutHold) * 100
-                const complaintsToday = data.filter(item => isToday(item.compalint_date)).length;
-                const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time)).length;
-                const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_rectify_time)).length;
+                const complaintsToday = data.filter(item => isToday(item.compalint_date))
+                const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time))
+                const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_rectify_time))
                 const ComplaintPerformnce = (Completedcomplaints + totallWithoutHold) === 0 ? 0 : (Completedcomplaints / totallWithoutHold) * 100
                 setEmpTotalComplaints(totalComplaints)
                 setEmpLinearComptProg(ComplaintEmpProgress)
-                setEmplPendingComplintsMonth(Pending)
-                setEmpReopendCompln(ReOpenedComplaints)
-                setEmpComplaintsToday(complaintsToday)
-                setEmpRctTodayCmplt(rectifiedToday)
+                setEmplPendingComplintsMonth(Pending.length)
+                setEmpReopendCompln(ReOpenedComplaints.length)
+                setEmpComplaintsToday(complaintsToday.length)
+                setEmpRctTodayCmplt(rectifiedToday.length)
                 setEmpVeriComplt(VerifiedComplints)
-                setEmpVeriToday(verifiedToday)
+                setEmpVeriToday(verifiedToday.length)
                 setCompletedcomplaints(Completedcomplaints)
                 setComplPerfm(Number.isInteger(ComplaintPerformnce) ? ComplaintPerformnce.toFixed(0) : ComplaintPerformnce.toFixed(2))
             }
@@ -321,8 +322,6 @@ const MyPerformance = () => {
         }
         getOnHoldComplaints(empid)
     }, [empid])
-
-
 
     return (
         <Box sx={{ flex: 1, }}>
