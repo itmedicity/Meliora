@@ -1,18 +1,102 @@
-import { Box, Button, CssVarsProvider, DialogActions, Divider, Modal, ModalDialog, Typography } from '@mui/joy'
-import React, { memo, useCallback, } from 'react'
+import { Avatar, Box, Button, CssVarsProvider, DialogActions, Modal, ModalDialog, Textarea, Typography } from '@mui/joy'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel';
 import AssignmentSharpIcon from '@mui/icons-material/AssignmentSharp';
 import InsertInvitationSharpIcon from '@mui/icons-material/InsertInvitationSharp';
 import { format } from 'date-fns';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+import moment from 'moment';
+import _ from 'underscore';
+import PersonIcon from '@mui/icons-material/Person';
+import { useSelector } from 'react-redux';
+import SendIcon from '@mui/icons-material/Send';
 
-const ReplyModal = ({ open, setReplyOpen, setReplyflag, valuee, }) => {
-    const { tm_task_name, tm_task_due_date, tm_query_remark, tm_query_reply_date, reply_empname, tm_query_reply } = valuee
-    let capEmpName = reply_empname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+const ReplyModal = ({ open, setReplyOpen, setReplyflag, valuee, setTableCount, tableCount }) => {
+
+    const { tm_task_name, tm_task_due_date, tm_task_slno, } = valuee
+    const [replies, setreplies] = useState('')
+    const [rpData, setrpData] = useState([])
+    const [assiEmplo, setAssiEmplo] = useState(0)
+
+    let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
+
+    const replyUpdate = useCallback(
+        (e) => {
+            const value = e.target.value;
+            setreplies(value);
+        },
+        []
+    );
+
+    const getquery = useMemo(() => {
+        return {
+            tm_task_slno: tm_task_slno,
+        }
+    }, [tm_task_slno,]);
+
+    useEffect(() => {
+        const getallreplies = async () => {
+            const result = await axioslogin.post('/TmAllDeptTask/getQuery', getquery);
+            const { success, data } = result.data;
+            if (success === 2) {
+                const { tm_assigne_emp } = data[0]
+                setAssiEmplo(tm_assigne_emp)
+                setrpData(data)
+            }
+            else {
+                setrpData([])
+            }
+        }
+        getallreplies()
+    }, [getquery, tableCount])
+
+    const postdata = useMemo(() => {
+        return {
+            tm_task_slno: tm_task_slno,
+            tm_query_reply: replies,
+            tm_query_reply_date: newDate,
+            tm_query_reply_user: id,
+            tm_aasiigned_emplo: assiEmplo
+
+        }
+    }, [tm_task_slno, replies, newDate, assiEmplo, id]);
 
     const QueryClose = useCallback(() => {
         setReplyflag(0)
         setReplyOpen(false)
     }, [setReplyOpen, setReplyflag])
+
+    const SubmitQuery = useCallback((e) => {
+        e.preventDefault();
+        if (replies !== '') {
+            const rejectTask = async (postdata) => {
+                const result = await axioslogin.post('/TmAllDeptTask/replyQuery', postdata);
+                const { success, message } = result.data;
+                if (success === 1) {
+                    succesNotify(message);
+                    setTableCount(tableCount + 1);
+                    setreplies('')
+
+                } else {
+
+                }
+            }
+            rejectTask(postdata);
+        }
+        else {
+            infoNotify('please mark Your replies')
+        }
+    }, [tableCount, setTableCount, replies, postdata]);
+
+    const capitalizeWords = (str) => {
+        return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    };
+    const formatDate = (dateStr) => {
+        const date = new Date(dateStr);
+        return format(date, 'MMMM d, yyyy HH:mm');
+    };
 
     return (
         <Box>
@@ -22,7 +106,7 @@ const ReplyModal = ({ open, setReplyOpen, setReplyflag, valuee, }) => {
                 >
                     < ModalDialog
                         sx={{
-                            width: '33vw',
+                            width: '55vw',
 
                             p: 0,
                             overflow: 'auto'
@@ -30,67 +114,87 @@ const ReplyModal = ({ open, setReplyOpen, setReplyflag, valuee, }) => {
                     >
                         <Box>
                             <Box sx={{ flex: 1, display: 'flex', mt: 1, p: 1, }}>
-                                <Box sx={{ flex: 1, color: 'lightgrey', }}>
-                                    Task Management
+                                <Box sx={{ flex: 1, color: 'grey', }}>
+                                    replies
                                 </Box>
                                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
                                     <CancelIcon sx={{ color: 'darkred', cursor: 'pointer' }} onClick={QueryClose} />
                                 </Box>
                             </Box>
-                            <Box sx={{ flex: 1, display: 'flex', bgcolor: '#92443A', height: 50, }}>
-                                <Typography sx={{ color: 'white', pl: 1, pt: 1, fontWeight: 600, fontSize: 16 }}>
-                                    Raise a Query
-                                </Typography>
-                            </Box>
-                            <Box sx={{ flex: 1, display: 'flex', mt: 1, mx: 2 }}>
-                                <Box sx={{ flex: 3 }}>
-                                    <Typography sx={{ pl: .5, fontWeight: 600, color: '#523A28' }}><AssignmentSharpIcon sx={{ p: .3, color: '#523A28' }} /><u>Task</u></Typography>
-                                    <Typography sx={{ px: 1.5, fontSize: 14, color: 'grey', }}>{tm_task_name}</Typography>
+                            <Box sx={{ flex: 1, display: 'flex', bgcolor: '#D9DADE', py: .5 }}>
+                                <Box sx={{ flex: 1, pl: .5 }}>
+                                    <Typography sx={{ pl: .5, fontWeight: 600, color: 'Black' }}><AssignmentSharpIcon sx={{}} />Task</Typography>
+                                    <Typography sx={{ pl: 1, fontSize: 16, color: 'Black', }}>{tm_task_name}</Typography>
                                 </Box>
-                                <Box sx={{ flex: 1 }}>
-                                    <Typography sx={{ pl: .1, fontWeight: 600, color: '#523A28' }}><InsertInvitationSharpIcon sx={{ p: .3, color: '#523A28' }} /><u>Duedate</u></Typography>
-                                    <Typography sx={{ px: 1, fontSize: 12, color: 'grey', fontWeight: 600 }}>
+                                <Box sx={{ flex: 1, textAlign: 'right' }}>
+                                    <Typography sx={{ pr: 5, fontWeight: 600, color: 'Black' }}><InsertInvitationSharpIcon sx={{ p: .3, }} />Duedate</Typography>
+                                    <Typography sx={{ pr: 1.1, fontSize: 12, color: 'Black', fontWeight: 600 }}>
                                         {format(new Date(tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
                                     </Typography>
                                 </Box>
                             </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, px: 3 }}>
+                                {rpData?.map((val) => (
+                                    <React.Fragment key={val.tm_query_details_slno}>
+                                        {val.tm_query_remark !== null && (
+                                            <Box sx={{ display: 'flex', alignItems: 'flex-start', mt: 2 }}>
+                                                <Avatar size='sm' sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: .5 }}>
+                                                    <PersonIcon sx={{ p: .1, color: '#3B281C' }} />
+                                                </Avatar>
+                                                <Box sx={{ ml: .5, mr: 10, minWidth: 200 }}>
+                                                    <Box sx={{ border: 1, borderColor: '#3B281C', bgcolor: '#FFFFFF', p: 1, borderRadius: 15 }}>
+                                                        {val.tm_query_remark}
+                                                    </Box>
+                                                    <Box sx={{ display: 'flex', fontSize: 11, mt: 0.5 }}>
+                                                        <Box sx={{ pl: .5, flex: 1, }}>{capitalizeWords(val.query_user)}</Box>
+                                                        <Box sx={{ pr: 1 }}>{formatDate(val.tm_query_remark_date)}</Box>
 
-                            <Box sx={{ flex: 1, mx: 2.3 }}>
-
-                                <Typography sx={{ mt: 1, pl: .5, color: '#92443A' }}>Raised Query ?</Typography>
-
-                                <Box sx={{ flex: 1, px: 1, border: 1, borderRadius: 8, minHeight: 100, borderColor: '#92443A', pt: 1 }}>
-                                    {tm_query_remark}
-                                </Box>
-
+                                                    </Box>
+                                                </Box>
+                                            </Box>
+                                        )}
+                                        {val.tm_query_reply !== null && (
+                                            <Box sx={{ display: 'flex', alignItems: 'flex-start', mt: 2, justifyContent: 'flex-end' }}>
+                                                <Box sx={{ mr: .5, textAlign: 'right', ml: 10, minWidth: 200 }}>
+                                                    <Box sx={{ border: 1, borderColor: '#466E73', bgcolor: '#FFFFFF', p: 1, borderRadius: 15 }}>
+                                                        {val.tm_query_reply}
+                                                    </Box>
+                                                    <Box sx={{ display: 'flex', fontSize: 11, mt: 0.5, justifyContent: 'flex-end' }}>
+                                                        <Box sx={{ pl: 1 }}>{formatDate(val.tm_query_reply_date)}</Box>
+                                                        <Box sx={{ flex: 1, pr: .5 }}>{capitalizeWords(val.reply_user)}</Box>
+                                                    </Box>
+                                                </Box>
+                                                <Avatar size='sm' sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: .5 }}>
+                                                    <PersonIcon sx={{ p: .1, color: '#466E73' }} />
+                                                </Avatar>
+                                            </Box>
+                                        )}
+                                    </React.Fragment>
+                                ))}
                             </Box>
-
-                            <Divider sx={{ '--Divider-childPosition': `5%`, fontWeight: 400, fontSize: 18, color: 'grey', mb: 1, mt: 2, mx: 1 }}>Reply Details</Divider>
-
-                            <Box sx={{ flex: 1, display: 'flex', mt: 1, mx: 2 }}>
-                                <Box sx={{ flex: 3 }}>
-                                    <Typography sx={{ pl: 1.5, fontWeight: 600, color: '#523A28' }}><u>Replied by</u></Typography>
-                                    <Typography sx={{ px: 1.5, fontSize: 14, color: 'grey', pt: .5 }}>{capEmpName}</Typography>
+                            <Box sx={{ flex: 1, ml: 5, mr: 6, mt: 1.5, display: 'flex' }}>
+                                <Box sx={{ flex: 1, pt: .3 }}>
+                                    <Textarea
+                                        minRows={1}
+                                        maxRows={10}
+                                        placeholder="Type reply here...."
+                                        variant="outlined"
+                                        color="neutral"
+                                        name="replies"
+                                        value={replies}
+                                        onChange={replyUpdate}
+                                        sx={{ borderRadius: 15 }}
+                                    />
                                 </Box>
-                                <Box sx={{ flex: 1 }}>
-                                    <Typography sx={{ pl: 1.1, fontWeight: 600, color: '#523A28' }}><u>Replied Date</u></Typography>
-                                    <Typography sx={{ px: 1, fontSize: 12, color: 'grey', fontWeight: 600, pt: .5 }}>
-                                        {format(new Date(tm_query_reply_date), 'MMM dd, yyyy HH:mm:ss')}
-                                    </Typography>
+                                <Box sx={{ pl: .5, margin: 'auto' }}>
+                                    <Avatar sx={{ bgcolor: '#007FFF' }}>
+                                        <SendIcon onClick={SubmitQuery} sx={{ color: 'white', cursor: 'pointer', }} />
+                                    </Avatar>
                                 </Box>
-                            </Box>
-                            <Box sx={{ flex: 1, mx: 2.3, mt: 2 }}>
-                                <Typography sx={{ mt: 1, pl: .5, color: '#92443A' }}>Reply to the Query.</Typography>
-                                <Box sx={{ flex: 1, px: 1, border: 1, borderRadius: 8, minHeight: 100, borderColor: '#92443A', pt: 1 }}>
-
-                                    {tm_query_reply}
-                                </Box>
-
                             </Box>
                         </Box>
                         <DialogActions>
                             <Box sx={{ textAlign: 'right', pb: 2, mr: 1 }}>
-
                                 <Button
                                     variant="plain"
                                     sx={{ color: "#92443A", fontSize: 16, }}
@@ -101,7 +205,7 @@ const ReplyModal = ({ open, setReplyOpen, setReplyflag, valuee, }) => {
                     </ModalDialog>
                 </Modal>
             </CssVarsProvider>
-        </Box>
+        </Box >
     )
 }
 

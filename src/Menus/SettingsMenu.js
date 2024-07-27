@@ -127,9 +127,7 @@ export const dc_setting_one = [
 ]
 
 
-
 //User Management Menu
-
 export const userManagement_one = [
     { to: '/Home/Group', name: 'Group Master', slno: 7 },
     { to: '/Home/ModuleGroupMast', name: 'Module Group Master', slno: 8 },
@@ -144,6 +142,14 @@ export const userManagement_three = [
     { to: '/Home/UserGroupRight', name: 'User Group Rights', slno: 10 },
     { to: '/Home/UserCreation', name: 'User Creation', slno: 44 },
 ]
+
+//TaskManagement Menu
+export const taskManagement_one = [
+    { to: '/Home/TMOverdueCountMaster', name: 'TaskMaster Duedate Count', slno: 218 },
+
+]
+
+
 
 // //Diet Master Menu
 // export const dm_setting_one = [

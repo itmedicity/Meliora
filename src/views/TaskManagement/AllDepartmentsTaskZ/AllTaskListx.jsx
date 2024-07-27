@@ -91,7 +91,8 @@ const AllTaskListx = () => {
                         tm_project_slno: val.tm_project_slno,
                         tm_project_duedate: val.tm_project_duedate,
                         create_date: val.create_date,
-                        tm_task_file: val.tm_task_file
+                        tm_task_file: val.tm_task_file,
+                        tm_mast_duedate_count: val.tm_mast_duedate_count
                     }
                     return obj
                 })

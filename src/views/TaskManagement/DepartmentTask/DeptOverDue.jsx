@@ -81,6 +81,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                                             val.tm_task_status === 4 ? 'Pending' :
                                                 val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
                             tm_task_file: val.tm_task_file,
+                            tm_mast_duedate_count: val.tm_mast_duedate_count
                         }
                         return obj
                     })

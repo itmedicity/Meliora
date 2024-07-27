@@ -48,7 +48,7 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                         {editProjectFlag === 1 ?
                             <EditProject
                                 open={editEditProjectModalOpen} setEditProjectModalOpen={setEditProjectModalOpen} projectData={masterData}
-                                setEditProjectFlag={setEditProjectFlag} tableCount={tableCount} setTableCount={setTableCount}
+                                setEditProjectFlag={setEditProjectFlag} tableCount={tableCount} setTableCount={setTableCount} setProjectData={setMasterData}
                             />
                             : null}
                         <CssVarsProvider>

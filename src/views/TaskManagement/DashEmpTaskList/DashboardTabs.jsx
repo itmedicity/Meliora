@@ -74,15 +74,14 @@ const DashboardTabs = () => {
                         </Box>
                     </TabList>
                     <TabPanel value={0} sx={{
-                        border: 1,
-                        borderRadius: 6,
-                        borderColor: 'background.level1',
+
                         flex: 1,
                         flexGrow: 1,
                         mt: .5,
-                        overflow: 'auto',
+                        p: 0
                     }} >
                         <Suspense fallback={<LinearProgress variant="plain" />} >
+                            {/* <GraphMain /> */}
                             <TmEmployeeTaskData />
                         </Suspense>
                     </TabPanel>

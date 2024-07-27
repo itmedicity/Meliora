@@ -33,7 +33,7 @@ import AttachmentIcon from '@mui/icons-material/Attachment';
 const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount, searchFlag, taskcount, settaskcount,
     statuscount, setstatuscount, projectcount, setProjectcount }) => {
 
-    const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, em_name, create_date, tm_project_name, tm_task_due_date,
+    const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, em_name, create_date, tm_project_name, tm_task_due_date, tm_mast_duedate_count,
         tm_project_duedate } = masterData
 
     const dispatch = useDispatch();
@@ -65,8 +65,8 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const [addProjectFlag, setAddProjectFlag] = useState(0)
     const [addProjectModalOpen, setaddProjectlModalOpen] = useState(false)
     const [dueDateProject, setdueDateProject] = useState('')
+    const [countDue, setcountDue] = useState(0)
     let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-
     const id = useSelector((state) => { return state.LoginUserData.empid })
     const [taskData, setTaskData] = useState({
         tm_task_slno: '',
@@ -221,6 +221,21 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         }
         getProgress(ProgressData)
     }, [progressCount, tableCount, ProgressData])
+
+    useEffect(() => {
+        const getDueCount = async () => {
+            const result = await axioslogin.get(`/TmAllDeptTask/getDuedateCount/${1}`);
+            const { data } = result.data;
+            if (data.length !== 0) {
+                const { tm_duedate_count } = data[0]
+                setcountDue(tm_duedate_count)
+            }
+            else {
+                setcountDue(0)
+            }
+        }
+        getDueCount()
+    }, [])
 
     const getAllDueDates = useCallback(() => {
         const getDueDate = async () => {
@@ -410,10 +425,11 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
             tm_completed_remarks: completedRemarks === '' ? null : completedRemarks,
             tm_project_slno: projectz === '' ? null : projectz,
             tm_complete_date: completed === true ? newDate : null,
+            tm_mast_duedate_count: (tm_task_due_date !== dueDate) ? tm_mast_duedate_count + 1 : tm_mast_duedate_count,
             edit_user: id,
         }
     }, [tm_task_slno, taskName, checkFlag, dueDate, description, departmentMast, departmentSecMast, pendingRemarks, onHoldRemaks, completedRemarks, projectz,
-        completed, newDate, id])
+        completed, newDate, tm_mast_duedate_count, tm_task_due_date, id])
 
     const postEmpDetails = employeeMast && employeeMast.map((val) => {
         return {
@@ -657,7 +673,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                 setdueDateModal={setdueDateModal} tm_task_due_date={tm_task_due_date} create_date={create_date} />
                             : null}
                     </Box>
-                    <Box sx={{ flex: 1, display: 'flex', mx: 4 }}>
+                    <Box sx={{ flex: 1, display: 'flex', mx: 2 }}>
                         <Box sx={{ flex: 2 }}>
                             <Box sx={{ flex: 1, mx: 1, display: 'flex', mt: 2 }}>
                                 <Typography sx={{ flex: 1, pt: 2, pr: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12, display: 'flex', justifyContent: 'flex-end', }}>
@@ -715,7 +731,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     display: 'flex', justifyContent: 'flex-end', pt: 2, pr: 1.5
                                 }}>
                                     Department</Typography>
-                                <Box sx={{ flex: 2.8, }}>
+                                <Box sx={{ flex: 2.3, pr: .5 }}>
                                     <Inputcomponent
                                         type="text"
                                         name="dept_name"
@@ -724,8 +740,8 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     />
                                 </Box>
                                 <Typography sx={{
-                                    flex: .5, color: '#003B73', fontWeight: 600, fontSize: 12,
-                                    pt: 1.8, pr: .5, pl: 2
+                                    width: 110, color: '#003B73', fontWeight: 600, fontSize: 12,
+                                    pt: 1.8, pl: 2
                                 }}>
                                     Section</Typography>
                                 <Box sx={{ flex: 2.6, }}>
@@ -743,7 +759,9 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     display: 'flex', justifyContent: 'flex-end', pt: 1.5, pr: 1.5
                                 }}>
                                     Created Date</Typography>
-                                <Box sx={{ flex: 2.8, }}>
+
+
+                                <Box sx={{ flex: 2.3, }}>
                                     <Inputcomponent
                                         type="text"
                                         name="create_date"
@@ -752,36 +770,42 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     />
                                 </Box>
                                 <Typography sx={{
-                                    flex: .5, color: '#003B73', fontWeight: 600, fontSize: 12,
-                                    pt: 1.8, pr: 1, pl: 2
+                                    width: 110, color: '#003B73', fontWeight: 600, fontSize: 12,
+                                    pt: 1.8, pl: 2.5
                                 }}>
                                     Duedate <span style={{ color: '#74112F', fontSize: 15 }} >*</span></Typography>
-                                <Box sx={{ flex: 2.5, pt: .4 }}>
-                                    {tm_project_slno !== null ?
-                                        <Inputcomponent
-                                            type="datetime-local"
-                                            name="dueDate"
-                                            value={dueDate}
-                                            slotProps={{
-                                                input: {
-                                                    min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                                    max: moment(new Date(tm_project_duedate)).format('YYYY-MM-DD HH:mm:ss'),
-                                                },
-                                            }}
-                                            onchange={taskDataUpdate}
-                                        /> :
-                                        <Inputcomponent
-                                            type="datetime-local"
-                                            name="dueDate"
-                                            value={dueDate}
-                                            slotProps={{
-                                                input: {
-                                                    min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                                    max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss'),
-                                                },
-                                            }}
-                                            onchange={taskDataUpdate}
-                                        />}
+                                <Box sx={{ flex: 2.5, }}>
+                                    <Tooltip color="warning" title={tm_mast_duedate_count >= countDue ? 'Cant Change Duedate, Change Limit Exceeded' : ''}>
+                                        <Box sx={{ pt: .4 }}>
+                                            {tm_project_slno !== null ?
+                                                <Inputcomponent
+                                                    type="datetime-local"
+                                                    name="dueDate"
+                                                    value={dueDate}
+                                                    slotProps={{
+                                                        input: {
+                                                            min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                            max: moment(new Date(tm_project_duedate)).format('YYYY-MM-DD HH:mm:ss'),
+                                                        },
+                                                    }}
+                                                    onchange={taskDataUpdate}
+                                                    disabled={tm_mast_duedate_count >= countDue}
+                                                /> :
+                                                <Inputcomponent
+                                                    type="datetime-local"
+                                                    name="dueDate"
+                                                    value={dueDate}
+                                                    slotProps={{
+                                                        input: {
+                                                            min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                            max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss'),
+                                                        },
+                                                    }}
+                                                    onchange={taskDataUpdate}
+                                                    disabled={tm_mast_duedate_count >= countDue}
+                                                />}
+                                        </Box>
+                                    </Tooltip>
                                 </Box>
                                 <Box>
                                     <AutoDeleteTwoToneIcon sx={{
@@ -792,7 +816,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     />
                                 </Box>
                             </Box>
-                            <Box sx={{ flex: 1, mx: 1, display: 'flex', mt: 2, }}>
+                            <Box sx={{ flex: 1, display: 'flex', mt: 2, }}>
                                 <Typography sx={{
                                     flex: 1, color: '#003B73', fontWeight: 600, fontSize: 12,
                                     display: 'flex', justifyContent: 'flex-end', pt: 1.5, pr: 1.5,
@@ -824,7 +848,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                     }
                                 </Box>
                             </Box>
-                            <Box sx={{ flex: 1, mx: 1, display: 'flex', mt: 2, }}>
+                            <Box sx={{ flex: 1, display: 'flex', mt: 2, }}>
                                 <Typography sx={{
                                     flex: 1, color: '#003B73', fontWeight: 600, fontSize: 12,
                                     display: 'flex', justifyContent: 'flex-end', pt: 1.5, pr: 1.5,

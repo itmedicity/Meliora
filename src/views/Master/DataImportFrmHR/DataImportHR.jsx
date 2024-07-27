@@ -62,8 +62,37 @@ const DataImportHR = () => {
         getDepartment()
     }, [])
 
+    const getDepartmentSection = useCallback(() => {
+        setOpen(true)
+        const getDepartmentSection = async () => {
+            const result = await axioslogin.get('/hrmdataGet/deptsection');
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNotify(message)
+                setOpen(false)
+            } else {
+                setOpen(false)
+                warningNotify(message)
+            }
+        }
+        getDepartmentSection()
+    }, [])
 
-
+    const getDesignation = useCallback(() => {
+        setOpen(true)
+        const getDesignation = async () => {
+            const result = await axioslogin.get('/hrmdataGet/designation');
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNotify(message)
+                setOpen(false)
+            } else {
+                setOpen(false)
+                warningNotify(message)
+            }
+        }
+        getDesignation()
+    }, [])
 
 
     //close button function
@@ -90,7 +119,7 @@ const DataImportHR = () => {
                 flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                 justifyContent: 'center', borderRadius: 1.5
             }}>
-                <Paper sx={{ width: "50%" }}>
+                <Paper sx={{ width: "80%" }}>
                     <Box sx={{
                         width: "100%",
                         pl: 1, pt: 1, pr: 1, pb: 0.5, flex: 1,
@@ -121,7 +150,25 @@ const DataImportHR = () => {
                                 <Typography sx={{
                                     fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center",
                                     cursor: "pointer"
-                                }}>Department </Typography>
+                                }}>Department Insert </Typography>
+                            </CssVarsProvider>
+                        </Box>
+                        <Box sx={{ width: "30%", mt: 1, mb: 1, ml: 2, backgroundColor: '#4793AF', borderRadius: 2.5 }}
+                            onClick={() => getDepartmentSection()}>
+                            <CssVarsProvider>
+                                <Typography sx={{
+                                    fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center",
+                                    cursor: "pointer"
+                                }}>Department Section Insert</Typography>
+                            </CssVarsProvider>
+                        </Box>
+                        <Box sx={{ width: "30%", mt: 1, mb: 1, ml: 2, backgroundColor: '#4793AF', borderRadius: 2.5 }}
+                            onClick={() => getDesignation()}>
+                            <CssVarsProvider>
+                                <Typography sx={{
+                                    fontSize: 15, pl: 1, pr: 2, color: 'white', textAlign: "center",
+                                    cursor: "pointer"
+                                }}>Designation Insert </Typography>
                             </CssVarsProvider>
                         </Box>
                     </Box>
