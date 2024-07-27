@@ -27,6 +27,7 @@ import CrmNewTransaction from 'src/Menus/CrmNewTransaction'
 import QualityTransactions from 'src/Menus/QualityTransaction'
 import DailyCensusTransactions from 'src/Menus/CensusTransaction'
 import IncidentTransactions from 'src/Menus/IncidentTransaction'
+import FeedbackTransactions from 'src/Menus/FeddbackTransaction'
 
 
 const AppSidebar = () => {
@@ -48,6 +49,7 @@ const AppSidebar = () => {
   const [qualityTransact, setQualityTransact] = useState()
   const [censusTransact, setCensusTransact] = useState()
   const [incidentTransact, setIncidentTransact] = useState()
+  const [feedbackTransact, setFeedbackTransact] = useState()
 
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
@@ -163,6 +165,12 @@ const AppSidebar = () => {
       name: 'Incident Management',
       items: incidentTransact
     },
+    {
+      slno: 8,
+      component: CNavGroup,
+      name: 'Feedback Management',
+      items: feedbackTransact
+    },
   ]
 
   useEffect(() => {
@@ -205,6 +213,10 @@ const AppSidebar = () => {
         setCensusTransact(DailyCensusTransact)
         const IncidentTransact = IncidentTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setIncidentTransact(IncidentTransact)
+
+        const FeedbackTransact = FeedbackTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        setFeedbackTransact(FeedbackTransact)
+
         setCount(1)
       }
     })

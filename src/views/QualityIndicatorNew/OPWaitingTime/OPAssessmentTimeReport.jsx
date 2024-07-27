@@ -80,9 +80,9 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
         <Fragment>
             {viewFlag === 1 ? <TableOpPatientsDetails open={modalopen} handleClose={handleClose} patList={patList}
                 initdate={format(new Date(initdate), 'dd-MM-yyyy')} /> : null}
-            <>
+            <Box >
                 {tableData.length !== 0 ?
-                    <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, padding: 'none' }}>
+                    <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 210, padding: 'none', '&::-webkit-scrollbar': { height: 8 } }}>
                         <CssVarsProvider>
                             <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow >
                                 <thead style={{ alignItems: 'center' }}>
@@ -153,7 +153,7 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
                         </CssVarsProvider>
                     </Box >
                     : null}
-            </>
+            </Box >
         </Fragment >
     )
 }

@@ -683,7 +683,7 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                                     Number Of Reporting Errors per 1000 Investigations
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -762,7 +762,7 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                                     Percentage Of Re dos
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -840,7 +840,7 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                                     Waiting time for services (a) Diagnostics
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -920,7 +920,7 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                                     Incidence Of Patient Identification Errors
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -998,7 +998,7 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                                     Incidence Of Falls
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1076,7 +1076,7 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                                     Percentage Of Near Misses
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1154,7 +1154,7 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                                     Number Of Sentinel events Reported, Collected And Analysed within the defined Time Frame
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1.5 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1232,7 +1232,7 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                                     Equipment Utilization
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1.5 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>

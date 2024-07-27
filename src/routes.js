@@ -214,6 +214,8 @@ const qiWaitingTime = React.lazy(() => import('./views/QualityIndicatorNew/Waiti
 const UserNotAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserNotAckldgedList'))
 const PurchaseCRFReport = React.lazy(() => import('./views/Report/CrmReport/PurchaseReport'))
 const AllCRFReport = React.lazy(() => import('./views/Report/CrmReport/AllCRFReport'))
+const feedbackForm = React.lazy(() => import('./views/FeedBack/Feedback'))
+const deptAcess = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QIEmpDeptAccessMast/DeptAcessMast'))
 
 
 const routes = [
@@ -434,6 +436,8 @@ const routes = [
   { path: '/Home/userNotAckldged', exact: true, name: 'User Not Acknowledged CRF', component: UserNotAcknowldged },
   { path: '/Home/purchaseCRFReport', exact: true, name: 'Purchase CRF Report', component: PurchaseCRFReport },
   { path: '/Home/AllCRFReport', exact: true, name: 'All CRF Report', component: AllCRFReport },
+  { path: '/Home/feedback', exact: true, name: 'Feedback', component: feedbackForm },
+  { path: '/Home/QIdeptAccess', exact: true, name: 'QI Department Access Mast', component: deptAcess },
 
 ]
 

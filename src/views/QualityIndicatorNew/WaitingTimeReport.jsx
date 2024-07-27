@@ -142,7 +142,7 @@ const WaitingTimeReport = () => {
 
     return (
         <Paper sx={{ height: '90vh' }}>
-            <Box sx={{ display: 'flex', flex: 1, pb: 1, borderBottom: 1, borderColor: 'lightgrey' }}>
+            <Box sx={{ display: 'flex', flex: 1, borderColor: 'lightgrey', flexWrap: 'wrap' }}>
                 <Box sx={{ pl: 0.7, pt: 0.8 }} >
                     <TimerOutlinedIcon sx={{ height: 25, width: 25, }} />
                 </Box>
@@ -166,93 +166,87 @@ const WaitingTimeReport = () => {
                     </CssVarsProvider>
                 </Box>
             </Box>
-            <Box sx={{ display: 'flex', pt: 0.4 }}>
-                <Box sx={{ flex: 0.7 }}></Box>
-                <Box sx={{ display: 'flex', flex: 2, borderRadius: 20, border: '1px solid lightgray', height: 80 }}>
-                    <Box sx={{ flex: 1, pl: 2 }}>
-                        <Box sx={{ display: 'flex', m: 2 }}>
-                            <CssVarsProvider>
-                                <Avatar size="md" variant="plain" sx={{ bgcolor: '#e3f2fd' }}>
-                                    <LocationOnIcon sx={{ color: '#1565c0' }} />
-                                </Avatar>
-                            </CssVarsProvider>
-                            <Box sx={{}}>
-                                <Box sx={{ pl: 2, fontSize: 12, color: '#0d47a1' }} >DEPARTMENT <KeyboardArrowDownIcon fontSize='small' /></Box>
-                                <Box sx={{ pl: 0.5 }}>
-                                    <QiDeptInitailassessmentSelect qidept={qidept} setQidept={setQidept} setQitype={setQitype}
-                                        setDepCode={setDepCode} setsearchFlag={setsearchFlag} />
-                                </Box>
-                            </Box>
+            <Paper square variant='outlined' sx={{ display: 'flex', pt: 0.4, flexWrap: 'wrap' }}>
+                <Box sx={{ flex: 1 }}></Box>
+                <Box sx={{ display: 'flex', m: 2, flex: 1 }}>
+                    <CssVarsProvider>
+                        <Avatar size="md" variant="plain" sx={{ bgcolor: '#e3f2fd' }}>
+                            <LocationOnIcon sx={{ color: '#1565c0' }} />
+                        </Avatar>
+                    </CssVarsProvider>
+                    <Box sx={{}}>
+                        <Box sx={{ pl: 2, fontSize: 12, color: '#0d47a1' }} >DEPARTMENT <KeyboardArrowDownIcon fontSize='small' /></Box>
+                        <Box sx={{ pl: 0.5 }}>
+                            <QiDeptInitailassessmentSelect qidept={qidept} setQidept={setQidept} setQitype={setQitype}
+                                setDepCode={setDepCode} setsearchFlag={setsearchFlag} />
                         </Box>
                     </Box>
-                    <Box sx={{ flex: 1 }}>
-                        <Box sx={{ display: 'flex', m: 2 }}>
-                            <CssVarsProvider>
-                                <Avatar size="md" variant="plain" sx={{ bgcolor: '#e3f2fd' }}>
-                                    <CalendarMonthIcon sx={{ color: '#1565c0' }} />
-                                </Avatar>
-                            </CssVarsProvider>
-                            <Box sx={{}}>
-                                <Box sx={{ pl: 2, fontSize: 12, color: '#0d47a1' }} >DATE <KeyboardArrowDownIcon fontSize='small' /></Box>
-                                <Box sx={{ pl: 0.5 }}>
-                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                        <DatePicker
-                                            value={searchDate}
-                                            views={['year', 'month', 'day']}
-                                            size="sm"
-                                            inputFormat='dd-MM-yyyy'
-                                            maxDate={new Date()}
-                                            onChange={(e) => OnchangeDate(e)}
-                                            renderInput={({ inputRef, inputProps, InputProps }) => (
-                                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                    <CssVarsProvider>
-                                                        <Input ref={inputRef} {...inputProps} fullWidth
-                                                            sx={{ bgcolor: 'white', padding: 'none', size: 'sm', borderRadius: 20, fontSize: 14 }}
-                                                            disabled={true} />
-                                                    </CssVarsProvider>
-                                                    {InputProps?.endAdornment}
-                                                </Box>
-                                            )}
-                                        />
-                                    </LocalizationProvider>
-                                </Box>
-                            </Box>
+                </Box>
+                <Box sx={{ display: 'flex', m: 2, flex: 1 }}>
+                    <CssVarsProvider>
+                        <Avatar size="md" variant="plain" sx={{ bgcolor: '#e3f2fd' }}>
+                            <CalendarMonthIcon sx={{ color: '#1565c0' }} />
+                        </Avatar>
+                    </CssVarsProvider>
+                    <Box sx={{}}>
+                        <Box sx={{ pl: 2, fontSize: 12, color: '#0d47a1' }} >DATE <KeyboardArrowDownIcon fontSize='small' /></Box>
+                        <Box sx={{ pl: 0.5 }}>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DatePicker
+                                    value={searchDate}
+                                    views={['year', 'month', 'day']}
+                                    size="sm"
+                                    inputFormat='dd-MM-yyyy'
+                                    maxDate={new Date()}
+                                    onChange={(e) => OnchangeDate(e)}
+                                    renderInput={({ inputRef, inputProps, InputProps }) => (
+                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                            <CssVarsProvider>
+                                                <Input ref={inputRef} {...inputProps} fullWidth
+                                                    sx={{ bgcolor: 'white', padding: 'none', size: 'sm', borderRadius: 20, fontSize: 14 }}
+                                                />
+                                            </CssVarsProvider>
+                                            {InputProps?.endAdornment}
+                                        </Box>
+                                    )}
+                                />
+                            </LocalizationProvider>
                         </Box>
                     </Box>
-                    <>
-                        {generateFlag === 1 ?
-                            <Box sx={{ flex: 0.5, m: 3 }}>
-                                <CssVarsProvider>
-                                    <Button variant="outlined" fullWidth
-                                        sx={{
-                                            borderRadius: 20, fontSize: 14, width: 150, height: 40, bgcolor: '#1976d2', color: 'white',
-                                            ":hover": {
-                                                bgcolor: '#1565c0', color: 'white'
-                                            }
-                                        }}
-                                        // startDecorator={< PeopleAltIcon sx={{ color: 'white', cursor: 'pointer', height: 25, width: 30 }} fontSize='large' />}
-                                        onClick={GenerateOpPatients}
-                                    >Generate
-                                    </Button>
-                                </CssVarsProvider>
-                            </Box>
-                            : <Box sx={{ flex: 0.5, m: 3 }}>
-                                <CssVarsProvider>
-                                    <Button variant="outlined" fullWidth
-                                        sx={{
-                                            borderRadius: 20, fontSize: 14, width: 150, height: 40, bgcolor: '#1976d2', color: 'white',
-                                            ":hover": {
-                                                bgcolor: '#1565c0', color: 'white'
-                                            }
-                                        }}
-                                        onClick={SearchDetails}
-                                    >Search</Button>
-                                </CssVarsProvider>
-                            </Box>}
-                    </>
-                </Box >
-                <Box sx={{ flex: 0.7 }}></Box>
-            </Box >
+                </Box>
+                <Box sx={{ flex: 1, pl: 2 }}>
+                    {generateFlag === 1 ?
+                        <Box sx={{ my: 3 }}>
+                            <CssVarsProvider>
+                                <Button variant="outlined"
+                                    sx={{
+                                        borderRadius: 20, fontSize: 14, height: 40, width: 150, bgcolor: '#1976d2', color: 'white',
+                                        ":hover": {
+                                            bgcolor: '#1565c0', color: 'white'
+                                        }
+                                    }}
+                                    // startDecorator={< PeopleAltIcon sx={{ color: 'white', cursor: 'pointer', height: 25, width: 30 }} fontSize='large' />}
+                                    onClick={GenerateOpPatients}
+                                >Generate
+                                </Button>
+                            </CssVarsProvider>
+                        </Box>
+                        : <Box sx={{ my: 3 }}>
+                            <CssVarsProvider>
+                                <Button variant="outlined"
+                                    sx={{
+                                        borderRadius: 20, fontSize: 14, height: 40, width: 150, bgcolor: '#1976d2', color: 'white',
+                                        ":hover": {
+                                            bgcolor: '#1565c0', color: 'white'
+                                        }
+                                    }}
+                                    onClick={SearchDetails}
+                                >Search</Button>
+                            </CssVarsProvider>
+                        </Box>}
+                </Box>
+                <Box sx={{ flex: 1 }}></Box>
+            </Paper >
             <>
                 {searchFlag === 1 ?
                     <OPConsultationWaitingReport tableData={tableData} />
@@ -261,5 +255,4 @@ const WaitingTimeReport = () => {
         </Paper >
     )
 }
-
 export default memo(WaitingTimeReport)
