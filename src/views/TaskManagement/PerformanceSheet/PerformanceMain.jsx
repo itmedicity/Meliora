@@ -3,7 +3,7 @@ import { Paper } from '@mui/material'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import AutoGraphSharpIcon from '@mui/icons-material/AutoGraphSharp';
 import { useDispatch, useSelector } from 'react-redux';
-import { endOfMonth, format, isSameMonth, parse, parseISO } from 'date-fns';
+import { endOfMonth, endOfYear, format, isSameMonth, parse, parseISO, startOfYear } from 'date-fns';
 import { startOfMonth } from 'date-fns/fp';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -50,7 +50,6 @@ const PerformanceMain = () => {
     const [totalTaskCount, setTotalTaskCount] = useState(0);
     const [completedTaskCount, setCompletedTaskCount] = useState(0);
     const [totalComplaintCount, setTotalComplaintCount] = useState(0);
-    const [RectifiedComplints, setRectifiedComplints] = useState(0)
     const [ReOpenedComplaints, setReOpenedComplaints] = useState(0)
     const [deptPendingComplaints, setdeptPendingComplaints] = useState(0)
     const [deptTodays, setdeptTodays] = useState(0)
@@ -89,6 +88,12 @@ const PerformanceMain = () => {
     const [deptTotOnHoldComplnt, setDeptTotOnHoldComplnt] = useState(0)
     const [deptTotPendComplt, setDeptTotPendComplt] = useState(0)
     const [monthName, setMonthName] = useState('');
+    const [deptVerifiedToday, setDeptVerifiedToday] = useState(0)
+    const [empVerifiedToday, setEmpverifiedToday] = useState(0)
+    const [empPendingToday, setEmpPendingToday] = useState(0)
+    const [deptRectfToday, setdeptRectfToday] = useState(0)
+    const [pendingTodaydept, setpendingTodaydept] = useState(0)
+
 
     useEffect(() => {
         const parsedDate = parse(searchMonthAndYear, 'yyyy-MM', new Date());
@@ -165,14 +170,14 @@ const PerformanceMain = () => {
         return {
             from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 00:00:00'),
             to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 23:59:59'),
-            complaint_dept_secslno: empdept,
+            complaint_deptslno: empdept,
         }
     }, [searchMonthAndYear, empdept])
 
     const searchEmpProject = useMemo(() => {
         return {
-            from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 00:00:00'),
-            to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 23:59:59'),
+            from: format(startOfYear(new Date(searchMonthAndYear)), 'yyyy-MM-dd 00:00:00'),
+            to: format(endOfYear(new Date(searchMonthAndYear)), 'yyyy-MM-dd 23:59:59'),
             tm_assigne_emp: empid,
         }
     }, [searchMonthAndYear, empid])
@@ -204,6 +209,8 @@ const PerformanceMain = () => {
         getAllTask(searchTaskData);
     }, [searchTaskData])
 
+    //for dept
+
     useEffect(() => {
         const getAllComplaints = async () => {
             const result = await axioslogin.post('/TmGraph/getDeptComplaintsfromtodate', searchComplaintData);
@@ -211,27 +218,39 @@ const PerformanceMain = () => {
             if (success === 2) {
                 const totalComplaints = data.length;
                 const RectifiedComplints = data.filter(item => item.cm_rectify_status === 'R').length;
-                const ReOpenedComplaints = data.filter(item => item.reopen_cm_slno !== null).length;
-                const PendingComplaints = data.filter(item => (item.cm_rectify_status !== 'R') && item.cm_rectify_status !== 'O' && item.cm_rectify_status !== 'V').length
-                const todaysComplaints = data.filter(item => isToday(item.compalint_date)).length;
-                const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time)).length;
                 const VerifiedComplints = data.filter(item => item.cm_rectify_status === 'V').length;
+                const ReOpenedComplaints = data.filter(item => item.reopen_cm_slno !== null).length;
+                const PendingComplaints = data.filter(item => (
+                    (item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'O' && item.cm_rectify_status !== 'V') || item.cm_rectify_status === null
+                ))
+                const pendingTodaydept = data.filter(item =>
+                    ((item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'V') || item.cm_rectify_status === null) &&
+                    isToday(item.compalint_date)
+                )
+                const todaysComplaints = data.filter(item => isToday(item.compalint_date))
+                const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time))
+                const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_verfy_time))
+
                 setTotalComplaintCount(totalComplaints)
-                setRectifiedComplints(RectifiedComplints)
                 setReOpenedComplaints(ReOpenedComplaints)
-                setdeptPendingComplaints(PendingComplaints)
-                setdeptTodays(todaysComplaints)
-                setDeptRectiCompl(rectifiedToday)
+                setdeptPendingComplaints(PendingComplaints.length)
+                setdeptTodays(todaysComplaints.length)
+                setDeptRectiCompl(RectifiedComplints)
                 setDeptVerified(VerifiedComplints)
+                setDeptVerifiedToday(verifiedToday.length)
+                setdeptRectfToday(rectifiedToday.length)
+                setpendingTodaydept(pendingTodaydept.length)
             }
             else {
                 setTotalComplaintCount(0)
-                setRectifiedComplints(0)
                 setReOpenedComplaints(0)
                 setdeptPendingComplaints(0)
                 setdeptTodays(0)
                 setDeptRectiCompl(0)
                 setDeptVerified(0)
+                setDeptVerifiedToday(0)
+                setdeptRectfToday(0)
+                setpendingTodaydept(0)
             }
         }
         getAllComplaints(searchComplaintData)
@@ -266,8 +285,6 @@ const PerformanceMain = () => {
             assigned_emp: employee,
         }
     }, [searchMonthAndYear, employee])
-
-
 
     useEffect(() => {
         const getDeptMasterTable = async () => {
@@ -412,12 +429,12 @@ const PerformanceMain = () => {
             if (success === 2) {
                 const mainTaskData = data.filter(item => item.main_task_slno === null);
                 const totalTasks = data.length;
-                const completedToday = data.filter(item => item.tm_task_status === 1 && isToday(item.tm_complete_date)).length;
+                const completedToday = data.filter(item => item.tm_task_status === 1 && isToday(item.tm_complete_date));
                 const completedTasks = data.filter(item =>
                     item.tm_task_status === 1 && isSameMonth(parseISO(item.tm_complete_date), new Date(searchMonthAndYear))).length;
                 const onHoldTasks = data.filter(item => isPastDue(item.tm_task_due_date) && item.tm_task_status === 3).length;
                 const totalWithOutHold = (totalTasks - onHoldTasks)
-                const overdueToday = data.filter(item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date)).length;
+                const overdueToday = data.filter(item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date))
                 const completedTasksWoutchangingDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === null).length;
                 const penaltyCounts = {};
                 data.forEach(item => {
@@ -441,9 +458,9 @@ const PerformanceMain = () => {
                 setEmplmainTasks(mainTaskData);
                 setempTotalTask(totalTasks)
                 setEmpCompletedTask(completedTasks)
-                setEmpOerdueToday(overdueToday)
+                setEmpOerdueToday(overdueToday.length)
                 setEmpTotalWithouthold(totalWithOutHold)
-                setEmpCompltTodayTask(completedToday);
+                setEmpCompltTodayTask(completedToday.length);
             }
             else {
                 setEmplmainTasks([])
@@ -452,7 +469,8 @@ const PerformanceMain = () => {
                 setEmpOerdueToday(0)
                 setTaskPerformance(0)
                 setEmpTotalWithouthold(0)
-                setEmpCompltTodayTask(0);
+                setEmpCompltTodayTask(0)
+                setAdjustedCompleteion(0)
             }
         }
         getEmployeeTask(searchEmployeeTaskData)
@@ -476,21 +494,32 @@ const PerformanceMain = () => {
                 const totalComplaints = data.length;
                 const RectifiedComplints = data.filter(item => item.cm_rectify_status === 'R').length;
                 const VerifiedComplints = data.filter(item => item.cm_rectify_status === 'V').length;
+                const emptotCompltedComplaints = RectifiedComplints + VerifiedComplints
                 const OnholdComplaints = data.filter(item => item.cm_rectify_status === 'O').length;
-                const ReOpenedComplaints = data.filter(item => item.reopen_cm_slno !== null).length;
-                const Pending = data.filter(item => item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'O' && item.cm_rectify_status !== 'V').length;
-                const complaintsToday = data.filter(item => isToday(item.compalint_date)).length;
-                const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time)).length;
+                const ReOpenedComplaints = data.filter(item => item.reopen_cm_slno !== null)
+                const Pending = data.filter(item => (
+                    (item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'O' && item.cm_rectify_status !== 'V') || item.cm_rectify_status === null
+                ))
+
+                const pendingToday = data.filter(item =>
+                    ((item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'V') || item.cm_rectify_status === null) &&
+                    isToday(item.compalint_date)
+                )
+                const complaintsToday = data.filter(item => isToday(item.compalint_date))
+                const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time));
+                const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_rectify_time));
                 const totallWithoutHold = totalComplaints - OnholdComplaints
-                const ComplaintPerformnce = (RectifiedComplints + totallWithoutHold) === 0 ? 0 : (RectifiedComplints / totallWithoutHold) * 100
+                const ComplaintPerformnce = (emptotCompltedComplaints + totallWithoutHold) === 0 ? 0 : (emptotCompltedComplaints / totallWithoutHold) * 100
                 setEmpTotalComplaints(totalComplaints)
                 setEmpRctiCompl(RectifiedComplints)
-                setEmplPendingComplintsMonth(Pending)
-                setEmpReopendCompln(ReOpenedComplaints)
-                setEmpComplaintsToday(complaintsToday)
-                setEmpRctTodayCmplt(rectifiedToday)
+                setEmplPendingComplintsMonth(Pending.length)
+                setEmpReopendCompln(ReOpenedComplaints.length)
+                setEmpComplaintsToday(complaintsToday.length)
+                setEmpRctTodayCmplt(rectifiedToday.length)
                 setEmpVeriComplt(VerifiedComplints)
+                setEmpverifiedToday(verifiedToday.length)
                 setComplPerfm(Number.isInteger(ComplaintPerformnce) ? ComplaintPerformnce.toFixed(0) : ComplaintPerformnce.toFixed(2))
+                setEmpPendingToday(pendingToday.length)
             }
             else {
                 setEmpTotalComplaints(0)
@@ -500,6 +529,8 @@ const PerformanceMain = () => {
                 setEmpRctTodayCmplt(0)
                 setEmpVeriComplt(0)
                 setComplPerfm(0)
+                setEmpverifiedToday(0)
+                setEmpPendingToday(0)
             }
         }
         getEmployeeComplaints(searchEmployeeComplaintData)
@@ -612,10 +643,10 @@ const PerformanceMain = () => {
                                             </Box>
                                         </Box>
 
-                                        <Box sx={{ flex: 1, mt: 1, mr: 1, minHeight: 90, maxHeight: 200, overflow: 'auto' }}>
+                                        <Box sx={{ flex: 1, mt: 1, mr: 1, }}>
                                             <Typography sx={{ fontWeight: 600, py: 1, pl: 1 }}>Projects</Typography>
                                             {empProject.length !== 0 ?
-                                                <Box>
+                                                <Box sx={{ minHeight: 50, maxHeight: 200, overflow: 'auto', }}>
                                                     {
                                                         empProject && empProject.map((val) => {
                                                             return <Box key={val.tm_project_slno}
@@ -730,7 +761,13 @@ const PerformanceMain = () => {
                                                     <Box sx={{ flex: 1, display: 'flex' }}>
                                                         <Typography sx={{ pl: 1.5, pt: 1, fontSize: 15, flex: 1, }}>Rectified </Typography>
                                                         <Box sx={{ width: 50, height: 25, border: 1, mx: 2, mt: .5, textAlign: 'center', borderRadius: 2, borderColor: '#492B08', color: '#492B08', }}>
-                                                            {empRctfytodayComplt}
+                                                            {empRctfytodayComplt + empVerifiedToday}
+                                                        </Box>
+                                                    </Box>
+                                                    <Box sx={{ flex: 1, display: 'flex' }}>
+                                                        <Typography sx={{ pl: 1.5, pt: 1, fontSize: 15, flex: 1, }}>Pending </Typography>
+                                                        <Box sx={{ width: 50, height: 25, border: 1, mx: 2, mt: .5, textAlign: 'center', borderRadius: 2, borderColor: '#492B08', color: '#492B08', }}>
+                                                            {empPendingToday}
                                                         </Box>
                                                     </Box>
                                                 </Box>
@@ -746,7 +783,7 @@ const PerformanceMain = () => {
                                                     <Box sx={{ flex: 1, display: 'flex' }}>
                                                         <Typography sx={{ pl: 1.5, pt: 1, fontSize: 15, flex: 1, }}>Rectified </Typography>
                                                         <Box sx={{ width: 50, height: 25, border: 1, mx: 2, mt: .5, textAlign: 'center', borderRadius: 2, borderColor: '#492B08', color: '#492B08', }}>
-                                                            {empRctiCompl}
+                                                            {empRctiCompl + empVeriComplt}
                                                         </Box>
                                                     </Box>
                                                     <Box sx={{ flex: 1, display: 'flex' }}>
@@ -873,7 +910,13 @@ const PerformanceMain = () => {
                                 <Box sx={{ flex: 1, display: 'flex' }}>
                                     <Typography sx={{ pl: 1.5, pt: 1, fontSize: 15, flex: 1, }}>Rectified</Typography>
                                     <Box sx={{ width: 50, height: 25, border: 1, mx: 2, mt: .5, textAlign: 'center', borderRadius: 2, borderColor: '#492B08', color: '#492B08', }}>
-                                        {deptRectiCompl}
+                                        {deptRectfToday + deptVerifiedToday}
+                                    </Box>
+                                </Box>
+                                <Box sx={{ flex: 1, display: 'flex', }}>
+                                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 15, flex: 1, }}>Pending</Typography>
+                                    <Box sx={{ width: 50, height: 25, border: 1, mx: 2, mt: .5, textAlign: 'center', borderRadius: 2, borderColor: '#492B08', color: '#492B08', }}>
+                                        {pendingTodaydept}
                                     </Box>
                                 </Box>
                             </Box>
@@ -889,7 +932,7 @@ const PerformanceMain = () => {
                                 <Box sx={{ flex: 1, display: 'flex' }}>
                                     <Typography sx={{ pl: 1.5, pt: 1, fontSize: 15, flex: 1, }}>Rectified </Typography>
                                     <Box sx={{ width: 50, height: 25, border: 1, mx: 2, mt: .5, textAlign: 'center', borderRadius: 2, borderColor: '#492B08', color: '#492B08', }}>
-                                        {RectifiedComplints}
+                                        {deptRectiCompl + deptVerified}
                                     </Box>
                                 </Box>
                                 <Box sx={{ flex: 1, display: 'flex' }}>

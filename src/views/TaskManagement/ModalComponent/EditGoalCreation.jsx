@@ -212,7 +212,7 @@ const EditGoalCreation = ({ open, setEditGoalFlag, setEditGoalModalOpen, tableCo
                                     />
                                 </Box>
                                 <Box sx={{ flex: 1, pl: 7, pt: 3, display: 'flex' }}>
-                                    {filteredProjects.length === 0 ?
+                                    {filteredProjects.length === 0 ? (
                                         <>
                                             <CusCheckBox
                                                 color="success"
@@ -222,16 +222,19 @@ const EditGoalCreation = ({ open, setEditGoalFlag, setEditGoalModalOpen, tableCo
                                                 checked={tm_goalStatus}
                                                 onCheked={GoalsMastUpdate}
                                             />
-                                        </> :
-                                        <>
-                                            <CssVarsProvider>
-                                                <Tooltip title="Can't Mark this Goal as Completed, Projects Under this Goal are yet to Complete" placement="bottom">
-                                                    <Checkbox disabled size='lg' />
-                                                </Tooltip>
-                                            </CssVarsProvider>
-
                                         </>
-                                    }
+                                    ) : (
+                                        <CssVarsProvider>
+                                            <Tooltip
+                                                title="Can't Mark this Goal as Completed, Projects Under this Goal are yet to Complete"
+                                                placement="bottom-start"
+                                                color="warning"
+                                            >
+                                                <Checkbox disabled size='lg' />
+                                            </Tooltip>
+                                        </CssVarsProvider>
+                                    )}
+
                                     <Typography sx={{ pl: .5, fontWeight: 500 }}>Goal Completed</Typography>
                                 </Box>
                                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 5, pb: 2, mr: 3 }}>

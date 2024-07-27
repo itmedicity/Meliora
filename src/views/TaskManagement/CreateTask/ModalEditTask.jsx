@@ -357,6 +357,21 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     }, [patchProgress, progressCount, tm_progres_date, resetProgress])
 
     useEffect(() => {
+        if (tm_project_slno !== null) {
+            const getprojectduedate = async (tm_project_slno) => {
+                const result = await axioslogin.get(`/TmGraph/projectduedate/${tm_project_slno}`);
+                const { success, data } = result.data;
+                if (success === 2) {
+                    const { tm_project_duedate } = data[0]
+                    setdueDateProject(tm_project_duedate)
+                }
+            }
+            getprojectduedate(tm_project_slno)
+        }
+    }, [tm_project_slno])
+
+
+    useEffect(() => {
         const getMasterTask = async (tm_task_slno) => {
             const result = await axioslogin.get(`/taskManagement/viewMasterTaskByid/${tm_task_slno}`);
             const { success, data } = result.data;
@@ -631,6 +646,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         setAddProjectFlag(1)
         setaddProjectlModalOpen(true)
     }, [])
+    const isProjectOverdue = moment().isAfter(moment(dueDateProject));
 
     return (
         <Box>
@@ -775,7 +791,12 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                 }}>
                                     Duedate <span style={{ color: '#74112F', fontSize: 15 }} >*</span></Typography>
                                 <Box sx={{ flex: 2.5, }}>
-                                    <Tooltip color="warning" title={tm_mast_duedate_count >= countDue ? 'Cant Change Duedate, Change Limit Exceeded' : ''}>
+                                    <Tooltip color="warning"
+                                        title={
+                                            tm_mast_duedate_count >= countDue ? 'Cant Change Duedate, Change Limit Exceeded' :
+                                                isProjectOverdue ? "Due date cannot be change because the selected Project is already overdue.To change tasks due date, please update the Project's due date."
+                                                    : ''}
+                                        sx={{ width: 280 }}>
                                         <Box sx={{ pt: .4 }}>
                                             {tm_project_slno !== null ?
                                                 <Inputcomponent
@@ -789,7 +810,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                         },
                                                     }}
                                                     onchange={taskDataUpdate}
-                                                    disabled={tm_mast_duedate_count >= countDue}
+                                                    disabled={tm_mast_duedate_count >= countDue || isProjectOverdue}
                                                 /> :
                                                 <Inputcomponent
                                                     type="datetime-local"
@@ -1147,7 +1168,10 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                             }}>
                                 {completed === true ?
                                     <Box>
-                                        <Tooltip title='unable to add a subtask to a completed task' placement='top-start'>
+                                        <Tooltip
+                                            color='warning'
+                                            title='unable to add a subtask to a completed task,Please update Main Task Status'
+                                            placement='top-start'>
                                             <Box sx={{
                                                 mt: 1, cursor: 'grab', width: 150, height: 40, ml: 1, border: 1, borderColor: '#D9E4EC',
                                                 borderRadius: 5, pl: 1, pt: .8,

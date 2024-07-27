@@ -9,6 +9,7 @@ const TmAllProjectList = ({ projectz, setprojectz, setdueDateProject }) => {
     const [value, setValue] = useState(projectx[0]);
     const [inputValue, setInputValue] = useState('');
 
+
     useEffect(() => {
         if (projectz !== 0) {
             let newObj = ProjectList?.find((e) => e.tm_project_slno === projectz);
@@ -21,6 +22,7 @@ const TmAllProjectList = ({ projectz, setprojectz, setdueDateProject }) => {
             setValue(value);
             setprojectz(value.tm_project_slno);
             setdueDateProject(value.tm_project_duedate);
+
         } else {
             setprojectz(0);
         }

@@ -16,7 +16,10 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import AmDeptSecSelectSpare from 'src/views/CommonSelectCode/AmDeptSecSelectSpare'
 import AmSpareItemListDeptSecBsed from 'src/views/CommonSelectCode/AmSpareItemListDeptSecBsed'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
+import { useSelector } from 'react-redux'
+import _ from 'underscore';
 const ItemDetailAdd = React.lazy(() => import('../ItemDetailEnter/ItemDetailEnterMain'))
+
 
 const ItemListViewDept = () => {
     const history = useHistory()
@@ -27,6 +30,8 @@ const ItemListViewDept = () => {
     const [asset, setasset] = useState(true)
     const [spare, setSpare] = useState(false)
     const [assetSpare, setassetSpare] = useState(1)
+    const deptsecid = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+
     const postdata = useMemo(() => {
         return {
             item_dept_slno: department !== undefined ? department : 0,
@@ -152,7 +157,9 @@ const ItemListViewDept = () => {
             }
         }
         const searchserial = {
-            am_manufacture_no: serialno
+            am_manufacture_no: serialno,
+            item_custodian_dept_sec: deptsecid,
+            spare_custodian_dept_sec: deptsecid
         }
         if (serialno !== '') {
             if (assetSpare === 1) {
@@ -163,7 +170,7 @@ const ItemListViewDept = () => {
         } else {
             warningNotify("Please Enter serail no before search")
         }
-    }, [serialno, assetSpare])
+    }, [serialno, assetSpare, deptsecid])
 
 
     const [detailArry, setDetailArry] = useState([])
