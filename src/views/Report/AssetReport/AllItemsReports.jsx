@@ -10,14 +10,17 @@ import CustomeToolTip from '../../Components/CustomeToolTip'
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { axioslogin } from 'src/views/Axios/Axios';
 import { useDispatch } from 'react-redux';
-
+import CustomBackDrop from 'src/views/Components/CustomBackDrop';
 
 const AllItemsReports = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [TableData, setTableData] = useState([]);
     const [exports, setexport] = useState(0)
+    const [open, setOpen] = useState(false)
+
     useEffect(() => {
+        setOpen(true)
         const getAllItems = async () => {
             const result = await axioslogin.get('/amReport/getItemList')
             const { success, data } = result.data;
@@ -40,9 +43,11 @@ const AllItemsReports = () => {
                     return obj
                 })
                 setTableData(dispalyData)
+                setOpen(false)
             } else {
                 warningNotify("No Items Added")
                 setTableData([])
+                setOpen(false)
             }
         }
         getAllItems()
@@ -94,7 +99,7 @@ const AllItemsReports = () => {
             title='Asset Item Report'
             close={backToSetting}
         >
-
+            <CustomBackDrop open={open} text="Please Wait" />
             <Paper
                 square
                 sx={{

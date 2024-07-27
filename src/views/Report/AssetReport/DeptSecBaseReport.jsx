@@ -14,7 +14,8 @@ import AmDepartmentSelWOName from 'src/views/CommonSelectCode/AmDepartmentSelWON
 import AmDeptSecSelectWOName from 'src/views/CommonSelectCode/AmDeptSecSelectWOName'
 import { getDepartment } from 'src/redux/actions/Department.action';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-
+import { useSelector } from 'react-redux'
+import _ from 'underscore';
 
 const DeptSecBaseReport = () => {
     const history = useHistory();
@@ -23,21 +24,19 @@ const DeptSecBaseReport = () => {
     const [exports, setexport] = useState(0)
     const [department, setDepartment] = useState(0)
     const [deptsec, setDeptSec] = useState(0)
-
+    const deptsecid = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
 
     useEffect(() => {
         dispatch(getDepartment())
     }, [dispatch])
 
-
     const postdata = useMemo(() => {
         return {
             item_dept_slno: department !== 0 ? department : 0,
-            item_deptsec_slno: deptsec !== 0 ? deptsec : 0
+            item_deptsec_slno: deptsec !== 0 ? deptsec : 0,
+            item_custodian_dept_sec: deptsecid
         }
-    }, [department, deptsec])
-
-
+    }, [department, deptsec, deptsecid])
 
     const search = useCallback(() => {
 
@@ -85,7 +84,6 @@ const DeptSecBaseReport = () => {
         { headerName: "Room no", field: "rm_room_name", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
         { headerName: "Sub Room No", field: "subroom_name", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
         { headerName: "Serial No", field: "am_manufacture_no", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
-
     ])
 
     const onExportClick = () => {
