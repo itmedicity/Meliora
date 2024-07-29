@@ -1,6 +1,6 @@
 import { Box, Button, CssVarsProvider, Input, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { getQltyDept } from 'src/redux/actions/QualityIndicatorDept.action';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
@@ -34,10 +34,12 @@ const DaywiseQiReport = () => {
     const backtoHome = useCallback(() => {
         history.push('/Home')
     }, [history])
-
+    const id = useSelector((state) => {
+        return state?.LoginUserData.empid
+    })
     useEffect(() => {
-        dispatch(getQltyDept())
-    }, [dispatch])
+        dispatch(getQltyDept(id))
+    }, [dispatch, id])
 
     const SearchReport = useCallback(() => {
         if (qitype === 0) {

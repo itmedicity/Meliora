@@ -8,7 +8,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import ManageSearchTwoToneIcon from '@mui/icons-material/ManageSearchTwoTone';
 import { infoNotify } from '../Common/CommonCode';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getQltyDept } from 'src/redux/actions/QualityIndicatorDept.action';
 import { EndoscopyMonthlyReportView } from './EndoscopyQIMarking/MonthlyReport/MonthlyReportView';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
@@ -39,9 +39,12 @@ const MonthlyReport = () => {
     const backtoHome = useCallback(() => {
         history.push('/Home')
     }, [history])
+    const id = useSelector((state) => {
+        return state?.LoginUserData.empid
+    })
     useEffect(() => {
-        dispatch(getQltyDept())
-    }, [dispatch])
+        dispatch(getQltyDept(id))
+    }, [dispatch, id])
     const SearchMonthlyReport = useCallback(() => {
         if (qitype === 0) {
             infoNotify('Select Department')

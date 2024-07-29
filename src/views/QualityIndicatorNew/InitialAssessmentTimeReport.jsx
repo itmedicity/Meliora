@@ -7,7 +7,7 @@ import { endOfMonth, format, startOfMonth } from 'date-fns';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getQltyDept } from 'src/redux/actions/QualityIndicatorDept.action';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import QiDeptInitailassessmentSelect from '../CommonSelectCode/QiDeptInitailassessmentSelect';
@@ -30,9 +30,12 @@ const InitialAssessmentTimeReport = () => {
     const backtoHome = useCallback(() => {
         history.push('/Home')
     }, [history])
+    const id = useSelector((state) => {
+        return state?.LoginUserData.empid
+    })
     useEffect(() => {
-        dispatch(getQltyDept())
-    }, [dispatch])
+        dispatch(getQltyDept(id))
+    }, [dispatch, id])
     const OnchangeDate = useCallback((newValue) => {
         setSearchDate(newValue);
         setsearchFlag(0)
