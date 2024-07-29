@@ -59,7 +59,7 @@ const AmTransactions = [
 
 
     {
-        men_slno: 227,
+        men_slno: 228,
         component: CNavItem,
         name: 'PM Due List',
         to: '/Home/PmDueList',
