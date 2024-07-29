@@ -173,7 +173,18 @@ const IPEndoQIModal = ({ open, handleClose, rowSelect, count, setCount, depName,
         getequipDetails(qi_endo_ip_slno).then((value) => {
             const { success, data } = value
             if (success === 1) {
-                setProcedureArray(data)
+                const newArray = data?.map((val) => {
+                    const proc = JSON?.parse(val?.procedure_names)
+                    const newData = proc?.find((item) => item.PD_CODE === val.PD_CODE)
+                    return {
+                        qi_endo_ip_slno: val.qi_endo_ip_slno,
+                        equip_no: val.equip_no,
+                        equip_name: val.equip_name,
+                        PD_CODE: val.PD_CODE,
+                        PDC_DESC: newData ? newData.PDC_DESC : 'nil'
+                    }
+                })
+                setProcedureArray(newArray)
                 setequipmentExit(1)
                 setEquipReport(0)
             } else {

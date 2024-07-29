@@ -764,7 +764,7 @@ const QiApprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipViewRep
                                     Number Of Reporting Errors per 1000 Investigations
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -843,7 +843,7 @@ const QiApprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipViewRep
                                     Percentage Of Re dos
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -921,7 +921,7 @@ const QiApprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipViewRep
                                     Waiting time for services (a) Diagnostics
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1001,7 +1001,7 @@ const QiApprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipViewRep
                                     Incidence Of Patient Identification Errors
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1079,7 +1079,7 @@ const QiApprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipViewRep
                                     Incidence Of Falls
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1157,7 +1157,7 @@ const QiApprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipViewRep
                                     Percentage Of Near Misses
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1235,7 +1235,7 @@ const QiApprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipViewRep
                                     Number Of Sentinel events Reported, Collected And Analysed within the defined Time Frame
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1.5 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1313,7 +1313,7 @@ const QiApprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipViewRep
                                     Equipment Utilization
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1.5 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1379,7 +1379,7 @@ const QiApprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipViewRep
                                     <Box sx={{ fontSize: 16, pl: 1, color: '#555830', fontWeight: 550, bgcolor: '#E4E5E8', py: 0.5 }}>
                                         Level II Approval Done
                                     </Box>
-                                    <Box sx={{ display: 'flex', pb: 2, pl: 2 }}>
+                                    <Box sx={{ display: 'flex', pb: 2, pl: 2, flexWrap: 'wrap' }}>
                                         <Box sx={{ fontSize: 16, pl: 1, color: '#555830', fontWeight: 550, pr: 1.5, pt: 1.8 }}>
                                             Approved By:
                                         </Box>
@@ -1427,7 +1427,7 @@ const QiApprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipViewRep
                                             </CssVarsProvider>
                                         </Box>
                                     </Box>
-                                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
                                         {inchrgeStatus === 1 ?
                                             <>
                                                 <Box sx={{ fontSize: 16, pl: 1, color: '#555830', fontWeight: 550, pr: 1.5, pt: 1.8 }}>

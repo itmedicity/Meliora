@@ -119,9 +119,9 @@ const MonthlyReport = () => {
                     </CssVarsProvider>
                 </Box>
             </Paper>
-            <Paper variant='outlined' square sx={{ display: 'flex', pr: 1, pb: 0.2 }}>
+            <Paper variant='outlined' square sx={{ display: 'flex', flexWrap: 'wrap', pr: 1, pb: 0.2 }}>
                 <Box sx={{ flex: 0.7 }} ></Box>
-                <Box sx={{ flex: 1, }}>
+                <Box sx={{ flex: 1 }}>
                     <Box sx={{ pt: 1, pl: 1 }}>
                         <Typography sx={{ fontSize: 13, textTransform: 'uppercase' }}>Department</Typography>
                     </Box>

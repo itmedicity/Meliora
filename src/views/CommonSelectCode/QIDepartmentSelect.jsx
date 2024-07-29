@@ -10,6 +10,15 @@ const QIDepartmentSelect = ({ qidept, setQidept, setDepName, setDepCode, setQity
     const [flag, setFlag] = useState(0)
 
     useEffect(() => {
+        // if (department.length > 0) {
+        //     const newarray = department?.filter((val) => val.qi_list_type !== 6)
+        //     setdepartmentList(newarray)
+        //     setType(newarray)
+        // }
+        departmentList.length > 0 && setType(departmentList)
+    }, [departmentList])
+
+    useEffect(() => {
         if ((qidept !== 0) && (flag === 0)) {
             const array = departmentList.find((e) => e.qi_dept_no === qidept)
             setValue(array)
@@ -32,9 +41,7 @@ const QIDepartmentSelect = ({ qidept, setQidept, setDepName, setDepCode, setQity
         }
         return
     }, [setQidept, setDepName, setDepCode, setQitype])
-    useEffect(() => {
-        departmentList.length > 0 && setType(departmentList)
-    }, [departmentList])
+
     return (
         <Fragment>
             <CssVarsProvider>

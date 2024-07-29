@@ -218,6 +218,8 @@ const TaskPerformanceSlide = React.lazy(() => import('./views/TaskManagement/Per
 const UserNotAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserNotAckldgedList'))
 const PurchaseCRFReport = React.lazy(() => import('./views/Report/CrmReport/PurchaseReport'))
 const AllCRFReport = React.lazy(() => import('./views/Report/CrmReport/AllCRFReport'))
+const feedbackForm = React.lazy(() => import('./views/FeedBack/Feedback'))
+const deptAcess = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QIEmpDeptAccessMast/DeptAcessMast'))
 const AssetCondemnationList = React.lazy(() => import('./views/AssetManagment/CondemnationList/CondemnationList'))
 const AssetServiceList = React.lazy(() => import('./views/AssetManagment/ServiceListSpare/SpareSErviceList'))
 const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRFAllReportWithPO'))
@@ -445,10 +447,13 @@ const routes = [
   { path: '/Home/userNotAckldged', exact: true, name: 'User Not Acknowledged CRF', component: UserNotAcknowldged },
   { path: '/Home/purchaseCRFReport', exact: true, name: 'Purchase CRF Report', component: PurchaseCRFReport },
   { path: '/Home/AllCRFReport', exact: true, name: 'All CRF Report', component: AllCRFReport },
+  { path: '/Home/feedback', exact: true, name: 'Feedback', component: feedbackForm },
+  { path: '/Home/QIdeptAccess', exact: true, name: 'QI Department Access Mast', component: deptAcess },
   { path: '/Home/AssetCondemnationList', exact: true, name: 'Spare Condemnation List', component: AssetCondemnationList },
   { path: '/Home/AssetServiceList', exact: true, name: 'Spare Service List', component: AssetServiceList },
   { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
   { path: '/Home/PmDueList', exact: true, name: 'PM Due List in Asset', component: PmDueList },
+
 
 ]
 

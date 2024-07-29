@@ -116,7 +116,7 @@ const DaywiseQiReport = () => {
                         onClick={backtoHome} />
                 </Box>
             </Paper>
-            <Paper variant='outlined' square sx={{ display: 'flex', pr: 1, pb: 0.5 }}>
+            <Paper variant='outlined' square sx={{ display: 'flex', flex: 1, pr: 1, pb: 0.5, flexWrap: 'wrap' }}>
                 <Box sx={{ flex: 0.3 }} ></Box>
                 <Box sx={{ flex: 1.2, }}>
                     <Box sx={{ pt: 1, pl: 1 }}>
@@ -147,7 +147,7 @@ const DaywiseQiReport = () => {
                                         <CssVarsProvider>
                                             <Input ref={inputRef} {...inputProps} fullWidth
                                                 sx={{ bgcolor: 'white', padding: 'none', size: 'sm' }}
-                                                disabled={true} />
+                                            />
                                         </CssVarsProvider>
                                         {InputProps?.endAdornment}
                                     </Box>
@@ -177,7 +177,7 @@ const DaywiseQiReport = () => {
                                         <CssVarsProvider>
                                             <Input ref={inputRef} {...inputProps} fullWidth
                                                 sx={{ bgcolor: 'white', padding: 'none', size: 'sm' }}
-                                                disabled={true} />
+                                            />
                                         </CssVarsProvider>
                                         {InputProps?.endAdornment}
                                     </Box>
