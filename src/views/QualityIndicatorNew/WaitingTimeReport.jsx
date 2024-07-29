@@ -29,16 +29,17 @@ const WaitingTimeReport = () => {
 
     const dispatch = useDispatch()
     const history = useHistory()
+
+    const id = useSelector((state) => {
+        return state?.LoginUserData.empid
+    })
     useEffect(() => {
-        dispatch(getQltyDept())
-    }, [dispatch])
+        dispatch(getQltyDept(id))
+    }, [dispatch, id])
 
     const backtoHome = useCallback(() => {
         history.push('/Home')
     }, [history])
-    const id = useSelector((state) => {
-        return state?.LoginUserData.empid
-    })
     const OnchangeDate = useCallback((newValue) => {
         setSearchDate(newValue);
         setsearchFlag(0)

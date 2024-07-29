@@ -3,7 +3,7 @@ import ManageSearchTwoToneIcon from '@mui/icons-material/ManageSearchTwoTone';
 import { Box, CssVarsProvider, Input, Tooltip, Typography } from '@mui/joy';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useState } from 'react';
 import { getQltyDept } from 'src/redux/actions/QualityIndicatorDept.action';
@@ -36,9 +36,12 @@ const InchargeApproval = () => {
         history.push('/Home')
     }, [history])
 
+    const id = useSelector((state) => {
+        return state?.LoginUserData.empid
+    })
     useEffect(() => {
-        dispatch(getQltyDept())
-    }, [dispatch])
+        dispatch(getQltyDept(id))
+    }, [dispatch, id])
 
     const SearchDetails = useCallback(() => {
         if (qitype === 0) {
