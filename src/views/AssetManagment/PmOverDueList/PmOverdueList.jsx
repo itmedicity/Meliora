@@ -29,11 +29,9 @@ const PmOverdueList = () => {
     const deptsecid = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
     const [open, setOpen] = useState(false)
 
-
     useEffect(() => {
         dispatch(getDepartment())
     }, [dispatch])
-
 
     useEffect(() => {
         setOpen(true)
@@ -47,7 +45,6 @@ const PmOverdueList = () => {
                         assetNo: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
                         roomname: val.rm_room_name !== null ? val.rm_room_name : "Not Updated",
                         subroom: val.subroom_name !== null ? val.subroom_name : "Not Updated"
-
                     }
                     return obj
                 })
@@ -72,7 +69,8 @@ const PmOverdueList = () => {
         { headerName: "Room no", field: "roomname", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
         { headerName: "Sub Room No", field: "subroom", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
         { headerName: "Serial No", field: "am_manufacture_no", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
-
+        { headerName: "Installation date", field: "instalation_date", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+        { headerName: "Due date", field: "due_date", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
     ])
 
     const onExportClick = () => {
@@ -120,17 +118,17 @@ const PmOverdueList = () => {
             })
             setTableData(DeptsecArry)
         }
-        if (department !== 0 && deptsec !== 0) {
-            getdeptDeptsecArry(TableData)
-        } else if (department !== 0 && deptsec === 0) {
+        if (department !== 0 && (deptsec === 0 || deptsec === undefined)) {
             getdeptArry(TableData)
-        } else if (department === 0 && deptsec !== 0) {
+        } else if (department === 0 && (deptsec !== 0 || deptsec !== undefined)) {
             getDeptsecArry(TableData)
+        }
+        else if (department !== 0 && (deptsec !== 0)) {
+            getdeptDeptsecArry(TableData)
         }
         else {
             warningNotify("Please select any condition before search")
         }
-
     }, [department, deptsec, TableData])
 
     const Closefunctn = useCallback(() => {
@@ -229,7 +227,6 @@ const PmOverdueList = () => {
                     />
                 </Paper>
             </Box>
-
         </CardCloseOnly>
     )
 }
