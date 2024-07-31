@@ -21,7 +21,7 @@ const SpareSErviceList = () => {
     useEffect(() => {
         setOpen(true)
         const getCondemnatnList = async (deptsecid) => {
-            const result = await axioslogin.get(`/SpareCondemService/CondemnationList/${deptsecid}`)
+            const result = await axioslogin.get(`/SpareCondemService/ServiceList/${deptsecid}`)
             const { success, data } = result.data
             if (success === 1) {
                 const dataaa = data?.map((val) => {
