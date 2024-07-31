@@ -2,7 +2,7 @@ import { Box, Paper, Tooltip, TextField } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getQltyDept } from 'src/redux/actions/QualityIndicatorDept.action';
 import { Typography } from '@mui/joy';
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
@@ -25,9 +25,12 @@ const QIValidation = () => {
     }, [history])
 
     const dispatch = useDispatch()
+    const id = useSelector((state) => {
+        return state?.LoginUserData.empid
+    })
     useEffect(() => {
-        dispatch(getQltyDept())
-    }, [dispatch])
+        dispatch(getQltyDept(id))
+    }, [dispatch, id])
 
     const SearchQiValidation = useCallback(() => {
         if (qidept === 0) {

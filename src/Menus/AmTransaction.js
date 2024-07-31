@@ -56,6 +56,16 @@ const AmTransactions = [
         to: '/Home/AssetServiceList',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+
+
+    {
+        men_slno: 228,
+        component: CNavItem,
+        name: 'PM Due List',
+        to: '/Home/PmDueList',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
     // {
     //     men_slno: 178,
     //     component: CNavItem,

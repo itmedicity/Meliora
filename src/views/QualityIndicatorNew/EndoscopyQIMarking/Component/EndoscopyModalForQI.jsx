@@ -270,7 +270,18 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
         getequipDetails(qi_slno).then((value) => {
             const { success, data } = value
             if (success === 1) {
-                setProcedureArray(data)
+                const newArray = data?.map((val) => {
+                    const proc = JSON?.parse(val?.procedure_names)
+                    const newData = proc?.find((item) => item.PD_CODE === val.PD_CODE)
+                    return {
+                        qi_slno: val.qi_slno,
+                        equip_no: val.equip_no,
+                        equip_name: val.equip_name,
+                        PD_CODE: val.PD_CODE,
+                        PDC_DESC: newData ? newData.PDC_DESC : 'nil'
+                    }
+                })
+                setProcedureArray(newArray)
                 setequipmentExit(1)
                 setEquipReport(0)
             } else {
@@ -721,6 +732,7 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
             }
         }
     }, [equipment, equipName, procName, procNamedisplay, ProcedureArray])
+    const capitalizeWords = (str) => str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     return (
         <Fragment>
             {incFlag === 1 ?
@@ -752,29 +764,68 @@ const EndoscopyModalForQI = ({ open, handleClose, rowSelect, count, setCount, de
                 <DialogContent id="alert-dialog-slide-descriptiona"
                     sx={{ width: '85vw', '&::-webkit-scrollbar': { height: 8 } }}
                 >
-                    <Box sx={{ width: '82vw', overflow: 'auto' }}>
+                    <Box sx={{ width: '100%', overflow: 'auto' }}>
+                        {/* <Paper sx={{ display: 'flex', flexDirection: 'column', bgcolor: '#b0bec5', p: 1 }}>
+                            <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
+                                <Grid item xs={12} sm={8} md={4} lg={1}>
+                                    <Box sx={{ fontSize: 14, color: 'black' }}>
+                                        {ptno}
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} sm={8} md={4} lg={1.5}>
+                                    <Box sx={{ fontSize: 14, color: 'black' }}>
+                                        {capitalizeWords(ptname)}
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} sm={8} md={4} lg={1.5}>
+                                    <Box sx={{ fontSize: 14, color: 'black' }}>
+                                        {ptage}/{ptsex}
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} sm={8} md={4} lg={2}>
+                                    <Box sx={{ fontSize: 14, color: 'black' }}>
+                                        {capitalizeWords(ptaddrs1)}{ptaddrs3 ? `, ${capitalizeWords(ptaddrs3)}` : ''}
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} sm={8} md={4} lg={1}>
+                                    <Box sx={{ fontSize: 14, color: 'black' }}>
+                                        {ptmobile}
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} sm={8} md={4} lg={4.6}>
+                                    <Box sx={{ fontSize: 14, color: 'black' }}>
+                                        {"Dr. " + capitalizeWords(doctor_name)}
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} sm={8} md={4} lg={0.4}>
+
+                                    <CssVarsProvider>
+                                        <Tooltip title="Close" placement='bottom' cursor='pointer'>
+                                            <HighlightOffIcon sx={{ cursor: 'pointer', height: 34, width: 34, color: '#546e7a' }} onClick={handleClose} />
+                                        </Tooltip>
+                                    </CssVarsProvider>
+                                </Grid>
+                            </Grid>
+                        </Paper> */}
                         <Paper sx={{ display: 'flex', height: 40, bgcolor: '#b0bec5' }}>
                             <Box sx={{ display: 'flex', flex: 1, pt: 0.5 }}>
                                 <Box sx={{ fontSize: 14, pt: 1, color: 'black', pl: 2 }}>
                                     {ptno}
                                 </Box>
                                 <Box sx={{ fontSize: 14, pt: 1, color: 'black', pl: 2 }}>
-                                    {ptname.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                    {capitalizeWords(ptname)}
                                 </Box>
                                 <Box sx={{ fontSize: 14, pt: 1, color: 'black', pl: 2 }}>
                                     {ptage}/{ptsex}
                                 </Box>
                                 <Box sx={{ fontSize: 14, pt: 1, color: 'black', pl: 2 }}>
-                                    {ptaddrs1.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-
-                                    {ptaddrs3 === null ? '' :
-                                        ',' + ptaddrs3.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                    {capitalizeWords(ptaddrs1)}{ptaddrs3 ? `, ${capitalizeWords(ptaddrs3)}` : ''}
                                 </Box>
                                 <Box sx={{ fontSize: 14, pt: 1, color: 'black', pl: 2 }}>
                                     {ptmobile}
                                 </Box>
                                 <Box sx={{ fontSize: 14, pt: 1, color: 'black', pl: 5 }}>
-                                    {"Dr. " + doctor_name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                    {"Dr. " + capitalizeWords(doctor_name)}
                                 </Box>
                             </Box>
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.5, pr: 0.2 }}>

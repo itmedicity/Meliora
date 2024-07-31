@@ -7,7 +7,7 @@ import { endOfMonth, format, startOfMonth } from 'date-fns';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getQltyDept } from 'src/redux/actions/QualityIndicatorDept.action';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import QiDeptInitailassessmentSelect from '../CommonSelectCode/QiDeptInitailassessmentSelect';
@@ -30,9 +30,12 @@ const InitialAssessmentTimeReport = () => {
     const backtoHome = useCallback(() => {
         history.push('/Home')
     }, [history])
+    const id = useSelector((state) => {
+        return state?.LoginUserData.empid
+    })
     useEffect(() => {
-        dispatch(getQltyDept())
-    }, [dispatch])
+        dispatch(getQltyDept(id))
+    }, [dispatch, id])
     const OnchangeDate = useCallback((newValue) => {
         setSearchDate(newValue);
         setsearchFlag(0)
@@ -67,17 +70,16 @@ const InitialAssessmentTimeReport = () => {
     }, [qitype, searchDate, qidept])
     return (
         <Fragment>
-            <Box sx={{ display: 'flex', maxHeight: window.innerHeight - 70 }}>
-                <Box sx={{ flex: 0.2 }}></Box>
-                <Paper variant='outlined' square sx={{ flex: 1 }} >
-                    <Box sx={{ display: 'flex', flex: 1, height: 40, pb: 1 }}>
-
-                        <Box sx={{ flex: 1, fontSize: 16, pl: 2, pt: 1.3 }}>
+            <Box sx={{ display: 'flex' }}>
+                <Box sx={{ flex: 0.3 }}></Box>
+                <Paper square variant='outlined' sx={{ flex: 1 }}>
+                    <Box sx={{ display: 'flex', flex: 1, borderColor: 'lightgrey', flexWrap: 'wrap' }}>
+                        <Box sx={{ flex: 1, fontSize: 16, pl: 1, pt: 1.3 }}>
                             <Typography sx={{ fontFamily: 'Arial', fontSize: 14, textTransform: 'uppercase', fontWeight: 550 }}>
                                 Initial Assessment Report
                             </Typography>
                         </Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pr: 0.5, pt: 0.2 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pr: 0.5, pt: 0.5 }}>
                             <CssVarsProvider>
                                 <Tooltip title="Close" placement='bottom'>
                                     <HighlightOffIcon sx={{
@@ -91,59 +93,55 @@ const InitialAssessmentTimeReport = () => {
                             </CssVarsProvider>
                         </Box>
                     </Box>
-                    <Paper variant='outlined' square sx={{ display: 'flex', pb: 1 }}>
+                    <Paper square variant='outlined' sx={{ display: 'flex', pt: 0.4, flexWrap: 'wrap' }}>
                         <Box sx={{ flex: 1 }}></Box>
-                        <Box sx={{ flex: 1, pl: 2 }}>
-                            <Box sx={{ display: 'flex', m: 2 }}>
-                                <CssVarsProvider>
-                                    <Avatar size="md" variant="plain" sx={{ bgcolor: '#ede7f6' }}>
-                                        <LocationOnIcon sx={{ color: '#4527a0' }} />
-                                    </Avatar>
-                                </CssVarsProvider>
-                                <Box sx={{}}>
-                                    <Box sx={{ pl: 2, fontSize: 12, color: '#4527a0' }} >DEPARTMENT <KeyboardArrowDownIcon fontSize='small' /></Box>
-                                    <Box sx={{ pl: 0.5 }}>
-                                        <QiDeptInitailassessmentSelect qidept={qidept} setQidept={setQidept} setQitype={setQitype}
-                                            setDepCode={setDepCode} setsearchFlag={setsearchFlag} />
-                                    </Box>
+                        <Box sx={{ display: 'flex', m: 2, flex: 1 }}>
+                            <CssVarsProvider>
+                                <Avatar size="md" variant="plain" sx={{ bgcolor: '#ede7f6' }}>
+                                    <LocationOnIcon sx={{ color: '#4527a0' }} />
+                                </Avatar>
+                            </CssVarsProvider>
+                            <Box sx={{}}>
+                                <Box sx={{ pl: 2, fontSize: 12, color: '#4527a0' }} >DEPARTMENT <KeyboardArrowDownIcon fontSize='small' /></Box>
+                                <Box sx={{ pl: 0.5 }}>
+                                    <QiDeptInitailassessmentSelect qidept={qidept} setQidept={setQidept} setQitype={setQitype}
+                                        setDepCode={setDepCode} setsearchFlag={setsearchFlag} />
                                 </Box>
                             </Box>
                         </Box>
-                        <Box sx={{ flex: 1 }} >
-                            <Box sx={{ display: 'flex', m: 2 }}>
-                                <CssVarsProvider>
-                                    <Avatar size="md" variant="plain" sx={{ bgcolor: '#ede7f6' }}>
-                                        <CalendarMonthIcon sx={{ color: '#4527a0' }} />
-                                    </Avatar>
-                                </CssVarsProvider>
-                                <Box sx={{}}>
-                                    <Box sx={{ pl: 2, fontSize: 12, color: '#4527a0' }} >DATE <KeyboardArrowDownIcon fontSize='small' /></Box>
-                                    <Box sx={{ pl: 0.5 }}>
-                                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                            <DatePicker
-                                                value={searchDate}
-                                                views={['year', 'month',]}
-                                                size="sm"
-                                                inputFormat='MMM-yyyy'
-                                                maxDate={new Date()}
-                                                onChange={(e) => OnchangeDate(e)}
-                                                renderInput={({ inputRef, inputProps, InputProps }) => (
-                                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                        <CssVarsProvider>
-                                                            <Input ref={inputRef} {...inputProps} fullWidth
-                                                                sx={{ bgcolor: 'white', padding: 'none', size: 'sm', borderRadius: 20, fontSize: 14 }}
-                                                                disabled={true} />
-                                                        </CssVarsProvider>
-                                                        {InputProps?.endAdornment}
-                                                    </Box>
-                                                )}
-                                            />
-                                        </LocalizationProvider>
-                                    </Box>
+                        <Box sx={{ display: 'flex', m: 2, flex: 1 }}>
+                            <CssVarsProvider>
+                                <Avatar size="md" variant="plain" sx={{ bgcolor: '#ede7f6' }}>
+                                    <CalendarMonthIcon sx={{ color: '#4527a0' }} />
+                                </Avatar>
+                            </CssVarsProvider>
+                            <Box sx={{}}>
+                                <Box sx={{ pl: 2, fontSize: 12, color: '#4527a0' }} >DATE <KeyboardArrowDownIcon fontSize='small' /></Box>
+                                <Box sx={{ pl: 0.5 }}>
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DatePicker
+                                            value={searchDate}
+                                            views={['year', 'month',]}
+                                            size="sm"
+                                            inputFormat='MMM-yyyy'
+                                            maxDate={new Date()}
+                                            onChange={(e) => OnchangeDate(e)}
+                                            renderInput={({ inputRef, inputProps, InputProps }) => (
+                                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                    <CssVarsProvider>
+                                                        <Input ref={inputRef} {...inputProps} fullWidth
+                                                            sx={{ bgcolor: 'white', padding: 'none', size: 'sm', borderRadius: 20, fontSize: 14 }}
+                                                            disabled={true} />
+                                                    </CssVarsProvider>
+                                                    {InputProps?.endAdornment}
+                                                </Box>
+                                            )}
+                                        />
+                                    </LocalizationProvider>
                                 </Box>
                             </Box>
                         </Box>
-                        < Box sx={{ flex: 0.2, pt: 4, pl: 1 }} >
+                        <Box sx={{ flex: 1, pl: 2, my: 3 }}>
                             <CssVarsProvider>
                                 <Tooltip title="Search" placement='right'>
                                     < SearchTwoToneIcon sx={{ color: '#311b92', cursor: 'pointer', height: 35, width: 35 }}
@@ -153,16 +151,15 @@ const InitialAssessmentTimeReport = () => {
                             </CssVarsProvider>
                         </Box>
                         <Box sx={{ flex: 1 }}></Box>
-                    </Paper>
-                    <Box>
+                    </Paper >
+                    <>
                         {searchFlag === 1 ?
                             <OPAssessmentTimeReport viewData={viewData} searchDate={searchDate} qidept={qidept} depCode={depCode} />
                             : null}
-                    </Box>
+                    </>
                 </Paper >
-                <Box sx={{ flex: 0.2 }}></Box>
-
-            </Box >
+                <Box sx={{ flex: 0.3 }}></Box>
+            </Box>
         </Fragment >
     )
 }

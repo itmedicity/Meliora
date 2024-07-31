@@ -17,6 +17,7 @@ import EmergencyPatientsList from './EmergencyQIMarking/Components/EmergencyPati
 import { RefreshDialysisList } from './DialysisQIMarking/Components/RefreshDialysisList'
 import DialysisPatientListTable from './DialysisQIMarking/Components/DialysisPatientListTable'
 import { RefreshIpPatients } from './InpatientQIMarking/Components/RefreshIpPatients'
+import InpatientTableView from './InpatientQIMarking/Components/InpatientTableView'
 
 const DepartmentWisePatientMarking = () => {
     const dispatch = useDispatch()
@@ -28,16 +29,17 @@ const DepartmentWisePatientMarking = () => {
     const [dailyDate, setDailyDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [count, setCount] = useState(0)
     const history = useHistory()
-
-    const backtoHome = useCallback(() => {
-        history.push('/Home')
-    }, [history])
-    useEffect(() => {
-        dispatch(getQltyDept())
-    }, [dispatch])
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
     })
+    const backtoHome = useCallback(() => {
+        history.push('/Home')
+    }, [history])
+
+    useEffect(() => {
+        dispatch(getQltyDept(id))
+    }, [dispatch, id])
+
     const SearchDetails = useCallback((e) => {
         if (qitype === 0) {
             infoNotify("Select Department")
@@ -73,7 +75,7 @@ const DepartmentWisePatientMarking = () => {
                     await RefreshIpPatients(qidept, count, setCount, depCode, id, dailyDate)
                 }
                 RefreshPatients(setCount)
-                setSearchFlag(3)
+                setSearchFlag(5)
             }
         }
     }, [qitype, depCode, dailyDate, id, count, qidept])
@@ -82,23 +84,26 @@ const DepartmentWisePatientMarking = () => {
         <Fragment>
             {searchFlag === 1 ?
                 <PatientsListView setSearchFlag={setSearchFlag} qidept={qidept} depName={depName}
-                    depCode={depCode} dailyDate={dailyDate} count={count} setCount={setCount} qitype={qitype} />
+                    depCode={depCode} dailyDate={dailyDate} count={count} setCount={setCount} qitype={qitype} setQidept={setQidept} />
                 : searchFlag === 2 ?
                     <EmergencyPatientsList setSearchFlag={setSearchFlag} qidept={qidept} depCode={depCode}
                         dailyDate={dailyDate} count={count} setCount={setCount} qitype={qitype} />
                     : searchFlag === 3 ?
                         <DialysisPatientListTable setSearchFlag={setSearchFlag} qidept={qidept} depCode={depCode}
                             dailyDate={dailyDate} count={count} setCount={setCount} qitype={qitype} />
-                        :
-                        <Box sx={{ height: '91vh', width: '100%', display: 'flex', bgcolor: '#eceff1' }}>
-                            <Box sx={{ mx: 'auto', mt: 20, }}>
-                                <Paper sx={{ height: 200, width: 500, boxShadow: 10, bgcolor: '#cfd8dc' }} >
-                                    <Paper variant='outlined' square sx={{ display: 'flex' }}>
+                        : searchFlag === 5 ?
+                            <InpatientTableView setSearchFlag={setSearchFlag} qidept={qidept} depCode={depCode}
+                                dailyDate={dailyDate} count={count} setCount={setCount} setQidept={setQidept} depName={depName} />
+                            :
+                            <Box sx={{ height: '91vh', width: '100%', display: 'flex', bgcolor: '#eceff1', justifyContent: 'center', alignItems: 'center', pb: 25 }}>
+                                {/* <Box sx={{ width: '35%', bgcolor: '#cfd8dc', height: window.innerHeight - 650, mb: 20 }}> */}
+                                <Box sx={{ height: 200, width: 500, bgcolor: '#cfd8dc', mx: 'auto', boxShadow: 10, }}>
+                                    <Paper variant='outlined' square sx={{ display: 'flex', }}>
                                         <Box sx={{
                                             display: 'flex', flex: 1, justifyContent: 'center', pt: 1.5, color: '#455a64', bgcolor: '#cfd8dc',
-                                            fontWeight: 'bold'
+                                            fontWeight: 'bold',
                                         }}>
-                                            GET PATIENT&apos;S DETAILS
+                                            {/* GET PATIENT&apos;S DETAILS */}QUALITY INDICATOR
                                         </Box>
                                         <Box sx={{ display: 'flex', flex: 0.1, justifyContent: 'flex-end', fontSize: 20, pt: 0.5, pr: 0.5, bgcolor: '#cfd8dc' }}>
                                             <HighlightOffIcon sx={{ cursor: 'pointer', size: 'sm', opacity: 0.7 }} onClick={backtoHome} />
@@ -130,7 +135,7 @@ const DepartmentWisePatientMarking = () => {
                                             />
                                         </LocalizationProvider>
                                     </Box>
-                                    < Box sx={{ mx: 1, pt: 0.5, flex: 1 }}>
+                                    < Box sx={{ mx: 1, pt: 0.3, flex: 1 }}>
                                         <CssVarsProvider>
                                             <Button sx={{
                                                 width: '100%', height: 46, cursor: 'pointer', color: 'white', fontSize: 17,
@@ -147,9 +152,8 @@ const DepartmentWisePatientMarking = () => {
                                             </Button>
                                         </CssVarsProvider>
                                     </Box>
-                                </Paper>
-                            </Box>
-                        </Box >
+                                </Box>
+                            </Box >
             }
         </Fragment >
     )

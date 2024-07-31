@@ -1,9 +1,10 @@
 import { Box, CssVarsProvider, Table } from '@mui/joy'
+import { Paper } from '@mui/material'
 import React, { memo } from 'react'
 
 const OPConsultationWaitingReport = ({ tableData }) => {
     return (
-        <Box sx={{ pt: 1 }}>
+        <Paper variant='outlined' square sx={{ pt: 1, px: 1 }}>
             {tableData.length !== 0 ?
                 <Box variant="plain" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 210, padding: 'none', '&::-webkit-scrollbar': { height: 8 } }}>
                     <CssVarsProvider>
@@ -49,7 +50,7 @@ const OPConsultationWaitingReport = ({ tableData }) => {
                     </CssVarsProvider>
                 </Box >
                 : null}
-        </Box>
+        </Paper>
     )
 }
 

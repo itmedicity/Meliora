@@ -185,11 +185,8 @@ const BackupMast = () => {
         setScheduleType(backup_schedule_type)
         setdays(selected_days)
         seteditScheduleType(backup_schedule_type)
-        // const selectedScheduleTime = Array.isArray(backup_schedule_time)
-        //     ? backup_schedule_time
-        //     : [backup_schedule_time];
-
-        // setScheduleTime(selectedScheduleTime);
+        const schdltime = JSON?.parse(data?.backup_schedule_time)
+        setScheduleTime(schdltime);
     }, [])
 
     const BackupChecksDetails = useCallback((e) => {

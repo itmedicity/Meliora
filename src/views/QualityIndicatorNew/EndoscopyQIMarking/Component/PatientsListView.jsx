@@ -15,7 +15,7 @@ import PatientsListTable from './PatientsListTable';
 import { AddorRemovePatients } from './AddorRemovePatients';
 import EndoscopyIPPatients from './EndoscopyIPPatients';
 
-const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, depCode, depName, qitype }) => {
+const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, depCode, depName, qitype, setQidept }) => {
     const [patientlist, setpatientlist] = useState([])
     const [tableData, setTableData] = useState([])
     const [qiMarkedList, setqiMarkedList] = useState([])
@@ -28,7 +28,8 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
     const backtoHome = useCallback(() => {
         history.push('/Home/QIPatientMarking')
         setSearchFlag(0)
-    }, [history, setSearchFlag])
+        setQidept(0)
+    }, [history, setSearchFlag, setQidept])
 
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
@@ -141,10 +142,10 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
 
     return (
         <Box>
-            <Paper variant='outlined' square >
+            <Paper variant='outlined' square sx={{ display: 'flex', flexDirection: 'column' }}>
                 {opCheck === true ?
                     <>
-                        <Box sx={{ display: 'flex', flex: 1, height: 40 }}>
+                        <Box sx={{ display: 'flex', flex: 1, height: 40, alignItems: 'center', flexWrap: 'wrap' }}>
                             <Box sx={{ pl: 0.7, pt: 0.7 }} >
                                 <ViewListIcon sx={{ color: '#37474f', height: 30, width: 30, opacity: 0.8 }} />
                             </Box>
@@ -155,7 +156,7 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
                             </Box>
                             {tabFlag === 1 ?
                                 <>
-                                    <Box sx={{ flex: 0.2, display: 'flex', pt: 0.4 }}>
+                                    <Box sx={{ flex: 0.2, display: 'flex', pt: 0.4, }}>
                                         <Box sx={{ pr: 1, pt: 0.7 }}>
                                             <CssVarsProvider>
                                                 <Radio label="OP"
@@ -185,11 +186,11 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
                                                 name="searchPat"
                                                 value={searchPat}
                                                 onChange={ChangePatient}
-                                                sx={{ width: 250, height: 35 }}
+                                                sx={{ height: 35 }}
                                             />
                                         </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pr: 0.3, pt: 0.4, pl: 0.5 }}>
+                                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.4, pl: 0.5 }}>
                                         <CssVarsProvider>
                                             <Tooltip title="Refresh" placement="bottom" >
                                                 <ChangeCircleOutlinedIcon sx={{ cursor: 'pointer', height: 35, width: 35, opacity: 0.7, color: 'darkgreen' }}
@@ -208,8 +209,9 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
                                 </CssVarsProvider>
                             </Box>
                         </Box>
+
                         {tabFlag === 1 ?
-                            <Box>
+                            <Box sx={{ pt: 0.5, flexWrap: 'wrap' }}>
                                 <Box variant="outlined" sx={{ height: '38vh', overflow: 'auto', '&::-webkit-scrollbar': { height: 8 } }}>
                                     <CssVarsProvider>
                                         <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow >
@@ -268,6 +270,7 @@ const PatientsListView = ({ setSearchFlag, dailyDate, count, setCount, qidept, d
                             :
                             <Box sx={{ height: '39vh', display: 'flex', justifyContent: 'center', fontSize: 20, opacity: 0.8 }}>No Patients</Box>
                         }
+
                         {qiMarkFlag === 1 ?
                             <>
                                 <PatientsListTable qiMarkedList={qiMarkedList} setqiMarkFlag={setqiMarkFlag} count={count}

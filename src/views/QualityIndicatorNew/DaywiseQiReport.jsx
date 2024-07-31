@@ -1,6 +1,6 @@
 import { Box, Button, CssVarsProvider, Input, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { getQltyDept } from 'src/redux/actions/QualityIndicatorDept.action';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
@@ -34,10 +34,12 @@ const DaywiseQiReport = () => {
     const backtoHome = useCallback(() => {
         history.push('/Home')
     }, [history])
-
+    const id = useSelector((state) => {
+        return state?.LoginUserData.empid
+    })
     useEffect(() => {
-        dispatch(getQltyDept())
-    }, [dispatch])
+        dispatch(getQltyDept(id))
+    }, [dispatch, id])
 
     const SearchReport = useCallback(() => {
         if (qitype === 0) {
@@ -116,7 +118,7 @@ const DaywiseQiReport = () => {
                         onClick={backtoHome} />
                 </Box>
             </Paper>
-            <Paper variant='outlined' square sx={{ display: 'flex', pr: 1, pb: 0.5 }}>
+            <Paper variant='outlined' square sx={{ display: 'flex', flex: 1, pr: 1, pb: 0.5, flexWrap: 'wrap' }}>
                 <Box sx={{ flex: 0.3 }} ></Box>
                 <Box sx={{ flex: 1.2, }}>
                     <Box sx={{ pt: 1, pl: 1 }}>
@@ -147,7 +149,7 @@ const DaywiseQiReport = () => {
                                         <CssVarsProvider>
                                             <Input ref={inputRef} {...inputProps} fullWidth
                                                 sx={{ bgcolor: 'white', padding: 'none', size: 'sm' }}
-                                                disabled={true} />
+                                            />
                                         </CssVarsProvider>
                                         {InputProps?.endAdornment}
                                     </Box>
@@ -177,7 +179,7 @@ const DaywiseQiReport = () => {
                                         <CssVarsProvider>
                                             <Input ref={inputRef} {...inputProps} fullWidth
                                                 sx={{ bgcolor: 'white', padding: 'none', size: 'sm' }}
-                                                disabled={true} />
+                                            />
                                         </CssVarsProvider>
                                         {InputProps?.endAdornment}
                                     </Box>

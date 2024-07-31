@@ -791,7 +791,7 @@ const HodQiapprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipView
                                     Number Of Reporting Errors per 1000 Investigations
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -870,7 +870,7 @@ const HodQiapprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipView
                                     Percentage Of Re dos
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -948,7 +948,7 @@ const HodQiapprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipView
                                     Waiting time for services (a) Diagnostics
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1028,7 +1028,7 @@ const HodQiapprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipView
                                     Incidence Of Patient Identification Errors
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1106,7 +1106,7 @@ const HodQiapprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipView
                                     Incidence Of Falls
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1184,7 +1184,7 @@ const HodQiapprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipView
                                     Percentage Of Near Misses
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1262,7 +1262,7 @@ const HodQiapprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipView
                                     Number Of Sentinel events Reported, Collected And Analysed within the defined Time Frame
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1.5 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1340,7 +1340,7 @@ const HodQiapprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipView
                                     Equipment Utilization
                                 </Box>
                                 <Box>
-                                    <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                         <Box sx={{ flex: 1.5 }}>
                                             <Box sx={{ display: 'flex', pt: 0.5 }}>
                                                 <Box sx={{ flex: 1.5, p: 0.2 }}>
@@ -1420,7 +1420,7 @@ const HodQiapprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipView
                                                 />
                                             </CssVarsProvider>
                                         </Box>
-                                        <Box sx={{ display: 'flex', py: 1 }}>
+                                        <Box sx={{ display: 'flex', py: 1, flexWrap: 'wrap' }}>
                                             <Box sx={{ fontSize: 16, pl: 2, color: '#555830', fontWeight: 550, pr: 1.5 }}>
                                                 Approved By:
                                             </Box>
@@ -1472,7 +1472,7 @@ const HodQiapprovalView = ({ viewData, qidept, searchDate, setsearchFlag, ipView
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
                                     {hodStatus === 1 ?
                                         <>
                                             <Box sx={{ fontSize: 16, pl: 1, color: '#555830', fontWeight: 550, pr: 1.5, pt: 1.8 }}>

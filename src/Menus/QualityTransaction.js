@@ -9,7 +9,7 @@ const QualityTransactions = [
     {
         men_slno: 182,
         component: CNavItem,
-        name: 'QI Dept Wise Patient Marking',
+        name: 'QI Marking',
         to: '/Home/QIPatientMarking',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
