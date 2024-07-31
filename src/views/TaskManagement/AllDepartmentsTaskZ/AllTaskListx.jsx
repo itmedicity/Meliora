@@ -623,7 +623,7 @@ const AllTaskListx = () => {
                                                                         : 'transparent', minHeight: 5,
                                                 fontWeight: 700
                                             }}>
-                                                {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
+                                                {val.tm_task_status === 0 ? 'Not Started' : val.tm_task_status === 1 ? 'Completed' :
                                                     val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                         val.tm_task_status === 4 ? 'Pending' : 'not given'}
                                             </Chip>
@@ -711,7 +711,7 @@ const AllTaskListx = () => {
                                                                             : 'transparent', minHeight: 5,
                                                     fontWeight: 700
                                                 }}>
-                                                    {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
+                                                    {val.tm_task_status === 0 ? 'Not Started' : val.tm_task_status === 1 ? 'Completed' :
                                                         val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                             val.tm_task_status === 4 ? 'Pending' : 'not given'}
                                                 </Chip>
@@ -799,7 +799,7 @@ const AllTaskListx = () => {
                                                                                 : 'transparent', minHeight: 5,
                                                         fontWeight: 700
                                                     }}>
-                                                        {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
+                                                        {val.tm_task_status === 0 ? 'Not Started' : val.tm_task_status === 1 ? 'Completed' :
                                                             val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                                 val.tm_task_status === 4 ? 'Pending' : 'not given'}
                                                     </Chip>
@@ -887,7 +887,7 @@ const AllTaskListx = () => {
                                                                                     : 'transparent', minHeight: 5,
                                                             fontWeight: 700
                                                         }}>
-                                                            {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
+                                                            {val.tm_task_status === 0 ? 'Not Started' : val.tm_task_status === 1 ? 'Completed' :
                                                                 val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                                     val.tm_task_status === 4 ? 'Pending' : 'not given'}
                                                         </Chip>
@@ -975,7 +975,7 @@ const AllTaskListx = () => {
                                                                                         : 'transparent', minHeight: 5,
                                                                 fontWeight: 700
                                                             }}>
-                                                                {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
+                                                                {val.tm_task_status === 0 ? 'Not Started' : val.tm_task_status === 1 ? 'Completed' :
                                                                     val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                                         val.tm_task_status === 4 ? 'Pending' : 'not given'}
                                                             </Chip>

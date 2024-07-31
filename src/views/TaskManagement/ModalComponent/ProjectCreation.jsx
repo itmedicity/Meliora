@@ -190,6 +190,7 @@ const ProjectCreation = ({ open, setAddProjectFlag, setaddProjectlModalOpen, tab
                                         }
                                         placement="bottom"
                                         color='warning'
+                                        sx={{ width: 350 }}
                                     >
                                         <div>
                                             <Inputcomponent

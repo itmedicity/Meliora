@@ -68,16 +68,17 @@ const PerformanceMain = () => {
     const [empReopendCompln, setEmpReopendCompln] = useState(0)
     const [empVeriComplt, setEmpVeriComplt] = useState(0)
     const [empRctfytodayComplt, setEmpRctTodayCmplt] = useState(0)
-    const [empTotalTask, setempTotalTask] = useState(0)
     const [empCompletedTask, setEmpCompletedTask] = useState(0)
     const [complPerfm, setComplPerfm] = useState(0)
     const [employeeDesignation, setEmployeeDesignation] = useState('')
     const [employeeName, setEmployeeName] = useState('')
+    const [empTotalComplWithouthold, setEmpTotalComplWithouthold] = useState(0)
     let employeeNamee = employeeName.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     let designation = employeeDesignation.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     const [EmpTotalWithouthold, setEmpTotalWithouthold] = useState(0)
     const [AdjustedCompleteion, setAdjustedCompleteion] = useState(0)
-    const TotalPerformance = (EmpTotalWithouthold + empTotalComplaints) === 0 ? 0 : (((AdjustedCompleteion + empVeriComplt) / (EmpTotalWithouthold + empTotalComplaints)) * 100)
+    const [emptotCompltedComplaints, setEmptotCompltedComplaints] = useState(0)
+    const TotalPerformance = (EmpTotalWithouthold + empTotalComplWithouthold) === 0 ? 0 : (((AdjustedCompleteion + emptotCompltedComplaints) / (EmpTotalWithouthold + empTotalComplWithouthold)) * 100)
     const MonthlyPerformance = Number.isInteger(TotalPerformance) ? Number(TotalPerformance.toFixed(0)) : Number(TotalPerformance.toFixed(2));
     const [totalonHold, setTotalonHold] = useState(0)
     const [totalemployeeOverDue, setTotalemployeeOverDue] = useState(0)
@@ -93,7 +94,7 @@ const PerformanceMain = () => {
     const [empPendingToday, setEmpPendingToday] = useState(0)
     const [deptRectfToday, setdeptRectfToday] = useState(0)
     const [pendingTodaydept, setpendingTodaydept] = useState(0)
-
+    const [empTotalTask, setEmpTotalTask] = useState(0)
 
     useEffect(() => {
         const parsedDate = parse(searchMonthAndYear, 'yyyy-MM', new Date());
@@ -326,9 +327,12 @@ const PerformanceMain = () => {
             const { success, data } = result.data;
             if (success === 2) {
                 const employeeOverDue = data.length;
+                const overdueToday = data.filter(item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date))
                 setTotalemployeeOverDue(employeeOverDue)
+                setEmpOerdueToday(overdueToday.length)
             } else {
                 setTotalemployeeOverDue(0)
+                setEmpOerdueToday(0)
             }
         }
         getemployeeOverDue(employee)
@@ -421,6 +425,24 @@ const PerformanceMain = () => {
         getdeptTotPendingCompltn(empdept)
     }, [empdept])
 
+    useEffect(() => {
+        const getMasterTable = async () => {
+            const result = await axioslogin.get(`/TmTableView/employeeCompleted/${employee}`);
+            const { success, data } = result.data;
+            if (data.length !== 0) {
+                if (success === 2) {
+                    const completedToday = data.filter(item => item.tm_task_status === 1 && isToday(item.tm_complete_date)).length;
+                    setEmpCompltTodayTask(completedToday);
+                } else {
+                    setEmpCompltTodayTask(0);
+                }
+            }
+            else {
+                setEmpCompltTodayTask(0)
+            }
+        }
+        getMasterTable(employee)
+    }, [employee])
 
     useEffect(() => {
         const getEmployeeTask = async () => {
@@ -429,12 +451,10 @@ const PerformanceMain = () => {
             if (success === 2) {
                 const mainTaskData = data.filter(item => item.main_task_slno === null);
                 const totalTasks = data.length;
-                const completedToday = data.filter(item => item.tm_task_status === 1 && isToday(item.tm_complete_date));
                 const completedTasks = data.filter(item =>
                     item.tm_task_status === 1 && isSameMonth(parseISO(item.tm_complete_date), new Date(searchMonthAndYear))).length;
                 const onHoldTasks = data.filter(item => isPastDue(item.tm_task_due_date) && item.tm_task_status === 3).length;
                 const totalWithOutHold = (totalTasks - onHoldTasks)
-                const overdueToday = data.filter(item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date))
                 const completedTasksWoutchangingDuedate = data.filter(item => (item.tm_task_status === 1) && item.tm_mast_duedate_count === null).length;
                 const penaltyCounts = {};
                 data.forEach(item => {
@@ -456,21 +476,17 @@ const PerformanceMain = () => {
                 setAdjustedCompleteion(adjustedCompletion)
                 setTaskPerformance(Number.isInteger(PerformanceProgress) ? PerformanceProgress.toFixed(0) : PerformanceProgress.toFixed(2));
                 setEmplmainTasks(mainTaskData);
-                setempTotalTask(totalTasks)
                 setEmpCompletedTask(completedTasks)
-                setEmpOerdueToday(overdueToday.length)
                 setEmpTotalWithouthold(totalWithOutHold)
-                setEmpCompltTodayTask(completedToday.length);
+                setEmpTotalTask(totalTasks)
             }
             else {
                 setEmplmainTasks([])
-                setempTotalTask(0)
                 setEmpCompletedTask(0)
-                setEmpOerdueToday(0)
                 setTaskPerformance(0)
                 setEmpTotalWithouthold(0)
-                setEmpCompltTodayTask(0)
                 setAdjustedCompleteion(0)
+                setEmpTotalTask(0)
             }
         }
         getEmployeeTask(searchEmployeeTaskData)
@@ -520,6 +536,9 @@ const PerformanceMain = () => {
                 setEmpverifiedToday(verifiedToday.length)
                 setComplPerfm(Number.isInteger(ComplaintPerformnce) ? ComplaintPerformnce.toFixed(0) : ComplaintPerformnce.toFixed(2))
                 setEmpPendingToday(pendingToday.length)
+                setEmptotCompltedComplaints(emptotCompltedComplaints)
+                setEmpTotalComplWithouthold(totallWithoutHold)
+
             }
             else {
                 setEmpTotalComplaints(0)
@@ -531,6 +550,8 @@ const PerformanceMain = () => {
                 setComplPerfm(0)
                 setEmpverifiedToday(0)
                 setEmpPendingToday(0)
+                setEmptotCompltedComplaints(0)
+                setEmpTotalComplWithouthold(0)
             }
         }
         getEmployeeComplaints(searchEmployeeComplaintData)
@@ -634,7 +655,7 @@ const PerformanceMain = () => {
                                                         <Typography sx={{ fontSize: 14, fontWeight: 600, color: '#492B08', pl: .5, pr: 1 }}>Complaints</Typography>
                                                         <Typography sx={{
                                                             fontSize: 18, fontWeight: 600,
-                                                            color: taskPerformance < 30 ? 'darkRed' : taskPerformance < 70 ? '#32383E' : '#104210',
+                                                            color: complPerfm < 30 ? 'darkRed' : complPerfm < 70 ? '#32383E' : '#104210',
                                                             pl: .5, pr: 1
                                                         }}>{complPerfm}%</Typography>
                                                     </Box>
@@ -719,7 +740,7 @@ const PerformanceMain = () => {
                                                 <Box sx={{ flex: 1, bgcolor: '#E9EEF7', mt: .5, mx: 1, py: .5 }}>
                                                     <Typography sx={{ pl: 1, pt: .5, fontWeight: 600 }}><u>{monthName}</u></Typography>
                                                     <Box sx={{ flex: 1, display: 'flex', }}>
-                                                        <Typography sx={{ pl: 1.5, pt: 1, fontSize: 15, flex: 1, }}>Total </Typography>
+                                                        <Typography sx={{ pl: 1.5, pt: 1, fontSize: 15, flex: 1, }}>Total  </Typography>
                                                         <Box sx={{ width: 50, height: 25, border: 1, mx: 2, mt: .5, textAlign: 'center', borderRadius: 2, borderColor: '#12467B', color: '#12467B', }}>
                                                             {empTotalTask}
                                                         </Box>
