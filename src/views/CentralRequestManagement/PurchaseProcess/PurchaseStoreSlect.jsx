@@ -2,7 +2,7 @@ import { Box, FormControl, MenuItem, Select } from '@mui/material'
 import React, { memo, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios';
 
-const PurchaseStoreSlect = ({ substoreSlno, setsubStoreSlno, setsubStoreName, setStoreName }) => {
+const PurchaseStoreSlect = ({ substoreSlno, setsubStoreSlno, setsubStoreName, setStoreName, setStoreCode }) => {
 
     const [tabledata, setTabledata] = useState([])
 
@@ -26,18 +26,19 @@ const PurchaseStoreSlect = ({ substoreSlno, setsubStoreSlno, setsubStoreName, se
             const result = await axioslogin.get(`/newCRFPurchase/getMainStore/${substoreSlno}`)
             const { success, data } = result.data
             if (success === 1) {
-                const { main_store } = data[0]
+                const { main_store, crs_store_code } = data[0]
                 setStoreName(main_store)
+                setStoreCode(crs_store_code)
             }
             else {
                 setStoreName('')
+                setStoreCode('')
             }
         }
         if (substoreSlno !== 0) {
             getMainStore(substoreSlno)
         }
-    }, [substoreSlno, setStoreName])
-
+    }, [substoreSlno, setStoreName, setStoreCode])
 
 
     return (

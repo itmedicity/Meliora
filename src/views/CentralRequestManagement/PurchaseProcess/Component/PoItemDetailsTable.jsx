@@ -1,11 +1,9 @@
 import { Paper } from '@mui/material'
-import React, { Fragment, memo } from 'react'
-import { AgGridReact } from 'ag-grid-react'
-import 'ag-grid-community/dist/styles/ag-grid.css'
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
-import { Box } from '@mui/joy'
-const CrfReqDetailCmpnt = ({ columnDefs, tableData, onSelectionChanged, columnTypes, getRowStyle }) => {
+import React, { Fragment, memo, useState } from 'react'
+import { Box } from '@mui/joy';
+import { AgGridReact } from 'ag-grid-react';
 
+const PoItemDetailsTable = ({ itemTableData, onSelectionChanged, columnTypes, getRowStyle }) => {
     const rowHeight = 27
     const headerHeight = 27
     const defaultColDef = {
@@ -13,7 +11,16 @@ const CrfReqDetailCmpnt = ({ columnDefs, tableData, onSelectionChanged, columnTy
     const onGridReady = (params) => {
         params.api.sizeColumnsToFit()
     }
-
+    const [column] = useState([
+        { headerName: "Sl.No.", field: "slno", autoHeight: true, wrapText: true, width: 80 },
+        // { headerName: "Item Code", field: "item_code", autoHeight: true, wrapText: true, width: 200 },
+        { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, width: 300, filter: "true" },
+        { headerName: "Qnty", field: "item_qty", autoHeight: true, wrapText: true, width: 150 },
+        { headerName: "Rate", field: "item_rate", autoHeight: true, wrapText: true, width: 150 },
+        { headerName: "Tax", field: "tax", autoHeight: true, wrapText: true, width: 150 },
+        { headerName: "Tax Amount", field: "tax_amount", autoHeight: true, wrapText: true, width: 150 },
+        { headerName: "MRP", field: "item_mrp", autoHeight: true, wrapText: true, width: 150, },
+    ])
     const rowStyle = {
         fontFamily: [
             '-apple-system',
@@ -39,8 +46,8 @@ const CrfReqDetailCmpnt = ({ columnDefs, tableData, onSelectionChanged, columnTy
                     }}
                 >
                     <AgGridReact
-                        columnDefs={columnDefs}
-                        rowData={tableData}
+                        columnDefs={column}
+                        rowData={itemTableData}
                         defaultColDef={defaultColDef}
                         rowHeight={rowHeight}
                         headerHeight={headerHeight}
@@ -59,4 +66,4 @@ const CrfReqDetailCmpnt = ({ columnDefs, tableData, onSelectionChanged, columnTy
     )
 }
 
-export default memo(CrfReqDetailCmpnt)
+export default memo(PoItemDetailsTable)

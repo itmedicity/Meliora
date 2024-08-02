@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export const getpurchaseAckPending = (state) => state.setCRMPurchaseAckPending.setCRMPurchaseAckPendingList;
 
 export const PurchAckMapList = (CRMPurchaseAckPendingListAry) => {
@@ -44,7 +46,7 @@ export const PurchAckMapList = (CRMPurchaseAckPendingListAry) => {
                     ed_detial_analysis: val.ed_detial_analysis,
                     edid: val.edid,
                     mdid: val.mdid,
-                    now_who: "Not Statrted Purchase Process",
+                    now_who: "Not Started Purchase Process",
                     now_who_status: 0,
                     md_image: val.md_image,
                     ed_image: val.ed_image,
@@ -141,12 +143,12 @@ export const PurchaseAckDoneList = (getArray) => {
                             val.po_approva_level_two === 1 ? "PO Managing Director Approved" :
                                 val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
                                     val.po_complete === 1 ? "PO Completed" :
-                                        val.po_prepartion === 1 ? "PO Prepairing" :
-                                            val.quatation_fixing === 1 ? "Quatation Fixing" :
-                                                val.quatation_negotiation === 1 ? "Quatation Negotiation" :
-                                                    val.quatation_calling_status === 1 ? "Quatation Calling" :
+                                        val.po_prepartion === 1 ? "PO Preparing" :
+                                            val.quatation_fixing === 1 ? "Quotation Fixing" :
+                                                val.quatation_negotiation === 1 ? "Quotation Negotiation" :
+                                                    val.quatation_calling_status === 1 ? "Quotation Calling" :
                                                         val.ack_status === 1 ? "Po Acknowledged" :
-                                                            "Not Statrted Purchase Process",
+                                                            "Not Started Purchase Process",
                         now_who_status: val.po_to_supplier === 1 ? val.po_to_supplier :
                             val.po_approva_level_two === 1 ? val.po_approva_level_two :
                                 val.po_approva_level_one === 1 ? val.po_approva_level_one :
@@ -251,12 +253,12 @@ export const PurchaseQuatanNegotain = (getArray) => {
                         val.po_approva_level_two === 1 ? "PO Managing Director Approved" :
                             val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
                                 val.po_complete === 1 ? "PO Completed" :
-                                    val.po_prepartion === 1 ? "PO Prepairing" :
-                                        val.quatation_fixing === 1 ? "Quatation Fixing" :
-                                            val.quatation_negotiation === 1 ? "Quatation Negotiation" :
-                                                val.quatation_calling_status === 1 ? "Quatation Calling" :
+                                    val.po_prepartion === 1 ? "PO Preparing" :
+                                        val.quatation_fixing === 1 ? "Quotation Fixing" :
+                                            val.quatation_negotiation === 1 ? "Quotation Negotiation" :
+                                                val.quatation_calling_status === 1 ? "Quotation Calling" :
                                                     val.ack_status === 1 ? "Po Acknowledged" :
-                                                        "Not Statrted Purchase Process",
+                                                        "Not Started Purchase Process",
                     now_who_status: val.po_to_supplier === 1 ? val.po_to_supplier :
                         val.po_approva_level_two === 1 ? val.po_approva_level_two :
                             val.po_approva_level_one === 1 ? val.po_approva_level_one :
@@ -362,12 +364,12 @@ export const QuatationFinal = (getArray) => {
                         val.po_approva_level_two === 1 ? "PO Managing Director Approved" :
                             val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
                                 val.po_complete === 1 ? "PO Completed" :
-                                    val.po_prepartion === 1 ? "PO Prepairing" :
-                                        val.quatation_fixing === 1 ? "Quatation Fixing" :
-                                            val.quatation_negotiation === 1 ? "Quatation Negotiation" :
-                                                val.quatation_calling_status === 1 ? "Quatation Calling" :
+                                    val.po_prepartion === 1 ? "PO Preparing" :
+                                        val.quatation_fixing === 1 ? "Quotation Fixing" :
+                                            val.quatation_negotiation === 1 ? "Quotation Negotiation" :
+                                                val.quatation_calling_status === 1 ? "Quotation Calling" :
                                                     val.ack_status === 1 ? "Po Acknowledged" :
-                                                        "Not Statrted Purchase Process",
+                                                        "Not Started Purchase Process",
                     now_who_status: val.po_to_supplier === 1 ? val.po_to_supplier :
                         val.po_approva_level_two === 1 ? val.po_approva_level_two :
                             val.po_approva_level_one === 1 ? val.po_approva_level_one :
@@ -391,7 +393,7 @@ export const QuatationFinal = (getArray) => {
         }
     })
 }
-
+// po completed list
 export const poClose = (getArray) => {
     return new Promise((resolve, reject) => {
         try {
@@ -472,12 +474,12 @@ export const poClose = (getArray) => {
                         val.po_approva_level_two === 1 ? "PO Managing Director Approved" :
                             val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
                                 val.po_complete === 1 ? "PO Completed" :
-                                    val.po_prepartion === 1 ? "PO Prepairing" :
-                                        val.quatation_fixing === 1 ? "Quatation Fixing" :
-                                            val.quatation_negotiation === 1 ? "Quatation Negotiation" :
-                                                val.quatation_calling_status === 1 ? "Quatation Calling" :
+                                    val.po_prepartion === 1 ? "PO Preparing" :
+                                        val.quatation_fixing === 1 ? "Quotation Fixing" :
+                                            val.quatation_negotiation === 1 ? "Quotation Negotiation" :
+                                                val.quatation_calling_status === 1 ? "Quotation Calling" :
                                                     val.ack_status === 1 ? "Po Acknowledged" :
-                                                        "Not Statrted Purchase Process",
+                                                        "Not Started Purchase Process",
                     now_who_status: val.po_to_supplier === 1 ? val.po_to_supplier :
                         val.po_approva_level_two === 1 ? val.po_approva_level_two :
                             val.po_approva_level_one === 1 ? val.po_approva_level_one :
@@ -501,7 +503,57 @@ export const poClose = (getArray) => {
     })
 }
 
+export const pendingPO = (poData) => {
+    const capitalizeWords = (str) => str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    return new Promise((resolve, reject) => {
+        try {
+            const poLIst = poData
+                .filter((po, index, self) =>
+                    index === self.findIndex((val) => val.PO_NO === po.PO_NO))
+                .map((po, ind) => (
+                    {
+                        slno: ind + 1,
+                        po_no: po.PO_NO,
+                        po_date: format(new Date(po.POD_DATE), 'dd-MM-yyyy hh:mm:ss a'),
+                        supplier_name: capitalizeWords(po.SUC_NAME),
+                        storeName: capitalizeWords(po.STC_DESC),
+                        po_delivery: capitalizeWords(po.POC_DELIVERY),
+                        po_types: po.POC_TYPE === 'S' ? 'Stock Order' : 'Specific',
+                        po_amount: po.PON_AMOUNT,
+                        po_expiry: po.PO_EXPIRY ? format(new Date(po.PO_EXPIRY), 'dd-MM-yyyy') : null,
+                        expected_delvery: po.EXPECTED_DATE ? format(new Date(po.EXPECTED_DATE), 'dd-MM-yyyy') : null,
+                    }));
 
+            const poItems = poData?.map((val, index) => {
+                const obj = {
+                    slno: index + 1,
+                    po_no: val.PO_NO,
+                    item_code: val.IT_CODE,
+                    item_name: val.ITC_DESC,
+                    item_qty: val.PDN_QTY,
+                    item_rate: (val.PDN_RATE).toFixed(2),
+                    item_mrp: (val.PDN_ORIGINALMRP).toFixed(2),
+                    tax: val.TXC_DESC,
+                    tax_amount: (val.PDN_TAXAMT).toFixed(2)
+                }
+                return obj
+            })
+
+            const result = poLIst?.map(po => {
+                const details = poItems?.filter(item => item.po_no === po.po_no);
+                return {
+                    ...po,
+                    items: details
+                };
+            });
+
+            resolve({ status: true, datas: result });
+        }
+        catch (error) {
+            reject({ status: false, datas: [] });
+        }
+    })
+}
 
 export const potoSupp = (getArray) => {
     return new Promise((resolve, reject) => {
@@ -576,12 +628,12 @@ export const potoSupp = (getArray) => {
                         val.po_approva_level_two === 1 ? "PO Managing Director Approved" :
                             val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
                                 val.po_complete === 1 ? "PO Completed" :
-                                    val.po_prepartion === 1 ? "PO Prepairing" :
-                                        val.quatation_fixing === 1 ? "Quatation Fixing" :
-                                            val.quatation_negotiation === 1 ? "Quatation Negotiation" :
-                                                val.quatation_calling_status === 1 ? "Quatation Calling" :
+                                    val.po_prepartion === 1 ? "PO Preparing" :
+                                        val.quatation_fixing === 1 ? "Quotation Fixing" :
+                                            val.quatation_negotiation === 1 ? "Quotation Negotiation" :
+                                                val.quatation_calling_status === 1 ? "Quotation Calling" :
                                                     val.ack_status === 1 ? "Po Acknowledged" :
-                                                        "Not Statrted Purchase Process",
+                                                        "Not Started Purchase Process",
                     now_who_status: val.po_to_supplier === 1 ? val.po_to_supplier :
                         val.po_approva_level_two === 1 ? val.po_approva_level_two :
                             val.po_approva_level_one === 1 ? val.po_approva_level_one :
@@ -649,7 +701,7 @@ export const PurchDataCollPendingList = (datacollPendng) => {
                     ed_detial_analysis: val.ed_detial_analysis,
                     edid: val.edid,
                     mdid: val.mdid,
-                    now_who: "Not Statrted Purchase Process",
+                    now_who: "Not Started Purchase Process",
                     now_who_status: 0,
                     md_image: val.md_image,
                     ed_image: val.ed_image,

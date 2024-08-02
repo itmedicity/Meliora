@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { useState, useCallback, useEffect, memo, Fragment } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { axioslogin } from 'src/views/Axios/Axios'
+import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
 import { Box, Paper } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import MasterDetailCompnt from '../ComonComponent/MasterDetailCompnt'
@@ -14,15 +14,15 @@ import ReqImageDisModal from '../ComonComponent/ReqImageDisModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCRMPurchase } from 'src/redux/actions/CrmPurchaseList.action'
 import CustomBackDrop from 'src/views/Components/CustomBackDrop'
-import { PurchAckMapList, PurchDataCollPendingList, PurchaseAckDoneList, PurchaseQuatanNegotain, QuatationFinal, getData, getpurchDataCollPending, getpurchaseAckPending, poClose, potoSupp } from 'src/redux/ReduxhelperFun/reduxhelperfun'
-import { warningNotify } from 'src/views/Common/CommonCode'
+import { PurchAckMapList, PurchDataCollPendingList, PurchaseAckDoneList, PurchaseQuatanNegotain, QuatationFinal, getData, getpurchDataCollPending, getpurchaseAckPending, pendingPO, poClose, potoSupp } from 'src/redux/ReduxhelperFun/reduxhelperfun'
+import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Virtuoso } from 'react-virtuoso'
 import { getCRMPurchaseAckPending } from 'src/redux/actions/CrmPurchaseACKList.action'
 import { getCRMPurchDataCollPending } from 'src/redux/actions/CrmPurchaseDatacollPend.action'
-
+import POPendingDetailTable from './Component/POPendingDetailTable'
 
 const PurchaseTablemain = () => {
 
@@ -40,6 +40,8 @@ const PurchaseTablemain = () => {
     const [imageshow, setImageShow] = useState(false)
     const [imageSlno, setImageSlno] = useState(0)
     const [imagearray, setImageArry] = useState([])
+    const [pendingPOList, setPendingPOList] = useState([])
+
 
     useEffect(() => {
         dispatch(getCRMPurchaseAckPending())
@@ -150,6 +152,29 @@ const PurchaseTablemain = () => {
             }
         }
 
+
+        const getPendingPODetails = async () => {
+            const result = await axiosellider.get('/crfpurchase/getpendingpo');
+            const { success, data, message } = result.data
+            if (success === 2) {
+                const pendingList = await pendingPO(data);
+                const { status, datas } = pendingList
+                if (status === true) {
+                    setPendingPOList(datas)
+                    setOpen(false)
+                } else {
+                    setPendingPOList([])
+                    setOpen(false)
+                }
+            }
+            else if (success === 1) {
+                infoNotify(message)
+                setOpen(false)
+            }
+        }
+        getPendingPODetails()
+
+
         const getPOtoSupplier = async (tabledata) => {
             const dataPoSupply = await potoSupp(tabledata);
             const { status, data } = dataPoSupply
@@ -199,8 +224,10 @@ const PurchaseTablemain = () => {
         } else if (radiovalue === '5') {
             getPoClose(tabledata)
         } else if (radiovalue === '6') {
-            getPOtoSupplier(tabledata)
+            getPendingPODetails()
         } else if (radiovalue === '7') {
+            getPOtoSupplier(tabledata)
+        } else if (radiovalue === '8') {
             getDataCollPening(datacollPendng)
         }
     }, [CRMPurchaseAckPendingListAry, radiovalue, tabledata, datacollPendng])
@@ -287,40 +314,48 @@ const PurchaseTablemain = () => {
                     >
                         <FormControlLabel value='1' control={<Radio />} label="Acknowledgement Pending" />
                         <FormControlLabel value='2' control={<Radio />} label="Processing CRF " />
-                        <FormControlLabel value='3' control={<Radio />} label="Quatation Negotiation " />
-                        <FormControlLabel value='4' control={<Radio />} label="Quatation Finalizing" />
+                        <FormControlLabel value='3' control={<Radio />} label="Quotation Negotiation " />
+                        <FormControlLabel value='4' control={<Radio />} label="Quotation Finalizing" />
                         <FormControlLabel value='5' control={<Radio />} label="PO Processing" />
-                        <FormControlLabel value='6' control={<Radio />} label="PO to Supplier Pending" />
-                        <FormControlLabel value='7' control={<Radio />} label="Data Collection Pending" />
+                        <FormControlLabel value='6' control={<Radio />} label="PO Approvals" />
+                        <FormControlLabel value='7' control={<Radio />} label="PO to Supplier Pending" />
+                        <FormControlLabel value='8' control={<Radio />} label="Data Collection Pending" />
                     </RadioGroup>
                 </Box>
             </Paper>
 
+            {radiovalue === '6' ?
+                <Box>
+                    <POPendingDetailTable pendingPOList={pendingPOList} />
+                </Box>
+                :
+                <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>
+                    <Virtuoso
+                        // style={{ height: '400px' }}
+                        data={DisArray}
+                        totalCount={DisArray?.length}
+                        itemContent={(index, val) =>
+                            <Box key={val.req_slno} sx={{ width: "100%", }}>
+                                <Paper sx={{
+                                    width: '100%',
+                                    mt: 0.8,
+                                    border: "2 solid #272b2f",
+                                    borderRadius: 3,
+                                    overflow: 'hidden',
+                                    boxShadow: 1,
+                                    backgroundColor: '#BBBCBC'
+                                }} variant='outlined'>
+                                    <MasterDetailCompnt val={val} />
+                                    <PurchaseApprovalButton val={val}
+                                        setpuchaseFlag={setpuchaseFlag} setpuchaseModal={setpuchaseModal}
+                                        setpuchaseData={setpuchaseData} setImageShowFlag={setImageShowFlag}
+                                        setImageShow={setImageShow} setImageSlno={setImageSlno} />
 
-            <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>
-                <Virtuoso
-                    // style={{ height: '400px' }}
-                    data={DisArray}
-                    totalCount={DisArray?.length}
-                    itemContent={(index, val) => <Box key={val.req_slno} sx={{ width: "100%", }}>
-                        <Paper sx={{
-                            width: '100%',
-                            mt: 0.8,
-                            border: "2 solid #272b2f",
-                            borderRadius: 3,
-                            overflow: 'hidden',
-                            boxShadow: 1,
-                            backgroundColor: '#BBBCBC'
-                        }} variant='outlined'>
-                            <MasterDetailCompnt val={val} />
-                            <PurchaseApprovalButton val={val}
-                                setpuchaseFlag={setpuchaseFlag} setpuchaseModal={setpuchaseModal}
-                                setpuchaseData={setpuchaseData} setImageShowFlag={setImageShowFlag}
-                                setImageShow={setImageShow} setImageSlno={setImageSlno} />
-
-                        </Paper>
-                    </Box>} />
-            </Box>
+                                </Paper>
+                            </Box>
+                        } />
+                </Box>
+            }
         </Fragment >
     )
 }
