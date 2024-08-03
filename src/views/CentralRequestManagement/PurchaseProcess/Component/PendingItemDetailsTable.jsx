@@ -1,7 +1,7 @@
 import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Table, Typography } from '@mui/joy'
 import React, { Fragment } from 'react'
 
-const PendingItemDetailsTable = ({ modalData, open, handleClose, store }) => {
+const PendingItemDetailsTable = ({ modalData, modalopen, handleClose, store }) => {
 
     return (
         <Fragment>
@@ -9,15 +9,24 @@ const PendingItemDetailsTable = ({ modalData, open, handleClose, store }) => {
                 <Modal
                     aria-labelledby="modal-title"
                     aria-describedby="modal-desc"
-                    open={open}
+                    open={modalopen}
                     onClose={handleClose}
-                    sx={{ display: 'flex', justifyContent: 'center' }}
+                    sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', }}
                 >
                     <ModalDialog
                         variant="outlined"
                         sx={{
                             width: '80vw',
+                            maxHeight: window.innerHeight - 240
                         }}
+                    // sx={{
+                    //     // position: 'fixed',
+                    //     top: 0, // 
+                    //     transform: 'translateX(-50%)',
+                    //     width: '80vw',
+                    //     maxWidth: '80vw',
+                    //     marginTop: '40px'
+                    // }}
                     >
                         <ModalClose
                             variant="outlined"
@@ -38,7 +47,7 @@ const PendingItemDetailsTable = ({ modalData, open, handleClose, store }) => {
                             <Box sx={{ flexWrap: 'wrap' }}>
                                 <Box variant="outlined" sx={{ maxHeight: window.innerHeight - 220, overflow: 'auto', '&::-webkit-scrollbar': { height: 8 } }}>
                                     <CssVarsProvider>
-                                        <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow >
+                                        <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow>
                                             <thead style={{ alignItems: 'center' }}>
                                                 <tr style={{ height: 0.5 }}>
                                                     <th size='sm' style={{ width: 60, fontSize: 14, textAlign: 'center' }}>&nbsp; Sl.No</th>
@@ -52,11 +61,8 @@ const PendingItemDetailsTable = ({ modalData, open, handleClose, store }) => {
                                                 </tr>
                                             </thead>
                                             <tbody size='small'>
-                                                {modalData?.map((val) => {
-                                                    return (< tr key={val.slno} size='small'
-                                                        style={{
-                                                            maxHeight: 2, cursor: 'pointer'
-                                                        }}  >
+                                                {modalData?.map((val) => (
+                                                    <tr key={val.slno} size='small' style={{ maxHeight: 2, cursor: 'pointer' }}>
                                                         <td size='sm' style={{ fontSize: 12, height: 5, textAlign: 'center' }}>{val.slno}</td>
                                                         <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.item_code}</td>
                                                         <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.item_name}</td>
@@ -66,20 +72,18 @@ const PendingItemDetailsTable = ({ modalData, open, handleClose, store }) => {
                                                         <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.tax}</td>
                                                         <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.tax_amount}</td>
                                                     </tr>
-                                                    )
-                                                })}
+                                                ))}
                                             </tbody>
                                         </Table>
                                     </CssVarsProvider>
-                                </Box >
-                            </Box >
+                                </Box>
+                            </Box>
                         </Box>
-
                     </ModalDialog>
                 </Modal>
 
             </CssVarsProvider>
-        </Fragment>
+        </Fragment >
     )
 }
 

@@ -32,6 +32,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import CrfStoreSelect from 'src/views/CommonSelectCode/CrfStoreSelect';
 import ExpandCircleDownOutlinedIcon from '@mui/icons-material/ExpandCircleDownOutlined';
 import PoItemDetailsTable from './Component/PoItemDetailsTable';
+import PoAddModalView from './Component/PoAddModalView';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
@@ -81,6 +82,10 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
     const [podetailData, setpodetailData] = useState([])
     const [itemFlag, setItemFlag] = useState(0)
     const [itemList, setItemList] = useState([])
+    const [pomodalflag, setPoModalflag] = useState(0)
+    const [pomodalopen, setPoModalOpen] = useState(false)
+    const [poAddModalData, setPoAddModalData] = useState([])
+
     const [formRemarks, setFormRemarks] = useState({
         Acknowledgement: false,
         Ackremark: '',
@@ -461,95 +466,96 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             let pattern = /^[0-9]{6}$/;
             if (pattern.test(po_number) === true) {
                 setItemFlag(0)
-                const postExist = {
-                    po_number: po_number,
-                    supply_store: storeSlno
-                }
+                // const postExist = {
+                //     po_number: po_number,
+                //     supply_store: storeSlno
+                // }
                 const posearch = {
                     ponumber: po_number,
                     from: format(new Date(po_date), 'dd/MM/yyyy 00:00:00'),
                     to: format(new Date(po_date), 'dd/MM/yyyy 23:59:59'),
                     stcode: storeCode
                 }
-                const checkPoExist = async (postExist) => {
-                    const result = await axioslogin.post('/newCRFPurchase/poExist', postExist);
-                    return result.data
-                }
+                // const checkPoExist = async (postExist) => {
+                //     const result = await axioslogin.post('/newCRFPurchase/poExist', postExist);
+                //     return result.data
+                // }
                 const getPOdetails = async (posearch) => {
                     const result = await axiosellider.post('/crfpurchase/getpo', posearch);
                     return result.data
                 }
-                checkPoExist(postExist).then((value) => {
-                    const { success } = value
+                // checkPoExist(postExist).then((value) => {
+                //     const { success } = value
+                //     if (success === 2) {
+                getPOdetails(posearch).then((val) => {
+                    const { success, data, message } = val
                     if (success === 2) {
-                        getPOdetails(posearch).then((val) => {
-                            const { success, data, message } = val
-                            if (success === 2) {
-                                const { POD_DATE, SUC_NAME, POC_DELIVERY, PON_AMOUNT, POD_EDD } = data[0]
+                        const { POD_DATE, SUC_NAME, POC_DELIVERY, PON_AMOUNT, POD_EDD } = data[0]
 
-                                const xx = data?.map((val, index) => {
-                                    const obj = {
-                                        slno: index + 1,
-                                        po_number: po_number,
-                                        item_code: val.IT_CODE,
-                                        item_name: val.ITC_DESC,
-                                        item_qty: val.PDN_QTY,
-                                        item_rate: (val.PDN_RATE).toFixed(2),
-                                        item_mrp: (val.PDN_ORIGINALMRP).toFixed(2),
-                                        tax: val.TXC_DESC,
-                                        tax_amount: (val.PDN_TAXAMT).toFixed(2)
-                                    }
-                                    return obj
-                                })
-
-                                const podDatas = {
-                                    req_slno: req_slno,
-                                    po_number: po_number,
-                                    po_date: format(new Date(POD_DATE), 'yyyy-MM-dd HH:mm:ss'),
-                                    supplier_name: capitalizeWords(SUC_NAME),
-                                    po_status: 1,
-                                    supply_store: storeSlno,
-                                    storeName: capitalizeWords(storeName),
-                                    expected_delivery: POD_EDD ? format(new Date(POD_EDD), 'dd-MM-yyyy hh:mm:ss a') : 'Not Updated',
-                                    po_delivery: capitalizeWords(POC_DELIVERY),
-                                    po_amount: PON_AMOUNT,
-                                    items: xx
-                                }
-                                const array = podetailData?.filter((value) => value.po_number === po_number && value.supply_store === storeSlno)
-                                if (array.length === 0) {
-                                    const newArray = [...podetailData, podDatas]
-                                    if (newArray.length !== 0) {
-
-                                        setpodetailData(newArray)
-                                        setPoDetlDis(1)
-                                        const resetarray = {
-                                            po_number: '',
-                                            po_date: '',
-                                        }
-                                        setPoDetails(resetarray)
-                                        setStoreSlno(0)
-                                        setStoreName('')
-                                        setStoreCode('')
-                                    }
-                                    else {
-                                    }
-
-                                } else {
-                                    infoNotify("PO Already Listed")
-                                }
-
-                                // const newData = [...itemMap, data]
-                                // setItemMap(newData)
-
-                            } else if (success === 1) {
-                                infoNotify(message)
+                        const xx = data?.map((val, index) => {
+                            const obj = {
+                                slno: index + 1,
+                                po_number: po_number,
+                                item_code: val.IT_CODE,
+                                item_name: val.ITC_DESC,
+                                item_qty: val.PDN_QTY,
+                                item_rate: (val.PDN_RATE).toFixed(2),
+                                item_mrp: (val.PDN_ORIGINALMRP).toFixed(2),
+                                tax: val.TXC_DESC,
+                                tax_amount: (val.PDN_TAXAMT).toFixed(2)
                             }
+                            return obj
                         })
 
+                        const podDatas = {
+                            req_slno: req_slno,
+                            po_number: po_number,
+                            po_date: format(new Date(POD_DATE), 'yyyy-MM-dd HH:mm:ss'),
+                            supplier_name: capitalizeWords(SUC_NAME),
+                            po_status: 1,
+                            supply_store: storeSlno,
+                            storeName: capitalizeWords(storeName),
+                            expected_delivery: POD_EDD !== null ? format(new Date(POD_EDD), 'dd-MM-yyyy') : null,
+                            po_delivery: capitalizeWords(POC_DELIVERY),
+                            po_amount: PON_AMOUNT,
+                            items: xx
+                        }
+                        setPoModalflag(1)
+                        setPoModalOpen(true)
+                        setPoAddModalData(podDatas)
+
+                        // const array = podetailData?.filter((value) => value.po_number === po_number && value.supply_store === storeSlno)
+                        // if (array.length === 0) {
+                        //     const newArray = [...podetailData, podDatas]
+                        //     if (newArray.length !== 0) {
+
+                        //         setpodetailData(newArray)
+                        //         setPoDetlDis(1)
+                        //         const resetarray = {
+                        //             po_number: '',
+                        //             po_date: '',
+                        //         }
+                        //         setPoDetails(resetarray)
+                        //         setStoreSlno(0)
+                        //         setStoreName('')
+                        //         setStoreCode('')
+                        //     }
+                        //     else {
+                        //     }
+
+                        // } else {
+                        //     infoNotify("PO Already Listed")
+                        // }
+
+
                     } else if (success === 1) {
-                        infoNotify("PO Details Exist, Please Check")
+                        infoNotify(message)
                     }
                 })
+                //     } else if (success === 1) {
+                //         infoNotify("PO Details Exist, Please Check")
+                //     }
+                // })
             }
             else {
                 warningNotify("Please Enter 6 Digit PO Number")
@@ -558,7 +564,34 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         else {
             warningNotify("Please Enter PO Details")
         }
-    }, [po_number, po_date, req_slno, podetailData, storeCode, storeSlno, storeName])
+    }, [po_number, po_date, req_slno, storeCode, storeSlno, storeName])
+
+    // const addPotoTable = useCallback(() => {
+    //     const array = podetailData?.filter((value) => value.po_number === po_number && value.supply_store === storeSlno)
+    //     if (array.length === 0) {
+    //         const newArray = [...podetailData, poAddModalData]
+    //         if (newArray.length !== 0) {
+
+    //             setpodetailData(newArray)
+    //             setPoDetlDis(1)
+    //             const resetarray = {
+    //                 po_number: '',
+    //                 po_date: '',
+    //             }
+    //             setPoDetails(resetarray)
+    //             setStoreSlno(0)
+    //             setStoreName('')
+    //             setStoreCode('')
+    //         }
+    //         else {
+    //         }
+
+    //     } else {
+    //         infoNotify("PO Already Listed")
+    //     }
+
+    // }, [poAddModalData, podetailData])
+
 
     const viewItemsDetails = useCallback((params) => {
         setItemFlag(1)
@@ -731,7 +764,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         //         warningNotify(message)
         //     }
         // }
-        // console.log("podetails", podetailData);
+
 
         const postdataDetl = podetailData?.map((val) => {
             return {
@@ -740,7 +773,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                 po_date: val.po_date,
                 po_status: 1,
                 supply_store: val.supply_store,
-                expected_delivery: val.expected_delivery === 'Not Updated' ? null : format(new Date(val.expected_delivery), 'yyyy-MM-dd'),
+                expected_delivery: val.expected_delivery !== null ? format(new Date(val.expected_delivery), 'yyyy-MM-dd') : null,
                 supplier_name: val.supplier_name,
                 po_delivery: val.po_delivery,
                 po_amount: val.po_amount,
@@ -748,7 +781,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                 items: val.items
             }
         })
-
         const InsertPODetails = async (postdataDetl) => {
             const result = await axioslogin.post('/newCRFPurchase/InsertMultiplePO', postdataDetl);
             const { success, message } = result.data;
@@ -875,6 +907,10 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         setCollImageShowFlag(1)
         setDataCollSlNo([])
     }, [])
+    const poModalhandleClose = useCallback(() => {
+        setPoModalOpen(false)
+        setPoModalflag(0)
+    }, [setPoModalOpen])
     //column title setting
     const [column] = useState([
         { headerName: "PO No.", field: "po_number", autoHeight: true, wrapText: true, width: 120 },
@@ -886,7 +922,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             }
         },
         { headerName: "Supplier Name", field: "supplier_name", autoHeight: true, wrapText: true, width: 250, filter: "true" },
-        { headerName: "Store", field: "storeName", autoHeight: true, wrapText: true, width: 200, filter: "true" },
+        { headerName: "Store", field: "storeName", autoHeight: true, wrapText: true, width: 180, filter: "true" },
         { headerName: "Expected Delivery Date", field: "expected_delivery", autoHeight: true, wrapText: true, width: 250 },
         { headerName: "PO Delivery", field: "po_delivery", autoHeight: true, wrapText: true, width: 150, },
         {
@@ -918,7 +954,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             }
         },
         { headerName: "Supplier Name", field: "supplier_name", autoHeight: true, wrapText: true, width: 250, filter: "true" },
-        { headerName: "Store", field: "storeName", autoHeight: true, wrapText: true, width: 200, filter: "true" },
+        { headerName: "Store", field: "storeName", autoHeight: true, wrapText: true, width: 180, filter: "true" },
         { headerName: "Expected Delivery Date", field: "expected_delivery", autoHeight: true, wrapText: true, width: 250 },
         { headerName: "PO Delivery", field: "po_delivery", autoHeight: true, wrapText: true, width: 150, },
         {
@@ -948,7 +984,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             {collImageShowFlag === 1 ? <DataCollectnImageDis open={collImageShow} handleCloseCollect={handleCloseCollect}
                 dataCollSlno={dataCollSlno} req_slno={req_slno}
             /> : null}
-
+            {pomodalflag === 1 ? <PoAddModalView poAddModalData={poAddModalData} pomodalopen={pomodalopen} handleClose={poModalhandleClose} /> : null}
             {
                 enable === 1 ? <DataCollectnPendingModal open={colectDetlCheck} ModalClose={ModalClose}
                     datacollectdata={datacollectdata} /> :
@@ -1903,9 +1939,9 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                 {po_prepartion === 1 && po_complete !== 1 ?
                                                                     <>
                                                                         {podetailFlag === 1 ?
-                                                                            <Box sx={{ width: "100%", }}>
+                                                                            <Box sx={{ width: "100%" }}>
                                                                                 <Typography sx={{ fontSize: 13, pl: 1.5, py: 0.5 }}>Added PO </Typography>
-                                                                                <Box sx={{ pl: 1, pb: 0.3, pr: 1 }}>
+                                                                                <Box sx={{ pl: 0.5, pb: 0.3, pr: 0.5, flexWrap: 'wrap' }}>
                                                                                     <CrfReqDetailCmpnt
                                                                                         columnDefs={viewcolumn}
                                                                                         tableData={getpoDetaildata}
@@ -1914,7 +1950,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                             </Box> : null
                                                                         }
                                                                         {getItemFlag === 1 ?
-                                                                            <Box sx={{ width: "100%", pl: 1, pb: 1, pr: 1 }}>
+                                                                            <Box sx={{ width: "100%", pl: 0.5, pb: 1, pr: 0.5, flexWrap: 'wrap' }}>
                                                                                 <PoItemDetailsTable
                                                                                     itemTableData={itemDetailsView}
                                                                                 />
@@ -1994,7 +2030,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                     </Box>
                                                                     : null}
                                                                 {poDetlDis === 1 && poadding === true ?
-                                                                    <Box sx={{ width: "100%", pl: 1, pb: 0.3, pr: 1 }}>
+                                                                    <Box sx={{ width: "100%", pl: 0.5, pb: 0.3, pr: 0.5, flexWrap: 'wrap' }}>
                                                                         <CrfReqDetailCmpnt
                                                                             columnDefs={column}
                                                                             tableData={podetailData}
@@ -2002,7 +2038,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                     </Box> : null
                                                                 }
                                                                 {itemFlag === 1 && poadding === true ?
-                                                                    <Box sx={{ width: "100%", pl: 1, pb: 1, pr: 1 }}>
+                                                                    <Box sx={{ width: "100%", pl: 0.5, pb: 1, pr: 0.5, flexWrap: 'wrap' }}>
                                                                         <PoItemDetailsTable
                                                                             itemTableData={itemList}
                                                                         />
@@ -2037,7 +2073,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                 {podetailFlag === 1 ?
                                                                     <Box sx={{ width: "100%", pb: 0.5 }}>
                                                                         <Typography sx={{ fontSize: 14, pl: 1.5, py: 0.5 }}>Added PO </Typography>
-                                                                        <Box sx={{ pl: 1, pr: 1 }}>
+                                                                        <Box sx={{ pl: 0.5, pr: 0.5, flexWrap: 'wrap' }}>
                                                                             <CrfReqDetailCmpnt
                                                                                 columnDefs={viewcolumn}
                                                                                 tableData={getpoDetaildata}
@@ -2046,7 +2082,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                     </Box>
                                                                     : null}
                                                                 {getItemFlag === 1 ?
-                                                                    <Box sx={{ width: "100%", pl: 1, pb: 1, pr: 1 }}>
+                                                                    <Box sx={{ width: "100%", pl: 0.5, pb: 1, pr: 0.5, flexWrap: 'wrap' }}>
                                                                         <PoItemDetailsTable
                                                                             itemTableData={itemDetailsView}
                                                                         />
@@ -2105,7 +2141,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                         </DialogActions>
                     </Dialog>
             }
-        </Fragment>
+        </Fragment >
     )
 }
 export default memo(PurchaseModal)
