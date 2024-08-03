@@ -124,7 +124,26 @@ const SuperisorList = () => {
         { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 180 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Section", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 200 },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 350,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         {
             headerName: "Verification Remark", field: "verify_remarks1", autoHeight: true, wrapText: true, minWidth: 180,
             cellStyle: function (params) {
@@ -175,7 +194,26 @@ const SuperisorList = () => {
         { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 120 },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: "Section", field: "location", width: 200, autoHeight: true, wrapText: true, minWidth: 150 },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 350,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Remark", field: "complaint_remark", autoHeight: true, wrapText: true, minWidth: 120 },
         { headerName: "Date & Time", field: "assigned_date", autoHeight: true, wrapText: true },
 
@@ -197,7 +235,26 @@ const SuperisorList = () => {
         { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+        { headerName: "Section", field: "location", width: 200, autoHeight: true, wrapText: true },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 350,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
 
         {
             headerName: "Employee Name", field: "em_name", filter: true, autoHeight: true, wrapText: true,
@@ -246,7 +303,26 @@ const SuperisorList = () => {
         { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Section", field: "location", autoHeight: true, wrapText: true, minWidth: 200 },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 350,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Date & Time", field: "assist_assign_date", autoHeight: true, wrapText: true, minWidth: 150 },
 
     ])
@@ -268,7 +344,26 @@ const SuperisorList = () => {
         { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 200 },
+        { headerName: "Section", field: "location", autoHeight: true, wrapText: true, minWidth: 200 },
+        // {
+        //     headerName: "Location",
+        //     field: "rm_room_name",
+        //     minWidth: 350,
+        //     cellRendererFramework: (params) => {
+        //         const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+        //         return (
+        //             <div>
+        //                 {rm_room_name !== null ?
+        //                     <div>
+        //                         {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+        //                     </div> :
+        //                     <div>
+        //                         Location not added
+        //                     </div>}
+        //             </div>
+        //         );
+        //     }
+        // },
         { headerName: "Date & Time", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 180 },
 
     ])
@@ -290,7 +385,26 @@ const SuperisorList = () => {
         { headerName: "Request Type", field: "req_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+        { headerName: "Section", field: "location", width: 200, autoHeight: true, wrapText: true },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 350,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
 
         {
             headerName: "Employee Name", field: "em_name", filter: true, autoHeight: true, wrapText: true,
@@ -340,7 +454,26 @@ const SuperisorList = () => {
                 }
             }
         },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+        { headerName: "Section", field: "location", width: 200, autoHeight: true, wrapText: true },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 350,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Com.Request Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Assist.Request Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
@@ -381,7 +514,26 @@ const SuperisorList = () => {
                 }
             }
         },
-        { headerName: "Location", field: "location", width: 200, autoHeight: true, wrapText: true },
+        { headerName: "Section", field: "location", width: 200, autoHeight: true, wrapText: true },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 350,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Assign Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
 
