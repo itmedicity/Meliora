@@ -65,7 +65,7 @@ const EmpTaskDash = () => {
         } else {
             setflag(1)
             setemployeeTaskFlag(2)
-            setempTaskHeading('Incompleted')
+            setempTaskHeading('Not Started')
             // setTableDataEmployee(employeeInComplete)
         }
     }, [
@@ -158,7 +158,7 @@ const EmpTaskDash = () => {
                                 val.tm_task_status === 2 ? 'On Progress' :
                                     val.tm_task_status === 3 ? 'On Hold' :
                                         val.tm_task_status === 4 ? 'Pending' :
-                                            val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                                            val.tm_task_status === 0 ? 'Not Started' : 'Not Started',
                         datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
                         days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
                         hours: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60) % 24),
@@ -366,7 +366,7 @@ const EmpTaskDash = () => {
                                             <Box sx={{ flex: 1, height: 15 }}></Box>
                                             <Box sx={{ flex: 1, textAlign: 'center', fontSize: 15, display: 'flex' }}>
                                                 <Box sx={{ mt: .3 }}> <DataUsageIcon sx={{ color: '#341948', width: 20, height: 20, }} /></Box>
-                                                <Box sx={{ mt: .5, fontWeight: 500, color: '#341948', fontSize: 13, pt: .3 }}>InCompleted&nbsp;</Box>
+                                                <Box sx={{ mt: .5, fontWeight: 500, color: '#341948', fontSize: 13, pt: .3 }}>Not Started&nbsp;</Box>
                                                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
                                                     <Avatar
                                                         color="neutral"

@@ -40,7 +40,7 @@ const SubtaskTablePendingAcceptance = ({ tm_task_slno, selectForEditsSubTask, ta
                                 val.tm_task_status === 2 ? 'On Progress' :
                                     val.tm_task_status === 3 ? 'On Hold' :
                                         val.tm_task_status === 4 ? 'Pending' :
-                                            val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                                            val.tm_task_status === 0 ? 'Not Started' : 'Not Started',
                     }
                 })
                 setSubTask(subtaskData)
