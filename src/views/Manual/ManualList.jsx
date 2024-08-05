@@ -64,7 +64,7 @@ const ManualList = () => {
                                 display: "flex", width: "30%", flex: 1,
                             }}>
                                 <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
-                                    onClick={() => sradhapolicy()}>Sradha Antibiotic Policy 2023</Button>
+                                    onClick={() => sradhapolicy()}>Sradha Antibiotic Policy 2024</Button>
                             </Box>
                             <Box sx={{
                                 display: "flex", width: "30%", flex: 1,

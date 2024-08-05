@@ -9,7 +9,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
-import { getProjectList } from 'src/redux/actions/TmProjectsList.action';
+import { getprojectFrTaskCreation } from 'src/redux/actions/TmProjectsList.action';
 import imageCompression from 'browser-image-compression';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -24,11 +24,11 @@ import moment from 'moment';
 import AutoDeleteTwoToneIcon from '@mui/icons-material/AutoDeleteTwoTone';
 import DueDateModal from '../ModalComponent/DueDateModal';
 import CancelIcon from '@mui/icons-material/Cancel';
-import TmAllProjectList from 'src/views/CommonSelectCode/TmAllProjectList';
 import Inputcomponent from '../TaskComponents/Inputcomponent';
 import TmMultAssigneesSelect from 'src/views/CommonSelectCode/TmMultAssigneesSelect';
 import ProjectCreation from '../ModalComponent/ProjectCreation';
 import AttachmentIcon from '@mui/icons-material/Attachment';
+import TmProjectListInTaskCreaation from 'src/views/CommonSelectCode/TmProjectListInTaskCreaation';
 
 const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount, searchFlag, taskcount, settaskcount,
     statuscount, setstatuscount, projectcount, setProjectcount }) => {
@@ -77,6 +77,8 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         onHoldRemaks: '',
         completedRemarks: '',
     })
+
+
 
     const { taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } = taskData
     const taskDataUpdate = useCallback(
@@ -270,7 +272,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     }, [dispatch, empsecid])
 
     useEffect(() => {
-        dispatch(getProjectList())
+        dispatch(getprojectFrTaskCreation())
     }, [dispatch,])
 
     const handleEditClose = useCallback(() => {
@@ -698,7 +700,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
 
                                     {main_task_slno === null ?
                                         <Box sx={{ mt: .5, flex: 1 }}>
-                                            <TmAllProjectList projectz={projectz} setprojectz={setprojectz} setdueDateProject={setdueDateProject} />
+                                            <TmProjectListInTaskCreaation projectz={projectz} setprojectz={setprojectz} setdueDateProject={setdueDateProject} />
                                         </Box> :
                                         <Box sx={{ flex: 1 }}>
                                             {tm_project_name === null ?
@@ -805,7 +807,9 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                     value={dueDate}
                                                     slotProps={{
                                                         input: {
-                                                            min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                            // if there is subtasks under this task cant reset duedate lesser than the actual duedate
+                                                            min: completeFlag.length === 0 ? moment(new Date()).format('YYYY-MM-DD HH:mm:ss') :
+                                                                moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
                                                             max: moment(new Date(tm_project_duedate)).format('YYYY-MM-DD HH:mm:ss'),
                                                         },
                                                     }}
@@ -1171,7 +1175,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                         <Tooltip
                                             color='warning'
                                             title='unable to add a subtask to a completed task,Please update Main Task Status'
-                                            placement='top-start'>
+                                            placement='right'>
                                             <Box sx={{
                                                 mt: 1, cursor: 'grab', width: 150, height: 40, ml: 1, border: 1, borderColor: '#D9E4EC',
                                                 borderRadius: 5, pl: 1, pt: .8,

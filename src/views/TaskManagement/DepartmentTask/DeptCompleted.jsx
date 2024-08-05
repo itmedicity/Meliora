@@ -59,7 +59,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                                     val.tm_task_status === 2 ? 'On Progress' :
                                         val.tm_task_status === 3 ? 'On Hold' :
                                             val.tm_task_status === 4 ? 'Pending' :
-                                                val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                                                val.tm_task_status === 0 ? 'Not Started' : 'Not Started',
                             datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
                             days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
                             hours: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60) % 24),

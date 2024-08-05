@@ -699,18 +699,6 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
                                                 <AssignmentSharpIcon sx={{ p: .2, color: '#4C5270' }} />
                                                 Duedate<span style={{ color: '#74112F', fontSize: 15 }} >*</span>
                                             </Typography>
-                                            {/* <Inputcomponent
-                                                type="datetime-local"
-                                                name="tm_task_due_date"
-                                                value={tm_task_due_date}
-                                                slotProps={{
-                                                    input: {
-                                                        min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                                        max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss'),
-                                                    },
-                                                }}
-                                                onchange={TaskMastUpdate}
-                                            /> */}
                                             {projectz !== 0 ?
                                                 <>
                                                     <Tooltip title={tooltipText} color='warning' sx={{ width: 400 }}>

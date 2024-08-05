@@ -147,7 +147,7 @@ const TmDashboardMain = () => {
 
             setemployeeTaskFlag(2)
             setflagTask(1)
-            setempTaskHeading('Incompleted')
+            setempTaskHeading('Not Started')
             setdepartmentTaskFlag(0)
             setprojectFlag(0)
             setgoalsFlag(0)
@@ -269,7 +269,7 @@ const TmDashboardMain = () => {
         } else {
             setdepartmentTaskFlag(5)
             setdeptFlag(1)
-            setdeptTaskHeading('InComplete')
+            setdeptTaskHeading('Not Started')
             setoverdueTaskFlag(0)
             setemployeeTaskFlag(0)
             setprojectFlag(0)
@@ -439,7 +439,7 @@ const TmDashboardMain = () => {
                                 val.tm_task_status === 2 ? 'On Progress' :
                                     val.tm_task_status === 3 ? 'On Hold' :
                                         val.tm_task_status === 4 ? 'Pending' :
-                                            val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                                            val.tm_task_status === 0 ? 'Not Started' : 'Not Started',
                         datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
                         days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
                         hours: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60) % 24),
@@ -521,7 +521,7 @@ const TmDashboardMain = () => {
                                 val.tm_task_status === 2 ? 'On Progress' :
                                     val.tm_task_status === 3 ? 'On Hold' :
                                         val.tm_task_status === 4 ? 'Pending' :
-                                            val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                                            val.tm_task_status === 0 ? 'Not Started' : 'Not Started',
                         datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
                         days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
                         hours: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60) % 24),
@@ -901,7 +901,7 @@ const TmDashboardMain = () => {
                                                         onClick={(e) => {
                                                             ViewEmpInCompletedTask(e)
                                                         }}>
-                                                        <Avatar size='xs' sx={{ bgcolor: 'white' }}><RotateRightIcon /></Avatar> &nbsp;InCompleted
+                                                        <Avatar size='xs' sx={{ bgcolor: 'white' }}><RotateRightIcon /></Avatar> &nbsp;Not Started
                                                         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
                                                             {employeeInComplete.length}
                                                         </Box>
@@ -1011,7 +1011,7 @@ const TmDashboardMain = () => {
                                                         onClick={(e) => {
                                                             ViewDeptInCompltTask(e)
                                                         }}>
-                                                        <Avatar size='xs' sx={{ bgcolor: 'white' }}>  <RotateRightIcon /></Avatar>&nbsp;InCompleted
+                                                        <Avatar size='xs' sx={{ bgcolor: 'white' }}>  <RotateRightIcon /></Avatar>&nbsp;Not Started
                                                         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
                                                             {deptInComplete.length}
                                                         </Box>

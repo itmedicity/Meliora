@@ -8,15 +8,15 @@ import Tooltip from '@mui/joy/Tooltip';
 import CloseIcon from '@mui/icons-material/Close';
 import imageCompression from 'browser-image-compression';
 import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
-import { getProjectList } from 'src/redux/actions/TmProjectsList.action';
+import { getprojectFrTaskCreation } from 'src/redux/actions/TmProjectsList.action';
 import moment from 'moment';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Inputcomponent from '../TaskComponents/Inputcomponent';
 import AssignmentSharpIcon from '@mui/icons-material/AssignmentSharp';
-import TmAllProjectList from 'src/views/CommonSelectCode/TmAllProjectList';
 import TmMultAssigneesSelect from 'src/views/CommonSelectCode/TmMultAssigneesSelect';
 import ProjectCreation from './ProjectCreation';
 import AttachmentIcon from '@mui/icons-material/Attachment';
+import TmProjectListInTaskCreaation from 'src/views/CommonSelectCode/TmProjectListInTaskCreaation';
 
 const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTableCount }) => {
 
@@ -54,7 +54,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
 
 
     useEffect(() => {
-        dispatch(getProjectList())
+        dispatch(getprojectFrTaskCreation())
     }, [dispatch,])
 
     const [taskMast, settaskMast] = useState({
@@ -293,7 +293,10 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                                 <Box sx={{ flex: 1, mx: 3, mt: 2.5, }}>
                                     <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>Project</Typography>
                                     <Box sx={{ display: 'flex' }}>
-                                        <TmAllProjectList projectz={projectz} setprojectz={setprojectz} setdueDateProject={setdueDateProject} />
+                                        <TmProjectListInTaskCreaation
+                                            projectz={projectz}
+                                            setprojectz={setprojectz}
+                                            setdueDateProject={setdueDateProject} />
                                         <Box sx={{ ml: .5, pt: 2 }} onClick={CreateProject}>
                                             <Tooltip title="Create New Project">
                                                 <Chip sx={{ cursor: 'pointer', bgcolor: '#90CDD0', color: 'black', '&:hover': { bgcolor: '#77A7B0' } }}
@@ -333,7 +336,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                                         <span style={{ color: '#74112F', fontSize: 15 }} >*</span></Typography>
                                     {projectz !== 0 ?
                                         <>
-                                            <Tooltip title={tooltipText} color='warning' sx={{ width: 400 }}>
+                                            <Tooltip title={isProjectOverdue ? tooltipText : ''} color='warning' sx={{ width: 400 }}>
                                                 <span>
                                                     <Inputcomponent
                                                         type="datetime-local"

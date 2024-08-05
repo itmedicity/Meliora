@@ -2,9 +2,9 @@ import React, { Fragment, memo, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/';
+const TmProjectListInTaskCreaation = ({ projectz, setprojectz, setdueDateProject }) => {
 
-const TmAllProjectList = ({ projectz, setprojectz, setdueDateProject }) => {
-    const ProjectList = useSelector((state) => state.getProjectListWithgoal?.ProjectList);
+    const ProjectList = useSelector((state) => state.getprojectFrTaskCreation?.ProjectList);
     const [projectx, setprojectx] = useState([{ tm_project_slno: 0, tm_project_name: '', tm_project_duedate: '' }]);
     const [value, setValue] = useState(projectx[0]);
     const [inputValue, setInputValue] = useState('');
@@ -28,11 +28,7 @@ const TmAllProjectList = ({ projectz, setprojectz, setdueDateProject }) => {
     }, [setprojectz, setdueDateProject]);
 
     useEffect(() => {
-        if (ProjectList.length > 0) {
-            setprojectx(ProjectList)
-        } else {
-            setprojectx([])
-        }
+        if (ProjectList.length > 0) setprojectx(ProjectList);
     }, [ProjectList]);
 
     const isPastDue = (duedate) => {
@@ -45,7 +41,6 @@ const TmAllProjectList = ({ projectz, setprojectz, setdueDateProject }) => {
         const { ownerState, ...restProps } = props;
         return restProps;
     };
-
     return (
         <Fragment>
             <CssVarsProvider>
@@ -89,7 +84,7 @@ const TmAllProjectList = ({ projectz, setprojectz, setdueDateProject }) => {
                         setInputValue(newInputValue);
                     }}
                     loading={true}
-                    loadingText="No Data"
+                    loadingText="Loading..."
                     freeSolo
                     isOptionEqualToValue={(option, value) => option.tm_project_name === value.tm_project_name}
                     getOptionLabel={(option) => option.tm_project_name || ''}
@@ -113,11 +108,7 @@ const TmAllProjectList = ({ projectz, setprojectz, setdueDateProject }) => {
                 />
             </CssVarsProvider>
         </Fragment>
-    );
-};
+    )
+}
 
-export default memo(TmAllProjectList);
-
-
-
-
+export default memo(TmProjectListInTaskCreaation)

@@ -779,7 +779,9 @@ const EditTaskInDir = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                 value={dueDate}
                                                 slotProps={{
                                                     input: {
-                                                        min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                        // if there is subtasks under this task cant reset duedate lesser than the actual duedate
+                                                        min: completeFlag.length === 0 ? moment(new Date()).format('YYYY-MM-DD HH:mm:ss') :
+                                                            moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
                                                         max: moment(new Date(tm_project_duedate)).format('YYYY-MM-DD HH:mm:ss'),
                                                     },
                                                 }}
