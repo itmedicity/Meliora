@@ -67,4 +67,4 @@ const CmComplaintLocation = ({ cmSection, setCmSection, setCmSectionName }) => {
 }
 
 
-export default CmComplaintLocation
+export default memo(CmComplaintLocation)

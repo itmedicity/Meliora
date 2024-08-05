@@ -16,6 +16,7 @@ import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action'
 import ComplaintCheckBox from './ComplaintCheckBox'
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 import {
+    Badge,
     Button, CssVarsProvider, Dropdown, Input,
     Menu,
     MenuButton,
@@ -36,6 +37,7 @@ import CmRoomNameTypeList from 'src/views/CommonSelectCode/CmRoomNameTypeList'
 import { getRoomsNameNdTypeList } from 'src/redux/actions/CmRoomNameNdTypeList.action'
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import ArrowDropDownSharpIcon from '@mui/icons-material/ArrowDropDownSharp';
+
 
 const ComplaintRegistrMast = () => {
 
@@ -195,8 +197,7 @@ const ComplaintRegistrMast = () => {
             priority: priority === 1 ? "Priority Ticket" : "Normal Ticket",
             rm_room_slno: roomName
         }
-    }, [desc, empsecid, ReqType, cotype, empsecid, priorreason, priority, codept, id, secName, complaint_slno, roomName, checkHic])
-
+    }, [desc, empsecid, ReqType, cotype, priorreason, priority, codept, id, secName, complaint_slno, roomName, checkHic])
 
 
     //Data set for edit
@@ -205,7 +206,7 @@ const ComplaintRegistrMast = () => {
         setSelect(1)
         setSearch(0)
         const data = params.api.getSelectedRows()
-        const { complaint_typeslno, complaint_dept_secslno, complaint_hicslno,
+        const { complaint_typeslno, complaint_hicslno,
             cm_location, priority_reason, complaint_request_slno, complaint_deptslno, complaint_slno,
             complaint_desc, priority_check, rm_room_slno } = data[0];
         setDepsec(cm_location)
@@ -259,7 +260,7 @@ const ComplaintRegistrMast = () => {
                         getAssetDetails(cm_am_assetmap_slno).then((value) => {
                             const { success, dataa } = value;
                             if (success === 2) {
-                                const { item_asset_no_only, item_name } = dataa[0]
+                                const { item_asset_no_only, item_name, } = dataa[0]
                                 setSelectedAsset(item_name)
                                 setItem_slno(item_asset_no_only)
                             }
@@ -285,7 +286,7 @@ const ComplaintRegistrMast = () => {
             setSelectedAsset('')
             setItem_slno('')
         }
-    }, [complaint_slno, cm_am_assetmap_slno])
+    }, [complaint_slno, edit, cm_am_assetmap_slno])
 
 
     /*** usecallback function for form submitting */
@@ -295,13 +296,12 @@ const ComplaintRegistrMast = () => {
         e.preventDefault();
         if (cm_am_assetmap_slno !== '' && assetStatus === 0) {
             infoNotify(
-                <>please click &apos;<SubdirectoryArrowRightIcon />&apos; asset to add Asset details</>
+                <>please click &apos;<SubdirectoryArrowRightIcon />&apos; asset to view Asset details</>
             );
         } else {
             setOpen(true)
             const reset = () => {
                 setComplaint(0)
-                // setsec(0)
                 setReqType(false)
                 setcotype(false)
                 setChechHic(false)
@@ -318,11 +318,11 @@ const ComplaintRegistrMast = () => {
                 setdeviceName('')
                 setlocation('')
                 setItem_slno(0)
+                setSearch(0)
+                setSelect(0)
                 setcm_am_assetmap_slno('')
                 setSelectedAsset('')
                 setRoomName('')
-                setSearch(0)
-                setSelect(0)
             }
 
             const InsertFun = async (postdata) => {
@@ -350,7 +350,11 @@ const ComplaintRegistrMast = () => {
                             cm_complait_slno: Complt_id,
                             cm_am_assetmap_slno: item_slno,
                             edit_user: id
+
                         }
+
+                        console.log("updateAsset", updateAsset);
+
                         if (cm_am_assetmap_slno !== '' || item_slno !== '') {
                             updateAssets(updateAsset).then((value) => {
                                 const { success } = value
@@ -499,23 +503,28 @@ const ComplaintRegistrMast = () => {
 
     const UpdateAssetNo = useCallback((e) => {
         setcm_am_assetmap_slno(e.target.value.toLocaleUpperCase())
+        setlocation('')
+        setdeviceName('')
+        setAssetStatus(0)
     }, [])
 
     const searchAssetNo = useCallback((e) => {
         if (cm_am_assetmap_slno === '') {
             infoNotify('Please Enter Asset Number')
+            setlocation('')
+            setdeviceName('')
         }
         else {
-            const parts = cm_am_assetmap_slno.split('/');
-            const assetno = parts[parts.length - 1];
-            const Custodian = parts[parts.length - 2];
-            const firstname = parts[parts.length - 3];
+            const firstname = 'TMC'
+            const Custodian = codept === 1 ? 'BME' : codept === 2 ? 'MAIN' :
+                codept === 3 ? 'IT' : codept === 4 ? 'HSK' : codept === 5 ? 'OPE' : ''
             const starts = firstname + '/' + Custodian
-            const asset_number = parseInt(assetno)
+            const asset_number = parseInt(cm_am_assetmap_slno)
             const postdata = {
                 item_asset_no: starts,
                 item_asset_no_only: asset_number
             }
+
             const getAssetdata = async (postdata) => {
                 const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
                 const { data, success } = result.data
@@ -530,6 +539,7 @@ const ComplaintRegistrMast = () => {
                 }
                 else {
                     warningNotify('Asset number not found')
+
                 }
             }
             getAssetdata(postdata)
@@ -540,23 +550,27 @@ const ComplaintRegistrMast = () => {
 
 
     useEffect(() => {
-        const getAssetItembsedonLocation = async (roomName) => {
-            const result = await axioslogin.get(`complaintreg/getAssetsInRoom/${roomName}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setMenudata(data);
+        if (empsecid !== '') {
+            const getAssetItembsedonLocation = async (empsecid) => {
+                const result = await axioslogin.get(`Rectifycomplit/getlocationbsedAsset/${empsecid}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setMenudata(data);
+                }
+                else {
+                    setMenudata([])
+                }
             }
-            else {
-                setMenudata([])
-            }
+            getAssetItembsedonLocation(empsecid)
         }
-        getAssetItembsedonLocation(roomName)
-    }, [roomName])
-
+        else {
+            setMenudata([]);
+        }
+    }, [empsecid])
 
 
     const handleAssetSelect = (val) => {
-        setSelectedAsset(`${val.item_name} (${val.am_asset_no})`);
+        setSelectedAsset(`${val.item_name} (${val.am_asset_no === null ? '' : val.am_asset_no})`);
         setItem_slno(val.am_item_map_slno)
     };
 
@@ -585,6 +599,8 @@ const ComplaintRegistrMast = () => {
         setdeviceName('')
         setlocation('')
     }, [])
+
+
 
     return (
         <Fragment>
@@ -630,7 +646,7 @@ const ComplaintRegistrMast = () => {
                                 </CssVarsProvider>
                             </Box>
                             {/* complaint department */}
-                            <Box sx={{ display: 'flex', flex: 1, p: 1 }} >
+                            <Box sx={{ display: 'flex', flex: 1, p: 1, }} >
                                 {
                                     complaintdeptdata && complaintdeptdata.map((val) => {
                                         return <Grid item xs={2} sm={4} md={4} lg={2} xl={3} key={val.complaint_dept_slno} sx={{ width: '100%' }} >
@@ -640,15 +656,13 @@ const ComplaintRegistrMast = () => {
                                                 value={val.complaint_dept_slno}
                                                 onChange={setcodept}
                                                 checkedValue={codept}
+                                                cm_am_assetmap_slno={cm_am_assetmap_slno}
+                                                setcm_am_assetmap_slno={setcm_am_assetmap_slno}
+                                                setlocation={setlocation}
+                                                setdeviceName={setdeviceName}
+                                                setSelectedAsset={setSelectedAsset}
+                                                setItem_slno={setItem_slno}
                                             />
-
-                                            {/* <ComDeptCheckBox
-                                                label={val.complaint_dept_name}
-                                                value={val.complaint_dept_slno}
-                                                onCheked={updateComDept}
-                                            // checked={codept}
-                                            /> */}
-
 
                                         </Grid>
                                     })
@@ -679,6 +693,11 @@ const ComplaintRegistrMast = () => {
                                                         value={val.complaint_type_slno}
                                                         onChange={setcotype}
                                                         checkedValue={cotype}
+                                                        setcm_am_assetmap_slno={setcm_am_assetmap_slno}
+                                                        setlocation={setlocation}
+                                                        setdeviceName={setdeviceName}
+                                                        setSelectedAsset={setSelectedAsset}
+                                                        setItem_slno={setItem_slno}
                                                     />
                                                 </Grid>
                                             })
@@ -715,12 +734,10 @@ const ComplaintRegistrMast = () => {
                                         <Tooltip title="Infection Control Risk Assessment (ICRA) Recommended" size="md" variant="outlined" placement="top">
                                             <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                                 <CusCheckBox
-                                                    // variant="outlined"
                                                     color="danger"
                                                     size="lg"
                                                     name="Hic"
                                                     label="(ICRA) "
-                                                    // label="Infection Control Risk Assessment (ICRA) Recommended"
                                                     value={checkHic}
                                                     onCheked={getHicCheck}
                                                     checked={checkHic}
@@ -740,133 +757,153 @@ const ComplaintRegistrMast = () => {
                                         </Typography>
                                         <Box sx={{ pt: .5, display: 'flex' }}>
                                             <Box sx={{
-                                                bgcolor: search === 1 ? '#BDC3CB' : search === 0 ? '#A3DED7' : '#394E6C',
-                                                px: 1, color: 'black', borderRadius: 5, cursor: 'pointer'
+                                                bgcolor: search === 1 ? '#F0F4F8' : search === 0 ? 'white' : '#F0F4F8',
+                                                boxShadow: search === 1 ? 2 : search === 0 ? 0 : 2,
+                                                border: search === 1 ? 1 : search === 0 ? 0 : 1,
+                                                borderColor: search === 1 ? '#CDD7E1' : search === 0 ? 'white' : '#CDD7E1',
+                                                height: 29,
+                                                px: 1, color: 'black', borderRadius: 0, cursor: 'pointer'
                                             }} onClick={SearchAsset}>
                                                 search <SearchSharpIcon fontSize='sm' sx={{ color: '#394E6C' }} />
-                                            </Box>&nbsp;/&nbsp;
+                                            </Box>
                                             <Box sx={{
-                                                bgcolor: select === 1 ? '#BDC3CB' : select === 0 ? '#A3DED7' : '#394E6C',
-                                                px: 1, color: 'black', borderRadius: 5, cursor: 'pointer'
+                                                bgcolor: select === 1 ? '#F0F4F8' : select === 0 ? 'white' : '#F0F4F8',
+                                                boxShadow: select === 1 ? 2 : select === 0 ? 0 : 2,
+                                                border: select === 1 ? 1 : select === 0 ? 0 : 1,
+                                                borderColor: select === 1 ? '#CDD7E1' : select === 0 ? 'white' : '#CDD7E1',
+                                                height: 29, mr: 1,
+
+                                                px: 1, color: 'black', borderRadius: 0, cursor: 'pointer'
                                             }} onClick={SelectAsset}>
                                                 select <ArrowDropDownSharpIcon fontSize='sm' sx={{ color: '#394E6C' }} />
                                             </Box>
-                                        </Box>
-
-                                        {select === 1 ?
-                                            <Box sx={{ pt: .5 }}>
-                                                <CssVarsProvider>
-                                                    <Input
-                                                        placeholder="Select Asset"
-                                                        sx={{ borderRadius: 0, width: 500 }}
-                                                        readOnly
-                                                        endDecorator={
-                                                            <Dropdown>
-                                                                <MenuButton variant='plain' sx={{ p: 0 }}>
-                                                                    <ArrowDropDownIcon sx={{ cursor: 'pointer', height: 25, width: 20 }} />
-                                                                </MenuButton>
-                                                                {menudata.length !== 0 ?
-                                                                    <Menu sx={{ maxWidth: 450 }}>
-                                                                        <MenuItem
-                                                                            sx={{ borderBottom: 1, borderColor: '#F0F3F5', fontSize: 14, fontStyle: 'italic' }}
-                                                                            onClick={handleClearSelection}
-                                                                        >
-                                                                            (Clear Selected)
-                                                                        </MenuItem>
-                                                                        {menudata.map((val, index) => (
-                                                                            <MenuItem
-                                                                                sx={{ borderBottom: 1, borderColor: '#F0F3F5' }}
-                                                                                key={index}
-                                                                                onClick={() => handleAssetSelect(val)}
-                                                                            >
-                                                                                {val.item_name} ({val.am_asset_no})
-                                                                            </MenuItem>
-                                                                        ))}
-                                                                    </Menu>
-                                                                    :
-                                                                    <Menu>
-                                                                        <MenuItem>
-                                                                            No Asset Added Under section
-                                                                        </MenuItem>
-                                                                    </Menu>}
-                                                            </Dropdown>
-                                                        }
-                                                        name='assetmap_slno'
-                                                        value={selectedAsset || ''}
-                                                        disabled={cm_am_assetmap_slno !== ''}
-                                                    />
-                                                </CssVarsProvider>
-                                            </Box>
-                                            : null}
-
-
-                                        {search === 1 ?
-                                            <Box sx={{ flex: 1, display: 'flex', }}>
-                                                <Box sx={{ flex: .6, pl: .1, pt: .5 }}>
+                                            {select === 1 ?
+                                                <Box sx={{ bgcolor: 'yellow' }}>
                                                     <CssVarsProvider>
                                                         <Input
-                                                            placeholder="Search Asset Number"
-                                                            sx={{ borderRadius: 0, }}
+                                                            placeholder="Select Asset"
+                                                            sx={{
+                                                                borderRadius: 0,
+                                                                minWidth: selectedAsset === '' ? 320 : 500,
+                                                                minHeight: 15,
+                                                            }}
+                                                            readOnly
                                                             endDecorator={
-                                                                <>
-                                                                    {cm_am_assetmap_slno !== '' ?
-                                                                        <Box
-                                                                            sx={{ cursor: 'pointer', fontSize: 13, fontStyle: 'italic', mr: .3 }}
-                                                                            onClick={ClearAssetSelection}
-                                                                        >
-                                                                            (Clear)
-                                                                        </Box>
+                                                                <Dropdown>
+                                                                    <MenuButton variant='plain' sx={{ p: 0 }}>
+                                                                        <ArrowDropDownIcon sx={{ cursor: 'pointer', height: 25, width: 25 }} />
+                                                                    </MenuButton>
+                                                                    {menudata.length !== 0 ?
+                                                                        <Menu sx={{ maxWidth: 450, maxHeight: 370, overflow: 'auto' }}>
+                                                                            <MenuItem
+                                                                                sx={{ borderBottom: 1, borderColor: '#F0F3F5', fontSize: 14, fontStyle: 'italic' }}
+                                                                                onClick={handleClearSelection}
+                                                                            >
+                                                                                (Clear Selected)
+                                                                            </MenuItem>
+                                                                            {menudata.map((val, index) => (
+                                                                                <MenuItem
+                                                                                    sx={{ borderBottom: 1, borderColor: '#F0F3F5' }}
+                                                                                    key={index}
+                                                                                    onClick={() => handleAssetSelect(val)}
+                                                                                >
+                                                                                    {val.item_name} ({val.am_asset_no})
+                                                                                </MenuItem>
+                                                                            ))}
+                                                                        </Menu>
                                                                         :
-                                                                        <></>}
-
-                                                                    <SubdirectoryArrowRightIcon
-                                                                        sx={{ cursor: 'pointer' }}
-                                                                        onClick={searchAssetNo}
-                                                                    />
-                                                                </>
-
+                                                                        <Menu>
+                                                                            <MenuItem>
+                                                                                No Asset Added Under section
+                                                                            </MenuItem>
+                                                                        </Menu>}
+                                                                </Dropdown>
                                                             }
-
-                                                            name='cm_am_assetmap_slno'
-                                                            value={cm_am_assetmap_slno || ''}
-                                                            onChange={UpdateAssetNo}
+                                                            name='assetmap_slno'
+                                                            value={selectedAsset || ''}
+                                                            disabled={cm_am_assetmap_slno !== ''}
                                                         />
                                                     </CssVarsProvider>
                                                 </Box>
-                                                <Box sx={{ flex: 1, }}>
-                                                    {deviceName !== '' ?
-                                                        <Box sx={{ display: 'flex', pt: .3 }}>
-                                                            <Typography sx={{ fontSize: 14, pl: 1.5, pt: .6 }}>
-                                                                Asset Name :
-                                                            </Typography>
-                                                            <Box sx={{
-                                                                flex: 1, px: .5, bgcolor: 'white', ml: .8, bgcolor: '#BCDFFB', py: .7, color: 'black',
-                                                                border: 1, borderColor: '#E8F0FE'
-                                                            }}>
-                                                                {deviceName}
+                                                : null}
+
+
+                                            {search === 1 ?
+                                                <Box sx={{ flex: 1, display: 'flex', }}>
+                                                    <Box sx={{ pl: .1, }}>
+                                                        <CssVarsProvider>
+                                                            <Input
+                                                                placeholder=" Asset Number"
+                                                                sx={{ borderRadius: 0, width: 320, minHeight: 15, }}
+                                                                type='number'
+                                                                autoComplete='off'
+                                                                startDecorator={
+                                                                    <Button variant="soft" color="neutral" >
+                                                                        {`TMC/${codept === 1 ? 'BME/' : codept === 2 ? 'MAIN/' :
+                                                                            codept === 3 ? 'IT/' : codept === 4 ? 'HSK/' : codept === 5 ? 'OPE/' : ''}`}
+                                                                    </Button>
+                                                                }
+                                                                endDecorator={
+                                                                    <>
+                                                                        {cm_am_assetmap_slno !== '' ?
+                                                                            <Box
+                                                                                sx={{ cursor: 'pointer', fontSize: 13, fontStyle: 'italic', mr: .3 }}
+                                                                                onClick={ClearAssetSelection}
+                                                                            >
+                                                                                (Clear)
+                                                                            </Box>
+                                                                            :
+                                                                            <></>}
+                                                                        <Button variant="solid" color="neutral" onClick={searchAssetNo} >
+                                                                            <SubdirectoryArrowRightIcon
+                                                                                sx={{ cursor: 'pointer' }}
+                                                                            />
+                                                                        </Button>
+                                                                    </>
+
+                                                                }
+
+                                                                name='cm_am_assetmap_slno'
+                                                                value={cm_am_assetmap_slno || ''}
+                                                                onChange={UpdateAssetNo}
+                                                            />
+                                                        </CssVarsProvider>
+                                                    </Box>
+                                                    <Box sx={{ flex: 1, }}>
+                                                        {deviceName !== '' ?
+                                                            <Box sx={{ display: 'flex', pt: .3 }}>
+                                                                <Typography sx={{ fontSize: 14, pl: 1.5, pt: 1.1 }}>
+                                                                    Asset Name :
+                                                                </Typography>
+                                                                <Box sx={{
+                                                                    flex: 1, px: .5, ml: .8, bgcolor: '#E1E1E1', py: .7, color: 'black',
+                                                                    border: 1, borderColor: '#E8F0FE'
+                                                                }}>
+                                                                    {deviceName}
+                                                                </Box>
                                                             </Box>
-                                                        </Box>
-                                                        :
-                                                        null}
-                                                </Box>
-                                                <Box sx={{ flex: .6, }}>
-                                                    {location !== '' ?
-                                                        <Box sx={{ display: 'flex' }}>
-                                                            <Typography sx={{ fontSize: 14, pl: 1.5, pt: .5 }}>
-                                                                Location :
-                                                            </Typography>
-                                                            <Box sx={{
-                                                                flex: 1, px: .5, bgcolor: 'white', ml: .8, bgcolor: '#BCDFFB', py: .7, color: 'black',
-                                                                border: 1, borderColor: '#E8F0FE',
-                                                            }}>
-                                                                {location}
+                                                            :
+                                                            null}
+                                                    </Box>
+                                                    <Box sx={{ flex: .6, }}>
+                                                        {location !== '' ?
+                                                            <Box sx={{ display: 'flex' }}>
+                                                                <Typography sx={{ fontSize: 14, pl: 1.5, pt: 1.1 }}>
+                                                                    Location :
+                                                                </Typography>
+                                                                <Box sx={{
+                                                                    flex: 1, px: .5, ml: .8, bgcolor: '#E1E1E1', py: .7, color: 'black',
+                                                                    border: 1, borderColor: '#E8F0FE',
+                                                                }}>
+                                                                    {location}
+                                                                </Box>
                                                             </Box>
-                                                        </Box>
-                                                        :
-                                                        null}
-                                                </Box>
-                                            </Box> :
-                                            null}
+                                                            :
+                                                            null}
+                                                    </Box>
+                                                </Box> :
+                                                null}
+                                        </Box>
                                     </Box>
                                 </Box>
                             </Paper>

@@ -6,16 +6,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getComplaintDept } from 'src/redux/actions/ComplaintDept.action'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { errorNotify, infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { getRequesttype } from 'src/redux/actions/RequestType.action';
 import { getComplainttype } from 'src/redux/actions/ComplaintType.action';
 import CustomTextarea from 'src/views/Components/CustomTextarea'
 import { getHicpolicy } from 'src/redux/actions/HicPolicy.action'
 import ComplaintCheckBox from '../ComplaintRegister/ComplaintCheckBox'
-import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect';
 import DirectComplaintTable from './DirectComplaintTable';
 import CropSquareIcon from '@mui/icons-material/CropSquare';
-import LocationSelect from 'src/views/CommonSelectCode/LocationSelect';
 import { Button, CssVarsProvider, Dropdown, Input, Menu, MenuButton, MenuItem, Tooltip, Typography as Typo } from '@mui/joy'
 import CmpRequestTypeCheckBx from '../ComplaintRegister/CmpRequestTypeCheckBx'
 import { getReqRegistListByDept } from 'src/redux/actions/ReqRegisterListByDept.action';
@@ -278,7 +276,7 @@ const DirectComplaintReg = () => {
             setSelectedAsset('')
             setItem_slno('')
         }
-    }, [complaint_slno, cm_am_assetmap_slno])
+    }, [complaint_slno, edit, cm_am_assetmap_slno])
 
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
@@ -309,9 +307,9 @@ const DirectComplaintReg = () => {
                 setItem_slno(0)
                 setcm_am_assetmap_slno('')
                 setSelectedAsset('')
-                setRoomName('')
                 setSearch(0)
                 setSelect(0)
+                setRoomName('')
             }
 
             const InsertFun = async (postdata) => {
@@ -429,6 +427,7 @@ const DirectComplaintReg = () => {
         setCount(0)
         setEdit(0)
         setOpen(false)
+        setMenudata([])
     }, [])
     //close button function
     const backtoSetting = useCallback(() => {
@@ -489,6 +488,9 @@ const DirectComplaintReg = () => {
 
     const UpdateAssetNo = useCallback((e) => {
         setcm_am_assetmap_slno(e.target.value.toLocaleUpperCase())
+        setlocation('')
+        setdeviceName('')
+        setAssetStatus(0)
     }, [])
 
     const searchAssetNo = useCallback((e) => {
@@ -496,12 +498,19 @@ const DirectComplaintReg = () => {
             infoNotify('Please Enter Asset Number')
         }
         else {
-            const parts = cm_am_assetmap_slno.split('/');
-            const assetno = parts[parts.length - 1];
-            const Custodian = parts[parts.length - 2];
-            const firstname = parts[parts.length - 3];
+            // const parts = cm_am_assetmap_slno.split('/');
+            // const assetno = parts[parts.length - 1];
+            // const Custodian = parts[parts.length - 2];
+            // const firstname = parts[parts.length - 3];
+            // const starts = firstname + '/' + Custodian
+            // const asset_number = parseInt(assetno)
+
+            const firstname = 'TMC'
+            const Custodian = codept === 1 ? 'BME' : codept === 2 ? 'MAIN' :
+                codept === 3 ? 'IT' : codept === 4 ? 'HSK' : codept === 5 ? 'OPE' : ''
             const starts = firstname + '/' + Custodian
-            const asset_number = parseInt(assetno)
+            const asset_number = parseInt(cm_am_assetmap_slno)
+
             const postdata = {
                 item_asset_no: starts,
                 item_asset_no_only: asset_number
@@ -530,23 +539,28 @@ const DirectComplaintReg = () => {
 
 
     useEffect(() => {
-        const getAssetItembsedonLocation = async (roomName) => {
-            const result = await axioslogin.get(`complaintreg/getAssetsInRoom/${roomName}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setMenudata(data);
+        if (depsec !== '') {
+            const getAssetItembsedonLocation = async (depsec) => {
+                const result = await axioslogin.get(`Rectifycomplit/getlocationbsedAsset/${depsec}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setMenudata(data);
+                }
+                else {
+                    setMenudata([])
+                }
             }
-            else {
-                setMenudata([])
-            }
+            getAssetItembsedonLocation(depsec)
         }
-        getAssetItembsedonLocation(roomName)
-    }, [roomName])
+        else {
+            setMenudata([]);
+        }
+    }, [depsec])
 
 
 
     const handleAssetSelect = (val) => {
-        setSelectedAsset(`${val.item_name} (${val.am_asset_no})`);
+        setSelectedAsset(`${val.item_name} (${val.am_asset_no === null ? '' : val.am_asset_no})`);
         setItem_slno(val.am_item_map_slno)
     };
 
@@ -631,6 +645,11 @@ const DirectComplaintReg = () => {
                                                 value={val.complaint_dept_slno}
                                                 onChange={setcodept}
                                                 checkedValue={codept}
+                                                setcm_am_assetmap_slno={setcm_am_assetmap_slno}
+                                                setlocation={setlocation}
+                                                setdeviceName={setdeviceName}
+                                                setSelectedAsset={setSelectedAsset}
+                                                setItem_slno={setItem_slno}
                                             />
                                         </Grid>
                                     })
@@ -660,6 +679,11 @@ const DirectComplaintReg = () => {
                                                         value={val.complaint_type_slno}
                                                         onChange={setcotype}
                                                         checkedValue={cotype}
+                                                        setcm_am_assetmap_slno={setcm_am_assetmap_slno}
+                                                        setlocation={setlocation}
+                                                        setdeviceName={setdeviceName}
+                                                        setSelectedAsset={setSelectedAsset}
+                                                        setItem_slno={setItem_slno}
                                                     />
                                                 </Grid>
                                             })
@@ -712,133 +736,156 @@ const DirectComplaintReg = () => {
                                         </Typography>
                                         <Box sx={{ pt: .5, display: 'flex' }}>
                                             <Box sx={{
-                                                bgcolor: search === 1 ? '#BDC3CB' : search === 0 ? '#A3DED7' : '#394E6C',
-                                                px: 1, color: 'black', borderRadius: 5, cursor: 'pointer'
+                                                bgcolor: search === 1 ? '#F0F4F8' : search === 0 ? 'white' : '#F0F4F8',
+                                                boxShadow: search === 1 ? 2 : search === 0 ? 0 : 2,
+                                                border: search === 1 ? 1 : search === 0 ? 0 : 1,
+                                                borderColor: search === 1 ? '#CDD7E1' : search === 0 ? 'white' : '#CDD7E1',
+                                                height: 29,
+                                                px: 1, color: 'black', borderRadius: 0, cursor: 'pointer'
                                             }} onClick={SearchAsset}>
                                                 search <SearchSharpIcon fontSize='sm' sx={{ color: '#394E6C' }} />
                                             </Box>&nbsp;/&nbsp;
                                             <Box sx={{
-                                                bgcolor: select === 1 ? '#BDC3CB' : select === 0 ? '#A3DED7' : '#394E6C',
-                                                px: 1, color: 'black', borderRadius: 5, cursor: 'pointer'
+                                                bgcolor: select === 1 ? '#F0F4F8' : select === 0 ? 'white' : '#F0F4F8',
+                                                boxShadow: select === 1 ? 2 : select === 0 ? 0 : 2,
+                                                border: select === 1 ? 1 : select === 0 ? 0 : 1,
+                                                borderColor: select === 1 ? '#CDD7E1' : select === 0 ? 'white' : '#CDD7E1',
+                                                height: 29, mr: 1,
+                                                px: 1, color: 'black', borderRadius: 0, cursor: 'pointer'
                                             }} onClick={SelectAsset}>
                                                 select <ArrowDropDownSharpIcon fontSize='sm' sx={{ color: '#394E6C' }} />
                                             </Box>
-                                        </Box>
-
-                                        {select === 1 ?
-                                            <Box sx={{ pt: .5 }}>
-                                                <CssVarsProvider>
-                                                    <Input
-                                                        placeholder="Select Asset"
-                                                        sx={{ borderRadius: 0, width: 500 }}
-                                                        readOnly
-                                                        endDecorator={
-                                                            <Dropdown>
-                                                                <MenuButton variant='plain' sx={{ p: 0 }}>
-                                                                    <ArrowDropDownIcon sx={{ cursor: 'pointer', height: 25, width: 25 }} />
-                                                                </MenuButton>
-                                                                {menudata.length !== 0 ?
-                                                                    <Menu sx={{ maxWidth: 450 }}>
-                                                                        <MenuItem
-                                                                            sx={{ borderBottom: 1, borderColor: '#F0F3F5', fontSize: 14, fontStyle: 'italic' }}
-                                                                            onClick={handleClearSelection}
-                                                                        >
-                                                                            (Clear Selected)
-                                                                        </MenuItem>
-                                                                        {menudata.map((val, index) => (
-                                                                            <MenuItem
-                                                                                sx={{ borderBottom: 1, borderColor: '#F0F3F5' }}
-                                                                                key={index}
-                                                                                onClick={() => handleAssetSelect(val)}
-                                                                            >
-                                                                                {val.item_name} ({val.am_asset_no})
-                                                                            </MenuItem>
-                                                                        ))}
-                                                                    </Menu>
-                                                                    :
-                                                                    <Menu>
-                                                                        <MenuItem>
-                                                                            No Asset Added Under section
-                                                                        </MenuItem>
-                                                                    </Menu>}
-                                                            </Dropdown>
-                                                        }
-                                                        name='assetmap_slno'
-                                                        value={selectedAsset || ''}
-                                                        disabled={cm_am_assetmap_slno !== ''}
-                                                    />
-                                                </CssVarsProvider>
-                                            </Box>
-                                            : null}
 
 
-                                        {search === 1 ?
-                                            <Box sx={{ flex: 1, display: 'flex', }}>
-                                                <Box sx={{ flex: .6, pl: .1, pt: .5 }}>
+                                            {select === 1 ?
+                                                <Box >
                                                     <CssVarsProvider>
                                                         <Input
-                                                            placeholder="Search Asset Number"
-                                                            sx={{ borderRadius: 0, }}
+                                                            placeholder="Select Asset"
+                                                            sx={{
+                                                                minHeight: 15,
+                                                                borderRadius: 0,
+                                                                width: selectedAsset === '' ? 320 : 500,
+                                                            }}
+                                                            readOnly
                                                             endDecorator={
-                                                                <>
-                                                                    {cm_am_assetmap_slno !== '' ?
-                                                                        <Box
-                                                                            sx={{ cursor: 'pointer', fontSize: 13, fontStyle: 'italic', mr: .3 }}
-                                                                            onClick={ClearAssetSelection}
-                                                                        >
-                                                                            (Clear)
-                                                                        </Box>
+                                                                <Dropdown >
+                                                                    <MenuButton variant='plain' sx={{ p: 0 }}>
+                                                                        <ArrowDropDownIcon sx={{ cursor: 'pointer', height: 25, width: 25 }} />
+                                                                    </MenuButton>
+                                                                    {menudata.length !== 0 ?
+                                                                        <Menu sx={{ maxWidth: 450, maxHeight: 370, overflow: 'auto' }}>
+                                                                            <MenuItem
+                                                                                sx={{ borderBottom: 1, borderColor: '#F0F3F5', fontSize: 14, fontStyle: 'italic' }}
+                                                                                onClick={handleClearSelection}
+                                                                            >
+                                                                                (Clear Selected)
+                                                                            </MenuItem>
+                                                                            {menudata.map((val, index) => (
+                                                                                < MenuItem
+                                                                                    sx={{ borderBottom: 1, borderColor: '#F0F3F5' }}
+                                                                                    key={index}
+                                                                                    onClick={() => handleAssetSelect(val)}
+                                                                                >
+
+                                                                                    {val.item_name} ({val.am_asset_no})
+                                                                                </MenuItem>
+                                                                            ))}
+                                                                        </Menu>
                                                                         :
-                                                                        <></>}
-
-                                                                    <SubdirectoryArrowRightIcon
-                                                                        sx={{ cursor: 'pointer' }}
-                                                                        onClick={searchAssetNo}
-                                                                    />
-                                                                </>
-
+                                                                        <Menu>
+                                                                            <MenuItem>
+                                                                                No Asset Added Under section
+                                                                            </MenuItem>
+                                                                        </Menu>}
+                                                                </Dropdown>
                                                             }
-
-                                                            name='cm_am_assetmap_slno'
-                                                            value={cm_am_assetmap_slno || ''}
-                                                            onChange={UpdateAssetNo}
+                                                            name='assetmap_slno'
+                                                            value={selectedAsset || ''}
+                                                            disabled={cm_am_assetmap_slno !== ''}
                                                         />
                                                     </CssVarsProvider>
                                                 </Box>
-                                                <Box sx={{ flex: 1, }}>
-                                                    {deviceName !== '' ?
-                                                        <Box sx={{ display: 'flex', pt: .3 }}>
-                                                            <Typography sx={{ fontSize: 14, pl: 1.5, pt: .6 }}>
-                                                                Asset Name :
-                                                            </Typography>
-                                                            <Box sx={{
-                                                                flex: 1, px: .5, bgcolor: 'white', ml: .8, bgcolor: '#BCDFFB', py: .7, color: 'black',
-                                                                border: 1, borderColor: '#E8F0FE'
-                                                            }}>
-                                                                {deviceName}
+                                                : null}
+
+
+                                            {search === 1 ?
+                                                <Box sx={{ flex: 1, display: 'flex', }}>
+                                                    <Box sx={{ pl: .1, }}>
+                                                        <CssVarsProvider>
+                                                            <Input
+                                                                type='number'
+                                                                autoComplete='off'
+                                                                startDecorator={
+                                                                    <Button variant="soft" color="neutral" >
+                                                                        {`TMC/${codept === 1 ? 'BME/' : codept === 2 ? 'MAIN/' :
+                                                                            codept === 3 ? 'IT/' : codept === 4 ? 'HSK/' : codept === 5 ? 'OPE/' : ''}`}
+                                                                    </Button>
+                                                                }
+                                                                placeholder="Search Asset Number"
+                                                                sx={{ borderRadius: 0, width: 320, minHeight: 15, }}
+                                                                endDecorator={
+                                                                    <>
+                                                                        {cm_am_assetmap_slno !== '' ?
+                                                                            <Box
+                                                                                sx={{ cursor: 'pointer', fontSize: 13, fontStyle: 'italic', mr: .3 }}
+                                                                                onClick={ClearAssetSelection}
+                                                                            >
+                                                                                (Clear)
+                                                                            </Box>
+                                                                            :
+                                                                            <></>}
+
+                                                                        <Button variant="solid" color="neutral" onClick={searchAssetNo}>
+                                                                            <SubdirectoryArrowRightIcon
+                                                                                sx={{ cursor: 'pointer' }}
+                                                                            />
+                                                                        </Button>
+                                                                    </>
+
+                                                                }
+
+                                                                name='cm_am_assetmap_slno'
+                                                                value={cm_am_assetmap_slno || ''}
+                                                                onChange={UpdateAssetNo}
+                                                            />
+                                                        </CssVarsProvider>
+                                                    </Box>
+                                                    <Box sx={{ flex: 1, }}>
+                                                        {deviceName !== '' ?
+                                                            <Box sx={{ display: 'flex', pt: .3 }}>
+                                                                <Typography sx={{ fontSize: 14, pl: 1.5, pt: 1 }}>
+                                                                    Asset Name :
+                                                                </Typography>
+                                                                <Box sx={{
+                                                                    flex: 1, px: .5, ml: .8, bgcolor: '#E1E1E1', py: .7, color: 'black',
+                                                                    border: 1, borderColor: '#E8F0FE'
+                                                                }}>
+                                                                    {deviceName}
+                                                                </Box>
                                                             </Box>
-                                                        </Box>
-                                                        :
-                                                        null}
-                                                </Box>
-                                                <Box sx={{ flex: .6, }}>
-                                                    {location !== '' ?
-                                                        <Box sx={{ display: 'flex' }}>
-                                                            <Typography sx={{ fontSize: 14, pl: 1.5, pt: .5 }}>
-                                                                Location :
-                                                            </Typography>
-                                                            <Box sx={{
-                                                                flex: 1, px: .5, bgcolor: 'white', ml: .8, bgcolor: '#BCDFFB', py: .7, color: 'black',
-                                                                border: 1, borderColor: '#E8F0FE',
-                                                            }}>
-                                                                {location}
+                                                            :
+                                                            null}
+                                                    </Box>
+                                                    <Box sx={{ flex: .6, }}>
+                                                        {location !== '' ?
+                                                            <Box sx={{ display: 'flex' }}>
+                                                                <Typography sx={{ fontSize: 14, pl: 1.5, pt: 1 }}>
+                                                                    Location :
+                                                                </Typography>
+                                                                <Box sx={{
+                                                                    flex: 1, px: .5, ml: .8, bgcolor: '#E1E1E1', py: .7, color: 'black',
+                                                                    border: 1, borderColor: '#E8F0FE',
+                                                                }}>
+                                                                    {location}
+                                                                </Box>
                                                             </Box>
-                                                        </Box>
-                                                        :
-                                                        null}
-                                                </Box>
-                                            </Box> :
-                                            null}
+                                                            :
+                                                            null}
+                                                    </Box>
+                                                </Box> :
+                                                null}
+                                        </Box>
                                     </Box>
                                 </Box>
                             </Paper>
@@ -987,78 +1034,9 @@ const DirectComplaintReg = () => {
         </Fragment >
     )
 }
+
 export default memo(DirectComplaintReg)
 
 
 
 
-/*** usecallback function for form submitting */
-// const submitComplaint = useCallback((e) => {
-//     e.preventDefault();
-//     setOpen(true)
-//     const InsertFun = async (postdata) => {
-//         const result = await axioslogin.post('/directcmreg', postdata);
-//         const { message, success } = result.data;
-//         if (success === 1) {
-//             succesNotify(message)
-//             setCount(count + 1);
-//             reset();
-//             setOpen(false)
-//         } else if (success === 5) {
-//             errorNotify("Complaint Not Registered Please Register again");
-//             setCount(count + 1);
-//             reset()
-//             setOpen(false)
-//         }
-//         else {
-//             infoNotify(message)
-//             setOpen(false)
-//         }
-//     }
-//     /***  * update function for use call back     */
-//     const updateFun = async (patchdata) => {
-//         const result = await axioslogin.patch('/directcmreg', patchdata);
-//         const { message, success } = result.data;
-//         if (success === 2) {
-//             succesNotify(message)
-//             setCount(count + 1);
-//             reset()
-//             setOpen(false)
-//         } else if (success === 0) {
-//             infoNotify(message);
-//             setOpen(false)
-//         }
-//         else {
-//             infoNotify(message)
-//             setOpen(false)
-//         }
-//     }
-//     if (edit === 0) {
-//         InsertFun(postdata)
-//     } else {
-//         updateFun(patchdata)
-//     }
-// }, [postdata, patchdata, edit, count])
-
-
-{/* <Paper variant='outlined' sx={{ p: 0.5, display: 'flex' }} square >
-                            <Box sx={{ flex: 1, p: 0.5, pt: 1 }} >
-                                <DeptSectionSelect value={depsec} setValue={setDepsec} />
-                            </Box>
-                            <Box sx={{ flex: 1, p: 0.5, pt: 1 }} >
-                                <LocationSelect value={locations} setValue={setLocation} setName={setlocationName} />
-                            </Box>
-                            <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', pt: 0.8 }} >
-                                <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
-                                    <CusCheckBox
-                                        color="danger"
-                                        size="lg"
-                                        name="Hic"
-                                        label="Infection Control Risk Assessment (ICRA) Recommended"
-                                        value={checkHic}
-                                        onCheked={getHicCheck}
-                                        checked={checkHic}
-                                    />
-                                </Grid>
-                            </Box>
-                        </Paper> */}

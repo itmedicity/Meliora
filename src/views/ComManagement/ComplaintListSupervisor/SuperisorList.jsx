@@ -345,25 +345,25 @@ const SuperisorList = () => {
         { headerName: "Complaint Type", field: "complaint_type_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Section", field: "location", autoHeight: true, wrapText: true, minWidth: 200 },
-        // {
-        //     headerName: "Location",
-        //     field: "rm_room_name",
-        //     minWidth: 350,
-        //     cellRendererFramework: (params) => {
-        //         const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
-        //         return (
-        //             <div>
-        //                 {rm_room_name !== null ?
-        //                     <div>
-        //                         {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
-        //                     </div> :
-        //                     <div>
-        //                         Location not added
-        //                     </div>}
-        //             </div>
-        //         );
-        //     }
-        // },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 350,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Date & Time", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 180 },
 
     ])

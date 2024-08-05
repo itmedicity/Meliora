@@ -41,8 +41,8 @@ const ComplaintList = () => {
     const [column] = useState([
         { headerName: "SlNo", field: "complaint_slno", minWidth: 90 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300 },
-        { headerName: "Request Department", field: "sec_name", filter: "true", wrapText: true, autoHeight: true, minWidth: 200 },
-        { headerName: "Section", field: "location", minWidth: 200, autoHeight: true, wrapText: true },
+        { headerName: "Request Department", field: "sec_name", filter: "true", wrapText: true, autoHeight: true, minWidth: 250 },
+        { headerName: "Section", field: "location", minWidth: 250, autoHeight: true, wrapText: true },
         {
             headerName: "Location",
             field: "rm_room_name",
