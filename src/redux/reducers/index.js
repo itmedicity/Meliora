@@ -150,7 +150,9 @@ import { getDepartmentSubTask } from './TmDepartment.Reducer'
 import { getDepartmentSecSubTask } from './TmDeptSection.Reducer'
 import {
     getProjectList,
-    getProjectListWithgoal, getNonGoalProjectList
+    getProjectListWithgoal,
+    getNonGoalProjectList,
+    getprojectFrTaskCreation
 } from './TmProjectsList.Reducer'
 import { getGoalsList } from './TmGoalsList.Reducer'
 import { getSubRoomBasedOnRoom } from './AmSubRoomBsdRoom.Reducer'
@@ -355,6 +357,7 @@ const reducer = combineReducers({
     setAmcCmcMaster,
     setSupplierSelect,
     getEquipmentList,
+    getprojectFrTaskCreation
 
 })
 export default reducer;

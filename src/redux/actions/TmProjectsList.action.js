@@ -4,7 +4,6 @@ const { FETCH_PROJECTS_TASKMANAGEMENT } = ActionTyps
 
 
 
-
 export const getProjectList = () => async (dispatch) => {
     const result = await axioslogin.get('TmDropDowns/getprojects')
     const { success, data } = result.data
@@ -14,11 +13,9 @@ export const getProjectList = () => async (dispatch) => {
     else {
         dispatch({ type: FETCH_PROJECTS_TASKMANAGEMENT, payload: [], loadingStatus: false })
     }
-
 }
 
 export const getProjectListWithgoal = (goalz) => async (dispatch) => {
-
     const result = await axioslogin.get(`/TmDropDowns/getprojectswithGoal/${goalz}`)
     const { success, data } = result.data
     if (success === 2) {
@@ -40,5 +37,18 @@ export const getNonGoalProjectList = () => async (dispatch) => {
     }
 
 }
+
+export const getprojectFrTaskCreation = () => async (dispatch) => {
+    const result = await axioslogin.get('TmDropDowns/getprojectFrTaskCreation')
+    const { success, data } = result.data
+    if (success === 1) {
+        dispatch({ type: FETCH_PROJECTS_TASKMANAGEMENT, payload: data, loadingStatus: true })
+    }
+    else {
+        dispatch({ type: FETCH_PROJECTS_TASKMANAGEMENT, payload: [], loadingStatus: false })
+    }
+
+}
+
 
 

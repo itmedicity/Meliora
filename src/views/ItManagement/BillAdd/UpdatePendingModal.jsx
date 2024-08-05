@@ -513,7 +513,7 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                 <Box sx={{ margin: 'auto', }}>
                     <ModalDialog variant="outlined"
                         sx={{
-                            width: 800,
+                            width: 600,
                             // bgcolor: '#274472',
                             p: 0
                         }}>
@@ -786,7 +786,7 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                                     </Box>
                                     <Box sx={{ flex: 5, mt: .1 }}>
                                         <TextFieldCustom style={{ borderRadius: 0 }}
-                                            placeholder="$0.00"
+                                            placeholder="0.00"
                                             type="number"
                                             size="sm"
                                             name="billamount"
@@ -796,13 +796,11 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                                         </TextFieldCustom>
                                     </Box>
                                     <Box sx={{ border: .1, my: 1, py: .5, borderColor: '#003B73' }}>
-                                        {/* <Chip sx={{ bgcolor: '#9AAE79' }}> */}
                                         <Box sx={{ flex: 1, ml: 1, pt: .5, }}>
-                                            <Checkbox label="Bill Payed " color="primary" sx={{ color: '#183A53', fontWeight: 600, }}
+                                            <Checkbox label="Bill Paid " color="primary" sx={{ color: '#183A53', fontWeight: 600, }}
                                                 onChange={(e) => PayedStatus(e)}
                                                 checked={payedStatus} />
                                         </Box>
-                                        {/* </Chip> */}
                                         {payedCheck === 1 ?
                                             <>
                                                 <Box sx={{ flex: 1, mt: 1, fontWeight: 600, color: '#183A53', mx: .5 }}>
@@ -810,7 +808,7 @@ const UpdatePendingModal = ({ pendingModalOpen, setpendingModalFlag, setpendingM
                                                         p: .3, mb: .3,
                                                         fontSize: 20, bgcolor: '#183A53', color: 'white',
                                                         border: 1, borderRadius: 10
-                                                    }} />Bill Payed Date<span style={{ color: '#74112F' }} >*</span>
+                                                    }} />Bill Paid Date<span style={{ color: '#74112F' }} >*</span>
                                                 </Box>
                                                 <Box sx={{ flex: 1, mx: 1 }}>
                                                     <TextFieldCustom style={{ borderRadius: 0 }}

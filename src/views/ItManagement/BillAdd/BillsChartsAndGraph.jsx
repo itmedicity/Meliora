@@ -1,10 +1,10 @@
 import React, { memo, useCallback, useEffect, useMemo, useState, } from 'react'
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { Paper } from '@mui/material';
-import { Box, Chip, CssVarsProvider, Dropdown, Input, ListDivider, Menu, MenuButton, MenuItem, Typography, } from '@mui/joy';
+import { Box, Dropdown, Input, ListDivider, Menu, MenuButton, MenuItem, Typography, } from '@mui/joy';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { BarChart, PieChart } from '@mui/x-charts';
-import { endOfMonth, endOfYear, format, isAfter, parse, startOfMonth, startOfYear, subYears } from 'date-fns';
+import { endOfMonth, endOfYear, format, parse, startOfMonth, startOfYear, subYears } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { gettingArrayList, gettingArrayListFirstYear, gettingArrayListSecondYear, gettingArrayListYearly } from './CommonFunctnFile';
@@ -461,7 +461,7 @@ const BillsChartsAndGraph = () => {
                                                 gridTemplateColumns: 'repeat(3, 100px)',
                                                 gridAutoRows: '100px',
                                                 gap: .5,
-                                                width: 260
+                                                width: 300
                                             }}
                                         >
                                             <MenuItem sx={{ flex: 1, display: 'flex' }}>

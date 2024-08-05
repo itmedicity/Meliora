@@ -79,7 +79,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                                     val.tm_task_status === 2 ? 'On Progress' :
                                         val.tm_task_status === 3 ? 'On Hold' :
                                             val.tm_task_status === 4 ? 'Pending' :
-                                                val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
+                                                val.tm_task_status === 0 ? 'Not Started' : 'Not Started',
                             tm_task_file: val.tm_task_file,
                             tm_mast_duedate_count: val.tm_mast_duedate_count
                         }
@@ -516,7 +516,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                                                                         : 'transparent', minHeight: 5,
                                                 fontWeight: 700
                                             }}>
-                                                {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
+                                                {val.tm_task_status === 0 ? 'Not Started' : val.tm_task_status === 1 ? 'Completed' :
                                                     val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                         val.tm_task_status === 4 ? 'Pending' : 'not given'}
                                             </Chip>
@@ -647,7 +647,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                                                                             : 'transparent', minHeight: 5,
                                                     fontWeight: 700
                                                 }}>
-                                                    {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
+                                                    {val.tm_task_status === 0 ? 'Not Started' : val.tm_task_status === 1 ? 'Completed' :
                                                         val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                             val.tm_task_status === 4 ? 'Pending' : 'not given'}
                                                 </Chip>
@@ -778,7 +778,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                                                                                 : 'transparent', minHeight: 5,
                                                         fontWeight: 700
                                                     }}>
-                                                        {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
+                                                        {val.tm_task_status === 0 ? 'Not Started' : val.tm_task_status === 1 ? 'Completed' :
                                                             val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                                 val.tm_task_status === 4 ? 'Pending' : 'not given'}
                                                     </Chip>
@@ -910,7 +910,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                                                                                     : 'transparent', minHeight: 5,
                                                             fontWeight: 700
                                                         }}>
-                                                            {val.tm_task_status === 0 ? 'Incompleted' : val.tm_task_status === 1 ? 'Completed' :
+                                                            {val.tm_task_status === 0 ? 'Not Started' : val.tm_task_status === 1 ? 'Completed' :
                                                                 val.tm_task_status === 2 ? 'On Progress' : val.tm_task_status === 3 ? 'On Hold' :
                                                                     val.tm_task_status === 4 ? 'Pending' : 'not given'}
                                                         </Chip>

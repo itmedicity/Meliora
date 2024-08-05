@@ -117,7 +117,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                                                         : 'transparent', minHeight: 5,
                                             fontWeight: 700
                                         }}>
-                                            {val.tm_goal_status === null ? 'Inompleted' : val.tm_goal_status === 0 ? 'Incompleted' : val.tm_goal_status === 1 ? 'Completed' :
+                                            {val.tm_goal_status === null ? 'InCompleted' : val.tm_goal_status === 0 ? 'Incompleted' : val.tm_goal_status === 1 ? 'Completed' :
                                                 'not given'}
                                         </Chip>
                                     </Box>
