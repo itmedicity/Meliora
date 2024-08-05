@@ -30,7 +30,7 @@ const CrfReqDetailCmpnt = ({ columnDefs, tableData, onSelectionChanged, columnTy
     }
     return (
         <Fragment>
-            <Paper elevation={0}>
+            <Paper elevation={0} aria-hidden='true'>
                 <Box
                     className="ag-theme-alpine ListItemScrol"
                     sx={{

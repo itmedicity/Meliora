@@ -18,7 +18,7 @@ import {
     PurchAckMapList, PurchDataCollPendingList, PurchaseAckDoneList, PurchaseQuatanNegotain, QuatationFinal, getData,
     getpurchDataCollPending, getpurchaseAckPending, poClose, potoSupp
 } from 'src/redux/ReduxhelperFun/reduxhelperfun'
-import { warningNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -43,7 +43,7 @@ const PurchaseTablemain = () => {
     const [imageshow, setImageShow] = useState(false)
     const [imageSlno, setImageSlno] = useState(0)
     const [imagearray, setImageArry] = useState([])
-    // const [pendingPOList, setPendingPOList] = useState([])
+    const [poList, setPoList] = useState([])
 
 
     useEffect(() => {
@@ -156,26 +156,18 @@ const PurchaseTablemain = () => {
         }
 
 
-        // const getPendingPODetails = async () => {
-        //     const result = await axiosellider.get('/crfpurchase/getpendingpo');
-        //     const { success, data, message } = result.data
-        //     if (success === 2) {
-        //         const pendingList = await pendingPO(data);
-        //         const { status, datas } = pendingList
-        //         if (status === true) {
-        //             setPendingPOList(datas)
-        //             setOpen(false)
-        //         } else {
-        //             setPendingPOList([])
-        //             setOpen(false)
-        //         }
-        //     }
-        //     else if (success === 1) {
-        //         infoNotify(message)
-        //         setOpen(false)
-        //     }
-        // }
-        // getPendingPODetails()
+        const getPendingPODetails = async () => {
+            const result = await axioslogin.get('/newCRFPurchase/getPO');
+            const { success, data, message } = result.data
+            if (success === 1) {
+                setPoList(data)
+            }
+            else if (success === 2) {
+                infoNotify(message)
+                setOpen(false)
+            }
+        }
+
 
 
         const getPOtoSupplier = async (tabledata) => {
@@ -227,7 +219,8 @@ const PurchaseTablemain = () => {
         } else if (radiovalue === '5') {
             getPoClose(tabledata)
         } else if (radiovalue === '6') {
-            // getPendingPODetails()
+            // setOpen(false)
+            getPendingPODetails()
         } else if (radiovalue === '7') {
             getPOtoSupplier(tabledata)
         } else if (radiovalue === '8') {
@@ -329,7 +322,7 @@ const PurchaseTablemain = () => {
 
             {radiovalue === '6' ?
                 <Box>
-                    <POPendingDetailTable setOpen={setOpen} />
+                    <POPendingDetailTable setOpen={setOpen} poList={poList} />
                 </Box>
                 :
                 <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>

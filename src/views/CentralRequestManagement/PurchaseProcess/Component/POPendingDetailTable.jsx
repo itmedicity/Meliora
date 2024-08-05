@@ -8,7 +8,7 @@ import { Virtuoso } from 'react-virtuoso';
 import { axiosellider } from 'src/views/Axios/Axios';
 import { format } from 'date-fns';
 
-const POPendingDetailTable = ({ setOpen }) => {
+const POPendingDetailTable = ({ setOpen, poList }) => {
 
     const [modalData, setModalData] = useState([])
     const [modalflag, setModalflag] = useState(0)
@@ -19,8 +19,12 @@ const POPendingDetailTable = ({ setOpen }) => {
     const capitalizeWords = (str) => str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
     useEffect(() => {
-        const getPendingPODetails = async () => {
-            const result = await axiosellider.get('/crfpurchase/getpendingpo');
+        const pono = poList?.map((val) => val.po_number)
+        const postdata = {
+            ponumber: pono
+        }
+        const getPendingPODetails = async (postdata) => {
+            const result = await axiosellider.post('/crfpurchase/getpendingpo', postdata);
             const { success, data } = result.data
             if (success === 2) {
                 setOpen(false)
@@ -39,6 +43,13 @@ const POPendingDetailTable = ({ setOpen }) => {
                             po_amount: po.PON_AMOUNT,
                             po_expiry: po.PO_EXPIRY ? format(new Date(po.PO_EXPIRY), 'dd-MM-yyyy') : 'Not Updated',
                             expected_delvery: po.EXPECTED_DATE ? format(new Date(po.EXPECTED_DATE), 'dd-MM-yyyy') : 'Not Updated',
+                            approval: po.APPROVAL === 1 ? 'Level 1 ' :
+                                po.APPROVAL === 2 ? 'Level 2' :
+                                    po.APPROVAL === 3 ? 'Level 3' : 'Not Approved',
+                            aprv_pending: po.APPROVAL === null ? 'Purchase Dept Approval Pending' :
+                                po.APPROVAL === 1 ? 'Purchase Manager Approval Pending' :
+                                    po.APPROVAL === 2 ? "Director's Approval Pending" : 'PO Approved'
+
                         }));
 
                 const poItems = data?.map((val, index) => {
@@ -69,8 +80,8 @@ const POPendingDetailTable = ({ setOpen }) => {
             else if (success === 1) {
             }
         }
-        getPendingPODetails();
-    }, [setOpen])
+        getPendingPODetails(postdata);
+    }, [setOpen, poList])
 
     const viewPOItemDetails = useCallback((items, storeName) => {
         setModalflag(1)
@@ -202,15 +213,17 @@ const POPendingDetailTable = ({ setOpen }) => {
                             <Paper elevation={3} style={{ padding: 4 }}>
                                 <Box display="flex" flexDirection="column">
                                     <Box display="flex" justifyContent="space-between" padding={0.5} sx={{ backgroundColor: '#E9EAEC' }}>
-                                        <Typography style={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Sl.No</Typography>
+                                        <Typography style={{ width: 50, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Sl.No</Typography>
                                         <Typography style={{ width: 80, fontWeight: 550, fontSize: 12 }}>Order#</Typography>
                                         <Typography style={{ width: 170, fontWeight: 550, fontSize: 12 }}>PO Date</Typography>
                                         <Typography style={{ width: 200, fontWeight: 550, fontSize: 12 }}>Supplier</Typography>
                                         <Typography style={{ width: 80, fontWeight: 550, fontSize: 12 }}>Delivery</Typography>
                                         <Typography style={{ width: 100, fontWeight: 550, fontSize: 12 }}>Types</Typography>
                                         <Typography style={{ width: 120, fontWeight: 550, fontSize: 12 }}>Delivery Date</Typography>
-                                        <Typography style={{ width: 150, fontWeight: 550, fontSize: 12 }}>Amount</Typography>
+                                        <Typography style={{ width: 120, fontWeight: 550, fontSize: 12 }}>Amount</Typography>
                                         <Typography style={{ width: 100, fontWeight: 550, fontSize: 12 }}>PO Expiry</Typography>
+                                        <Typography style={{ width: 100, fontWeight: 550, fontSize: 12 }}>Approval</Typography>
+                                        <Typography style={{ width: 200, fontWeight: 550, fontSize: 12 }}>Status</Typography>
                                         <Typography style={{ width: 50, fontWeight: 550, fontSize: 12 }}></Typography>
                                     </Box>
                                     <Virtuoso
@@ -218,15 +231,17 @@ const POPendingDetailTable = ({ setOpen }) => {
                                         data={pendingPOList}
                                         itemContent={(index, val) => (
                                             <Box key={val.slno} display="flex" justifyContent="space-between" padding={0.5} style={{ cursor: 'pointer', borderBottom: '1px solid lightgrey' }}>
-                                                <Typography style={{ width: 60, textAlign: 'center', fontSize: 12 }}>{val.slno}</Typography>
+                                                <Typography style={{ width: 50, textAlign: 'center', fontSize: 12 }}>{val.slno}</Typography>
                                                 <Typography style={{ width: 80, fontSize: 12 }}>{val.po_no}</Typography>
                                                 <Typography style={{ width: 170, fontSize: 12 }}>{val.po_date}</Typography>
                                                 <Typography style={{ width: 200, fontSize: 12 }}>{val.supplier_name}</Typography>
                                                 <Typography style={{ width: 80, fontSize: 12 }}>{val.po_delivery}</Typography>
                                                 <Typography style={{ width: 100, fontSize: 12 }}>{val.po_types}</Typography>
                                                 <Typography style={{ width: 120, fontSize: 12 }}>{val.expected_delvery}</Typography>
-                                                <Typography style={{ width: 150, fontSize: 12 }}>{'Rs. ' + val.po_amount}</Typography>
+                                                <Typography style={{ width: 120, fontSize: 12 }}>{'Rs. ' + val.po_amount}</Typography>
                                                 <Typography style={{ width: 100, fontSize: 12 }}>{val.po_expiry}</Typography>
+                                                <Typography style={{ width: 100, fontSize: 12 }}>{val.approval}</Typography>
+                                                <Typography style={{ width: 200, fontSize: 12 }}>{val.aprv_pending}</Typography>
                                                 <Box style={{ width: 50, textAlign: 'center' }}>
                                                     <Tooltip title="View PO Items" placement="left">
                                                         {/* <IconButton onClick={() => viewPOItemDetails(val.items, val.storeName)}> */}
@@ -243,7 +258,8 @@ const POPendingDetailTable = ({ setOpen }) => {
                         </Box >
                         :
                         <Box sx={{ display: 'flex', justifyContent: 'center', fontSize: 20, opacity: 0.8 }}>
-                            No purchase orders are pending.</Box>
+                            {/* No purchase orders are pending */}
+                        </Box>
                     }
                 </>
             </Box >

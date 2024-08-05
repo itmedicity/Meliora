@@ -11,22 +11,22 @@ const PendingItemDetailsTable = ({ modalData, modalopen, handleClose, store }) =
                     aria-describedby="modal-desc"
                     open={modalopen}
                     onClose={handleClose}
+                    width='lg'
                     sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', }}
                 >
                     <ModalDialog
                         variant="outlined"
+                        // sx={{
+                        //     width: '80vw',
+                        //     overflow: 'auto'
+                        // }}
                         sx={{
-                            width: '80vw',
-                            maxHeight: window.innerHeight - 240
+                            // position: 'fixed',
+                            transform: 'translateX(-50%)',
+                            width: '70vw',
+                            maxWidth: '80vw',
+                            marginTop: '40px'
                         }}
-                    // sx={{
-                    //     // position: 'fixed',
-                    //     top: 0, // 
-                    //     transform: 'translateX(-50%)',
-                    //     width: '80vw',
-                    //     maxWidth: '80vw',
-                    //     marginTop: '40px'
-                    // }}
                     >
                         <ModalClose
                             variant="outlined"
