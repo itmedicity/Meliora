@@ -76,7 +76,7 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
             am_asset_old_no: asset_noold,
             edit_user: id,
             am_item_map_slno: am_item_map_slno,
-            item_rack_slno: rackno
+            item_rack_slno: (rackno !== 0 && rackno !== undefined) ? rackno : null
         }
     }, [am_item_map_slno, manufacturslno, asset_no, asset_noold, id, rackno])
 
@@ -87,7 +87,7 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
             am_asset_old_no: asset_noold,
             edit_user: id,
             am_spare_item_map_slno: am_spare_item_map_slno,
-            spare_rack_slno: rackno
+            spare_rack_slno: (rackno !== 0 && rackno !== undefined) ? rackno : null
         }
     }, [am_spare_item_map_slno, manufacturslno, asset_no, asset_noold, id, rackno])
     const reset = useCallback(() => {
