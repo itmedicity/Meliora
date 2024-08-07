@@ -502,58 +502,7 @@ export const poClose = (getArray) => {
     })
 }
 
-// export const pendingPO = (poData) => {
-//     const capitalizeWords = (str) => str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-//     return new Promise((resolve, reject) => {
-//         try {
-//             const poLIst = poData
-//                 .filter((po, index, self) =>
-//                     index === self.findIndex((val) => val.PO_NO === po.PO_NO))
-//                 .map((po, ind) => (
-//                     {
-//                         slno: ind + 1,
-//                         po_no: po.PO_NO,
-//                         po_date: format(new Date(po.POD_DATE), 'dd-MM-yyyy hh:mm:ss a'),
-//                         supplier_name: capitalizeWords(po.SUC_NAME),
-//                         storeName: capitalizeWords(po.STC_DESC),
-//                         po_delivery: capitalizeWords(po.POC_DELIVERY),
-//                         po_types: po.POC_TYPE === 'S' ? 'Stock Order' : 'Specific',
-//                         po_amount: po.PON_AMOUNT,
-//                         po_expiry: po.PO_EXPIRY ? format(new Date(po.PO_EXPIRY), 'dd-MM-yyyy') : null,
-//                         expected_delvery: po.EXPECTED_DATE ? format(new Date(po.EXPECTED_DATE), 'dd-MM-yyyy') : null,
-//                     }));
-
-//             const poItems = poData?.map((val, index) => {
-//                 const obj = {
-//                     slno: index + 1,
-//                     po_no: val.PO_NO,
-//                     item_code: val.IT_CODE,
-//                     item_name: val.ITC_DESC,
-//                     item_qty: val.PDN_QTY,
-//                     item_rate: (val.PDN_RATE).toFixed(2),
-//                     item_mrp: (val.PDN_ORIGINALMRP).toFixed(2),
-//                     tax: val.TXC_DESC,
-//                     tax_amount: (val.PDN_TAXAMT).toFixed(2)
-//                 }
-//                 return obj
-//             })
-
-//             const result = poLIst?.map(po => {
-//                 const details = poItems?.filter(item => item.po_no === po.po_no);
-//                 return {
-//                     ...po,
-//                     items: details
-//                 };
-//             });
-
-//             resolve({ status: true, datas: result });
-//         }
-//         catch (error) {
-//             reject({ status: false, datas: [] });
-//         }
-//     })
-// }
-
+// po to suppiler
 export const potoSupp = (getArray) => {
     return new Promise((resolve, reject) => {
         try {

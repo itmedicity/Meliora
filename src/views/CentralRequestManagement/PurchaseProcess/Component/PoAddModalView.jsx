@@ -9,9 +9,7 @@ import { infoNotify } from 'src/views/Common/CommonCode';
 const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podetailData, setpodetailData,
     modalItems, setModalItems, resetPOno }) => {
     const { req_slno, po_number, po_date, supplier_name, supply_store, storeName, expected_delivery,
-        po_delivery, po_amount } = poAddModalData
-    console.log(poAddModalData);
-
+        po_delivery, po_amount, approval_level, po_type, po_expiry } = poAddModalData
 
     const buttonStyle = {
         fontSize: 17,
@@ -31,11 +29,13 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
     }
 
     const DeleteItems = useCallback((val) => {
-        if (modalItems.length !== 0) {
+        if (modalItems.length !== 1) {
             const array = modalItems?.filter((value) => value.item_code !== val.item_code)
             setModalItems(array)
+        } else {
+            infoNotify("Cant Delete only one item left")
         }
-    }, [modalItems, setModalItems])
+    }, [modalItems, setModalItems, poModalhandleClose])
 
     const AddDetails = useCallback(() => {
 
@@ -52,6 +52,9 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
                 expected_delivery: format(new Date(expected_delivery), 'yyyy-MM-dd'),
                 po_delivery: po_delivery,
                 po_amount: po_amount,
+                approval_level: approval_level,
+                po_type: po_type,
+                po_expiry: format(new Date(po_expiry), 'yyyy-MM-dd'),
                 items: modalItems
             }
 
@@ -187,6 +190,7 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
                                                     <th size='sm' style={{ width: 100, fontSize: 14 }}>&nbsp;MRP</th>
                                                     <th size='sm' style={{ width: 120, fontSize: 14 }}>&nbsp;Tax</th>
                                                     <th size='sm' style={{ width: 80, fontSize: 14 }}>&nbsp;Tax Amount</th>
+                                                    <th size='sm' style={{ width: 80, fontSize: 14 }}>&nbsp;Net Amount</th>
                                                     <th size='sm' style={{ width: 33, fontWeight: 650, fontSize: 14 }}></th>
                                                 </tr>
                                             </thead>
@@ -201,6 +205,7 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
                                                         <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.item_mrp}</td>
                                                         <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.tax}</td>
                                                         <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.tax_amount}</td>
+                                                        <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.net_amount}</td>
                                                         <td size='sm' style={{ textAlign: 'center', height: 5 }}>
                                                             <CssVarsProvider>
                                                                 <Tooltip title="Delete" placement='right'>

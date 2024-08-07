@@ -98,14 +98,15 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         QuatationNegoremark: '',
         QuatationFix: false,
         QuatationFixremark: '',
-        poLevelOne: false,
-        poLevelTwo: false,
-        poToSupplier: false
+        // poLevelOne: false,
+        // poLevelTwo: false,
+        // poToSupplier: false
 
     })
     const { Acknowledgement, Ackremark, datacollFlag, datacolectremark, QuatationCall, QuatationCallremark,
         QuatationNego, QuatationNegoremark, QuatationFix, QuatationFixremark,
-        poLevelOne, poLevelTwo, poToSupplier } = formRemarks
+        // poLevelOne, poLevelTwo, poToSupplier
+    } = formRemarks
     const [poadding, setPoadding] = useState(false)
     const [poComplete, setPoComplete] = useState(false)
     const updateFormRemarks = useCallback((e) => {
@@ -411,9 +412,9 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             QuatationFixremark: '',
             // poadding: false,
             // poComplete: false,
-            poLevelOne: po_approva_level_one === 1 ? true : false,
-            poLevelTwo: po_approva_level_two === 1 ? true : false,
-            poToSupplier: po_to_supplier === 1 ? true : false
+            // poLevelOne: po_approva_level_one === 1 ? true : false,
+            // poLevelTwo: po_approva_level_two === 1 ? true : false,
+            // poToSupplier: po_to_supplier === 1 ? true : false
         }
         setFormRemarks(fromdaraset)
         setPoadding(false)
@@ -451,9 +452,9 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             QuatationFixremark: '',
             // poadding: false,
             // poComplete: false,
-            poLevelOne: false,
-            poLevelTwo: false,
-            poToSupplier: false
+            // poLevelOne: false,
+            // poLevelTwo: false,
+            // poToSupplier: false
         }
         setFormRemarks(frmdatareset)
         setStoreSlno(0)
@@ -501,7 +502,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                 getPOdetails(posearch).then((val) => {
                     const { success, data, message } = val
                     if (success === 2) {
-                        const { POD_DATE, SUC_NAME, POC_DELIVERY, PON_AMOUNT, POD_EDD } = data[0]
+                        const { POD_DATE, SUC_NAME, POC_DELIVERY, PON_AMOUNT, POD_EDD, POC_TYPE, PO_EXPIRY, APPROVAL } = data[0]
 
                         const xx = data?.map((val, index) => {
                             const obj = {
@@ -513,11 +514,14 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                 item_rate: (val.PDN_RATE).toFixed(2),
                                 item_mrp: (val.PDN_ORIGINALMRP).toFixed(2),
                                 tax: val.TXC_DESC,
-                                tax_amount: (val.PDN_TAXAMT).toFixed(2)
+                                tax_amount: (val.PDN_TAXAMT).toFixed(2),
+                                net_amount: (val.TOTAL).toFixed(2)
                             }
                             return obj
                         })
                         setModalItems(xx)
+                        console.log(xx);
+
                         const podDatas = {
                             req_slno: req_slno,
                             po_number: po_number,
@@ -531,8 +535,13 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                             expected_delivery: POD_EDD !== null ? format(new Date(POD_EDD), 'yyyy-MM-dd') : null,
                             po_delivery: capitalizeWords(POC_DELIVERY),
                             po_amount: PON_AMOUNT,
+                            approval_level: APPROVAL,
+                            po_type: POC_TYPE,
+                            po_expiry: PO_EXPIRY !== null ? format(new Date(PO_EXPIRY), 'yyyy-MM-dd') : null
                             // items: xx
                         }
+                        console.log(podDatas);
+
                         setPoModalflag(1)
                         setPoModalOpen(true)
                         setPoAddModalData(podDatas)
@@ -586,7 +595,8 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                         item_rate: val.item_rate,
                         item_mrp: val.item_mrp,
                         tax: val.tax,
-                        tax_amount: val.tax_amount
+                        tax_amount: val.tax_amount,
+                        net_amount: val.net_amount
                     }
                     return obj
                 })
@@ -657,15 +667,15 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         }
     }, [crm_purchase_slno, id, poComplete])
 
-    const PoApprovalPatch = useMemo(() => {
-        return {
-            po_approva_level_one: poLevelOne === true ? 1 : 0,
-            po_approva_level_two: poLevelTwo === true ? 1 : 0,
-            po_to_supplier: poToSupplier === true ? 1 : 0,
-            edit_user: id,
-            crm_purchase_slno: crm_purchase_slno,
-        }
-    }, [crm_purchase_slno, id, poLevelOne, poLevelTwo, poToSupplier])
+    // const PoApprovalPatch = useMemo(() => {
+    //     return {
+    //         po_approva_level_one: poLevelOne === true ? 1 : 0,
+    //         po_approva_level_two: poLevelTwo === true ? 1 : 0,
+    //         po_to_supplier: poToSupplier === true ? 1 : 0,
+    //         edit_user: id,
+    //         crm_purchase_slno: crm_purchase_slno,
+    //     }
+    // }, [crm_purchase_slno, id, poLevelOne, poLevelTwo, poToSupplier])
 
     const submit = useCallback(() => {
         const purchaseInsert = async (postPurchaseCrf) => {
@@ -746,9 +756,14 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                 po_delivery: val.po_delivery,
                 po_amount: val.po_amount,
                 create_user: id,
-                items: val.items
+                items: val.items,
+                po_to_supplier: 0,
+                approval_level: val.approval_level,
+                po_type: val.po_type,
+                po_expiry: val.po_expiry !== null ? format(new Date(val.po_expiry), 'yyyy-MM-dd') : null
             }
         })
+
         const InsertPODetails = async (postdataDetl) => {
             const result = await axioslogin.post('/newCRFPurchase/InsertMultiplePO', postdataDetl);
             const { success, message } = result.data;
@@ -774,18 +789,18 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             }
         }
 
-        const updatePoApprovals = async (PoApprovalPatch) => {
-            const result = await axioslogin.patch('/newCRFPurchase/PoFinals', PoApprovalPatch);
-            const { success, message } = result.data;
-            if (success === 1) {
-                succesNotify(message)
-                setCount(count + 1)
-                reset()
-            }
-            else {
-                warningNotify(message)
-            }
-        }
+        // const updatePoApprovals = async (PoApprovalPatch) => {
+        //     const result = await axioslogin.patch('/newCRFPurchase/PoFinals', PoApprovalPatch);
+        //     const { success, message } = result.data;
+        //     if (success === 1) {
+        //         succesNotify(message)
+        //         setCount(count + 1)
+        //         reset()
+        //     }
+        //     else {
+        //         warningNotify(message)
+        //     }
+        // }
 
         const DataCollRequestFnctn = async (postData) => {
             const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert`, postData);
@@ -837,34 +852,32 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                 updateQuatationFixing(QuatationFixingPatch)
             }
 
-            else if (poadding === true && poLevelOne === false && poLevelTwo === false && poToSupplier === false) {
-                // if (podetailData.length === 0) {
-                //     InsertSinglePO(singlePOInsert)
-                // }
-                // else {
+            // else if (poadding === true && poLevelOne === false && poLevelTwo === false && poToSupplier === false) {
+            // if (podetailData.length === 0) {
+            //     InsertSinglePO(singlePOInsert)
+            // }
+            // else {
+            else if (poadding === true) {
                 if (podetailData.length !== 0) {
                     InsertPODetails(postdataDetl)
                 }
-
+                // // }
+                // if (poComplete === true) {
+                //     updatePOComplete(PoCompletePatch)
                 // }
-                if (poComplete === true) {
-                    updatePOComplete(PoCompletePatch)
-                }
             }
             else if (poComplete === true) {
                 updatePOComplete(PoCompletePatch)
             }
-            else if (poLevelOne === true || poLevelTwo === true || poToSupplier === true) {
-                updatePoApprovals(PoApprovalPatch)
-            }
+            // else if (poLevelOne === true || poLevelTwo === true || poToSupplier === true) {
+            //     updatePoApprovals(PoApprovalPatch)
+            // }
         }
 
-    }, [postPurchaseCrf, ack_status, count, setCount, QuatationCallPatch, QuatationCall,
-        QuatationNegotnPatch, QuatationFixingPatch, QuatationNego, QuatationFix,
-        podetailData, poComplete, PoCompletePatch, PoApprovalPatch,
-        poLevelOne, poLevelTwo, poToSupplier, poadding, quatation_calling_status, quatation_fixing,
-        quatation_negotiation, reset, datacollFlag, Ackremark, crfdept, id, datacolectremark,
-        req_slno])
+    }, [postPurchaseCrf, ack_status, count, setCount, QuatationCallPatch, QuatationCall, QuatationNegotnPatch,
+        QuatationFixingPatch, QuatationNego, QuatationFix, podetailData, poComplete, PoCompletePatch,
+        poadding, quatation_calling_status, quatation_fixing, quatation_negotiation, reset,
+        datacollFlag, Ackremark, crfdept, id, datacolectremark, req_slno])
 
     const ModalClose = useCallback(() => {
         reset()

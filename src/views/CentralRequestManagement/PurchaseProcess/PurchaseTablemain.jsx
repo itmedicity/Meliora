@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { useState, useCallback, useEffect, memo, Fragment } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { axioslogin } from 'src/views/Axios/Axios'
+import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
 import { Box, Paper } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import MasterDetailCompnt from '../ComonComponent/MasterDetailCompnt'
@@ -18,7 +18,7 @@ import {
     PurchAckMapList, PurchDataCollPendingList, PurchaseAckDoneList, PurchaseQuatanNegotain, QuatationFinal, getData,
     getpurchDataCollPending, getpurchaseAckPending, poClose, potoSupp
 } from 'src/redux/ReduxhelperFun/reduxhelperfun'
-import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -26,6 +26,9 @@ import { Virtuoso } from 'react-virtuoso'
 import { getCRMPurchaseAckPending } from 'src/redux/actions/CrmPurchaseACKList.action'
 import { getCRMPurchDataCollPending } from 'src/redux/actions/CrmPurchaseDatacollPend.action'
 import POPendingDetailTable from './Component/POPendingDetailTable'
+import { Button, CssVarsProvider, IconButton, Tooltip } from '@mui/joy'
+import ChangeCircleOutlinedIcon from '@mui/icons-material/ChangeCircleOutlined';
+import { format } from 'date-fns'
 
 const PurchaseTablemain = () => {
 
@@ -43,7 +46,11 @@ const PurchaseTablemain = () => {
     const [imageshow, setImageShow] = useState(false)
     const [imageSlno, setImageSlno] = useState(0)
     const [imagearray, setImageArry] = useState([])
-    const [poList, setPoList] = useState([])
+    const [storeList, setStoreList] = useState([])
+    const [apprvCount, setApprvCount] = useState(0)
+    const [apprvSort, setApprvSort] = useState(0)
+    const [pendingPOList, setPendingPOList] = useState([])
+    const [combinedPO, setCombinedPO] = useState([])
 
 
     useEffect(() => {
@@ -156,38 +163,39 @@ const PurchaseTablemain = () => {
         }
 
 
-        const getPendingPODetails = async () => {
-            const result = await axioslogin.get('/newCRFPurchase/getPO');
-            const { success, data, message } = result.data
-            if (success === 1) {
-                setPoList(data)
-            }
-            else if (success === 2) {
-                infoNotify(message)
-                setOpen(false)
-            }
-        }
+        // const getPendingPODetails = async () => {
+        //     const result = await axioslogin.get('/newCRFPurchase/getPO');
+        //     const { success, data, message } = result.data
+        //     if (success === 1) {
+        //         setPoList(data)
+        //     }
+        //     else if (success === 2) {
+        //         infoNotify(message)
+        //         setOpen(false)
+        //     }
+        // }
 
 
 
-        const getPOtoSupplier = async (tabledata) => {
-            const dataPoSupply = await potoSupp(tabledata);
-            const { status, data } = dataPoSupply
-            if (status === true) {
-                if (data.length !== 0) {
-                    setDisArray(data)
-                    setOpen(false)
-                } else {
-                    setDisArray([])
-                    warningNotify("No CRF for Po to Supplier Pending")
-                    setOpen(false)
-                }
-            } else {
-                setDisArray([])
-                warningNotify("Error Occured")
-                setOpen(false)
-            }
-        }
+        // const getPOtoSupplier = async (tabledata) => {
+        //     const dataPoSupply = await potoSupp(tabledata);
+        //     const { status, data } = dataPoSupply
+        //     if (status === true) {
+        //         if (data.length !== 0) {
+        //             setDisArray(data)
+        //             setOpen(false)
+        //         } else {
+        //             setDisArray([])
+        //             warningNotify("No CRF for Po to Supplier Pending")
+        //             setOpen(false)
+        //         }
+        //     } else {
+        //         setDisArray([])
+        //         warningNotify("Error Occured")
+        //         setOpen(false)
+        //     }
+        // }
+
 
         const getDataCollPening = async (tabledata) => {
             const DataCollPening = await PurchDataCollPendingList(tabledata);
@@ -219,11 +227,10 @@ const PurchaseTablemain = () => {
         } else if (radiovalue === '5') {
             getPoClose(tabledata)
         } else if (radiovalue === '6') {
-            // setOpen(false)
-            getPendingPODetails()
+            setOpen(false)
+            // } else if (radiovalue === '7') {
+            //     getPOtoSupplier(tabledata)
         } else if (radiovalue === '7') {
-            getPOtoSupplier(tabledata)
-        } else if (radiovalue === '8') {
             getDataCollPening(datacollPendng)
         }
     }, [CRMPurchaseAckPendingListAry, radiovalue, tabledata, datacollPendng])
@@ -270,6 +277,187 @@ const PurchaseTablemain = () => {
         history.push('/Home/CrfNewDashBoard')
     }, [history])
 
+    useEffect(() => {
+        const getCRSStore = async () => {
+            const result = await axioslogin.get('/newCRFPurchase/crsStores');
+            const { success, data } = result.data
+            if (success === 2) {
+                setStoreList(data);
+            }
+            else {
+                setStoreList([])
+            }
+        }
+        getCRSStore()
+    }, [])
+    const RefreshData = useCallback(() => {
+        const getPendingPODetails = async () => {
+            const result = await axioslogin.get('/newCRFPurchase/getPO');
+            return result.data
+        }
+        const getPOdetails = async (posearch) => {
+            const result = await axiosellider.post('/crfpurchase/getpendingpo', posearch);
+            return result.data
+        }
+        const UpdatePOLevels = async (patchdata) => {
+            const result = await axioslogin.post('/newCRFPurchase/updateApprovalLevel', patchdata)
+            return result.data
+        }
+        getPendingPODetails().then((val) => {
+            const { success, data } = val
+            if (success === 1) {
+                setOpen(false)
+                const posearch = data?.map((val) => {
+                    return {
+                        pono: val.po_number,
+                        stcode: val.crs_store_code
+                    }
+                })
+                getPOdetails(posearch).then((val) => {
+                    const { success, data } = val
+                    if (success === 1) {
+                        const patchdata = data?.map((val) => {
+                            const newData = storeList?.find((value) => (value.crs_store_code === val.ST_CODE))
+                            return {
+                                approval_level: val.APPROVAL,
+                                po_expiry: val.PO_EXPIRY !== null ? format(new Date(val.PO_EXPIRY), 'yyyy-MM-dd') : null,
+                                expected_delivery: val.EXPECTED_DATE !== null ? format(new Date(val.EXPECTED_DATE), 'yyyy-MM-dd') : null,
+                                po_number: val.PO_NO,
+                                supply_store: newData ? newData.main_store_slno : 0
+                            }
+                        })
+                        UpdatePOLevels(patchdata).then((val) => {
+                            const { success, message } = val
+                            if (success === 1) {
+                                setApprvCount(apprvCount + 1)
+                                setOpen(false)
+                                succesNotify(message)
+
+                            }
+                            else {
+                                setOpen(false)
+                            }
+                        })
+                    }
+                    else if (success === 2) {
+                        setOpen(false)
+                        // succesNotify("Updated")
+                    }
+                })
+
+            } else {
+                setOpen(false)
+            }
+
+        })
+
+    }, [storeList, apprvCount])
+    useEffect(() => {
+        const capitalizeWords = (str) => str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        const getPendingItems = async () => {
+            const result = await axioslogin.get('/newCRFPurchase/POPending');
+            const { success, data } = result.data;
+            if (success === 1) {
+                setOpen(false)
+                const poLIst = data
+                    .filter((po, index, self) =>
+                        index === self.findIndex((val) => val.po_number === po.po_number))
+                    .map((po, ind) => (
+                        {
+                            slno: ind + 1,
+                            po_detail_slno: po.po_detail_slno,
+                            req_slno: po.req_slno,
+                            po_no: po.po_number,
+                            po_date: format(new Date(po.po_date), 'dd-MM-yyyy hh:mm:ss a'),
+                            supplier_name: capitalizeWords(po.supplier_name),
+                            storeName: capitalizeWords(po.main_store),
+                            po_delivery: capitalizeWords(po.po_delivery),
+                            po_types: po.po_type === 'S' ? 'Stock Order' : 'Specific',
+                            po_amount: po.po_amount,
+                            po_expiry: po.po_expiry ? format(new Date(po.po_expiry), 'dd-MM-yyyy') : 'Not Updated',
+                            expected_delvery: po.expected_delivery ? format(new Date(po.expected_delivery), 'dd-MM-yyyy') : 'Not Updated',
+                            // approval: po.approval_level === 1 ? 'Level 1 ' :
+                            //     po.APPROVAL === 2 ? 'Level 2' :
+                            //         po.APPROVAL === 3 ? 'Level 3' : 'Not Approved',
+                            approval: po.approval_level === 1 ? 'Purchase Dept Approved' :
+                                po.approval_level === 2 ? 'Purchase Manager Approved' :
+                                    po.approval_level === 3 ? "Director's Approved" : 'Not Approved',
+                            aprv_status: po.approval_level
+                        }));
+
+
+                const poItems = data?.map((val) => {
+                    const obj = {
+                        po_no: val.po_number,
+                        item_code: val.item_code,
+                        item_name: val.item_name,
+                        item_qty: val.item_qty !== null ? val.item_qty : 0,
+                        item_rate: val.item_rate !== null ? (val.item_rate).toFixed(2) : 0,
+                        item_mrp: val.item_mrp !== null ? (val.item_mrp).toFixed(2) : 0,
+                        tax: val.tax !== null ? val.tax : 'Nil',
+                        tax_amount: val.tax_amount !== null ? (val.tax_amount).toFixed(2) : 0,
+                        net_amount: val.net_amount !== 0 ? (val.net_amount).toFixed(2) : 0
+                    }
+                    return obj
+                })
+                const combinedData = poLIst?.map(po => {
+                    const details = poItems?.filter(item => item.po_no === po.po_no);
+                    return {
+                        ...po,
+                        items: details
+                    };
+                });
+                setCombinedPO(combinedData)
+                setPendingPOList(combinedData)
+            }
+            else {
+                setOpen(false)
+            }
+        }
+        getPendingItems()
+
+    }, [setOpen, apprvCount, count])
+    const viewAllData = useCallback(() => {
+
+        setPendingPOList(combinedPO)
+        setApprvSort(0)
+    }, [combinedPO])
+    const getNotApproved = useCallback(() => {
+        const newData = combinedPO?.filter(val => val.aprv_status === null);
+        if (newData.length === 0) {
+            infoNotify("PO Not Found")
+        } else {
+            setPendingPOList(newData)
+            setApprvSort(1)
+        }
+    }, [combinedPO])
+    const purchaseDeptApproved = useCallback(() => {
+        const newData = combinedPO?.filter(val => val.aprv_status === 1);
+        if (newData.length === 0) {
+            infoNotify("PO Not Found")
+        } else {
+            setPendingPOList(newData)
+            setApprvSort(2)
+        }
+    }, [combinedPO])
+    const purchaseManagerApproved = useCallback(() => {
+        const newData = combinedPO?.filter(val => val.aprv_status === 2);
+        if (newData.length === 0) {
+            infoNotify("PO Not Found")
+        } else {
+            setPendingPOList(newData)
+            setApprvSort(3)
+        }
+    }, [combinedPO])
+    const directorsApproved = useCallback(() => {
+        const newData = combinedPO?.filter(val => val.aprv_status === 3);
+        if (newData.length === 0) {
+            infoNotify("PO Not Found")
+        } else {
+            setPendingPOList(newData)
+            setApprvSort(4)
+        }
+    }, [combinedPO])
 
     return (
         <Fragment>
@@ -308,21 +496,200 @@ const PurchaseTablemain = () => {
                         value={radiovalue}
                         onChange={(e) => updateRadioClick(e)}
                     >
-                        <FormControlLabel value='1' control={<Radio />} label="Acknowledgement Pending" />
-                        <FormControlLabel value='2' control={<Radio />} label="Processing CRF " />
-                        <FormControlLabel value='3' control={<Radio />} label="Quotation Negotiation " />
-                        <FormControlLabel value='4' control={<Radio />} label="Quotation Finalizing" />
-                        <FormControlLabel value='5' control={<Radio />} label="PO Processing" />
-                        <FormControlLabel value='6' control={<Radio />} label="PO Approvals" />
-                        <FormControlLabel value='7' control={<Radio />} label="PO to Supplier Pending" />
-                        <FormControlLabel value='8' control={<Radio />} label="Data Collection Pending" />
+                        <Box sx={{ display: 'flex', bgcolor: 'lightgrey', borderRadius: 5 }}>
+                            <Box sx={{ bgcolor: '#eceff1', px: 2, borderRadius: 5 }}>
+                                <FormControlLabel value='1' control={<Radio
+                                    sx={{
+                                        color: 'red',
+                                        '&.Mui-checked': {
+                                            color: 'red',
+                                        },
+                                    }}
+                                />} label="Acknowledgement Pending" />
+                                <FormControlLabel value='2' control={<Radio
+                                    sx={{
+                                        color: '#ef6c00',
+                                        '&.Mui-checked': {
+                                            color: '#ef6c00',
+                                        },
+                                    }} />} label="Processing CRF " />
+                                <FormControlLabel value='3' control={<Radio
+                                    sx={{
+                                        color: '#6200ea',
+                                        '&.Mui-checked': {
+                                            color: '#6200ea',
+                                        },
+                                    }}
+                                />} label="Quotation Negotiation " />
+                                <FormControlLabel value='4' control={<Radio
+                                    sx={{
+                                        color: 'orange',
+                                        '&.Mui-checked': {
+                                            color: 'orange',
+                                        },
+                                    }} />} label="Quotation Finalizing" />
+                                <FormControlLabel value='5' control={<Radio
+                                    sx={{
+                                        color: '#0d47a1',
+                                        '&.Mui-checked': {
+                                            color: '#0d47a1',
+                                        },
+                                    }} />} label="PO Processing" />
+                                <FormControlLabel value='6' control={<Radio
+                                    sx={{
+                                        color: '#1b5e20',
+                                        '&.Mui-checked': {
+                                            color: '#1b5e20',
+                                        },
+                                    }} />} label="PO Approvals" />
+                            </Box>
+
+                            {/* <FormControlLabel value='7' control={<Radio />} label="PO to Supplier Pending" /> */}
+                            <Box sx={{ px: 1, pl: 2, bgcolor: '#78909c', color: 'white', borderRadius: 5 }}>
+                                <FormControlLabel value='7' control={<Radio
+                                    sx={{
+                                        color: '#795548',
+                                        '&.Mui-checked': {
+                                            color: '#795548',
+                                        },
+                                    }} />} label="Data Collection Pending" />
+                            </Box>
+
+                        </Box>
                     </RadioGroup>
                 </Box>
             </Paper>
 
             {radiovalue === '6' ?
-                <Box>
-                    <POPendingDetailTable setOpen={setOpen} poList={poList} />
+                <Box sx={{ pt: 0.5, maxHeight: window.innerHeight - 240 }}>
+                    {combinedPO.length !== 0 ?
+                        <>
+                            <Box sx={{ height: 35, bgcolor: '#eeeeee', display: 'flex', justifyContent: 'flex-end' }}>
+                                <Box sx={{ pr: 0.5 }}>
+                                    <CssVarsProvider>
+                                        <IconButton
+                                            variant="outlined"
+                                            sx={{
+                                                backgroundColor: '#ADD8E6',
+                                                width: 180, fontSize: 12,
+                                                '&:hover': {
+                                                    bgcolor: '#fafafa', color: '#003B73', transform: 'scale(0.98)',
+                                                },
+                                                boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
+                                                borderRadius: 5, height: '30px', minHeight: '30px', lineHeight: '1',
+                                            }}
+                                            onClick={getNotApproved}
+                                        >
+                                            Not Approved
+                                        </IconButton>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ pr: 0.5 }}>
+                                    <CssVarsProvider>
+                                        <IconButton
+                                            variant="outlined"
+                                            sx={{
+                                                backgroundColor: '#5CACEE', color: 'white',
+                                                width: 180, fontSize: 12,
+                                                '&:hover': {
+                                                    bgcolor: '#fafafa', color: '#003B73', transform: 'scale(0.98)',
+                                                },
+                                                boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
+                                                borderRadius: 5, height: '30px', minHeight: '30px', lineHeight: '1',
+                                            }}
+                                            onClick={purchaseDeptApproved}
+                                        >
+                                            Purchase Dept Approved
+                                        </IconButton>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ pr: 0.5 }}>
+                                    <CssVarsProvider>
+                                        <IconButton
+                                            variant="outlined"
+                                            sx={{
+                                                backgroundColor: '#0277bd', color: 'white',
+                                                width: 180, fontSize: 12,
+                                                '&:hover': {
+                                                    bgcolor: '#fafafa', color: '#003B73', transform: 'scale(0.98)',
+                                                },
+                                                boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
+                                                borderRadius: 5, height: '30px', minHeight: '30px', lineHeight: '1',
+                                            }}
+                                            onClick={purchaseManagerApproved}
+                                        >
+                                            Purchase Manager Approved
+                                        </IconButton>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ pr: 0.5 }}>
+                                    <CssVarsProvider>
+                                        <IconButton
+                                            variant="outlined"
+                                            sx={{
+                                                backgroundColor: '#32CD32', color: 'white',
+                                                width: 180, fontSize: 12,
+                                                '&:hover': {
+                                                    bgcolor: '#fafafa', color: '#003B73', transform: 'scale(0.98)',
+                                                },
+                                                boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
+                                                borderRadius: 5, height: '30px', minHeight: '30px', lineHeight: '1',
+                                            }}
+                                            onClick={directorsApproved}
+                                        >
+                                            Director&apos;s Approved
+                                        </IconButton>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ pr: 0.5 }}>
+                                    <CssVarsProvider>
+                                        <IconButton
+                                            variant="outlined"
+                                            sx={{
+                                                backgroundColor: '#00695c', color: 'white',
+                                                width: 180, fontSize: 12,
+                                                '&:hover': {
+                                                    bgcolor: '#fafafa', color: '#003B73', transform: 'scale(0.98)',
+                                                },
+                                                boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
+                                                borderRadius: 5, height: '30px', minHeight: '30px', lineHeight: '1',
+                                            }}
+                                            onClick={viewAllData}
+                                        >
+                                            View All
+                                        </IconButton>
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ pr: 3 }}>
+                                    <CssVarsProvider>
+                                        <IconButton
+                                            variant="outlined"
+                                            sx={{
+                                                backgroundColor: 'white', width: 220, fontSize: 12,
+                                                '&:hover': {
+                                                    bgcolor: '#fafafa', color: '#003B73', transform: 'scale(0.98)',
+                                                },
+                                                boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
+                                                borderRadius: 5, height: '30px', minHeight: '30px', lineHeight: '1',
+                                            }}
+                                            onClick={RefreshData}
+                                        >
+                                            Get Update Status From Ellider
+                                        </IconButton>
+
+                                    </CssVarsProvider>
+                                </Box>
+                            </Box>
+                            <Box>
+                                <POPendingDetailTable pendingPOList={pendingPOList} count={count} setCount={setCount} />
+                            </Box>
+                        </>
+                        : <Box sx={{
+                            display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.8,
+                            pt: 10, color: 'lightgrey'
+                        }}>
+                            No Purchase Orders Are Pending
+                        </Box>}
                 </Box>
                 :
                 <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>
