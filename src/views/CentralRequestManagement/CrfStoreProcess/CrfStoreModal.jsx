@@ -26,7 +26,7 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
     } = storeData
 
     const expdate = expected_date !== null && isValid(new Date(expected_date)) ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
-    const [podetailFlag, setPOdetalFalg] = useState(0)
+    const [podetailFlag, setPodetailFlag] = useState(0)
     const [getpoDetaildata, setgetPodetailData] = useState([])
     const [ApproveTableDis, setApproveTableDis] = useState(0)
     const [ApproveTableData, setApproveTableData] = useState([])
@@ -37,13 +37,18 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
     const [partialFlag, setPartialFlag] = useState(0)
     const [fullyFlag, setFullyFlag] = useState(0)
 
+    // console.log("req slno", req_slno);
+    // console.log(podetailFlag);
+    // console.log(getpoDetaildata);
+
     useEffect(() => {
         const getPODetails = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFPurchase/getPOList/${req_slno}`)
+            const result = await axioslogin.get(`/newCRFPurchase/potoStore/${req_slno}`)
             const { success, data } = result.data
             if (success === 1) {
                 const datas = data && data.map((val) => {
                     return {
+                        // po_sl_no from crm_purchase_po_details
                         po_detail_slno: val.po_detail_slno,
                         req_slno: val.req_slno,
                         po_number: val.po_number,
@@ -57,9 +62,8 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
                         store_recieve_fully: val.store_recieve_fully
                     }
                 })
-
                 setgetPodetailData(datas)
-                setPOdetalFalg(1)
+                setPodetailFlag(1)
 
             }
             else {
@@ -111,7 +115,7 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
         setStoreFlag(0)
         setStoreModal(false)
         setStoreData([])
-        setPOdetalFalg(0)
+        setPodetailFlag(0)
         setgetPodetailData([])
     }, [setStoreFlag, setStoreModal, setStoreData])
 
@@ -129,7 +133,6 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
         setFullyFlag(0)
         setCount(count + 1)
     }, [setCount, count])
-
 
     return (
         <Fragment>
@@ -151,14 +154,13 @@ const CrfStoreModal = ({ open, storeData, setStoreFlag, setStoreModal, setStoreD
                 < DialogContent id="alert-dialog-slide-descriptiona"
                     sx={{
                         width: "100%",
-                        height: 400
                     }}
                 >
                     < DialogContentText id="alert-dialog-slide-descriptiona">
                         CRF Store Process
                     </DialogContentText>
 
-                    <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "column" }}>
+                    <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "column", height: 400, overflow: 'auto' }}>
                         <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                             <Box sx={{
                                 width: "100%", display: "flex",

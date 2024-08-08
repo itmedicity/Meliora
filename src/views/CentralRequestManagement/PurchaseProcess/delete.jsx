@@ -7,8 +7,8 @@ import Button from '@mui/material/Button';
 import { Box, Paper, IconButton, Tooltip } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { axioslogin } from 'src/views/Axios/Axios'
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { CssVarsProvider, Typography, Textarea } from '@mui/joy'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay';
 import _ from 'underscore'
@@ -20,6 +20,7 @@ import { MdOutlineAddCircleOutline } from 'react-icons/md';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
 import CrfReqDetailCmpnt from '../CRFRequestMaster/CrfReqDetailCmpnt';
+import PurchaseStoreSlect from './PurchaseStoreSlect';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ReqImageDisModal from '../ComonComponent/ReqImageDisModal';
 import DataCollectnImageDis from '../ComonComponent/DataCollectnImageDis';
@@ -27,13 +28,9 @@ import DataCollectnPendingModal from '../ComonComponent/DataCollectnPendingModal
 import Divider from '@mui/material/Divider';
 import { TypoHeadColor } from 'src/color/Color'
 import DeptSectionSelectMulti from 'src/views/CommonSelectCode/DeptSectionSelectMulti';
+import moment from 'moment'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import AttachFileIcon from '@mui/icons-material/AttachFile';
-import CrfStoreSelect from 'src/views/CommonSelectCode/CrfStoreSelect';
-import ExpandCircleDownOutlinedIcon from '@mui/icons-material/ExpandCircleDownOutlined';
-import PoItemDetailsTable from './Component/PoItemDetailsTable';
-import PoAddModalView from './Component/PoAddModalView';
-
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -64,28 +61,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const [crfdept, serCrfDept] = useState([])
     //state for Remarks
-    // for view saved PO Details and items 
-    const [podetailFlag, setPOdetalFalg] = useState(0)
-    const [getpoDetaildata, setgetPodetailData] = useState([])
-    const [getItemFlag, setgetItemFlag] = useState(0)
-    const [itemDetailsView, setItemDetailsView] = useState([])
-    // const [substoreSlno, setsubStoreSlno] = useState(0)
-    // const [substoreName, setsubStoreName] = useState('')
-    const [imageshowFlag, setImageShowFlag] = useState(0)
-    const [imageshow, setImageShow] = useState(false)
-    const [imagearray, setImageArry] = useState([])
-    const [storeSlno, setStoreSlno] = useState(0)
-    const [storeCode, setStoreCode] = useState('')
-    const [storeName, setStoreName] = useState('')
-    // for before save, view PO Details and items 
-    const [poDetlDis, setPoDetlDis] = useState(0)
-    const [podetailData, setpodetailData] = useState([])
-    const [itemFlag, setItemFlag] = useState(0)
-    const [itemList, setItemList] = useState([])
-    const [pomodalflag, setPoModalflag] = useState(0)
-    const [pomodalopen, setPoModalOpen] = useState(false)
-    const [poAddModalData, setPoAddModalData] = useState([])
-    const [modalItems, setModalItems] = useState([])
 
     const [formRemarks, setFormRemarks] = useState({
         Acknowledgement: false,
@@ -98,69 +73,47 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         QuatationNegoremark: '',
         QuatationFix: false,
         QuatationFixremark: '',
-        // poLevelOne: false,
-        // poLevelTwo: false,
-        // poToSupplier: false
+        poadding: false,
+        poComplete: false,
+        poLevelOne: false,
+        poLevelTwo: false,
+        poToSupplier: false
 
     })
     const { Acknowledgement, Ackremark, datacollFlag, datacolectremark, QuatationCall, QuatationCallremark,
-        QuatationNego, QuatationNegoremark, QuatationFix, QuatationFixremark,
-        // poLevelOne, poLevelTwo, poToSupplier
-    } = formRemarks
-    const [poadding, setPoadding] = useState(false)
-    const [poComplete, setPoComplete] = useState(false)
+        QuatationNego, QuatationNegoremark, QuatationFix, QuatationFixremark, poadding, poComplete,
+        poLevelOne, poLevelTwo, poToSupplier } = formRemarks
+
     const updateFormRemarks = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setFormRemarks({ ...formRemarks, [e.target.name]: value })
-
     }, [formRemarks])
-    const checkNewPo = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPoadding(true)
-            setPoComplete(false)
-        } else {
-            setPoadding(false)
-        }
-    }, [])
-    const checkPoComplete = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPoComplete(true)
-            setPoadding(false)
-        } else {
-            setPoComplete(false)
-        }
-    }, [])
 
-    useEffect(() => {
-        if (poadding === false) {
-            setPoDetlDis(0)
-            setpodetailData([])
-            setItemFlag(0)
-            setItemList([])
-            const resetarray = {
-                po_number: '',
-                po_date: '',
-            }
-            setPoDetails(resetarray)
-            setStoreSlno(0)
-            setStoreName('')
-            setStoreCode('')
-        }
-    }, [poadding])
     const [ApproveTableDis, setApproveTableDis] = useState(0)
     const [ApproveTableData, setApproveTableData] = useState([])
+    const [poDetlDis, setPoDetlDis] = useState(0)
+    const [podetailData, setpodetailData] = useState([])
     const [podetail, setPoDetails] = useState({
         po_number: '',
         po_date: '',
+        expectpo_date: ''
     })
 
     //Destructuring
-    const { po_number, po_date } = podetail
+    const { po_number, po_date, expectpo_date } = podetail
     const updatePoDetails = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setPoDetails({ ...podetail, [e.target.name]: value })
     }, [podetail])
 
+    const [podetailFlag, setPOdetalFalg] = useState(0)
+    const [getpoDetaildata, setgetPodetailData] = useState([])
+    const [substoreSlno, setsubStoreSlno] = useState(0)
+    const [substoreName, setsubStoreName] = useState('')
+    const [storeName, setStoreName] = useState('')
+    const [imageshowFlag, setImageShowFlag] = useState(0)
+    const [imageshow, setImageShow] = useState(false)
+    const [imagearray, setImageArry] = useState([])
 
     const ViewImage = useCallback(() => {
         const getImage = async (req_slno) => {
@@ -263,7 +216,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                 setDetailData(data);
             } else {
                 setReqTableDis(0)
-                setDetailData([])
             }
         }
 
@@ -303,24 +255,22 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             }
         }
 
+
         const getPODetails = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFPurchase/getPOList/${req_slno}`)
             const { success, data } = result.data
             if (success === 1) {
 
-                const datas = data?.map((val) => {
+                const datas = data && data.map((val) => {
                     return {
-                        po_detail_slno: val.po_detail_slno,
                         req_slno: val.req_slno,
                         po_number: val.po_number,
                         po_date: val.po_date,
-                        supplier_name: val.supplier_name,
                         po_status: 1,
-                        supply_store: val.supply_store,
-                        storeName: val.main_store,
                         expected_delivery: val.expected_delivery,
-                        po_delivery: val.po_delivery,
-                        po_amount: val.po_amount
+                        supply_store: val.supply_store,
+                        sub_storename: val.sub_store_name,
+                        store_name: val.main_store
                     }
                 })
 
@@ -329,7 +279,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
             }
             else {
-                setPOdetalFalg(0)
                 setgetPodetailData([])
             }
         }
@@ -410,15 +359,13 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             QuatationNegoremark: '',
             QuatationFix: false,
             QuatationFixremark: '',
-            // poadding: false,
-            // poComplete: false,
-            // poLevelOne: po_approva_level_one === 1 ? true : false,
-            // poLevelTwo: po_approva_level_two === 1 ? true : false,
-            // poToSupplier: po_to_supplier === 1 ? true : false
+            poadding: false,
+            poComplete: false,
+            poLevelOne: po_approva_level_one === 1 ? true : false,
+            poLevelTwo: po_approva_level_two === 1 ? true : false,
+            poToSupplier: po_to_supplier === 1 ? true : false
         }
         setFormRemarks(fromdaraset)
-        setPoadding(false)
-        setPoComplete(false)
 
     }, [req_slno, po_approva_level_one, po_approva_level_two, po_to_supplier])
 
@@ -426,7 +373,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         setpuchaseFlag(0)
         setpuchaseModal(false)
         setpuchaseData([])
-        // setReqTableDis(0)
+        setReqTableDis(0)
         setDetailData([])
         setApproveTableDis(0)
         setApproveTableData([])
@@ -450,162 +397,57 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             QuatationNegoremark: '',
             QuatationFix: false,
             QuatationFixremark: '',
-            // poadding: false,
-            // poComplete: false,
-            // poLevelOne: false,
-            // poLevelTwo: false,
-            // poToSupplier: false
+            poadding: false,
+            poComplete: false,
+            poLevelOne: false,
+            poLevelTwo: false,
+            poToSupplier: false
         }
         setFormRemarks(frmdatareset)
-        setStoreSlno(0)
-        setStoreCode('')
-        setStoreName('')
-        setItemFlag(0)
-        setItemList([])
-        setgetPodetailData([])
-        setgetItemFlag(0)
-        setItemDetailsView([])
-        setPoadding(false)
-        setPoComplete(false)
-
     }, [setpuchaseFlag, setpuchaseModal, setpuchaseData])
 
+
     const AddItem = useCallback(() => {
-        if (po_number !== '' && po_date !== '' && storeSlno !== 0) {
-            const capitalizeWords = (str) => str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-            let pattern = /^[0-9]{6}$/;
-            if (pattern.test(po_number) === true) {
-                setItemFlag(0)
-                // const postExist = {
-                //     po_number: po_number,
-                //     supply_store: storeSlno
-                // }
-                // const checkPoExist = async (postExist) => {
-                //     const result = await axioslogin.post('/newCRFPurchase/poExist', postExist);
-                //     return result.data
-                // }
-                // checkPoExist(postExist).then((value) => {
-                //     const { success } = value
-                //     if (success === 2) {
-                const posearch = {
-                    ponumber: po_number,
-                    from: format(new Date(po_date), 'dd/MM/yyyy 00:00:00'),
-                    to: format(new Date(po_date), 'dd/MM/yyyy 23:59:59'),
-                    stcode: storeCode
+
+
+        if (po_number !== '' && po_date !== '' && expectpo_date !== '' && substoreSlno !== 0) {
+
+            const newdata = {
+                id: Math.ceil(Math.random() * 1000),
+                req_slno: req_slno,
+                po_number: po_number,
+                po_date: po_date,
+                po_status: 1,
+                expected_delivery: expectpo_date,
+                supply_store: substoreSlno,
+                sub_storename: substoreName,
+                store_name: storeName
+            }
+            const datass = [...podetailData, newdata]
+            setPoDetlDis(1)
+            if (datass.length !== 0) {
+                setpodetailData(datass)
+                const resetarrray = {
+                    po_number: '',
+                    po_date: '',
+                    expectpo_date: ''
                 }
-
-                const getPOdetails = async (posearch) => {
-                    const result = await axiosellider.post('/crfpurchase/getpo', posearch);
-                    return result.data
-                }
-
-                getPOdetails(posearch).then((val) => {
-                    const { success, data, message } = val
-                    if (success === 2) {
-                        const { POD_DATE, SUC_NAME, POC_DELIVERY, PON_AMOUNT, POD_EDD, POC_TYPE, PO_EXPIRY, APPROVAL } = data[0]
-
-                        const xx = data?.map((val, index) => {
-                            const obj = {
-                                slno: index + 1,
-                                po_number: po_number,
-                                item_code: val.IT_CODE,
-                                item_name: val.ITC_DESC,
-                                item_qty: val.PDN_QTY,
-                                item_rate: (val.PDN_RATE).toFixed(2),
-                                item_mrp: (val.PDN_ORIGINALMRP).toFixed(2),
-                                tax: val.TXC_DESC,
-                                tax_amount: (val.PDN_TAXAMT).toFixed(2),
-                                net_amount: (val.TOTAL).toFixed(2)
-                            }
-                            return obj
-                        })
-                        setModalItems(xx)
-                        console.log(xx);
-
-                        const podDatas = {
-                            req_slno: req_slno,
-                            po_number: po_number,
-                            po_date: format(new Date(POD_DATE), 'yyyy-MM-dd HH:mm:ss'),
-                            // po_date: POD_DATE,
-                            supplier_name: capitalizeWords(SUC_NAME),
-                            po_status: 1,
-                            supply_store: storeSlno,
-                            storeName: capitalizeWords(storeName),
-                            // expected_delivery: POD_EDD,
-                            expected_delivery: POD_EDD !== null ? format(new Date(POD_EDD), 'yyyy-MM-dd') : null,
-                            po_delivery: capitalizeWords(POC_DELIVERY),
-                            po_amount: PON_AMOUNT,
-                            approval_level: APPROVAL,
-                            po_type: POC_TYPE,
-                            po_expiry: PO_EXPIRY !== null ? format(new Date(PO_EXPIRY), 'yyyy-MM-dd') : null
-                            // items: xx
-                        }
-                        console.log(podDatas);
-
-                        setPoModalflag(1)
-                        setPoModalOpen(true)
-                        setPoAddModalData(podDatas)
-                    } else if (success === 1) {
-                        infoNotify(message)
-                    }
-                })
+                setPoDetails(resetarrray)
+                setsubStoreSlno(0)
+                setsubStoreName('')
+                setStoreName('')
             }
             else {
-                warningNotify("Please Enter 6 Digit PO Number")
+
             }
+
+
         }
         else {
             warningNotify("Please Enter PO Details")
         }
-    }, [po_number, po_date, req_slno, storeCode, storeSlno, storeName])
-    const resetPOno = useCallback(() => {
-        setPoDetlDis(1)
-        const resetarray = {
-            po_number: '',
-            po_date: '',
-        }
-        setPoDetails(resetarray)
-        setStoreSlno(0)
-        setStoreName('')
-        setStoreCode('')
-    }, [])
+    }, [po_number, po_date, req_slno, podetailData, expectpo_date, substoreSlno, substoreName, storeName])
 
-    const viewItemsDetails = useCallback((params) => {
-        setItemFlag(1)
-        const data = params.api.getSelectedRows()
-        const { items } = data[0]
-        setItemList(items)
-    }, [])
-    const getSavedItemsDetails = useCallback((params) => {
-        const data = params.api.getSelectedRows()
-        const { po_detail_slno } = data[0]
-        const getPOItems = async (po_detail_slno) => {
-            const result = await axioslogin.get(`/newCRFPurchase/getitem/${po_detail_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setgetItemFlag(1)
-                const newArray = data?.map((val, index) => {
-                    const obj = {
-                        slno: index + 1,
-                        po_itm_slno: val.po_itm_slno,
-                        // po_detail_slno: val.po_detail_slno,
-                        item_code: val.item_code,
-                        item_name: val.item_name,
-                        item_qty: val.item_qty,
-                        item_rate: val.item_rate,
-                        item_mrp: val.item_mrp,
-                        tax: val.tax,
-                        tax_amount: val.tax_amount,
-                        net_amount: val.net_amount
-                    }
-                    return obj
-                })
-                setItemDetailsView(newArray)
-            }
-        }
-        getPOItems(po_detail_slno)
-
-    }, [])
     const postPurchaseCrf = useMemo(() => {
         return {
             req_slno: req_slno,
@@ -616,6 +458,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
     }, [req_slno, Ackremark, id])
 
+
     const QuatationCallPatch = useMemo(() => {
         return {
             quatation_calling_status: QuatationCall === true ? 1 : 0,
@@ -625,6 +468,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             crm_purchase_slno: crm_purchase_slno
         }
     }, [crm_purchase_slno, id, QuatationCall, QuatationCallremark])
+
 
     const QuatationNegotnPatch = useMemo(() => {
         return {
@@ -646,6 +490,32 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         }
     }, [crm_purchase_slno, id, QuatationFix, QuatationFixremark])
 
+
+    const singlePOInsert = useMemo(() => {
+        return {
+            req_slno: req_slno,
+            po_number: po_number,
+            po_date: po_date,
+            po_status: 1,
+            supply_store: substoreSlno,
+            expected_delivery: expectpo_date,
+            create_user: id
+        }
+    }, [po_date, id, po_number, req_slno, substoreSlno, expectpo_date])
+
+
+    const postdataDetl = podetailData && podetailData.map((val) => {
+        return {
+            req_slno: req_slno,
+            po_number: val.po_number,
+            po_date: val.po_date,
+            po_status: 1,
+            supply_store: val.supply_store,
+            expected_delivery: val.expected_delivery,
+            create_user: id
+        }
+    })
+
     const PoCompletePatch = useMemo(() => {
         return {
             po_complete: poComplete === true ? 1 : 0,
@@ -656,7 +526,18 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
     }, [crm_purchase_slno, id, poComplete])
 
 
+    const PoApprovalPatch = useMemo(() => {
+        return {
+            po_approva_level_one: poLevelOne === true ? 1 : 0,
+            po_approva_level_two: poLevelTwo === true ? 1 : 0,
+            po_to_supplier: poToSupplier === true ? 1 : 0,
+            edit_user: id,
+            crm_purchase_slno: crm_purchase_slno,
+        }
+    }, [crm_purchase_slno, id, poLevelOne, poLevelTwo, poToSupplier])
+
     const submit = useCallback(() => {
+
         const purchaseInsert = async (postPurchaseCrf) => {
             const result = await axioslogin.post('/newCRFPurchase/InsertPurchaseAck', postPurchaseCrf);
             const { success, message } = result.data
@@ -669,6 +550,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                 warningNotify(message)
             }
         }
+
 
         const updateQuatationCalling = async (QuatationCallPatch) => {
             const result = await axioslogin.patch('/newCRFPurchase/QuatationCalling', QuatationCallPatch);
@@ -710,27 +592,21 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         }
 
 
-        const postdataDetl = podetailData?.map((val) => {
-            return {
-                req_slno: val.req_slno,
-                po_number: val.po_number,
-                po_date: val.po_date,
-                po_status: 1,
-                supply_store: val.supply_store,
-                expected_delivery: val.expected_delivery !== null ? format(new Date(val.expected_delivery), 'yyyy-MM-dd') : null,
-                supplier_name: val.supplier_name,
-                po_delivery: val.po_delivery,
-                po_amount: val.po_amount,
-                create_user: id,
-                items: val.items,
-                po_to_supplier: 0,
-                approval_level: val.approval_level,
-                po_type: val.po_type,
-                po_expiry: val.po_expiry !== null ? format(new Date(val.po_expiry), 'yyyy-MM-dd') : null
+        const InsertSinglePO = async (singlePOInsert) => {
+            const result = await axioslogin.post('/newCRFPurchase/InsertinglePO', singlePOInsert);
+            const { success, message } = result.data;
+            if (success === 1) {
+                succesNotify(message)
+                setCount(count + 1)
+                reset()
             }
-        })
+            else {
+                warningNotify(message)
+            }
+        }
 
-        const InsertPODetails = async (postdataDetl) => {
+
+        const InsertMultiplePO = async (postdataDetl) => {
             const result = await axioslogin.post('/newCRFPurchase/InsertMultiplePO', postdataDetl);
             const { success, message } = result.data;
             if (success === 1) {
@@ -742,8 +618,23 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                 warningNotify(message)
             }
         }
+
         const updatePOComplete = async (PoCompletePatch) => {
             const result = await axioslogin.patch('/newCRFPurchase/PoComplete', PoCompletePatch);
+            const { success, message } = result.data;
+            if (success === 1) {
+                succesNotify(message)
+                setCount(count + 1)
+                reset()
+            }
+            else {
+                warningNotify(message)
+            }
+        }
+
+
+        const updatePoApprovals = async (PoApprovalPatch) => {
+            const result = await axioslogin.patch('/newCRFPurchase/PoFinals', PoApprovalPatch);
             const { success, message } = result.data;
             if (success === 1) {
                 succesNotify(message)
@@ -794,6 +685,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             else {
                 warningNotify("Please Enter Remarks")
             }
+
         }
         else {
             if (quatation_calling_status !== 1 && QuatationCall === true) {
@@ -804,27 +696,41 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             else if (quatation_fixing !== 1 && QuatationFix === true) {
                 updateQuatationFixing(QuatationFixingPatch)
             }
-            else if (poadding === true) {
-                if (podetailData.length !== 0) {
-                    InsertPODetails(postdataDetl)
+
+            else if (poadding === true && poLevelOne === false && poLevelTwo === false && poToSupplier === false) {
+                if (podetailData.length === 0) {
+                    InsertSinglePO(singlePOInsert)
                 }
-                // // }
-                // if (poComplete === true) {
-                //     updatePOComplete(PoCompletePatch)
-                // }
+                else {
+                    InsertMultiplePO(postdataDetl)
+                }
+                if (poComplete === true) {
+                    updatePOComplete(PoCompletePatch)
+                }
             }
             else if (poComplete === true) {
                 updatePOComplete(PoCompletePatch)
             }
-            // else if (poLevelOne === true || poLevelTwo === true || poToSupplier === true) {
-            //     updatePoApprovals(PoApprovalPatch)
-            // }
+            else if (poLevelOne === true || poLevelTwo === true || poToSupplier === true) {
+                updatePoApprovals(PoApprovalPatch)
+            }
         }
 
-    }, [postPurchaseCrf, ack_status, count, setCount, QuatationCallPatch, QuatationCall, QuatationNegotnPatch,
-        QuatationFixingPatch, QuatationNego, QuatationFix, podetailData, poComplete, PoCompletePatch,
-        poadding, quatation_calling_status, quatation_fixing, quatation_negotiation, reset,
-        datacollFlag, Ackremark, crfdept, id, datacolectremark, req_slno])
+    }, [postPurchaseCrf, ack_status, count, setCount, QuatationCallPatch, QuatationCall,
+        QuatationNegotnPatch, QuatationFixingPatch, QuatationNego, QuatationFix,
+        singlePOInsert, podetailData, postdataDetl, poComplete, PoCompletePatch, PoApprovalPatch,
+        poLevelOne, poLevelTwo, poToSupplier, poadding, quatation_calling_status, quatation_fixing,
+        quatation_negotiation, reset, datacollFlag, Ackremark, crfdept, id, datacolectremark,
+        req_slno])
+
+    //column title setting
+    const [column] = useState([
+        { headerName: "PO Number", field: "po_number" },
+        { headerName: "PO Date", field: "po_date", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+        { headerName: "Store", field: "sub_storename", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+        { headerName: "CRS Store", field: "store_name", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+        { headerName: "Expected Delivery Date", field: "expected_delivery", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+    ])
 
     const ModalClose = useCallback(() => {
         reset()
@@ -835,75 +741,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         setCollImageShowFlag(1)
         setDataCollSlNo([])
     }, [])
-    const poModalhandleClose = useCallback(() => {
-        setPoModalOpen(false)
-        setPoModalflag(0)
-    }, [setPoModalOpen])
-    //column title setting
-    const [column] = useState([
-        { headerName: "PO No.", field: "po_number", autoHeight: true, wrapText: true, width: 120 },
-        {
-            headerName: "PO Date", field: "po_date", autoHeight: true, wrapText: true, width: 250,
-            valueFormatter: (params) => {
-                const date = new Date(params.value);
-                return format(date, 'dd-MM-yyyy hh:mm:ss a');
-            }
-        },
-        { headerName: "Supplier Name", field: "supplier_name", autoHeight: true, wrapText: true, width: 250, filter: "true" },
-        { headerName: "Store", field: "storeName", autoHeight: true, wrapText: true, width: 180, filter: "true" },
-        { headerName: "Expected Delivery Date", field: "expected_delivery", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "PO Delivery", field: "po_delivery", autoHeight: true, wrapText: true, width: 150, },
-        {
-            headerName: "Amount", field: "po_amount", autoHeight: true, wrapText: true, width: 150,
-            valueFormatter: (params) => `Rs ${params.value}`
-        },
-        {
-            headerName: "", width: 100, autoHeight: true, cellRenderer: (params) =>
-                <Tooltip title="Item Details" placement='top' style={{ cursor: 'pointer', pr: 2 }}>
-                    <ExpandCircleDownOutlinedIcon
-                        sx={{
-                            width: 25, height: 25,
-                            color: '#0277bd',
-                            ":hover": {
-                                color: '#01579b'
-                            }
-                        }} onClick={() => viewItemsDetails(params)} />
-                </Tooltip>
 
-        },
-    ])
-    const [viewcolumn] = useState([
-        { headerName: "PO No.", field: "po_number", autoHeight: true, wrapText: true, width: 120 },
-        {
-            headerName: "PO Date", field: "po_date", autoHeight: true, wrapText: true, width: 250,
-            valueFormatter: (params) => {
-                const date = new Date(params.value);
-                return format(date, 'dd-MM-yyyy hh:mm:ss a');
-            }
-        },
-        { headerName: "Supplier Name", field: "supplier_name", autoHeight: true, wrapText: true, width: 250, filter: "true" },
-        { headerName: "Store", field: "storeName", autoHeight: true, wrapText: true, width: 180, filter: "true" },
-        { headerName: "Expected Delivery Date", field: "expected_delivery", autoHeight: true, wrapText: true, width: 250 },
-        { headerName: "PO Delivery", field: "po_delivery", autoHeight: true, wrapText: true, width: 150, },
-        {
-            headerName: "Amount", field: "po_amount", autoHeight: true, wrapText: true, width: 150,
-            valueFormatter: (params) => `Rs ${params.value}`
-        },
-        {
-            headerName: "", width: 100, autoHeight: true, cellRenderer: (params) =>
-                <Tooltip title="Item Details" placement='top' style={{ cursor: 'pointer', pr: 2 }}>
-                    <ExpandCircleDownOutlinedIcon
-                        sx={{
-                            width: 25, height: 25,
-                            color: '#0277bd',
-                            ":hover": {
-                                color: '#01579b'
-                            }
-                        }} onClick={() => getSavedItemsDetails(params)} />
-                </Tooltip>
-
-        },
-    ])
     return (
         <Fragment>
             <ToastContainer />
@@ -912,10 +750,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             {collImageShowFlag === 1 ? <DataCollectnImageDis open={collImageShow} handleCloseCollect={handleCloseCollect}
                 dataCollSlno={dataCollSlno} req_slno={req_slno}
             /> : null}
-            {pomodalflag === 1 ? <PoAddModalView poAddModalData={poAddModalData} pomodalopen={pomodalopen}
-                poModalhandleClose={poModalhandleClose} podetailData={podetailData} setpodetailData={setpodetailData}
-                modalItems={modalItems} setModalItems={setModalItems} resetPOno={resetPOno} />
-                : null}
+
             {
                 enable === 1 ? <DataCollectnPendingModal open={colectDetlCheck} ModalClose={ModalClose}
                     datacollectdata={datacollectdata} /> :
@@ -925,20 +760,20 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                         keepMounted
                         fullWidth
                         maxWidth='lg'
-                        aria-hidden='true'
+
                         aria-describedby="alert-dialog-slide-descriptiona"
                     >
                         < DialogContent id="alert-dialog-slide-descriptiona"
                             sx={{
                                 width: "100%",
+                                height: 540
                             }}
-
                         >
                             < DialogContentText id="alert-dialog-slide-descriptiona">
                                 CRF Purchase Process
                             </DialogContentText>
-                            <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "column", height: 540, overflow: 'auto', }}>
-                                <Paper variant='outlined' sx={{ p: 0, mt: 1, mr: 0.3 }} >
+                            <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "column" }}>
+                                <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                     <Box sx={{
                                         width: "100%", display: "flex",
                                         flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
@@ -1018,7 +853,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                     </Box>
                                 </Paper>
                                 {reqTableDis === 1 ?
-                                    <Paper variant='outlined' sx={{ p: 0, mt: 1, mr: 0.3 }} >
+                                    <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                         <Box sx={{
                                             width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
                                         }}>
@@ -1044,7 +879,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                     reqTableDis === 1 ?
                                         <Box>
                                             {ApproveTableDis === 1 ?
-                                                <Paper variant='outlined' sx={{ p: 0, mt: 1, mr: 0.3 }} >
+                                                <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                                     <Box sx={{
                                                         width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
                                                     }}>
@@ -1079,7 +914,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
 
                                 <Box sx={{ width: "100%", mt: 0 }}>
-                                    <Paper variant='outlined' sx={{ mt: 1, mr: 0.3 }} >
+                                    <Paper variant='outlined' sx={{ mt: 1 }} >
                                         <Box sx={{
                                             width: "100%",
                                             display: "flex",
@@ -1167,7 +1002,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
 
                                 <Box sx={{ width: "100%", mt: 0 }}>
-                                    <Paper variant='outlined' sx={{ mt: 1, mr: 0.3 }} >
+                                    <Paper variant='outlined' sx={{ mt: 1 }} >
                                         <Box sx={{
                                             width: "100%",
                                             display: "flex",
@@ -1255,7 +1090,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
                                 {datacolflag === 1 ?
                                     <Box sx={{ width: "100%", mt: 0 }}>
-                                        <Paper variant='outlined' sx={{ mt: 1, mr: 0.3 }} >
+                                        <Paper variant='outlined' sx={{ mt: 1 }} >
                                             <Box sx={{
                                                 width: "100%",
                                                 display: "flex",
@@ -1400,7 +1235,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                 {/* Purchase Process Starts */}
                                 {
                                     ack_status !== 1 ?
-                                        <Paper variant='outlined' sx={{ p: 0, mt: 1, mr: 0.3 }} >
+                                        <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                             <Box sx={{
                                                 display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
                                             }} >
@@ -1443,8 +1278,8 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                         </Paper> :
 
 
-                                        <Box sx={{ width: "100%", mt: 0, }}>
-                                            <Paper variant='outlined' sx={{ mt: 1, mr: 0.3 }} >
+                                        <Box sx={{ width: "100%", mt: 0 }}>
+                                            <Paper variant='outlined' sx={{ mt: 1 }} >
                                                 <Box sx={{
                                                     width: "100%",
                                                     display: "flex",
@@ -1494,7 +1329,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                             </Paper>
                                             {
                                                 po_prepartion !== 1 && po_complete !== 1 ?
-                                                    <Paper variant='outlined' sx={{ p: 0, mt: 1, mr: 0.3 }} >
+                                                    <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                                         <Box sx={{
                                                             display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
                                                         }} >
@@ -1565,13 +1400,13 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
 
                                             {quatation_calling_status !== 1 && po_prepartion !== 1 && po_complete !== 1 ?
-                                                <Paper variant='outlined' sx={{ p: 0, mt: 1, mr: 0.3 }} >
+                                                <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                                     <Box sx={{
                                                         display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
                                                     }} >
                                                         <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
                                                             <CusCheckBox
-                                                                label="Quotation Call"
+                                                                label="Quatation Call"
                                                                 color="primary"
                                                                 size="md"
                                                                 name="QuatationCall"
@@ -1607,7 +1442,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                 </Paper> :
                                                 <Box>
                                                     {quatation_calling_status === 1 ?
-                                                        <Paper variant='outlined' sx={{ mt: 1, mr: 0.3 }} >
+                                                        <Paper variant='outlined' sx={{ mt: 1 }} >
                                                             <Box sx={{
                                                                 width: "100%",
                                                                 display: "flex",
@@ -1621,7 +1456,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                         justifyContent: "space-between"
                                                                     }}>
                                                                     <CssVarsProvider>
-                                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quotation Calling :
+                                                                        <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quatation Calling :
 
                                                                             {
                                                                                 quatation_calling_status === 1 ?
@@ -1650,7 +1485,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                 </Box>
                                                                 <Box sx={{ width: "100%", pl: 1 }}>
                                                                     <CssVarsProvider>
-                                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Quotation Calling Remarks: </Typography>
+                                                                        <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Quatation Calling Remarks: </Typography>
                                                                         <Typography ml={10} sx={{ fontSize: 15 }} >{quatation_calling_remarks} </Typography>
                                                                     </CssVarsProvider>
                                                                 </Box>
@@ -1660,13 +1495,13 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
                                                     {
                                                         quatation_calling_status === 1 && quatation_negotiation !== 1 ?
-                                                            <Paper variant='outlined' sx={{ p: 0, mt: 1, mr: 0.3 }} >
+                                                            <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
                                                                 <Box sx={{
                                                                     display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
                                                                 }} >
                                                                     <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
                                                                         <CusCheckBox
-                                                                            label="Quotation Negotiation"
+                                                                            label="Quatation Negotiation"
                                                                             color="primary"
                                                                             size="md"
                                                                             name="QuatationNego"
@@ -1701,7 +1536,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                             </Paper> :
                                                             <Box>
                                                                 {quatation_negotiation === 1 ?
-                                                                    <Paper variant='outlined' sx={{ mt: 1, mr: 0.3 }} >
+                                                                    <Paper variant='outlined' sx={{ mt: 1 }} >
                                                                         <Box sx={{
                                                                             width: "100%",
                                                                             display: "flex",
@@ -1715,7 +1550,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                                     justifyContent: "space-between"
                                                                                 }}>
                                                                                 <CssVarsProvider>
-                                                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quotation Negotiation :
+                                                                                    <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quatation Negotation :
 
                                                                                         {
                                                                                             quatation_negotiation === 1 ?
@@ -1744,7 +1579,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                             </Box>
                                                                             <Box sx={{ width: "100%", pl: 1 }}>
                                                                                 <CssVarsProvider>
-                                                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Quotation Negotiation Remarks: </Typography>
+                                                                                    <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Quatation Negotation Remarks: </Typography>
                                                                                     <Typography ml={10} sx={{ fontSize: 15 }} >{quatation_negotiation_remarks} </Typography>
                                                                                 </CssVarsProvider>
                                                                             </Box>
@@ -1761,7 +1596,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                         }} >
                                                                             <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
                                                                                 <CusCheckBox
-                                                                                    label="Quotation Finalizing"
+                                                                                    label="Quatation Finalizing"
                                                                                     color="primary"
                                                                                     size="md"
                                                                                     name="QuatationFix"
@@ -1798,7 +1633,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
 
                                                                     <Box>
                                                                         {quatation_fixing === 1 ?
-                                                                            <Paper variant='outlined' sx={{ mt: 1, mr: 0.3 }} >
+                                                                            <Paper variant='outlined' sx={{ mt: 1 }} >
                                                                                 <Box sx={{
                                                                                     width: "100%",
                                                                                     display: "flex",
@@ -1812,7 +1647,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                                             justifyContent: "space-between"
                                                                                         }}>
                                                                                         <CssVarsProvider>
-                                                                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quotation Finalizing :
+                                                                                            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Quatation Finalizing :
 
                                                                                                 {
                                                                                                     quatation_fixing === 1 ?
@@ -1841,7 +1676,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                                                                     </Box>
                                                                                     <Box sx={{ width: "100%", pl: 1 }}>
                                                                                         <CssVarsProvider>
-                                                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Quotation Finalizing Remarks: </Typography>
+                                                                                            <Typography sx={{ fontSize: 15, fontWeight: 600 }} >Quatation Finalizing Remarks: </Typography>
                                                                                             <Typography ml={10} sx={{ fontSize: 15 }} >{quatation_fixing_remarks} </Typography>
                                                                                         </CssVarsProvider>
                                                                                     </Box>
@@ -1860,211 +1695,226 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                                             {
                                                 po_complete !== 1 && ((quatation_calling_status !== 1 && quatation_fixing !== 1) ||
                                                     (quatation_calling_status === 1 && quatation_fixing === 1)) ?
-                                                    <Paper variant='outlined' sx={{ my: 1, mr: 0.3 }} >
-                                                        <Box sx={{ width: "100%", mt: 0 }}>
-                                                            <Box sx={{
-                                                                width: "100%",
-                                                                display: "flex",
-                                                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                                                            }}>
-                                                                <Box sx={{ fontSize: 15, fontWeight: 600, p: 1, borderBottom: '1px solid lightgray' }} >PO Details </Box>
-                                                                {po_prepartion === 1 && po_complete !== 1 ?
-                                                                    <>
-                                                                        {podetailFlag === 1 ?
-                                                                            <Box sx={{ width: "100%" }}>
-                                                                                <Typography sx={{ fontSize: 13, pl: 1.5, py: 0.5 }}>Added PO </Typography>
-                                                                                <Box sx={{ pl: 0.5, pb: 0.3, pr: 0.5, flexWrap: 'wrap' }}>
+                                                    <Paper variant='outlined' sx={{ mt: 1 }} >
+                                                        <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
+                                                            <CusCheckBox
+                                                                label="PO Add"
+                                                                color="primary"
+                                                                size="md"
+                                                                name="poadding"
+                                                                value={poadding}
+                                                                checked={poadding}
+                                                                onCheked={updateFormRemarks}
+                                                                disabled={QuatationCall === true || datacollFlag === true ? true : false}
+                                                            />
+                                                        </Box>
+                                                        {
+                                                            (poadding === true || po_prepartion === 1) && po_complete !== 1 ?
+                                                                <Box sx={{ width: "100%", mt: 0 }}>
+                                                                    <Box sx={{
+                                                                        width: "100%",
+                                                                        display: "flex",
+                                                                        flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
+                                                                    }}>
+                                                                        <Typography sx={{ fontSize: 13, fontWeight: 600, pl: 1 }} >PO Details: </Typography>
+                                                                        {
+                                                                            podetailFlag === 1 ?
+                                                                                <Box sx={{ width: "100%", p: 1 }}> Added PO
                                                                                     <CrfReqDetailCmpnt
-                                                                                        columnDefs={viewcolumn}
+                                                                                        columnDefs={column}
                                                                                         tableData={getpoDetaildata}
                                                                                     />
-                                                                                </Box>
-                                                                            </Box> : null
+                                                                                </Box> : null
                                                                         }
-                                                                        {getItemFlag === 1 ?
-                                                                            <Box sx={{ width: "100%", pl: 0.5, pb: 1, pr: 0.5, flexWrap: 'wrap' }}>
-                                                                                <PoItemDetailsTable
-                                                                                    itemTableData={itemDetailsView}
+                                                                        <Box sx={{
+                                                                            width: "100%",
+                                                                            pl: 1, pb: 1,
+                                                                            display: "flex",
+                                                                            flexDirection: 'row'
+                                                                        }}>
+                                                                            <Box sx={{
+                                                                                width: "15%",
+                                                                                display: "flex",
+                                                                                pr: 1,
+                                                                                flexDirection: "column"
+                                                                            }}>
+                                                                                <CustomPaperTitle heading="PO No" mandtry={1} />
+                                                                                <TextFieldCustom
+                                                                                    type="number"
+                                                                                    size="sm"
+                                                                                    name="po_number"
+                                                                                    value={po_number}
+                                                                                    onchange={updatePoDetails}
+                                                                                />
+                                                                            </Box>
+
+                                                                            <Box sx={{
+                                                                                width: "20%",
+                                                                                display: "flex",
+                                                                                flexDirection: "column",
+                                                                                pr: 1
+                                                                            }}>
+                                                                                <CustomPaperTitle heading="PO Date" mandtry={1} />
+                                                                                <TextFieldCustom
+                                                                                    type="date"
+                                                                                    size="sm"
+                                                                                    name="po_date"
+                                                                                    value={po_date}
+                                                                                    onchange={updatePoDetails}
+                                                                                />
+                                                                            </Box>
+                                                                            <Box sx={{
+                                                                                width: "20%",
+                                                                                display: "flex",
+                                                                                flexDirection: "column",
+                                                                                pr: 1
+                                                                            }}>
+                                                                                <CustomPaperTitle heading="Select Store" mandtry={1} />
+                                                                                <Box sx={{
+                                                                                    pt: 1
+                                                                                }}>
+                                                                                    <PurchaseStoreSlect
+                                                                                        substoreSlno={substoreSlno} setsubStoreSlno={setsubStoreSlno}
+                                                                                        setsubStoreName={setsubStoreName} setStoreName={setStoreName}
+
+                                                                                    />
+                                                                                </Box>
+                                                                            </Box>
+                                                                            <Box sx={{
+                                                                                width: "20%",
+                                                                                display: "flex",
+                                                                                flexDirection: "column",
+                                                                                pr: 1
+                                                                            }}>
+                                                                                <CustomPaperTitle heading="Main Store" />
+                                                                                <TextFieldCustom
+                                                                                    type="text"
+                                                                                    size="sm"
+                                                                                    name="storeName"
+                                                                                    value={storeName}
+                                                                                    disabled={true}
+                                                                                />
+                                                                            </Box>
+                                                                            <Box sx={{
+                                                                                width: "20%",
+                                                                                display: "flex",
+                                                                                flexDirection: "column",
+                                                                                pr: 1
+                                                                            }}>
+                                                                                <CustomPaperTitle heading="Expected Delivery Date" mandtry={1} />
+                                                                                <TextFieldCustom
+                                                                                    slotProps={{
+                                                                                        input: {
+                                                                                            min: moment(new Date(po_date)).format('YYYY-MM-DD')
+                                                                                        },
+                                                                                    }}
+                                                                                    type="date"
+                                                                                    size="sm"
+                                                                                    name="expectpo_date"
+                                                                                    value={expectpo_date}
+                                                                                    onchange={updatePoDetails}
+                                                                                />
+                                                                            </Box>
+                                                                            <Box sx={{
+                                                                                width: "7%",
+                                                                                pt: 2
+                                                                            }}>
+                                                                                <Tooltip title="Add More" placement="top">
+                                                                                    <IconButton variant="outlined" color="primary" onClick={AddItem}>
+                                                                                        <MdOutlineAddCircleOutline size={25} />
+                                                                                    </IconButton>
+                                                                                </Tooltip>
+                                                                            </Box>
+                                                                        </Box>
+                                                                        {poDetlDis === 1 ?
+                                                                            <Box sx={{ width: "100%", pl: 1, pb: 1, pr: 1 }}>
+                                                                                <CrfReqDetailCmpnt
+                                                                                    columnDefs={column}
+                                                                                    tableData={podetailData}
                                                                                 />
                                                                             </Box> : null
                                                                         }
-                                                                    </>
-                                                                    : null
-
-                                                                }
-                                                                <Box sx={{ width: "20%", pt: 1, pl: 2 }}>
-                                                                    <CusCheckBox
-                                                                        label="New PO"
-                                                                        color="primary"
-                                                                        size="md"
-                                                                        name="poadding"
-                                                                        value={poadding}
-                                                                        checked={poadding}
-                                                                        onCheked={checkNewPo}
-                                                                        disabled={QuatationCall === true || datacollFlag === true ? true : false}
-                                                                    />
-                                                                </Box>
-                                                                {poadding === true ?
-                                                                    <Box sx={{
-                                                                        width: "100%", pl: 1, pb: 1, display: "flex", flexDirection: 'row'
-                                                                    }}>
                                                                         <Box sx={{
-                                                                            width: "15%", display: "flex", pr: 0.5, flexDirection: "column"
-                                                                        }}>
-                                                                            <CustomPaperTitle heading="PO No" mandtry={1} />
-                                                                            <TextFieldCustom
-                                                                                type="number"
-                                                                                size="sm"
-                                                                                name="po_number"
-                                                                                value={po_number}
-                                                                                onchange={updatePoDetails}
-                                                                            />
-                                                                        </Box>
-
-                                                                        <Box sx={{
-                                                                            width: "20%", display: "flex", flexDirection: "column", pr: 0.5
-                                                                        }}>
-                                                                            <CustomPaperTitle heading="PO Date" mandtry={1} />
-                                                                            <TextFieldCustom
-                                                                                type="date"
-                                                                                size="sm"
-                                                                                name="po_date"
-                                                                                value={po_date}
-                                                                                onchange={updatePoDetails}
-                                                                            />
-                                                                        </Box>
-                                                                        <Box sx={{
-                                                                            width: "20%", display: "flex", flexDirection: "column", pr: 0.5
-                                                                        }}>
-                                                                            <CustomPaperTitle heading="Select Store" mandtry={1} />
-                                                                            <Box sx={{
-                                                                                pt: 0.7
-                                                                            }}>
-                                                                                <CrfStoreSelect storeSlno={storeSlno} setStoreSlno={setStoreSlno} setStoreCode={setStoreCode}
-                                                                                    setStoreName={setStoreName} />
-                                                                                {/* <PurchaseStoreSlect
-                                                                                    substoreSlno={substoreSlno} setsubStoreSlno={setsubStoreSlno}
-                                                                                    setsubStoreName={setsubStoreName} setStoreName={setStoreName}
-                                                                                    setStoreCode={setStoreCode}
-                                                                                /> */}
+                                                                            display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+                                                                        }} >
+                                                                            <Box sx={{ width: "30%", pr: 1, mt: 1, pl: 1 }}>
+                                                                                <CusCheckBox
+                                                                                    label="Po Complete Ready For Approval"
+                                                                                    color="primary"
+                                                                                    size="md"
+                                                                                    name="poComplete"
+                                                                                    value={poComplete}
+                                                                                    checked={poComplete}
+                                                                                    onCheked={updateFormRemarks}
+                                                                                />
                                                                             </Box>
                                                                         </Box>
-                                                                        <Box sx={{
-                                                                            width: "7%",
-                                                                            pt: 2.5
-                                                                        }}>
-                                                                            <Tooltip title="Add" placement="top">
-                                                                                <IconButton variant="outlined" color="primary" onClick={AddItem}>
-                                                                                    <MdOutlineAddCircleOutline size={25} />
-                                                                                </IconButton>
-                                                                            </Tooltip>
-                                                                        </Box>
                                                                     </Box>
-                                                                    : null}
-                                                                {poDetlDis === 1 && poadding === true ?
-                                                                    <Box sx={{ width: "100%", pl: 0.5, pb: 0.3, pr: 0.5, flexWrap: 'wrap' }}>
-                                                                        <CrfReqDetailCmpnt
-                                                                            columnDefs={column}
-                                                                            tableData={podetailData}
-                                                                        />
-                                                                    </Box> : null
-                                                                }
-                                                                {itemFlag === 1 && poadding === true ?
-                                                                    <Box sx={{ width: "100%", pl: 0.5, pb: 1, pr: 0.5, flexWrap: 'wrap' }}>
-                                                                        <PoItemDetailsTable
-                                                                            itemTableData={itemList}
-                                                                        />
-                                                                    </Box> : null
-                                                                }
-                                                                {po_prepartion === 1 ?
-                                                                    <Box sx={{
-                                                                        display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                                                                    }} >
-                                                                        <Box sx={{ width: "30%", pt: 1, pl: 2 }}>
-                                                                            <CusCheckBox
-                                                                                label="PO Process Completed"
-                                                                                color="primary"
-                                                                                size="md"
-                                                                                name="poComplete"
-                                                                                value={poComplete}
-                                                                                checked={poComplete}
-                                                                                onCheked={checkPoComplete}
-                                                                            />
-                                                                        </Box>
-                                                                    </Box> : null}
-                                                            </Box>
-                                                        </Box>
+                                                                </Box>
+                                                                : null
+                                                        }
                                                     </Paper>
                                                     : null}
+
                                             {
                                                 po_complete === 1 ?
-                                                    <>
-                                                        <Paper variant='outlined' sx={{ my: 1, mr: 0.3 }} >
-                                                            <Box sx={{ fontSize: 15, fontWeight: 600, p: 1, borderBottom: '1px solid lightgray' }}>PO Details </Box>
-                                                            <>
-                                                                {podetailFlag === 1 ?
-                                                                    <Box sx={{ width: "100%", pb: 0.5 }}>
-                                                                        <Typography sx={{ fontSize: 14, pl: 1.5, py: 0.5 }}>Added PO </Typography>
-                                                                        <Box sx={{ pl: 0.5, pr: 0.5, flexWrap: 'wrap' }}>
-                                                                            <CrfReqDetailCmpnt
-                                                                                columnDefs={viewcolumn}
-                                                                                tableData={getpoDetaildata}
-                                                                            />
-                                                                        </Box>
-                                                                    </Box>
-                                                                    : null}
-                                                                {getItemFlag === 1 ?
-                                                                    <Box sx={{ width: "100%", pl: 0.5, pb: 1, pr: 0.5, flexWrap: 'wrap' }}>
-                                                                        <PoItemDetailsTable
-                                                                            itemTableData={itemDetailsView}
+                                                    <Box sx={{ width: "100%", mt: 0 }}>
+                                                        {
+                                                            podetailFlag === 1 ?
+                                                                <Paper variant='outlined' sx={{ mt: 1 }} >
+                                                                    <Box sx={{ width: "100%", p: 1 }}> Added PO Details
+                                                                        <CrfReqDetailCmpnt
+                                                                            columnDefs={column}
+                                                                            tableData={getpoDetaildata}
                                                                         />
-                                                                    </Box> : null
-                                                                }
+                                                                    </Box>
+                                                                </Paper> : null
+                                                        }
+                                                        <Paper variant='outlined' sx={{ mt: 1 }} >
+                                                            <Box sx={{ width: "40%", pr: 1, mt: 1, pl: 1 }}>
+                                                                <CusCheckBox
+                                                                    label="PO Approval Purchase Level"
+                                                                    color="primary"
+                                                                    size="md"
+                                                                    disabled={store_receive === 1 ? true : false}
+                                                                    name="poLevelOne"
+                                                                    value={poLevelOne}
+                                                                    checked={poLevelOne}
+                                                                    onCheked={updateFormRemarks}
+                                                                />
+                                                            </Box>
 
-                                                                {/* <Box sx={{ width: "40%", pr: 1, mt: 1, pl: 1 }}>
-                                                                    <CusCheckBox
-                                                                        label="PO Approval Purchase Level"
-                                                                        color="primary"
-                                                                        size="md"
-                                                                        disabled={store_receive === 1 ? true : false}
-                                                                        name="poLevelOne"
-                                                                        value={poLevelOne}
-                                                                        checked={poLevelOne}
-                                                                        onCheked={updateFormRemarks}
-                                                                    />
-                                                                </Box>
+                                                            <Box sx={{ width: "40%", pr: 1, mt: 1, pl: 1 }}>
+                                                                <CusCheckBox
+                                                                    label="PO Approval Managing Director"
+                                                                    color="primary"
+                                                                    size="md"
+                                                                    disabled={store_receive === 1 ? true : false}
+                                                                    name="poLevelTwo"
+                                                                    value={poLevelTwo}
+                                                                    checked={poLevelTwo}
+                                                                    onCheked={updateFormRemarks}
+                                                                />
+                                                            </Box>
 
-                                                                <Box sx={{ width: "40%", pr: 1, mt: 1, pl: 1 }}>
-                                                                    <CusCheckBox
-                                                                        label="PO Approval Managing Director"
-                                                                        color="primary"
-                                                                        size="md"
-                                                                        disabled={store_receive === 1 ? true : false}
-                                                                        name="poLevelTwo"
-                                                                        value={poLevelTwo}
-                                                                        checked={poLevelTwo}
-                                                                        onCheked={updateFormRemarks}
-                                                                    />
-                                                                </Box>
-                                                                <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
-                                                                    <CusCheckBox
-                                                                        label="PO To Supplier"
-                                                                        color="primary"
-                                                                        size="md"
-                                                                        disabled={store_receive === 1 ? true : false}
-                                                                        name="poToSupplier"
-                                                                        value={poToSupplier}
-                                                                        checked={poToSupplier}
-                                                                        onCheked={updateFormRemarks}
-                                                                    />
-                                                                </Box> */}
-
-                                                            </>
+                                                            <Box sx={{ width: "20%", pr: 1, mt: 1, pl: 1 }}>
+                                                                <CusCheckBox
+                                                                    label="PO To Supplier"
+                                                                    color="primary"
+                                                                    size="md"
+                                                                    disabled={store_receive === 1 ? true : false}
+                                                                    name="poToSupplier"
+                                                                    value={poToSupplier}
+                                                                    checked={poToSupplier}
+                                                                    onCheked={updateFormRemarks}
+                                                                />
+                                                            </Box>
                                                         </Paper>
-                                                    </>
-                                                    : null}
+                                                    </Box> : null
+                                            }
                                         </Box>
                                 }
+
                             </Box>
                         </DialogContent>
                         <DialogActions>
@@ -2073,7 +1923,8 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                         </DialogActions>
                     </Dialog>
             }
-        </Fragment >
+        </Fragment>
     )
 }
+
 export default memo(PurchaseModal)

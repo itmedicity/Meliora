@@ -35,7 +35,7 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
         } else {
             infoNotify("Cant Delete only one item left")
         }
-    }, [modalItems, setModalItems, poModalhandleClose])
+    }, [modalItems, setModalItems])
 
     const AddDetails = useCallback(() => {
 
@@ -57,7 +57,6 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
                 po_expiry: format(new Date(po_expiry), 'yyyy-MM-dd'),
                 items: modalItems
             }
-
             const newArray = [...podetailData, podDatas]
             if (newArray.length !== 0) {
                 setpodetailData(newArray)
@@ -67,9 +66,8 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
         } else {
             infoNotify("PO Already Listed")
         }
-
     }, [podetailData, modalItems, setpodetailData, req_slno, po_number, po_date, supplier_name, supply_store,
-        storeName, expected_delivery, po_delivery, po_amount, resetPOno, poModalhandleClose])
+        storeName, expected_delivery, po_delivery, po_amount, approval_level, po_type, po_expiry, resetPOno, poModalhandleClose])
 
     const CancelData = useCallback(() => {
         poModalhandleClose()

@@ -1,4 +1,5 @@
 import { axioslogin } from "src/views/Axios/Axios"
+import { infoNotify } from "src/views/Common/CommonCode"
 
 export const CloseListApi = async (setDisArray, setOpen) => {
 
@@ -2615,7 +2616,7 @@ export const getCrsReceicePending = async (setDisData, setOpen) => {
                 em_name: val.create_user.toLowerCase(),
                 category: val.category,
                 req_date: val.create_date,
-                expected_date: val.expected_date,
+                expected_date: val.expected_delivery,
                 store_receive: val.store_receive,
 
             }
@@ -2633,7 +2634,7 @@ export const getCrsReceicePending = async (setDisData, setOpen) => {
 
 export const getCrsReceiceAllList = async (setDisData, setOpen) => {
     const result = await axioslogin.get('/newCRFStore/getCrsReceiceAllList')
-    const { success, data } = result.data
+    const { success, data, message } = result.data
     if (success === 1) {
         const datas = data.map((val) => {
             const obj = {
@@ -2646,7 +2647,7 @@ export const getCrsReceiceAllList = async (setDisData, setOpen) => {
                 em_name: val.create_user.toLowerCase(),
                 category: val.category,
                 req_date: val.create_date,
-                expected_date: val.expected_date,
+                expected_date: val.expected_delivery,
                 store_receive: val.store_receive,
 
             }
@@ -2657,6 +2658,7 @@ export const getCrsReceiceAllList = async (setDisData, setOpen) => {
         setOpen(false)
     }
     else {
+        infoNotify(message)
         setDisData([])
         setOpen(false)
     }
