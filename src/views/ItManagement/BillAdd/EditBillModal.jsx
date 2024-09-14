@@ -28,6 +28,7 @@ const EditBillModal = ({ openEditModal, seteditModalFlag, seteditModalOpen, bill
     const [billName, setbillName] = useState(bill_name)
     const dispatch = useDispatch();
     const id = useSelector((state) => { return state.LoginUserData.empid })
+    const [billActive, setBillActive] = useState(true)
 
     useEffect(() => {
         dispatch(getBillCategory())
@@ -44,6 +45,17 @@ const EditBillModal = ({ openEditModal, seteditModalFlag, seteditModalOpen, bill
             setcheckFlag(0)
         }
     }, [])
+
+    const BillActiveChange = useCallback((e) => {
+        if (e.target.checked === true) {
+            setBillActive(true)
+        }
+        else {
+            setBillActive(false)
+        }
+    }, [])
+
+
     const BillOnChange = useCallback((e) => {
         setbillName(e.target.value)
     }, [])
@@ -72,9 +84,10 @@ const EditBillModal = ({ openEditModal, seteditModalFlag, seteditModalOpen, bill
             bill_cug_status: cugStatus === true ? 1 : 0,
             bill_cug_simtype: simType === 0 ? null : simType,
             edit_user: id,
+            bill_active_status: billActive === false ? 0 : 1
 
         }
-    }, [bill_add_slno, billName, billCategory, tarrif, cugStatus, simType, id])
+    }, [bill_add_slno, billName, billCategory, tarrif, cugStatus, simType, billActive, id])
 
     const addBill = useCallback((e) => {
         e.preventDefault()
@@ -182,6 +195,11 @@ const EditBillModal = ({ openEditModal, seteditModalFlag, seteditModalOpen, bill
                                         }
                                     </Box> : null}
                             </>
+                        </Box>
+                        <Box sx={{ flex: 1, mx: 2, pl: .5 }}>
+                            <Checkbox label="Bill Active Status" color="success"
+                                onChange={(e) => BillActiveChange(e)}
+                                checked={billActive} />
                         </Box>
                         <Box sx={{ flex: 1, mx: 2, mt: 1.5 }}>
                             <CssVarsProvider>
