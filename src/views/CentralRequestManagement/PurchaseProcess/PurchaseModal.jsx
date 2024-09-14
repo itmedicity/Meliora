@@ -515,7 +515,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             create_user: id
         }
     })
-
     const PoCompletePatch = useMemo(() => {
         return {
             po_complete: poComplete === true ? 1 : 0,
@@ -524,8 +523,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             crm_purchase_slno: crm_purchase_slno,
         }
     }, [crm_purchase_slno, id, poComplete])
-
-
     const PoApprovalPatch = useMemo(() => {
         return {
             po_approva_level_one: poLevelOne === true ? 1 : 0,
@@ -535,7 +532,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             crm_purchase_slno: crm_purchase_slno,
         }
     }, [crm_purchase_slno, id, poLevelOne, poLevelTwo, poToSupplier])
-
     const submit = useCallback(() => {
 
         const purchaseInsert = async (postPurchaseCrf) => {
@@ -632,7 +628,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             }
         }
 
-
         const updatePoApprovals = async (PoApprovalPatch) => {
             const result = await axioslogin.patch('/newCRFPurchase/PoFinals', PoApprovalPatch);
             const { success, message } = result.data;
@@ -685,7 +680,6 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             else {
                 warningNotify("Please Enter Remarks")
             }
-
         }
         else {
             if (quatation_calling_status !== 1 && QuatationCall === true) {
@@ -705,7 +699,7 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
                     InsertMultiplePO(postdataDetl)
                 }
                 if (poComplete === true) {
-                    updatePOComplete(PoCompletePatch)
+                    // updatePOComplete(PoCompletePatch)
                 }
             }
             else if (poComplete === true) {
