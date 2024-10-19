@@ -5,6 +5,13 @@ import CIcon from '@coreui/icons-react'
 
 const AmTransactions = [
     {
+        men_slno: 178,
+        component: CNavItem,
+        name: 'Dashboard',
+        to: '/Home/AssetDashboardM',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
         men_slno: 144,
         component: CNavItem,
         name: 'Asset Name Creation',
@@ -26,6 +33,7 @@ const AmTransactions = [
         to: '/Home/AssetItemListView',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+
     // {
     //     men_slno: 163,
     //     component: CNavItem,
@@ -33,6 +41,7 @@ const AmTransactions = [
     //     to: '/Home/DeptTransfer',
     //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     // },
+
     {
         men_slno: 163,
         component: CNavItem,
@@ -49,13 +58,13 @@ const AmTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 
-    {
-        men_slno: 226,
-        component: CNavItem,
-        name: 'Service List',
-        to: '/Home/AssetServiceList',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
+    // {
+    //     men_slno: 226,
+    //     component: CNavItem,
+    //     name: 'Service List',
+    //     to: '/Home/AssetServiceList',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
 
 
     {
@@ -66,13 +75,7 @@ const AmTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 
-    // {
-    //     men_slno: 178,
-    //     component: CNavItem,
-    //     name: 'Inter Department Transfer',
-    //     to: '/Home/AssetInterDeptTrans',
-    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    // },
+
 ]
 
 export default AmTransactions;

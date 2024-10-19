@@ -26,7 +26,8 @@ export const cm_setting_two = [
 ]
 
 export const cm_setting_three = [
-    { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 14 }
+    { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 14 },
+    { to: '/Home/CmHoldReasonMast', name: 'Hold Reason', slno: 230 },
 ]
 
 
@@ -146,6 +147,7 @@ export const userManagement_three = [
 //TaskManagement Menu
 export const taskManagement_one = [
     { to: '/Home/TMOverdueCountMaster', name: 'TaskMaster Duedate Count', slno: 218 },
+
 
 ]
 

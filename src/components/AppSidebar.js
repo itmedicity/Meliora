@@ -75,7 +75,7 @@ const AppSidebar = () => {
     {
       slno: 2,
       component: CNavGroup,
-      name: 'Complaint Management',
+      name: 'Ticket Management',
       items: cmtransact
     },
     //Request Management System Menu Start from Here

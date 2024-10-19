@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, IconButton, Typography } from '@mui/material'
+import { Box, Grid, Paper, Typography } from '@mui/material'
 import React, { useCallback, useEffect, useState, useMemo, Fragment } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import { useHistory } from 'react-router-dom'
@@ -14,75 +14,67 @@ import { getHicpolicy } from 'src/redux/actions/HicPolicy.action'
 import ComplaintRegTable from './ComplaintRegTable'
 import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action'
 import ComplaintCheckBox from './ComplaintCheckBox'
-import CropSquareIcon from '@mui/icons-material/CropSquare';
+import EngineeringIcon from '@mui/icons-material/Engineering';
 import {
-    Badge,
-    Button, CssVarsProvider, Dropdown, Input,
-    Menu,
-    MenuButton,
-    MenuItem,
+    Avatar,
+    Button, Chip, CssVarsProvider, Input,
     Tooltip,
     Typography as Typo
 } from '@mui/joy'
-import CmpRequestTypeCheckBx from './CmpRequestTypeCheckBx'
 import { memo } from 'react'
 import { getCompliantRegTable } from 'src/redux/actions/ComplaintRegTable.action'
 import { getReqRegistListByDept } from 'src/redux/actions/ReqRegisterListByDept.action'
 import ComDeptCheckBox from './ComDeptCheckBox'
 import { getComplaintSlno } from 'src/views/Constant/Constant'
 import CustomBackDrop from 'src/views/Components/CustomBackDrop'
-import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CmRoomNameTypeList from 'src/views/CommonSelectCode/CmRoomNameTypeList'
 import { getRoomsNameNdTypeList } from 'src/redux/actions/CmRoomNameNdTypeList.action'
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import Done from '@mui/icons-material/Done';
+import DeleteIcon from '@mui/icons-material/Delete';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import ArrowDropDownSharpIcon from '@mui/icons-material/ArrowDropDownSharp';
-
+import SquareIcon from '@mui/icons-material/Square';
+import CommentIcon from '@mui/icons-material/Comment';
+import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import imageCompression from 'browser-image-compression';
+import CloseIcon from '@mui/icons-material/Close';
+import CmAssetList from '../CmComponent/CmAssetList'
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const ComplaintRegistrMast = () => {
 
-
     const dispatch = useDispatch();
-
-    /*** Initializing */
     const history = useHistory();
-    //state for hic checkbox
-    //state for critical checkbox
     const [crical, setCritical] = useState(false)
-    //state for complaint priority
     const [priority, setpriority] = useState(0)
-    //state for table rendering
     const [count, setCount] = useState(0)
-    //state for knowing insert or edit to database
     const [edit, setEdit] = useState(0)
-    //state for complaintdescription
     const [desc, setdesc] = useState('')
-    //state for Priority Reson
     const [priorreason, setPriorreason] = useState('')
-    //state for request type
     const [ReqType, setReqType] = useState(false)
-    //state for complaint type
     const [cotype, setcotype] = useState(false)
-    //state for complaint department
     const [codept, setcodept] = useState(null)
-    //state for getting depsection of employee
-    // const [sec, setsec] = useState(0)
-    //state for dep section select box
-
     const [depsec, setDepsec] = useState(0)
-    // const [locationName, setlocationName] = useState("");
-    const [roomName, setRoomName] = useState(0)
+    const [roomName, setRoomName] = useState(null)
     const [open, setOpen] = useState(false)
     const [complaint_slno, setComplaint] = useState(0)
     const [cm_am_assetmap_slno, setcm_am_assetmap_slno] = useState('')
-    const [deviceName, setdeviceName] = useState('')
-    const [location, setlocation] = useState('')
     const [item_slno, setItem_slno] = useState(0)
     const [assetStatus, setAssetStatus] = useState(0)
     const [selectedAsset, setSelectedAsset] = useState('');
-    const [menudata, setMenudata] = useState([])
     const [search, setSearch] = useState(0)
-    const [select, setSelect] = useState(0)
+    const [select, setSelect] = useState(1)
+    const [assetArray, setAssetArray] = useState([]);
+    const [deletedFiles, setDeletedFiles] = useState([]);
+    const [newlyAddedAssets, setNewlyAddedAssets] = useState([])
+    const [selectFile, setSelectFile] = useState([]);
+    const [insertId, setinsertId] = useState(complaint_slno)
+    const [assetData, setassetData] = useState(0)
+    const [asset_dept, setasset_dept] = useState('')
+
 
     useEffect(() => {
         getComplaintSlno().then((val) => {
@@ -144,9 +136,7 @@ const ComplaintRegistrMast = () => {
         }
     })
     //destructuring redux data
-    const { complaintdeptdata, requesttypedata, complainttype,
-        //hicpolicy,
-    } = state
+    const { complaintdeptdata, complainttype } = state
 
     //function for complaint description state updation
     const complintdesc = useCallback((e) => {
@@ -178,13 +168,37 @@ const ComplaintRegistrMast = () => {
         }
     }, [])
 
+    const handleFileChange = useCallback((e) => {
+        const newFiles = [...selectFile]
+        newFiles.push(e.target.files[0])
+        setSelectFile(newFiles)
+    }, [selectFile, setSelectFile])
+
+    const handleImageUpload = useCallback(async (imageFile) => {
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        }
+        const compressedFile = await imageCompression(imageFile, options)
+        return compressedFile
+    }, []);
+
+    const handleRemoveFile = (index) => {
+        setSelectFile((prevFiles) => {
+            const updatedFiles = [...prevFiles];
+            updatedFiles.splice(index, 1); // Remove the file at the specified index
+            return updatedFiles;
+        });
+    };
+
     //insert data
     const postdata = useMemo(() => {
         return {
             complaint_slno: complaint_slno,
             complaint_desc: desc,
             complaint_dept_secslno: empsecid,
-            complaint_request_slno: ReqType,
+            complaint_request_slno: 1,
             complaint_deptslno: codept,
             complaint_typeslno: cotype,
             priority_check: priority,
@@ -195,23 +209,23 @@ const ComplaintRegistrMast = () => {
             priority_reason: priority === 1 ? priorreason : null,
             locationName: secName,
             priority: priority === 1 ? "Priority Ticket" : "Normal Ticket",
-            rm_room_slno: roomName
+            rm_room_slno: roomName === '' ? null : roomName
         }
-    }, [desc, empsecid, ReqType, cotype, priorreason, priority, codept, id, secName, complaint_slno, roomName, checkHic])
+    }, [desc, empsecid, cotype, priorreason, priority, codept, id, secName, complaint_slno, roomName, checkHic])
+
+
 
 
     //Data set for edit
-    const rowSelect = useCallback((params) => {
+    const rowSelect = useCallback((val) => {
         setEdit(1);
         setSelect(1)
         setSearch(0)
-        const data = params.api.getSelectedRows()
         const { complaint_typeslno, complaint_hicslno,
             cm_location, priority_reason, complaint_request_slno, complaint_deptslno, complaint_slno,
-            complaint_desc, priority_check, rm_room_slno } = data[0];
+            complaint_desc, priority_check, rm_room_slno } = val;
         setDepsec(cm_location)
         setComplaint(complaint_slno)
-        // setsec(complaint_dept_secslno)
         setReqType(complaint_request_slno)
         setcotype(complaint_typeslno)
         setChechHic(complaint_hicslno === 1 ? true : false)
@@ -227,7 +241,7 @@ const ComplaintRegistrMast = () => {
         return {
             complaint_desc: desc,
             complaint_dept_secslno: empsecid,
-            complaint_request_slno: ReqType,
+            complaint_request_slno: 1,
             complaint_deptslno: codept,
             complaint_typeslno: cotype,
             priority_check: priority,
@@ -237,203 +251,368 @@ const ComplaintRegistrMast = () => {
             edit_user: id,
             priority_reason: priority === 1 ? priorreason : null,
             complaint_slno: complaint_slno,
-            rm_room_slno: roomName
+            rm_room_slno: roomName === '' ? null : roomName
         }
-    }, [desc, empsecid, ReqType, depsec, codept, cotype, priority, priorreason, complaint_slno, id, roomName, checkHic])
+    }, [desc, empsecid, depsec, codept, cotype, priority, priorreason, complaint_slno, id, roomName, checkHic])
+
 
 
     useEffect(() => {
         if (edit === 1) {
             const getAssetinComplaint = async (complaint_slno) => {
                 const result = await axioslogin.get(`/complaintreg/getAssetinComplaint/${complaint_slno}`);
-                return result.data
-            }
-            const getAssetDetails = async (cm_am_assetmap_slno) => {
-                const result = await axioslogin.get(`/ItBillAdd/getAssetDetails/${cm_am_assetmap_slno}`);
-                return result.data
-            }
-            getAssetinComplaint(complaint_slno).then((value) => {
-                const { success, data } = value
+                const { success, data } = result.data;
                 if (success === 2) {
-                    if (data.length !== 0) {
-                        const { cm_am_assetmap_slno } = data[0]
-                        getAssetDetails(cm_am_assetmap_slno).then((value) => {
-                            const { success, dataa } = value;
-                            if (success === 2) {
-                                const { item_asset_no_only, item_name, } = dataa[0]
-                                setSelectedAsset(item_name)
-                                setItem_slno(item_asset_no_only)
-                            }
-                            else {
-                                setSelectedAsset('')
-                                setItem_slno(0)
-                            }
-                        })
-                    }
-                    else {
-                        setSelectedAsset('')
-                        setItem_slno(0)
-                    }
+                    setAssetArray(data)
                 }
                 else {
-                    infoNotify("Unable to add asset details")
-
+                    setAssetArray([])
                 }
-            })
 
+            }
+            getAssetinComplaint(complaint_slno)
         }
         else {
-            setSelectedAsset('')
-            setItem_slno('')
         }
-    }, [complaint_slno, edit, cm_am_assetmap_slno])
+    }, [complaint_slno, edit])
 
 
     /*** usecallback function for form submitting */
+    const updateAssetz = newlyAddedAssets && newlyAddedAssets.map((val) => {
+        return {
+            cm_complait_slno: complaint_slno,
+            cm_am_assetmap_slno: val.item_asset_no_only,
+            cm_asset_dept: val.item_asset_no,
+            am_item_map_slno: val.am_item_map_slno,
+            asset_status: 1,
+            create_user: id
+        }
+    })
+
+    const assetinactive = deletedFiles && deletedFiles.map((val) => {
+        return {
+            comasset_mapping_slno: val.comasset_mapping_slno,
+            asset_status: 0,
+            edit_user: id
+        }
+    })
+
+    const reset = useCallback(() => {
+        setComplaint(0)
+        setReqType(false)
+        setcotype(false)
+        setChechHic(false)
+        setpriority(0)
+        setcodept(null)
+        setCritical(false)
+        setdesc('')
+        setDepsec(0)
+        setPriorreason("")
+        setCount(0)
+        setEdit(0)
+        setOpen(false)
+        setItem_slno(0)
+        setSearch(0)
+        setSelect(0)
+        setcm_am_assetmap_slno('')
+        setSelectedAsset('')
+        setRoomName(null)
+        setAssetArray([])
+        setNewlyAddedAssets([])
+        setDeletedFiles([])
+        setSelectFile([])
+    }, [])
+
 
 
     const submitComplaint = useCallback((e) => {
         e.preventDefault();
-        if (cm_am_assetmap_slno !== '' && assetStatus === 0) {
-            infoNotify(
-                <>please click &apos;<SubdirectoryArrowRightIcon />&apos; asset to view Asset details</>
-            );
-        } else {
-            setOpen(true)
-            const reset = () => {
-                setComplaint(0)
-                setReqType(false)
-                setcotype(false)
-                setChechHic(false)
-                setpriority(0)
-                setcodept(null)
-                setCritical(false)
-                setdesc('')
-                setDepsec(0)
-                setcodept(null)
-                setPriorreason("")
-                setCount(0)
-                setEdit(0)
-                setOpen(false)
-                setdeviceName('')
-                setlocation('')
-                setItem_slno(0)
-                setSearch(0)
-                setSelect(0)
-                setcm_am_assetmap_slno('')
-                setSelectedAsset('')
-                setRoomName('')
-            }
-
-            const InsertFun = async (postdata) => {
-                const result = await axioslogin.post('/complaintreg', postdata);
-                return result.data
-            }
-            const InsertAsset = async (inserAsset) => {
-                const result = await axioslogin.post('Rectifycomplit/AssetMappComplaint', inserAsset);
-                return result.data
-            }
-            const updateFun = async (patchdata) => {
-                const result = await axioslogin.patch('/complaintreg', patchdata);
-                return result.data
-            }
-            const updateAssets = async (updateAsset) => {
-                const result = await axioslogin.patch('complaintreg/UpdateAssetinComplaint', updateAsset);
-                return result.data
-            }
-
-            if (edit === 1) {
-                updateFun(patchdata).then((value) => {
-                    const { message, success, Complt_id } = value
-                    if (success === 2) {
-                        const updateAsset = {
-                            cm_complait_slno: Complt_id,
-                            cm_am_assetmap_slno: item_slno,
-                            edit_user: id
-
+        if (codept === null && cotype === false) {
+            infoNotify("Please Select Complaint Department and Complaint type")
+        }
+        else {
+            if ((cm_am_assetmap_slno !== '' && assetStatus === 0) || (selectedAsset !== '' && assetStatus === 0)) {
+                infoNotify(
+                    <>please click on  &apos; <AddCircleIcon /> &apos;  to add Asset details</>
+                );
+            } else {
+                setOpen(true)
+                const InsertFun = async (postdata) => {
+                    const result = await axioslogin.post('/complaintreg', postdata);
+                    return result.data
+                }
+                const InsertAsset = async (inserAsset) => {
+                    const result = await axioslogin.post('/complaintreg/insertAssetArray', inserAsset);
+                    return result.data
+                }
+                const updateAsset = async (updateAssetz) => {
+                    const result = await axioslogin.post('/complaintreg/insertAssetArray', updateAssetz);
+                    return result.data
+                }
+                const updateFun = async (patchdata) => {
+                    const result = await axioslogin.patch('/complaintreg', patchdata);
+                    return result.data
+                }
+                const inactiveAsset = async (assetinactive) => {
+                    const result = await axioslogin.patch('/complaintreg/assetinactive', assetinactive);
+                    return result.data
+                }
+                const InsertFile = async (selectFile, insertId) => {
+                    try {
+                        const formData = new FormData();
+                        formData.append('id', insertId);
+                        for (const file of selectFile) {
+                            if (file.type.startsWith('image')) {
+                                const compressedFile = await handleImageUpload(file);
+                                formData.append('files', compressedFile, compressedFile.name);
+                            } else {
+                                formData.append('files', file, file.name);
+                            }
                         }
+                        // Use the Axios instance and endpoint that matches your server setup
+                        const uploadResult = await axioslogin.post('/complaintFileUpload/uploadFile/Complaint', formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data',
+                            },
+                        });
+                        return uploadResult.data;
+                    } catch (error) {
+                        warningNotify('An error occurred during file upload.');
+                    }
+                };
+                if (edit === 1) {
+                    updateFun(patchdata).then((value) => {
+                        const { message, success } = value
+                        if (success === 2) {
+                            if (newlyAddedAssets.length !== 0) {
+                                if (deletedFiles.length !== 0) {
+                                    inactiveAsset(assetinactive).then((value) => {
+                                        const { success } = value
+                                        if (success === 1) {
+                                            updateAsset(updateAssetz)
+                                            const { success } = value
+                                            if (success === 1) {
+                                                if (selectFile.length !== 0) {
+                                                    InsertFile(selectFile, insertId).then((value) => {
+                                                        const { success, message } = value
+                                                        if (success === 1) {
+                                                            succesNotify("Complaint Updated Successfully")
+                                                            setCount(count + 1);
+                                                            setOpen(false)
+                                                            reset()
+                                                        }
+                                                        else {
+                                                            warningNotify(message)
+                                                        }
+                                                    })
+                                                }
+                                                else {
+                                                    succesNotify("Complaint Updated Successfully")
+                                                    setCount(count + 1);
+                                                    setOpen(false)
+                                                    reset()
+                                                }
 
-                        console.log("updateAsset", updateAsset);
+                                            }
+                                            else {
+                                                infoNotify("Unable to add asset details")
 
-                        if (cm_am_assetmap_slno !== '' || item_slno !== '') {
-                            updateAssets(updateAsset).then((value) => {
-                                const { success } = value
-                                if (success === 2) {
+                                            }
+                                        }
+                                    })
+                                }
+                                else {
+                                    updateAsset(updateAssetz).then((value) => {
+                                        const { success } = value
+                                        if (success === 1) {
+                                            if (selectFile.length !== 0) {
+                                                InsertFile(selectFile, insertId).then((value) => {
+                                                    const { success, message } = value
+                                                    if (success === 1) {
+                                                        succesNotify("Complaint Updated Successfully")
+                                                        setCount(count + 1);
+                                                        setOpen(false)
+                                                        reset()
+                                                    }
+                                                    else {
+                                                        warningNotify(message)
+                                                    }
+                                                })
+                                            }
+                                            else {
+                                                succesNotify("Complaint Updated Successfully")
+                                                setCount(count + 1);
+                                                setOpen(false)
+                                                reset()
+                                            }
+                                        }
+                                        else {
+                                            infoNotify("Unable to add asset details")
+
+                                        }
+                                    })
+                                }
+                            }
+                            else {
+                                if (deletedFiles.length !== 0) {
+                                    inactiveAsset(assetinactive).then((value) => {
+                                        const { success } = value
+                                        if (success === 1) {
+                                            if (selectFile.length !== 0) {
+                                                InsertFile(selectFile, insertId).then((value) => {
+                                                    const { success, message } = value
+                                                    if (success === 1) {
+                                                        succesNotify("Complaint Updated Successfully")
+                                                        setCount(count + 1);
+                                                        setOpen(false)
+                                                        reset()
+                                                    }
+                                                    else {
+                                                        warningNotify(message)
+                                                    }
+                                                })
+                                            }
+                                            else {
+                                                succesNotify("Complaint Updated Successfully")
+                                                setCount(count + 1);
+                                                setOpen(false)
+                                                reset()
+                                            }
+                                        }
+                                        else {
+
+                                            infoNotify("Unable to delete asset details")
+                                        }
+                                    })
+                                }
+                                else {
+                                    if (selectFile.length !== 0) {
+                                        InsertFile(selectFile, insertId).then((value) => {
+                                            const { success, message } = value
+                                            if (success === 1) {
+                                                succesNotify("Complaint Updated Successfully")
+                                                setCount(count + 1);
+                                                setOpen(false)
+                                                reset()
+                                            }
+                                            else {
+                                                warningNotify(message)
+                                            }
+                                        })
+                                    }
+                                    else {
+                                        succesNotify("Complaint Updated Successfully")
+                                        setCount(count + 1);
+                                        setOpen(false)
+                                        reset()
+                                    }
+                                }
+
+                            }
+                        }
+                        else {
+                            infoNotify(message)
+                            setOpen(false)
+                        }
+                    })
+                    updateFun(patchdata)
+                }
+                else {
+                    InsertFun(postdata).then((value) => {
+                        const { message, success, insertId } = value
+                        setinsertId(insertId)
+                        if (success === 1) {
+                            if (assetArray.length !== 0) {
+                                const inserAsset = assetArray && assetArray.map((val) => {
+                                    console.log("assetArray hghgh", assetArray);
+
+                                    return {
+                                        cm_complait_slno: insertId,
+                                        cm_am_assetmap_slno: val.item_asset_no_only,
+                                        cm_asset_dept: val.item_asset_no,
+                                        am_item_map_slno: val.am_item_map_slno,
+                                        asset_status: 1,
+                                        create_user: id
+                                    }
+                                })
+                                InsertAsset(inserAsset).then((value) => {
+                                    const { success } = value
+                                    if (success === 1) {
+                                        if (selectFile.length !== 0) {
+                                            InsertFile(selectFile, insertId).then((value) => {
+                                                const { success, message } = value
+                                                if (success === 1) {
+                                                    succesNotify("Complaint Updated Successfully")
+                                                    setCount(count + 1);
+                                                    setOpen(false)
+                                                    reset()
+                                                }
+                                                else {
+                                                    warningNotify(message)
+                                                }
+                                            })
+                                        }
+                                        else {
+                                            succesNotify("Complaint Updated Successfully")
+                                            setCount(count + 1);
+                                            setOpen(false)
+                                            reset()
+                                        }
+                                    }
+                                    else {
+                                        infoNotify("Unable to add asset details")
+                                    }
+                                })
+
+                            }
+                            else {
+
+                                if (selectFile.length !== 0) {
+                                    InsertFile(selectFile, insertId).then((value) => {
+                                        const { success, message } = value
+                                        if (success === 1) {
+                                            succesNotify("Complaint Updated Successfully")
+                                            setCount(count + 1);
+                                            setOpen(false)
+                                            reset()
+                                        }
+                                        else {
+                                            warningNotify(message)
+                                        }
+                                    })
+                                }
+                                else {
                                     succesNotify("Complaint Updated Successfully")
                                     setCount(count + 1);
                                     setOpen(false)
                                     reset()
                                 }
-                                else {
-                                    infoNotify("Unable to add asset details")
+                            }
+                        }
+                        else {
+                            infoNotify(message)
+                            setOpen(false)
+                        }
+                    }).catch()
+                    InsertFun(postdata)
+                }
+            }
 
-                                }
-                            })
-                        }
-                        else {
-                            succesNotify(message)
-                            setCount(count + 1);
-                            reset()
-                            setOpen(false)
-                        }
-                    }
-                    else {
-                        infoNotify(message)
-                        setOpen(false)
-                    }
-                })
-                updateFun(patchdata)
-            }
-            else {
-                InsertFun(postdata).then((value) => {
-                    const { message, success, insertId } = value
-                    if (success === 1) {
-                        const inserAsset = {
-                            cm_complait_slno: insertId,
-                            cm_am_assetmap_slno: item_slno,
-                            create_user: id
-                        }
-                        if (cm_am_assetmap_slno !== '' || item_slno !== '') {
-                            InsertAsset(inserAsset).then((value) => {
-                                const { success } = value
-                                if (success === 1) {
-                                    succesNotify("Complaint Registered Successfully")
-                                    setCount(count + 1);
-                                    reset()
-                                    setOpen(false)
-                                }
-                                else {
-                                    infoNotify("Unable to add asset details")
-                                }
-                            })
-                        }
-                        else {
-                            succesNotify(message)
-                            setCount(count + 1);
-                            reset()
-                            setOpen(false)
-                        }
-                    }
-                    else {
-                        infoNotify(message)
-                        setOpen(false)
-                    }
-                })
-                InsertFun(postdata)
-            }
         }
 
-    }, [postdata, edit, patchdata, count, item_slno, cm_am_assetmap_slno, assetStatus, id])
+    }, [postdata, edit, assetArray, patchdata, assetinactive, insertId, count, cm_am_assetmap_slno, assetStatus, updateAssetz, handleImageUpload,
+        cotype, selectFile, codept, deletedFiles.length, newlyAddedAssets.length, reset, selectedAsset, id])
 
 
-    //close button function
+
     const backtoSetting = useCallback(() => {
         history.push('/Home')
     }, [history])
-    //fn for entire state referesh
+
+
+
     const refreshWindow = useCallback(() => {
         setComplaint(0)
-        // setsec(0)
         setReqType(false)
         setcotype(false)
         setChechHic(false)
@@ -447,13 +626,16 @@ const ComplaintRegistrMast = () => {
         setCount(0)
         setEdit(0)
         setOpen(false)
-        setdeviceName('')
-        setlocation('')
         setItem_slno(0)
         setcm_am_assetmap_slno('')
         setSelectedAsset('')
         setSearch(0)
         setSelect(0)
+        setRoomName(null)
+        setAssetArray([])
+        setNewlyAddedAssets([])
+        setDeletedFiles([])
+        setSelectFile([])
 
     }, [])
     useEffect(() => {
@@ -503,87 +685,118 @@ const ComplaintRegistrMast = () => {
 
     const UpdateAssetNo = useCallback((e) => {
         setcm_am_assetmap_slno(e.target.value.toLocaleUpperCase())
-        setlocation('')
-        setdeviceName('')
         setAssetStatus(0)
     }, [])
 
+
     const searchAssetNo = useCallback((e) => {
         if (cm_am_assetmap_slno === '') {
-            infoNotify('Please Enter Asset Number')
-            setlocation('')
-            setdeviceName('')
-        }
-        else {
-            const firstname = 'TMC'
-            const Custodian = codept === 1 ? 'BME' : codept === 2 ? 'MAIN' :
-                codept === 3 ? 'IT' : codept === 4 ? 'HSK' : codept === 5 ? 'OPE' : ''
-            const starts = firstname + '/' + Custodian
-            const asset_number = parseInt(cm_am_assetmap_slno)
+            infoNotify('Please Enter Asset Number');
+        } else {
+            const firstname = 'TMC';
+            const Custodian =
+                codept === 1 ? 'BME' :
+                    codept === 2 ? 'MAIN' :
+                        codept === 3 ? 'IT' :
+                            codept === 4 ? 'HSK' :
+                                codept === 5 ? 'OPE' : '';
+            const starts = firstname + '/' + Custodian;
+            const asset_number = parseInt(cm_am_assetmap_slno);
             const postdata = {
                 item_asset_no: starts,
                 item_asset_no_only: asset_number
+            };
+
+            const getAssetdata = async (postdata) => {
+                const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata);
+                const { data, success } = result.data;
+                if (data.length !== 0) {
+                    if (success === 1) {
+                        setassetData(0)
+                        const { item_name, sec_name, am_item_map_slno, item_asset_no, item_asset_no_only } = data[0];
+                        const assetExists = assetArray.some(asset => asset.item_asset_no_only === item_asset_no_only);
+                        if (assetExists) {
+                            infoNotify("You already added this asset in complaint");
+                        } else {
+                            const newAsset = { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no };
+                            setAssetArray((prevArray) => [...prevArray, newAsset]);
+                            if (edit === 1) {
+                                setNewlyAddedAssets((prevAssets) => [...prevAssets, newAsset]);
+                            }
+                            setcm_am_assetmap_slno('');
+
+                        }
+                    }
+                    return result.data;
+                } else {
+                    warningNotify('Asset number not found');
+                }
+            };
+            getAssetdata(postdata);
+            setAssetStatus(1);
+        }
+    }, [cm_am_assetmap_slno, assetArray, codept, edit]);
+
+    console.log("codept", codept);
+
+
+    const searchAssetNoinMenu = useCallback((e) => {
+        if (item_slno === 0) {
+            infoNotify('Please select Asset')
+        }
+        else {
+
+            // const firstname = 'TMC'
+            // const Custodian = codept === 1 ? 'BME' : codept === 2 ? 'MAIN' :
+            //     codept === 3 ? 'IT' : codept === 4 ? 'HSK' : codept === 5 ? 'OPE' : ''
+            // const starts = firstname + '/' + Custodian
+
+            const asset_number = parseInt(item_slno)
+            const postdata = {
+                item_asset_no: asset_dept,
+                item_asset_no_only: asset_number
             }
+
+            console.log("postdata sss", postdata);
 
             const getAssetdata = async (postdata) => {
                 const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
                 const { data, success } = result.data
                 if (data.length !== 0) {
                     if (success === 1) {
-                        const { item_name, sec_name, am_item_map_slno } = data[0]
-                        setlocation(sec_name)
-                        setdeviceName(item_name)
-                        setItem_slno(am_item_map_slno)
+                        setassetData(0)
+                        const { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no } = data[0];
+                        // Check if the asset already exists in the array
+                        const assetExists = assetArray.some(asset => asset.item_asset_no_only === item_asset_no_only);
+                        if (assetExists) {
+                            infoNotify("You already added this asset in complaint");
+                        } else {
+                            const newAsset = { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no };
+                            setAssetArray((prevArray) => [...prevArray, newAsset]);
+                            // Condition to add to newly added assets only if edit is 1
+                            if (edit === 1) {
+                                setNewlyAddedAssets((prevAssets) => [...prevAssets, newAsset]);
+                            }
+                            setSelectedAsset(0)
+                        }
+
                     }
                     return result.data
                 }
                 else {
-                    warningNotify('Asset number not found')
+                    warningNotify('Select Asset Under Complaint Department')
 
                 }
             }
             getAssetdata(postdata)
             setAssetStatus(1)
         }
-    }, [cm_am_assetmap_slno])
+    }, [item_slno, assetArray, codept, edit])
 
-
-
-    useEffect(() => {
-        if (empsecid !== '') {
-            const getAssetItembsedonLocation = async (empsecid) => {
-                const result = await axioslogin.get(`Rectifycomplit/getlocationbsedAsset/${empsecid}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    setMenudata(data);
-                }
-                else {
-                    setMenudata([])
-                }
-            }
-            getAssetItembsedonLocation(empsecid)
-        }
-        else {
-            setMenudata([]);
-        }
-    }, [empsecid])
-
-
-    const handleAssetSelect = (val) => {
-        setSelectedAsset(`${val.item_name} (${val.am_asset_no === null ? '' : val.am_asset_no})`);
-        setItem_slno(val.am_item_map_slno)
-    };
-
-    const handleClearSelection = () => {
-        setItem_slno(0);
-        setSelectedAsset('');
-    };
 
     const ClearAssetSelection = () => {
         setItem_slno(0);
         setcm_am_assetmap_slno('')
-        setdeviceName('')
-        setlocation('')
     };
 
     const SearchAsset = useCallback((e) => {
@@ -596,16 +809,23 @@ const ComplaintRegistrMast = () => {
         setSelect(1)
         setSearch(0)
         setcm_am_assetmap_slno('')
-        setdeviceName('')
-        setlocation('')
     }, [])
 
-
+    const handleDelete = (indexToDelete) => {
+        setAssetArray((prevArray) => {
+            const itemToDelete = prevArray[indexToDelete];
+            const updatedArray = prevArray.filter((_, index) => index !== indexToDelete);
+            if (edit === 1) {
+                setDeletedFiles((prevDeletedFiles) => [...prevDeletedFiles, itemToDelete]);
+            }
+            return updatedArray;
+        });
+    };
 
     return (
         <Fragment>
             <CardMaster
-                title="Complaint Registration"
+                title="Ticket Registration"
                 submit={submitComplaint}
                 close={backtoSetting}
                 refresh={refreshWindow}
@@ -623,20 +843,6 @@ const ComplaintRegistrMast = () => {
                     width: '100%'
                 }} >
                     <Box sx={{ display: 'flex', flex: 1, width: '80%', p: 0.5, flexDirection: 'column', }} >
-                        <Paper variant='outlined' sx={{ p: 0.5, display: 'flex' }} square>
-                            {
-                                requesttypedata && requesttypedata.map((value, index) => {
-                                    return <CmpRequestTypeCheckBx
-                                        key={index}
-                                        label={value.req_type_name}
-                                        name={value.req_type_name}
-                                        value={value.req_type_slno}
-                                        onChange={setReqType}
-                                        checkedValue={ReqType}
-                                    />
-                                })
-                            }
-                        </Paper>
                         <Paper variant='outlined' sx={{ p: 0.5 }} square >
                             <Box>
                                 <CssVarsProvider>
@@ -645,7 +851,6 @@ const ComplaintRegistrMast = () => {
                                     </Typo>
                                 </CssVarsProvider>
                             </Box>
-                            {/* complaint department */}
                             <Box sx={{ display: 'flex', flex: 1, p: 1, }} >
                                 {
                                     complaintdeptdata && complaintdeptdata.map((val) => {
@@ -658,8 +863,6 @@ const ComplaintRegistrMast = () => {
                                                 checkedValue={codept}
                                                 cm_am_assetmap_slno={cm_am_assetmap_slno}
                                                 setcm_am_assetmap_slno={setcm_am_assetmap_slno}
-                                                setlocation={setlocation}
-                                                setdeviceName={setdeviceName}
                                                 setSelectedAsset={setSelectedAsset}
                                                 setItem_slno={setItem_slno}
                                             />
@@ -694,8 +897,6 @@ const ComplaintRegistrMast = () => {
                                                         onChange={setcotype}
                                                         checkedValue={cotype}
                                                         setcm_am_assetmap_slno={setcm_am_assetmap_slno}
-                                                        setlocation={setlocation}
-                                                        setdeviceName={setdeviceName}
                                                         setSelectedAsset={setSelectedAsset}
                                                         setItem_slno={setItem_slno}
                                                     />
@@ -755,218 +956,257 @@ const ComplaintRegistrMast = () => {
                                         <Typography sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 12, pl: .3, pb: .5 }}>
                                             ASSET DETAILS
                                         </Typography>
-                                        <Box sx={{ pt: .5, display: 'flex' }}>
-                                            <Box sx={{
-                                                bgcolor: search === 1 ? '#F0F4F8' : search === 0 ? 'white' : '#F0F4F8',
-                                                boxShadow: search === 1 ? 2 : search === 0 ? 0 : 2,
-                                                border: search === 1 ? 1 : search === 0 ? 0 : 1,
-                                                borderColor: search === 1 ? '#CDD7E1' : search === 0 ? 'white' : '#CDD7E1',
-                                                height: 29,
-                                                px: 1, color: 'black', borderRadius: 0, cursor: 'pointer'
-                                            }} onClick={SearchAsset}>
-                                                search <SearchSharpIcon fontSize='sm' sx={{ color: '#394E6C' }} />
-                                            </Box>
-                                            <Box sx={{
-                                                bgcolor: select === 1 ? '#F0F4F8' : select === 0 ? 'white' : '#F0F4F8',
-                                                boxShadow: select === 1 ? 2 : select === 0 ? 0 : 2,
-                                                border: select === 1 ? 1 : select === 0 ? 0 : 1,
-                                                borderColor: select === 1 ? '#CDD7E1' : select === 0 ? 'white' : '#CDD7E1',
-                                                height: 29, mr: 1,
+                                        <Box sx={{ pt: .5, display: 'flex', ml: .5 }}>
+                                            {codept !== null ?
+                                                <>
+                                                    <Box
+                                                        sx={{
+                                                            cursor: 'pointer',
+                                                            display: 'flex', mx: .5, pt: .5
+                                                        }}
+                                                        onClick={SearchAsset}
+                                                    >
+                                                        {search === 1 ?
+                                                            (<CheckCircleIcon sx={{ cursor: 'pointer', color: '#523A28' }} />)
+                                                            :
+                                                            (<RadioButtonUncheckedIcon sx={{ cursor: 'pointer', color: '#523A28' }} />)
+                                                        }
+                                                        <Typography sx={{ pt: .3, color: 'black', fontWeight: 600, fontSize: 14 }}>
+                                                            Search
+                                                        </Typography>
+                                                    </Box>
+                                                    <Typography sx={{ pt: .5, px: .5 }}>(or)</Typography>
+                                                    <Box
+                                                        sx={{
+                                                            cursor: 'pointer',
+                                                            display: 'flex', mx: .5, pt: .5
+                                                        }}
+                                                        onClick={SelectAsset}
+                                                    >
+                                                        {select === 1 ?
+                                                            (<CheckCircleIcon sx={{ cursor: 'pointer', color: '#523A28' }} />)
+                                                            :
+                                                            (<RadioButtonUncheckedIcon sx={{ cursor: 'pointer', color: '#523A28' }} />)
+                                                        }
+                                                        <Typography sx={{ pt: .3, color: 'black', fontWeight: 600, fontSize: 14 }}>
+                                                            Select
+                                                        </Typography>
+                                                    </Box>
 
-                                                px: 1, color: 'black', borderRadius: 0, cursor: 'pointer'
-                                            }} onClick={SelectAsset}>
-                                                select <ArrowDropDownSharpIcon fontSize='sm' sx={{ color: '#394E6C' }} />
-                                            </Box>
-                                            {select === 1 ?
-                                                <Box sx={{ bgcolor: 'yellow' }}>
-                                                    <CssVarsProvider>
-                                                        <Input
-                                                            placeholder="Select Asset"
-                                                            sx={{
-                                                                borderRadius: 0,
-                                                                minWidth: selectedAsset === '' ? 320 : 500,
-                                                                minHeight: 15,
-                                                            }}
-                                                            readOnly
-                                                            endDecorator={
-                                                                <Dropdown>
-                                                                    <MenuButton variant='plain' sx={{ p: 0 }}>
-                                                                        <ArrowDropDownIcon sx={{ cursor: 'pointer', height: 25, width: 25 }} />
-                                                                    </MenuButton>
-                                                                    {menudata.length !== 0 ?
-                                                                        <Menu sx={{ maxWidth: 450, maxHeight: 370, overflow: 'auto' }}>
-                                                                            <MenuItem
-                                                                                sx={{ borderBottom: 1, borderColor: '#F0F3F5', fontSize: 14, fontStyle: 'italic' }}
-                                                                                onClick={handleClearSelection}
-                                                                            >
-                                                                                (Clear Selected)
-                                                                            </MenuItem>
-                                                                            {menudata.map((val, index) => (
-                                                                                <MenuItem
-                                                                                    sx={{ borderBottom: 1, borderColor: '#F0F3F5' }}
-                                                                                    key={index}
-                                                                                    onClick={() => handleAssetSelect(val)}
-                                                                                >
-                                                                                    {val.item_name} ({val.am_asset_no})
-                                                                                </MenuItem>
-                                                                            ))}
-                                                                        </Menu>
-                                                                        :
-                                                                        <Menu>
-                                                                            <MenuItem>
-                                                                                No Asset Added Under section
-                                                                            </MenuItem>
-                                                                        </Menu>}
-                                                                </Dropdown>
-                                                            }
-                                                            name='assetmap_slno'
-                                                            value={selectedAsset || ''}
-                                                            disabled={cm_am_assetmap_slno !== ''}
-                                                        />
-                                                    </CssVarsProvider>
-                                                </Box>
-                                                : null}
-
-
-                                            {search === 1 ?
-                                                <Box sx={{ flex: 1, display: 'flex', }}>
-                                                    <Box sx={{ pl: .1, }}>
-                                                        <CssVarsProvider>
-                                                            <Input
-                                                                placeholder=" Asset Number"
-                                                                sx={{ borderRadius: 0, width: 320, minHeight: 15, }}
-                                                                type='number'
-                                                                autoComplete='off'
-                                                                startDecorator={
-                                                                    <Button variant="soft" color="neutral" >
-                                                                        {`TMC/${codept === 1 ? 'BME/' : codept === 2 ? 'MAIN/' :
-                                                                            codept === 3 ? 'IT/' : codept === 4 ? 'HSK/' : codept === 5 ? 'OPE/' : ''}`}
-                                                                    </Button>
-                                                                }
-                                                                endDecorator={
-                                                                    <>
-                                                                        {cm_am_assetmap_slno !== '' ?
-                                                                            <Box
-                                                                                sx={{ cursor: 'pointer', fontSize: 13, fontStyle: 'italic', mr: .3 }}
-                                                                                onClick={ClearAssetSelection}
-                                                                            >
-                                                                                (Clear)
-                                                                            </Box>
-                                                                            :
-                                                                            <></>}
-                                                                        <Button variant="solid" color="neutral" onClick={searchAssetNo} >
-                                                                            <SubdirectoryArrowRightIcon
-                                                                                sx={{ cursor: 'pointer' }}
+                                                    {select === 1 ?
+                                                        <Box sx={{ flex: 1, display: 'flex', ml: 1 }}>
+                                                            <CssVarsProvider>
+                                                                <Box sx={{ flex: 1, }}>
+                                                                    <CmAssetList assetz={assetData} setAssetz={setassetData} complaint_dept_secslno={empsecid}
+                                                                        setSelectedAsset={setSelectedAsset} setItem_slno={setItem_slno} setasset_dept={setasset_dept}
+                                                                    />
+                                                                </Box>
+                                                                <Box sx={{ ml: 1, mr: 3 }}>
+                                                                    <Tooltip title={'Add More Asset'}>
+                                                                        <Avatar size='sm' sx={{ bgcolor: '#E4D4C8', }} >
+                                                                            <AddCircleIcon sx={{ p: .1, color: '#523A28', cursor: 'pointer', '&:hover': { color: '#34323E' }, height: 30, width: 30 }}
+                                                                                onClick={searchAssetNoinMenu}
                                                                             />
-                                                                        </Button>
-                                                                    </>
-
-                                                                }
-
-                                                                name='cm_am_assetmap_slno'
-                                                                value={cm_am_assetmap_slno || ''}
-                                                                onChange={UpdateAssetNo}
-                                                            />
-                                                        </CssVarsProvider>
-                                                    </Box>
-                                                    <Box sx={{ flex: 1, }}>
-                                                        {deviceName !== '' ?
-                                                            <Box sx={{ display: 'flex', pt: .3 }}>
-                                                                <Typography sx={{ fontSize: 14, pl: 1.5, pt: 1.1 }}>
-                                                                    Asset Name :
-                                                                </Typography>
-                                                                <Box sx={{
-                                                                    flex: 1, px: .5, ml: .8, bgcolor: '#E1E1E1', py: .7, color: 'black',
-                                                                    border: 1, borderColor: '#E8F0FE'
-                                                                }}>
-                                                                    {deviceName}
+                                                                        </Avatar>
+                                                                    </Tooltip>
                                                                 </Box>
-                                                            </Box>
-                                                            :
-                                                            null}
-                                                    </Box>
-                                                    <Box sx={{ flex: .6, }}>
-                                                        {location !== '' ?
-                                                            <Box sx={{ display: 'flex' }}>
-                                                                <Typography sx={{ fontSize: 14, pl: 1.5, pt: 1.1 }}>
-                                                                    Location :
-                                                                </Typography>
-                                                                <Box sx={{
-                                                                    flex: 1, px: .5, ml: .8, bgcolor: '#E1E1E1', py: .7, color: 'black',
-                                                                    border: 1, borderColor: '#E8F0FE',
-                                                                }}>
-                                                                    {location}
+                                                            </CssVarsProvider>
+                                                        </Box>
+                                                        : null}
+
+
+                                                    {search === 1 ?
+                                                        <Box sx={{ flex: 1, display: 'flex', ml: 1 }}>
+                                                            <CssVarsProvider>
+                                                                <Box sx={{ flex: 1, }}>
+                                                                    <Input
+                                                                        placeholder=" Asset Number"
+                                                                        sx={{
+                                                                            borderRadius: 0,
+                                                                            // width: 320,
+                                                                            minHeight: 15,
+                                                                        }}
+                                                                        type='number'
+                                                                        autoComplete='off'
+                                                                        startDecorator={
+                                                                            <Button variant="soft" color="neutral" >
+                                                                                {`TMC/${codept === 1 ? 'BME/' : codept === 2 ? 'MAIN/' :
+                                                                                    codept === 3 ? 'IT/' : codept === 4 ? 'HSK/' : codept === 5 ? 'OPE/' : ''}`}
+                                                                            </Button>
+                                                                        }
+                                                                        endDecorator={
+                                                                            <>
+                                                                                {cm_am_assetmap_slno !== '' ?
+                                                                                    <Box
+                                                                                        sx={{ cursor: 'pointer', fontSize: 13, fontStyle: 'italic', mr: .3 }}
+                                                                                        onClick={ClearAssetSelection}
+                                                                                    >
+                                                                                        (Clear)
+                                                                                    </Box>
+                                                                                    :
+                                                                                    <></>}
+                                                                            </>
+
+                                                                        }
+
+                                                                        name='cm_am_assetmap_slno'
+                                                                        value={cm_am_assetmap_slno || ''}
+                                                                        onChange={UpdateAssetNo}
+                                                                    />
+
                                                                 </Box>
-                                                            </Box>
-                                                            :
-                                                            null}
-                                                    </Box>
-                                                </Box> :
-                                                null}
+                                                                <Box sx={{ ml: 1, mr: 3 }}>
+                                                                    <Tooltip title={'Add More Asset'}>
+                                                                        <Avatar size='sm' sx={{ bgcolor: '#E4D4C8', }} >
+                                                                            <AddCircleIcon sx={{ p: .1, color: '#523A28', cursor: 'pointer', '&:hover': { color: '#34323E' }, height: 30, width: 30 }}
+                                                                                onClick={searchAssetNo}
+                                                                            />
+                                                                        </Avatar>
+                                                                    </Tooltip>
+                                                                </Box>
+                                                            </CssVarsProvider>
+                                                        </Box> :
+                                                        null}
+                                                </> : null}
                                         </Box>
                                     </Box>
+                                    {assetArray.length !== 0 ?
+                                        <Box sx={{ flex: 1, mx: 1.5, mt: 1.5, display: 'flex', bgcolor: '#F2ECE5' }}>
+                                            <Box sx={{ flex: 1, textAlign: 'center' }}>
+                                                #
+                                            </Box>
+                                            <Box sx={{ flex: 3 }}>
+                                                Asset Number
+                                            </Box>
+                                            <Box sx={{ flex: 10 }}>
+                                                Asset Name
+                                            </Box>
+
+                                            <Box sx={{ flex: 1, textAlign: 'center' }}>
+                                                Action
+                                            </Box>
+                                        </Box> :
+                                        null}
+
+                                    {assetArray?.map((val, index) => {
+                                        const formattedSlno = val.item_asset_no_only.toString().padStart(6, '0');
+                                        return <Box
+                                            key={index} sx={{ flex: 1, mx: 1.5, display: 'flex', borderBottom: 1, borderColor: 'lightgrey', pt: .8 }}>
+                                            <Box sx={{ flex: 1, textAlign: 'center', fontSize: 13 }}>
+                                                {index + 1}
+                                            </Box>
+                                            <Box sx={{ flex: 3, fontSize: 13 }}>
+                                                {val.item_asset_no}/{formattedSlno}
+                                            </Box>
+                                            <Box sx={{ flex: 10, fontSize: 13 }}>
+                                                {val.item_name}
+                                            </Box>
+                                            <Box sx={{ flex: 1, textAlign: 'center', fontSize: 13 }}>
+                                                <DeleteIcon sx={{ color: 'darkred', cursor: 'pointer' }} onClick={() => handleDelete(index)} />
+                                            </Box>
+                                        </Box>
+                                    })}
                                 </Box>
                             </Paper>
                         </Box>
-                        <Paper variant='outlined' sx={{ p: 0.5, display: 'flex', flex: 1 }} square >
-                            <Box sx={{ width: '80%' }} >
-                                <CustomTextarea
-                                    placeholder="complaint descrition"
-                                    required
-                                    type="text"
-                                    maxRows={3}
-                                    size="sm"
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                    }}
-                                    value={desc}
-                                    onchange={complintdesc}
-                                />
-                            </Box>
-                            <Box sx={{
-                                display: 'flex', flexDirection: 'column',
-                                px: 1, pt: 0.5, flex: 1,
-                            }} >
-                                <Box sx={{
-                                    display: 'flex',
-                                    pt: 0.8
-                                }} >
-                                    <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
-                                        <CusCheckBox
-                                            // variant="outlined"
-                                            color="danger"
-                                            size="lg"
-                                            name="Hic"
-                                            label="Priority"
-                                            value={crical}
-                                            onCheked={getCritical}
-                                            checked={crical}
-                                        />
-                                    </Grid>
+                        <Paper variant='outlined' square >
+                            <Box sx={{ px: 0.5, pt: .5, display: 'flex', flex: 1 }}>
+                                <Box sx={{ width: '80%' }} >
+                                    <CustomTextarea
+                                        placeholder="complaint descrition"
+                                        required
+                                        type="text"
+                                        minRows={4}
+                                        maxRows={10}
+                                        size="sm"
+                                        style={{
+                                            width: "100%",
+                                            // height: "100%",
+                                        }}
+                                        value={desc}
+                                        onchange={complintdesc}
+                                    />
                                 </Box>
-
-                                {
-                                    crical === true ?
-                                        <Box sx={{ width: '100%', pt: 0.5 }} >
-                                            <CustomTextarea
-                                                style={{ width: "100%" }}
-                                                minRows={2}
-                                                maxRows={2}
-                                                required
-                                                type="text"
-                                                placeholder="Remarks"
-                                                name='priorreason'
-                                                value={priorreason}
-                                                onchange={updatePriorreason}
+                                <Box sx={{
+                                    display: 'flex', flexDirection: 'column',
+                                    px: 1, flex: 1,
+                                }} >
+                                    <Box sx={{
+                                        display: 'flex',
+                                        pt: 2
+                                    }} >
+                                        <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
+                                            <CusCheckBox
+                                                // variant="outlined"
+                                                color="danger"
+                                                size="lg"
+                                                name="Hic"
+                                                label="Priority"
+                                                value={crical}
+                                                onCheked={getCritical}
+                                                checked={crical}
                                             />
-                                        </Box>
+                                        </Grid>
+                                    </Box>
 
-                                        : null
-                                }
+                                    {
+                                        crical === true ?
+                                            <Box sx={{ width: '100%', }} >
+                                                <CustomTextarea
+                                                    style={{ width: "100%" }}
+                                                    minRows={2}
+                                                    maxRows={3}
+                                                    required
+                                                    type="text"
+                                                    placeholder="Remarks"
+                                                    name='priorreason'
+                                                    value={priorreason}
+                                                    onchange={updatePriorreason}
+                                                />
+                                            </Box>
+
+                                            : null
+                                    }
+                                </Box>
+                            </Box>
+                            <Box sx={{ flex: 1, border: 1, mx: .5, borderRadius: 1, display: 'flex', borderColor: '#5A4159' }}>
+                                <label htmlFor="file-input">
+                                    <Box sx={{ display: 'flex', bgcolor: '#ECEFF7', '&:hover': { bgcolor: '#E1E8F0', }, m: .5, px: .5, borderRadius: 5, cursor: 'pointer' }}>
+                                        <FileCopyIcon sx={{ p: .3, color: '#5A4159', }} />
+                                        <Typography sx={{ color: '#5A4159', fontSize: 13, px: .3, pt: .3 }}>
+                                            file Upload
+                                        </Typography>
+                                    </Box>
+                                </label>
+                                <input
+                                    id="file-input"
+                                    type="file"
+                                    accept=".jpg, .jpeg, .png, .pdf"
+                                    style={{ display: 'none' }}
+                                    onChange={handleFileChange}
+                                    name="file"
+                                    multiple // Add this attribute to allow multiple file selections
+                                />
+                                <Box sx={{ display: 'flex', flex: 1, mx: .5, mt: .5, overflow: 'auto' }}>
+                                    {selectFile && selectFile.map((file, index) => (
+                                        <Box key={index}>
+                                            <CssVarsProvider>
+                                                <Chip sx={{ bgcolor: '#C0B5CF', width: '100%', ml: .5 }}>
+                                                    {file.name}
+                                                    <CloseIcon sx={{
+                                                        pl: .3, pb: .3, height: 20, width: 20, cursor: 'pointer', color: '#4D0011',
+                                                        '&:hover': { color: '#BA0F30' },
+                                                    }}
+                                                        onClick={() => handleRemoveFile(index)} />
+                                                </Chip>
+                                            </CssVarsProvider>
+                                        </Box>
+                                    ))}
+                                </Box>
                             </Box>
 
                         </Paper>
+
                     </Box>
                     <Box sx={{ display: 'flex', width: '20%', p: 0.5, overflow: 'auto' }} >
                         <Paper variant='outlined'
@@ -1033,73 +1273,30 @@ const ComplaintRegistrMast = () => {
             }} >
                 <ComplaintRegTable
                     rowSelect={rowSelect} sec={empsecid} count={count} setCount={setCount} />
-            </Paper >
-
+            </Paper>
             <Paper square sx={{
                 display: "flex",
                 p: 1,
                 alignItems: "center",
-            }}  >
-                <Box sx={{ display: "flex" }}>
-                    <IconButton >
-                        <CropSquareIcon sx={{ background: '#f44336', pr: 5 }} />
-                    </IconButton>
-                </Box>
-                <Box sx={{ display: "flex", width: "98%", fontWeight: 400, pl: 2 }}>
-                    <Typography >
-                        Priority Critical
-                    </Typography>
-                </Box>
+            }} >
+                <SquareIcon sx={{ color: '#B7CFDC' }} />
+                <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
+                    Priority Critical
+                </Typography>
+                < EngineeringIcon sx={{ color: '#B68D40' }} />
+                <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
+                    Asssinged by Employee
+                </Typography>
+                <CommentIcon sx={{ color: '#2B82BF', }} />
+                <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
+                    Message Sent
+                </Typography>
+                <MarkUnreadChatAltIcon sx={{ color: '#BF4A32', }} />
+                <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
+                    New Message
+                </Typography>
             </Paper>
         </Fragment >
     )
 }
 export default memo(ComplaintRegistrMast)
-
-
-
-
-/***    * insert function for use call back     */
-// const InsertFun = async (postdata) => {
-//     const result = await axioslogin.post('/complaintreg', postdata);
-//     const { message, success, insertId } = result.data;
-//     if (success === 1) {
-//         succesNotify(message)
-//         setCount(count + 1);
-//         reset()
-//         setOpen(false)
-//     }
-//     else {
-//         infoNotify(message)
-//         setOpen(false)
-//     }
-// }
-
-
-/***  * update function for use call back     */
-// const updateFun = async (patchdata) => {
-//     const result = await axioslogin.patch('/complaintreg', patchdata);
-//     const { message, success } = result.data;
-//     if (success === 2) {
-//         succesNotify(message)
-//         setCount(count + 1);
-//         reset()
-//         setOpen(false)
-//     } else if (success === 0) {
-//         infoNotify(message);
-//         setOpen(false)
-//     }
-//     else {
-//         infoNotify(message)
-//         setOpen(false)
-//     }
-// }
-
-
-/**getting deptsection**/
-//setting employee dept sec in a state
-// useEffect(() => {
-//     if (deptsec.length !== 0) {
-//         setsec(deptsec[0].em_dept_section);
-//     }
-// }, [deptsec])
