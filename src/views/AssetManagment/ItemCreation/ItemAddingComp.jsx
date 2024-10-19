@@ -48,8 +48,8 @@ const ItemAddingComp = ({ selectData, custodiandept, custdeptName, setcustdeptna
     const [assetno, setassetNo] = useState('')
 
     useEffect(() => {
-        const GetCustodianDetails = async (empdeptsec) => {
-            const result = await axioslogin.get(`/CustodianDeptMast/selectById/${empdeptsec}`);
+        const GetCustodianDetails = async (empdept) => {
+            const result = await axioslogin.get(`/CustodianDeptMast/selectById/${empdept}`);
             const { success, data } = result.data
             if (success === 1) {
                 const { am_custdn_asset_no_first, am_custdn_asset_no_second, am_custodian_name,
@@ -76,10 +76,10 @@ const ItemAddingComp = ({ selectData, custodiandept, custdeptName, setcustdeptna
                 warningNotify("Custodian Department Not added")
             }
         }
-        if (empdeptsec !== 0) {
-            GetCustodianDetails(empdeptsec)
+        if (empdept !== 0) {
+            GetCustodianDetails(empdept)
         }
-    }, [empdeptsec, type, setcustdeptname, setCustodianDept, setCustodianDeptSec])
+    }, [empdept, type, setcustdeptname, setCustodianDept, setCustodianDeptSec])
 
 
     useEffect(() => {
@@ -309,7 +309,7 @@ const ItemAddingComp = ({ selectData, custodiandept, custdeptName, setcustdeptna
                 </Box> */}
 
                 <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Department Section</Typography>
+                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }} >Department Section</Typography>
                     <Box>
                         <TextFieldCustom
                             type="text"
@@ -380,7 +380,7 @@ const ItemAddingComp = ({ selectData, custodiandept, custdeptName, setcustdeptna
                     </Box>
                 </Box>
                 <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Custodian Department</Typography>
+                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }} >Custodian Department</Typography>
                     <Box>
                         <TextFieldCustom
                             type="text"

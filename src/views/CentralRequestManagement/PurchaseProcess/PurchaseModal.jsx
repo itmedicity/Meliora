@@ -636,6 +636,33 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
         }
     }, [crm_purchase_slno, id, QuatationFix, QuatationFixremark])
 
+
+
+    // const singlePOInsert = useMemo(() => {
+    //     return {
+    //         req_slno: req_slno,
+    //         po_number: po_number,
+    //         po_date: po_date,
+    //         po_status: 1,
+    //         supply_store: substoreSlno,
+    //         expected_delivery: expectpo_date,
+    //         create_user: id
+    //     }
+    // }, [po_date, id, po_number, req_slno, substoreSlno, expectpo_date])
+
+
+    // const postdataDetl = podetailData && podetailData.map((val) => {
+    //     return {
+    //         req_slno: req_slno,
+    //         po_number: val.po_number,
+    //         po_date: val.po_date,
+    //         po_status: 1,
+    //         supply_store: val.supply_store,
+    //         expected_delivery: val.expected_delivery,
+    //         create_user: id
+    //     }
+    // })
+
     const PoCompletePatch = useMemo(() => {
         return {
             po_complete: poComplete === true ? 1 : 0,
@@ -644,6 +671,16 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             crm_purchase_slno: crm_purchase_slno,
         }
     }, [crm_purchase_slno, id, poComplete])
+
+    // const PoApprovalPatch = useMemo(() => {
+    //     return {
+    //         po_approva_level_one: poLevelOne === true ? 1 : 0,
+    //         po_approva_level_two: poLevelTwo === true ? 1 : 0,
+    //         po_to_supplier: poToSupplier === true ? 1 : 0,
+    //         edit_user: id,
+    //         crm_purchase_slno: crm_purchase_slno,
+    //     }
+    // }, [crm_purchase_slno, id, poLevelOne, poLevelTwo, poToSupplier])
 
 
     const submit = useCallback(() => {
@@ -746,6 +783,21 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             }
         }
 
+
+        // const updatePoApprovals = async (PoApprovalPatch) => {
+        //     const result = await axioslogin.patch('/newCRFPurchase/PoFinals', PoApprovalPatch);
+        //     const { success, message } = result.data;
+        //     if (success === 1) {
+        //         succesNotify(message)
+        //         setCount(count + 1)
+        //         reset()
+        //     }
+        //     else {
+        //         warningNotify(message)
+        //     }
+        // }
+
+
         const DataCollRequestFnctn = async (postData) => {
             const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert`, postData);
             const { success, message } = result.data;
@@ -795,10 +847,23 @@ const PurchaseModal = ({ open, puchaseData, setpuchaseFlag, setpuchaseModal, set
             else if (quatation_fixing !== 1 && QuatationFix === true) {
                 updateQuatationFixing(QuatationFixingPatch)
             }
+
             else if (poadding === true) {
                 if (podetailData.length !== 0) {
                     InsertPODetails(postdataDetl)
+
                 }
+                // else if (poadding === true && poLevelOne === false && poLevelTwo === false && poToSupplier === false) {
+                //     if (podetailData.length === 0) {
+                //         InsertSinglePO(singlePOInsert)
+                //     }
+                //     else {
+                //         InsertMultiplePO(postdataDetl)
+                //     }
+                //     if (poComplete === true) {
+                // updatePOComplete(PoCompletePatch)
+
+                // }
                 // // }
                 // if (poComplete === true) {
                 //     updatePOComplete(PoCompletePatch)
