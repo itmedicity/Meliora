@@ -37,10 +37,9 @@ const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFla
 
     const [detailData, setDetailData] = useState([])
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-
     const [ApproveTableDis, setApproveTableDis] = useState(0)
     const [ApproveTableData, setApproveTableData] = useState([])
-
+    const [addMoreItems, setMoreItem] = useState(0)
     const [remark, setRemark] = useState('')
     const updateRemark = useCallback((e) => {
         setRemark(e.target.value)
@@ -109,14 +108,14 @@ const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFla
             incharge_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
             incharge_user: id,
             req_slno: req_slno,
-            incharge_apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            incharge_apprv_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             incharge_remarks: remark,
             inch_detial_analysis: detailAnalis
 
         }
     }, [approve, reject, pending, id, remark, detailAnalis, req_slno])
 
-    const [addMoreItems, setMoreItem] = useState(0)
+
 
     const AddItems = useCallback(() => {
         setMoreItem(1)
@@ -425,6 +424,7 @@ const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFla
                                                     ApproveTableDis={ApproveTableDis}
                                                     ApproveTableData={ApproveTableData}
                                                     setApproveTableData={setApproveTableData}
+                                                    setMoreItem={setMoreItem}
                                                 />
 
 

@@ -185,7 +185,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
             ms_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
             ms_approve_user: id,
             req_slno: req_slno,
-            ms_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            ms_approve_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             ms_approve_remark: remark,
             ms_detail_analysis: detailAnalis
 
@@ -1235,6 +1235,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                                 ApproveTableDis={ApproveTableDis}
                                                                 ApproveTableData={ApproveTableData}
                                                                 setApproveTableData={setApproveTableData}
+                                                                setMoreItem={setMoreItem}
                                                             />
                                                         </Box>
                                                         <Box sx={{ pl: 2 }}>

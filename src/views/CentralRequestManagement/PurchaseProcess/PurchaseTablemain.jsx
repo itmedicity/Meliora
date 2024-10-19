@@ -2,11 +2,8 @@ import React, { useMemo } from 'react'
 import { useState, useCallback, useEffect, memo, Fragment } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
-import { Box, Paper } from '@mui/material'
+import { Badge, Box, Paper } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
-import MasterDetailCompnt from '../ComonComponent/MasterDetailCompnt'
-import CusIconButton from 'src/views/Components/CusIconButton'
-import PurchaseApprovalButton from './PurchaseApprovalButton'
 import PurchaseModal from './PurchaseModal'
 import { ToastContainer } from 'react-toastify'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
@@ -26,8 +23,10 @@ import { Virtuoso } from 'react-virtuoso'
 import { getCRMPurchaseAckPending } from 'src/redux/actions/CrmPurchaseACKList.action'
 import { getCRMPurchDataCollPending } from 'src/redux/actions/CrmPurchaseDatacollPend.action'
 import POPendingDetailTable from './Component/POPendingDetailTable'
-import { CssVarsProvider, IconButton } from '@mui/joy'
+import { Avatar, CssVarsProvider, IconButton, Tooltip } from '@mui/joy'
 import { format } from 'date-fns'
+import ReqMastMainViewCmp from './Component/ReqMastMainViewCmp'
+import PurchaseApprovalButtonCmp from './Component/PurchaseApprovalButtonCmp'
 
 const PurchaseTablemain = () => {
 
@@ -49,7 +48,13 @@ const PurchaseTablemain = () => {
     const [apprvCount, setApprvCount] = useState(0)
     const [pendingPOList, setPendingPOList] = useState([])
     const [combinedPO, setCombinedPO] = useState([])
-
+    const [ackCount, setackCount] = useState(0)
+    const [crfProcCount, setCrfProcCount] = useState(0)
+    const [negoCount, setnegoCount] = useState(0)
+    const [finalCount, setFinalCount] = useState(0)
+    const [poPrcCount, setpoPrcCount] = useState(0)
+    const [dataCollectCount, setdataCollectCount] = useState(0)
+    const [apprvlCount, setapprvlCount] = useState(0)
     useEffect(() => {
         dispatch(getCRMPurchaseAckPending())
         dispatch(getCRMPurchase())
@@ -66,6 +71,35 @@ const PurchaseTablemain = () => {
     const datacollPendng = useMemo(() => purchdataCollPendng, [purchdataCollPendng])
 
     useEffect(() => {
+        if (CRMPurchaseAckPendingListAry.length !== 0) {
+            const ack = CRMPurchaseAckPendingListAry?.filter((val) => val.md_approve === 1 && val.ed_approve === 1)
+            setackCount(ack.length)
+        }
+        if (tabledata.length !== 0) {
+            const procCrf = tabledata?.filter((val) => val.ack_status === 1 && val.quatation_calling_status === 0 &&
+                val.po_prepartion === 0 && val.po_complete === 0)
+            setCrfProcCount(procCrf.length)
+
+            const nego = tabledata?.filter((val) => val.quatation_calling_status === 1 && val.quatation_negotiation === 0)
+            setnegoCount(nego.length)
+
+            const final = tabledata?.filter((val) => val.quatation_calling_status === 1 && val.quatation_negotiation === 1
+                && val.quatation_fixing === 0)
+            setFinalCount(final.length)
+
+            const po = tabledata?.filter((val) => val.ack_status === 1 &&
+                ((val.quatation_calling_status === 1 && val.quatation_fixing === 1 && val.po_prepartion === 0) ||
+                    (val.po_prepartion === 1 && val.po_complete === 0)))
+            setpoPrcCount(po.length)
+        }
+        if (datacollPendng.length !== 0) {
+            const datacol = datacollPendng?.filter((val) => val.md_approve === 1 && val.ed_approve === 1)
+            setdataCollectCount(datacol.length)
+        }
+
+    }, [CRMPurchaseAckPendingListAry, tabledata, datacollPendng, count])
+
+    useEffect(() => {
         setOpen(true)
         const getPending = async (CRMPurchaseAckPendingListAry) => {
             const firstFilter = await PurchAckMapList(CRMPurchaseAckPendingListAry)
@@ -75,7 +109,7 @@ const PurchaseTablemain = () => {
                 setOpen(false)
             } else {
                 setDisArray([])
-                warningNotify("No CRF for Purchase Acknowledgement")
+                // warningNotify("No CRF for Purchase Acknowledgement")
                 setOpen(false)
             }
         }
@@ -90,7 +124,7 @@ const PurchaseTablemain = () => {
                 }
                 else {
                     setDisArray([])
-                    warningNotify("No CRF for Process Pending ")
+                    // warningNotify("No CRF for Process Pending ")
                     setOpen(false)
                 }
             } else {
@@ -110,7 +144,7 @@ const PurchaseTablemain = () => {
                 }
                 else {
                     setDisArray([])
-                    warningNotify("No CRF for Quatation Negotation Pending ")
+                    // warningNotify("No CRF for Quatation Negotation Pending ")
                     setOpen(false)
                 }
             } else {
@@ -130,7 +164,7 @@ const PurchaseTablemain = () => {
                 }
                 else {
                     setDisArray([])
-                    warningNotify("No CRF for Quatation Finalization Pending ")
+                    // warningNotify("No CRF for Quatation Finalization Pending ")
                     setOpen(false)
                 }
             } else {
@@ -149,7 +183,7 @@ const PurchaseTablemain = () => {
                     setOpen(false)
                 } else {
                     setDisArray([])
-                    warningNotify("No CRF for PO Close Pending")
+                    // warningNotify("No CRF for PO Close Pending")
                     setOpen(false)
                 }
             } else {
@@ -203,7 +237,7 @@ const PurchaseTablemain = () => {
                     setOpen(false)
                 } else {
                     setDisArray([])
-                    warningNotify("No Data Collections are Pending")
+                    // warningNotify("No Data Collections are Pending")
                     setOpen(false)
                 }
             } else {
@@ -237,12 +271,6 @@ const PurchaseTablemain = () => {
         e.preventDefault()
         setOpen(false)
         setRadioValue(e.target.value)
-
-        //     // potoSupp(tabledata).then((e) => {
-        //     //     setDisArray(e)
-        //     //     setOpen(false)
-        //     // })
-        // }
     }, [])
 
     useEffect(() => {
@@ -316,7 +344,7 @@ const PurchaseTablemain = () => {
                         const patchdata = data?.map((val) => {
                             const newData = storeList?.find((value) => (value.crs_store_code === val.ST_CODE))
                             return {
-                                approval_level: val.APPROVAL,
+                                approval_level: (typeof val.APPROVAL === 'number' && val.APPROVAL > 3) ? 3 : val.APPROVAL || null,
                                 po_expiry: val.PO_EXPIRY !== null ? format(new Date(val.PO_EXPIRY), 'yyyy-MM-dd') : null,
                                 expected_delivery: val.EXPECTED_DATE !== null ? format(new Date(val.EXPECTED_DATE), 'yyyy-MM-dd') : null,
                                 po_number: val.PO_NO,
@@ -350,7 +378,7 @@ const PurchaseTablemain = () => {
 
     }, [storeList, apprvCount])
     useEffect(() => {
-        const capitalizeWords = (str) => str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        const capitalizeWords = (str) => str ? str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
         const getPendingItems = async () => {
             const result = await axioslogin.get('/newCRFPurchase/POPending');
             const { success, data } = result.data;
@@ -358,7 +386,7 @@ const PurchaseTablemain = () => {
                 setOpen(false)
                 const poLIst = data
                     .filter((po, index, self) =>
-                        index === self.findIndex((val) => val.po_number === po.po_number))
+                        index === self.findIndex((val) => val.po_number === po.po_number && val.req_slno === po.req_slno))
                     .map((po, ind) => (
                         {
                             slno: ind + 1,
@@ -385,20 +413,21 @@ const PurchaseTablemain = () => {
 
                 const poItems = data?.map((val) => {
                     const obj = {
+                        po_detail_slno: val.po_detail_slno,
                         po_no: val.po_number,
                         item_code: val.item_code,
                         item_name: val.item_name,
                         item_qty: val.item_qty !== null ? val.item_qty : 0,
-                        item_rate: val.item_rate !== null ? (val.item_rate).toFixed(2) : 0,
-                        item_mrp: val.item_mrp !== null ? (val.item_mrp).toFixed(2) : 0,
+                        item_rate: val.item_rate !== null ? (val.item_rate) : 0,
+                        item_mrp: val.item_mrp !== null ? (val.item_mrp) : 0,
                         tax: val.tax !== null ? val.tax : 'Nil',
-                        tax_amount: val.tax_amount !== null ? (val.tax_amount).toFixed(2) : 0,
-                        net_amount: val.net_amount !== 0 ? (val.net_amount).toFixed(2) : 0
+                        tax_amount: val.tax_amount !== null ? (val.tax_amount) : 0,
+                        net_amount: val.net_amount !== 0 ? (val.net_amount) : 0
                     }
                     return obj
                 })
                 const combinedData = poLIst?.map(po => {
-                    const details = poItems?.filter(item => item.po_no === po.po_no);
+                    const details = poItems?.filter(item => item.po_no === po.po_no && item.po_detail_slno === po.po_detail_slno);
                     return {
                         ...po,
                         items: details
@@ -406,6 +435,7 @@ const PurchaseTablemain = () => {
                 });
                 setCombinedPO(combinedData)
                 setPendingPOList(combinedData)
+                setapprvlCount(combinedData.length)
             }
             else {
                 setOpen(false)
@@ -420,7 +450,7 @@ const PurchaseTablemain = () => {
     const getNotApproved = useCallback(() => {
         const newData = combinedPO?.filter(val => val.aprv_status === null);
         if (newData.length === 0) {
-            infoNotify("PO Not Found")
+            infoNotify("Selected Report Not Found")
         } else {
             setPendingPOList(newData)
         }
@@ -428,7 +458,7 @@ const PurchaseTablemain = () => {
     const purchaseDeptApproved = useCallback(() => {
         const newData = combinedPO?.filter(val => val.aprv_status === 1);
         if (newData.length === 0) {
-            infoNotify("PO Not Found")
+            infoNotify("Selected Report Not Found")
         } else {
             setPendingPOList(newData)
         }
@@ -436,7 +466,7 @@ const PurchaseTablemain = () => {
     const purchaseManagerApproved = useCallback(() => {
         const newData = combinedPO?.filter(val => val.aprv_status === 2);
         if (newData.length === 0) {
-            infoNotify("PO Not Found")
+            infoNotify("Selected Report Not Found")
         } else {
             setPendingPOList(newData)
         }
@@ -444,7 +474,7 @@ const PurchaseTablemain = () => {
     const directorsApproved = useCallback(() => {
         const newData = combinedPO?.filter(val => val.aprv_status === 3);
         if (newData.length === 0) {
-            infoNotify("PO Not Found")
+            infoNotify("Selected Report Not Found")
         } else {
             setPendingPOList(newData)
         }
@@ -463,133 +493,275 @@ const PurchaseTablemain = () => {
             {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
                 images={imagearray} /> : null}
 
-            <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
+            <Box sx={{ height: 38, backgroundColor: "#f0f3f5", display: 'flex', p: 0.5 }}>
                 <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF Purchase</Box>
-                <Box>
-                    <CusIconButton size="sm" variant="outlined" color="primary" onClick={backtoSetting} >
-                        <CloseIcon fontSize='small' />
-                    </CusIconButton>
-                </Box>
+                <CssVarsProvider>
+                    <Tooltip title="Close" placement="bottom" >
+                        <Avatar size="sm" variant="plain" sx={{
+                            bgcolor: '##FBEDE0', height: 25, width: 25,
+                            border: '1px solid #FBE7C6'
+                        }}>
+                            <CloseIcon sx={{
+                                cursor: 'pointer', size: 'lg', fontSize: 20, color: '#FF4500',
+                                '&:hover': { color: 'red' }
+                            }} onClick={backtoSetting} />
+                        </Avatar>
+                    </Tooltip>
+                </CssVarsProvider>
             </Box>
 
             <Paper >
                 <Box sx={{
                     width: "100%",
-                    pl: 1, pt: 0.5, pr: 1, pb: 0.5, flex: 1,
+                    px: 1, py: 0.5, flex: 1,
                     display: "flex",
                     flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                     // justifyContent: 'center',
                 }}>
                     <Box sx={{ display: 'flex', flex: 1 }}>
-                        <Box sx={{ display: 'flex', flex: 1 }}>
-                            <RadioGroup
-                                sx={{ bgcolor: '#eceff1', borderRadius: 5, flex: 2 }}
-                                row
-                                aria-labelledby="demo-row-radio-buttons-group-label"
-                                name="row-radio-buttons-group"
-                                value={radiovalue}
-                                onChange={(e) => updateRadioClick(e)}
-                            >
-                                {/* <Box sx={{ display: 'flex', flex: 1, ml: 1, bgcolor: 'red' }}> */}
+                        <RadioGroup
+                            sx={{ bgcolor: '#eceff1', borderRadius: 5, flex: 2, pt: 1 }}
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={radiovalue}
+                            onChange={(e) => updateRadioClick(e)}
+                        >
 
-                                <FormControlLabel value='1' sx={{ pl: 3 }} control={<Radio
-                                    sx={{
-                                        color: 'red',
-                                        '&.Mui-checked': {
-                                            color: 'red',
-                                        },
-                                    }}
-                                />} label="Acknowledgement Pending" />
-                                <FormControlLabel value='2' sx={{ pl: 3 }} control={<Radio
-                                    sx={{
-                                        color: '#ef6c00',
-                                        '&.Mui-checked': {
-                                            color: '#ef6c00',
-                                        },
-                                    }} />} label="Processing CRF " />
-                                <FormControlLabel value='3' sx={{ pl: 3 }} control={<Radio
-                                    sx={{
-                                        color: '#6200ea',
-                                        '&.Mui-checked': {
-                                            color: '#6200ea',
-                                        },
-                                    }}
-                                />} label="Quotation Negotiation " />
-                                <FormControlLabel value='4' sx={{ pl: 3 }} control={<Radio
-                                    sx={{
-                                        color: 'orange',
-                                        '&.Mui-checked': {
-                                            color: 'orange',
-                                        },
-                                    }} />} label="Quotation Finalizing" />
-                                <FormControlLabel value='5' sx={{ pl: 3 }} control={<Radio
-                                    sx={{
-                                        color: '#0d47a1',
-                                        '&.Mui-checked': {
-                                            color: '#0d47a1',
-                                        },
-                                    }} />} label="PO Processing" />
-                                <FormControlLabel value='6' sx={{ pl: 3 }} control={<Radio
-                                    sx={{
-                                        color: '#1b5e20',
-                                        '&.Mui-checked': {
-                                            color: '#1b5e20',
-                                        },
-                                    }} />} label="PO Approvals" />
-
-                                {/* <FormControlLabel value='7' sx={{ bgcolor: '#78909c', color: 'white', borderRadius: 5, px: 2 }} control={<Radio
+                            <Badge
+                                badgeContent={ackCount}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
                                 sx={{
-                                    color: '#795548',
-                                    '&.Mui-checked': {
-                                        color: '#795548',
-                                    },
-                                }} />} label="Data Collection Pending" /> */}
-                                {/* <FormControlLabel value='7' control={<Radio />} label="PO to Supplier Pending" /> */}
-                                {/* <Box sx={{ px: 1, pl: 2, bgcolor: '#78909c', color: 'white', borderRadius: 5 }}>
-                                
-                            </Box> */}
-
-                                {/* </Box> */}
-                            </RadioGroup>
-                            <RadioGroup
-                                sx={{ bgcolor: '#78909c', borderRadius: 5, }}
-                                row
-                                aria-labelledby="demo-row-radio-buttons-group-label"
-                                name="row-radio-buttons-group"
-                                value={radiovalue}
-                                onChange={(e) => updateRadioClick(e)}
-                            >
-                                <FormControlLabel value='7' sx={{ bgcolor: '#78909c', color: 'white', px: 2 }} control={<Radio
-                                    sx={{
+                                    mr: 1,
+                                    '& .MuiBadge-badge': {
+                                        backgroundColor: '#F83839',
                                         color: 'white',
-                                        '&.Mui-checked': {
-                                            color: 'white',
-                                        },
-                                    }} />} label="Data Collection Pending" />
-                            </RadioGroup>
-                        </Box>
+                                        transform: 'translate(70%, -10%)',
+                                    }
+                                }}
+                            >
+                                <FormControlLabel value='1' sx={{ pl: 3, }} control={
+                                    <Radio
+                                        sx={{
+                                            color: 'red',
+                                            '&.Mui-checked': {
+                                                color: 'red',
+                                            },
+                                        }}
+                                    />} label="Acknowledgement Pending" />
+                            </Badge>
+
+                            <Badge
+                                badgeContent={crfProcCount}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                sx={{
+                                    mr: 1,
+                                    '& .MuiBadge-badge': {
+                                        backgroundColor: '#ef6c00',
+                                        color: 'white',
+                                        transform: 'translate(70%, -10%)',
+                                    }
+                                }}
+                            >
+                                <FormControlLabel value='2' sx={{ pl: 3 }} control={
+                                    <Radio
+                                        sx={{
+                                            color: '#ef6c00',
+                                            '&.Mui-checked': {
+                                                color: '#ef6c00',
+                                            },
+                                        }} />} label="Processing CRF " />
+                            </Badge>
+
+                            <Badge
+                                badgeContent={negoCount}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                sx={{
+                                    mr: 1,
+                                    '& .MuiBadge-badge': {
+                                        backgroundColor: '#6200ea',
+                                        color: 'white',
+                                        transform: 'translate(70%, -10%)',
+                                    }
+                                }}
+                            >
+                                <FormControlLabel value='3' sx={{ pl: 3 }} control={
+                                    <Radio
+                                        sx={{
+                                            color: '#6200ea',
+                                            '&.Mui-checked': {
+                                                color: '#6200ea',
+                                            },
+                                        }}
+                                    />} label="Quotation Negotiation " />
+                            </Badge>
+
+                            <Badge
+                                badgeContent={finalCount}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                sx={{
+                                    mr: 1,
+                                    '& .MuiBadge-badge': {
+                                        backgroundColor: 'orange',
+                                        color: 'white',
+                                        transform: 'translate(70%, -10%)',
+                                    }
+                                }}
+                            >
+                                <FormControlLabel value='4' sx={{ pl: 3 }} control={
+                                    <Radio
+                                        sx={{
+                                            color: 'orange',
+                                            '&.Mui-checked': {
+                                                color: 'orange',
+                                            },
+                                        }} />
+                                } label="Quotation Finalizing" />
+                            </Badge>
+                            <Badge
+                                badgeContent={poPrcCount}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                sx={{
+                                    mr: 1,
+                                    '& .MuiBadge-badge': {
+                                        backgroundColor: '#0d47a1',
+                                        color: 'white',
+                                        transform: 'translate(70%, -10%)',
+                                    }
+                                }}
+                            >
+                                <FormControlLabel
+                                    value='5'
+                                    sx={{ pl: 3 }}
+                                    control={
+                                        <Radio
+                                            sx={{
+                                                color: '#0d47a1',
+                                                '&.Mui-checked': {
+                                                    color: '#0d47a1',
+                                                },
+                                            }}
+                                        />
+                                    }
+                                    label="PO Processing"
+                                />
+                            </Badge>
+
+                            <Badge
+                                badgeContent={apprvlCount}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                sx={{
+                                    mr: 1,
+                                    '& .MuiBadge-badge': {
+                                        backgroundColor: '#1b5e20',
+                                        color: 'white',
+                                        transform: 'translate(70%, -10%)',
+                                    }
+                                }}
+                            >
+                                <FormControlLabel
+                                    value='6'
+                                    sx={{ pl: 3 }}
+                                    control={
+                                        <Radio
+                                            sx={{
+                                                color: '#1b5e20',
+                                                '&.Mui-checked': {
+                                                    color: '#1b5e20',
+                                                },
+                                            }}
+                                        />
+                                    }
+                                    label="PO Approvals"
+                                />
+                            </Badge>
+
+                        </RadioGroup>
+                        <RadioGroup
+                            sx={{ bgcolor: '#C9CFD0', borderRadius: 5, pr: 3 }}
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={radiovalue}
+                            onChange={(e) => updateRadioClick(e)}
+                        >
+                            <FormControlLabel value='7' sx={{ bgcolor: '#C9CFD0', pl: 2 }} control={<Radio
+                                sx={{
+                                    color: '#512D10',
+                                    '&.Mui-checked': {
+                                        color: '#512D10',
+                                    },
+                                }} />} label="Data Collection Pending" />
+                            <Badge
+                                overlap="circular"
+                                badgeContent={dataCollectCount}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                sx={{
+                                    mr: 1, mt: 0.2,
+                                    '& .MuiBadge-badge': {
+                                        backgroundColor: '#512D10',
+                                        color: 'white',
+                                        transform: 'translate(70%, -10%)',
+                                    }
+                                }}
+                            />
+                        </RadioGroup>
                     </Box>
                 </Box>
             </Paper >
-
             {
                 radiovalue === '6' ?
-                    <Box sx={{ flexWrap: 'wrap', pt: 0.5, maxHeight: window.innerHeight - 240 }}>
+                    <Box sx={{ flexWrap: 'wrap', pt: 0.5, maxHeight: window.innerHeight - 220 }}>
                         {combinedPO.length !== 0 ?
                             <>
-                                <Box sx={{ height: 35, bgcolor: '#eeeeee', display: 'flex', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
-                                    <Box sx={{ pr: 0.5 }}>
+                                <Box
+                                    sx={{
+                                        bgcolor: '#eeeeee',
+                                        display: 'flex',
+                                        justifyContent: 'flex-end',
+                                        flexWrap: 'wrap',
+                                        padding: '0 16px',
+                                        gap: 0.5, p: 0.7
+                                    }}
+                                >
+                                    <Box sx={{ flex: '1 1 auto', minWidth: '100px', }}>
                                         <CssVarsProvider>
                                             <IconButton
                                                 variant="outlined"
                                                 sx={{
                                                     backgroundColor: '#ADD8E6',
-                                                    width: 180, fontSize: 12,
+                                                    width: '100%',
+                                                    fontSize: 12,
                                                     '&:hover': {
-                                                        bgcolor: '#fafafa', color: '#003B73', transform: 'scale(0.98)',
+                                                        bgcolor: '#fafafa',
+                                                        color: '#003B73',
+                                                        transform: 'scale(0.98)',
                                                     },
                                                     boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
-                                                    borderRadius: 5, height: '30px', minHeight: '30px', lineHeight: '1',
+                                                    borderRadius: 5,
+                                                    height: '30px',
+                                                    lineHeight: '1',
                                                 }}
                                                 onClick={getNotApproved}
                                             >
@@ -597,18 +769,24 @@ const PurchaseTablemain = () => {
                                             </IconButton>
                                         </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{ pr: 0.5 }}>
+                                    <Box sx={{ flex: '1 1 auto', minWidth: '100px' }}>
                                         <CssVarsProvider>
                                             <IconButton
                                                 variant="outlined"
                                                 sx={{
-                                                    backgroundColor: '#5CACEE', color: 'white',
-                                                    width: 180, fontSize: 12,
+                                                    backgroundColor: '#5CACEE',
+                                                    color: 'white',
+                                                    width: '100%',
+                                                    fontSize: 12,
                                                     '&:hover': {
-                                                        bgcolor: '#fafafa', color: '#003B73', transform: 'scale(0.98)',
+                                                        bgcolor: '#fafafa',
+                                                        color: '#003B73',
+                                                        transform: 'scale(0.98)',
                                                     },
                                                     boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
-                                                    borderRadius: 5, height: '30px', minHeight: '30px', lineHeight: '1',
+                                                    borderRadius: 5,
+                                                    height: '30px',
+                                                    lineHeight: '1',
                                                 }}
                                                 onClick={purchaseDeptApproved}
                                             >
@@ -616,18 +794,24 @@ const PurchaseTablemain = () => {
                                             </IconButton>
                                         </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{ pr: 0.5 }}>
+                                    <Box sx={{ flex: '1 1 auto', minWidth: '100px' }}>
                                         <CssVarsProvider>
                                             <IconButton
                                                 variant="outlined"
                                                 sx={{
-                                                    backgroundColor: '#0277bd', color: 'white',
-                                                    width: 180, fontSize: 12,
+                                                    backgroundColor: '#0277bd',
+                                                    color: 'white',
+                                                    width: '100%',
+                                                    fontSize: 12,
                                                     '&:hover': {
-                                                        bgcolor: '#fafafa', color: '#003B73', transform: 'scale(0.98)',
+                                                        bgcolor: '#fafafa',
+                                                        color: '#003B73',
+                                                        transform: 'scale(0.98)',
                                                     },
                                                     boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
-                                                    borderRadius: 5, height: '30px', minHeight: '30px', lineHeight: '1',
+                                                    borderRadius: 5,
+                                                    height: '30px',
+                                                    lineHeight: '1',
                                                 }}
                                                 onClick={purchaseManagerApproved}
                                             >
@@ -635,18 +819,24 @@ const PurchaseTablemain = () => {
                                             </IconButton>
                                         </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{ pr: 0.5 }}>
+                                    <Box sx={{ flex: '1 1 auto', minWidth: '100px' }}>
                                         <CssVarsProvider>
                                             <IconButton
                                                 variant="outlined"
                                                 sx={{
-                                                    backgroundColor: '#32CD32', color: 'white',
-                                                    width: 180, fontSize: 12,
+                                                    backgroundColor: '#32CD32',
+                                                    color: 'white',
+                                                    width: '100%',
+                                                    fontSize: 12,
                                                     '&:hover': {
-                                                        bgcolor: '#fafafa', color: '#003B73', transform: 'scale(0.98)',
+                                                        bgcolor: '#fafafa',
+                                                        color: '#003B73',
+                                                        transform: 'scale(0.98)',
                                                     },
                                                     boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
-                                                    borderRadius: 5, height: '30px', minHeight: '30px', lineHeight: '1',
+                                                    borderRadius: 5,
+                                                    height: '30px',
+                                                    lineHeight: '1',
                                                 }}
                                                 onClick={directorsApproved}
                                             >
@@ -654,18 +844,25 @@ const PurchaseTablemain = () => {
                                             </IconButton>
                                         </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{ pr: 0.5 }}>
+
+                                    <Box sx={{ flex: '1 1 auto', minWidth: '100px' }}>
                                         <CssVarsProvider>
                                             <IconButton
                                                 variant="outlined"
                                                 sx={{
-                                                    backgroundColor: '#00695c', color: 'white',
-                                                    width: 180, fontSize: 12,
+                                                    backgroundColor: '#00695c',
+                                                    color: 'white',
+                                                    width: '100%',
+                                                    fontSize: 12,
                                                     '&:hover': {
-                                                        bgcolor: '#fafafa', color: '#003B73', transform: 'scale(0.98)',
+                                                        bgcolor: '#fafafa',
+                                                        color: '#003B73',
+                                                        transform: 'scale(0.98)',
                                                     },
                                                     boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
-                                                    borderRadius: 5, height: '30px', minHeight: '30px', lineHeight: '1',
+                                                    borderRadius: 5,
+                                                    height: '30px',
+                                                    lineHeight: '1',
                                                 }}
                                                 onClick={viewAllData}
                                             >
@@ -673,23 +870,29 @@ const PurchaseTablemain = () => {
                                             </IconButton>
                                         </CssVarsProvider>
                                     </Box>
-                                    <Box sx={{ pr: 3 }}>
+
+                                    <Box sx={{ flex: '1 1 auto', minWidth: '100px' }}>
                                         <CssVarsProvider>
                                             <IconButton
                                                 variant="outlined"
                                                 sx={{
-                                                    backgroundColor: 'white', width: 220, fontSize: 12,
+                                                    backgroundColor: 'white',
+                                                    width: '100%',
+                                                    fontSize: 12,
                                                     '&:hover': {
-                                                        bgcolor: '#fafafa', color: '#003B73', transform: 'scale(0.98)',
+                                                        bgcolor: '#fafafa',
+                                                        color: '#003B73',
+                                                        transform: 'scale(0.98)',
                                                     },
                                                     boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
-                                                    borderRadius: 5, height: '30px', minHeight: '30px', lineHeight: '1',
+                                                    borderRadius: 5,
+                                                    height: '30px',
+                                                    lineHeight: '1',
                                                 }}
                                                 onClick={RefreshData}
                                             >
-                                                Get Update Status From Ellider
+                                                Get Approval Status From Ellider
                                             </IconButton>
-
                                         </CssVarsProvider>
                                     </Box>
                                 </Box>
@@ -698,42 +901,42 @@ const PurchaseTablemain = () => {
                                 </Box>
                             </>
                             : <Box sx={{
-                                display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.8,
-                                pt: 10, color: 'lightgrey'
+                                display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                                pt: 10, color: 'grey'
                             }}>
-                                No Purchase Orders Are Pending
+                                No PO Approvals Are Pending
                             </Box>}
                     </Box>
                     :
-                    <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>
-                        <Virtuoso
-                            // style={{ height: '400px' }}
-                            data={DisArray}
-                            totalCount={DisArray?.length}
-                            itemContent={(index, val) =>
-                                <Box key={val.req_slno} sx={{ width: "100%", }}>
-                                    <Paper sx={{
-                                        width: '100%',
-                                        mt: 0.8,
-                                        border: "2 solid #272b2f",
-                                        borderRadius: 3,
-                                        overflow: 'hidden',
-                                        boxShadow: 1,
-                                        backgroundColor: '#BBBCBC'
-                                    }} variant='outlined'>
-                                        <MasterDetailCompnt val={val} />
-                                        <PurchaseApprovalButton val={val}
+                    <Box sx={{ height: window.innerHeight - 200, overflow: 'auto', flexWrap: 'wrap' }}>
+                        {DisArray.length !== 0 ?
+                            <Virtuoso
+                                data={DisArray}
+                                totalCount={DisArray?.length}
+                                itemContent={(index, val) =>
+                                    <Box key={index} sx={{
+                                        width: "100%", mt: 0.8, flexWrap: 'wrap',
+                                        border: '1px solid #21B6A8', borderRadius: 2,
+                                    }}>
+                                        <ReqMastMainViewCmp val={val} />
+                                        <PurchaseApprovalButtonCmp val={val}
                                             setpuchaseFlag={setpuchaseFlag} setpuchaseModal={setpuchaseModal}
                                             setpuchaseData={setpuchaseData} setImageShowFlag={setImageShowFlag}
                                             setImageShow={setImageShow} setImageSlno={setImageSlno} />
-
-                                    </Paper>
-                                </Box>
-                            } />
+                                    </Box>
+                                }
+                            >
+                            </Virtuoso>
+                            :
+                            <Box sx={{
+                                display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                                pt: 10, color: 'grey'
+                            }}>
+                                No Report Found
+                            </Box>}
                     </Box>
             }
         </Fragment >
     )
 }
-
 export default memo(PurchaseTablemain)

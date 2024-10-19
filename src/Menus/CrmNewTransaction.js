@@ -102,6 +102,20 @@ const CrmNewTransaction = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
+        men_slno: 231,
+        component: CNavItem,
+        name: 'CRS Delivery Marking',
+        to: '/Home/DeliveryMarking',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 232,
+        component: CNavItem,
+        name: 'Item Checking',
+        to: '/Home/ItemChecking',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
         men_slno: 202,
         component: CNavItem,
         name: 'CRF CRS',
@@ -115,6 +129,7 @@ const CrmNewTransaction = [
         to: '/Home/CRFNewStore',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+
     // {
     //     men_slno: 2,
     //     component: CNavItem,

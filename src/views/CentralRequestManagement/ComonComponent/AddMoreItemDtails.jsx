@@ -13,26 +13,26 @@ import UOMSelect from './UOMSelect';
 const AddMoreItemDtails = ({ req_slno, setMoreItem }) => {
     const dispatch = useDispatch();
     //Item details initialization
+    const [item_qty, setItem_qty] = useState(0)
+    const [MaxSlno, setMaxSlno] = useState(0)
+    const [uom, setUOM] = useState(0)
+    const [uomName, setUomName] = useState('')
+    const [unitprice, setUnitPrice] = useState(0)
+    const [approx_cost, setapprox_cost] = useState(0)
     const [itemstate, setItemState] = useState({
         item_desc: '',
         item_brand: '',
-        item_qty: 0,
         item_spec: '',
     })
     //Destructuring
-    const { item_desc, item_brand, item_qty, item_spec } = itemstate
+    const { item_desc, item_brand, item_spec } = itemstate
     const updateItemState = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setItemState({ ...itemstate, [e.target.name]: value })
     }, [itemstate])
 
-    const [uom, setUOM] = useState(0)
-    const [uomName, setUomName] = useState('')
-    const [unitprice, setUnitPrice] = useState(0)
-    const [approx_cost, setapprox_cost] = useState(0)
     //redux for geting login id
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-
     const updateUnitPrice = useCallback((e) => {
         if (item_qty !== 0) {
             setUnitPrice(e.target.value)
@@ -43,7 +43,12 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem }) => {
         }
     }, [item_qty])
 
-    const [MaxSlno, setMaxSlno] = useState(0)
+    const OnchangeQty = useCallback((e) => {
+        setItem_qty(e.target.value)
+        if (unitprice !== '' || unitprice !== 0) {
+            setapprox_cost(unitprice * e.target.value)
+        }
+    }, [unitprice])
 
     useEffect(() => {
         dispatch(getUOM())
@@ -109,8 +114,8 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem }) => {
                 item_status_approved: 1,
                 approve_item_status: 1,
                 item_add_higher: 1,
-                create_user: id
-
+                create_user: id,
+                approve_aprox_cost: parseInt(approx_cost),
             }
             AddMoreItems(newdata)
         }
@@ -165,7 +170,7 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem }) => {
                         size="sm"
                         name="item_qty"
                         value={item_qty}
-                        onchange={updateItemState}
+                        onchange={OnchangeQty}
                     />
                 </Box>
                 <Box sx={{

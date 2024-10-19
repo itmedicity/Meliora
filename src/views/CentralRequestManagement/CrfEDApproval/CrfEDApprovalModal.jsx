@@ -12,7 +12,6 @@ import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import { TypoHeadColor } from 'src/color/Color'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay';
-// import ItemsApprovalCompnt from './ItemsApprovalCompnt';
 import ApprovalCompntAll from '../ComonComponent/ApprovalCompntAll';
 import _ from 'underscore'
 import { useSelector } from 'react-redux'
@@ -199,7 +198,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
             ed_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
             ed_user: id,
             req_slno: req_slno,
-            ed_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            ed_approve_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             ed_approve_remarks: remark,
             ed_detial_analysis: detailAnalis
 
@@ -1767,6 +1766,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                                 ApproveTableDis={ApproveTableDis}
                                                                 ApproveTableData={ApproveTableData}
                                                                 setApproveTableData={setApproveTableData}
+                                                                setMoreItem={setMoreItem}
                                                             />
                                                         </Box>
                                                         <Box sx={{ pl: 2 }}>

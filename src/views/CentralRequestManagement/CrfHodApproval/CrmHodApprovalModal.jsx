@@ -179,7 +179,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
             hod_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
             hod_user: id,
             req_slno: req_slno,
-            hod_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            hod_approve_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             hod_remarks: remark,
             hod_detial_analysis: detailAnalis
 
@@ -1026,6 +1026,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                                                 ApproveTableDis={ApproveTableDis}
                                                                 ApproveTableData={ApproveTableData}
                                                                 setApproveTableData={setApproveTableData}
+                                                                setMoreItem={setMoreItem}
                                                             />
                                                         </Box>
 

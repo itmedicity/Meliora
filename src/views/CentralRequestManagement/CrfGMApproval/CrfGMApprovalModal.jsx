@@ -192,7 +192,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
             gm_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
             gm_user: id,
             req_slno: req_slno,
-            gm_approv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            gm_approv_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             gm_approve_remarks: remark,
             gm_detial_analysis: detailAnalis
 
@@ -1587,6 +1587,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, setApprovalModal, setApprovalF
                                                                 ApproveTableDis={ApproveTableDis}
                                                                 ApproveTableData={ApproveTableData}
                                                                 setApproveTableData={setApproveTableData}
+                                                                setMoreItem={setMoreItem}
                                                             />
                                                         </Box>
                                                         <Box sx={{ pl: 2 }}>

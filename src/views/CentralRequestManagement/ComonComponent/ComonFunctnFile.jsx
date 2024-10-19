@@ -1,6 +1,4 @@
 import { axioslogin } from "src/views/Axios/Axios"
-import { infoNotify } from "src/views/Common/CommonCode"
-
 export const CloseListApi = async (setDisArray, setOpen) => {
 
     const result = await axioslogin.get('/CrmNewApprovals/getClosedReqList')
@@ -2601,154 +2599,162 @@ export const AllListForMDApi = async (setDisArray, setOpen) => {
     }
 }
 
-export const getCrsReceicePending = async (setDisData, setOpen) => {
-    const result = await axioslogin.get('/newCRFStore/getCRSStorePending')
-    const { success, data } = result.data
-    if (success === 1) {
-        const datas = data.map((val) => {
-            const obj = {
-                req_slno: val.req_slno,
-                actual_requirement: val.actual_requirement,
-                needed: val.needed,
-                request_deptsec_slno: val.request_deptsec_slno,
-                req_deptsec: val.req_deptsec.toLowerCase(),
-                user_deptsection: val.user_deptsection.toLowerCase(),
-                em_name: val.create_user.toLowerCase(),
-                category: val.category,
-                req_date: val.create_date,
-                expected_date: val.expected_delivery,
-                store_receive: val.store_receive,
+// export const getCrsReceicePending = async (setDisData, setOpen, setNotReceiveCount) => {
+//     const result = await axioslogin.get('/newCRFStore/getCRSStorePending')
+//     const { success, data } = result.data
+//     if (success === 1) {
+//         setNotReceiveCount(data.length)
+//         const datas = data.map((val) => {
+//             const obj = {
+//                 req_slno: val.req_slno,
+//                 actual_requirement: val.actual_requirement,
+//                 needed: val.needed,
+//                 request_deptsec_slno: val.request_deptsec_slno,
+//                 req_deptsec: val.req_deptsec.toLowerCase(),
+//                 user_deptsection: val.user_deptsection.toLowerCase(),
+//                 em_name: val.create_user.toLowerCase(),
+//                 category: val.category,
+//                 req_date: val.create_date,
+//                 expected_date: val.expected_delivery,
+//                 store_receive: val.store_receive,
 
-            }
-            return obj
-        })
+//             }
+//             return obj
+//         })
 
-        setDisData(datas)
-        setOpen(false)
-    }
-    else {
-        setDisData([])
-        setOpen(false)
-    }
-}
+//         setDisData(datas)
+//         setOpen(false)
+//     }
+//     else {
+//         setDisData([])
+//         setOpen(false)
+//     }
+// }
 
-export const getCrsReceiceAllList = async (setDisData, setOpen) => {
-    const result = await axioslogin.get('/newCRFStore/getCrsReceiceAllList')
-    const { success, data, message } = result.data
-    if (success === 1) {
-        const datas = data.map((val) => {
-            const obj = {
-                req_slno: val.req_slno,
-                actual_requirement: val.actual_requirement,
-                needed: val.needed,
-                request_deptsec_slno: val.request_deptsec_slno,
-                req_deptsec: val.req_deptsec.toLowerCase(),
-                user_deptsection: val.user_deptsection.toLowerCase(),
-                em_name: val.create_user.toLowerCase(),
-                category: val.category,
-                req_date: val.create_date,
-                expected_date: val.expected_delivery,
-                store_receive: val.store_receive,
+// export const getCrsReceiceAllList = async (setDisData, setOpen, radValue) => {
+//     const result = await axioslogin.get('/newCRFStore/getCrsReceiceAllList')
+//     const { success, data, message } = result.data
+//     if (success === 1) {
+//         const datas = data?.map((val) => {
+//             const obj = {
+//                 req_slno: val.req_slno,
+//                 actual_requirement: val.actual_requirement,
+//                 needed: val.needed,
+//                 request_deptsec_slno: val.request_deptsec_slno,
+//                 req_deptsec: val.req_deptsec.toLowerCase(),
+//                 user_deptsection: val.user_deptsection.toLowerCase(),
+//                 em_name: val.create_user.toLowerCase(),
+//                 category: val.category,
+//                 req_date: val.create_date,
+//                 expected_date: val.expected_delivery,
+//                 store_receive: val.store_receive,
+//                 store_recieve_fully: val.store_recieve_fully
 
-            }
-            return obj
-        })
+//             }
+//             return obj
+//         })
+//         if (radValue === '2') {
+//             const newData = datas?.filter((val) => val.store_recieve_fully === null)
+//             setDisData(newData)
+//         }
+//         else if (radValue === '3') {
+//             const newData = datas?.filter((val) => val.store_recieve_fully === 1)
+//             setDisData(newData)
+//         }
+//         setOpen(false)
+//     }
+//     else {
+//         infoNotify(message)
+//         setDisData([])
+//         setOpen(false)
+//     }
+// }
 
-        setDisData(datas)
-        setOpen(false)
-    }
-    else {
-        infoNotify(message)
-        setDisData([])
-        setOpen(false)
-    }
-}
+// export const getSubStorePendingList = async (substoreSlno, setDisData, setOpen) => {
+//     const result = await axioslogin.get(`/newCRFStore/getPOListSubStorewisePend/${substoreSlno}`)
+//     const { success, data } = result.data
+//     if (success === 1) {
+//         const datas = data.map((val, index) => {
+//             const obj = {
+//                 slno: index + 1,
+//                 po_detail_slno: val.po_detail_slno,
+//                 req_slno: val.req_slno,
+//                 po_number: val.po_number,
+//                 po_date: val.po_date,
+//                 expected_delivery: val.expected_delivery,
+//                 supply_store: val.supply_store,
+//                 sub_store_name: val.sub_store_name,
+//                 main_store_slno: val.main_store_slno,
+//                 main_store: val.main_store,
+//                 store_code: val.store_code,
+//                 store_recieve: val.store_recieve,
+//                 store_receive_user: val.store_receive_user,
+//                 store_receive_date: val.store_receive_date,
+//                 sub_store_recieve: val.sub_store_recieve,
+//                 sub_store_recieve_user: val.sub_store_recieve_user,
+//                 sub_store_date: val.sub_store_date,
+//                 req_deptsec: val.req_deptsec,
+//                 user_deptsection: val.user_deptsection,
+//                 actual_requirement: val.actual_requirement,
+//                 needed: val.needed,
+//                 expected_date: val.expected_date,
+//                 req_date: val.req_date
 
-export const getSubStorePendingList = async (substoreSlno, setDisData, setOpen) => {
-    const result = await axioslogin.get(`/newCRFStore/getPOListSubStorewisePend/${substoreSlno}`)
-    const { success, data } = result.data
-    if (success === 1) {
-        const datas = data.map((val, index) => {
-            const obj = {
-                slno: index + 1,
-                po_detail_slno: val.po_detail_slno,
-                req_slno: val.req_slno,
-                po_number: val.po_number,
-                po_date: val.po_date,
-                expected_delivery: val.expected_delivery,
-                supply_store: val.supply_store,
-                sub_store_name: val.sub_store_name,
-                main_store_slno: val.main_store_slno,
-                main_store: val.main_store,
-                store_code: val.store_code,
-                store_recieve: val.store_recieve,
-                store_receive_user: val.store_receive_user,
-                store_receive_date: val.store_receive_date,
-                sub_store_recieve: val.sub_store_recieve,
-                sub_store_recieve_user: val.sub_store_recieve_user,
-                sub_store_date: val.sub_store_date,
-                req_deptsec: val.req_deptsec,
-                user_deptsection: val.user_deptsection,
-                actual_requirement: val.actual_requirement,
-                needed: val.needed,
-                expected_date: val.expected_date,
-                req_date: val.req_date
+//             }
+//             return obj
 
-            }
-            return obj
+//         })
+//         setDisData(datas)
+//         setOpen(false)
+//     }
+//     else {
+//         setDisData([])
+//         setOpen(false)
+//     }
+// }
 
-        })
-        setDisData(datas)
-        setOpen(false)
-    }
-    else {
-        setDisData([])
-        setOpen(false)
-    }
-}
+// export const getPOListSubStorewiseAllList = async (substoreSlno, setDisData, setOpen) => {
+//     const result = await axioslogin.get(`/newCRFStore/getPOListSubStorewiseAllList/${substoreSlno}`)
+//     const { success, data } = result.data
+//     if (success === 1) {
+//         const datas = data.map((val, index) => {
+//             const obj = {
+//                 slno: index + 1,
+//                 po_detail_slno: val.po_detail_slno,
+//                 req_slno: val.req_slno,
+//                 po_number: val.po_number,
+//                 po_date: val.po_date,
+//                 expected_delivery: val.expected_delivery,
+//                 supply_store: val.supply_store,
+//                 sub_store_name: val.sub_store_name,
+//                 main_store_slno: val.main_store_slno,
+//                 main_store: val.main_store,
+//                 store_code: val.store_code,
+//                 store_recieve: val.store_recieve,
+//                 store_receive_user: val.store_receive_user,
+//                 store_receive_date: val.store_receive_date,
+//                 sub_store_recieve: val.sub_store_recieve,
+//                 sub_store_recieve_user: val.sub_store_recieve_user,
+//                 sub_store_date: val.sub_store_date,
+//                 req_deptsec: val.req_deptsec,
+//                 user_deptsection: val.user_deptsection,
+//                 actual_requirement: val.actual_requirement,
+//                 needed: val.needed,
+//                 expected_date: val.expected_date,
+//                 req_date: val.req_date
 
-export const getPOListSubStorewiseAllList = async (substoreSlno, setDisData, setOpen) => {
-    const result = await axioslogin.get(`/newCRFStore/getPOListSubStorewiseAllList/${substoreSlno}`)
-    const { success, data } = result.data
-    if (success === 1) {
-        const datas = data.map((val, index) => {
-            const obj = {
-                slno: index + 1,
-                po_detail_slno: val.po_detail_slno,
-                req_slno: val.req_slno,
-                po_number: val.po_number,
-                po_date: val.po_date,
-                expected_delivery: val.expected_delivery,
-                supply_store: val.supply_store,
-                sub_store_name: val.sub_store_name,
-                main_store_slno: val.main_store_slno,
-                main_store: val.main_store,
-                store_code: val.store_code,
-                store_recieve: val.store_recieve,
-                store_receive_user: val.store_receive_user,
-                store_receive_date: val.store_receive_date,
-                sub_store_recieve: val.sub_store_recieve,
-                sub_store_recieve_user: val.sub_store_recieve_user,
-                sub_store_date: val.sub_store_date,
-                req_deptsec: val.req_deptsec,
-                user_deptsection: val.user_deptsection,
-                actual_requirement: val.actual_requirement,
-                needed: val.needed,
-                expected_date: val.expected_date,
-                req_date: val.req_date
+//             }
+//             return obj
 
-            }
-            return obj
-
-        })
-        setDisData(datas)
-        setOpen(false)
-    }
-    else {
-        setDisData([])
-        setOpen(false)
-    }
-}
+//         })
+//         setDisData(datas)
+//         setOpen(false)
+//     }
+//     else {
+//         setDisData([])
+//         setOpen(false)
+//     }
+// }
 
 
 export const RejectListApiDateRange = async (postdata, setDisArray, setOpen) => {

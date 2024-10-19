@@ -16,7 +16,7 @@ import { format } from 'date-fns';
 import UOMSelect from '../ComonComponent/UOMSelect';
 
 
-const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, setApproveTableData }) => {
+const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, setApproveTableData, setMoreItem }) => {
 
     const dispatch = useDispatch();
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
@@ -30,15 +30,15 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
     const [reqslno, setRqeslno] = useState(0)
     const [lastSlno, setLastSlno] = useState(0)
     //Item details initialization
+    const [item_qty, setItem_qty] = useState(0)
     const [itemstate, setItemState] = useState({
         item_desc: '',
         item_brand: '',
-        item_qty: 0,
         item_spec: '',
         item_slno: 0
     })
     //Destructuring
-    const { item_desc, item_brand, item_qty, item_spec, item_slno } = itemstate
+    const { item_desc, item_brand, item_spec, item_slno } = itemstate
     const updateItemState = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setItemState({ ...itemstate, [e.target.name]: value })
@@ -53,6 +53,13 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
     useEffect(() => {
         dispatch(getUOM())
     }, [dispatch])
+
+    const OnchangeQty = useCallback((e) => {
+        setItem_qty(e.target.value)
+        if (unitprice !== '' || unitprice !== 0) {
+            setapprox_cost(unitprice * e.target.value)
+        }
+    }, [unitprice])
 
     const updateUnitPrice = useCallback((e) => {
         if (item_qty !== 0) {
@@ -156,18 +163,19 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
         const resetarrray = {
             item_desc: approve_item_desc,
             item_brand: approve_item_brand,
-            item_qty: item_qnty_approved,
             item_spec: approve_item_specification,
             item_slno: item_slno
         }
         setReqDetailSlno(req_detl_slno)
         setItemState(resetarrray)
+        setItem_qty(item_qnty_approved)
         setUnitPrice(approve_item_unit_price)
         setapprox_cost(approve_aprox_cost)
         setUOM(approve_item_unit !== null ? approve_item_unit : 0)
         set_item_desc_actl(approve_item_desc)
         setRqeslno(req_slno)
-    }, [])
+        setMoreItem(0)
+    }, [setMoreItem])
 
     const reset = useCallback(() => {
         setEditEnable(0)
@@ -190,7 +198,8 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
         setLastSlno(0)
         setRejHoldRemarkFlag(0)
         setRejHoldRemark('')
-    }, [])
+        setMoreItem(0)
+    }, [setMoreItem])
 
     const Approvefctn = useCallback(() => {
 
@@ -449,7 +458,7 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                                         size="sm"
                                         name="item_qty"
                                         value={item_qty}
-                                        onchange={updateItemState}
+                                        onchange={OnchangeQty}
                                     />
                                 </Box>
                                 <Box sx={{

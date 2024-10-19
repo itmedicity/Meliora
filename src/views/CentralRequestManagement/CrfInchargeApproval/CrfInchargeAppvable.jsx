@@ -1,4 +1,4 @@
-import { Box, Paper, Tooltip } from '@mui/material'
+import { Badge, Box, FormControlLabel, Paper, Radio, RadioGroup } from '@mui/material'
 import React, { useCallback, memo, useState, Fragment, useEffect } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useSelector } from 'react-redux'
@@ -16,12 +16,13 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ReqImageDisModal from '../ComonComponent/ReqImageDisModal'
 import { ToastContainer } from 'react-toastify'
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import SearchIcon from '@mui/icons-material/Search';
 import ClosedButtonCompnt from '../ComonComponent/ClosedButtonCompnt'
 import ClosedDetailsModal from '../ComonComponent/ClosedDetailsModal'
+import { Virtuoso } from 'react-virtuoso'
+import { CssVarsProvider, IconButton, Option, Select, Typography } from '@mui/joy'
+import CustomCloseIconCmp from '../ComonComponent/CustomCloseIconCmp'
+import TopDesignComp from '../ComonComponent/TopDesignComp'
 
 const CrfInchargeAppvable = () => {
 
@@ -35,54 +36,71 @@ const CrfInchargeAppvable = () => {
     const [check, setCheck] = useState(0)
     const [authorizeDeptSec, setAuthorizDeptSec] = useState([])
     const [deptSec, setdeptSec] = useState(0)
-    const [serachFlag, setSearchFlag] = useState(0)
-    const updatedone = useCallback((e) => {
-        if (e.target.checked === true) {
-            setDone(true)
-            setCheck(2)
-            setPending(false)
-            setClose(false)
-        }
-        else {
-            setDone(false)
-            setCheck(0)
-            setPending(false)
-            setClose(false)
-        }
-    }, [])
-    const updatependng = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPending(true)
-            setCheck(1)
-            setDone(false)
-            setClose(false)
-        }
-        else {
-            setDone(false)
-            setCheck(0)
-            setPending(false)
-            setClose(false)
-        }
-    }, [])
-    const updateClosed = useCallback((e) => {
-        if (e.target.checked === true) {
-            setClose(true)
-            setCheck(3)
-            setDone(false)
-            setPending(false)
-        }
-        else {
-            setDone(false)
-            setCheck(0)
-            setPending(false)
-            setClose(false)
-        }
-    }, [])
-
+    const [searchFlag, setSearchFlag] = useState(0)
     const [pendingData, setPendingData] = useState([])
     const [donedata, setDoneData] = useState([])
     const [getAllDta, setGetAllDAta] = useState([])
     const [closedata, setClosedData] = useState([])
+    const [tableData, setTableData] = useState([])
+    const [disData, setDisData] = useState([])
+    const [radiovalue, setRadioValue] = useState('1')
+
+    useEffect(() => {
+        if (radiovalue === '1') {
+            setDisData(pendingData)
+            setTableData(pendingData)
+        }
+        // else if (radiovalue === '2') {
+        //     setDisData(donedata)
+        // }
+        // else if (radiovalue === '3') {
+        //     setDisData(closedata)
+        // }
+    }, [radiovalue, pendingData])
+    // const updatedone = useCallback((e) => {
+    //     if (e.target.checked === true) {
+    //         setDone(true)
+    //         setCheck(2)
+    //         setPending(false)
+    //         setClose(false)
+    //     }
+    //     else {
+    //         setDone(false)
+    //         setCheck(0)
+    //         setPending(false)
+    //         setClose(false)
+    //     }
+    // }, [])
+    // const updatependng = useCallback((e) => {
+    //     if (e.target.checked === true) {
+    //         setPending(true)
+    //         setCheck(1)
+    //         setDone(false)
+    //         setClose(false)
+    //     }
+    //     else {
+    //         setDone(false)
+    //         setCheck(0)
+    //         setPending(false)
+    //         setClose(false)
+    //     }
+    // }, [])
+    // const updateClosed = useCallback((e) => {
+    //     if (e.target.checked === true) {
+    //         setClose(true)
+    //         setCheck(3)
+    //         setDone(false)
+    //         setPending(false)
+    //     }
+    //     else {
+    //         setDone(false)
+    //         setCheck(0)
+    //         setPending(false)
+    //         setClose(false)
+    //     }
+    // }, [])
+
+
 
     useEffect(() => {
 
@@ -90,14 +108,8 @@ const CrfInchargeAppvable = () => {
             const result = await axioslogin.post('/newCRFRegister/getAllReqBasedDept', deptsecArry)
             const { success, data } = result.data
             if (success === 1) {
-                const incharge = data.filter((val) => {
-                    return val.incharge_req === 1 && val.crf_close !== 1
-                })
-                const ClosedList = data.filter((val) => {
-                    return val.incharge_req === 1 && val.crf_close === 1
-                })
-                setClosedData(ClosedList)
-                const datas = incharge.map((val) => {
+                // const datas = incharge.map((val) => {
+                const datas = data?.map((val) => {
                     const obj = {
                         req_status: val.req_status,
                         req_slno: val.req_slno,
@@ -191,18 +203,60 @@ const CrfInchargeAppvable = () => {
                             val.gm_approve !== null || val.md_approve !== null ||
                             val.ed_approve !== null ? 1 : 0,
 
-                        now_who: val.sub_store_recieve === 1 ? "Sub Store Receive" :
-                            val.store_receive === 1 ? "CRS Store Receive" :
-                                val.po_to_supplier === 1 ? "PO Send to Supplier" :
-                                    val.po_approva_level_two === 1 ? "PO Managing Director Approved" :
-                                        val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
+                        // now_who: val.sub_store_recieve === 1 ? "Sub Store Receive" :
+                        //     val.store_receive === 1 ? "CRS Store Receive" :
+                        //         val.po_to_supplier === 1 ? "PO Send to Supplier" :
+                        //             val.po_approva_level_two === 1 ? "PO Managing Director Approved" :
+                        //                 val.po_approva_level_one === 1 ? "PO Purchase Level Approved" :
+                        //                     val.po_complete === 1 ? "PO Completed" :
+                        //                         val.po_prepartion === 1 ? "PO Prepairing" :
+                        //                             val.quatation_fixing === 1 ? "Quatation Fixed" :
+                        //                                 val.quatation_negotiation === 1 ? "Quatation Negotiation" :
+                        //                                     val.quatation_calling_status === 1 ? "Quatation Calling" :
+                        //                                         val.ack_status === 1 ? "Puchase Acknowledged" :
+                        //                                             val.ed_approve !== null ? "ED" :
+                        //                                                 val.md_approve !== null ? "MD" :
+                        //                                                     val.gm_approve !== null ? "GM" :
+                        //                                                         val.senior_manage_approv !== null ? "SMO" :
+                        //                                                             val.manag_operation_approv !== null ? "MO" :
+                        //                                                                 val.ms_approve !== null ? "MS" :
+                        //                                                                     val.dms_approve !== null ? "DMS" :
+                        //                                                                         val.hod_approve !== null ? "HOD" :
+                        //                                                                             val.incharge_approve !== null ? "INCHARGE" :
+                        //                                                                                 "Not Statrted",
+                        // now_who_status: val.sub_store_recieve === 1 ? 4 :
+                        //     val.store_receive === 1 ? 4 :
+                        //         val.po_to_supplier === 1 ? val.po_to_supplier :
+                        //             val.po_approva_level_two === 1 ? val.po_approva_level_two :
+                        //                 val.po_approva_level_one === 1 ? val.po_approva_level_one :
+                        //                     val.po_complete === 1 ? val.po_complete :
+                        //                         val.po_prepartion === 1 ? val.po_prepartion :
+                        //                             val.quatation_fixing === 1 ? val.quatation_fixing :
+                        //                                 val.quatation_negotiation === 1 ? val.quatation_negotiation :
+                        //                                     val.quatation_calling_status === 1 ? val.quatation_calling_status :
+                        //                                         val.ack_status === 1 ? val.ack_status :
+                        //                                             val.ed_approve !== null ? val.ed_approve :
+                        //                                                 val.md_approve !== null ? val.md_approve :
+                        //                                                     val.gm_approve !== null ? val.gm_approve :
+                        //                                                         val.senior_manage_approv !== null ? val.senior_manage_approv :
+                        //                                                             val.manag_operation_approv !== null ? val.manag_operation_approv :
+                        //                                                                 val.ms_approve !== null ? val.ms_approve :
+                        //                                                                     val.dms_approve !== null ? val.dms_approve :
+                        //                                                                         val.hod_approve !== null ? val.hod_approve :
+                        //                                                                             val.incharge_approve !== null ? val.incharge_approve :
+                        //                                                                                 0,
+                        now_who: val.req_status === 'C' ? "CRF Closed" :
+                            val.sub_store_recieve === 1 ? "Store Receive" :
+                                val.store_recieve === 0 ? "CRS Store Receive" :
+                                    val.store_recieve === 1 ? "Transfer To Store" :
+                                        val.po_to_supplier === 1 ? "CRF Acknowledged" :
                                             val.po_complete === 1 ? "PO Completed" :
                                                 val.po_prepartion === 1 ? "PO Prepairing" :
                                                     val.quatation_fixing === 1 ? "Quatation Fixed" :
                                                         val.quatation_negotiation === 1 ? "Quatation Negotiation" :
                                                             val.quatation_calling_status === 1 ? "Quatation Calling" :
                                                                 val.ack_status === 1 ? "Puchase Acknowledged" :
-                                                                    val.ed_approve !== null ? "ED" :
+                                                                    val.ed_approve !== null ? "ED " :
                                                                         val.md_approve !== null ? "MD" :
                                                                             val.gm_approve !== null ? "GM" :
                                                                                 val.senior_manage_approv !== null ? "SMO" :
@@ -210,29 +264,29 @@ const CrfInchargeAppvable = () => {
                                                                                         val.ms_approve !== null ? "MS" :
                                                                                             val.dms_approve !== null ? "DMS" :
                                                                                                 val.hod_approve !== null ? "HOD" :
-                                                                                                    val.incharge_approve !== null ? "INCHARGE" :
+                                                                                                    val.incharge_approve !== null ? "Incharge" :
                                                                                                         "Not Statrted",
-                        now_who_status: val.sub_store_recieve === 1 ? 4 :
-                            val.store_receive === 1 ? 4 :
-                                val.po_to_supplier === 1 ? val.po_to_supplier :
-                                    val.po_approva_level_two === 1 ? val.po_approva_level_two :
-                                        val.po_approva_level_one === 1 ? val.po_approva_level_one :
-                                            val.po_complete === 1 ? val.po_complete :
-                                                val.po_prepartion === 1 ? val.po_prepartion :
-                                                    val.quatation_fixing === 1 ? val.quatation_fixing :
-                                                        val.quatation_negotiation === 1 ? val.quatation_negotiation :
-                                                            val.quatation_calling_status === 1 ? val.quatation_calling_status :
-                                                                val.ack_status === 1 ? val.ack_status :
-                                                                    val.ed_approve !== null ? val.ed_approve :
-                                                                        val.md_approve !== null ? val.md_approve :
-                                                                            val.gm_approve !== null ? val.gm_approve :
-                                                                                val.senior_manage_approv !== null ? val.senior_manage_approv :
-                                                                                    val.manag_operation_approv !== null ? val.manag_operation_approv :
-                                                                                        val.ms_approve !== null ? val.ms_approve :
-                                                                                            val.dms_approve !== null ? val.dms_approve :
-                                                                                                val.hod_approve !== null ? val.hod_approve :
-                                                                                                    val.incharge_approve !== null ? val.incharge_approve :
-                                                                                                        0,
+                        now_who_status: val.req_status === 'C' ? '' :
+                            val.sub_store_recieve === 1 ? '' :
+                                val.store_receive === 1 ? '' :
+                                    val.po_to_supplier === 1 ? '' :
+                                        val.po_complete === 1 ? '' :
+                                            val.po_prepartion === 1 ? '' :
+                                                val.quatation_fixing === 1 ? '' :
+                                                    val.quatation_negotiation === 1 ? '' :
+                                                        val.quatation_calling_status === 1 ? '' :
+                                                            val.ack_status === 1 ? '' :
+                                                                val.ed_approve !== null ? val.ed_approve :
+                                                                    val.md_approve !== null ? val.md_approve :
+                                                                        val.gm_approve !== null ? val.gm_approve :
+                                                                            val.senior_manage_approv !== null ? val.senior_manage_approv :
+                                                                                val.manag_operation_approv !== null ? val.manag_operation_approv :
+                                                                                    val.ms_approve !== null ? val.ms_approve :
+                                                                                        val.dms_approve !== null ? val.dms_approve :
+                                                                                            val.hod_approve !== null ? val.hod_approve :
+                                                                                                val.incharge_approve !== null ? val.incharge_approve :
+                                                                                                    0,
+
                         hod_image: val.hod_image,
                         dms_image: val.dms_image,
                         ms_image: val.ms_image,
@@ -255,15 +309,33 @@ const CrfInchargeAppvable = () => {
                         po_approva_level_one: val.po_approva_level_one,
                         po_approva_level_two: val.po_approva_level_two,
                         po_to_supplier: val.po_to_supplier,
-                        store_receive: val.store_receive,
+                        store_recieve: val.store_recieve,
+                        sub_store_recieve: val.sub_store_recieve,
                         dept_name: val.dept_name,
                         dept_type: val.dept_type
-
-
                     }
                     return obj
                 })
-                setGetAllDAta(datas)
+                // setGetAllDAta(datas)
+
+                const incharge = datas?.filter((val) => {
+                    return val.incharge_req === 1 && val.crf_close !== 1
+                })
+                const ClosedList = incharge?.filter((val) => {
+                    return val.incharge_req === 1 && val.crf_close === 1
+                })
+                setClosedData(ClosedList)
+
+                const pendingList = datas.filter((val) => {
+                    return val.incharge_approve === null && val.hod_approve === null
+                })
+                setPendingData(pendingList)
+
+                const DoneList = datas.filter((val) => {
+                    return val.incharge_approve !== null || val.hod_approve !== null
+                })
+                setDoneData(DoneList)
+
             } else {
                 warningNotify("Error occured contact EDP")
             }
@@ -273,7 +345,6 @@ const CrfInchargeAppvable = () => {
             const result = await axioslogin.get(`/InchHODAuthorization/getDeptSeconIncharge/${id}`)
             return result.data
         }
-
         DeptsecBasedOnAssign(id).then((val) => {
             const { success, data } = val
             if (success === 1) {
@@ -338,12 +409,12 @@ const CrfInchargeAppvable = () => {
         history.push('/Home')
     }, [history])
 
-    const searchDeptSec = useCallback(() => {
-        setSearchFlag(1)
-    }, [])
+    // const searchDeptSec = useCallback(() => {
+    //     setSearchFlag(1)
+    // }, [])
 
     useEffect(() => {
-        if (serachFlag === 1) {
+        if (searchFlag === 1) {
             const searchfildataPend = getAllDta && getAllDta.filter((value) => value.user_deptsec === deptSec)
             setPendingData(searchfildataPend)
             const searchfildataDone = getAllDta && getAllDta.filter((value) => value.user_deptsec === deptSec)
@@ -366,7 +437,7 @@ const CrfInchargeAppvable = () => {
             })
             setDoneData(DoneList)
         }
-    }, [serachFlag, getAllDta, deptSec])
+    }, [searchFlag, getAllDta, deptSec])
 
 
     return (
@@ -390,18 +461,59 @@ const CrfInchargeAppvable = () => {
 
             {CloseFlag === 1 ? <ClosedDetailsModal open={CloseModal} CloseData={CloseData}
                 setCloseData={setCloseData} setCloseModal={setCloseModal} setCloseFlag={setCloseFlag} /> : null}
+            <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
 
-            <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
-                <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Incharge Approval</Box>
-                <Box>
-                    <CusIconButton size="sm" variant="outlined" color="primary" onClick={backtoSetting} >
-                        <CloseIcon fontSize='small' />
-                    </CusIconButton>
+                <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", }}>
+                    <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>  Incharge Approval</Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
+                        <CssVarsProvider>
+                            <CustomCloseIconCmp
+                                handleChange={backtoSetting}
+                            />
+                        </CssVarsProvider>
+                    </Box>
                 </Box>
-            </Box>
+                <TopDesignComp pendingData={pendingData} donedata={donedata} closedata={closedata} authorizeDeptSec={authorizeDeptSec}
+                    tableData={tableData} setTableData={setTableData} setDisData={setDisData} radiovalue={radiovalue}
+                    setRadioValue={setRadioValue}
+                />
+                <Box sx={{ height: window.innerHeight - 200, overflow: 'auto', flexWrap: 'wrap' }}>
+                    {disData.length !== 0 ?
+                        <Virtuoso
+                            data={disData}
+                            totalCount={disData?.length}
+                            itemContent={(index, val) =>
+                                <Box key={index} sx={{
+                                    width: "100%", mt: 0.8, flexWrap: 'wrap',
+                                    border: '1px solid #21B6A8', borderRadius: 2,
+                                }}>
+                                    <MasterDetailCompnt val={val} />
 
+                                    {/* <ReqMastMainViewCmp val={val} />
+                                    <PurchaseApprovalButtonCmp val={val}
+                                        setpuchaseFlag={setpuchaseFlag} setpuchaseModal={setpuchaseModal}
+                                        setpuchaseData={setpuchaseData} setImageShowFlag={setImageShowFlag}
+                                        setImageShow={setImageShow} setImageSlno={setImageSlno} /> */}
+                                </Box>
+                            }
+                        >
+                        </Virtuoso>
+                        :
+                        <Box sx={{
+                            display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                            pt: 10, color: 'grey'
+                        }}>
+                            No Report Found
+                        </Box>}
+                </Box>
 
-            <Paper >
+            </Box >
+
+        </Fragment >
+    )
+}
+
+{/* <Paper >
                 <Box sx={{
                     width: "100%",
                     pl: 1, pt: 0.5, pr: 1, pb: 0.5, flex: 1,
@@ -409,8 +521,6 @@ const CrfInchargeAppvable = () => {
                     flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
                     justifyContent: 'center',
                 }}>
-
-
                     <Box sx={{ width: "25%", pr: 1, mt: 1 }}>
                         <FormControl fullWidth size="small"  >
                             <Select
@@ -472,12 +582,11 @@ const CrfInchargeAppvable = () => {
                         />
                     </Box>
                 </Box>
-            </Paper>
+            </Paper> */}
 
-            <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>
+{/* <Box sx={{ height: window.innerHeight - 200, overflow: 'auto', flexWrap: 'wrap' }}>
                 {check === 2 ?
                     <Box sx={{ width: "100%" }}>
-
                         {donedata && donedata.map((val) => {
                             return <Box key={val.req_slno} sx={{ width: "100%", }}>
                                 <Paper sx={{
@@ -502,9 +611,7 @@ const CrfInchargeAppvable = () => {
                             </Box>
                         })}
                     </Box>
-
                     :
-
                     check === 3 ?
                         <Box sx={{ width: "100%" }}>
 
@@ -526,10 +633,43 @@ const CrfInchargeAppvable = () => {
                                     </Paper>
                                 </Box>
                             })}
-                        </Box> :
-
+                        </Box>
+                        :
                         <Box>
-                            {pendingData && pendingData.map((val) => {
+                            {pendingData.length !== 0 ?
+                                <Virtuoso
+                                    data={pendingData}
+                                    totalCount={pendingData?.length}
+                                    itemContent={(index, val) =>
+                                        <Box key={index} sx={{
+                                            width: "100%", mt: 0.8, flexWrap: 'wrap',
+                                            border: '1px solid #21B6A8', borderRadius: 2, bgcolor: 'red'
+                                        }}>
+                                            <MasterDetailCompnt val={val} />
+                                            <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
+                                                setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
+                                                setCancelModal={setCancelModal} setApprovalData={setApprovalData}
+                                                setCancelData={setCancelData} setDetailViewFlag={setDetailViewFlag}
+                                                setDetailViewData={setDetailViewData} setDetailViewModal={setDetailViewModal}
+                                                setImageShowFlag={setImageShowFlag} setImageShow={setImageShow}
+                                                setImageSlno={setImageSlno}
+                                            />
+                                        </Box>
+                                    }
+                                >
+                                </Virtuoso>
+                                :
+                                <Box sx={{
+                                    display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                                    pt: 10, color: 'grey'
+                                }}>
+                                    No CRF Left
+                                </Box>}
+                        </Box>
+                }
+            </Box> */}
+
+{/* {pendingData && pendingData.map((val) => {
                                 return <Box key={val.req_slno} sx={{ width: "100%", }}>
                                     <Paper sx={{
                                         width: '100%',
@@ -551,12 +691,5 @@ const CrfInchargeAppvable = () => {
                                         />
                                     </Paper>
                                 </Box>
-                            })}
-                        </Box>
-                }
-            </Box>
-        </Fragment>
-    )
-}
-
+                            })} */}
 export default memo(CrfInchargeAppvable)

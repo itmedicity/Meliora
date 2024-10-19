@@ -225,6 +225,9 @@ const AssetServiceList = React.lazy(() => import('./views/AssetManagment/Service
 const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRFAllReportWithPO'))
 const PmDueList = React.lazy(() => import('./views/AssetManagment/PmOverDueList/PmOverdueList'))
 
+// crfDelivery
+const deliverMarking = React.lazy(() => import('./views/CentralRequestManagement/DeliveryMarking/DeliveryMarkingStore'))
+const itemChecking = React.lazy(() => import('./views/CentralRequestManagement/ItemCheckingCRS/ItemCheckingMain'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -453,8 +456,8 @@ const routes = [
   { path: '/Home/AssetServiceList', exact: true, name: 'Spare Service List', component: AssetServiceList },
   { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
   { path: '/Home/PmDueList', exact: true, name: 'PM Due List in Asset', component: PmDueList },
-
-
+  { path: '/Home/DeliveryMarking', exact: true, name: 'CRS Delivery Marking', component: deliverMarking },
+  { path: '/Home/ItemChecking', exact: true, name: 'Item Checking', component: itemChecking },
 ]
 
 export default routes

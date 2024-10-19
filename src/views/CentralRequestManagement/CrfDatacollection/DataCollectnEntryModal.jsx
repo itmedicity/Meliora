@@ -451,6 +451,7 @@ const DataCollectnEntryModal = ({ open, setDataEnterFlag, setDataEnterModal, dta
                                     ApproveTableDis={ApproveTableDis}
                                     ApproveTableData={ApproveTableData}
                                     setApproveTableData={setApproveTableData}
+                                    setMoreItem={setMoreItem}
                                 />
                                 <Box sx={{ pl: 2 }}>
                                     <Button onClick={AddItems} variant="contained"

@@ -15,7 +15,7 @@ const PoItemDetailsTable = ({ itemTableData, onSelectionChanged, columnTypes, ge
         { headerName: "Sl.No.", field: "slno", autoHeight: true, wrapText: true, width: 100 },
         // { headerName: "Item Code", field: "item_code", autoHeight: true, wrapText: true, width: 200 },
         { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, width: 300, filter: "true" },
-        { headerName: "Qnty", field: "item_qty", autoHeight: true, wrapText: true, width: 120 },
+        { headerName: "Qty", field: "item_qty", autoHeight: true, wrapText: true, width: 120 },
         { headerName: "Rate", field: "item_rate", autoHeight: true, wrapText: true, width: 120 },
         { headerName: "Tax", field: "tax", autoHeight: true, wrapText: true, width: 130 },
         { headerName: "Tax Amount", field: "tax_amount", autoHeight: true, wrapText: true, width: 150 },

@@ -2,13 +2,13 @@ import { Box, FormControl, MenuItem, Select } from '@mui/material'
 import React, { memo, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios';
 
-const PurchaseStoreSlect = ({ substoreSlno, setsubStoreSlno, setsubStoreName, setStoreName, setStoreCode }) => {
+const PurchaseStoreSlect = ({ substoreSlno, setsubStoreSlno, storeSlno, setsubStoreName }) => {
 
     const [tabledata, setTabledata] = useState([])
 
     useEffect(() => {
         const getSubStore = async () => {
-            const result = await axioslogin.get('/newCRFPurchase/getSubstores');
+            const result = await axioslogin.get(`/newCRFPurchase/getSubstores/${storeSlno}`);
             const { success, data } = result.data
             if (success === 1) {
                 setTabledata(data);
@@ -18,28 +18,7 @@ const PurchaseStoreSlect = ({ substoreSlno, setsubStoreSlno, setsubStoreName, se
             }
         }
         getSubStore()
-    }, [])
-
-    useEffect(() => {
-
-        const getMainStore = async (substoreSlno) => {
-            const result = await axioslogin.get(`/newCRFPurchase/getMainStore/${substoreSlno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const { main_store, crs_store_code } = data[0]
-                setStoreName(main_store)
-                setStoreCode(crs_store_code)
-            }
-            else {
-                setStoreName('')
-                setStoreCode('')
-            }
-        }
-        if (substoreSlno !== 0) {
-            getMainStore(substoreSlno)
-        }
-    }, [substoreSlno, setStoreName, setStoreCode])
-
+    }, [storeSlno])
 
     return (
         <Box>
@@ -56,7 +35,7 @@ const PurchaseStoreSlect = ({ substoreSlno, setsubStoreSlno, setsubStoreName, se
                     size="small"
                     fullWidth
                     variant="outlined"
-                    sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+                    sx={{ height: 27, p: 0, m: 0, lineHeight: 1.2 }}
                 >
                     <MenuItem value={0} disabled>
                         Select Store

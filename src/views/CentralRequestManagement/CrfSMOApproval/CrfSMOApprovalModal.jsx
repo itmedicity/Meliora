@@ -191,7 +191,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
             senior_manage_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
             senior_manage_user: id,
             req_slno: req_slno,
-            som_aprrov_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            som_aprrov_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             senior_manage_remarks: remark,
             smo_detial_analysis: detailAnalis
 
@@ -1476,6 +1476,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, setApprovalModal, setApproval
                                                                 ApproveTableDis={ApproveTableDis}
                                                                 ApproveTableData={ApproveTableData}
                                                                 setApproveTableData={setApproveTableData}
+                                                                setMoreItem={setMoreItem}
                                                             />
                                                         </Box>
                                                         <Box sx={{ pl: 2 }}>
