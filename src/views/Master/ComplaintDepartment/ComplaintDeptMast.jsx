@@ -10,11 +10,11 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect';
 import { useSelector } from 'react-redux'
+import { useQueryClient } from 'react-query'
 const ComplaintDeptMast = () => {
     //for routing to settings
     const history = useHistory();
-    //state for table render
-    const [count, setCount] = useState(0);
+    const queryClient = useQueryClient()
     //state for edit
     const [edit, setEdit] = useState(0);
     //state for department select
@@ -81,9 +81,10 @@ const ComplaintDeptMast = () => {
             const { message, success } = result.data;
             if (success === 1) {
                 succesNotify(message)
-                setCount(count + 1);
+                // setCount(count + 1);
                 setComplaint(formreset);
                 setDepartment(0);
+                queryClient.invalidateQueries('getComplaintDept')
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -97,10 +98,11 @@ const ComplaintDeptMast = () => {
             const { message, success } = result.data;
             if (success === 2) {
                 succesNotify(message)
-                setCount(count + 1);
+                // setCount(count + 1);
                 setEdit(0)
                 setComplaint(formreset);
                 setDepartment(0);
+                queryClient.invalidateQueries('getComplaintDept')
             } else if (success === 0) {
                 infoNotify(message);
             }
@@ -116,7 +118,10 @@ const ComplaintDeptMast = () => {
         } else {
             updateFun(patchdata)
         }
-    }, [edit, postdata, patchdata, count])
+    }, [edit, postdata, patchdata, queryClient])
+
+
+
     //close button function
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
@@ -170,7 +175,7 @@ const ComplaintDeptMast = () => {
                         </Grid>
                     </Grid>
                     <Grid item lg={8} xl={8} >
-                        <ComplaintDeptMastTable count={count} rowSelect={rowSelect} />
+                        <ComplaintDeptMastTable rowSelect={rowSelect} />
                     </Grid>
                 </Grid>
             </Box>
