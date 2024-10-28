@@ -29,6 +29,7 @@ const WifiManageMentMains = () => {
   const [createdDate, setCreatedDate] = useState(new Date())
   const [in_patient_no, setIn_patient_no] = useState('')
   const [qrCodeDis, setQrCodeDis] = useState('')
+  const [qrCodeUserName, setQrCodeUserName] = useState('')
   const [QrModelOpen, SetQrModelOpen] = useState(false)
   const [qrModelFlag, setQrModelFlag] = useState(0)
   const [expiredDetails, setExpiredDetails] = useState([])
@@ -391,10 +392,11 @@ const WifiManageMentMains = () => {
       const result = await axioslogin.post(`/wifiManagement/checkCodeNdGet`, checking);
       const { success, data } = result.data
       if (success === 2) {
-        const { code } = data[0]
+        const { code, username } = data[0]
         setQrModelFlag(1)
         SetQrModelOpen(true)
         setQrCodeDis(code)
+        setQrCodeUserName(username)
         setDashChange(dashChange + 1)
         setCount(count + 1)
       }
@@ -405,10 +407,11 @@ const WifiManageMentMains = () => {
           const result = await axioslogin.post(`/wifiManagement/checkCodeNdGet`, checking);
           const { success, data } = result.data
           if (success === 2) {
-            const { code } = data[0]
+            const { code, username } = data[0]
             setQrModelFlag(1)
             SetQrModelOpen(true)
             setQrCodeDis(code)
+            setQrCodeUserName(username)
             setDashChange(dashChange + 1)
             setCount(count + 1)
           }
@@ -432,10 +435,11 @@ const WifiManageMentMains = () => {
       const result = await axioslogin.post(`/wifiManagement/checkCodeNdGet`, checking);
       const { success, data } = result.data
       if (success === 2) {
-        const { code } = data[0]
+        const { code, username } = data[0]
         setQrModelFlag(1)
         SetQrModelOpen(true)
         setQrCodeDis(code)
+        setQrCodeUserName(username)
         setDashChange(dashChange + 1)
         setCount(count + 1)
       }
@@ -446,10 +450,11 @@ const WifiManageMentMains = () => {
           const result = await axioslogin.post(`/wifiManagement/checkCodeNdGet`, checking);
           const { success, data } = result.data
           if (success === 2) {
-            const { code } = data[0]
+            const { code, username } = data[0]
             setQrModelFlag(1)
             SetQrModelOpen(true)
             setQrCodeDis(code)
+            setQrCodeUserName(username)
             setDashChange(dashChange + 1)
             setCount(count + 1)
           }
@@ -667,7 +672,7 @@ const WifiManageMentMains = () => {
         </Paper >
       </Box >
       <Paper sx={{ maxHeight: 200, maxWidth: '100%', overflow: 'auto', margin: 'auto', }}>
-        {qrModelFlag === 1 ? <WifiQRCodeModel open={QrModelOpen} handleClose={handleClose} qrCodeDis={qrCodeDis} /> : null}
+        {qrModelFlag === 1 ? <WifiQRCodeModel open={QrModelOpen} handleClose={handleClose} qrCodeDis={qrCodeDis} qrCodeUserName={qrCodeUserName} /> : null}
         {searchFlag === 1 ?
           <CssVarsProvider>
             <Table stickyHeader >
