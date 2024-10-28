@@ -375,11 +375,8 @@ const CrfHodApproval = () => {
             const DoneList = getAllDta?.filter((val) => {
                 return val.hod_approve !== null || val.manag_operation_approv !== null ||
                     val.senior_manage_approv !== null || val.gm_approve !== null ||
-<<<<<<< HEAD
                     val.ed_approve !== null || val.md_approve !== null || val.hod_approve == null
-=======
-                    val.ed_approve !== null || val.md_approve !== null || val.hod_approve === null
->>>>>>> 5017cfb857c2dfe9ddbd2f27f31a3201ee1aa092
+                val.ed_approve !== null || val.md_approve !== null || val.hod_approve === null
             })
             setDoneData(DoneList)
         }
