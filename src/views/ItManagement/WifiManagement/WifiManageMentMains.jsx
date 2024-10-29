@@ -96,7 +96,6 @@ const WifiManageMentMains = () => {
 
   }, [dashChange])
   useEffect(() => {
-
     const getExpiredWiFi = async (in_patient_no) => {
       const result = await axioslogin.get(`/wifiManagement/expiredData/${in_patient_no}`)
       const { success, data } = result.data
@@ -123,24 +122,23 @@ const WifiManageMentMains = () => {
       getExpiredWiFi(in_patient_no)
     }
   }, [in_patient_no, count])
-
-
   useEffect(() => {
     const getUpdatedDate = async (in_patient_no) => {
       const result = await axioslogin.get(`/wifiManagement/getDate/${in_patient_no}`)
       const { success, data } = result.data
       if (success === 1) {
-        const { updated_date } = data[0]
+        const { updated_date } = data[0];
         if (updated_date !== null) {
-          const checkExpiry = addDays(new Date(updated_date), 4)
-          if (format(new Date(checkExpiry), 'dd-MM-yyyy') >= format(new Date(), 'dd-MM-yyyy')) {
-            setCreatedDate(updated_date)
-            setDateOver(2)
-            setExpiryDate(checkExpiry)
+          const checkExpiry = addDays(new Date(updated_date), 4);
+          const currentDate = new Date();
+          if (checkExpiry >= currentDate) {
+            setCreatedDate(updated_date);
+            setDateOver(2);
+            setExpiryDate(checkExpiry);
           } else {
-            setCreatedDate(updated_date)
-            setDateOver(1)
-            setExpiryDate(checkExpiry)
+            setCreatedDate(updated_date);
+            setDateOver(1);
+            setExpiryDate(checkExpiry);
           }
         }
         else {
@@ -195,17 +193,18 @@ const WifiManageMentMains = () => {
           getUpdatedDate(in_patient_no).then((values) => {
             const { success, data } = values
             if (success === 1) {
-              const { updated_date } = data[0]
+              const { updated_date } = data[0];
               if (updated_date !== null) {
-                const checkExpiry = addDays(new Date(updated_date), 4)
-                if (format(new Date(checkExpiry), 'dd-MM-yyyy') >= format(new Date(), 'dd-MM-yyyy')) {
-                  setCreatedDate(updated_date)
-                  setDateOver(2)
-                  setExpiryDate(checkExpiry)
+                const checkExpiry = addDays(new Date(updated_date), 4);
+                const currentDate = new Date();
+                if (checkExpiry >= currentDate) {
+                  setCreatedDate(updated_date);
+                  setDateOver(2);
+                  setExpiryDate(checkExpiry);
                 } else {
-                  setCreatedDate(updated_date)
-                  setDateOver(1)
-                  setExpiryDate(checkExpiry)
+                  setCreatedDate(updated_date);
+                  setDateOver(1);
+                  setExpiryDate(checkExpiry);
                 }
               }
               else {
