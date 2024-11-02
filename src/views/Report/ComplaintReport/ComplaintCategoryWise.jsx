@@ -5,7 +5,7 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import CusIconButton from '../../Components/CusIconButton';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
-import { format } from 'date-fns'
+import { differenceInSeconds, format } from 'date-fns'
 import { useDispatch } from 'react-redux';
 import CusAgGridForReport from 'src/views/Components/CusAgGridForReport';
 import { warningNotify } from '../../Common/CommonCode';
@@ -42,10 +42,6 @@ const ComplaintCategoryWise = () => {
     }, [start_date, end_date, category])
 
 
-    // const getDataList = useSelector((state) => {
-    //     return state.getReqCategoryReportList.ReqCategoryReportList
-    // })
-
     const [tabledata, setTableData] = useState([])
 
     const clicksearch = useCallback((e) => {
@@ -56,6 +52,47 @@ const ComplaintCategoryWise = () => {
             const { success, data } = result.data
             if (success === 1) {
                 const dispalyData = data && data.map((val) => {
+
+                    const assignedDate = val.assigned_date ? new Date(val.assigned_date) : null;
+                    const complaintDate = val.compalint_date ? new Date(val.compalint_date) : null;
+                    const rectifiedDate = val.cm_rectify_time ? new Date(val.cm_rectify_time) : null;
+
+                    let req_Assing = "Not Updated";
+                    if (assignedDate && complaintDate) {
+                        const totalSeconds = differenceInSeconds(assignedDate, complaintDate);
+                        const days = Math.floor(totalSeconds / 86400); // 86400 seconds in a day
+                        const hours = Math.floor((totalSeconds % 86400) / 3600);
+                        const minutes = Math.floor((totalSeconds % 3600) / 60);
+                        const seconds = totalSeconds % 60;
+                        req_Assing = days > 0
+                            ? `${days}d : ${hours}h : ${minutes}m : ${seconds}s`
+                            : `${hours}h : ${minutes}m : ${seconds}s`;
+                    }
+
+                    let assin_rect = "Not Updated";
+                    if (rectifiedDate && assignedDate) {
+                        const totalSeconds = differenceInSeconds(rectifiedDate, assignedDate);
+                        const days = Math.floor(totalSeconds / 86400); // 86400 seconds in a day
+                        const hours = Math.floor((totalSeconds % 86400) / 3600);
+                        const minutes = Math.floor((totalSeconds % 3600) / 60);
+                        const seconds = totalSeconds % 60;
+                        assin_rect = days > 0
+                            ? `${days}d : ${hours}h : ${minutes}m : ${seconds}s`
+                            : `${hours}h : ${minutes}m : ${seconds}s`;
+                    }
+
+                    let Request_Rectify = "Not Updated";
+                    if (rectifiedDate && complaintDate) {
+                        const totalSeconds = differenceInSeconds(rectifiedDate, complaintDate);
+                        const days = Math.floor(totalSeconds / 86400); // 86400 seconds in a day
+                        const hours = Math.floor((totalSeconds % 86400) / 3600);
+                        const minutes = Math.floor((totalSeconds % 3600) / 60);
+                        const seconds = totalSeconds % 60;
+                        Request_Rectify = days > 0
+                            ? `${days}d : ${hours}h : ${minutes}m : ${seconds}s`
+                            : `${hours}h : ${minutes}m : ${seconds}s`;
+                    }
+
                     const obj = {
                         slno: val.complaint_slno,
                         date: format(new Date(val.compalint_date), 'dd-MM-yyyy'),
@@ -68,7 +105,10 @@ const ComplaintCategoryWise = () => {
                         assigndate: val.assigned_date !== null ? format(new Date(val.assigned_date), 'dd-MM-yyyy H:mm:ss') : "Not Given",
                         rectifydate: val.cm_rectify_time !== null ? format(new Date(val.cm_rectify_time), 'dd-MM-yyyy H:mm:ss') : "Not Given",
                         verifydate: val.cm_verfy_time !== null ? format(new Date(val.cm_verfy_time), 'dd-MM-yyyy H:mm:ss') : "Not Assigned",
-                        tat: (val.tat === 0 || val.tat === null) ? "Not asssigned" : val.tat + "Minutes"
+                        req_Assing: req_Assing,
+                        assin_rect: assin_rect,
+                        Request_Rectify: Request_Rectify
+
                     }
                     return obj
                 })
@@ -97,7 +137,9 @@ const ComplaintCategoryWise = () => {
         { headerName: "Assigning Time ", field: "assigndate", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
         { headerName: "Rectify Time ", field: "rectifydate", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
         { headerName: "Veryfyication Time", field: "verifydate", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
-        { headerName: "TAT Time(G_H)", field: "tat", autoHeight: true, wrapText: true, minWidth: 100, filter: "true" },
+        { headerName: "TAT Time(Request_Assing)", field: "req_Assing", autoHeight: true, wrapText: true, minWidth: 100, filter: "true" },
+        { headerName: "TAT Time(Assing_Rectify)", field: "assin_rect", autoHeight: true, wrapText: true, minWidth: 100, filter: "true" },
+        { headerName: "TAT Time(Request_Rectify)", field: "Request_Rectify", autoHeight: true, wrapText: true, minWidth: 100, filter: "true" },
     ])
 
     const onExportClick = () => {
