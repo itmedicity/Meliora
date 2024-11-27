@@ -13,12 +13,12 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { Paper } from '@mui/material'
 import CusIconButton from 'src/views/Components/CusIconButton'
-import TmDepartmentSelect from 'src/views/CommonSelectCode/TmDepartmentSelect';
-import { getDepartment } from 'src/redux/actions/Department.action';
-import TmDeptSectionSelect from 'src/views/CommonSelectCode/TmDeptSectionSelect';
 import ItSimTypeSelect from 'src/views/CommonSelectCode/ItSimTypeSelect';
 import { getSimType } from 'src/redux/actions/ItSimTypeList.action';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { getDepartment } from 'src/redux/actions/Department.action'
+import DeptSelectAutoCompJoy from 'src/views/CommonSelectCode/DeptSelectAutoCompJoy';
+import DeptSecSelectAutoCompJoy from 'src/views/CommonSelectCode/DeptSecSelectAutoCompJoy';
 
 const SimDetails = () => {
     const [provider, setProvider] = useState(0)
@@ -150,8 +150,10 @@ const SimDetails = () => {
             setProvider(it_sim_operator)
             setTarrif(it_sim_tariff)
             setSimType(it_sim_type)
+
         }
         else {
+
             setRecieverFlag(1)
             setRecieverCheck(true)
             const {
@@ -468,14 +470,23 @@ const SimDetails = () => {
                             </Box>
                             <Box sx={{ flex: 2.5 }}>
                                 <Box sx={{ pt: .5 }}>
-                                    <TmDepartmentSelect
+                                    {/* <TmDepartmentSelect
                                         department={department}
-                                        setDepartment={setDepartment} />
+                                        setDepartment={setDepartment} /> */}
+                                    <DeptSelectAutoCompJoy
+                                        department={department}
+                                        setDepartment={setDepartment}
+                                    />
                                 </Box>
                                 <Box sx={{ pt: .3 }}>
-                                    <TmDeptSectionSelect
+                                    {/* <TmDeptSectionSelect
+                                        deptsec={deptsec}
+                                        setDeptSec={setDeptSec} /> */}
+                                    <DeptSecSelectAutoCompJoy
                                         deptsec={deptsec}
                                         setDeptSec={setDeptSec} />
+
+
                                 </Box>
                                 <Box sx={{ pt: .5 }}>
                                     <TextFieldCustom

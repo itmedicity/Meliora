@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, memo, useState } from 'react'
+import React, { useEffect, useCallback, memo, useState, useMemo } from 'react'
 import { Paper, Box } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import CusIconButton from '../../Components/CusIconButton';
@@ -11,6 +11,9 @@ import { ActionTyps } from 'src/redux/constants/action.type'
 import { axioslogin } from 'src/views/Axios/Axios';
 import { useDispatch } from 'react-redux';
 import CustomBackDrop from 'src/views/Components/CustomBackDrop';
+import { Checkbox, CssVarsProvider, } from '@mui/joy';
+import AMCustodianDeptSelect from 'src/views/CommonSelectCode/AMCustodianDeptSelect';
+import { useQuery } from 'react-query';
 
 const AllItemsReports = () => {
     const history = useHistory();
@@ -18,45 +21,81 @@ const AllItemsReports = () => {
     const [TableData, setTableData] = useState([]);
     const [exports, setexport] = useState(0)
     const [open, setOpen] = useState(false)
+    const [selectedDept, setSelectedDept] = useState(null);
+    const [allDetailsCheck, setallDetailsCheck] = useState(true)
+    const [SortDetailsCheck, setSortDetailsCheck] = useState(false)
+
+    const custodian = useMemo(() => {
+        if (selectedDept) {
+            return selectedDept.am_custodian_slno;
+        }
+        return null;
+    }, [selectedDept]);
+
+    const { data, isLoading, isError } = useQuery(
+        ['getAllItemsInAsset', selectedDept],
+        async () => {
+            const result = await axioslogin.get('/amReport/getAllItemList');
+            return result.data;
+        },
+        { enabled: !!selectedDept || allDetailsCheck }
+    );
 
     useEffect(() => {
-        setOpen(true)
-        const getAllItems = async () => {
-            const result = await axioslogin.get('/amReport/getItemList')
-            const { success, data } = result.data;
-            if (success === 1) {
-                const dispalyData = data && data.map((val) => {
-                    const obj = {
-                        item_creation_slno: val.item_creation_slno,
-                        item_name: val.item_name,
-                        asset_type_name: val.asset_type_name,
-                        item_type_name: val.item_type_name,
-                        category_name: val.category_name !== null ? val.category_name : "Not Given",
-                        subcategory_name: val.subcategory_name !== null ? val.subcategory_name : "Not Given",
-                        group_name: val.group_name !== null ? val.group_name : "Not Given",
-                        sub_group_name: val.sub_group_name !== null ? val.sub_group_name : "Not Given",
-                        model_name: val.model_name !== null ? val.model_name : "Not Given",
-                        manufacture_name: val.manufacture_name !== null ? val.manufacture_name : "Nopt Given",
-                        item_model_num: val.item_model_num !== null ? val.item_model_num : "Not Given",
-                        uom_name: val.uom_name !== null ? val.uom_name : "Not Given",
-                    }
-                    return obj
-                })
-                setTableData(dispalyData)
-                setOpen(false)
-            } else {
-                warningNotify("No Items Added")
-                setTableData([])
-                setOpen(false)
-            }
+        if (isLoading) {
+            setOpen(true);
+            return;
         }
-        getAllItems()
-    }, [])
+        if (isError) {
+            warningNotify("Failed to fetch items");
+            setOpen(false);
+            return;
+        }
+        if (data?.success === 1) {
+            const filteredData = custodian
+                ? data.data.filter(
+                    item =>
+                        item.item_custodian_dept === custodian ||
+                        item.spare_custodian_dept === custodian
+                )
+                : data.data;
+
+            const tableDataa = filteredData.map(val => ({
+                item_creation_slno: val.item_creation_slno,
+                asset_spare: val.asset_spare === 1 ? "Asset" : "Spare",
+                am_item_map_slno: val.am_item_map_slno ?? "Not Given",
+                item_name: val.item_name ?? "Not Given",
+                asset_type_name: val.asset_type_name ?? "Not Given",
+                item_type_name: val.item_type_name ?? "Not Given",
+                category_name: val.category_name ?? "Not Given",
+                subcategory_name: val.subcategory_name ?? "Not Given",
+                group_name: val.group_name ?? "Not Given",
+                sub_group_name: val.sub_group_name ?? "Not Given",
+                model_name: val.model_name ?? "Not Given",
+                manufacture_name: val.manufacture_name ?? "Not Given",
+                item_model_num: val.item_model_num ?? "Not Given",
+                uom_name: val.uom_name ?? "Not Given",
+                item_creation_count:
+                    (val.am_item_map_slno === null && val.am_spare_item_map_slno === null)
+                        ? 0
+                        : val.item_creation_count,
+            }));
+
+            setTableData(tableDataa);
+            setOpen(false);
+        } else {
+            warningNotify("No Items Added");
+            setTableData([]);
+            setOpen(false);
+        }
+    }, [data, isLoading, isError, custodian, selectedDept]);
+
 
 
     const [columnDefs] = useState([
-        { headerName: "SlNo", field: "item_creation_slno", autoHeight: true, wrapText: true, minWidth: 100 },
-        { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, minWidth: 350, filter: "true" },
+        { headerName: "SlNo", field: "item_creation_slno", autoHeight: true, wrapText: true, minWidth: 80 },
+        { headerName: "Asset/Spare", field: "asset_spare", autoHeight: true, wrapText: true, minWidth: 100 },
+        { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, minWidth: 400, filter: "true" },
         { headerName: "Asset Type", field: "asset_type_name", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Item Type", field: "item_type_name", autoHeight: true, wrapText: true, minWidth: 250 },
         { headerName: "Category", field: "category_name", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
@@ -67,6 +106,7 @@ const AllItemsReports = () => {
         { headerName: "Manufacture", field: "manufacture_name", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Model No", field: "item_model_num", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "UOM", field: "uom_name", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
+        { headerName: "Item Count", field: "item_creation_count", autoHeight: true, wrapText: true, minWidth: 50, filter: "true" },
     ])
 
     const onExportClick = () => {
@@ -93,6 +133,20 @@ const AllItemsReports = () => {
     const backToSetting = useCallback(() => {
         history.push(`/Home/Reports`)
     }, [history])
+
+
+
+    const handleCheckboxAll = (event) => {
+        setallDetailsCheck(event.target.checked);
+        setSortDetailsCheck(false)
+        setSelectedDept(null)
+
+    };
+    const handleCheckboxSort = (event) => {
+        setSortDetailsCheck(event.target.checked);
+        setallDetailsCheck(false)
+    };
+
     return (
 
         <CardCloseOnly
@@ -107,20 +161,42 @@ const AllItemsReports = () => {
                     p: 1
                 }}
             >
-                {/* Rigth Side Menu  */}
                 <Paper
                     square
                     sx={{
                         backgroundColor: '#f0f3f5',
                         display: 'flex',
-                        flexWrap: 'wrap',
-                        flexDirection: 'row-reverse',
-                        gap: 0.1,
-                        p: 0.3,
-                        borderLeft: 2,
                         borderColor: '#d3d3d3',
                     }}
                 >
+                    <Box sx={{ flex: 1, display: 'flex' }}>
+                        <Box sx={{ margin: 'auto', display: 'flex', gap: 4, }}>
+
+                            <Box sx={{ pt: .8 }}>
+                                <CssVarsProvider>
+                                    <Checkbox color="primary" variant="outlined" label="All"
+                                        checked={allDetailsCheck}
+                                        onChange={handleCheckboxAll} />
+                                </CssVarsProvider>
+                            </Box>
+                            <Box sx={{ pt: .8 }}>
+                                <CssVarsProvider>
+                                    <Checkbox color="primary" variant="outlined" label="Sort by"
+                                        checked={SortDetailsCheck}
+                                        onChange={handleCheckboxSort}
+                                    />
+                                </CssVarsProvider>
+                            </Box>
+
+                            {SortDetailsCheck === true ? <Box sx={{ display: 'flex', pt: .3 }}>
+                                <Box sx={{ width: 240 }}>
+                                    <AMCustodianDeptSelect selectedDept={selectedDept} setSelectedDept={setSelectedDept} />
+
+                                </Box>
+
+                            </Box> : null}
+                        </Box>
+                    </Box>
                     <CustomeToolTip title="Download" placement="bottom">
                         <Box>
                             <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick}>
@@ -139,3 +215,5 @@ const AllItemsReports = () => {
 }
 
 export default memo(AllItemsReports)
+
+
