@@ -109,15 +109,19 @@ const AllItemsReports = () => {
         { headerName: "Item Count", field: "item_creation_count", autoHeight: true, wrapText: true, minWidth: 50, filter: "true" },
     ])
 
+    const isTableDataEmpty = useMemo(() =>
+        TableData.length === 0,
+        [TableData]);
+
     const onExportClick = () => {
-        if (TableData.length === 0) {
-            warningNotify("No Data For Download, Please select dates")
-            setexport(0)
+        if (isTableDataEmpty) {
+            warningNotify("No Data For Download");
+            setexport(0);
+        } else {
+            setexport(1);
         }
-        else {
-            setexport(1)
-        }
-    }
+    };
+
 
     useEffect(() => {
         if (exports === 1) {
@@ -135,17 +139,17 @@ const AllItemsReports = () => {
     }, [history])
 
 
-
-    const handleCheckboxAll = (event) => {
+    const handleCheckboxAll = useCallback((event) => {
         setallDetailsCheck(event.target.checked);
-        setSortDetailsCheck(false)
-        setSelectedDept(null)
+        setSortDetailsCheck(false);
+        setSelectedDept(null);
+    }, []);
 
-    };
-    const handleCheckboxSort = (event) => {
+
+    const handleCheckboxSort = useCallback((event) => {
         setSortDetailsCheck(event.target.checked);
         setallDetailsCheck(false)
-    };
+    }, []);
 
     return (
 
