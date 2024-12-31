@@ -9,8 +9,8 @@ import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/Common
 import InventoryTwoToneIcon from '@mui/icons-material/InventoryTwoTone';
 import { useSelector } from 'react-redux';
 import _ from 'underscore'
-import CustomCloseIconCmp from '../ComonComponent/CustomCloseIconCmp';
-import CustomIconButtonCmp from '../ComonComponent/CustomIconButtonCmp';
+import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp';
+import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCmp';
 import SupplierSelect from './Component/SupplierSelect';
 import { ToastContainer } from 'react-toastify';
 import CustomBackDrop from 'src/views/Components/CustomBackDrop';
@@ -307,14 +307,14 @@ const CrsItemChecking = () => {
             <CustomBackDrop open={open} text="Please Wait" />
             <Box sx={{ height: window.innerHeight - 80 }}>
                 <CssVarsProvider>
-                    <Box sx={{ height: 40, backgroundColor: "#f0f3f5", display: 'flex', p: 0.5 }}>
-                        <Box sx={{ fontSize: 20, pl: 1, color: '#254030', fontFamily: 'Monospace', m: 0.5 }}>
-                            Item Checking
-                        </Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, pr: 0.2 }}>
-                            <CustomCloseIconCmp
-                                handleChange={backtoHome}
-                            />
+                    <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
+                        <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Item Checking</Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
+                            <CssVarsProvider>
+                                <CustomCloseIconCmp
+                                    handleChange={backtoHome}
+                                />
+                            </CssVarsProvider>
                         </Box>
                     </Box>
                     <Box sx={{

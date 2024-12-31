@@ -1,12 +1,44 @@
-import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Table, Typography } from '@mui/joy'
+import { Box, Chip, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Typography } from '@mui/joy'
 import { format } from 'date-fns'
 import React, { Fragment, memo } from 'react'
+import { Paper } from '@mui/material'
+const ApprovedItemListDis = React.lazy(() => import("../../ComonComponent/ApprovedItemListDis"))
+const CommonInchargeReqCmp = React.lazy(() => import("../../ComonComponent/ApprovalComp/CommonInchargeReqCmp"))
+const CommonHodApprvCmp = React.lazy(() => import("../../ComonComponent/ApprovalComp/CommonHodApprvCmp"))
+const CommonDmsApprvCmp = React.lazy(() => import("../../ComonComponent/ApprovalComp/CommonDmsApprvCmp"))
+const CommonMsApprvCmp = React.lazy(() => import("../../ComonComponent/ApprovalComp/CommonMsApprvCmp"))
+const CommonMoApprvlCmp = React.lazy(() => import("../../ComonComponent/ApprovalComp/CommonMoApprvlCmp"))
+const CommonSmoApprvCmp = React.lazy(() => import("../../ComonComponent/ApprovalComp/CommonSmoApprvCmp"))
+const CommonGmapprvCmp = React.lazy(() => import("../../ComonComponent/ApprovalComp/CommonGmapprvCmp"))
+const CommonMdApprvCmp = React.lazy(() => import("../../ComonComponent/ApprovalComp/CommonMdApprvCmp"))
+const CommonEdapprvCmp = React.lazy(() => import("../../ComonComponent/ApprovalComp/CommonEdapprvCmp"))
+const ViewOreviousDataCollctnDetails = React.lazy(() => import("../../ComonComponent/DataCollectionComp/ViewOreviousDataCollctnDetails"))
+const CrfReqDetailViewCmp = React.lazy(() => import("../../ComonComponent/CrfReqDetailViewCmp"))
+const ReqItemDisplay = React.lazy(() => import("../../ComonComponent/ReqItemDisplay"))
+const PoAcknowComp = React.lazy(() => import("../../ComonComponent/PurchaseComp/PoAcknowComp"))
+const QuotationCallComp = React.lazy(() => import("../../ComonComponent/PurchaseComp/QuotationCallComp"))
+const QuotationNegoComp = React.lazy(() => import("../../ComonComponent/PurchaseComp/QuotationNegoComp"))
+const QuotationFinalComp = React.lazy(() => import("../../ComonComponent/PurchaseComp/QuotationFinalComp"))
+const CrfReqDetailCmpnt = React.lazy(() => import("../../CRFRequestMaster/Components/CrfReqDetailCmpnt"))
 
-const PurchaseStatusModalView = ({ modalData, handleClose, open, ackData }) => {
-    const { req_slno, ack_status, ack_remarks, ack_user, ackdate, quatation_calling_status, quatation_calling_remarks,
-        qcall_user, quatation_calling_date, quatation_negotiation, quatation_negotiation_remarks, nego_user,
-        quatation_negotiation_date, quatation_fixing, quatation_fixing_remarks, fix_user, quatation_fixing_date,
-    } = ackData
+const PurchaseStatusModalView = ({ modalData, handleClose, open, datacolData, imagearray, reqItems, approveTableData,
+    poDetails }) => {
+
+    const { incharge_approve, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve_req, ms_approve,
+        manag_operation_req, manag_operation_approv, senior_manage_req, senior_manage_approv, gm_approve_req, gm_approve,
+        md_approve_req, md_approve, ed_approve_req, ed_approve, ack_status, quatation_calling_status, quatation_negotiation,
+        quatation_fixing, po_complete, po_complete_date, pocomplete_user, po_to_supplier
+    } = modalData
+
+    const capitalizeWords = (str) =>
+        str ? str
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ')
+            : '';
     return (
         <Fragment>
             <CssVarsProvider>
@@ -19,11 +51,6 @@ const PurchaseStatusModalView = ({ modalData, handleClose, open, ackData }) => {
                 >
                     <ModalDialog
                         variant="outlined"
-                        sx={{
-                            width: '75vw',
-                            maxHeight: '90vh',
-                            overflow: 'auto'
-                        }}
                     >
                         <ModalClose
                             variant="outlined"
@@ -38,125 +65,169 @@ const PurchaseStatusModalView = ({ modalData, handleClose, open, ackData }) => {
                                 height: 35, width: 35
                             }}
                         />
-                        <Box sx={{ mx: 0.5 }}>
-                            <Typography sx={{ fontWeight: 550, fontSize: 16, fontFamily: 'system-ui' }}>
-                                CRF/TMC/{req_slno}&nbsp; Details </Typography>
-
-                        </Box>
-
-                        {modalData.length !== 0 ?
-                            <Box sx={{ flexWrap: 'wrap', }}>
-                                <Typography sx={{ fontWeight: 'bold', mx: 1, pb: 0.5, color: '#145DA0', fontSize: 14 }}>
-                                    Approved Items
-                                </Typography>
-                                <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm'>
-                                    <thead style={{ height: 4 }} size='small'>
-                                        <tr style={{ height: 4 }} size='small'>
-                                            <th size='sm' style={{ width: 50, textAlign: 'center', backgroundColor: '#EBEBE8' }}>Sl.No</th>
-                                            <th size='sm' style={{ width: 250, backgroundColor: '#EBEBE8' }}>&nbsp;&nbsp;Description</th>
-                                            <th size='sm' style={{ width: 100, backgroundColor: '#EBEBE8' }}>&nbsp;&nbsp;Brand</th>
-                                            <th size='sm' style={{ width: 80, textAlign: 'center', backgroundColor: '#EBEBE8' }}>Qty</th>
-                                            <th size='sm' style={{ width: 80, textAlign: 'center', backgroundColor: '#EBEBE8' }}>UOM</th>
-                                            <th size='sm' style={{ width: 250, textAlign: 'center', backgroundColor: '#EBEBE8' }}>Specification</th>
-                                            <th size='sm' style={{ width: 100, textAlign: 'center', backgroundColor: '#EBEBE8' }}>Price</th>
-                                            <th size='sm' style={{ width: 100, textAlign: 'center', backgroundColor: '#EBEBE8' }}>Approx.cost</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {modalData.map((item, ind) => (
-                                            <tr key={ind}>
-                                                <td style={{ textAlign: 'center' }}>{ind + 1}</td>
-                                                <td style={{ fontSize: 13 }}>&nbsp;{item.approve_item_desc}</td>
-                                                <td style={{}}>&nbsp;{item.approve_item_brand}</td>
-                                                <td style={{ textAlign: 'center', }}>{item.item_qnty_approved}</td>
-                                                <td style={{ textAlign: 'center', }}>{item.approve_item_unit === 0 ? 'Not Given' : item.apprv_uom}</td>
-                                                <td style={{}}>&nbsp;{item.approve_item_specification}</td>
-                                                <td style={{ textAlign: 'center', }}>{item.approve_item_unit_price === 0 ? 'Not Given' : item.approve_item_unit_price}</td>
-                                                <td style={{ textAlign: 'center', }}>{item.approve_aprox_cost === 0 ? 'Not Given' : item.approve_aprox_cost}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </Table>
-                            </Box>
-                            : null
-                        }
-                        <Box sx={{ pb: 2 }}>
-                            {ack_status === 1 ?
-                                <Box sx={{}}>
-                                    <Typography sx={{ fontWeight: 'bold', mx: 1, pb: 0.5, color: '#145DA0', fontSize: 14 }}>
-                                        Acknowledgement
-                                    </Typography>
-                                    <Box sx={{ display: 'flex', mx: 0.3, border: '1px solid lightblue', p: 1, borderRadius: 5 }}>
-                                        <Typography sx={{ flex: 0.3, fontSize: 14, fontWeight: 550 }}>Remarks</Typography>
-                                        <Typography sx={{ flex: 1.5, fontSize: 14 }}>: &nbsp;{ack_remarks}</Typography>
-                                        <Typography sx={{
-                                            display: 'flex', flex: 0.5, justifyContent: 'flex-end', fontSize: 13,
-                                            textTransform: 'capitalize', fontWeight: 550, pr: 3
-                                        }}>{ack_user}</Typography>
-                                        <Typography sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 13, fontWeight: 550 }}>
-                                            {format(new Date(ackdate), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
-                                    </Box>
+                        <Box sx={{ minWidth: '75vw', minHeight: '65vh', maxHeight: '85vh', overflowY: 'auto', px: 0.5 }}>
+                            <CrfReqDetailViewCmp ApprovalData={modalData} imagearray={imagearray} />
+                            {reqItems.length !== 0 ?
+                                <Box sx={{ mt: 0.5, mx: 0.3 }}>
+                                    <ReqItemDisplay reqItems={reqItems} />
                                 </Box>
-                                :
-                                <Box sx={{
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                    color: 'grey'
+                                : <Box sx={{
+                                    display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                                    pt: 10, color: 'grey'
                                 }}>
-                                    Not Initiated
-                                </Box>}
-                            {quatation_calling_status === 1 ?
-                                <Box sx={{}}>
-                                    <Typography sx={{ fontWeight: 'bold', mx: 1, pb: 0.5, color: '#145DA0', fontSize: 14 }}>
-                                        Quotation Calling
-                                    </Typography>
-                                    <Box sx={{ display: 'flex', mx: 0.3, border: '1px solid lightblue', p: 1, borderRadius: 5 }}>
-                                        <Typography sx={{ flex: 0.3, fontSize: 14, fontWeight: 550 }}>Remarks</Typography>
-                                        <Typography sx={{ flex: 1.5, fontSize: 14 }}>: &nbsp;{quatation_calling_remarks}</Typography>
-                                        <Typography sx={{
-                                            display: 'flex', flex: 0.5, justifyContent: 'flex-end', fontSize: 13,
-                                            textTransform: 'capitalize', fontWeight: 550, pr: 3
-                                        }}>{qcall_user}</Typography>
-                                        <Typography sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 13, fontWeight: 550 }}>
-                                            {format(new Date(quatation_calling_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
-                                    </Box>
+                                    No Item Requested
                                 </Box>
-                                : null}
-                            {quatation_negotiation === 1 ?
-                                <Box sx={{}}>
-                                    <Typography sx={{ fontWeight: 'bold', mx: 1, pb: 0.5, color: '#145DA0', fontSize: 14 }}>
-                                        Quotation Negotiation
-                                    </Typography>
-                                    <Box sx={{ display: 'flex', mx: 0.3, border: '1px solid lightblue', p: 1, borderRadius: 5 }}>
-                                        <Typography sx={{ flex: 0.3, fontSize: 14, fontWeight: 550 }}>Remarks</Typography>
-                                        <Typography sx={{ flex: 1.5, fontSize: 14 }}>: &nbsp;{quatation_negotiation_remarks}</Typography>
-                                        <Typography sx={{
-                                            display: 'flex', flex: 0.5, justifyContent: 'flex-end', fontSize: 13,
-                                            textTransform: 'capitalize', fontWeight: 550, pr: 3
-                                        }}>{nego_user}</Typography>
-                                        <Typography sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 13, fontWeight: 550 }}>
-                                            {format(new Date(quatation_negotiation_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
-                                    </Box>
+                            }
+                            {approveTableData.length !== 0 ?
+                                <Box sx={{ mt: 0.3, mx: 0.3 }}>
+                                    <ApprovedItemListDis approveTableData={approveTableData} />
                                 </Box>
-                                : null}
+                                : <Box sx={{
+                                    display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                                    pt: 10, color: 'grey'
+                                }}>
+                                    No items Approved
+                                </Box>
+                            }
+                            {(hod_approve !== null || incharge_approve !== null) ?
+                                <>
 
-                            {quatation_fixing === 1 ?
-                                <Box sx={{}}>
-                                    <Typography sx={{ fontWeight: 'bold', mx: 1, pb: 0.5, color: '#145DA0', fontSize: 14 }}>
-                                        Quotation Fixing
+                                    <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.5 }}>
+                                        <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
+                                            Approval Details
+                                        </Typography>
+                                        <Grid container spacing={0.5} sx={{ flexGrow: 1, }}>
+                                            {incharge_approve === 1 && incharge_remarks !== null ?
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                    <CommonInchargeReqCmp DetailViewData={modalData} />
+                                                </Grid>
+                                                : null
+                                            }
+                                            {hod_req === 1 && hod_approve !== null ?
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                    <CommonHodApprvCmp DetailViewData={modalData} />
+                                                </Grid>
+                                                : null
+                                            }
+                                            {dms_req === 1 && dms_approve !== null ?
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                    <CommonDmsApprvCmp DetailViewData={modalData} />
+                                                </Grid>
+                                                : null
+                                            }
+                                            {ms_approve_req === 1 && ms_approve !== null ?
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                    <CommonMsApprvCmp DetailViewData={modalData} />
+                                                </Grid>
+                                                : null
+                                            }
+                                            {manag_operation_req === 1 && manag_operation_approv !== null ?
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                    <CommonMoApprvlCmp DetailViewData={modalData} />
+                                                </Grid>
+                                                : null
+                                            }
+                                            {senior_manage_req === 1 && senior_manage_approv !== null ?
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                    <CommonSmoApprvCmp DetailViewData={modalData} />
+                                                </Grid>
+                                                : null
+                                            }
+                                            {gm_approve_req === 1 && gm_approve !== null ?
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                    <CommonGmapprvCmp DetailViewData={modalData} />
+                                                </Grid>
+                                                : null
+                                            }
+                                            {md_approve_req === 1 && md_approve !== null ?
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                    <CommonMdApprvCmp DetailViewData={modalData} />
+                                                </Grid>
+                                                : null
+                                            }
+                                            {ed_approve_req === 1 && ed_approve !== null ?
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                    <CommonEdapprvCmp DetailViewData={modalData} />
+                                                </Grid>
+                                                : null
+                                            }
+                                        </Grid>
+                                    </Paper>
+                                    {datacolData.length !== 0 ?
+                                        <Box sx={{ py: 0.5, mx: 0.2 }}>
+                                            <ViewOreviousDataCollctnDetails datacolData={datacolData} />
+                                        </Box>
+                                        : null
+                                    }
+
+                                </>
+                                : null}
+                            {ack_status === 1 ?
+                                <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}>
+                                    <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
+                                        Procurement Details
                                     </Typography>
-                                    <Box sx={{ display: 'flex', mx: 0.3, border: '1px solid lightblue', p: 1, borderRadius: 5 }}>
-                                        <Typography sx={{ flex: 0.3, fontSize: 14, fontWeight: 550 }}>Remarks</Typography>
-                                        <Typography sx={{ flex: 1.5, fontSize: 14 }}>: &nbsp;{quatation_fixing_remarks}</Typography>
-                                        <Typography sx={{
-                                            display: 'flex', flex: 0.5, justifyContent: 'flex-end', fontSize: 13,
-                                            textTransform: 'capitalize', fontWeight: 550, pr: 3
-                                        }}>{fix_user}</Typography>
-                                        <Typography sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 13, fontWeight: 550 }}>
-                                            {format(new Date(quatation_fixing_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
-                                    </Box>
-                                </Box>
+                                    <Grid container spacing={0.5} sx={{ flexGrow: 1, }}>
+                                        {ack_status === 1 ?
+                                            <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                                <PoAcknowComp poData={modalData} />
+                                            </Grid>
+                                            : null
+                                        }
+                                        {quatation_calling_status === 1 ?
+                                            <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                                <QuotationCallComp poData={modalData} />
+                                            </Grid>
+                                            : null
+                                        }
+                                        {quatation_negotiation === 1 ?
+                                            <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                                <QuotationNegoComp poData={modalData} />
+                                            </Grid>
+                                            : null
+                                        }
+                                        {quatation_fixing === 1 ?
+                                            <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                                <QuotationFinalComp poData={modalData} />
+                                            </Grid>
+                                            : null
+                                        }
+                                    </Grid>
+                                    {poDetails.length !== 0 ?
+                                        <>
+                                            <Typography sx={{ fontWeight: 'bold', mx: 1, pt: 0.5, color: '#145DA0', fontSize: 14 }}>
+                                                PO Details
+                                            </Typography>
+                                            <Box sx={{ width: "100%", pb: 0.3, flexWrap: 'wrap' }}>
+                                                <CrfReqDetailCmpnt poDetails={poDetails} />
+                                            </Box>
+                                        </> : null}
+                                    {po_complete === 1 && po_to_supplier === 0 ?
+                                        <Box sx={{ display: 'flex', pt: 0.5, }}>
+                                            <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.7 }}>
+                                                Purchase Order&apos;s Completed
+                                            </Typography>
+                                            : &nbsp;        <Box sx={{ flex: 1, display: 'flex' }}>
+                                                <Chip size="md" variant="outlined" sx={{
+                                                    color: '#2e7d32', height: 25, pb: 0.5,
+                                                    fontSize: 12, fontWeight: 550,
+                                                }}>
+                                                    Yes
+                                                </Chip>
+                                                <Typography sx={{
+                                                    display: 'flex', justifyContent: 'flex-end', fontSize: 12,
+                                                    textTransform: 'capitalize', fontWeight: 550, pl: 2, pt: 0.4
+                                                }}>{capitalizeWords(pocomplete_user)}&nbsp; /</Typography>
+                                                <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}>
+                                                    {format(new Date(po_complete_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
+                                            </Box>
+                                        </Box>
+                                        : null
+                                    }
+                                </Paper>
                                 : null}
                         </Box>
+                        <Box sx={{ height: 20 }}> </Box>
                     </ModalDialog>
                 </Modal>
             </CssVarsProvider >

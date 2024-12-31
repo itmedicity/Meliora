@@ -92,7 +92,6 @@ const GrnDetailsViewModal = ({ handleCloseGrn, open, grnData, poNumber }) => {
                                                 <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.item_qty}</td>
                                                 <td size='sm' style={{ fontSize: 12, height: 5, color: (val.grn_qnty === val.item_qty) ? '#59981A' : '#e65100', fontWeight: 650 }}>&nbsp;{val.grn_qnty}</td>
                                                 <td size='sm' style={{ fontSize: 12, height: 5 }}>
-
                                                     <CssVarsProvider>
                                                         <Tooltip title="View Grn Details" placement="left">
                                                             <WysiwygTwoToneIcon
@@ -103,7 +102,7 @@ const GrnDetailsViewModal = ({ handleCloseGrn, open, grnData, poNumber }) => {
                                                                     height: 20,
                                                                     width: 20,
                                                                     borderRadius: 2,
-                                                                    boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
+                                                                    // boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
                                                                     cursor: 'pointer',
                                                                     transition: 'transform 0.2s',
                                                                     '&:hover': {

@@ -1,205 +1,65 @@
-import { Box, CssVarsProvider, IconButton, Input, Option, Radio, Select, Typography } from '@mui/joy'
-import { Paper } from '@mui/material'
-import { format, parse } from 'date-fns'
-import React, { Fragment, memo, useCallback, useState } from 'react'
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { getDepartment } from 'src/redux/actions/Department.action'
-import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone';
-import CRFDashboardDptSecSelect from 'src/views/CommonSelectCode/CRFDashboardDptSecSelect'
-import CRFDashboardDptSelect from 'src/views/CommonSelectCode/CRFDashboardDptSelect'
-import AlignHorizontalLeftTwoToneIcon from '@mui/icons-material/AlignHorizontalLeftTwoTone';
-import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
+import { Box, CssVarsProvider, IconButton, Typography } from '@mui/joy'
+import { format } from 'date-fns'
+import React, { Fragment, memo, Suspense, useCallback, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
-import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
-import DashboardApprovalView from './DashboardApprovalView'
+import { warningNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
-import CustomCloseIconCmp from '../../ComonComponent/CustomCloseIconCmp'
-import CustomIconButtonCmp from '../../ComonComponent/CustomIconButtonCmp'
-import CustomRadioButtonCmp from '../../ComonComponent/CustomRadioButtonCmp'
-import CustomInputDateCmp from '../../ComonComponent/CustomInputDateCmp'
+import { GetItemDetailsOfCRFCmp } from '../../ComonComponent/GetItemDetailsOfCRFCmp'
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
+import CustomLoadComp from '../../ComonComponent/Components/CustomLoadComp';
+const DashboardApprovalView = React.lazy(() => import("./DashboardApprovalView"))
+const CrfDetailSearchComp = React.lazy(() => import("../Components/CrfDetailSearchComp"))
 
-const formatDateForInput = (date) => {
-    return date.toISOString().split('T')[0];
-};
-const DetailedViewofCRF = ({ setFlag, disData, allFlag, setDisData, tableData, heading }) => {
-    const dispatch = useDispatch()
-    const [startDate, setStartDate] = useState(formatDateForInput(new Date()));
-    const [endDate, setEndDate] = useState(formatDateForInput(new Date()));
-    const [searchFlag, setSearchFlag] = useState('0')
-    const [department, setDepartment] = useState(0)
-    const [clinic, setClinic] = useState(true)
-    const [nonClinic, setNonClinic] = useState(false)
-    // const [academic, setAcademic] = useState(false)
-    const [dptSec, setdptSec] = useState(0)
-    const [searchCrf, setsearchCrf] = useState('')
+const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData }) => {
+
     const [modalData, setModalData] = useState([])
     const [modalopen, setModalOpen] = useState(false)
     const [modFlag, setModFlag] = useState(0)
-    const [approvalRemarks, setApprovalRemarks] = useState([])
-
-    const [datacolflag, setDataColFlag] = useState(0)
     const [datacolData, setDataColData] = useState([])
+    const [reqItems, setReqItems] = useState([])
+    const [approveTableData, setApproveTableData] = useState([])
+    const [poDetails, setPoDetails] = useState([])
+    const [imagearray, setImageArry] = useState([])
 
-    useEffect(() => {
-        dispatch(getDepartment())
-    }, [dispatch])
-
-    const startDateChange = useCallback((e) => {
-        setStartDate(e.target.value)
-    }, [])
-    const endDateChange = useCallback((e) => {
-        setEndDate(e.target.value)
-    }, [])
-    const ClearSearch = useCallback(() => {
-        setSearchFlag(0)
-        setStartDate(formatDateForInput(new Date()))
-        setEndDate(formatDateForInput(new Date()))
-        setDepartment(0)
-        setdptSec(0)
-        setClinic(true)
-        setNonClinic(false)
-        setsearchCrf('')
-        setDisData(tableData)
-        setApprovalRemarks([])
-        setDataColFlag(0)
-        setDataColData([])
-    }, [tableData, setDisData])
-    const changeSearchSelect = useCallback((e, newValue) => {
-        setSearchFlag(newValue);
-    }, [])
-
-    const changeClinic = useCallback((e) => {
-        if (e.target.checked === true) {
-            setClinic(true)
-            setNonClinic(false)
-            // setAcademic(false)
-        }
-        else {
-            setClinic(false)
-            setNonClinic(true)
-            // setAcademic(false)
-        }
-    }, [])
-    const changeNonClinic = useCallback((e) => {
-        if (e.target.checked === true) {
-            setClinic(false)
-            setNonClinic(true)
-            // setAcademic(false)
-        }
-        else {
-            setClinic(true)
-            setNonClinic(false)
-            // setAcademic(false)
-        }
-    }, [])
-    // const changeAcademic = useCallback((e) => {
-    //     if (e.target.checked === true) {
-    //         setClinic(false)
-    //         setNonClinic(false)
-    //         setAcademic(true)
-    //     }
-    //     else {
-    //         setClinic(true)
-    //         setNonClinic(false)
-    //         setAcademic(false)
-    //     }
-    // }, [])
-    const changeCrfNo = useCallback((e) => {
-        setsearchCrf(e.target.value)
-    }, [])
-
-    const SearchData = useCallback(() => {
-        if (searchFlag === '1') {
-            const newData = tableData?.filter((val) => {
-                const reqDate = new Date(val.req_date).setHours(0, 0, 0, 0);
-                const start = parse(startDate, 'yyyy-MM-dd', new Date()).setHours(0, 0, 0, 0);
-                const end = parse(endDate, 'yyyy-MM-dd', new Date()).setHours(0, 0, 0, 0);
-
-                return reqDate >= start && reqDate <= end;
-            });
-
-            if (newData.length !== 0) {
-                setDisData(newData)
-            } else {
-                setDisData([])
-            }
-        } else if (searchFlag === '2') {
-            if (clinic === true) {
-                const newData = tableData?.filter((val) => val.dept_type === 1)
-                setDisData(newData)
-            } else if (nonClinic === true) {
-                const newData = tableData?.filter((val) => val.dept_type !== 1)
-                setDisData(newData)
-            }
-            // else if (academic === true) {
-            //     const newData = tableData?.filter((val) => val.dept_type === 3)
-            //     setDisData(newData)
-            // }
-        }
-        else if (searchFlag === '3') {
-            if (department === 0) {
-                infoNotify("Select Department")
-            } else {
-                if (dptSec === 0) {
-                    const newData = tableData?.filter((val) => val.dept_id === department)
-                    setDisData(newData)
-                } else {
-                    const newData = tableData?.filter((val) => val.dept_id === department && val.request_deptsec_slno === dptSec)
-                    setDisData(newData)
-                }
-            }
-        }
-        else if (searchFlag === '4') {
-            if (searchCrf === '') {
-                infoNotify("Enter CRF No.")
-            } else {
-                const newData = tableData?.filter((val) => val.req_slno === parseInt(searchCrf))
-                setDisData(newData)
-            }
-        }
-    }, [tableData, startDate, endDate, searchFlag, clinic, nonClinic, department, dptSec, searchCrf, setDisData])
-
-    const backtoHome = useCallback(() => {
-        setFlag(0)
-    }, [setFlag])
-
-    const viewDetails = useCallback((reqSlno) => {
-        const getApproItemDetails = async (reqSlno) => {
+    const viewDetails = useCallback(async (req_slno) => {
+        const getImage = async (req_slno) => {
             try {
-                const result = await axioslogin.get(`/CRFRegisterApproval/getItemListApproval/${reqSlno}`)
+                const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
                 const { success, data } = result.data
                 if (success === 1) {
-                    setModalData(data)
-                    setModalOpen(true)
-                    setModFlag(1)
-                }
-                else {
-                    setModalData([])
-                    setModalOpen(false)
-                    setModFlag(0)
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                    });
+
+                    const savedFiles = fileUrls.map((val) => {
+                        const parts = val.split('/');
+                        const fileNamePart = parts[parts.length - 1];
+                        const obj = {
+                            imageName: fileNamePart,
+                            url: val
+                        }
+                        return obj
+                    })
+                    setImageArry(savedFiles)
+                } else {
+                    setImageArry([])
                 }
             } catch (error) {
-                warningNotify("Error fetching Items:", error)
-                setModalData([])
-                setModalOpen(false)
-                setModFlag(0)
+                warningNotify("An error occurred while getting data");
             }
         }
-        getApproItemDetails(reqSlno)
-        const newData = disData?.filter((val) => val.req_slno === reqSlno)
-        setApprovalRemarks(newData)
-
-
-        const checkDataCollectComplete = async (reqSlno) => {
+        GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
+        const checkDataCollectComplete = async (req_slno) => {
             try {
-                const result = await axioslogin.get(`/CRFRegisterApproval/DataCollectComplete/${reqSlno}`)
+                const result = await axioslogin.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
                 const { success, data } = result.data
                 if (success === 1) {
-                    const yy = data && data.filter((val) => val.crf_dept_status === 1)
+                    const yy = data?.filter((val) => val.crf_dept_status === 1)
                     if (yy.length !== 0) {
                         const datas = yy.map((val) => {
                             const obj = {
+                                req_slno: val.crf_requst_slno,
                                 crf_dept_remarks: val.crf_dept_remarks,
                                 datagive_user: val.datagive_user,
                                 data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
@@ -214,213 +74,151 @@ const DetailedViewofCRF = ({ setFlag, disData, allFlag, setDisData, tableData, h
                             return obj
                         })
                         setDataColData(datas)
-                        setDataColFlag(1)
-                    }
-                    else {
-                        setDataColFlag(0)
-                        setDataColData([])
                     }
                 }
+                else {
+                    setDataColData([])
+                }
             } catch (error) {
-                warningNotify("Error fetching Items:", error)
-                setDataColFlag(0)
-                setDataColData([])
+                warningNotify("An error occurred while getting data");
             }
         }
-        checkDataCollectComplete(reqSlno)
-
-    }, [disData])
+        const getDetails = async (req_slno) => {
+            try {
+                const result = await axioslogin.get(`/newCRFRegister/AprvlDetailsView/${req_slno}`,);
+                const { success, data, message } = result.data;
+                if (success === 1) {
+                    const newData = data?.map((val) => {
+                        return {
+                            req_slno: val.req_slno,
+                            actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Nil',
+                            needed: val.needed !== null ? val.needed : 'Nil',
+                            request_deptsec_slno: val.request_deptsec_slno,
+                            req_deptsec: val.req_deptsec.toLowerCase(),
+                            user_deptsection: val.user_deptsection.toLowerCase(),
+                            user_deptsec: val.user_deptsec,
+                            em_name: val.create_user.toLowerCase(),
+                            category: val.category,
+                            location: val.location,
+                            image_status: val.image_status,
+                            req_date: val.create_date,
+                            expected_date: val.expected_date,
+                            incharge_approve: val.incharge_approve,
+                            incharge_req: val.incharge_req,
+                            incharge_remarks: val.incharge_remarks !== null ? val.incharge_remarks : "Not Updated",
+                            inch_detial_analysis: val.inch_detial_analysis,
+                            incharge_apprv_date: val.incharge_apprv_date,
+                            incharge_user: val.incharge_user !== null ? val.incharge_user.toLowerCase() : '',
+                            incharge: val.incharge_approve === 1 ? "Approved" : val.incharge_approve === 2 ? "Rejected" :
+                                val.incharge_approve === 3 ? "On-Hold" : "Not Done",
+                            hod_req: val.hod_req,
+                            hod_approve: val.hod_approve,
+                            hod_remarks: val.hod_remarks !== null ? val.hod_remarks : "Not Updated",
+                            hod_detial_analysis: val.hod_detial_analysis,
+                            hod_approve_date: val.hod_approve_date,
+                            hod_user: val.hod_user !== null ? val.hod_user.toLowerCase() : '',
+                            hod: val.hod_approve === 1 ? "Approved" : val.hod_approve === 2 ? "Rejected" :
+                                val.hod_approve === 3 ? "On-Hold" : "Not Done",
+                            dms_req: val.dms_req,
+                            dms_approve: val.dms_approve,
+                            dms_remarks: val.dms_remarks !== null ? val.dms_remarks : "Not Updated",
+                            dms_detail_analysis: val.dms_detail_analysis,
+                            dms_approve_date: val.dms_approve_date,
+                            dms_user: val.dms_user !== null ? val.dms_user.toLowerCase() : '',
+                            dms: val.dms_approve === 1 ? "Approved" : val.dms_approve === 2 ? "Rejected" :
+                                val.dms_approve === 3 ? "On-Hold" : "Not Done",
+                            ms_approve_req: val.ms_approve_req,
+                            ms_approve: val.ms_approve,
+                            ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : "Not Updated",
+                            ms_detail_analysis: val.ms_detail_analysis,
+                            ms_approve_date: val.ms_approve_date,
+                            ms_approve_user: val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
+                            ms: val.ms_approve === 1 ? "Approved" : val.ms_approve === 2 ? "Rejected" :
+                                val.ms_approve === 3 ? "On-Hold" : "Not Done",
+                            manag_operation_req: val.manag_operation_req,
+                            manag_operation_approv: val.manag_operation_approv,
+                            manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : "Not Updated",
+                            om_detial_analysis: val.om_detial_analysis,
+                            om_approv_date: val.om_approv_date,
+                            manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
+                            om: val.manag_operation_approv === 1 ? "Approved" : val.manag_operation_approv === 2 ? "Rejected" :
+                                val.manag_operation_approv === 3 ? "On-Hold" : "Not Done",
+                            senior_manage_req: val.senior_manage_req,
+                            senior_manage_approv: val.senior_manage_approv,
+                            senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : "Not Updated",
+                            smo_detial_analysis: val.smo_detial_analysis,
+                            som_aprrov_date: val.som_aprrov_date,
+                            senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
+                            smo: val.senior_manage_approv === 1 ? "Approved" : val.senior_manage_approv === 2 ? "Rejected" :
+                                val.senior_manage_approv === 3 ? "On-Hold" : "Not Done",
+                            gm_approve_req: val.gm_approve_req,
+                            gm_approve: val.gm_approve,
+                            gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : "Not Updated",
+                            gm_detial_analysis: val.gm_detial_analysis,
+                            gm_approv_date: val.gm_approv_date,
+                            gm_user: val.gm_user !== null ? val.gm_user.toLowerCase() : '',
+                            gm: val.gm_approve === 1 ? "Approved" : val.gm_approve === 2 ? "Rejected" :
+                                val.gm_approve === 3 ? "On-Hold" : "Not Done",
+                            md_approve_req: val.md_approve_req,
+                            md_approve: val.md_approve,
+                            md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : "Not Updated",
+                            md_detial_analysis: val.md_detial_analysis,
+                            md_approve_date: val.md_approve_date,
+                            md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
+                            md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Rejected" :
+                                val.md_approve === 3 ? "On-Hold" : "Not Done",
+                            ed_approve_req: val.ed_approve_req,
+                            ed_approve: val.ed_approve,
+                            ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
+                            ed_detial_analysis: val.ed_detial_analysis,
+                            ed_approve_date: val.ed_approve_date,
+                            ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
+                            ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Rejected" :
+                                val.ed_approve === 3 ? "On-Hold" : "Not Done",
+                            hod_image: val.hod_image,
+                            dms_image: val.dms_image,
+                            ms_image: val.ms_image,
+                            mo_image: val.mo_image,
+                            smo_image: val.smo_image,
+                            gm_image: val.gm_image,
+                            md_image: val.md_image,
+                            ed_image: val.ed_image,
+                        }
+                    })
+                    setModalData(newData[0])
+                    setModalOpen(true)
+                    setModFlag(1)
+                } else {
+                    warningNotify(message)
+                    setModalOpen(false)
+                    setModFlag(0)
+                }
+            } catch (error) {
+                warningNotify("An error occurred while getting data");
+            }
+        };
+        getDetails(req_slno)
+        getImage(req_slno)
+        checkDataCollectComplete(req_slno)
+    }, [])
 
     const handleClose = useCallback(() => {
         setModalOpen(false)
         setModFlag(0)
         setModalData([])
-    }, [setModalOpen])
+    }, [])
+
     return (
         <Fragment>
-            {/* <CustomBackDrop open={open} text="Please Wait" /> */}
-            {modFlag === 1 ? <DashboardApprovalView modalData={modalData} handleClose={handleClose} open={modalopen}
-                approvalRemarks={approvalRemarks} datacolflag={datacolflag} datacolData={datacolData} /> : null}
-            <Box sx={{ height: window.innerHeight - 160, flexWrap: 'wrap', bgcolor: 'white', }}>
-                <Paper variant='outlined' sx={{ bgcolor: 'white', pt: 0.5, height: 92 }}>
-                    <Box sx={{ display: 'flex' }}>
-                        <Box sx={{ flex: 1 }}>
-                            <Typography sx={{ fontSize: 18, fontWeight: 550, color: '#41729F', ml: 1 }}>{heading}</Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, pt: 0.8, pr: 1 }}>
-                            <CustomCloseIconCmp
-                                handleChange={backtoHome}
-                            />
-                        </Box>
-                    </Box>
-                    <Box sx={{ display: 'flex' }}>
-                        <Box sx={{ display: 'flex' }}>
-                            <Box sx={{ m: 0.5, }}>
-                                {allFlag === 1 ?
-                                    <Select defaultValue="0" sx={{ width: 280, border: '1px solid #64b5f6', height: 20, color: '#1565c0', fontSize: 14 }}
-                                        slotProps={{
-                                            listbox: { placement: 'bottom-start' },
-                                        }}
-                                        placeholder="Search By"
-                                        value={searchFlag}
-                                        onChange={changeSearchSelect}
-                                    >
-                                        <Option value="1">Req. Date</Option>
-                                        <Option value="2">Clinical / Non Clinical / Academic</Option>
-                                        <Option value="3">Department / Department Section</Option>
-                                        <Option value="4">CRF No.</Option>
-                                    </Select> :
-                                    <Select defaultValue="0" sx={{ width: 280, border: '1px solid #64b5f6', height: 20, color: '#1565c0', fontSize: 14 }}
-                                        slotProps={{
-                                            listbox: { placement: 'bottom-start' },
-                                        }}
-                                        placeholder="Search By"
-                                        value={searchFlag}
-                                        onChange={changeSearchSelect}
-                                    >
-                                        <Option value="1">Req. Date</Option>
-                                        <Option value="3">Department / Department Section</Option>
-                                        <Option value="4">CRF No.</Option>
-                                    </Select>
-                                }
-                            </Box>
-                            <Box sx={{ my: 0.5, pr: 1 }}>
-                                <CssVarsProvider>
-                                    <IconButton
-                                        variant="plain"
-                                        sx={{
-                                            color: '#0277bd',
-                                            width: '100%',
-                                            fontSize: 12,
-                                            borderRadius: 5,
-                                            height: '19px',
-                                            lineHeight: '1',
-                                        }}
-                                        onClick={ClearSearch}
-                                    >
-                                        <FilterAltTwoToneIcon sx={{ fontWeight: 550, color: '#0277bd', pr: 0.5, width: 30, height: 20 }} />
-                                        Clear Filter
-                                    </IconButton>
-                                </CssVarsProvider>
-                            </Box>
-                        </Box>
-                        {searchFlag === '1' ?
-                            <Box sx={{ display: 'flex' }}>
-                                <Box sx={{ my: 0.5, mx: 0.5 }} >
-                                    <CssVarsProvider>
-                                        <CustomInputDateCmp
-                                            StartIcon={<Typography sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}>Start Date </Typography>}
-                                            className={{
-                                                height: 25, borderRadius: 5, border: '1px solid #bbdefb',
-                                                color: '#0d47a1', fontSize: 14, width: 200,
-                                            }}
-                                            size={'md'}
-                                            type='date'
-                                            name={'startDate'}
-                                            value={startDate}
-                                            handleChange={startDateChange}
-                                        />
-                                    </CssVarsProvider>
-                                </Box>
-                                <Box sx={{ my: 0.5 }} >
-                                    <CssVarsProvider>
-                                        <CustomInputDateCmp
-                                            StartIcon={<Typography sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}>Start Date </Typography>}
-                                            className={{
-                                                height: 35, borderRadius: 5, border: '1px solid #bbdefb',
-                                                color: '#0d47a1', fontSize: 14, width: 200,
-                                            }}
-                                            size={'md'}
-                                            type='date'
-                                            name={'endDate'}
-                                            value={endDate}
-                                            handleChange={endDateChange}
-                                        />
-                                    </CssVarsProvider>
-                                </Box>
-                            </Box>
-                            : searchFlag === '2' ?
-                                <Box sx={{ display: 'flex', pl: 2 }}>
-                                    <Box sx={{ m: 0.5, pt: 0.7 }}>
-                                        <CustomRadioButtonCmp
-                                            label="Clinical"
-                                            color="primary"
-                                            size="md"
-                                            checked={clinic}
-                                            handleChange={changeClinic}
-                                            className={{ color: '#1565c0' }}
-                                        />
-                                    </Box>
-                                    <Box sx={{ m: 0.5, pt: 0.7 }}>
-                                        <CustomRadioButtonCmp
-                                            label="Non Clinical"
-                                            color="primary"
-                                            size="md"
-                                            checked={nonClinic}
-                                            handleChange={changeNonClinic}
-                                            className={{ color: '#1565c0' }}
-                                        />
-                                    </Box>
-                                    {/* <Box sx={{ m: 1, pt: 0.7 }}>
-                                    <CssVarsProvider>
-                                        <Radio label="Academic"
-                                            color="primary"
-                                            size="md"
-                                            checked={academic}
-                                            onChange={changeAcademic}
-                                            sx={{ color: '#1565c0' }} />
-                                    </CssVarsProvider>
-                                </Box> */}
-                                </Box>
-                                : searchFlag === '3' ? <Box sx={{ display: 'flex', mt: 0.5, }}>
-                                    <CRFDashboardDptSelect department={department} setDepartment={setDepartment}
-                                        setdptSec={setdptSec} />
-                                    {department !== 0 ?
-                                        <Box sx={{ ml: 0.5 }}>
-                                            <CRFDashboardDptSecSelect dptSec={dptSec} setdptSec={setdptSec} />
-                                        </Box>
-
-                                        : null}
-                                </Box>
-                                    : searchFlag === '4' ?
-                                        <Box sx={{ display: 'flex', my: 0.5, ml: 0.5 }}>
-                                            <CssVarsProvider>
-                                                <CustomInputDateCmp
-                                                    StartIcon={<Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                        <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
-                                                        <Typography sx={{ ml: 1, fontSize: '13px', color: '#0063C5' }}>CRF/TMC/</Typography>
-                                                    </Box>}
-                                                    className={{
-                                                        borderRadius: 6, border: '1px solid #bbdefb', width: 250, height: 35, color: '#1565c0'
-                                                    }}
-                                                    size={'md'}
-                                                    type='text'
-                                                    name={'searchCrf'}
-                                                    value={searchCrf}
-                                                    handleChange={changeCrfNo}
-                                                />
-                                            </CssVarsProvider>
-
-                                        </Box>
-                                        : null}
-                        {(searchFlag === '1' || searchFlag === '2' || searchFlag === '3' || searchFlag === '4') ?
-                            <Box sx={{ pt: 0.4, pl: 1 }}>
-                                <   CustomIconButtonCmp
-                                    handleChange={SearchData}
-                                >
-                                    Search
-                                    <SearchTwoToneIcon sx={{
-                                        height: 22, width: 22, color: '#1565c0', ml: 1, pt: 0.2,
-                                        '&:hover': {
-                                            color: '#43B0F1'
-                                        },
-                                    }} />
-                                </CustomIconButtonCmp>
-                            </Box>
-                            : null
-                        }
-                    </Box>
-                </Paper >
+            <Suspense fallback={<CustomLoadComp />}>
+                {modFlag === 1 ?
+                    <DashboardApprovalView modalData={modalData} handleClose={handleClose} open={modalopen}
+                        datacolData={datacolData} imagearray={imagearray} reqItems={reqItems} approveTableData={approveTableData}
+                        poDetails={poDetails}
+                    /> : null}
+            </Suspense>
+            < Box sx={{ height: window.innerHeight - 160, flexWrap: 'wrap', bgcolor: 'white', }}>
+                <CrfDetailSearchComp setFlag={setFlag} setDisData={setDisData} tableData={tableData} />
                 <Box sx={{ bgcolor: 'white', pt: 0.5, overflow: 'auto', }}>
                     {disData.length !== 0 ?
                         <Box sx={{ width: '100%' }}>

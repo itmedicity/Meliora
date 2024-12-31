@@ -1,19 +1,16 @@
-
-import React, { Fragment, memo, useCallback, useState } from 'react'
-import DeleteIcon from '@mui/icons-material/Delete';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { format } from 'date-fns';
+import { Box, Button, CssVarsProvider, IconButton, Modal, ModalClose, ModalDialog, Table, Tooltip, Typography } from '@mui/joy'
+import { Paper } from '@mui/material'
+import React, { memo, useCallback, useState } from 'react'
 import { infoNotify } from 'src/views/Common/CommonCode';
+import { addDays, format } from 'date-fns';
 import { axioslogin } from 'src/views/Axios/Axios';
-import { Box, Button, CssVarsProvider, IconButton, Table, Tooltip, Typography } from '@mui/joy'
-import { Dialog, DialogContent, Divider, Paper, Snackbar } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Virtuoso } from 'react-virtuoso';
-
 
 const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podetailData, setpodetailData,
     modalItems, setModalItems, resetPOno }) => {
     const { req_slno, po_number, po_date, supplier_code, supplier_name, supply_store, storeName, expected_delivery,
-        po_delivery, po_amount, approval_level, po_type, po_expiry, sub_store_slno, substoreName } = poAddModalData
+        po_delivery, po_amount, approval_level, po_type, po_expiry, sub_store_slno, substoreName, crm_purchase_slno } = poAddModalData
 
     const [existArray, setExistArray] = useState([])
     const [existFlag, setExistFlag] = useState(0)
@@ -47,15 +44,16 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
         const array = podetailData?.filter((value) => value.po_number === po_number && value.supply_store === supply_store)
         if (array.length === 0) {
             const podDatas = {
+                crm_purchase_slno: crm_purchase_slno,
                 req_slno: req_slno,
                 po_number: po_number,
-                po_date: format(new Date(po_date), 'yyyy-MM-dd HH:mm:ss'),
+                po_date: format(new Date(po_date), 'yyyy-MM-dd hh:mm:ss a'),
                 supplier_code: supplier_code,
                 supplier_name: supplier_name,
                 po_status: 1,
                 supply_store: supply_store,
                 storeName: storeName,
-                expected_delivery: format(new Date(expected_delivery), 'yyyy-MM-dd'),
+                expected_delivery: expected_delivery !== (null || undefined) ? format(new Date(expected_delivery), 'yyyy-MM-dd') : format(addDays(new Date(), 30), 'yyyy-MM-dd'),
                 po_delivery: po_delivery,
                 po_amount: po_amount,
                 approval_level: approval_level,
@@ -76,9 +74,10 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
         }
     }, [podetailData, modalItems, setpodetailData, req_slno, po_number, po_date, supplier_code, supplier_name, supply_store,
         storeName, expected_delivery, po_delivery, po_amount, approval_level, po_type, po_expiry, resetPOno, sub_store_slno,
-        poModalhandleClose, substoreName])
+        poModalhandleClose, substoreName, crm_purchase_slno])
 
     const AddDetails = useCallback(() => {
+        let isMounted = true;
         const postExist = {
             po_number: po_number,
             supply_store: supply_store
@@ -88,69 +87,70 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
             return result.data
         }
         checkPoExist(postExist).then((value) => {
-            const { success, data } = value
-            if (success === 1) {
-                const poLIst = data
-                    .filter((po, index, self) =>
-                        index === self.findIndex((val) => val.req_slno === po.req_slno))
-                    .map((po) => (
-                        {
-                            req_slno: po.req_slno,
-                            po_number: po.po_number,
-                            create_date: po.create_date
-                        })
-                    )
-                setExistArray(poLIst)
-                setOpen(true)
-                setExistFlag(1)
-            }
-            else {
-                AddToTable()
-                setExistArray([])
-                setExistFlag(0)
-                setOpen(false)
+            if (isMounted) {
+                const { success, data } = value
+                if (success === 1) {
+                    const poLIst = data
+                        .filter((po, index, self) =>
+                            index === self.findIndex((val) => val.req_slno === po.req_slno))
+                        .map((po) => (
+                            {
+                                // crm_purchase_slno: po.crm_purchase_slno,
+                                req_slno: po.req_slno,
+                                po_number: po.po_number,
+                                create_date: po.create_date
+                            })
+                        )
+                    setExistArray(poLIst)
+                    setOpen(true)
+                    setExistFlag(1)
+                }
+                else {
+                    AddToTable()
+                    setExistFlag(0)
+                    setOpen(false)
+                }
             }
         })
-
-
+        return () => {
+            isMounted = false;
+        };
     }, [po_number, supply_store, AddToTable])
 
     const CancelData = useCallback(() => {
         poModalhandleClose()
     }, [poModalhandleClose])
-
     return (
-        <Fragment>
-            <Dialog
+        <CssVarsProvider>
+            <Modal
+                aria-labelledby="modal-title"
+                aria-describedby="modal-desc"
                 open={pomodalopen}
-                keepMounted
-                aria-labelledby="responsive-dialog-title"
-                maxWidth='lg'
-                aria-hidden='true'
+                onClose={poModalhandleClose}
                 sx={{ display: 'flex', justifyContent: 'center' }}
             >
-                <DialogContent id="alert-dialog-slide-descriptiona"
-                    sx={{
-                        // minWidth: '50vw',
-                        borderRadius: 'md',
-                        overflow: 'auto'
-                    }}
+                <ModalDialog
+                    variant="outlined"
                 >
+                    <ModalClose
+                        variant="outlined"
+                        sx={{
+                            m: 1,
+                            top: 'calc(-1/4 * var(--IconButton-size))',
+                            right: 'calc(-1/4 * var(--IconButton-size))',
+                            boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+                            borderRadius: '50%',
+                            bgcolor: 'background.body',
+                            color: '#bf360c',
+                            height: 25, width: 25
+                        }}
+                    />
                     <Paper variant='outlined' square sx={{ display: 'flex', height: 40, bgcolor: '#41729F', flexWrap: 'wrap', m: 1 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'center', p: 1, flex: 1 }}>
                             <Typography sx={{ fontSize: 17, color: 'white' }}>Purchase Order</Typography>
                         </Box>
-                        <Box sx={{ display: 'flex', flex: 0.1, justifyContent: 'flex-end', fontSize: 20, p: 1 }}>
-                            <HighlightOffIcon sx={{
-                                cursor: 'pointer', height: 25, width: 25, color: 'white',
-                                ":hover": {
-                                    color: 'white'
-                                },
-                                opacity: 0.8
-                            }} onClick={poModalhandleClose} />
-                        </Box>
                     </Paper>
-                    <Box sx={{ overflow: 'auto', px: 1 }}>
+                    <Box sx={{ overflow: 'auto', px: 1, width: '75vw' }}>
                         <Box sx={{ display: 'flex', flex: 1 }}>
                             <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Box sx={{ pl: 1, flex: 0.7 }}>
@@ -213,7 +213,7 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
                                     <Typography sx={{ fontSize: 14 }}>Expected Delivery  </Typography>
                                 </Box>
                                 <Box sx={{ flex: 1 }}>
-                                    <Typography sx={{ color: '#003B73', fontSize: 14 }}>{": " + expected_delivery}</Typography>
+                                    <Typography sx={{ color: '#003B73', fontSize: 14 }}>{expected_delivery !== (null || undefined) ? ": " + format(new Date(expected_delivery), 'yyyy-MM-dd') : ": " + format(addDays(new Date(), 30), 'yyyy-MM-dd')}</Typography>
                                 </Box>
                             </Box>
                             <Box sx={{ display: 'flex', flex: 1 }}>
@@ -234,13 +234,13 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
                                                 <tr style={{ height: 0.5 }}>
                                                     <th size='sm' style={{ width: 60, fontSize: 14, textAlign: 'center' }}>&nbsp; Sl.No</th>
                                                     <th size='sm' style={{ width: 80, fontSize: 14 }}>&nbsp;Item Code</th>
-                                                    <th size='sm' style={{ width: 170, fontSize: 14 }}>&nbsp;Item</th>
+                                                    <th size='sm' style={{ width: 250, fontSize: 14 }}>&nbsp;Item</th>
                                                     <th size='sm' style={{ width: 80, fontSize: 14 }}>&nbsp;Qnty</th>
                                                     <th size='sm' style={{ width: 80, fontSize: 14 }}>&nbsp;Rate </th>
                                                     <th size='sm' style={{ width: 100, fontSize: 14 }}>&nbsp;MRP</th>
-                                                    <th size='sm' style={{ width: 120, fontSize: 14 }}>&nbsp;Tax</th>
-                                                    <th size='sm' style={{ width: 80, fontSize: 14 }}>&nbsp;Tax Amount</th>
-                                                    <th size='sm' style={{ width: 80, fontSize: 14 }}>&nbsp;Net Amount</th>
+                                                    <th size='sm' style={{ width: 100, fontSize: 14 }}>&nbsp;Tax</th>
+                                                    <th size='sm' style={{ width: 100, fontSize: 14 }}>&nbsp;Tax Amount</th>
+                                                    <th size='sm' style={{ width: 100, fontSize: 14 }}>&nbsp;Net Amount</th>
                                                     <th size='sm' style={{ width: 33, fontWeight: 650, fontSize: 14 }}></th>
                                                 </tr>
                                             </thead>
@@ -301,9 +301,7 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
                                     </Button>
                                 }
                             </CssVarsProvider>
-
                         </Box>
-
                         <Box sx={{ pt: 1, pr: 1 }}>
                             <CssVarsProvider>
                                 <Button
@@ -317,35 +315,36 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
 
                         </Box>
                     </Box>
-                    <Snackbar
-                        autoHideDuration={5000}
+
+                    <Modal
+
                         open={open}
                         onClose={() => setOpen(false)}
-                        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                        sx={{
-                            width: 500,
-                            minHeight: '30vh',
-                            maxHeight: '50vh',
-                            mt: 30,
-                            pt: 0,
-                            border: '2px solid #41729F',
-                            bgcolor: 'white',
-                            '.MuiSnackbarContent-root': {
-                                width: '100%',
-                                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-                                borderRadius: '8px',
-                                padding: '16px',
-                            },
-                        }}
+                        aria-labelledby="exist-modal-title"
+                        aria-describedby="exist-modal-description"
+                        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                     >
-                        <Box >
+                        <ModalDialog variant="outlined">
+                            {/* <ModalClose
+                                variant="outlined"
+                                sx={{
+                                    m: 1,
+                                    top: 'calc(-1/4 * var(--IconButton-size))',
+                                    right: 'calc(-1/4 * var(--IconButton-size))',
+                                    boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+                                    borderRadius: '50%',
+                                    bgcolor: 'background.body',
+                                    color: '#bf360c',
+                                    height: 25,
+                                    width: 25
+                                }}
+                            /> */}
+
                             <Typography level="h6" component="div" sx={{
-                                mt: 2, textAlign: 'center', fontSize: 15,
-                                fontWeight: 'bold', pb: 0.5
+                                mt: 2, textAlign: 'center', fontSize: 15, fontWeight: 'bold', pb: 0.5, color: '#41729F'
                             }}>
-                                List of CRF used For Selected PO
+                                Previous CRF List for Selected PO&apos;s
                             </Typography>
-                            <Divider flexItem={true} />
                             <Box display="flex" flexDirection="column" sx={{
                                 pt: 1
                             }}>
@@ -382,12 +381,11 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
                                     </CssVarsProvider>
                                 </Box>
                             </Box>
-                        </Box>
-                    </Snackbar>
-
-                </DialogContent>
-            </Dialog>
-        </Fragment >
+                        </ModalDialog>
+                    </Modal>
+                </ModalDialog>
+            </Modal>
+        </CssVarsProvider>
     )
 }
 

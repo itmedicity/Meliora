@@ -9,7 +9,6 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 const InfoModal = ({ handleClose, open, selectedRadio, count, setCount, storeName, infoData }) => {
 
     const { req_slno, po_detail_slno } = infoData
-    // const { po_detail_slno } = reqvals[0]
     const [remarks, setRemarks] = useState('')
     const [userInfo, setUserInfo] = useState([])
     const [exist, setExist] = useState(0)
@@ -183,17 +182,17 @@ const InfoModal = ({ handleClose, open, selectedRadio, count, setCount, storeNam
                                 <Typography sx={{ fontWeight: 'bold', color: '#145DA0', fontSize: 14, marginBottom: 0.5, pl: 0.5 }}>
                                     Previous User Acknowledgement Details</Typography>
                                 <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' >
-                                    <thead style={{ height: 4 }} size='small'>
-                                        <tr style={{ height: 4 }} size='small'>
-                                            <th size='sm' style={{ width: 40, backgroundColor: '#EBEBE8' }}></th>
-                                            <th size='sm' style={{ width: 100, textAlign: 'center', backgroundColor: '#EBEBE8' }}>CRF No.</th>
-                                            <th size='sm' style={{ width: 150, backgroundColor: '#EBEBE8' }}>Date</th>
-                                            <th size='sm' style={{ width: 150, backgroundColor: '#EBEBE8' }}>Store</th>
-                                            <th size='sm' style={{ width: 250, backgroundColor: '#EBEBE8' }}>Store Remarks</th>
-                                            <th size='sm' style={{ width: 110, backgroundColor: '#EBEBE8' }}>User</th>
-                                            <th size='sm' style={{ width: 150, backgroundColor: '#EBEBE8' }}>Date</th>
-                                            <th size='sm' style={{ width: 110, backgroundColor: '#EBEBE8' }}>Received User</th>
-                                            <th size='sm' style={{ width: 250, backgroundColor: '#EBEBE8' }}>Remarks</th>
+                                    <thead >
+                                        <tr>
+                                            <th size='sm' style={{ borderRadius: 0, width: 40, backgroundColor: '#e3f2fd' }}></th>
+                                            <th size='sm' style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>CRF No.</th>
+                                            <th size='sm' style={{ width: 150, backgroundColor: '#e3f2fd' }}>Date</th>
+                                            <th size='sm' style={{ width: 150, backgroundColor: '#e3f2fd' }}>Store</th>
+                                            <th size='sm' style={{ width: 250, backgroundColor: '#e3f2fd' }}>Store Remarks</th>
+                                            <th size='sm' style={{ width: 110, backgroundColor: '#e3f2fd' }}>User</th>
+                                            <th size='sm' style={{ width: 150, backgroundColor: '#e3f2fd' }}>Date</th>
+                                            <th size='sm' style={{ width: 110, backgroundColor: '#e3f2fd' }}>Received User</th>
+                                            <th size='sm' style={{ borderRadius: 0, width: 250, backgroundColor: '#e3f2fd' }}>Remarks</th>
                                         </tr>
                                     </thead>
                                     <tbody>

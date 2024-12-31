@@ -19,11 +19,11 @@ const CountdownTimer = ({ endDate }) => {
     const { days, hours, minutes, seconds } = useCountdown(difference, duetimeCalc)
 
     return (
-        <Box sx={{ pt: 0.2 }}>
+        <Box sx={{ pt: 0.2, flexWrap: 'wrap' }}>
             {
                 // not exceed due date green
                 duetimeCalc < 0 ?
-                    <Box sx={{ display: 'flex', pt: 0.3, boxShadow: 1, px: 2, bgcolor: 'white', borderRadius: 1 }}>
+                    <Box sx={{ display: 'flex', pt: 0.3, boxShadow: 1, px: 2, bgcolor: 'white', borderRadius: 1, flexWrap: 'wrap' }}>
                         <Box sx={{}}  >
                             <UpdateIcon sx={{
                                 height: 18, width: 18,
@@ -42,7 +42,7 @@ const CountdownTimer = ({ endDate }) => {
                         <Box sx={{ pt: .2, fontSize: 13, color: '#116530' }}>&nbsp;&nbsp;Left</Box>&nbsp;&nbsp;
                     </Box>
                     :
-                    <Box sx={{ display: 'flex', pt: 0.3, boxShadow: 1, px: 2, bgcolor: 'white', borderRadius: 1 }}>
+                    <Box sx={{ display: 'flex', pt: 0.3, boxShadow: 1, px: 2, bgcolor: 'white', borderRadius: 1, flexWrap: 'wrap' }}>
                         <Box  >
                             <TimelapseIcon sx={{
                                 height: 18, width: 18,

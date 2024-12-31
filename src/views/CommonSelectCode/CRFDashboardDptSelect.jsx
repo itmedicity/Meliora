@@ -4,15 +4,20 @@ import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/'
 import { getDesignation } from 'src/redux/actions/DeptSecDept.action';
 import { useDispatch } from 'react-redux'
+import { getDepartment } from 'src/redux/actions/Department.action';
 
 const CRFDashboardDptSelect = ({ department, setDepartment, setdptSec }) => {
     const dispatch = useDispatch();
-    const departmentList = useSelector((state) => state.getDepartment?.departmentList)
+
+    useEffect(() => {
+        dispatch(getDepartment())
+    }, [dispatch])
+    const departmentList = useSelector((state) => state?.getDepartment?.departmentList)
+
     const [type, setType] = useState([{ dept_id: 0, dept_name: '' }])
     const [value, setValue] = useState(type[0]);
     const [inputValue, setInputValue] = useState('');
     const [flag, setFlag] = useState(0)
-
     useEffect(() => {
         if ((department !== 0) && (flag === 0)) {
             const array = departmentList.find((e) => e.dept_id === department)

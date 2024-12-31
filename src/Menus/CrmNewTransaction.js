@@ -27,7 +27,13 @@ const CrmNewTransaction = [
         to: '/Home/CRFNewInchargeApproval',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
-
+    {
+        men_slno: 233,
+        component: CNavItem,
+        name: 'CRF Search',
+        to: '/Home/SearchCrfDetails',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
     {
         men_slno: 191,
         component: CNavItem,
@@ -129,6 +135,7 @@ const CrmNewTransaction = [
         to: '/Home/CRFNewStore',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+
 
     // {
     //     men_slno: 2,

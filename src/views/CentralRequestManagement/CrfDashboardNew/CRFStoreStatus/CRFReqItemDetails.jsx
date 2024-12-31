@@ -44,10 +44,10 @@ const CRFReqItemDetails = ({ handleClose, open, reqItems }) => {
                                 <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' >
                                     <thead style={{ height: 4 }} size='small'>
                                         <tr style={{ height: 4 }} size='small'>
-                                            <th size='sm' style={{ width: 50, textAlign: 'center', backgroundColor: '#5885AF', color: 'white' }}>Item Code</th>
-                                            <th size='sm' style={{ width: 150, textAlign: 'center', backgroundColor: '#5885AF', color: 'white' }}>Item</th>
-                                            <th size='sm' style={{ width: 40, textAlign: 'center', backgroundColor: '#5885AF', color: 'white' }}>Qty</th>
-                                            <th size='sm' style={{ width: 50, textAlign: 'center', backgroundColor: '#5885AF', color: 'white' }}>Received Qty</th>
+                                            <th size='sm' style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd', }}>Item Code</th>
+                                            <th size='sm' style={{ width: 150, textAlign: 'center', backgroundColor: '#e3f2fd', }}>Item</th>
+                                            <th size='sm' style={{ width: 40, textAlign: 'center', backgroundColor: '#e3f2fd', }}>Qty</th>
+                                            <th size='sm' style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd', }}>Received Qty</th>
                                         </tr>
                                     </thead>
                                     <tbody>

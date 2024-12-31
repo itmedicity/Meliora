@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { format } from 'date-fns'
-import ImageDisplayModal from 'src/views/CentralRequestManagement/CRFRequestMaster/ImageDisplayModal';
+import ImageDisplayModal from 'src/views/CentralRequestManagement/ComonComponent/ImageUploadCmp/ImageDisplayModal';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import SupplierSelectMaster from './SupplierSelectMaster';
 import { useDispatch } from 'react-redux'

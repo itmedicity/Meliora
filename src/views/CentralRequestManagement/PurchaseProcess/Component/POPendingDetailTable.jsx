@@ -9,32 +9,39 @@ import { useSelector } from 'react-redux';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import { format } from 'date-fns';
+import { useQueryClient } from 'react-query';
 
-
-const POPendingDetailTable = ({ pendingPOList, count, setCount }) => {
+const POPendingDetailTable = ({ pendingPOList }) => {
+    const queryClient = useQueryClient()
     const [expandedRow, setExpandedRow] = useState(null);
+
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
 
     const viewPOItemDetails = useCallback((indexvalue) => {
         setExpandedRow(expandedRow === indexvalue ? null : indexvalue);
     }, [expandedRow])
 
-    const POtoSupplierUpdate = useCallback((req_slno, aprrvdStatus, po_no) => {
+    // const POtoSupplierUpdate = useCallback((req_slno, aprrvdStatus, po_no) => {
+    const POtoSupplierUpdate = useCallback((aprrvdStatus, po_detail_slno) => {
         if (aprrvdStatus === 3) {
             const PoApprovalPatch = {
                 po_to_supplier_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
                 edit_user: id,
-                req_slno: req_slno,
-                po_number: po_no
+                po_detail_slno: po_detail_slno
+                // req_slno: req_slno,
+                // po_number: po_no
             }
             const updatePoApprovals = async (PoApprovalPatch) => {
                 const result = await axioslogin.patch('/newCRFPurchase/PoFinals', PoApprovalPatch);
                 const { success, message } = result.data;
                 if (success === 1) {
-                    setCount(count + 1)
+                    queryClient.invalidateQueries('getAprrovalData')
+                    queryClient.invalidateQueries('getStoreName')
                     succesNotify(message)
                 }
                 else {
+                    queryClient.invalidateQueries('getAprrovalData')
+                    queryClient.invalidateQueries('getStoreName')
                     warningNotify(message)
                 }
             }
@@ -42,7 +49,7 @@ const POPendingDetailTable = ({ pendingPOList, count, setCount }) => {
         } else {
             infoNotify("PO Not Yet Approved")
         }
-    }, [setCount, count, id])
+    }, [queryClient, id])
 
     return (
         <Fragment>
@@ -52,12 +59,11 @@ const POPendingDetailTable = ({ pendingPOList, count, setCount }) => {
                         pt: 0.4, flexWrap: 'wrap', maxHeight: window.innerHeight - 200, width: "100%",
                         overflow: 'auto', '&::-webkit-scrollbar': { height: 8 }
                     }}>
-                        <Paper elevation={3} sx={{ width: 1640 }}>
+                        <Paper sx={{ width: 1640 }}>
                             {/* <Box display="flex" flexDirection="column" sx={{ width: '100%', bgcolor: 'yellow' }}> */}
                             <Box display="flex" justifyContent="space-between" sx={{
-                                bgcolor: '#E9EAEC', flexWrap: 'nowrap', py: 0.5, position: 'sticky',
-                                top: 0,
-                                zIndex: 1,
+                                bgcolor: '#e3f2fd', flexWrap: 'nowrap', py: 0.5, position: 'sticky',
+                                top: 0, zIndex: 1, px: 1, borderBottom: '1px solid lightgrey'
                             }}>
                                 <Typography sx={{ width: 50, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Sl.No</Typography>
                                 <Typography sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Req.No</Typography>
@@ -123,7 +129,7 @@ const POPendingDetailTable = ({ pendingPOList, count, setCount }) => {
                                                                 },
                                                                 boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)', borderRadius: 5,
                                                             }}
-                                                            onClick={() => POtoSupplierUpdate(val.req_slno, val.aprv_status, val.po_no)}
+                                                            onClick={() => POtoSupplierUpdate(val.aprv_status, val.po_detail_slno)}
                                                         >
                                                             PO to Supplier
                                                             <TelegramIcon sx={{ height: 20, width: 20, color: '#1565c0', ml: 1 }} />
@@ -165,8 +171,8 @@ const POPendingDetailTable = ({ pendingPOList, count, setCount }) => {
                                             </Box>
                                         </Box>
                                         {expandedRow === index && (
-                                            <Box sx={{ mx: 2, pt: 0.5, boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.16)' }}>
-                                                <Box display="flex" justifyContent="space-between" padding={0.5} sx={{ bgcolor: '#bdbdbd' }}>
+                                            <Box sx={{ mx: 1, pt: 0.5, boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.16)' }}>
+                                                <Box display="flex" justifyContent="space-between" padding={0.5} sx={{ bgcolor: '#A9D1E4' }}>
                                                     <Typography sx={{ width: 40, textAlign: 'center', fontWeight: 550, fontSize: 13 }}>Sl.No</Typography>
                                                     <Typography sx={{ width: 70, fontWeight: 550, fontSize: 13 }}>Item Code</Typography>
                                                     <Typography sx={{ width: 350, fontWeight: 550, fontSize: 13 }}>Item</Typography>

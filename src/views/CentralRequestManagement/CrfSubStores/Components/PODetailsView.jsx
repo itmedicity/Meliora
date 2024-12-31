@@ -49,17 +49,16 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                                 return (
                                     <Box key={poDetail.po_detail_slno}
                                         sx={{
+                                            p: 0.5,
                                             // marginBottom: 4,
-                                            padding: 1,
-                                            borderRadius: 2,
                                             backgroundColor: '#ffffff',
                                             boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                                         }}>
 
-                                        <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 1, color: '#1976d2' }}>
+                                        <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 1, color: '#1976d2', pl: 1 }}>
                                             #Order : {poDetail.po_number}
                                         </Typography>
-                                        <Box sx={{ display: 'flex' }}>
+                                        <Box sx={{ display: 'flex', pl: 0.5 }}>
                                             <Typography variant="body2" sx={{ marginBottom: 0.2, fontSize: 13, fontWeight: 650 }}>
                                                 PO Date :
                                             </Typography>
@@ -67,7 +66,7 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                                                 {format(new Date(poDetail.po_date), 'dd-MM-yyyy hh:mm:ss a')}
                                             </Typography>
                                         </Box>
-                                        <Box sx={{ display: 'flex' }}>
+                                        <Box sx={{ display: 'flex', pl: 0.5 }}>
                                             <Typography variant="body2" sx={{ marginBottom: 0.2, fontSize: 13, fontWeight: 650 }}>
                                                 Supplier :
                                             </Typography>
@@ -75,7 +74,7 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                                                 {poDetail.supplier_name}
                                             </Typography>
                                         </Box>
-                                        <Box sx={{ display: 'flex' }}>
+                                        <Box sx={{ display: 'flex', pl: 0.5 }}>
                                             <Typography variant="body2" sx={{ marginBottom: 1, fontSize: 13, fontWeight: 650 }}>
                                                 Expected Delivery :
                                             </Typography>
@@ -84,15 +83,15 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                                             </Typography>
                                         </Box>
                                         {disData.length > 0 ? (
-                                            <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' >
-                                                <thead style={{ height: 4 }} size='small'>
-                                                    <tr style={{ height: 4 }} size='small'>
-                                                        <th size='sm' style={{ width: 50, textAlign: 'center', backgroundColor: '#EBEBE8' }}>Item Code</th>
-                                                        <th size='sm' style={{ width: 150, textAlign: 'center', backgroundColor: '#EBEBE8' }}>Item</th>
-                                                        <th size='sm' style={{ width: 40, textAlign: 'center', backgroundColor: '#EBEBE8' }}>Qnty</th>
-                                                        <th size='sm' style={{ width: 50, textAlign: 'center', backgroundColor: '#EBEBE8' }}>Received Qnty</th>
-                                                        <th size='sm' style={{ width: 50, textAlign: 'center', backgroundColor: '#EBEBE8' }}>GRN Qnty</th>
-                                                        <th size='sm' style={{ width: 50, textAlign: 'center', backgroundColor: '#EBEBE8' }}>Receive Status</th>
+                                            <Table aria-label="table with sticky header" borderAxis="both" stickyHeader size='sm' >
+                                                <thead >
+                                                    <tr  >
+                                                        <th size='sm' style={{ borderRadius: 0, width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Item Code</th>
+                                                        <th size='sm' style={{ width: 150, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Item</th>
+                                                        <th size='sm' style={{ width: 40, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Qnty</th>
+                                                        <th size='sm' style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Received Qnty</th>
+                                                        <th size='sm' style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}>GRN Qnty</th>
+                                                        <th size='sm' style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd', borderRadius: 0 }}>Receive Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

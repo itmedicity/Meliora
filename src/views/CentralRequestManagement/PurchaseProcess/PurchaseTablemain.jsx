@@ -1,390 +1,179 @@
-import React, { useMemo } from 'react'
-import { useState, useCallback, useEffect, memo, Fragment } from 'react'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
-import { Badge, Box, Paper } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close';
-import PurchaseModal from './PurchaseModal'
-import { ToastContainer } from 'react-toastify'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import ReqImageDisModal from '../ComonComponent/ReqImageDisModal'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCRMPurchase } from 'src/redux/actions/CrmPurchaseList.action'
-import CustomBackDrop from 'src/views/Components/CustomBackDrop'
-import {
-    PurchAckMapList, PurchDataCollPendingList, PurchaseAckDoneList, PurchaseQuatanNegotain, QuatationFinal, getData,
-    getpurchDataCollPending, getpurchaseAckPending, poClose
-} from 'src/redux/ReduxhelperFun/reduxhelperfun'
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { Virtuoso } from 'react-virtuoso'
-import { getCRMPurchaseAckPending } from 'src/redux/actions/CrmPurchaseACKList.action'
-import { getCRMPurchDataCollPending } from 'src/redux/actions/CrmPurchaseDatacollPend.action'
-import POPendingDetailTable from './Component/POPendingDetailTable'
-import { Avatar, CssVarsProvider, IconButton, Tooltip } from '@mui/joy'
-import { format } from 'date-fns'
-import ReqMastMainViewCmp from './Component/ReqMastMainViewCmp'
-import PurchaseApprovalButtonCmp from './Component/PurchaseApprovalButtonCmp'
+
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Box } from '@mui/material';
+import { CssVarsProvider, IconButton } from '@mui/joy';
+import TopViewDesignPurchase from './Component/TopViewDesignPurchase';
+import { useQuery, useQueryClient } from 'react-query';
+import { getCrfPoApprovals, getCRFPurchaseAck, getCRFQuotationDetails, getPurchaseDataCollection, getStoreList } from 'src/api/CommonApiCRF';
+import { Virtuoso } from 'react-virtuoso';
+import ReqMastMainViewCmp from './Component/ReqMastMainViewCmp';
+import PurchaseApprovalButtonCmp from './Component/PurchaseApprovalButtonCmp';
+import { format } from 'date-fns';
+import POPendingDetailTable from './Component/POPendingDetailTable';
+import { axiosellider, axioslogin } from 'src/views/Axios/Axios';
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+import DataCollectionSave from '../ComonComponent/DataCollectionComp/DataCollectionSave';
+import _ from 'underscore';
+import { useSelector } from 'react-redux';
 
 const PurchaseTablemain = () => {
-
-    const dispatch = useDispatch();
-    /*** Initializing */
     const history = useHistory();
-    const [count, setCount] = useState(0)
-    const [open, setOpen] = useState(false)
-    const [DisArray, setDisArray] = useState([])
+    const queryClient = useQueryClient()
+    const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
     const [radiovalue, setRadioValue] = useState('1')
-    const [puchaseFlag, setpuchaseFlag] = useState(0)
-    const [puchaseModal, setpuchaseModal] = useState(false)
-    const [puchaseData, setpuchaseData] = useState([])
-    const [imageshowFlag, setImageShowFlag] = useState(0)
-    const [imageshow, setImageShow] = useState(false)
-    const [imageSlno, setImageSlno] = useState(0)
-    const [imagearray, setImageArry] = useState([])
-    const [storeList, setStoreList] = useState([])
-    const [apprvCount, setApprvCount] = useState(0)
+    const [allData, setAllData] = useState([])
+    const [disData, setDisData] = useState([])
+    const [combinedData, setcombinedData] = useState([])
+    const [crfProcess, setCrfProcess] = useState([])
+    const [quoNego, setQuoNego] = useState([])
+    const [quoFinal, setQuoFinal] = useState([])
+    const [poProcess, setPoProcess] = useState([])
     const [pendingPOList, setPendingPOList] = useState([])
     const [combinedPO, setCombinedPO] = useState([])
-    const [ackCount, setackCount] = useState(0)
-    const [crfProcCount, setCrfProcCount] = useState(0)
-    const [negoCount, setnegoCount] = useState(0)
-    const [finalCount, setFinalCount] = useState(0)
-    const [poPrcCount, setpoPrcCount] = useState(0)
-    const [dataCollectCount, setdataCollectCount] = useState(0)
-    const [apprvlCount, setapprvlCount] = useState(0)
-    useEffect(() => {
-        dispatch(getCRMPurchaseAckPending())
-        dispatch(getCRMPurchase())
-        dispatch(getCRMPurchDataCollPending())
-    }, [dispatch, count])
-    //data list after ed,md Approval
-    const purchaseAckPending = useSelector((state) => getpurchaseAckPending(state))
-    const CRMPurchaseAckPendingListAry = useMemo(() => purchaseAckPending, [purchaseAckPending])
-    //List of After ack
-    const PurchaseArryList = useSelector((state) => getData(state))
-    const tabledata = useMemo(() => PurchaseArryList, [PurchaseArryList])
-    //Data Collection pending array
-    const purchdataCollPendng = useSelector((state) => getpurchDataCollPending(state))
-    const datacollPendng = useMemo(() => purchdataCollPendng, [purchdataCollPendng])
 
-    useEffect(() => {
-        if (CRMPurchaseAckPendingListAry.length !== 0) {
-            const ack = CRMPurchaseAckPendingListAry?.filter((val) => val.md_approve === 1 && val.ed_approve === 1)
-            setackCount(ack.length)
-        }
-        if (tabledata.length !== 0) {
-            const procCrf = tabledata?.filter((val) => val.ack_status === 1 && val.quatation_calling_status === 0 &&
-                val.po_prepartion === 0 && val.po_complete === 0)
-            setCrfProcCount(procCrf.length)
+    const capitalizeWords = (str) =>
+        str ? str
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ')
+            : '';
 
-            const nego = tabledata?.filter((val) => val.quatation_calling_status === 1 && val.quatation_negotiation === 0)
-            setnegoCount(nego.length)
-
-            const final = tabledata?.filter((val) => val.quatation_calling_status === 1 && val.quatation_negotiation === 1
-                && val.quatation_fixing === 0)
-            setFinalCount(final.length)
-
-            const po = tabledata?.filter((val) => val.ack_status === 1 &&
-                ((val.quatation_calling_status === 1 && val.quatation_fixing === 1 && val.po_prepartion === 0) ||
-                    (val.po_prepartion === 1 && val.po_complete === 0)))
-            setpoPrcCount(po.length)
-        }
-        if (datacollPendng.length !== 0) {
-            const datacol = datacollPendng?.filter((val) => val.md_approve === 1 && val.ed_approve === 1)
-            setdataCollectCount(datacol.length)
-        }
-
-    }, [CRMPurchaseAckPendingListAry, tabledata, datacollPendng, count])
-
-    useEffect(() => {
-        setOpen(true)
-        const getPending = async (CRMPurchaseAckPendingListAry) => {
-            const firstFilter = await PurchAckMapList(CRMPurchaseAckPendingListAry)
-            const { status, data } = firstFilter
-            if (status === true) {
-                setDisArray(data)
-                setOpen(false)
-            } else {
-                setDisArray([])
-                // warningNotify("No CRF for Purchase Acknowledgement")
-                setOpen(false)
-            }
-        }
-
-        const getPurcAckDone = async (tabledata) => {
-            const PurchaseAckDoneListArry = await PurchaseAckDoneList(tabledata);
-            const { status, data } = PurchaseAckDoneListArry
-            if (status === true) {
-                if (data.length !== 0) {
-                    setDisArray(data)
-                    setOpen(false)
-                }
-                else {
-                    setDisArray([])
-                    // warningNotify("No CRF for Process Pending ")
-                    setOpen(false)
-                }
-            } else {
-                setDisArray([])
-                warningNotify("Error Occured")
-                setOpen(false)
-            }
-        }
-
-        const getQuatNegotaton = async (tabledata) => {
-            const QuatatnNegoPending = await PurchaseQuatanNegotain(tabledata);
-            const { status, data } = QuatatnNegoPending
-            if (status === true) {
-                if (data.length !== 0) {
-                    setDisArray(data)
-                    setOpen(false)
-                }
-                else {
-                    setDisArray([])
-                    // warningNotify("No CRF for Quatation Negotation Pending ")
-                    setOpen(false)
-                }
-            } else {
-                setDisArray([])
-                warningNotify("Error Occured")
-                setOpen(false)
-            }
-        }
-
-        const getQuatatnFinaling = async (tabledata) => {
-            const QuatatnFinalingPending = await QuatationFinal(tabledata);
-            const { status, data } = QuatatnFinalingPending
-            if (status === true) {
-                if (data.length !== 0) {
-                    setDisArray(data)
-                    setOpen(false)
-                }
-                else {
-                    setDisArray([])
-                    // warningNotify("No CRF for Quatation Finalization Pending ")
-                    setOpen(false)
-                }
-            } else {
-                setDisArray([])
-                warningNotify("Error Occured")
-                setOpen(false)
-            }
-        }
-
-        const getPoClose = async (tabledata) => {
-            const PoCloseList = await poClose(tabledata);
-            const { status, data } = PoCloseList
-            if (status === true) {
-                if (data.length !== 0) {
-                    setDisArray(data)
-                    setOpen(false)
-                } else {
-                    setDisArray([])
-                    // warningNotify("No CRF for PO Close Pending")
-                    setOpen(false)
-                }
-            } else {
-                setDisArray([])
-                warningNotify("Error Occured")
-                setOpen(false)
-            }
-        }
-
-
-        // const getPendingPODetails = async () => {
-        //     const result = await axioslogin.get('/newCRFPurchase/getPO');
-        //     const { success, data, message } = result.data
-        //     if (success === 1) {
-        //         setPoList(data)
-        //     }
-        //     else if (success === 2) {
-        //         infoNotify(message)
-        //         setOpen(false)
-        //     }
-        // }
-
-
-
-        // const getPOtoSupplier = async (tabledata) => {
-        //     const dataPoSupply = await potoSupp(tabledata);
-        //     const { status, data } = dataPoSupply
-        //     if (status === true) {
-        //         if (data.length !== 0) {
-        //             setDisArray(data)
-        //             setOpen(false)
-        //         } else {
-        //             setDisArray([])
-        //             warningNotify("No CRF for Po to Supplier Pending")
-        //             setOpen(false)
-        //         }
-        //     } else {
-        //         setDisArray([])
-        //         warningNotify("Error Occured")
-        //         setOpen(false)
-        //     }
-        // }
-
-
-        const getDataCollPening = async (tabledata) => {
-            const DataCollPening = await PurchDataCollPendingList(tabledata);
-            const { status, data } = DataCollPening
-            if (status === true) {
-                if (data.length !== 0) {
-                    setDisArray(data)
-                    setOpen(false)
-                } else {
-                    setDisArray([])
-                    // warningNotify("No Data Collections are Pending")
-                    setOpen(false)
-                }
-            } else {
-                setDisArray([])
-                warningNotify("Error Occured")
-                setOpen(false)
-            }
-        }
-
-        if (radiovalue === '1') {
-            getPending(CRMPurchaseAckPendingListAry)
-        } else if (radiovalue === '2') {
-            getPurcAckDone(tabledata)
-        } else if (radiovalue === '3') {
-            getQuatNegotaton(tabledata)
-        } else if (radiovalue === '4') {
-            getQuatatnFinaling(tabledata)
-        } else if (radiovalue === '5') {
-            getPoClose(tabledata)
-        } else if (radiovalue === '6') {
-            setOpen(false)
-            // } else if (radiovalue === '7') {
-            //     getPOtoSupplier(tabledata)
-        } else if (radiovalue === '7') {
-            getDataCollPening(datacollPendng)
-        }
-    }, [CRMPurchaseAckPendingListAry, radiovalue, tabledata, datacollPendng])
-
-    //Radio button OnClick function starts
-    const updateRadioClick = useCallback(async (e) => {
-        e.preventDefault()
-        setOpen(false)
-        setRadioValue(e.target.value)
-    }, [])
-
-    useEffect(() => {
-        const getImage = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const fileNames = data;
-                const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
-                });
-                setImageArry(fileUrls);
-            }
-        }
-        if (imageshowFlag === 1) {
-            getImage(imageSlno)
-        }
-    }, [imageshowFlag, imageSlno])
-
-    const handleClose = useCallback(() => {
-        setImageShowFlag(0)
-        setImageShow(false)
-        setImageSlno(0)
-        setImageArry([])
-    }, [])
-
-    //close button function
     const backtoSetting = useCallback(() => {
-        history.push('/Home/CrfNewDashBoard')
+        history.push('/Home')
     }, [history])
 
+    const { data: ackDetails, isLoading: isAckLoading, error: ackError } = useQuery({
+        queryKey: 'getPurchaseAck',
+        queryFn: () => getCRFPurchaseAck(),
+        staleTime: Infinity
+    });
+    const ackData = useMemo(() => ackDetails, [ackDetails]);
+    const { data: quoDetails, isLoading: isQuoLoading, error: quoError } = useQuery({
+        queryKey: 'getQuotationData',
+        queryFn: () => getCRFQuotationDetails(),
+        staleTime: Infinity
+    });
+
+    const quoData = useMemo(() => quoDetails, [quoDetails]);
+    const { data: apprvDetails, isLoading: isApprvLoading, error: apprvError } = useQuery({
+        queryKey: 'getAprrovalData',
+        queryFn: () => getCrfPoApprovals(),
+        staleTime: Infinity
+    });
+    const apprvData = useMemo(() => apprvDetails, [apprvDetails]);
+
+    const { data: storeDetails, isLoading: isStoreLoading, error: storeError } = useQuery({
+        queryKey: 'getStoreName',
+        queryFn: () => getStoreList(),
+        staleTime: Infinity
+    });
+    const storeList = useMemo(() => storeDetails, [storeDetails]);
+    const { data: dataColleDetails, isLoading: isDcLoading, error: dcError } = useQuery({
+        queryKey: 'purchaseDataCollection',
+        queryFn: () => getPurchaseDataCollection(),
+        staleTime: Infinity
+    });
+    const dataCollection = useMemo(() => dataColleDetails, [dataColleDetails]);
+
     useEffect(() => {
-        const getCRSStore = async () => {
-            const result = await axioslogin.get('/newCRFPurchase/crsStores');
-            const { success, data } = result.data
-            if (success === 2) {
-                setStoreList(data);
-            }
-            else {
-                setStoreList([])
-            }
-        }
-        getCRSStore()
-    }, [])
-    const RefreshData = useCallback(() => {
-        const getPendingPODetails = async () => {
-            const result = await axioslogin.get('/newCRFPurchase/getPO');
-            return result.data
-        }
-        const getPOdetails = async (posearch) => {
-            const result = await axiosellider.post('/crfpurchase/getpendingpo', posearch);
-            return result.data
-        }
-        const UpdatePOLevels = async (patchdata) => {
-            const result = await axioslogin.post('/newCRFPurchase/updateApprovalLevel', patchdata)
-            return result.data
-        }
-        getPendingPODetails().then((val) => {
-            const { success, data } = val
-            if (success === 1) {
-                setOpen(false)
-                const posearch = data?.map((val) => {
-                    return {
-                        pono: val.po_number,
-                        stcode: val.crs_store_code
-                    }
-                })
-                getPOdetails(posearch).then((val) => {
-                    const { success, data } = val
-                    if (success === 1) {
-                        const patchdata = data?.map((val) => {
-                            const newData = storeList?.find((value) => (value.crs_store_code === val.ST_CODE))
-                            return {
-                                approval_level: (typeof val.APPROVAL === 'number' && val.APPROVAL > 3) ? 3 : val.APPROVAL || null,
-                                po_expiry: val.PO_EXPIRY !== null ? format(new Date(val.PO_EXPIRY), 'yyyy-MM-dd') : null,
-                                expected_delivery: val.EXPECTED_DATE !== null ? format(new Date(val.EXPECTED_DATE), 'yyyy-MM-dd') : null,
-                                po_number: val.PO_NO,
-                                supply_store: newData ? newData.main_store_slno : 0
-                            }
-                        })
-                        UpdatePOLevels(patchdata).then((val) => {
-                            const { success, message } = val
-                            if (success === 1) {
-                                setApprvCount(apprvCount + 1)
-                                setOpen(false)
-                                succesNotify(message)
+        if (quoData && quoData.length > 0) {
+            const procCrf = quoData?.filter((val) => val.ack_status === 1 && val.quatation_calling_status === 0 &&
+                val.po_prepartion === 0 && val.po_complete === 0)
+            setCrfProcess(procCrf)
 
-                            }
-                            else {
-                                setOpen(false)
-                            }
-                        })
-                    }
-                    else if (success === 2) {
-                        setOpen(false)
-                        // succesNotify("Updated")
-                    }
-                })
+            const nego = quoData?.filter((val) => val.quatation_calling_status === 1 && val.quatation_negotiation === 0)
+            setQuoNego(nego)
 
+            const final = quoData?.filter((val) => val.quatation_calling_status === 1 && val.quatation_negotiation === 1
+                && val.quatation_fixing === 0)
+            setQuoFinal(final)
+
+            const po = quoData?.filter((val) => val.ack_status === 1 &&
+                ((val.quatation_calling_status === 1 && val.quatation_fixing === 1 && val.po_prepartion === 0)
+                    || (val.po_prepartion === 1 && val.po_complete === 0)))
+            setPoProcess(po)
+        }
+
+    }, [quoData]);
+
+    useEffect(() => {
+        if (radiovalue === '2') {
+            setcombinedData(crfProcess)
+        } else if (radiovalue === '3') {
+            setcombinedData(quoNego)
+        } else if (radiovalue === '4') {
+            setcombinedData(quoFinal)
+        } else if (radiovalue === '5') {
+            setcombinedData(poProcess)
+        }
+    }, [ackData, crfProcess, quoNego, quoFinal, poProcess, radiovalue, dataCollection])
+
+    useEffect(() => {
+        if (radiovalue === '1') {
+            if (ackData && ackData.length > 0) {
+                const datas = ackData?.map((val) => {
+                    const obj = {
+                        req_status: val.req_status,
+                        req_slno: val.req_slno,
+                        actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Nil',
+                        needed: val.needed !== null ? val.needed : 'Nil',
+                        request_deptsec_slno: val.request_deptsec_slno,
+                        req_deptsec: val.req_deptsec.toLowerCase(),
+                        user_deptsection: val.user_deptsection.toLowerCase(),
+                        user_deptsec: val.user_deptsec,
+                        em_name: val.create_user.toLowerCase(),
+                        category: val.category,
+                        location: val.location,
+                        emergency_flag: val.emergency_flag,
+                        emer_type_name: val.emer_type_name,
+                        emer_slno: val.emer_slno,
+                        emer_type_escalation: val.emer_type_escalation,
+                        emergeny_remarks: val.emergeny_remarks,
+                        image_status: val.image_status,
+                        req_date: val.create_date,
+                        expected_date: val.expected_date,
+                        dept_id: val.dept_id,
+                        dept_name: val.dept_name,
+                        dept_type: val.dept_type,
+                        dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+                        md_approve_req: val.md_approve_req,
+                        md_approve: val.md_approve,
+                        md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Rejected" :
+                            val.md_approve === 3 ? "On-Hold" : "Not Done",
+                        md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : "Not Updated",
+                        md_detial_analysis: val.md_detial_analysis,
+                        md_approve_date: val.md_approve_date,
+                        md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
+                        ed_approve_req: val.ed_approve_req,
+                        ed_approve: val.ed_approve,
+                        ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Rejected" :
+                            val.ed_approve === 3 ? "On-Hold" : "Not Done",
+                        ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "",
+                        ed_detial_analysis: val.ed_detial_analysis,
+                        ed_approve_date: val.ed_approve_date,
+                        ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
+                        md_image: val.md_image,
+                        ed_image: val.ed_image,
+                        now_who: "Not Started Purchase Process",
+                        now_who_status: 0,
+                        ack_status: val.ack_status,
+                    }
+                    return obj
+                })
+                setDisData(datas)
+                setAllData(datas)
             } else {
-                setOpen(false)
+                setDisData([])
+                setAllData([])
             }
-
-        })
-
-    }, [storeList, apprvCount])
-    useEffect(() => {
-        const capitalizeWords = (str) => str ? str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
-        const getPendingItems = async () => {
-            const result = await axioslogin.get('/newCRFPurchase/POPending');
-            const { success, data } = result.data;
-            if (success === 1) {
-                setOpen(false)
-                const poLIst = data
+        } else if (radiovalue === '6') {
+            if (apprvData) {
+                const poLIst = apprvData
                     .filter((po, index, self) =>
                         index === self.findIndex((val) => val.po_number === po.po_number && val.req_slno === po.req_slno))
                     .map((po, ind) => (
@@ -409,9 +198,7 @@ const PurchaseTablemain = () => {
                                     po.approval_level === 3 ? "Director's Approved" : 'Not Approved',
                             aprv_status: po.approval_level
                         }));
-
-
-                const poItems = data?.map((val) => {
+                const poItems = apprvData?.map((val) => {
                     const obj = {
                         po_detail_slno: val.po_detail_slno,
                         po_no: val.po_number,
@@ -426,24 +213,247 @@ const PurchaseTablemain = () => {
                     }
                     return obj
                 })
-                const combinedData = poLIst?.map(po => {
+                const mergedData = poLIst?.map(po => {
                     const details = poItems?.filter(item => item.po_no === po.po_no && item.po_detail_slno === po.po_detail_slno);
                     return {
                         ...po,
                         items: details
                     };
                 });
-                setCombinedPO(combinedData)
-                setPendingPOList(combinedData)
-                setapprvlCount(combinedData.length)
-            }
-            else {
-                setOpen(false)
+                setCombinedPO(mergedData)
+                setPendingPOList(mergedData)
+            } else {
+                setCombinedPO([])
+                setPendingPOList([])
             }
         }
-        getPendingItems()
+        else if (radiovalue === '7') {
+            if (dataCollection) {
+                const newData = dataCollection?.map((val) => {
+                    const obj = {
+                        req_slno: val.req_slno,
+                        actual_requirement: val.actual_requirement,
+                        needed: val.needed,
+                        request_deptsec_slno: val.request_deptsec_slno,
+                        req_deptsec: val.req_deptsec.toLowerCase(),
+                        user_deptsection: val.user_deptsection.toLowerCase(),
+                        em_name: val.create_user.toLowerCase(),
+                        category: val.category,
+                        location: val.location,
+                        emergency_flag: val.emergency_flag,
+                        emer_type_name: val.emer_type_name,
+                        emer_slno: val.emer_slno,
+                        emer_type_escalation: val.emer_type_escalation,
+                        emergeny_remarks: val.emergeny_remarks,
+                        total_approx_cost: val.total_approx_cost,
+                        image_status: val.image_status,
+                        req_date: val.req_date,
+                        expected_date: val.expected_date,
+                        crf_dept_remarks: val.crf_dept_remarks,
+                        data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
+                        reqest_one: val.reqest_one,
+                        req_user: val.requser !== null ? val.requser.toLowerCase() : '',
+                        datagive_user: val.saveuser !== null ? val.saveuser.toLowerCase() : '',
+                        dc_req_date: val.dc_req_date,
+                        update_date: val.update_date,
+                        crf_req_remark: val.crf_req_remark,
+                        data_coll_image_status: val.data_coll_image_status,
+                        crf_data_collect_slno: val.crf_data_collect_slno,
+                        crf_requst_slno: val.crf_requst_slno,
+                        requser: val.requser.toLowerCase(),
+                        crf_dept_status: val.crf_dept_status,
+                        crm_purchase_slno: val.crm_purchase_slno,
+                        ack_status: val.ack_status,
+                        ack_remarks: val.ack_remarks,
+                        purchase_ackuser: val.purchase_ackuser,
+                        ack_date: val.ack_date,
+                        quatation_calling_status: val.quatation_calling_status,
+                        quatation_calling_remarks: val.quatation_calling_remarks,
+                        quatation_calling_date: val.quatation_calling_date,
+                        quatation_user: val.quatation_user,
+                        quatation_negotiation: val.quatation_negotiation,
+                        quatation_negotiation_remarks: val.quatation_negotiation_remarks,
+                        quatation_negotiation_date: val.quatation_negotiation_date,
+                        quatation_neguser: val.quatation_neguser,
+                        quatation_fixing: val.quatation_fixing,
+                        quatation_fixing_remarks: val.quatation_fixing_remarks,
+                        quatation_fixing_date: val.quatation_fixing_date,
+                        quatation_fixuser: val.quatation_fixuser,
+                        po_prepartion: val.po_prepartion
+                    }
+                    return obj
+                })
+                setDisData(newData)
+            } else {
+                setDisData([])
+            }
+        }
+        else {
+            if (combinedData && combinedData.length > 0) {
+                const datas = combinedData?.map((val) => {
+                    const obj = {
+                        req_status: val.req_status,
+                        req_slno: val.req_slno,
+                        actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Nil',
+                        needed: val.needed !== null ? val.needed : 'Nil',
+                        request_deptsec_slno: val.request_deptsec_slno,
+                        req_deptsec: val.req_deptsec.toLowerCase(),
+                        user_deptsection: val.user_deptsection.toLowerCase(),
+                        user_deptsec: val.user_deptsec,
+                        em_name: val.create_user.toLowerCase(),
+                        category: val.category,
+                        location: val.location,
+                        emergency_flag: val.emergency_flag,
+                        emer_type_name: val.emer_type_name,
+                        emer_slno: val.emer_slno,
+                        emer_type_escalation: val.emer_type_escalation,
+                        emergeny_remarks: val.emergeny_remarks,
+                        image_status: val.image_status,
+                        req_date: val.create_date,
+                        expected_date: val.expected_date,
+                        dept_id: val.dept_id,
+                        dept_name: val.dept_name,
+                        dept_type: val.dept_type,
+                        dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+                        md_approve_req: val.md_approve_req,
+                        md_approve: val.md_approve,
+                        md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Rejected" :
+                            val.md_approve === 3 ? "On-Hold" : "Not Done",
+                        md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : "Not Updated",
+                        md_detial_analysis: val.md_detial_analysis,
+                        md_approve_date: val.md_approve_date,
+                        md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
+                        ed_approve_req: val.ed_approve_req,
+                        ed_approve: val.ed_approve,
+                        ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Rejected" :
+                            val.ed_approve === 3 ? "On-Hold" : "Not Done",
+                        ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "",
+                        ed_detial_analysis: val.ed_detial_analysis,
+                        ed_approve_date: val.ed_approve_date,
+                        ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
+                        md_image: val.md_image,
+                        ed_image: val.ed_image,
+                        crm_purchase_slno: val.crm_purchase_slno,
+                        ack_status: val.ack_status,
+                        ack_remarks: val.ack_remarks,
+                        purchase_ackuser: val.purchase_ackuser,
+                        ack_date: val.ack_date,
+                        quatation_calling_status: val.quatation_calling_status,
+                        quatation_calling_remarks: val.quatation_calling_remarks,
+                        quatation_calling_date: val.quatation_calling_date,
+                        quatation_user: val.quatation_user,
+                        quatation_negotiation: val.quatation_negotiation,
+                        quatation_negotiation_remarks: val.quatation_negotiation_remarks,
+                        quatation_negotiation_date: val.quatation_negotiation_date,
+                        quatation_neguser: val.quatation_neguser,
+                        quatation_fixing: val.quatation_fixing,
+                        quatation_fixing_remarks: val.quatation_fixing_remarks,
+                        quatation_fixing_date: val.quatation_fixing_date,
+                        quatation_fixuser: val.quatation_fixuser,
+                        po_prepartion: val.po_prepartion,
+                        po_complete: val.po_complete,
+                        po_complete_date: val.po_complete_date,
+                        po_to_supplier: val.po_to_supplier,
+                        po_to_supplier_date: val.po_to_supplier_date,
+                        store_recieve: val.store_recieve,
+                        sub_store_recieve: val.sub_store_recieve,
+                        now_who: val.approval_level === 3 ? "Director's Approved" :
+                            val.approval_level === 2 ? 'Purchase Manager Approved' :
+                                val.approval_level === 1 ? 'Purchase Dpt Approved' :
+                                    val.po_complete === 1 ? "PO Completed" :
+                                        val.po_prepartion === 1 ? "PO Prepairing" :
+                                            val.quatation_fixing === 1 ? "Quotation Fixed" :
+                                                val.quatation_negotiation === 1 ? "Quotation Negotiation" :
+                                                    val.quatation_calling_status === 1 ? "Quotation Calling" :
+                                                        val.ack_status === 1 ? "Puchase Acknowledged" :
+                                                            "Not Started Purchase Process",
 
-    }, [setOpen, apprvCount, count])
+                        now_who_status: val.po_to_supplier === 5 ? val.po_to_supplier :
+                            val.po_approva_level_two === 5 ? val.po_approva_level_two :
+                                val.po_approva_level_one === 5 ? val.po_approva_level_one :
+                                    val.po_complete === 5 ? val.po_complete :
+                                        val.po_prepartion === 5 ? val.po_prepartion :
+                                            val.quatation_fixing === 5 ? val.quatation_fixing :
+                                                val.quatation_negotiation === 5 ? val.quatation_negotiation :
+                                                    val.quatation_calling_status === 5 ? val.quatation_calling_status :
+                                                        val.ack_status === 5 ? val.ack_status :
+                                                            0,
+
+                    }
+                    return obj
+                })
+                setDisData(datas)
+                setAllData(datas)
+            }
+            else {
+                setDisData([])
+                setAllData([])
+            }
+        }
+
+    }, [combinedData, radiovalue, apprvData, dataCollection, ackData])
+
+    const RefreshData = useCallback(() => {
+        const getPendingPODetails = async () => {
+            const result = await axioslogin.get('/newCRFPurchase/getPO');
+            return result.data
+        }
+        const getPOdetails = async (posearch) => {
+            const result = await axiosellider.post('/crfpurchase/getpendingpo', posearch);
+            return result.data
+        }
+        const UpdatePOLevels = async (patchdata) => {
+            const result = await axioslogin.post('/newCRFPurchase/updateApprovalLevel', patchdata)
+            return result.data
+        }
+        getPendingPODetails().then((val) => {
+            const { success, data } = val
+            if (success === 1) {
+                const posearch = data?.map((val) => {
+                    return {
+                        pono: val.po_number,
+                        stcode: val.crs_store_code
+                    }
+                })
+                getPOdetails(posearch).then((val) => {
+                    const { success, elliderData } = val
+                    if (success === 1) {
+                        const patchdata = elliderData?.map((val) => {
+                            const newData = storeList?.find((value) => (value.crs_store_code === val.ST_CODE))
+                            return {
+                                approval_level: (typeof val.APPROVAL === 'number' && val.APPROVAL > 3) ? 3 : val.APPROVAL || null,
+                                po_expiry: val.PO_EXPIRY !== null ? format(new Date(val.PO_EXPIRY), 'yyyy-MM-dd') : null,
+                                expected_delivery: val.EXPECTED_DATE !== null ? format(new Date(val.EXPECTED_DATE), 'yyyy-MM-dd') : null,
+                                po_number: val.PO_NO,
+                                supply_store: newData ? newData.main_store_slno : 0
+                            }
+                        })
+                        UpdatePOLevels(patchdata).then((val) => {
+                            const { success, message } = val
+                            if (success === 1) {
+                                queryClient.invalidateQueries('getAprrovalData')
+                                // setOpen(false)
+                                succesNotify(message)
+                            }
+                            else {
+                                queryClient.invalidateQueries('getAprrovalData')
+                                // setOpen(false)
+                            }
+                        })
+                    }
+                    else if (success === 2) {
+                        queryClient.invalidateQueries('getAprrovalData')
+                        // setOpen(false)
+                        // succesNotify("Updated")
+                    }
+                })
+            } else {
+                queryClient.invalidateQueries('getAprrovalData')
+                // setOpen(false)
+            }
+        })
+    }, [storeList, queryClient])
+
     const viewAllData = useCallback(() => {
         setPendingPOList(combinedPO)
     }, [combinedPO])
@@ -480,256 +490,26 @@ const PurchaseTablemain = () => {
         }
     }, [combinedPO])
 
+    if (isAckLoading || isQuoLoading || isApprvLoading || isStoreLoading || isDcLoading) return <p>Loading...</p>;
+    if (ackError || quoError || apprvError || storeError || dcError) return <p>Error occurred.</p>;
+
     return (
-        <Fragment>
-            <ToastContainer />
-            <CustomBackDrop open={open} text="Please Wait" />
-            {
-                puchaseFlag === 1 ? <PurchaseModal open={puchaseModal}
-                    setpuchaseFlag={setpuchaseFlag} setpuchaseModal={setpuchaseModal}
-                    puchaseData={puchaseData} setpuchaseData={setpuchaseData}
-                    count={count} setCount={setCount} /> : null
-            }
-            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
-                images={imagearray} /> : null}
-
-            <Box sx={{ height: 38, backgroundColor: "#f0f3f5", display: 'flex', p: 0.5 }}>
+        <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
+            <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
                 <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF Purchase</Box>
-                <CssVarsProvider>
-                    <Tooltip title="Close" placement="bottom" >
-                        <Avatar size="sm" variant="plain" sx={{
-                            bgcolor: '##FBEDE0', height: 25, width: 25,
-                            border: '1px solid #FBE7C6'
-                        }}>
-                            <CloseIcon sx={{
-                                cursor: 'pointer', size: 'lg', fontSize: 20, color: '#FF4500',
-                                '&:hover': { color: 'red' }
-                            }} onClick={backtoSetting} />
-                        </Avatar>
-                    </Tooltip>
-                </CssVarsProvider>
-            </Box>
-
-            <Paper >
-                <Box sx={{
-                    width: "100%",
-                    px: 1, py: 0.5, flex: 1,
-                    display: "flex",
-                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-                    // justifyContent: 'center',
-                }}>
-                    <Box sx={{ display: 'flex', flex: 1 }}>
-                        <RadioGroup
-                            sx={{ bgcolor: '#eceff1', borderRadius: 5, flex: 2, pt: 1 }}
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="row-radio-buttons-group"
-                            value={radiovalue}
-                            onChange={(e) => updateRadioClick(e)}
-                        >
-
-                            <Badge
-                                badgeContent={ackCount}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                sx={{
-                                    mr: 1,
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#F83839',
-                                        color: 'white',
-                                        transform: 'translate(70%, -10%)',
-                                    }
-                                }}
-                            >
-                                <FormControlLabel value='1' sx={{ pl: 3, }} control={
-                                    <Radio
-                                        sx={{
-                                            color: 'red',
-                                            '&.Mui-checked': {
-                                                color: 'red',
-                                            },
-                                        }}
-                                    />} label="Acknowledgement Pending" />
-                            </Badge>
-
-                            <Badge
-                                badgeContent={crfProcCount}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                sx={{
-                                    mr: 1,
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#ef6c00',
-                                        color: 'white',
-                                        transform: 'translate(70%, -10%)',
-                                    }
-                                }}
-                            >
-                                <FormControlLabel value='2' sx={{ pl: 3 }} control={
-                                    <Radio
-                                        sx={{
-                                            color: '#ef6c00',
-                                            '&.Mui-checked': {
-                                                color: '#ef6c00',
-                                            },
-                                        }} />} label="Processing CRF " />
-                            </Badge>
-
-                            <Badge
-                                badgeContent={negoCount}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                sx={{
-                                    mr: 1,
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#6200ea',
-                                        color: 'white',
-                                        transform: 'translate(70%, -10%)',
-                                    }
-                                }}
-                            >
-                                <FormControlLabel value='3' sx={{ pl: 3 }} control={
-                                    <Radio
-                                        sx={{
-                                            color: '#6200ea',
-                                            '&.Mui-checked': {
-                                                color: '#6200ea',
-                                            },
-                                        }}
-                                    />} label="Quotation Negotiation " />
-                            </Badge>
-
-                            <Badge
-                                badgeContent={finalCount}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                sx={{
-                                    mr: 1,
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: 'orange',
-                                        color: 'white',
-                                        transform: 'translate(70%, -10%)',
-                                    }
-                                }}
-                            >
-                                <FormControlLabel value='4' sx={{ pl: 3 }} control={
-                                    <Radio
-                                        sx={{
-                                            color: 'orange',
-                                            '&.Mui-checked': {
-                                                color: 'orange',
-                                            },
-                                        }} />
-                                } label="Quotation Finalizing" />
-                            </Badge>
-                            <Badge
-                                badgeContent={poPrcCount}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                sx={{
-                                    mr: 1,
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#0d47a1',
-                                        color: 'white',
-                                        transform: 'translate(70%, -10%)',
-                                    }
-                                }}
-                            >
-                                <FormControlLabel
-                                    value='5'
-                                    sx={{ pl: 3 }}
-                                    control={
-                                        <Radio
-                                            sx={{
-                                                color: '#0d47a1',
-                                                '&.Mui-checked': {
-                                                    color: '#0d47a1',
-                                                },
-                                            }}
-                                        />
-                                    }
-                                    label="PO Processing"
-                                />
-                            </Badge>
-
-                            <Badge
-                                badgeContent={apprvlCount}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                sx={{
-                                    mr: 1,
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#1b5e20',
-                                        color: 'white',
-                                        transform: 'translate(70%, -10%)',
-                                    }
-                                }}
-                            >
-                                <FormControlLabel
-                                    value='6'
-                                    sx={{ pl: 3 }}
-                                    control={
-                                        <Radio
-                                            sx={{
-                                                color: '#1b5e20',
-                                                '&.Mui-checked': {
-                                                    color: '#1b5e20',
-                                                },
-                                            }}
-                                        />
-                                    }
-                                    label="PO Approvals"
-                                />
-                            </Badge>
-
-                        </RadioGroup>
-                        <RadioGroup
-                            sx={{ bgcolor: '#C9CFD0', borderRadius: 5, pr: 3 }}
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="row-radio-buttons-group"
-                            value={radiovalue}
-                            onChange={(e) => updateRadioClick(e)}
-                        >
-                            <FormControlLabel value='7' sx={{ bgcolor: '#C9CFD0', pl: 2 }} control={<Radio
-                                sx={{
-                                    color: '#512D10',
-                                    '&.Mui-checked': {
-                                        color: '#512D10',
-                                    },
-                                }} />} label="Data Collection Pending" />
-                            <Badge
-                                overlap="circular"
-                                badgeContent={dataCollectCount}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                sx={{
-                                    mr: 1, mt: 0.2,
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#512D10',
-                                        color: 'white',
-                                        transform: 'translate(70%, -10%)',
-                                    }
-                                }}
-                            />
-                        </RadioGroup>
-                    </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
+                    <CssVarsProvider>
+                        <CustomCloseIconCmp
+                            handleChange={backtoSetting}
+                        />
+                    </CssVarsProvider>
                 </Box>
-            </Paper >
+            </Box>
+            <Box>
+                <TopViewDesignPurchase radiovalue={radiovalue} setRadioValue={setRadioValue} ackPending={ackData}
+                    crfProcess={crfProcess} quoNego={quoNego} quoFinal={quoFinal} poProcess={poProcess} allData={allData}
+                    setDisData={setDisData} apprvCount={apprvData} dataCollection={dataCollection} />
+            </Box>
             {
                 radiovalue === '6' ?
                     <Box sx={{ flexWrap: 'wrap', pt: 0.5, maxHeight: window.innerHeight - 220 }}>
@@ -897,7 +677,7 @@ const PurchaseTablemain = () => {
                                     </Box>
                                 </Box>
                                 <Box>
-                                    <POPendingDetailTable pendingPOList={pendingPOList} count={count} setCount={setCount} />
+                                    <POPendingDetailTable pendingPOList={pendingPOList} />
                                 </Box>
                             </>
                             : <Box sx={{
@@ -908,21 +688,26 @@ const PurchaseTablemain = () => {
                             </Box>}
                     </Box>
                     :
-                    <Box sx={{ height: window.innerHeight - 200, overflow: 'auto', flexWrap: 'wrap' }}>
-                        {DisArray.length !== 0 ?
+                    <Box sx={{ height: window.innerHeight - 240, overflow: 'auto', flexWrap: 'wrap' }}>
+                        {disData.length !== 0 ?
                             <Virtuoso
-                                data={DisArray}
-                                totalCount={DisArray?.length}
+                                data={disData}
+                                totalCount={disData?.length}
                                 itemContent={(index, val) =>
                                     <Box key={index} sx={{
                                         width: "100%", mt: 0.8, flexWrap: 'wrap',
                                         border: '1px solid #21B6A8', borderRadius: 2,
                                     }}>
                                         <ReqMastMainViewCmp val={val} />
-                                        <PurchaseApprovalButtonCmp val={val}
+                                        {radiovalue === '7' ?
+                                            <DataCollectionSave flag={5} val={val} empdeptsec={empdeptsec} />
+                                            :
+                                            <PurchaseApprovalButtonCmp val={val} />
+                                        }
+                                        {/* <PurchaseApprovalButtonCmp val={val}
                                             setpuchaseFlag={setpuchaseFlag} setpuchaseModal={setpuchaseModal}
-                                            setpuchaseData={setpuchaseData} setImageShowFlag={setImageShowFlag}
-                                            setImageShow={setImageShow} setImageSlno={setImageSlno} />
+                                            puchaseData={puchaseData} setpuchaseData={setpuchaseData} setImageShowFlag={setImageShowFlag}
+                                            setImageShow={setImageShow} setImageSlno={setImageSlno} /> */}
                                     </Box>
                                 }
                             >
@@ -936,7 +721,8 @@ const PurchaseTablemain = () => {
                             </Box>}
                     </Box>
             }
-        </Fragment >
+        </Box>
     )
 }
+
 export default memo(PurchaseTablemain)

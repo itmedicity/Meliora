@@ -1,70 +1,55 @@
-import React, { memo, useState, useEffect, Fragment } from 'react'
-import { useSelector } from 'react-redux';
-import Autocomplete from '@mui/joy/Autocomplete';
-import { CssVarsProvider } from '@mui/joy/'
+import React, { memo, useEffect, Fragment } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { CssVarsProvider, Option, Select } from '@mui/joy/';
+import { getUOM } from 'src/redux/actions/AmUOMList.action';
 
 const AssetUOMSelect = ({ uom, setUOM, setName }) => {
-
-    const assetUom = useSelector((state) => state.getUOM.uomList)
-    const [uoms, setUoms] = useState([{ uom_slno: 0, uom_name: '' }])
-    const [value, setValue] = useState(uoms[0]);
-    const [inputValue, setInputValue] = useState('');
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getUOM())
+    }, [dispatch])
+    const assetUom = useSelector((state) => state.getUOM.uomList);
 
     useEffect(() => {
-        if (uom !== 0) {
-            let newObj = assetUom?.find((e) => e.uom_slno === uom)
-            setValue(newObj)
+        if (uom !== 0 && uom !== null && uom !== undefined) {
+            const newObj = assetUom?.find((e) => e.uom_slno === uom);
+            if (newObj && newObj.length > 0) {
+                const { uom_name, uom_slno } = newObj;
+                setUOM(uom_slno);
+                setName(uom_name);
+            }
         }
-    }, [uom, assetUom])
-
-    useEffect(() => {
-        if (value !== null) {
-            setUOM(value.uom_slno)
-            setName(value.uom_name)
-        } else {
-            setUOM(0)
-            setName('')
-        }
-        return
-    }, [value, setUOM, setName])
-
-
-    useEffect(() => {
-        assetUom.length > 0 && setUoms(assetUom)
-    }, [assetUom])
+    }, [uom, assetUom, setName, setUOM]);
 
     return (
-        <Fragment >
+        <Fragment>
             <CssVarsProvider>
-                <Autocomplete
-                    sx={{
-                        "--Input-minHeight": "29px"
+                <Select
+                    value={uom}
+                    sx={{ fontSize: 13, width: '100%', height: 29, bgcolor: 'white' }}
+                    slotProps={{
+                        listbox: { placement: 'bottom-start' },
                     }}
-                    value={uom === 0 ? uoms : value}
-                    placeholder="Unit of Measurement"
-                    clearOnBlur
-                    onChange={(event, newValue) => {
-                        setValue(newValue);
+                    placeholder="Select UOM"
+                    onChange={(e, newValue) => {
+                        if (newValue !== undefined) {
+                            setUOM(newValue);
+                            const selectedUOM = assetUom?.find((item) => item.uom_slno === newValue);
+                            if (selectedUOM) {
+                                setName(selectedUOM.uom_name);
+                            }
+                        }
                     }}
-                    inputValue={inputValue}
-                    onInputChange={(event, newInputValue) => {
-                        setInputValue(newInputValue);
-                    }}
-                    loading={true}
-                    loadingText="Loading..."
-                    freeSolo
-                    // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
-                    isOptionEqualToValue={(option, value) => option.uom_name === value.uom_name}
-                    getOptionLabel={option => option.uom_name || ''}
-                    options={uoms}
-                />
+                >
+                    {assetUom?.map((val) => (
+                        <Option key={val.uom_slno} value={val.uom_slno}>
+                            {val.uom_name}
+                        </Option>
+                    ))}
+                </Select>
             </CssVarsProvider>
         </Fragment>
     );
-}
+};
 
-export default memo(AssetUOMSelect)
-
-
-
-
+export default memo(AssetUOMSelect);

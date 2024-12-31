@@ -1,92 +1,155 @@
-import React, { Fragment, memo } from 'react'
-import { Box, IconButton, Tooltip, Typography } from '@mui/joy';
-import { Grid, Paper } from '@mui/material';
-const DashboradGridView = ({ title, clinicCount, nonClinicCount, onClinicClick, onNonClinicClick, imageView, imName, allCount, allDataClick }) => {
+import React, { Fragment, memo, useCallback } from 'react';
+import { Box, Divider, Grid, Tooltip, Typography } from '@mui/joy';
+import { Paper } from '@mui/material';
+const ImageViewComp = React.lazy(() => import("./ImageViewComp"))
 
-    const clinicButtonStyle = {
-        height: 30,
-        width: 30,
-        ml: 1,
-        borderRadius: '50%',
-        boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
-        p: 0.3,
-        cursor: 'pointer',
-        bgcolor: '#b3e5fc',
-        transition: 'transform 0.2s',
-        '&:hover': {
-            transform: 'scale(1.05)',
-            bgcolor: '#81d4fa',
-        },
-    };
-
-    const nonClinicButtonStyle = {
-        height: 30,
-        width: 30,
-        ml: 1,
-        borderRadius: '50%',
-        boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
-        p: 0.3,
-        cursor: 'pointer',
-        bgcolor: '#b2ebf2',
-        transition: 'transform 0.2s',
-        '&:hover': {
-            transform: 'scale(1.05)',
-            bgcolor: '#80deea',
-        },
-    };
-
+const DashboradGridView = ({ val, viewPednigDetails }) => {
+    const { imageView, imName, title, pending, clinic, nonClinic, id } = val;
+    const getData = useCallback(() => {
+        viewPednigDetails(id)
+    }, [id, viewPednigDetails])
     return (
         <Fragment>
-            <Grid item xs={12} sm={12} md={6} lg={4} xl={3} style={{ width: 500 }} >
-                <Paper variant='outlined' square sx={{
-                    bgcolor: 'white', height: 200,
-                    border: '1px solid #bbdefb', borderRadius: 5
-                }}>
-                    <Box sx={{ marginBottom: 1, display: 'flex' }}>
-                        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, py: 1 }}>
-                            <img src={imageView} alt={imName} loading="lazy" style={{ width: "100%", height: "90%" }} />
+            <Grid xs={12} sm={12} md={6} lg={4} xl={3} sx={{ width: "100%" }}>
+                <Paper
+                    variant="outlined"
+                    square sx={{
+                        bgcolor: 'white', height: 180,
+                        border: '1px solid #bbdefb', borderRadius: 5,
+                    }}
+                >
+                    <Box sx={{ marginBottom: 1, display: 'flex', height: 'calc(100% - 40px)', }} >
+                        <Box sx={{ flex: 0.5, display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, py: 1, }}>
+                            <ImageViewComp src={imageView} alt={imName} style={{ width: 110, height: 90 }} />
                         </Box>
-                        <Box sx={{ flex: 1, }}>
-                            <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pr: 2, py: 2 }}>
-                                <Typography sx={{ fontSize: 20, fontWeight: 650, color: '#003371' }}>{title}</Typography>
+                        <Box sx={{ flex: 1 }}>
+                            <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pr: 2, py: 2, }}>
+                                <Typography sx={{ fontSize: 20, fontWeight: 650, color: '#003371', }} >
+                                    {title}
+                                </Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', pt: 0.5 }} >
-                                <Tooltip title="Total Count" placement="bottom" sx={{ fontSize: 14, color: 'white', bgcolor: '#60A3D9', fontWeight: 650 }}>
-                                    <Box sx={{
-                                        cursor: 'pointer', borderTopLeftRadius: 15, borderBottomLeftRadius: 15,
-                                        fontSize: 40, display: 'flex', justifyContent: 'center', width: 100,
-                                        fontWeight: 650, color: '#3f51b5', bgcolor: '#e3f2fd',
-                                        '&:hover': {
-                                            bgcolor: '#e3f2fd', color: '#3f51b5'
-                                        },
-                                    }} onClick={allDataClick}
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', pt: 0.5, }} >
+                                <Tooltip
+                                    title="Total Count"
+                                    placement="bottom"
+                                    sx={{
+                                        fontSize: 14,
+                                        color: 'white',
+                                        bgcolor: '#60A3D9',
+                                        fontWeight: 650,
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            cursor: 'pointer', borderTopLeftRadius: 15, borderBottomLeftRadius: 15,
+                                            fontSize: 40, display: 'flex', justifyContent: 'center',
+                                            width: 100, fontWeight: 650, color: '#3f51b5', bgcolor: '#e3f2fd',
+                                            '&:hover': {
+                                                bgcolor: '#e3f2fd',
+                                                color: '#3f51b5',
+                                            },
+                                        }}
+                                        onClick={getData}
                                     >
-                                        {allCount}
+                                        {pending}
                                     </Box>
                                 </Tooltip>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', pt: 2, pr: 1 }}>
-                                <Box sx={{ mr: 1 }}>
-                                    <Tooltip title="Clinic Count" placement="bottom" sx={{ cursor: 'pointer', fontSize: 14, color: 'white', bgcolor: '#60A3D9', fontWeight: 650 }}>
-                                        <IconButton variant="contained" sx={clinicButtonStyle} onClick={onClinicClick}>
-                                            {clinicCount}
-                                        </IconButton>
-                                    </Tooltip>
-                                </Box>
-                                <Box sx={{}}>
-                                    <Tooltip title="Non-Clinic Count" placement="bottom" sx={{ cursor: 'pointer', color: 'white', bgcolor: '#60A3D9', fontWeight: 650 }}>
-                                        <IconButton variant="contained" sx={nonClinicButtonStyle} onClick={onNonClinicClick}>
-                                            {nonClinicCount}
-                                        </IconButton>
-                                    </Tooltip>
-                                </Box>
-                            </Box>
                         </Box>
                     </Box>
-                </Paper>
-            </Grid >
-        </Fragment >
-    )
-}
+                    <Divider sx={{ backgroundColor: 'rgba(0,51,122,0.6)', mx: 1, }} />
+                    <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'space-evenly', m: 0.5 }}
+                    >
+                        {/* <Box component={Typography} endDecorator={<div>{clinic}</div>}
+                            sx={{
+                                fontFamily: 'Montserrat, sans-serif',
+                                fontSize: '1rem',
+                                fontWeight: 800,
+                                color: 'rgba(0,51,122,0.6)',
+                            }}
+                        >
+                            <Box sx={{ pr: 1 }}>
+                                <img
+                                    src={clinicImg}
+                                    alt="climg"
+                                    loading="lazy"
+                                    style={{ width: 26, height: 26, }}
+                                />
+                            </Box>
 
-export default memo(DashboradGridView)
+                        </Box>
+                        <Box component={Typography} endDecorator={<div>{nonClinic}</div>}
+                            sx={{
+                                fontFamily: 'Montserrat, sans-serif',
+                                fontSize: '1rem',
+                                fontWeight: 800,
+                                color: 'rgba(0,51,122,0.6)',
+                            }}
+                        >
+                            <Box sx={{ pr: 1 }}>
+                                <img
+                                    src={nonclinicImg}
+                                    alt="nonclimg"
+                                    loading="lazy"
+                                    style={{ width: 26, height: 26, }}
+                                />
+                            </Box>
+
+                        </Box> */}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography
+                                sx={{
+                                    pr: 1,
+                                    fontSize: '1rem',
+                                    // fontWeight: 550,
+                                    // color: 'rgba(0,51,122,0.6)',
+                                    color: '#3f51b5'
+                                }}
+                            >
+                                Clinic
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontFamily: 'Montserrat, sans-serif',
+                                    fontSize: '1rem',
+                                    fontWeight: 800,
+                                    color: 'rgba(0,51,122,0.6)',
+                                    // color: '#3f51b5'
+                                }}
+                            >
+                                {clinic}
+                            </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography
+                                sx={{
+                                    pr: 1,
+                                    fontSize: '1rem',
+                                    // fontWeight: 550,
+                                    // color: 'rgba(0,51,122,0.6)',
+                                    color: '#3f51b5'
+                                }}
+                            >
+                                NonClinic
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontFamily: 'Montserrat, sans-serif',
+                                    fontSize: '1rem',
+                                    fontWeight: 800,
+                                    color: 'rgba(0,51,122,0.6)',
+                                    // color: '#3f51b5'
+                                }}
+                            >
+                                {nonClinic}
+                            </Typography>
+                        </Box>
+
+                    </Box>
+                </Paper>
+            </Grid>
+        </Fragment>
+    );
+};
+
+export default memo(DashboradGridView);

@@ -18,39 +18,39 @@ import _ from 'underscore'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import moment from 'moment';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
-import CustomInputDateCmp from '../ComonComponent/CustomInputDateCmp';
-import CustomCloseIconCmp from '../ComonComponent/CustomCloseIconCmp';
-import CustomIconButtonCmp from '../ComonComponent/CustomIconButtonCmp';
+import CustomInputDateCmp from '../ComonComponent/Components/CustomInputDateCmp';
+import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp';
+import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCmp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { editicon } from 'src/color/Color'
 const DeliveryMarkingStore = () => {
     const history = useHistory();
-    const [receivedDate, setReceivedDate] = useState(format(new Date(), "yyyy-MM-dd'T'HH:mm:ss"));
+    const dispatch = useDispatch()
+    const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
+    const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+    const [deliveryState, setDeliveryState] = useState({
+        receivedDate: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
+        directMode: false,
+        courierMode: false,
+        packageCount: '',
+        billNumber: '',
+        billDate: format(new Date(), "yyyy-MM-dd"),
+        remarks: '',
+        searchFlag: 0,
+        editIndex: null
+    })
+    const { receivedDate, directMode, courierMode, packageCount, billNumber, billDate, remarks, searchFlag, editIndex } = deliveryState
+
     const [supName, setSupName] = useState('')
     const [supCode, setSupCode] = useState(0)
-    // const [tableData, setTableData] = useState([])
-    const [directMode, setDirectMode] = useState(false)
-    const [courierMode, setCourierMode] = useState(false)
-    const [packageCount, setPackageCount] = useState('')
-    const [billNumber, setBillNumber] = useState('')
-    const [billDate, setBillDate] = useState(format(new Date(), "yyyy-MM-dd"));
-    const [remarks, setRemarks] = useState('')
     const [storeList, setStoreList] = useState([])
     const [empName, setempName] = useState(0)
     const [combinedPO, setCombinedPO] = useState([])
-    // const [existBillNo, setexistBillNo] = useState('')
     const [existPo, setExistPo] = useState([])
     const [elliderPoList, setElliderPoList] = useState([])
-    const [searchFlag, setSearchFlag] = useState(0)
     const [insertArray, setinsertArray] = useState([])
     const [billDetails, setBillDetails] = useState([])
-    const [editIndex, setEditIndex] = useState(null);
-    const dispatch = useDispatch()
-
-    const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-    const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
-
     useEffect(() => {
         if (empdeptsec !== null) {
             dispatch((getDepartSecemployee(empdeptsec)))
@@ -61,54 +61,23 @@ const DeliveryMarkingStore = () => {
         history.push('/Home/CrfNewDashBoard');
     }, [history]);
 
-    const receivedDateChange = useCallback((e) => {
-        setReceivedDate(e.target.value)
-    }, [])
-    const changeDirect = useCallback((e) => {
-        setDirectMode(e.target.checked);
-    }, [])
-    const changeCourier = useCallback((e) => {
-        setCourierMode(e.target.checked)
-    }, [])
-    const changePackage = useCallback((e) => {
-        // const value = e.target.value;
-        // setPackageCount(value ? Number(value) : 0);
-        setPackageCount(e.target.value)
-    }, [])
-    const changeBillNUmber = useCallback((e) => {
-        setBillNumber(e.target.value)
-    }, [])
-    const billDateChange = useCallback((e) => {
-        setBillDate(e.target.value)
-    }, [])
-    const changeRemarks = useCallback((e) => {
-        setRemarks(e.target.value)
-    }, [])
-
-    // const getExistBillData = async (supCode) => {
-    //     try {
-    //         const result = await axioslogin.get(`/deliveryMarking/existBill/${supCode}`)
-    //         const { success, data } = result.data
-    //         if (success === 1) {
-    //             const { delivered_bill_no } = data[0]
-    //             setexistBillNo(delivered_bill_no)
-    //         } else {
-    //             setexistBillNo('')
-    //         }
-    //     } catch (error) {
-    //         warningNotify("Error to fetch Data:", error);
-    //         setexistBillNo('')
-    //     }
-    // }
-    // getExistBillData(supCode)
+    const updateOnchangeState = useCallback((e) => {
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        setDeliveryState({ ...deliveryState, [e.target.name]: value })
+    }, [deliveryState])
 
     const SearchData = useCallback(() => {
-
         if (supCode === 0) {
             infoNotify("Select Supplier Name")
-            setSearchFlag(0)
+            setDeliveryState(prev => ({
+                ...prev,
+                searchFlag: 0
+            }));
         } else {
-            setSearchFlag(1)
+            setDeliveryState(prev => ({
+                ...prev,
+                searchFlag: 1
+            }));
 
             const getPendingPODetails = async (supCode) => {
                 const result = await axioslogin.get(`/deliveryMarking/pendingPo/${supCode}`)
@@ -310,7 +279,10 @@ const DeliveryMarkingStore = () => {
                     return obj
                 })
                 setBillDetails(datas);
-                setEditIndex(null);
+                setDeliveryState(prev => ({
+                    ...prev,
+                    editIndex: null
+                }));
             } else {
                 const newArray = [...billDetails, newdata]
                 const datas = newArray?.map((val, index) => {
@@ -323,16 +295,22 @@ const DeliveryMarkingStore = () => {
                 })
                 setBillDetails(datas);
             }
-            setBillNumber('')
-            setBillDate(format(new Date(), "yyyy-MM-dd"))
+            setDeliveryState(prev => ({
+                ...prev,
+                billNumber: '',
+                billDate: format(new Date(), "yyyy-MM-dd")
+            }));
         }
     }, [billNumber, billDate, billDetails, editIndex])
 
     const editSelect = useCallback((val, index) => {
         const { delivered_bill_no, delivered_bill_date } = val
-        setBillNumber(delivered_bill_no)
-        setBillDate(format(new Date(delivered_bill_date), "yyyy-MM-dd"))
-        setEditIndex(index);
+        setDeliveryState(prev => ({
+            ...prev,
+            billNumber: delivered_bill_no,
+            billDate: format(new Date(delivered_bill_date), "yyyy-MM-dd"),
+            editIndex: index
+        }));
     }, [])
 
     const deleteSelect = useCallback((val) => {
@@ -435,20 +413,24 @@ const DeliveryMarkingStore = () => {
         },
     }
     const ResetDetails = useCallback(() => {
-        setReceivedDate(format(new Date(), "yyyy-MM-dd'T'HH:mm:ss"))
+        const formData = {
+            receivedDate: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
+            directMode: false,
+            courierMode: false,
+            packageCount: '',
+            billNumber: '',
+            billDate: format(new Date(), "yyyy-MM-dd"),
+            remarks: '',
+            searchFlag: 0,
+            editIndex: null
+        }
+        setDeliveryState(formData)
         setSupName('')
         setSupCode(0)
-        // setTableData([])
-        setDirectMode(false)
-        setCourierMode(false)
-        setPackageCount('')
-        setBillNumber('')
-        setBillDate(format(new Date(), 'yyyy-MM-dd'))
-        setRemarks('')
         setempName(0)
         setCombinedPO([])
         setBillDetails([])
-        setSearchFlag(0)
+
     }, [])
     const postData = useMemo(() => {
         return {
@@ -555,14 +537,14 @@ const DeliveryMarkingStore = () => {
         <Fragment>
             <Box sx={{ height: window.innerHeight - 80 }}>
                 <CssVarsProvider>
-                    <Box sx={{ height: 40, backgroundColor: "#f0f3f5", display: 'flex', p: 0.5 }}>
-                        <Box sx={{ fontSize: 20, pl: 1, color: '#254030', fontFamily: 'Monospace', m: 0.5 }}>
-                            Delivery Marking
-                        </Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, pr: 0.2 }}>
-                            <CustomCloseIconCmp
-                                handleChange={backtoHome}
-                            />
+                    <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
+                        <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}> Delivery Marking</Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
+                            <CssVarsProvider>
+                                <CustomCloseIconCmp
+                                    handleChange={backtoHome}
+                                />
+                            </CssVarsProvider>
                         </Box>
                     </Box>
                     <Box sx={{
@@ -594,7 +576,7 @@ const DeliveryMarkingStore = () => {
                                             type={'datetime-local'}
                                             name={'receivedDate'}
                                             value={receivedDate}
-                                            handleChange={receivedDateChange}
+                                            handleChange={updateOnchangeState}
                                         />
                                     </Box>
                                 </Box>
@@ -623,13 +605,17 @@ const DeliveryMarkingStore = () => {
                                                 <Box sx={{ pl: 1, pt: 0.4 }}>
                                                     <Checkbox color="primary" variant="outlined" label="Direct" size="md"
                                                         checked={directMode}
-                                                        onChange={changeDirect}
+                                                        value={directMode}
+                                                        name="directMode"
+                                                        onChange={updateOnchangeState}
                                                         sx={{ color: '#1565c0' }} />
                                                 </Box>
                                                 <Box sx={{ pl: 2, pt: 0.4 }}>
                                                     <Checkbox color="primary" variant="outlined" label="Courier" size="md"
                                                         checked={courierMode}
-                                                        onChange={changeCourier}
+                                                        value={courierMode}
+                                                        name="courierMode"
+                                                        onChange={updateOnchangeState}
                                                         sx={{ color: '#1565c0' }} />
                                                 </Box>
                                             </Box>
@@ -651,7 +637,7 @@ const DeliveryMarkingStore = () => {
                                                         type='text'
                                                         name={'billNumber'}
                                                         value={billNumber}
-                                                        handleChange={changeBillNUmber}
+                                                        handleChange={updateOnchangeState}
                                                     />
                                                 </Box>
                                             </Box>
@@ -674,7 +660,7 @@ const DeliveryMarkingStore = () => {
                                                                 max: moment(new Date()).format('YYYY-MM-DD'),
                                                             },
                                                         }}
-                                                        handleChange={billDateChange}
+                                                        handleChange={updateOnchangeState}
                                                     />
                                                 </Box>
                                             </Box>
@@ -756,7 +742,7 @@ const DeliveryMarkingStore = () => {
                                                     type='text'
                                                     name={'packageCount'}
                                                     value={packageCount}
-                                                    handleChange={changePackage}
+                                                    handleChange={updateOnchangeState}
                                                 />
                                             </Box>
                                         </Box>
@@ -770,7 +756,7 @@ const DeliveryMarkingStore = () => {
                                                     name='remarks'
                                                     minRows={1}
                                                     maxRows={3}
-                                                    onChange={changeRemarks}
+                                                    onChange={updateOnchangeState}
                                                     sx={{
                                                         border: '1px solid #bbdefb', color: '#0d47a1',
                                                         fontSize: 14, borderRadius: 10

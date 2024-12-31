@@ -1,11 +1,13 @@
 import { CssVarsProvider, Tab, tabClasses, TabList, TabPanel, Tabs } from '@mui/joy'
 import { Paper } from '@mui/material'
-import React, { memo, useEffect } from 'react'
+import React, { memo, Suspense, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCRFPurchaseDashboard, getCRMDashboard, getPOStoreDashboard } from 'src/redux/actions/CrmDashBoardList.action'
-import CRFStatusView from './CRFStatus/CRFStatusView'
-import CRFPurchaseStatus from './CRFPurchaseStatus/CRFPurchaseStatus'
-import CRFStoreStatus from './CRFStoreStatus/CRFStoreStatus'
+import CustomLoadComp from '../ComonComponent/Components/CustomLoadComp'
+
+const CRFStatusView = React.lazy(() => import("./CRFStatus/CRFStatusView"))
+const CRFPurchaseStatus = React.lazy(() => import("./CRFPurchaseStatus/CRFPurchaseStatus"))
+const CRFStoreStatus = React.lazy(() => import("./CRFStoreStatus/CRFStoreStatus"))
 
 const CrfDashboardMain = () => {
     const dispatch = useDispatch();
@@ -18,21 +20,26 @@ const CrfDashboardMain = () => {
     const crfData = useSelector((state) => {
         return state.setCRMDashBoard.setCRMDashboardList
     })
+    // const crfData = useMemo(() => crfStatus, [crfStatus])
+
     const purchaseData = useSelector((state) => {
         return state.getCRFPurchaseDashboard.setCRMPurcahseList
     })
+    // const purchaseData = useMemo(() => purchaseStatus, [purchaseStatus])
+
     const storeData = useSelector((state) => {
         return state.getPOStoreDashboard.setPoStoreList
     })
+    // const storeData = useMemo(() => storeStatus, [storeStatus])
+
     return (
         <Paper variant="outlined" sx={{ bgcolor: '#F8F8F8' }}>
             <CssVarsProvider>
-                <Tabs aria-label="tabs" defaultValue={0} sx={{ bgcolor: '#F0F4F8' }}>
+                <Tabs aria-label="CRF Dashboard Tabs" defaultValue={0} sx={{ bgcolor: '#F0F4F8' }}>
                     <TabList
                         disableUnderline
                         sx={{
-                            m: 0.6, pt: 0.5,
-                            gap: 0.5,
+                            m: 0.6, gap: 0.5, pb: 0.3,
                             borderRadius: 'xl',
                             // bgcolor: 'background.level1',
                             [`& .${tabClasses.root}[aria-selected="true"]`]: {
@@ -83,16 +90,29 @@ const CrfDashboardMain = () => {
                             CRF - Store Status
                         </Tab>
                     </TabList>
+                    {
+                        /*****
+                         *   <Suspense fallback={<Skeleton sx={{ 
+                         * }} ></Skeleton>} > 
+                         *          <CRFStatusView crfData={crfData} />
+                         * </Suspense>
+                                               */
+                    }
                     <TabPanel value={0} sx={{ p: 0 }}>
-                        <CRFStatusView crfData={crfData} />
+                        <Suspense fallback={<CustomLoadComp />}>
+                            <CRFStatusView crfData={crfData} />
+                        </Suspense>
                     </TabPanel>
                     <TabPanel value={1} sx={{ p: 0 }}>
-                        <CRFPurchaseStatus purchaseData={purchaseData} storeData={storeData} />
+                        <Suspense fallback={<CustomLoadComp />}>
+                            <CRFPurchaseStatus purchaseData={purchaseData} />
+                        </Suspense>
                     </TabPanel>
                     <TabPanel value={2} sx={{ p: 0 }}>
-                        <CRFStoreStatus storeData={storeData} />
+                        <Suspense fallback={<CustomLoadComp />}>
+                            <CRFStoreStatus storeData={storeData} />
+                        </Suspense>
                     </TabPanel>
-
                 </Tabs>
             </CssVarsProvider>
         </Paper >

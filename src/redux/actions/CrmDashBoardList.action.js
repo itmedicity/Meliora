@@ -26,7 +26,7 @@ export const getCRFPurchaseDashboard = () => async (dispatch) => {
 }
 
 export const getPOStoreDashboard = () => async (dispatch) => {
-    const result = await axioslogin.get('/newCRFRegister/poApproval/Dashboard');
+    const result = await axioslogin.get('/newCRFRegister/crfStore/Dashboard');
     const { success, data } = result.data
     if (success === 1) {
         dispatch({ type: FETCH_PO_STORE_DASHBOARD, payload: data, loadingStatus: true })

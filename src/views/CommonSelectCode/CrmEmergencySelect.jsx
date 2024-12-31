@@ -1,6 +1,6 @@
 import React, { useEffect, memo, useState, Fragment } from 'react'
 import { axioslogin } from '../Axios/Axios';
-import { Box, CssVarsProvider, Option, Select } from '@mui/joy';
+import { CssVarsProvider, Option, Select } from '@mui/joy';
 
 const CrmEmergencySelect = ({ value, setValue }) => {
     const [crmEmerList, setCrmEmrList] = useState([])
@@ -23,11 +23,11 @@ const CrmEmergencySelect = ({ value, setValue }) => {
         <Fragment>
             <CssVarsProvider>
                 <Select
-                    sx={{ height: 25, p: 0, m: 0, lineHeight: 1.200, fontSize: 13, pl: 1 }}
+                    sx={{ height: 30, p: 0, m: 0, lineHeight: 1.200, fontSize: 13, pl: 1, bgcolor: 'white' }}
                     slotProps={{
                         listbox: { placement: 'bottom-start' },
                     }}
-                    placeholder="Select Emergency Type"
+                    placeholder="Select"
                     value={value}
                     onChange={(e, newValue) => setValue(newValue)}
                 >

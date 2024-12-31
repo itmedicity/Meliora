@@ -14,7 +14,7 @@ import ApprovedItemListDis from 'src/views/CentralRequestManagement/ComonCompone
 import { TypoHeadColor } from 'src/color/Color'
 import Divider from '@mui/material/Divider';
 import { format } from 'date-fns';
-import CrfReqDetailCmpnt from 'src/views/CentralRequestManagement/CRFRequestMaster/CrfReqDetailCmpnt';
+import CrfReqDetailCmpnt from 'src/views/CentralRequestManagement/CRFRequestMaster/Components/CrfReqDetailCmpnt';
 import PoStoreDetail from './PoStoreDetail';
 
 

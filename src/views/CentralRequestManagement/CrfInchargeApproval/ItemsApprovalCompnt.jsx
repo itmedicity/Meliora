@@ -1,44 +1,41 @@
-import React, { Fragment, useCallback, useState, memo, useEffect } from 'react'
-import { Box, IconButton, Button } from '@mui/material'
-import { editicon } from 'src/color/Color'
-import CustomeToolTip from 'src/views/Components/CustomeToolTip';
-import CrfReqDetailCmpnt from '../CRFRequestMaster/CrfReqDetailCmpnt';
+import React, { Fragment, useCallback, useState, memo, useEffect, useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios';
 import _ from 'underscore'
-import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
-import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUOM } from 'src/redux/actions/AmUOMList.action'
-import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
-import CustomTextarea from 'src/views/Components/CustomTextarea';
 import { format } from 'date-fns';
-import UOMSelect from '../ComonComponent/UOMSelect';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { Box, IconButton, Table, Textarea, Tooltip, Typography } from '@mui/joy';
+import UomApprvSelect from '../ComonComponent/Components/UomApprvSelect';
+import CustomInputDateCmp from '../ComonComponent/Components/CustomInputDateCmp';
+import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCmp';
+import { useQuery, useQueryClient } from 'react-query';
+import { getApprovedCrfItems, getApprovedStatus, getMaxslNoOfCrfItem } from 'src/api/CommonApiCRF';
 
-
-const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, setApproveTableData, setMoreItem }) => {
-
+const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editEnable,
+    setEditEnable, header, apprvLevel }) => {
+    const queryClient = useQueryClient()
     const dispatch = useDispatch();
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-    const [reqDetailslno, setReqDetailSlno] = useState(0)
     const [uom, setUOM] = useState(0)
-    const [uomName, setUomName] = useState('')
-    const [unitprice, setUnitPrice] = useState(0)
-    const [approx_cost, setapprox_cost] = useState(0)
-    const [item_desc_actl, set_item_desc_actl] = useState('')
-    const [count, setCount] = useState(0)
-    const [reqslno, setRqeslno] = useState(0)
     const [lastSlno, setLastSlno] = useState(0)
-    //Item details initialization
-    const [item_qty, setItem_qty] = useState(0)
+    const [apprvdItems, setApprvdItems] = useState([])
     const [itemstate, setItemState] = useState({
+        reqDetailslno: 0,
         item_desc: '',
         item_brand: '',
         item_spec: '',
-        item_slno: 0
+        item_slno: 0,
+        unitprice: 0,
+        approx_cost: 0,
+        item_desc_actl: '',
+        item_qty: 0,
+        po_item_status: ''
     })
     //Destructuring
-    const { item_desc, item_brand, item_spec, item_slno } = itemstate
+    const { reqDetailslno, item_desc, item_brand, item_spec, item_slno, unitprice, approx_cost, item_desc_actl, item_qty } = itemstate
     const updateItemState = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setItemState({ ...itemstate, [e.target.name]: value })
@@ -55,154 +52,219 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
     }, [dispatch])
 
     const OnchangeQty = useCallback((e) => {
-        setItem_qty(e.target.value)
-        if (unitprice !== '' || unitprice !== 0) {
-            setapprox_cost(unitprice * e.target.value)
-        }
+        setItemState(prev => ({
+            ...prev,
+            item_qty: (e.target.value),
+            approx_cost: (unitprice !== '' || unitprice !== 0) ? (unitprice * e.target.value) : 0
+        }))
     }, [unitprice])
 
     const updateUnitPrice = useCallback((e) => {
         if (item_qty !== 0) {
-            setUnitPrice(e.target.value)
-            setapprox_cost(item_qty * e.target.value)
+            setItemState(prev => ({
+                ...prev,
+                unitprice: (e.target.value),
+                approx_cost: (item_qty !== '') ? (item_qty * e.target.value) : 0
+            }))
         }
         else {
-            warningNotify("Please Enter quantity before enter unit price")
+            warningNotify("Provide the quantity before specifying the unit price")
         }
     }, [item_qty])
 
+    const { data: iteData, isLoading: isItemsLoading, error: itemsError } = useQuery({
+        queryKey: ['approvedRejholdItemList', req_slno],
+        queryFn: () => getApprovedCrfItems(req_slno),
+        staleTime: Infinity
+    });
+    const itemData = useMemo(() => iteData, [iteData])
+
+    const { data: statData, isLoading: isStatusLoading, error: statusError } = useQuery({
+        queryKey: ['itemStatus', req_slno],
+        queryFn: () => getApprovedStatus(req_slno),
+        staleTime: Infinity
+    });
+    const statusData = useMemo(() => statData, [statData])
+
+    const [checkStatus, setCheckStatus] = useState([])
     useEffect(() => {
-        const getApprovalItems = async (req_slno) => {
-            const result = await axioslogin.get(`/CRFRegisterApproval/getItemListApproval/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const datas = data.map((val, index) => {
-                    const obj = {
-                        slno: index + 1,
+        if (statusData && statusData.length !== 0) {
+            if (apprvLevel === 1) {
+                // incharge
+                const newData = statusData?.map((val) => {
+                    return {
                         req_detl_slno: val.req_detl_slno,
-                        req_slno: val.req_slno,
-                        item_slno: val.item_slno,
-                        item_desc: val.item_desc,
-                        item_brand: val.item_brand,
-                        item_unit: val.item_unit,
-                        item_qnty: val.item_qnty,
-                        item_specification: val.item_specification,
-                        item_unit_price: val.item_unit_price,
-                        aprox_cost: val.aprox_cost,
-                        item_status: val.item_status,
-                        approve_item_desc: val.approve_item_desc,
-                        approve_item_brand: val.approve_item_brand !== '' ? val.approve_item_brand : '',
-                        approve_item_unit: val.approve_item_unit !== null ||
-                            val.approve_item_unit !== undefined ? val.approve_item_unit : 0,
-                        item_qnty_approved: val.item_qnty_approved,
-                        approve_item_unit_price: val.approve_item_unit_price !== 0 ? val.approve_item_unit_price : 0,
-                        approve_aprox_cost: val.approve_aprox_cost !== 0 ? val.approve_aprox_cost : 0,
-                        item_status_approved: val.item_status_approved,
-                        approve_item_status: val.approve_item_status,
-                        approve_item_delete_who: val.approve_item_delete_who,
-                        uom_name: val.uom_name,
-                        approve_item_specification: val.approve_item_specification !== '' ? val.approve_item_specification : '',
-                        old_item_slno: val.old_item_slno
+                        higher: val.item_hod_approve !== 0 || val.item_dms_approve !== 0 || val.item_ms_approve !== 0 ||
+                            val.item_mo_approve !== 0 || val.item_smo_approve !== 0 || val.item_gm_approve !== 0 ||
+                            val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0
+                        // higher=1 then can't edit else can edit
                     }
-                    return obj
                 })
-                setApproveTableDis(1)
-                setApproveTableData(datas);
-            } else {
-                setApproveTableDis(0)
-                setApproveTableData([])
+                setCheckStatus(newData)
+            }
+            else if (apprvLevel === 2) {
+                // hod
+                const newData = statusData?.map((val) => {
+                    return {
+                        req_detl_slno: val.req_detl_slno,
+                        higher: val.item_dms_approve !== 0 || val.item_ms_approve !== 0 ||
+                            val.item_mo_approve !== 0 || val.item_smo_approve !== 0 || val.item_gm_approve !== 0 ||
+                            val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0
+                    }
+                })
+                setCheckStatus(newData)
+            }
+            else if (apprvLevel === 3) {
+                // dms
+                const newData = statusData?.map((val) => {
+                    return {
+                        req_detl_slno: val.req_detl_slno,
+                        higher: val.item_ms_approve !== 0 || val.item_mo_approve !== 0 || val.item_smo_approve !== 0 ||
+                            val.item_gm_approve !== 0 || val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0
+                    }
+                })
+                setCheckStatus(newData)
+            }
+            else if (apprvLevel === 4) {
+                // ms
+                const newData = statusData?.map((val) => {
+                    return {
+                        req_detl_slno: val.req_detl_slno,
+                        higher: val.item_mo_approve !== 0 || val.item_smo_approve !== 0 || val.item_gm_approve !== 0 ||
+                            val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0
+                    }
+                })
+                setCheckStatus(newData)
+            }
+            else if (apprvLevel === 5) {
+                // mo
+                const newData = statusData?.map((val) => {
+                    return {
+                        req_detl_slno: val.req_detl_slno,
+                        higher: val.item_smo_approve !== 0 || val.item_gm_approve !== 0 ||
+                            val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0
+                    }
+                })
+                setCheckStatus(newData)
+            }
+            else if (apprvLevel === 6) {
+                // smo
+                const newData = statusData?.map((val) => {
+                    return {
+                        req_detl_slno: val.req_detl_slno,
+                        higher: val.item_gm_approve !== 0 || val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0
+                    }
+                })
+                setCheckStatus(newData)
+            }
+            else if (apprvLevel === 7) {
+                // gm
+                const newData = statusData?.map((val) => {
+                    return {
+                        req_detl_slno: val.req_detl_slno,
+                        higher: val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0
+                    }
+                })
+                setCheckStatus(newData)
+            }
+            else if (apprvLevel === 8 || apprvLevel === 9) {
+                // md and ed
+                const newData = statusData?.map((val) => {
+                    return {
+                        req_detl_slno: val.req_detl_slno,
+                        higher: 0
+                    }
+                })
+                setCheckStatus(newData)
             }
         }
-        const getMaxItemSlno = async (req_slno) => {
-            const result = await axioslogin.get(`/CRFRegisterApproval/MaxItemSlno/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const { maxslno } = data[0]
-                setLastSlno(maxslno)
-            } else {
-                setLastSlno(0)
+    }, [statusData, apprvLevel])
+
+    useEffect(() => {
+        if (itemData && itemData.length !== 0) {
+            if (checkStatus && checkStatus.length !== 0) {
+                const newData = itemData?.map((val) => {
+                    const itstatus = checkStatus?.find(item => item.req_detl_slno === val.req_detl_slno)
+                    return {
+                        ...val,
+                        higher: itstatus ? itstatus.higher : 0
+                    }
+                })
+                setApproveTableData(newData)
+                setApprvdItems(newData)
+            }
+            else {
+                const newData = itemData?.map((val) => {
+                    return {
+                        ...val,
+                        higher: 1
+                    }
+                })
+                setApproveTableData(newData)
+                setApprvdItems(newData)
             }
         }
-        getApprovalItems(req_slno)
-        getMaxItemSlno(req_slno)
-    }, [req_slno, count, setApproveTableData, setApproveTableDis])
+    }, [itemData, setApproveTableData, checkStatus])
+    const { data: maxSlnoData, isLoading: isSlnoLoading, error: slnoError } = useQuery({
+        queryKey: ['getmaxSlno', req_slno],
+        queryFn: () => getMaxslNoOfCrfItem(req_slno),
+        staleTime: Infinity
+    });
+    useEffect(() => {
+        if (maxSlnoData && maxSlnoData.length !== 0) {
+            const { maxSlno } = maxSlnoData[0];
+            setLastSlno(maxSlno);
+        } else {
+            setLastSlno(0);
+        }
+    }, [maxSlnoData])
 
-    const [columnReqDetails] = useState([
-        {
-            headerName: 'Approval', minWidth: 100, cellRenderer: params =>
-                <IconButton onClick={() => editSelect(params)}
-                    sx={{ color: editicon, pt: 0 }} >
-                    <CustomeToolTip title="Edit">
-                        <PublishedWithChangesIcon size={15} />
-                    </CustomeToolTip>
-                </IconButton>
-        },
-        { headerName: "#", field: "slno", minWidth: 100, },
-        { headerName: "Item Slno", field: "item_slno", minWidth: 100, },
-        { headerName: "Old slno", field: "old_item_slno", minWidth: 100, },
-        { headerName: "Description", field: "approve_item_desc", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: "Brand", field: "approve_item_brand", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: "Unit", field: "uom_name", minWidth: 150, },
-        { headerName: "Quantity", field: "item_qnty_approved", minWidth: 150, },
-        { headerName: "Specification", field: "approve_item_specification", minWidth: 250, },
-        { headerName: "Unit Price", field: "approve_item_unit_price", minWidth: 150, },
-        { headerName: "Approximate Cost", field: "approve_aprox_cost", minWidth: 200, },
-    ])
-
-    const [editEnable, setEditEnable] = useState(0)
-    const editSelect = useCallback((params) => {
-        const data = params.api.getSelectedRows()
-        const { req_detl_slno, approve_aprox_cost, item_slno,
-            approve_item_desc, approve_item_brand,
-            approve_item_unit,
-            approve_item_unit_price, req_slno,
-            approve_item_specification, item_qnty_approved,
-        } = data[0]
-
+    const editSelect = useCallback((val) => {
+        const { req_detl_slno, approve_aprox_cost, item_slno, approve_item_desc, approve_item_brand,
+            approve_item_unit, approve_item_unit_price, approve_item_specification, item_qnty_approved,
+            po_item_status
+        } = val
         setEditEnable(1)
-        const resetarrray = {
+        setItemState(prev => ({
+            ...prev,
+            item_slno: item_slno,
             item_desc: approve_item_desc,
             item_brand: approve_item_brand,
             item_spec: approve_item_specification,
-            item_slno: item_slno
-        }
-        setReqDetailSlno(req_detl_slno)
-        setItemState(resetarrray)
-        setItem_qty(item_qnty_approved)
-        setUnitPrice(approve_item_unit_price)
-        setapprox_cost(approve_aprox_cost)
+            item_qty: item_qnty_approved,
+            unitprice: approve_item_unit_price,
+            approx_cost: approve_aprox_cost,
+            reqDetailslno: req_detl_slno,
+            po_item_status: po_item_status,
+            item_desc_actl: approve_item_desc
+        }));
         setUOM(approve_item_unit !== null ? approve_item_unit : 0)
-        set_item_desc_actl(approve_item_desc)
-        setRqeslno(req_slno)
         setMoreItem(0)
-    }, [setMoreItem])
+    }, [setMoreItem, setEditEnable])
 
     const reset = useCallback(() => {
         setEditEnable(0)
         const resetarrray = {
+            reqDetailslno: 0,
             item_desc: '',
             item_brand: '',
-            item_qty: 0,
             item_spec: '',
-            item_slno: ''
+            item_slno: 0,
+            unitprice: 0,
+            approx_cost: 0,
+            item_desc_actl: '',
+            item_qty: 0,
+            po_item_status: ''
         }
-        setReqDetailSlno(0)
         setItemState(resetarrray)
-        setUnitPrice(0)
-        setapprox_cost(0)
         setUOM(0)
-        set_item_desc_actl('')
-        setUomName('')
-        setCount(0)
-        setRqeslno(0)
         setLastSlno(0)
         setRejHoldRemarkFlag(0)
         setRejHoldRemark('')
         setMoreItem(0)
-    }, [setMoreItem])
+    }, [setMoreItem, setEditEnable])
 
     const Approvefctn = useCallback(() => {
-
         if (item_desc === item_desc_actl) {
             const approvedata = {
                 approve_item_desc: item_desc,
@@ -213,17 +275,21 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                 approve_item_unit_price: unitprice,
                 approve_aprox_cost: approx_cost,
                 approve_item_status: 1,
-                item_status_approved: 1,
+                item_status_approved: 1,// appvd
                 edit_user: id,
-                req_detl_slno: reqDetailslno
+                req_detl_slno: reqDetailslno,
+                req_slno: req_slno,
+                apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                apprvLevel: apprvLevel
             }
-
             const updateDetalReqApprov = async (approvedata) => {
-                const result = await axioslogin.patch('/CRFRegisterApproval/inchargeApporval/details', approvedata);
+                const result = await axioslogin.patch('/CRFRegisterApproval/inchargeApproval/details', approvedata);
                 const { success, message } = result.data;
                 if (success === 1) {
                     succesNotify(message)
-                    setCount(count + 1)
+                    queryClient.invalidateQueries('approvedRejholdItemList')
+                    queryClient.invalidateQueries('getmaxSlno')
+                    queryClient.invalidateQueries('itemStatus')
                     reset()
                 }
                 else {
@@ -233,7 +299,7 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
             updateDetalReqApprov(approvedata)
         } else {
             const approvedataInsert = {
-                req_slno: reqslno,
+                req_slno: req_slno,
                 item_slno: lastSlno + 1,
                 item_desc: item_desc,
                 item_brand: item_brand,
@@ -256,13 +322,14 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
                 create_user: id,
                 req_detl_slno: reqDetailslno
             }
-
             const DetailApprvInsert = async (reqDataPost) => {
                 const result = await axioslogin.post('/CRFRegisterApproval/DetailApprvInsert', reqDataPost);
                 const { success, message } = result.data;
                 if (success === 1) {
                     succesNotify(message)
-                    setCount(count + 1)
+                    queryClient.invalidateQueries('approvedRejholdItemList')
+                    queryClient.invalidateQueries('getmaxSlno')
+                    queryClient.invalidateQueries('itemStatus')
                     reset()
                 }
                 else {
@@ -271,304 +338,434 @@ const ItemsApprovalCompnt = ({ req_slno, setApproveTableDis, ApproveTableData, s
             }
             DetailApprvInsert(approvedataInsert)
         }
-    }, [reqDetailslno, reqslno, lastSlno, item_desc_actl, item_desc, item_brand, uom, item_qty,
-        item_slno, item_spec, approx_cost, unitprice, count, setCount,
-        reset, id])
+    }, [reqDetailslno, req_slno, lastSlno, item_desc_actl, item_desc, item_brand, uom, item_qty,
+        item_slno, item_spec, approx_cost, unitprice, reset, id, queryClient, apprvLevel])
 
     const Rejectfctn = useCallback(() => {
         setRejHoldRemarkFlag(1)
     }, [])
 
     const RejectfctnUpdate = useCallback(() => {
-        const rejectedata = {
-            approve_item_desc: item_desc,
-            approve_item_brand: item_brand,
-            approve_item_unit: uom,
-            item_qnty_approved: item_qty,
-            approve_item_specification: item_spec,
-            approve_item_unit_price: unitprice,
-            approve_aprox_cost: approx_cost,
-            approve_item_status: 1,
-            item_status_approved: 2,
-            reject_remarks: rejHoldRemark,
-            reject_user: id,
-            reject_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            req_detl_slno: reqDetailslno
-        }
-        const updateDetalReqApprov = async (rejectedata) => {
-            const result = await axioslogin.patch('/CRFRegisterApproval/DetailItemReject', rejectedata);
-            const { success, message } = result.data;
-            if (success === 1) {
-                succesNotify(message)
-                setCount(count + 1)
-                reset()
+        if (rejHoldRemark === '') {
+            infoNotify("Enter Remarks")
+        } else {
+            const rejectedata = {
+                approve_item_desc: item_desc,
+                approve_item_brand: item_brand,
+                approve_item_unit: uom,
+                item_qnty_approved: item_qty,
+                approve_item_specification: item_spec,
+                approve_item_unit_price: unitprice,
+                approve_aprox_cost: approx_cost,
+                approve_item_status: 1,
+                item_status_approved: 2, // reject
+                reject_remarks: header + " ;  Remarks : " + rejHoldRemark,
+                reject_user: id,
+                reject_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                req_detl_slno: reqDetailslno,
+                apprvLevel: apprvLevel,
+                req_slno: req_slno
             }
-            else {
-                warningNotify(message)
+
+            const updateDetalReqApprov = async (rejectedata) => {
+                const result = await axioslogin.patch('/CRFRegisterApproval/DetailItemReject', rejectedata);
+                const { success, message } = result.data;
+                if (success === 1) {
+                    succesNotify(message)
+                    queryClient.invalidateQueries('approvedRejholdItemList')
+                    queryClient.invalidateQueries('getmaxSlno')
+                    queryClient.invalidateQueries('itemStatus')
+                    reset()
+                }
+                else {
+                    warningNotify(message)
+                }
             }
+            updateDetalReqApprov(rejectedata)
         }
-        updateDetalReqApprov(rejectedata)
+
     }, [reqDetailslno, item_desc, item_brand, uom, item_qty, item_spec, unitprice,
-        reset, count, setCount, approx_cost, rejHoldRemark, id])
+        reset, approx_cost, rejHoldRemark, id, header, queryClient, apprvLevel, req_slno])
 
     const onHoldfctn = useCallback(() => {
         setRejHoldRemarkFlag(2)
     }, [])
+    const cancelEdit = useCallback(() => {
+        reset()
+    }, [reset])
 
     const onHoldfctnUpdate = useCallback(() => {
-        const holddata = {
-            approve_item_desc: item_desc,
-            approve_item_brand: item_brand,
-            approve_item_unit: uom,
-            item_qnty_approved: item_qty,
-            approve_item_specification: item_spec,
-            approve_item_unit_price: unitprice,
-            approve_aprox_cost: approx_cost,
-            approve_item_status: 1,
-            item_status_approved: 3,
-            hold_remarks: rejHoldRemark,
-            hold_user: id,
-            hold_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            req_detl_slno: reqDetailslno
-        }
-        const updateDetalReqApprov = async (holddata) => {
-            const result = await axioslogin.patch('/CRFRegisterApproval/DetailItemOnHold', holddata);
-            const { success, message } = result.data;
-            if (success === 1) {
-                succesNotify(message)
-                setCount(count + 1)
-                reset()
+        if (rejHoldRemark === '') {
+            infoNotify("Enter Remarks")
+        } else {
+            const holddata = {
+                approve_item_desc: item_desc,
+                approve_item_brand: item_brand,
+                approve_item_unit: uom,
+                item_qnty_approved: item_qty,
+                approve_item_specification: item_spec,
+                approve_item_unit_price: unitprice,
+                approve_aprox_cost: approx_cost,
+                approve_item_status: 1,
+                item_status_approved: 3,// onhold
+                hold_remarks: header + " ;  Remarks : " + rejHoldRemark,
+                hold_user: id,
+                hold_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                req_detl_slno: reqDetailslno,
+                apprvLevel: apprvLevel,
+                req_slno: req_slno
             }
-            else {
-                warningNotify(message)
+            const updateDetalReqApprov = async (holddata) => {
+                const result = await axioslogin.patch('/CRFRegisterApproval/DetailItemOnHold', holddata);
+                const { success, message } = result.data;
+                if (success === 1) {
+                    succesNotify(message)
+                    queryClient.invalidateQueries('approvedRejholdItemList')
+                    queryClient.invalidateQueries('getmaxSlno')
+                    queryClient.invalidateQueries('itemStatus')
+                    reset()
+                }
+                else {
+                    warningNotify(message)
+                }
             }
+            updateDetalReqApprov(holddata)
         }
-        updateDetalReqApprov(holddata)
     }, [reqDetailslno, item_desc, item_brand, uom, item_qty, item_spec, unitprice,
-        reset, count, setCount, approx_cost, rejHoldRemark, id])
+        reset, approx_cost, rejHoldRemark, id, header, queryClient, apprvLevel, req_slno])
 
-    const getRowStyle = params => {
-        if (params.data.item_status_approved === 1) {
-            return { background: '#5a804a' };
-        }
-        else if (params.data.item_status_approved === 2) {
-            return { background: '#6b3849' };
-        }
-        else if (params.data.item_status_approved === 3) {
-            return { background: '#ba9f34' };
-        }
-    };
 
+    if (isItemsLoading || isSlnoLoading || isStatusLoading) return <p>Loading...</p>;
+    if (itemsError || slnoError || statusError) return <p>Error occurred.</p>;
     return (
         <Fragment>
-
-
-            <Box sx={{
-                width: "100%", display: "flex", flexDirection: "column"
-            }}>
-                <Box sx={{
-                    width: "100%", pb: 1,
-                }}><CrfReqDetailCmpnt
-                        columnDefs={columnReqDetails}
-                        tableData={ApproveTableData}
-                        getRowStyle={getRowStyle}
-                    />
-                </Box>
-
-                {editEnable === 1 ?
-                    <Box>
-
-                        <Box sx={{
-                            width: "100%", display: "flex", flexDirection: "column", pt: 1
-                        }}>
-                            <Box sx={{
-                                width: "100%", p: 1, display: "flex", flexDirection: 'row'
-                            }}>
-                                <Box sx={{
-                                    width: "55%", display: "flex", pr: 1, flexDirection: "column"
-                                }}>
-                                    <CustomPaperTitle heading="Item Description" mandtry={1} />
-                                    <TextFieldCustom
-                                        type="text"
-                                        size="sm"
-                                        name="item_desc"
-                                        value={item_desc}
-                                        onchange={updateItemState}
-                                    />
-                                </Box>
-                                <Box sx={{
-                                    width: "45%", display: "flex", flexDirection: "column", pr: 1
-                                }}>
-                                    <CustomPaperTitle heading="Item Brand" />
-                                    <TextFieldCustom
-                                        type="text"
-                                        size="sm"
-                                        name="item_brand"
-                                        value={item_brand}
-                                        onchange={updateItemState}
-                                    />
-                                </Box>
-
-                                <Box sx={{
-                                    width: "35%", display: "flex", flexDirection: "column", pr: 1
-                                }}>
-                                    <CustomPaperTitle heading="Unit" />
-
-                                    <UOMSelect
-                                        uom={uom}
-                                        setUOM={setUOM}
-                                        setName={setUomName}
-                                        uomName={uomName}
-                                    />
-                                    {/* <AssetUOMSelect
-                                        uom={uom}
-                                        setUOM={setUOM}
-                                        setName={setUomName}
-                                        uomName={uomName} /> */}
-                                </Box>
-                                <Box sx={{
-                                    width: "65%", display: "flex", flexDirection: "column", pr: 1
-                                }}>
-                                    <CustomPaperTitle heading="Specification" />
-                                    <TextFieldCustom
-                                        type="text"
-                                        size="sm"
-                                        name="item_spec"
-                                        value={item_spec}
-                                        onchange={updateItemState}
-                                    />
-                                </Box>
-
-
-                            </Box>
+            <Box sx={{ flexWrap: 'wrap', my: 0.5 }}>
+                {apprvdItems.length !== 0 ?
+                    <Box sx={{}}>
+                        <Box sx={{ display: 'flex', }}>
+                            <Typography sx={{ fontWeight: 'bold', ml: 1, my: 0.5, color: '#145DA0', fontSize: 14 }}>
+                                Approved Items
+                            </Typography>
+                            {/* <Box sx={{ display: 'flex', flex: 1, justifyContent: 'flex-end', pr: 5, pt: 0.5 }}>
+                                <Box sx={{ mt: 0.4, bgcolor: '#59981A', height: 15, width: 15, border: '1px solid lightgrey', borderRadius: '70%' }}></Box>
+                                <Box sx={{ pl: 1, fontSize: 13, }}>Approved</Box>
+                                <Box sx={{ mt: 0.4, ml: 2, bgcolor: '#D13120', height: 15, width: 15, border: '1px solid lightgrey', borderRadius: '50%' }}></Box>
+                                <Box sx={{ pl: 1, fontSize: 13, }}>Rejected</Box>
+                                <Box sx={{ mt: 0.4, ml: 2, bgcolor: '#DBA40E', height: 15, width: 15, border: '1px solid lightgrey', borderRadius: '50%' }}></Box>
+                                <Box sx={{ pl: 1, fontSize: 13, }}>On-Hold</Box>
+                            </Box> */}
                         </Box>
-                        <Box sx={{
-                            width: "100%", display: "flex", flexDirection: "column",
-                        }}>
-                            <Box sx={{
-                                width: "100%", p: 1, display: "flex", flexDirection: 'row'
-                            }}>
-                                <Box sx={{
-                                    width: "15%", display: "flex", flexDirection: "column",
-                                    pr: 1
-                                }}>
+                        <Box sx={{ overflow: 'auto', flexWrap: 'wrap', px: 0.5, pb: 0.5 }}>
+                            <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' >
+                                <thead >
+                                    <tr >
+                                        <th size='sm' style={{ borderRadius: 0, width: 40, backgroundColor: '#e3f2fd' }}></th>
+                                        <th size='sm' style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Sl.No</th>
+                                        <th size='sm' style={{ width: 300, backgroundColor: '#e3f2fd' }}>&nbsp;&nbsp;Description</th>
+                                        <th size='sm' style={{ width: 200, backgroundColor: '#e3f2fd' }}>&nbsp;&nbsp;Brand</th>
+                                        <th size='sm' style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Qty</th>
+                                        <th size='sm' style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>UOM</th>
+                                        <th size='sm' style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Specification</th>
+                                        <th size='sm' style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Price</th>
+                                        <th size='sm' style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Approx.Cost</th>
+                                        <th size='sm' style={{ borderRadius: 0, width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {apprvdItems?.map((item, ind) => {
+                                        const rowColor = item.po_item_status === 1 ? '#1565c0' : item.item_status_approved === 1 ? '#59981A' :
+                                            item.item_status_approved === 2 ? '#D13120' :
+                                                item.item_status_approved === 3 ? '#DBA40E' : null;
+
+                                        const NewTooltip = ({ title, children }) => {
+                                            return (
+                                                <Tooltip
+                                                    key="unique-key"
+                                                    title={
+                                                        <Box sx={{ bgcolor: 'white', color: '#003060', p: 1, textAlign: 'center', textTransform: 'capitalize' }}
+                                                        >{title}
+                                                        </Box>
+                                                    }
+                                                    placement="top"
+                                                    arrow
+                                                    sx={{
+                                                        bgcolor: '#BFD7ED',
+                                                        [`& .MuiTooltip-arrow`]: {
+                                                            color: 'blue',
+                                                        },
+                                                    }}
+                                                >
+                                                    {children}
+                                                </Tooltip>
+                                            );
+                                        };
+
+                                        return (
+                                            <NewTooltip key={item.req_detl_slno} placement="top" title={item.po_item_status === 1 ? "PO Generated" : (item.item_status_approved === 1
+                                                ? "Approved"
+                                                : item.item_status_approved === 2
+                                                    ? `Rejected by ${item.reject_remarks}`
+                                                    : item.item_status_approved === 3
+                                                        ? `On-Hold by ${item.hold_remarks}`
+                                                        : "")} >
+                                                <tr style={{ cursor: 'pointer' }}>
+                                                    <td>
+                                                        {item.po_item_status === 1 || item.higher === 1 ? (
+                                                            <NewTooltip title={item.po_item_status === 1 ? "PO generated" : 'Cant Edit'} placement="right" sx={{ bgcolor: 'white', color: '#003060' }}>
+                                                                <EditOutlinedIcon
+                                                                    disabled
+                                                                    sx={{
+                                                                        fontSize: 'lg',
+                                                                        color: '#bcaaa4',
+                                                                        height: 25,
+                                                                        width: 30,
+                                                                        borderRadius: 2,
+                                                                        cursor: 'pointer',
+                                                                    }}
+                                                                />
+                                                            </NewTooltip>
+                                                        ) :
+                                                            <NewTooltip title="Edit" placement="right" sx={{ bgcolor: 'white', color: '#003060' }}>
+                                                                <EditOutlinedIcon
+                                                                    sx={{
+                                                                        fontSize: 'lg',
+                                                                        color: '#3e2723',
+                                                                        height: 25,
+                                                                        width: 30,
+                                                                        borderRadius: 2,
+                                                                        boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
+                                                                        cursor: 'pointer',
+                                                                        transition: 'transform 0.2s',
+                                                                        '&:hover': {
+                                                                            transform: 'scale(1.1)',
+                                                                        },
+                                                                    }}
+                                                                    onClick={() => editSelect(item)}
+                                                                />
+                                                            </NewTooltip>
+                                                        }
+                                                    </td>
+                                                    <td style={{ textAlign: 'center' }}>{ind + 1}</td>
+                                                    <td style={{ fontSize: 13 }}>&nbsp;{item.approve_item_desc}</td>
+                                                    <td style={{ fontSize: 13 }}>&nbsp;{item.approve_item_brand === '' ? 'Not Given' : item.approve_item_brand}</td>
+                                                    <td style={{ textAlign: 'center' }}>{item.item_qnty_approved}</td>
+                                                    <td style={{ textAlign: 'center' }}>{item.approve_item_unit === 0 ? 'Not Given' : item.apprv_uom}</td>
+                                                    <td style={{ fontSize: 13 }}>&nbsp;{item.approve_item_specification === '' ? 'Not Given' : item.approve_item_specification}</td>
+                                                    <td style={{ textAlign: 'center' }}>{item.approve_item_unit_price === 0 ? 'Not Given' : item.approve_item_unit_price}</td>
+                                                    <td style={{ textAlign: 'center' }}>{item.approve_aprox_cost === 0 ? 'Not Given' : item.approve_aprox_cost}</td>
+                                                    <td style={{ textAlign: 'center', color: rowColor }}>{item.po_item_status === 1 ? "PO Generated" : (item.item_status_approved === 1
+                                                        ? "Approved" : item.item_status_approved === 2
+                                                            ? "Rejected " : item.item_status_approved === 3
+                                                                ? "On-Hold " : null)}</td>
+                                                </tr>
+                                            </NewTooltip>
+                                        );
+                                    })}
+                                </tbody>
+                            </Table>
+                        </Box>
+                    </Box>
+                    : <Box sx={{
+                        display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                        pt: 10, color: 'grey'
+                    }}>
+                        No items Approved
+                    </Box>
+                }
+                {
+                    editEnable === 1 ?
+                        <Box sx={{ px: 0.5 }}>
+                            <Typography sx={{ fontWeight: 'bold', m: 1, color: '#145DA0', fontSize: 14 }}>
+                                Edit Item Details
+                            </Typography>
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ flex: 1.5, }}>
+                                    <CustomPaperTitle heading="Item Description" mandtry={1} />
+                                    <CustomInputDateCmp
+                                        className={{ height: 35, ml: 0.5 }}
+                                        autoComplete='off'
+                                        size={'sm'}
+                                        type={'text'}
+                                        name={'item_desc'}
+                                        value={item_desc}
+                                        handleChange={updateItemState}
+                                    />
+                                </Box>
+                                <Box sx={{ flex: 0.7, }}>
+                                    <CustomPaperTitle heading="Item Brand" />
+                                    <CustomInputDateCmp
+                                        className={{ height: 35, ml: 0.5, mt: 0.2 }}
+                                        autoComplete='off'
+                                        size={'sm'}
+                                        type={'text'}
+                                        name={'item_brand'}
+                                        value={item_brand}
+                                        handleChange={updateItemState}
+                                    />
+                                </Box>
+                                <Box sx={{ flex: 1, }}>
+                                    <CustomPaperTitle heading="Specification" />
+                                    <CustomInputDateCmp
+                                        className={{ height: 37, mx: 0.5, mt: 0.4 }}
+                                        autoComplete='off'
+                                        size={'sm'}
+                                        type={'text'}
+                                        name={'item_spec'}
+                                        value={item_spec}
+                                        handleChange={updateItemState}
+                                    />
+                                </Box>
+                            </Box>
+                            <Box sx={{ display: 'flex', pt: 0.5, pb: 1 }}>
+                                <Box sx={{ flex: 1 }}>
                                     <CustomPaperTitle heading="Quantity" mandtry={1} />
-                                    <TextFieldCustom
-                                        type="number"
-                                        size="sm"
-                                        name="item_qty"
+                                    <CustomInputDateCmp
+                                        className={{ height: 37, ml: 0.5 }}
+                                        autoComplete='off'
+                                        size={'sm'}
+                                        type={'number'}
+                                        name={'item_qty'}
                                         value={item_qty}
-                                        onchange={OnchangeQty}
+                                        handleChange={OnchangeQty}
                                     />
                                 </Box>
-                                <Box sx={{
-                                    width: "15%", display: "flex", flexDirection: "column", pr: 1
-                                }}>
-
+                                <Box sx={{ flex: 0.6, pl: 0.5, pt: 0.4 }}>
+                                    <CustomPaperTitle heading="Unit" />
+                                    <UomApprvSelect
+                                        uom={uom}
+                                        setUOM={setUOM}
+                                    />
+                                </Box>
+                                <Box sx={{ flex: 1 }}>
                                     <CustomPaperTitle heading="Unit Price" />
-                                    <TextFieldCustom
-                                        type="number"
-                                        size="sm"
-                                        name="unitprice"
+                                    <CustomInputDateCmp
+                                        className={{ height: 37, ml: 0.5, mt: 0.4 }}
+                                        autoComplete='off'
+                                        size={'sm'}
+                                        type={'number'}
+                                        name={'unitprice'}
                                         value={unitprice}
-                                        onchange={updateUnitPrice}
+                                        handleChange={updateUnitPrice}
                                     />
-
                                 </Box>
-                                <Box sx={{
-                                    width: "15%", display: "flex", flexDirection: "column", pr: 1
-                                }}>
+                                <Box sx={{ flex: 1 }}>
                                     <CustomPaperTitle heading="Approx.Cost" />
-                                    <TextFieldCustom
-                                        type="number"
-                                        size="sm"
-                                        name="approx_cost"
+                                    <CustomInputDateCmp
+                                        className={{ height: 37, ml: 0.5, mt: 0.4 }}
+                                        autoComplete='off'
+                                        size={'sm'}
+                                        name={'approx_cost'}
                                         value={approx_cost}
                                         disabled={true}
                                     />
                                 </Box>
-
-                                <Box sx={{
-                                    width: "30%", display: "flex", flexDirection: "column", pr: 1, pt: 3
-                                }}>
-                                    <Button onClick={Approvefctn} variant="contained"
-                                        size="small" color="success">Approve</Button>
-
+                                <Box sx={{ flex: 0.5, px: 1 }}>
+                                    <IconButton
+                                        sx={{
+                                            fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
+                                            color: 'white', bgcolor: '#59981A', borderRadius: 5, width: '100%',
+                                            '&:hover': {
+                                                bgcolor: '#59981A', color: 'white',
+                                            },
+                                        }}
+                                        onClick={Approvefctn} >
+                                        Approve
+                                    </IconButton>
                                 </Box>
-                                <Box sx={{
-                                    width: "30%", display: "flex", flexDirection: "column",
-                                    pr: 1, pt: 3
-                                }}>
-                                    <Button onClick={Rejectfctn} variant="contained"
-                                        size="small" color="error">Reject</Button>
+                                <Box sx={{ flex: 0.5, mr: 1 }}>
+                                    <IconButton
+                                        sx={{
+                                            fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
+                                            color: 'white', bgcolor: '#D13120', borderRadius: 5, width: '100%',
+                                            '&:hover': {
+                                                bgcolor: '#D13120', color: 'white',
+                                            },
+                                        }}
+                                        onClick={Rejectfctn} >
+                                        Reject
+                                    </IconButton>
                                 </Box>
-                                <Box sx={{
-                                    width: "30%", display: "flex", flexDirection: "column",
-                                    pr: 1, pt: 3
-                                }}>
-                                    <Button onClick={onHoldfctn}
-                                        variant="contained"
-                                        size="small" color="warning">On - Hold</Button>
+                                <Box sx={{ flex: 0.5, mr: 1 }}>
+                                    <IconButton
+                                        sx={{
+                                            fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
+                                            color: 'white', bgcolor: '#DBA40E', borderRadius: 5, width: '100%',
+                                            '&:hover': {
+                                                bgcolor: '#DBA40E', color: 'white',
+                                            },
+                                        }}
+                                        onClick={onHoldfctn} >
+                                        On-Hold
+                                    </IconButton>
+                                </Box>
+                                <Box sx={{ flex: 0.5, mr: 2 }}>
+                                    <IconButton
+                                        sx={{
+                                            fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3, border: '1px solid #bbdefb',
+                                            color: '#1565c0', bgcolor: 'white', borderRadius: 5, width: '100%',
+                                            '&:hover': {
+                                                bgcolor: 'white', color: '#43B0F1'
+                                            },
+                                        }}
+                                        onClick={cancelEdit} >
+                                        Cancel
+                                    </IconButton>
                                 </Box>
                             </Box>
                         </Box>
-                        {rejHoldRemarkFlag === 1 ?
-                            <Box sx={{
-                                width: "100%", display: "flex", flexDirection: "row", p: 1
-                            }}>
-                                <CustomTextarea
+                        : null
+                }
+                {
+                    rejHoldRemarkFlag === 1 ?
+                        <Box sx={{ display: 'flex' }}>
+                            <Box sx={{ flex: 1, m: 0.5, pl: 0.5 }}>
+                                <Textarea
                                     required
-                                    type="text"
-                                    size="sm"
-                                    style={{
-                                        width: "60%",
-                                        height: 50,
-                                        boardColor: "#E0E0E0",
-                                        mt: 1, ml: 1, mb: 1
-                                    }}
                                     placeholder="Reject Remarks"
                                     value={rejHoldRemark}
-                                    onchange={updateRemark}
+                                    autoComplete='off'
+                                    name='remarks'
+                                    minRows={1}
+                                    maxRows={3}
+                                    onChange={updateRemark}
+                                    sx={{ fontSize: 14, borderRadius: 7 }}
                                 />
-                                <Box sx={{
-                                    width: "10%", display: "flex", flexDirection: "column",
-                                    pt: 1, pl: 2
-                                }}>
-                                    <Button onClick={RejectfctnUpdate} variant="contained"
-                                        size="small" color="error">Update</Button>
-                                </Box>
-                            </Box> :
-                            rejHoldRemarkFlag === 2 ?
-                                < Box sx={{
-                                    width: "100%", display: "flex", flexDirection: "row", p: 1
-                                }}>
-                                    <CustomTextarea
+                            </Box>
+                            <Box sx={{ flex: 0.2, m: 0.4 }}>
+                                <   CustomIconButtonCmp
+                                    handleChange={RejectfctnUpdate}
+                                >
+                                    Update
+                                </CustomIconButtonCmp>
+                            </Box>
+                        </Box>
+                        : rejHoldRemarkFlag === 2 ?
+                            <Box sx={{ display: 'flex' }}>
+                                <Box sx={{ flex: 1, m: 0.5, pl: 0.5 }}>
+                                    <Textarea
                                         required
-                                        type="text"
-                                        size="sm"
-                                        style={{
-                                            width: "60%",
-                                            height: 50,
-                                            boardColor: "#E0E0E0",
-                                            mt: 1, ml: 1, mb: 1
-                                        }}
                                         placeholder="On-Hold Remarks"
                                         value={rejHoldRemark}
-                                        onchange={updateRemark}
+                                        autoComplete='off'
+                                        name='remarks'
+                                        minRows={1}
+                                        maxRows={3}
+                                        onChange={updateRemark}
+                                        sx={{ fontSize: 14, borderRadius: 7 }}
                                     />
-                                    <Box sx={{
-                                        width: "10%", display: "flex", flexDirection: "column",
-                                        pt: 1, pl: 2
-                                    }}>
-                                        <Button onClick={onHoldfctnUpdate}
-                                            variant="contained"
-                                            size="small" color="warning">Update</Button>
-                                    </Box>
-                                </Box> : null
-                        }
-                    </Box> : null
+                                </Box>
+                                <Box sx={{ flex: 0.2, m: 0.4 }}>
+                                    <   CustomIconButtonCmp
+                                        handleChange={onHoldfctnUpdate}
+                                    >
+                                        Update
+                                    </CustomIconButtonCmp>
+                                </Box>
+                            </Box>
+                            : null
                 }
-            </Box>
+
+            </Box >
         </Fragment >
     )
 }

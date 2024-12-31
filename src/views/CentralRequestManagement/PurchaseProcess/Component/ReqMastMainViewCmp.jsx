@@ -8,7 +8,7 @@ import { keyframes } from '@mui/system';
 const ReqMastMainViewCmp = ({ val }) => {
 
     const { req_slno, req_date, em_name, dept_name, user_deptsection, actual_requirement, needed, category,
-        req_deptsec, location, expected_date, emergency_flag, emer_type_name, emergeny_remarks } = val
+        req_deptsec, location, expected_date, emergency_flag, emer_type_name, emergeny_remarks, po_prepartion, po_number } = val
 
     const expdate = expected_date !== null && isValid(new Date(expected_date)) ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
 
@@ -68,27 +68,34 @@ const ReqMastMainViewCmp = ({ val }) => {
                             <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold' }}>: </Typography>
                             <Typography sx={{ fontSize: 13, pl: 1, flex: 1 }}>{needed !== null ? capitalizeWords(needed) : "Not Given"}</Typography>
                         </Box>
-                        <Box sx={{ m: 0.7, display: 'flex' }}>
-                            <Box sx={{ display: 'flex', flex: 1 }}>
+                        <Box sx={{ m: 0.7, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', pr: 0.5 }}>
+                            <Box sx={{ display: 'flex', }}>
                                 <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>CATEGORY</Typography>
-                                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', px: 1 }}>: </Typography>
-                                <Typography sx={{ fontSize: 13, }}>{capitalizeWords(category)}</Typography>
+                                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1, }}>: </Typography>
+                                <Typography sx={{ fontSize: 13, pl: 1 }}>{category.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', flex: 1 }}>
+                            <Box sx={{ display: 'flex', }}>
                                 <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>REQ. DEPARTMENT</Typography>
-                                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', px: 1 }}>: </Typography>
+                                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1, }}>: </Typography>
                                 <Typography sx={{ fontSize: 13, }}>&nbsp;&nbsp;{capitalizeWords(req_deptsec)}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', flex: 1 }}>
-                                <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>EXPECTED DATE</Typography>
-                                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', px: 1 }}>: </Typography>
-                                <Typography sx={{ fontSize: 13, }}>&nbsp;&nbsp;{expdate}</Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flex: 1 }}>
+                            <Box sx={{ display: 'flex', }}>
                                 <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>LOCATION </Typography>
-                                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', px: 1 }}>: </Typography>
+                                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1, }}>: </Typography>
                                 <Typography sx={{ fontSize: 13, }}>&nbsp;&nbsp;{capitalizeWords(location)}</Typography>
                             </Box>
+                            <Box sx={{ display: 'flex', }}>
+                                <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>EXPECTED DATE</Typography>
+                                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1, }}>: </Typography>
+                                <Typography sx={{ fontSize: 13, }}>&nbsp;&nbsp;{expdate}</Typography>
+                            </Box>
+                            {po_prepartion === 1 ?
+                                <Box sx={{ display: 'flex', }}>
+                                    <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>#Order</Typography>
+                                    <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1, }}>: </Typography>
+                                    <Typography sx={{ fontSize: 13, color: '#145DA0', pr: 1 }}>&nbsp;&nbsp;{po_number}</Typography>
+                                </Box> : null
+                            }
                         </Box>
                     </Box>
                 </Box>

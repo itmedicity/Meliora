@@ -4,11 +4,11 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCrfPOStorAction } from 'src/redux/actions/CrmStoreProcess.action';
-import ReceiveSubStoreView from './Components/ReceiveSubStoreView';
 import { format } from 'date-fns';
 import { CssVarsProvider, IconButton } from '@mui/joy';
 import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone';
-import CustomCloseIconCmp from '../ComonComponent/CustomCloseIconCmp';
+import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp';
+const ReceiveSubStoreView = React.lazy(() => import("./Components/ReceiveSubStoreView"))
 
 const CrfSubStoreMain = () => {
     const history = useHistory();
@@ -183,120 +183,125 @@ const CrfSubStoreMain = () => {
 
     return (
         <Fragment>
-            <Box sx={{ height: 38, backgroundColor: "#f0f3f5", display: 'flex', p: 0.5 }}>
-                <Box sx={{ flex: 1, fontSize: 20, pl: 1, color: '#9e9e9e', fontFamily: 'Monospace', m: 0.5 }}>Store</Box>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, pr: 0.2 }}>
-                    <CssVarsProvider>
-                        <CustomCloseIconCmp
-                            handleChange={backtoHome}
-                        />
-                    </CssVarsProvider>
-                </Box>
-            </Box>
-            <Box>
-                <Tabs
-                    value={selectedTab}
-                    onChange={updateTabChange}
-                    aria-label="Bottom Navigation"
-                    sx={(theme) => ({
-                        mx: 'auto',
-                        boxShadow: theme.shadows[1],
-                        [`& .${tabClasses.root}`]: {
-                            flex: 1,
-                            transition: '0.3s',
-                            fontWeight: theme.typography.fontWeightMedium,
-                            fontSize: theme.typography.fontSize,
-                            padding: theme.spacing(0.1, 1),
-                            pt: 1.5,
-                            minHeight: '30px',
-                            [`&:not(.${tabClasses.selected}):not(:hover)`]: {
-                                opacity: 1,
-                            },
-                        },
-                    })}
-                >
-                    {storeList?.map((val, index) => (
-                        <Tab
-                            key={index}
-                            style={{ fontWeight: 650, minHeight: '30px' }}
-                            label={val.main_store}
-                            icon={
-                                <Box
-                                    sx={{
-                                        pl: 5,
-                                        bgcolor: '#BFD7ED',
-                                        borderRadius: '50%',
-                                        minWidth: 25,
-                                        minHeight: 25,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        padding: 0,
-                                        ':hover': { bgcolor: '#C3CEDA' },
-                                        cursor: 'pointer',
-                                    }}
-                                >
-                                    {val.count}
-                                </Box>
-                            }
-                            iconPosition="end"
-                            onClick={() => subStoreDetailsView(val.main_store_slno)}
-                        />
-                    ))}
-                </Tabs>
-
-                {storeList?.map((store, index) => (
-                    <Box
-                        role="tabpanel"
-                        hidden={selectedTab !== index}
-                        id={`tabpanel-${index}`}
-                        key={index}
-                        sx={{ py: 0.5 }}
-                    >
-                        {selectedTab === index && (
-                            <Paper elevation={2} sx={{ pl: 4, display: 'flex' }}>
-                                <RadioGroup
-                                    row
-                                    value={selectedRadio}
-                                    onChange={handleRadioButtonChange}
-                                    sx={{ gap: 2 }}
-                                >
-                                    {subStoreList
-                                        .filter(subStore => subStore.main_store_slno === store.main_store_slno)
-                                        .map((subStore, subIndex) => (
-                                            <FormControlLabel
-                                                key={subIndex}
-                                                value={subStore.crm_store_master_slno}
-                                                control={<Radio />}
-                                                label={subStore.sub_store_name}
-                                                sx={{ mr: 2 }}
-                                            />
-                                        ))}
-                                </RadioGroup>
-                                <Box sx={{ my: 0.5 }}>
-                                    <CssVarsProvider>
-                                        <IconButton
-                                            variant="plain"
-                                            sx={{
-                                                color: '#616161', bgcolor: 'white', width: 150,
-                                                fontSize: 12, borderRadius: 5, height: '19px', lineHeight: '1',
-                                                '&:hover': {
-                                                    bgcolor: 'white', color: '#1565c0'
-                                                },
-                                            }}
-                                            onClick={ClearSearch}
-                                        >
-                                            <FilterAltTwoToneIcon sx={{ fontWeight: 550, color: '#0d47a1', pr: 0.5, width: 30, height: 20 }} />
-                                            Clear Filter
-                                        </IconButton>
-                                    </CssVarsProvider>
-                                </Box>
-                            </Paper>
-                        )}
-                        <ReceiveSubStoreView tableData={tableData} selectedRadio={selectedRadio} count={count}
-                            setCount={setCount} storeName={storeName} setSelectedRadio={setSelectedRadio} setStoreName={setStoreName} />
+            <Box sx={{ height: window.innerHeight - 90 }}>
+                <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
+                    <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Store</Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
+                        <CssVarsProvider>
+                            <CustomCloseIconCmp
+                                handleChange={backtoHome}
+                            />
+                        </CssVarsProvider>
                     </Box>
-                ))}
+                </Box>
+                <Box>
+                    <Tabs
+                        value={selectedTab}
+                        onChange={updateTabChange}
+                        aria-label="Bottom Navigation"
+                        sx={(theme) => ({
+                            mx: 'auto',
+                            boxShadow: theme.shadows[1],
+                            [`& .${tabClasses.root}`]: {
+                                flex: 1,
+                                transition: '0.3s',
+                                fontWeight: theme.typography.fontWeightMedium,
+                                fontSize: theme.typography.fontSize,
+                                padding: theme.spacing(0.1, 1),
+                                pt: 1.5,
+                                minHeight: '30px',
+                                [`&:not(.${tabClasses.selected}):not(:hover)`]: {
+                                    opacity: 1,
+                                },
+                            },
+                        })}
+                    >
+                        {storeList?.map((val, index) => (
+                            <Tab
+                                key={index}
+                                style={{ fontWeight: 650, minHeight: '30px' }}
+                                label={val.main_store}
+                                icon={
+                                    <Box
+                                        sx={{
+                                            pl: 5,
+                                            bgcolor: '#BFD7ED',
+                                            borderRadius: '50%',
+                                            minWidth: 25,
+                                            minHeight: 25,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            padding: 0,
+                                            ':hover': { bgcolor: '#C3CEDA' },
+                                            cursor: 'pointer',
+                                        }}
+                                    >
+                                        {val.count}
+                                    </Box>
+                                }
+                                iconPosition="end"
+                                onClick={() => subStoreDetailsView(val.main_store_slno)}
+                            />
+                        ))}
+                    </Tabs>
+
+                    {storeList?.map((store, index) => (
+                        <Box
+                            role="tabpanel"
+                            hidden={selectedTab !== index}
+                            id={`tabpanel-${index}`}
+                            key={index}
+                            sx={{ py: 0.5 }}
+                        >
+                            {selectedTab === index && (
+                                <Paper elevation={2} sx={{ pl: 4, display: 'flex' }}>
+                                    <RadioGroup
+                                        row
+                                        value={selectedRadio}
+                                        onChange={handleRadioButtonChange}
+                                        sx={{ gap: 2 }}
+                                    >
+                                        {subStoreList
+                                            .filter(subStore => subStore.main_store_slno === store.main_store_slno)
+                                            .map((subStore, subIndex) => (
+                                                <FormControlLabel
+                                                    key={subIndex}
+                                                    value={subStore.crm_store_master_slno}
+                                                    control={<Radio />}
+                                                    label={subStore.sub_store_name}
+                                                    sx={{ mr: 2 }}
+                                                />
+                                            ))}
+                                    </RadioGroup>
+                                    <Box sx={{ my: 0.5 }}>
+                                        <CssVarsProvider>
+                                            <IconButton
+                                                variant="plain"
+                                                sx={{
+                                                    color: '#616161', bgcolor: 'white', width: 150,
+                                                    fontSize: 12, borderRadius: 5, height: '19px', lineHeight: '1',
+                                                    '&:hover': {
+                                                        bgcolor: 'white', color: '#1565c0'
+                                                    },
+                                                }}
+                                                onClick={ClearSearch}
+                                            >
+                                                <FilterAltTwoToneIcon sx={{ fontWeight: 550, color: '#0d47a1', pr: 0.5, width: 30, height: 20 }} />
+                                                Clear Filter
+                                            </IconButton>
+                                        </CssVarsProvider>
+                                    </Box>
+                                </Paper>
+                            )}
+                            <React.Suspense fallback={<div>Loading...</div>}>
+                                <ReceiveSubStoreView tableData={tableData} selectedRadio={selectedRadio} count={count}
+                                    setCount={setCount} storeName={storeName} setSelectedRadio={setSelectedRadio} setStoreName={setStoreName} />
+                            </React.Suspense>
+                            {/* */}
+                        </Box>
+                    ))}
+                </Box>
             </Box>
         </Fragment >
     );

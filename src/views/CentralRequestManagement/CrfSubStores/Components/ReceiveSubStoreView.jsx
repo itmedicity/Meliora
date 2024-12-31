@@ -1,147 +1,301 @@
 
 import { format } from 'date-fns';
 import React, { Fragment, memo, useCallback, useState } from 'react'
-import { Box } from '@mui/joy';
-import { Paper, Tooltip, Typography } from '@mui/material';
+import { Paper, Tooltip, Typography, Box } from '@mui/material';
 import { axioslogin } from 'src/views/Axios/Axios';
-import CRFDetailsView from './CRFDetailsView';
-import InfoModal from './InfoModal';
 import InventoryTwoToneIcon from '@mui/icons-material/InventoryTwoTone';
 import BallotTwoToneIcon from '@mui/icons-material/BallotTwoTone';
 import ListAltTwoToneIcon from '@mui/icons-material/ListAltTwoTone';
 import VerifiedTwoToneIcon from '@mui/icons-material/VerifiedTwoTone';
 import { Virtuoso } from 'react-virtuoso';
-import PODetailsView from './PODetailsView';
-import GrnItemDetails from './GrnItemDetails';
+const PODetailsView = React.lazy(() => import("./PODetailsView"))
+const GrnItemDetails = React.lazy(() => import("./GrnItemDetails"))
+const InfoModal = React.lazy(() => import("./InfoModal"))
+const CRFDetailsView = React.lazy(() => import("./CRFDetailsView"))
 
 const ReceiveSubStoreView = ({ tableData, selectedRadio, count, setCount, storeName, setSelectedRadio, setStoreName }) => {
-    const [poItems, setPoItems] = useState([])
-    const [modalopen, setModalOpen] = useState(false)
-    const [modFlag, setModFlag] = useState(0)
-    const [crfData, setCrfData] = useState([])
-    const [crfModal, setCrfModal] = useState(false)
-    const [crfFlag, setCrfFlag] = useState(0)
-    const [informModal, setInformModal] = useState(false)
-    const [infoFlag, setInfoFlag] = useState(0)
-    const [infoData, setinfoData] = useState([])
-    const [poDetails, setPoDetails] = useState([])
-    const [grnData, setGrnData] = useState([])
-    const [grnFlag, setGrnFlag] = useState(0)
-    const [grnItem, setGrnItem] = useState([])
-    const [grnItemModal, setGrnItemModal] = useState(false)
+    const [subStoreState, setSubStoreState] = useState({
+        poItems: [],
+        modalopen: false,
+        modFlag: 0,
+        crfData: [],
+        crfModal: false,
+        crfFlag: 0,
+        informModal: false,
+        infoFlag: 0,
+        infoData: [],
+        poDetails: [],
+        grnData: [],
+        grnFlag: 0,
+        grnItem: [],
+        grnItemModal: false
 
+    })
+    const { poItems, modalopen, modFlag, crfData, crfModal, crfFlag, informModal, infoFlag, infoData, poDetails,
+        grnData, grnFlag, grnItem, grnItemModal
+    } = subStoreState
+
+    // const viewPODetails = useCallback((val) => {
+    //     const { po_detail_slno, po_details } = val
+    //     const news = po_details?.map((item) => {
+    //         return {
+    //             po_detail_slno: item.po_detail_slno,
+    //             po_number: item.po_number,
+    //             po_date: item.po_date,
+    //             supplier_name: item.supplier_name,
+    //             expected_delivery: item.expected_delivery
+
+    //         }
+    //     })
+    //     setSubStoreState((prev) => ({
+    //         ...prev,
+    //         poDetails: news
+    //     }));
+    //     const poNumber = po_detail_slno?.map((val) => {
+    //         return {
+    //             poSlno: val
+    //         }
+    //     })
+    //     const getPOItems = async (poNumber) => {
+    //         const result = await axioslogin.post('/newCRFStore/getItems', poNumber);
+    //         return result.data
+    //     }
+    //     getPOItems(poNumber).then((val) => {
+    //         const { success, data } = val
+    //         if (success === 1) {
+    //             setSubStoreState((prev) => ({
+    //                 ...prev,
+    //                 poItems: data,
+    //                 modalopen: true,
+    //                 modFlag: 1
+    //             }));
+    //         } else {
+    //             setSubStoreState((prev) => ({
+    //                 ...prev,
+    //                 poItems: [],
+    //                 modalopen: false,
+    //                 modFlag: 0
+    //             }));
+    //         }
+    //     })
+    // }, [])
+
+    //    const viewGrnDetails = useCallback((val) => {
+    //     const { po_detail_slno, grn_nos } = val
+    //     setSubStoreState((prev) => ({
+    //         ...prev,
+    //         grnData: grn_nos
+    //     }));
+    //     const poNumber = po_detail_slno?.map((val) => {
+    //         return {
+    //             poSlno: val
+    //         }
+    //     })
+    //     const getPOItems = async (poNumber) => {
+    //         const result = await axioslogin.post('/newCRFStore/getItems', poNumber);
+    //         return result.data
+    //     }
+    //     getPOItems(poNumber).then((val) => {
+    //         const { success, data } = val
+    //         if (success === 1) {
+    //             setSubStoreState((prev) => ({
+    //                 ...prev,
+    //                 grnItem: data,
+    //                 grnItemModal: true,
+    //                 grnFlag: 1
+    //             }));
+    //         } else {
+    //             setSubStoreState((prev) => ({
+    //                 ...prev,
+    //                 grnItem: [],
+    //                 grnItemModal: false,
+    //                 grnFlag: 0
+    //             }));
+    //         }
+    //     })
+    // }, [])
+
+    // const viewCrfDetails = useCallback((req_slno) => {
+    //     const getCRfDetails = async (req_slno) => {
+    //         const result = await axioslogin.get(`/newCRFStore/crfReq/${req_slno}`)
+    //         const { success, data } = result.data
+    //         if (success === 1) {
+    //             const newData = data?.filter((val) => val.item_status_approved === 1)
+    //             setSubStoreState((prev) => ({
+    //                 ...prev,
+    //                 crfData: newData,
+    //                 crfModal: true,
+    //                 crfFlag: 1
+    //             }));
+    //         }
+    //         else {
+    //             setSubStoreState((prev) => ({
+    //                 ...prev,
+    //                 crfData: [],
+    //                 crfModal: false,
+    //                 crfFlag: 0
+    //             }));
+    //         }
+    //     }
+    //     getCRfDetails(req_slno)
+    // }, [])
+    // const handleClose = useCallback(() => {
+    //     setSubStoreState((prev) => ({
+    //         ...prev,
+    //         modalopen: false,
+    //         modFlag: 0,
+    //         poItems: [],
+    //         crfData: [],
+    //         crfModal: false,
+    //         crfFlag: 0
+    //     }));
+    // }, [])
+
+    // const informToReqUser = useCallback((details) => {
+    //     const { sub_store_slno, sub_store_name } = details
+    //     setSelectedRadio(sub_store_slno)
+    //     setStoreName(sub_store_name)
+    //     setSubStoreState((prev) => ({
+    //         ...prev,
+    //         informModal: true,
+    //         infoFlag: 1,
+    //         infoData: details
+    //     }));
+    // }, [setSelectedRadio, setStoreName])
+
+    // const handleCloseInfo = useCallback(() => {
+    //     setSubStoreState((prev) => ({
+    //         ...prev,
+    //         informModal: false,
+    //         infoFlag: 0,
+    //         grnFlag: 0,
+    //         grnItemModal: false
+
+    //     }));
+    // }, [])
     const viewPODetails = useCallback((val) => {
-        const { po_detail_slno, po_details } = val
-        const news = po_details?.map((item) => {
-            return {
-                po_detail_slno: item.po_detail_slno,
-                po_number: item.po_number,
-                po_date: item.po_date,
-                supplier_name: item.supplier_name,
-                expected_delivery: item.expected_delivery
+        const { po_detail_slno, po_details } = val;
 
-            }
-        })
-        setPoDetails(news)
-        const poNumber = po_detail_slno?.map((val) => {
-            return {
-                poSlno: val
-            }
-        })
+        const news = po_details?.map((item) => ({
+            po_detail_slno: item.po_detail_slno,
+            po_number: item.po_number,
+            po_date: item.po_date,
+            supplier_name: item.supplier_name,
+            expected_delivery: item.expected_delivery,
+        }));
+
+        setSubStoreState((prev) => ({
+            ...prev,
+            poDetails: news,
+        }));
+
+        const poNumber = po_detail_slno?.map((slno) => ({ poSlno: slno }));
+
         const getPOItems = async (poNumber) => {
             const result = await axioslogin.post('/newCRFStore/getItems', poNumber);
-            return result.data
-        }
+            return result.data;
+        };
+
         getPOItems(poNumber).then((val) => {
-            const { success, data } = val
-            if (success === 1) {
-                setPoItems(data);
-                setModalOpen(true)
-                setModFlag(1)
-            } else {
-                setPoItems([])
-                setModalOpen(false)
-                setModFlag(0)
-            }
-        })
-    }, [])
+            const { success, data } = val;
+            setSubStoreState((prev) => ({
+                ...prev,
+                poItems: success === 1 ? data : [],
+                modalopen: success === 1,
+                modFlag: success === 1 ? 1 : 0,
+            }));
+        });
+    }, []);
 
     const viewGrnDetails = useCallback((val) => {
-        const { po_detail_slno, grn_nos } = val
-        setGrnData(grn_nos)
-        const poNumber = po_detail_slno?.map((val) => {
-            return {
-                poSlno: val
-            }
-        })
+        const { po_detail_slno, grn_nos } = val;
+
+        setSubStoreState((prev) => ({
+            ...prev,
+            grnData: grn_nos,
+        }));
+
+        const poNumber = po_detail_slno?.map((slno) => ({ poSlno: slno }));
+
         const getPOItems = async (poNumber) => {
             const result = await axioslogin.post('/newCRFStore/getItems', poNumber);
-            return result.data
-        }
+            return result.data;
+        };
+
         getPOItems(poNumber).then((val) => {
-            const { success, data } = val
-            if (success === 1) {
-                setGrnItem(data);
-                setGrnFlag(1)
-                setGrnItemModal(true)
-            } else {
-                setGrnItem([]);
-                setGrnFlag(0)
-                setGrnItemModal(false)
-            }
-        })
-    }, [])
+            const { success, data } = val;
+            setSubStoreState((prev) => ({
+                ...prev,
+                grnItem: success === 1 ? data : [],
+                grnItemModal: success === 1,
+                grnFlag: success === 1 ? 1 : 0,
+            }));
+        });
+    }, []);
 
     const viewCrfDetails = useCallback((req_slno) => {
         const getCRfDetails = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFStore/crfReq/${req_slno}`)
-            const { success, data } = result.data
+            const result = await axioslogin.get(`/newCRFStore/crfReq/${req_slno}`);
+            const { success, data } = result.data;
+
             if (success === 1) {
-                const newData = data?.filter((val) => val.item_status_approved === 1)
-                setCrfData(newData)
-                setCrfModal(true)
-                setCrfFlag(1)
+                const newData = data?.filter((val) => val.item_status_approved === 1);
+                setSubStoreState((prev) => ({
+                    ...prev,
+                    crfData: newData,
+                    crfModal: true,
+                    crfFlag: 1,
+                }));
+            } else {
+                setSubStoreState((prev) => ({
+                    ...prev,
+                    crfData: [],
+                    crfModal: false,
+                    crfFlag: 0,
+                }));
             }
-            else {
-                setCrfData([])
-                setCrfModal(false)
-                setCrfFlag(0)
-            }
-        }
-        getCRfDetails(req_slno)
-    }, [])
+        };
+
+        getCRfDetails(req_slno);
+    }, []);
 
     const handleClose = useCallback(() => {
-        setModalOpen(false)
-        setModFlag(0)
-        setPoItems([])
-        setCrfData([])
-        setCrfModal(false)
-        setCrfFlag(0)
-    }, [setModalOpen, setCrfModal])
+        setSubStoreState((prev) => ({
+            ...prev,
+            modalopen: false,
+            modFlag: 0,
+            poItems: [],
+            crfData: [],
+            crfModal: false,
+            crfFlag: 0,
+            grnItemModal: false,
+            grnFlag: 0,
+        }));
+    }, []);
 
     const informToReqUser = useCallback((details) => {
-        const { sub_store_slno, sub_store_name } = details
-        setSelectedRadio(sub_store_slno)
-        setStoreName(sub_store_name)
-        // if (selectedRadio === null) {
-        //     infoNotify("Select Any Store")
-        //     setInformModal(false)
-        //     setInfoFlag(0)
-        // } else {
-        setInformModal(true)
-        setInfoFlag(1)
-        setinfoData(details)
-        // }
-    }, [setSelectedRadio, setStoreName])
+        const { sub_store_slno, sub_store_name } = details;
+
+        setSelectedRadio(sub_store_slno);
+        setStoreName(sub_store_name);
+
+        setSubStoreState((prev) => ({
+            ...prev,
+            informModal: true,
+            infoFlag: 1,
+            infoData: details,
+        }));
+    }, [setSelectedRadio, setStoreName]);
 
     const handleCloseInfo = useCallback(() => {
-        setInformModal(false)
-        setInfoFlag(0)
-        setGrnFlag(0)
-        setGrnItemModal(false)
-    }, [setInformModal])
-
+        setSubStoreState((prev) => ({
+            ...prev,
+            informModal: false,
+            infoFlag: 0,
+            grnFlag: 0,
+            grnItemModal: false,
+        }));
+    }, []);
 
     const capitalizeWords = (str) => str ? str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
     return (

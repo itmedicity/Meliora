@@ -46,9 +46,9 @@ const GrnViewModal = ({ modalDatas, handleClose, open, itemName }) => {
                                 <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow >
                                     <thead style={{ alignItems: 'center' }}>
                                         <tr style={{ height: 0.5 }}>
-                                            <th size='sm' style={{ width: 60, fontWeight: 650, fontSize: 14, textAlign: 'center' }}>&nbsp; Sl.No</th>
-                                            <th size='sm' style={{ width: 80, fontWeight: 650, fontSize: 14 }}>&nbsp;GRN No.</th>
-                                            <th size='sm' style={{ width: 120, fontWeight: 650, fontSize: 14 }}>&nbsp;Date</th>
+                                            <th size='sm' style={{ borderRadius: 0, width: 60, fontWeight: 650, fontSize: 14, textAlign: 'center', backgroundColor: '#A9D1E4' }}>&nbsp; Sl.No</th>
+                                            <th size='sm' style={{ width: 80, fontWeight: 650, fontSize: 14, backgroundColor: '#A9D1E4' }}>&nbsp;GRN No.</th>
+                                            <th size='sm' style={{ borderRadius: 0, width: 120, fontWeight: 650, fontSize: 14, backgroundColor: '#A9D1E4' }}>&nbsp;Date</th>
                                         </tr>
                                     </thead>
                                     <tbody size='small'>

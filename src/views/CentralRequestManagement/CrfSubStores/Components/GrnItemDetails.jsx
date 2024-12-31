@@ -1,34 +1,41 @@
 import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Table, Tooltip } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useState } from 'react'
 import WysiwygTwoToneIcon from '@mui/icons-material/WysiwygTwoTone';
-import GrnViewModal from '../../CrfStoreProcess/Component/GrnViewModal';
+const GrnViewModal = React.lazy(() => import("../../CrfStoreProcess/Component/GrnViewModal"))
 
 const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
-    const [itemName, setItemName] = useState()
-    const [modalopens, setModalOpens] = useState(false)
-    const [modFlags, setModFlags] = useState(0)
-    const [modalDatas, setModalDatas] = useState([])
-
+    const [grnState, setGrnState] = useState({
+        itemName: '',
+        modalopens: false,
+        modFlags: 0,
+        modalDatas: []
+    })
+    const { itemName, modalopens, modFlags, modalDatas } = grnState
     const viewDetails = useCallback((itemCode, itemName) => {
         const grnDetails = grnData
             .flat()
             .filter(grn => grn.IT_CODE === itemCode)
             .map((grn, index) => ({ slno: index + 1, ...grn }));
 
-        setModalDatas(grnDetails);
-        setItemName(itemName)
-        setModalOpens(true)
-        setModFlags(1)
+        setGrnState((prev) => ({
+            ...prev,
+            itemName: itemName,
+            modalopens: true,
+            modFlags: 1,
+            modalDatas: grnDetails
+        }));
 
     }, [grnData])
 
     const handleClose = useCallback(() => {
-        setModalOpens(false)
-        setModFlags(0)
-        setModalDatas([])
-    }, [setModalOpens])
+        setGrnState((prev) => ({
+            ...prev,
+            modalopens: false,
+            modFlags: 0,
+            modalDatas: []
+        }));
+    }, [])
     return (
-
         <Fragment>
             {modFlags === 1 ? <GrnViewModal modalDatas={modalDatas} handleClose={handleClose} open={modalopens}
                 itemName={itemName} /> : null}
@@ -67,12 +74,12 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
                                 <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' stickyFooter hoverRow >
                                     <thead style={{ alignItems: 'center' }}>
                                         <tr style={{ height: 0.5 }}>
-                                            <th size='sm' style={{ width: 60, fontWeight: 650, fontSize: 14, textAlign: 'center' }}>&nbsp; Sl.No</th>
-                                            <th size='sm' style={{ width: 80, fontWeight: 650, fontSize: 14 }}>&nbsp;Item Code</th>
-                                            <th size='sm' style={{ width: 250, fontWeight: 650, fontSize: 14 }}>&nbsp;Item</th>
-                                            <th size='sm' style={{ width: 80, fontWeight: 650, fontSize: 14 }}>&nbsp;Quantity</th>
-                                            <th size='sm' style={{ width: 80, fontWeight: 650, fontSize: 14 }}>&nbsp;Grn Qnty</th>
-                                            <th size='sm' style={{ width: 80, fontWeight: 650, fontSize: 14 }}>&nbsp;Grn Nos</th>
+                                            <th size='sm' style={{ borderRadius: 0, width: 60, fontWeight: 650, fontSize: 14, textAlign: 'center', backgroundColor: '#e3f2fd' }}>&nbsp; Sl.No</th>
+                                            <th size='sm' style={{ width: 80, fontWeight: 650, fontSize: 14, backgroundColor: '#e3f2fd' }}>&nbsp;Item Code</th>
+                                            <th size='sm' style={{ width: 250, fontWeight: 650, fontSize: 14, backgroundColor: '#e3f2fd' }}>&nbsp;Item</th>
+                                            <th size='sm' style={{ width: 80, fontWeight: 650, fontSize: 14, backgroundColor: '#e3f2fd' }}>&nbsp;Quantity</th>
+                                            <th size='sm' style={{ width: 80, fontWeight: 650, fontSize: 14, backgroundColor: '#e3f2fd' }}>&nbsp;Grn Qnty</th>
+                                            <th size='sm' style={{ borderRadius: 0, width: 80, fontWeight: 650, fontSize: 14, backgroundColor: '#e3f2fd' }}>&nbsp;Grn Nos</th>
                                         </tr>
                                     </thead>
                                     <tbody size='small'>
@@ -85,7 +92,6 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
                                                 <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.item_qty}</td>
                                                 <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.grn_qnty}</td>
                                                 <td size='sm' style={{ fontSize: 12, height: 5 }}>
-
                                                     <CssVarsProvider>
                                                         <Tooltip title="View Grn Details" placement="left">
                                                             <WysiwygTwoToneIcon

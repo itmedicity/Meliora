@@ -9,7 +9,6 @@ import { getStoreReceiveAllAction, getStoreReceivePendingAction } from 'src/redu
 import { useDispatch, useSelector } from 'react-redux'
 import { Virtuoso } from 'react-virtuoso'
 import { format } from 'date-fns'
-import CountDownReqtoExpect from './Component/CountDownReqtoExpect'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
 import LocalShippingTwoToneIcon from '@mui/icons-material/LocalShippingTwoTone';
@@ -18,10 +17,13 @@ import AlignHorizontalLeftTwoToneIcon from '@mui/icons-material/AlignHorizontalL
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import _ from 'underscore'
-import FullyReceiveTableView from './Component/FullyReceiveTableView'
-import GrnDetailsViewModal from './Component/GrnDetailsViewModal'
 import FeaturedPlayListTwoToneIcon from '@mui/icons-material/FeaturedPlayListTwoTone';
-import CustomCloseIconCmp from '../ComonComponent/CustomCloseIconCmp'
+import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
+
+const FullyReceiveTableView = React.lazy(() => import("./Component/FullyReceiveTableView"))
+const GrnDetailsViewModal = React.lazy(() => import("./Component/GrnDetailsViewModal"))
+const CountDownReqtoExpect = React.lazy(() => import("./Component/CountDownReqtoExpect"))
+
 const CrfStoreProcessMain = () => {
     const moveTopToBottom = keyframes`
     from {
@@ -38,22 +40,20 @@ const CrfStoreProcessMain = () => {
     const [fullyReceived, setFullyReceived] = useState([])
     const [fullyInitialData, setFullyInitialData] = useState([])
     const [radiovalue, setRadioValue] = useState('1')
-    const [notReceiveCount, setNotReceiveCount] = useState(0)
-    const [fullyCount, setFullyCount] = useState(0)
     const [count, setCount] = useState(0)
-    // const [receiveFlag, setReceiveFlag] = useState(0)
-    // const [receiveModal, setReceiveModal] = useState(false)
-    // const [poItems, setPoItems] = useState([])
-    const [searchSup, setSearchSup] = useState('')
-    const [searchPo, setSearchPo] = useState('')
-    const [searchCrf, setsearchCrf] = useState('')
     const [initialData, setInitialData] = useState([])
-    // const [allSelected, setAllSelected] = useState(false);
-    const [modalopen, setModalOpen] = useState(false)
-    const [modFlag, setModFlag] = useState(0)
     const [grnDetailsView, setgrnDetailsView] = useState([])
     const [poNumber, setPoNumber] = useState()
-
+    const [storeState, setStoreState] = useState({
+        notReceiveCount: 0,
+        fullyCount: 0,
+        searchSup: '',
+        searchPo: '',
+        searchCrf: '',
+        modalopen: false,
+        modFlag: 0
+    })
+    const { notReceiveCount, fullyCount, searchSup, searchPo, searchCrf, modalopen, modFlag } = storeState
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const backtoHome = useCallback(() => {
         history.push('/Home/CrfNewDashBoard')
@@ -66,34 +66,72 @@ const CrfStoreProcessMain = () => {
 
     const storeReceivePending = useSelector((state) => state?.getStoreReceivePendingReducer?.setCRMStorePendingList)
     const stroreReceiveAll = useSelector((state) => state?.getStoreReceiveAllReducer?.setCRMStoreAllList)
-
+    const changeSupplier = useCallback((e) => {
+        setStoreState((prev) => ({
+            ...prev,
+            searchSup: e.target.value,
+            searchPo: '',
+            searchCrf: '',
+        }));
+    }, [])
+    const changePo = useCallback((e) => {
+        setStoreState((prev) => ({
+            ...prev,
+            searchSup: '',
+            searchPo: e.target.value,
+            searchCrf: '',
+        }));
+    }, [])
+    const changeCrfNo = useCallback((e) => {
+        setStoreState((prev) => ({
+            ...prev,
+            searchSup: '',
+            searchPo: '',
+            searchCrf: e.target.value,
+        }));
+    }, [])
     useEffect(() => {
         if (storeReceivePending.length !== 0) {
             const newArray = storeReceivePending
                 .filter((val, index, self) =>
-                    index === self.findIndex((value) => value.po_number === val.po_number && value.req_slno === val.req_slno))
-            setNotReceiveCount(newArray.length)
+                    index === self.findIndex((value) => value.po_number === val.po_number && value.req_slno === val.req_slno
+                        && value.crm_purchase_slno === val.crm_purchase_slno))
+            setStoreState((prev) => ({
+                ...prev,
+                notReceiveCount: newArray.length
+            }));
         } else {
-            setNotReceiveCount(0)
+            setStoreState((prev) => ({
+                ...prev,
+                notReceiveCount: 0
+            }));
         }
         if (stroreReceiveAll.length !== 0) {
             // const fCount = stroreReceiveAll?.filter((val) => val.fully_receive === 1)
             const fCount = stroreReceiveAll
                 .filter((val, index, self) =>
-                    index === self.findIndex((value) => value.po_number === val.po_number && value.req_slno === val.req_slno && val.fully_receive === 1))
-            if (fCount.length !== 0) {
-                setFullyCount(fCount.length)
-            } else {
-                setFullyCount(0)
-            }
+                    index === self.findIndex((value) => value.po_number === val.po_number && value.req_slno === val.req_slno
+                        && value.crm_purchase_slno === val.crm_purchase_slno))
+            setStoreState((prev) => ({
+                ...prev,
+                fullyCount: fCount.length
+            }));
         }
-    }, [storeReceivePending, stroreReceiveAll])
+        else {
+            setStoreState((prev) => ({
+                ...prev,
+                fullyCount: 0
+            }));
+        }
+
+    }, [storeReceivePending, stroreReceiveAll, count])
 
     useEffect(() => {
         if (radiovalue === '1') {
             const newArray = storeReceivePending
                 .filter((val, index, self) =>
-                    index === self.findIndex((value) => value.po_number === val.po_number && value.req_slno === val.req_slno))
+                    index === self.findIndex((value) => value.po_number === val.po_number && value.req_slno === val.req_slno
+                        && value.crm_purchase_slno === val.crm_purchase_slno))
                 .map((val) => (
                     {
                         crm_purchase_slno: val.crm_purchase_slno,
@@ -142,7 +180,7 @@ const CrfStoreProcessMain = () => {
         } else if (radiovalue === '2') {
 
         }
-    }, [radiovalue, storeReceivePending, stroreReceiveAll])
+    }, [radiovalue, storeReceivePending, stroreReceiveAll, count])
 
     //Radio button OnClick function starts
 
@@ -156,7 +194,8 @@ const CrfStoreProcessMain = () => {
             if (stroreReceiveAll.length !== 0) {
                 const newArray = stroreReceiveAll
                     .filter((val, index, self) =>
-                        index === self.findIndex((value) => value.po_number === val.po_number && value.req_slno === val.req_slno))
+                        index === self.findIndex((value) => value.po_number === val.po_number && value.req_slno === val.req_slno
+                            && value.crm_purchase_slno === val.crm_purchase_slno))
                     .map((val) => (
                         {
                             crm_purchase_slno: val.crm_purchase_slno,
@@ -197,21 +236,7 @@ const CrfStoreProcessMain = () => {
             }
         }
     }, [stroreReceiveAll])
-    const changeSupplier = useCallback((e) => {
-        setSearchSup(e.target.value)
-        setSearchPo('')
-        setsearchCrf('')
-    }, [])
-    const changePo = useCallback((e) => {
-        setSearchPo(e.target.value)
-        setsearchCrf('')
-        setSearchSup('')
-    }, [])
-    const changeCrfNo = useCallback((e) => {
-        setsearchCrf(e.target.value)
-        setSearchPo('')
-        setSearchSup('')
-    }, [])
+
     const SearchData = useCallback(() => {
         if (searchSup !== '' || searchCrf !== '' || searchPo !== '') {
             const searchData = {
@@ -229,7 +254,8 @@ const CrfStoreProcessMain = () => {
                     if (success === 1) {
                         const newArray = data
                             .filter((val, index, self) =>
-                                index === self.findIndex((value) => value.po_number === val.po_number && value.req_slno === val.req_slno))
+                                index === self.findIndex((value) => value.po_number === val.po_number && value.req_slno === val.req_slno
+                                    && value.crm_purchase_slno === val.crm_purchase_slno))
                             .map((val) => (
                                 {
                                     crm_purchase_slno: val.crm_purchase_slno,
@@ -285,7 +311,8 @@ const CrfStoreProcessMain = () => {
                     if (success === 1) {
                         const newArray = data
                             .filter((val, index, self) =>
-                                index === self.findIndex((value) => value.po_number === val.po_number && value.req_slno === val.req_slno))
+                                index === self.findIndex((value) => value.po_number === val.po_number && value.req_slno === val.req_slno
+                                    && value.crm_purchase_slno === val.crm_purchase_slno))
                             .map((val) => (
                                 {
                                     crm_purchase_slno: val.crm_purchase_slno,
@@ -383,6 +410,7 @@ const CrfStoreProcessMain = () => {
                 const poNumber = data?.map((val) => {
                     return {
                         req_slno: val.req_slno,
+                        crm_purchase_slno: val.crm_purchase_slno,
                         pono: val.po_number,
                         stcode: val.crs_store_code,
                         po_detail_slno: val.po_detail_slno,
@@ -394,7 +422,7 @@ const CrfStoreProcessMain = () => {
                     const { success, elliderdata } = val
                     if (success === 1) {
                         const seen = new Set();
-                        const patchQnty = elliderdata.map(item => {
+                        const patchQnty = elliderdata?.map(item => {
                             const poItems = poNumber?.filter(po => po.pono === item.PO_NO && po.stcode === item.ST_CODE && po.item_code === item.IT_CODE);
                             return poItems.map(poItem => {
                                 const uniqueKey = `${poItem.po_detail_slno}-${item.IT_CODE}-${item.PDN_SUPQTY}`;
@@ -411,6 +439,7 @@ const CrfStoreProcessMain = () => {
                                     }
                                     return {
                                         req_slno: poItem.req_slno,
+                                        crm_purchase_slno: poItem.crm_purchase_slno,
                                         grn_qnty: item.PDN_SUPQTY,
                                         received_qnty: item.PDN_SUPQTY,
                                         item_receive_status: item_receive_status,
@@ -426,14 +455,15 @@ const CrfStoreProcessMain = () => {
                             if (success === 1) {
                                 const groupedBySlno = patchQnty.reduce((acc, curr) => {
                                     if (!acc[curr.po_detail_slno]) {
-                                        acc[curr.po_detail_slno] = { statuses: [], req_slno: curr.req_slno };
+                                        acc[curr.po_detail_slno] = { statuses: [], req_slno: curr.req_slno, crm_purchase_slno: curr.crm_purchase_slno };
                                     }
                                     acc[curr.po_detail_slno].statuses.push(curr.item_receive_status);
                                     return acc;
                                 }, {});
 
                                 const updateStatus = Object.entries(groupedBySlno).map(([po_detail_slno, groupData]) => {
-                                    const { statuses, req_slno } = groupData;
+                                    const { statuses, req_slno, crm_purchase_slno } = groupData;
+
                                     let store_recieve, sub_store_recieve;
 
                                     if (statuses.every(status => status === 1)) {
@@ -452,18 +482,20 @@ const CrfStoreProcessMain = () => {
                                         sub_store_recieve: sub_store_recieve,
                                         store_receive_user: id,
                                         store_receive_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-                                        req_slno: req_slno
+                                        req_slno: req_slno,
+                                        crm_purchase_slno: crm_purchase_slno
                                     };
                                 });
+
                                 updateStoreReceiveStatus(updateStatus).then((val) => {
                                     const { success } = val
                                     if (success === 1) {
                                         setCount(count + 1)
-                                        const finalData = elliderdata.map(item => `${item.PO_NO}-${item.ST_CODE}`)
+                                        const finalData = elliderdata?.map(item => `${item.PO_NO}-${item.ST_CODE}`)
                                             .filter((value, index, self) => self.indexOf(value) === index)
                                             .map(key => {
                                                 const [PO_NO, ST_CODE] = key.split('-');
-                                                const GR_NO = elliderdata.filter(item => item.PO_NO === PO_NO && item.ST_CODE === ST_CODE)
+                                                const GR_NO = elliderdata?.filter(item => item.PO_NO === PO_NO && item.ST_CODE === ST_CODE)
                                                     .map(item => {
                                                         return {
                                                             GR_NO: item.GR_NO,
@@ -480,7 +512,7 @@ const CrfStoreProcessMain = () => {
                                                 setOpen(false)
                                                 // update
                                                 const patchdata = finalData
-                                                    .filter(grn => existdata.find(exist =>
+                                                    .filter(grn => existdata?.find(exist =>
                                                         exist.po_number === grn.PO_NO && exist.store_code === grn.ST_CODE
                                                     ))
                                                     .map(grn => {
@@ -549,12 +581,13 @@ const CrfStoreProcessMain = () => {
                                         })
 
                                     } else {
-
+                                        succesNotify("Updated Successfully")
                                     }
                                 })
                             }
                             else {
                                 // update grnqnty else part
+                                succesNotify("Updated Successfully")
                             }
                         })
                     }
@@ -620,22 +653,31 @@ const CrfStoreProcessMain = () => {
     // }, [setReceiveModal, allSelected, disData])
 
     const handleCloseGrn = useCallback(() => {
-        setModalOpen(false)
-        setModFlag(0)
+        setStoreState((prev) => ({
+            ...prev,
+            modalopen: false,
+            modFlag: 0
+        }));
         setgrnDetailsView([])
-    }, [setModalOpen])
+    }, [])
 
     const viewGrnDetails = useCallback((pos, items) => {
         if (items.length !== 0) {
             setPoNumber(pos)
             setgrnDetailsView(items)
-            setModFlag(1)
-            setModalOpen(true)
+            setStoreState((prev) => ({
+                ...prev,
+                modalopen: true,
+                modFlag: 1
+            }));
 
         } else {
             setgrnDetailsView([])
-            setModFlag(0)
-            setModalOpen(false)
+            setStoreState((prev) => ({
+                ...prev,
+                modalopen: false,
+                modFlag: 0
+            }));
             infoNotify("No Report Found")
         }
 
@@ -648,176 +690,170 @@ const CrfStoreProcessMain = () => {
                 count={count} setCount={setCount} />
                 : null} */}
             {modFlag === 1 ? < GrnDetailsViewModal handleCloseGrn={handleCloseGrn} open={modalopen} grnData={grnDetailsView} poNumber={poNumber} /> : null}
-            <Box sx={{ height: 38, backgroundColor: "#f0f3f5", display: 'flex', p: 0.5 }}>
-                <Box sx={{ flex: 1, fontSize: 20, pl: 1, color: '#9e9e9e', fontFamily: 'Monospace', m: 0.5 }}>CRS Store</Box>
-                <CssVarsProvider>
-                    <CustomCloseIconCmp
-                        handleChange={backtoHome}
-                    />
-                </CssVarsProvider>
-            </Box>
-            <Paper sx={{ p: 1 }}>
-                <Box sx={{
-                    width: "100%",
-                    px: 1, pt: 0.5, flex: 1,
-                    display: "flex", borderRadius: 5,
-                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-                }}>
-                    <Box sx={{ display: "flex", flex: 0.7 }}>
-                        <RadioGroup
-                            sx={{ flex: 1 }}
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="row-radio-buttons-group"
-                            value={radiovalue}
-                            onChange={(e) => updateRadioClick(e)}
-                        >
-                            <Badge
-                                badgeContent={notReceiveCount}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                sx={{
-                                    mr: 1,
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#ef6c00',
-                                        color: 'white',
-                                        transform: 'translate(70%, -10%)',
-                                    }
-                                }}
-                            ><FormControlLabel value='1' sx={{ pl: 3, }} control={
-                                <Radio
-                                    sx={{
-                                        color: '#ef6c00',
-                                        '&.Mui-checked': {
-                                            color: '#ef6c00',
-                                        },
-                                    }} />} label="Not Received" />
-                            </Badge>
-                            <Badge
-                                badgeContent={fullyCount}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                sx={{
-                                    mr: 1,
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#1b5e20',
-                                        color: 'white',
-                                        transform: 'translate(70%, -10%)',
-                                    }
-                                }}
+            <Box sx={{ height: window.innerHeight - 100, flexWrap: 'wrap', bgcolor: 'white' }}>
+                <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
+                    <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRS Store</Box>
+                    <CssVarsProvider>
+                        <CustomCloseIconCmp
+                            handleChange={backtoHome}
+                        />
+                    </CssVarsProvider>
+                </Box>
+                <Paper sx={{ p: 1, bgcolor: '#E3EFF9' }}>
+                    <Box sx={{
+                        width: "100%", pt: 0.5, flex: 1, display: 'flex', borderRadius: 5,
+                        flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
+                    }}>
+                        <Box sx={{ display: "flex", }}>
+                            <RadioGroup
+                                sx={{}}
+                                row
+                                aria-labelledby="demo-row-radio-buttons-group-label"
+                                name="row-radio-buttons-group"
+                                value={radiovalue}
+                                onChange={(e) => updateRadioClick(e)}
                             >
-                                <FormControlLabel value='2' sx={{ pl: 3 }} control={
+                                <Badge
+                                    badgeContent={notReceiveCount}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    sx={{
+                                        '& .MuiBadge-badge': {
+                                            backgroundColor: '#ef6c00',
+                                            color: 'white',
+                                            transform: 'translate(70%, -10%)',
+                                        }
+                                    }}
+                                ><FormControlLabel value='1' control={
                                     <Radio
                                         sx={{
-                                            color: '#1b5e20',
+                                            color: '#ef6c00',
                                             '&.Mui-checked': {
-                                                color: '#1b5e20',
+                                                color: '#ef6c00',
                                             },
-                                        }} />}
-                                    label="Fully Received" />
-                            </Badge>
-                        </RadioGroup>
-                    </Box>
-                    <Box sx={{
-                        flex: 1.5, display: 'flex', flexWrap: 'wrap',
-                        padding: '0 16px',
-                        gap: 0.1
-                    }}>
-                        <Box sx={{ pl: 0.5, pt: 0.6, flex: '1 1 auto', minWidth: '50px', width: '150px' }}>
-                            <CssVarsProvider>
-                                <Input
-                                    startDecorator={<LocalShippingTwoToneIcon sx={{ height: 22, width: 22, color: '#0063C5' }} />}
-                                    size="sm" placeholder="Search By Supplier"
-                                    autoComplete='off'
-                                    name="searchSup"
-                                    value={searchSup}
-                                    onChange={changeSupplier}
-                                    sx={{ height: 35 }}
-                                />
-                            </CssVarsProvider>
+                                        }} />} label="Not Received" />
+                                </Badge>
+                                <Badge
+                                    badgeContent={fullyCount}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    sx={{
+                                        mr: 1,
+                                        '& .MuiBadge-badge': {
+                                            backgroundColor: '#1b5e20',
+                                            color: 'white',
+                                            transform: 'translate(70%, -10%)',
+                                        }
+                                    }}
+                                >
+                                    <FormControlLabel value='2' sx={{ pl: 3 }} control={
+                                        <Radio
+                                            sx={{
+                                                color: '#1b5e20',
+                                                '&.Mui-checked': {
+                                                    color: '#1b5e20',
+                                                },
+                                            }} />}
+                                        label="Fully Received" />
+                                </Badge>
+                            </RadioGroup>
                         </Box>
-                        <Box sx={{ pl: 0.5, pt: 0.6, flex: '1 1 auto', minWidth: '50px', width: '150px' }}>
-                            <CssVarsProvider>
-                                <Input
-                                    startDecorator={<ReceiptLongTwoToneIcon sx={{ height: 22, width: 22, color: '#0063C5' }} />}
-                                    size="sm" placeholder="Search By PO No."
-                                    autoComplete='off'
-                                    name="searchPo"
-                                    value={searchPo}
-                                    onChange={changePo}
-                                    sx={{ height: 35 }}
-                                />
-                            </CssVarsProvider>
-                        </Box>
-                        <Box sx={{ pl: 0.5, pt: 0.6, flex: '1 1 auto', minWidth: '50px', width: '200px' }}>
-                            <CssVarsProvider>
-                                <Input
-                                    startDecorator={
-                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                            <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
-                                            <Typography sx={{ ml: 1, fontSize: '13px', color: '#0063C5' }}>CRF/TMC/</Typography>
-                                        </Box>
-                                    }
-                                    size="sm" placeholder="Search By CRF No."
-                                    autoComplete='off'
-                                    name="searchCrf"
-                                    value={searchCrf}
-                                    onChange={changeCrfNo}
-                                    sx={{ height: 35 }}
-                                />
-                            </CssVarsProvider>
-                        </Box>
-                        <Box sx={{ pl: 0.6, pt: 0.6, minWidth: '50px', width: '150px' }}>
-                            <Button variant="contained"
-                                startIcon={
-                                    <SearchTwoToneIcon
-                                        sx={{
-                                            height: 22,
-                                            width: 22,
-                                            color: '#0277bd',
-                                            // animation: `${moveTopToBottom} 1s infinite alternate`
-                                        }}
-                                    />}
-                                sx={{
-                                    borderRadius: 1, fontSize: 12, height: 33, width: '150px',
-                                    lineHeight: '1.2', color: '#01579b', bgcolor: 'white', textTransform: 'capitalize',
-                                    '&:hover': {
-                                        bgcolor: '#F0F4F8',
-                                    },
-                                }}
-                                onClick={SearchData}
-                            >
-                                Search
-                            </Button>
-                        </Box>
-                        <Box sx={{ pt: 0.6, minWidth: '50px', width: '150px', pl: 1.5 }}>
-                            <Button variant="contained"
-                                startIcon={
-                                    <ArrowDownwardIcon
-                                        sx={{
-                                            height: 22,
-                                            width: 22,
-                                            color: '#0277bd',
-                                            animation: `${moveTopToBottom} 1s infinite alternate`
-                                        }}
-                                    />}
-                                sx={{
-                                    borderRadius: 1, fontSize: 12, height: 33, width: '150px',
-                                    lineHeight: '1.2', color: '#01579b', bgcolor: 'white', textTransform: 'capitalize',
-                                    '&:hover': {
-                                        bgcolor: '#F0F4F8',
-                                    },
-                                }}
-                                onClick={getGrnDetails}
-                            >
-                                Get Grn Details
-                            </Button>
-                        </Box>
-                        {/* <Box sx={{ pt: 0.6, flex: '0.5 0.5 auto', width: '50px', width: '150px' }}>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', padding: '0 16px', gap: 0.1, flex: 1 }}>
+                            <Box sx={{ pl: 0.5, pt: 0.6, flex: '1 1 auto', minWidth: '50px', width: '150px' }}>
+                                <CssVarsProvider>
+                                    <Input
+                                        startDecorator={<LocalShippingTwoToneIcon sx={{ height: 22, width: 22, color: '#0063C5' }} />}
+                                        size="sm" placeholder="Search By Supplier"
+                                        autoComplete='off'
+                                        name="searchSup"
+                                        value={searchSup}
+                                        onChange={changeSupplier}
+                                        sx={{ height: 35 }}
+                                    />
+                                </CssVarsProvider>
+                            </Box>
+                            <Box sx={{ pl: 0.5, pt: 0.6, flex: '1 1 auto', minWidth: '50px', width: '150px' }}>
+                                <CssVarsProvider>
+                                    <Input
+                                        startDecorator={<ReceiptLongTwoToneIcon sx={{ height: 22, width: 22, color: '#0063C5' }} />}
+                                        size="sm" placeholder="Search By PO No."
+                                        autoComplete='off'
+                                        name="searchPo"
+                                        value={searchPo}
+                                        onChange={changePo}
+                                        sx={{ height: 35 }}
+                                    />
+                                </CssVarsProvider>
+                            </Box>
+                            <Box sx={{ pl: 0.5, pt: 0.6, flex: '1 1 auto', minWidth: '50px', width: '200px' }}>
+                                <CssVarsProvider>
+                                    <Input
+                                        startDecorator={
+                                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
+                                                <Typography sx={{ ml: 1, fontSize: '13px', color: '#0063C5' }}>CRF/TMC/</Typography>
+                                            </Box>
+                                        }
+                                        size="sm" placeholder="Search By CRF No."
+                                        autoComplete='off'
+                                        name="searchCrf"
+                                        value={searchCrf}
+                                        onChange={changeCrfNo}
+                                        sx={{ height: 35 }}
+                                    />
+                                </CssVarsProvider>
+                            </Box>
+                            <Box sx={{ pl: 0.6, pt: 0.6, minWidth: '50px', width: '150px' }}>
+                                <Button variant="contained"
+                                    startIcon={
+                                        <SearchTwoToneIcon
+                                            sx={{
+                                                height: 22,
+                                                width: 22,
+                                                color: '#0277bd',
+                                                // animation: `${moveTopToBottom} 1s infinite alternate`
+                                            }}
+                                        />}
+                                    sx={{
+                                        borderRadius: 1, fontSize: 12, height: 33, width: '150px',
+                                        lineHeight: '1.2', color: '#01579b', bgcolor: 'white', textTransform: 'capitalize',
+                                        '&:hover': {
+                                            bgcolor: '#F0F4F8',
+                                        },
+                                    }}
+                                    onClick={SearchData}
+                                >
+                                    Search
+                                </Button>
+                            </Box>
+                            <Box sx={{ pt: 0.6, minWidth: '50px', width: '150px', pl: 1.5 }}>
+                                <Button variant="contained"
+                                    startIcon={
+                                        <ArrowDownwardIcon
+                                            sx={{
+                                                height: 22,
+                                                width: 22,
+                                                color: '#0277bd',
+                                                animation: `${moveTopToBottom} 1s infinite alternate`
+                                            }}
+                                        />}
+                                    sx={{
+                                        borderRadius: 1, fontSize: 12, height: 33, width: '150px',
+                                        lineHeight: '1.2', color: '#01579b', bgcolor: 'white', textTransform: 'capitalize',
+                                        '&:hover': {
+                                            bgcolor: '#F0F4F8',
+                                        },
+                                    }}
+                                    onClick={getGrnDetails}
+                                >
+                                    Get Grn Details
+                                </Button>
+                            </Box>
+                            {/* <Box sx={{ pt: 0.6, flex: '0.5 0.5 auto', width: '50px', width: '150px' }}>
                             <Button variant="contained"
                                 startIcon={
                                      <SystemUpdateAltTwoToneIcon
@@ -841,26 +877,25 @@ const CrfStoreProcessMain = () => {
                                 Receive
                             </Button>
                         </Box> */}
-                    </Box>
-                </Box>
-            </Paper>
-            {
-                radiovalue === '1' ?
-                    <>
-                        <Box sx={{ display: 'flex', flex: 1, m: 1, justifyContent: 'flex-end', pr: 1 }}>
-                            <Box sx={{ bgcolor: '#FD7F20', height: 20, width: 20, border: '1px solid lightgrey', borderRadius: 20 }}></Box>
-                            <Box sx={{ pl: 1, fontSize: 13 }}>Partially Received</Box>
                         </Box>
-                        {disData.length !== 0 ?
-                            <>
-                                <Box variant="outlined" sx={{
-                                    overflow: 'auto', pt: 0.4, flexWrap: 'wrap', maxHeight: window.innerHeight - 220, width: "100%",
-                                    '&::-webkit-scrollbar': { height: 10 }
-                                }}>
-                                    <Paper elevation={3} sx={{ width: 1640 }}>
-                                        {/* < Box display="flex" flexDirection="column" sx={{ mx: 0.5, overflow: 'auto' }}> */}
-                                        <Box display="flex" justifyContent="space-between" padding={0.5} sx={{ bgcolor: '#41729F', color: 'white' }}>
-                                            {/* <Box sx={{ width: 30, textAlign: 'center', display: 'flex' }}>
+                    </Box>
+                </Paper>
+                {
+                    radiovalue === '1' ?
+                        <>
+                            {disData.length !== 0 ?
+                                <>
+                                    <Box sx={{ display: 'flex', flex: 1, justifyContent: 'flex-end', pr: 1, pt: 0.7 }}>
+                                        <Box sx={{ bgcolor: '#FD7F20', mt: 0.3, height: 15, width: 15, border: '1px solid lightgrey', borderRadius: 20 }}></Box>
+                                        <Box sx={{ px: 1, fontSize: 13 }}>Partially Received</Box>
+                                    </Box>
+                                    <Box variant="outlined" sx={{
+                                        overflow: 'auto', pt: 0.4, flexWrap: 'wrap', width: "100%", '&::-webkit-scrollbar': { height: 10 }
+                                    }}>
+                                        <Paper elevation={3} sx={{ width: "1640" }}>
+                                            {/* < Box display="flex" flexDirection="column" sx={{ mx: 0.5, overflow: 'auto' }}> */}
+                                            <Box display="flex" justifyContent="space-between" padding={0.5} sx={{ bgcolor: '#41729F', color: 'white' }}>
+                                                {/* <Box sx={{ width: 30, textAlign: 'center', display: 'flex' }}>
                                                 <Checkbox sx={{ m: 0, p: 0, pl: 1.1 }} //mui@material
                                                     size="small"
                                                     checked={allSelected}
@@ -868,25 +903,25 @@ const CrfStoreProcessMain = () => {
                                                 />
                                                 <Typography sx={{ fontWeight: 550, fontSize: 13, pl: 0.5 }}>All</Typography>
                                             </Box> */}
-                                            <Typography sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Sl.No</Typography>
-                                            <Typography sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>CRF No</Typography>
-                                            <Typography sx={{ width: 60, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Order#</Typography>
-                                            <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>PO Date</Typography>
-                                            <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>PO to Supplier</Typography>
-                                            <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Supplier</Typography>
-                                            <Typography sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Expected Date</Typography>
-                                            <Typography sx={{ width: 90, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>CRS Store</Typography>
-                                            <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Store</Typography>
-                                            <Typography sx={{ width: 220, textAlign: 'center' }}></Typography>
-                                            <Typography sx={{ width: 50, textAlign: 'left', fontWeight: 550, fontSize: 12, }}>Details</Typography>
-                                        </Box>
-                                        <Virtuoso
-                                            style={{ height: '71vh', width: '100%' }}
-                                            data={disData}
-                                            itemContent={(index, val) => (
-                                                <React.Fragment key={index}>
-                                                    <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid #b0bec5', color: (val.store_recieve === 0) ? '#E55B13' : 'black' }} >
-                                                        {/* <Box sx={{ width: 30 }}>
+                                                <Typography sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Sl.No</Typography>
+                                                <Typography sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>CRF No</Typography>
+                                                <Typography sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Order#</Typography>
+                                                <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>PO Date</Typography>
+                                                <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>PO to Supplier</Typography>
+                                                <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Supplier</Typography>
+                                                <Typography sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Expected Date</Typography>
+                                                <Typography sx={{ width: 90, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>CRS Store</Typography>
+                                                <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Store</Typography>
+                                                <Typography sx={{ width: 220, textAlign: 'center' }}></Typography>
+                                                <Typography sx={{ width: 50, textAlign: 'center', fontWeight: 550, fontSize: 12, }}>Details</Typography>
+                                            </Box>
+                                            <Virtuoso
+                                                style={{ height: '71vh', width: '100%' }}
+                                                data={disData}
+                                                itemContent={(index, val) => (
+                                                    <React.Fragment key={index}>
+                                                        <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid #b0bec5', color: (val.store_recieve === 0) ? '#E55B13' : 'black' }} >
+                                                            {/* <Box sx={{ width: 30 }}>
                                                             <Checkbox
                                                                 sx={{ pl: 1.5, m: 0 }}
                                                                 size="small"
@@ -894,71 +929,70 @@ const CrfStoreProcessMain = () => {
                                                                 onChange={() => handleCheckboxChange(index)}
                                                             />
                                                         </Box> */}
-                                                        <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
-                                                        <Typography sx={{ width: 100, textAlign: 'left', fontSize: 12, my: 1 }}>CRF/TMC/{val.req_slno}</Typography>
-                                                        <Typography sx={{ width: 60, textAlign: 'left', fontSize: 12, my: 1 }}>{val.po_number}</Typography>
-                                                        <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.po_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
-                                                        <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.po_to_supplier_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
-                                                        <Typography sx={{ width: 150, textAlign: 'left', fontSize: 11, my: 1 }}>{capitalizeWords(val.supplier_name)}</Typography>
-                                                        <Typography sx={{ width: 100, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.expected_delivery), 'dd-MM-yyyy')}</Typography>
-                                                        <Typography sx={{ width: 90, textAlign: 'left', fontSize: 12, my: 1 }}>{val.main_store}</Typography>
-                                                        <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{val.sub_store_name}</Typography>
-                                                        <Box sx={{ width: 220, my: 0.5, textAlign: 'center' }}>
-                                                            <CountDownReqtoExpect expectDate={val.expected_delivery} />
+                                                            <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
+                                                            <Typography sx={{ width: 100, textAlign: 'center', fontSize: 12, my: 1 }}>CRF/TMC/{val.req_slno}</Typography>
+                                                            <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>{val.po_number}</Typography>
+                                                            <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>{format(new Date(val.po_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
+                                                            <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>{format(new Date(val.po_to_supplier_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
+                                                            <Typography sx={{ width: 150, textAlign: 'center', fontSize: 11, my: 1 }}>{capitalizeWords(val.supplier_name)}</Typography>
+                                                            <Typography sx={{ width: 100, textAlign: 'center', fontSize: 12, my: 1 }}>{val.expected_delivery ? format(new Date(val.expected_delivery), 'dd-MM-yyyy') : 'Nil'}</Typography>
+                                                            <Typography sx={{ width: 90, textAlign: 'center', fontSize: 12, my: 1 }}>{val.main_store}</Typography>
+                                                            <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>{val.sub_store_name}</Typography>
+                                                            <Box sx={{ width: 220, my: 0.5, textAlign: 'center' }}>
+                                                                <CountDownReqtoExpect expectDate={val.expected_delivery} />
+                                                            </Box>
+                                                            <Box sx={{ width: 50, textAlign: 'center', cursor: 'pointer', display: 'flex' }}>
+                                                                <CssVarsProvider>
+                                                                    <Tooltip title="View Item Details" placement="left">
+                                                                        <FeaturedPlayListTwoToneIcon
+                                                                            sx={{
+                                                                                mt: 0.7,
+                                                                                // fontSize: 'md',
+                                                                                color: (val.store_recieve === 0) ? '#E55B13' : '#0d47a1',
+                                                                                height: 23,
+                                                                                width: 23,
+                                                                                borderRadius: 2,
+                                                                                boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
+                                                                                cursor: 'pointer',
+                                                                                transition: 'transform 0.2s',
+                                                                                '&:hover': {
+                                                                                    transform: 'scale(1.1)',
+                                                                                },
+                                                                            }}
+                                                                            onClick={() => viewGrnDetails(val.po_number, val.items)} />
+                                                                    </Tooltip>
+                                                                </CssVarsProvider>
+                                                            </Box>
                                                         </Box>
-                                                        <Box sx={{ width: 50, textAlign: 'center', cursor: 'pointer', display: 'flex' }}>
-                                                            <CssVarsProvider>
-                                                                <Tooltip title="View Item Details" placement="left">
-                                                                    <FeaturedPlayListTwoToneIcon
-                                                                        sx={{
-                                                                            mt: 0.7,
-                                                                            // fontSize: 'md',
-                                                                            color: (val.store_recieve === 0) ? '#E55B13' : '#0d47a1',
-                                                                            height: 23,
-                                                                            width: 23,
-                                                                            borderRadius: 2,
-                                                                            boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
-                                                                            cursor: 'pointer',
-                                                                            transition: 'transform 0.2s',
-                                                                            '&:hover': {
-                                                                                transform: 'scale(1.1)',
-                                                                            },
-                                                                        }}
-                                                                        onClick={() => viewGrnDetails(val.po_number, val.items)} />
-                                                                </Tooltip>
-                                                            </CssVarsProvider>
-                                                        </Box>
-                                                    </Box>
-                                                </React.Fragment>
-                                            )}
-                                        />
-                                        {/* </Box> */}
-
-                                    </Paper>
-                                </Box >
-                            </>
-                            :
-                            <Box sx={{
-                                display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                pt: 10, color: 'grey'
-                            }}>
-                                No Report Found
-                            </Box>
-                        }
-                    </>
-                    : <>
-                        {fullyReceived.length !== 0 ?
-                            <FullyReceiveTableView disData={fullyReceived} viewGrnDetails={viewGrnDetails} />
-                            :
-                            <Box sx={{
-                                display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                pt: 10, color: 'grey'
-                            }}>
-                                No Report Found
-                            </Box>
-                        }
-                    </>
-            }
+                                                    </React.Fragment>
+                                                )}
+                                            />
+                                        </Paper>
+                                    </Box >
+                                </>
+                                :
+                                <Box sx={{
+                                    display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                                    pt: 10, color: 'grey'
+                                }}>
+                                    No Report Found
+                                </Box>
+                            }
+                        </>
+                        : <>
+                            {fullyReceived.length !== 0 ?
+                                <FullyReceiveTableView disData={fullyReceived} viewGrnDetails={viewGrnDetails} />
+                                :
+                                <Box sx={{
+                                    display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                                    pt: 10, color: 'grey'
+                                }}>
+                                    No Report Found
+                                </Box>
+                            }
+                        </>
+                }
+            </Box>
         </Fragment >
     )
 }

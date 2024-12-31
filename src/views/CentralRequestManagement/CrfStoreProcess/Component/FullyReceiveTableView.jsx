@@ -37,7 +37,7 @@ const FullyReceiveTableView = ({ disData, viewGrnDetails }) => {
                                     <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.po_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                     <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.po_to_supplier_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                     <Typography sx={{ width: 150, textAlign: 'left', fontSize: 11, my: 1 }}>{capitalizeWords(val.supplier_name)}</Typography>
-                                    <Typography sx={{ width: 120, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.expected_delivery), 'dd-MM-yyyy')}</Typography>
+                                    <Typography sx={{ width: 120, textAlign: 'left', fontSize: 12, my: 1 }}>{val.expected_delivery ? format(new Date(val.expected_delivery), 'dd-MM-yyyy') : 'Nil'}</Typography>
                                     <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>{val.main_store}</Typography>
                                     <Box sx={{ width: 80, textAlign: 'center', cursor: 'pointer', display: 'flex' }}>
                                         <Tooltip title="View Grn Details" placement="left">

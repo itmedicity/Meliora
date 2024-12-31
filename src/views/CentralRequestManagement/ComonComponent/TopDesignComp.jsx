@@ -1,12 +1,11 @@
 import React, { Fragment, memo, useCallback, useState } from 'react'
-import CustomRadioButtonCmp from '../ComonComponent/CustomRadioButtonCmp'
 import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone';
-import CustomInputDateCmp from '../ComonComponent/CustomInputDateCmp'
+import CustomInputDateCmp from './Components/CustomInputDateCmp'
 import AlignHorizontalLeftTwoToneIcon from '@mui/icons-material/AlignHorizontalLeftTwoTone';
-import CustomIconButtonCmp from '../ComonComponent/CustomIconButtonCmp'
+import CustomIconButtonCmp from './Components/CustomIconButtonCmp'
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import { CssVarsProvider, IconButton, Option, Select, Typography } from '@mui/joy'
-import { Badge, Box, FormControlLabel, Paper, Radio, RadioGroup } from '@mui/material'
+import { Badge, Box, FormControlLabel, Radio, RadioGroup } from '@mui/material'
 import { parse } from 'date-fns';
 import { infoNotify } from 'src/views/Common/CommonCode';
 
@@ -14,7 +13,7 @@ const formatDateForInput = (date) => {
     return date.toISOString().split('T')[0];
 }
 
-const TopDesignComp = ({ pendingData, donedata, closedata, authorizeDeptSec, tableData, setTableData, setDisData,
+const TopDesignComp = ({ pendingData, donedata, closedData, authorizeDeptSec, allData, setAllData, setDisData,
     radiovalue, setRadioValue
 }) => {
 
@@ -24,21 +23,31 @@ const TopDesignComp = ({ pendingData, donedata, closedata, authorizeDeptSec, tab
     const [searchFlag, setSearchFlag] = useState(0)
     const [deptSec, setdeptSec] = useState(0)
 
+
+    const ClearSearch = useCallback(() => {
+        setSearchFlag(0)
+        setStartDate(formatDateForInput(new Date()))
+        setEndDate(formatDateForInput(new Date()))
+        setdeptSec(0)
+        setsearchCrf('')
+        setDisData(allData)
+    }, [allData, setDisData])
+
     const updateRadioClick = useCallback(async (e) => {
         e.preventDefault()
         setRadioValue(e.target.value)
         if (e.target.value === '1') {
-            setTableData(pendingData)
+            setAllData(pendingData)
             setDisData(pendingData)
         } else if (e.target.value === '2') {
-            setTableData(donedata)
+            setAllData(donedata)
             setDisData(donedata)
         }
         else if (e.target.value === '3') {
-            setTableData(closedata)
-            setDisData(closedata)
+            setAllData(closedData)
+            setDisData(closedData)
         }
-    }, [pendingData, donedata, closedata])
+    }, [pendingData, donedata, closedData, setAllData, setDisData, setRadioValue])
 
     const changeSearchSelect = useCallback((e, newValue) => {
         setSearchFlag(newValue);
@@ -54,18 +63,10 @@ const TopDesignComp = ({ pendingData, donedata, closedata, authorizeDeptSec, tab
         setsearchCrf(e.target.value)
     }, [])
 
-    const ClearSearch = useCallback(() => {
-        setSearchFlag(0)
-        setStartDate(formatDateForInput(new Date()))
-        setEndDate(formatDateForInput(new Date()))
-        setdeptSec(0)
-        setsearchCrf('')
-        setDisData(tableData)
-    }, [tableData])
     const SearchData = useCallback(() => {
 
         if (searchFlag === '1') {
-            const newData = tableData?.filter((val) => {
+            const newData = allData?.filter((val) => {
                 const reqDate = new Date(val.req_date).setHours(0, 0, 0, 0);
                 const start = parse(startDate, 'yyyy-MM-dd', new Date()).setHours(0, 0, 0, 0);
                 const end = parse(endDate, 'yyyy-MM-dd', new Date()).setHours(0, 0, 0, 0);
@@ -83,19 +84,28 @@ const TopDesignComp = ({ pendingData, donedata, closedata, authorizeDeptSec, tab
             if (searchCrf === '') {
                 infoNotify("Enter CRF No.")
             } else {
-                const newData = tableData?.filter((val) => val.req_slno === parseInt(searchCrf))
+                const newData = allData?.filter((val) => val.req_slno === parseInt(searchCrf))
                 setDisData(newData)
             }
         }
         else if (searchFlag === '3') {
-            const newData = tableData?.filter((val) => val.request_deptsec_slno === deptSec)
+            const newData = allData?.filter((val) => val.request_deptsec_slno === deptSec)
             setDisData(newData)
         }
-    }, [startDate, endDate, searchFlag, deptSec, searchCrf, tableData])
+        else if (searchFlag === '4') {
+            const rejected = allData?.filter((val) => val.req_status === 'R')
+            setDisData(rejected)
+        }
+        else if (searchFlag === '5') {
+            const onhold = allData?.filter((val) => val.req_status === 'P')
+            setDisData(onhold)
+        }
+
+    }, [startDate, endDate, searchFlag, deptSec, searchCrf, allData, setDisData])
 
     return (
         <Fragment>
-            <Box sx={{ display: 'flex', bgcolor: '#E3EFF9', py: 0.5, flexWrap: 'wrap', }}>
+            <Box sx={{ display: 'flex', bgcolor: '#E3EFF9', py: 0.5, flexWrap: 'wrap', border: '0.4px solid #B4F5F0', borderTop: 'none' }}>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', pr: 1 }}>
                     <RadioGroup
                         sx={{ pt: 1, flex: '1 1 auto', px: 3 }}
@@ -161,7 +171,7 @@ const TopDesignComp = ({ pendingData, donedata, closedata, authorizeDeptSec, tab
                             />
                         </Badge>
                         <Badge
-                            badgeContent={closedata.length}
+                            badgeContent={closedData.length}
                             anchorOrigin={{
                                 vertical: 'top',
                                 horizontal: 'right',
@@ -187,7 +197,7 @@ const TopDesignComp = ({ pendingData, donedata, closedata, authorizeDeptSec, tab
                         </Badge>
                     </RadioGroup>
                 </Box>
-                <Box sx={{ display: 'flex', display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap', }}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap', }}>
                     <Box sx={{ m: 0.5, pt: 0.5, flex: '1 1 auto', pl: 0.5 }}>
                         <CssVarsProvider>
                             <Select defaultValue="0" sx={{ width: 200, border: '1px solid #bbdefb', height: 20, color: '#1565c0', fontSize: 14 }}
@@ -201,6 +211,11 @@ const TopDesignComp = ({ pendingData, donedata, closedata, authorizeDeptSec, tab
                                 <Option value="1">Req. Date</Option>
                                 <Option value="2">CRF No.</Option>
                                 <Option value="3">Department Section</Option>
+                                {radiovalue === '2' ?
+                                    <>
+                                        <Option value="4">Rejected</Option>
+                                        <Option value="5">On-Hold</Option>
+                                    </> : null}
                             </Select>
                         </CssVarsProvider>
                     </Box>
@@ -244,7 +259,7 @@ const TopDesignComp = ({ pendingData, donedata, closedata, authorizeDeptSec, tab
                             <Box sx={{ pt: 0.9, pl: 0.5, flex: '1 1 auto' }}>
                                 <CssVarsProvider>
                                     <CustomInputDateCmp
-                                        StartIcon={<Typography sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}>Start Date </Typography>}
+                                        StartIcon={<Typography sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}>End Date </Typography>}
                                         className={{
                                             height: 35, borderRadius: 5, border: '1px solid #bbdefb',
                                             color: '#0d47a1', fontSize: 14, width: 200,
@@ -264,7 +279,7 @@ const TopDesignComp = ({ pendingData, donedata, closedata, authorizeDeptSec, tab
                                     <CustomInputDateCmp
                                         StartIcon={<Box sx={{ display: 'flex', alignItems: 'center' }}>
                                             <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
-                                            <Typography sx={{ ml: 1, fontSize: '13px', color: '#0063C5' }}>CRF/TMC/</Typography>
+                                            <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>CRF/TMC/</Typography>
                                         </Box>}
                                         className={{
                                             borderRadius: 6, border: '1px solid #bbdefb', width: 250, height: 35, color: '#1565c0'
@@ -307,7 +322,7 @@ const TopDesignComp = ({ pendingData, donedata, closedata, authorizeDeptSec, tab
                                     </CssVarsProvider>
                                 </Box>
                                 : null}
-                    {(searchFlag === '1' || searchFlag === '2' || searchFlag === '3') ?
+                    {(searchFlag === '1' || searchFlag === '2' || searchFlag === '3' || searchFlag === '4' || searchFlag === '5') ?
                         <Box sx={{ pt: 0.9, pl: 0.5, flex: '1 1 auto' }}>
                             <CssVarsProvider>
                                 <   CustomIconButtonCmp

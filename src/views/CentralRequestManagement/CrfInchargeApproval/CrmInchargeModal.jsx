@@ -1,107 +1,69 @@
-import React, { Fragment, useCallback, useState, memo, useEffect, useMemo } from 'react'
-import Slide from '@mui/material/Slide';
-import { ToastContainer } from 'react-toastify';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import { Box, Paper } from '@mui/material'
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { CssVarsProvider, Typography } from '@mui/joy'
-import { TypoHeadColor } from 'src/color/Color'
-import ReqItemDisplay from '../ComonComponent/ReqItemDisplay';
-import ItemsApprovalCompnt from './ItemsApprovalCompnt';
-import ApprovalCompntAll from '../ComonComponent/ApprovalCompntAll';
-import _ from 'underscore'
+import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
+import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog } from '@mui/joy'
+import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import { useSelector } from 'react-redux'
-import { format } from 'date-fns';
-import ReqImageDisModal from '../ComonComponent/ReqImageDisModal';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import AddMoreItemDtails from '../ComonComponent/AddMoreItemDtails';
-import CusIconButton from 'src/views/Components/CusIconButton'
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="left" ref={ref} {...props} />;
-});
+import { useQueryClient } from 'react-query'
+import _ from 'underscore'
+import ItemsApprovalCompnt from './ItemsApprovalCompnt'
+import { axioslogin } from 'src/views/Axios/Axios'
+import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCmp'
+import AddMoreItemDtails from '../ComonComponent/AddMoreItemDtails'
+import { format } from 'date-fns'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
+import { ToastContainer } from 'react-toastify'
+import InchargeApprvalCmp from './InchargeComp/InchargeApprvalCmp'
+import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 
-const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFlag, count, setCount, setApprovalData }) => {
-
-    const { req_slno, req_date, actual_requirement, needed, expected_date, incharge_approve,
-        incharge_remarks, inch_detial_analysis, image_status } = ApprovalData
-
-    const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
-
-    const [reqTableDis, setReqTableDis] = useState(0)
-
-    const [detailData, setDetailData] = useState([])
+const CrmInchargeModal = ({ open, ApprovalData, setApproveTableData, approveTableData, reqItems, handleClose,
+    deptsecArry, imagearray }) => {
+    const { req_slno, incharge_approve, incharge_remarks, inch_detial_analysis } = ApprovalData
+    const queryClient = useQueryClient()
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-    const [ApproveTableDis, setApproveTableDis] = useState(0)
-    const [ApproveTableData, setApproveTableData] = useState([])
     const [addMoreItems, setMoreItem] = useState(0)
-    const [remark, setRemark] = useState('')
-    const updateRemark = useCallback((e) => {
-        setRemark(e.target.value)
-    }, [])
-    const [detailAnalis, setDetailAnalis] = useState('')
-    const updatedetailAnalis = useCallback((e) => {
-        setDetailAnalis(e.target.value)
+    const [editEnable, setEditEnable] = useState(0)
+    const [apprvlDetails, setApprvlDetails] = useState({
+        approve: incharge_approve === 1 ? true : false,
+        reject: incharge_approve === 2 ? true : false,
+        pending: incharge_approve === 3 ? true : false,
+        remark: incharge_remarks !== null ? incharge_remarks : '',
+        detailAnalis: inch_detial_analysis !== null ? inch_detial_analysis : ''
+    });
+    const { remark, detailAnalis, approve, reject, pending } = apprvlDetails
+    const updateOnchangeState = useCallback((e) => {
+        const { name, type, value, checked } = e.target;
+        setApprvlDetails((prev) => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value,
+        }));
+    }, []);
+
+    const updateApprovalState = useCallback((type) => {
+        setApprvlDetails((prev) => ({
+            ...prev,
+            approve: type === 'approve',
+            reject: type === 'reject',
+            pending: type === 'pending',
+        }));
+    }, []);
+
+    const AddItems = useCallback(() => {
+        setMoreItem(1)
+        setEditEnable(0)
     }, [])
 
-    const [approve, setApprove] = useState(false)
-    const [reject, setReject] = useState(false)
-    const [pending, setPending] = useState(false)
-    const updateApprove = useCallback((e) => {
-        if (e.target.checked === true) {
-            setApprove(true)
-            setReject(false)
-            setPending(false)
+    const reset = useCallback(() => {
+        const formdata = {
+            approve: false,
+            reject: false,
+            pending: false,
+            remark: '',
+            detailAnalis: ''
         }
-        else {
-            setApprove(false)
-            setReject(false)
-            setPending(false)
-            setRemark('')
-        }
-    }, [])
-    const updateReject = useCallback((e) => {
-        if (e.target.checked === true) {
-            setReject(true)
-            setApprove(false)
-            setPending(false)
-            setRemark('')
-        }
-        else {
-            setApprove(false)
-            setReject(false)
-            setPending(false)
-            setRemark('')
-        }
-    }, [])
-
-    const updatePending = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPending(true)
-            setApprove(false)
-            setReject(false)
-            setRemark('')
-        }
-        else {
-            setPending(false)
-            setApprove(false)
-            setReject(false)
-            setRemark('')
-        }
-    }, [])
-
-    useEffect(() => {
-        setApprove(incharge_approve === 1 ? true : false)
-        setReject(incharge_approve === 2 ? true : false)
-        setPending(incharge_approve === 3 ? true : false)
-        setRemark(incharge_remarks !== null ? incharge_remarks : '')
-        setDetailAnalis(inch_detial_analysis !== null ? inch_detial_analysis : '')
-    }, [incharge_approve, incharge_remarks, inch_detial_analysis])
+        setApprvlDetails(formdata)
+        setMoreItem(0)
+        handleClose()
+    }, [handleClose])
 
     const InchargePatchData = useMemo(() => {
         return {
@@ -110,386 +72,140 @@ const CrmInchargeModal = ({ open, ApprovalData, setApprovalModal, setApprovalFla
             req_slno: req_slno,
             incharge_apprv_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             incharge_remarks: remark,
-            inch_detial_analysis: detailAnalis
-
+            inch_detial_analysis: detailAnalis,
+            items: approveTableData?.map((val) => {
+                return {
+                    req_detl_slno: val.req_detl_slno,
+                    item_status_approved: val.item_status_approved
+                }
+            })
         }
-    }, [approve, reject, pending, id, remark, detailAnalis, req_slno])
+    }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData])
 
-
-
-    const AddItems = useCallback(() => {
-        setMoreItem(1)
-    }, [])
-
-    const reset = useCallback(() => {
-        setReqTableDis(0)
-        setDetailData([])
-        setApproveTableDis(0)
-        setApproveTableData([])
-        setRemark('')
-        setDetailAnalis('')
-        setPending(false)
-        setApprove(false)
-        setReject(false)
-        setMoreItem(0)
-        setApprovalModal(false)
-        setApprovalFlag(0)
-        setApprovalData([])
-        setCount(0)
-        setImageShowFlag(0)
-        setImageShow(false)
-        setImageArry([])
-    }, [setApprovalFlag, setCount, setApprovalModal, setApprovalData])
-
-
-    useEffect(() => {
-
-        const getItemDetails = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFRegister/getDetailItemList/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setReqTableDis(1)
-                setDetailData(data);
-            } else {
-                setReqTableDis(0)
-            }
+    const submit = useCallback(async () => {
+        if (editEnable === 1) {
+            infoNotify("Ensure all other details are entered/completed before submitting");
         }
-
-        const getApproItemDetails = async (req_slno) => {
-            const result = await axioslogin.get(`/CRFRegisterApproval/getItemListApproval/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const datas = data.map((val, index) => {
-                    const obj = {
-                        slno: index + 1,
-                        req_detl_slno: val.req_detl_slno,
-                        req_slno: val.req_slno,
-                        item_slno: val.item_slno,
-                        item_desc: val.item_desc,
-                        item_brand: val.item_brand,
-                        item_unit: val.item_unit,
-                        item_qnty: val.item_qnty,
-                        item_specification: val.item_specification,
-                        item_unit_price: val.item_unit_price,
-                        aprox_cost: val.aprox_cost,
-                        item_status: val.item_status,
-                        approve_item_desc: val.approve_item_desc,
-                        approve_item_brand: val.approve_item_brand,
-                        approve_item_unit: val.approve_item_unit,
-                        item_qnty_approved: val.item_qnty_approved,
-                        approve_item_unit_price: val.approve_item_unit_price,
-                        approve_aprox_cost: val.approve_aprox_cost,
-                        item_status_approved: val.item_status_approved,
-                        approve_item_status: val.approve_item_status,
-                        approve_item_delete_who: val.approve_item_delete_who,
-                        uom_name: val.uom_name,
-                        approve_item_specification: val.approve_item_specification,
-                        old_item_slno: val.old_item_slno
+        else {
+            const updateInchargeApproval = async (InchargePatchData) => {
+                try {
+                    const result = await axioslogin.patch('/CRFRegisterApproval/incharge', InchargePatchData);
+                    const { success, message } = result.data;
+                    if (success === 1) {
+                        await queryClient.invalidateQueries(['inchargeHodCrfList', JSON.stringify(deptsecArry)]);
+                        succesNotify(message)
+                        reset()
                     }
-                    return obj
-                })
-                setApproveTableDis(1)
-                setApproveTableData(datas);
+                    else {
+                        await queryClient.invalidateQueries(['inchargeHodCrfList', JSON.stringify(deptsecArry)]);
+                        warningNotify(message)
+                    }
+                } catch (error) {
+                    console.error("Error in Incharge Approval:", error);
+                    warningNotify("An error occurred while processing your request.Try again.");
+                }
+            }
+            if (approve || reject || pending) {
+                if ((approve && detailAnalis && remark) || ((reject || pending) && remark)) {
+                    updateInchargeApproval(InchargePatchData);
+                } else {
+                    warningNotify("Justification is required.");
+                }
             } else {
-                setApproveTableDis(0)
-                setApproveTableData([])
+                warningNotify("Select any Status");
             }
         }
-        getItemDetails(req_slno)
-        getApproItemDetails(req_slno)
+    }, [approve, reject, pending, remark, detailAnalis, InchargePatchData, queryClient, reset, deptsecArry, editEnable])
 
-    }, [req_slno, addMoreItems])
-
-
-    const submit = useCallback(() => {
-        const updateInchargeApproval = async (InchargePatchData) => {
-            const result = await axioslogin.patch('/CRFRegisterApproval/incharge', InchargePatchData);
-            const { success, message } = result.data;
-            if (success === 2) {
-                succesNotify(message)
-                setCount(count + 1)
-                reset()
-            }
-            else {
-                warningNotify(message)
-            }
-        }
-
-        if (approve !== false || reject !== false || pending !== false) {
-            if (approve === true && detailAnalis !== '' && remark !== '') {
-                updateInchargeApproval(InchargePatchData)
-            }
-            else if ((reject === true && remark !== '') || (pending === true && remark !== '')) {
-                updateInchargeApproval(InchargePatchData)
-            }
-            else {
-                warningNotify("Justification must be Entered")
-            }
-        } else {
-            warningNotify("Please Select any status")
-        }
-
-    }, [approve, reject, pending, remark, detailAnalis, InchargePatchData, setCount, count, reset])
-
-    const [imageshowFlag, setImageShowFlag] = useState(0)
-    const [imageshow, setImageShow] = useState(false)
-    const [imagearray, setImageArry] = useState([])
-
-    const ViewImage = useCallback(() => {
-        setImageShowFlag(1)
-        setImageShow(true)
-    }, [])
-    useEffect(() => {
-        const getImage = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const fileNames = data;
-                const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
-                });
-                setImageArry(fileUrls);
-            }
-        }
-        if (imageshowFlag === 1) {
-            getImage(req_slno)
-        }
-    }, [imageshowFlag, req_slno])
-    const handleClose = useCallback(() => {
-        setImageShowFlag(0)
-        setImageShow(false)
-        setImageArry([])
-    }, [])
-
-    const ModalClose = useCallback(() => {
+    const closeModal = useCallback(() => {
         reset()
     }, [reset])
-
     return (
         <Fragment>
             <ToastContainer />
-            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
-                images={imagearray} /> : null}
-            <Dialog
-                open={open}
-                TransitionComponent={Transition}
-                keepMounted
-                fullWidth
-                maxWidth='lg'
-
-                aria-describedby="alert-dialog-slide-descriptiona"
-            >
-                < DialogContent id="alert-dialog-slide-descriptiona"
-                    sx={{
-                        width: "100%",
-                        height: 540
-                    }}
+            <CssVarsProvider>
+                <Modal
+                    aria-labelledby="modal-title"
+                    aria-describedby="modal-desc"
+                    open={open}
+                    onClose={handleClose}
+                    sx={{ display: 'flex', justifyContent: 'center' }}
                 >
-                    < DialogContentText id="alert-dialog-slide-descriptiona">
-                        Incharge Approval
-                    </DialogContentText>
-
-                    <Box sx={{ width: "100%", mt: 0, display: "flex", flexDirection: "column" }}>
-                        <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
-                            <Box sx={{
-                                width: "100%", display: "flex",
-                                flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'column', },
-                            }}>
-                                <Box sx={{
-                                    width: "100%", display: "flex", p: 0.5,
-                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                }}>
-                                    <Box sx={{ pr: 1.5 }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Request No: CRF/TMC/{req_slno}</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                    <Box sx={{ pl: 4 }}                                    >
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Req.Date: {req_date}</Typography>
-                                        </CssVarsProvider>
-                                    </Box>
-                                </Box>
-                                {
-                                    actual_requirement !== null ? <Box sx={{
-                                        width: "100%", display: "flex", p: 0.5,
-                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
+                    <ModalDialog
+                        variant="outlined"
+                    >
+                        <ModalClose
+                            variant="outlined"
+                            sx={{
+                                m: 1,
+                                top: 'calc(-1/4 * var(--IconButton-size))',
+                                right: 'calc(-1/4 * var(--IconButton-size))',
+                                boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+                                borderRadius: '50%',
+                                bgcolor: 'background.body',
+                                color: '#bf360c',
+                                height: 25, width: 25
+                            }}
+                        />
+                        <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
+                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} />
+                            <Box sx={{ overflow: 'auto', pt: 0.5, mx: 0.3 }}>
+                                {reqItems.length !== 0 ?
+                                    <ReqItemDisplay reqItems={reqItems} />
+                                    : <Box sx={{
+                                        display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                                        pt: 10, color: 'grey'
                                     }}>
-                                        <Box
-                                            sx={{ width: "25%", }}>
-                                            <CssVarsProvider>
-                                                <Typography sx={{ fontSize: 15 }}>Actual Requirement:</Typography>
-                                            </CssVarsProvider>
-                                        </Box>
-                                        <Paper sx={{
-                                            width: "75%", minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15, textTransform: "capitalize",
-                                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                        }} variant='none'>
-                                            {actual_requirement}
-                                        </Paper>
-                                    </Box> : null
-                                }
-                                {
-                                    needed !== null ? <Box sx={{
-                                        width: "100%", display: "flex", p: 0.5,
-                                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                    }}>
-                                        <Box
-                                            sx={{ width: "25%", }}>
-                                            <CssVarsProvider>
-                                                <Typography sx={{ fontSize: 15 }}>Justification for need:</Typography>
-                                            </CssVarsProvider>
-                                        </Box>
-                                        <Paper sx={{
-                                            width: '75%', minHeight: 10, maxHeight: 70, pl: 0.5, fontSize: 15, textTransform: "capitalize",
-                                            overflow: 'auto', '::-webkit-scrollbar': { display: "none" }
-                                        }} variant='none'>
-                                            {needed}
-                                        </Paper>
-                                    </Box> : null
-                                }
-                                <Box sx={{
-                                    width: "100%", display: "flex", p: 0.5, pb: 0,
-                                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                                }}>
-                                    <Box
-                                        sx={{ pr: 9 }}>
-                                        <CssVarsProvider>
-                                            <Typography sx={{ fontSize: 15 }}>Expected Date: {expdate}</Typography>
-                                        </CssVarsProvider>
+                                        No Item Requested
                                     </Box>
-                                </Box>
-                                {image_status === 1 ?
-                                    <Box sx={{ mx: 0.5, pb: 0.5 }}>
-                                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ViewImage}  >
-                                            <AttachFileIcon fontSize='small' />
-                                            <Typography color="primary" sx={{ fontSize: 15, pl: 1, pr: 1, }}>View Image</Typography>
-                                        </CusIconButton>
-                                    </Box>
-                                    : null}
-
-                            </Box>
-                        </Paper>
-                        {reqTableDis === 1 ?
-                            <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
-                                <Box sx={{
-                                    width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
-                                }}>
-                                    <CssVarsProvider>
-                                        <Typography sx={{ fontSize: 15 }}>Requested Items</Typography>
-                                    </CssVarsProvider>
-                                </Box>
-                                <ReqItemDisplay detailData={detailData}
-                                />
-                            </Paper> : <Box sx={{
-                                width: "100%", display: "flex", p: 0.5, pb: 0,
-                                flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row', },
-                            }}>
-                                <Box sx={{ pr: 9 }}>
-                                    <CssVarsProvider>
-                                        <Typography sx={{ fontSize: 15 }}>Requested Items: Nil</Typography>
-                                    </CssVarsProvider>
-                                </Box>
-                            </Box>
-                        }
-
-                        <Box sx={{ width: "100%", mt: 0, }}>
-                            <Paper variant='outlined' sx={{ mt: 1 }} >
-                                <Box sx={{
-                                    p: 1, width: "100%", display: "flex", flexDirection: 'column',
-                                }}>
-
+                                }
+                                {approveTableData.length !== 0 ?
+                                    <>
+                                        <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
+                                            setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
+                                            apprvLevel={1} header='Incharge' />
+                                        <Box sx={{ pl: 0.5 }}>
+                                            <   CustomIconButtonCmp
+                                                handleChange={AddItems}>
+                                                Add Items
+                                            </CustomIconButtonCmp>
+                                        </Box>
+                                        {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
+                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                        /> : null}
+                                        <InchargeApprvalCmp
+                                            heading="Incharge Approval"
+                                            apprvlDetails={apprvlDetails}
+                                            updateOnchangeState={updateOnchangeState}
+                                            updateApprovalState={updateApprovalState}
+                                        />
+                                    </>
+                                    :
                                     <Box sx={{
-                                        width: "100%", display: "flex", flexDirection: 'column',
+                                        display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                                        pt: 10, color: 'grey'
                                     }}>
-                                        <Box
-                                            sx={{ pr: 9 }}>
-                                            <CssVarsProvider>
-                                                <Typography sx={{ fontWeight: 900, fontSize: 14, color: TypoHeadColor }} >Department Approval</Typography>
-                                            </CssVarsProvider>
-                                        </Box>
-
-                                        {ApproveTableDis === 1 ?
-                                            <Paper variant='outlined' sx={{ p: 0, mt: 1 }} >
-                                                <Box sx={{
-                                                    width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
-                                                }}>
-                                                    <CssVarsProvider>
-                                                        <Typography sx={{ fontSize: 15 }}>Items For Approval</Typography>
-                                                    </CssVarsProvider>
-                                                </Box>
-                                                <ItemsApprovalCompnt req_slno={req_slno}
-                                                    // setReqTableDis={setReqTableDis} setDetailData={setDetailData}
-                                                    setApproveTableDis={setApproveTableDis}
-                                                    ApproveTableDis={ApproveTableDis}
-                                                    ApproveTableData={ApproveTableData}
-                                                    setApproveTableData={setApproveTableData}
-                                                    setMoreItem={setMoreItem}
-                                                />
-
-
-                                                <Box sx={{ pl: 2 }}>
-                                                    <Button onClick={AddItems} variant="contained"
-                                                        color="primary">Add Items</Button>
-                                                </Box>
-                                                {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                                    setMoreItem={setMoreItem}
-                                                /> : null}
-
-                                                <ApprovalCompntAll
-                                                    heading="Incharge Approval"
-                                                    approve={approve}
-                                                    reject={reject}
-                                                    pending={pending}
-                                                    remark={remark}
-                                                    detailAnalis={detailAnalis}
-                                                    updatedetailAnalis={updatedetailAnalis}
-                                                    updateRemark={updateRemark}
-                                                    updateApprove={updateApprove}
-                                                    updateReject={updateReject}
-                                                    updatePending={updatePending}
-                                                />
-                                            </Paper> :
-
-                                            <Box sx={{
-                                                width: "100%", display: "flex", p: 0.5, pb: 0, flexDirection: 'column',
-                                            }}>
-
-                                                {reqTableDis === 1 && ApproveTableDis === 0 ?
-                                                    <Box sx={{ pr: 9 }}>
-                                                        <CssVarsProvider>
-                                                            <Typography sx={{ fontSize: 15 }}>No Item For Approval</Typography>
-                                                        </CssVarsProvider>
-                                                    </Box> : null
-                                                }
-                                                <ApprovalCompntAll
-                                                    heading="Incharge Approval"
-                                                    approve={approve}
-                                                    reject={reject}
-                                                    pending={pending}
-                                                    remark={remark}
-                                                    detailAnalis={detailAnalis}
-                                                    updatedetailAnalis={updatedetailAnalis}
-                                                    updateRemark={updateRemark}
-                                                    updateApprove={updateApprove}
-                                                    updateReject={updateReject}
-                                                    updatePending={updatePending}
-                                                />
-                                            </Box>
-                                        }
+                                        No items Approved
                                     </Box>
-                                </Box>
-                            </Paper>
+                                }
+                            </Box>
                         </Box>
-                    </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Button color="secondary" onClick={submit} >Save</Button>
-                    <Button onClick={ModalClose} color="secondary" >Cancel</Button>
-                </DialogActions>
-            </Dialog>
-        </Fragment>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <Box sx={{ py: 0.5, pr: 0.5 }}>
+                                <ModalButtomCmp
+                                    handleChange={submit}
+                                > Save</ModalButtomCmp>
+                            </Box>
+                            <Box sx={{ py: 0.5, pr: 2 }}>
+                                <ModalButtomCmp
+                                    handleChange={closeModal}
+                                > Cancel</ModalButtomCmp>
+                            </Box>
+                        </Box>
+                    </ModalDialog>
+                </Modal>
+            </CssVarsProvider >
+        </Fragment >
     )
 }
-
-export default memo(CrmInchargeModal) 
+export default memo(CrmInchargeModal)

@@ -12,7 +12,6 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
         if (images.length !== 0) {
             const disimage = images.map((val) => {
                 const parts = val.split('/');
-                // console.log(parts);
                 const fileNamePart = parts[parts.length - 1];
                 const obj = {
                     imageName: fileNamePart,
@@ -24,7 +23,6 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
         }
     }, [images])
 
-    // console.log("disArry", disArry);
     return (
         <CssVarsProvider>
             <Modal aria-labelledby="modal-title"
