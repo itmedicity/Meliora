@@ -13,7 +13,7 @@ import imageCompression from 'browser-image-compression';
 import CloseIcon from '@mui/icons-material/Close';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import CardMaster from 'src/views/Components/CardMaster';
-import ImageDisplayModal from 'src/views/CentralRequestManagement/CRFRequestMaster/ImageDisplayModal';
+import ImageDisplayModal from 'src/views/CentralRequestManagement/ComonComponent/ImageUploadCmp/ImageDisplayModal';
 import BillAddMastTable from './BillAddMastTable';
 import SupplierSelectMaster from './SupplierSelectMaster';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';

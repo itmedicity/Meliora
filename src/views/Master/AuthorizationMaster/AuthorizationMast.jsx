@@ -85,7 +85,6 @@ const AuthorizationMast = () => {
                 infoNotify(message)
             }
         }
-
         if (post !== 0) {
             InsertAuthorization(postData)
         } else {

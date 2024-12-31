@@ -16,7 +16,7 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import SupplierSelectMaster from './SupplierSelectMaster';
 import AMCCMCAddingModal from './AMCCMCAddingModal';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import ImageDisplayModal from 'src/views/CentralRequestManagement/CRFRequestMaster/ImageDisplayModal';
+import ImageDisplayModal from 'src/views/CentralRequestManagement/ComonComponent/ImageUploadCmp/ImageDisplayModal';
 import AmcCmcAdding from './AmcCmcAdding';
 
 const AMCCMCDetailAdding = ({ detailArry, amcPm, setAmcPm, amcPmarry }) => {

@@ -43,8 +43,8 @@ const EquipmentMast = () => {
         history.push('/Home/Settings')
     }, [history])
     useEffect(() => {
-        dispatch(getQltyDept())
-    }, [dispatch])
+        dispatch(getQltyDept(id))
+    }, [dispatch, id])
     const OnChangeProc = useCallback((e) => {
         setproSearch(e.target.value)
         setproFlag(0)
