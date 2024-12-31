@@ -284,10 +284,19 @@ const CrfHodApproval = () => {
             })
             setPendingData(pendingList)
 
-            const doneList = hod?.filter((val) => {
+
+            if (pendingList.length !== 0) {
+                setPendingData(pendingList)
+            }
+            else {
+                setPendingData([])
+                //warningNotify("No CRF For Pending")
+            }
+            const DoneList = getAllDta?.filter((val) => {
                 return val.hod_approve !== null || val.manag_operation_approv !== null ||
                     val.senior_manage_approv !== null || val.gm_approve !== null ||
-                    val.ed_approve !== null || val.md_approve !== null || val.hod_approve == null
+                    val.ed_approve !== null || val.md_approve !== null || val.hod_approve === null
+
             })
             setDoneData(doneList)
         }
@@ -325,6 +334,7 @@ const CrfHodApproval = () => {
 
     if (isInchargeLoading || isAuthLoading) return <p>Loading...</p>;
     if (inchargeError || authError) return <p>Error occurred.</p>;
+
     return (
         <Fragment>
             {ApprovalFlag === 2 ?
