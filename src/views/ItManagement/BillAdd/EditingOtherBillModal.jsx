@@ -522,7 +522,7 @@ const EditingOtherBillModal = ({ editOpen, billDataother, seteditFlag, seteditOp
                             </Box>
                             <Box sx={{ flex: 1, mx: 2 }}>
                                 <TextFieldCustom
-                                    placeholder="$0.00"
+                                    placeholder="₹0.00"
                                     type="text"
                                     size="sm"
                                     name="billamount"
