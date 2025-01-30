@@ -7,7 +7,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ReqImageDisModal from './ImageUploadCmp/ReqImageDisModal'
 import CustomLoadComp from './Components/CustomLoadComp'
-const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
+const CrfReqDetailViewCmp = ({ ApprovalData, imagearray, selectedCompany }) => {
     const { req_slno, req_date, actual_requirement, needed, expected_date, image_status } = ApprovalData
 
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -59,15 +59,15 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
                 {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
                     previewFile={previewFile} /> : null}</Suspense>
 
-            <Box sx={{ mx: 0.5 }}>
+            {/* <Box sx={{ mx: 0.5 }}>
                 <Typography sx={{ fontWeight: 550, fontSize: 17, color: '#607d8b', fontFamily: 'system-ui', pl: 0.5 }}>
                     CRF Details</Typography>
-            </Box>
+            </Box> */}
             {ApprovalData.length !== 0 ?
                 <Paper variant="outlined" sx={{ flexWrap: 'wrap', mx: 0.6 }}>
                     <Box sx={{ padding: 1, borderRadius: 2, }}>
                         <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 0.5, color: '#145DA0', fontSize: 14 }}>
-                            CRF/TMC/  {req_slno}
+                            {selectedCompany === '2' ? 'CRF/KMC/' + req_slno : 'CRF/TMC/' + req_slno}
                         </Typography>
                         <Box sx={{ display: 'flex' }}>
                             <Box sx={{ display: 'flex', pt: 0.4, flex: 1 }}>

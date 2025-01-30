@@ -101,55 +101,55 @@ const StoreModalView = ({ modalData, handleClose, open, datacolData, imagearray,
                                         </Typography>
                                         <Grid container spacing={0.5} sx={{ flexGrow: 1, }}>
                                             {incharge_approve === 1 && incharge_remarks !== null ?
-                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                     <CommonInchargeReqCmp DetailViewData={modalData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {hod_req === 1 && hod_approve !== null ?
-                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                     <CommonHodApprvCmp DetailViewData={modalData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {dms_req === 1 && dms_approve !== null ?
-                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                     <CommonDmsApprvCmp DetailViewData={modalData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {ms_approve_req === 1 && ms_approve !== null ?
-                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                     <CommonMsApprvCmp DetailViewData={modalData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {manag_operation_req === 1 && manag_operation_approv !== null ?
-                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                     <CommonMoApprvlCmp DetailViewData={modalData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {senior_manage_req === 1 && senior_manage_approv !== null ?
-                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                     <CommonSmoApprvCmp DetailViewData={modalData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {gm_approve_req === 1 && gm_approve !== null ?
-                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                     <CommonGmapprvCmp DetailViewData={modalData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {md_approve_req === 1 && md_approve !== null ?
-                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                     <CommonMdApprvCmp DetailViewData={modalData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {ed_approve_req === 1 && ed_approve !== null ?
-                                                <Grid xs={12} sm={12} md={12} lg={12} xl={6} sx={{ pl: 0.5 }}>
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                     <CommonEdapprvCmp DetailViewData={modalData} />
                                                 </Grid>
                                                 : null
@@ -172,25 +172,25 @@ const StoreModalView = ({ modalData, handleClose, open, datacolData, imagearray,
                                     </Typography>
                                     <Grid container spacing={0.5} sx={{ flexGrow: 1, }}>
                                         {ack_status === 1 ?
-                                            <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                            <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                 <PoAcknowComp poData={modalData} />
                                             </Grid>
                                             : null
                                         }
                                         {quatation_calling_status === 1 ?
-                                            <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                            <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                 <QuotationCallComp poData={modalData} />
                                             </Grid>
                                             : null
                                         }
                                         {quatation_negotiation === 1 ?
-                                            <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                            <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                 <QuotationNegoComp poData={modalData} />
                                             </Grid>
                                             : null
                                         }
                                         {quatation_fixing === 1 ?
-                                            <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                            <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                 <QuotationFinalComp poData={modalData} />
                                             </Grid>
                                             : null
@@ -207,7 +207,7 @@ const StoreModalView = ({ modalData, handleClose, open, datacolData, imagearray,
                                         </> : null}
                                     {po_complete === 1 ?
                                         <Box sx={{ display: 'flex', pt: 0.5, }}>
-                                            <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.7 }}>
+                                            <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
                                                 Purchase Order&apos;s Completed
                                             </Typography>
                                             : &nbsp;        <Box sx={{ flex: 1, display: 'flex' }}>
@@ -229,7 +229,7 @@ const StoreModalView = ({ modalData, handleClose, open, datacolData, imagearray,
                                     }
                                     {po_to_supplier === 1 ?
                                         <Box sx={{ display: 'flex', pt: 0.5, }}>
-                                            <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.7 }}>
+                                            <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
                                                 CRF Acknowledgement
                                             </Typography>
                                             : &nbsp;      <Box sx={{ flex: 1, display: 'flex' }}>
@@ -247,7 +247,7 @@ const StoreModalView = ({ modalData, handleClose, open, datacolData, imagearray,
                                     }
                                     {store_recieve === 1 || store_recieve === 0 ?
                                         <Box sx={{ display: 'flex', pt: 0.5, }}>
-                                            <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.7 }}>
+                                            <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
                                                 Received in CRS Store
                                             </Typography>
                                             : &nbsp;     <Box sx={{ flex: 1, display: 'flex' }}>

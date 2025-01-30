@@ -1,6 +1,6 @@
 
 import { Box, Divider, FormControl, Radio, RadioGroup } from '@mui/joy'
-import { keyframes } from '@mui/material'
+import { keyframes, Paper } from '@mui/material'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import ReceivedTable from '../Components/ReceivedTable'
 import NotReceivedTable from '../Components/NotReceivedTable'
@@ -29,11 +29,17 @@ const CrfReqstTableView = ({ rowSelect }) => {
         queryFn: () => getCrfRegDetailByDepSec(empsecid),
         enabled: empsecid !== null,
     });
-
     useEffect(() => {
         if (crfDetails && crfDetails.length > 0) {
-            const datas = crfDetails?.map((val) => {
-                const obj = {
+            // const datas = crfDetails?.map((val) => {
+            //     return {
+
+            //     }
+            // })
+            const datas = crfDetails
+                .filter((val, index, self) =>
+                    index === self.findIndex((value) => value.req_slno === val.req_slno))
+                .map((val) => ({
                     req_status: val.req_status,
                     req_slno: val.req_slno,
                     actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Nil',
@@ -55,7 +61,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
                     image_status: val.image_status,
                     req_date: val.create_date,
                     expected_date: val.expected_date,
-                    status: val.rm_ndrf === 1 ? "NDRF" : "CRF",
+                    internally_arranged_status: val.internally_arranged_status,
                     crf_close: val.crf_close,
                     crf_close_remark: val.crf_close_remark,
                     crf_closed_one: val.crf_closed_one,
@@ -80,7 +86,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
                     dms_req: val.dms_req,
                     dms_approve: val.dms_approve,
                     dms: val.dms_approve === 1 ? "Approved" : val.dms_approve === 2 ? "Rejected" :
-                        val.dms_approve === 3 ? "On-Hold" : "Not Done",
+                        val.dms_approve === 3 ? "On-Hold" : val.dms_approve === 4 ? "Approved" : "Not Done",
                     dms_remarks: val.dms_remarks !== null ? val.dms_remarks : "Not Updated",
                     dms_detail_analysis: val.dms_detail_analysis,
                     dms_approve_date: val.dms_approve_date,
@@ -88,7 +94,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
                     ms_approve_req: val.ms_approve_req,
                     ms_approve: val.ms_approve,
                     ms: val.ms_approve === 1 ? "Approved" : val.ms_approve === 2 ? "Rejected" :
-                        val.ms_approve === 3 ? "On-Hold" : "Not Done",
+                        val.ms_approve === 3 ? "On-Hold" : val.ms_approve === 4 ? "Approved" : "Not Done",
                     ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : "Not Updated",
                     ms_detail_analysis: val.ms_detail_analysis,
                     ms_approve_date: val.ms_approve_date,
@@ -96,7 +102,8 @@ const CrfReqstTableView = ({ rowSelect }) => {
                     manag_operation_req: val.manag_operation_req,
                     manag_operation_approv: val.manag_operation_approv,
                     om: val.manag_operation_approv === 1 ? "Approved" : val.manag_operation_approv === 2 ? "Rejected" :
-                        val.manag_operation_approv === 3 ? "On-Hold" : "Not Done",
+                        val.manag_operation_approv === 3 ? "On-Hold" : val.manag_operation_approv === 4 ? "Approved"
+                            : "Not Done",
                     manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : "Not Updated",
                     om_detial_analysis: val.om_detial_analysis,
                     om_approv_date: val.om_approv_date,
@@ -104,7 +111,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
                     senior_manage_req: val.senior_manage_req,
                     senior_manage_approv: val.senior_manage_approv,
                     smo: val.senior_manage_approv === 1 ? "Approved" : val.senior_manage_approv === 2 ? "Rejected" :
-                        val.senior_manage_approv === 3 ? "On-Hold" : "Not Done",
+                        val.senior_manage_approv === 3 ? "On-Hold" : val.senior_manage_approv === 4 ? "Approved" : "Not Done",
                     senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : "Not Updated",
                     smo_detial_analysis: val.smo_detial_analysis,
                     som_aprrov_date: val.som_aprrov_date,
@@ -112,7 +119,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
                     gm_approve_req: val.gm_approve_req,
                     gm_approve: val.gm_approve,
                     gm: val.gm_approve === 1 ? "Approved" : val.gm_approve === 2 ? "Rejected" :
-                        val.gm_approve === 3 ? "On-Hold" : "Not Done",
+                        val.gm_approve === 3 ? "On-Hold" : val.gm_approve === 4 ? "Approved" : "Not Done",
                     gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : "Not Updated",
                     gm_detial_analysis: val.gm_detial_analysis,
                     gm_approv_date: val.gm_approv_date,
@@ -120,7 +127,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
                     md_approve_req: val.md_approve_req,
                     md_approve: val.md_approve,
                     md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Rejected" :
-                        val.md_approve === 3 ? "On-Hold" : "Not Done",
+                        val.md_approve === 3 ? "On-Hold" : val.md_approve === 4 ? "Approved" : "Not Done",
                     md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : "Not Updated",
                     md_detial_analysis: val.md_detial_analysis,
                     md_approve_date: val.md_approve_date,
@@ -128,26 +135,38 @@ const CrfReqstTableView = ({ rowSelect }) => {
                     ed_approve_req: val.ed_approve_req,
                     ed_approve: val.ed_approve,
                     ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Rejected" :
-                        val.ed_approve === 3 ? "On-Hold" : "Not Done",
+                        val.ed_approve === 3 ? "On-Hold" : val.ed_approve === 4 ? "Approved" : "Not Done",
                     ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
                     ed_detial_analysis: val.ed_detial_analysis,
                     ed_approve_date: val.ed_approve_date,
                     ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
+
+                    managing_director_req: val.managing_director_req,
+                    managing_director_approve: val.managing_director_approve,
+                    managing: val.managing_director_approve === 1 ? "Approved" : val.managing_director_approve === 2 ? "Rejected" :
+                        val.managing_director_approve === 3 ? "On-Hold" : val.managing_director_approve === 4 ? "Approved" : "Not Done",
+                    managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : "",
+                    managing_director_analysis: val.managing_director_analysis,
+                    managing_director_approve_date: val.managing_director_approve_date,
+                    managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
+
                     now_who: val.req_status === 'C' ? "CRF Closed" :
                         val.sub_store_recieve === 1 ? "Received in " + val.sub_store_name :
-                            val.store_recieve === 1 ? "All Item Received in CRS" :
-                                val.store_recieve === 0 ? "Partial Goods Received in CRS" :
-                                    val.po_to_supplier === 1 ? "Waiting for Goods" :
-                                        val.approval_level === 3 ? "Director's Approved" :
-                                            val.approval_level === 2 ? 'Purchase Manager Approved' :
-                                                val.approval_level === 1 ? 'Purchase Dpt Approved' :
-                                                    val.po_complete === 1 ? "PO Completed" :
-                                                        val.po_prepartion === 1 ? "PO Prepairing" :
-                                                            val.quatation_fixing === 1 ? "Quotation Fixed" :
-                                                                val.quatation_negotiation === 1 ? "Quotation Negotiation" :
-                                                                    val.quatation_calling_status === 1 ? "Quotation Calling" :
-                                                                        val.ack_status === 1 ? "Puchase Acknowledged" :
-                                                                            val.ed_approve !== null ? "ED " :
+                            // val.sub_store_recieve === 0 ? "Partial Goods Received in " + val.sub_store_name :
+                            val.store_recieve === 1 ? "Item Received in CRS" :
+                                // val.store_recieve === 0 && val.store_recieve === 1 ? "Partial Goods Received in CRS" :
+                                val.po_to_supplier === 1 ? "Waiting for Goods" :
+                                    val.approval_level === 3 ? "Director's Approved" :
+                                        val.approval_level === 2 ? 'Purchase Manager Approved' :
+                                            val.approval_level === 1 ? 'Purchase Dpt Approved' :
+                                                val.po_complete === 1 ? "PO Completed" :
+                                                    val.po_prepartion === 1 ? "PO Prepairing" :
+                                                        val.quatation_fixing === 1 ? "Quotation Fixed" :
+                                                            val.quatation_negotiation === 1 ? "Quotation Negotiation" :
+                                                                val.quatation_calling_status === 1 ? "Quotation Calling" :
+                                                                    val.ack_status === 1 ? "Puchase Acknowledged" :
+                                                                        val.managing_director_approve !== null ? "Managing Director" :
+                                                                            val.ed_approve !== null ? "ED" :
                                                                                 val.md_approve !== null ? "MD" :
                                                                                     val.gm_approve !== null ? "GM" :
                                                                                         val.senior_manage_approv !== null ? "SMO" :
@@ -170,16 +189,17 @@ const CrfReqstTableView = ({ rowSelect }) => {
                                                             val.quatation_negotiation === 1 ? 5 :
                                                                 val.quatation_calling_status === 1 ? 5 :
                                                                     val.ack_status === 1 ? 5 :
-                                                                        val.ed_approve !== null ? val.ed_approve :
-                                                                            val.md_approve !== null ? val.md_approve :
-                                                                                val.gm_approve !== null ? val.gm_approve :
-                                                                                    val.senior_manage_approv !== null ? val.senior_manage_approv :
-                                                                                        val.manag_operation_approv !== null ? val.manag_operation_approv :
-                                                                                            val.ms_approve !== null ? val.ms_approve :
-                                                                                                val.dms_approve !== null ? val.dms_approve :
-                                                                                                    val.hod_approve !== null ? val.hod_approve :
-                                                                                                        val.incharge_approve !== null ? val.incharge_approve :
-                                                                                                            0,
+                                                                        val.managing_director_approve !== null ? val.managing_director_approve :
+                                                                            val.ed_approve !== null ? val.ed_approve :
+                                                                                val.md_approve !== null ? val.md_approve :
+                                                                                    val.gm_approve !== null ? val.gm_approve :
+                                                                                        val.senior_manage_approv !== null ? val.senior_manage_approv :
+                                                                                            val.manag_operation_approv !== null ? val.manag_operation_approv :
+                                                                                                val.ms_approve !== null ? val.ms_approve :
+                                                                                                    val.dms_approve !== null ? val.dms_approve :
+                                                                                                        val.hod_approve !== null ? val.hod_approve :
+                                                                                                            val.incharge_approve !== null ? val.incharge_approve :
+                                                                                                                0,
 
                     hod_image: val.hod_image,
                     dms_image: val.dms_image,
@@ -189,7 +209,8 @@ const CrfReqstTableView = ({ rowSelect }) => {
                     gm_image: val.gm_image,
                     md_image: val.md_image,
                     ed_image: val.ed_image,
-
+                    managing_director_image: val.managing_director_image,
+                    approval_level: val.approval_level,
                     ack_status: val.ack_status,
                     ack_remarks: val.ack_remarks,
                     purchase_ackuser: val.purchase_ackuser,
@@ -220,17 +241,20 @@ const CrfReqstTableView = ({ rowSelect }) => {
                     user_ack_date: val.user_ack_date,
                     user_acknldge_remarks: val.user_acknldge_remarks === null ? 'nil' : val.user_acknldge_remarks,
                     store_receive_date: val.store_receive_date,
+                    store_receive: val.store_receive,
                     crs_user: val.crs_user,
                     store_user: val.store_user,
                     substore_ack_date: val.substore_ack_date
-                }
-                return obj
-            }).sort((a, b) => {
-                if (a.sub_store_recieve !== b.sub_store_recieve) {
-                    return b.sub_store_recieve - a.sub_store_recieve;
-                }
-                return b.req_slno - a.req_slno;
-            });
+                })).sort((a, b) => {
+                    if (a.sub_store_recieve !== b.sub_store_recieve) {
+                        return b.sub_store_recieve - a.sub_store_recieve;
+                    }
+                    if (a.store_recieve !== b.store_recieve) {
+                        return b.store_recieve - a.store_recieve;
+                    }
+                    return b.req_slno - a.req_slno;
+                });
+
             const NotuserAcklist = datas?.filter((val) => val.user_acknldge === null)
             setDisData(NotuserAcklist)
             const userAcklist = datas?.filter((val) => val.user_acknldge === 1)
@@ -247,9 +271,10 @@ const CrfReqstTableView = ({ rowSelect }) => {
 
     if (isCrfDetailsLoading) return <p>Loading...</p>;
     if (crfDetailsError) return <p>Error occurred.</p>;
+
     return (
         <Box sx={{ height: window.innerHeight - 150, bgcolor: 'white' }}>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 1, border: '1px solid lightgrey', borderBottom: 'none' }}>
+            <Paper sx={{ display: 'flex', flexWrap: 'wrap', p: 1 }}>
                 <FormControl>
                     <RadioGroup name="radio-buttons-group" size='lg'
                         value={radiovalue} orientation="horizontal"
@@ -296,14 +321,14 @@ const CrfReqstTableView = ({ rowSelect }) => {
                                 />
                             </Box>
                             <Box sx={{ pr: 2, fontSize: 13, pl: 1, pt: 0.4 }}>Acknowledgment of Requested CRF</Box>
-                            <Box sx={{ bgcolor: '#e0f2f1', height: 20, width: 20, border: '1px solid lightgrey', borderRadius: 20 }}></Box>
+                            <Box sx={{ bgcolor: '#BFD7ED', height: 20, width: 20, border: '1px solid lightgrey', borderRadius: 20 }}></Box>
                             <Box sx={{ pr: 2, fontSize: 13, pl: 1, pt: 0.2 }}>Received in CRS</Box>
-                            <Box sx={{ bgcolor: '#c8e6c9', height: 20, width: 20, border: '1px solid lightgrey', borderRadius: 20 }}></Box>
+                            <Box sx={{ bgcolor: '#B1D8B7', height: 20, width: 20, border: '1px solid lightgrey', borderRadius: 20 }}></Box>
                             <Box sx={{ pl: 1, fontSize: 13, pt: 0.2 }}>Received in Store</Box>
                         </Box>
                         : null
                 }
-            </Box>
+            </Paper>
             <Divider />
             <Box sx={{}}>
 

@@ -5,7 +5,7 @@ import React, { Fragment, memo, useCallback, useState } from 'react'
 import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
 import DataCollectnImageDis from './DataCollectnImageDis';
 
-const ViewOreviousDataCollctnDetails = ({ datacolData }) => {
+const ViewOreviousDataCollctnDetails = ({ datacolData, selectedCompany }) => {
 
     const { req_slno } = datacolData
     const [collImageShowFlag, setCollImageShowFlag] = useState(0)
@@ -36,7 +36,7 @@ const ViewOreviousDataCollctnDetails = ({ datacolData }) => {
     return (
         <Fragment>
             {collImageShowFlag === 1 ? <DataCollectnImageDis open={collImageShow} handleCloseCollect={handleCloseCollect}
-                dataCollSlno={dataCollSlno} req_slno={req_slno}
+                dataCollSlno={dataCollSlno} req_slno={req_slno} selectedCompany={selectedCompany}
             /> : null}
             <Paper variant="outlined" sx={{ mx: 0.5 }}>
                 <Box sx={{ display: 'flex', borderBottom: '1px solid lightgrey' }}>

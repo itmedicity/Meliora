@@ -8,7 +8,7 @@ const CustomIconButtonCmp = ({
     return (
         <IconButton
             sx={{
-                px: 2, width: '150px', border: '1px solid #bbdefb',
+                px: 2, width: '130px', border: '1px solid #bbdefb',
                 fontSize: 13, height: '37px', lineHeight: '1.2',
                 color: '#1565c0', bgcolor: 'white', borderRadius: 6,
                 '&:hover': {

@@ -1,4 +1,4 @@
-import { Box, Chip, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Tooltip, Typography } from '@mui/joy'
+import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import { Paper } from '@mui/material'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
@@ -18,6 +18,10 @@ import ClearIcon from '@mui/icons-material/Clear';
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 import moment from 'moment'
 import PoItemDetailsTable from './Component/PoItemDetailsTable'
+import PoAcknowComp from '../ComonComponent/PurchaseComp/PoAcknowComp'
+import QuotationCallComp from '../ComonComponent/PurchaseComp/QuotationCallComp'
+import QuotationNegoComp from '../ComonComponent/PurchaseComp/QuotationNegoComp'
+import QuotationFinalComp from '../ComonComponent/PurchaseComp/QuotationFinalComp'
 const PoAddModalView = React.lazy(() => import("./Component/PoAddModalView"))
 const CrfReqDetailViewCmp = React.lazy(() => import("../ComonComponent/CrfReqDetailViewCmp"))
 const ReqItemDisplay = React.lazy(() => import("../ComonComponent/ReqItemDisplay"))
@@ -29,12 +33,8 @@ const CrfReqDetailCmpnt = React.lazy(() => import("../CRFRequestMaster/Component
 
 const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClose, puchaseData,
     datacolflag, datacolData, imagearray, newlyApprvdItems }) => {
-    const { req_slno, md_approve, ed_approve, ack_status, ack_remarks, purchase_ackuser, ack_date,
-        quatation_calling_status, quatation_calling_remarks, quatation_calling_date, quatation_user,
-        quatation_negotiation, quatation_negotiation_remarks, quatation_negotiation_date, quatation_neguser,
-        quatation_fixing, quatation_fixing_remarks, quatation_fixing_date, quatation_fixuser,
-        po_prepartion, po_complete, crm_purchase_slno
-    } = puchaseData
+    const { req_slno, md_approve, ed_approve, ack_status, quatation_calling_status, quatation_negotiation,
+        quatation_fixing, po_prepartion, po_complete, crm_purchase_slno } = puchaseData
 
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const queryClient = useQueryClient()
@@ -222,13 +222,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
         setStoreCode('')
     }, [])
 
-    const poModalhandleClose = useCallback(() => {
-        setPurchaseState(prev => ({
-            ...prev,
-            pomodalflag: 0,
-            pomodalopen: true,
-        }))
-    }, [])
+
 
     const reset = useCallback(() => {
         poModalClose()
@@ -306,8 +300,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                     warningNotify(message);
                 }
             } catch (error) {
-                console.error("Error in purchaseInsert:", error);
-                warningNotify("An error occurred while processing your request.Try again.");
+                warningNotify("An error occurred while processing your request.Try again.", error);
             }
         };
 
@@ -323,8 +316,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                     warningNotify(message);
                 }
             } catch (error) {
-                console.error("Error in Quotation Call Update:", error);
-                warningNotify("An error occurred while processing your request.Try again.");
+                warningNotify("An error occurred while processing your request.Try again.", error);
             }
         };
         const updateQuatationNegotiatn = async (QuatationNegotnPatch) => {
@@ -339,8 +331,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                     warningNotify(message);
                 }
             } catch (error) {
-                console.error("Error in Quotation Negotiation Update:", error);
-                warningNotify("An error occurred while processing your request. Try again.");
+                warningNotify("An error occurred while processing your request. Try again.", error);
             }
         };
         const updateQuatationFixing = async (QuatationFixingPatch) => {
@@ -355,8 +346,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                     warningNotify(message);
                 }
             } catch (error) {
-                console.error("Error in Quotation Fix Update:", error);
-                warningNotify("An error occurred while processing your request. Try again.");
+                warningNotify("An error occurred while processing your request. Try again.", error);
             }
         };
         const DataCollRequestFnctn = async (postData) => {
@@ -376,8 +366,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                     warningNotify(message)
                 }
             } catch (error) {
-                console.error("Error in DataCollection:", error);
-                warningNotify("An error occurred while processing your request. Try again.");
+                warningNotify("An error occurred while processing your request. Try again.", error);
             }
         }
         const postdataDetl = podetailData?.map((val) => {
@@ -402,8 +391,6 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                 sub_store_slno: val.sub_store_slno
             }
         })
-        console.log(postdataDetl, "postdataDetl");
-
         const InsertPODetails = async (postdataDetl) => {
             try {
                 const result = await axioslogin.post('/newCRFPurchase/InsertMultiplePO', postdataDetl);
@@ -417,8 +404,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                     warningNotify(message)
                 }
             } catch (error) {
-                console.error("Error in PO Details Save:", error);
-                warningNotify("An error occurred while processing your request. Try again.");
+                warningNotify("An error occurred while processing your request. Try again.", error);
             }
         }
 
@@ -438,8 +424,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                     warningNotify(message)
                 }
             } catch (error) {
-                console.error("Error in DataCollection:", error);
-                warningNotify("An error occurred while processing your request. Try again.");
+                warningNotify("An error occurred while processing your request. Try again.", error);
             }
         }
 
@@ -497,15 +482,13 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
         poModalClose()
     }, [poModalClose])
 
-    const capitalizeWords = (str) =>
-        str ? str
-            .toLowerCase()
-            .trim()
-            .replace(/\s+/g, ' ')
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ')
-            : '';
+    const poModalhandleClose = useCallback(() => {
+        setPurchaseState(prev => ({
+            ...prev,
+            pomodalflag: 0,
+            pomodalopen: true,
+        }))
+    }, [])
     return (
         <Fragment>
             {pomodalflag === 1 ? <PoAddModalView poAddModalData={poAddModalData} pomodalopen={pomodalopen}
@@ -595,33 +578,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                 </Box>
                                 {
                                     ack_status === 1 ?
-                                        <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', mx: 0.2 }}>
-                                            <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-                                                <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.5 }}>
-                                                    Purchase Acknowledgement
-                                                </Typography>
-                                                <Box sx={{ flex: 2, }}>
-                                                    <Chip size="md" variant="outlined" sx={{
-                                                        color: '#2e7d32', height: 25, pb: 0.5,
-                                                        fontSize: 12, fontWeight: 550,
-                                                    }}>
-                                                        Yes
-                                                    </Chip>
-                                                </Box>
-                                            </Box>
-                                            <Box sx={{ display: 'flex', mx: 0.3, p: 1 }}>
-                                                <Typography sx={{ fontSize: 14, fontWeight: 550, flex: 0.5 }}>Remarks</Typography>
-                                                <Box sx={{ flex: 2, display: 'flex' }}>
-                                                    <Typography sx={{ fontSize: 14, flex: 1 }}>: &nbsp;{ack_remarks}</Typography>
-                                                    <Typography sx={{
-                                                        display: 'flex', flex: 0.5, justifyContent: 'flex-end', fontSize: 12,
-                                                        textTransform: 'capitalize', fontWeight: 550, pr: 1
-                                                    }}>{capitalizeWords(purchase_ackuser)}&nbsp; /</Typography>
-                                                    <Typography sx={{ pr: 2, display: 'flex', justifyContent: 'flex-start', fontSize: 12, fontWeight: 550 }}>
-                                                        {format(new Date(ack_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography >
-                                                </Box>
-                                            </Box>
-                                        </Paper>
+                                        <PoAcknowComp poData={puchaseData} />
                                         :
                                         <Paper variant='outlined' sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3, }} >
                                             <Box sx={{ mx: 1, mt: 1 }}>
@@ -748,35 +705,10 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                             : null}
                                     </Paper>
                                     :
-                                    <>{quatation_calling_status === 1 ?
-                                        <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
-                                            <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-                                                <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.5 }}>
-                                                    Quotation Process Started
-                                                </Typography>
-                                                <Box sx={{ flex: 2, }}>
-                                                    <Chip size="md" variant="outlined" sx={{
-                                                        color: '#2e7d32', height: 25, pb: 0.5,
-                                                        fontSize: 12, fontWeight: 550,
-                                                    }}>
-                                                        Yes
-                                                    </Chip>
-                                                </Box>
-                                            </Box>
-                                            <Box sx={{ display: 'flex', mx: 0.3, p: 1 }}>
-                                                <Typography sx={{ fontSize: 14, fontWeight: 550, flex: 0.5 }}>Remarks</Typography>
-                                                <Box sx={{ flex: 2, display: 'flex' }}>
-                                                    <Typography sx={{ fontSize: 14, flex: 1 }}>: &nbsp;{quatation_calling_remarks}</Typography>
-                                                    <Typography sx={{
-                                                        display: 'flex', flex: 0.5, justifyContent: 'flex-end', fontSize: 12,
-                                                        textTransform: 'capitalize', fontWeight: 550, pr: 1
-                                                    }}>{capitalizeWords(quatation_user)}&nbsp; /</Typography>
-                                                    <Typography sx={{ pr: 2, display: 'flex', justifyContent: 'flex-start', fontSize: 12, fontWeight: 550 }}>
-                                                        {format(new Date(quatation_calling_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography >
-                                                </Box>
-                                            </Box>
-                                        </Paper>
-                                        : null}
+                                    <>
+                                        {quatation_calling_status === 1 ?
+                                            <QuotationCallComp poData={puchaseData} />
+                                            : null}
                                     </>
                                 }
                                 {quatation_calling_status === 1 && quatation_negotiation !== 1 ?
@@ -817,33 +749,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                             : null}
                                     </Paper> :
                                     <> {quatation_negotiation === 1 ?
-                                        <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
-                                            <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-                                                <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.5 }}>
-                                                    Negotiation Started
-                                                </Typography>
-                                                <Box sx={{ flex: 2, }}>
-                                                    <Chip size="md" variant="outlined" sx={{
-                                                        color: '#2e7d32', height: 25, pb: 0.5,
-                                                        fontSize: 12, fontWeight: 550,
-                                                    }}>
-                                                        Yes
-                                                    </Chip>
-                                                </Box>
-                                            </Box>
-                                            <Box sx={{ display: 'flex', mx: 0.3, p: 1 }}>
-                                                <Typography sx={{ fontSize: 14, fontWeight: 550, flex: 0.5 }}>Remarks</Typography>
-                                                <Box sx={{ flex: 2, display: 'flex' }}>
-                                                    <Typography sx={{ fontSize: 14, flex: 1 }}>: &nbsp;{quatation_negotiation_remarks}</Typography>
-                                                    <Typography sx={{
-                                                        display: 'flex', flex: 0.5, justifyContent: 'flex-end', fontSize: 12,
-                                                        textTransform: 'capitalize', fontWeight: 550, pr: 1
-                                                    }}>{capitalizeWords(quatation_neguser)}&nbsp; /</Typography>
-                                                    <Typography sx={{ pr: 2, display: 'flex', justifyContent: 'flex-start', fontSize: 12, fontWeight: 550 }}>
-                                                        {format(new Date(quatation_negotiation_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography >
-                                                </Box>
-                                            </Box>
-                                        </Paper>
+                                        <QuotationNegoComp poData={puchaseData} />
                                         : null}
                                     </>
                                 }
@@ -886,33 +792,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                     </Paper>
                                     : <>
                                         {quatation_fixing === 1 ?
-                                            <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
-                                                <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-                                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.5 }}>
-                                                        Quotation&apos;s Finalizations / Approvals
-                                                    </Typography>
-                                                    <Box sx={{ flex: 2, }}>
-                                                        <Chip size="md" variant="outlined" sx={{
-                                                            color: '#2e7d32', height: 25, pb: 0.5,
-                                                            fontSize: 12, fontWeight: 550,
-                                                        }}>
-                                                            Yes
-                                                        </Chip>
-                                                    </Box>
-                                                </Box>
-                                                <Box sx={{ display: 'flex', mx: 0.3, p: 1 }}>
-                                                    <Typography sx={{ fontSize: 14, fontWeight: 550, flex: 0.5 }}>Remarks</Typography>
-                                                    <Box sx={{ flex: 2, display: 'flex' }}>
-                                                        <Typography sx={{ fontSize: 14, flex: 1 }}>: &nbsp;{quatation_fixing_remarks}</Typography>
-                                                        <Typography sx={{
-                                                            display: 'flex', flex: 0.5, justifyContent: 'flex-end', fontSize: 12,
-                                                            textTransform: 'capitalize', fontWeight: 550, pr: 1
-                                                        }}>{capitalizeWords(quatation_fixuser)}&nbsp; /</Typography>
-                                                        <Typography sx={{ pr: 2, display: 'flex', justifyContent: 'flex-start', fontSize: 12, fontWeight: 550 }}>
-                                                            {format(new Date(quatation_fixing_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography >
-                                                    </Box>
-                                                </Box>
-                                            </Paper>
+                                            <QuotationFinalComp poData={puchaseData} />
                                             : null}
                                     </>
                                 }
@@ -920,7 +800,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                 {po_prepartion === 1 ?
                                     <Box sx={{ width: "100%" }}>
                                         <Typography sx={{
-                                            fontWeight: 'bold', p: 1, color: '#145DA0',
+                                            fontWeight: 'bold', px: 1, py: 0.5, color: '#145DA0',
                                             fontSize: 14, flex: 0.5,
                                         }}>
                                             Added PO
@@ -977,14 +857,6 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                                     input: { max: moment(new Date()).format('YYYY-MM-DD') }
                                                 }}
                                             />
-                                            {/* <CustomInputDateCmp
-                                                className={{ ml: 0.5 }}
-                                                size={'sm'}
-                                                type={'date'}
-                                                name={'po_date'}
-                                                value={po_date}
-                                                handleChange={updatePoDetails}
-                                            /> */}
                                         </Box>
                                         <Box sx={{ flex: 1, }}>
                                             <CustomPaperTitle heading="CRS Store" mandtry={1} />

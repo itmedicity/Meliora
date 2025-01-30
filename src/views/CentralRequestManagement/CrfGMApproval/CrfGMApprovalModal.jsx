@@ -27,7 +27,7 @@ import CommonSmoApprvCmp from '../ComonComponent/ApprovalComp/CommonSmoApprvCmp'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 
 const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
-    datacolflag, datacolData, imagearray }) => {
+    datacolflag, datacolData, imagearray, selectedCompany }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve,
         ms_approve_req, manag_operation_approv, senior_manage_approv, gm_approve, gm_approve_remarks, gm_detial_analysis,
         gm_image
@@ -46,12 +46,13 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
         approve: gm_approve === 1 ? true : false,
         reject: gm_approve === 2 ? true : false,
         pending: gm_approve === 3 ? true : false,
+        internallyArr: gm_approve === 4 ? true : false,
         remark: gm_approve_remarks !== null ? gm_approve_remarks : '',
         detailAnalis: gm_detial_analysis !== null ? gm_detial_analysis : '',
         datacollFlag: false,
         datacolectremark: ''
     });
-    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark } = apprvlDetails
+    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr } = apprvlDetails
     const updateOnchangeState = useCallback((e) => {
         const { name, type, value, checked } = e.target;
         setApprvlDetails((prev) => ({
@@ -66,6 +67,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
             approve: type === 'approve',
             reject: type === 'reject',
             pending: type === 'pending',
+            internallyArr: type === 'internallyArr'
         }));
     }, []);
 
@@ -88,6 +90,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                 approve: false,
                 reject: false,
                 pending: false,
+                internallyArr: false,
                 datacollFlag: false,
                 datacolectremark: ''
             }));
@@ -113,7 +116,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
 
     const GMPatchData = useMemo(() => {
         return {
-            gm_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            gm_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : internallyArr === true ? 4 : null,
             gm_user: id,
             req_slno: req_slno,
             gm_approv_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
@@ -126,7 +129,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                 }
             })
         }
-    }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData])
+    }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData, internallyArr])
 
     const submit = useCallback(() => {
         if (editEnable === 1) {
@@ -195,11 +198,12 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                 DataCollRequestFnctn(postData);
                 return;
             }
-            if (!approve && !reject && !pending) {
+            if (!approve && !reject && !pending && !internallyArr) {
                 warningNotify("Select any status");
                 return;
             }
-            if ((approve && detailAnalis && remark) || ((reject || pending) && remark)) {
+
+            if ((approve && detailAnalis && remark) || ((reject || pending || internallyArr) && remark)) {
                 updateGmApproval(GMPatchData).then((val) => {
                     const { success, message } = val;
                     if (success !== 1) {
@@ -230,7 +234,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
             }
         }
     }, [
-        approve, reject, pending, remark, detailAnalis, GMPatchData, reset, datacollFlag, editEnable,
+        approve, reject, pending, remark, detailAnalis, GMPatchData, reset, datacollFlag, editEnable, internallyArr,
         queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload
     ]);
 
@@ -295,7 +299,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                             }}
                         />
                         <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
-                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} />
+                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} selectedCompany={selectedCompany} />
                             <Box sx={{ overflow: 'auto', pt: 0.5 }}>
                                 {reqItems.length !== 0 ?
                                     <ReqItemDisplay reqItems={reqItems} /> : null
@@ -320,27 +324,27 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                     }
                                     {hod_req === 1 && hod_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonHodApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonHodApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
                                         </Box>
                                         : null}
                                     {dms_req === 1 && dms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
                                         </Box>
                                         : null}
                                     {ms_approve_req === 1 && ms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMsApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonMsApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
                                         </Box>
                                         : null}
                                     {manag_operation_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMoApprvlCmp DetailViewData={ApprovalData} />
+                                            <CommonMoApprvlCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
                                         </Box>
                                         : null}
                                     {senior_manage_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonSmoApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonSmoApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
                                         </Box>
                                         : null}
                                 </Box>
@@ -396,38 +400,30 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                     :
                                     <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap' }} >
                                         {approveTableData.length !== 0 ?
-                                            <>
-                                                <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
-                                                    setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
-                                                    header='GM' apprvLevel={7} />
-                                                <Box sx={{ pl: 0.5 }}>
-                                                    <CustomIconButtonCmp
-                                                        handleChange={AddItems}>
-                                                        Add Items
-                                                    </CustomIconButtonCmp>
-                                                </Box>
-                                                {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                                    setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
-                                                /> : null}
-                                                <ApprovalCompntAll
-                                                    heading="GM Operation / Senior Manager Approval"
-                                                    apprvlDetails={apprvlDetails}
-                                                    updateOnchangeState={updateOnchangeState}
-                                                    updateApprovalState={updateApprovalState}
-                                                    imageCheck={gm_image}
-                                                    selectFile={selectFile}
-                                                    setSelectFile={setSelectFile}
-                                                    uploadedImages={uploadedImages}
-                                                />
-                                            </>
+                                            <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
+                                                setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
+                                                header='GM' apprvLevel={7} />
                                             : null
-                                            // <Box sx={{
-                                            //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                            //     pt: 10, color: 'grey'
-                                            // }}>
-                                            //     No items Approved
-                                            // </Box>
                                         }
+                                        <Box sx={{ pl: 0.5 }}>
+                                            <CustomIconButtonCmp
+                                                handleChange={AddItems}>
+                                                Add Items
+                                            </CustomIconButtonCmp>
+                                        </Box>
+                                        {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
+                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                        /> : null}
+                                        <ApprovalCompntAll
+                                            heading="GM Operation / Senior Manager Approval"
+                                            apprvlDetails={apprvlDetails}
+                                            updateOnchangeState={updateOnchangeState}
+                                            updateApprovalState={updateApprovalState}
+                                            imageCheck={gm_image}
+                                            selectFile={selectFile}
+                                            setSelectFile={setSelectFile}
+                                            uploadedImages={uploadedImages}
+                                        />
                                     </Box>
                                 }
                             </Box>

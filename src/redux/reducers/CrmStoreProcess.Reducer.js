@@ -1,5 +1,5 @@
 import { ActionTyps } from '../constants/action.type'
-const { FETCH_STORE_RECEIVE_PENDING, FETCH_STORE_RECEIVE_ALL, FETCH_SUBSTORE_CRF_PO } = ActionTyps;
+const { FETCH_STORE_RECEIVE_PENDING, FETCH_STORE_RECEIVE_ALL } = ActionTyps;
 
 const CRMStorePending = {
     setCRMStorePendingList: [],
@@ -30,19 +30,6 @@ export const getStoreReceiveAllReducer = (state = CRMStoreAllData, { type, paylo
 }
 
 
-const CRFSubstoreView = {
-    CRFSubstore: [],
-    loadingStatus: false
-}
-export const getCrfPOStorReducer = (state = CRFSubstoreView, { type, payload }) => {
-    switch (type) {
-        case FETCH_SUBSTORE_CRF_PO:
-            return { ...state, CRFSubstore: payload, loadingStatus: true }
-        default:
-            return state
-    }
-
-}
 // const GrnDetails = {
 //     setGrnDetails: [],
 //     loadingStatus: false

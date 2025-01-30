@@ -4,11 +4,11 @@ import Sheet from '@mui/joy/Sheet';
 import { CssVarsProvider } from '@mui/joy';
 import { Box } from '@mui/material'
 import Button from '@mui/joy/Button';
-import { axioslogin } from 'src/views/Axios/Axios';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
+import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
 
 
-const DataCollectnImageDis = ({ open, handleCloseCollect, dataCollSlno, req_slno }) => {
+const DataCollectnImageDis = ({ open, handleCloseCollect, dataCollSlno, req_slno, selectedCompany }) => {
     const postdata = useMemo(() => {
         return {
             req_slno: req_slno,
@@ -19,19 +19,31 @@ const DataCollectnImageDis = ({ open, handleCloseCollect, dataCollSlno, req_slno
     const [imagearray, setImageArry] = useState([])
     useEffect(() => {
         const getImage = async (postdata) => {
-            const result = await axioslogin.post('/newCRFRegisterImages/crf/getDataCollectionImage', postdata)
-            const { success, data } = result.data
-            if (success === 1) {
-                const fileNames = data;
-                const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/datacollection/${dataCollSlno}/${fileName}`;
-                });
-                setImageArry(fileUrls);
+            if (selectedCompany === '1') {
+                const result = await axioslogin.post('/newCRFRegisterImages/crf/getDataCollectionImage', postdata)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/datacollection/${dataCollSlno}/${fileName}`;
+                    });
+                    setImageArry(fileUrls);
+                }
+            }
+            else if (selectedCompany === '2') {
+                const result = await axioskmc.post('/newCRFRegisterImages/crf/getDataCollectionImage', postdata)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/datacollection/${dataCollSlno}/${fileName}`;
+                    });
+                    setImageArry(fileUrls);
+                }
             }
         }
-
         getImage(postdata)
-    }, [postdata, dataCollSlno, req_slno])
+    }, [postdata, dataCollSlno, req_slno, selectedCompany])
 
     useEffect(() => {
         if (imagearray.length !== 0) {

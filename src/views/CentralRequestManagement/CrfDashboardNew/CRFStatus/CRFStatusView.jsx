@@ -61,8 +61,8 @@ const CRFStatusView = ({ crfData }) => {
                     item.gm_approve === null &&
                     item.md_approve === null &&
                     item.ed_approve === null &&
-                    (item.incharge_approve === 1 || item.hod_approve === 1) &&
-                    item.req_status !== 'P' && item.req_status !== 'R'
+                    (item.incharge_approve === 1 || item.hod_approve === 1)
+                // item.req_status !== 'P' && item.req_status !== 'R'
             );
             const msPending = apprvdData?.filter(
                 (item) =>
@@ -73,8 +73,8 @@ const CRFStatusView = ({ crfData }) => {
                     item.gm_approve === null &&
                     item.md_approve === null &&
                     item.ed_approve === null &&
-                    (item.incharge_approve === 1 || item.hod_approve === 1) &&
-                    item.req_status !== 'P' && item.req_status !== 'R'
+                    (item.incharge_approve === 1 || item.hod_approve === 1)
+                // item.req_status !== 'P' && item.req_status !== 'R'
             );
             const moPending = apprvdData?.filter(
                 (item) => item.manag_operation_approv === null &&
@@ -82,8 +82,8 @@ const CRFStatusView = ({ crfData }) => {
                     item.gm_approve === null &&
                     item.md_approve === null &&
                     item.ed_approve === null &&
-                    (item.incharge_approve === 1 || item.hod_approve === 1) &&
-                    item.req_status !== 'P' && item.req_status !== 'R'
+                    (item.incharge_approve === 1 || item.hod_approve === 1)
+                // item.req_status !== 'P' && item.req_status !== 'R'
             );
             const moClinic = moPending?.filter((item) => item.dms_req === 1);
             const moNonClinic = moPending?.filter((item) => item.dms_req === 0);
@@ -93,8 +93,8 @@ const CRFStatusView = ({ crfData }) => {
                     item.gm_approve === null &&
                     item.md_approve === null &&
                     item.ed_approve === null &&
-                    (item.incharge_approve === 1 || item.hod_approve === 1) &&
-                    item.req_status !== 'P' && item.req_status !== 'R'
+                    (item.incharge_approve === 1 || item.hod_approve === 1)
+                // item.req_status !== 'P' && item.req_status !== 'R'
             );
             const smoClinic = smoPending?.filter((item) => item.dms_req === 1);
             const smoNonClinic = smoPending?.filter((item) => item.dms_req === 0);
@@ -103,24 +103,24 @@ const CRFStatusView = ({ crfData }) => {
                 (item) => item.gm_approve === null &&
                     item.md_approve === null &&
                     item.ed_approve === null &&
-                    (item.incharge_approve === 1 || item.hod_approve === 1) &&
-                    item.req_status !== 'P' && item.req_status !== 'R'
+                    (item.incharge_approve === 1 || item.hod_approve === 1)
+                // item.req_status !== 'P' && item.req_status !== 'R'
             );
             const gmClinic = gmPending?.filter((item) => item.dms_req === 1);
             const gmNonClinic = gmPending?.filter((item) => item.dms_req === 0);
 
             const mdPending = apprvdData?.filter(
                 (item) => item.md_approve === null &&
-                    (item.incharge_approve === 1 || item.hod_approve === 1) &&
-                    item.req_status !== 'P' && item.req_status !== 'R'
+                    (item.incharge_approve === 1 || item.hod_approve === 1)
+                // item.req_status !== 'P' && item.req_status !== 'R'
             );
             const mdClinic = mdPending?.filter((item) => item.dms_req === 1);
             const mdNonClinic = mdPending?.filter((item) => item.dms_req === 0);
 
             const edPending = apprvdData?.filter(
                 (item) => item.ed_approve === null &&
-                    (item.incharge_approve === 1 || item.hod_approve === 1) &&
-                    item.req_status !== 'P' && item.req_status !== 'R'
+                    (item.incharge_approve === 1 || item.hod_approve === 1)
+                // item.req_status !== 'P' && item.req_status !== 'R'
             );
             const edClinic = edPending?.filter((item) => item.dms_req === 1);
             const edNonClinic = edPending?.filter((item) => item.dms_req === 0);
@@ -281,7 +281,7 @@ const CRFStatusView = ({ crfData }) => {
     const viewPednigDetails = useCallback(async (id) => {
         const getDetails = async (id) => {
             try {
-                const result = await axioslogin.get(`/newCRFRegister/getApprvPending/Dashboard/${id}`,);
+                const result = await axioslogin.get(`/CRFDashboard/getApprvPending/Dashboard/${id}`,);
                 const { success, data, message } = result.data;
                 if (success === 1) {
                     getAllApprovalPending(setDisData, setTableData, data)
@@ -303,14 +303,14 @@ const CRFStatusView = ({ crfData }) => {
     }, []);
     return (
         <Fragment>
-            <Suspense fallback={<CustomLoadComp />}>
-                {flag === 1 ?
+            {flag === 1 ?
+                <Suspense fallback={<CustomLoadComp />}>
                     <DetailedViewofCRF setFlag={setFlag} disData={disData} setDisData={setDisData} tableData={tableData} />
-                    : <CRFStatusMainComp crfApprv={crfApprv} viewPednigDetails={viewPednigDetails} />
-                }
-            </Suspense>
+                </Suspense>
+                :
+                <CRFStatusMainComp crfApprv={crfApprv} viewPednigDetails={viewPednigDetails} />
+            }
         </Fragment>
     )
 }
-
 export default memo(CRFStatusView)

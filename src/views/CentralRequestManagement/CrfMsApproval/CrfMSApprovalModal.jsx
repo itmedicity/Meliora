@@ -24,7 +24,7 @@ import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 
 const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
-    datacolflag, datacolData, imagearray }) => {
+    datacolflag, datacolData, imagearray, selectedCompany }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve,
         ms_approve, ms_approve_remark, ms_detail_analysis, ms_image
     } = ApprovalData
@@ -42,12 +42,13 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
         approve: ms_approve === 1 ? true : false,
         reject: ms_approve === 2 ? true : false,
         pending: ms_approve === 3 ? true : false,
+        internallyArr: ms_approve === 4 ? true : false,
         remark: ms_approve_remark !== null ? ms_approve_remark : '',
         detailAnalis: ms_detail_analysis !== null ? ms_detail_analysis : '',
         datacollFlag: false,
         datacolectremark: ''
     });
-    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark } = apprvlDetails
+    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr } = apprvlDetails
     const updateOnchangeState = useCallback((e) => {
         const { name, type, value, checked } = e.target;
         setApprvlDetails((prev) => ({
@@ -62,6 +63,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
             approve: type === 'approve',
             reject: type === 'reject',
             pending: type === 'pending',
+            internallyArr: type === 'internallyArr'
         }));
     }, []);
 
@@ -84,6 +86,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                 approve: false,
                 reject: false,
                 pending: false,
+                internallyArr: false,
                 datacollFlag: false,
                 datacolectremark: ''
             }));
@@ -109,7 +112,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
 
     const MSPatchData = useMemo(() => {
         return {
-            ms_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            ms_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : internallyArr === true ? 4 : null,
             ms_approve_user: id,
             req_slno: req_slno,
             ms_approve_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
@@ -122,7 +125,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                 }
             })
         }
-    }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData])
+    }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData, internallyArr])
 
     const submit = useCallback(() => {
         if (editEnable === 1) {
@@ -192,12 +195,12 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                 return;
             }
 
-            if (!approve && !reject && !pending) {
+            if (!approve && !reject && !pending && !internallyArr) {
                 warningNotify("Select any status");
                 return;
             }
 
-            if ((approve && detailAnalis && remark) || ((reject || pending) && remark)) {
+            if ((approve && detailAnalis && remark) || ((reject || pending || internallyArr) && remark)) {
                 updateMSApproval(MSPatchData).then((val) => {
                     const { success, message } = val;
                     if (success !== 1) {
@@ -229,7 +232,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
             }
         }
     }, [
-        approve, reject, pending, remark, detailAnalis, MSPatchData, reset, datacollFlag, editEnable,
+        approve, reject, pending, remark, detailAnalis, MSPatchData, reset, datacollFlag, editEnable, internallyArr,
         queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload
     ]);
 
@@ -294,7 +297,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                             }}
                         />
                         <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
-                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} />
+                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} selectedCompany={selectedCompany} />
                             <Box sx={{ overflow: 'auto', pt: 0.5, mx: 0.3 }}>
                                 {reqItems.length !== 0 ?
                                     <ReqItemDisplay reqItems={reqItems} /> : null
@@ -319,12 +322,12 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                     }
                                     {hod_req === 1 && hod_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonHodApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonHodApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
                                         </Box>
                                         : null}
                                     {dms_req === 1 && dms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
                                         </Box>
                                         : null}
                                 </Box>
@@ -380,38 +383,30 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                     :
                                     <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap', mx: 0.3 }} >
                                         {approveTableData.length !== 0 ?
-                                            <>
-                                                <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
-                                                    setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
-                                                    header='MS' apprvLevel={4} />
-                                                <Box sx={{ pl: 0.5 }}>
-                                                    <CustomIconButtonCmp
-                                                        handleChange={AddItems}>
-                                                        Add Items
-                                                    </CustomIconButtonCmp>
-                                                </Box>
-                                                {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                                    setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
-                                                /> : null}
-                                                <ApprovalCompntAll
-                                                    heading="MS Approval"
-                                                    apprvlDetails={apprvlDetails}
-                                                    updateOnchangeState={updateOnchangeState}
-                                                    updateApprovalState={updateApprovalState}
-                                                    imageCheck={ms_image}
-                                                    selectFile={selectFile}
-                                                    setSelectFile={setSelectFile}
-                                                    uploadedImages={uploadedImages}
-                                                />
-                                            </>
+                                            <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem}
+                                                editEnable={editEnable} setEditEnable={setEditEnable}
+                                                setApproveTableData={setApproveTableData} header='MS' apprvLevel={4} />
                                             : null
-                                            // <Box sx={{
-                                            //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                            //     pt: 10, color: 'grey'
-                                            // }}>
-                                            //     No items Approved
-                                            // </Box>
                                         }
+                                        <Box sx={{ pl: 0.5 }}>
+                                            <CustomIconButtonCmp
+                                                handleChange={AddItems}>
+                                                Add Items
+                                            </CustomIconButtonCmp>
+                                        </Box>
+                                        {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
+                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                        /> : null}
+                                        <ApprovalCompntAll
+                                            heading="MS Approval"
+                                            apprvlDetails={apprvlDetails}
+                                            updateOnchangeState={updateOnchangeState}
+                                            updateApprovalState={updateApprovalState}
+                                            imageCheck={ms_image}
+                                            selectFile={selectFile}
+                                            setSelectFile={setSelectFile}
+                                            uploadedImages={uploadedImages}
+                                        />
                                     </Box>
                                 }
                             </Box>

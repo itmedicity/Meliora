@@ -41,7 +41,7 @@ const CrfHodApproval = () => {
     const [datacolflag, setDataColFlag] = useState(0)
     const [datacolData, setDataColData] = useState([])
     const [imagearray, setImageArry] = useState([])
-
+    const [selectedCompany, setSelectedCompany] = useState('1');
     const history = useHistory();
     const backtoSetting = useCallback(() => {
         history.push('/Home')
@@ -117,7 +117,7 @@ const CrfHodApproval = () => {
                     dms_req: val.dms_req,
                     dms_approve: val.dms_approve,
                     dms: val.dms_approve === 1 ? "Approved" : val.dms_approve === 2 ? "Rejected" :
-                        val.dms_approve === 3 ? "On-Hold" : "Not Done",
+                        val.dms_approve === 3 ? "On-Hold" : val.dms_approve === 4 ? "Approved" : "Not Done",
                     dms_remarks: val.dms_remarks !== null ? val.dms_remarks : "Not Updated",
                     dms_detail_analysis: val.dms_detail_analysis,
                     dms_approve_date: val.dms_approve_date,
@@ -125,7 +125,7 @@ const CrfHodApproval = () => {
                     ms_approve_req: val.ms_approve_req,
                     ms_approve: val.ms_approve,
                     ms: val.ms_approve === 1 ? "Approved" : val.ms_approve === 2 ? "Rejected" :
-                        val.ms_approve === 3 ? "On-Hold" : "Not Done",
+                        val.ms_approve === 3 ? "On-Hold" : val.ms_approve === 4 ? "Approved" : "Not Done",
                     ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : "Not Updated",
                     ms_detail_analysis: val.ms_detail_analysis,
                     ms_approve_date: val.ms_approve_date,
@@ -133,7 +133,8 @@ const CrfHodApproval = () => {
                     manag_operation_req: val.manag_operation_req,
                     manag_operation_approv: val.manag_operation_approv,
                     om: val.manag_operation_approv === 1 ? "Approved" : val.manag_operation_approv === 2 ? "Rejected" :
-                        val.manag_operation_approv === 3 ? "On-Hold" : "Not Done",
+                        val.manag_operation_approv === 3 ? "On-Hold" : val.manag_operation_approv === 4 ? "Approved"
+                            : "Not Done",
                     manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : "Not Updated",
                     om_detial_analysis: val.om_detial_analysis,
                     om_approv_date: val.om_approv_date,
@@ -141,7 +142,7 @@ const CrfHodApproval = () => {
                     senior_manage_req: val.senior_manage_req,
                     senior_manage_approv: val.senior_manage_approv,
                     smo: val.senior_manage_approv === 1 ? "Approved" : val.senior_manage_approv === 2 ? "Rejected" :
-                        val.senior_manage_approv === 3 ? "On-Hold" : "Not Done",
+                        val.senior_manage_approv === 3 ? "On-Hold" : val.senior_manage_approv === 4 ? "Approved" : "Not Done",
                     senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : "Not Updated",
                     smo_detial_analysis: val.smo_detial_analysis,
                     som_aprrov_date: val.som_aprrov_date,
@@ -149,7 +150,7 @@ const CrfHodApproval = () => {
                     gm_approve_req: val.gm_approve_req,
                     gm_approve: val.gm_approve,
                     gm: val.gm_approve === 1 ? "Approved" : val.gm_approve === 2 ? "Rejected" :
-                        val.gm_approve === 3 ? "On-Hold" : "Not Done",
+                        val.gm_approve === 3 ? "On-Hold" : val.gm_approve === 4 ? "Approved" : "Not Done",
                     gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : "Not Updated",
                     gm_detial_analysis: val.gm_detial_analysis,
                     gm_approv_date: val.gm_approv_date,
@@ -157,7 +158,7 @@ const CrfHodApproval = () => {
                     md_approve_req: val.md_approve_req,
                     md_approve: val.md_approve,
                     md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Rejected" :
-                        val.md_approve === 3 ? "On-Hold" : "Not Done",
+                        val.md_approve === 3 ? "On-Hold" : val.md_approve === 4 ? "Approved" : "Not Done",
                     md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : "Not Updated",
                     md_detial_analysis: val.md_detial_analysis,
                     md_approve_date: val.md_approve_date,
@@ -165,11 +166,21 @@ const CrfHodApproval = () => {
                     ed_approve_req: val.ed_approve_req,
                     ed_approve: val.ed_approve,
                     ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Rejected" :
-                        val.ed_approve === 3 ? "On-Hold" : "Not Done",
+                        val.ed_approve === 3 ? "On-Hold" : val.ed_approve === 4 ? "Approved" : "Not Done",
                     ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "Not Updated",
                     ed_detial_analysis: val.ed_detial_analysis,
                     ed_approve_date: val.ed_approve_date,
                     ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
+
+                    managing_director_req: val.managing_director_req,
+                    managing_director_approve: val.managing_director_approve,
+                    managing: val.managing_director_approve === 1 ? "Approved" : val.managing_director_approve === 2 ? "Rejected" :
+                        val.managing_director_approve === 3 ? "On-Hold" : val.managing_director_approve === 4 ? "Approved" : "Not Done",
+                    managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : "",
+                    managing_director_analysis: val.managing_director_analysis,
+                    managing_director_approve_date: val.managing_director_approve_date,
+                    managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
+
                     higher: val.manag_operation_approv !== null || val.senior_manage_approv !== null ||
                         val.gm_approve !== null || val.md_approve !== null ||
                         val.ed_approve !== null ? 1 :
@@ -189,16 +200,17 @@ const CrfHodApproval = () => {
                                                                 val.quatation_negotiation === 1 ? "Quotation Negotiation" :
                                                                     val.quatation_calling_status === 1 ? "Quotation Calling" :
                                                                         val.ack_status === 1 ? "Puchase Acknowledged" :
-                                                                            val.ed_approve !== null ? "ED " :
-                                                                                val.md_approve !== null ? "MD" :
-                                                                                    val.gm_approve !== null ? "GM" :
-                                                                                        val.senior_manage_approv !== null ? "SMO" :
-                                                                                            val.manag_operation_approv !== null ? "MO" :
-                                                                                                val.ms_approve !== null ? "MS" :
-                                                                                                    val.dms_approve !== null ? "DMS" :
-                                                                                                        val.hod_approve !== null ? "HOD" :
-                                                                                                            val.incharge_approve !== null ? "Incharge" :
-                                                                                                                "Not Started",
+                                                                            val.managing_director_approve !== null ? val.managing_director_approve :
+                                                                                val.ed_approve !== null ? "ED " :
+                                                                                    val.md_approve !== null ? "MD" :
+                                                                                        val.gm_approve !== null ? "GM" :
+                                                                                            val.senior_manage_approv !== null ? "SMO" :
+                                                                                                val.manag_operation_approv !== null ? "MO" :
+                                                                                                    val.ms_approve !== null ? "MS" :
+                                                                                                        val.dms_approve !== null ? "DMS" :
+                                                                                                            val.hod_approve !== null ? "HOD" :
+                                                                                                                val.incharge_approve !== null ? "Incharge" :
+                                                                                                                    "Not Started",
                     now_who_status: val.req_status === 'C' ? '' :
                         val.sub_store_recieve === 1 ? 5 :
                             val.store_receive === 1 ? 5 :
@@ -212,16 +224,17 @@ const CrfHodApproval = () => {
                                                             val.quatation_negotiation === 1 ? 5 :
                                                                 val.quatation_calling_status === 1 ? 5 :
                                                                     val.ack_status === 1 ? 5 :
-                                                                        val.ed_approve !== null ? val.ed_approve :
-                                                                            val.md_approve !== null ? val.md_approve :
-                                                                                val.gm_approve !== null ? val.gm_approve :
-                                                                                    val.senior_manage_approv !== null ? val.senior_manage_approv :
-                                                                                        val.manag_operation_approv !== null ? val.manag_operation_approv :
-                                                                                            val.ms_approve !== null ? val.ms_approve :
-                                                                                                val.dms_approve !== null ? val.dms_approve :
-                                                                                                    val.hod_approve !== null ? val.hod_approve :
-                                                                                                        val.incharge_approve !== null ? val.incharge_approve :
-                                                                                                            0,
+                                                                        val.managing_director_approve !== null ? val.managing_director_approve :
+                                                                            val.ed_approve !== null ? val.ed_approve :
+                                                                                val.md_approve !== null ? val.md_approve :
+                                                                                    val.gm_approve !== null ? val.gm_approve :
+                                                                                        val.senior_manage_approv !== null ? val.senior_manage_approv :
+                                                                                            val.manag_operation_approv !== null ? val.manag_operation_approv :
+                                                                                                val.ms_approve !== null ? val.ms_approve :
+                                                                                                    val.dms_approve !== null ? val.dms_approve :
+                                                                                                        val.hod_approve !== null ? val.hod_approve :
+                                                                                                            val.incharge_approve !== null ? val.incharge_approve :
+                                                                                                                0,
 
                     hod_image: val.hod_image,
                     dms_image: val.dms_image,
@@ -231,6 +244,7 @@ const CrfHodApproval = () => {
                     gm_image: val.gm_image,
                     md_image: val.md_image,
                     ed_image: val.ed_image,
+                    managing_director_image: val.managing_director_image,
                     ack_status: val.ack_status,
                     ack_remarks: val.ack_remarks,
                     purchase_ackuser: val.purchase_ackuser,
@@ -263,6 +277,7 @@ const CrfHodApproval = () => {
                     dept_name: val.dept_name,
                     dept_type: val.dept_type,
                     dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+                    approval_level: val.approval_level
                 }
                 return obj
             })
@@ -293,8 +308,8 @@ const CrfHodApproval = () => {
             const doneList = hod?.filter((val) => {
                 return val.hod_approve !== null || val.manag_operation_approv !== null ||
                     val.senior_manage_approv !== null || val.gm_approve !== null ||
-                    val.ed_approve !== null || val.md_approve !== null || val.hod_approve === null
-
+                    val.ed_approve !== null || val.md_approve !== null
+                // || val.hod_approve === null
             })
             setDoneData(doneList)
         }
@@ -328,6 +343,7 @@ const CrfHodApproval = () => {
         setCancelData([]);
         setCancelModal(false);
         setCancelFlag(0);
+        setSelectedCompany('1')
     }, []);
 
     if (isInchargeLoading || isAuthLoading) return <p>Loading...</p>;
@@ -341,7 +357,7 @@ const CrfHodApproval = () => {
                 : ApprovalFlag === 1 ? <CrmHodApprovalModal open={ApprovalModal} ApprovalData={ApprovalData}
                     handleClose={handleClose} reqItems={reqItems} setApproveTableData={setApproveTableData}
                     approveTableData={approveTableData} datacolflag={datacolflag} datacolData={datacolData}
-                    deptsecArry={deptsecArry} imagearray={imagearray} /> : null}
+                    deptsecArry={deptsecArry} imagearray={imagearray} selectedCompany={selectedCompany} /> : null}
 
             {cancelFlag === 1 ? <InchargeCancel open={cancelModal} handleCloseCrfClose={handleCloseCrfClose}
                 reqItems={reqItems} cancelData={cancelData} cancelledOne={'HOD'} deptsecArry={deptsecArry}
@@ -375,7 +391,7 @@ const CrfHodApproval = () => {
                                     <MasterDetailCompnt val={val} />
                                     {radiovalue === '3' ?
                                         <ClosedButtonCompnt val={val} setPoDetails={setPoDetails} setImageArry={setImageArry}
-                                            imagearray={imagearray} />
+                                            imagearray={imagearray} selectedCompany={selectedCompany} />
                                         :
                                         <ApproveButtonHOD val={val} setApprovalFlag={setApprovalFlag}
                                             setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}

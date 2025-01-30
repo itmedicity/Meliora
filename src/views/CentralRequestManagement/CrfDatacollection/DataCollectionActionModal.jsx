@@ -254,33 +254,37 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
                             <Box sx={{ pt: 0.5 }}>
                                 {reqItems.length !== 0 ?
                                     <ReqItemDisplay reqItems={reqItems} />
-                                    : <Box sx={{
-                                        display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5, color: 'grey'
-                                    }}>
-                                        No Item Requested
-                                    </Box>
+                                    :
+                                    null
+                                    // <Box sx={{
+                                    //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5, color: 'grey'
+                                    // }}>
+                                    //     No Item Requested
+                                    // </Box>
                                 }
                             </Box>
-                            <Paper variant='outlined' sx={{ mt: 0.7 }}>
+                            <Paper variant='outlined' sx={{ mt: 0.7, mx: 0.5 }}>
                                 <Typography sx={{
-                                    fontWeight: 'bold', py: 0.5, color: '#145DA0', fontSize: 14, pl: 1,
+                                    fontWeight: 'bold', py: 1, color: '#145DA0', fontSize: 14, pl: 1,
                                     borderBottom: '1px solid lightgrey'
                                 }}>
                                     Data Collection Request Details
                                 </Typography>
-                                <Box sx={{ display: 'flex' }}>
-                                    <Typography sx={{ pl: 1, fontSize: 14, flex: 0.7 }}>Requested Remarks</Typography>
-                                    <Typography sx={{ height: 30, fontSize: 14, fontWeight: 550, flex: 1 }}>
-                                        : &nbsp; {crf_req_remark}
+                                <Box sx={{ display: 'flex', pt: 1 }}>
+                                    <Typography sx={{ pl: 1, fontSize: 15, flex: 0.4 }}>Requested Remarks</Typography>
+                                    <Typography sx={{ pl: 0.5 }} >  :&nbsp;</Typography>
+                                    <Typography sx={{ height: 'auto', fontSize: 14, fontWeight: 550, flex: 1, pt: 0.2 }}>
+                                        {crf_req_remark}
                                     </Typography>
                                 </Box>
-                                <Box sx={{ display: 'flex' }}>
-                                    <Typography sx={{ pl: 1, fontSize: 14, flex: 0.7 }}>Requested by</Typography>
+                                <Box sx={{ display: 'flex', py: 1 }}>
+                                    <Typography sx={{ pl: 1, fontSize: 15, flex: 0.4 }}>Requested by</Typography>
                                     <Box sx={{ display: 'flex', flex: 1 }}>
-                                        <Typography sx={{ height: 30, fontSize: 14, fontWeight: 550 }}>
-                                            : &nbsp; {capitalizeWords(requser)}
+                                        <Typography >  :&nbsp;</Typography>
+                                        <Typography sx={{ height: 'auto', fontSize: 14, fontWeight: 550, pt: 0.3 }}>
+                                            {capitalizeWords(requser)}
                                         </Typography>
-                                        <Typography sx={{ height: 30, fontSize: 14, fontWeight: 550, pl: 2 }}>
+                                        <Typography sx={{ height: 'auto', fontSize: 14, fontWeight: 550, pl: 2, pt: 0.3 }}>
                                             {format(new Date(dc_req_date), 'dd-MM-yyyy hh:mm:ss a')}
                                         </Typography>
                                     </Box>
@@ -288,28 +292,21 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
                             </Paper>
                             <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap' }} >
                                 {approveTableData.length !== 0 ?
-                                    <>
-                                        <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
-                                            setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
-                                            approveTableData={approveTableData} />
-                                        <Box sx={{ pl: 0.5 }}>
-                                            <   CustomIconButtonCmp
-                                                handleChange={AddItems}>
-                                                Add Items
-                                            </CustomIconButtonCmp>
-                                        </Box>
-                                        {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
-                                        /> : null}
-                                    </>
+                                    <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
+                                        setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
+                                        approveTableData={approveTableData} />
                                     :
-                                    <Box sx={{
-                                        display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                        pt: 10, color: 'grey'
-                                    }}>
-                                        No items Approved
-                                    </Box>
+                                    null
                                 }
+                                <Box sx={{ pl: 0.5 }}>
+                                    <   CustomIconButtonCmp
+                                        handleChange={AddItems}>
+                                        Add Items
+                                    </CustomIconButtonCmp>
+                                </Box>
+                                {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
+                                    setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                /> : null}
                                 <Box sx={{ pt: 0.4 }}>
                                     <Typography sx={{ fontSize: 15, fontWeight: 600, flex: 1, pl: 1, pt: 0.5 }}>Remarks</Typography>
                                     <Box sx={{ pt: 0.2, flex: 1, px: 0.5 }}>
@@ -319,7 +316,6 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
                                             size="sm"
                                             minRows={2}
                                             maxRows={4}
-
                                             placeholder="type here..."
                                             value={remark}
                                             onChange={updateRemark}
@@ -457,10 +453,10 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
                                 > Cancel</ModalButtomCmp>
                             </Box>
                         </Box>
-                    </ModalDialog>
-                </Modal>
+                    </ModalDialog >
+                </Modal >
             </CssVarsProvider >
-        </Fragment>
+        </Fragment >
     )
 }
 

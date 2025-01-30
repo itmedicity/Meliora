@@ -1,12 +1,13 @@
-import { Box, Table, Tooltip, Typography } from '@mui/joy'
+import { Box, Table, Typography } from '@mui/joy'
 import React, { memo, Fragment } from 'react'
+import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF';
 
 const PoItemDetailsTable = ({ newlyApprvdItems }) => {
     return (
         <Fragment>
             {newlyApprvdItems.length !== 0 ?
                 <Box sx={{ overflow: 'auto', flexWrap: 'wrap', px: 0.5 }}>
-                    <Typography sx={{ fontWeight: 'bold', mx: 1, pb: 0.5, color: '#145DA0', fontSize: 14 }}>
+                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 1, color: '#145DA0', fontSize: 14 }}>
                         Approved Items For PO
                     </Typography>
                     <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' >
@@ -28,32 +29,8 @@ const PoItemDetailsTable = ({ newlyApprvdItems }) => {
                                 const rowColor = item.item_status_approved === 1 ? '#59981A' :
                                     item.item_status_approved === 2 ? '#D13120' :
                                         item.item_status_approved === 3 ? '#DBA40E' : null;
-
-                                const NewTooltip = ({ title, children }) => {
-                                    return (
-                                        <Tooltip
-                                            key="unique-key"
-                                            title={
-                                                <Box sx={{ bgcolor: 'white', color: '#003060', p: 1, textAlign: 'center', textTransform: 'capitalize' }}
-                                                >{title}
-                                                </Box>
-                                            }
-                                            placement="top"
-                                            arrow
-                                            sx={{
-                                                bgcolor: '#BFD7ED',
-                                                [`& .MuiTooltip-arrow`]: {
-                                                    color: 'blue',
-                                                },
-                                            }}
-                                        >
-                                            {children}
-                                        </Tooltip>
-                                    );
-                                };
-
                                 return (
-                                    <NewTooltip key={item.req_detl_slno} placement="top" title={item.item_status_approved === 1
+                                    <CustomToolTipForCRF key={item.req_detl_slno} placement="top" title={item.item_status_approved === 1
                                         ? "Approved"
                                         : item.item_status_approved === 2
                                             ? `Rejected by ${item.reject_remarks}`
@@ -74,7 +51,7 @@ const PoItemDetailsTable = ({ newlyApprvdItems }) => {
                                                     ? "Rejected " : item.item_status_approved === 3
                                                         ? "On-Hold " : null}</td>
                                         </tr>
-                                    </NewTooltip>
+                                    </CustomToolTipForCRF>
                                 );
                             })}
                         </tbody>

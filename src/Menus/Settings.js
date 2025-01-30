@@ -229,7 +229,7 @@ const Settings = () => {
                     </div>
                 </div>
             </CardContent>
-            <CardHeader title={"Request Master"}
+            <CardHeader title={"CRF Master"}
                 titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
                     backgroundColor: cardActionBgClr,

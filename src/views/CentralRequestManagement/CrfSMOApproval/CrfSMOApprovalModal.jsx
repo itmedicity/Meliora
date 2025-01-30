@@ -16,17 +16,17 @@ import { useQueryClient } from 'react-query'
 import { useSelector } from 'react-redux'
 import _ from 'underscore'
 import imageCompression from 'browser-image-compression';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
 import { format } from 'date-fns'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { axioslogin } from 'src/views/Axios/Axios'
+import { axioskmc, axioslogin } from 'src/views/Axios/Axios'
 import CommonDmsApprvCmp from '../ComonComponent/ApprovalComp/CommonDmsApprvCmp'
 import CommonMsApprvCmp from '../ComonComponent/ApprovalComp/CommonMsApprvCmp'
 import CommonMoApprvlCmp from '../ComonComponent/ApprovalComp/CommonMoApprvlCmp'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 
 const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
-    datacolflag, datacolData, imagearray }) => {
+    datacolflag, datacolData, imagearray, selectedCompany }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve,
         ms_approve_req, manag_operation_approv, senior_manage_approv, senior_manage_remarks,
         smo_detial_analysis, smo_image
@@ -45,12 +45,13 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
         approve: senior_manage_approv === 1 ? true : false,
         reject: senior_manage_approv === 2 ? true : false,
         pending: senior_manage_approv === 3 ? true : false,
+        internallyArr: senior_manage_approv === 4 ? true : false,
         remark: senior_manage_remarks !== null ? senior_manage_remarks : '',
         detailAnalis: smo_detial_analysis !== null ? smo_detial_analysis : '',
         datacollFlag: false,
         datacolectremark: ''
     });
-    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark } = apprvlDetails
+    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr } = apprvlDetails
     const updateOnchangeState = useCallback((e) => {
         const { name, type, value, checked } = e.target;
         setApprvlDetails((prev) => ({
@@ -65,6 +66,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
             approve: type === 'approve',
             reject: type === 'reject',
             pending: type === 'pending',
+            internallyArr: type === 'internallyArr'
         }));
     }, []);
 
@@ -87,6 +89,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                 approve: false,
                 reject: false,
                 pending: false,
+                internallyArr: false,
                 datacollFlag: false,
                 datacolectremark: ''
             }));
@@ -112,7 +115,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
 
     const SMOPatchData = useMemo(() => {
         return {
-            senior_manage_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            senior_manage_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : internallyArr === true ? 4 : null,
             senior_manage_user: id,
             req_slno: req_slno,
             som_aprrov_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
@@ -125,7 +128,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                 }
             })
         }
-    }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData])
+    }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData, internallyArr])
 
     const submit = useCallback(() => {
         if (editEnable === 1) {
@@ -194,13 +197,12 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                 DataCollRequestFnctn(postData);
                 return;
             }
-
-            if (!approve && !reject && !pending) {
+            if (!approve && !reject && !pending && !internallyArr) {
                 warningNotify("Select any status");
                 return;
             }
 
-            if ((approve && detailAnalis && remark) || ((reject || pending) && remark)) {
+            if ((approve && detailAnalis && remark) || ((reject || pending || internallyArr) && remark)) {
                 updateSMOApproval(SMOPatchData).then((val) => {
                     const { success, message } = val;
                     if (success !== 1) {
@@ -232,7 +234,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
             }
         }
     }, [
-        approve, reject, pending, remark, detailAnalis, SMOPatchData, reset, datacollFlag, editEnable,
+        approve, reject, pending, remark, detailAnalis, SMOPatchData, reset, datacollFlag, editEnable, internallyArr,
         queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload
     ]);
 
@@ -242,33 +244,60 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
 
     useEffect(() => {
         isMounted.current = true;
-        const getImage = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFRegisterImages/crfSMOImageGet/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const fileNames = data;
-                const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/SMOUpload/${fileName}`;
-                });
-                const savedFiles = fileUrls.map((val) => {
-                    const parts = val.split('/');
-                    const fileNamePart = parts[parts.length - 1];
-                    const obj = {
-                        imageName: fileNamePart,
-                        url: val
-                    }
-                    return obj
-                })
-                setUploadedImages(savedFiles);
-            } else {
-                setUploadedImages([])
+        if (selectedCompany === '1') {
+            const getImage = async (req_slno) => {
+                const result = await axioslogin.get(`/newCRFRegisterImages/crfSMOImageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/SMOUpload/${fileName}`;
+                    });
+                    const savedFiles = fileUrls.map((val) => {
+                        const parts = val.split('/');
+                        const fileNamePart = parts[parts.length - 1];
+                        const obj = {
+                            imageName: fileNamePart,
+                            url: val
+                        }
+                        return obj
+                    })
+                    setUploadedImages(savedFiles);
+                } else {
+                    setUploadedImages([])
+                }
             }
+            getImage(req_slno)
+
+        } else if (selectedCompany === '2') {
+            const getImage = async (req_slno) => {
+                const result = await axioskmc.get(`/newCRFRegisterImages/crfSMOImageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/SMOUpload/${fileName}`;
+                    });
+                    const savedFiles = fileUrls.map((val) => {
+                        const parts = val.split('/');
+                        const fileNamePart = parts[parts.length - 1];
+                        const obj = {
+                            imageName: fileNamePart,
+                            url: val
+                        }
+                        return obj
+                    })
+                    setUploadedImages(savedFiles);
+                } else {
+                    setUploadedImages([])
+                }
+            }
+            getImage(req_slno)
         }
-        getImage(req_slno)
         return () => {
             isMounted.current = false;
         };
-    }, [req_slno])
+    }, [req_slno, selectedCompany])
 
     return (
         <Fragment>
@@ -298,7 +327,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                             }}
                         />
                         <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
-                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} />
+                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} selectedCompany={selectedCompany} />
                             <Box sx={{ overflow: 'auto', pt: 0.5, mx: 0.3 }}>
                                 {reqItems.length !== 0 ?
                                     <ReqItemDisplay reqItems={reqItems} /> : null
@@ -323,22 +352,22 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                     }
                                     {hod_req === 1 && hod_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonHodApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonHodApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
                                         </Box>
                                         : null}
                                     {dms_req === 1 && dms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
                                         </Box>
                                         : null}
                                     {ms_approve_req === 1 && ms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMsApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonMsApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
                                         </Box>
                                         : null}
                                     {manag_operation_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMoApprvlCmp DetailViewData={ApprovalData} />
+                                            <CommonMoApprvlCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
                                         </Box>
                                         : null}
                                 </Box>
@@ -394,38 +423,30 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                     :
                                     <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap', }} >
                                         {approveTableData.length !== 0 ?
-                                            <>
-                                                <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
-                                                    setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
-                                                    header='SMO' apprvLevel={6} />
-                                                <Box sx={{ pl: 0.5 }}>
-                                                    <CustomIconButtonCmp
-                                                        handleChange={AddItems}>
-                                                        Add Items
-                                                    </CustomIconButtonCmp>
-                                                </Box>
-                                                {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                                    setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
-                                                /> : null}
-                                                <ApprovalCompntAll
-                                                    heading="CRF Verification"
-                                                    apprvlDetails={apprvlDetails}
-                                                    updateOnchangeState={updateOnchangeState}
-                                                    updateApprovalState={updateApprovalState}
-                                                    imageCheck={smo_image}
-                                                    selectFile={selectFile}
-                                                    setSelectFile={setSelectFile}
-                                                    uploadedImages={uploadedImages}
-                                                />
-                                            </>
+                                            <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
+                                                setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
+                                                header='SMO' apprvLevel={6} />
                                             : null
-                                            // <Box sx={{
-                                            //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                            //     pt: 10, color: 'grey'
-                                            // }}>
-                                            //     No items Approved
-                                            // </Box>
                                         }
+                                        <Box sx={{ pl: 0.5 }}>
+                                            <CustomIconButtonCmp
+                                                handleChange={AddItems}>
+                                                Add Items
+                                            </CustomIconButtonCmp>
+                                        </Box>
+                                        {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
+                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                        /> : null}
+                                        <ApprovalCompntAll
+                                            heading="CRF Verification"
+                                            apprvlDetails={apprvlDetails}
+                                            updateOnchangeState={updateOnchangeState}
+                                            updateApprovalState={updateApprovalState}
+                                            imageCheck={smo_image}
+                                            selectFile={selectFile}
+                                            setSelectFile={setSelectFile}
+                                            uploadedImages={uploadedImages}
+                                        />
                                     </Box>
                                 }
                             </Box>

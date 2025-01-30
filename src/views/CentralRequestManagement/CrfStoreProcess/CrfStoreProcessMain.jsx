@@ -56,7 +56,7 @@ const CrfStoreProcessMain = () => {
     const { notReceiveCount, fullyCount, searchSup, searchPo, searchCrf, modalopen, modFlag } = storeState
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const backtoHome = useCallback(() => {
-        history.push('/Home/CrfNewDashBoard')
+        history.push('/Home')
     }, [history])
 
     useEffect(() => {
@@ -602,56 +602,6 @@ const CrfStoreProcessMain = () => {
         })
     }, [id, count])
 
-    // const ReceiveData = useCallback(() => {
-    //     const newData = disData?.filter((val) => val.checked === true)
-    //     if (newData.length === 0) {
-
-    //         infoNotify("Select Any Details");
-    //         return;
-    //     }
-
-    //     const poNumber = newData?.map((val) => {
-    //         return {
-    //             poSlno: val.po_detail_slno
-    //         }
-    //     })
-    //     const getPOItems = async (poNumber) => {
-    //         const result = await axioslogin.post('/newCRFStore/getItems', poNumber);
-    //         return result.data
-    //     }
-    //     getPOItems(poNumber).then((val) => {
-    //         const { success, data } = val
-    //         if (success === 1) {
-    //             setPoItems(data);
-    //             setReceiveFlag(1)
-    //             setReceiveModal(true)
-    //         } else {
-
-    //         }
-    //     })
-    // }, [disData])
-    // const handleSelectAll = () => {
-    //     const newSelectionState = !allSelected;
-    //     setAllSelected(newSelectionState);
-    //     setDisData(disData.map(item => ({ ...item, checked: newSelectionState })));
-    // };
-    // const handleCheckboxChange = useCallback((index) => {
-    //     setDisData(prevData =>
-    //         prevData.map((item, idx) =>
-    //             idx === index ? { ...item, checked: !item.checked } : item
-    //         )
-    //     );
-    // }, []);
-
-    // const handleClose = useCallback(() => {
-    //     setReceiveModal(false)
-    //     setReceiveFlag(0)
-    //     setAllSelected(false)
-    //     const newSelectionState = !allSelected;
-    //     setAllSelected(newSelectionState);
-    //     setDisData(disData.map(item => ({ ...item, checked: newSelectionState })))
-    // }, [setReceiveModal, allSelected, disData])
-
     const handleCloseGrn = useCallback(() => {
         setStoreState((prev) => ({
             ...prev,
@@ -853,145 +803,107 @@ const CrfStoreProcessMain = () => {
                                     Get Grn Details
                                 </Button>
                             </Box>
-                            {/* <Box sx={{ pt: 0.6, flex: '0.5 0.5 auto', width: '50px', width: '150px' }}>
-                            <Button variant="contained"
-                                startIcon={
-                                     <SystemUpdateAltTwoToneIcon
-                                        sx={{
-                                            height: 22,
-                                            width: 22,
-                                            color: '#0277bd',
-                                            // animation: `${moveTopToBottom} 1s infinite alternate`
-                                        }}
-                                    />}
-                                sx={{
-                                    borderRadius: 1, fontSize: 12, height: 33, width: '150px',
-                                    lineHeight: '1.2', color: '#01579b', bgcolor: 'white', textTransform: 'capitalize',
-                                    '&:hover': {
-                                        bgcolor: '#F0F4F8',
-                                    },
-
-                                }}
-                                onClick={ReceiveData}
-                            >
-                                Receive
-                            </Button>
-                        </Box> */}
                         </Box>
                     </Box>
                 </Paper>
-                {
-                    radiovalue === '1' ?
-                        <>
-                            {disData.length !== 0 ?
-                                <>
-                                    <Box sx={{ display: 'flex', flex: 1, justifyContent: 'flex-end', pr: 1, pt: 0.7 }}>
-                                        <Box sx={{ bgcolor: '#FD7F20', mt: 0.3, height: 15, width: 15, border: '1px solid lightgrey', borderRadius: 20 }}></Box>
-                                        <Box sx={{ px: 1, fontSize: 13 }}>Partially Received</Box>
-                                    </Box>
-                                    <Box variant="outlined" sx={{
-                                        overflow: 'auto', pt: 0.4, flexWrap: 'wrap', width: "100%", '&::-webkit-scrollbar': { height: 10 }
-                                    }}>
-                                        <Paper elevation={3} sx={{ width: "1640" }}>
-                                            {/* < Box display="flex" flexDirection="column" sx={{ mx: 0.5, overflow: 'auto' }}> */}
-                                            <Box display="flex" justifyContent="space-between" padding={0.5} sx={{ bgcolor: '#41729F', color: 'white' }}>
-                                                {/* <Box sx={{ width: 30, textAlign: 'center', display: 'flex' }}>
-                                                <Checkbox sx={{ m: 0, p: 0, pl: 1.1 }} //mui@material
-                                                    size="small"
-                                                    checked={allSelected}
-                                                    onChange={handleSelectAll}
+                <Box>
+                    {
+                        radiovalue === '1' ?
+                            <>
+                                {disData.length !== 0 ?
+                                    <>
+                                        <Box sx={{ display: 'flex', flex: 1, justifyContent: 'flex-end', pr: 1, pt: 0.7 }}>
+                                            <Box sx={{ bgcolor: '#FD7F20', mt: 0.3, height: 15, width: 15, border: '1px solid lightgrey', borderRadius: 20 }}></Box>
+                                            <Box sx={{ px: 1, fontSize: 13 }}>Partially Received</Box>
+                                        </Box>
+                                        <Box variant="outlined" sx={{
+                                            overflow: 'auto', pt: 0.4, flexWrap: 'wrap', width: "100%", '&::-webkit-scrollbar': { height: 10 }
+                                        }}>
+                                            <Paper elevation={3} sx={{ width: "1640" }}>
+                                                {/* < Box display="flex" flexDirection="column" sx={{ mx: 0.5, overflow: 'auto' }}> */}
+                                                <Box display="flex" justifyContent="space-between" padding={0.5} sx={{ bgcolor: '#41729F', color: 'white' }}>
+                                                    <Typography sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Sl.No</Typography>
+                                                    <Typography sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>CRF No</Typography>
+                                                    <Typography sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Order#</Typography>
+                                                    <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>PO Date</Typography>
+                                                    <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>PO to Supplier</Typography>
+                                                    <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Supplier</Typography>
+                                                    <Typography sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Expected Date</Typography>
+                                                    <Typography sx={{ width: 90, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>CRS Store</Typography>
+                                                    <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Store</Typography>
+                                                    <Typography sx={{ width: 220, textAlign: 'center' }}></Typography>
+                                                    <Typography sx={{ width: 50, textAlign: 'center', fontWeight: 550, fontSize: 12, }}>Details</Typography>
+                                                </Box>
+                                                <Virtuoso
+                                                    style={{ height: '71vh', width: '100%' }}
+                                                    data={disData}
+                                                    itemContent={(index, val) => (
+                                                        <React.Fragment key={index}>
+                                                            <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid #b0bec5', color: (val.store_recieve === 0) ? '#E55B13' : 'black' }} >
+                                                                <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
+                                                                <Typography sx={{ width: 100, textAlign: 'center', fontSize: 12, my: 1 }}>CRF/TMC/{val.req_slno}</Typography>
+                                                                <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>{val.po_number}</Typography>
+                                                                <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>{format(new Date(val.po_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
+                                                                <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>{format(new Date(val.po_to_supplier_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
+                                                                <Typography sx={{ width: 150, textAlign: 'center', fontSize: 11, my: 1 }}>{capitalizeWords(val.supplier_name)}</Typography>
+                                                                <Typography sx={{ width: 100, textAlign: 'center', fontSize: 12, my: 1 }}>{val.expected_delivery ? format(new Date(val.expected_delivery), 'dd-MM-yyyy') : 'Nil'}</Typography>
+                                                                <Typography sx={{ width: 90, textAlign: 'center', fontSize: 12, my: 1 }}>{val.main_store}</Typography>
+                                                                <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>{val.sub_store_name}</Typography>
+                                                                <Box sx={{ width: 220, my: 0.5, textAlign: 'center' }}>
+                                                                    <CountDownReqtoExpect expectDate={val.expected_delivery} />
+                                                                </Box>
+                                                                <Box sx={{ width: 50, textAlign: 'center', cursor: 'pointer', display: 'flex' }}>
+                                                                    <CssVarsProvider>
+                                                                        <Tooltip title="View Item Details" placement="left">
+                                                                            <FeaturedPlayListTwoToneIcon
+                                                                                sx={{
+                                                                                    mt: 0.7,
+                                                                                    // fontSize: 'md',
+                                                                                    color: (val.store_recieve === 0) ? '#E55B13' : '#0d47a1',
+                                                                                    height: 23,
+                                                                                    width: 23,
+                                                                                    borderRadius: 2,
+                                                                                    boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
+                                                                                    cursor: 'pointer',
+                                                                                    transition: 'transform 0.2s',
+                                                                                    '&:hover': {
+                                                                                        transform: 'scale(1.1)',
+                                                                                    },
+                                                                                }}
+                                                                                onClick={() => viewGrnDetails(val.po_number, val.items)} />
+                                                                        </Tooltip>
+                                                                    </CssVarsProvider>
+                                                                </Box>
+                                                            </Box>
+                                                        </React.Fragment>
+                                                    )}
                                                 />
-                                                <Typography sx={{ fontWeight: 550, fontSize: 13, pl: 0.5 }}>All</Typography>
-                                            </Box> */}
-                                                <Typography sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Sl.No</Typography>
-                                                <Typography sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>CRF No</Typography>
-                                                <Typography sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Order#</Typography>
-                                                <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>PO Date</Typography>
-                                                <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>PO to Supplier</Typography>
-                                                <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Supplier</Typography>
-                                                <Typography sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Expected Date</Typography>
-                                                <Typography sx={{ width: 90, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>CRS Store</Typography>
-                                                <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Store</Typography>
-                                                <Typography sx={{ width: 220, textAlign: 'center' }}></Typography>
-                                                <Typography sx={{ width: 50, textAlign: 'center', fontWeight: 550, fontSize: 12, }}>Details</Typography>
-                                            </Box>
-                                            <Virtuoso
-                                                style={{ height: '71vh', width: '100%' }}
-                                                data={disData}
-                                                itemContent={(index, val) => (
-                                                    <React.Fragment key={index}>
-                                                        <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid #b0bec5', color: (val.store_recieve === 0) ? '#E55B13' : 'black' }} >
-                                                            {/* <Box sx={{ width: 30 }}>
-                                                            <Checkbox
-                                                                sx={{ pl: 1.5, m: 0 }}
-                                                                size="small"
-                                                                checked={val.checked}
-                                                                onChange={() => handleCheckboxChange(index)}
-                                                            />
-                                                        </Box> */}
-                                                            <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
-                                                            <Typography sx={{ width: 100, textAlign: 'center', fontSize: 12, my: 1 }}>CRF/TMC/{val.req_slno}</Typography>
-                                                            <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>{val.po_number}</Typography>
-                                                            <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>{format(new Date(val.po_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
-                                                            <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>{format(new Date(val.po_to_supplier_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
-                                                            <Typography sx={{ width: 150, textAlign: 'center', fontSize: 11, my: 1 }}>{capitalizeWords(val.supplier_name)}</Typography>
-                                                            <Typography sx={{ width: 100, textAlign: 'center', fontSize: 12, my: 1 }}>{val.expected_delivery ? format(new Date(val.expected_delivery), 'dd-MM-yyyy') : 'Nil'}</Typography>
-                                                            <Typography sx={{ width: 90, textAlign: 'center', fontSize: 12, my: 1 }}>{val.main_store}</Typography>
-                                                            <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>{val.sub_store_name}</Typography>
-                                                            <Box sx={{ width: 220, my: 0.5, textAlign: 'center' }}>
-                                                                <CountDownReqtoExpect expectDate={val.expected_delivery} />
-                                                            </Box>
-                                                            <Box sx={{ width: 50, textAlign: 'center', cursor: 'pointer', display: 'flex' }}>
-                                                                <CssVarsProvider>
-                                                                    <Tooltip title="View Item Details" placement="left">
-                                                                        <FeaturedPlayListTwoToneIcon
-                                                                            sx={{
-                                                                                mt: 0.7,
-                                                                                // fontSize: 'md',
-                                                                                color: (val.store_recieve === 0) ? '#E55B13' : '#0d47a1',
-                                                                                height: 23,
-                                                                                width: 23,
-                                                                                borderRadius: 2,
-                                                                                boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
-                                                                                cursor: 'pointer',
-                                                                                transition: 'transform 0.2s',
-                                                                                '&:hover': {
-                                                                                    transform: 'scale(1.1)',
-                                                                                },
-                                                                            }}
-                                                                            onClick={() => viewGrnDetails(val.po_number, val.items)} />
-                                                                    </Tooltip>
-                                                                </CssVarsProvider>
-                                                            </Box>
-                                                        </Box>
-                                                    </React.Fragment>
-                                                )}
-                                            />
-                                        </Paper>
-                                    </Box >
-                                </>
-                                :
-                                <Box sx={{
-                                    display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                    pt: 10, color: 'grey'
-                                }}>
-                                    No Report Found
-                                </Box>
-                            }
-                        </>
-                        : <>
-                            {fullyReceived.length !== 0 ?
-                                <FullyReceiveTableView disData={fullyReceived} viewGrnDetails={viewGrnDetails} />
-                                :
-                                <Box sx={{
-                                    display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                    pt: 10, color: 'grey'
-                                }}>
-                                    No Report Found
-                                </Box>
-                            }
-                        </>
-                }
+                                            </Paper>
+                                        </Box >
+                                    </>
+                                    :
+                                    <Box sx={{
+                                        display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                                        pt: 10, color: 'grey'
+                                    }}>
+                                        No Report Found
+                                    </Box>
+                                }
+                            </>
+                            : <>
+                                {fullyReceived.length !== 0 ?
+                                    <FullyReceiveTableView disData={fullyReceived} viewGrnDetails={viewGrnDetails} />
+                                    :
+                                    <Box sx={{
+                                        display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                                        pt: 10, color: 'grey'
+                                    }}>
+                                        No Report Found
+                                    </Box>
+                                }
+                            </>
+                    }
+                </Box>
             </Box>
         </Fragment >
     )

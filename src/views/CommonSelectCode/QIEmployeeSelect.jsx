@@ -3,7 +3,6 @@ import { Autocomplete, CssVarsProvider } from '@mui/joy';
 import React, { Fragment, memo, useCallback, useState } from 'react'
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import PeopleAltTwoToneIcon from '@mui/icons-material/PeopleAltTwoTone';
 const QIEmployeeSelect = ({ empName, setempName }) => {
     const employeeList = useSelector((state) => state?.getDepartSecemployee?.departsecempList)
     const [type, setType] = useState([{ em_id: 0, em_name: '' }])
@@ -46,13 +45,13 @@ const QIEmployeeSelect = ({ empName, setempName }) => {
             <CssVarsProvider>
                 <Autocomplete
                     // fullWidth
-                    startDecorator={<PeopleAltTwoToneIcon sx={{ color: '#0070E0' }} />}
+                    // startDecorator={<PeopleAltTwoToneIcon sx={{ color: '#0070E0' }} />}
                     sx={{
-                        height: 20, border: '1px solid #bbdefb', color: '#1565c0', alignItems: 'center',
-                        fontSize: 14, borderRadius: 10
+                        height: 20, border: '1px solid #bbdefb', alignItems: 'center',
+                        fontSize: 14, borderRadius: 6
                     }}
                     value={empName === 0 ? type : value}
-                    placeholder="Select Receiver"
+                    placeholder="Select"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         Onclick(newValue);

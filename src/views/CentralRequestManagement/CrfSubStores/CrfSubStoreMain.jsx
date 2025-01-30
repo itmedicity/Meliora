@@ -1,29 +1,29 @@
 import { Box, Paper, Radio, RadioGroup, FormControlLabel, Tabs, Tab, tabClasses } from '@mui/material';
-import React, { Fragment, memo, useCallback, useEffect, useState } from 'react';
+import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCrfPOStorAction } from 'src/redux/actions/CrmStoreProcess.action';
 import { format } from 'date-fns';
 import { CssVarsProvider, IconButton } from '@mui/joy';
 import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone';
 import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp';
+import { useQuery } from 'react-query';
+import { getSubStoreCrfDetails } from 'src/api/CommonApiCRF';
+
 const ReceiveSubStoreView = React.lazy(() => import("./Components/ReceiveSubStoreView"))
 
 const CrfSubStoreMain = () => {
     const history = useHistory();
-    const dispatch = useDispatch();
     const [storeList, setStoreList] = useState([]);
     const [subStoreList, setSubStoreList] = useState([]);
     const [selectedTab, setSelectedTab] = useState(0);
     // const [radiovalue, setRadioValue] = useState('');
-    const [count, setCount] = useState(0)
     const [crsList, setCrsList] = useState([])
     // const [crsSlno, setCrsSlno] = useState('1')
     const [tableData, setTableData] = useState([])
     const [selectedRadio, setSelectedRadio] = useState(null);
     const [storeName, setStoreName] = useState('')
     const [allTableData, setAllTableData] = useState([])
+    const [reqSlno, setReqSlno] = useState([])
 
     // const [selectedStore, setSelectedStore] = useState({
     //     main_store_slno: null,
@@ -32,7 +32,7 @@ const CrfSubStoreMain = () => {
     // });
 
     const backtoHome = useCallback(() => {
-        history.push('/Home/CrfNewDashBoard');
+        history.push('/Home');
     }, [history]);
 
     const ClearSearch = useCallback(() => {
@@ -40,10 +40,13 @@ const CrfSubStoreMain = () => {
         setTableData(allTableData)
     }, [allTableData])
 
-    useEffect(() => {
-        dispatch(getCrfPOStorAction())
-    }, [dispatch, count])
-    const storeData = useSelector((state) => state?.getCrfPOStorReducer?.CRFSubstore)
+
+    const { data: subStoreData, isLoading: isSubLoading, error: subError } = useQuery({
+        queryKey: 'sustoreCRFView',
+        queryFn: () => getSubStoreCrfDetails(),
+        // staleTime: Infinity
+    })
+    const storeData = useMemo(() => subStoreData, [subStoreData]);
 
     useEffect(() => {
         const getCRSStore = async () => {
@@ -73,9 +76,10 @@ const CrfSubStoreMain = () => {
         getCRSStore();
     }, []);
     useEffect(() => {
-        if (storeData.length !== 0) {
+        if (storeData && storeData.length > 0) {
             const newData = storeData?.filter((value, index, self) =>
-                index === self.findIndex((item) => item.req_slno === value.req_slno && item.supply_store === value.supply_store))
+                index === self.findIndex((item) => item.req_slno === value.req_slno && item.supply_store === value.supply_store
+                    && item.crm_purchase_slno === value.crm_purchase_slno))
             const countSet = crsList?.map((val) => {
                 const xx = newData?.filter((value) => value.supply_store === val.main_store_slno)
                 return {
@@ -97,10 +101,12 @@ const CrfSubStoreMain = () => {
 
     const subStoreDetailsView = useCallback((slno) => {
         const xx = storeData?.filter((val) => val.supply_store === slno)
-        const uniqueReqSlno = [...new Set(xx?.map(item => item.req_slno))];
+        const reqNo = [...new Set(xx?.map(item => item.req_slno))];
+        setReqSlno(reqNo)
+        const uniquePOSlno = [...new Set(xx?.map(item => item.crm_purchase_slno))];
 
-        const mergedData = uniqueReqSlno?.map(reqSlno => {
-            const filteredItems = xx?.filter(item => item.req_slno === reqSlno);
+        const mergedData = uniquePOSlno?.map(po => {
+            const filteredItems = xx?.filter(item => item.crm_purchase_slno === po);
             const pos = filteredItems?.map(item => `${item.po_number}`);
             const poDate = filteredItems?.map(item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`);
             // const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no)).join(", ");
@@ -108,6 +114,7 @@ const CrfSubStoreMain = () => {
             const po_detail_slno = filteredItems?.map(item => `${item.po_detail_slno}`);
             const po_details = filteredItems?.map((item) => {
                 return {
+                    req_slno: item.req_slno,
                     po_detail_slno: item.po_detail_slno,
                     po_number: item.po_number,
                     po_date: item.po_date,
@@ -128,43 +135,78 @@ const CrfSubStoreMain = () => {
         });
         setTableData(mergedData)
         setAllTableData(mergedData)
+
     }, [storeData])
 
     useEffect(() => {
         if (selectedTab === 0) {
-            const xx = storeData?.filter((val) => val.supply_store === 1)
-            const uniqueReqSlno = [...new Set(xx?.map(item => item.req_slno))];
-
-            const mergedData = uniqueReqSlno?.map(reqSlno => {
-                const filteredItems = xx?.filter(item => item.req_slno === reqSlno);
-                const pos = filteredItems?.map(item => `${item.po_number}`);
-                const poDate = filteredItems?.map(item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`);
-                // const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no)).join(", ");
-                const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no));
-
-                const po_detail_slno = filteredItems?.map(item => `${item.po_detail_slno}`);
-                const po_details = filteredItems?.map((item) => {
+            if (storeData && storeData.length > 0) {
+                const xx = storeData?.filter((val) => val.supply_store === 1)
+                const reqNo = [...new Set(xx?.map(item => item.req_slno))];
+                setReqSlno(reqNo)
+                const uniquePOSlno = [...new Set(xx?.map(item => item.crm_purchase_slno))];
+                const mergedData = uniquePOSlno?.map(po => {
+                    const filteredItems = xx?.filter(item => item.crm_purchase_slno === po);
+                    const pos = filteredItems?.map(item => `${item.po_number}`);
+                    const poDate = filteredItems?.map(item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`);
+                    const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no));
+                    const po_detail_slno = filteredItems?.map(item => `${item.po_detail_slno}`);
+                    const po_details = filteredItems?.map((item) => {
+                        return {
+                            req_slno: item.req_slno,
+                            po_detail_slno: item.po_detail_slno,
+                            po_number: item.po_number,
+                            po_date: item.po_date,
+                            supplier_name: item.supplier_name,
+                            expected_delivery: item.expected_delivery,
+                            sub_store_slno: item.sub_store_slno,
+                            sub_store_name: item.sub_store_name
+                        }
+                    })
                     return {
-                        po_detail_slno: item.po_detail_slno,
-                        po_number: item.po_number,
-                        po_date: item.po_date,
-                        supplier_name: item.supplier_name,
-                        expected_delivery: item.expected_delivery,
-                        sub_store_slno: item.sub_store_slno,
-                        sub_store_name: item.sub_store_name
-                    }
-                })
-                return {
-                    ...filteredItems[0],
-                    po_detail_slno,
-                    pos,
-                    poDate,
-                    grn_nos,
-                    po_details
-                };
-            });
-            setTableData(mergedData)
-            setAllTableData(mergedData)
+                        ...filteredItems[0],
+                        po_detail_slno,
+                        pos,
+                        poDate,
+                        grn_nos,
+                        po_details
+                    };
+                });
+                setTableData(mergedData)
+                setAllTableData(mergedData)
+                // const xx = storeData?.filter((val) => val.supply_store === 1)
+                // const uniqueReqSlno = [...new Set(xx?.map(item => item.req_slno))];
+
+                // const mergedData = uniqueReqSlno?.map(reqSlno => {
+                //     const filteredItems = xx?.filter(item => item.req_slno === reqSlno);
+                //     const pos = filteredItems?.map(item => `${item.po_number}`);
+                //     const poDate = filteredItems?.map(item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`);
+                //     // const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no)).join(", ");
+                //     const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no));
+
+                //     const po_detail_slno = filteredItems?.map(item => `${item.po_detail_slno}`);
+                //     const po_details = filteredItems?.map((item) => {
+                //         return {
+                //             po_detail_slno: item.po_detail_slno,
+                //             po_number: item.po_number,
+                //             po_date: item.po_date,
+                //             supplier_name: item.supplier_name,
+                //             expected_delivery: item.expected_delivery,
+                //             sub_store_slno: item.sub_store_slno,
+                //             sub_store_name: item.sub_store_name
+                //         }
+                //     })
+                //     return {
+                //         ...filteredItems[0],
+                //         po_detail_slno,
+                //         pos,
+                //         poDate,
+                //         grn_nos,
+                //         po_details
+                //     };
+                // });
+
+            }
         }
     }, [storeData, selectedTab])
 
@@ -180,7 +222,8 @@ const CrfSubStoreMain = () => {
             setTableData(newdata)
         }
     }, [subStoreList, allTableData]);
-
+    if (isSubLoading) return <p>Loading...</p>;
+    if (subError) return <p>Error occurred.</p>;
     return (
         <Fragment>
             <Box sx={{ height: window.innerHeight - 90 }}>
@@ -295,8 +338,8 @@ const CrfSubStoreMain = () => {
                                 </Paper>
                             )}
                             <React.Suspense fallback={<div>Loading...</div>}>
-                                <ReceiveSubStoreView tableData={tableData} selectedRadio={selectedRadio} count={count}
-                                    setCount={setCount} storeName={storeName} setSelectedRadio={setSelectedRadio} setStoreName={setStoreName} />
+                                <ReceiveSubStoreView tableData={tableData} selectedRadio={selectedRadio} storeName={storeName} setSelectedRadio={setSelectedRadio}
+                                    setStoreName={setStoreName} reqSlno={reqSlno} />
                             </React.Suspense>
                             {/* */}
                         </Box>

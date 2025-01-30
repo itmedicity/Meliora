@@ -7,12 +7,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getUOM } from 'src/redux/actions/AmUOMList.action'
 import { format } from 'date-fns';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { Box, IconButton, Table, Textarea, Tooltip, Typography } from '@mui/joy';
+import { Box, IconButton, Table, Textarea, Typography } from '@mui/joy';
 import UomApprvSelect from '../ComonComponent/Components/UomApprvSelect';
 import CustomInputDateCmp from '../ComonComponent/Components/CustomInputDateCmp';
 import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCmp';
 import { useQuery, useQueryClient } from 'react-query';
 import { getApprovedCrfItems, getApprovedStatus, getMaxslNoOfCrfItem } from 'src/api/CommonApiCRF';
+import CustomToolTipForCRF from '../ComonComponent/Components/CustomToolTipForCRF';
+
 
 const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editEnable,
     setEditEnable, header, apprvLevel }) => {
@@ -22,6 +24,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
     const [uom, setUOM] = useState(0)
     const [lastSlno, setLastSlno] = useState(0)
     const [apprvdItems, setApprvdItems] = useState([])
+    const [checkStatus, setCheckStatus] = useState([])
     const [itemstate, setItemState] = useState({
         reqDetailslno: 0,
         item_desc: '',
@@ -86,7 +89,6 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
     });
     const statusData = useMemo(() => statData, [statData])
 
-    const [checkStatus, setCheckStatus] = useState([])
     useEffect(() => {
         if (statusData && statusData.length !== 0) {
             if (apprvLevel === 1) {
@@ -167,7 +169,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                 })
                 setCheckStatus(newData)
             }
-            else if (apprvLevel === 8 || apprvLevel === 9) {
+            else if (apprvLevel === 8 || apprvLevel === 9 || apprvLevel === 10) {
                 // md and ed
                 const newData = statusData?.map((val) => {
                     return {
@@ -283,7 +285,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                 apprvLevel: apprvLevel
             }
             const updateDetalReqApprov = async (approvedata) => {
-                const result = await axioslogin.patch('/CRFRegisterApproval/inchargeApproval/details', approvedata);
+                const result = await axioslogin.patch('/CRFRegisterApproval/itemsApproval', approvedata);
                 const { success, message } = result.data;
                 if (success === 1) {
                     succesNotify(message)
@@ -393,7 +395,9 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
     const cancelEdit = useCallback(() => {
         reset()
     }, [reset])
-
+    const internallyFctn = useCallback(() => {
+        setRejHoldRemarkFlag(3)
+    }, [])
     const onHoldfctnUpdate = useCallback(() => {
         if (rejHoldRemark === '') {
             infoNotify("Enter Remarks")
@@ -434,6 +438,46 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
     }, [reqDetailslno, item_desc, item_brand, uom, item_qty, item_spec, unitprice,
         reset, approx_cost, rejHoldRemark, id, header, queryClient, apprvLevel, req_slno])
 
+    const internallyArrangedUpdate = useCallback(() => {
+        if (rejHoldRemark === '') {
+            infoNotify("Enter Remarks")
+        } else {
+            const internaldata = {
+                approve_item_desc: item_desc,
+                approve_item_brand: item_brand,
+                approve_item_unit: uom,
+                item_qnty_approved: item_qty,
+                approve_item_specification: item_spec,
+                approve_item_unit_price: unitprice,
+                approve_aprox_cost: approx_cost,
+                approve_item_status: 1,
+                item_status_approved: 4,// internally Arranged
+                internal_remarks: header + " ;  Remarks : " + rejHoldRemark,
+                internal_user: id,
+                internal_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                req_detl_slno: reqDetailslno,
+                apprvLevel: apprvLevel,
+                req_slno: req_slno
+            }
+            const updateDetalReqApprov = async (internaldata) => {
+                const result = await axioslogin.patch('/CRFRegisterApproval/internallyArranged', internaldata);
+                const { success, message } = result.data;
+                if (success === 1) {
+                    succesNotify(message)
+                    queryClient.invalidateQueries('approvedRejholdItemList')
+                    queryClient.invalidateQueries('getmaxSlno')
+                    queryClient.invalidateQueries('itemStatus')
+                    reset()
+                }
+                else {
+                    warningNotify(message)
+                }
+            }
+            updateDetalReqApprov(internaldata)
+        }
+    }, [reqDetailslno, item_desc, item_brand, uom, item_qty, item_spec, unitprice,
+        reset, approx_cost, rejHoldRemark, id, header, queryClient, apprvLevel, req_slno])
+
 
     if (isItemsLoading || isSlnoLoading || isStatusLoading) return <p>Loading...</p>;
     if (itemsError || slnoError || statusError) return <p>Error occurred.</p>;
@@ -446,14 +490,6 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                             <Typography sx={{ fontWeight: 'bold', ml: 1, my: 0.5, color: '#145DA0', fontSize: 14 }}>
                                 Approved Items
                             </Typography>
-                            {/* <Box sx={{ display: 'flex', flex: 1, justifyContent: 'flex-end', pr: 5, pt: 0.5 }}>
-                                <Box sx={{ mt: 0.4, bgcolor: '#59981A', height: 15, width: 15, border: '1px solid lightgrey', borderRadius: '70%' }}></Box>
-                                <Box sx={{ pl: 1, fontSize: 13, }}>Approved</Box>
-                                <Box sx={{ mt: 0.4, ml: 2, bgcolor: '#D13120', height: 15, width: 15, border: '1px solid lightgrey', borderRadius: '50%' }}></Box>
-                                <Box sx={{ pl: 1, fontSize: 13, }}>Rejected</Box>
-                                <Box sx={{ mt: 0.4, ml: 2, bgcolor: '#DBA40E', height: 15, width: 15, border: '1px solid lightgrey', borderRadius: '50%' }}></Box>
-                                <Box sx={{ pl: 1, fontSize: 13, }}>On-Hold</Box>
-                            </Box> */}
                         </Box>
                         <Box sx={{ overflow: 'auto', flexWrap: 'wrap', px: 0.5, pb: 0.5 }}>
                             <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' >
@@ -468,50 +504,31 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                                         <th size='sm' style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Specification</th>
                                         <th size='sm' style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Price</th>
                                         <th size='sm' style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Approx.Cost</th>
-                                        <th size='sm' style={{ borderRadius: 0, width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Status</th>
+                                        <th size='sm' style={{ borderRadius: 0, width: 150, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {apprvdItems?.map((item, ind) => {
                                         const rowColor = item.po_item_status === 1 ? '#1565c0' : item.item_status_approved === 1 ? '#59981A' :
                                             item.item_status_approved === 2 ? '#D13120' :
-                                                item.item_status_approved === 3 ? '#DBA40E' : null;
-
-                                        const NewTooltip = ({ title, children }) => {
-                                            return (
-                                                <Tooltip
-                                                    key="unique-key"
-                                                    title={
-                                                        <Box sx={{ bgcolor: 'white', color: '#003060', p: 1, textAlign: 'center', textTransform: 'capitalize' }}
-                                                        >{title}
-                                                        </Box>
-                                                    }
-                                                    placement="top"
-                                                    arrow
-                                                    sx={{
-                                                        bgcolor: '#BFD7ED',
-                                                        [`& .MuiTooltip-arrow`]: {
-                                                            color: 'blue',
-                                                        },
-                                                    }}
-                                                >
-                                                    {children}
-                                                </Tooltip>
-                                            );
-                                        };
+                                                item.item_status_approved === 3 ? '#DBA40E' :
+                                                    item.item_status_approved === 4 ? '#009688' :
+                                                        null;
 
                                         return (
-                                            <NewTooltip key={item.req_detl_slno} placement="top" title={item.po_item_status === 1 ? "PO Generated" : (item.item_status_approved === 1
+                                            <CustomToolTipForCRF key={item.req_detl_slno} placement="top" title={item.po_item_status === 1 ? "PO Generated" : (item.item_status_approved === 1
                                                 ? "Approved"
                                                 : item.item_status_approved === 2
                                                     ? `Rejected by ${item.reject_remarks}`
                                                     : item.item_status_approved === 3
                                                         ? `On-Hold by ${item.hold_remarks}`
-                                                        : "")} >
+                                                        : item.item_status_approved === 4
+                                                            ? `Internally Arranged By ${item.internal_remarks}`
+                                                            : "")} >
                                                 <tr style={{ cursor: 'pointer' }}>
                                                     <td>
-                                                        {item.po_item_status === 1 || item.higher === 1 ? (
-                                                            <NewTooltip title={item.po_item_status === 1 ? "PO generated" : 'Cant Edit'} placement="right" sx={{ bgcolor: 'white', color: '#003060' }}>
+                                                        {(item.po_item_status === 1 || item.higher === 1 || item.item_status_approved === 4) ? (
+                                                            <CustomToolTipForCRF title={item.po_item_status === 1 ? "PO Generated" : 'Cant Edit'} placement="right">
                                                                 <EditOutlinedIcon
                                                                     disabled
                                                                     sx={{
@@ -523,9 +540,9 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                                                                         cursor: 'pointer',
                                                                     }}
                                                                 />
-                                                            </NewTooltip>
+                                                            </CustomToolTipForCRF>
                                                         ) :
-                                                            <NewTooltip title="Edit" placement="right" sx={{ bgcolor: 'white', color: '#003060' }}>
+                                                            <CustomToolTipForCRF title="Edit" placement="right">
                                                                 <EditOutlinedIcon
                                                                     sx={{
                                                                         fontSize: 'lg',
@@ -535,14 +552,13 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                                                                         borderRadius: 2,
                                                                         boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
                                                                         cursor: 'pointer',
-                                                                        transition: 'transform 0.2s',
                                                                         '&:hover': {
-                                                                            transform: 'scale(1.1)',
+                                                                            color: '#A47551'
                                                                         },
                                                                     }}
                                                                     onClick={() => editSelect(item)}
                                                                 />
-                                                            </NewTooltip>
+                                                            </CustomToolTipForCRF>
                                                         }
                                                     </td>
                                                     <td style={{ textAlign: 'center' }}>{ind + 1}</td>
@@ -553,12 +569,14 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                                                     <td style={{ fontSize: 13 }}>&nbsp;{item.approve_item_specification === '' ? 'Not Given' : item.approve_item_specification}</td>
                                                     <td style={{ textAlign: 'center' }}>{item.approve_item_unit_price === 0 ? 'Not Given' : item.approve_item_unit_price}</td>
                                                     <td style={{ textAlign: 'center' }}>{item.approve_aprox_cost === 0 ? 'Not Given' : item.approve_aprox_cost}</td>
-                                                    <td style={{ textAlign: 'center', color: rowColor }}>{item.po_item_status === 1 ? "PO Generated" : (item.item_status_approved === 1
-                                                        ? "Approved" : item.item_status_approved === 2
-                                                            ? "Rejected " : item.item_status_approved === 3
-                                                                ? "On-Hold " : null)}</td>
+                                                    <td style={{ textAlign: 'center', color: rowColor }}>{item.po_item_status === 1 ? "PO Generated" :
+                                                        (item.item_status_approved === 1 ? "Approved" :
+                                                            item.item_status_approved === 2 ? "Rejected " :
+                                                                item.item_status_approved === 3 ? "On-Hold " :
+                                                                    item.item_status_approved === 4 ? "Internally Arranged" :
+                                                                        null)}</td>
                                                 </tr>
-                                            </NewTooltip>
+                                            </CustomToolTipForCRF>
                                         );
                                     })}
                                 </tbody>
@@ -676,9 +694,9 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                                     <IconButton
                                         sx={{
                                             fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
-                                            color: 'white', bgcolor: '#D13120', borderRadius: 5, width: '100%',
+                                            color: 'white', bgcolor: '#f44336', borderRadius: 5, width: '100%',
                                             '&:hover': {
-                                                bgcolor: '#D13120', color: 'white',
+                                                bgcolor: '#f44336', color: 'white',
                                             },
                                         }}
                                         onClick={Rejectfctn} >
@@ -698,6 +716,21 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                                         On-Hold
                                     </IconButton>
                                 </Box>
+                                {apprvLevel > 2 ?
+                                    <Box sx={{ flex: 0.55, mr: 1 }}>
+                                        <IconButton
+                                            sx={{
+                                                fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
+                                                color: 'white', bgcolor: '#009688', borderRadius: 5, width: '100%',
+                                                '&:hover': {
+                                                    bgcolor: '#009688', color: 'white',
+                                                },
+                                            }}
+                                            onClick={internallyFctn} >
+                                            Internally Arranged
+                                        </IconButton>
+                                    </Box>
+                                    : null}
                                 <Box sx={{ flex: 0.5, mr: 2 }}>
                                     <IconButton
                                         sx={{
@@ -762,7 +795,30 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                                     </CustomIconButtonCmp>
                                 </Box>
                             </Box>
-                            : null
+                            : rejHoldRemarkFlag === 3 ?
+                                <Box sx={{ display: 'flex' }}>
+                                    <Box sx={{ flex: 1, m: 0.5, pl: 0.5 }}>
+                                        <Textarea
+                                            required
+                                            placeholder="Internally Arranged Remarks"
+                                            value={rejHoldRemark}
+                                            autoComplete='off'
+                                            name='remarks'
+                                            minRows={1}
+                                            maxRows={3}
+                                            onChange={updateRemark}
+                                            sx={{ fontSize: 14, borderRadius: 7 }}
+                                        />
+                                    </Box>
+                                    <Box sx={{ flex: 0.2, m: 0.4 }}>
+                                        <   CustomIconButtonCmp
+                                            handleChange={internallyArrangedUpdate}
+                                        >
+                                            Update
+                                        </CustomIconButtonCmp>
+                                    </Box>
+                                </Box>
+                                : null
                 }
 
             </Box >

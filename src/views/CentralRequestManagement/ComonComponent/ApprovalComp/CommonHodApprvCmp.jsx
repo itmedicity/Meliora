@@ -2,16 +2,15 @@ import { Box, Chip, Tooltip, Typography } from '@mui/joy';
 import { Paper } from '@mui/material';
 import { format } from 'date-fns';
 import React, { Fragment, memo, useCallback, useState } from 'react'
-import { axioslogin } from 'src/views/Axios/Axios';
+import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
 import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
 
-const CommonHodApprvCmp = ({ DetailViewData }) => {
+const CommonHodApprvCmp = ({ DetailViewData, selectedCompany }) => {
     const { req_slno, hod_approve, hod, hod_detial_analysis, hod_approve_date, hod_remarks, hod_user, hod_image
     } = DetailViewData
-
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imageshow, setImageShow] = useState(false)
     const [imagearray, setImageArry] = useState([])
@@ -31,26 +30,49 @@ const CommonHodApprvCmp = ({ DetailViewData }) => {
             : '';
 
     const ViewHODUploadImage = useCallback(() => {
-        const getImage = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFRegisterImages/crfHodImageGet/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const fileNames = data;
-                const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/HodUpload/${fileName}`;
-                });
-                setImageArry(fileUrls);
-                setImageShowFlag(1)
-                setImageShow(true)
-            } else {
-                warningNotify("Error Occured to display image")
-                setImageShowFlag(0)
-                setImageShow(false)
-                setImageArry([])
+        if (selectedCompany === '1') {
+            const getImage = async (req_slno) => {
+                const result = await axioslogin.get(`/newCRFRegisterImages/crfHodImageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/HodUpload/${fileName}`;
+                    });
+                    setImageArry(fileUrls);
+                    setImageShowFlag(1)
+                    setImageShow(true)
+                } else {
+                    warningNotify("Error Occured to display image")
+                    setImageShowFlag(0)
+                    setImageShow(false)
+                    setImageArry([])
+                }
             }
+            getImage(req_slno)
         }
-        getImage(req_slno)
-    }, [req_slno])
+        else if (selectedCompany === '2') {
+            const getImage = async (req_slno) => {
+                const result = await axioskmc.get(`/newCRFRegisterImages/crfHodImageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/HodUpload/${fileName}`;
+                    });
+                    setImageArry(fileUrls);
+                    setImageShowFlag(1)
+                    setImageShow(true)
+                } else {
+                    warningNotify("Error Occured to display image")
+                    setImageShowFlag(0)
+                    setImageShow(false)
+                    setImageArry([])
+                }
+            }
+            getImage(req_slno)
+        }
+    }, [req_slno, selectedCompany])
 
     return (
         <Fragment>

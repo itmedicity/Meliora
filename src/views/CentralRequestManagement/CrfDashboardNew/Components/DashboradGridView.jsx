@@ -8,6 +8,7 @@ const DashboradGridView = ({ val, viewPednigDetails }) => {
     const getData = useCallback(() => {
         viewPednigDetails(id)
     }, [id, viewPednigDetails])
+
     return (
         <Fragment>
             <Grid xs={12} sm={12} md={6} lg={4} xl={3} sx={{ width: "100%" }}>
@@ -60,49 +61,11 @@ const DashboradGridView = ({ val, viewPednigDetails }) => {
                     <Divider sx={{ backgroundColor: 'rgba(0,51,122,0.6)', mx: 1, }} />
                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'space-evenly', m: 0.5 }}
                     >
-                        {/* <Box component={Typography} endDecorator={<div>{clinic}</div>}
-                            sx={{
-                                fontFamily: 'Montserrat, sans-serif',
-                                fontSize: '1rem',
-                                fontWeight: 800,
-                                color: 'rgba(0,51,122,0.6)',
-                            }}
-                        >
-                            <Box sx={{ pr: 1 }}>
-                                <img
-                                    src={clinicImg}
-                                    alt="climg"
-                                    loading="lazy"
-                                    style={{ width: 26, height: 26, }}
-                                />
-                            </Box>
-
-                        </Box>
-                        <Box component={Typography} endDecorator={<div>{nonClinic}</div>}
-                            sx={{
-                                fontFamily: 'Montserrat, sans-serif',
-                                fontSize: '1rem',
-                                fontWeight: 800,
-                                color: 'rgba(0,51,122,0.6)',
-                            }}
-                        >
-                            <Box sx={{ pr: 1 }}>
-                                <img
-                                    src={nonclinicImg}
-                                    alt="nonclimg"
-                                    loading="lazy"
-                                    style={{ width: 26, height: 26, }}
-                                />
-                            </Box>
-
-                        </Box> */}
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Typography
                                 sx={{
                                     pr: 1,
                                     fontSize: '1rem',
-                                    // fontWeight: 550,
-                                    // color: 'rgba(0,51,122,0.6)',
                                     color: '#3f51b5'
                                 }}
                             >
@@ -114,7 +77,6 @@ const DashboradGridView = ({ val, viewPednigDetails }) => {
                                     fontSize: '1rem',
                                     fontWeight: 800,
                                     color: 'rgba(0,51,122,0.6)',
-                                    // color: '#3f51b5'
                                 }}
                             >
                                 {clinic}
@@ -125,8 +87,6 @@ const DashboradGridView = ({ val, viewPednigDetails }) => {
                                 sx={{
                                     pr: 1,
                                     fontSize: '1rem',
-                                    // fontWeight: 550,
-                                    // color: 'rgba(0,51,122,0.6)',
                                     color: '#3f51b5'
                                 }}
                             >
@@ -138,7 +98,6 @@ const DashboradGridView = ({ val, viewPednigDetails }) => {
                                     fontSize: '1rem',
                                     fontWeight: 800,
                                     color: 'rgba(0,51,122,0.6)',
-                                    // color: '#3f51b5'
                                 }}
                             >
                                 {nonClinic}

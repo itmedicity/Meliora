@@ -177,7 +177,7 @@ import { getMultHodInCharge } from './TmMultHodInchargeList.Reducer';
 import { setAmcCmcMaster } from './AmAMCCMCSelect.Reducer'
 import { setSupplierSelect } from './AmSupplierSelect.Reducer'
 import { getEquipmentList } from './QIEquipment.Reducer';
-import { getStoreReceivePendingReducer, getStoreReceiveAllReducer, getCrfPOStorReducer } from './CrmStoreProcess.Reducer'
+import { getStoreReceivePendingReducer, getStoreReceiveAllReducer } from './CrmStoreProcess.Reducer'
 
 const reducer = combineReducers({
     changeState,
@@ -361,7 +361,6 @@ const reducer = combineReducers({
     getprojectFrTaskCreation,
     getStoreReceivePendingReducer,
     getStoreReceiveAllReducer,
-    getCrfPOStorReducer,
     getCRFPurchaseDashboard,
     getPOStoreDashboard,
 

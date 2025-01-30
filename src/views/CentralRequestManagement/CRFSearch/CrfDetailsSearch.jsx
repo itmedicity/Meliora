@@ -9,10 +9,13 @@ import { format } from 'date-fns';
 import DepartmentsSelectCrf from './SearchComp/DepartmentsSelectCrf';
 import DeptSectionCrf from './SearchComp/DeptSectionCrf';
 import { infoNotify, warningNotify } from 'src/views/Common/CommonCode';
-import { axioslogin } from 'src/views/Axios/Axios';
+import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
 import { Virtuoso } from 'react-virtuoso';
 import SearchApprvlComp from './SearchComp/SearchApprvlComp';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
+import { useQuery } from 'react-query';
+import { getCompanyDetails } from 'src/api/CommonApiCRF';
+import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
 const CrfDetailsSearch = () => {
     const history = useHistory();
@@ -38,6 +41,14 @@ const CrfDetailsSearch = () => {
     const [dptSec, setdptSec] = useState(0)
     const [department, setDepartment] = useState(0)
     const [disData, setDisData] = useState([])
+    const [selectedCompany, setSelectedCompany] = useState('1');
+
+    const { data: compData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getCompany',
+        queryFn: () => getCompanyDetails(),
+        staleTime: Infinity
+    });
+    const companyData = useMemo(() => compData, [compData]);
 
     const clearSearch = useCallback(() => {
         const formData = {
@@ -55,50 +66,11 @@ const CrfDetailsSearch = () => {
         setdptSec(0)
         setDisData([])
     }, [])
-    // const clearSearch = useCallback(() => {
-    //     setReqDate(format(new Date(), "yyyy-MM-dd"))
-    //     setUserAckDate(format(new Date(), "yyyy-MM-dd"))
-    //     setsearchCrf('')
-    //     setReqCheck(false)
-    //     setCloseCheck(false)
-    // }, [])
-
-    // const [searchCrf, setsearchCrf] = useState('')
-    // const [reqDate, setReqDate] = useState(format(new Date(), "yyyy-MM-dd"));
-    // const [userAckDate, setUserAckDate] = useState(format(new Date(), "yyyy-MM-dd"));
-
-    // const [reqCheck, setReqCheck] = useState(false)
-    // const [closeCheck, setCloseCheck] = useState(false)
-
-    // const changeCrfNo = useCallback((e) => {
-    //     setsearchCrf(e.target.value)
-    // }, [])
-    // const reqDateChange = useCallback((e) => {
-    //     setReqDate(e.target.value)
-    // }, [])
-    // const userAckDateChange = useCallback((e) => {
-    //     setUserAckDate(e.target.value)
-    // }, [])
-
-    // const changeReqCheck = useCallback((e) => {
-    //     setReqCheck(e.target.checked);
-    // }, [])
-    // const changeCloseCheck = useCallback((e) => {
-    //     setCloseCheck(e.target.checked);
-    // }, [])
-
-    // const searchData = useMemo(() => {
-    //     return {
-    //         req_slno: searchCrf,
-    //         fromCreate: reqCheck === true ? format(new Date(reqDate), 'yyyy-MM-dd 00:00:00') : null,
-    //         toCreate: reqCheck === true ? format(new Date(reqDate), 'yyyy-MM-dd 23:59:59') : null,
-    //         userfrom: closeCheck === true ? format(new Date(userAckDate), 'yyyy-MM-dd 00:00:00') : null,
-    //         userTo: closeCheck === true ? format(new Date(userAckDate), 'yyyy-MM-dd 23:59:59') : null,
-    //         dept_id: department,
-    //         request_deptsec_slno: dptSec
-    //     };
-    // }, [searchCrf, reqDate, userAckDate, department, dptSec, reqCheck, closeCheck]);
-
+    const handleRadioChange = useCallback(async (e) => {
+        const selectedCompanyName = e.target.value;
+        setSelectedCompany(selectedCompanyName);
+        clearSearch()
+    }, [clearSearch])
     const searchData = useMemo(() => {
         const obj = {};
         if (searchCrf) obj.req_slno = searchCrf;
@@ -119,36 +91,32 @@ const CrfDetailsSearch = () => {
 
     }, [searchCrf, reqDate, userAckDate, department, dptSec, reqCheck, closeCheck, itemName, requirement, need]);
 
-
-
     const searchCRFDetails = useCallback(async () => {
-        // let pattern = /^[0-9][a-z][A-Z]{4}$/;
-        // if (pattern.test(po_number) === true) {
-        // if (searchCrf === '' && reqCheck === false && closeCheck === false && department === 0 && dptSec === 0
-        //     && itemName === '' && requirement === '' && need === '') {
-        //     infoNotify("Select any Options to Search")
-        // }
-        // else if (itemName.length < 4 && requirement.length < 4 && need.length < 4) {
-        //     infoNotify("Search parameters must be at least 4 characters long")
-        // }
         if (
             searchCrf === '' && reqCheck === false && closeCheck === false && department === 0 &&
-            dptSec === 0 && itemName === '' && requirement === '' && need === ''
-        ) {
+            dptSec === 0 && itemName === '' && requirement === '' && need === '') {
             infoNotify("Select any Options to Search");
         } else if (
             (itemName !== '' && itemName.length < 4) ||
             (requirement !== '' && requirement.length < 4) ||
-            (need !== '' && need.length < 4)
-        ) {
+            (need !== '' && need.length < 4)) {
             infoNotify("Search parameters must be at least 4 characters long");
         }
 
         else {
             const getCrfDetailbySearch = async (searchData) => {
                 try {
-                    const result = await axioslogin.post('/newCRFRegister/searchCrf', searchData);
+                    let result;
+                    if (selectedCompany === '1') {
+                        result = await axioslogin.post('/newCRFRegister/searchCrf', searchData);
+                    } else if (selectedCompany === '2') {
+                        result = await axioskmc.post('/newCRFRegister/searchCrf', searchData);
+                    } else {
+                        warningNotify("Please select a valid company.");
+                        return;
+                    }
                     const { data, success, message } = result.data;
+
                     if (success === 1) {
                         const datas = data?.map((val) => {
                             const obj = {
@@ -250,6 +218,14 @@ const CrfDetailsSearch = () => {
                                 ed_detial_analysis: val.ed_detial_analysis,
                                 ed_approve_date: val.ed_approve_date,
                                 ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
+                                managing_director_req: val.managing_director_req,
+                                managing_director_approve: val.managing_director_approve,
+                                managing: val.managing_director_approve === 1 ? "Approved" : val.managing_director_approve === 2 ? "Rejected" :
+                                    val.managing_director_approve === 3 ? "On-Hold" : val.managing_director_approve === 4 ? "Approved" : "Not Done",
+                                managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : "",
+                                managing_director_analysis: val.managing_director_analysis,
+                                managing_director_approve_date: val.managing_director_approve_date,
+                                managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
                                 now_who: val.req_status === 'C' ? "CRF Closed" :
                                     val.sub_store_recieve === 1 ? "Received in " + val.sub_store_name :
                                         val.store_recieve === 1 ? "All Items Received in CRS" :
@@ -264,16 +240,17 @@ const CrfDetailsSearch = () => {
                                                                             val.quatation_negotiation === 1 ? "Quotation Negotiation" :
                                                                                 val.quatation_calling_status === 1 ? "Quotation Calling" :
                                                                                     val.ack_status === 1 ? "Puchase Acknowledged" :
-                                                                                        val.ed_approve !== null ? "ED " :
-                                                                                            val.md_approve !== null ? "MD" :
-                                                                                                val.gm_approve !== null ? "GM" :
-                                                                                                    val.senior_manage_approv !== null ? "SMO" :
-                                                                                                        val.manag_operation_approv !== null ? "MO" :
-                                                                                                            val.ms_approve !== null ? "MS" :
-                                                                                                                val.dms_approve !== null ? "DMS" :
-                                                                                                                    val.hod_approve !== null ? "HOD" :
-                                                                                                                        val.incharge_approve !== null ? "Incharge" :
-                                                                                                                            "Not Started",
+                                                                                        val.managing_director_approve !== null ? 'Managing Director' :
+                                                                                            val.ed_approve !== null ? "ED " :
+                                                                                                val.md_approve !== null ? "MD" :
+                                                                                                    val.gm_approve !== null ? "GM" :
+                                                                                                        val.senior_manage_approv !== null ? "SMO" :
+                                                                                                            val.manag_operation_approv !== null ? "MO" :
+                                                                                                                val.ms_approve !== null ? "MS" :
+                                                                                                                    val.dms_approve !== null ? "DMS" :
+                                                                                                                        val.hod_approve !== null ? "HOD" :
+                                                                                                                            val.incharge_approve !== null ? "Incharge" :
+                                                                                                                                "Not Started",
                                 //  here now_who_status =5 is used to not show approved from purchase level on status
                                 now_who_status: val.req_status === 'C' ? '' :
                                     val.sub_store_recieve === 1 ? 5 :
@@ -288,16 +265,17 @@ const CrfDetailsSearch = () => {
                                                                         val.quatation_negotiation === 1 ? 5 :
                                                                             val.quatation_calling_status === 1 ? 5 :
                                                                                 val.ack_status === 1 ? 5 :
-                                                                                    val.ed_approve !== null ? val.ed_approve :
-                                                                                        val.md_approve !== null ? val.md_approve :
-                                                                                            val.gm_approve !== null ? val.gm_approve :
-                                                                                                val.senior_manage_approv !== null ? val.senior_manage_approv :
-                                                                                                    val.manag_operation_approv !== null ? val.manag_operation_approv :
-                                                                                                        val.ms_approve !== null ? val.ms_approve :
-                                                                                                            val.dms_approve !== null ? val.dms_approve :
-                                                                                                                val.hod_approve !== null ? val.hod_approve :
-                                                                                                                    val.incharge_approve !== null ? val.incharge_approve :
-                                                                                                                        0,
+                                                                                    val.managing_director_approve !== null ? val.managing_director_approve :
+                                                                                        val.ed_approve !== null ? val.ed_approve :
+                                                                                            val.md_approve !== null ? val.md_approve :
+                                                                                                val.gm_approve !== null ? val.gm_approve :
+                                                                                                    val.senior_manage_approv !== null ? val.senior_manage_approv :
+                                                                                                        val.manag_operation_approv !== null ? val.manag_operation_approv :
+                                                                                                            val.ms_approve !== null ? val.ms_approve :
+                                                                                                                val.dms_approve !== null ? val.dms_approve :
+                                                                                                                    val.hod_approve !== null ? val.hod_approve :
+                                                                                                                        val.incharge_approve !== null ? val.incharge_approve :
+                                                                                                                            0,
 
                                 hod_image: val.hod_image,
                                 dms_image: val.dms_image,
@@ -307,6 +285,7 @@ const CrfDetailsSearch = () => {
                                 gm_image: val.gm_image,
                                 md_image: val.md_image,
                                 ed_image: val.ed_image,
+                                managing_director_image: val.managing_director_image,
                                 ack_status: val.ack_status,
                                 ack_remarks: val.ack_remarks,
                                 purchase_ackuser: val.purchase_ackuser,
@@ -339,37 +318,54 @@ const CrfDetailsSearch = () => {
                                 dept_name: val.dept_name,
                                 dept_type: val.dept_type,
                                 dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+                                po_number: val.po_number,
+                                approval_level: val.approval_level
                             }
                             return obj
                         })
                         setDisData(datas)
-                    }
-                    else if (success === 2) {
-                        setDisData([])
-                        infoNotify(message)
+                    } else if (success === 2) {
+                        setDisData([]);
+                        infoNotify(message);
                     } else {
                         warningNotify(message);
                     }
                 } catch (error) {
-                    console.error("Error in CRF Search:", error);
-                    warningNotify("An error occurred while processing your request.Try again.");
+                    warningNotify("An error occurred while processing your request. Please try again.", error);
                 }
             };
-            getCrfDetailbySearch(searchData)
+            getCrfDetailbySearch(searchData);
         }
-    }, [searchData, searchCrf, department, dptSec, reqCheck, closeCheck, itemName, requirement, need])
+    }, [searchData, searchCrf, department, dptSec, reqCheck, closeCheck, itemName, requirement, need, selectedCompany])
 
+
+    if (isCompLoading) return <p>Loading...</p>;
+    if (compError) return <p>Error Occurred.</p>;
     return (
         <Fragment>
             <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
-                <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", }}>
-                    <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF Search</Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
-                        <CssVarsProvider>
-                            <CustomCloseIconCmp
-                                handleChange={backtoSetting}
-                            />
-                        </CssVarsProvider>
+                <Box sx={{ backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0', borderBottom: 'none' }}>
+                    <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", }}>
+                        <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF Search</Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
+                            <CssVarsProvider>
+                                <CustomCloseIconCmp
+                                    handleChange={backtoSetting}
+                                />
+                            </CssVarsProvider>
+                        </Box>
+                    </Box>
+                    <Box sx={{ height: 40, display: 'flex', alignItems: 'center', padding: '8px', justifyContent: 'center', bgcolor: 'white' }}>
+                        <RadioGroup row value={selectedCompany} onChange={handleRadioChange}>
+                            {companyData?.map((val) => (
+                                <FormControlLabel
+                                    key={val.company_slno}
+                                    value={val.company_slno}
+                                    control={<Radio />}
+                                    label={val.company_name}
+                                />
+                            ))}
+                        </RadioGroup>
                     </Box>
                 </Box>
                 <Box sx={{ flexWrap: 'wrap', border: '1px solid lightblue', bgcolor: '#E3EFF9', }}>
@@ -379,7 +375,7 @@ const CrfDetailsSearch = () => {
                             <Typography sx={{ fontSize: 13, color: '#1D617A', pl: 1, }} >CRF No.</Typography>
                             <CssVarsProvider>
                                 <CustomInputDateCmp
-                                    StartIcon={<Typography sx={{ fontSize: '13px', color: '#0063C5' }}>CRF/TMC/</Typography>}
+                                    StartIcon={<Typography sx={{ fontSize: '13px', color: '#0063C5' }}>{selectedCompany === '2' ? 'CRF/KMC/' : 'CRF/TMC/'}</Typography>}
                                     className={{
                                         borderRadius: 6, border: '1px solid #bbdefb', height: 35, color: '#1565c0'
                                     }}
@@ -394,51 +390,49 @@ const CrfDetailsSearch = () => {
                             </CssVarsProvider>
                         </Box>
                         <Box sx={{ pl: 0.3, flex: 1 }}>
-                            <Box sx={{}}>
-                                <Box sx={{ display: 'flex' }}>
-                                    <Typography sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 0.1 }} >CRF Request Date</Typography>
-                                    <CusCheckBox
-                                        variant="outlined"
-                                        size="md"
-                                        name="reqCheck"
-                                        value={reqCheck}
-                                        onCheked={updateOnchange}
-                                        checked={reqCheck}
-                                        className={{ color: '#1D617A', pb: 0.1 }}
-                                    />
-                                </Box>
-                                <CssVarsProvider>
-                                    {reqCheck === true ?
-                                        <CustomInputDateCmp
-                                            className={{
-                                                height: 25, borderRadius: 5, border: '1px solid #bbdefb',
-                                                color: '#0d47a1', fontSize: 14, width: '100%'
-                                            }}
-                                            size={'md'}
-                                            type='date'
-                                            value={reqDate}
-                                            name="reqDate"
-                                            handleChange={updateOnchange}
-                                            slotProps={{
-                                                input: { max: moment(new Date()).format('YYYY-MM-DD') }
-                                            }}
-                                        /> :
-                                        <CustomInputDateCmp
-                                            disabled
-                                            className={{
-                                                height: 25, borderRadius: 5, border: '1px solid #bbdefb',
-                                                color: '#0d47a1', fontSize: 14, width: '100%'
-                                            }}
-                                            size={'md'}
-                                            type='date'
-                                            value={reqDate}
-                                            slotProps={{
-                                                input: { max: moment(new Date()).format('YYYY-MM-DD') }
-                                            }}
-                                        />
-                                    }
-                                </CssVarsProvider>
+                            <Box sx={{ display: 'flex' }}>
+                                <Typography sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 0.1 }} >CRF Request Date</Typography>
+                                <CusCheckBox
+                                    variant="outlined"
+                                    size="md"
+                                    name="reqCheck"
+                                    value={reqCheck}
+                                    onCheked={updateOnchange}
+                                    checked={reqCheck}
+                                    className={{ color: '#1D617A', pb: 0.1 }}
+                                />
                             </Box>
+                            <CssVarsProvider>
+                                {reqCheck === true ?
+                                    <CustomInputDateCmp
+                                        className={{
+                                            height: 25, borderRadius: 5, border: '1px solid #bbdefb',
+                                            color: '#0d47a1', fontSize: 14, width: '100%'
+                                        }}
+                                        size={'md'}
+                                        type='date'
+                                        value={reqDate}
+                                        name="reqDate"
+                                        handleChange={updateOnchange}
+                                        slotProps={{
+                                            input: { max: moment(new Date()).format('YYYY-MM-DD') }
+                                        }}
+                                    /> :
+                                    <CustomInputDateCmp
+                                        disabled
+                                        className={{
+                                            height: 25, borderRadius: 5, border: '1px solid #bbdefb',
+                                            color: '#0d47a1', fontSize: 14, width: '100%'
+                                        }}
+                                        size={'md'}
+                                        type='date'
+                                        value={reqDate}
+                                        slotProps={{
+                                            input: { max: moment(new Date()).format('YYYY-MM-DD') }
+                                        }}
+                                    />
+                                }
+                            </CssVarsProvider>
                         </Box>
                         <Box sx={{ pl: 0.3, flex: 1 }}>
                             <Box sx={{ display: 'flex' }}>

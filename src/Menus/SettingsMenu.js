@@ -33,10 +33,12 @@ export const cm_setting_three = [
 //Request Management Master Menu
 export const crm_setting_one = [
     { to: '/Home/EmergencyType', name: 'Emergency Type Mast', slno: 177 },
+    { to: '/Home/CompanyMast', name: 'Company Master', slno: 234 },
 ]
 
 export const crm_setting_two = [
     { to: '/Home/OMTableMast', name: 'OM Table Mast', slno: 107 },
+    { to: '/Home/ApprovalMapping', name: 'CRF Approval Mapping Master', slno: 252 },
 ]
 
 export const crm_setting_three = [

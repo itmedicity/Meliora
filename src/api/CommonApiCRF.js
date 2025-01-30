@@ -142,9 +142,9 @@ export const getCrfRegDetailByDepSec = async (id) => {
     })
 }
 
-// delivery Marking
+// delivery Marking dashbord view
 export const getDeliveryMarking = async (postData) => {
-    return axioslogin.post('/newCRFRegister/delivery', postData).then((result) => {
+    return axioslogin.post('/CRFDashboard/delivery', postData).then((result) => {
         const { success, data } = result.data
         if (success === 1) {
             return data
@@ -156,7 +156,7 @@ export const getDeliveryMarking = async (postData) => {
 
 // item Checking
 export const getItemChecking = async (postData) => {
-    return axioslogin.post('/newCRFRegister/checkItem', postData).then((result) => {
+    return axioslogin.post('/CRFDashboard/checkItem', postData).then((result) => {
         const { success, data } = result.data
         if (success === 1) {
             return data
@@ -167,7 +167,7 @@ export const getItemChecking = async (postData) => {
 }
 // store Acknowledge
 export const getStoreAcknow = async (postData) => {
-    return axioslogin.post('/newCRFRegister/storeack', postData).then((result) => {
+    return axioslogin.post('/CRFDashboard/storeack', postData).then((result) => {
         const { success, data } = result.data
         if (success === 1) {
             return data
@@ -179,7 +179,7 @@ export const getStoreAcknow = async (postData) => {
 
 // User Acknowledge
 export const getUserAcknow = async (postData) => {
-    return axioslogin.post('/newCRFRegister/userack', postData).then((result) => {
+    return axioslogin.post('/CRFDashboard/userack', postData).then((result) => {
         const { success, data } = result.data
         if (success === 1) {
             return data
@@ -191,7 +191,7 @@ export const getUserAcknow = async (postData) => {
 
 // completed CRF
 export const getCompletedCRF = async (postData) => {
-    return axioslogin.post('/newCRFRegister/compCRF', postData).then((result) => {
+    return axioslogin.post('/CRFDashboard/compCRF', postData).then((result) => {
         const { success, data } = result.data
         if (success === 1) {
             return data
@@ -245,17 +245,6 @@ export const getUserAckDetails = async (id) => {
         }
     })
 }
-export const getPOItemsForUserAck = async (id) => {
-    return axioslogin.get(`/newCRFStore/viewStoreAck/${id}`).then((result) => {
-        const { success, datas } = result.data
-        if (success === 1) {
-            return datas
-        } else {
-            return []
-        }
-    })
-}
-
 export const getStoreReceivedItemDetails = async (id) => {
     return axioslogin.get(`/newCRFStore/storeReceivedItem/${id}`).then((result) => {
         const { success, data } = result.data
@@ -268,4 +257,57 @@ export const getStoreReceivedItemDetails = async (id) => {
 }
 
 
+export const getCompanyDetails = async () => {
+    return axioslogin.get('/companyMast/active').then((result) => {
+        const { success, data } = result.data
+        if (success === 1) {
+            return data
+        } else {
+            return []
+        }
+    })
+}
 
+export const getSupplierList = async () => {
+    return axioslogin.get('/deliveryMarking/supplier').then((result) => {
+        const { success, data } = result.data
+        if (success === 1) {
+            return data
+        } else {
+            return []
+        }
+    })
+}
+
+export const itemReturnDetailsForViewStore = async (postData) => {
+    return axioslogin.post('/newCRFRegister/returnPending', postData).then((result) => {
+        const { success, data } = result.data
+        if (success === 1) {
+            return data
+        } else {
+            return []
+        }
+    })
+}
+
+export const viewItemReturnDetails = async (id) => {
+    return axioslogin.get(`/newCRFRegister/returnView/${id}`).then((result) => {
+        const { success, data } = result.data
+        if (success === 1) {
+            return data
+        } else {
+            return []
+        }
+    })
+}
+
+export const getSubStoreCrfDetails = async () => {
+    return axioslogin.get('/newCRFStore/crfPOView').then((res) => {
+        const { success, data } = res.data
+        if (success === 1) {
+            return data
+        } else {
+            return []
+        }
+    })
+}

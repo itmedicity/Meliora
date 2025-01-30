@@ -31,31 +31,9 @@ const ReqItemDisplay = ({ reqItems }) => {
                                         //     item.item_status_approved === 2 ? '#D13120' :
                                         //         item.item_status_approved === 3 ? '#DBA40E' : null);
 
-                                        // const NewTooltip = ({ title, children }) => {
-                                        //     return (
-                                        //         <Tooltip
-                                        //             key="unique-key"
-                                        //             title={
-                                        //                 <Box sx={{ bgcolor: 'white', color: '#003060', p: 1, textAlign: 'center', textTransform: 'capitalize' }}
-                                        //                 >{title}
-                                        //                 </Box>
-                                        //             }
-                                        //             placement="top"
-                                        //             arrow
-                                        //             sx={{
-                                        //                 bgcolor: '#BFD7ED',
-                                        //                 [`& .MuiTooltip-arrow`]: {
-                                        //                     color: 'blue',
-                                        //                 },
-                                        //             }}
-                                        //         >
-                                        //             {children}
-                                        //         </Tooltip>
-                                        //     );
-                                        // };
 
                                         return (
-                                            // <NewTooltip key={item.req_detl_slno} placement="top" title={item.po_item_status === 1 ? "PO Generated" : (item.item_status_approved === 1
+                                            // <CustomToolTipForCRF key={item.req_detl_slno} placement="top" title={item.po_item_status === 1 ? "PO Generated" : (item.item_status_approved === 1
                                             //     ? "Approved"
                                             //     : item.item_status_approved === 2
                                             //         ? `Rejected by ${item.reject_remarks}`
@@ -76,7 +54,7 @@ const ReqItemDisplay = ({ reqItems }) => {
                                                             ? "Rejected " : item.item_status_approved === 3
                                                                 ? "On-Hold " : null)}</td> */}
                                             </tr>
-                                            // </NewTooltip>
+                                            // </CustomToolTipForCRF>
                                         );
                                     })}
 

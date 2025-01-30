@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useState, memo, useEffect, useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea } from '@mui/joy'
 import _ from 'underscore'
 import { useSelector } from 'react-redux'
@@ -47,9 +47,6 @@ const InchargeCancel = ({ open, handleCloseCrfClose, cancelData, reqItems, cance
 
         }
     }, [Closeremark, id, req_slno, cancelledOne])
-
-
-
     const reset = useCallback(() => {
         setCloseRemark('')
         setCloseCrf(false)
@@ -57,26 +54,30 @@ const InchargeCancel = ({ open, handleCloseCrfClose, cancelData, reqItems, cance
     }, [setCancelFlag])
 
     const submit = useCallback(async () => {
-        const updateClosedCrf = async (closedPatchData) => {
-            try {
-                const result = await axioslogin.patch('/CRFRegisterApproval/crfClose', closedPatchData);
-                const { success, message } = result.data;
-                if (success === 2) {
-                    succesNotify(message)
-                    await queryClient.invalidateQueries(['inchargeHodCrfList', JSON.stringify(deptsecArry)]);
-                    reset()
-                }
-                else {
-                    await queryClient.invalidateQueries(['inchargeHodCrfList', JSON.stringify(deptsecArry)]);
-                    warningNotify(message)
-                }
-            } catch (error) {
-                console.error("Error in CRF close:", error);
-                warningNotify("An error occurred while processing your request.Try again.");
-            }
+        if (Closeremark === '' || Closeremark === null || Closeremark === undefined) {
+            infoNotify("Enter Remarks")
         }
-        updateClosedCrf(closedPatchData)
-    }, [closedPatchData, reset, queryClient, deptsecArry])
+        else {
+            const updateClosedCrf = async (closedPatchData) => {
+                try {
+                    const result = await axioslogin.patch('/CRFRegisterApproval/crfClose', closedPatchData);
+                    const { success, message } = result.data;
+                    if (success === 2) {
+                        succesNotify(message)
+                        await queryClient.invalidateQueries(['inchargeHodCrfList', JSON.stringify(deptsecArry)]);
+                        reset()
+                    }
+                    else {
+                        await queryClient.invalidateQueries(['inchargeHodCrfList', JSON.stringify(deptsecArry)]);
+                        warningNotify(message)
+                    }
+                } catch (error) {
+                    warningNotify("An error occurred while processing your request.Try again.", error);
+                }
+            }
+            updateClosedCrf(closedPatchData)
+        }
+    }, [closedPatchData, reset, queryClient, deptsecArry, Closeremark])
 
     const closeModal = useCallback(() => {
         reset()

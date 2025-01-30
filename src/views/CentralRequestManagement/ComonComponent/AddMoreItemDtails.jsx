@@ -1,4 +1,4 @@
-import React, { useCallback, memo, useState, useEffect, Fragment } from 'react'
+import React, { useCallback, memo, useState, useEffect, Fragment, useMemo } from 'react'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { getUOM } from 'src/redux/actions/AmUOMList.action'
@@ -57,11 +57,12 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData }) => {
             warningNotify("Provide the quantity before specifying the unit price")
         }
     }, [item_qty])
-    const { data: itemData, isLoading: isItemsLoading, error: itemsError } = useQuery({
+    const { data: iteData, isLoading: isItemsLoading, error: itemsError } = useQuery({
         queryKey: ['approvedRejholdItemList', req_slno],
         queryFn: () => getApprovedCrfItems(req_slno),
         staleTime: Infinity
     });
+    const itemData = useMemo(() => iteData, [iteData])
     useEffect(() => {
         if (itemData && itemData.length !== 0) {
             setApproveTableData(itemData)

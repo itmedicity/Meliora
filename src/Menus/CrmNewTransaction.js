@@ -99,6 +99,13 @@ const CrmNewTransaction = [
         to: '/Home/CRFNewEDApproval',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+    {
+        men_slno: 253,
+        component: CNavItem,
+        name: 'Managing Director Approval',
+        to: '/Home/CRFNewManagingDirector',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
 
     {
         men_slno: 201,
@@ -136,14 +143,14 @@ const CrmNewTransaction = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 
+    {
+        men_slno: 243,
+        component: CNavItem,
+        name: 'CRF Biomedical View',
+        to: '/Home/CrfBiomedical',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
 
-    // {
-    //     men_slno: 2,
-    //     component: CNavItem,
-    //     name: 'PDF View',
-    //     to: '/Home/CRFNewPdfView',
-    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    // },
 ]
 
 export default CrmNewTransaction;

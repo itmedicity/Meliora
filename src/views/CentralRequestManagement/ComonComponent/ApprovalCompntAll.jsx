@@ -7,14 +7,14 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import ClearIcon from '@mui/icons-material/Clear';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-
 import ReqImageDisModal from './ImageUploadCmp/ReqImageDisModal';
-import CustomToolTip from './Components/CustomToolTip';
+import CustomToolTipForCRF from './Components/CustomToolTipForCRF';
+
 
 const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, updateApprovalState,
     imageCheck, selectFile, setSelectFile, uploadedImages,
 }) => {
-    const { reject, pending, remark, detailAnalis } = apprvlDetails
+    const { reject, pending, remark, detailAnalis, internallyArr } = apprvlDetails
     // heading, approve, reject, pending, updateApprove, updateReject, remark, detailAnalis,
     //     updatePending, imageCheck, selectFile, setSelectFile, uploadedImages, updateOnchangeState 
 
@@ -97,8 +97,11 @@ const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, update
         } else if (pending) {
             return "Detail Justification for On-Hold";
         }
+        else if (internallyArr) {
+            return "Details Of Internally Arranged";
+        }
         return "Detail Justification/ Requirement Description";
-    }, [reject, pending])
+    }, [reject, pending, internallyArr])
 
     return (
 
@@ -126,7 +129,7 @@ const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, update
                         sx={{ fontSize: 14, borderRadius: 7 }}
                     />
                 </Box>
-                {!reject && !pending && (
+                {!reject && !pending && !internallyArr && (
                     <>
                         <Typography sx={{ fontSize: 14, fontWeight: 550, pl: 1 }}>
                             Detailed Analysis of Requirement
@@ -147,10 +150,18 @@ const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, update
                     </>
                 )}
                 <Box sx={{ display: "flex", flex: 1, pl: 10 }}>
-                    {["approve", "reject", "pending"].map((type) => (
+                    {["approve", "reject", "pending", "internallyArr"].map((type) => (
                         <Box key={type} sx={{ m: 1 }}>
                             <CusCheckBox
-                                label={type.charAt(0).toUpperCase() + type.slice(1)}
+                                label={
+                                    type === "approve"
+                                        ? "Approve"
+                                        : type === "reject"
+                                            ? "Reject"
+                                            : type === "pending"
+                                                ? "On-Hold"
+                                                : "Internally Arranged"
+                                }
                                 color="primary"
                                 size="md"
                                 name={type}
@@ -160,111 +171,13 @@ const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, update
                         </Box>
                     ))}
                 </Box>
-                {/* {reject === true ?
-                    <Box>
-                        <Typography sx={{ fontSize: 14, fontWeight: 550, pl: 1 }} >Detail Justification for Reject </Typography>
-                        <Box sx={{ flex: 1, m: 0.5, px: 0.5 }}>
-                            <Textarea
-                                required
-                                placeholder="Reject Remark"
-                                value={remark || ''}
-                                autoComplete='off'
-                                name='remark'
-                                minRows={2}
-                                maxRows={3}
-                                onChange={updateOnchangeState}
-                                sx={{ fontSize: 14, borderRadius: 7 }}
-                            />
-                        </Box>
-                    </Box>
-                    : pending === true ?
-                        <Box>
-                            <Typography sx={{ fontSize: 14, fontWeight: 550, pl: 1 }} >Detail Justification for On-Hold  </Typography>
-                            <Box sx={{ flex: 1, m: 0.5, px: 0.5 }}>
-                                <Textarea
-                                    required
-                                    placeholder="On-Hold Remarks"
-                                    value={remark || ''}
-                                    autoComplete='off'
-                                    name='remark'
-                                    minRows={2}
-                                    maxRows={3}
-                                    onChange={updateOnchangeState}
-                                    sx={{ fontSize: 14, borderRadius: 7 }}
-                                />
-                            </Box>
-                        </Box>
-                        :
-                        <Box>
-                            <Typography sx={{ fontSize: 14, fontWeight: 550, pl: 1 }} >Detail Justification/ Requirement Description</Typography>
-                            <Box sx={{ flex: 1, m: 0.5, px: 0.5 }}>
-                                <Textarea
-                                    required
-                                    placeholder="Remarks"
-                                    value={remark || ''}
-                                    autoComplete='off'
-                                    name='remark'
-                                    minRows={2}
-                                    maxRows={3}
-                                    onChange={updateOnchangeState}
-                                    sx={{ fontSize: 14, borderRadius: 7 }}
-                                />
-                            </Box>
-                            <Typography sx={{ fontSize: 14, fontWeight: 550, pl: 1 }}>Detailed Analysis of Requirement</Typography>
-                            <Box sx={{ flex: 1, m: 0.5, px: 0.5 }}>
-                                <Textarea
-                                    required
-                                    placeholder="Detail Analysis"
-                                    value={detailAnalis || ''}
-                                    autoComplete='off'
-                                    name='detailAnalis'
-                                    minRows={2}
-                                    maxRows={3}
-                                    onChange={updateOnchangeState}
-                                    sx={{ fontSize: 14, borderRadius: 7 }}
-                                />
-                            </Box>
-                        </Box>}
-                <Box sx={{ display: "flex", flex: 1, pl: 10 }}>
-                    <Box sx={{ m: 1, pl: 2 }}>
-                        <CusCheckBox
-                            label="Approve"
-                            color="primary"
-                            size="md"
-                            name="approve"
-                            value={approve || false}
-                            checked={approve}
-                            onCheked={updateApprove}
-                        />
-                    </Box>
-                    <Box sx={{ m: 1 }}>
-                        <CusCheckBox
-                            label="Reject"
-                            color="primary"
-                            size="md"
-                            name="reject"
-                            value={reject || false}
-                            checked={reject}
-                            onCheked={updateReject}
-                        />
-                    </Box>
-                    <Box sx={{ m: 1 }}>
-                        <CusCheckBox
-                            label="On-Hold"
-                            color="primary"
-                            size="md"
-                            name="pending"
-                            value={pending || false}
-                            checked={pending}
-                            onCheked={updatePending}
-                        />
-                    </Box>
-                </Box> */}
+
+                {/* file upload */}
                 <Paper variant="outlined" square sx={{ p: 0.5, m: 0.5, display: "flex", flexWrap: "wrap" }}>
                     <Box sx={{}}>
 
                         <label htmlFor="file-input">
-                            <CustomToolTip
+                            <CustomToolTipForCRF
                                 title={"Upload File "}
                                 placement={"bottom"}
                             >
@@ -302,7 +215,7 @@ const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, update
                                         Maximum Size 25MB
                                     </Typography>
                                 </IconButton>
-                            </CustomToolTip>
+                            </CustomToolTipForCRF>
                         </label>
                         <input
                             multiple

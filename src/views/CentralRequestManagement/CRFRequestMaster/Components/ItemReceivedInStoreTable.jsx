@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider, IconButton, Table, Tooltip } from '@mui/joy';
-import { keyframes, Paper, useMediaQuery, } from '@mui/material';
+import { keyframes, Paper } from '@mui/material';
 import { format } from 'date-fns';
 import React, { Fragment, memo, useCallback, useState } from 'react'
 import CRFApprovalView from './CRFApprovalView';
@@ -26,8 +26,6 @@ const ItemReceivedInStoreTable = ({ storeData }) => {
     const blinkAnimation = keyframes`0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; }`;
     const viewDetails = useCallback((val) => {
         setModalData(val)
-        setModalOpen(true)
-        setModFlag(1)
         const { req_slno } = val
         const getImage = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
@@ -51,6 +49,8 @@ const ItemReceivedInStoreTable = ({ storeData }) => {
         }
         getImage(req_slno)
         GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
+        setModalOpen(true)
+        setModFlag(1)
     }, [])
 
     const handleClose = useCallback(() => {
@@ -64,26 +64,28 @@ const ItemReceivedInStoreTable = ({ storeData }) => {
     const userAcknowledge = useCallback((val) => {
         const { req_slno } = val
         setReq_slno(req_slno)
+        GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
         setAckModal(true)
         setackFlag(1)
     }, [setAckModal])
 
-    const isXs = useMediaQuery('(max-width:600px)');
-    const isSm = useMediaQuery('(min-width:600px) and (max-width:960px)');
-    const isMd = useMediaQuery('(min-width:960px) and (max-width:1280px)');
-    const isLg = useMediaQuery('(min-width:1280px) and (max-width:1920px)');
-    const isXl = useMediaQuery('(min-width:1920px)');
+    // const isXs = useMediaQuery('(max-width:600px)');
+    // const isSm = useMediaQuery('(min-width:600px) and (max-width:960px)');
+    // const isMd = useMediaQuery('(min-width:960px) and (max-width:1280px)');
+    // const isLg = useMediaQuery('(min-width:1280px) and (max-width:1920px)');
+    // const isXl = useMediaQuery('(min-width:1920px)');
 
-    const newFontSize = isXs ? '10px'
-        : isSm ? '12px'
-            : isMd ? '13px'
-                : isLg ? '14px'
-                    : isXl ? '16px' : '18px'
+    // const newFontSize = isXs ? '10px'
+    //     : isSm ? '12px'
+    //         : isMd ? '13px'
+    //             : isLg ? '14px'
+    //                 : isXl ? '16px' : '18px'
     return (
         <Fragment>
             {modFlag === 1 ? <CRFApprovalView modalData={modalData} handleClose={handleClose} open={modalopen}
                 imagearray={imagearray} poDetails={poDetails} approveTableData={approveTableData} reqItems={reqItems} /> : null}
-            {ackFlag === 1 ? <UserAckModal handleClose={handleClose} open={ackModal} req_slno={req_slno} /> : null}
+            {ackFlag === 1 ? <UserAckModal handleClose={handleClose} open={ackModal} req_slno={req_slno}
+                approveTableData={approveTableData} reqItems={reqItems} /> : null}
             {storeData.length !== 0 ?
                 <Paper variant="outlined" sx={{
                     overflow: 'auto', height: window.innerHeight - 210, flexWrap: 'wrap',
@@ -96,17 +98,21 @@ const ItemReceivedInStoreTable = ({ storeData }) => {
                                     <th size='sm' style={{ width: 50, textAlign: 'center' }}></th>
                                     <th size='sm' style={{ width: 50, textAlign: 'center' }}></th>
                                     <th size='sm' style={{ width: 100, textAlign: 'left' }}>CRF No</th>
-                                    <th size='sm' style={{ width: 150, textAlign: 'left' }}>Req.Date</th>
-                                    <th size='sm' style={{ width: 300, textAlign: 'left' }}>Purpose</th>
-                                    <th size='sm' style={{ width: 300, textAlign: 'left' }}>Justification</th>
-                                    <th size='sm' style={{ width: 150, textAlign: 'left' }}>Location</th>
-                                    <th size='sm' style={{ width: 150, textAlign: 'left' }}>Expected Date</th>
-                                    <th size='sm' style={{ width: 180, textAlign: 'left' }}>Approval Status</th>
+                                    <th size='sm' style={{ width: 200, textAlign: 'left' }}>Req.Dpt</th>
+                                    <th size='sm' style={{ width: 200, textAlign: 'left' }}>Req.Date</th>
+                                    <th size='sm' style={{ width: 350, textAlign: 'left' }}>Category</th>
+                                    <th size='sm' style={{ width: 200, textAlign: 'left' }}>User Dpt</th>
+                                    <th size='sm' style={{ width: 200, textAlign: 'left' }}>Location</th>
+                                    <th size='sm' style={{ width: 200, textAlign: 'left' }}>Approval Status</th>
                                 </tr>
                             </thead>
                             <tbody size='small' style={{ height: 4 }}>
                                 {storeData?.map((val, index) => (
-                                    <tr key={index} style={{ height: 4, background: (val.sub_store_recieve === 1) ? '#c8e6c9' : (val.store_recieve === 0 || val.store_recieve === 1) ? '#e0f2f1' : 'transparent' }} size='small' >
+                                    <tr key={index}
+                                        style={{
+                                            height: 4,
+                                            background: (val.sub_store_recieve === 1) ? '#B1D8B7' : (val.store_recieve === 0 || val.store_recieve === 1) ? '#BFD7ED' : 'transparent'
+                                        }} size='small' >
                                         <td>
                                             {val.sub_store_recieve === 1 ?
                                                 <Tooltip title="User Acknowledgement" placement="right">
@@ -164,17 +170,11 @@ const ItemReceivedInStoreTable = ({ storeData }) => {
                                             </Tooltip>
                                         </td>
                                         <td style={{ fontSize: 13 }}>CRF/TMC/{val.req_slno}</td>
+                                        <td style={{ fontSize: 13 }}>{val.req_deptsec}</td>
                                         <td style={{ fontSize: 13 }}>{format(new Date(val.req_date), 'dd-MM-yyyy hh:mm:ss a')}</td>
-                                        <td style={{
-                                            newFontSize, maxWidth: 300, wordWrap: 'break-word',
-                                            whiteSpace: 'normal',
-                                        }}>{val.actual_requirement}</td>
-                                        <td style={{
-                                            newFontSize, maxWidth: 300, wordWrap: 'break-word',
-                                            whiteSpace: 'normal',
-                                        }}>{val.needed}</td>
+                                        <td style={{ fontSize: 13 }}>{val.category_name}</td>
+                                        <td style={{ fontSize: 13 }}>{val.user_deptsection}</td>
                                         <td style={{ fontSize: 13 }}>{(val.location)}</td>
-                                        <td style={{ fontSize: 13 }}>{format(new Date(val.expected_date), 'dd-MM-yyyy')}</td>
                                         <td style={{ fontSize: 13 }}>
                                             <CssVarsProvider>
                                                 <IconButton

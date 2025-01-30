@@ -10,7 +10,7 @@ const PurchaseGridView = ({ val, viewPednigDetails }) => {
     }, [id, viewPednigDetails])
     return (
         <Fragment>
-            <Grid xs={12} sm={12} md={6} lg={4} xl={4} sx={{ width: "100%" }}>
+            <Grid xs={12} sm={12} md={6} lg={4} xl={3} sx={{ width: "100%" }}>
                 <Paper variant="outlined" square
                     sx={{ bgcolor: 'white', height: 160, border: '1px solid #bbdefb', borderRadius: 5 }}>
                     <Box sx={{ marginBottom: 1, display: 'flex', height: 'calc(100% - 40px)', }} >

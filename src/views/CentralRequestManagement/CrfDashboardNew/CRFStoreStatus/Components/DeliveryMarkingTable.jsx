@@ -24,7 +24,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
         const { delivery_mark_slno } = val
         const getPoData = async (delivery_mark_slno) => {
             try {
-                const result = await axioslogin.get(`/newCRFRegister/getpo/${delivery_mark_slno}`)
+                const result = await axioslogin.get(`/CRFDashboard/getpo/${delivery_mark_slno}`)
                 const { success, data } = result.data
                 if (success === 1) {
                     const newData = data?.map((po) => {
@@ -87,47 +87,6 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
                                 <Typography sx={{ width: 120, textAlign: 'left', fontWeight: 550, fontSize: 12, color: 'white' }}>Receiver</Typography>
                                 <Typography sx={{ minWidth: 30, textAlign: 'center', fontWeight: 550, fontSize: 12, }}></Typography>
                             </Box>
-                            {/* <Virtuoso
-                                style={{ height: window.innerHeight - 282, width: '100%', }}
-                                data={disData}
-                                itemContent={(index, val) => (
-                                    <React.Fragment key={val.slno}>
-                                        <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}>
-                                            <Typography sx={{ width: 50, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
-                                            <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.dc_mark_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
-                                            <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{val.supplier_name}</Typography>
-                                            <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.dc_receive_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
-                                            <Typography sx={{ width: 170, textAlign: 'left', fontSize: 12, my: 1 }}>
-                                                {[val.mt_direct, val.mt_courier].filter(Boolean).join(', ')}
-                                            </Typography>
-
-                                            <Typography sx={{ width: 120, textAlign: 'left', fontSize: 12, my: 1 }}>{val.delivery_bill_details}</Typography>
-                                            <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{val.remarks}</Typography>
-                                            <Typography sx={{ width: 120, textAlign: 'left', fontSize: 12, my: 1 }}>{val.received_user}</Typography>
-                                            < Box sx={{ width: 30, textAlign: 'center', pt: 0.5, cursor: 'pointer', mr: 2 }}>
-                                                <Tooltip title="PO Details" placement="left">
-                                                    <ArrowDropDownCircleTwoToneIcon
-                                                        sx={{
-                                                            fontSize: 'lg',
-                                                            color: '#145DA0',
-                                                            height: 25,
-                                                            width: 30,
-                                                            borderRadius: 2,
-                                                            boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
-                                                            cursor: 'pointer',
-                                                            transition: 'transform 0.2s',
-                                                            '&:hover': {
-                                                                transform: 'scale(1.1)',
-                                                            },
-                                                        }}
-                                                        onClick={() => viewPOItemDetails(val)}
-                                                    />
-                                                </Tooltip>
-                                            </Box>
-                                        </Box>
-                                    </React.Fragment>
-                                )}
-                            /> */}
                             <Virtuoso
                                 style={{ height: window.innerHeight - 282, width: '100%' }}
                                 data={disData}

@@ -41,11 +41,7 @@ const DataCollectionViewModal = ({ open, handleClose, reqData, dtaEnterViewData,
                         <Box sx={{ pt: 0.5 }}>
                             {reqItems.length !== 0 ?
                                 <ReqItemDisplay reqItems={reqItems} />
-                                : <Box sx={{
-                                    display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5, color: 'grey'
-                                }}>
-                                    No Item Requested
-                                </Box>
+                                : null
                             }
                         </Box>
                         <Box sx={{ mt: 0.5, flexWrap: 'wrap' }} >
@@ -59,25 +55,25 @@ const DataCollectionViewModal = ({ open, handleClose, reqData, dtaEnterViewData,
                                     <Box sx={{ flexWrap: 'wrap', mt: 0.5, mx: 0.2 }}>
                                         <Grid container spacing={0.5} sx={{ flexGrow: 1, }}>
                                             {ack_status === 1 ?
-                                                <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                     <PoAcknowComp poData={reqData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {quatation_calling_status === 1 ?
-                                                <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                     <QuotationCallComp poData={reqData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {quatation_negotiation === 1 ?
-                                                <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                     <QuotationNegoComp poData={reqData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {quatation_fixing === 1 ?
-                                                <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                     <QuotationFinalComp poData={reqData} />
                                                 </Grid>
                                                 : null
@@ -86,7 +82,6 @@ const DataCollectionViewModal = ({ open, handleClose, reqData, dtaEnterViewData,
                                     </Box>
                                     : null}
                             </>
-
                             : null}
 
                     </Box>

@@ -44,7 +44,7 @@ const BackupChecksTable = () => {
                             {backup?.map((val, index) => (
                                 <tr key={val.backup_slno} style={{ height: 8 }} size='small' >
                                     <td style={{ textAlign: 'center' }}>{index + 1}</td>
-                                    <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup'}</td>
+                                    <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : (val.backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup'}</td>
                                     <td>{val.backup_name}</td>
                                     <td>{val.backup_location}</td>
                                     <td>{val.backup_device_ip}</td>

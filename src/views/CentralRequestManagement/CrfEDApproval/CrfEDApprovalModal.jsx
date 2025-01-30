@@ -17,10 +17,10 @@ import { useQueryClient } from 'react-query'
 import { useSelector } from 'react-redux'
 import _ from 'underscore'
 import imageCompression from 'browser-image-compression';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
 import { format } from 'date-fns'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { axioslogin } from 'src/views/Axios/Axios'
+import { axioskmc, axioslogin } from 'src/views/Axios/Axios'
 import CommonDmsApprvCmp from '../ComonComponent/ApprovalComp/CommonDmsApprvCmp'
 import CommonMsApprvCmp from '../ComonComponent/ApprovalComp/CommonMsApprvCmp'
 import CommonMoApprvlCmp from '../ComonComponent/ApprovalComp/CommonMoApprvlCmp'
@@ -28,9 +28,11 @@ import CommonSmoApprvCmp from '../ComonComponent/ApprovalComp/CommonSmoApprvCmp'
 import CommonGmapprvCmp from '../ComonComponent/ApprovalComp/CommonGmapprvCmp'
 import CommonMdApprvCmp from '../ComonComponent/ApprovalComp/CommonMdApprvCmp'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
+import KMCItemApprovalComponent from '../ComonComponent/ComponentsKMC/KMCItemApprovalComponent'
+import AddMoreItemsKMC from '../ComonComponent/ComponentsKMC/AddMoreItemsKMC'
 
 const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
-    datacolflag, datacolData, imagearray }) => {
+    datacolflag, datacolData, imagearray, selectedCompany }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve,
         ms_approve_req, manag_operation_approv, senior_manage_approv, gm_approve, md_approve, ed_approve,
         ed_approve_remarks, ed_detial_analysis, ed_image
@@ -49,12 +51,13 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
         approve: ed_approve === 1 ? true : false,
         reject: ed_approve === 2 ? true : false,
         pending: ed_approve === 3 ? true : false,
+        internallyArr: ed_approve === 4 ? true : false,
         remark: ed_approve_remarks !== null ? ed_approve_remarks : '',
         detailAnalis: ed_detial_analysis !== null ? ed_detial_analysis : '',
         datacollFlag: false,
         datacolectremark: ''
     });
-    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark } = apprvlDetails
+    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr } = apprvlDetails
     const updateOnchangeState = useCallback((e) => {
         const { name, type, value, checked } = e.target;
         setApprvlDetails((prev) => ({
@@ -69,6 +72,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
             approve: type === 'approve',
             reject: type === 'reject',
             pending: type === 'pending',
+            internallyArr: type === 'internallyArr'
         }));
     }, []);
 
@@ -91,6 +95,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                 approve: false,
                 reject: false,
                 pending: false,
+                internallyArr: false,
                 datacollFlag: false,
                 datacolectremark: ''
             }));
@@ -116,7 +121,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
 
     const EDPatchData = useMemo(() => {
         return {
-            ed_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            ed_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : internallyArr === true ? 4 : null,
             ed_user: id,
             req_slno: req_slno,
             ed_approve_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
@@ -129,20 +134,23 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                 }
             })
         }
-    }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData])
-
+    }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData, internallyArr])
     const submit = useCallback(() => {
         if (editEnable === 1) {
             infoNotify("Ensure all other details are entered/completed before submitting");
-        }
-        else {
+        } else {
             const updateEDApproval = async (EDPatchData) => {
                 const result = await axioslogin.patch('/CRFRegisterApproval/Ed', EDPatchData);
-                return result.data
-            }
+                return result.data;
+            };
+            const updateEDApprovalKMC = async (EDPatchData) => {
+                const result = await axioskmc.patch('/CRFRegisterApproval/Ed', EDPatchData);
+                return result.data;
+            };
+
             const DataCollRequestFnctn = async (postData) => {
                 try {
-                    const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert`, postData);
+                    const result = await axioslogin.post('/CRFRegisterApproval/dataCollect/Insert', postData);
                     const { success, message } = result.data;
                     if (success === 1) {
                         succesNotify(message);
@@ -155,6 +163,23 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                     warningNotify('An error occurred during data collection insertion.');
                 }
             };
+
+            const DataCollRequestKMC = async (postData) => {
+                try {
+                    const result = await axioskmc.post('/CRFRegisterApproval/dataCollect/Insert', postData);
+                    const { success, message } = result.data;
+                    if (success === 1) {
+                        succesNotify(message);
+                        queryClient.invalidateQueries('getAllKmcPending');
+                        reset();
+                    } else {
+                        warningNotify(message);
+                    }
+                } catch (error) {
+                    warningNotify('An error occurred during data collection insertion.');
+                }
+            };
+
             const FileInsert = async (req_slno, selectFile) => {
                 try {
                     const formData = new FormData();
@@ -168,6 +193,28 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                         }
                     }
                     const result = await axioslogin.post('/newCRFRegisterImages/crf/ImageInsertED', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    });
+                    return result.data;
+                } catch (error) {
+                    warningNotify('An error occurred during file upload.');
+                }
+            };
+            const FileInsertKMC = async (req_slno, selectFile) => {
+                try {
+                    const formData = new FormData();
+                    formData.append('reqslno', req_slno);
+                    for (const file of selectFile) {
+                        if (file.type.startsWith('image')) {
+                            const compressedFile = await handleImageUpload(file);
+                            formData.append('files', compressedFile, compressedFile.name);
+                        } else {
+                            formData.append('files', file, file.name);
+                        }
+                    }
+                    const result = await axioskmc.post('/newCRFRegisterImages/crf/ImageInsertED', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
                         },
@@ -194,15 +241,20 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                     reqest_one: 9,
                     req_user: id,
                 }));
-                DataCollRequestFnctn(postData);
+                if (selectedCompany === '1') {
+                    DataCollRequestFnctn(postData);
+                } else if (selectedCompany === '2') {
+                    DataCollRequestKMC(postData);
+                }
                 return;
             }
-            if (!approve && !reject && !pending) {
+            if (!approve && !reject && !pending && !internallyArr) {
                 warningNotify("Select any status");
                 return;
             }
-            updateEDApproval(EDPatchData).then((val) => {
-                const { success, message } = val;
+            const handleApproval = async (updateFunction, fileInsertFunction, queryKey) => {
+                const result = await updateFunction(EDPatchData);
+                const { success, message } = result;
                 if (success !== 1) {
                     warningNotify(message);
                     return;
@@ -210,25 +262,33 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                 const onSuccess = (fileUploadMessage) => {
                     const notifyMessage = approve ? "Approved Successfully" : "Status Updated";
                     succesNotify(`${notifyMessage}${fileUploadMessage ? ` and ${fileUploadMessage}` : ""}`);
-                    queryClient.invalidateQueries('getPendingAll');
                     reset();
+                    queryClient.invalidateQueries(queryKey);
                 };
                 if (selectFile.length > 0) {
-                    FileInsert(req_slno, selectFile).then((fileResponse) => {
-                        const { success: fileSuccess, message: fileMessage } = fileResponse || {};
-                        if (fileSuccess === 1) {
-                            onSuccess("file uploaded");
-                        } else {
-                            warningNotify(fileMessage);
-                        }
-                    });
+                    const fileResponse = await fileInsertFunction(req_slno, selectFile);
+                    const { success: fileSuccess, message: fileMessage } = fileResponse || {};
+                    if (fileSuccess === 1) {
+                        onSuccess("file uploaded");
+                    } else {
+                        warningNotify(fileMessage);
+                    }
                 } else {
                     onSuccess();
                 }
-            });
+            };
+            if ((approve && detailAnalis && remark) || ((reject || pending || internallyArr) && remark)) {
+                if (selectedCompany === '1') {
+                    handleApproval(updateEDApproval, FileInsert, 'getPendingAll');
+                } else if (selectedCompany === '2') {
+                    handleApproval(updateEDApprovalKMC, FileInsertKMC, 'getAllKmcPending');
+                }
+            } else {
+                warningNotify("Justification is required");
+            }
         }
-    }, [EDPatchData, reset, datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, queryClient,
-        handleImageUpload, approve, reject, pending, editEnable])
+    }, [EDPatchData, reset, datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, queryClient, internallyArr,
+        handleImageUpload, approve, reject, pending, editEnable, selectedCompany, detailAnalis, remark]);
 
     const closeModal = useCallback(() => {
         handleClose()
@@ -236,33 +296,61 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
 
     useEffect(() => {
         isMounted.current = true;
-        const getImage = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFRegisterImages/crfEDImageGet/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const fileNames = data;
-                const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/EDUpload/${fileName}`;
-                });
-                const savedFiles = fileUrls.map((val) => {
-                    const parts = val.split('/');
-                    const fileNamePart = parts[parts.length - 1];
-                    const obj = {
-                        imageName: fileNamePart,
-                        url: val
-                    }
-                    return obj
-                })
-                setUploadedImages(savedFiles);
-            } else {
-                setUploadedImages([])
+        if (selectedCompany === '1') {
+            const getImage = async (req_slno) => {
+                const result = await axioslogin.get(`/newCRFRegisterImages/crfEDImageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/EDUpload/${fileName}`;
+                    });
+                    const savedFiles = fileUrls.map((val) => {
+                        const parts = val.split('/');
+                        const fileNamePart = parts[parts.length - 1];
+                        const obj = {
+                            imageName: fileNamePart,
+                            url: val
+                        }
+                        return obj
+                    })
+                    setUploadedImages(savedFiles);
+                } else {
+                    setUploadedImages([])
+                }
             }
+            getImage(req_slno)
         }
-        getImage(req_slno)
+        else if (selectedCompany === '2') {
+
+            const getImage = async (req_slno) => {
+                const result = await axioskmc.get(`/newCRFRegisterImages/crfEDImageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/EDUpload/${fileName}`;
+                    });
+                    const savedFiles = fileUrls.map((val) => {
+                        const parts = val.split('/');
+                        const fileNamePart = parts[parts.length - 1];
+                        const obj = {
+                            imageName: fileNamePart,
+                            url: val
+                        }
+                        return obj
+                    })
+                    setUploadedImages(savedFiles);
+                } else {
+                    setUploadedImages([])
+                }
+            }
+            getImage(req_slno)
+        }
         return () => {
             isMounted.current = false;
         };
-    }, [req_slno])
+    }, [req_slno, selectedCompany])
 
     return (
         <Fragment>
@@ -291,7 +379,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                             }}
                         />
                         <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
-                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} />
+                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} selectedCompany={selectedCompany} />
                             <Box sx={{ overflow: 'auto', pt: 0.5, mx: 0.3 }}>
                                 {reqItems.length !== 0 ?
                                     <ReqItemDisplay reqItems={reqItems} /> : null
@@ -316,43 +404,43 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                     }
                                     {hod_req === 1 && hod_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonHodApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonHodApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {dms_req === 1 && dms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonDmsApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {ms_approve_req === 1 && ms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMsApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonMsApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {manag_operation_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMoApprvlCmp DetailViewData={ApprovalData} />
+                                            <CommonMoApprvlCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {senior_manage_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonSmoApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonSmoApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {gm_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonGmapprvCmp DetailViewData={ApprovalData} />
+                                            <CommonGmapprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {md_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMdApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonMdApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                 </Box>
                                 <Box sx={{ py: 0.5, mx: 0.2 }}>
                                     {datacolflag === 1 ?
-                                        <ViewOreviousDataCollctnDetails datacolData={datacolData} />
+                                        <ViewOreviousDataCollctnDetails datacolData={datacolData} selectedCompany={selectedCompany} />
                                         : null
                                     }
                                 </Box>
@@ -401,11 +489,13 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                     </Box>
                                     :
                                     <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap', mx: 0.3 }} >
-                                        {approveTableData.length !== 0 ?
+                                        {selectedCompany === '1' ?
                                             <>
-                                                <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
-                                                    setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
-                                                    header='ED' apprvLevel={9} />
+                                                {approveTableData && approveTableData.length > 0 ?
+                                                    <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
+                                                        setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
+                                                        header='ED' apprvLevel={9} />
+                                                    : null}
                                                 <Box sx={{ pl: 0.5 }}>
                                                     <CustomIconButtonCmp
                                                         handleChange={AddItems}>
@@ -415,25 +505,35 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                                 {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
                                                     setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
                                                 /> : null}
-                                                <ApprovalCompntAll
-                                                    heading="Executive Director Approval"
-                                                    apprvlDetails={apprvlDetails}
-                                                    updateOnchangeState={updateOnchangeState}
-                                                    updateApprovalState={updateApprovalState}
-                                                    imageCheck={ed_image}
-                                                    selectFile={selectFile}
-                                                    setSelectFile={setSelectFile}
-                                                    uploadedImages={uploadedImages}
-                                                />
                                             </>
-                                            : null
-                                            // <Box sx={{
-                                            //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                            //     pt: 10, color: 'grey'
-                                            // }}>
-                                            //     No items Approved
-                                            // </Box>
-                                        }
+                                            : selectedCompany === '2' ?
+                                                <>
+                                                    {approveTableData && approveTableData.length > 0 ?
+                                                        <KMCItemApprovalComponent req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
+                                                            setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
+                                                            header='ED' apprvLevel={8} />
+                                                        : null}
+                                                    <Box sx={{ pl: 0.5 }}>
+                                                        <CustomIconButtonCmp
+                                                            handleChange={AddItems}>
+                                                            Add Items
+                                                        </CustomIconButtonCmp>
+                                                    </Box>
+                                                    {addMoreItems === 1 ? <AddMoreItemsKMC req_slno={req_slno}
+                                                        setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                                    /> : null}
+                                                </>
+                                                : null}
+                                        <ApprovalCompntAll
+                                            heading="Executive Director Approval"
+                                            apprvlDetails={apprvlDetails}
+                                            updateOnchangeState={updateOnchangeState}
+                                            updateApprovalState={updateApprovalState}
+                                            imageCheck={ed_image}
+                                            selectFile={selectFile}
+                                            setSelectFile={setSelectFile}
+                                            uploadedImages={uploadedImages}
+                                        />
                                     </Box>
                                 }
                             </Box>

@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAmItemType } from 'src/redux/actions/AmItemTypeList.actions';
 
-const CRFCategoryTypeSelect = ({ category, setCategory, editRowData, catFlag }) => {
+const CRFCategoryTypeSelect = ({ setCategory, editRowData, catFlag }) => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getAmItemType())
@@ -44,7 +44,7 @@ const CRFCategoryTypeSelect = ({ category, setCategory, editRowData, catFlag }) 
     useEffect(() => {
         if (catFlag === 1) {
             setSelectedValues([]);
-            setCategory(0);
+            setCategory([]);
         }
     }, [catFlag, setCategory])
     return (

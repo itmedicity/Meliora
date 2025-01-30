@@ -52,6 +52,7 @@ const PurchaseTablemain = () => {
         queryFn: () => getCRFPurchaseAck(),
         staleTime: Infinity
     });
+
     const ackData = useMemo(() => ackDetails, [ackDetails]);
     const { data: quoDetails, isLoading: isQuoLoading, error: quoError } = useQuery({
         queryKey: 'getQuotationData',
@@ -159,6 +160,14 @@ const PurchaseTablemain = () => {
                         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
                         md_image: val.md_image,
                         ed_image: val.ed_image,
+                        managing_director_req: val.managing_director_req,
+                        managing_director_approve: val.managing_director_approve,
+                        managing: val.managing_director_approve === 1 ? "Approved" : val.managing_director_approve === 2 ? "Rejected" :
+                            val.managing_director_approve === 3 ? "On-Hold" : val.managing_director_approve === 4 ? "Approved" : "Not Done",
+                        managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : "",
+                        managing_director_analysis: val.managing_director_analysis,
+                        managing_director_approve_date: val.managing_director_approve_date,
+                        managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
                         now_who: "Not Started Purchase Process",
                         now_who_status: 0,
                         ack_status: val.ack_status,
@@ -331,6 +340,15 @@ const PurchaseTablemain = () => {
                         ed_detial_analysis: val.ed_detial_analysis,
                         ed_approve_date: val.ed_approve_date,
                         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
+                        managing_director_req: val.managing_director_req,
+                        managing_director_approve: val.managing_director_approve,
+                        managing: val.managing_director_approve === 1 ? "Approved" : val.managing_director_approve === 2 ? "Rejected" :
+                            val.managing_director_approve === 3 ? "On-Hold" : val.managing_director_approve === 4 ? "Approved" : "Not Done",
+                        managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : "",
+                        managing_director_analysis: val.managing_director_analysis,
+                        managing_director_approve_date: val.managing_director_approve_date,
+                        managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
+                        managing_director_image: val.managing_director_image,
                         md_image: val.md_image,
                         ed_image: val.ed_image,
                         crm_purchase_slno: val.crm_purchase_slno,
@@ -508,7 +526,7 @@ const PurchaseTablemain = () => {
             <Box>
                 <TopViewDesignPurchase radiovalue={radiovalue} setRadioValue={setRadioValue} ackPending={ackData}
                     crfProcess={crfProcess} quoNego={quoNego} quoFinal={quoFinal} poProcess={poProcess} allData={allData}
-                    setDisData={setDisData} apprvCount={apprvData} dataCollection={dataCollection} />
+                    setDisData={setDisData} apprvCount={pendingPOList} dataCollection={dataCollection} />
             </Box>
             {
                 radiovalue === '6' ?

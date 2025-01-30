@@ -85,7 +85,7 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData }) => {
         }
         const getDetails = async (req_slno) => {
             try {
-                const result = await axioslogin.get(`/newCRFRegister/AprvlDetailsView/${req_slno}`,);
+                const result = await axioslogin.get(`/CRFDashboard/AprvlDetailsView/${req_slno}`,);
                 const { success, data, message } = result.data;
                 if (success === 1) {
                     const newData = data?.map((val) => {
@@ -223,18 +223,16 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData }) => {
                     {disData.length !== 0 ?
                         <Box sx={{ width: '100%' }}>
                             <Box display="flex" justifyContent="space-between" sx={{
-                                bgcolor: '#41729F', flexWrap: 'nowrap', py: 0.5, position: 'sticky',
-                                top: 0, zIndex: 1,
+                                bgcolor: '#e3f2fd', flexWrap: 'nowrap', py: 1, position: 'sticky',
+                                top: 0, zIndex: 1, border: '1px solid #AFD8F2', borderLeft: 'none', borderRight: 'none'
                             }}>
-                                <Typography sx={{ width: 40, textAlign: 'center', fontWeight: 550, fontSize: 12, color: 'white' }}>Sl.No</Typography>
-                                <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12, color: 'white' }}>Req.No</Typography>
-                                <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12, color: 'white' }}>Req.Date</Typography>
-                                <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12, color: 'white' }}>Dpt Section</Typography>
-                                <Typography sx={{ width: 250, textAlign: 'left', fontWeight: 550, fontSize: 12, color: 'white' }}>Purpose</Typography>
-                                <Typography sx={{ width: 250, textAlign: 'left', fontWeight: 550, fontSize: 12, color: 'white' }}>Justification</Typography>
-                                <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12, color: 'white' }}>Location</Typography>
-                                <Typography sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12, color: 'white' }}>Expected Date</Typography>
-                                <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12, color: 'white', mx: 0.5 }}>Approval Status</Typography>
+                                <Typography sx={{ width: 40, textAlign: 'center', fontWeight: 550, fontSize: 12, pl: 1 }}>Sl.No</Typography>
+                                <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Req.No</Typography>
+                                <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Req.Date</Typography>
+                                <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Dpt Section</Typography>
+                                <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Location</Typography>
+                                <Typography sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Expected Date</Typography>
+                                <Typography sx={{ width: 250, textAlign: 'center', fontWeight: 550, fontSize: 12, mx: 0.5 }}>Approval Status</Typography>
                             </Box>
                             <Virtuoso
                                 style={{ height: window.innerHeight - 282, width: '100%', }}
@@ -244,14 +242,12 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData }) => {
                                         <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}>
                                             <Typography sx={{ width: 40, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
                                             <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>{"CRF/TMC/" + val.req_slno}</Typography>
-                                            <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.req_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
+                                            <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.req_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                             <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1, textTransform: 'capitalize' }}>{val.req_deptsec}</Typography>
-                                            <Typography sx={{ width: 250, textAlign: 'left', fontSize: 12, my: 1 }}>{val.actual_requirement}</Typography>
-                                            <Typography sx={{ width: 250, textAlign: 'left', fontSize: 12, my: 1 }}>{val.needed}</Typography>
                                             <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{val.location}</Typography>
                                             <Typography sx={{ width: 100, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.expected_date), 'dd-MM-yyyy')}</Typography>
                                             <Box sx={{
-                                                width: 150, cursor: 'pointer', m: 0.5, display: 'flex',
+                                                width: 250, cursor: 'pointer', m: 0.5, display: 'flex',
                                                 alignItems: 'center', justifyContent: 'center', pr: 0.5,
                                             }} >
                                                 < CssVarsProvider >

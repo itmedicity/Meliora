@@ -1,16 +1,17 @@
-import { Box, Chip, Tooltip, Typography } from '@mui/joy';
+import { Box, Chip, Typography } from '@mui/joy';
 import { Paper } from '@mui/material';
 import { format } from 'date-fns';
 import React, { Fragment, useCallback, useState } from 'react'
-import { axioslogin } from 'src/views/Axios/Axios';
+import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
 
 import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
+import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
 
-const CommonDmsApprvCmp = ({ DetailViewData }) => {
+const CommonDmsApprvCmp = ({ DetailViewData, selectedCompany }) => {
     const { req_slno, dms_approve, dms, dms_remarks, dms_detail_analysis, dms_approve_date, dms_user, dms_image
     } = DetailViewData
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -32,26 +33,49 @@ const CommonDmsApprvCmp = ({ DetailViewData }) => {
             : '';
 
     const ViewDMSUploadImage = useCallback(() => {
-        const getImage = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFRegisterImages/crfDMSImageGet/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const fileNames = data;
-                const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/DMSUpload/${fileName}`;
-                });
-                setImageArry(fileUrls);
-                setImageShowFlag(1)
-                setImageShow(true)
-            } else {
-                warningNotify("Error Occured to display image")
-                setImageShowFlag(0)
-                setImageShow(false)
-                setImageArry([])
+        if (selectedCompany === '1') {
+            const getImage = async (req_slno) => {
+                const result = await axioslogin.get(`/newCRFRegisterImages/crfDMSImageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/DMSUpload/${fileName}`;
+                    });
+                    setImageArry(fileUrls);
+                    setImageShowFlag(1)
+                    setImageShow(true)
+                } else {
+                    warningNotify("Error Occured to display image")
+                    setImageShowFlag(0)
+                    setImageShow(false)
+                    setImageArry([])
+                }
             }
+            getImage(req_slno)
+        } else if (selectedCompany === '2') {
+            const getImage = async (req_slno) => {
+                const result = await axioskmc.get(`/newCRFRegisterImages/crfDMSImageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/DMSUpload/${fileName}`;
+                    });
+                    setImageArry(fileUrls);
+                    setImageShowFlag(1)
+                    setImageShow(true)
+                } else {
+                    warningNotify("Error Occured to display image")
+                    setImageShowFlag(0)
+                    setImageShow(false)
+                    setImageArry([])
+                }
+            }
+            getImage(req_slno)
         }
-        getImage(req_slno)
-    }, [req_slno])
+
+    }, [req_slno, selectedCompany])
     return (
         <Fragment>
             {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose}
@@ -63,8 +87,8 @@ const CommonDmsApprvCmp = ({ DetailViewData }) => {
                     </Typography>
                     <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
                         <Chip size="md" variant="outlined" sx={{
-                            color: (dms_approve === 1 ? '#2e7d32' : dms_approve === 2 ? '#bf360c' : dms_approve === 3 ? '#FF9800' : '#607D8B'), height: 25, pb: 0.5,
-                            fontSize: 12, fontWeight: 550,
+                            color: (dms_approve === 1 ? '#2e7d32' : dms_approve === 2 ? '#bf360c' : dms_approve === 3 ? '#FF9800' : dms_approve === 4 ? '#009688' : '#607D8B'),
+                            height: 25, pb: 0.5, fontSize: 12, fontWeight: 550,
                         }}>
                             {dms}
                         </Chip>
@@ -101,11 +125,18 @@ const CommonDmsApprvCmp = ({ DetailViewData }) => {
                                     <Typography sx={{ pl: 0.5 }} >  :&nbsp;</Typography>
                                     <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                                         {dms_remarks === null ? 'Not Updated' : dms_remarks} </Typography>
-                                </Box> : null}
+                                </Box>
+                                : dms_approve === 4 && dms_remarks !== null ?
+                                    <Box sx={{ display: 'flex', pt: 0.5 }}>
+                                        <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
+                                        <Typography sx={{ pl: 0.5 }} >  :&nbsp;</Typography>
+                                        <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
+                                            {dms_remarks === null ? 'Not Updated' : dms_remarks} </Typography>
+                                    </Box> : null}
                     {
                         dms_approve_date !== null ?
                             <Box sx={{ display: 'flex', py: 1 }}>
-                                {dms_approve === 1 ?
+                                {(dms_approve === 1 || dms_approve === 4) ?
                                     <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                     : dms_approve === 2 ?
                                         <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
@@ -120,11 +151,11 @@ const CommonDmsApprvCmp = ({ DetailViewData }) => {
                                         {format(new Date(dms_approve_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                     {dms_image === 1 ?
                                         <Box sx={{ display: 'flex', pl: 2 }} >
-                                            <Tooltip title='File View' placement='bottom' sx={{ bgcolor: '#D4F1F4', color: 'darkblue' }}>
+                                            <CustomToolTipForCRF title='File View' placement='top' >
                                                 <AttachmentTwoToneIcon fontSize='small' sx={{ cursor: 'pointer', color: '#0277bd', width: 35, height: 25 }}
                                                     onClick={ViewDMSUploadImage} >
                                                 </AttachmentTwoToneIcon>
-                                            </Tooltip>
+                                            </CustomToolTipForCRF>
                                         </Box> : null
                                     }
                                 </Box>

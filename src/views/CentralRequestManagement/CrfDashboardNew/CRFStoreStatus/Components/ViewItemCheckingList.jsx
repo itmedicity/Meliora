@@ -62,7 +62,7 @@ const ViewItemCheckingList = ({ disData, handleClose, open }) => {
                                                 <td style={{ textAlign: 'center', fontSize: 13 }}>{item.delivered_qty}</td>
                                                 <td style={{ textAlign: 'center', fontSize: 13 }}>{item.damage_qty}</td>
                                                 <td style={{ textAlign: 'center', fontSize: 13 }}>{item.excess_qty}</td>
-                                                <td style={{ textAlign: 'center', fontSize: 13 }}>{format(new Date(item.check_time), 'dd-MM-yyyy hh:mm a')}</td>
+                                                <td style={{ textAlign: 'center', fontSize: 13 }}>{format(new Date(item.create_date), 'dd-MM-yyyy hh:mm a')}</td>
                                             </tr>
                                         ))}
                                     </tbody>

@@ -102,7 +102,6 @@ const NursingStationMast = () => {
         const InsertData = async (postdata) => {
             const result = await axioslogin.post(`/nursestation`, postdata)
             const { message, success } = result.data;
-            console.log(postdata);
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1)

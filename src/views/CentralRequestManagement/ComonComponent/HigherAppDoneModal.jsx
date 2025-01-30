@@ -21,14 +21,19 @@ import QuotationNegoComp from './PurchaseComp/QuotationNegoComp';
 import QuotationFinalComp from './PurchaseComp/QuotationFinalComp';
 import ViewOreviousDataCollctnDetails from './DataCollectionComp/ViewOreviousDataCollctnDetails';
 import ApprovalItemView from '../CrfDatacollection/ApprovalItemView';
-const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approveTableData, poDetails, imagearray, datacolData }) => {
-    const { incharge_approve, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve,
-        ms_approve_req, ms_approve, manag_operation_req, manag_operation_approv, senior_manage_req, senior_manage_approv,
-        gm_approve_req, gm_approve, md_approve_req, md_approve, ed_approve_req, ed_approve,
-        ack_status, quatation_calling_status, quatation_negotiation, quatation_fixing, sub_store_name,
-        po_complete, po_complete_date, po_to_supplier, po_to_supplier_date, store_recieve, sub_store_recieve,
-        pocomplete_user, crs_user, store_user, store_receive_date, substore_ack_date,
-        crf_close, crf_close_remark, crf_closed_one, close_date, closed_user } = DetailViewData
+import CommonCRFClosed from './ApprovalComp/CommonCRFClosed';
+import UserReceivedItemDetails from './ApprovalComp/UserReceivedItemDetails';
+import CommonMangingApprvComp from './ApprovalComp/CommonMangingApprvComp';
+
+const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approveTableData, poDetails, imagearray,
+    datacolData, selectedCompany }) => {
+    const { req_slno, incharge_approve, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve_req, ms_approve,
+        manag_operation_req, manag_operation_approv, senior_manage_req, senior_manage_approv, gm_approve_req, gm_approve,
+        md_approve_req, md_approve, ed_approve_req, ed_approve, managing_director_req, managing_director_approve,
+        ack_status, quatation_calling_status, quatation_negotiation,
+        quatation_fixing, sub_store_name, po_complete, po_complete_date, po_to_supplier, po_to_supplier_date,
+        store_recieve, sub_store_recieve, pocomplete_user, crs_user, store_user, store_receive_date, substore_ack_date,
+        crf_close, user_acknldge, acknowUser, user_ack_date, user_acknldge_remarks, approval_level } = DetailViewData
 
     const capitalizeWords = (str) =>
         str ? str
@@ -67,32 +72,22 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                             }}
                         />
                         <Box sx={{ minWidth: '85vw', minHeight: '65vh', maxHeight: '95vh', overflowY: 'auto' }}>
-                            <CrfReqDetailViewCmp ApprovalData={DetailViewData} imagearray={imagearray} />
+                            <CrfReqDetailViewCmp ApprovalData={DetailViewData} imagearray={imagearray} selectedCompany={selectedCompany} />
                             {reqItems.length !== 0 ?
                                 <Box sx={{ mt: 0.5, mx: 0.3 }}>
                                     <ReqItemDisplay reqItems={reqItems} />
                                 </Box>
-                                : <Box sx={{
-                                    display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                    pt: 10, color: 'grey'
-                                }}>
-                                    No Item Requested
-                                </Box>
+                                : null
                             }
                             {approveTableData.length !== 0 ?
                                 <Box sx={{ mt: 0.3, mx: 0.3 }}>
                                     <ApprovalItemView approveTableData={approveTableData} />
                                 </Box>
-                                : <Box sx={{
-                                    display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                    pt: 10, color: 'grey'
-                                }}>
-                                    No items Approved
-                                </Box>
+                                : null
                             }
                             {(hod_approve !== null || incharge_approve !== null) ?
                                 <>
-                                    <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}>
+                                    <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.7 }}>
                                         <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                                             Approval Details
                                         </Typography>
@@ -105,96 +100,68 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                             }
                                             {hod_req === 1 && hod_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonHodApprvCmp DetailViewData={DetailViewData} />
+                                                    <CommonHodApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
                                                 </Grid>
                                                 : null
                                             }
                                             {dms_req === 1 && dms_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonDmsApprvCmp DetailViewData={DetailViewData} />
+                                                    <CommonDmsApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
                                                 </Grid>
                                                 : null
                                             }
                                             {ms_approve_req === 1 && ms_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMsApprvCmp DetailViewData={DetailViewData} />
+                                                    <CommonMsApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
                                                 </Grid>
                                                 : null
                                             }
                                             {manag_operation_req === 1 && manag_operation_approv !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMoApprvlCmp DetailViewData={DetailViewData} />
+                                                    <CommonMoApprvlCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
                                                 </Grid>
                                                 : null
                                             }
                                             {senior_manage_req === 1 && senior_manage_approv !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonSmoApprvCmp DetailViewData={DetailViewData} />
+                                                    <CommonSmoApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
                                                 </Grid>
                                                 : null
                                             }
                                             {gm_approve_req === 1 && gm_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonGmapprvCmp DetailViewData={DetailViewData} />
+                                                    <CommonGmapprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
                                                 </Grid>
                                                 : null
                                             }
                                             {md_approve_req === 1 && md_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMdApprvCmp DetailViewData={DetailViewData} />
+                                                    <CommonMdApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
                                                 </Grid>
                                                 : null
                                             }
                                             {ed_approve_req === 1 && ed_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonEdapprvCmp DetailViewData={DetailViewData} />
+                                                    <CommonEdapprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                </Grid>
+                                                : null
+                                            }
+                                            {(managing_director_req === 1 && managing_director_approve !== null) ?
+                                                <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
+                                                    <CommonMangingApprvComp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
                                                 </Grid>
                                                 : null
                                             }
                                             {crf_close === 1 ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', height: 135 }}>
-                                                        <Box sx={{ display: 'flex', py: 0.2, borderBottom: '1px solid lightgrey' }}>
-                                                            <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
-                                                                {crf_closed_one}
-                                                            </Typography>
-                                                            <Box sx={{ flex: 1, }}>
-                                                                <Chip size="md" variant="outlined" sx={{
-                                                                    color: '#bf360c', height: 25,
-                                                                    fontSize: 12, fontWeight: 550,
-                                                                }}>
-                                                                    CRF Closed
-                                                                </Chip>
-                                                            </Box>
-                                                        </Box>
-                                                        <Box sx={{ pt: 0.5 }}>
-                                                            <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks </Typography>
-                                                                <Typography sx={{ pl: 0.5 }} >  :&nbsp;</Typography>
-                                                                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
-                                                                    {crf_close_remark}</Typography>
-                                                            </Box>
-                                                            <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Closed By </Typography>
-                                                                <Typography sx={{ pl: 0.5 }} >  :&nbsp;</Typography>
-                                                                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
-                                                                    {capitalizeWords(closed_user)}</Typography>
-                                                            </Box>
-                                                            <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Closed Date </Typography>
-                                                                <Typography sx={{ pl: 0.5 }} >  :&nbsp;</Typography>
-                                                                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
-                                                                    {format(new Date(close_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
-                                                            </Box>
-                                                        </Box>
-                                                    </Paper>
+                                                    <CommonCRFClosed closedData={DetailViewData} />
                                                 </Grid>
                                                 : null}
                                         </Grid>
                                     </Paper>
                                     {datacolData.length !== 0 ?
                                         <Box sx={{ py: 0.5, mx: 0.2 }}>
-                                            <ViewOreviousDataCollctnDetails datacolData={datacolData} />
+                                            <ViewOreviousDataCollctnDetails datacolData={datacolData} selectedCompany={selectedCompany} />
                                         </Box>
                                         : null
                                     }
@@ -205,25 +172,25 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                             </Typography>
                                             <Grid container spacing={0.5} sx={{ flexGrow: 1, }}>
                                                 {ack_status === 1 ?
-                                                    <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                                    <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                         <PoAcknowComp poData={DetailViewData} />
                                                     </Grid>
                                                     : null
                                                 }
                                                 {quatation_calling_status === 1 ?
-                                                    <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                                    <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                         <QuotationCallComp poData={DetailViewData} />
                                                     </Grid>
                                                     : null
                                                 }
                                                 {quatation_negotiation === 1 ?
-                                                    <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                                    <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                         <QuotationNegoComp poData={DetailViewData} />
                                                     </Grid>
                                                     : null
                                                 }
                                                 {quatation_fixing === 1 ?
-                                                    <Grid xs={12} sm={12} md={12} lg={6} xl={6} sx={{ pl: 0.5 }}>
+                                                    <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                                         <QuotationFinalComp poData={DetailViewData} />
                                                     </Grid>
                                                     : null
@@ -240,8 +207,8 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                                 </> : null}
                                             {po_complete === 1 ?
                                                 <Box sx={{ display: 'flex', pt: 0.5, }}>
-                                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.7 }}>
-                                                        Purchase Order&apos;s Completed
+                                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
+                                                        Purchase Order Preparation Completed
                                                     </Typography>
                                                     : &nbsp;        <Box sx={{ flex: 1, display: 'flex' }}>
                                                         <Chip size="md" variant="outlined" sx={{
@@ -251,19 +218,52 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                                             Yes
                                                         </Chip>
                                                         <Typography sx={{
-                                                            display: 'flex', justifyContent: 'flex-end', fontSize: 12,
+                                                            display: 'flex', justifyContent: 'flex-end', fontSize: 13,
                                                             textTransform: 'capitalize', fontWeight: 550, pl: 2, pt: 0.4
                                                         }}>{capitalizeWords(pocomplete_user)}&nbsp; /</Typography>
-                                                        <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}>
+                                                        <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}>
                                                             {format(new Date(po_complete_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                                     </Box>
                                                 </Box>
                                                 : null
                                             }
+                                            {approval_level !== null ?
+                                                < Box sx={{ display: 'flex', pt: 0.5, }}>
+                                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
+                                                        PO Approvals
+                                                    </Typography>
+                                                    : &nbsp;
+                                                    <Box sx={{ flex: 1, display: 'flex' }}>
+                                                        {/* <Chip size="md" variant="outlined" sx={{
+                                                            color: '#2e7d32', height: 25, pb: 0.5,
+                                                            fontSize: 12, fontWeight: 550,
+                                                        }}>
+                                                            Yes
+                                                        </Chip> */}
+                                                        <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 0.5, pt: 0.4, color: '#1b5e20' }}>
+                                                            {approval_level === 1 ? "Purchase Dpt Approved" :
+                                                                approval_level === 2 ? "Purchase Department Approved, Purchase Manager Approved" :
+                                                                    approval_level === 3 ? "Purchase Department Approved, Purchase Manager Approved, Directors Approved" : null} </Typography>
+                                                    </Box>
+                                                </Box>
+                                                :
+                                                < Box sx={{ display: 'flex', pt: 0.5, }}>
+                                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
+                                                        PO Approvals
+                                                    </Typography>
+                                                    : &nbsp;
+                                                    <Box sx={{ flex: 1, display: 'flex' }}>
+                                                        <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.4, color: '#ff8f00' }}>
+                                                            Approval Pending
+                                                        </Typography>
+                                                    </Box>
+                                                </Box>
+                                            }
+
                                             {po_to_supplier === 1 ?
                                                 <Box sx={{ display: 'flex', pt: 0.5, }}>
-                                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.7 }}>
-                                                        CRF Acknowledgement
+                                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
+                                                        PO-Supplier Acknowledgement
                                                     </Typography>
                                                     : &nbsp;      <Box sx={{ flex: 1, display: 'flex' }}>
                                                         <Chip size="md" variant="outlined" sx={{
@@ -272,7 +272,7 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                                         }}>
                                                             Yes
                                                         </Chip>
-                                                        <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 2, pt: 0.4 }}>
+                                                        <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.4 }}>
                                                             {format(new Date(po_to_supplier_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                                     </Box>
                                                 </Box>
@@ -280,7 +280,7 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                             }
                                             {store_recieve === 1 || store_recieve === 0 ?
                                                 <Box sx={{ display: 'flex', pt: 0.5, }}>
-                                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.7 }}>
+                                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
                                                         Received in CRS Store
                                                     </Typography>
                                                     : &nbsp;     <Box sx={{ flex: 1, display: 'flex' }}>
@@ -291,10 +291,10 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                                             Yes
                                                         </Chip>
                                                         <Typography sx={{
-                                                            display: 'flex', justifyContent: 'flex-end', fontSize: 12,
+                                                            display: 'flex', justifyContent: 'flex-end', fontSize: 13,
                                                             textTransform: 'capitalize', fontWeight: 550, pl: 2, pt: 0.4
                                                         }}>{capitalizeWords(crs_user)}&nbsp; /</Typography>
-                                                        <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}>
+                                                        <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}>
                                                             {format(new Date(store_receive_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                                     </Box>
                                                 </Box>
@@ -302,7 +302,7 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                             }
                                             {sub_store_recieve === 1 ?
                                                 <Box sx={{ display: 'flex', pt: 0.5, }}>
-                                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.7 }}>
+                                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
                                                         Received in {sub_store_name}
                                                     </Typography>
                                                     : &nbsp;     <Box sx={{ flex: 1, display: 'flex' }}>
@@ -313,15 +313,43 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                                             Yes
                                                         </Chip>
                                                         <Typography sx={{
-                                                            display: 'flex', justifyContent: 'flex-end', fontSize: 12,
+                                                            display: 'flex', justifyContent: 'flex-end', fontSize: 13,
                                                             textTransform: 'capitalize', fontWeight: 550, pl: 2, pt: 0.4
                                                         }}>{capitalizeWords(store_user)}&nbsp; /</Typography>
-                                                        <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}>
+                                                        <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}>
                                                             {format(new Date(substore_ack_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                                     </Box>
                                                 </Box>
                                                 : null
                                             }
+                                            {user_acknldge === 1 ?
+                                                <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', }}>
+                                                    <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
+                                                        <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
+                                                            User Acknowledgement
+                                                        </Typography>
+
+                                                    </Box>
+                                                    <Box sx={{ display: 'flex', mx: 0.3, p: 1 }}>
+                                                        <Typography sx={{ fontSize: 14, flex: 0.4 }}>Remarks</Typography>
+                                                        <Box sx={{ flex: 1, display: 'flex' }}>
+                                                            <Typography sx={{ fontSize: 13, flex: 1, fontWeight: 550 }}>: &nbsp;{user_acknldge_remarks === null ? 'Not Updated' : user_acknldge_remarks}</Typography>
+                                                            <Typography sx={{
+                                                                display: 'flex', flex: 1, justifyContent: 'flex-end', fontSize: 13,
+                                                                textTransform: 'capitalize', fontWeight: 550, pr: 1
+                                                            }}>{capitalizeWords(acknowUser)}&nbsp; /</Typography>
+                                                            <Typography sx={{ pr: 2, display: 'flex', justifyContent: 'flex-start', fontSize: 13, fontWeight: 550 }}>
+                                                                {format(new Date(user_ack_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography >
+                                                        </Box>
+                                                    </Box>
+                                                </Paper>
+                                                : null
+                                            }
+                                            {user_acknldge === 1 ?
+                                                <UserReceivedItemDetails req_slno={req_slno} />
+                                                : null}
+                                            <Box sx={{ height: 15 }}></Box>
+                                            <Box sx={{ height: 15 }}></Box>
                                         </Paper>
                                         : null}
                                 </>
@@ -329,41 +357,7 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                     <>
                                         {crf_close === 1 ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', height: 135 }}>
-                                                    <Box sx={{ display: 'flex', py: 0.2, borderBottom: '1px solid lightgrey' }}>
-                                                        <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
-                                                            {crf_closed_one}
-                                                        </Typography>
-                                                        <Box sx={{ flex: 1, }}>
-                                                            <Chip size="md" variant="outlined" sx={{
-                                                                color: '#bf360c', height: 25,
-                                                                fontSize: 12, fontWeight: 550,
-                                                            }}>
-                                                                CRF Closed
-                                                            </Chip>
-                                                        </Box>
-                                                    </Box>
-                                                    <Box sx={{ pt: 0.5 }}>
-                                                        <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                                            <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks </Typography>
-                                                            <Typography sx={{ pl: 0.5 }} >  :&nbsp;</Typography>
-                                                            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
-                                                                {crf_close_remark}</Typography>
-                                                        </Box>
-                                                        <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                                            <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Closed By </Typography>
-                                                            <Typography sx={{ pl: 0.5 }} >  :&nbsp;</Typography>
-                                                            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
-                                                                {capitalizeWords(closed_user)}</Typography>
-                                                        </Box>
-                                                        <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                                            <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Closed Date </Typography>
-                                                            <Typography sx={{ pl: 0.5 }} >  :&nbsp;</Typography>
-                                                            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
-                                                                {format(new Date(close_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
-                                                        </Box>
-                                                    </Box>
-                                                </Paper>
+                                                <CommonCRFClosed closedData={DetailViewData} />
                                             </Grid>
                                             : null}
                                     </>
@@ -375,7 +369,7 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                         No Report Found
                                     </Box>}
                         </Box>
-                        <Box sx={{ height: 20 }}> </Box>
+                        <Box sx={{ height: 15 }}></Box>
                     </ModalDialog>
                 </Modal>
             </CssVarsProvider >
